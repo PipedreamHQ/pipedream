@@ -16071,12 +16071,12 @@ packages:
   '@dabh/diagnostics@2.0.3':
     resolution: {integrity: sha512-hrlQOIi7hAfzsMqlGSFyVucrx38O+j6wiGOf//H2ecvIEqYN4ADBSS2iLMh5UFyDunCNniUIPk/q3riFv45xRA==}
 
-  '@definitelytyped/header-parser@0.2.16':
-    resolution: {integrity: sha512-UFsgPft5bhZn07UNGz/9ck4AhdKgLFEOmi2DNr7gXcGL89zbe3u5oVafKUT8j1HOtSBjT8ZEQsXHKlbq+wwF/Q==}
+  '@definitelytyped/header-parser@0.2.17':
+    resolution: {integrity: sha512-U0juKFkTOcbkSfO83WSzMEJHYDwoBFiq0tf/JszulL3+7UoSiqunpGmxXS54bm3eGqy7GWjV8AqPQHdeoEaWBQ==}
     engines: {node: '>=18.18.0'}
 
-  '@definitelytyped/typescript-versions@0.1.6':
-    resolution: {integrity: sha512-gQpXFteIKrOw4ldmBZQfBrD3WobaIG1SwOr/3alXWkcYbkOWa2NRxQbiaYQ2IvYTGaZK26miJw0UOAFiuIs4gA==}
+  '@definitelytyped/typescript-versions@0.1.7':
+    resolution: {integrity: sha512-sBzBi1SBn79OkSr8V0H+FzR7QumHk23syPyRxod/VRBrSkgN9rCliIe+nqLoWRAKN8EeKbp00ketnJNLZhucdA==}
     engines: {node: '>=18.18.0'}
 
   '@definitelytyped/utils@0.1.8':
@@ -31733,13 +31733,13 @@ snapshots:
       enabled: 2.0.0
       kuler: 2.0.0
 
-  '@definitelytyped/header-parser@0.2.16':
+  '@definitelytyped/header-parser@0.2.17':
     dependencies:
-      '@definitelytyped/typescript-versions': 0.1.6
+      '@definitelytyped/typescript-versions': 0.1.7
       '@definitelytyped/utils': 0.1.8
       semver: 7.6.3
 
-  '@definitelytyped/typescript-versions@0.1.6': {}
+  '@definitelytyped/typescript-versions@0.1.7': {}
 
   '@definitelytyped/utils@0.1.8':
     dependencies:
@@ -38381,7 +38381,7 @@ snapshots:
 
   dts-critic@3.3.11(typescript@5.7.2):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.16
+      '@definitelytyped/header-parser': 0.2.17
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -38391,8 +38391,8 @@ snapshots:
 
   dtslint@4.2.1(typescript@5.7.2):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.16
-      '@definitelytyped/typescript-versions': 0.1.6
+      '@definitelytyped/header-parser': 0.2.17
+      '@definitelytyped/typescript-versions': 0.1.7
       '@definitelytyped/utils': 0.1.8
       dts-critic: 3.3.11(typescript@5.7.2)
       fs-extra: 6.0.1
