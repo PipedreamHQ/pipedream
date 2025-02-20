@@ -12,7 +12,7 @@ Event sources operate primarily as workflow triggers. When you add a new app-bas
 Event sources run as their own resources, separate from workflows, for two reasons:
 
 - A single event sources can trigger more than one workflow. If you have a data source that you want to run _multiple_ workflows, you can create an event source once and use it as the trigger for each workflow.
-- If you need to consume events emitted by event sources in your own application, you don't need to run a workflow: you can use Pipedream's [REST API](/api/rest/) or a [private, real-time SSE stream](/api/sse/) to access the event data directly.
+- If you need to consume events emitted by event sources in your own application, you don't need to run a workflow: you can use Pipedream's [REST API](/rest-api/) or a [private, real-time SSE stream](/workflows/data-management/destinations/sse/) to access the event data directly.
 
 You can view your event sources at [https://pipedream.com/sources](https://pipedream.com/sources). Here, you'll see the events a specific source has emitted, as well as the logs and configuration for that source.
 
@@ -54,9 +54,9 @@ You can also trigger a [Pipedream workflow](/workflows/building-workflows/) ever
 
 Finally, you can consume events programmatically, outside the Pipedream platform, in a few different ways:
 
-- In real-time, using the [SSE stream](/api/sse/) linked to your source
+- In real-time, using the [SSE stream](/workflows/data-management/destinations/sse/) linked to your source
 - In real-time, via the CLI's [`pd events` command](/workflows/cli/reference/#pd-events)
-- In batch, using the [REST API](/api/rest/)
+- In batch, using the [REST API](/rest-api/)
 
 ## Example: HTTP source
 
@@ -70,13 +70,13 @@ When you create an HTTP source:
 
 HTTP sources are essentially [request bins](https://requestbin.com) that can be managed via API.
 
-HTTP sources are a good example of how you can turn an event stream into an API: the HTTP requests are the **event stream**, generated from your application, client browsers, webhooks, etc. Then, you can retrieve HTTP requests via Pipedream's [**REST API**](/api/rest/), or stream them directly to other apps using the [SSE interface](/api/sse/).
+HTTP sources are a good example of how you can turn an event stream into an API: the HTTP requests are the **event stream**, generated from your application, client browsers, webhooks, etc. Then, you can retrieve HTTP requests via Pipedream's [**REST API**](/rest-api/), or stream them directly to other apps using the [SSE interface](/workflows/data-management/destinations/sse/).
 
 [**See the Github quickstart for more information on HTTP event sources**](https://github.com/PipedreamHQ/pipedream/tree/master/components/http#quickstart).
 
 ## Example: Cron jobs
 
-You can also use event sources to run any Node code on a schedule, allowing you to poll a service or API for data and emit that data as an event. The emitted events can trigger Pipedream workflows, and can be retrieved using Pipedream's [**REST API**](/api/rest/) or [SSE interface](/api/sse/).
+You can also use event sources to run any Node code on a schedule, allowing you to poll a service or API for data and emit that data as an event. The emitted events can trigger Pipedream workflows, and can be retrieved using Pipedream's [**REST API**](/rest-api/) or [SSE interface](/workflows/data-management/destinations/sse/).
 
 ## Example: RSS
 
