@@ -1,136 +1,48 @@
-import {
-  axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-} from "@pipedream/platform";
 import benchmarkone from "../../benchmarkone.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "benchmarkone-new-webhook-automation-event-instant",
   name: "New Webhook Automation Event (Instant)",
-  description: "Emit new event when a webhook automation step is triggered in BenchmarkONE. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a webhook automation step is triggered in BenchmarkONE.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    benchmarkone: {
-      type: "app",
-      app: "benchmarkone",
-    },
+    benchmarkone,
+    http: "$.interface.http",
     db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
+    alert: {
+      type: "alert",
+      alertType: "warning",
+      content: "BenchmarkONE does not provide a way to delete webhooks through API. If you want to stop receiving events, you'll need to delete this source and the webhook from the BenchmarkONE UI.",
+    },
+    webhookName: {
+      type: "string",
+      label: "Webhook Name",
+      description: "Webhook name for display in the BenchmarkONE UI.",
+      optional: true,
     },
   },
-  methods: {
-    async fetchAutomationEvents(since = 0, limit = 100) {
-      return await this.benchmarkone._makeRequest({
-        method: "GET",
-        path: "/automation/events",
-        params: {
-          since,
-          limit,
+  methods: {},
+  hooks: {
+    async activate() {
+      await this.benchmarkone.createWebhook({
+        data: {
+          URL: this.http.endpoint,
+          WebHookName: this.webhookName,
+          Trigger: "all triggers",
         },
       });
     },
-    async getLastTimestamp() {
-      const lastTimestamp = await this.db.get("lastTimestamp");
-      return lastTimestamp || 0;
-    },
-    async setLastTimestamp(timestamp) {
-      await this.db.set("lastTimestamp", timestamp);
-    },
   },
-  hooks: {
-    async deploy() {
-      try {
-        const events = await this.fetchAutomationEvents();
-        const sortedEvents = events.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-        const recentEvents = sortedEvents.slice(0, 50).reverse();
-
-        for (const event of recentEvents) {
-          const eventTimestamp = Date.parse(event.timestamp) || Date.now();
-          this.$emit(event, {
-            id: event.id || eventTimestamp,
-            summary: `New Automation Event: ${event.name}`,
-            ts: eventTimestamp,
-          });
-
-          if (eventTimestamp > (await this.getLastTimestamp())) {
-            await this.setLastTimestamp(eventTimestamp);
-          }
-        }
-      } catch (error) {
-        console.error("Error in deploy hook:", error);
-      }
-    },
-    async activate() {
-      try {
-        const webhookUrl = this.$endpoints.webhook.url;
-        const webhookName = "Pipedream Webhook Automation Event";
-
-        const response = await this.benchmarkone._makeRequest({
-          method: "POST",
-          path: "/Webhook/Addwebhook",
-          data: {
-            URL: webhookUrl,
-            WebHookName: webhookName,
-          },
-        });
-
-        const webhookId = response.Data?.WebHookIdEncrypted;
-        if (webhookId) {
-          await this.db.set("webhookId", webhookId);
-        } else {
-          throw new Error("Failed to retrieve WebHookIdEncrypted from response.");
-        }
-      } catch (error) {
-        console.error("Error in activate hook:", error);
-      }
-    },
-    async deactivate() {
-      try {
-        const webhookId = await this.db.get("webhookId");
-        if (webhookId) {
-          await this.benchmarkone._makeRequest({
-            method: "DELETE",
-            path: `/Webhook/DeleteWebhook/${webhookId}`,
-          });
-          await this.db.delete("webhookId");
-        }
-      } catch (error) {
-        console.error("Error in deactivate hook:", error);
-      }
-    },
+  async run({ body }) {
+    const ts = Date.parse(body.Data.createdDt || new Date());
+    this.$emit(body, {
+      id: `${body.Data.contactId}-${ts}`,
+      summary: "New Automation Event",
+      ts: ts,
+    });
   },
-  async run() {
-    try {
-      const lastTimestamp = await this.getLastTimestamp();
-      const events = await this.fetchAutomationEvents(lastTimestamp);
-
-      let newLastTimestamp = lastTimestamp;
-
-      for (const event of events) {
-        const eventTimestamp = Date.parse(event.timestamp) || Date.now();
-        if (eventTimestamp > lastTimestamp) {
-          this.$emit(event, {
-            id: event.id || eventTimestamp,
-            summary: `New Automation Event: ${event.name}`,
-            ts: eventTimestamp,
-          });
-
-          if (eventTimestamp > newLastTimestamp) {
-            newLastTimestamp = eventTimestamp;
-          }
-        }
-      }
-
-      if (newLastTimestamp > lastTimestamp) {
-        await this.setLastTimestamp(newLastTimestamp);
-      }
-    } catch (error) {
-      console.error("Error in run method:", error);
-    }
-  },
+  sampleEmit,
 };

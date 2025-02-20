@@ -1,11 +1,11 @@
+import { ConfigurationError } from "@pipedream/platform";
 import benchmarkone from "../../benchmarkone.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "benchmarkone-add-note",
   name: "Add Note to Contact",
-  description: "Adds a note to a BenchmarkONE contact. [See the documentation]().",
-  version: "0.0.{{ts}}",
+  description: "Adds a note to a BenchmarkONE contact. [See the documentation](https://sandbox.hatchbuck.com/api/dist/#!/Notes/post_contact_email_address_or_contact_ID_notes).",
+  version: "0.0.1",
   type: "action",
   props: {
     benchmarkone,
@@ -15,84 +15,40 @@ export default {
         "contactId",
       ],
     },
-    contactEmail: {
-      propDefinition: [
-        benchmarkone,
-        "contactEmail",
-      ],
-      optional: true,
+    subject: {
+      type: "string",
+      label: "Subject",
+      description: "Subject line for the note.",
     },
-    noteContent: {
-      propDefinition: [
-        benchmarkone,
-        "noteContent",
-      ],
+    body: {
+      type: "string",
+      label: "Body",
+      description: "Body of the note.",
     },
-    firstName: {
-      propDefinition: [
-        benchmarkone,
-        "firstName",
-      ],
-      optional: true,
-    },
-    lastName: {
-      propDefinition: [
-        benchmarkone,
-        "lastName",
-      ],
-      optional: true,
-    },
-    email: {
-      propDefinition: [
-        benchmarkone,
-        "email",
-      ],
-      optional: true,
-    },
-    phoneNumbers: {
-      propDefinition: [
-        benchmarkone,
-        "phoneNumbers",
-      ],
-      optional: true,
-    },
-    addresses: {
-      propDefinition: [
-        benchmarkone,
-        "addresses",
-      ],
+    copyToCompany: {
+      type: "boolean",
+      label: "Copy To Company",
+      description: "Copy this note to the contact's associated company record.",
       optional: true,
     },
   },
   async run({ $ }) {
     try {
-      if (!this.contactId && !this.contactEmail) {
-        throw new Error("Either contactId or contactEmail must be provided.");
-      }
-
       const response = await this.benchmarkone.addNoteToContact({
+        $,
         contactId: this.contactId,
-        contactEmail: this.contactEmail,
-        firstName: this.firstName,
-        lastName: this.lastName,
-        email: this.email,
-        phoneNumbers: this.phoneNumbers,
-        addresses: this.addresses,
-        noteContent: this.noteContent,
+        data: {
+          subject: this.subject,
+          body: this.body,
+          copyToCompany: this.copyToCompany,
+        },
       });
 
-      if (response && response.contactId) {
-        $.export("$summary", `Added note to contact with ID ${response.contactId}`);
-      } else if (this.contactEmail) {
-        $.export("$summary", `Added note to contact with email ${this.contactEmail}`);
-      } else {
-        $.export("$summary", "Added note to contact");
-      }
+      $.export("$summary", `Added note to contact with ID ${this.contactId}`);
 
       return response;
     } catch (error) {
-      $.export("$summary", `Failed to add note: ${error.message}`);
-      throw error;
+      throw new ConfigurationError(error.message);
     }
   },
 };
