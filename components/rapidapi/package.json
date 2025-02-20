@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/rapidapi",
+  "version": "0.6.0",
+  "description": "Pipedream rapidapi Components",
+  "main": "rapidapi.app.mjs",
+  "keywords": [
+    "pipedream",
+    "rapidapi"
+  ],
+  "homepage": "https://pipedream.com/apps/rapidapi",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

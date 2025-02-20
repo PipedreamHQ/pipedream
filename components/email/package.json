@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/email",
+  "version": "0.6.0",
+  "description": "Pipedream email Components",
+  "main": "email.app.mjs",
+  "keywords": [
+    "pipedream",
+    "email"
+  ],
+  "homepage": "https://pipedream.com/apps/email",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}
