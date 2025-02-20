@@ -149,16 +149,21 @@ export default {
       ocrLanguage,
       useContentAsIndexableText,
       advanced,
+      updateType,
     } = this;
 
-    const fileStream =
-      fileUrl || filePath
-        ? await getFileStream({
-          $,
-          fileUrl,
-          filePath,
-        })
-        : undefined;
+    let fileStream;
+    if (updateType === "File URL") {
+      fileStream = await getFileStream({
+        $,
+        fileUrl,
+      });
+    } else if (updateType === "File Path") {
+      fileStream = await getFileStream({
+        $,
+        filePath,
+      });
+    }
 
     // Update file content, if set, separately from metadata to prevent
     // multipart upload, which `google-apis-nodejs-client` doesn't seem to
