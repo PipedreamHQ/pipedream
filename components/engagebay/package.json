@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/engagebay",
+  "version": "0.6.0",
+  "description": "Pipedream engagebay Components",
+  "main": "engagebay.app.mjs",
+  "keywords": [
+    "pipedream",
+    "engagebay"
+  ],
+  "homepage": "https://pipedream.com/apps/engagebay",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

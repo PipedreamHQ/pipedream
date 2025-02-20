@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/crowd_dev",
+  "version": "0.6.0",
+  "description": "Pipedream crowd_dev Components",
+  "main": "crowd_dev.app.mjs",
+  "keywords": [
+    "pipedream",
+    "crowd_dev"
+  ],
+  "homepage": "https://pipedream.com/apps/crowd_dev",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

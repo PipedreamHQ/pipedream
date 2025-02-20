@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/chatforma",
+  "version": "0.6.0",
+  "description": "Pipedream chatforma Components",
+  "main": "chatforma.app.mjs",
+  "keywords": [
+    "pipedream",
+    "chatforma"
+  ],
+  "homepage": "https://pipedream.com/apps/chatforma",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}
