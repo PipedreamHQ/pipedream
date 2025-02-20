@@ -6744,6 +6744,9 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
 
+  components/koyeb:
+    specifiers: {}
+
   components/krispcall:
     dependencies:
       '@pipedream/platform':
