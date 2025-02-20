@@ -7931,8 +7931,8 @@ importers:
   components/monday_oauth:
     dependencies:
       '@pipedream/monday':
-        specifier: ^0.6.3
-        version: 0.6.3
+        specifier: ^0.7.0
+        version: 0.7.0
       monday-sdk-js:
         specifier: ^0.5.5
         version: 0.5.5
@@ -17424,8 +17424,8 @@ packages:
   '@pipedream/linkedin@0.1.1':
     resolution: {integrity: sha512-9pFjaohz/wnJMIRpPmDPqHeWiXUIJVWIPvQudE8TkUjaBbyieDpscy8reWMp96UK9aXz1Z2J2yiNh0msILAX9Q==}
 
-  '@pipedream/monday@0.6.3':
-    resolution: {integrity: sha512-EUQgMyMW8+tq1fvylkaEapqLaxNXu8S0gqR/tocJLprwq66oeqQb7e8QW9hHOeUVOr40Mlc8cmeQPzFrmw3U6Q==}
+  '@pipedream/monday@0.7.0':
+    resolution: {integrity: sha512-ovVtLhKMJpOTSoc7JcVLrbVrJxW4BT96eW79TiiPc+DgMSM7ouRmCk5lHL2xCAtrqDForXSrXXGjHOAzhJsytA==}
 
   '@pipedream/platform@0.10.0':
     resolution: {integrity: sha512-N3F/xVfBZQXc9wl+2/4E8U9Zma1rxpvylK6Gtw8Ofmiwjnmnvs+2SNjEpIXBPUeL+wxEkofSGOq7bkqt1hqwDg==}
@@ -33475,7 +33475,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@pipedream/monday@0.6.3':
+  '@pipedream/monday@0.7.0':
     dependencies:
       '@pipedream/platform': 3.0.3
       form-data: 4.0.1
