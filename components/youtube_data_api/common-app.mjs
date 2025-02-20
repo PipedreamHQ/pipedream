@@ -13,13 +13,18 @@ export default {
     },
     playlistId: {
       label: "Playlist ID",
-      description: "The playlistId parameter specifies a unique YouTube playlist ID.",
+      description: "The playlistId parameter specifies a unique YouTube playlist ID. E.g. `PLJswo-CV0rmlwxKysf33cUnyBp8JztH0k`",
       type: "string",
     },
     channelId: {
       label: "Channel ID",
-      description: "The channelId parameter specifies a unique YouTube channel ID.",
+      description: "The channelId parameter specifies a unique YouTube channel ID. E.g. `UChkRx83xLq2nk55D8CRODVz`",
       type: "string",
+    },
+    videoIds: {
+      type: "string[]",
+      label: "Video IDs",
+      description: "The video IDs to retrieve. E.g. `wslno0wDSFQ`",
     },
     part: {
       label: "Part",
@@ -29,6 +34,7 @@ export default {
     regionCode: {
       label: "Region Code",
       description: "The regionCode parameter instructs the API to return results for the specified country. The parameter value is an ISO 3166-1 alpha-2 country code. For example: US, GB, BR",
+      default: "US",
       type: "string",
       optional: true,
     },
@@ -43,20 +49,22 @@ export default {
     },
     onBehalfOfContentOwner: {
       label: "On Behalf Of Content Owner",
-      description: "This parameter can only be used in a properly authorized request. Note: This parameter is intended exclusively for YouTube content partners.",
+      description: "This parameter can only be used in a properly authorized request. Note: This parameter is intended exclusively for YouTube content partners. \n\nThe `onBehalfOfContentOwner` parameter indicates that the request's authorization credentials identify a YouTube CMS user who is acting on behalf of the content owner specified in the parameter value. This parameter is intended for YouTube content partners that own and manage many different YouTube channels. It allows content owners to authenticate once and get access to all their video and channel data, without having to provide authentication credentials for each individual channel. The CMS account that the user authenticates with must be linked to the specified YouTube content owner.",
       type: "string",
       optional: true,
     },
     onBehalfOfContentOwnerChannel: {
       label: "On Behalf Of Content Owner Channel",
-      description: "This parameter can only be used in a properly authorized request. Note: This parameter is intended exclusively for YouTube content partners.",
+      description: "This parameter can only be used in a properly authorized request. Note: This parameter is intended exclusively for YouTube content partners.\n\nThe `onBehalfOfContentOwnerChannel` parameter specifies the YouTube channel ID of the channel to which a video is being added. This parameter is required when a request specifies a value for the `onBehalfOfContentOwner` parameter, and it can only be used in conjunction with that parameter. In addition, the request must be authorized using a CMS account that is linked to the content owner that the `onBehalfOfContentOwner` parameter specifies. Finally, the channel that the `onBehalfOfContentOwnerChannel` parameter value specifies must be linked to the content owner that the `onBehalfOfContentOwner` parameter specifies.",
       type: "string",
       optional: true,
     },
     maxResults: {
       type: "integer",
       label: "Maximum Results",
-      description: "The maximum number of items that should be returned in the result set. Acceptable values are 0 to 50, inclusive.",
+      description: "The maximum number of items that should be returned in the result set. Acceptable values are 0 to 50, inclusive. Default is 20",
+      optional: true,
+      max: 50,
       default: 20,
     },
     title: {
@@ -114,7 +122,7 @@ export default {
     userOwnedPlaylist: {
       type: "string",
       label: "Playlist ID",
-      description: "Add items to the selected playlist",
+      description: "Add items to the selected playlist. E.g. `PLJswo-CV0rmlwxKysf33cUnyBp8JztH0k`",
       async options({ prevContext }) {
         const { pageToken } = prevContext;
         const params = {
@@ -141,7 +149,7 @@ export default {
     userOwnedVideo: {
       type: "string",
       label: "Video ID",
-      description: "Select the video to update",
+      description: "Select the video to update. E.g. `wslno0wDSFQ`",
       async options({
         prevContext, channelId,
       }) {
@@ -175,7 +183,7 @@ export default {
     userOwnedChannel: {
       type: "string",
       label: "Channel ID",
-      description: "Select the channel to update",
+      description: "Select the channel to update. E.g. `UChkRx83xLq2nk55D8CRODVz`",
       async options({ prevContext }) {
         const { pageToken } = prevContext;
         const params = {
@@ -197,6 +205,21 @@ export default {
             pageToken: data.nextPageToken,
           },
         };
+      },
+    },
+    playlistItemIds: {
+      type: "string[]",
+      label: "Video IDs",
+      description: "Array of identifiers of the videos to be removed from the playlist. E.g. `o_U1CQn68VM`",
+      async options({ playlistId }) {
+        const { data } = await this.getPlaylistItems({
+          part: "contentDetails,id,snippet,status",
+          playlistId,
+        });
+        return data?.items?.map((item) => ({
+          label: item.snippet.title,
+          value: item.id,
+        })) || [];
       },
     },
     videoCategoryId: {

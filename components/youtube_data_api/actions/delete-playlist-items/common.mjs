@@ -4,13 +4,13 @@ export default {
       onBehalfOfContentOwner: this.onBehalfOfContentOwner,
     };
     const youtube = await this.youtubeDataApi.youtube();
-    const responses = [];
     for (const videoId of this.videoIds) {
       params.id = videoId;
-      const { data } = await youtube.playlistItems.delete(params);
-      responses.push(data);
+      await youtube.playlistItems.delete(params);
     }
-    $.export("$summary", `Successfully deleted ${this.videoIds.length} item(s) from playlist with ID ${this.playlistId}`);
+    $.export("$summary", `Successfully deleted ${this.videoIds.length} item${this.videoIds.length === 1
+      ? ""
+      : "s"} from playlist with ID ${this.playlistId}`);
     // nothing to return
   },
 };

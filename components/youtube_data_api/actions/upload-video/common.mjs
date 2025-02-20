@@ -13,13 +13,13 @@ export default {
       tags,
       notifySubscribers,
     } = this;
-    if (!fileUrl && !filePath) {
+    if ((!fileUrl && !filePath) || (fileUrl && filePath)) {
       throw new Error("This action requires either File URL or File Path. Please enter one or the other above.");
     }
     const body = fileUrl
       ? await got.stream(fileUrl)
       : fs.createReadStream(filePath);
-    const resp = (await this.youtubeDataApi.insertVideo({
+    const { data: resp } = await this.youtubeDataApi.insertVideo({
       title,
       description,
       privacyStatus,
@@ -27,7 +27,7 @@ export default {
       tags,
       notifySubscribers,
       content: body,
-    })).data;
+    });
     $.export("$summary", `Successfully uploaded a new video, "${title}"`);
     return resp;
   },

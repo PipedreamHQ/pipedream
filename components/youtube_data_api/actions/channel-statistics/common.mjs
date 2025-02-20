@@ -15,7 +15,7 @@ export default {
     const managedByMe = this.useCase === "managedByMe" ?
       true :
       undefined;
-    const channels = (await this.youtubeDataApi.listChannels({
+    const { data: channels } = await this.youtubeDataApi.listChannels({
       id,
       mine,
       managedByMe,
@@ -23,8 +23,10 @@ export default {
       onBehalfOfContentOwner,
       maxResults,
       hl,
-    })).data;
-    $.export("$summary", `Successfully fetched ${channels.items.length} channel(s)`);
+    });
+    $.export("$summary", `Successfully fetched ${channels.items.length} channel${channels.items.length === 1
+      ? ""
+      : "s"}`);
     return channels;
   },
 };
