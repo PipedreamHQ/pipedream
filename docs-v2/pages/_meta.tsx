@@ -1,8 +1,10 @@
 export default {
   "index": "What is Pipedream?",
   "quickstart": "Quickstart",
-  "core": "Core",
+  "integrations": "Integrations",
+  "workflows": "Workflows",
   "connect": "Connect",
+  "rest-api": "REST API",
   "pricing": "Pricing",
   "account": "Account",
   "privacy-and-security": "Security",

@@ -1,7 +1,6 @@
 export default {
-  "index": "What are workflows?",
-  "workflows": "Workflows",
-  "integrations": "Integrations",
+  "index": "Overview",
+  "building-workflows": "Building Workflows",
   "projects": "Projects",
   "workspaces": "Workspaces",
   "data-management": "Data Management",
@@ -12,6 +11,5 @@ export default {
   "vpc": "Virtual Private Clouds",
   "limits": "Limits",
   "contributing": "Contributing",
-  "rest-api": "REST API",
   "cli": "CLI",
 } as const
