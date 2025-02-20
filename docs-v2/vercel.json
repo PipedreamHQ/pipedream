@@ -32,31 +32,31 @@
     },
     {
       "source": "/docs/notebook/inspector/",
-      "destination": "/core/workflows/triggers/inspect/"
+      "destination": "/workflows/events/inspect/"
     },
     {
-      "source": "/docs/notebook/workflows/data-management/destinations/s3/",
-      "destination": "/workflows/data-management/destinations/s3/"
+      "source": "/docs/notebook/destinations/s3/",
+      "destination": "/destinations/s3/"
     },
     {
-      "source": "/docs/notebook/workflows/data-management/destinations/sse/",
-      "destination": "/workflows/data-management/destinations/sse/"
+      "source": "/docs/notebook/destinations/sse/",
+      "destination": "/destinations/sse/"
     },
     {
-      "source": "/docs/notebook/workflows/data-management/destinations/snowflake/",
-      "destination": "/workflows/data-management/destinations/snowflake/"
+      "source": "/docs/notebook/destinations/snowflake/",
+      "destination": "/destinations/snowflake/"
     },
     {
-      "source": "/docs/notebook/workflows/data-management/destinations/http/",
-      "destination": "/workflows/data-management/destinations/http/"
+      "source": "/docs/notebook/destinations/http/",
+      "destination": "/destinations/http/"
     },
     {
-      "source": "/docs/notebook/workflows/data-management/destinations/email/",
-      "destination": "/workflows/data-management/destinations/email/"
+      "source": "/docs/notebook/destinations/email/",
+      "destination": "/destinations/email/"
     },
     {
-      "source": "/docs/notebook/workflows/data-management/destinations/",
-      "destination": "/workflows/data-management/destinations/"
+      "source": "/docs/notebook/destinations/",
+      "destination": "/destinations/"
     },
     {
       "source": "/docs/notebook/code/",
@@ -64,7 +64,7 @@
     },
     {
       "source": "/docs/notebook/observability/",
-      "destination": "/core/workflows/triggers/inspect/"
+      "destination": "/workflows/events/inspect/"
     },
     {
       "source": "/docs/notebook/sources/",
@@ -76,7 +76,7 @@
     },
     {
       "source": "/docs/notebook/sql/",
-      "destination": "/workflows/data-management/destinations/"
+      "destination": "/destinations/"
     },
     {
       "source": "/docs/what-is-pipedream/",
@@ -108,7 +108,7 @@
     },
     {
       "source": "/docs/workflows/steps/code/async/",
-      "destination": "/docs/core/workflows/code/nodejs/async/"
+      "destination": "/docs/code/nodejs/async/"
     },
     {
       "source": "/docs/workflows/steps/code/state",
@@ -167,40 +167,40 @@
       "destination": "/docs/apps/"
     },
     {
-      "source": "/docs/core/workflows/triggers/cold-starts/",
-      "destination": "/core/workflows/settings/#eliminate-cold-starts"
+      "source": "/docs/workflows/events/cold-starts/",
+      "destination": "/workflows/settings/#eliminate-cold-starts"
     },
     {
       "source": "/docs/workflows/examples/waiting-to-execute-next-step-of-workflow/",
-      "destination": "/docs/core/workflows/code/nodejs/delay/"
+      "destination": "/docs/code/nodejs/delay/"
     },
     {
       "source": "/docs/workflows/networking/",
       "destination": "/docs/workflows/vpc/"
     },
     {
-      "source": "/docs/core/workflows/code/python#making-a-get-request",
-      "destination": "/docs/core/workflows/code/pythonhttp-requests/#making-a-get-request"
+      "source": "/docs/code/python/#making-a-get-request",
+      "destination": "/docs/code/python/http-requests/#making-a-get-request"
     },
     {
-      "source": "/docs/core/workflows/code/python#making-a-post-request",
-      "destination": "/docs/core/workflows/code/pythonhttp-requests/#making-a-post-request"
+      "source": "/docs/code/python/#making-a-post-request",
+      "destination": "/docs/code/python/http-requests/#making-a-post-request"
     },
     {
-      "source": "/docs/core/workflows/code/python#sending-files",
-      "destination": "/docs/core/workflows/code/pythonhttp-requests/#sending-files"
+      "source": "/docs/code/python/#sending-files",
+      "destination": "/docs/code/python/http-requests/#sending-files"
     },
     {
-      "source": "/docs/core/workflows/code/python#writing-a-file-to-tmp",
-      "destination": "/docs/core/workflows/code/pythonworking-with-files/#writing-a-file-to-tmp"
+      "source": "/docs/code/python/#writing-a-file-to-tmp",
+      "destination": "/docs/code/python/working-with-files/#writing-a-file-to-tmp"
     },
     {
-      "source": "/docs/core/workflows/code/python#reading-a-file-from-tmp",
-      "destination": "/docs/core/workflows/code/pythonworking-with-files/#reading-a-file-from-tmp"
+      "source": "/docs/code/python/#reading-a-file-from-tmp",
+      "destination": "/docs/code/python/working-with-files/#reading-a-file-from-tmp"
     },
     {
-      "source": "/docs/core/workflows/code/python#listing-files-in-tmp",
-      "destination": "/docs/core/workflows/code/pythonworking-with-files/#listing-files-in-tmp"
+      "source": "/docs/code/python/#listing-files-in-tmp",
+      "destination": "/docs/code/python/working-with-files/#listing-files-in-tmp"
     },
     {
       "source": "/docs/api",
@@ -212,11 +212,11 @@
     },
     {
       "source": "/docs/api/rest/(.*)",
-      "destination": "/docs/workflows/rest-api/$1"
+      "destination": "/docs/rest-api/$1"
     },
     {
       "source": "/docs/api/auth",
-      "destination": "/docs/workflows/rest-api/auth"
+      "destination": "/docs/rest-api/auth"
     },
     {
       "source": "/docs/components/quickstart/nodejs/actions",
@@ -227,12 +227,12 @@
       "destination": "/docs/quickstart/github-sync"
     },
     {
-      "source": "/docs/core/workflows/triggers/inspect",
+      "source": "/docs/workflows/events/inspect",
       "destination": "/docs/workflows/inspect"
     },
     {
       "source": "/docs/workflows/steps/triggers",
-      "destination": "/docs/core/workflows/triggers"
+      "destination": "/docs/workflows/triggers"
     },
     {
       "source": "/docs/workflows/steps/actions",
@@ -240,23 +240,23 @@
     },
     {
       "source": "/docs/workflows/flow-control",
-      "destination": "/docs/core/workflows/control-flow"
+      "destination": "/docs/workflows/control-flow"
     },
     {
-      "source": "/docs/workflows/workspaces/okta",
-      "destination": "/docs/workflows/workspaces/sso/okta"
+      "source": "/docs/workspaces/okta",
+      "destination": "/docs/workspaces/sso/okta"
     },
     {
-      "source": "/docs/workflows/workspaces/google",
-      "destination": "/docs/workflows/workspaces/sso/google"
+      "source": "/docs/workspaces/google",
+      "destination": "/docs/workspaces/sso/google"
     },
     {
-      "source": "/docs/workflows/workspaces/saml",
-      "destination": "/docs/workflows/workspaces/sso/saml"
+      "source": "/docs/workspaces/saml",
+      "destination": "/docs/workspaces/sso/saml"
     },
     {
-      "source": "/docs/workflows/workspaces/saml",
-      "destination": "/docs/workflows/workspaces/sso/saml"
+      "source": "/docs/workspaces/saml",
+      "destination": "/docs/workspaces/sso/saml"
     },
     {
       "source": "/docs/workflows/built-in-functions",
@@ -272,14 +272,14 @@
     },
     {
       "source": "/docs/apps/guide/requesting-additional-oauth-scopes",
-      "destination": "/docs/workflows/integrations/connected-accounts/oauth-clients"
+      "destination": "/docs/connected-accounts/oauth-clients"
     },
     {
       "source": "/docs/workflows/networking",
       "destination": "/docs/databases#connecting-to-restricted-databases"
     },
     {
-      "source": "/docs/workflows/integrations/connected-accounts/api",
+      "source": "/docs/connected-accounts/api",
       "destination": "/docs/connect/api#accounts"
     },
     {
