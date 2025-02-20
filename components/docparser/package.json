@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/docparser",
+  "version": "0.6.0",
+  "description": "Pipedream docparser Components",
+  "main": "docparser.app.mjs",
+  "keywords": [
+    "pipedream",
+    "docparser"
+  ],
+  "homepage": "https://pipedream.com/apps/docparser",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

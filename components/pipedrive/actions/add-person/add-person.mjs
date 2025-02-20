@@ -1,10 +1,12 @@
+import { ConfigurationError } from "@pipedream/platform";
+import { parseObject } from "../../common/utils.mjs";
 import pipedriveApp from "../../pipedrive.app.mjs";
 
 export default {
   key: "pipedrive-add-person",
   name: "Add Person",
   description: "Adds a new person. See the Pipedrive API docs for People [here](https://developers.pipedrive.com/docs/api/v1/Persons#addPerson)",
-  version: "0.1.5",
+  version: "0.1.7",
   type: "action",
   props: {
     pipedriveApp,
@@ -28,16 +30,16 @@ export default {
       ],
       description: "ID of the organization this person will belong to.",
     },
-    email: {
-      type: "any",
-      label: "Email",
-      description: "Email addresses (one or more) associated with the person, presented in the same manner as received by GET request of a person.",
+    emails: {
+      type: "string[]",
+      label: "Emails",
+      description: "Email addresses (one or more) associated with the person, presented in the same manner as received by GET request of a person. **Example: {\"value\":\"email1@email.com\", \"primary\":true, \"label\":\"work\"}**",
       optional: true,
     },
-    phone: {
-      type: "any",
-      label: "Phone",
-      description: "Phone numbers (one or more) associated with the person, presented in the same manner as received by GET request of a person.",
+    phones: {
+      type: "string[]",
+      label: "Phones",
+      description: "Phone numbers (one or more) associated with the person, presented in the same manner as received by GET request of a person. **Example: {\"value\":\"12345\", \"primary\":true, \"label\":\"work\"}**",
       optional: true,
     },
     visibleTo: {
@@ -47,44 +49,25 @@ export default {
       ],
       description: "Visibility of the person. If omitted, visibility will be set to the default visibility setting of this item type for the authorized user.",
     },
-    addTime: {
-      propDefinition: [
-        pipedriveApp,
-        "addTime",
-      ],
-      description: "Optional creation date & time of the person in UTC. Requires admin user API token. Format: `YYYY-MM-DD HH:MM:SS`",
-    },
   },
   async run({ $ }) {
-    const {
-      name,
-      ownerId,
-      organizationId,
-      email,
-      phone,
-      visibleTo,
-      addTime,
-    } = this;
-
     try {
       const resp =
         await this.pipedriveApp.addPerson({
-          name,
-          owner_id: ownerId,
-          org_id: organizationId,
-          email,
-          phone,
-          visible_to: visibleTo,
-          add_time: addTime,
+          name: this.name,
+          owner_id: this.ownerId,
+          org_id: this.organizationId,
+          emails: parseObject(this.emails),
+          phones: parseObject(this.phones),
+          visible_to: this.visibleTo,
         });
 
       $.export("$summary", "Successfully added person");
 
       return resp;
 
-    } catch (error) {
-      console.error(error.context?.body || error);
-      throw error.context?.body?.error || "Failed to add person";
+    } catch ({ error }) {
+      throw new ConfigurationError(error);
     }
   },
 };

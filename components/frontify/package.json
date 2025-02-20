@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/frontify",
+  "version": "0.0.1",
+  "description": "Pipedream Frontify Components",
+  "main": "frontify.app.mjs",
+  "keywords": [
+    "pipedream",
+    "frontify"
+  ],
+  "homepage": "https://pipedream.com/apps/frontify",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
