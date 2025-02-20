@@ -4729,6 +4729,9 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
+  components/frontify:
+    specifiers: {}
+
   components/ftrack:
     dependencies:
       '@pipedream/platform':
