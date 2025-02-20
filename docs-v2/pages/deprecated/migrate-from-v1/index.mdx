@@ -3,7 +3,7 @@ import Callout from '@/components/Callout'
 # Migrate from v1
 
 <Callout type="info">
-Never used Pipedream v1? You can skip this migration guide and read on about [Steps](/core/#steps).
+Never used Pipedream v1? You can skip this migration guide and read on about [Steps](/workflows/#steps).
 </Callout>
 
 We are excited to announce that we have launched a new version (v2) of Pipedream to all new and existing users!
@@ -11,7 +11,7 @@ We are excited to announce that we have launched a new version (v2) of Pipedream
 We have re-imagined the UX from the ground up, made the product much easier to use and have improved performance. In addition, we are introducing powerful new features including:
 
 - **Edit & test** your workflows in separate editing mode without impacting live workflows
-- **Support for multiple languages** including [Node.js](/core/workflows/code/nodejs/), [Python](/core/workflows/code/python/), [Bash](/core/workflows/code/bash/) and [Go](/core/workflows/code/go/)
+- **Support for multiple languages** including [Node.js](/workflows/building-workflows/code/nodejs/), [Python](/workflows/building-workflows/code/python/), [Bash](/workflows/building-workflows/code/bash/) and [Go](/workflows/building-workflows/code/go/)
 - **Granular testing** including the ability to test individual steps and more
 - **Multiple triggers** are now supported per workflow
 - **Improved** forms for easier configuration and streamlined building
@@ -20,7 +20,7 @@ _Get Started_
 
 - Read our [quickstart](/quickstart/), [docs](/), and/or [FAQ](#faq)
 - Have questions? Ask here or on [Discourse](https://pipedream.com/community)
-- As a reminder, all integration components are source-available and [hosted on GitHub](https://github.com/PipedreamHQ/pipedream). You can [contribute your own components](/core/contributing/) or improve existing ones.
+- As a reminder, all integration components are source-available and [hosted on GitHub](https://github.com/PipedreamHQ/pipedream). You can [contribute your own components](/workflows/contributing/) or improve existing ones.
 
 Watch a demo:
 
@@ -77,7 +77,7 @@ After deploying your changes, your workflow is now live, and any changes you mad
 
 ## Node.js Code Step Changes
 
-There are a few changes to the Node.js code steps that you should know about. Some functions have been renamed for more clarity, and we've aligned the Node.js code steps closer to the [Component API](/core/contributing/components/).
+There are a few changes to the Node.js code steps that you should know about. Some functions have been renamed for more clarity, and we've aligned the Node.js code steps closer to the [Component API](/workflows/contributing/components/).
 
 ### Code Scaffolding Format
 
@@ -104,7 +104,7 @@ defineComponent({
 
 You can think of the `$` as the entry point to built in Pipedream functions. In v1, this special functions included `$end`, `$respond`, etc. In v2, these have been remapped to `$.flow.exit` and `$.respond` respectively.
 
-These changes unify workflow development to the [Component API](/core/contributing/components/api/) used by pre-built actions and also allows the [defining of props](#params-vs-props) from within your code steps.
+These changes unify workflow development to the [Component API](/workflows/contributing/components/api/) used by pre-built actions and also allows the [defining of props](#params-vs-props) from within your code steps.
 
 ### Using 3rd party packages
 
@@ -129,7 +129,7 @@ defineComponent({
 });
 ```
 
-Allowing all of the scaffolding to be edited opens up the ability to [pass props](/core/workflows/code/nodejs/#passing-props-to-code-steps) into your Node.js code steps, which we'll cover later.
+Allowing all of the scaffolding to be edited opens up the ability to [pass props](/workflows/building-workflows/code/nodejs/#passing-props-to-code-steps) into your Node.js code steps, which we'll cover later.
 
 ### Step Exports
 
@@ -183,7 +183,7 @@ defineComponent({
 
 ### Params vs Props
 
-In the v1 builder, you could pass input to steps using `params`. In the v2 builder, you pass input using [props](/core/contributing/components/api/#component-api).
+In the v1 builder, you could pass input to steps using `params`. In the v2 builder, you pass input using [props](/workflows/contributing/components/api/#component-api).
 
 You can still enter free text and select data from other steps in pre-built actions. Also can add your own custom props that accept input like strings, numbers and more just like in v1.
 
@@ -215,7 +215,7 @@ Additionally, Pipedream renders a visual component in the step **Configuration**
 
 ### Connecting apps
 
-In the v2 builder, you can connect apps with your code using [props](/core/contributing/components/api/#props).
+In the v2 builder, you can connect apps with your code using [props](/workflows/contributing/components/api/#props).
 
 Above the `run` function, define an app prop that your Node.js step integrates with:
 
@@ -248,7 +248,7 @@ After testing the step, you'll see the Slack app will appear in the **Configurat
 
 You can still return an HTTP response from an HTTP-triggered workflow.
 
-Use [`$.respond`](/core/workflows/triggers/#http) to send a JSON or string response from the HTTP call that triggered the workflow.
+Use [`$.respond`](/workflows/building-workflows/triggers/#http) to send a JSON or string response from the HTTP call that triggered the workflow.
 
 ```javascript
 export default defineComponent({
@@ -280,7 +280,7 @@ If you need assistance transferring workflows across accounts, [please contact u
 
 ### `$checkpoint`
 
-The `$checkpoint` functionality to save data between workflow runs is not supported in v2, and has been replaced by [Data Stores](/core/workflows/code/nodejs/using-data-stores/).
+The `$checkpoint` functionality to save data between workflow runs is not supported in v2, and has been replaced by [Data Stores](/workflows/building-workflows/code/nodejs/using-data-stores/).
 
 ### Public workflows
 
@@ -314,7 +314,7 @@ To replay past events against your deploy v2 workflows, open the event's menu an
 
 ### What are the limitations of the new (v2) workflow builder?
 
-- `$checkpoint` has been removed from v2 workflows, but [Data Stores](/core/workflows/code/nodejs/using-data-stores/) provides a similar API.
+- `$checkpoint` has been removed from v2 workflows, but [Data Stores](/workflows/building-workflows/code/nodejs/using-data-stores/) provides a similar API.
 - Sharing workflows is not supported
 - Making workflows public is not supported
 

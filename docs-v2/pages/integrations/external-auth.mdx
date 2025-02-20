@@ -15,13 +15,13 @@ Passing external credentials at runtime is a feature that's available to custome
 
 ## Pass credentials via HTTP
 
-1. If not already configured, [add an HTTP trigger](/core/workflows/triggers/#http) to your workflow.
+1. If not already configured, [add an HTTP trigger](/workflows/building-workflows/triggers/#http) to your workflow.
 2. From your app, retrieve credentials and send them in an HTTP request to the endpoint with the rest of the payload.
 3. In the step of your workflow where you'd like to pass these credentials, select the **Use external authentication** option at the bottom-right of the account selector:
 
 ![Select "External Auth"](/images/integrations/select-external-auth.png)
 
-4. You'll be prompted for all required credentials for the app, often just an `oauth_access_token` or `api_key`. [Find the variable that contains your credentials](/core/workflows/triggers/#copying-references-to-event-data) and pass them to each field:
+4. You'll be prompted for all required credentials for the app, often just an `oauth_access_token` or `api_key`. [Find the variable that contains your credentials](/workflows/building-workflows/triggers/#copying-references-to-event-data) and pass them to each field:
 
 ![External auth](https://res.cloudinary.com/pipedreamin/image/upload/v1707630112/docs/Screenshot_2024-02-10_at_9.40.54_PM_hynkvq.png)
 
@@ -32,9 +32,9 @@ Most steps require additional, user-specific configuration. For example, the Sla
 <Callout type="warning">
 Default logging
 
-When you return credentials from workflow steps, Pipedream stores it with the rest of the workflow execution data. Workflow events are retained according to the default retention policy for your plan and any [data retention controls](/core/workflows/settings/#data-retention-controls) you've configured.
+When you return credentials from workflow steps, Pipedream stores it with the rest of the workflow execution data. Workflow events are retained according to the default retention policy for your plan and any [data retention controls](/workflows/building-workflows/settings/#data-retention-controls) you've configured.
 
-You can set [the `pd-nostore` flag](/core/workflows/triggers/#x-pd-nostore) to `1` on requests with credentials to disable logging for those requests only.
+You can set [the `pd-nostore` flag](/workflows/building-workflows/triggers/#x-pd-nostore) to `1` on requests with credentials to disable logging for those requests only.
 </Callout>
 
 ## Fetch credentials from a DB or secrets store
@@ -44,7 +44,7 @@ You can set [the `pd-nostore` flag](/core/workflows/triggers/#x-pd-nostore) to `
 
 ![Select "External Auth"](/images/integrations/select-external-auth.png)
 
-3. You'll be prompted for all required credentials for the app, often just an `oauth_access_token` or `api_key`. [Find the variable that contains your credentials](/core/workflows/triggers/#copying-references-to-event-data) and pass them to each field:
+3. You'll be prompted for all required credentials for the app, often just an `oauth_access_token` or `api_key`. [Find the variable that contains your credentials](/workflows/building-workflows/triggers/#copying-references-to-event-data) and pass them to each field:
 
 ![External auth](https://res.cloudinary.com/pipedreamin/image/upload/v1707630112/docs/Screenshot_2024-02-10_at_9.40.54_PM_hynkvq.png)
 
@@ -55,7 +55,7 @@ Most steps require additional, user-specific configuration. For example, the Sla
 <Callout type="warning">
 Default logging
 
-When you return credentials from workflow steps, Pipedream stores it with the rest of the workflow execution data. Workflow events are retained according to the default retention policy for your plan and any [data retention controls](/core/workflows/settings/#data-retention-controls) you've configured.
+When you return credentials from workflow steps, Pipedream stores it with the rest of the workflow execution data. Workflow events are retained according to the default retention policy for your plan and any [data retention controls](/workflows/building-workflows/settings/#data-retention-controls) you've configured.
 
-You can set [the `pd-nostore` flag](/core/workflows/triggers/#x-pd-nostore) to `1` on requests with credentials to disable logging for those requests only.
+You can set [the `pd-nostore` flag](/workflows/building-workflows/triggers/#x-pd-nostore) to `1` on requests with credentials to disable logging for those requests only.
 </Callout>

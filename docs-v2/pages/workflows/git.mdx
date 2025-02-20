@@ -195,9 +195,9 @@ Yes, you can use the GitHub Syncing feature to develop your workflows from YAML 
 Then pushing changes to the `production` branch will trigger a deploy for your Pipedream workflows.
 
 ### Why am I seeing the error "could not resolve step[index].uses: component-key@version" when merging to production?
-This error occurs when a workflow references a [private component](/core/contributing/components/#using-private-actions) without properly prefixing the component key with your workspace name in the `workflow.yaml` configuration file. Pipedream requires this prefix to correctly identify and resolve components specific to your workspace.
+This error occurs when a workflow references a [private component](/workflows/contributing/components/#using-private-actions) without properly prefixing the component key with your workspace name in the `workflow.yaml` configuration file. Pipedream requires this prefix to correctly identify and resolve components specific to your workspace.
 
-For example, if you modified a [registry action](/core/contributing/) and published it privately, the correct component key should be formatted as `@workspacename/component-key@version` (e.g., `@pipedream/github-update-issue@0.1.0`).
+For example, if you modified a [registry action](/workflows/contributing/) and published it privately, the correct component key should be formatted as `@workspacename/component-key@version` (e.g., `@pipedream/github-update-issue@0.1.0`).
 
 To resolve this error:
 
@@ -206,7 +206,7 @@ To resolve this error:
 3. Add your workspace name prefix to the component key, ensuring it follows the format `@workspacename/component-key@version`.
 4. Commit your changes and push them to your repository.
 5. Open your project in the Pipedream UI and select your development branch.
-6. Click on **Merge to Production** and verify the deployment success in the [Changelog](/core/git/#use-the-changelog).
+6. Click on **Merge to Production** and verify the deployment success in the [Changelog](/workflows/git/#use-the-changelog).
 7. If the issue persists, [reach out to Pipedream Support](https://pipedream.com/support) for further assistance.
 
 ### Why am I seeing an error about "private auth mismatch" when trying to merge a branch to production?
@@ -219,7 +219,7 @@ This error occurs when **both** of the below conditions are met:
 Since Pipedream can't verify the person who merged that change should have access to use the connected account in a workflow in this case, we block these deploys.
 
 To resolve this error:
-1. Make sure all the connected accounts in the project's workflows are [accessible to the entire workspace](/core/integrations/connected-accounts/#access-control)
+1. Make sure all the connected accounts in the project's workflows are [accessible to the entire workspace](/integrations/connected-accounts/#access-control)
 2. Re-trigger a sync with Pipedream by making a nominal change to the workflow **from outside the Pipedream UI** (via github.com or locally), then merge that change to production
 
 ### Can I sync an existing GitHub Repository with workflows to a new Pipedream Project?

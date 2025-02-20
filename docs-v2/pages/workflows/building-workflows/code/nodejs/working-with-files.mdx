@@ -19,7 +19,7 @@ The `/tmp` directory is stored on the virtual machine that runs your workflow. W
 
 ### Reading a file from `/tmp`
 
-This example uses [step exports](/core/#step-exports) to return the contents of a test file saved in `/tmp` as a string:
+This example uses [step exports](/workflows/#step-exports) to return the contents of a test file saved in `/tmp` as a string:
 
 ```javascript
 import fs from "fs";
@@ -76,11 +76,11 @@ export default defineComponent({
 
 ### Download a file to `/tmp`
 
-[See this example](/core/workflows/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory) to learn how to download a file to `/tmp`.
+[See this example](/workflows/building-workflows/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory) to learn how to download a file to `/tmp`.
 
 ### Upload a file from `/tmp`
 
-[See this example](/core/workflows/code/nodejs/http-requests/#upload-a-file-from-the-tmp-directory) to learn how to upload a file from `/tmp` in an HTTP request.
+[See this example](/workflows/building-workflows/code/nodejs/http-requests/#upload-a-file-from-the-tmp-directory) to learn how to upload a file from `/tmp` in an HTTP request.
 
 ### Download a file, uploading it in another `multipart/form-data` request
 
@@ -90,7 +90,7 @@ export default defineComponent({
 
 [This workflow](https://pipedream.com/@dylan/upload-email-attachments-to-s3-p_V9CGAQ/edit) is triggered by incoming emails. When copied, you'll get a workflow-specific email address you can send any email to. This workflow takes any attachments included with inbound emails, saves them to `/tmp`, and uploads them to Amazon S3.
 
-You should also be aware of the [inbound payload limits](/core/limits/#email-triggers) associated with the email trigger.
+You should also be aware of the [inbound payload limits](/workflows/limits/#email-triggers) associated with the email trigger.
 
 ### Downloading and uploading files from File Stores
 
@@ -98,4 +98,4 @@ Within Node.js code steps, you can download files from a File Store to the `/tmp
 
 The `$.files` helper includes methods to upload and download files from the Project's File Store.
 
-[Read the File Stores `$.files` helper documentation.](/core/data-management/file-stores/#managing-file-stores-from-workflows))
+[Read the File Stores `$.files` helper documentation.](/workflows/data-management/file-stores/#managing-file-stores-from-workflows))

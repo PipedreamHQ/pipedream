@@ -12,13 +12,13 @@ Pipedream provides native integrations for [{process.env.PUBLIC_APPS}+ APIs](htt
 
 Pipedream handles OAuth for you, ensuring you always have a fresh access token to authorize requests, and [credentials are tightly-secured](/privacy-and-security/#third-party-oauth-grants-api-keys-and-environment-variables).
 
-If you use an existing secrets store, or manage credentials in a database, you can also [pass those to Pipedream at runtime](/core/integrations/connected-accounts/external-auth/) instead of connecting accounts in the UI.
+If you use an existing secrets store, or manage credentials in a database, you can also [pass those to Pipedream at runtime](/integrations/connected-accounts/external-auth/) instead of connecting accounts in the UI.
 
 ## Supported Apps
 
 Pipedream supports [{process.env.PUBLIC_APPS}+ apps](https://pipedream.com/apps), and we're adding more every day.
 
-If you don't see an integration for a service you need, you can [request the integration here](#requesting-a-new-app-or-service), or [use environment variables](/core/environment-variables/) to manage custom credentials.
+If you don't see an integration for a service you need, you can [request the integration here](#requesting-a-new-app-or-service), or [use environment variables](/workflows/environment-variables/) to manage custom credentials.
 
 ## Types of Integrations
 
@@ -26,7 +26,7 @@ If you don't see an integration for a service you need, you can [request the int
 
 For services that support OAuth, Pipedream operates an OAuth application that mediates access to the service so you don't have to maintain your own app, store refresh and access tokens, and more.
 
-When you connect an account, you'll see a new window open where you authorize the Pipedream application to access data in your account. Pipedream stores the OAuth refresh token tied to your authorization grant, automatically generating access tokens you can use to authorized requests to the service's API. You can [access these tokens in code steps](/core/workflows/code/nodejs/auth/).
+When you connect an account, you'll see a new window open where you authorize the Pipedream application to access data in your account. Pipedream stores the OAuth refresh token tied to your authorization grant, automatically generating access tokens you can use to authorized requests to the service's API. You can [access these tokens in code steps](/workflows/building-workflows/code/nodejs/auth/).
 
 ### Key-based
 
@@ -75,7 +75,7 @@ Now you can modify the request path, method, body or query params to perform an 
 
 ### From a code step
 
-You can connect accounts to code steps by using an `app` prop. Refer to the [connecting apps in Node.js documentation](/core/workflows/code/nodejs/auth/).
+You can connect accounts to code steps by using an `app` prop. Refer to the [connecting apps in Node.js documentation](/workflows/building-workflows/code/nodejs/auth/).
 
 For example, you can connect to Slack from Pipedream (via their OAuth integration), and use the access token Pipedream generates to authorize requests:
 
@@ -232,16 +232,16 @@ Yes, see the section on [collaborating with others](#collaborating-with-others).
 
 ## Accessing credentials via API
 
-You can access credentials for any connected account via API, letting you build services anywhere and use Pipedream to handle auth. See [the guide for accessing credentials via API](/core/integrations/connected-accounts/api/) for more details.
+You can access credentials for any connected account via API, letting you build services anywhere and use Pipedream to handle auth. See [the guide for accessing credentials via API](/integrations/connected-accounts/api/) for more details.
 
 ## Passing external credentials at runtime
 
-If you use a secrets store like [Pipedream Connect](/connect/) or [HashiCorp Vault](https://www.vaultproject.io/), or if you store credentials in a database, you can retrieve these secrets at runtime and pass them to any step. [See the full guide here](/core/integrations/connected-accounts/external-auth/).
+If you use a secrets store like [Pipedream Connect](/connect/) or [HashiCorp Vault](https://www.vaultproject.io/), or if you store credentials in a database, you can retrieve these secrets at runtime and pass them to any step. [See the full guide here](/integrations/connected-accounts/external-auth/).
 
 ## Connecting to apps with IP restrictions
 
 <Callout type="info">
-These IP addresses are tied to **app connections only**, not workflows or other Pipedream services. To whitelist requests from Pipedream workflows, [use VPCs](/core/vpc/).
+These IP addresses are tied to **app connections only**, not workflows or other Pipedream services. To whitelist requests from Pipedream workflows, [use VPCs](/workflows/vpc/).
 </Callout>
 
 If you're connecting to an app that enforces IP restrictions, you may need to whitelist the Pipedream API's IP addresses:

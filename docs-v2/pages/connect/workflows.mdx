@@ -5,9 +5,9 @@ import Image from 'next/image'
 
 # Running workflows for your end users
 
-Just like you can build and run internal [workflows](/core/workflows/) for your team, **you can run workflows for [your end users](/connect/api/#external-users), too**.
+Just like you can build and run internal [workflows](/workflows/building-workflows/) for your team, **you can run workflows for [your end users](/connect/api/#external-users), too**.
 
-Whether you're building well-defined integrations or autonomous AI agents, workflows provide a powerful set of tools for running [code](/core/workflows/code/) or [pre-defined actions](/core/workflows/actions/) on behalf of your users. Pipedream's UI makes it easy to build, test, and [debug](/core/workflows/inspect/) workflows.
+Whether you're building well-defined integrations or autonomous AI agents, workflows provide a powerful set of tools for running [code](/workflows/building-workflows/code/) or [pre-defined actions](/workflows/building-workflows/actions/) on behalf of your users. Pipedream's UI makes it easy to build, test, and [debug](/workflows/building-workflows/inspect/) workflows.
 
 ## What are workflows?
 
@@ -15,17 +15,17 @@ Whether you're building well-defined integrations or autonomous AI agents, workf
 <img width="500px" src="https://res.cloudinary.com/pipedreamin/image/upload/v1730935490/docs/pCBdtm7Ca9CdPHTe76PwfzddY_qowz2v.avif" />
 </div>
 
-Workflows are sequences of [steps](/core/#steps) [triggered by an event](/core/workflows/triggers/), like an HTTP request, or new rows in a Google sheet.
+Workflows are sequences of [steps](/workflows/#steps) [triggered by an event](/workflows/building-workflows/triggers/), like an HTTP request, or new rows in a Google sheet.
 
-You can use [pre-built actions](/core/workflows/actions/) or custom [Node.js](/core/workflows/code/nodejs/), [Python](/core/workflows/code/python/), [Golang](/core/workflows/code/go/), or [Bash](/core/workflows/code/bash/) code in workflows and connect to any of our {process.env.PUBLIC_APPS} integrated apps.
+You can use [pre-built actions](/workflows/building-workflows/actions/) or custom [Node.js](/workflows/building-workflows/code/nodejs/), [Python](/workflows/building-workflows/code/python/), [Golang](/workflows/building-workflows/code/go/), or [Bash](/workflows/building-workflows/code/bash/) code in workflows and connect to any of our {process.env.PUBLIC_APPS} integrated apps.
 
 Workflows also have built-in:
 
-- [Flow control](/core/workflows/control-flow/)
-- [Concurrency and throttling](/core/workflows/settings/concurrency-and-throttling/)
-- [Key-value stores](/core/data-management/data-stores/)
-- [Error handling](/core/workflows/errors/)
-- [VPCs](/core/vpc/)
+- [Flow control](/workflows/building-workflows/control-flow/)
+- [Concurrency and throttling](/workflows/building-workflows/settings/concurrency-and-throttling/)
+- [Key-value stores](/workflows/data-management/data-stores/)
+- [Error handling](/workflows/building-workflows/errors/)
+- [VPCs](/workflows/vpc/)
 - [And more](https://pipedream.com/pricing)
 
 Read [the quickstart](/quickstart/) to learn more.
@@ -36,13 +36,13 @@ Read [the quickstart](/quickstart/) to learn more.
 
 ### Create a workflow
 
-[Create a new workflow](/core/workflows/) or open an existing one.
+[Create a new workflow](/workflows/building-workflows/) or open an existing one.
 
 ### Add an HTTP trigger
 
 To get started building workflows for your end users:
 
-1. Add an [HTTP trigger](/core/workflows/triggers/#http) to your workflow
+1. Add an [HTTP trigger](/workflows/building-workflows/triggers/#http) to your workflow
 2. Generate a test event with the required headers:
    - `x-pd-environment: development`
    - `x-pd-external-user-id: {your_external_user_id}`
@@ -51,7 +51,7 @@ See the [Triggering your workflow](#triggering-your-workflow) section below for 
 
 ### Configure accounts to use your end users' auth
 
-When you configure [pre-built actions](/core/workflows/actions/) or [custom code that connects to third-party APIs](/core/workflows/code/nodejs/auth/), you can link accounts in one of two ways:
+When you configure [pre-built actions](/workflows/building-workflows/actions/) or [custom code that connects to third-party APIs](/workflows/building-workflows/code/nodejs/auth/), you can link accounts in one of two ways:
 
 1. **Use your own account**: If you're connecting to an API that uses your own API key or developer account — for example, a workflow that connects to the OpenAI API or a PostgreSQL database — click the **Connect account** button to link your own, static account.
 
@@ -112,7 +112,7 @@ npm i @pipedream/sdk
 To invoke workflows, you'll need:
 
 1. The OAuth client ID and secret from your OAuth client in **step 2 above** (if configured)
-2. Your [Project ID](/core/projects/#finding-your-projects-id)
+2. Your [Project ID](/workflows/projects/#finding-your-projects-id)
 3. Your workflow's HTTP endpoint URL
 4. The [external user ID](/connect/api/#external-users) of the user you'd like to run the workflow for
 5. The [Connect environment](/connect/environments/) tied to the user's account
@@ -263,12 +263,12 @@ You have two options for triggering workflows that run on behalf of your end use
 
 ### HTTP Webhook
 
-The most common way to trigger workflows is via HTTP webhook. We strongly recommend [creating a Pipedream OAuth client](/core/rest-api/auth#creating-an-oauth-client) and authenticating inbound requests to your workflows.
+The most common way to trigger workflows is via HTTP webhook. We strongly recommend [creating a Pipedream OAuth client](/rest-api/auth#creating-an-oauth-client) and authenticating inbound requests to your workflows.
 
 To get started, you'll need:
 
-- [OAuth client ID and secret](/core/rest-api/auth#creating-an-oauth-client) (optional but recommended)
-- Your [project ID](/core/projects/#finding-your-projects-id)
+- [OAuth client ID and secret](/rest-api/auth#creating-an-oauth-client) (optional but recommended)
+- Your [project ID](/workflows/projects/#finding-your-projects-id)
 - Your workflow's HTTP endpoint URL
 - The [external user ID](/connect/api/#external-users) of your end user
 - The [Connect environment](/connect/environments/)

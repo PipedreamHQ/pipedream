@@ -3,13 +3,13 @@ import VideoPlayer from '@/components/VideoPlayer'
 
 # Sharing code across workflows
 
-[Actions](/core/contributing/components/#actions) are reusable steps. When you author an action, you can add it to your workflow like you would other actions, by clicking the **+** button below any step.
+[Actions](/workflows/contributing/components/#actions) are reusable steps. When you author an action, you can add it to your workflow like you would other actions, by clicking the **+** button below any step.
 
 Pipedream provides two ways to share code across workflows:
 
-- **Publish an action from a Node.js code step**. [Publish any Node.js code step as a reusable action](/core/workflows/code/nodejs/sharing-code/#publish-an-action-from-a-nodejs-code-step) from the Pipedream dashboard.
+- **Publish an action from a Node.js code step**. [Publish any Node.js code step as a reusable action](/workflows/building-workflows/code/nodejs/sharing-code/#publish-an-action-from-a-nodejs-code-step) from the Pipedream dashboard.
 
-- **Create an action from code**. Develop your action code on your local filesystem and [publish to your Pipedream account using the Pipedream CLI](/core/contributing/components/quickstart/nodejs/actions/).
+- **Create an action from code**. Develop your action code on your local filesystem and [publish to your Pipedream account using the Pipedream CLI](/workflows/contributing/components/quickstart/nodejs/actions/).
 
 ## Publish an action from a Node.js code step
 
@@ -135,7 +135,7 @@ Actions submitted to the public component registry can contain multiple files. A
 No, a new version of an action doesn't automatically update all instances of the same action across your workflows. This gives you the control to gradually update.
 </Callout>
 
-After publishing a new version, all other steps using this same action will have the option to [update to the latest version](/core/workflows/actions/#updating-actions-to-the-latest-version).
+After publishing a new version, all other steps using this same action will have the option to [update to the latest version](/workflows/building-workflows/actions/#updating-actions-to-the-latest-version).
 
 ## Differences between publishing actions from workflow Node.js code steps and directly from code
 
@@ -143,6 +143,6 @@ Publishing reusable actions from Node.js code steps allows you to quickly scaffo
 
 However, there are some differences.
 
-1. Node.js code step actions cannot make use of [app files to further reduce redundancy](/core/contributing/components/guidelines/#promoting-reusability).
-2. Node.js code step actions cannot be published to the [Pipedream Component Registry](/core/contributing/).
-3. Node.js code step actions have a slightly different structure than [action components](/core/contributing/components/api/#component-api).
+1. Node.js code step actions cannot make use of [app files to further reduce redundancy](/workflows/contributing/components/guidelines/#promoting-reusability).
+2. Node.js code step actions cannot be published to the [Pipedream Component Registry](/workflows/contributing/).
+3. Node.js code step actions have a slightly different structure than [action components](/workflows/contributing/components/api/#component-api).

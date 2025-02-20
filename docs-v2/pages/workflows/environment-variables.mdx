@@ -6,12 +6,12 @@ Environment variables (env vars) enable you to separate secrets and other static
 
 You shouldn't include API keys or other sensitive data directly in your workflow's code. By referencing the value of an environment variable instead, your workflow includes a reference to that variable — for example, `process.env.API_KEY` instead of the API key itself.
 
-You can reference env vars and secrets in [workflow code](/core/workflows/code/) or in the object explorer when passing data to steps, and you can define them either globally for the entire workspace, or scope them to individual projects.
+You can reference env vars and secrets in [workflow code](/workflows/building-workflows/code/) or in the object explorer when passing data to steps, and you can define them either globally for the entire workspace, or scope them to individual projects.
 
 | Scope         | Description                                                                                                                                                                                                                |
 | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Workspace** | All environment variables are available to all workflows within the workspace. All workspace members can manage workspace-wide variables [in the UI](https://pipedream.com/settings/env-vars).                             |
-| **Project**   | Environment variables defined within a project are only accessible to the workflows within that project. Only workspace members who have [access to the project](/core/projects/access-controls) can manage project variables. |
+| **Project**   | Environment variables defined within a project are only accessible to the workflows within that project. Only workspace members who have [access to the project](/workflows/projects/access-controls) can manage project variables. |
 
 ## Creating and updating environment variables
 
@@ -104,7 +104,7 @@ When referencing env vars directly in code within your Pipedream workflow, you c
 
 ## Referencing environment variables in actions
 
-[Actions](/core/contributing/components/#actions) are pre-built code steps that let you provide input in a form, selecting the correct params to send to the action.
+[Actions](/workflows/contributing/components/#actions) are pre-built code steps that let you provide input in a form, selecting the correct params to send to the action.
 
 You can reference the value of environment variables using `{{process.env.YOUR_ENV_VAR}}`. You'll see a list of your environment variables in the object explorer when selecting a variable to pass to a step.
 
@@ -115,7 +115,7 @@ You can reference the value of environment variables using `{{process.env.YOUR_E
 />
 
 <Callout type="info">
-  [Private components](/core/contributing/components/#using-components) (actions or triggers) do not have direct access to workspace or project variables as public components or code steps. Add a prop specifically for the variable you need. For sensitive data like API keys, [configure the prop as a secret](/core/contributing/components/api/#props). In your prop configuration, set the value to `{{process.env.YOUR_ENV_VAR}}` to securely reference the environment variable.
+  [Private components](/workflows/contributing/components/#using-components) (actions or triggers) do not have direct access to workspace or project variables as public components or code steps. Add a prop specifically for the variable you need. For sensitive data like API keys, [configure the prop as a secret](/workflows/contributing/components/api/#props). In your prop configuration, set the value to `{{process.env.YOUR_ENV_VAR}}` to securely reference the environment variable.
 </Callout>
 
 ## FAQ
@@ -126,7 +126,7 @@ The project-scoped variable will take priority if the same variable key exists a
 
 ### What happens if I share a workflow that references an environment variable?
 
-If you [share a workflow](/core/workflows/sharing/) that references an environment variable, **only the reference is included, and not the actual value**.
+If you [share a workflow](/workflows/building-workflows/sharing/) that references an environment variable, **only the reference is included, and not the actual value**.
 
 ## Limits
 

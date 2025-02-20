@@ -5,7 +5,7 @@ import VideoPlayer from '@/components/VideoPlayer'
 
 <VideoPlayer src="https://www.youtube.com/embed/RjsWeXW_DC0" title="Understanding Sources in Pipedream" />
 
-Event sources operate primarily as workflow triggers. When you add a new app-based [trigger](/core/workflows/triggers/) to your workflow, you're creating an event source.
+Event sources operate primarily as workflow triggers. When you add a new app-based [trigger](/workflows/building-workflows/triggers/) to your workflow, you're creating an event source.
 
 ![Adding a new trigger to a workflow](https://res.cloudinary.com/pipedreamin/image/upload/v1710512637/docs/sources/CleanShot_2024-03-15_at_10.23.07_tyjswb.png)
 
@@ -32,11 +32,11 @@ You can create event sources from the Pipedream UI or CLI.
 
 Visit [https://pipedream.com/sources](https://pipedream.com/sources) and click the **New +** button at the top right to create a new event source. You'll see a list of sources tied to apps (like Twitter and Github) and generic interfaces (like HTTP). Select your source, and you'll be asked to connect any necessary accounts (for example, the Twitter source requires you authorize Pipedream access to your Twitter account), and enter the values for any configuration settings tied to the source.
 
-Once you've created a source, you can use it to trigger [Pipedream workflows](/core/workflows/) or [consume its events](#consuming-events-from-sources) using Pipedream's APIs.
+Once you've created a source, you can use it to trigger [Pipedream workflows](/workflows/building-workflows/) or [consume its events](#consuming-events-from-sources) using Pipedream's APIs.
 
 ### Creating a source from the CLI
 
-[Download the CLI](/core/cli/install/) and run:
+[Download the CLI](/workflows/cli/install/) and run:
 
 ```bash
 pd deploy
@@ -44,18 +44,18 @@ pd deploy
 
 This will bring up an interactive menu prompting you to select a source. Once selected, you'll be asked to connect any necessary accounts (for example, the Twitter source requires you authorize Pipedream access to your Twitter account), and enter the values for any configuration settings tied to the source.
 
-Once you've created a source, you can use it to trigger [Pipedream workflows](/core/workflows/) or [consume its events](#consuming-events-from-sources) using Pipedream's APIs.
+Once you've created a source, you can use it to trigger [Pipedream workflows](/workflows/building-workflows/) or [consume its events](#consuming-events-from-sources) using Pipedream's APIs.
 
 ## Consuming events from sources
 
 You can view the events for a source in the sources UI, under the **Events** section of that source.
 
-You can also trigger a [Pipedream workflow](/core/workflows/) every time your source emits a new event. This lets you run workflows for every new tweet, every new item in an RSS feed, and more.
+You can also trigger a [Pipedream workflow](/workflows/building-workflows/) every time your source emits a new event. This lets you run workflows for every new tweet, every new item in an RSS feed, and more.
 
 Finally, you can consume events programmatically, outside the Pipedream platform, in a few different ways:
 
 - In real-time, using the [SSE stream](/api/sse/) linked to your source
-- In real-time, via the CLI's [`pd events` command](/core/cli/reference/#pd-events)
+- In real-time, via the CLI's [`pd events` command](/workflows/cli/reference/#pd-events)
 - In batch, using the [REST API](/api/rest/)
 
 ## Example: HTTP source
@@ -143,13 +143,13 @@ Generating test data manually can result in typos or missing fields that your wo
 
 ## Publishing a new event source, or modifying an existing source
 
-Anyone can create an event source or edit an existing one. The code for all event sources is public, and kept in the [`PipedreamHQ/pipedream` repo](https://github.com/PipedreamHQ/pipedream). [Read this quickstart](/core/contributing/components/quickstart/nodejs/sources/) and see the [event source API docs](/core/contributing/components/api/) to learn more about the source development process.
+Anyone can create an event source or edit an existing one. The code for all event sources is public, and kept in the [`PipedreamHQ/pipedream` repo](https://github.com/PipedreamHQ/pipedream). [Read this quickstart](/workflows/contributing/components/quickstart/nodejs/sources/) and see the [event source API docs](/workflows/contributing/components/api/) to learn more about the source development process.
 
 You can chat about source development with the Pipedream team in the `#contribute` channel of our [public Slack](https://join.slack.com/t/pipedream-users/shared_invite/zt-ernlymsn-UHfPg~Dfp08uGkAd8dpkww), and in the `#dev` topic in the [Pipedream community](https://pipedream.com/community/c/dev/11).
 
 ## Limits
 
-Event sources are subject to the [same limits as Pipedream workflows](/core/limits/), except:
+Event sources are subject to the [same limits as Pipedream workflows](/workflows/limits/), except:
 
 - Sources have a default timeout of 5 min.
 - Memory is fixed at 256MB.

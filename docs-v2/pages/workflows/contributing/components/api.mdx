@@ -3,10 +3,10 @@ import Callout from '@/components/Callout'
 # Component API Reference
 
 <Callout type="info">
-Our TypeScript component API is in **beta**. If you're interested in developing TypeScript components and providing feedback, [see our TypeScript docs](/core/contributing/components/typescript/).
+Our TypeScript component API is in **beta**. If you're interested in developing TypeScript components and providing feedback, [see our TypeScript docs](/workflows/contributing/components/typescript/).
 </Callout>
 
-This document was created to help developers author and use [Pipedream components](/core/contributing/components/). Not only can you develop [sources](/core/contributing/components/quickstart/nodejs/sources/) (workflow triggers) and [actions](/core/contributing/components/quickstart/nodejs/actions/) using the component API, but you can also develop [Node.js steps](/core/workflows/code/nodejs/) right in your workflows - without leaving your browser! You can publish components to your account for private use, or [contribute them to the Pipedream registry](/core/contributing/) for anyone to run.
+This document was created to help developers author and use [Pipedream components](/workflows/contributing/components/). Not only can you develop [sources](/workflows/contributing/components/quickstart/nodejs/sources/) (workflow triggers) and [actions](/workflows/contributing/components/quickstart/nodejs/actions/) using the component API, but you can also develop [Node.js steps](/workflows/building-workflows/code/nodejs/) right in your workflows - without leaving your browser! You can publish components to your account for private use, or [contribute them to the Pipedream registry](/workflows/contributing/) for anyone to run.
 
 While sources and actions share the same core component API, they differ in both how they're used and written, so certain parts of the component API apply only to one or the other. [This section of the docs](#differences-between-sources-and-actions) explains the core differences. When this document uses the term "component", the corresponding feature applies to both sources and actions. If a specific feature applies to only sources _or_ actions, the correct term will be used.
 
@@ -20,14 +20,14 @@ Components are Node.js modules that run on Pipedream's serverless infrastructure
 
 - Trigger Node.js code on HTTP requests, timers, cron schedules, or manually
 - Emit data on each event to inspect it. Trigger Pipedream hosted workflows or access it outside of Pipedream via API
-- Accept user input on deploy via [CLI](/core/cli/reference/#pd-deploy), [API](/core/rest-api), or [UI](https://pipedream.com/sources)
+- Accept user input on deploy via [CLI](/workflows/cli/reference/#pd-deploy), [API](/workflows/rest-api), or [UI](https://pipedream.com/sources)
 - Connect to [{process.env.PUBLIC_APPS}+ apps](https://pipedream.com/apps) using Pipedream managed auth
 - Use most npm packages with no `npm install` or `package.json` required
 - Store and retrieve state using the [built-in key-value store](#db)
 
 ### Quickstarts
 
-To help you get started, we created a step-by-step walkthrough for developing both [sources](/core/contributing/components/quickstart/nodejs/sources/) and [actions](/core/contributing/components/quickstart/nodejs/actions/). We recommend starting with those docs and using the API reference below as you develop.
+To help you get started, we created a step-by-step walkthrough for developing both [sources](/workflows/contributing/components/quickstart/nodejs/sources/) and [actions](/workflows/contributing/components/quickstart/nodejs/actions/). We recommend starting with those docs and using the API reference below as you develop.
 
 ### Differences between sources and actions
 
@@ -49,9 +49,9 @@ Sources and actions share the same component API. However, certain features of t
 
 ### Getting Started with the CLI
 
-Several examples below use the Pipedream CLI. To install it, [follow the instructions for your OS / architecture](/core/cli/install/).
+Several examples below use the Pipedream CLI. To install it, [follow the instructions for your OS / architecture](/workflows/cli/install/).
 
-See the [CLI reference](/core/cli/reference/) for detailed usage and examples beyond those covered below.
+See the [CLI reference](/workflows/cli/reference/) for detailed usage and examples beyond those covered below.
 
 ### Example Components
 
@@ -89,7 +89,7 @@ export default {
 | `name`        | `string` | required                | The name of the component, a string which identifies components deployed to users' accounts. This name will show up in the Pipedream UI, in CLI output (for example, from `pd list` commands), etc. It will also be converted to a unique slug on deploy to reference a specific component instance (it will be auto-incremented if not unique within a user account). |
 | `key`         | `string` | recommended             | The `key` uniquely identifies a component within a namespace. The default namespace for components is your account.<br /><br />When publishing components to the Pipedream registry, the `key` must be unique across registry components and should follow the pattern:<br /><br />`app_name_slug`-`slugified-component-name`                                          |
 | `type`        | `string` | required                | When publishing an action, `type: "action"` is required. When publishing a source, use `type: "source"`.                                                                                                                                                                                                                                                               |
-| `version`     | `string` | required                | The component version. There are no constraints on the version, but [semantic versioning](https://semver.org/) is required for any components published to the [Pipedream registry](/core/contributing/components/guidelines/).                                                                                                                                                          |
+| `version`     | `string` | required                | The component version. There are no constraints on the version, but [semantic versioning](https://semver.org/) is required for any components published to the [Pipedream registry](/workflows/contributing/components/guidelines/).                                                                                                                                                          |
 | `description` | `string` | recommended             | The description will appear in the Pipedream UI to aid in discovery and to contextualize instantiated components                                                                                                                                                                                                                                                       |
 | `props`       | `object` | optional                | [Props](#props) are custom attributes you can register on a component. When a value is passed to a prop attribute, it becomes a property on that component instance. You can reference these properties in component code using `this` (e.g., `this.propName`).                                                                                                        |
 | `methods`     | `object` | optional                | Define component methods for the component instance. They can be referenced via `this` (e.g., `this.methodName()`).                                                                                                                                                                                                                                                    |
@@ -107,7 +107,7 @@ Props are custom attributes you can register on a component. When a value is pas
 | [Interface](#interface-props)   | Attaches a Pipedream interface to your component (e.g., an HTTP interface or timer)           |
 | [Service](#service-props)       | Attaches a Pipedream service to your component (e.g., a key-value database to maintain state) |
 | [App](#app-props)               | Enables managed auth for a component                                                          |
-| [Data Store](/core/data-management/data-stores/#using-data-stores-in-code-steps) | Provides access to a Pipedream [data store](/core/data-management/data-stores/)        |
+| [Data Store](/workflows/data-management/data-stores/#using-data-stores-in-code-steps) | Provides access to a Pipedream [data store](/workflows/data-management/data-stores/)        |
 | [HTTP Request](#http-request-prop)| Enables components to execute HTTP requests based on user input                             |
 | [Alert](#alert-prop)| Renders an informational alert in the prop form to help users configure the source or action                             |
 
@@ -624,7 +624,7 @@ props: {
 
 #### App Props
 
-App props are normally defined in an [app file](/core/contributing/components/guidelines/#app-files), separate from individual components. See [the `components/` directory of the pipedream GitHub repo](https://github.com/PipedreamHQ/pipedream/tree/master/components) for example app files.
+App props are normally defined in an [app file](/workflows/contributing/components/guidelines/#app-files), separate from individual components. See [the `components/` directory of the pipedream GitHub repo](https://github.com/PipedreamHQ/pipedream/tree/master/components) for example app files.
 
 **Definition**
 
@@ -642,7 +642,7 @@ props: {
 | Property          | Type     | Required? | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | ----------------- | -------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type`            | `string` | required  | Value must be `app`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| `app`             | `string` | required  | Value must be set to the name slug for an app registered on Pipedream. [App files](/core/contributing/components/guidelines/#app-files) are programmatically generated for all integrated apps on Pipedream. To find your app's slug, visit the `components` directory of [the Pipedream GitHub repo](https://github.com/PipedreamHQ/pipedream/tree/master/components), find the app file (the file that ends with `.app.mjs`), and find the `app` property at the root of that module. If you don't see an app listed, please [open an issue here](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=app%2C+enhancement&template=app---service-integration.md&title=%5BAPP%5D). |
+| `app`             | `string` | required  | Value must be set to the name slug for an app registered on Pipedream. [App files](/workflows/contributing/components/guidelines/#app-files) are programmatically generated for all integrated apps on Pipedream. To find your app's slug, visit the `components` directory of [the Pipedream GitHub repo](https://github.com/PipedreamHQ/pipedream/tree/master/components), find the app file (the file that ends with `.app.mjs`), and find the `app` property at the root of that module. If you don't see an app listed, please [open an issue here](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=app%2C+enhancement&template=app---service-integration.md&title=%5BAPP%5D). |
 | `propDefinitions` | `object` | optional  | An object that contains objects with predefined user input props. See the section on User Input Props above to learn about the shapes that can be defined and how to reference in components using the `propDefinition` property                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | `methods`         | `object` | optional  | Define app-specific methods. Methods can be referenced within the app object context via `this` (e.g., `this.methodName()`) and within a component via `this.myAppPropName` (e.g., `this.myAppPropName.methodName()`).                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 
@@ -690,7 +690,7 @@ export default {
 };
 ```
 
-For more examples, see the [docs on making HTTP requests with Node.js](/core/workflows/code/nodejs/http-requests/#send-a-get-request-to-fetch-data).
+For more examples, see the [docs on making HTTP requests with Node.js](/workflows/building-workflows/code/nodejs/http-requests/#send-a-get-request-to-fetch-data).
 
 
 #### Alert Prop
@@ -725,7 +725,7 @@ Refer to GitHub's component sources in the `pipedream` repo for an [example impl
 
 When a user configures a prop with a value, it can hold at most {process.env.CONFIGURED_PROPS_SIZE_LIMIT} data. Consider this when accepting large input in these fields (such as a base64 string).
 
-The {process.env.CONFIGURED_PROPS_SIZE_LIMIT} limit applies only to static values entered as raw text. In workflows, users can pass expressions (referencing data in a prior step). In that case the prop value is simply the text of the expression, for example `{{steps.nodejs.$return_value}}`, well below the limit. The value of these expressions is evaluated at runtime, and are subject to [different limits](/core/limits/).
+The {process.env.CONFIGURED_PROPS_SIZE_LIMIT} limit applies only to static values entered as raw text. In workflows, users can pass expressions (referencing data in a prior step). In that case the prop value is simply the text of the expression, for example `{{steps.nodejs.$return_value}}`, well below the limit. The value of these expressions is evaluated at runtime, and are subject to [different limits](/workflows/limits/).
 
 ### Methods
 
@@ -878,7 +878,7 @@ When your workflow runs, you'll see the named exports appear below your step, wi
 
 ##### Returning HTTP responses with `$.respond`
 
-`$.respond` lets you issue HTTP responses from your workflow. [See the full `$.respond` docs for more information](/core/workflows/triggers/#customizing-the-http-response).
+`$.respond` lets you issue HTTP responses from your workflow. [See the full `$.respond` docs for more information](/workflows/building-workflows/triggers/#customizing-the-http-response).
 
 ```javascript
 async run({ $ }) {
@@ -920,43 +920,43 @@ $.export(
 
 ##### `$.send`
 
-`$.send` allows you to send data to [Pipedream destinations](/core/data-management/destinations/).
+`$.send` allows you to send data to [Pipedream destinations](/workflows/data-management/destinations/).
 
 **`$.send.http`**
 
-[See the HTTP destination docs](/core/data-management/destinations/http/#using-sendhttp-in-component-actions).
+[See the HTTP destination docs](/workflows/data-management/destinations/http/#using-sendhttp-in-component-actions).
 
 **`$.send.email`**
 
-[See the Email destination docs](/core/data-management/destinations/email/#using-sendemail-in-component-actions).
+[See the Email destination docs](/workflows/data-management/destinations/email/#using-sendemail-in-component-actions).
 
 **`$.send.s3`**
 
-[See the S3 destination docs](/core/data-management/destinations/s3/#using-sends3-in-component-actions).
+[See the S3 destination docs](/workflows/data-management/destinations/s3/#using-sends3-in-component-actions).
 
 **`$.send.emit`**
 
-[See the Emit destination docs](/core/data-management/destinations/emit/#using-sendemit-in-component-actions).
+[See the Emit destination docs](/workflows/data-management/destinations/emit/#using-sendemit-in-component-actions).
 
 **`$.send.sse`**
 
-[See the SSE destination docs](/core/data-management/destinations/sse/#using-sendsse-in-component-actions).
+[See the SSE destination docs](/workflows/data-management/destinations/sse/#using-sendsse-in-component-actions).
 
 ##### `$.context`
 
-`$.context` exposes [the same properties as `steps.trigger.context`](/core/workflows/triggers/#stepstriggercontext), and more. Action authors can use it to get context about the calling workflow and the execution.
+`$.context` exposes [the same properties as `steps.trigger.context`](/workflows/building-workflows/triggers/#stepstriggercontext), and more. Action authors can use it to get context about the calling workflow and the execution.
 
-All properties from [`steps.trigger.context`](/core/workflows/triggers/#stepstriggercontext) are exposed, as well as:
+All properties from [`steps.trigger.context`](/workflows/building-workflows/triggers/#stepstriggercontext) are exposed, as well as:
 
 | Property   |                                                                       Description                                                                       |
 | ---------- | :-----------------------------------------------------------------------------------------------------------------------------------------------------: |
-| `deadline` |               An epoch millisecond timestamp marking the point when the workflow is configured to [timeout](/core/limits/#time-per-execution).               |
+| `deadline` |               An epoch millisecond timestamp marking the point when the workflow is configured to [timeout](/workflows/limits/#time-per-execution).               |
 | `JIT`      |             Stands for "just in time" (environment). `true` if the user is testing the step, `false` if the step is running in production.              |
-| `run`      | An object containing metadata about the current run number. See [the docs on `$.flow.rerun`](/core/workflows/triggers/#stepstriggercontext) for more detail. |
+| `run`      | An object containing metadata about the current run number. See [the docs on `$.flow.rerun`](/workflows/building-workflows/triggers/#stepstriggercontext) for more detail. |
 
 ### Environment variables
 
-[Environment variables](/core/workflows/environment-variables/) are not accessible within sources or actions directly. Since components can be used by anyone, you cannot guarantee that a user will have a specific variable set in their environment.
+[Environment variables](/workflows/building-workflows/environment-variables/) are not accessible within sources or actions directly. Since components can be used by anyone, you cannot guarantee that a user will have a specific variable set in their environment.
 
 In sources, you can use [`secret` props](#props) to reference sensitive data.
 
@@ -1052,11 +1052,11 @@ pd deploy https://raw.githubusercontent.com/PipedreamHQ/pipedream/master/compone
 
 #### CLI - Update
 
-View the [CLI command reference](/core/cli/reference/#command-reference).
+View the [CLI command reference](/workflows/cli/reference/#command-reference).
 
 #### CLI - Delete
 
-View the [CLI command reference](/core/cli/reference/#command-reference).
+View the [CLI command reference](/workflows/cli/reference/#command-reference).
 
 #### UI - Deploy
 
@@ -1096,7 +1096,7 @@ You can delete a component via the UI at [https://pipedream.com/sources](https:/
 
 #### API
 
-See the [REST API docs](/core/workflows/rest-api/).
+See the [REST API docs](/workflows/building-workflows/rest-api/).
 
 ### Managing Actions
 
@@ -1197,11 +1197,11 @@ When you navigate to your source [in the UI](https://pipedream.com/sources), you
 
 #### Workflows
 
-[Trigger hosted Node.js workflows](/core/workflows/) on each event. Integrate with {process.env.PUBLIC_APPS}+ apps including Google Sheets, Discord, Slack, AWS, and more!
+[Trigger hosted Node.js workflows](/workflows/building-workflows/) on each event. Integrate with {process.env.PUBLIC_APPS}+ apps including Google Sheets, Discord, Slack, AWS, and more!
 
 #### API
 
-Events can be retrieved using the [REST API](/core/rest-api/) or [SSE stream tied to your component](/api/sse/). This makes it easy to retrieve data processed by your component from another app. Typically, you'll want to use the [REST API](/core/rest-api/) to retrieve events in batch, and connect to the [SSE stream](/api/sse/) to process them in real time.
+Events can be retrieved using the [REST API](/rest-api/) or [SSE stream tied to your component](/api/sse/). This makes it easy to retrieve data processed by your component from another app. Typically, you'll want to use the [REST API](/rest-api/) to retrieve events in batch, and connect to the [SSE stream](/api/sse/) to process them in real time.
 
 #### CLI
 

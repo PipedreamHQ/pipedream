@@ -23,7 +23,7 @@ Now with a few clicks and some text you've integrated Slack into a Pipedream wor
 <Callout type="info">
 Pre-built actions are open source
 
-All pre-built actions are published from the [Pipedream Component Registry](/core/contributing/), so you can read and modify their source code. You can even publish your own from [Node.js code steps privately to your own workspace](/core/workflows/code/nodejs/sharing-code/).
+All pre-built actions are published from the [Pipedream Component Registry](/workflows/contributing/), so you can read and modify their source code. You can even publish your own from [Node.js code steps privately to your own workspace](/workflows/building-workflows/code/nodejs/sharing-code/).
 </Callout>
 
 ## HTTP Request Action
@@ -83,8 +83,8 @@ This gives you the flexibility to catch errors, use retries, or send multiple AP
 
 First, connect your account to the code step:
 
-* [Connecting any account to a Node.js step](/core/workflows/code/nodejs/auth/#accessing-connected-account-data-with-thisappnameauth)
-* [Connecting any account to a Python step](/core/workflows/code/python/auth/)
+* [Connecting any account to a Node.js step](/workflows/building-workflows/code/nodejs/auth/#accessing-connected-account-data-with-thisappnameauth)
+* [Connecting any account to a Python step](/workflows/building-workflows/code/python/auth/)
 
 ### Conditionally sending an API Request
 
@@ -175,20 +175,20 @@ export default defineComponent({
 <Callout type="info">
 Subscribing to all errors
 
-[You can use a subscription](/core/rest-api/#subscriptions) to subscribe a workflow to all errors through the `$errors` channel, instead of handling each error individually.
+[You can use a subscription](/rest-api/#subscriptions) to subscribe a workflow to all errors through the `$errors` channel, instead of handling each error individually.
 </Callout>
 
 ### Automatically retrying an HTTP request
 
 You can leverage `$.flow.rerun` within a `try...catch` block in order to retry a failed API request.
 
-[See the example in the `$.flow.rerun` docs](/core/workflows/code/nodejs/rerun/#pause-resume-and-rerun-a-workflow) for Node.js.
+[See the example in the `$.flow.rerun` docs](/workflows/building-workflows/code/nodejs/rerun/#pause-resume-and-rerun-a-workflow) for Node.js.
 
 ## Platform axios
 
 ### Why `@pipedream/platform` axios?
 
-`axios` is an HTTP client for Node.js ([see these docs](/core/workflows/code/nodejs/http-requests/) for usage examples).
+`axios` is an HTTP client for Node.js ([see these docs](/workflows/building-workflows/code/nodejs/http-requests/) for usage examples).
 
 `axios` has a simple programming API and works well for most use cases. But its default error handling behavior isn't easy to use. When you make an HTTP request and the server responds with an error code in the 4XX or 5XX range of status codes, `axios` returns this stack trace:
 
@@ -214,7 +214,7 @@ To use `@pipedream/platform` axios in component actions, import it:
 import { axios } from "@pipedream/platform"
 ```
 
-`@pipedream/platform` axios uses methods [provided by the `$` object](/core/contributing/components/api/#actions), so you'll need to pass that as the first argument to `axios` when making HTTP requests, and pass the [standard `axios` request config](https://github.com/axios/axios#request-config) as the second argument.
+`@pipedream/platform` axios uses methods [provided by the `$` object](/workflows/contributing/components/api/#actions), so you'll need to pass that as the first argument to `axios` when making HTTP requests, and pass the [standard `axios` request config](https://github.com/axios/axios#request-config) as the second argument.
 
 Here's an example action:
 

@@ -7,7 +7,7 @@ Pipedream provides a TypeScript SDK and a REST API to interact with the Connect 
 
 ## REST API base URL
 
-Pipedream Connect resources are scoped to [projects](/core/projects/), so you'll need to pass [the project's ID](/core/projects/#finding-your-projects-id) as a part of the base URL:
+Pipedream Connect resources are scoped to [projects](/workflows/projects/), so you'll need to pass [the project's ID](/workflows/projects/#finding-your-projects-id) as a part of the base URL:
 
 ```
 https://api.pipedream.com/v1/connect/{project_id}
@@ -41,13 +41,13 @@ or a specific version:
 
 ## Authentication
 
-See the [REST API Authentication docs](/core/rest-api/auth/).
+See the [REST API Authentication docs](/rest-api/auth/).
 
 ### TypeScript SDK (server)
 
 Most of your interactions with the Connect API will happen on the server, to protect API requests and user credentials. You'll use the SDK in [your frontend](#typescript-sdk-browser) to let users connect accounts. Once connected, you'll use the SDK on the server to retrieve credentials, invoke workflows on their behalf, and more.
 
-[Create a Pipedream OAuth client](/core/rest-api/auth/#oauth) and instantiate the SDK with your client ID and secret:
+[Create a Pipedream OAuth client](/rest-api/auth/#oauth) and instantiate the SDK with your client ID and secret:
 
 ```typescript
 import { createBackendClient } from "@pipedream/sdk/server";
@@ -250,7 +250,7 @@ POST /{project_id}/tokens
 
 `project_id` **string**
 
-[The project's ID](/core/projects/#finding-your-projects-id)
+[The project's ID](/workflows/projects/#finding-your-projects-id)
 
 ##### Body parameters
 
@@ -395,7 +395,7 @@ GET /{project_id}/accounts/
 
 `project_id` **string**
 
-[The project's ID](/core/projects/#finding-your-projects-id)
+[The project's ID](/workflows/projects/#finding-your-projects-id)
 
 ##### Query parameters
 
@@ -403,7 +403,7 @@ GET /{project_id}/accounts/
 
 The ID or name slug the app you'd like to retrieve. For example, Slack's unique app ID is `app_OkrhR1`, and its name slug is `slack`.
 
-You can find the app's ID in the response from the [List apps](/core/rest-api/#list-apps) endpoint, and the name slug under the **Authentication** section of any [app page](https://pipedream.com/apps).
+You can find the app's ID in the response from the [List apps](/rest-api/#list-apps) endpoint, and the name slug under the **Authentication** section of any [app page](https://pipedream.com/apps).
 
 ---
 
@@ -662,7 +662,7 @@ GET /{project_id}/accounts/{account_id}
 
 `project_id` **string**
 
-[The project's ID](/core/projects/#finding-your-projects-id)
+[The project's ID](/workflows/projects/#finding-your-projects-id)
 
 ---
 
@@ -835,7 +835,7 @@ DELETE /{project_id}/accounts/{account_id}
 
 `project_id` **string**
 
-[The project's ID](/core/projects/#finding-your-projects-id)
+[The project's ID](/workflows/projects/#finding-your-projects-id)
 
 ---
 
@@ -922,7 +922,7 @@ DELETE /{project_id}/apps/{app_id}/accounts
 
 `project_id` **string**
 
-[The project's ID](/core/projects/#finding-your-projects-id)
+[The project's ID](/workflows/projects/#finding-your-projects-id)
 
 ---
 
@@ -1011,7 +1011,7 @@ DELETE /{project_id}/users/{external_user_id}
 
 `project_id` **string**
 
-[The project's ID](/core/projects/#finding-your-projects-id)
+[The project's ID](/workflows/projects/#finding-your-projects-id)
 
 ---
 
@@ -1113,7 +1113,7 @@ The ID or name slug the app you'd like to retrieve. For example, Slack's unique
 app ID is `app_OkrhR1`, and its name slug is `slack`.
 
 You can find the app's ID in the response from the [List
-apps](/core/rest-api/#list-apps) endpoint, and the name slug under the
+apps](/rest-api/#list-apps) endpoint, and the name slug under the
 **Authentication** section of any [app page](https://pipedream.com/apps).
 
 ---
@@ -1121,7 +1121,7 @@ apps](/core/rest-api/#list-apps) endpoint, and the name slug under the
 `q` **string** (_optional_)
 
 A search query to filter the components by key (see the [component structure
-table](/core/contributing/components/api/#component-structure)).
+table](/workflows/contributing/components/api/#component-structure)).
 
 ##### Examples
 
@@ -1258,7 +1258,7 @@ Either `triggers`, `actions`, or `components`.
 `component_key` **string**
 
 The key that identifies the component (see the [component structure
-table](/core/contributing/components/api/#component-structure)).
+table](/workflows/contributing/components/api/#component-structure)).
 
 ##### Examples
 
@@ -1415,7 +1415,7 @@ want to retrieve accounts for.
 `id` **string**
 
 The key that identifies the component (see the [component structure
-table](/core/contributing/components/api/#component-structure)).
+table](/workflows/contributing/components/api/#component-structure)).
 
 ---
 
@@ -1630,7 +1630,7 @@ want to retrieve accounts for.
 `id` **string**
 
 The key that identifies the component (see the [component structure
-table](/core/contributing/components/api/#component-structure)).
+table](/workflows/contributing/components/api/#component-structure)).
 
 ---
 
@@ -1833,7 +1833,7 @@ POST /actions/run
 `id` **string**
 
 The key that identifies the action component (see the [component structure
-table](/core/contributing/components/api/#component-structure)).
+table](/workflows/contributing/components/api/#component-structure)).
 
 ---
 
@@ -2022,7 +2022,7 @@ POST /triggers/deploy
 `id` **string**
 
 The key that identifies the action component (see the [component structure
-table](/core/contributing/components/api/#component-structure)).
+table](/workflows/contributing/components/api/#component-structure)).
 
 ---
 

@@ -32,7 +32,7 @@ Code steps use the same editor ([Monaco](https://microsoft.github.io/monaco-edit
 
 ## Sharing data between steps
 
-A Node.js step can use data from other steps using [step exports](/core/#step-exports), it can also export data for other steps to use.
+A Node.js step can use data from other steps using [step exports](/workflows/#step-exports), it can also export data for other steps to use.
 
 ### Using data from another step
 
@@ -116,7 +116,7 @@ You can only export JSON-serializable data from steps. Things like:
 - numbers
 - objects
 
-You cannot export functions or other complex objects that don't serialize to JSON. [You can save that data to a file in the `/tmp` directory](/core/workflows/code/nodejs/working-with-files/).
+You cannot export functions or other complex objects that don't serialize to JSON. [You can save that data to a file in the `/tmp` directory](/workflows/building-workflows/code/nodejs/working-with-files/).
 </Callout>
 
 ## Passing props to code steps
@@ -150,7 +150,7 @@ The workflow builder now can accept text input to populate the `firstName` to th
 
 Accepting a single string is just one example, you can build a step to accept arrays of strings through a dropdown presented in the workflow builder.
 
-[Read the props reference for the full list of options](/core/contributing/components/api/#props).
+[Read the props reference for the full list of options](/workflows/contributing/components/api/#props).
 
 ## How Pipedream Node.js components work
 
@@ -166,20 +166,20 @@ export default defineComponent({
 });
 ```
 
-This defines [a Node.js component](/core/contributing/components/api/). Components let you:
+This defines [a Node.js component](/workflows/contributing/components/api/). Components let you:
 
-- Pass input to steps using [props](/core/workflows/code/nodejs/#passing-props-to-code-steps)
-- [Connect an account to a step](/core/integrations/connected-accounts/#from-a-code-step)
-- [Issue HTTP responses](/core/workflows/triggers/#http-responses)
+- Pass input to steps using [props](/workflows/building-workflows/code/nodejs/#passing-props-to-code-steps)
+- [Connect an account to a step](/integrations/connected-accounts/#from-a-code-step)
+- [Issue HTTP responses](/workflows/building-workflows/triggers/#http-responses)
 - Perform workflow-level flow control, like [ending a workflow early](#ending-a-workflow-early)
 
 When the step runs, Pipedream executes the `run` method:
 
-- Any asynchronous code within a code step [**must** be run synchronously](/core/workflows/code/nodejs/async/), using the `await` keyword or with a Promise chain, using `.then()`, `.catch()`, and related methods.
-- Pipedream passes the `steps` variable to the run method. `steps` is also an object, and contains the [data exported from previous steps](/core/#step-exports) in your workflow.
-- You also have access to the `$` variable, which gives you access to methods like `$.respond`, `$.export`, [and more](/core/contributing/components/api/#actions).
+- Any asynchronous code within a code step [**must** be run synchronously](/workflows/building-workflows/code/nodejs/async/), using the `await` keyword or with a Promise chain, using `.then()`, `.catch()`, and related methods.
+- Pipedream passes the `steps` variable to the run method. `steps` is also an object, and contains the [data exported from previous steps](/workflows/#step-exports) in your workflow.
+- You also have access to the `$` variable, which gives you access to methods like `$.respond`, `$.export`, [and more](/workflows/contributing/components/api/#actions).
 
-If you're using [props](/core/workflows/code/nodejs/#passing-props-to-code-steps) or [connect an account to a step](/core/integrations/connected-accounts/#from-a-code-step), the component exposes them in the variable `this`, which refers to the current step:
+If you're using [props](/workflows/building-workflows/code/nodejs/#passing-props-to-code-steps) or [connect an account to a step](/integrations/connected-accounts/#from-a-code-step), the component exposes them in the variable `this`, which refers to the current step:
 
 ```javascript
 export default defineComponent({
@@ -190,7 +190,7 @@ export default defineComponent({
 });
 ```
 
-When you [connect an account to a step](/core/integrations/connected-accounts/#from-a-code-step), Pipedream exposes the auth info in the variable [`this.appName.$auth`](/core/workflows/code/nodejs/auth/#accessing-connected-account-data-with-thisappnameauth).
+When you [connect an account to a step](/integrations/connected-accounts/#from-a-code-step), Pipedream exposes the auth info in the variable [`this.appName.$auth`](/workflows/building-workflows/code/nodejs/auth/#accessing-connected-account-data-with-thisappnameauth).
 
 ## Logs
 
@@ -337,20 +337,20 @@ Any variables you create within a step are scoped to that step. That is, they ca
 
 Within a step, the [normal rules of JavaScript variable scope](https://developer.mozilla.org/en-US/docs/Glossary/Scope) apply.
 
-**When you need to share data across steps, use [step exports](/core/#step-exports).**
+**When you need to share data across steps, use [step exports](/workflows/#step-exports).**
 
 ## Making HTTP requests from your workflow
 
 There are two ways to make HTTP requests in code steps:
 
-- Use any HTTP client that works with Node.js. [See this example guide for how to use `axios` to make HTTP requests](/core/workflows/code/nodejs/http-requests/).
-- [Use `$.send.http()`](/core/data-management/destinations/http/#using-sendhttp-in-workflows), a Pipedream-provided method for making asynchronous HTTP requests.
+- Use any HTTP client that works with Node.js. [See this example guide for how to use `axios` to make HTTP requests](/workflows/building-workflows/code/nodejs/http-requests/).
+- [Use `$.send.http()`](/workflows/data-management/destinations/http/#using-sendhttp-in-workflows), a Pipedream-provided method for making asynchronous HTTP requests.
 
-In general, if you just need to make an HTTP request but don't care about the response, [use `$.send.http()`](/core/data-management/destinations/http/#using-sendhttp-in-workflows). If you need to operate on the data in the HTTP response in the rest of your workflow, [use `axios`](/core/workflows/code/nodejs/http-requests/).
+In general, if you just need to make an HTTP request but don't care about the response, [use `$.send.http()`](/workflows/data-management/destinations/http/#using-sendhttp-in-workflows). If you need to operate on the data in the HTTP response in the rest of your workflow, [use `axios`](/workflows/building-workflows/code/nodejs/http-requests/).
 
 ## Returning HTTP responses
 
-You can return HTTP responses from [HTTP-triggered workflows](/core/workflows/triggers/#http) using the [`$.respond()` function](/core/workflows/triggers/#http-responses).
+You can return HTTP responses from [HTTP-triggered workflows](/workflows/building-workflows/triggers/#http) using the [`$.respond()` function](/workflows/building-workflows/triggers/#http-responses).
 
 ## Invoke another workflow
 
@@ -460,13 +460,13 @@ export default defineComponent({
 
 Workflow code is private. Still, we recommend you don't include secrets — API keys, tokens, or other sensitive values — directly in code steps.
 
-Pipedream supports [environment variables](/core/environment-variables/) for keeping secrets separate from code. Once you create an environment variable in Pipedream, you can reference it in any workflow using `process.env.VARIABLE_NAME`. The values of environment variables are private.
+Pipedream supports [environment variables](/workflows/environment-variables/) for keeping secrets separate from code. Once you create an environment variable in Pipedream, you can reference it in any workflow using `process.env.VARIABLE_NAME`. The values of environment variables are private.
 
-See the [Environment Variables](/core/environment-variables/) docs for more information.
+See the [Environment Variables](/workflows/environment-variables/) docs for more information.
 
 ## Limitations of code steps
 
-Code steps operate within the [general constraints on workflows](/core/limits/#workflows). As long as you stay within those limits and abide by our [acceptable use policy](/core/limits/#acceptable-use), you can add any number of code steps in a workflow to do virtually anything you'd be able to do in Node.js.
+Code steps operate within the [general constraints on workflows](/workflows/limits/#workflows). As long as you stay within those limits and abide by our [acceptable use policy](/workflows/limits/#acceptable-use), you can add any number of code steps in a workflow to do virtually anything you'd be able to do in Node.js.
 
 If you're trying to run code that doesn't work or you have questions about any limits on code steps, [please reach out](https://pipedream.com/support/).
 

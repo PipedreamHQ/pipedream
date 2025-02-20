@@ -4,7 +4,7 @@ import Callout from '@/components/Callout'
 
 Prefer to write quick scripts in Bash? We've got you covered. You can run any Bash in a Pipedream step within your workflows.
 
-Within a Bash step, you can [share data between steps](/core/workflows/code/bash/#sharing-data-between-steps) and [access environment variables](/core/workflows/code/bash/#using-environment-variables). But you can't connect accounts, return HTTP responses, or take advantage of other features available in the [Node.js](/core/workflows/code/nodejs/) environment at this time.
+Within a Bash step, you can [share data between steps](/workflows/building-workflows/code/bash/#sharing-data-between-steps) and [access environment variables](/workflows/building-workflows/code/bash/#using-environment-variables). But you can't connect accounts, return HTTP responses, or take advantage of other features available in the [Node.js](/workflows/building-workflows/code/nodejs/) environment at this time.
 
 ## Adding a Bash code step
 
@@ -86,7 +86,7 @@ You can only export JSON-serializable data from Bash steps.
 
 ## Using environment variables
 
-You can leverage any [environment variables defined in your Pipedream account](/core/environment-variables/) in a bash step. This is useful for keeping your secrets out of code as well as keeping them flexible to swap API keys without having to update each step individually.
+You can leverage any [environment variables defined in your Pipedream account](/workflows/environment-variables/) in a bash step. This is useful for keeping your secrets out of code as well as keeping them flexible to swap API keys without having to update each step individually.
 
 To access them, just append the `$` in front of the environment variable name.
 
@@ -178,5 +178,5 @@ ls /tmp
 ```
 
 <Callout type="warning">
-The `/tmp` directory does not have unlimited storage. Please refer to the [disk limits](/core/limits/#disk) for details.
+The `/tmp` directory does not have unlimited storage. Please refer to the [disk limits](/workflows/limits/#disk) for details.
 </Callout>

@@ -5,9 +5,9 @@ import VideoPlayer from '@/components/VideoPlayer'
 
 <VideoPlayer title="Delaying Workflow Steps" src="https://www.youtube.com/embed/IBORwBnIZ-k" startAt="148" />
 
-Use `$.flow.delay` to [delay a step in a workflow](/core/workflows/control-flow/delay/).
+Use `$.flow.delay` to [delay a step in a workflow](/workflows/building-workflows/control-flow/delay/).
 
-These docs show you how to write Node.js code to handle delays. If you don't need to write code, see [our built-in delay actions](/core/workflows/control-flow/delay/#delay-actions).
+These docs show you how to write Node.js code to handle delays. If you don't need to write code, see [our built-in delay actions](/workflows/building-workflows/control-flow/delay/#delay-actions).
 
 ## Using `$.flow.delay`
 
@@ -39,7 +39,7 @@ Paused workflow state
 
 When `$.flow.delay` is executed in a Node.js step, the workflow itself will enter a **Paused** state.
 
-While the workflow is paused, it will not incur any credits towards compute time. You can also [view all paused workflows in the Event History](/core/event-history/#filtering-by-status).
+While the workflow is paused, it will not incur any credits towards compute time. You can also [view all paused workflows in the Event History](/workflows/event-history/#filtering-by-status).
 </Callout>
 
 ### Credit usage
@@ -53,7 +53,7 @@ One credit is used to initially start the workflow, then the second credit is us
 <Callout type="info">
 Exact credit usage depends on duration and memory configuration
 
-If your workflow's [execution timeout limit](/core/workflows/settings/#execution-timeout-limit) is set to longer than [default limit](/core/limits/#time-per-execution), it may incur more than two [credits](/pricing/#credits) when using `pd.flow.delay`.
+If your workflow's [execution timeout limit](/workflows/building-workflows/settings/#execution-timeout-limit) is set to longer than [default limit](/workflows/limits/#time-per-execution), it may incur more than two [credits](/pricing/#credits) when using `pd.flow.delay`.
 </Callout>
 
 ## `cancel_url` and `resume_url`
