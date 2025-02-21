@@ -14,9 +14,8 @@ export default {
   ...common,
   key: "google_ads-create-customer-list",
   name: "Create Customer List",
-  description:
-    "Create a new customer list in Google Ads. [See the documentation](https://developers.google.com/google-ads/api/rest/reference/rest/v16/UserList)",
-  version: "0.0.2",
+  description: "Create a new customer list in Google Ads. [See the documentation](https://developers.google.com/google-ads/api/rest/reference/rest/v18/UserList)",
+  version: "0.0.3",
   type: "action",
   props: {
     ...common.props,
@@ -34,8 +33,7 @@ export default {
     listType: {
       type: "string",
       label: "List Type",
-      description:
-        "The [type of customer list](https://developers.google.com/google-ads/api/rest/reference/rest/v16/UserList#CrmBasedUserListInfo) to create.",
+      description: "The [type of customer list](https://developers.google.com/google-ads/api/rest/reference/rest/v18/UserList#CrmBasedUserListInfo) to create.",
       options: USER_LIST_TYPE_OPTIONS.map(({
         label, value,
       }) => ({
@@ -94,6 +92,10 @@ export default {
   },
   additionalProps() {
     const { listType } = this;
+
+    if (!listType) {
+      return {};
+    }
 
     const option = USER_LIST_TYPE_OPTIONS.find(
       ({ value }) => value === listType,
