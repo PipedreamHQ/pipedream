@@ -247,8 +247,18 @@ export default withNextra({
         permanent: true,
       },
       {
+        source: "/workflows/triggers/",
+        destination: "/workflows/building-workflows/triggers/",
+        permanent: true,
+      },
+      {
         source: "/workflows/steps/triggers/",
         destination: "/workflows/building-workflows/triggers/",
+        permanent: true,
+      },
+      {
+        source: "/workflows/actions/",
+        destination: "/workflows/building-workflows/actions/",
         permanent: true,
       },
       {
@@ -258,6 +268,11 @@ export default withNextra({
       },
       {
         source: "/workflows/flow-control/",
+        destination: "/workflows/building-workflows/control-flow/",
+        permanent: true,
+      },
+      {
+        source: "/workflows/control-flow/",
         destination: "/workflows/building-workflows/control-flow/",
         permanent: true,
       },
