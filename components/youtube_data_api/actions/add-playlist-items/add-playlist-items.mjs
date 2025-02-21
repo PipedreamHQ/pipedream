@@ -5,8 +5,8 @@ export default {
   ...common,
   key: "youtube_data_api-add-playlist-items",
   name: "Add Playlist Items",
-  description: "Adds resources to a playlist. [See the docs](https://developers.google.com/youtube/v3/docs/playlistItems/insert) for more information",
-  version: "0.0.1",
+  description: "Adds resources to a playlist. [See the documentation](https://developers.google.com/youtube/v3/docs/playlistItems/insert) for more information",
+  version: "0.0.2",
   type: "action",
   props: {
     youtubeDataApi,
@@ -18,8 +18,8 @@ export default {
     },
     videoIds: {
       type: "string[]",
-      label: "Video Ids",
-      description: "Array of identifiers of the videos to be added to the playlist",
+      label: "Video IDs",
+      description: "Array of identifiers of the videos to be added to the playlist. E.g. `o_U1CQn68VM` The video ID will be located in the URL of the video page, right after the v= URL parameter",
     },
     onBehalfOfContentOwner: {
       propDefinition: [

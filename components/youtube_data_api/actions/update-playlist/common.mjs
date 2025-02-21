@@ -3,17 +3,17 @@ import consts from "../../common/consts.mjs";
 export default {
   methods: {
     async fetchPlaylist(id) {
-      let playlist = null;
+      let playlist;
       if (id) {
-        const playlistsData = (await this.youtubeDataApi.listPlaylists({
+        const { data } = await this.youtubeDataApi.listPlaylists({
           part: consts.UPDATE_PLAYLIST_PART,
-          id: id,
-        })).data;
-        playlist = playlistsData.items.pop();
+          id,
+        });
+        playlist = data.items.pop();
       }
       if (!playlist) {
-        console.log("The provided id is either not valid or you can't fetch this data.");
-        return null;
+        console.log("The provided ID is either not valid or you don't have permission to fetch this data.");
+        return;
       }
       return playlist;
     },
@@ -28,7 +28,7 @@ export default {
     } = this;
 
     const playlist = await this.fetchPlaylist(id);
-    const updatedPlaylist = (await this.youtubeDataApi.updatePlaylist({
+    const { data: updatedPlaylist } = await this.youtubeDataApi.updatePlaylist({
       onBehalfOfContentOwner,
       part: consts.UPDATE_PLAYLIST_PART,
       requestBody: {
@@ -36,14 +36,14 @@ export default {
         id: playlist.id,
         kind: playlist.kind,
         snippet: {
-          title,
-          description,
+          title: title || playlist.snippet?.title,
+          description: description || playlist.snippet?.description,
         },
         status: {
-          privacyStatus,
+          privacyStatus: privacyStatus || playlist.status?.privacyStatus,
         },
       },
-    })).data;
+    });
     $.export("$summary", `Successfully updated playlist "${playlist.id}"`);
 
     return updatedPlaylist;

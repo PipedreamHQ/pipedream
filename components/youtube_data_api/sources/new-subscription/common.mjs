@@ -1,15 +1,23 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   props: {
     ...common.props,
   },
   methods: {
+    ...common.methods,
     _getLastExecutionDate() {
       return this.db.get("lastExecutionDate");
     },
     _setLastExecutionDate(lastExecutionDate) {
       this.db.set("lastExecutionDate", lastExecutionDate);
+    },
+    generateMeta(item) {
+      return {
+        id: item.id,
+        summary: item.snippet.title,
+        ts: new Date(item.snippet.publishedAt),
+      };
     },
     async _emitLastSubscriptions(maxResults = 50) {
       let nextPageToken;
@@ -30,11 +38,7 @@ export default {
             continue;
           }
 
-          this.$emit(item, {
-            id: item.id,
-            summary: item.snippet.title,
-            ts: new Date(item.snippet.publishedAt),
-          });
+          this.emitEvent(item);
 
           if (!lastExecutionDate || (newLastTime > lastExecutionDate)) {
             this._setLastExecutionDate(newLastTime);

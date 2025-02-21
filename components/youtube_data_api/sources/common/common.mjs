@@ -20,8 +20,7 @@ export default {
         ...this.getParams(),
       };
       const publishedAfter = await this.paginateVideos(params);
-      if (publishedAfter) this._setPublishedAfter(publishedAfter);
-      else this._setPublishedAfter(new Date());
+      this._setPublishedAfter(publishedAfter || new Date());
     },
   },
   methods: {
@@ -49,6 +48,9 @@ export default {
     getParams() {
       return {};
     },
+    isRelevant() {
+      return true;
+    },
     generateMeta(video) {
       const {
         id,
@@ -64,58 +66,57 @@ export default {
       const meta = this.generateMeta(result);
       this.$emit(result, meta);
     },
-    /**
-     * Paginate through results from getVideos(), emit each video, and return the
-     * most recent date that a video was published.
-     *
-     * @param {object} params - The parameters to pass into getVideos().
-     * @returns a string of the most recent date that a video was published
-     */
     async paginateVideos(params) {
-      let count = 0;
-      let totalResults = 1;
+      const videos = await this.paginate({
+        fn: this.youtubeDataApi.getVideos,
+        params,
+      });
+      videos.forEach((video) => this.emitEvent({
+        ...video,
+        url: `https://www.youtube.com/watch?v=${video.id.videoId}`,
+      }));
+      return videos[0].snippet.publishedAt;
+    },
+    async paginatePlaylistItems(params, publishedAfter = null) {
+      const videos = await this.paginate({
+        fn: this.youtubeDataApi.getPlaylistItems,
+        params,
+        publishedAfter,
+      });
       let lastPublished;
-      while (
-        count < totalResults &&
-        (!params.maxResults || count < params.maxResults)
-      ) {
-        const results = (await this.youtubeDataApi.getVideos(params)).data;
-        totalResults = results.pageInfo.totalResults;
-        for (const video of results.items) {
-          if (!lastPublished) lastPublished = video.snippet.publishedAt;
+      for (const video of videos) {
+        if (!lastPublished || Date.parse(video.snippet.publishedAt) > Date.parse(lastPublished)) {
+          lastPublished = video.snippet.publishedAt;
           this.emitEvent(video);
-          count++;
         }
-        if (!results.items || results.items.length < 1) break;
-        if (!results.nextPageToken) break;
-        else params.pageToken = results.nextPageToken;
       }
       return lastPublished;
     },
-    async paginatePlaylistItems(params, publishedAfter = null) {
-      let totalResults = 1;
-      let count = 0;
-      let countEmitted = 0;
-      let lastPublished;
-
-      while (count < totalResults && countEmitted < params.maxResults) {
-        const results = (await this.youtubeDataApi.getPlaylistItems(params)).data;
-        totalResults = results.pageInfo.totalResults;
-        for (const video of results.items) {
-          if (this.isRelevant(video, publishedAfter)) {
-            if (
-              !lastPublished ||
-              Date.parse(video.snippet.publishedAt) > Date.parse(lastPublished)
-            )
-              lastPublished = video.snippet.publishedAt;
-            this.emitEvent(video);
-            countEmitted++;
-          }
+    async paginate({
+      fn, params, publishedAfter,
+    }) {
+      let totalResults, done, count = 0;;
+      const results = [];
+      do {
+        const {
+          data: {
+            pageInfo, items, nextPageToken,
+          },
+        } = await fn(params);
+        for (const item of items) {
           count++;
+          if (this.isRelevant(item, publishedAfter)) {
+            results.push(item);
+            if (params.maxResults && results.length >= params.maxResults) {
+              done = true;
+              break;
+            }
+          }
         }
-        params.pageToken = results.nextPageToken;
-      }
-      return lastPublished;
+        params.pageToken = nextPageToken;
+        totalResults = pageInfo.totalResults;
+      } while ((count < totalResults) && params.pageToken && !done);
+      return results;
     },
   },
   async run() {

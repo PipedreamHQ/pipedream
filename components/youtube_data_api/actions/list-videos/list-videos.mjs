@@ -6,8 +6,8 @@ export default {
   ...common,
   key: "youtube_data_api-list-videos",
   name: "List Videos",
-  description: "Returns a list of videos that match the API request parameters. [See the docs](https://developers.google.com/youtube/v3/docs/videos/list) for more information",
-  version: "0.0.3",
+  description: "Returns a list of videos that match the API request parameters. [See the documentation](https://developers.google.com/youtube/v3/docs/videos/list) for more information",
+  version: "0.0.4",
   type: "action",
   props: {
     youtubeDataApi,
@@ -24,7 +24,7 @@ export default {
     const dynamicProps = {};
     if (this.useCase === "id") {
       dynamicProps.id = {
-        ...youtubeDataApi.propDefinitions.channelId,
+        ...youtubeDataApi.propDefinitions.videoIds,
       };
     }
     else if (this.useCase === "myRating") {
@@ -38,18 +38,19 @@ export default {
     else if (this.useCase === "chart") {
       dynamicProps.regionCode = {
         ...youtubeDataApi.propDefinitions.regionCode,
+        reloadProps: true,
       };
-      if (this.regionCode && this.regionCode.length === 2) {
-        dynamicProps.videoCategoryId = {
-          label: "Video Category Id",
-          description: "The videoCategoryId parameter identifies the video category for which the chart should be retrieved. By default, charts are not restricted to a particular category.",
-          type: "string",
-          optional: true,
-          options: async () => {
-            return await this.youtubeDataApi.listVideoCategoriesOpts(this.regionCode);
-          },
-        };
-      }
+      dynamicProps.videoCategoryId = {
+        type: "string",
+        label: "Video Category ID",
+        description: "The videoCategoryId parameter identifies the video category for which the chart should be retrieved. By default, charts are not restricted to a particular category.",
+        optional: true,
+        options: async () => {
+          return this.regionCode?.length === 2
+            ? await this.youtubeDataApi.listVideoCategoriesOpts(this.regionCode)
+            : [];
+        },
+      };
     }
     return {
       ...dynamicProps,

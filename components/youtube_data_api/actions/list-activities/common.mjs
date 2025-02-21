@@ -13,7 +13,7 @@ export default {
     const mine = this.useCase === "mine" ?
       true :
       undefined;
-    const activities = (await this.youtubeDataApi.listActivities({
+    const { data: activities } = await this.youtubeDataApi.listActivities({
       channelId,
       mine,
       part,
@@ -21,7 +21,7 @@ export default {
       maxResults,
       publishedBefore,
       publishedAfter,
-    })).data;
+    });
     $.export("$summary", `Successfully fetched ${activities.items.length} ${activities.items.length === 1
       ? "activity"
       : "activities"}`);

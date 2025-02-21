@@ -6,8 +6,8 @@ export default {
   ...common,
   key: "youtube_data_api-list-playlists",
   name: "List Playlists",
-  description: "Returns a collection of playlists that match the API request parameters. [See the docs](https://developers.google.com/youtube/v3/docs/playlists/list) for more information",
-  version: "0.0.3",
+  description: "Returns a collection of playlists that match the API request parameters. [See the documentation](https://developers.google.com/youtube/v3/docs/playlists/list) for more information",
+  version: "0.0.4",
   type: "action",
   props: {
     youtubeDataApi,
@@ -34,10 +34,6 @@ export default {
     }
     return {
       ...dynamicProps,
-      part: {
-        ...youtubeDataApi.propDefinitions.part,
-        options: consts.LIST_PLAYLISTS_PART_OPTS,
-      },
       hl: {
         ...youtubeDataApi.propDefinitions.hl,
         options: async () => {
