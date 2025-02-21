@@ -12358,8 +12358,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
       got:
-        specifier: ^12.5.1
-        version: 12.6.1
+        specifier: ^14.4.6
+        version: 14.4.6
       util:
         specifier: ^0.12.4
         version: 0.12.5
@@ -21149,6 +21149,10 @@ packages:
 
   got@14.4.4:
     resolution: {integrity: sha512-tqiF7eSgTBwQkxb1LxsEpva8TaMYVisbhplrFVmw9GQE3855Z+MH/mnsXLLOkDxR6hZJRFMj5VTAZ8lmTF8ZOA==}
+    engines: {node: '>=20'}
+
+  got@14.4.6:
+    resolution: {integrity: sha512-rnhwfM/PhMNJ1i17k3DuDqgj0cKx3IHxBKVv/WX1uDKqrhi2Gv3l7rhPThR/Cc6uU++dD97W9c8Y0qyw9x0jag==}
     engines: {node: '>=20'}
 
   got@6.7.1:
@@ -38517,6 +38521,20 @@ snapshots:
       responselike: 3.0.0
 
   got@14.4.4:
+    dependencies:
+      '@sindresorhus/is': 7.0.1
+      '@szmarczak/http-timer': 5.0.1
+      cacheable-lookup: 7.0.0
+      cacheable-request: 12.0.1
+      decompress-response: 6.0.0
+      form-data-encoder: 4.0.2
+      http2-wrapper: 2.2.1
+      lowercase-keys: 3.0.0
+      p-cancelable: 4.0.1
+      responselike: 3.0.0
+      type-fest: 4.27.0
+
+  got@14.4.6:
     dependencies:
       '@sindresorhus/is': 7.0.1
       '@szmarczak/http-timer': 5.0.1
