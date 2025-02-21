@@ -2,6 +2,7 @@ import youtube from "@googleapis/youtube";
 import { toArray } from "./common/utils.mjs";
 import { promisify } from "util";
 const pause = promisify((delay, fn) => setTimeout(fn, delay));
+import consts from "./common/consts.mjs";
 
 export default {
   propDefinitions: {
@@ -258,6 +259,52 @@ export default {
           },
         };
       },
+    },
+    q: {
+      type: "string",
+      label: "Search Query",
+      description: "Search for new videos that match these keywords.",
+      optional: true,
+    },
+    location: {
+      type: "string",
+      label: "Location",
+      description: "The location parameter, in conjunction with the locationRadius parameter, defines a circular geographic area and also restricts a search to videos that specify, in their metadata, a geographic location that falls within that area. The parameter value is a string that specifies latitude/longitude coordinates e.g. `37.42307,-122.08427`.",
+      optional: true,
+    },
+    locationRadius: {
+      type: "string",
+      label: "Location Radius",
+      description: "The parameter value must be a floating point number followed by a measurement unit. Valid measurement units are m, km, ft, and mi. For example, valid parameter values include `1500m`, `5km`, `10000ft`, and `0.75mi`. The API does not support locationRadius parameter values larger than 1000 kilometers.",
+      optional: true,
+    },
+    videoDuration: {
+      type: "string",
+      label: "Video Duration",
+      description: "Filter the results based on video duration",
+      options: consts.VIDEO_DURATIONS,
+      optional: true,
+    },
+    videoCaption: {
+      type: "string",
+      label: "Video Caption",
+      description: "Indicates whether the API should filter video search results based on whether they have captions",
+      options: consts.VIDEO_CAPTION_OPTIONS,
+      optional: true,
+    },
+    videoDefinition: {
+      type: "string",
+      label: "Video Definition",
+      description: "Filter the results to only include either high definition (HD) or standard definition (SD) videos",
+      options: consts.VIDEO_DEFINITION,
+      optional: true,
+    },
+    videoLicense: {
+      type: "string",
+      label: "Video License",
+      description: "Filter the results to only include videos with a particular license",
+      options: consts.VIDEO_LICENSE,
+      optional: true,
     },
   },
   methods: {

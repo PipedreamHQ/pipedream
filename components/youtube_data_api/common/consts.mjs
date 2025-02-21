@@ -133,4 +133,44 @@ export default {
       value: "short",
     },
   ],
+  VIDEO_SORT_ORDER: [
+    "date",
+    "rating",
+    "relevance",
+    "title",
+    "viewCount",
+  ],
+  VIDEO_CAPTION_OPTIONS: [
+    {
+      label: "Do not filter results based on caption availability",
+      value: "any",
+    },
+    {
+      label: "Only include videos that have captions",
+      value: "closedCaption",
+    },
+    {
+      label: "Only include videos that do not have captions",
+      value: "none",
+    },
+  ],
+  VIDEO_DEFINITION: [
+    "any",
+    "high",
+    "standard",
+  ],
+  VIDEO_LICENSE: [
+    {
+      label: "Return all videos",
+      value: "any",
+    },
+    {
+      label: "Only return videos that have a Creative Commons license. Users can reuse videos with this license in other videos that they create.",
+      value: "creativeCommon",
+    },
+    {
+      label: "Only return videos that have the standard YouTube license",
+      value: "youtube",
+    },
+  ],
 };
