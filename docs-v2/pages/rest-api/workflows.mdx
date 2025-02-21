@@ -3,13 +3,13 @@ import { Steps } from 'nextra/components'
 
 # Example: Create a Workflow
 
-Here, we'll walk through an example of how to create a [workflow](/workflows/) programmatically using the [create workflow endpoint](/rest-api/#create-a-workflow) from a [workflow share link](/workflows/sharing/), and pass your own connected accounts, step and trigger props as configuration.
+Here, we'll walk through an example of how to create a [workflow](/workflows/building-workflows/) programmatically using the [create workflow endpoint](/rest-api/#create-a-workflow) from a [workflow share link](/workflows/building-workflows/sharing/), and pass your own connected accounts, step and trigger props as configuration.
 
 Before you begin, you'll need your [Pipedream API Key](/rest-api/auth/#user-api-keys).
 
 ## Creating a new workflow from a template
 
-Workflows can be shared as templates using a [Workflow Share Link](/workflows/sharing/). When you share a workflow, a unique key is created that represents that workflow's triggers, steps and settings.
+Workflows can be shared as templates using a [Workflow Share Link](/workflows/building-workflows/sharing/). When you share a workflow, a unique key is created that represents that workflow's triggers, steps and settings.
 
 However, opening workflow share link with a browser will not include sharing private resources - such as connected accounts, sources and data stores. Connections to your private resources have to be populated by hand.
 
@@ -37,7 +37,7 @@ You're not limited to creating new workflows from your own templates, you can cr
 This guide will also work for any workflow share link, although we recommend copying the workflow to your account first so you can view the workflow's available configurable props.
 </Callout>
 
-### Create the workflow, and view the parameters 
+### Create the workflow, and view the parameters
 
 You'll need to view the original workflow's configuration so you can identify the props you'll need to provide for the new version of the workflow.
 
@@ -48,7 +48,7 @@ In the Get Workflow API response, you'll see two properties:
 * `triggers` - represents the triggers for the workflow.
 * `steps` - represents the series of steps within your workflow
 
-`triggers` and `steps` contain [props](/workflows/using-props) that define the connected accounts as well as configuration.
+`triggers` and `steps` contain [props](/workflows/building-workflows/using-props/) that define the connected accounts as well as configuration.
 
 The next step is to learn how we can pass our specific connected accounts to app based props in the `steps` and/or `triggers` of the workflow template.
 
@@ -139,7 +139,7 @@ You may have noticed that we didn't include the `namespace` argument to the trig
 
 If we were to send this payload to the **Create Workflow** endpoint now, it will populate the *RSS - New Item in Feed* trigger with the feed we provided.
 
-You can also populate the `steps` props. 
+You can also populate the `steps` props.
 
 The **Slack - Send message in a Public Channel** step requires a `channelId`, `message` and the connected Slack account (`slack`). Let's start with connecting the Slack account.
 
@@ -152,7 +152,7 @@ You can find your connected account IDs by using the [List Accounts endpoint](/r
 You can filter your accounts by using the `query` query parameter. For example, if you want to find your connected Slack accounts to your workspace, then add `slack` to the query param:
 
 ```
-GET /workspaces/<workspace_id>/accounts?query=slack
+GET /workflows/workspaces/<workspace_id>/accounts?query=slack
 ```
 
 This request will narrow down the results to your connected Slack accounts, for easier finding.

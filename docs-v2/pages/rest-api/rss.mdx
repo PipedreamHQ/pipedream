@@ -1,8 +1,8 @@
 # REST API example: Create an RSS source
 
-Here, we'll walk through an example of how to create an RSS [event source](/sources/) and retrieve events from that source using the [REST API](/rest-api/). 
+Here, we'll walk through an example of how to create an RSS [event source](/workflows/building-workflows/triggers/) and retrieve events from that source using the [REST API](/rest-api/).
 
-Before you begin, you'll need your [Pipedream API Key](/rest-api/auth#user-api-keys).
+Before you begin, you'll need your [Pipedream API Key](/rest-api/auth/#user-api-keys).
 
 ## Find the details of the source you'd like to create
 
@@ -13,7 +13,7 @@ To create an event source using Pipedream's REST API, you'll need two things:
 
 You can find the `key` by reviewing the code for the source, [in Pipedream's Github repo](https://github.com/PipedreamHQ/pipedream/tree/master/components).
 
-In the `components/` directory, you'll see a list of apps. Navigate to the app-specific directory for your source, then visit the `sources/` directory in that dir to find your source. For example, to create an RSS source, visit the [`components/rss/sources/new-item-in-feed/new-item-in-feed.js` source](https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js).
+In the `components/` directory, you'll see a list of apps. Navigate to the app-specific directory for your source, then visit the `sources/` directory in that dir to find your source. For example, to create an RSS source, visit the [`components/rss/sources/new-item-in-feed/new-item-in-feed.js` source](https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.ts).
 
 The `key` is a globally unique identifier for the source. You'll see the `key` for this source near the top of the file:
 
@@ -118,7 +118,7 @@ curl -H "Authorization: Bearer <api key>" \
   "https://api.pipedream.com/sources/dc_abc123/sse"
 ```
 
-[See the SSE docs for more detail on this interface](/api/sse/).
+[See the SSE docs for more detail on this interface](/workflows/data-management/destinations/sse/).
 
 ### REST API
 
