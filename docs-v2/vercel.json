@@ -15,8 +15,20 @@
       "destination": "/"
     },
     {
+      "source": "/docs/apps/",
+      "destination": "/docs/integrations/apps/"
+    },
+    {
+      "source": "/docs/apps/app-partners/",
+      "destination": "/docs/integrations/app-partners/"
+    },
+    {
       "source": "/docs/apps/guide/requesting-additional-oauth-scopes/",
       "destination": "/docs/integrations/oauth-clients/"
+    },
+    {
+      "source": "/docs/apps/contributing/",
+      "destination": "/docs/workflows/contributing/"
     },
     {
       "source": "/docs/apps/all-apps/",
@@ -33,6 +45,10 @@
     {
       "source": "/docs/security/",
       "destination": "/docs/privacy-and-security/"
+    },
+    {
+      "source": "/docs/user-settings/",
+      "destination": "/account/user-settings/"
     },
     {
       "source": "/docs/quickstart/run-workflow-on-a-schedule/",
@@ -91,6 +107,10 @@
       "destination": "/docs/workflows/data-management/databases/working-with-sql/"
     },
     {
+      "source": "/docs/sources/",
+      "destination": "/docs/workflows/building-workflows/triggers/"
+    },
+    {
       "source": "/docs/projects/",
       "destination": "/docs/workflows/projects/"
     },
@@ -109,6 +129,18 @@
     {
       "source": "/docs/projects/(.*)/",
       "destination": "/docs/workflows/projects/$1/"
+    },
+    {
+      "source": "/docs/event-history/",
+      "destination": "/docs/workflows/event-history/"
+    },
+    {
+      "source": "/docs/workflows/concurrency-and-throttling/",
+      "destination": "/docs/workflows/building-workflows/settings/concurrency-and-throttling/"
+    },
+    {
+      "source": "/docs/workflows/steps/",
+      "destination": "/docs/workflows/#steps"
     },
     {
       "source": "/docs/workflows/fork/",
@@ -163,32 +195,36 @@
       "destination": "/docs/workflows/data-management/databases/"
     },
     {
-      "source": "/docs/code/python/#making-a-get-request",
-      "destination": "/docs/workflows/building-workflows/code/python/http-requests/#making-a-get-request"
+      "source": "/docs/workflows/(.*)/",
+      "destination": "/docs/workflows/building-workflows/$1/"
     },
     {
-      "source": "/docs/code/python/#making-a-post-request",
-      "destination": "/docs/workflows/building-workflows/code/python/http-requests/#making-a-post-request"
+      "source": "/docs/code/",
+      "destination": "/docs/workflows/building-workflows/code/"
     },
     {
-      "source": "/docs/code/python/#sending-files",
-      "destination": "/docs/workflows/building-workflows/code/python/http-requests/#sending-files"
+      "source": "/docs/code/(.*)/",
+      "destination": "/docs/workflows/building-workflows/code/$1/"
     },
     {
-      "source": "/docs/code/python/#writing-a-file-to-tmp",
-      "destination": "/docs/workflows/building-workflows/code/python/working-with-files/#writing-a-file-to-tmp"
+      "source": "/docs/http/",
+      "destination": "/docs/workflows/building-workflows/http/"
     },
     {
-      "source": "/docs/code/python/#reading-a-file-from-tmp",
-      "destination": "/docs/workflows/building-workflows/code/python/working-with-files/#reading-a-file-from-tmp"
-    },
-    {
-      "source": "/docs/code/python/#listing-files-in-tmp",
-      "destination": "/docs/workflows/building-workflows/code/python/working-with-files/#listing-files-in-tmp"
+      "source": "/docs/environment-variables/",
+      "destination": "/docs/workflows/environment-variables/"
     },
     {
       "source": "/docs/components/quickstart/nodejs/actions/",
       "destination": "/docs/workflows/contributing/components/actions-quickstart/"
+    },
+    {
+      "source": "/docs/components/",
+      "destination": "/docs/workflows/contributing/components/"
+    },
+    {
+      "source": "/docs/components/(.*)/",
+      "destination": "/docs/workflows/contributing/components/$1/"
     },
     {
       "source": "/docs/github-sync/",
@@ -227,20 +263,36 @@
       "destination": "/docs/connect/api/#accounts/"
     },
     {
+      "source": "/docs/connected-accounts/",
+      "destination": "/docs/integrations/connected-accounts/"
+    },
+    {
+      "source": "/docs/connected-accounts/(.*)/",
+      "destination": "/docs/integrations/connected-accounts/$1/"
+    },
+    {
       "source": "/docs/api/",
       "destination": "/docs/rest-api/"
     },
     {
-      "source": "/docs/api/rest/",
-      "destination": "/docs/rest-api/"
-    },
-    {
-      "source": "/docs/api/rest/(.*)/",
+      "source": "/docs/api/(.*)/",
       "destination": "/docs/rest-api/$1/"
     },
     {
-      "source": "/docs/api/auth/",
-      "destination": "/docs/rest-api/auth/"
+      "source": "/docs/data-stores/",
+      "destination": "/docs/workflows/data-management/data-stores/"
+    },
+    {
+      "source": "/docs/databases/",
+      "destination": "/docs/workflows/data-management/databases/"
+    },
+    {
+      "source": "/docs/databases/(.*)/",
+      "destination": "/docs/workflows/data-management/databases/$1/"
+    },
+    {
+      "source": "/docs/cli/(.*)/",
+      "destination": "/docs/workflows/cli/reference/$1/"
     },
     {
       "source": "/docs/connect/quickstart#use-connect-link",
