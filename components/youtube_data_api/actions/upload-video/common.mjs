@@ -1,5 +1,6 @@
 import fs from "fs";
 import got from "got";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   async run({ $ }) {
@@ -14,7 +15,7 @@ export default {
       notifySubscribers,
     } = this;
     if ((!fileUrl && !filePath) || (fileUrl && filePath)) {
-      throw new Error("This action requires either File URL or File Path. Please enter one or the other above.");
+      throw new ConfigurationError("This action requires either `File URL` or `File Path`. Please enter one or the other above.");
     }
     const body = fileUrl
       ? await got.stream(fileUrl)
