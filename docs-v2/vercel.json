@@ -3,51 +3,51 @@
   "buildCommand": "npx pnpm@9.14.2 run build",
   "redirects": [
     {
-      "source": "/docs/v3",
-      "destination": "/docs"
+      "source": "/docs/v3/",
+      "destination": "/docs/"
     },
     {
-      "source": "/docs/v3/(.*)",
-      "destination": "/docs/$1"
+      "source": "/docs/v3/(.*)/",
+      "destination": "/docs/$1/"
     },
     {
       "source": "/docs/what-is-pipedream/",
       "destination": "/"
     },
     {
-      "source": "/docs/apps/guide/requesting-additional-oauth-scopes",
+      "source": "/docs/apps/guide/requesting-additional-oauth-scopes/",
       "destination": "/docs/integrations/oauth-clients/"
     },
     {
-      "source": "/docs/apps/all-apps",
-      "destination": "https://pipedream.com/apps"
+      "source": "/docs/apps/all-apps/",
+      "destination": "https://pipedream.com/apps/"
     },
     {
-      "source": "/docs/apps/(.*)",
-      "destination": "https://pipedream.com/apps/$1"
+      "source": "/docs/apps/(.*)/",
+      "destination": "https://pipedream.com/apps/$1/"
     },
     {
-      "source": "/docs/support",
-      "destination": "https://pipedream.com/support"
+      "source": "/docs/support/",
+      "destination": "https://pipedream.com/support/"
     },
     {
       "source": "/docs/security/",
       "destination": "/docs/privacy-and-security/"
     },
     {
-      "source": "/docs/quickstart/run-workflow-on-a-schedule",
+      "source": "/docs/quickstart/run-workflow-on-a-schedule/",
       "destination": "/docs/quickstart/"
     },
     {
-      "source": "/docs/quickstart/github-sync",
+      "source": "/docs/quickstart/github-sync/",
       "destination": "/docs/workflows/git/"
     },
     {
-      "source": "/docs/cron",
+      "source": "/docs/cron/",
       "destination": "/docs/workflows/building-workflows/triggers/"
     },
     {
-      "source": "/docs/notebook",
+      "source": "/docs/notebook/",
       "destination": "/docs/workflows/"
     },
     {
@@ -55,7 +55,7 @@
       "destination": "/docs/workflows/building-workflows/actions/"
     },
     {
-      "source": "/docs/notebook/fork",
+      "source": "/docs/notebook/fork/",
       "destination": "/docs/workflows/building-workflows/sharing/"
     },
     {
@@ -63,24 +63,12 @@
       "destination": "/docs/workflows/building-workflows/inspect/"
     },
     {
-      "source": "/docs/notebook/destinations/s3/",
-      "destination": "/docs/workflows/data-management/destinations/s3/"
-    },
-    {
-      "source": "/docs/notebook/destinations/sse/",
-      "destination": "/docs/workflows/data-management/destinations/sse/"
-    },
-    {
       "source": "/docs/notebook/destinations/snowflake/",
       "destination": "/docs/workflows/data-management/databases/"
     },
     {
-      "source": "/docs/notebook/destinations/http/",
-      "destination": "/docs/workflows/data-management/destinations/http/"
-    },
-    {
-      "source": "/docs/notebook/destinations/email/",
-      "destination": "/docs/workflows/data-management/destinations/email/"
+      "source": "/docs/notebook/destinations/(.*)/",
+      "destination": "/docs/workflows/data-management/destinations/$1/"
     },
     {
       "source": "/docs/notebook/destinations/",
@@ -103,27 +91,27 @@
       "destination": "/docs/workflows/data-management/databases/working-with-sql/"
     },
     {
-      "source": "/docs/projects",
+      "source": "/docs/projects/",
       "destination": "/docs/workflows/projects/"
     },
     {
-      "source": "/docs/projects/git",
+      "source": "/docs/projects/git/",
       "destination": "/docs/workflows/git/"
     },
     {
-      "source": "/docs/projects/file-stores",
+      "source": "/docs/projects/file-stores/",
       "destination": "/docs/workflows/data-management/file-stores/"
     },
     {
-      "source": "/docs/projects/file-stores/(.*)",
-      "destination": "/docs/workflows/data-management/file-stores/$1"
+      "source": "/docs/projects/file-stores/(.*)/",
+      "destination": "/docs/workflows/data-management/file-stores/$1/"
     },
     {
-      "source": "/docs/projects/(.*)",
-      "destination": "/docs/workflows/projects/$1"
+      "source": "/docs/projects/(.*)/",
+      "destination": "/docs/workflows/projects/$1/"
     },
     {
-      "source": "/docs/workflows/fork",
+      "source": "/docs/workflows/fork/",
       "destination": "/docs/workflows/building-workflows/sharing/"
     },
     {
@@ -131,7 +119,7 @@
       "destination": "/docs/workflows/building-workflows/code/nodejs/async/"
     },
     {
-      "source": "/docs/workflows/steps/code/state",
+      "source": "/docs/workflows/steps/code/state/",
       "destination": "/docs/workflows/#step-exports"
     },
     {
@@ -151,27 +139,27 @@
       "destination": "/docs/workflows/vpc/"
     },
     {
-      "source": "/docs/workflows/built-in-functions",
+      "source": "/docs/workflows/built-in-functions/",
       "destination": "/docs/workflows/building-workflows/actions/"
     },
     {
-      "source": "/docs/workflows/events/inspect",
+      "source": "/docs/workflows/events/inspect/",
       "destination": "/docs/workflows/building-workflows/inspect/"
     },
     {
-      "source": "/docs/workflows/steps/triggers",
+      "source": "/docs/workflows/steps/triggers/",
       "destination": "/docs/workflows/building-workflows/triggers/"
     },
     {
-      "source": "/docs/workflows/steps/actions",
+      "source": "/docs/workflows/steps/actions/",
       "destination": "/docs/workflows/building-workflows/actions/"
     },
     {
-      "source": "/docs/workflows/flow-control",
+      "source": "/docs/workflows/flow-control/",
       "destination": "/docs/workflows/building-workflows/control-flow/"
     },
     {
-      "source": "/docs/workflows/networking",
+      "source": "/docs/workflows/networking/",
       "destination": "/docs/workflows/data-management/databases/"
     },
     {
@@ -199,35 +187,35 @@
       "destination": "/docs/workflows/building-workflows/code/python/working-with-files/#listing-files-in-tmp"
     },
     {
-      "source": "/docs/components/quickstart/nodejs/actions",
+      "source": "/docs/components/quickstart/nodejs/actions/",
       "destination": "/docs/workflows/contributing/components/actions-quickstart/"
     },
     {
-      "source": "/docs/github-sync",
+      "source": "/docs/github-sync/",
       "destination": "/docs/workflows/git/"
     },
     {
-      "source": "/docs/workspaces",
+      "source": "/docs/workspaces/",
       "destination": "/docs/workflows/workspaces/"
     },
     {
-      "source": "/docs/workspaces/okta",
+      "source": "/docs/workspaces/okta/",
       "destination": "/docs/workflows/workspaces/sso/okta/"
     },
     {
-      "source": "/docs/workspaces/google",
+      "source": "/docs/workspaces/google/",
       "destination": "/docs/workflows/workspaces/sso/google/"
     },
     {
-      "source": "/docs/workspaces/saml",
+      "source": "/docs/workspaces/saml/",
       "destination": "/docs/workflows/workspaces/sso/saml/"
     },
     {
-      "source": "/docs/workspaces/(.*)",
-      "destination": "/docs/workflows/workspaces/$1"
+      "source": "/docs/workspaces/(.*)/",
+      "destination": "/docs/workflows/workspaces/$1/"
     },
     {
-      "source": "/docs/workspaces-and-credits-faq",
+      "source": "/docs/workspaces-and-credits-faq/",
       "destination": "/docs/pricing/faq/"
     },
     {
@@ -235,23 +223,23 @@
       "destination": "/docs/pricing/#free-tier"
     },
     {
-      "source": "/docs/connected-accounts/api",
+      "source": "/docs/connected-accounts/api/",
       "destination": "/docs/connect/api/#accounts/"
     },
     {
-      "source": "/docs/api",
+      "source": "/docs/api/",
       "destination": "/docs/rest-api/"
     },
     {
-      "source": "/docs/api/rest",
+      "source": "/docs/api/rest/",
       "destination": "/docs/rest-api/"
     },
     {
-      "source": "/docs/api/rest/(.*)",
-      "destination": "/docs/rest-api/$1"
+      "source": "/docs/api/rest/(.*)/",
+      "destination": "/docs/rest-api/$1/"
     },
     {
-      "source": "/docs/api/auth",
+      "source": "/docs/api/auth/",
       "destination": "/docs/rest-api/auth/"
     },
     {
@@ -263,27 +251,27 @@
       "destination": "/docs/connect/managed-auth/quickstart/#connect-your-users-account"
     },
     {
-      "source": "/docs/connect/connect-link",
+      "source": "/docs/connect/connect-link/",
       "destination": "/docs/connect/managed-auth/connect-link/"
     },
     {
-      "source": "/docs/connect/customize-your-app",
+      "source": "/docs/connect/customize-your-app/",
       "destination": "/docs/connect/managed-auth/customization/"
     },
     {
-      "source": "/docs/connect/oauth-clients",
+      "source": "/docs/connect/oauth-clients/",
       "destination": "/docs/connect/managed-auth/oauth-clients/"
     },
     {
-      "source": "/docs/connect/quickstart",
+      "source": "/docs/connect/quickstart/",
       "destination": "/docs/connect/managed-auth/quickstart/"
     },
     {
-      "source": "/docs/connect/tokens",
+      "source": "/docs/connect/tokens/",
       "destination": "/docs/connect/managed-auth/tokens/"
     },
     {
-      "source": "/docs/connect/webhooks",
+      "source": "/docs/connect/webhooks/",
       "destination": "/docs/connect/managed-auth/webhooks/"
     },
     {
