@@ -6457,8 +6457,7 @@ importers:
         specifier: ^4.0.0
         version: 4.0.1
 
-  components/jira_data_center:
-    specifiers: {}
+  components/jira_data_center: {}
 
   components/jira_service_desk:
     dependencies:
@@ -6745,8 +6744,7 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
 
-  components/koyeb:
-    specifiers: {}
+  components/koyeb: {}
 
   components/krispcall:
     dependencies:
