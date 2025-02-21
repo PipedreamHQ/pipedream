@@ -2480,6 +2480,9 @@ importers:
 
   components/cloudcart: {}
 
+  components/cloudentity:
+    specifiers: {}
+
   components/cloudfill: {}
 
   components/cloudflare_api_key:
