@@ -11107,7 +11107,7 @@ importers:
   components/serpapi:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
+        specifier: ^3.0.3
         version: 3.0.3
 
   components/serpdog: {}
