@@ -1,5 +1,5 @@
 import fs from "fs";
-import got from "got@13.0.0";
+import got from "got";
 
 export default {
   async run({ $ }) {

@@ -1,5 +1,5 @@
 import fs from "fs";
-import got from "got@13.0.0";
+import got from "got";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
