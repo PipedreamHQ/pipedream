@@ -1479,8 +1479,7 @@ importers:
         specifier: ^0.0.4
         version: 0.0.4
 
-  components/bitbucket_data_center:
-    specifiers: {}
+  components/bitbucket_data_center: {}
 
   components/bitdefender_gravityzone: {}
 
@@ -4732,8 +4731,7 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/frontify:
-    specifiers: {}
+  components/frontify: {}
 
   components/ftrack:
     dependencies:
@@ -6691,7 +6689,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/klipy: {}
+  components/klipy:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/knack:
     dependencies:
@@ -6744,8 +6746,7 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
 
-  components/koyeb:
-    specifiers: {}
+  components/koyeb: {}
 
   components/krispcall:
     dependencies:
@@ -7598,8 +7599,7 @@ importers:
         specifier: ^9.0.0
         version: 9.0.1
 
-  components/membership_io:
-    specifiers: {}
+  components/membership_io: {}
 
   components/memberspot:
     dependencies:
@@ -9538,8 +9538,7 @@ importers:
 
   components/popupsmart: {}
 
-  components/portabilling:
-    specifiers: {}
+  components/portabilling: {}
 
   components/portfolio_optimizer: {}
 
