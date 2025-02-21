@@ -12,7 +12,7 @@ export default {
     Accepts a file path or folder path starting from /tmp, then uploads the contents to S3.
     [See the docs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html)
   `),
-  version: "1.0.2",
+  version: "1.0.3",
   type: "action",
   props: {
     aws: common.props.aws,
@@ -44,6 +44,20 @@ export default {
   },
   methods: {
     ...common.methods,
+    getFilesRecursive(dir) {
+      let results = [];
+      const items = fs.readdirSync(dir);
+      for (const item of items) {
+        const itemPath = join(dir, item);
+        const stat = fs.statSync(itemPath);
+        if (stat.isDirectory()) {
+          results = results.concat(this.getFilesRecursive(itemPath));
+        } else {
+          results.push(itemPath);
+        }
+      }
+      return results;
+    },
     async uploadFolderFiles($) {
       const {
         uploadFile,
@@ -51,20 +65,25 @@ export default {
         folderPath,
         prefix,
       } = this;
-
-      const files = fs.readdirSync(folderPath);
-      const promises = [];
-      for (const filename of files) {
-        const fileContent = fs.readFileSync(join(folderPath, filename), {
+      const files = this.getFilesRecursive(folderPath);
+      const response = await Promise.all(files.map(async (filePath) => {
+        const fileContent = fs.readFileSync(filePath, {
           encoding: "base64",
         });
-        promises.push(uploadFile({
+        const relativePath = filePath.substring(folderPath.length + 1);
+        const s3Key = join(prefix, relativePath);
+
+        await uploadFile({
           Bucket: bucket,
-          Key: join(prefix, filename),
+          Key: s3Key,
           Body: Buffer.from(fileContent, "base64"),
-        }));
-      }
-      const response = await Promise.all(promises);
+        });
+        return {
+          filePath,
+          s3Key,
+          status: "uploaded",
+        };
+      }));
       $.export("$summary", `Uploaded all files from ${folderPath} to S3`);
       return response;
     },
