@@ -1214,7 +1214,14 @@ importers:
         specifier: ^9.0.1
         version: 9.0.1
 
-  components/azure_storage: {}
+  components/azure_storage:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      mime-types:
+        specifier: ^2.1.35
+        version: 2.1.35
 
   components/backblaze: {}
 
