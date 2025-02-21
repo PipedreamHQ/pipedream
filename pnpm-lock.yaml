@@ -2480,8 +2480,7 @@ importers:
 
   components/cloudcart: {}
 
-  components/cloudentity:
-    specifiers: {}
+  components/cloudentity: {}
 
   components/cloudfill: {}
 
