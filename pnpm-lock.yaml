@@ -1479,6 +1479,8 @@ importers:
         specifier: ^0.0.4
         version: 0.0.4
 
+  components/bitbucket_data_center: {}
+
   components/bitdefender_gravityzone: {}
 
   components/bitly:
@@ -2477,6 +2479,9 @@ importers:
         version: 3.0.3
 
   components/cloudcart: {}
+
+  components/cloudentity:
+    specifiers: {}
 
   components/cloudfill: {}
 
@@ -4729,8 +4734,7 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/frontify:
-    specifiers: {}
+  components/frontify: {}
 
   components/ftrack:
     dependencies:
@@ -6456,6 +6460,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.1
 
+  components/jira_data_center: {}
+
   components/jira_service_desk:
     dependencies:
       '@pipedream/platform':
@@ -6740,6 +6746,8 @@ importers:
       crypto:
         specifier: ^1.0.1
         version: 1.0.1
+
+  components/koyeb: {}
 
   components/krispcall:
     dependencies:
@@ -7592,8 +7600,7 @@ importers:
         specifier: ^9.0.0
         version: 9.0.1
 
-  components/membership_io:
-    specifiers: {}
+  components/membership_io: {}
 
   components/memberspot:
     dependencies:
@@ -9315,11 +9322,11 @@ importers:
   components/pipedrive:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.2.0
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
       pipedrive:
-        specifier: ^13.2.7
-        version: 13.3.4
+        specifier: ^24.1.1
+        version: 24.1.1
 
   components/pipefy:
     dependencies:
@@ -9505,7 +9512,7 @@ importers:
   components/polygon:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
+        specifier: ^3.0.3
         version: 3.0.3
 
   components/polygon_io: {}
@@ -9532,8 +9539,7 @@ importers:
 
   components/popupsmart: {}
 
-  components/portabilling:
-    specifiers: {}
+  components/portabilling: {}
 
   components/portfolio_optimizer: {}
 
@@ -25761,8 +25767,8 @@ packages:
     resolution: {integrity: sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==}
     engines: {node: '>=6'}
 
-  pipedrive@13.3.4:
-    resolution: {integrity: sha512-4/o4wNFBd4rlN4oKlUfYc4NDuWhNwFUT0F/oPdRUh5xev7EoiMj0NgjEansiqyC3OvvGUjij7DQu09+MQBvjmA==}
+  pipedrive@24.1.1:
+    resolution: {integrity: sha512-5F4b1xG20LlhYhID6CCkd8IExBKnmriDD1OZtex/aTL5195lbpD5D2FSoP524AvUtaHYPNlgb0XsN5NbVTQKvw==}
 
   pirates@4.0.6:
     resolution: {integrity: sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg==}
@@ -44084,13 +44090,12 @@ snapshots:
 
   pify@4.0.1: {}
 
-  pipedrive@13.3.4:
+  pipedrive@24.1.1:
     dependencies:
-      '@babel/runtime': 7.26.0
-      lodash: 4.17.21
-      superagent: 5.3.1
+      axios: 1.7.9
+      qs: 6.13.1
     transitivePeerDependencies:
-      - supports-color
+      - debug
 
   pirates@4.0.6: {}
 

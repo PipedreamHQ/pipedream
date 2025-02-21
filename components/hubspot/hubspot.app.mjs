@@ -88,7 +88,7 @@ export default {
         if (includeCustom) {
           const { results } = await this.listSchemas();
           const customObjects = results?.map(({
-            name: value, labels,
+            fullyQualifiedName: value, labels,
           }) => ({
             value,
             label: labels.plural,
@@ -437,10 +437,15 @@ export default {
     customObjectType: {
       type: "string",
       label: "Custom Object Type",
-      description: "Tye type of custom object to create",
+      description: "The type of custom object to create",
       async options() {
         const { results } = await this.listSchemas();
-        return results?.map(({ name }) => name ) || [];
+        return results?.map(({
+          name, fullyQualifiedName,
+        }) => ({
+          label: name,
+          value: fullyQualifiedName,
+        }) ) || [];
       },
     },
   },
