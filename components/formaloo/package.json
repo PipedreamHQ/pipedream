@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/formaloo",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Formaloo Components",
   "main": "formaloo.app.mjs",
   "keywords": [
@@ -11,5 +11,9 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3",
+    "uuid": "^11.0.5"
   }
 }
