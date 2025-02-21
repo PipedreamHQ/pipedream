@@ -1,37 +1,32 @@
-import klipy from "../../klipy.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/base-search.mjs";
 
 export default {
+  ...common,
   key: "klipy-search-stickers",
   name: "Search Stickers",
-  description: "Search and retrieve stickers from Klipy's database. [See the documentation]().",
-  version: "0.0.{{ts}}",
+  description: "Search and retrieve stickers from Klipy's database. [See the documentation](https://docs.klipy.com/stickers-api/stickers-search-api).",
+  version: "0.0.1",
   type: "action",
   props: {
-    klipy,
+    ...common.props,
     q: {
       propDefinition: [
-        klipy,
-        "searchStickersQ",
+        common.props.klipy,
+        "q",
       ],
+      description: "The search keyword for finding relevant stickers.",
     },
     customer_id: {
       propDefinition: [
-        klipy,
-        "searchStickersCustomerId",
+        common.props.klipy,
+        "customerId",
       ],
-    },
-    locale: {
-      propDefinition: [
-        klipy,
-        "searchStickersLocale",
-      ],
-      optional: true,
+      description: "A unique user identifier in your system for stickers.",
     },
   },
-  async run({ $ }) {
-    const response = await this.klipy.searchStickers();
-    $.export("$summary", `Retrieved stickers with query "${this.q}" and customer ID "${this.customer_id}".`);
-    return response;
+  methods: {
+    getModel() {
+      return "stickers";
+    },
   },
 };

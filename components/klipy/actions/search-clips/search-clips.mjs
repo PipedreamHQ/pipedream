@@ -1,37 +1,30 @@
-import klipy from "../../klipy.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/base-search.mjs";
 
 export default {
+  ...common,
   key: "klipy-search-clips",
   name: "Search Clips",
   description: "Search and retrieve clips from Klipy's database. [See the documentation](https://docs.klipy.com/clips-api/clips-search-api)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    klipy,
+    ...common.props,
     q: {
       propDefinition: [
-        klipy,
-        "searchClipsQ",
+        common.props.klipy,
+        "q",
       ],
     },
     customer_id: {
       propDefinition: [
-        klipy,
-        "searchClipsCustomerId",
+        common.props.klipy,
+        "customerId",
       ],
-    },
-    locale: {
-      propDefinition: [
-        klipy,
-        "searchClipsLocale",
-      ],
-      optional: true,
     },
   },
-  async run({ $ }) {
-    const clips = await this.klipy.searchClips();
-    $.export("$summary", `Retrieved ${clips.length} clips`);
-    return clips;
+  methods: {
+    getModel() {
+      return "clips";
+    },
   },
 };

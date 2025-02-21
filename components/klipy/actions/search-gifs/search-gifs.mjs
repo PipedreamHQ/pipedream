@@ -1,37 +1,32 @@
-import klipy from "../../klipy.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/base-search.mjs";
 
 export default {
+  ...common,
   key: "klipy-search-gifs",
   name: "Search GIFs",
   description: "Search and retrieve GIFs from Klipy's database. [See the documentation](https://docs.klipy.com/gifs-api/gifs-search-api)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    klipy,
+    ...common.props,
     q: {
       propDefinition: [
-        klipy,
-        "searchGifsQ",
+        common.props.klipy,
+        "q",
       ],
+      description: "The search keyword for finding relevant GIFs.",
     },
     customer_id: {
       propDefinition: [
-        klipy,
-        "searchGifsCustomerId",
+        common.props.klipy,
+        "customerId",
       ],
-    },
-    locale: {
-      propDefinition: [
-        klipy,
-        "searchGifsLocale",
-      ],
-      optional: true,
+      description: "A unique user identifier in your system for GIFs.",
     },
   },
-  async run({ $ }) {
-    const response = await this.klipy.searchGifs();
-    $.export("$summary", `Successfully retrieved GIFs for query "${this.q}"`);
-    return response;
+  methods: {
+    getModel() {
+      return "gifs";
+    },
   },
 };
