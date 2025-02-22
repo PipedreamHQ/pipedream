@@ -796,6 +796,9 @@ importers:
         specifier: ^8.3.2
         version: 8.3.2
 
+  components/anchor_browser:
+    specifiers: {}
+
   components/annature: {}
 
   components/announcekit: {}
