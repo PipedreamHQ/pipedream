@@ -7,7 +7,7 @@ export default {
   name: "New Cancelled Order (Instant)",
   type: "source",
   description: "Emit new event each time a new order is cancelled.",
-  version: "0.0.6",
+  version: "0.0.7",
   dedupe: "unique",
   methods: {
     ...common.methods,
