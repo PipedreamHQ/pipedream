@@ -796,8 +796,7 @@ importers:
         specifier: ^8.3.2
         version: 8.3.2
 
-  components/anchor_browser:
-    specifiers: {}
+  components/anchor_browser: {}
 
   components/annature: {}
 
@@ -3104,8 +3103,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/databricks_oauth:
-    specifiers: {}
+  components/databricks_oauth: {}
 
   components/datadog:
     dependencies:
@@ -5571,8 +5569,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/griptape:
-    specifiers: {}
+  components/griptape: {}
 
   components/grist:
     dependencies:

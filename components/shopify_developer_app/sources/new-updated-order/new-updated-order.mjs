@@ -7,7 +7,7 @@ export default {
   name: "New Updated Order (Instant)",
   type: "source",
   description: "Emit new event each time an order is updated.",
-  version: "0.0.6",
+  version: "0.0.7",
   dedupe: "unique",
   methods: {
     ...common.methods,
