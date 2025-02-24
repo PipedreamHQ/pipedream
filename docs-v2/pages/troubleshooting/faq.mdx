@@ -1,0 +1,50 @@
+
+# FAQ
+
+## How do I resolve the error "Undeployed changes — You have made changes to this workflow. Deploy the latest version from the editor"
+
+On workflows that are not [synced with GitHub](/workflows/git/), you may notice the following warning at the top of your workflow:
+
+> **Undeployed changes** — You have made changes to this workflow. Deploy the latest version from the editor
+
+This means that you've made some changes to your workflow that you haven't yet deployed. To see a diff of what's changed, we recommend [enabling GitHub sync](/workflows/git/), where you'll get a full commit history of changes made to your workflows, synced to your own GitHub repo.
+
+## Is there a way to replay workflow events programmatically?
+
+Not today. Please upvote and add your feedback to [this GitHub issue](https://github.com/PipedreamHQ/pipedream/issues/2784).
+
+## How do I store and retrieve data across workflow executions?
+
+If you operate your own database or data store, you can connect to it directly in Pipedream.
+
+Pipedream also operates a [built-in key-value store](/workflows/data-management/data-stores/) that you can use to get and set data across workflow executions and different workflows.
+
+## How do I delay the execution of a workflow?
+
+Use Pipedream's [built-in Delay actions](/workflows/building-workflows/control-flow/delay/) to delay a workflow at any step.
+
+## How can my workflow run faster?
+
+Here are a few things that can help your workflow execute faster:
+
+1. **Increase memory:** Increase your [workflow memory](/workflows/building-workflows/settings/#memory) to at least 512 MB. Raising the memory limit will proportionally increase CPU resources, leading to improved performance and reduced latency.
+
+2. **Return static HTTP responses:** If your workflow is triggered by an HTTP source, return a [static HTTP response](/workflows/building-workflows/triggers/#http-responses) directly from the trigger configuration. This ensures the HTTP response is sent to the caller immediately, before the rest of the workflow steps are executed.
+
+3. **Simplify your workflow:** Reduce the number of [steps](/workflows/#code-actions) and [segments](/workflows/building-workflows/control-flow/#workflow-segments) in your workflow, combining multiple steps into one, if possible. This lowers the overhead involved in managing step execution and exports.
+
+4. **Activate warm workers:** Use [warm workers](/workflows/building-workflows/settings/#eliminate-cold-starts) to reduce the startup time of workflows. Set [as many warm workers](/workflows/building-workflows/settings/#how-many-workers-should-i-configure) as you want for high-volume traffic.
+
+## How can I save common functions as steps?
+
+You can create your own custom triggers and actions ("components") on Pipedream using [the Component API](/workflows/contributing/components/api/). These components are private to your account and can be used in any workflow.
+
+You can also publish common functions in your own package on a public registry like [npm](https://www.npmjs.com/) or [PyPI](https://pypi.org/).
+
+## Is Puppeteer supported in Pipedream?
+
+Yes, see [our Puppeteer docs](/workflows/building-workflows/code/nodejs/browser-automation/#puppeteer) for more detail.
+
+## Is Playwright supported in Pipedream?
+
+Yes, see [our Playwright docs](/workflows/building-workflows/code/nodejs/browser-automation/#playwright) for more detail.

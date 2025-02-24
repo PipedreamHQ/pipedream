@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/datanews",
+  "version": "0.6.0",
+  "description": "Pipedream datanews Components",
+  "main": "datanews.app.mjs",
+  "keywords": [
+    "pipedream",
+    "datanews"
+  ],
+  "homepage": "https://pipedream.com/apps/datanews",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

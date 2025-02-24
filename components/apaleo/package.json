@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/apaleo",
+  "version": "0.0.1",
+  "description": "Pipedream Apaleo Components",
+  "main": "apaleo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "apaleo"
+  ],
+  "homepage": "https://pipedream.com/apps/apaleo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

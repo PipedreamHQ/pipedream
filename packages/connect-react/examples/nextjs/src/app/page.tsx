@@ -10,7 +10,6 @@ import { fetchToken } from "./actions";
 export default function Home() {
   const userId = "my-authed-user-id";
   const client = createFrontendClient({
-    environment: "development",
     externalUserId: userId,
     tokenCallback: fetchToken,
   });
@@ -21,6 +20,20 @@ export default function Home() {
     text: "hello slack!",
   });
 
+  const [
+    dynamicPropsId,
+    setDynamicPropsId,
+  ] = useState<string | undefined>();
+
+  const [
+    sdkResponse,
+    setSdkResponse,
+  ] = useState<unknown | undefined>(undefined);
+
+  const handleDynamicProps = (dynamicProps: { id: string | undefined }) => {
+    setDynamicPropsId(dynamicProps.id)
+  }
+
   return (
     <>
       <div>My application</div>
@@ -29,7 +42,23 @@ export default function Home() {
           userId={userId}
           componentKey="slack-send-message"
           configuredProps={configuredProps}
+          onUpdateDynamicProps={handleDynamicProps}
           onUpdateConfiguredProps={setConfiguredProps}
+          sdkResponse={sdkResponse}
+          enableDebugging={true}
+          onSubmit={async () => {
+            try {
+              const response = await client.runAction({
+                userId,
+                actionId: "slack-send-message",
+                configuredProps,
+                dynamicPropsId,
+              });
+              setSdkResponse(response)
+            } catch (error) {
+              console.error("Action run failed:", error);
+            }
+          }}
         />
       </FrontendClientProvider>
     </>

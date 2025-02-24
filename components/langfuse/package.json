@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/langfuse",
+  "version": "0.1.0",
+  "description": "Pipedream Langfuse Components",
+  "main": "langfuse.app.mjs",
+  "keywords": [
+    "pipedream",
+    "langfuse"
+  ],
+  "homepage": "https://pipedream.com/apps/langfuse",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3",
+    "uuid": "^11.1.0"
+  }
+}

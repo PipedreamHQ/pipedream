@@ -1,28 +1,14 @@
 import app from "../../basecamp.app.mjs";
+import common from "../../common/common.mjs";
 
 export default {
   key: "basecamp-create-message",
   name: "Create Message",
-  description: "Publishes a message in the project and message board selected. [See the docs here](https://github.com/basecamp/bc3-api/blob/master/sections/messages.md#create-a-message)",
+  description: "Creates a message in a selected message board. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/messages.md#create-a-message)",
   type: "action",
-  version: "0.0.7",
+  version: "0.0.8",
   props: {
-    app,
-    accountId: {
-      propDefinition: [
-        app,
-        "accountId",
-      ],
-    },
-    projectId: {
-      propDefinition: [
-        app,
-        "projectId",
-        ({ accountId }) => ({
-          accountId,
-        }),
-      ],
-    },
+    ...common.props,
     messageBoardId: {
       propDefinition: [
         app,
@@ -44,7 +30,7 @@ export default {
     content: {
       type: "string",
       label: "Content",
-      description: "The body of the message. See [Rich text guide](https://github.com/basecamp/bc3-api/blob/master/sections/rich_text.md) for what HTML tags are allowed.",
+      description: "The body of the message. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/messages.md#create-a-message) for information on using HTML tags.",
       optional: true,
     },
     messageTypeId: {
@@ -85,7 +71,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully posted message with ID ${message.id}`);
+    $.export("$summary", `Successfully posted message (ID: ${message.id})`);
     return message;
   },
 };

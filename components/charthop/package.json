@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/charthop",
+  "version": "0.0.1",
+  "description": "Pipedream ChartHop Components",
+  "main": "charthop.app.mjs",
+  "keywords": [
+    "pipedream",
+    "charthop"
+  ],
+  "homepage": "https://pipedream.com/apps/charthop",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

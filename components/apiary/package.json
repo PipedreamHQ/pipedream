@@ -1,7 +1,7 @@
 {
   "name": "@pipedream/apiary",
-  "version": "0.1.0",
-  "description": "Pipedream Chat Data Components",
+  "version": "0.7.0",
+  "description": "Pipedream apiary Components",
   "main": "apiary.app.mjs",
   "keywords": [
     "pipedream",

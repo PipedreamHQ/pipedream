@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/lightpanda",
+  "version": "0.0.1",
+  "description": "Pipedream Lightpanda Components",
+  "main": "lightpanda.app.mjs",
+  "keywords": [
+    "pipedream",
+    "lightpanda"
+  ],
+  "homepage": "https://pipedream.com/apps/lightpanda",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

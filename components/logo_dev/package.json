@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/logo_dev",
+  "version": "0.0.1",
+  "description": "Pipedream Logo.dev Components",
+  "main": "logo_dev.app.mjs",
+  "keywords": [
+    "pipedream",
+    "logo_dev"
+  ],
+  "homepage": "https://pipedream.com/apps/logo_dev",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,18 +1,25 @@
+import { ConfigurationError } from "@pipedream/platform";
 import pipedriveApp from "../../pipedrive.app.mjs";
 
 export default {
   key: "pipedrive-add-note",
   name: "Add Note",
   description: "Adds a new note. For info on [adding an note in Pipedrive](https://developers.pipedrive.com/docs/api/v1/Notes#addNote)",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "action",
   props: {
     pipedriveApp,
     content: {
+      type: "string",
+      label: "Content",
+      description: "The content of the note in HTML format. Subject to sanitization on the back-end.",
+    },
+    leadId: {
       propDefinition: [
         pipedriveApp,
-        "content",
+        "leadId",
       ],
+      description: "The ID of the lead the note will be attached to. This property is required unless one of (deal_id/person_id/org_id) is specified.",
     },
     dealId: {
       propDefinition: [
@@ -49,62 +56,56 @@ export default {
       ],
     },
     pinnedToDealFlag: {
-      propDefinition: [
-        pipedriveApp,
-        "pinnedToDealFlag",
-      ],
+      type: "boolean",
+      label: "Pinned To Deal Flag",
+      description: "If set, the results are filtered by note to deal pinning state (deal_id is also required)",
+      default: false,
+      optional: true,
+    },
+    pinnedToLeadFlag: {
+      type: "boolean",
+      label: "Pinned To Lead Flag",
+      description: "If set, the results are filtered by note to lead pinning state (lead_id is also required)",
+      default: false,
       optional: true,
     },
     pinnedToOrgFlag: {
-      propDefinition: [
-        pipedriveApp,
-        "pinnedToOrgFlag",
-      ],
+      type: "boolean",
+      label: "Pinned To Organization Flag",
+      description: "If set, the results are filtered by note to organization pinning state (org_id is also required)",
+      default: false,
       optional: true,
     },
     pinnedToPersonFlag: {
-      propDefinition: [
-        pipedriveApp,
-        "pinnedToPersonFlag",
-      ],
+      type: "boolean",
+      label: "Pinned To Person Flag",
+      description: "If set, the results are filtered by note to person pinning state (person_id is also required)",
+      default: false,
       optional: true,
     },
   },
   async run({ $ }) {
-    const {
-      content,
-      dealId,
-      personId,
-      organizationId,
-      userId,
-      addTime,
-      pinnedToLeadFlag,
-      pinnedToDealFlag,
-      pinnedToOrgFlag,
-      pinnedToPersonFlag,
-    } = this;
-
     try {
       const resp =
         await this.pipedriveApp.addNote({
-          content,
-          deal_id: dealId,
-          person_id: personId,
-          org_id: organizationId,
-          user_id: userId,
-          add_time: addTime,
-          pinned_to_lead_flag: pinnedToLeadFlag,
-          pinned_to_deal_flag: pinnedToDealFlag,
-          pinned_to_organization_flag: pinnedToOrgFlag,
-          pinned_to_person_flag: pinnedToPersonFlag,
+          content: this.content,
+          lead_id: this.leadId,
+          deal_id: this.dealId,
+          person_id: this.personId,
+          org_id: this.organizationId,
+          user_id: this.userId,
+          add_time: this.addTime,
+          pinned_to_lead_flag: this.pinnedToLeadFlag,
+          pinned_to_deal_flag: this.pinnedToDealFlag,
+          pinned_to_organization_flag: this.pinnedToOrgFlag,
+          pinned_to_person_flag: this.pinnedToPersonFlag,
         });
 
       $.export("$summary", "Successfully added note");
 
       return resp;
-    } catch (error) {
-      console.error(error.context?.body || error);
-      throw error;
+    } catch ({ error }) {
+      throw new ConfigurationError(error);
     }
   },
 };

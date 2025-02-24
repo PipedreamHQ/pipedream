@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/real_id",
+  "version": "0.1.0",
+  "description": "Pipedream Real ID Components",
+  "main": "real_id.app.mjs",
+  "keywords": [
+    "pipedream",
+    "real_id"
+  ],
+  "homepage": "https://pipedream.com/apps/real_id",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

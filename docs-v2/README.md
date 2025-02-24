@@ -6,8 +6,7 @@
 
 ```bash
 asdf install
-yarn install
-yarn dev
+pnpm dev
 ```
 
 Open [http://localhost:3000/docs](http://localhost:3000/docs).
@@ -23,7 +22,7 @@ We're moving from VuePress to Nextra. Here's what's the same and what's differen
 - New docs are here, in the `docs-v2/` directory.
 - All docs are still Markdown. Now MDX files instead of just Markdown, so extensions have been renamed to `.mdx`.
 - Keep images in `public/images/foo.png`, reference with `![alt text](/images/foo.png)`
-- Leaf nodes in VuePress were at files like `/docs/workspaces/sso/google/README.md`. Nextra allows leaf nodes to be non-index files like `/docs/workspaces/sso/google.mdx`, so there's no need for the final directory, which simplifies things.
+- Leaf nodes in VuePress were at files like `/docs/workflows/workspaces/sso/google/README.md`. Nextra allows leaf nodes to be non-index files like `/docs/workflows/workspaces/sso/google.mdx`, so there's no need for the final directory, which simplifies things.
 - VuePress used Vue, Nextra uses React. All of the custom components used in MDX files are either [built-in Nextra components](https://nextra.site/docs/guide/built-ins) or Pipedream-specific components in `components/`, ported from Vue.
 - Learn the [built-in Nextra components](https://nextra.site/docs/guide/built-ins). All the `::: tip`, `::: warning`, or other special VuePress components have an equivalent Nextra component.
 
@@ -51,11 +50,11 @@ pages
   workspaces/
     index.mdx  # /docs/workspaces
     sso/
-      index.mdx  # /docs/workspaces/sso
-      google.mdx  # /docs/workspaces/sso/google
+      index.mdx  # /docs/workflows/workspaces/sso
+      google.mdx  # /docs/workflows/workspaces/sso/google
 ```
 
-The `_meta.json` files in each directory defines a mapping between the labels in the sidebar and the files in that directory. If you want to add an item to the sidebar, you'll probably want to edit the `_meta.json` file. [See the Nextra docs](https://nextra.site/docs/docs-theme/page-configuration) for more info.
+The `_meta.tsx` files in each directory defines a mapping between the labels in the sidebar and the files in that directory. If you want to add an item to the sidebar, you'll probably want to edit the `_meta.tsx` file. [See the Nextra docs](https://nextra.site/docs/docs-theme/page-configuration) for more info.
 
 ## Custom components
 
@@ -64,7 +63,6 @@ Use (and create!) custom components in `components/`. You'll see a lot of refere
 ## Redirects
 
 If you need to add any custom redirects, e.g. when you move pages to a different directory, add then to the `vercel.json` file in this directory.
-
 
 ## Adding new versions
 

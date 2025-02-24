@@ -94,3 +94,39 @@ export type V1Component<T extends ConfigurableProps = any> = { // eslint-disable
   version: string;
   configurable_props: T;
 };
+
+export type V1DeployedComponent<T extends ConfigurableProps = any> = { // eslint-disable-line @typescript-eslint/no-explicit-any
+  id: string;
+  owner_id: string;
+  component_id: string;
+  configurable_props: T;
+  configured_props: ConfiguredProps<T>;
+  active: boolean;
+  created_at: number;
+  updated_at: number;
+  name: string;
+  name_slug: string;
+  callback_observations?: unknown;
+};
+
+export type V1EmittedEvent = {
+  /**
+   * The event's payload.
+   */
+  e: Record<string, any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+
+  /**
+   * The event's type (set to "emit" currently).
+   */
+  k: string;
+
+  /**
+   * The event's timestamp in epoch milliseconds.
+   */
+  ts: number;
+
+  /**
+   * The event's unique ID.
+   */
+  id: string;
+}

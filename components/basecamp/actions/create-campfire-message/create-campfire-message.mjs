@@ -1,28 +1,14 @@
 import app from "../../basecamp.app.mjs";
+import common from "../../common/common.mjs";
 
 export default {
   key: "basecamp-create-campfire-message",
   name: "Create Campfire Message",
-  description: "Creates a line in the Campfire for the selected project. [See the docs here](https://github.com/basecamp/bc3-api/blob/master/sections/campfires.md#create-a-campfire-line)",
+  description: "Creates a message in a selected Campfire. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/campfires.md#create-a-campfire-line)",
   type: "action",
-  version: "0.0.7",
+  version: "0.0.8",
   props: {
-    app,
-    accountId: {
-      propDefinition: [
-        app,
-        "accountId",
-      ],
-    },
-    projectId: {
-      propDefinition: [
-        app,
-        "projectId",
-        ({ accountId }) => ({
-          accountId,
-        }),
-      ],
-    },
+    ...common.props,
     campfireId: {
       propDefinition: [
         app,
@@ -39,7 +25,7 @@ export default {
     content: {
       type: "string",
       label: "Content",
-      description: "The plain text body for the Campfire line.",
+      description: "The plain text body for the Campfire message.",
     },
   },
   async run({ $ }) {
@@ -60,7 +46,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully posted campfire message with ID ${message.id}`);
+    $.export("$summary", `Successfully created campfire message (ID: ${message.id})`);
     return message;
   },
 };

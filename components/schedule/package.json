@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/schedule",
+  "version": "0.6.0",
+  "description": "Pipedream schedule Components",
+  "main": "schedule.app.mjs",
+  "keywords": [
+    "pipedream",
+    "schedule"
+  ],
+  "homepage": "https://pipedream.com/apps/schedule",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

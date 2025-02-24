@@ -287,15 +287,15 @@ export default {
     unfurl_links: {
       type: "boolean",
       label: "Unfurl Links",
-      description: "`TRUE` by default. Pass `FALSE` to disable unfurling of links.",
-      default: true,
+      description: "Default to `false`. Pass `true` to enable unfurling of links.",
+      default: false,
       optional: true,
     },
     unfurl_media: {
       type: "boolean",
       label: "Unfurl Media",
-      description: "`TRUE` by default. Pass `FALSE` to disable unfurling of media content.",
-      default: true,
+      description: "Defaults to `false`. Pass `true` to enable unfurling of media content.",
+      default: false,
       optional: true,
     },
     parse: {
@@ -307,14 +307,14 @@ export default {
     as_user: {
       type: "boolean",
       label: "Send as User",
-      description: "Optionally pass `TRUE` to post the message as the authenticated user, instead of as a bot. Defaults to `FALSE`.",
+      description: "Optionally pass `true` to post the message as the authenticated user, instead of as a bot. Defaults to `false`.",
       default: false,
       optional: true,
     },
     mrkdwn: {
       label: "Send text as Slack mrkdwn",
       type: "boolean",
-      description: "`TRUE` by default. Pass `FALSE` to disable Slack markup parsing. [See docs here](https://api.slack.com/reference/surfaces/formatting)",
+      description: "`true` by default. Pass `false` to disable Slack markup parsing. [See docs here](https://api.slack.com/reference/surfaces/formatting)",
       default: true,
       optional: true,
     },

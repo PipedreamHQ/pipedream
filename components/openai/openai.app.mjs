@@ -316,7 +316,7 @@ export default {
         "User-Agent": "@PipedreamHQ/pipedream v1.0",
       };
     },
-    _betaHeaders(version = "v1") {
+    _betaHeaders(version = "v2") {
       return {
         ...this._commonHeaders(),
         "OpenAI-Beta": `assistants=${version}`,
@@ -349,7 +349,7 @@ export default {
       const models = await this.models({
         $,
       });
-      return models.filter((model) => model.id.match(/turbo|gpt/gi));
+      return models.filter((model) => model.id.match(/4o|o[1-9]/gi));
     },
     async getCompletionModels({ $ }) {
       const models = await this.models({

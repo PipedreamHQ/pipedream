@@ -10,6 +10,7 @@
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "sourceMap": true,
@@ -17,8 +18,7 @@
     "noImplicitAny": true,
     "types": [
       "node",
-      "jest",
-      "jest-fetch-mock"
+      "jest"
     ]
   },
   "include": [

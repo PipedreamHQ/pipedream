@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/donately",
+  "version": "0.6.0",
+  "description": "Pipedream donately Components",
+  "main": "donately.app.mjs",
+  "keywords": [
+    "pipedream",
+    "donately"
+  ],
+  "homepage": "https://pipedream.com/apps/donately",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

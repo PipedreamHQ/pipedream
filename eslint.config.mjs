@@ -2,6 +2,7 @@ import jsonc from "eslint-plugin-jsonc";
 import putout from "eslint-plugin-putout";
 import pipedream from "eslint-plugin-pipedream";
 import typescriptEslint from "@typescript-eslint/eslint-plugin";
+import importPlugin from "eslint-plugin-import";
 import jest from "eslint-plugin-jest";
 import globals from "globals";
 import parser from "jsonc-eslint-parser";
@@ -10,6 +11,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import js from "@eslint/js";
 import { FlatCompat } from "@eslint/eslintrc";
+import nextPlugin from "@next/eslint-plugin-next";
+import reactPlugin from "eslint-plugin-react";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -52,6 +55,7 @@ export default [
       pipedream,
       "@typescript-eslint": typescriptEslint,
       jest,
+      "import": importPlugin,
     },
 
     languageOptions: {
@@ -311,6 +315,48 @@ export default [
 
     rules: {
       "react/react-in-jsx-scope": "off",
+    },
+  },
+  {
+    files: [
+      "packages/sdk/src/browser/**/*.ts",
+      "packages/sdk/src/shared/**/*.ts",
+    ],
+
+    rules: {
+      "import/extensions": [
+        "error",
+        "always",
+      ],
+    },
+  },
+  {
+    files: [
+      "docs-v2/**/*.{js,jsx,ts,tsx}",
+    ],
+    plugins: {
+      "@next": nextPlugin,
+      "react": reactPlugin,
+    },
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+        ecmaVersion: 2020,
+        sourceType: "module",
+      },
+      globals: {
+        ...globals.browser,
+        React: true,
+        JSX: true,
+      },
+    },
+    settings: {
+      react: {
+        version: "detect",
+      },
     },
   },
 ];

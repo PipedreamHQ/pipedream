@@ -6,7 +6,7 @@ export default {
   key: "sendgrid-get-a-global-suppression",
   name: "Get A Global Suppression",
   description: "Gets a global suppression. [See the docs here](https://docs.sendgrid.com/api-reference/suppressions-global-suppressions/retrieve-a-global-suppression)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,

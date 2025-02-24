@@ -1,6 +1,6 @@
 import shopify from "../../shopify_developer_app.app.mjs";
 import metafieldActions from "../common/metafield-actions.mjs";
-import common from "../../../shopify/actions/update-product/common.mjs";
+import common from "@pipedream/shopify/actions/update-product/common.mjs";
 
 export default {
   ...common,
@@ -8,7 +8,7 @@ export default {
   key: "shopify_developer_app-update-product",
   name: "Update Product",
   description: "Update an existing product. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/product#[put]/admin/api/2022-01/products/{product_id}.json)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     shopify,

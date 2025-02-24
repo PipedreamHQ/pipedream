@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/have_i_been_pwned",
+  "version": "0.0.1",
+  "description": "Pipedream Have I Been Pwned Components",
+  "main": "have_i_been_pwned.app.mjs",
+  "keywords": [
+    "pipedream",
+    "have_i_been_pwned"
+  ],
+  "homepage": "https://pipedream.com/apps/have_i_been_pwned",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/nmbrs",
+  "version": "0.0.1",
+  "description": "Pipedream Nmbrs Components",
+  "main": "nmbrs.app.mjs",
+  "keywords": [
+    "pipedream",
+    "nmbrs"
+  ],
+  "homepage": "https://pipedream.com/apps/nmbrs",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,10 +1,11 @@
+import { ConfigurationError } from "@pipedream/platform";
 import pipedriveApp from "../../pipedrive.app.mjs";
 
 export default {
   key: "pipedrive-add-deal",
   name: "Add Deal",
   description: "Adds a new deal. See the Pipedrive API docs for Deals [here](https://developers.pipedrive.com/docs/api/v1/Deals#addDeal)",
-  version: "0.1.5",
+  version: "0.1.7",
   type: "action",
   props: {
     pipedriveApp,
@@ -12,6 +13,37 @@ export default {
       propDefinition: [
         pipedriveApp,
         "dealTitle",
+      ],
+    },
+    ownerId: {
+      propDefinition: [
+        pipedriveApp,
+        "userId",
+      ],
+    },
+    personId: {
+      propDefinition: [
+        pipedriveApp,
+        "personId",
+      ],
+    },
+    orgId: {
+      propDefinition: [
+        pipedriveApp,
+        "organizationId",
+      ],
+    },
+    pipelineId: {
+      propDefinition: [
+        pipedriveApp,
+        "pipelineId",
+      ],
+      optional: true,
+    },
+    stageId: {
+      propDefinition: [
+        pipedriveApp,
+        "stageId",
       ],
     },
     value: {
@@ -24,30 +56,6 @@ export default {
       propDefinition: [
         pipedriveApp,
         "dealCurrency",
-      ],
-    },
-    userId: {
-      propDefinition: [
-        pipedriveApp,
-        "userId",
-      ],
-    },
-    personId: {
-      propDefinition: [
-        pipedriveApp,
-        "personId",
-      ],
-    },
-    organizationId: {
-      propDefinition: [
-        pipedriveApp,
-        "organizationId",
-      ],
-    },
-    stageId: {
-      propDefinition: [
-        pipedriveApp,
-        "stageId",
       ],
     },
     status: {
@@ -74,52 +82,30 @@ export default {
         "visibleTo",
       ],
     },
-    addTime: {
-      propDefinition: [
-        pipedriveApp,
-        "addTime",
-      ],
-    },
   },
   async run({ $ }) {
-    const {
-      title,
-      value,
-      currency,
-      userId,
-      personId,
-      organizationId,
-      stageId,
-      status,
-      probability,
-      lostReason,
-      visibleTo,
-      addTime,
-    } = this;
-
     try {
       const resp =
         await this.pipedriveApp.addDeal({
-          title,
-          value,
-          currency,
-          user_id: userId,
-          person_id: personId,
-          org_id: organizationId,
-          stage_id: stageId,
-          status,
-          probability,
-          lost_reason: lostReason,
-          visible_to: visibleTo,
-          add_time: addTime,
+          title: this.title,
+          owner_id: this.ownerId,
+          person_id: this.personId,
+          org_id: this.orgId,
+          pipeline_id: this.pipelineId,
+          stage_id: this.stageId,
+          value: this.value,
+          currency: this.currency,
+          status: this.status,
+          probability: this.probability,
+          lost_reason: this.lostReason,
+          visible_to: this.visibleTo,
         });
 
       $.export("$summary", "Successfully added deal");
 
       return resp;
-    } catch (error) {
-      console.error(error.context?.body || error);
-      throw error.context?.body?.error || "Failed to add deal";
+    }  catch ({ error }) {
+      throw new ConfigurationError(error);
     }
   },
 };

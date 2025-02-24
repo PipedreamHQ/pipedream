@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/cobalt",
+  "version": "0.6.0",
+  "description": "Pipedream cobalt Components",
+  "main": "cobalt.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cobalt"
+  ],
+  "homepage": "https://pipedream.com/apps/cobalt",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

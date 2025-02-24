@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/alteryx_analytics_cloud",
+  "version": "0.0.1",
+  "description": "Pipedream Alteryx Analytics Cloud Components",
+  "main": "alteryx_analytics_cloud.app.mjs",
+  "keywords": [
+    "pipedream",
+    "alteryx_analytics_cloud"
+  ],
+  "homepage": "https://pipedream.com/apps/alteryx_analytics_cloud",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
