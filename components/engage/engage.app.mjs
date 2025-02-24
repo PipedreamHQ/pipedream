@@ -73,11 +73,18 @@ export default {
       type: "string",
       label: "Timestamp",
       description: "Timestamp of the event. If none is provided, the current time is used",
+      optional: true,
     },
     properties: {
       type: "object",
       label: "Properties",
       description: "The properties of the event",
+      optional: true,
+    },
+    value: {
+      type: "string",
+      label: "Value",
+      description: "The event value",
     },
   },
   methods: {

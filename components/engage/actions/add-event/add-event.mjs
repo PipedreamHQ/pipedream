@@ -4,7 +4,7 @@ export default {
   key: "engage-add-event",
   name: "Add Event",
   description: "Adds user events to Engage. [See the documentation](https://docs.engage.so/en-us/a/62bbdd015bfea4dca4834042-users#track-user-event)",
-  version: "0.0.1",
+  version: "0.0.21",
   type: "action",
   props: {
     app,
@@ -18,6 +18,12 @@ export default {
       propDefinition: [
         app,
         "event",
+      ],
+    },
+    value: {
+      propDefinition: [
+        app,
+        "value",
       ],
     },
     timestamp: {
@@ -39,6 +45,7 @@ export default {
       uid: this.uid,
       data: {
         event: this.event,
+        value: this.value,
         timestamp: this.timestamp,
         properties: this.properties,
       },
