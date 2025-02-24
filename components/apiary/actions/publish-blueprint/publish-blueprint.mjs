@@ -14,12 +14,20 @@ export default {
         "apiSubdomain",
       ],
     },
+    code: {
+      propDefinition: [
+        app,
+        "code",
+      ],
+    },
   },
-
   async run({ $ }) {
     const response = await this.app.publishBlueprint({
       $,
       apiSubdomain: this.apiSubdomain,
+      data: {
+        code: this.code,
+      },
     });
 
     $.export("$summary", `Successfully published the blueprint with the subdomain '${this.apiSubdomain}'`);

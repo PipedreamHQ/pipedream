@@ -33,7 +33,6 @@ export default {
       ],
     },
   },
-
   async run({ $ }) {
     const response = await this.app.createApiProject({
       $,

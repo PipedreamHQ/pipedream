@@ -15,7 +15,6 @@ export default {
       ],
     },
   },
-
   async run({ $ }) {
     const response = await this.app.fetchBlueprint({
       $,

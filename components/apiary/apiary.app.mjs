@@ -46,26 +46,41 @@ export default {
     _baseUrl() {
       return "https://api.apiary.io";
     },
+    _headers({
+      headers = {}, legacy = false,
+    }) {
+      return legacy
+        ? {
+          ...headers,
+          Authentication: `Token ${this.$auth.token}`,
+        }
+        : {
+          ...headers,
+          Authorization: `Bearer ${this.$auth.token}`,
+        };
+    },
     async _makeRequest(opts = {}) {
       const {
         $ = this,
         path,
         headers,
+        legacy,
         ...otherOpts
       } = opts;
       return axios($, {
         ...otherOpts,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.token}`,
-        },
+        headers: this._headers({
+          headers,
+          legacy,
+        }),
       });
     },
     async createApiProject(args = {}) {
       return this._makeRequest({
         path: "/blueprint/create",
         method: "post",
+        legacy: true,
         ...args,
       });
     },
@@ -74,6 +89,7 @@ export default {
     }) {
       return this._makeRequest({
         path: `/blueprint/get/${apiSubdomain}`,
+        legacy: true,
         ...args,
       });
     },
@@ -82,6 +98,8 @@ export default {
     }) {
       return this._makeRequest({
         path: `/blueprint/publish/${apiSubdomain}`,
+        method: "post",
+        legacy: true,
         ...args,
       });
     },
