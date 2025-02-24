@@ -3889,7 +3889,11 @@ importers:
 
   components/elastic_cloud: {}
 
-  components/elastic_email: {}
+  components/elastic_email:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/elasticemail: {}
 
