@@ -99,7 +99,6 @@ const EVENT_TOPIC = {
   THEMES_UPDATE: "themes/update",
   VARIANTS_IN_STOCK: "variants/in_stock",
   VARIANTS_OUT_OF_STOCK: "variants/out_of_stock",
-  EVENT_TOPICS_THEMES_UPDATE: "event-topics-themes-update",
 };
 
 const EVENT_TOPICS = Object.values(EVENT_TOPIC);
