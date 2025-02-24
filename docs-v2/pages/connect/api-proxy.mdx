@@ -4,8 +4,8 @@ import Callout from '@/components/Callout'
 
 Pipedream Connect provides a proxy API that you can use to send authenticated requests to any integrated API on behalf of your users, which is useful in a few scenarios:
 
-1. You need code-level control and you want to use [Pipedream's OAuth](/connect/managed-auth/oauth-clients#using-pipedream-oauth) instead of [your own OAuth client](/connect/managed-auth/oauth-clients#using-a-custom-oauth-client)
-2. There isn't a [pre-built tool](/connect/components) (action) for the app, or you need to modify the request
+1. You need code-level control and you want to use [Pipedream's OAuth](/connect/managed-auth/oauth-clients/#using-pipedream-oauth) instead of [your own OAuth client](/connect/managed-auth/oauth-clients/#using-a-custom-oauth-client)
+2. There isn't a [pre-built tool](/connect/components/) (action) for the app, or you need to modify the request
 3. You want to avoid storing end user credentials in your app
 
 ## Overview
@@ -16,22 +16,22 @@ The Connect proxy enables you to interface with any integrated API and make auth
 2. The proxy sends the request to the downstream API and dynamically inserts your end user's auth credentials
 3. The proxy returns the response from the downstream API back to you
 
-![Connect API proxy visualization](https://res.cloudinary.com/pipedreamin/image/upload/v1739581334/pd-connect-proxy-viz-updated_xeeaxz.png)
+![Connect API proxy visualization](https://res.cloudinary.com/pipedreamin/image/upload/v1740098219/pd-connect-proxy-viz-updated_jb7wfu.png)
 
 <Callout type="info">
-Before getting started with the Connect proxy, make sure you've already gone through the [managed auth quickstart](/connect/managed-auth/quickstart) for Pipedream Connect.
+Before getting started with the Connect proxy, make sure you've already gone through the [managed auth quickstart](/connect/managed-auth/quickstart/) for Pipedream Connect.
 </Callout>
 
 ## Getting started
 
-You can send requests to the Connect proxy using the [Pipedream SDK](/connect/sdk) with a fetch-style interface, or by making a request to the [REST API](/rest-api/connect/proxy).
+You can send requests to the Connect proxy using the [Pipedream SDK](/connect/sdk/) with a fetch-style interface, or by making a request to the [REST API](/rest-api/connect/proxy/).
 
-- A [Pipedream OAuth client](/rest-api/auth#oauth) to make authenticated requests to Pipedream's API
-- Connect [environment](/connect/environments) (ex, `production` or `development`)
-- The [external user ID](/connect/api#external-users) for your end user (ex, `abc-123`)
-- The [account ID](/connect/api#accounts) for your end user's connected account (ex, `apn_1234567`)
+- A [Pipedream OAuth client](/rest-api/auth/#oauth) to make authenticated requests to Pipedream's API
+- Connect [environment](/connect/environments/) (ex, `production` or `development`)
+- The [external user ID](/connect/api/#external-users) for your end user (ex, `abc-123`)
+- The [account ID](/connect/api/#accounts) for your end user's connected account (ex, `apn_1234567`)
 
-Refer to the full Connect API [here](/connect/api).
+Refer to the full Connect API [here](/connect/api/).
 
 ### Authenticating on behalf of your user
 
@@ -41,12 +41,12 @@ For apps that require a different authentication method, you should include the 
 
 ```javascript
 /*
-OpenAI requires that you pass the API key 
+OpenAI requires that you pass the API key
 in the `Authorization` header with the `Bearer` prefix:
 */
 
 headers: {
-  authorization: "Bearer {{api_key}}", 
+  authorization: "Bearer {{api_key}}",
 }
 
 // Pipedream will replace the `{{api_key}}` macro with the actual API key
@@ -59,7 +59,7 @@ in the `Authorization` header with a custom `Zoho-oauthtoken` prefix:
 */
 
 headers: {
-  authorization: "Zoho-oauthtoken {{oauth_access_token}}", 
+  authorization: "Zoho-oauthtoken {{oauth_access_token}}",
 }
 
 // Pipedream will replace the `{{oauth_access_token}}` macro with the actual token
@@ -99,7 +99,7 @@ const resp = await pd.makeProxyRequest(
     url: "https://slack.com/api/chat.postMessage", // Include any query params you need; no need to Base64 encode the URL if using the SDK
     options: {
       method: "POST",
-      headers: { 
+      headers: {
         hello: "world!" // Include any headers you need to send to the downstream API
       },
       body: {
@@ -168,4 +168,3 @@ curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/proxy/{url_
 ## Rate limits
 
 The Connect proxy limits API requests to **100 per minute per project**. [Let us know](https://pipedream.com/support) if you need higher limits.
-

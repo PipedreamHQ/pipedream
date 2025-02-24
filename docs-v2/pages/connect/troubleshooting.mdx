@@ -8,11 +8,11 @@ Below are some common errors when connecting your users' accounts via Pipedream 
 
 >Error creating token: Error: Failed to obtain OAuth token: Response Error: 401 Unauthorized
 
-Authorization to the Pipedream API failed when creating the Connect token. Double-check the client ID or secret for your [Pipedream OAuth client](/connect/api#authentication).
+Authorization to the Pipedream API failed when creating the Connect token. Double-check the client ID or secret for your [Pipedream OAuth client](/connect/api/#authentication).
 
 ### Error connecting an account
 
-Most errors when connecting an account are related to the [Connect token](/connect/tokens), which Pipedream validates from the Connect iFrame.
+Most errors when connecting an account are related to the [Connect token](/connect/tokens/), which Pipedream validates from the Connect iFrame.
 
 #### Common errors
 
@@ -22,9 +22,9 @@ Most errors when connecting an account are related to the [Connect token](/conne
 
 #### Troubleshooting steps
 
-Pipedream typically returns an explicit error message in the HTTP response of the token validation network call directly from the iFrame in the client. To check for errors, start the account connection flow in a browser and open the developer console to view the network requests. 
+Pipedream typically returns an explicit error message in the HTTP response of the token validation network call directly from the iFrame in the client. To check for errors, start the account connection flow in a browser and open the developer console to view the network requests.
 
-Filter for requests to 
+Filter for requests to
 
 ```
 https://api.pipedream.com/v1/connect/tokens
@@ -40,7 +40,7 @@ Connect tokens expire, and are only able to be used once. Try generating a new t
 
 >App not found. Please check your app id.
 
-Double-check the app slug you're passing [when connecting your user's account](/connect/managed-auth/quickstart#connect-your-users-account).
+Double-check the app slug you're passing [when connecting your user's account](/connect/managed-auth/quickstart/#connect-your-users-account).
 
 ### Connection failed. Please retry or contact support.
 

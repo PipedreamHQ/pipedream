@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/chatra",
+  "version": "0.6.0",
+  "description": "Pipedream chatra Components",
+  "main": "chatra.app.mjs",
+  "keywords": [
+    "pipedream",
+    "chatra"
+  ],
+  "homepage": "https://pipedream.com/apps/chatra",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

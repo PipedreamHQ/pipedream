@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/instabot_chatbot_platform",
+  "version": "0.6.0",
+  "description": "Pipedream instabot_chatbot_platform Components",
+  "main": "instabot_chatbot_platform.app.mjs",
+  "keywords": [
+    "pipedream",
+    "instabot_chatbot_platform"
+  ],
+  "homepage": "https://pipedream.com/apps/instabot_chatbot_platform",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}
