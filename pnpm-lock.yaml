@@ -6828,7 +6828,14 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/langfuse: {}
+  components/langfuse:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      uuid:
+        specifier: ^11.1.0
+        version: 11.1.0
 
   components/laposta:
     dependencies:
@@ -28082,6 +28089,10 @@ packages:
     resolution: {integrity: sha512-508e6IcKLrhxKdBbcA2b4KQZlLVp2+J5UwQ6F7Drckkc5N9ZJwFa4TgWtsww9UG8fGHbm6gbV19TdM5pQ4GaIA==}
     hasBin: true
 
+  uuid@11.1.0:
+    resolution: {integrity: sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==}
+    hasBin: true
+
   uuid@3.3.2:
     resolution: {integrity: sha512-yXJmeNaw3DnnKAOKJE51sL/ZaYfWJRl1pK9dr19YFCu0ObS231AB1/LbqTKRAQ5kw8A90rA6fr4riOUpTZvQZA==}
     deprecated: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
@@ -39448,7 +39459,7 @@ snapshots:
       jsonwebtoken: 9.0.2
       jwks-rsa: 3.1.0
       node-forge: 1.3.1
-      uuid: 11.0.3
+      uuid: 11.0.5
     optionalDependencies:
       '@google-cloud/firestore': 7.11.0
       '@google-cloud/storage': 7.14.0
@@ -47293,6 +47304,8 @@ snapshots:
   uuid@11.0.3: {}
 
   uuid@11.0.5: {}
+
+  uuid@11.1.0: {}
 
   uuid@3.3.2: {}
 
