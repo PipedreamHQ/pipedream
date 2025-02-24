@@ -11288,8 +11288,8 @@ importers:
   components/shopify:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.2.0
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
       async-retry:
         specifier: ^1.3.3
         version: 1.3.3
@@ -11303,8 +11303,8 @@ importers:
         specifier: ^4.5.2
         version: 4.5.2
       shopify-api-node:
-        specifier: ^3.12.4
-        version: 3.14.0
+        specifier: ^3.14.2
+        version: 3.14.2
 
   components/shopify_developer_app:
     dependencies:
@@ -26837,6 +26837,10 @@ packages:
     resolution: {integrity: sha512-4rqfp5coivw4GEqai8OKFikWgFtfPxCEhDetXz8ig9TlMLWke8QhA/NrDdJ21qE4Hp0PqnCHW0vqE9h5XJnOWA==}
     engines: {node: '>=10.0.0'}
 
+  shopify-api-node@3.14.2:
+    resolution: {integrity: sha512-f+OTxMFZsZAQtBRV3wwPKg/8XoZ3q+kiw136TXZY178tcoJyUyK0GhJITAHIHl037ka0h46EE/9iSTomi++1jQ==}
+    engines: {node: '>=10.0.0'}
+
   short-unique-id@5.2.0:
     resolution: {integrity: sha512-cMGfwNyfDZ/nzJ2k2M+ClthBIh//GlZl1JEf47Uoa9XR11bz8Pa2T2wQO4bVrRdH48LrIDWJahQziKo3MjhsWg==}
     hasBin: true
@@ -33638,7 +33642,7 @@ snapshots:
       bottleneck: 2.19.5
       lodash.get: 4.4.2
       lodash.topath: 4.5.2
-      shopify-api-node: 3.14.0
+      shopify-api-node: 3.14.2
     transitivePeerDependencies:
       - debug
 
@@ -34001,6 +34005,8 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
+    transitivePeerDependencies:
+      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
@@ -45778,6 +45784,13 @@ snapshots:
       '@types/hast': 3.0.4
 
   shopify-api-node@3.14.0:
+    dependencies:
+      got: 11.8.6
+      lodash: 4.17.21
+      qs: 6.13.1
+      stopcock: 1.1.0
+
+  shopify-api-node@3.14.2:
     dependencies:
       got: 11.8.6
       lodash: 4.17.21
