@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -12,7 +13,7 @@ export default {
     billingRate: {
       type: "string",
       label: "Billing Rate",
-      description: "The billing rate for the client, job, or user",
+      description: "",
     },
     clientNumber: {
       type: "string",
@@ -22,7 +23,7 @@ export default {
     isActive: {
       type: "boolean",
       label: "Is Active",
-      description: "Indicates whether the entity (client, job, or user) is currently active",
+      description: "",
     },
     isEligibleTimeOffAllocation: {
       type: "boolean",
@@ -32,12 +33,12 @@ export default {
     name: {
       type: "string",
       label: "Name",
-      description: "The name of the client, job, or user",
+      description: "",
     },
     notes: {
       type: "string",
       label: "Notes",
-      description: "Additional information related to the entity",
+      description: "",
     },
     shortName: {
       type: "string",
@@ -62,7 +63,7 @@ export default {
     endDate: {
       type: "string",
       label: "End Date",
-      description: "The end date of the job or user, i.e.: `2021-01-01`",
+      description: "The end date of the job, i.e.: `2020-01-01`",
     },
     includeInRm: {
       type: "boolean",
@@ -82,7 +83,7 @@ export default {
     startDate: {
       type: "string",
       label: "Start Date",
-      description: "The start date of the job or user, i.e.: `2020-01-01`",
+      description: "",
     },
     timeRequiresApproval: {
       type: "boolean",
@@ -97,11 +98,8 @@ export default {
     costModel: {
       type: "string",
       label: "Cost Model",
-      description: "Defines the cost model used for the user, such as 'Hourly' or 'Fixed'",
-      options: [
-        "Hourly",
-        "Salary",
-      ],
+      description: "Defines the cost model used for the user",
+      options: constants.COST_MODELS,
     },
     costRate: {
       type: "string",

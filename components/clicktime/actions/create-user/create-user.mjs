@@ -13,24 +13,28 @@ export default {
         app,
         "billingRate",
       ],
+      description: "The billing rate for the user",
     },
     isActive: {
       propDefinition: [
         app,
         "isActive",
       ],
+      description: "Indicates whether the user is currently active",
     },
     name: {
       propDefinition: [
         app,
         "name",
       ],
+      description: "The name of the user",
     },
     startDate: {
       propDefinition: [
         app,
         "startDate",
       ],
+      description: "The start date of the user, i.e.: `2020-01-01`",
     },
     costModel: {
       propDefinition: [

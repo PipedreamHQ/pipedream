@@ -19,41 +19,40 @@ export default {
         app,
         "billingRate",
       ],
+      description: "The billing rate for the job",
     },
     isActive: {
       propDefinition: [
         app,
         "isActive",
       ],
+      description: "Indicates whether the job is currently active",
     },
     isEligibleTimeOffAllocation: {
       propDefinition: [
         app,
         "isEligibleTimeOffAllocation",
       ],
+      description: "Determines if the client is eligible for time-off allocation",
     },
     name: {
       propDefinition: [
         app,
         "name",
       ],
+      description: "The name of the job",
     },
     notes: {
       propDefinition: [
         app,
         "notes",
       ],
+      description: "Additional information related to the job",
     },
     clientId: {
       propDefinition: [
         app,
         "clientId",
-      ],
-    },
-    endDate: {
-      propDefinition: [
-        app,
-        "endDate",
       ],
     },
     includeInRm: {
@@ -78,6 +77,13 @@ export default {
       propDefinition: [
         app,
         "startDate",
+      ],
+      description: "The start date of the job, i.e.: `2020-01-01`",
+    },
+    endDate: {
+      propDefinition: [
+        app,
+        "endDate",
       ],
     },
     timeRequiresApproval: {

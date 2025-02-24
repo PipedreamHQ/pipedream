@@ -8,6 +8,12 @@ export default {
   type: "action",
   props: {
     app,
+    clientNumber: {
+      propDefinition: [
+        app,
+        "clientNumber",
+      ],
+    },
     accountingPackageId: {
       propDefinition: [
         app,
@@ -19,36 +25,35 @@ export default {
         app,
         "billingRate",
       ],
-    },
-    clientNumber: {
-      propDefinition: [
-        app,
-        "clientNumber",
-      ],
+      description: "The billing rate for the client",
     },
     isActive: {
       propDefinition: [
         app,
         "isActive",
       ],
+      description: "Indicates whether the client is currently active",
     },
     isEligibleTimeOffAllocation: {
       propDefinition: [
         app,
         "isEligibleTimeOffAllocation",
       ],
+      description: "Determines if the client is eligible for time-off allocation",
     },
     name: {
       propDefinition: [
         app,
         "name",
       ],
+      description: "The name of the client",
     },
     notes: {
       propDefinition: [
         app,
         "notes",
       ],
+      description: "Additional information related to the client",
     },
     shortName: {
       propDefinition: [
