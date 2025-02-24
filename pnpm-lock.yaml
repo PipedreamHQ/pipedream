@@ -6133,6 +6133,9 @@ importers:
         specifier: ^0.12.5
         version: 0.12.5
 
+  components/ihomefinder:
+    specifiers: {}
+
   components/ikas:
     dependencies:
       '@pipedream/platform':
