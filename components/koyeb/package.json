@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/koyeb",
+  "version": "0.0.1",
+  "description": "Pipedream Koyeb Components",
+  "main": "koyeb.app.mjs",
+  "keywords": [
+    "pipedream",
+    "koyeb"
+  ],
+  "homepage": "https://pipedream.com/apps/koyeb",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
