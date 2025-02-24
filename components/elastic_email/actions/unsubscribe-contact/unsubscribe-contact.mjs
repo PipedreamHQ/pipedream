@@ -1,24 +1,28 @@
-import elastic_email from "../../elastic_email.app.mjs";
-import { axios } from "@pipedream/platform";
+import { parseObject } from "../../common/utils.mjs";
+import app from "../../elastic_email.app.mjs";
 
 export default {
   key: "elastic_email-unsubscribe-contact",
   name: "Unsubscribe Contact",
   description: "Unsubscribes a contact from future emails. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    elastic_email,
-    unsubscribeEmail: {
+    app,
+    unsubscribeEmails: {
       propDefinition: [
-        "elastic_email",
-        "unsubscribeEmail",
+        app,
+        "unsubscribeEmails",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.elastic_email.unsubscribeContact();
-    $.export("$summary", `Unsubscribed contact ${this.unsubscribeEmail} successfully`);
+    const parsedEmails = parseObject(this.unsubscribeEmails);
+    const response = await this.app.unsubscribeContact({
+      $,
+      data: parsedEmails,
+    });
+    $.export("$summary", `Unsubscribed ${this.parsedEmails.length} contact(s) successfully`);
     return response;
   },
 };

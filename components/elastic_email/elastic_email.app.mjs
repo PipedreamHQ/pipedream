@@ -1,196 +1,141 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "elastic_email",
-  version: "0.0.{{ts}}",
   propDefinitions: {
-    sendEmailRecipients: {
-      type: "string[]",
-      label: "Recipient Email Addresses",
-      description: "Email addresses of the recipients",
-    },
-    sendEmailSubject: {
+    email: {
       type: "string",
       label: "Email Subject",
       description: "Subject of the email",
-    },
-    sendEmailBody: {
-      type: "string",
-      label: "Email Body",
-      description: "Body content of the email",
-    },
-    addContactEmail: {
-      type: "string",
-      label: "Contact Email Address",
-      description: "Email address of the contact to add",
-    },
-    addContactListName: {
-      type: "string",
-      label: "Mailing List Name",
-      description: "Name of the mailing list to add the contact to",
-      optional: true,
-    },
-    unsubscribeEmail: {
-      type: "string",
-      label: "Email Address to Unsubscribe",
-      description: "Email address of the contact to unsubscribe",
-    },
-    webhookUrl: {
-      type: "string",
-      label: "Webhook URL",
-      description: "URL to receive webhook events from Elastic Email",
-      optional: true,
     },
     listNames: {
       type: "string[]",
       label: "List Names",
       description: "Names of the mailing lists",
       optional: true,
+      async options({ page }) {
+        const data = await this.listLists({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+
+        return data.map(({ ListName }) => ListName);
+      },
+    },
+    templateName: {
+      type: "string",
+      label: "Template Name",
+      description: "The name of template.",
+      async options({ page }) {
+        const data = await this.listTemplates({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+
+        return data.map(({ Name }) => Name);
+      },
+    },
+    unsubscribeEmails: {
+      type: "string[]",
+      label: "Email Addresses",
+      description: "A list of email addresses  to unsubscribe",
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.elasticemail.com/v4";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        params,
-        data,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "X-ElasticEmail-ApiKey": this.$auth.api_key,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "X-ElasticEmail-ApiKey": this.$auth.api_key,
-        },
-        params,
-        data,
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async sendBulkEmails(opts = {}) {
-      const recipients = this.sendEmailRecipients.map((email) => ({
-        Email: email,
-      }));
-      const data = {
-        Recipients: recipients,
-        Content: {
-          Body: this.sendEmailBody,
-          Subject: this.sendEmailSubject,
-          From: this.$auth.from_email,
-          IsPlainText: false,
-        },
-        Options: {
-          // Add any additional email options here if needed
-        },
-      };
+    loadEvents(opts = {}) {
+      return this._makeRequest({
+        path: "/events",
+        ...opts,
+      });
+    },
+    listContacts(opts = {}) {
+      return this._makeRequest({
+        path: "/contacts",
+        ...opts,
+      });
+    },
+    listLists(opts = {}) {
+      return this._makeRequest({
+        path: "/lists",
+        ...opts,
+      });
+    },
+    listTemplates(opts = {}) {
+      return this._makeRequest({
+        path: "/templates",
+        ...opts,
+      });
+    },
+    sendBulkEmails(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/emails",
-        data,
         ...opts,
       });
     },
-    async sendTransactionalEmails(opts = {}) {
-      const recipients = this.sendEmailRecipients.map((email) => ({
-        Email: email,
-      }));
-      const data = {
-        Recipients: recipients,
-        Content: {
-          Body: this.sendEmailBody,
-          Subject: this.sendEmailSubject,
-          From: this.$auth.from_email,
-          IsPlainText: false,
-        },
-        Options: {
-          // Add any additional transactional email options here if needed
-        },
-      };
-      return this._makeRequest({
-        method: "POST",
-        path: "/emails/transactional",
-        data,
-        ...opts,
-      });
-    },
-    async addContact(opts = {}) {
-      const data = [
-        {
-          Email: this.addContactEmail,
-          Status: "Active",
-          ...(this.addContactListName && {
-            Lists: [
-              this.addContactListName,
-            ],
-          }),
-        },
-      ];
+    addContact(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/contacts",
-        data,
         ...opts,
       });
     },
-    async unsubscribeContact(opts = {}) {
-      const data = [
-        {
-          Email: this.unsubscribeEmail,
-          Status: "Unsubscribed",
-        },
-      ];
+    unsubscribeContact(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/contacts",
-        data,
+        path: "/suppressions/unsubscribes",
         ...opts,
       });
     },
-    async registerWebhook(opts = {}) {
-      if (!this.webhookUrl) {
-        throw new Error("Webhook URL is required to register a webhook.");
-      }
-      const data = {
-        Events: [
-          "Open",
-          "Click",
-          "ContactAdded",
-        ],
-        Url: this.webhookUrl,
-      };
-      return this._makeRequest({
-        method: "POST",
-        path: "/webhooks",
-        data,
-        ...opts,
-      });
-    },
-    async paginate(fn, ...opts) {
-      const results = [];
-      let hasMore = true;
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
       let page = 0;
-      while (hasMore) {
-        const response = await fn({
+
+      do {
+        params.limit = LIMIT;
+        params.offset = LIMIT * page;
+        const data = await fn({
+          params,
           ...opts,
-          page,
         });
-        if (!response || response.length === 0) {
-          hasMore = false;
-        } else {
-          results.push(...response);
-          page += 1;
+        for (const d of data) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
         }
-      }
-      return results;
+
+        page++;
+        hasMore = data.length;
+
+      } while (hasMore);
     },
   },
 };
