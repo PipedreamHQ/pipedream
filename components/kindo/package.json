@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/kindo",
+  "version": "0.0.1",
+  "description": "Pipedream Kindo Components",
+  "main": "kindo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "kindo"
+  ],
+  "homepage": "https://pipedream.com/apps/kindo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
