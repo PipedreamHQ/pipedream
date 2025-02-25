@@ -4,7 +4,7 @@ import app from "../../elastic_email.app.mjs";
 export default {
   key: "elastic_email-unsubscribe-contact",
   name: "Unsubscribe Contact",
-  description: "Unsubscribes a contact from future emails. [See the documentation]()",
+  description: "Unsubscribes a contact from future emails. [See the documentation](https://elasticemail.com/developers/api-documentation/rest-api#operation/suppressionsUnsubscribesPost)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -22,7 +22,7 @@ export default {
       $,
       data: parsedEmails,
     });
-    $.export("$summary", `Unsubscribed ${this.parsedEmails.length} contact(s) successfully`);
+    $.export("$summary", `Unsubscribed ${parsedEmails.length} contact(s) successfully`);
     return response;
   },
 };

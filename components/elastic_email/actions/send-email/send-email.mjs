@@ -2,13 +2,6 @@ import { ENCODING_OPTIONS } from "../../common/constants.mjs";
 import { parseObject } from "../../common/utils.mjs";
 import app from "../../elastic_email.app.mjs";
 
-/**FALTA TESTAR */
-/**FALTA TESTAR */
-/**FALTA TESTAR */
-/**FALTA TESTAR */
-/**FALTA TESTAR */
-/**FALTA TESTAR */
-/**FALTA TESTAR */
 export default {
   key: "elastic_email-send-email",
   name: "Send Email",
@@ -105,8 +98,8 @@ export default {
         })),
         Content: {
           From: this.from,
-          Body: this.body,
-          Merge: this.merge,
+          Body: parseObject(this.body),
+          Merge: parseObject(this.merge),
           ReplyTo: this.replyTo,
           Subject: this.subject,
           TemplateName: this.templateName,

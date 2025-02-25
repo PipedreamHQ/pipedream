@@ -6,7 +6,7 @@ import app from "../../elastic_email.app.mjs";
 export default {
   key: "elastic_email-add-contact",
   name: "Add Contact to Mailing List",
-  description: "Adds a new contact to a mailing list. [See the documentation]()",
+  description: "Adds a new contact to a mailing list. [See the documentation](https://elasticemail.com/developers/api-documentation/rest-api#operation/contactsPost)",
   version: "0.0.1",
   type: "action",
   props: {
