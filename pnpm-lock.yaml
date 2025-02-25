@@ -7872,6 +7872,9 @@ importers:
 
   components/mindmeister: {}
 
+  components/mindstudio:
+    specifiers: {}
+
   components/minio: {}
 
   components/miro_custom_app:
