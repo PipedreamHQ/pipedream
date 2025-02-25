@@ -8168,8 +8168,7 @@ importers:
         specifier: ^1.1.1
         version: 1.6.6
 
-  components/needle:
-    specifiers: {}
+  components/needle: {}
 
   components/neetoinvoice:
     dependencies:
