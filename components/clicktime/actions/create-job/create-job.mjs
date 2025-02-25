@@ -54,28 +54,10 @@ export default {
       description: "Additional information related to the job",
       optional: true,
     },
-    limit: {
-      propDefinition: [
-        app,
-        "limit",
-      ],
-      optional: true,
-    },
-    offset: {
-      propDefinition: [
-        app,
-        "offset",
-      ],
-      optional: true,
-    },
     clientId: {
       propDefinition: [
         app,
         "clientId",
-        (c) => ({
-          offset: c.offset,
-          limit: c.limit,
-        }),
       ],
     },
     includeInRm: {

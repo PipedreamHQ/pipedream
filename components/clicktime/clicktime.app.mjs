@@ -49,12 +49,13 @@ export default {
       type: "string",
       label: "Client ID",
       description: "Unique identifier of the client associated with a job",
-      async options({
-        limit, offset,
-      }) {
+      async options({ page }) {
+        const limit = constants.DEFAULT_LIMIT;
         const response = await this.getClients({
-          limit,
-          offset,
+          params: {
+            limit,
+            offset: page * limit,
+          },
         });
         const clientIds = response.data;
         return clientIds.map(({
@@ -64,18 +65,6 @@ export default {
           value: ID,
         }));
       },
-    },
-    limit: {
-      type: "integer",
-      label: "Limit",
-      description: "The number of records to return",
-      optional: true,
-    },
-    offset: {
-      type: "integer",
-      label: "Offset",
-      description: "The number of records to skip",
-      optional: true,
     },
     endDate: {
       type: "string",
@@ -132,12 +121,13 @@ export default {
       type: "string",
       label: "Employment Type ID",
       description: "Unique identifier for the user's employment type",
-      async options({
-        limit, offset,
-      }) {
+      async options({ page }) {
+        const limit = constants.DEFAULT_LIMIT;
         const response = await this.getEmploymentTypes({
-          limit,
-          offset,
+          params: {
+            limit,
+            offset: page * limit,
+          },
         });
         const employmentTypeIds = response.data;
         return employmentTypeIds.map(({
@@ -195,27 +185,15 @@ export default {
         ...args,
       });
     },
-    async getClients({
-      limit, offset, ...args
-    }) {
+    async getClients(args = {}) {
       return this._makeRequest({
         path: "/Clients",
-        params: {
-          limit,
-          offset,
-        },
         ...args,
       });
     },
-    async getEmploymentTypes({
-      limit, offset, ...args
-    }) {
+    async getEmploymentTypes(args = {}) {
       return this._makeRequest({
         path: "/EmploymentTypes",
-        params: {
-          limit,
-          offset,
-        },
         ...args,
       });
     },

@@ -3,4 +3,5 @@ export default {
     "Hourly",
     "Salary",
   ],
+  DEFAULT_LIMIT: 20,
 };

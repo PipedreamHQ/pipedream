@@ -59,28 +59,10 @@ export default {
         "email",
       ],
     },
-    limit: {
-      propDefinition: [
-        app,
-        "limit",
-      ],
-      optional: true,
-    },
-    offset: {
-      propDefinition: [
-        app,
-        "offset",
-      ],
-      optional: true,
-    },
     employmentTypeId: {
       propDefinition: [
         app,
         "employmentTypeId",
-        (c) => ({
-          offset: c.offset,
-          limit: c.limit,
-        }),
       ],
       optional: true,
     },
