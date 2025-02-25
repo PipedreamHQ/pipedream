@@ -12,7 +12,7 @@ You'll see a list of all users, their connected accounts, and the option to dele
 
 ## Connecting multiple accounts
 
-Users can connect multiple accounts for many different apps, or for the same app (e.g, I can connect my Notion and Gmail accounts, as well as accounts for multiple Slack workspaces).
+Users can connect multiple accounts for many different apps, or for the same app (e.g., I can connect my Notion and Gmail accounts, as well as accounts for multiple Slack workspaces).
 
 When retrieving account information [from the API](/connect/api/#accounts), you can filter by `external_user_id` and / or `app` to retrieve information for a specific user and / or app.
 
@@ -22,7 +22,7 @@ When running workflows on behalf of an end user, right now you can only use a si
 
 ## Deleting accounts
 
-You have several options for removing access in Pipedream, depending on whether you want to delete an entire user or just specific connected accounts.
+You can delete an individual connected account or an entire user and all associated accounts and resources from the UI or via the API.
 
 ### Deleting individual connected accounts
 
@@ -34,7 +34,6 @@ If you need more granular control, you can delete specific connected accounts in
 3. Find the user whose accounts you want to manage
 4. View all connected accounts for that user in the expanded section
 5. Click the **Delete** button next to the specific account you want to remove
-6. Confirm the deletion when prompted
 
 This allows for more granular control over which integrated services remain accessible to your users.
 
@@ -56,8 +55,7 @@ When you delete a user, all of their connected accounts and deployed resources (
 1. Open the project in Pipedream
 2. Navigate to the **Users** tab under **Connect**
 3. Locate the user you wish to delete
-4. Click the **Delete User** button at the end of the row
-5. Confirm the deletion in the dialog that appears
+4. Click the **Delete User** button from the overlow menu at the end of the row
 
 <Callout type="danger">
 Deleting a user is permanent and cannot be undone. All connected accounts for this user will be permanently removed.
