@@ -59,20 +59,49 @@ export default {
       label: "Company",
       description: "The contact's company name.",
     },
-    emails: {
-      type: "string[]",
-      label: "Email Addresses",
-      description: "A list of objects of contact's email address. **Example: [ { \"address\": \"email@benchmarkone.com\", \"type\": \"Home\" } ]** [See the documentation](https://sandbox.hatchbuck.com/api/dist/#!/Contacts/post_contact) for further details.",
+    workEmail: {
+      type: "string",
+      label: "Work Email Address",
+      description: "A contact's work email address.",
     },
-    phones: {
-      type: "string[]",
-      label: "Phones",
-      description: "A list of objects of contact's phone numbers. **Example: [ { \"number\": \"(123)4567890\", \"type\": \"Work\" } ]** [See the documentation](https://sandbox.hatchbuck.com/api/dist/#!/Contacts/post_contact) for further details.",
+    homeEmail: {
+      type: "string",
+      label: "Home Email Address",
+      description: "A contact's home email address.",
     },
-    addresses: {
-      type: "string[]",
-      label: "Addresses",
-      description: "A list of objects of contact's addresses. **Example: [ { \"street\": \"string\", \"city\": \"string\", \"state\": \"string\", \"zip\": \"string\", \"country\": \"string\", \"type\": \"string\" } ]** [See the documentation](https://sandbox.hatchbuck.com/api/dist/#!/Contacts/post_contact) for further details.",
+    workPhone: {
+      type: "string",
+      label: "Work Phone",
+      description: "A contact's work phone number.",
+    },
+    homePhone: {
+      type: "string",
+      label: "Home Phone",
+      description: "A contact's home phone number.",
+    },
+    workAddress: {
+      type: "object",
+      label: "Work Address",
+      description: "An object of contact's work address.",
+      default: {
+        street: "",
+        city: "",
+        state: "",
+        zip: "",
+        country: "",
+      },
+    },
+    homeAddress: {
+      type: "object",
+      label: "Home Address",
+      description: "An object of contact's home address.",
+      default: {
+        street: "",
+        city: "",
+        state: "",
+        zip: "",
+        country: "",
+      },
     },
     website: {
       type: "string",

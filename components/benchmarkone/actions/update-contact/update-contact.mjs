@@ -44,24 +44,45 @@ export default {
       ],
       optional: true,
     },
-    emails: {
+    workEmail: {
       propDefinition: [
         benchmarkone,
-        "emails",
+        "workEmail",
       ],
       optional: true,
     },
-    phones: {
+    homeEmail: {
       propDefinition: [
         benchmarkone,
-        "phones",
+        "homeEmail",
       ],
       optional: true,
     },
-    addresses: {
+    workPhone: {
       propDefinition: [
         benchmarkone,
-        "addresses",
+        "workPhone",
+      ],
+      optional: true,
+    },
+    homePhone: {
+      propDefinition: [
+        benchmarkone,
+        "homePhone",
+      ],
+      optional: true,
+    },
+    workAddress: {
+      propDefinition: [
+        benchmarkone,
+        "workAddress",
+      ],
+      optional: true,
+    },
+    homeAddress: {
+      propDefinition: [
+        benchmarkone,
+        "homeAddress",
       ],
       optional: true,
     },
@@ -89,13 +110,53 @@ export default {
   },
   async run({ $ }) {
     try {
+      const emails = [];
+      if (this.workEmail) {
+        emails.push({
+          address: this.workEmail,
+          type: "Work",
+        });
+      }
+      if (this.homeEmail) {
+        emails.push({
+          address: this.homeEmail,
+          type: "Home",
+        });
+      }
+      const phones = [];
+      if (this.workPhone) {
+        phones.push({
+          number: this.workPhone,
+          type: "Work",
+        });
+      }
+      if (this.homePhone) {
+        phones.push({
+          number: this.homePhone,
+          type: "Home",
+        });
+      }
+      const addresses = [];
+      if (this.workAddress) {
+        addresses.push({
+          ...parseObject(this.workAddress),
+          type: "Work",
+        });
+      }
+      if (this.homeAddress) {
+        addresses.push({
+          ...parseObject(this.homeAddress),
+          type: "Home",
+        });
+      }
+
       const data = {
         contactId: this.contactId,
         firstName: this.firstName,
         lastName: this.lastName,
-        emails: parseObject(this.emails),
-        phones: parseObject(this.phones),
-        addresses: parseObject(this.addresses),
+        emails,
+        phones,
+        addresses,
       };
       if (this.status) {
         data.status = {
