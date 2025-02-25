@@ -15,7 +15,7 @@ export default {
     alert: {
       type: "alert",
       alertType: "warning",
-      content: "BenchmarkONE does not provide a way to delete webhooks through API. If you want to stop receiving events, you'll need to delete this source and the webhook from the BenchmarkONE UI.",
+      content: "BenchmarkONE does not provide a way to delete webhooks through API. If you want to stop receiving events, you'll need to delete this source and the webhook from the [BenchmarkONE UI > Account Settings > Data > Webhooks](https://app.hatchbuck.com/account/setting#Webhooks)",
     },
     webhookName: {
       type: "string",
