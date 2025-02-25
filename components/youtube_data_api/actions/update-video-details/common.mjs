@@ -12,31 +12,23 @@ export default {
       video,
     ] = data.items;
 
-    const description = this.description || video.snippet.description;
-    const tags = this.tags || video.snippet.tags;
-
     const params = {
       part,
       onBehalfOfContentOwner: this.onBehalfOfContentOwner,
       resource: {
         id: this.videoId,
         snippet: {
-          categoryId: this.categoryId,
-          title: this.title,
+          categoryId: this.categoryId || video.snippet.categoryId,
+          title: this.title || video.snippet.title,
+          description: this.description || video.snippet.description,
+          tags: this.tags || video.snippet.tags,
         },
       },
     };
 
-    if (description) {
-      params.resource.snippet.description = description;
-    }
-    if (tags) {
-      params.resource.snippet.tags = tags;
-    }
-
     const { data: response } = await this.youtubeDataApi.updateVideo(params);
 
-    $.export("$summary", `Successfully updated video, "${this.title}"`);
+    $.export("$summary", `Successfully updated video with ID: "${this.videoId}"`);
     return response;
   },
 };
