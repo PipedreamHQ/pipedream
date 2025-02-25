@@ -13,6 +13,7 @@ export default {
         app,
         "accountingPackageId",
       ],
+      optional: true,
     },
     billingRate: {
       propDefinition: [
@@ -20,6 +21,7 @@ export default {
         "billingRate",
       ],
       description: "The billing rate for the job",
+      optional: true,
     },
     isActive: {
       propDefinition: [
@@ -27,13 +29,15 @@ export default {
         "isActive",
       ],
       description: "Indicates whether the job is currently active",
+      optional: true,
     },
     isEligibleTimeOffAllocation: {
       propDefinition: [
         app,
         "isEligibleTimeOffAllocation",
       ],
-      description: "Determines if the client is eligible for time-off allocation",
+      description: "Determines if the job is eligible for time-off allocation",
+      optional: true,
     },
     name: {
       propDefinition: [
@@ -48,11 +52,30 @@ export default {
         "notes",
       ],
       description: "Additional information related to the job",
+      optional: true,
+    },
+    limit: {
+      propDefinition: [
+        app,
+        "limit",
+      ],
+      optional: true,
+    },
+    offset: {
+      propDefinition: [
+        app,
+        "offset",
+      ],
+      optional: true,
     },
     clientId: {
       propDefinition: [
         app,
         "clientId",
+        (c) => ({
+          offset: c.offset,
+          limit: c.limit,
+        }),
       ],
     },
     includeInRm: {
@@ -60,12 +83,14 @@ export default {
         app,
         "includeInRm",
       ],
+      optional: true,
     },
     isBillable: {
       propDefinition: [
         app,
         "isBillable",
       ],
+      optional: true,
     },
     jobNumber: {
       propDefinition: [
@@ -79,24 +104,28 @@ export default {
         "startDate",
       ],
       description: "The start date of the job, i.e.: `2020-01-01`",
+      optional: true,
     },
     endDate: {
       propDefinition: [
         app,
         "endDate",
       ],
+      optional: true,
     },
     timeRequiresApproval: {
       propDefinition: [
         app,
         "timeRequiresApproval",
       ],
+      optional: true,
     },
     useCompanyBillingRate: {
       propDefinition: [
         app,
         "useCompanyBillingRate",
       ],
+      optional: true,
     },
   },
   async run({ $ }) {

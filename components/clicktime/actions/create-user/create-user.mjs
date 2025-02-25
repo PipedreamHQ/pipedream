@@ -14,6 +14,7 @@ export default {
         "billingRate",
       ],
       description: "The billing rate for the user",
+      optional: true,
     },
     isActive: {
       propDefinition: [
@@ -21,6 +22,7 @@ export default {
         "isActive",
       ],
       description: "Indicates whether the user is currently active",
+      optional: true,
     },
     name: {
       propDefinition: [
@@ -35,18 +37,21 @@ export default {
         "startDate",
       ],
       description: "The start date of the user, i.e.: `2020-01-01`",
+      optional: true,
     },
     costModel: {
       propDefinition: [
         app,
         "costModel",
       ],
+      optional: true,
     },
     costRate: {
       propDefinition: [
         app,
         "costRate",
       ],
+      optional: true,
     },
     email: {
       propDefinition: [
@@ -54,17 +59,37 @@ export default {
         "email",
       ],
     },
+    limit: {
+      propDefinition: [
+        app,
+        "limit",
+      ],
+      optional: true,
+    },
+    offset: {
+      propDefinition: [
+        app,
+        "offset",
+      ],
+      optional: true,
+    },
     employmentTypeId: {
       propDefinition: [
         app,
         "employmentTypeId",
+        (c) => ({
+          offset: c.offset,
+          limit: c.limit,
+        }),
       ],
+      optional: true,
     },
     role: {
       propDefinition: [
         app,
         "role",
       ],
+      optional: true,
     },
   },
   async run({ $ }) {

@@ -13,12 +13,14 @@ export default {
         app,
         "clientNumber",
       ],
+      optional: true,
     },
     accountingPackageId: {
       propDefinition: [
         app,
         "accountingPackageId",
       ],
+      optional: true,
     },
     billingRate: {
       propDefinition: [
@@ -26,6 +28,7 @@ export default {
         "billingRate",
       ],
       description: "The billing rate for the client",
+      optional: true,
     },
     isActive: {
       propDefinition: [
@@ -33,6 +36,7 @@ export default {
         "isActive",
       ],
       description: "Indicates whether the client is currently active",
+      optional: true,
     },
     isEligibleTimeOffAllocation: {
       propDefinition: [
@@ -40,6 +44,7 @@ export default {
         "isEligibleTimeOffAllocation",
       ],
       description: "Determines if the client is eligible for time-off allocation",
+      optional: true,
     },
     name: {
       propDefinition: [
@@ -54,6 +59,7 @@ export default {
         "notes",
       ],
       description: "Additional information related to the client",
+      optional: true,
     },
     shortName: {
       propDefinition: [

@@ -13,7 +13,7 @@ export default {
     billingRate: {
       type: "string",
       label: "Billing Rate",
-      description: "",
+      description: "The billing rate for the user, job or client",
     },
     clientNumber: {
       type: "string",
@@ -23,7 +23,7 @@ export default {
     isActive: {
       type: "boolean",
       label: "Is Active",
-      description: "",
+      description: "Whether the user, job or client is currently active",
     },
     isEligibleTimeOffAllocation: {
       type: "boolean",
@@ -33,12 +33,12 @@ export default {
     name: {
       type: "string",
       label: "Name",
-      description: "",
+      description: "The name of the user, job or client",
     },
     notes: {
       type: "string",
       label: "Notes",
-      description: "",
+      description: "Additional information related to the user, job or client",
     },
     shortName: {
       type: "string",
@@ -49,8 +49,13 @@ export default {
       type: "string",
       label: "Client ID",
       description: "Unique identifier of the client associated with a job",
-      async options() {
-        const response = await this.getClients();
+      async options({
+        limit, offset,
+      }) {
+        const response = await this.getClients({
+          limit,
+          offset,
+        });
         const clientIds = response.data;
         return clientIds.map(({
           ID, Name,
@@ -59,6 +64,18 @@ export default {
           value: ID,
         }));
       },
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "The number of records to return",
+      optional: true,
+    },
+    offset: {
+      type: "integer",
+      label: "Offset",
+      description: "The number of records to skip",
+      optional: true,
     },
     endDate: {
       type: "string",
@@ -83,7 +100,7 @@ export default {
     startDate: {
       type: "string",
       label: "Start Date",
-      description: "",
+      description: "Start date of the user or job, i.e.: `2020-01-01`",
     },
     timeRequiresApproval: {
       type: "boolean",
@@ -115,8 +132,13 @@ export default {
       type: "string",
       label: "Employment Type ID",
       description: "Unique identifier for the user's employment type",
-      async options() {
-        const response = await this.getEmploymentTypes();
+      async options({
+        limit, offset,
+      }) {
+        const response = await this.getEmploymentTypes({
+          limit,
+          offset,
+        });
         const employmentTypeIds = response.data;
         return employmentTypeIds.map(({
           ID, Name,
@@ -132,7 +154,6 @@ export default {
       description: "The role assigned to the user",
     },
   },
-
   methods: {
     _baseUrl() {
       return "https://api.clicktime.com/v2";
@@ -174,15 +195,27 @@ export default {
         ...args,
       });
     },
-    async getClients(args = {}) {
+    async getClients({
+      limit, offset, ...args
+    }) {
       return this._makeRequest({
         path: "/Clients",
+        params: {
+          limit,
+          offset,
+        },
         ...args,
       });
     },
-    async getEmploymentTypes(args = {}) {
+    async getEmploymentTypes({
+      limit, offset, ...args
+    }) {
       return this._makeRequest({
         path: "/EmploymentTypes",
+        params: {
+          limit,
+          offset,
+        },
         ...args,
       });
     },
