@@ -2,8 +2,8 @@ import common from "../common/base.mjs";
 
 export default {
   ...common,
-  key: "brillium-new-respondent",
-  name: "New Respondent",
+  key: "brillium-new-respondent-results",
+  name: "New Respondent Results",
   description: "Emit new event when new results are added for an existing respondent. [See the documentation](https://support.brillium.com/en-us/knowledgebase/article/KA-01073)",
   version: "0.0.1",
   type: "source",
