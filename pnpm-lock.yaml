@@ -1752,7 +1752,11 @@ importers:
         specifier: ^6.11.2
         version: 6.13.1
 
-  components/brillium: {}
+  components/brillium:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/brosix: {}
 
@@ -8168,8 +8172,7 @@ importers:
         specifier: ^1.1.1
         version: 1.6.6
 
-  components/needle:
-    specifiers: {}
+  components/needle: {}
 
   components/neetoinvoice:
     dependencies:
