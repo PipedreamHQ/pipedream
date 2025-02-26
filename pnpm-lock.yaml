@@ -11317,14 +11317,14 @@ importers:
   components/shopify_developer_app:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
+        specifier: ^3.0.3
         version: 3.0.3
       '@pipedream/shopify':
-        specifier: ^0.6.5
-        version: 0.6.5
+        specifier: ^0.6.8
+        version: 0.6.8
       shopify-api-node:
-        specifier: ^3.12.5
-        version: 3.14.0
+        specifier: ^3.14.2
+        version: 3.14.2
 
   components/shopify_partner:
     dependencies:
@@ -17520,8 +17520,8 @@ packages:
   '@pipedream/sftp@0.4.1':
     resolution: {integrity: sha512-K+tYweZBO4cAZDXqCsciPeDEG6tJsuCS0+kP+JlWfwjKHH/Z75G/P5NXFO3tGCwmSrhwyB/Ew1Zi89oUsQq8mQ==}
 
-  '@pipedream/shopify@0.6.5':
-    resolution: {integrity: sha512-41i0E8h063ebHiAgDLFwkYfXJiA9/P1zUgmFeiGT/vv0dFBcUyfNVLP7AmKde8M0Emo78rMQWayQd3fv2jOXsg==}
+  '@pipedream/shopify@0.6.8':
+    resolution: {integrity: sha512-SKdygl45yUUAMkRpVhIuiAR2EwqKv8rjQWXpu92j6i815K7K7k7iib+EiZ8KIqfQrogck1LcHpF+9wQcCQHRzw==}
 
   '@pipedream/snowflake-sdk@1.0.8':
     resolution: {integrity: sha512-/nLCQNjlSCz71MUnOUZqWmnjZTbEX7mie91mstPspb8uDG/GvaDk/RynLGhhYfgEP5d1KWj+OPaI71hmPSxReg==}
@@ -26850,10 +26850,6 @@ packages:
   shiki@1.24.0:
     resolution: {integrity: sha512-qIneep7QRwxRd5oiHb8jaRzH15V/S8F3saCXOdjwRLgozZJr5x2yeBhQtqkO3FSzQDwYEFAYuifg4oHjpDghrg==}
 
-  shopify-api-node@3.14.0:
-    resolution: {integrity: sha512-4rqfp5coivw4GEqai8OKFikWgFtfPxCEhDetXz8ig9TlMLWke8QhA/NrDdJ21qE4Hp0PqnCHW0vqE9h5XJnOWA==}
-    engines: {node: '>=10.0.0'}
-
   shopify-api-node@3.14.2:
     resolution: {integrity: sha512-f+OTxMFZsZAQtBRV3wwPKg/8XoZ3q+kiw136TXZY178tcoJyUyK0GhJITAHIHl037ka0h46EE/9iSTomi++1jQ==}
     engines: {node: '>=10.0.0'}
@@ -33652,9 +33648,9 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@pipedream/shopify@0.6.5':
+  '@pipedream/shopify@0.6.8':
     dependencies:
-      '@pipedream/platform': 1.6.6
+      '@pipedream/platform': 3.0.3
       async-retry: 1.3.3
       bottleneck: 2.19.5
       lodash.get: 4.4.2
@@ -45813,13 +45809,6 @@ snapshots:
       '@shikijs/types': 1.24.0
       '@shikijs/vscode-textmate': 9.3.0
       '@types/hast': 3.0.4
-
-  shopify-api-node@3.14.0:
-    dependencies:
-      got: 11.8.6
-      lodash: 4.17.21
-      qs: 6.13.1
-      stopcock: 1.1.0
 
   shopify-api-node@3.14.2:
     dependencies:
