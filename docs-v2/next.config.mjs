@@ -160,6 +160,16 @@ export default withNextra({
         permanent: true,
       },
       {
+        source: "/destinations/",
+        destination: "/workflows/data-management/destinations/",
+        permanent: true,
+      },
+      {
+        source: "/destinations/:path*/",
+        destination: "/workflows/data-management/destinations/:path*/",
+        permanent: true,
+      },
+      {
         source: "/projects/",
         destination: "/workflows/projects/",
         permanent: true,
