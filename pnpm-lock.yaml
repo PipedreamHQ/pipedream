@@ -4909,6 +4909,9 @@ importers:
 
   components/getswift: {}
 
+  components/getty_images:
+    specifiers: {}
+
   components/ghost_org_admin_api:
     dependencies:
       '@pipedream/platform':
