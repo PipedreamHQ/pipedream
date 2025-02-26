@@ -4838,6 +4838,9 @@ importers:
 
   components/geckoboard: {}
 
+  components/gem:
+    specifiers: {}
+
   components/gemini_public:
     dependencies:
       '@pipedream/platform':
