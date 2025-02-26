@@ -3588,6 +3588,9 @@ importers:
 
   components/dokan: {}
 
+  components/domain_group:
+    specifiers: {}
+
   components/domo: {}
 
   components/donately:
