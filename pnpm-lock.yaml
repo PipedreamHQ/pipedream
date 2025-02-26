@@ -6660,8 +6660,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/kindo:
-    specifiers: {}
+  components/kindo: {}
 
   components/kingsumo:
     dependencies:
@@ -7871,8 +7870,7 @@ importers:
 
   components/mindmeister: {}
 
-  components/mindstudio:
-    specifiers: {}
+  components/mindstudio: {}
 
   components/minio: {}
 
@@ -8787,7 +8785,11 @@ importers:
         specifier: ^0.9.0
         version: 0.9.0
 
-  components/opnform: {}
+  components/opnform:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/opsgenie:
     dependencies:
@@ -12295,8 +12297,7 @@ importers:
 
   components/synthflow: {}
 
-  components/systeme_io:
-    specifiers: {}
+  components/systeme_io: {}
 
   components/t2m_url_shortener: {}
 
