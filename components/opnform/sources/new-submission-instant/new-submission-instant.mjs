@@ -1,92 +1,58 @@
-import { axios } from "@pipedream/platform";
 import opnform from "../../opnform.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "opnform-new-submission-instant",
   name: "New Submission Instant",
-  description: "Emit a new event when a form receives a submission. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a form receives a submission.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    opnform: {
-      type: "app",
-      app: "opnform",
-    },
+    opnform,
+    http: "$.interface.http",
+    db: "$.service.db",
     workspaceId: {
       propDefinition: [
-        "opnform",
+        opnform,
         "workspaceId",
       ],
     },
     formId: {
       propDefinition: [
-        "opnform",
+        opnform,
         "formId",
+        ({ workspaceId }) => ({
+          workspaceId,
+        }),
       ],
     },
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
-    db: "$.service.db",
   },
   hooks: {
     async activate() {
-      const hookUrl = this.http.endpoint;
-      const webhook = await this.opnform.createWebhook({
-        hookUrl,
-        formId: this.formId,
+      await this.opnform.createWebhook({
+        data: {
+          hookUrl: this.http.endpoint,
+          form_id: this.formId,
+        },
       });
-      await this.db.set("webhookId", webhook.id);
     },
     async deactivate() {
-      const webhookId = await this.db.get("webhookId");
-      if (webhookId) {
-        await this.opnform._makeRequest({
-          method: "DELETE",
-          path: `/webhook/${webhookId}`,
-        });
-        await this.db.delete("webhookId");
-      }
-    },
-    async deploy() {
-      const submissions = await this.opnform.paginate(
-        this.opnform._makeRequest.bind(this.opnform),
-        {
-          method: "GET",
-          path: `/forms/${this.formId}/submissions`,
-          params: {
-            limit: 50,
-          },
+      await this.opnform.deleteWebhook({
+        data: {
+          hookUrl: this.http.endpoint,
+          form_id: this.formId,
         },
-      );
-
-      submissions.reverse().forEach((submission) => {
-        this.$emit(
-          submission,
-          {
-            id: submission.id || Date.now().toString(),
-            summary: `New submission for form ${submission.formName}`,
-            ts: submission.createdAt
-              ? Date.parse(submission.createdAt)
-              : Date.now(),
-          },
-        );
       });
     },
   },
-  async run(event) {
-    const submission = event.body;
-    const id = submission.id || Date.now().toString();
-    const summary = `New submission for form ${submission.formName}`;
-    const ts = submission.createdAt
-      ? Date.parse(submission.createdAt)
-      : Date.now();
-    this.$emit(submission, {
-      id,
-      summary,
+  async run({ body }) {
+    const ts = Date.now();
+    this.$emit(body, {
+      id: `${body.form_slug}-${ts}`,
+      summary: `New submission for "${body.form_title}"`,
       ts,
     });
   },
+  sampleEmit,
 };

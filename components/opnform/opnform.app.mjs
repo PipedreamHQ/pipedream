@@ -3,21 +3,30 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "opnform",
-  version: "0.0.{{ts}}",
   propDefinitions: {
     workspaceId: {
       type: "string",
       label: "Workspace ID",
       description: "The ID of the workspace containing the forms.",
+      async options() {
+        const worspaces = await this.listWorkspaces();
+        return worspaces.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
     formId: {
       type: "string",
       label: "Form",
       description: "Select the form to monitor for new submissions.",
-      async options() {
-        const { workspaceId } = this;
+      async options({ workspaceId }) {
         const forms = await this.listForms({
-          workspaceId,
+          params: {
+            workspace_id: workspaceId,
+          },
         });
         return forms.map((form) => ({
           label: form.name,
@@ -27,76 +36,48 @@ export default {
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
       return "https://api.opnform.com/external/zapier";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, params, data, ...otherOpts
-      } = opts;
-      return axios($, {
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
-        },
-        params,
-        data,
-        ...otherOpts,
-      });
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.api_key}`,
+      };
     },
-    async listForms({
-      workspaceId, ...opts
-    } = {}) {
-      if (!workspaceId) {
-        throw new Error("workspaceId is required to list forms.");
-      }
-      return this._makeRequest({
-        method: "GET",
-        path: "/forms",
-        params: {
-          workspace_id: workspaceId,
-        },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
+      return axios($, {
+        url: this._baseUrl() + path,
+        headers: this._headers(),
         ...opts,
       });
     },
-    async createWebhook({
-      hookUrl, formId, ...opts
-    } = {}) {
+    listForms(opts = {}) {
+      return this._makeRequest({
+        path: "/forms",
+        ...opts,
+      });
+    },
+    listWorkspaces(opts = {}) {
+      return this._makeRequest({
+        path: "/workspaces",
+        ...opts,
+      });
+    },
+    createWebhook(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/webhook",
-        data: {
-          hookUrl,
-          form_id: formId,
-        },
         ...opts,
       });
     },
-    async paginate(fn, ...opts) {
-      let results = [];
-      let response;
-      let hasMore = true;
-      let page = 1;
-
-      while (hasMore) {
-        response = await fn({
-          page,
-          ...opts,
-        });
-        if (Array.isArray(response) && response.length > 0) {
-          results = results.concat(response);
-          page += 1;
-        } else {
-          hasMore = false;
-        }
-      }
-
-      return results;
+    deleteWebhook(opts = {}) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: "/webhook",
+        ...opts,
+      });
     },
   },
 };
