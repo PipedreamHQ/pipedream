@@ -6,7 +6,7 @@ import Callout from '@/components/Callout'
 Our TypeScript component API is in **beta**. If you're interested in developing TypeScript components and providing feedback, [see our TypeScript docs](/workflows/contributing/components/typescript/).
 </Callout>
 
-This document was created to help developers author and use [Pipedream components](/workflows/contributing/components/). Not only can you develop [sources](/workflows/contributing/components/quickstart/nodejs/sources/) (workflow triggers) and [actions](/workflows/contributing/components/quickstart/nodejs/actions/) using the component API, but you can also develop [Node.js steps](/workflows/building-workflows/code/nodejs/) right in your workflows - without leaving your browser! You can publish components to your account for private use, or [contribute them to the Pipedream registry](/workflows/contributing/) for anyone to run.
+This document was created to help developers author and use [Pipedream components](/workflows/contributing/components/). Not only can you develop [sources](/workflows/contributing/components/sources-quickstart/) (workflow triggers) and [actions](/workflows/contributing/components/actions-quickstart/) using the component API, but you can also develop [Node.js steps](/workflows/building-workflows/code/nodejs/) right in your workflows - without leaving your browser! You can publish components to your account for private use, or [contribute them to the Pipedream registry](/workflows/contributing/) for anyone to run.
 
 While sources and actions share the same core component API, they differ in both how they're used and written, so certain parts of the component API apply only to one or the other. [This section of the docs](#differences-between-sources-and-actions) explains the core differences. When this document uses the term "component", the corresponding feature applies to both sources and actions. If a specific feature applies to only sources _or_ actions, the correct term will be used.
 
@@ -27,7 +27,7 @@ Components are Node.js modules that run on Pipedream's serverless infrastructure
 
 ### Quickstarts
 
-To help you get started, we created a step-by-step walkthrough for developing both [sources](/workflows/contributing/components/quickstart/nodejs/sources/) and [actions](/workflows/contributing/components/quickstart/nodejs/actions/). We recommend starting with those docs and using the API reference below as you develop.
+To help you get started, we created a step-by-step walkthrough for developing both [sources](/workflows/contributing/components/sources-quickstart/) and [actions](/workflows/contributing/components/actions-quickstart/). We recommend starting with those docs and using the API reference below as you develop.
 
 ### Differences between sources and actions
 
@@ -956,7 +956,7 @@ All properties from [`steps.trigger.context`](/workflows/building-workflows/trig
 
 ### Environment variables
 
-[Environment variables](/workflows/building-workflows/environment-variables/) are not accessible within sources or actions directly. Since components can be used by anyone, you cannot guarantee that a user will have a specific variable set in their environment.
+[Environment variables](/workflows/environment-variables/) are not accessible within sources or actions directly. Since components can be used by anyone, you cannot guarantee that a user will have a specific variable set in their environment.
 
 In sources, you can use [`secret` props](#props) to reference sensitive data.
 
@@ -1096,7 +1096,7 @@ You can delete a component via the UI at [https://pipedream.com/sources](https:/
 
 #### API
 
-See the [REST API docs](/workflows/building-workflows/rest-api/).
+See the [REST API docs](/rest-api/).
 
 ### Managing Actions
 
