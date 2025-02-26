@@ -7,8 +7,8 @@ export default {
   propDefinitions: {
     email: {
       type: "string",
-      label: "Email Subject",
-      description: "Subject of the email",
+      label: "Email",
+      description: "The contact's email",
     },
     listNames: {
       type: "string[]",

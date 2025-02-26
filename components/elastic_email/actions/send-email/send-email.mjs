@@ -1,4 +1,7 @@
-import { ENCODING_OPTIONS } from "../../common/constants.mjs";
+import {
+  BODY_CONTENT_TYPE_OPTIONS,
+  ENCODING_OPTIONS,
+} from "../../common/constants.mjs";
 import { parseObject } from "../../common/utils.mjs";
 import app from "../../elastic_email.app.mjs";
 
@@ -20,10 +23,17 @@ export default {
       label: "From",
       description: "Your e-mail with an optional name (e.g.: email@domain.com)",
     },
-    body: {
-      type: "string[]",
-      label: "Body",
-      description: "List of e-mail body parts, with user-provided MIME types (text/html, text/plain etc). **Format: {\"ContentType\": \"HTML\", \"Content\": \"email content\", \"\": \"\"}**",
+    bodyContentType: {
+      type: "string",
+      label: "Body Content Type",
+      description: "Type of body part",
+      options: BODY_CONTENT_TYPE_OPTIONS,
+      optional: true,
+    },
+    bodyContent: {
+      type: "string",
+      label: "Body Content",
+      description: "Actual content of the body part",
       optional: true,
     },
     merge: {
@@ -98,7 +108,12 @@ export default {
         })),
         Content: {
           From: this.from,
-          Body: parseObject(this.body),
+          Body: [
+            {
+              ContentType: this.bodyContentType,
+              Body: this.bodyContent,
+            },
+          ],
           Merge: parseObject(this.merge),
           ReplyTo: this.replyTo,
           Subject: this.subject,

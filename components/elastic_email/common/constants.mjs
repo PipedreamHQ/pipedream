@@ -21,3 +21,16 @@ export const ENCODING_OPTIONS = [
   "Base64",
   "Uue",
 ];
+
+export const CONSENT_TRACKING_OPTIONS = [
+  "Unknown",
+  "Allow",
+  "Deny",
+];
+
+export const BODY_CONTENT_TYPE_OPTIONS = [
+  "HTML",
+  "PlainText",
+  "AMP",
+  "CSS",
+];

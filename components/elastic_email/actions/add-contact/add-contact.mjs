@@ -1,5 +1,8 @@
 import { ConfigurationError } from "@pipedream/platform";
-import { STATUS_OPTIONS } from "../../common/constants.mjs";
+import {
+  CONSENT_TRACKING_OPTIONS,
+  STATUS_OPTIONS,
+} from "../../common/constants.mjs";
 import { parseObject } from "../../common/utils.mjs";
 import app from "../../elastic_email.app.mjs";
 
@@ -49,10 +52,23 @@ export default {
       description: "A key-value collection of custom contact fields which can be used in the system. Only already existing custom fields will be saved.",
       optional: true,
     },
-    consent: {
-      type: "object",
-      label: "Consent",
-      description: "An object with consent settings. **Example: \"ConsentIP\": \"192.168.0.1\", \"ConsentDate\": \"1/1/2015 0:00:00 AM\", \"ConsentTracking\": \"Unknown\"}**",
+    consentIP: {
+      type: "string",
+      label: "Consent IP",
+      description: "IP address of consent to send this contact(s) your email. If not provided your current public IP address is used for consent.",
+      optional: true,
+    },
+    consentDate: {
+      type: "string",
+      label: "Consent Date",
+      description: "Date of consent to send this contact(s) your email. If not provided current date is used for consent.",
+      optional: true,
+    },
+    consentTracking: {
+      type: "string",
+      label: "Consent Tracking",
+      description: "Tracking of consent to send this contact(s) your email. Defaults to \"Unknown\".",
+      options: CONSENT_TRACKING_OPTIONS,
       optional: true,
     },
   },
@@ -69,7 +85,11 @@ export default {
           FirstName: this.firstName,
           LastName: this.lastName,
           CustomFields: parseObject(this.customFields),
-          Consent: parseObject(this.consent),
+          Consent: {
+            ConsentIP: this.consentIP,
+            ConsentDate: this.consentDate,
+            ConsentTracking: this.consentTracking,
+          },
         },
       ],
     });
