@@ -64,7 +64,9 @@ Another option is to make an HTTP request to a Pipedream HTTP webhook trigger.
 
 ### Why is my trigger not emitting events?
 
-Most Pipedream sources fall into one of two categories: webhook-based or timer-based.
+First, look at your [trigger logs](/troubleshooting/#where-can-i-find-the-trigger-logs) and check for any errors there. Verify that it has been running, whether on a new webhook event or at the configured polling interval.
+
+If your trigger operates on a large amount of data at once, it may fail to log the execution and you won't see any new events and logs. Try polling more frequently or limiting the number of records being fetched in the API request or Database query.
 
 #### Webhook-based instant sources
 
@@ -93,6 +95,14 @@ https://pipedream.com/sources/dc_abc123
 ```
 
 Your source's ID is the value that starts with `dc_`. In this example: `dc_abc123`.
+
+### Where can I find the trigger logs?
+
+Find your [source](/troubleshooting/#where-do-i-find-my-event-sources-id), then click on the logs or visit this URL:
+
+```
+https://pipedream.com/sources/dc_abc123/logs
+```
 
 ### Why is my trigger paused?
 
