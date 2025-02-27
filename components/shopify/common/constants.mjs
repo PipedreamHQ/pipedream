@@ -1,12 +1,9 @@
-const STORE_PLACEHOLDER = "{store_name}";
-const BASE_URL = `https://${STORE_PLACEHOLDER}.myshopify.com`;
-const VERSION_PATH = "/admin/api/2024-04";
+const DEFAULT_LIMIT = 20;
+const MAX_LIMIT = 250;
+const API_VERSION = "2025-01";
 
-const DEFAULT_MAX = 300;
-
-export default {
-  BASE_URL,
-  VERSION_PATH,
-  STORE_PLACEHOLDER,
-  DEFAULT_MAX,
+export {
+  DEFAULT_LIMIT,
+  MAX_LIMIT,
+  API_VERSION,
 };
