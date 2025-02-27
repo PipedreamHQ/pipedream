@@ -4,6 +4,18 @@ import Callout from '@/components/Callout'
 
 This doc describes some common solutions for fixing issues with [pipedream.com](https://pipedream.com) or with a specific workflow.
 
+## A feature isn't working on pipedream.com
+
+If you're seeing an issue with [pipedream.com](https://pipedream.com) (for example, the site won't load, or you think you've found a bug), try each of the following steps, checking to see if they fix the problem:
+
+1. [Hard refresh](https://fabricdigital.co.nz/blog/how-to-hard-refresh-your-browser-and-clear-cache) pipedream.com in your browser.
+
+2. Log out of your pipedream.com account, and log back in.
+
+3. [Disable your browser extensions](https://www.computerhope.com/issues/ch001411.htm) or use features like [Chrome Guest mode](https://support.google.com/chrome/answer/6130773?hl=en&co=GENIE.Platform%3DAndroid) to browse pipedream.com without any existing extensions / cookies / cache.
+
+If you're still seeing the issue after trying these steps, please [report a bug](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=bug&template=bug_report.md&title=%5BBUG%5D+).
+
 ## How do I contact Pipedream Support?
 
 Start by filling out the request form at [https://pipedream.com/support](https://pipedream.com/support), providing detailed information about your issue.
@@ -20,23 +32,17 @@ When filling out the request form at [https://pipedream.com/support](https://pip
 https://pipedream.com/@yourworkspace/workflows/projects/yourproject/test-workflow-pabc123
 ```
 
-## A feature isn't working on pipedream.com
-
-If you're seeing an issue with [pipedream.com](https://pipedream.com) (for example, the site won't load, or you think you've found a bug), try each of the following steps, checking to see if they fix the problem:
-
-1. [Hard refresh](https://fabricdigital.co.nz/blog/how-to-hard-refresh-your-browser-and-clear-cache) pipedream.com in your browser.
-
-2. Log out of your pipedream.com account, and log back in.
-
-3. [Disable your browser extensions](https://www.computerhope.com/issues/ch001411.htm) or use features like [Chrome Guest mode](https://support.google.com/chrome/answer/6130773?hl=en&co=GENIE.Platform%3DAndroid) to browse pipedream.com without any existing extensions / cookies / cache.
-
-If you're still seeing the issue after trying these steps, please [report a bug](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=bug&template=bug_report.md&title=%5BBUG%5D+).
-
-## I need help with my GitHub Synced Project
-
-[See FAQ here](/workflows/git/#faq).
-
 ## Workflows
+
+### Where do I find my workflow's ID?
+
+Open [https://pipedream.com](https://pipedream.com) and visit your workflow. Copy the URL that appears in your browser's address bar. For example:
+
+```
+https://pipedream.com/@dylburger/p_abc123/build
+```
+
+Your workflow's ID is the value that starts with `p_`. In this example: `p_abc123`.
 
 ### My workflow isn't working
 
