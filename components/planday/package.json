@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/planday",
+  "version": "0.0.1",
+  "description": "Pipedream Planday Components",
+  "main": "planday.app.mjs",
+  "keywords": [
+    "pipedream",
+    "planday"
+  ],
+  "homepage": "https://pipedream.com/apps/planday",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
