@@ -2,23 +2,23 @@
 
 Pipedream supports webhooks as a way to deliver events to an endpoint you own. Webhooks are managed at an account-level, and you send data to these webhooks using [subscriptions](/rest-api/#subscriptions).
 
-For example, you can run a Twitter [event source](/sources/) that listens for new tweets. If you [subscribe](/rest-api/#subscriptions) the webhook to this source, Pipedream will deliver those tweets directly to your webhook's URL without running a workflow. 
+For example, you can run a Twitter [event source](/workflows/building-workflows/triggers/) that listens for new tweets. If you [subscribe](/rest-api/#subscriptions) the webhook to this source, Pipedream will deliver those tweets directly to your webhook's URL without running a workflow.
 
 ## Send events from an existing event source to a webhook
 
-[Event sources](/sources/) source data from a service / API, emitting events that can trigger Pipedream workflows. For example, you can run a Github event source that emits an event anytime someone stars your repo, triggering a workflow on each new star.
+[Event sources](/workflows/building-workflows/triggers/) source data from a service / API, emitting events that can trigger Pipedream workflows. For example, you can run a Github event source that emits an event anytime someone stars your repo, triggering a workflow on each new star.
 
 **You can also send the events emitted by an event source to a webhook**.
 
-![Github stars to Pipedream](./images/webhook-proxy.png)
+![Github stars to Pipedream](/images/rest-api/webhook-proxy.png)
 
 ### Step 1 - retrieve the source's ID
 
 First, you'll need the ID of your source. You can visit [https://pipedream.com/sources](https://pipedream.com/sources), select a source, and copy its ID from the URL. It's the string that starts with `dc_`:
 
-![Source ID](./images/source-id.png)
+![Source ID](/images/rest-api/source-id.png)
 
-You can also find the ID by running `pd list sources` using [the CLI](/cli/reference/#pd-list).
+You can also find the ID by running `pd list sources` using [the CLI](/workflows/cli/reference/#pd-list).
 
 ### Step 2 - Create a webhook
 
@@ -74,7 +74,6 @@ Trigger an event in your source (for example, send a tweet, star a Github repo, 
 
 ## Extending these ideas
 
-You can configure _any_ events to be delivered to a webhook: events emitted by event source, or those [emitted by a workflow](/destinations/emit/).
+You can configure _any_ events to be delivered to a webhook: events emitted by event source, or those [emitted by a workflow](/workflows/data-management/destinations/emit/).
 
 You can also configure an event to be delivered to _multiple_ webhooks by creating multiple webhooks / subscriptions.
-

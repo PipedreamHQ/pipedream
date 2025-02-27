@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/botx",
+  "version": "0.0.1",
+  "description": "Pipedream BotX Components",
+  "main": "botx.app.mjs",
+  "keywords": [
+    "pipedream",
+    "botx"
+  ],
+  "homepage": "https://pipedream.com/apps/botx",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

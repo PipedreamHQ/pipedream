@@ -1,10 +1,15 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   ...common,
   hooks: {
     ...common.hooks,
-    deploy() {},
+    deploy() {
+      if (!this.channelId && !this.videoId) {
+        throw new ConfigurationError("Must enter one of `channelId` or `videoId`");
+      }
+    },
   },
   methods: {
     ...common.methods,
@@ -22,8 +27,12 @@ export default {
 
     const params = {
       part: "id,replies,snippet",
-      videoId: this.videoId,
     };
+    if (this.videoId) {
+      params.videoId = this.videoId;
+    } else {
+      params.allThreadsRelatedToChannelId = this.channelId;
+    }
 
     const items = [];
     while (true) {
@@ -47,12 +56,9 @@ export default {
     for (const comment of comments) {
       const publishedAt = Date.parse(comment.snippet.publishedAt);
       if (!publishedAfter || publishedAt > publishedAfter) {
-        const meta = this.generateMeta(comment);
-        this.$emit(comment, meta);
+        this.emitEvent(comment);
       }
-      if (publishedAt > maxPublishedAfter) {
-        maxPublishedAfter = publishedAt;
-      }
+      maxPublishedAfter = Math.max(maxPublishedAfter, publishedAt);
     }
 
     this._setPublishedAfter(maxPublishedAfter);

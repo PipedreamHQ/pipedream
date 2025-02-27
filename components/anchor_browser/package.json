@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/anchor_browser",
+  "version": "0.1.0",
+  "description": "Pipedream Anchor Browser Components",
+  "main": "anchor_browser.app.mjs",
+  "keywords": [
+    "pipedream",
+    "anchor_browser"
+  ],
+  "homepage": "https://pipedream.com/apps/anchor_browser",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

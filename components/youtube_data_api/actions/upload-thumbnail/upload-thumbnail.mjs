@@ -5,11 +5,16 @@ export default {
   ...common,
   key: "youtube_data_api-upload-thumbnail",
   name: "Upload Thumbnail",
-  description: "Uploads a custom video thumbnail to YouTube and sets it for a video. Note: Account must be [verified](https://www.youtube.com/verify). [See the docs](https://developers.google.com/youtube/v3/docs/thumbnails/set) for more information",
-  version: "0.0.2",
+  description: "Uploads a custom video thumbnail to YouTube and sets it for a video. Note: Account must be [verified](https://www.youtube.com/verify). [See the documentation](https://developers.google.com/youtube/v3/docs/thumbnails/set) for more information",
+  version: "0.0.3",
   type: "action",
   props: {
     youtubeDataApi,
+    infoAlert: {
+      type: "alert",
+      alertType: "info",
+      content: "- Maximum file size: 2MB \n- Accepted Media MIME types: image/jpeg, image/png, application/octet-stream",
+    },
     videoId: {
       propDefinition: [
         youtubeDataApi,

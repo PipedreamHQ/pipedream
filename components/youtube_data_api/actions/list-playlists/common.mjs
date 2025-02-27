@@ -1,10 +1,11 @@
+import consts from "../../common/consts.mjs";
+
 export default {
   async run({ $ }) {
     const {
       useCase,
       id,
       channelId,
-      part,
       hl,
       maxResults,
       onBehalfOfContentOwner,
@@ -15,8 +16,8 @@ export default {
       true :
       undefined;
 
-    const playlists = (await this.youtubeDataApi.listPlaylists({
-      part,
+    const { data: playlists } = await this.youtubeDataApi.listPlaylists({
+      part: consts.LIST_PLAYLISTS_PART_OPTS,
       id,
       mine,
       channelId,
@@ -24,8 +25,10 @@ export default {
       onBehalfOfContentOwner,
       onBehalfOfContentOwnerChannel,
       maxResults,
-    })).data;
-    $.export("$summary", `Successfully fetched ${playlists.items.length} playlist(s)`);
+    });
+    $.export("$summary", `Successfully fetched ${playlists.items.length} playlist${playlists.items.length === 1
+      ? ""
+      : "s"}`);
     return playlists;
   },
 };

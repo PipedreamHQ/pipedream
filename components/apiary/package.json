@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/apiary",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Pipedream apiary Components",
   "main": "apiary.app.mjs",
   "keywords": [
@@ -8,11 +8,11 @@
     "apiary"
   ],
   "homepage": "https://pipedream.com/apps/apiary",
-  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.0.0"
+    "@pipedream/platform": "^3.0.3"
   }
 }

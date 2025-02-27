@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/bitbucket_data_center",
+  "version": "0.0.1",
+  "description": "Pipedream Bitbucket Data Center Components",
+  "main": "bitbucket_data_center.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bitbucket_data_center"
+  ],
+  "homepage": "https://pipedream.com/apps/bitbucket_data_center",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

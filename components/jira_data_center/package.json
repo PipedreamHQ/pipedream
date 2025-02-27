@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/jira_data_center",
+  "version": "0.0.1",
+  "description": "Pipedream Jira Data Center Components",
+  "main": "jira_data_center.app.mjs",
+  "keywords": [
+    "pipedream",
+    "jira_data_center"
+  ],
+  "homepage": "https://pipedream.com/apps/jira_data_center",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

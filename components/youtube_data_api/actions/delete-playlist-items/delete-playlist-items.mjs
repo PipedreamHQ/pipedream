@@ -5,8 +5,8 @@ export default {
   ...common,
   key: "youtube_data_api-delete-playlist-items",
   name: "Delete Playlist Items",
-  description: "Deletes a playlist item. [See the docs](https://developers.google.com/youtube/v3/docs/playlistItems/delete) for more information",
-  version: "0.0.1",
+  description: "Deletes a playlist item. [See the documentation](https://developers.google.com/youtube/v3/docs/playlistItems/delete) for more information",
+  version: "0.0.2",
   type: "action",
   props: {
     youtubeDataApi,
@@ -17,19 +17,13 @@ export default {
       ],
     },
     videoIds: {
-      type: "string[]",
-      label: "Video Ids",
-      description: "Array of identifiers of the videos to be removed from the playlist",
-      async options() {
-        const { data } = await this.youtubeDataApi.getPlaylistItems({
-          part: "contentDetails,id,snippet,status",
-          playlistId: this.playlistId,
-        });
-        return data?.items?.map((item) => ({
-          label: item.snippet.title,
-          value: item.id,
-        })) || [];
-      },
+      propDefinition: [
+        youtubeDataApi,
+        "playlistItemIds",
+        (c) => ({
+          playlistId: c.playlistId,
+        }),
+      ],
     },
     onBehalfOfContentOwner: {
       propDefinition: [
