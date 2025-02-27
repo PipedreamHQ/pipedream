@@ -3592,8 +3592,7 @@ importers:
 
   components/dokan: {}
 
-  components/domain_group:
-    specifiers: {}
+  components/domain_group: {}
 
   components/domo: {}
 
@@ -4838,8 +4837,7 @@ importers:
 
   components/geckoboard: {}
 
-  components/gem:
-    specifiers: {}
+  components/gem: {}
 
   components/gemini_public:
     dependencies:
@@ -4916,8 +4914,7 @@ importers:
 
   components/getswift: {}
 
-  components/getty_images:
-    specifiers: {}
+  components/getty_images: {}
 
   components/ghost_org_admin_api:
     dependencies:
@@ -10878,7 +10875,11 @@ importers:
 
   components/scrapein_: {}
 
-  components/scrapeninja: {}
+  components/scrapeninja:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/scrapfly:
     dependencies:
@@ -34035,6 +34036,8 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
+    transitivePeerDependencies:
+      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
