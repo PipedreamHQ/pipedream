@@ -35,6 +35,7 @@ export default {
           params: {
             limit: LIMIT,
             offset: LIMIT * page,
+            scopeType: "Personal",
           },
         });
 
