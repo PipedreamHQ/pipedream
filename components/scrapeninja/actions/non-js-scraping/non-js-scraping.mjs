@@ -1,17 +1,15 @@
+import { ConfigurationError } from "@pipedream/platform";
+import { parseObject } from "../../common/utils.mjs";
 import scrapeninja from "../../scrapeninja.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "scrapeninja-non-js-scraping",
-  name: "ScrapeNinja Non-JS Scraping",
-  description: "Use ScrapeNinja's high-performance non-JS scraping endpoint. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  name: "Non-JS Scraping",
+  description: "Use high-performance web scraping endpoint with Chrome browser TLS fingerprint, but without JavaScript execution and real browser overhead. [See the documentation](https://scrapeninja.net/docs/api-reference/scrape/)",
+  version: "0.0.1",
   type: "action",
   props: {
-    scrapeninja: {
-      type: "app",
-      app: "scrapeninja",
-    },
+    scrapeninja,
     url: {
       propDefinition: [
         scrapeninja,
@@ -25,10 +23,10 @@ export default {
       ],
       optional: true,
     },
-    retrynum: {
+    retryNum: {
       propDefinition: [
         scrapeninja,
-        "retrynum",
+        "retryNum",
       ],
       optional: true,
     },
@@ -46,10 +44,10 @@ export default {
       ],
       optional: true,
     },
-    followredirects: {
+    followRedirects: {
       propDefinition: [
         scrapeninja,
-        "followredirects",
+        "followRedirects",
       ],
       optional: true,
     },
@@ -60,17 +58,17 @@ export default {
       ],
       optional: true,
     },
-    textnotexpected: {
+    textNotExpected: {
       propDefinition: [
         scrapeninja,
-        "textnotexpected",
+        "textNotExpected",
       ],
       optional: true,
     },
-    statusnotexpected: {
+    statusNotExpected: {
       propDefinition: [
         scrapeninja,
-        "statusnotexpected",
+        "statusNotExpected",
       ],
       optional: true,
     },
@@ -83,8 +81,26 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.scrapeninja.scrapeNonJs();
-    $.export("$summary", "Successfully scraped the URL");
-    return response;
+    try {
+      const response = await this.scrapeninja.scrapeNonJs({
+        $,
+        data: {
+          url: this.url,
+          headers: parseObject(this.headers),
+          retryNum: this.retryNum,
+          geo: this.geo,
+          proxy: this.proxy,
+          followRedirects: this.followRedirects,
+          timeout: this.timeout,
+          textNotExpected: parseObject(this.textNotExpected),
+          statusNotExpected: parseObject(this.statusNotExpected),
+          extractor: this.extractor,
+        },
+      });
+      $.export("$summary", "Successfully scraped the URL");
+      return response;
+    } catch ({ response: { data } }) {
+      throw new ConfigurationError(data.message || data.stderr);
+    }
   },
 };

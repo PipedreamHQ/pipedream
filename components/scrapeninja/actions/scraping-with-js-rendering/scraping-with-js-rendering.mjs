@@ -1,11 +1,15 @@
+import { ConfigurationError } from "@pipedream/platform";
+import {
+  clearObj,
+  parseError, parseObject,
+} from "../../common/utils.mjs";
 import scrapeninja from "../../scrapeninja.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "scrapeninja-scraping-with-js-rendering",
-  name: "ScrapeNinja Scraping with JS Rendering",
+  name: "Scraping with JS Rendering",
   description: "Uses the ScrapeNinja real Chrome browser engine to scrape pages that require JS rendering. [See the documentation](https://scrapeninja.net/docs/api-reference/scrape-js/)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     scrapeninja,
@@ -15,38 +19,38 @@ export default {
         "url",
       ],
     },
-    waitforselector: {
+    waitForSelector: {
       propDefinition: [
         scrapeninja,
-        "waitforselector",
+        "waitForSelector",
       ],
       optional: true,
     },
-    postwaittime: {
+    postWaitTime: {
       propDefinition: [
         scrapeninja,
-        "postwaittime",
+        "postWaitTime",
       ],
       optional: true,
     },
-    dumpiframe: {
+    dumpIframe: {
       propDefinition: [
         scrapeninja,
-        "dumpiframe",
+        "dumpIframe",
       ],
       optional: true,
     },
-    waitforselectoriframe: {
+    waitForSelectorIframe: {
       propDefinition: [
         scrapeninja,
-        "waitforselectoriframe",
+        "waitForSelectorIframe",
       ],
       optional: true,
     },
-    extractortargetiframe: {
+    extractorTargetIframe: {
       propDefinition: [
         scrapeninja,
-        "extractortargetiframe",
+        "extractorTargetIframe",
       ],
       optional: true,
     },
@@ -57,10 +61,10 @@ export default {
       ],
       optional: true,
     },
-    retrynum: {
+    retryNum: {
       propDefinition: [
         scrapeninja,
-        "retrynum",
+        "retryNum",
       ],
       optional: true,
     },
@@ -85,31 +89,31 @@ export default {
       ],
       optional: true,
     },
-    textnotexpected: {
+    textNotExpected: {
       propDefinition: [
         scrapeninja,
-        "textnotexpected",
+        "textNotExpected",
       ],
       optional: true,
     },
-    statusnotexpected: {
+    statusNotExpected: {
       propDefinition: [
         scrapeninja,
-        "statusnotexpected",
+        "statusNotExpected",
       ],
       optional: true,
     },
-    blockimages: {
+    blockImages: {
       propDefinition: [
         scrapeninja,
-        "blockimages",
+        "blockImages",
       ],
       optional: true,
     },
-    blockmedia: {
+    blockMedia: {
       propDefinition: [
         scrapeninja,
-        "blockmedia",
+        "blockMedia",
       ],
       optional: true,
     },
@@ -120,52 +124,52 @@ export default {
       ],
       optional: true,
     },
-    catchajaxheadersurlmask: {
+    catchAjaxHeadersUrlMask: {
       propDefinition: [
         scrapeninja,
-        "catchajaxheadersurlmask",
+        "catchAjaxHeadersUrlMask",
       ],
       optional: true,
     },
     viewportWidth: {
       propDefinition: [
         scrapeninja,
-        "viewportwitdh",
+        "viewportWitdh",
       ],
       optional: true,
     },
     viewportHeight: {
       propDefinition: [
         scrapeninja,
-        "viewportheight",
+        "viewportHeight",
       ],
       optional: true,
     },
     viewportDeviceScaleFactor: {
       propDefinition: [
         scrapeninja,
-        "viewportdevicescalefactor",
+        "viewportDeviceScaleFactor",
       ],
       optional: true,
     },
     viewportHasTouch: {
       propDefinition: [
         scrapeninja,
-        "viewporthastouch",
+        "viewportHasTouch",
       ],
       optional: true,
     },
     viewportIsMobile: {
       propDefinition: [
         scrapeninja,
-        "viewportismobile",
+        "viewportIsMobile",
       ],
       optional: true,
     },
     viewportIsLandscape: {
       propDefinition: [
         scrapeninja,
-        "viewportislandscape",
+        "viewportIsLandscape",
       ],
       optional: true,
     },
@@ -178,38 +182,50 @@ export default {
     },
   },
   async run({ $ }) {
-    const viewport = {
-      width: this.viewportWidth,
-      height: this.viewportHeight,
-      deviceScaleFactor: this.viewportDeviceScaleFactor,
-      hasTouch: this.viewportHasTouch,
-      isMobile: this.viewportIsMobile,
-      isLandscape: this.viewportIsLandscape,
-    };
+    try {
+      const viewport = clearObj({
+        width: this.viewportWidth,
+        height: this.viewportHeight,
+        deviceScaleFactor: this.viewportDeviceScaleFactor,
+        hasTouch: this.viewportHasTouch,
+        isMobile: this.viewportIsMobile,
+        isLandscape: this.viewportIsLandscape,
+      });
 
-    const response = await this.scrapeninja.scrapeJs({
-      url: this.url,
-      waitForSelector: this.waitforselector,
-      postWaitTime: this.postwaittime,
-      dumpIframe: this.dumpiframe,
-      waitForSelectorIframe: this.waitforselectoriframe,
-      extractorTargetIframe: this.extractortargetiframe,
-      headers: this.headers,
-      retryNum: this.retrynum,
-      geo: this.geo,
-      proxy: this.proxy,
-      timeout: this.timeout,
-      textNotExpected: this.textnotexpected,
-      statusNotExpected: this.statusnotexpected,
-      blockImages: this.blockimages,
-      blockMedia: this.blockmedia,
-      screenshot: this.screenshot,
-      catchAjaxHeadersUrlMask: this.catchajaxheadersurlmask,
-      viewport,
-      extractor: this.extractor,
-    });
+      const data = clearObj({
+        url: this.url,
+        waitForSelector: this.waitForSelector,
+        postWaitTime: this.postWaitTime,
+        dumpIframe: this.dumpIframe,
+        waitForSelectorIframe: this.waitForSelectorIframe,
+        extractorTargetIframe: this.extractorTargetIframe,
+        headers: parseObject(this.headers),
+        retryNum: this.retryNum,
+        geo: this.geo,
+        proxy: this.proxy,
+        timeout: this.timeout,
+        textNotExpected: parseObject(this.textNotExpected),
+        statusNotExpected: parseObject(this.statusNotExpected),
+        blockImages: this.blockImages,
+        blockMedia: this.blockMedia,
+        screenshot: this.screenshot,
+        catchAjaxHeadersUrlMask: this.catchAjaxHeadersUrlMask,
+        extractor: this.extractor,
+      });
 
-    $.export("$summary", `Successfully scraped ${this.url} with JS rendering`);
-    return response;
+      if (Object.entries(viewport).length) {
+        data.viewport = viewport;
+      }
+
+      const response = await this.scrapeninja.scrapeJs({
+        $,
+        data,
+      });
+
+      $.export("$summary", `Successfully scraped ${this.url} with JS rendering`);
+      return response;
+    } catch ({ response: { data } }) {
+      throw new ConfigurationError(parseError(data));
+    }
   },
 };
