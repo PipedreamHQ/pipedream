@@ -1659,8 +1659,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/botx:
-    specifiers: {}
+  components/botx: {}
 
   components/bouncer:
     dependencies:
@@ -4844,8 +4843,7 @@ importers:
 
   components/geckoboard: {}
 
-  components/gem:
-    specifiers: {}
+  components/gem: {}
 
   components/gemini_public:
     dependencies:
@@ -5585,8 +5583,7 @@ importers:
         specifier: ^1.6.5
         version: 1.6.6
 
-  components/greenhouse_job_board_api:
-    specifiers: {}
+  components/greenhouse_job_board_api: {}
 
   components/greptile:
     dependencies:
@@ -9471,8 +9468,7 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/planday:
-    specifiers: {}
+  components/planday: {}
 
   components/planhat: {}
 
@@ -34050,6 +34046,8 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
+    transitivePeerDependencies:
+      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
