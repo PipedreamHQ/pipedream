@@ -36,7 +36,9 @@ If you're still seeing the issue after trying these steps, please [report a bug]
 
 [See FAQ here](/workflows/git/#faq).
 
-## My workflow isn't working
+## Workflows
+
+### My workflow isn't working
 
 If you're encountering a specific issue in a workflow, try the following steps, checking to see if they fix the problem:
 
@@ -46,17 +48,19 @@ If you're encountering a specific issue in a workflow, try the following steps, 
 
 If you're still seeing the issue after trying these steps, please reach out in [the community](https://pipedream.com/support).
 
-## How do I invoke another workflow?
+### How do I invoke another workflow?
 
 We provide a [Trigger Workflow](https://pipedream.com/apps/helper-functions/actions/trigger-workflow) action in the [Helper Functions](https://pipedream.com/apps/helper-functions) app. [See more here](/workflows/building-workflows/code/nodejs/#invoke-another-workflow).
 
 Another option is to make an HTTP request to a Pipedream HTTP webhook trigger.
 
-## Why is my trigger not emitting events?
+## Triggers
+
+### Why is my trigger not emitting events?
 
 Most Pipedream sources fall into one of two categories: webhook-based or timer-based.
 
-### Webhook-based instant sources
+#### Webhook-based instant sources
 
 These sources will get triggered immediately. But because events come in in real-time, most will **not** automatically fetch historical events upon creation. To surface test events in your workflow while building, you'll need to generate an eligible event in the selected app.
 
@@ -66,7 +70,7 @@ For example, if you've configured the "[Message Updates (Instant)](https://piped
 
 Sources for apps like [Telegram](https://pipedream.com/apps/telegram-bot-api/triggers/message-updates) and [Google Sheets](https://pipedream.com/apps/google-sheets/triggers/new-row-added) use webhooks and get triggered immediately.
 
-### Timer-based polling sources
+#### Timer-based polling sources
 
 These sources will fetch new events on a regular interval, based on a schedule you specify in the trigger configuration.
 
@@ -74,7 +78,7 @@ These sources will fetch new events on a regular interval, based on a schedule y
 
 In most cases, Pipedream will automatically fetch recent historical events to help enable easier workflow development. Sources for apps like [Twitter](https://pipedream.com/apps/twitter/triggers/search-mentions) and [Spotify](https://pipedream.com/apps/spotify/triggers/new-playlist) require we poll their endpoints in order to fetch new events.
 
-## Where do I find my event source's ID?
+### Where do I find my event source's ID?
 
 Open [https://pipedream.com/sources](https://pipedream.com/sources) and click on your event source. Copy the URL that appears in your browser's address bar. For example:
 
@@ -84,7 +88,7 @@ https://pipedream.com/sources/dc_abc123
 
 Your source's ID is the value that starts with `dc_`. In this example: `dc_abc123`.
 
-## Why is my trigger paused?
+### Why is my trigger paused?
 
 Pipedream automatically disables sources with a 100% error rate in the past 5 days for accounts on the Free plan.
 
