@@ -5596,7 +5596,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/griptape: {}
+  components/griptape:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/grist:
     dependencies:
