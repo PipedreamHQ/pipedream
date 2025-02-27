@@ -32,8 +32,6 @@ export default {
           sheetId: c.sheetId,
         }),
       ],
-      type: "string",
-      label: "Worksheet",
     },
     startIndex: {
       type: "integer",

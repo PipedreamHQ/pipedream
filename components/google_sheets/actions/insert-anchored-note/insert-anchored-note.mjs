@@ -43,7 +43,6 @@ export default {
           sheetId: c.sheetId,
         }),
       ],
-      type: "string",
       optional: true,
     },
   },

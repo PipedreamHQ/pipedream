@@ -38,8 +38,6 @@ export default {
           sheetId: c.sheetId,
         }),
       ],
-      type: "string",
-      label: "Worksheet Id",
       reloadProps: true,
     },
     headersDisplay: {

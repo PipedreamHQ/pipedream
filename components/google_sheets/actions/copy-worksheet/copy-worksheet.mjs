@@ -23,7 +23,6 @@ export default {
           driveId: googleSheets.methods.getDriveId(c.drive),
         }),
       ],
-      description: "The spreadsheet containing the worksheet to copy",
     },
     worksheetId: {
       propDefinition: [
@@ -33,9 +32,6 @@ export default {
           sheetId: c.sheetId,
         }),
       ],
-      type: "string",
-      label: "Worksheet",
-      description: "The worksheet to copy",
     },
     destinationSheetId: {
       propDefinition: [

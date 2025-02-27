@@ -51,8 +51,6 @@ export default {
           sheetId: c.sheetId,
         }),
       ],
-      type: "string",
-      label: "Worksheet Id",
     },
     insert: {
       propDefinition: [

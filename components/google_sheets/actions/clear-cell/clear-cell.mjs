@@ -35,8 +35,6 @@ export default {
           sheetId: c.sheetId,
         }),
       ],
-      type: "string",
-      label: "Worksheet Id",
     },
     cell: {
       type: "string",
