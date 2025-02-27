@@ -9469,6 +9469,9 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
+  components/planday:
+    specifiers: {}
+
   components/planhat: {}
 
   components/planly: {}
