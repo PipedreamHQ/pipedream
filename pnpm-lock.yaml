@@ -3588,8 +3588,7 @@ importers:
 
   components/dokan: {}
 
-  components/domain_group:
-    specifiers: {}
+  components/domain_group: {}
 
   components/domo: {}
 
@@ -4909,8 +4908,7 @@ importers:
 
   components/getswift: {}
 
-  components/getty_images:
-    specifiers: {}
+  components/getty_images: {}
 
   components/ghost_org_admin_api:
     dependencies:
