@@ -647,6 +647,9 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/alibaba_cloud:
+    specifiers: {}
+
   components/all_images_ai:
     dependencies:
       '@pipedream/platform':
