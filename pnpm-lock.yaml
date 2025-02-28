@@ -7794,6 +7794,9 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/microsoft_graph_api_daemon_app:
+    specifiers: {}
+
   components/microsoft_onedrive:
     dependencies:
       '@microsoft/microsoft-graph-client':
