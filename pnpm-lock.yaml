@@ -647,8 +647,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/alibaba_cloud:
-    specifiers: {}
+  components/alibaba_cloud: {}
 
   components/all_images_ai:
     dependencies:
@@ -3899,8 +3898,7 @@ importers:
 
   components/efinder: {}
 
-  components/egestor:
-    specifiers: {}
+  components/egestor: {}
 
   components/egnyte:
     dependencies:
@@ -7802,8 +7800,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/microsoft_graph_api_daemon_app:
-    specifiers: {}
+  components/microsoft_graph_api_daemon_app: {}
 
   components/microsoft_onedrive:
     dependencies:
@@ -7887,8 +7884,7 @@ importers:
 
   components/microsoft_text_translate: {}
 
-  components/microsoft_viva_goals:
-    specifiers: {}
+  components/microsoft_viva_goals: {}
 
   components/microsofttodo:
     dependencies:
@@ -34066,6 +34062,8 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
+    transitivePeerDependencies:
+      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
