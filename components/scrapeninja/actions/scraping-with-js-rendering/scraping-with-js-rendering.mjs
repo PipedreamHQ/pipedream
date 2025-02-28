@@ -134,7 +134,7 @@ export default {
     viewportWidth: {
       propDefinition: [
         scrapeninja,
-        "viewportWitdh",
+        "viewportWidth",
       ],
       optional: true,
     },
