@@ -1,20 +1,16 @@
-import {
-  axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-} from "@pipedream/platform";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import gem from "../../gem.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "gem-new-candidate",
   name: "New Candidate Added",
-  description: "Emit a new event when a candidate is added in Gem. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a candidate is added in Gem. [See the documentation](https://api.gem.com/v0/reference#tag/Candidates/paths/~1v0~1candidates/get)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    gem: {
-      type: "app",
-      app: "gem",
-    },
+    gem,
     db: "$.service.db",
     timer: {
       type: "$.interface.timer",
@@ -22,121 +18,52 @@ export default {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
-    filterJobPositions: {
-      propDefinition: [
-        "gem",
-        "filterJobPositions",
-      ],
+  },
+  methods: {
+    _getLastDate() {
+      return this.db.get("lastDate") || 1;
     },
-    filterRecruiters: {
-      propDefinition: [
-        "gem",
-        "filterRecruiters",
-      ],
+    _setLastDate(lastDate) {
+      this.db.set("lastDate", lastDate);
+    },
+    async emitEvent(maxResults = false) {
+      const lastDate = this._getLastDate();
+
+      const response = this.gem.paginate({
+        fn: this.gem.listCandidates,
+        params: {
+          created_after: lastDate,
+        },
+      });
+
+      let responseArray = [];
+      for await (const item of response) {
+        responseArray.push(item);
+      }
+
+      if (responseArray.length) {
+        if (maxResults && (responseArray.length > maxResults)) {
+          responseArray.length = maxResults;
+        }
+        this._setLastDate(responseArray[0].created_at);
+      }
+
+      for (const item of responseArray.reverse()) {
+        this.$emit(item, {
+          id: item.id,
+          summary: `New Candidate with ID: ${item.id}`,
+          ts: item.created_at,
+        });
+      }
     },
   },
   hooks: {
     async deploy() {
-      const pageSize = 50;
-      let page = 1;
-      let candidates = [];
-      let more = true;
-
-      while (more && candidates.length < pageSize) {
-        const fetchedCandidates = await this.gem.listCandidates({
-          page,
-          perPage: pageSize,
-        });
-        if (fetchedCandidates.length === 0) {
-          more = false;
-        } else {
-          candidates.push(...fetchedCandidates);
-          if (fetchedCandidates.length < pageSize) {
-            more = false;
-          } else {
-            page += 1;
-          }
-        }
-      }
-
-      const recentCandidates = candidates.slice(0, pageSize);
-      for (const candidate of recentCandidates) {
-        this.$emit(
-          candidate,
-          {
-            id: candidate.id,
-            summary: `New Candidate: ${candidate.first_name} ${candidate.last_name}`,
-            ts: new Date(candidate.created_at).getTime(),
-          },
-        );
-      }
-
-      if (recentCandidates.length > 0) {
-        const latestTimestamp = new Date(recentCandidates[0].created_at).getTime();
-        await this.db.set("lastTimestamp", latestTimestamp);
-      }
-    },
-    async activate() {
-      // No webhook subscription needed for polling source
-    },
-    async deactivate() {
-      // No webhook subscription to remove for polling source
+      await this.emitEvent(25);
     },
   },
   async run() {
-    const lastTimestamp = (await this.db.get("lastTimestamp")) || 0;
-    let page = 1;
-    const newCandidates = [];
-    let more = true;
-    const pageSize = 50;
-
-    while (more && newCandidates.length < pageSize) {
-      const fetchedCandidates = await this.gem.listCandidates({
-        page,
-        perPage: pageSize,
-        createdAfter: lastTimestamp,
-        job_position_ids: this.filterJobPositions || [],
-        recruiter_ids: this.filterRecruiters || [],
-      });
-      if (fetchedCandidates.length === 0) {
-        more = false;
-      } else {
-        for (const candidate of fetchedCandidates) {
-          const candidateTimestamp = new Date(candidate.created_at).getTime();
-          if (candidateTimestamp > lastTimestamp) {
-            newCandidates.push(candidate);
-            if (newCandidates.length >= pageSize) {
-              break;
-            }
-          }
-        }
-        if (fetchedCandidates.length < pageSize) {
-          more = false;
-        } else {
-          page += 1;
-        }
-      }
-    }
-
-    for (const candidate of newCandidates) {
-      this.$emit(
-        candidate,
-        {
-          id: candidate.id,
-          summary: `New Candidate: ${candidate.first_name} ${candidate.last_name}`,
-          ts: new Date(candidate.created_at).getTime(),
-        },
-      );
-    }
-
-    if (newCandidates.length > 0) {
-      const latestTimestamp = newCandidates.reduce((max, candidate) => {
-        const candidateTime = new Date(candidate.created_at).getTime();
-        return candidateTime > max
-          ? candidateTime
-          : max;
-      }, lastTimestamp);
-      await this.db.set("lastTimestamp", latestTimestamp);
-    }
+    await this.emitEvent();
   },
+  sampleEmit,
 };
