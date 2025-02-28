@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-add-column",
   name: "Create Column",
   description: "Create a new column in a spreadsheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/batchUpdate)",
-  version: "0.1.7",
+  version: "0.1.8",
   type: "action",
   props: {
     googleSheets,
@@ -32,8 +32,6 @@ export default {
           sheetId: c.sheetId,
         }),
       ],
-      type: "string",
-      label: "Worksheet",
     },
     column: {
       propDefinition: [

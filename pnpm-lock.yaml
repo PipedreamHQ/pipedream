@@ -647,6 +647,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/alibaba_cloud: {}
+
   components/all_images_ai:
     dependencies:
       '@pipedream/platform':
@@ -1659,6 +1661,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/botx: {}
   components/botx: {}
 
   components/bouncer:
@@ -3896,6 +3899,8 @@ importers:
 
   components/efinder: {}
 
+  components/egestor: {}
+
   components/egnyte:
     dependencies:
       '@pipedream/platform':
@@ -3916,7 +3921,11 @@ importers:
 
   components/elastic_cloud: {}
 
-  components/elastic_email: {}
+  components/elastic_email:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/elasticemail: {}
 
@@ -5595,7 +5604,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/griptape: {}
+  components/griptape:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/grist:
     dependencies:
@@ -6686,7 +6699,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/kindo: {}
+  components/kindo:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/kingsumo:
     dependencies:
@@ -7792,6 +7809,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/microsoft_graph_api_daemon_app: {}
+
   components/microsoft_onedrive:
     dependencies:
       '@microsoft/microsoft-graph-client':
@@ -7873,6 +7892,8 @@ importers:
   components/microsoft_teams_bot: {}
 
   components/microsoft_text_translate: {}
+
+  components/microsoft_viva_goals: {}
 
   components/microsofttodo:
     dependencies:

@@ -14,6 +14,16 @@ const config: DocsThemeConfig = {
     const router = useRouter()
     const { frontMatter } = useConfig()
 
+    let pageTitle = frontMatter?.title;
+    // If no title in front matter, derive it from the URL
+    if (!pageTitle) {
+      const segments = router.asPath.replace(/\/$/, "").split("/");
+      pageTitle = segments[segments.length - 1];
+      // Replace dashes/underscores with spaces and capitalize each first letter
+      pageTitle = pageTitle.replace(/[-_]/g, " ");
+      pageTitle = pageTitle.replace(/\b\w/g, (char) => char.toUpperCase());
+    }
+
     return (
       <>
         <meta name="description" content="Workflow automation for developers" />
@@ -21,7 +31,7 @@ const config: DocsThemeConfig = {
           ? ""
           : router.route}`} />}
         <link rel="icon" href="/docs/favicon.ico" />
-        <meta property="og:title" content={`${frontMatter?.title || ""} — Pipedream`} />
+        <meta property="og:title" content={`${pageTitle} — Pipedream`} />
       </>
     )
   },
