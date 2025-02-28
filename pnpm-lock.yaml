@@ -1662,7 +1662,6 @@ importers:
         version: 3.0.3
 
   components/botx: {}
-  components/botx: {}
 
   components/bouncer:
     dependencies:
