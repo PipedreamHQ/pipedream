@@ -3899,6 +3899,9 @@ importers:
 
   components/efinder: {}
 
+  components/egestor:
+    specifiers: {}
+
   components/egnyte:
     dependencies:
       '@pipedream/platform':
