@@ -647,6 +647,9 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/alibaba_cloud:
+    specifiers: {}
+
   components/all_images_ai:
     dependencies:
       '@pipedream/platform':
@@ -3896,6 +3899,9 @@ importers:
 
   components/efinder: {}
 
+  components/egestor:
+    specifiers: {}
+
   components/egnyte:
     dependencies:
       '@pipedream/platform':
@@ -5591,7 +5597,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/griptape: {}
+  components/griptape:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/grist:
     dependencies:
@@ -6682,7 +6692,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/kindo: {}
+  components/kindo:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/kingsumo:
     dependencies:
@@ -7788,6 +7802,9 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/microsoft_graph_api_daemon_app:
+    specifiers: {}
+
   components/microsoft_onedrive:
     dependencies:
       '@microsoft/microsoft-graph-client':
@@ -7869,6 +7886,9 @@ importers:
   components/microsoft_teams_bot: {}
 
   components/microsoft_text_translate: {}
+
+  components/microsoft_viva_goals:
+    specifiers: {}
 
   components/microsofttodo:
     dependencies:
@@ -34046,8 +34066,6 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
-    transitivePeerDependencies:
-      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
