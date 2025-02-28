@@ -122,7 +122,7 @@ export default {
       description: "Useful to dump some XHR response. Pass URL mask here. For example, if you need to catch all requests to https://example.com/api/data.json, pass \"api/data.json\" here. In response, you will get new property `.info.catchedAjax` with the XHR response data - { url, method, headers[], body , status, responseHeaders{} }",
       optional: true,
     },
-    viewportWitdh: {
+    viewportWidth: {
       type: "integer",
       label: "Viewport Width",
       description: "Width of the viewport.",
