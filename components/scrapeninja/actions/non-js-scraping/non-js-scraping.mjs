@@ -4,7 +4,7 @@ import scrapeninja from "../../scrapeninja.app.mjs";
 
 export default {
   key: "scrapeninja-non-js-scraping",
-  name: "Non-JS Scraping",
+  name: "Scrape without JS",
   description: "Use high-performance web scraping endpoint with Chrome browser TLS fingerprint, but without JavaScript execution and real browser overhead. [See the documentation](https://scrapeninja.net/docs/api-reference/scrape/)",
   version: "0.0.1",
   type: "action",

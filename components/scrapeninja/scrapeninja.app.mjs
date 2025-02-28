@@ -30,7 +30,7 @@ export default {
     proxy: {
       type: "string",
       label: "Proxy",
-      description: "Premium or your own proxy URL (overrides geo field). [Read more about ScrapeNinja proxy setup](https://scrapeninja.net/docs/proxy-setup/).",
+      description: "Premium or your own proxy URL (overrides `Geo` prop). [Read more about ScrapeNinja proxy setup](https://scrapeninja.net/docs/proxy-setup/).",
       optional: true,
     },
     followRedirects: {

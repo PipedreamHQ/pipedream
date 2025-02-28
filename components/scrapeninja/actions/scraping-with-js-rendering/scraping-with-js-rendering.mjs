@@ -7,7 +7,7 @@ import scrapeninja from "../../scrapeninja.app.mjs";
 
 export default {
   key: "scrapeninja-scraping-with-js-rendering",
-  name: "Scraping with JS Rendering",
+  name: "Scrape with JS Rendering",
   description: "Uses the ScrapeNinja real Chrome browser engine to scrape pages that require JS rendering. [See the documentation](https://scrapeninja.net/docs/api-reference/scrape-js/)",
   version: "0.0.1",
   type: "action",
