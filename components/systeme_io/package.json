@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/systeme_io",
+  "version": "0.0.1",
+  "description": "Pipedream Systeme.io Components",
+  "main": "systeme_io.app.mjs",
+  "keywords": [
+    "pipedream",
+    "systeme_io"
+  ],
+  "homepage": "https://pipedream.com/apps/systeme_io",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

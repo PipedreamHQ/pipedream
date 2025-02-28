@@ -35,6 +35,11 @@ export default withNextra({
         permanent: true,
       },
       {
+        source: "/integrations/",
+        destination: "/integrations/apps/",
+        permanent: true,
+      },
+      {
         source: "/apps/",
         destination: "/integrations/apps/",
         permanent: true,
@@ -152,6 +157,16 @@ export default withNextra({
       {
         source: "/sources/",
         destination: "/workflows/building-workflows/triggers/",
+        permanent: true,
+      },
+      {
+        source: "/destinations/",
+        destination: "/workflows/data-management/destinations/",
+        permanent: true,
+      },
+      {
+        source: "/destinations/:path*/",
+        destination: "/workflows/data-management/destinations/:path*/",
         permanent: true,
       },
       {

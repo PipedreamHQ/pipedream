@@ -1,25 +1,23 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
-  props: {
-    ...common.props,
-    q: {
-      type: "string",
-      label: "Search Query",
-      description: "Search for new videos that match these keywords.",
-    },
-  },
-  hooks: {
-    ...common.hooks,
-    deploy() {},
-  },
+  hooks: {},
   methods: {
     ...common.methods,
     getParams() {
       return {
         q: this.q,
         maxResults: this.maxResults,
+        channelId: this.channelId,
+        location: this.location,
+        locationRadius: this.locationRadius,
+        videoDuration: this.videoDuration,
+        videoDefinition: this.videoDefinition,
+        videoCaption: this.videoCaption,
+        videoLicense: this.videoLicense,
+        regionCode: this.regionCode,
+        videoCategoryId: this.videoCategoryId,
       };
     },
   },

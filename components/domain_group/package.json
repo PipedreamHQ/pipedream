@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/domain_group",
+  "version": "0.0.1",
+  "description": "Pipedream Domain Group Components",
+  "main": "domain_group.app.mjs",
+  "keywords": [
+    "pipedream",
+    "domain_group"
+  ],
+  "homepage": "https://pipedream.com/apps/domain_group",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

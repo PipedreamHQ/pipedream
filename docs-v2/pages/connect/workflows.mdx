@@ -412,3 +412,7 @@ Pipedream Connect Error: Required account for hubspot not found for external use
 #### The external user ID to use during execution must be passed in the triggering event
 - You can't run a workflow on a timer for example, and look up the external user ID to use at runtime.
 - The external user ID must be passed in the triggering event, typically via [HTTP trigger](#invoke-the-workflow).
+
+#### Cannot use multiple accounts for the same app during a single execution
+- If a user has multiple accounts for the same app (tied to a single external user), **Pipedream will use the most recently created account**.
+- Learn about [managing connected accounts](/connect/managed-auth/users/) for your end users.
