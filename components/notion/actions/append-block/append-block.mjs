@@ -5,8 +5,9 @@ export default {
   ...base,
   key: "notion-append-block",
   name: "Append Block to Parent",
-  description: "Creates and appends blocks to the specified parent. [See the documentation](https://developers.notion.com/reference/patch-block-children)",
-  version: "0.2.17",
+  description:
+    "Creates and appends blocks to the specified parent. [See the documentation](https://developers.notion.com/reference/patch-block-children)",
+  version: "0.3.0",
   type: "action",
   props: {
     notion,
@@ -16,13 +17,39 @@ export default {
         "pageId",
       ],
       label: "Parent Block ID",
-      description: "The identifier for the parent block",
+      description: "Select a parent block/page or provide its ID",
+    },
+    blockTypes: {
+      type: "string[]",
+      label: "Block Type(s)",
+      description: "Select which type(s) of block you'd like to append",
+      reloadProps: true,
+      options: [
+        {
+          label:
+            "Use objects of existing blocks (e.g. objects returned from previous steps)",
+          value: "blockObjects",
+        },
+        {
+          label: "Select existing blocks or provide their IDs",
+          value: "blockIds",
+        },
+        {
+          label: "Provide Markdown content to create new blocks with",
+          value: "markupContents",
+        },
+        {
+          label: "Provide Image URLs to create new image blocks",
+          value: "imageUrls",
+        },
+      ],
     },
     blockObjects: {
       type: "string[]",
       label: "Block Objects",
-      description: "This prop accepts an array of block objects to be appended. Using a custom expression in this prop is recommended.",
-      optional: true,
+      description:
+        "An array of block objects to be appended. You can use a custom expression to reference block objects from previous steps. [See the documentation](https://developers.notion.com/reference/block) for more information",
+      hidden: true,
     },
     blockIds: {
       propDefinition: [
@@ -31,21 +58,36 @@ export default {
       ],
       type: "string[]",
       label: "Block IDs",
-      description: "Contents of selected blocks will be appended",
-      optional: true,
+      description: "Select one or more block(s) or page(s) to append (selecting a page appends its children). You can also provide block or page IDs.",
+      hidden: true,
     },
     markupContents: {
       type: "string[]",
       label: "Markup Contents",
-      description: "Content of new blocks to append. You must use Markdown syntax [See docs](https://www.notion.so/help/writing-and-editing-basics#markdown-&-shortcuts)",
-      optional: true,
+      description:
+        "Each entry is the content of a new block to append, using Markdown syntax. [See the documentation](https://www.notion.com/help/writing-and-editing-basics#markdown-and-shortcuts) for more information",
+      hidden: true,
     },
     imageUrls: {
       type: "string[]",
       label: "Image URLs",
-      description: "List of URLs to append as image blocks",
-      optional: true,
+      description: "One or more Image URLs to append new image blocks with. [See the documentation](https://www.notion.com/help/images-files-and-media#media-block-types) for more information",
+      hidden: true,
     },
+  },
+  additionalProps(currentProps) {
+    const { blockTypes } = this;
+
+    for (let prop of [
+      "blockObjects",
+      "blockIds",
+      "markupContents",
+      "imageUrls",
+    ]) {
+      currentProps[prop].hidden = !blockTypes.includes(prop);
+    }
+
+    return {};
   },
   methods: {
     ...base.methods,
@@ -58,11 +100,12 @@ export default {
     },
   },
   async run({ $ }) {
+    const { blockTypes } = this;
     const children = [];
     // add blocks from blockObjects
-    if (this.blockObjects?.length > 0) {
+    if (blockTypes.includes("blockObjects") && this.blockObjects?.length > 0) {
       for (const obj of this.blockObjects) {
-        const child = (typeof obj === "string")
+        const child = typeof obj === "string"
           ? JSON.parse(obj)
           : obj;
         children.push(child);
@@ -70,7 +113,7 @@ export default {
     }
 
     // add blocks from blockIds
-    if (this.blockIds?.length > 0) {
+    if (blockTypes.includes("blockIds") && this.blockIds?.length > 0) {
       for (const id of this.blockIds) {
         const block = await this.notion.retrieveBlock(id);
         block.children = await this.notion.retrieveBlockChildren(block);
@@ -80,7 +123,7 @@ export default {
     }
 
     // add blocks from markup
-    if (this.markupContents?.length > 0) {
+    if (blockTypes.includes("markupContents") && this.markupContents?.length > 0) {
       for (const content of this.markupContents) {
         const block = this.createBlocks(content);
         children.push(...block);
@@ -88,7 +131,7 @@ export default {
     }
 
     // add image blocks
-    if (this.imageUrls?.length) {
+    if (blockTypes.includes("imageUrls") && this.imageUrls?.length) {
       for (const url of this.imageUrls) {
         children.push({
           type: "image",
@@ -111,7 +154,10 @@ export default {
     const chunks = this.chunkArray(children);
 
     for (const chunk of chunks) {
-      const { results: payload } = await this.notion.appendBlock(this.pageId, chunk);
+      const { results: payload } = await this.notion.appendBlock(
+        this.pageId,
+        chunk,
+      );
       results.push(payload);
     }
 
