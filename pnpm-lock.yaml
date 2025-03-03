@@ -2532,6 +2532,9 @@ importers:
         specifier: ^0.12.4
         version: 0.12.5
 
+  components/cloudflare_browser_rendering:
+    specifiers: {}
+
   components/cloudflare_r2: {}
 
   components/cloudinary:
