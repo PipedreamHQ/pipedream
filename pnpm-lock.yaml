@@ -7886,6 +7886,9 @@ importers:
 
   components/microsoft_teams_bot: {}
 
+  components/microsoft_teams_events:
+    specifiers: {}
+
   components/microsoft_text_translate: {}
 
   components/microsoft_viva_goals: {}
