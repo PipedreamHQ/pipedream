@@ -6,7 +6,7 @@ export default {
   key: "quickbooks-create-invoice",
   name: "Create Invoice",
   description: "Creates an invoice. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/invoice#create-an-invoice)",
-  version: "0.1.8",
+  version: "0.2.0",
   type: "action",
   props: {
     quickbooks,
@@ -21,6 +21,18 @@ export default {
         quickbooks,
         "currency",
       ],
+    },
+    dueDate: {
+      type: "string",
+      label: "Due Date",
+      description: "Date when the payment of the transaction is due (YYYY-MM-DD)",
+      optional: true,
+    },
+    includeInvoiceLink: {
+      type: "boolean",
+      label: "Include Invoice Link",
+      description: "Return the sharable link for the invoice sent to external customers",
+      optional: true,
     },
     lineItemsAsObjects: {
       propDefinition: [
@@ -107,8 +119,14 @@ export default {
 
     const response = await this.quickbooks.createInvoice({
       $,
+      params: {
+        include: this.includeInvoiceLink
+          ? "invoiceLink"
+          : undefined,
+      },
       data: {
         Line: lines,
+        DueDate: this.dueDate,
         CustomerRef: {
           value: this.customerRefValue,
         },

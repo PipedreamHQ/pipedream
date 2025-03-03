@@ -1063,8 +1063,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/autotask_psa:
-    specifiers: {}
+  components/autotask_psa: {}
 
   components/avaza:
     dependencies:
@@ -7774,8 +7773,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/microsoft_dataverse:
-    specifiers: {}
+  components/microsoft_dataverse: {}
 
   components/microsoft_dynamics_365_sales:
     dependencies:
@@ -7892,8 +7890,7 @@ importers:
 
   components/microsoft_teams_bot: {}
 
-  components/microsoft_teams_events:
-    specifiers: {}
+  components/microsoft_teams_events: {}
 
   components/microsoft_text_translate: {}
 
