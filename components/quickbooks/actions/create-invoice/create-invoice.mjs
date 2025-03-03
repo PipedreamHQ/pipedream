@@ -6,7 +6,7 @@ export default {
   key: "quickbooks-create-invoice",
   name: "Create Invoice",
   description: "Creates an invoice. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/invoice#create-an-invoice)",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
     quickbooks,
@@ -16,11 +16,11 @@ export default {
         "customer",
       ],
     },
-    currencyRefValue: {
-      propDefinition: [
-        quickbooks,
-        "currency",
-      ],
+    billEmail: {
+      type: "string",
+      label: "Bill Email",
+      description: "Email address where the invoice should be sent",
+      optional: true,
     },
     dueDate: {
       type: "string",
@@ -28,11 +28,23 @@ export default {
       description: "Date when the payment of the transaction is due (YYYY-MM-DD)",
       optional: true,
     },
-    includeInvoiceLink: {
+    allowOnlineCreditCardPayment: {
       type: "boolean",
-      label: "Include Invoice Link",
-      description: "Return the sharable link for the invoice sent to external customers",
+      label: "Allow Online Credit Card Payment",
+      description: "Allow online credit card payment",
       optional: true,
+    },
+    allowOnlineACHPayment: {
+      type: "boolean",
+      label: "Allow Online Bank Transfer Payment",
+      description: "Allow online bank transfer payment",
+      optional: true,
+    },
+    currencyRefValue: {
+      propDefinition: [
+        quickbooks,
+        "currency",
+      ],
     },
     lineItemsAsObjects: {
       propDefinition: [
@@ -117,23 +129,33 @@ export default {
       }
     });
 
+    const params = {};
+    const data = {
+      Line: lines,
+      CustomerRef: {
+        value: this.customerRefValue,
+      },
+      DueDate: this.dueDate,
+      AllowOnlineCreditCardPayment: this.allowOnlineCreditCardPayment,
+      AllowOnlineACHPayment: this.allowOnlineACHPayment,
+    };
+
+    if (this.billEmail) {
+      params.include = "invoiceLink";
+      data.BillEmail = {
+        Address: this.billEmail,
+      };
+    }
+    if (this.currencyRefValue) {
+      data.CurrencyRef = {
+        value: this.currencyRefValue,
+      };
+    }
+
     const response = await this.quickbooks.createInvoice({
       $,
-      params: {
-        include: this.includeInvoiceLink
-          ? "invoiceLink"
-          : undefined,
-      },
-      data: {
-        Line: lines,
-        DueDate: this.dueDate,
-        CustomerRef: {
-          value: this.customerRefValue,
-        },
-        CurrencyRef: {
-          value: this.currencyRefValue,
-        },
-      },
+      params,
+      data,
     });
 
     if (response) {
