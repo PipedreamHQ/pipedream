@@ -1063,6 +1063,9 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/autotask_psa:
+    specifiers: {}
+
   components/avaza:
     dependencies:
       '@pipedream/platform':
