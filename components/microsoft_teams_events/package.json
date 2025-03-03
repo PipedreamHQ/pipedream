@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/microsoft_teams_events",
+  "version": "0.0.1",
+  "description": "Pipedream Microsoft Teams Events Components",
+  "main": "microsoft_teams_events.app.mjs",
+  "keywords": [
+    "pipedream",
+    "microsoft_teams_events"
+  ],
+  "homepage": "https://pipedream.com/apps/microsoft_teams_events",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

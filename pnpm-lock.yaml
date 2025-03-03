@@ -1063,6 +1063,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/autotask_psa: {}
+
   components/avaza:
     dependencies:
       '@pipedream/platform':
@@ -2529,6 +2531,9 @@ importers:
       util:
         specifier: ^0.12.4
         version: 0.12.5
+
+  components/cloudflare_browser_rendering:
+    specifiers: {}
 
   components/cloudflare_r2: {}
 
@@ -5536,7 +5541,14 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/govee: {}
+  components/govee:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      uuid:
+        specifier: ^11.1.0
+        version: 11.1.0
 
   components/gozen_growth:
     dependencies:
@@ -7771,6 +7783,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/microsoft_dataverse: {}
+
   components/microsoft_dynamics_365_sales:
     dependencies:
       '@pipedream/platform':
@@ -7885,6 +7899,8 @@ importers:
         version: 3.0.3
 
   components/microsoft_teams_bot: {}
+
+  components/microsoft_teams_events: {}
 
   components/microsoft_text_translate: {}
 
@@ -33077,7 +33093,7 @@ snapshots:
       '@std-uritemplate/std-uritemplate': 1.0.6
       tinyduration: 3.3.1
       tslib: 2.8.1
-      uuid: 11.0.5
+      uuid: 11.1.0
 
   '@microsoft/kiota-http-fetchlibrary@1.0.0-preview.77':
     dependencies:
@@ -39526,7 +39542,7 @@ snapshots:
       jsonwebtoken: 9.0.2
       jwks-rsa: 3.1.0
       node-forge: 1.3.1
-      uuid: 11.0.5
+      uuid: 11.1.0
     optionalDependencies:
       '@google-cloud/firestore': 7.11.0
       '@google-cloud/storage': 7.14.0

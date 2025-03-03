@@ -229,6 +229,10 @@
     {
       "source": "/docs/code/python/#listing-files-in-tmp",
       "destination": "/docs/code/python/working-with-files/#listing-files-in-tmp"
+    },
+    {
+      "source": "/docs/connect/troubleshooting",
+      "destination": "/docs/connect/managed-auth/troubleshooting"
     }
   ]
 }

@@ -23,9 +23,6 @@ export default {
   "api": {
     "title": "API & SDK reference",
   },
-  "troubleshooting": {
-    "title": "Troubleshooting",
-  },
   "migrating-from-project-keys-to-oauth": {
     "display": "hidden",
   },
