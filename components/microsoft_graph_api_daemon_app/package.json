@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/microsoft_graph_api_daemon_app",
+  "version": "0.0.1",
+  "description": "Pipedream Microsoft Graph API (daemon app) Components",
+  "main": "microsoft_graph_api_daemon_app.app.mjs",
+  "keywords": [
+    "pipedream",
+    "microsoft_graph_api_daemon_app"
+  ],
+  "homepage": "https://pipedream.com/apps/microsoft_graph_api_daemon_app",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
