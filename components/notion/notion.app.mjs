@@ -20,7 +20,7 @@ export default {
     pageId: {
       type: "string",
       label: "Page ID",
-      description: "Search for a page or provide a page ID",
+      description: "Select a page or provide a page ID",
       async options({ prevContext }) {
         const response = await this.search(undefined, {
           start_cursor: prevContext.nextPageParameters ?? undefined,

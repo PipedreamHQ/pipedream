@@ -10,21 +10,33 @@ export default {
   dedupe: "unique",
   props: {
     ...base.props,
+    infoLabel: {
+      type: "alert",
+      alertType: "info",
+      content: "Ensure the selected page is shared with your Pipedream integration to receive events.",
+    },
     pageId: {
       propDefinition: [
         base.props.notion,
         "pageId",
       ],
-      description: "Unique identifier of a page or block",
+      description: "Select the page to watch for new comments, or provide a page ID",
     },
   },
   methods: {
     ...base.methods,
     generateMeta(comment) {
+      const { id } = comment;
+      const text = comment.rich_text?.[0]?.plain_text;
+      const summary = text
+        ? `"${text.length > 40
+          ? text.slice(0, 35) + "[...]"
+          : text}"`
+        : `ID ${id}`;
       return {
-        id: comment.id,
-        summary: `New Comment ID: ${comment.id}`,
-        ts: comment.created_time,
+        id,
+        summary: `New Comment: ${summary}`,
+        ts: Date.parse(comment.created_time),
       };
     },
   },
