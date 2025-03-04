@@ -15,7 +15,7 @@ export default {
   name: "New Email Received",
   description: "Emit new event when a new email is received.",
   type: "source",
-  version: "0.1.10",
+  version: "0.1.11",
   dedupe: "unique",
   props: {
     gmail,
@@ -166,7 +166,7 @@ export default {
       // create topic prop
       let topicName = this.topic;
       if (this.topicType === "new") {
-        const authKeyJSON = JSON.parse(this.serviceAccountKeyJson);
+        const authKeyJSON = this.getServiceAccountKeyJson();
         const { project_id: projectId } = authKeyJSON;
         topicName = `projects/${projectId}/topics/${this.convertNameToValidPubSubTopicName(
           uuidv4(),
@@ -317,8 +317,18 @@ export default {
     _setLastReceivedTime(lastReceivedTime) {
       this.db.set("lastReceivedTime", lastReceivedTime);
     },
+    getServiceAccountKeyJson() {
+      try {
+        return JSON.parse(this.serviceAccountKeyJson);
+      } catch (err) {
+        throw new ConfigurationError(`Error parsing \`Service Account Key JSON\`. Ensure its contents are valid JSON. \`${err}\``);
+      }
+    },
     sdkParams() {
-      const authKeyJSON = JSON.parse(this.serviceAccountKeyJson);
+      if (!this.serviceAccountKeyJson) {
+        throw new ConfigurationError("Not able to create a webhook or subscribe to topics without configuring a service account. Please reconfigure the trigger type and try again.");
+      }
+      const authKeyJSON = this.getServiceAccountKeyJson();
       const {
         project_id: projectId, client_email, private_key,
       } = authKeyJSON;
@@ -332,6 +342,7 @@ export default {
       return sdkParams;
     },
     async getTopics() {
+
       const sdkParams = this.sdkParams();
       const pubSubClient = new PubSub(sdkParams);
       const topics = (await pubSubClient.getTopics())[0];
