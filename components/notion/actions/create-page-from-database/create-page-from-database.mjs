@@ -17,7 +17,7 @@ export default {
         "databaseId",
       ],
       label: "Parent Database ID",
-      description: "The identifier for a Notion parent page",
+      description: "Select a parent database or provide a database ID",
       reloadProps: true,
     },
     metaTypes: {
@@ -40,13 +40,13 @@ export default {
     alert: {
       type: "alert",
       alertType: "info",
-      content: "This action will create an empty page by default. To add content, use the `pageContent` prop below.",
+      content: "This action will create an empty page by default. To add content, use the `Page Content` prop below.",
     },
     pageContent: {
-      type: "string",
-      label: "Page Content",
-      description: "Content of the page. You can use Markdown syntax [See docs](https://www.notion.so/help/writing-and-editing-basics#markdown-&-shortcuts)",
-      optional: true,
+      propDefinition: [
+        notion,
+        "pageContent",
+      ],
     },
   },
   async additionalProps() {

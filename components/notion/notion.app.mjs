@@ -32,7 +32,7 @@ export default {
     pageIdInDatabase: {
       type: "string",
       label: "Page ID",
-      description: "Select a page from the database, or provide a page ID",
+      description: "Select a page from the database or provide a page ID",
       async options({
         prevContext, databaseId,
       }) {
@@ -46,7 +46,7 @@ export default {
     propertyId: {
       type: "string",
       label: "Property ID",
-      description: "Select a page property, or provide a property ID",
+      description: "Select a page property or provide a property ID",
       async options({ pageId }) {
         const response = await this.retrievePage(pageId);
 
@@ -154,13 +154,19 @@ export default {
     },
     filter: {
       type: "string",
-      label: "Filter",
-      description: "The value of the property to filter results by",
+      label: "Page or Database",
+      description: "Whether to search for pages or databases",
       optional: true,
       options: [
         "page",
         "database",
       ],
+    },
+    pageContent: {
+      type: "string",
+      label: "Page Content",
+      description: "The content of the page, using Markdown syntax. [See the documentation](https://www.notion.com/help/writing-and-editing-basics#markdown-and-shortcuts) for more information",
+      optional: true,
     },
   },
   methods: {
