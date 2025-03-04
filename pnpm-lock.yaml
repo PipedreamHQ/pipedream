@@ -8246,6 +8246,9 @@ importers:
 
   components/netatmo: {}
 
+  components/netcore:
+    specifiers: {}
+
   components/nethunt_crm:
     dependencies:
       '@pipedream/platform':
