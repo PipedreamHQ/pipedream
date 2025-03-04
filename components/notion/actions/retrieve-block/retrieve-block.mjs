@@ -4,7 +4,7 @@ export default {
   key: "notion-retrieve-block",
   name: "Retrieve Block",
   description: "Get details of a block, which can be text, lists, media, a page, among others. [See the documentation](https://developers.notion.com/reference/retrieve-a-block)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     notion,
