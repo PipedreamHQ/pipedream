@@ -30,7 +30,7 @@ export default {
         return {
           options,
           context: {
-            cursor: links?.next,
+            cursor: this._extractCursorFromLink(links?.next),
           },
         };
       },
@@ -61,7 +61,7 @@ export default {
         return {
           options,
           context: {
-            cursor: links?.next,
+            cursor: this._extractCursorFromLink(links?.next),
           },
         };
       },
@@ -105,6 +105,16 @@ export default {
         },
         ...otherOpts,
       });
+    },
+    _extractCursorFromLink(link) {
+      if (!link) return null;
+      try {
+        const url = new URL(link);
+        return url.searchParams.get("cursor");
+      } catch (e) {
+        console.log("Error extracting cursor from link:", e);
+        return null;
+      }
     },
     async getCloudId(opts = {}) {
       const response = await this._makeRequest({
@@ -203,8 +213,9 @@ export default {
             return;
           }
         }
-        hasMore = links?.next;
-        args.params.cursor = hasMore;
+        const cursor = this._extractCursorFromLink(links?.next);
+        hasMore = cursor;
+        args.params.cursor = cursor;
       } while (hasMore);
     },
   },
