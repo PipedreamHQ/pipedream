@@ -8469,42 +8469,9 @@ importers:
       '@tryfabric/martian':
         specifier: ^1.2.4
         version: 1.2.4
-      asynckit:
-        specifier: ^0.4.0
-        version: 0.4.0
-      combined-stream:
-        specifier: ^1.0.8
-        version: 1.0.8
-      delayed-stream:
-        specifier: ^1.0.0
-        version: 1.0.0
-      form-data:
-        specifier: ^3.0.1
-        version: 3.0.2
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
-      md5:
-        specifier: ^2.3.0
-        version: 2.3.0
-      mime-db:
-        specifier: ^1.52.0
-        version: 1.53.0
-      mime-types:
-        specifier: ^2.1.35
-        version: 2.1.35
-      node-fetch:
-        specifier: ^2.6.7
-        version: 2.7.0
-      tr46:
-        specifier: ^0.0.3
-        version: 0.0.3
-      webidl-conversions:
-        specifier: ^3.0.1
-        version: 3.0.1
-      whatwg-url:
-        specifier: ^5.0.0
-        version: 5.0.0
 
   components/nozbe_teams: {}
 
