@@ -18,7 +18,7 @@ export default {
   async run({ $ }) {
     const response = await this.notion.retrievePage(this.pageId);
     const title = response?.properties?.Name?.title[0]?.plain_text;
-    $.export("$summary", `Sucessfully retrieved page${title
+    $.export("$summary", `Successfully retrieved page${title
       ? ` "${title}"`
       : ""}`);
     return response;
