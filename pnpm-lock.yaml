@@ -2532,8 +2532,7 @@ importers:
         specifier: ^0.12.4
         version: 0.12.5
 
-  components/cloudflare_browser_rendering:
-    specifiers: {}
+  components/cloudflare_browser_rendering: {}
 
   components/cloudflare_r2: {}
 
@@ -3488,8 +3487,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/docker_engine:
-    specifiers: {}
+  components/docker_engine: {}
 
   components/docker_hub: {}
 
@@ -3775,8 +3773,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/dungeon_fighter_online:
-    specifiers: {}
+  components/dungeon_fighter_online: {}
 
   components/dust:
     dependencies:
@@ -8016,8 +8013,7 @@ importers:
 
   components/mojotxt: {}
 
-  components/mollie:
-    specifiers: {}
+  components/mollie: {}
 
   components/monday:
     dependencies:
@@ -8255,8 +8251,7 @@ importers:
 
   components/netatmo: {}
 
-  components/netcore:
-    specifiers: {}
+  components/netcore: {}
 
   components/nethunt_crm:
     dependencies:
@@ -11960,8 +11955,7 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
-  components/splunk_http_event_collector:
-    specifiers: {}
+  components/splunk_http_event_collector: {}
 
   components/splynx:
     dependencies:
