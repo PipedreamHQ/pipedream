@@ -1,5 +1,5 @@
 {
-  "name": "imgur",
+  "name": "@pipedream/imgur",
   "version": "1.0.0",
   "description": "The imgur app file for Pipedream action & trigger integrations.",
   "main": "index.js",
