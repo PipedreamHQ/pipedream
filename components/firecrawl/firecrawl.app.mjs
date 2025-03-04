@@ -12,7 +12,7 @@ export default {
     crawlId: {
       type: "string",
       label: "Crawl ID",
-      description: "Identifier of a certain crawl operation.",
+      description: "The ID of a crawl job (e.g. as returned by the **Crawl URL** action)",
     },
     includes: {
       type: "string[]",
@@ -178,8 +178,7 @@ export default {
       crawlId, ...opts
     }) {
       return this._makeRequest({
-        method: "GET",
-        path: `/crawl/status/${crawlId}`,
+        path: `/crawl/${crawlId}`,
         ...opts,
       });
     },
