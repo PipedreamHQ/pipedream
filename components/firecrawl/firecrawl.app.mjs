@@ -71,7 +71,8 @@ export default {
     headers: {
       type: "object",
       label: "Headers",
-      description: "Headers to send with the request. Can be used to send cookies, user-agent, etc..",
+      description: "Headers to send with the request. Can be used to send cookies, user-agent, etc.",
+      optional: true,
     },
     includeHtml: {
       type: "boolean",
@@ -91,7 +92,8 @@ export default {
     onlyMainContent: {
       type: "boolean",
       label: "Only Main Content",
-      description: "Only return the main content of the page excluding headers, navs, footers, etc..",
+      description: "Only return the main content of the page, excluding headers, navs, footers, etc.",
+      optional: true,
     },
     removeTags: {
       type: "string[]",
@@ -114,9 +116,10 @@ export default {
       description: "Include a full page screenshot of the page that you are scraping.",
     },
     waitFor: {
-      type: "string",
+      type: "integer",
       label: "Wait For",
-      description: "Wait x amount of milliseconds for the page to load to fetch content.",
+      description: "Specify a delay in milliseconds before fetching the content, allowing the page sufficient time to load.",
+      optional: true,
     },
     extractorMode: {
       type: "string",
@@ -142,12 +145,13 @@ export default {
     timeout: {
       type: "integer",
       label: "Timeout",
-      description: "Timeout in milliseconds for the request.",
+      description: "Timeout in milliseconds for the request",
+      optional: true,
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.firecrawl.dev/v0";
+      return "https://api.firecrawl.dev/v1";
     },
     _headers() {
       return {
