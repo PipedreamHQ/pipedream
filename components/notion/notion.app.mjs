@@ -103,15 +103,14 @@ export default {
     },
     archived: {
       type: "boolean",
-      label: "Archive page",
-      description: "Set to true to archive (delete) a page. Set to false to un-archive\
-(restore) a page",
+      label: "Archive Page",
+      description: "Set to `true` to archive (delete) a page. Set to `false` to  un-archive (restore) a page",
       optional: true,
     },
     title: {
       type: "string",
       label: "Page Title",
-      description: "The page title. Defaults to `Untitled`",
+      description: "The page title (defaults to `Untitled`)",
       optional: true,
     },
     userIds: {

@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "notion-create-comment",
   name: "Create Comment",
-  description: "Creates a comment in a page or existing discussion thread. [See the documentation](https://developers.notion.com/reference/create-a-comment)",
+  description: "Create a comment in a page or existing discussion thread. [See the documentation](https://developers.notion.com/reference/create-a-comment)",
   version: "0.0.1",
   type: "action",
   props: {
