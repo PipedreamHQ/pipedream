@@ -5988,6 +5988,9 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
+  components/hr_cloud:
+    specifiers: {}
+
   components/hr_partner: {}
 
   components/html_2_pdf:
