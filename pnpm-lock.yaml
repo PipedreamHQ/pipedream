@@ -8013,6 +8013,9 @@ importers:
 
   components/mojotxt: {}
 
+  components/mollie:
+    specifiers: {}
+
   components/monday:
     dependencies:
       '@pipedream/platform':
