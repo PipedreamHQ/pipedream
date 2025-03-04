@@ -117,22 +117,15 @@ export default {
       description: "Additional notes for the timesheet entry",
       optional: true,
     },
-    name: {
-      type: "object",
-      label: "Name",
-      description: "The employee's name",
-      properties: {
-        firstName: {
-          type: "string",
-          label: "First Name",
-          description: "The employee's first name",
-        },
-        lastName: {
-          type: "string",
-          label: "Last Name",
-          description: "The employee's last name",
-        },
-      },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "The employee's first name",
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "The employee's last name",
     },
     email: {
       type: "string",

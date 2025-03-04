@@ -8,10 +8,16 @@ export default {
   type: "action",
   props: {
     hrCloud,
-    name: {
+    firstName: {
       propDefinition: [
         hrCloud,
-        "name",
+        "firstName",
+      ],
+    },
+    lastName: {
+      propDefinition: [
+        hrCloud,
+        "lastName",
       ],
     },
     email: {
@@ -43,8 +49,8 @@ export default {
     const response = await this.hrCloud.createEmployee({
       $,
       data: {
-        first_name: this.name.firstName,
-        last_name: this.name.lastName,
+        first_name: this.firstName,
+        last_name: this.lastName,
         email: this.email,
         job_title_id: this.jobTitle,
         department_id: this.departmentId,
@@ -52,7 +58,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully created employee: ${this.name.firstName} ${this.name.lastName}`);
+    $.export("$summary", `Successfully created employee: ${this.firstName} ${this.lastName}`);
     return response;
   },
 };
