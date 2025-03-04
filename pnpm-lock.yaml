@@ -5989,7 +5989,10 @@ importers:
         version: 1.6.6
 
   components/hr_cloud:
-    specifiers: {}
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.6.0
+        version: 1.6.6
 
   components/hr_partner: {}
 
