@@ -8,7 +8,7 @@ export default {
     databaseId: {
       type: "string",
       label: "Database ID",
-      description: "The identifier for a Notion database",
+      description: "Select a database or provide a database ID",
       async options({ prevContext }) {
         const response = await this.listDatabases({
           start_cursor: prevContext.nextPageParameters ?? undefined,
@@ -20,7 +20,7 @@ export default {
     pageId: {
       type: "string",
       label: "Page ID",
-      description: "The identifier for a Notion page",
+      description: "Select a page or provide a page ID",
       async options({ prevContext }) {
         const response = await this.search(undefined, {
           start_cursor: prevContext.nextPageParameters ?? undefined,
@@ -32,7 +32,7 @@ export default {
     pageIdInDatabase: {
       type: "string",
       label: "Page ID",
-      description: "The identifier for a Notion page",
+      description: "Select a page from the database or provide a page ID",
       async options({
         prevContext, databaseId,
       }) {
@@ -46,7 +46,7 @@ export default {
     propertyId: {
       type: "string",
       label: "Property ID",
-      description: "The identifier for a Notion page property",
+      description: "Select a page property or provide a property ID",
       async options({ pageId }) {
         const response = await this.retrievePage(pageId);
 
@@ -77,7 +77,7 @@ export default {
     metaTypes: {
       type: "string[]",
       label: "Meta Types",
-      description: "Select the page attributes such as icon and cover",
+      description: "Select one or more page attributes (such as icon and cover)",
       options: Object.keys(NOTION_META),
       optional: true,
       reloadProps: true,
@@ -85,7 +85,7 @@ export default {
     propertyTypes: {
       type: "string[]",
       label: "Property Types",
-      description: "Select the page properties",
+      description: "Select one or more page properties",
       optional: true,
       async options({
         parentId, parentType,
@@ -103,21 +103,20 @@ export default {
     },
     archived: {
       type: "boolean",
-      label: "Archive page",
-      description: "Set to true to archive (delete) a page. Set to false to un-archive\
-(restore) a page.",
+      label: "Archive Page",
+      description: "Set to `true` to archive (delete) a page. Set to `false` to  un-archive (restore) a page",
       optional: true,
     },
     title: {
       type: "string",
       label: "Page Title",
-      description: "The page title. Defaults to `Untitled`.",
+      description: "The page title (defaults to `Untitled`)",
       optional: true,
     },
     userIds: {
       type: "string[]",
       label: "Users",
-      description: "A list of users",
+      description: "Select one or more users, or provide user IDs",
       async options() {
         const users = await this.getUsers();
 
@@ -130,7 +129,7 @@ export default {
     sortDirection: {
       type: "string",
       label: "Sort Direction",
-      description: "The direction to sort.",
+      description: "The direction to sort by",
       optional: true,
       options: [
         "ascending",
@@ -140,25 +139,33 @@ export default {
     pageSize: {
       type: "integer",
       label: "Page Size",
-      description: "The number of items from the full list desired in the response. Maximum: 100",
+      description: "The number of items from the full list desired in the response (max 100)",
       default: 100,
+      min: 1,
+      max: 100,
       optional: true,
     },
     startCursor: {
       type: "string",
       label: "Start Cursor (page_id)",
-      description: "If supplied, this endpoint will return a page of results starting after the cursor provided. If not supplied, this endpoint will return the first page of results.",
+      description: "Leave blank to retrieve the first page of results. Otherwise, the response will be the page of results starting after the provided cursor",
       optional: true,
     },
     filter: {
       type: "string",
-      label: "Filter",
-      description: "The value of the property to filter the results by. Possible values for object type include `page` or `database`. Limitation: Currently the only filter allowed is `object` which will filter by type of object (either `page` or `database`)",
+      label: "Page or Database",
+      description: "Whether to search for pages or databases",
       optional: true,
       options: [
         "page",
         "database",
       ],
+    },
+    pageContent: {
+      type: "string",
+      label: "Page Content",
+      description: "The content of the page, using Markdown syntax. [See the documentation](https://www.notion.com/help/writing-and-editing-basics#markdown-and-shortcuts) for more information",
+      optional: true,
     },
   },
   methods: {
