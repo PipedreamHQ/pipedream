@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/hr_cloud",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream HR Cloud Components",
   "main": "hr_cloud.app.mjs",
   "keywords": [
@@ -11,5 +11,8 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^1.6.0"
   }
 }
