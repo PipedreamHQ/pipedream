@@ -10,6 +10,10 @@
     "imgur",
     "api"
   ],
-  "author": "Dylan Pierce <pierce@pipedream.com>",
+  "homepage": "https://pipedream.com/apps/imgur",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "ISC"
 }
