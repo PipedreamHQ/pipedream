@@ -42,6 +42,14 @@ def handler(pd: "pipedream"):
     data_store["last_ran_at"] = datetime.now().isoformat()
 ```
 
+### Setting expiration (TTL) for records
+
+<Callout type="info">
+TTL functionality is currently only available in Node.js code steps. If you need to set expiration on records from Python steps, you'll need to use a Node.js step to set or update the TTL.
+</Callout>
+
+For temporary data that should automatically expire, you can use a Node.js step with TTL functionality. See the [Node.js documentation](/workflows/building-workflows/code/nodejs/using-data-stores/#setting-expiration-ttl-for-records) for details on how to use TTL with data stores.
+
 ## Retrieving keys
 
 Fetch all the keys in a given data store using the `keys` method:

@@ -51,6 +51,48 @@ export default defineComponent({
 });
 ```
 
+### Setting expiration (TTL) for records
+
+You can set an expiration time for a record by passing a TTL (Time-To-Live) option as the third argument to the `set` method. The TTL value is specified in seconds:
+
+```javascript
+export default defineComponent({
+  props: {
+    data: { type: "data_store" },
+  },
+  async run({ steps, $ }) {
+    // Store a temporary value that will expire after 1 hour (3600 seconds)
+    await this.data.set("temporaryToken", "abc123", { ttl: 3600 });
+    
+    // Store a value that will expire after 1 day
+    await this.data.set("dailyMetric", 42, { ttl: 86400 });
+  },
+});
+```
+
+When the TTL period elapses, the record will be automatically deleted from the data store.
+
+### Updating TTL for existing records
+
+You can update the TTL for an existing record using the `setTtl` method:
+
+```javascript
+export default defineComponent({
+  props: {
+    data: { type: "data_store" },
+  },
+  async run({ steps, $ }) {
+    // Update an existing record to expire after 30 minutes
+    await this.data.setTtl("temporaryToken", 1800);
+    
+    // Remove expiration from a record
+    await this.data.setTtl("temporaryToken", null);
+  },
+});
+```
+
+This is useful for extending the lifetime of temporary data or removing expiration from records that should now be permanent.
+
 ## Retrieving keys
 
 Fetch all the keys in a given Data Store using the `keys` method:
@@ -241,6 +283,46 @@ export default defineComponent({
   },
 });
 ```
+
+## TTL use case: temporary caching and rate limiting
+
+TTL functionality is particularly useful for implementing temporary caching and rate limiting. Here's an example of a simple rate limiter that prevents a user from making more than 5 requests per hour:
+
+```javascript
+export default defineComponent({
+  props: {
+    data: { type: "data_store" },
+  },
+  async run({ steps, $ }) {
+    const userId = steps.trigger.event.userId;
+    const rateKey = `ratelimit:${userId}`;
+    
+    // Try to get current rate limit counter
+    let requests = await this.data.get(rateKey);
+    
+    if (requests === undefined) {
+      // First request from this user in the time window
+      await this.data.set(rateKey, 1, { ttl: 3600 }); // Expire after 1 hour
+      return { allowed: true, remaining: 4 };
+    }
+    
+    if (requests >= 5) {
+      // Rate limit exceeded
+      return { allowed: false, error: "Rate limit exceeded", retryAfter: "1 hour" };
+    }
+    
+    // Increment the counter
+    await this.data.set(rateKey, requests + 1);
+    return { allowed: true, remaining: 4 - requests };
+  },
+});
+```
+
+This pattern can be extended for various temporary caching scenarios like:
+- Session tokens with automatic expiration
+- Short-lived feature flags
+- Temporary access grants
+- Time-based promotional codes
 
 ## Data store limitations
 
