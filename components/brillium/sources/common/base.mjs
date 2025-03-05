@@ -41,12 +41,17 @@ export default {
       });
 
       let results = [];
-      for await (const item of items) {
-        const ts = Date.parse(item[tsField]);
-        if (ts > lastTs) {
-          results.push(item);
-          maxTs = Math.max(maxTs, ts);
+      try {
+        for await (const item of items) {
+          const ts = Date.parse(item[tsField]);
+          if (ts > lastTs) {
+            results.push(item);
+            maxTs = Math.max(maxTs, ts);
+          }
         }
+      } catch (e) {
+        console.log(`${e.message}`);
+        return;
       }
 
       if (!results.length) {
