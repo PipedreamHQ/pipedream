@@ -62,17 +62,16 @@ export default {
       optional: true,
     },
     timeout: {
-      propDefinition: [
-        firecrawl,
-        "timeout",
-      ],
+      type: "integer",
+      label: "Timeout",
+      description: "Timeout in milliseconds for the request",
+      optional: true,
     },
     additionalOptions: {
-      type: "object",
-      label: "Additional Options",
-      description:
-        "Additional parameters to send in the request. [See the documentation](https://docs.firecrawl.dev/api-reference/endpoint/scrape) for available parameters. Values will be parsed as JSON where applicable.",
-      optional: true,
+      propDefinition: [
+        firecrawl,
+        "additionalOptions",
+      ],
     },
   },
   async run({ $ }) {
