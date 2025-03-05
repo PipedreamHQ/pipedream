@@ -4,6 +4,13 @@ export default {
   type: "app",
   app: "hr_cloud",
   propDefinitions: {
+    apiVersion: {
+      type: "string",
+      label: "API Version",
+      description: "The HR Cloud API version to use. Leave empty to use the default version.",
+      default: "",
+      optional: true,
+    },
     departmentId: {
       type: "string",
       label: "Department",
@@ -147,7 +154,15 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://api.hrcloud.com/v1";
+      // Default to base URL without version
+      const baseUrl = "https://api.hrcloud.com";
+
+      // If a version is specified in the app props, use it
+      if (this.$auth.apiVersion) {
+        return `${baseUrl}/${this.$auth.apiVersion}`;
+      }
+
+      return baseUrl;
     },
     _authHeaders() {
       return {
@@ -169,14 +184,25 @@ export default {
         params,
         data,
       };
-      return axios($, config);
+
+      try {
+        console.log(`Making request to: ${config.url}`);
+        const response = await axios($, config);
+        return response;
+      } catch (error) {
+        console.error(`Error with request to ${path}: ${error.message}`);
+        if (error.response?.status === 404) {
+          throw new Error(`API endpoint not found (404): ${path}. Please verify the API URL structure in the HR Cloud documentation.`);
+        }
+        throw error;
+      }
     },
     async createWebhook({
       eventType, endpoint, metadata,
     }) {
       return this._makeRequest({
         method: "POST",
-        path: "/webhooks",
+        path: "/api/webhooks",
         data: {
           event_type: eventType,
           endpoint,
@@ -187,19 +213,19 @@ export default {
     async deleteWebhook(webhookId) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/webhooks/${webhookId}`,
+        path: `/api/webhooks/${webhookId}`,
       });
     },
     async getEmployees(args = {}) {
       const response = await this._makeRequest({
-        path: "/employees",
+        path: "/api/employees",
         ...args,
       });
       return response.employees || [];
     },
     async getEmployee(employeeId, args = {}) {
       const response = await this._makeRequest({
-        path: `/employees/${employeeId}`,
+        path: `/api/employees/${employeeId}`,
         ...args,
       });
       return response.employee;
@@ -207,34 +233,34 @@ export default {
     async createEmployee(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/employees",
+        path: "/api/employees",
         ...args,
       });
     },
     async getDepartments(args = {}) {
       const response = await this._makeRequest({
-        path: "/departments",
+        path: "/api/departments",
         ...args,
       });
       return response.departments || [];
     },
     async getJobTitles(args = {}) {
       const response = await this._makeRequest({
-        path: "/job-titles",
+        path: "/api/job-titles",
         ...args,
       });
       return response.job_titles || [];
     },
     async getLeaveRequests(args = {}) {
       const response = await this._makeRequest({
-        path: "/leave-requests",
+        path: "/api/leave-requests",
         ...args,
       });
       return response.leave_requests || [];
     },
     async getLeaveTypes(args = {}) {
       const response = await this._makeRequest({
-        path: "/leave-types",
+        path: "/api/leave-types",
         ...args,
       });
       return response.leave_types || [];
@@ -242,20 +268,20 @@ export default {
     async approveLeaveRequest(requestId, args = {}) {
       return this._makeRequest({
         method: "PUT",
-        path: `/leave-requests/${requestId}/approve`,
+        path: `/api/leave-requests/${requestId}/approve`,
         ...args,
       });
     },
     async getProjects(args = {}) {
       const response = await this._makeRequest({
-        path: "/projects",
+        path: "/api/projects",
         ...args,
       });
       return response.projects || [];
     },
     async getTimesheetEntries(args = {}) {
       const response = await this._makeRequest({
-        path: "/timesheet-entries",
+        path: "/api/timesheet-entries",
         ...args,
       });
       return response.timesheet_entries || [];
@@ -263,7 +289,7 @@ export default {
     async createTimesheetEntry(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/timesheet-entries",
+        path: "/api/timesheet-entries",
         ...args,
       });
     },
