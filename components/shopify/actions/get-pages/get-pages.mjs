@@ -1,14 +1,40 @@
-import app from "../../common/rest-admin.mjs";
-import common from "./common.mjs";
+import shopify from "../../shopify.app.mjs";
 
 export default {
-  ...common,
   key: "shopify-get-pages",
   name: "Get Pages",
-  description: "Retrieve a list of all pages. [See The Documentation](https://shopify.dev/docs/api/admin-rest/2023-04/resources/page#get-pages)",
-  version: "0.0.6",
+  description: "Retrieve a list of all pages. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/pages)",
+  version: "0.0.7",
   type: "action",
   props: {
-    app,
+    shopify,
+    maxResults: {
+      propDefinition: [
+        shopify,
+        "maxResults",
+      ],
+    },
+    reverse: {
+      propDefinition: [
+        shopify,
+        "reverse",
+      ],
+    },
+  },
+  async run({ $ }) {
+    const pages = await this.shopify.getPaginated({
+      resourceFn: this.shopify.listPages,
+      resourceKeys: [
+        "pages",
+      ],
+      variables: {
+        reverse: this.reverse,
+      },
+      max: this.maxResults,
+    });
+    $.export("$summary", `Successfully retrieved ${pages.length} page${pages.length === 1
+      ? ""
+      : "s"}`);
+    return pages;
   },
 };

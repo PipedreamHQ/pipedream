@@ -21,7 +21,7 @@ export default {
   methods: {
     ...common.methods,
     async getResults() {
-      const { blog: { articles: { nodes } } } = await this.app.getBlog({
+      const { blog: { articles: { nodes } } } = await this.app.listBlogArticles({
         id: this.blogId,
         first: MAX_LIMIT,
         reverse: true,
