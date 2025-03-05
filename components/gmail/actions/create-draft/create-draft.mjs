@@ -6,7 +6,7 @@ export default {
   key: "gmail-create-draft",
   name: "Create Draft",
   description: "Create a draft from your Google Workspace email account. [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.drafts/create)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     gmail,
@@ -45,6 +45,13 @@ export default {
         gmail,
         "bodyType",
       ],
+    },
+    include_sent_via_pipedream_flag: {
+      type: "boolean",
+      optional: true,
+      default: true,
+      label: "Include link to Pipedream",
+      description: "Defaults to `true`, includes a link to Pipedream at the end of your email.",
     },
     attachmentFilenames: {
       propDefinition: [
