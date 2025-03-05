@@ -2,7 +2,7 @@ import firecrawl from "../../firecrawl.app.mjs";
 
 export default {
   key: "firecrawl-get-crawl-status",
-  name: "Get Crawl Status",
+  name: "Get Crawl Data",
   description: "Obtains the status and data from a previous crawl operation. [See the documentation](https://docs.firecrawl.dev/api-reference/endpoint/crawl-get)",
   version: "0.0.2",
   type: "action",

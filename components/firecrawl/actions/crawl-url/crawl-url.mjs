@@ -5,7 +5,7 @@ export default {
   key: "firecrawl-crawl-url",
   name: "Crawl URL",
   description: "Crawls a given URL and returns the contents of sub-pages. [See the documentation](https://docs.firecrawl.dev/api-reference/endpoint/crawl-post)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   props: {
     firecrawl,
@@ -68,8 +68,7 @@ export default {
         firecrawl,
         "additionalOptions",
       ],
-      description:
-            "Additional parameters to send in the request. [https://docs.firecrawl.dev/api-reference/endpoint/crawl-post) for available parameters. Values will be parsed as JSON where applicable.",
+      description: "Additional parameters to send in the request. [https://docs.firecrawl.dev/api-reference/endpoint/crawl-post) for available parameters. Values will be parsed as JSON where applicable.",
     },
   },
   async run({ $ }) {

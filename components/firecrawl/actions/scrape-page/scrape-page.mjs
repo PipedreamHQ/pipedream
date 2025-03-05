@@ -26,10 +26,10 @@ export default {
       optional: true,
     },
     onlyMainContent: {
-      propDefinition: [
-        firecrawl,
-        "onlyMainContent",
-      ],
+      type: "boolean",
+      label: "Only Main Content",
+      description: "Only return the main content of the page, excluding headers, navs, footers, etc.",
+      optional: true,
     },
     includeTags: {
       type: "string[]",
@@ -44,16 +44,16 @@ export default {
       optional: true,
     },
     headers: {
-      propDefinition: [
-        firecrawl,
-        "headers",
-      ],
+      type: "object",
+      label: "Headers",
+      description: "Headers to send with the request. Can be used to send cookies, user-agent, etc.",
+      optional: true,
     },
     waitFor: {
-      propDefinition: [
-        firecrawl,
-        "waitFor",
-      ],
+      type: "integer",
+      label: "Wait For",
+      description: "Specify a delay in milliseconds before fetching the content, allowing the page sufficient time to load.",
+      optional: true,
     },
     mobile: {
       type: "boolean",
