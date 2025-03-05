@@ -6500,6 +6500,9 @@ importers:
 
   components/jellyreach: {}
 
+  components/jenkins:
+    specifiers: {}
+
   components/jibble:
     dependencies:
       '@pipedream/platform':
