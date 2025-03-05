@@ -4,13 +4,6 @@ export default {
   type: "app",
   app: "hr_cloud",
   propDefinitions: {
-    apiVersion: {
-      type: "string",
-      label: "API Version",
-      description: "The HR Cloud API version to use. Leave empty to use the default version.",
-      default: "",
-      optional: true,
-    },
     departmentId: {
       type: "string",
       label: "Department",
@@ -154,15 +147,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      // Default to base URL without version
-      const baseUrl = "https://api.hrcloud.com";
-
-      // If a version is specified in the app props, use it
-      if (this.$auth.apiVersion) {
-        return `${baseUrl}/${this.$auth.apiVersion}`;
-      }
-
-      return baseUrl;
+      return "https://corehr-api.hrcloud.com/v1/cloud";
     },
     _authHeaders() {
       return {
@@ -202,7 +187,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: "/api/webhooks",
+        path: "/webhooks",
         data: {
           event_type: eventType,
           endpoint,
@@ -213,19 +198,19 @@ export default {
     async deleteWebhook(webhookId) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/api/webhooks/${webhookId}`,
+        path: `/webhooks/${webhookId}`,
       });
     },
     async getEmployees(args = {}) {
       const response = await this._makeRequest({
-        path: "/api/employees",
+        path: "/employees",
         ...args,
       });
       return response.employees || [];
     },
     async getEmployee(employeeId, args = {}) {
       const response = await this._makeRequest({
-        path: `/api/employees/${employeeId}`,
+        path: `/employees/${employeeId}`,
         ...args,
       });
       return response.employee;
@@ -233,34 +218,34 @@ export default {
     async createEmployee(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/api/employees",
+        path: "/employees",
         ...args,
       });
     },
     async getDepartments(args = {}) {
       const response = await this._makeRequest({
-        path: "/api/departments",
+        path: "/departments",
         ...args,
       });
       return response.departments || [];
     },
     async getJobTitles(args = {}) {
       const response = await this._makeRequest({
-        path: "/api/job-titles",
+        path: "/job-titles",
         ...args,
       });
       return response.job_titles || [];
     },
     async getLeaveRequests(args = {}) {
       const response = await this._makeRequest({
-        path: "/api/leave-requests",
+        path: "/leave-requests",
         ...args,
       });
       return response.leave_requests || [];
     },
     async getLeaveTypes(args = {}) {
       const response = await this._makeRequest({
-        path: "/api/leave-types",
+        path: "/leave-types",
         ...args,
       });
       return response.leave_types || [];
@@ -268,20 +253,20 @@ export default {
     async approveLeaveRequest(requestId, args = {}) {
       return this._makeRequest({
         method: "PUT",
-        path: `/api/leave-requests/${requestId}/approve`,
+        path: `/leave-requests/${requestId}/approve`,
         ...args,
       });
     },
     async getProjects(args = {}) {
       const response = await this._makeRequest({
-        path: "/api/projects",
+        path: "/projects",
         ...args,
       });
       return response.projects || [];
     },
     async getTimesheetEntries(args = {}) {
       const response = await this._makeRequest({
-        path: "/api/timesheet-entries",
+        path: "/timesheet-entries",
         ...args,
       });
       return response.timesheet_entries || [];
@@ -289,7 +274,7 @@ export default {
     async createTimesheetEntry(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/api/timesheet-entries",
+        path: "/timesheet-entries",
         ...args,
       });
     },
