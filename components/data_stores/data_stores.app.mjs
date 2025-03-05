@@ -33,7 +33,7 @@ export default {
       description: "The number of seconds until this record expires and is automatically deleted. Examples: 3600 (1 hour), 86400 (1 day), 604800 (1 week). Leave blank for records that should not expire.",
       optional: true,
       min: 0,
-      max: 63072000, // 2 years (safe upper limit)
+      max: 31536000, // 1 year (safe upper limit)
     },
     addRecordIfNotFound: {
       label: "Create a new record if the key is not found?",

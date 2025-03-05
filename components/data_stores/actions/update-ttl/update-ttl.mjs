@@ -73,7 +73,7 @@ export default {
         label: "Custom TTL (seconds)",
         description: "The number of seconds until this record expires and is automatically deleted. Use 0 to remove expiration.",
         min: 0,
-        max: 63072000, // 2 years (safe upper limit)
+        max: 31536000, // 1 year (safe upper limit)
       };
     }
     return props;
