@@ -7,19 +7,18 @@ export default {
     departmentId: {
       type: "string",
       label: "Department",
-      description: "The department to filter by",
+      description: "The employee department",
       async options({ page }) {
         const departments = await this.getDepartments({
           params: {
             page: page + 1,
           },
-        });
+        }); console.log(departments);
         return departments.map((department) => ({
-          label: department.name,
-          value: department.id,
+          label: department.xDepartmentName,
+          value: department.Id,
         }));
       },
-      optional: true,
     },
     jobTitle: {
       type: "string",
@@ -32,11 +31,10 @@ export default {
           },
         });
         return jobTitles.map((jobTitle) => ({
-          label: jobTitle.name,
-          value: jobTitle.id,
+          label: jobTitle.xPositionTitle,
+          value: jobTitle.Id,
         }));
       },
-      optional: true,
     },
     leaveType: {
       type: "string",
@@ -101,6 +99,38 @@ export default {
         }));
       },
     },
+    locationId: {
+      type: "string",
+      label: "Location ID",
+      description: "The ID of a location",
+      async options({ page }) {
+        const locations = await this.getLocations({
+          params: {
+            page: page + 1,
+          },
+        });
+        return locations.map((location) => ({
+          label: location.xLocationName,
+          value: location.Id,
+        }));
+      },
+    },
+    employmentStatusId: {
+      type: "string",
+      label: "Employment Status ID",
+      description: "The ID of an employment status",
+      async options({ page }) {
+        const statuses = await this.getEmploymentStatus({
+          params: {
+            page: page + 1,
+          },
+        });
+        return statuses.map((status) => ({
+          label: status.xType,
+          value: status.Id,
+        }));
+      },
+    },
     hours: {
       type: "integer",
       label: "Hours Worked",
@@ -136,6 +166,21 @@ export default {
       type: "string",
       label: "Start Date",
       description: "The employee's start date (YYYY-MM-DD)",
+    },
+    employeeNumber: {
+      type: "string",
+      label: "Employee Number",
+      description: "Unique employee number",
+    },
+    recordStatus: {
+      type: "string",
+      label: "Record Status",
+      description: "The employee status",
+      options: [
+        "Active",
+        "Inactive",
+      ],
+      default: "Active",
       optional: true,
     },
     approvalNote: {
@@ -151,7 +196,8 @@ export default {
     },
     _authHeaders() {
       return {
-        "Authorization": `Bearer ${this.$auth.api_key}`,
+        "customer_key": `${this.$auth.consumer_key}`,
+        "customer_secret": `${this.$auth.consumer_secret}`,
         "Content-Type": "application/json",
       };
     },
@@ -218,23 +264,21 @@ export default {
     async createEmployee(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/employees",
+        path: "/xEmployee",
         ...args,
       });
     },
     async getDepartments(args = {}) {
-      const response = await this._makeRequest({
-        path: "/departments",
+      return this._makeRequest({
+        path: "/xDepartment",
         ...args,
       });
-      return response.departments || [];
     },
     async getJobTitles(args = {}) {
-      const response = await this._makeRequest({
-        path: "/job-titles",
+      return this._makeRequest({
+        path: "/xPosition",
         ...args,
       });
-      return response.job_titles || [];
     },
     async getLeaveRequests(args = {}) {
       const response = await this._makeRequest({
@@ -249,6 +293,18 @@ export default {
         ...args,
       });
       return response.leave_types || [];
+    },
+    async getLocations(args = {}) {
+      return this._makeRequest({
+        path: "/xLocation",
+        ...args,
+      });
+    },
+    async getEmploymentStatus(args = {}) {
+      return this._makeRequest({
+        path: "/xEmploymentStatus",
+        ...args,
+      });
     },
     async approveLeaveRequest(requestId, args = {}) {
       return this._makeRequest({
