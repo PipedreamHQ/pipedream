@@ -44,11 +44,39 @@ def handler(pd: "pipedream"):
 
 ### Setting expiration (TTL) for records
 
-<Callout type="info">
-TTL functionality is currently only available in Node.js code steps. If you need to set expiration on records from Python steps, you'll need to use a Node.js step to set or update the TTL.
-</Callout>
+You can set an expiration time for a record by passing a TTL (Time-To-Live) option as the third argument to the `set` method. The TTL value is specified in seconds:
 
-For temporary data that should automatically expire, you can use a Node.js step with TTL functionality. See the [Node.js documentation](/workflows/building-workflows/code/nodejs/using-data-stores/#setting-expiration-ttl-for-records) for details on how to use TTL with data stores.
+```python
+def handler(pd: "pipedream"):
+    # Access the data store under the pd.inputs
+    data_store = pd.inputs["data_store"]
+
+    # Store a temporary value that will expire after 1 hour (3600 seconds)
+    data_store.set("temporaryToken", "abc123", ttl=3600)
+
+    # Store a value that will expire after 1 day
+    data_store.set("dailyMetric", 42, ttl=86400)
+```
+
+When the TTL period elapses, the record will be automatically deleted from the data store.
+
+### Updating TTL for existing records
+
+You can update the TTL for an existing record using the `set_ttl` method:
+
+```python
+def handler(pd: "pipedream"):
+    # Access the data store under the pd.inputs
+    data_store = pd.inputs["data_store"]
+
+    # Update an existing record to expire after 30 minutes
+    data_store.set_ttl("temporaryToken", ttl=1800)
+
+    # Remove expiration from a record
+    data_store.set_ttl("temporaryToken", ttl=None)
+```
+
+This is useful for extending the lifetime of temporary data or removing expiration from records that should now be permanent.
 
 ## Retrieving keys
 
@@ -292,6 +320,40 @@ def handler(pd: "pipedream"):
       data_store["emails"] = emails
       return new_email
 ```
+
+## TTL use case: temporary caching and rate limiting
+
+TTL functionality is particularly useful for implementing temporary caching and rate limiting. Here's an example of a simple rate limiter that prevents a user from making more than 5 requests per hour:
+
+```python
+def handler(pd: "pipedream"):
+    # Access the data store
+    data_store = pd.inputs["data_store"]
+    user_id = pd.steps["trigger"]["event"]["user_id"]
+    rate_key = f"ratelimit:{user_id}"
+
+    # Try to get current rate limit counter
+    requests_num = data_store.get("rate_key")
+
+    if not requests_num:
+        # First request from this user in the time window
+        data_store.set(rate_key, 1, ttl=3600) # Expire after 1 hour
+        return { "allowed": True, "remaining": 4 }
+
+    if requests_num >= 5:
+        # Rate limit exceeded
+        return { "allowed": False, "error": "Rate limit exceeded", "retry_after": "1 hour" }
+
+    # Increment the counter
+    data_store["rate_key"] = requests_num + 1
+    return { "allowed": True, "remaining": 4 - requests_num }
+```
+
+This pattern can be extended for various temporary caching scenarios like:
+- Session tokens with automatic expiration
+- Short-lived feature flags
+- Temporary access grants
+- Time-based promotional codes
 
 ### Supported data types
 
