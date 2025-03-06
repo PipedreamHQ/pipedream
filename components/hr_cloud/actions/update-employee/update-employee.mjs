@@ -3,7 +3,7 @@ import hrCloud from "../../hr_cloud.app.mjs";
 export default {
   key: "hr_cloud-update-employee",
   name: "Update Employee",
-  description: "Update an existing employee. [See the documentation](https://help.hrcloud.com/api/#/employee#PUT_employee_upsert)",
+  description: "Update an existing employee. [See the documentation](https://help.hrcloud.com/api/#/employee#PUT_employee)",
   version: "0.0.1",
   type: "action",
   props: {

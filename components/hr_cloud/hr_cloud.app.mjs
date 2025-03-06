@@ -206,7 +206,6 @@ export default {
       };
 
       try {
-        console.log(`Making request to: ${config.url}`);
         const response = await axios($, config);
         return response;
       } catch (error) {
@@ -247,6 +246,18 @@ export default {
         ...args,
       });
     },
+    getApplicants(args = {}) {
+      return this._makeRequest({
+        path: "/xApplicant",
+        ...args,
+      });
+    },
+    getTasks(args = {}) {
+      return this._makeRequest({
+        path: "/xTask",
+        ...args,
+      });
+    },
     createEmployee(args = {}) {
       return this._makeRequest({
         method: "POST",
@@ -267,6 +278,30 @@ export default {
         path: "/xEmployee",
         ...args,
       });
+    },
+    async *paginate({
+      resourceFn,
+      params = {},
+      max,
+    }) {
+      params = {
+        ...params,
+        page: 1,
+      };
+      let total, count = 0;
+      do {
+        const items = await resourceFn({
+          params,
+        });
+        for (const item of items) {
+          yield item;
+          if (max && ++count >= max) {
+            return;
+          }
+        }
+        total = items?.length;
+        params.page++;
+      } while (total > 0);
     },
   },
 };
