@@ -2,7 +2,7 @@ import app from "../../data_stores.app.mjs";
 
 export default {
   key: "data_stores-update-ttl",
-  name: "Update record expiration",
+  name: "Update Record Expiration",
   description: "Update the expiration time for a record in your [Pipedream Data Store](https://pipedream.com/data-stores/).",
   version: "0.0.1",
   type: "action",
