@@ -5730,8 +5730,7 @@ importers:
 
   components/hasura: {}
 
-  components/hathr_ai:
-    specifiers: {}
+  components/hathr_ai: {}
 
   components/have_i_been_pwned: {}
 
@@ -8252,8 +8251,7 @@ importers:
 
   components/neetokb: {}
 
-  components/neo4j_auradb:
-    specifiers: {}
+  components/neo4j_auradb: {}
 
   components/neon_api_keys:
     dependencies:
