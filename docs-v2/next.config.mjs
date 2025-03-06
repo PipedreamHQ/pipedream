@@ -441,6 +441,10 @@ export default withNextra({
   async rewrites() {
     return [
       {
+        source: "/shopify-faq-2023-10",
+        destination: "/deprecated/shopify-faq-2023-10",
+      },
+      {
         source: "/abuse",
         destination: "/hidden/abuse",
       },

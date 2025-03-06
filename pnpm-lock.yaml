@@ -5730,6 +5730,9 @@ importers:
 
   components/hasura: {}
 
+  components/hathr_ai:
+    specifiers: {}
+
   components/have_i_been_pwned: {}
 
   components/headless_testing:
@@ -6502,6 +6505,8 @@ importers:
   components/jeffreyai: {}
 
   components/jellyreach: {}
+
+  components/jenkins: {}
 
   components/jibble:
     dependencies:
@@ -8246,6 +8251,9 @@ importers:
         version: 1.6.6
 
   components/neetokb: {}
+
+  components/neo4j_auradb:
+    specifiers: {}
 
   components/neon_api_keys:
     dependencies:
@@ -11960,6 +11968,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.6.6
+
+  components/splunk: {}
 
   components/splunk_http_event_collector: {}
 
