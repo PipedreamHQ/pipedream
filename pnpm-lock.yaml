@@ -5991,8 +5991,7 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/hr_cloud:
-    specifiers: {}
+  components/hr_cloud: {}
 
   components/hr_partner: {}
 
@@ -6503,8 +6502,7 @@ importers:
 
   components/jellyreach: {}
 
-  components/jenkins:
-    specifiers: {}
+  components/jenkins: {}
 
   components/jibble:
     dependencies:
@@ -11967,8 +11965,7 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
-  components/splunk:
-    specifiers: {}
+  components/splunk: {}
 
   components/splunk_http_event_collector: {}
 
