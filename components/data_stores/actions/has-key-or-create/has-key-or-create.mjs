@@ -4,7 +4,7 @@ export default {
   key: "data_stores-has-key-or-create",
   name: "Check for existence of key",
   description: "Check if a key exists in your [Pipedream Data Store](https://pipedream.com/data-stores/) or create one if it doesn't exist.",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     app,
@@ -28,6 +28,12 @@ export default {
       propDefinition: [
         app,
         "addRecordIfNotFound",
+      ],
+    },
+    ttl: {
+      propDefinition: [
+        app,
+        "ttl",
       ],
     },
   },
@@ -58,13 +64,22 @@ export default {
     }
 
     const parsedValue = this.app.parseValue(this.value);
-    await this.dataStore.set(this.key, parsedValue);
-    $.export("$summary", `Key \`${this.key}\` was not found. Successfully added a new record.`);
+
+    if (this.ttl) {
+      await this.dataStore.set(this.key, parsedValue, {
+        ttl: this.ttl,
+      });
+      $.export("$summary", `Key \`${this.key}\` was not found. Successfully added a new record (expires in ${this.app.formatTtl(this.ttl)}).`);
+    } else {
+      await this.dataStore.set(this.key, parsedValue);
+      $.export("$summary", `Key \`${this.key}\` was not found. Successfully added a new record.`);
+    }
 
     return {
       existingKeyFound: false,
       newKeyCreated: true,
       value: parsedValue,
+      ttl: this.ttl || null,
     };
   },
 };
