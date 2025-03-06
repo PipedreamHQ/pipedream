@@ -1,4 +1,5 @@
 import { SOURCED_FROM } from "../../common/constants.mjs";
+import { parseObject } from "../../common/utils.mjs";
 import gem from "../../gem.app.mjs";
 
 export default {
@@ -81,7 +82,7 @@ export default {
       optional: true,
     },
     workInfo: {
-      type: "string",
+      type: "string[]",
       label: "Work Info",
       description: "A list of objects containing candidate's work information. **Format: [{\"company\": \"string\", \"title\": \"string\", \"work_start_date\": \"string\", \"work_end_date\": \"string\", \"is_current\": \"string\"}]**. [See the documentation](https://api.gem.com/v0/reference#tag/Candidates/paths/~1v0~1candidates/post) for further details.",
       optional: true,
@@ -132,7 +133,7 @@ export default {
         is_primary: true,
       },
     ];
-    if (this.additionalEmails) emails.push(...this.additionalEmails.map((email) => ({
+    if (this.additionalEmails) emails.push(...parseObject(this.additionalEmails).map((email) => ({
       email_address: email,
       is_primary: false,
     })));
@@ -153,12 +154,12 @@ export default {
         company: this.company,
         location: this.location,
         school: this.school,
-        educational_info: this.educationalInfo,
-        work_info: this.workInfo,
-        profile_urls: this.profileUrls,
+        educational_info: parseObject(this.educationalInfo),
+        work_info: parseObject(this.workInfo),
+        profile_urls: parseObject(this.profileUrls),
         phone_number: this.phoneNumber,
-        project_ids: this.projectIds,
-        custom_fields: this.customFields,
+        project_ids: parseObject(this.projectIds),
+        custom_fields: parseObject(this.customFields),
         sourced_from: this.sourcedFrom,
         autofill: this.autofill,
       },
