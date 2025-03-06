@@ -1766,7 +1766,11 @@ importers:
         specifier: ^6.11.2
         version: 6.13.1
 
-  components/brillium: {}
+  components/brillium:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/brosix: {}
 
