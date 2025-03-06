@@ -23,7 +23,7 @@ export default {
     },
     includePaths: {
       type: "string[]",
-      label: "Exclude Paths",
+      label: "Include Paths",
       description: "Similar to `Exclude Paths`, but if set, only the paths matching the specified patterns will be included",
       optional: true,
     },
