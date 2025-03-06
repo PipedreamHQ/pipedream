@@ -10077,6 +10077,9 @@ importers:
 
   components/qwilr: {}
 
+  components/rabbitmq:
+    specifiers: {}
+
   components/radar: {}
 
   components/rafflys:
