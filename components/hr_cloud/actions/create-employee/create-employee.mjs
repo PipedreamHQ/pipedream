@@ -106,7 +106,7 @@ export default {
         xStartDate: this.startDate,
         xLocationLookup: this.locationId,
         xEmploymentStatusLookup: this.employmentStatus,
-        xEmploymentNumber: this.employmentNumber,
+        xEmployeeNumber: this.employeeNumber,
         xRecordStatus: this.recordStatus,
         xAddress1: this.address,
         xCity: this.city,
