@@ -13,7 +13,7 @@ export default {
           params: {
             page: page + 1,
           },
-        }); console.log(departments);
+        });
         return departments.map((department) => ({
           label: department.xDepartmentName,
           value: department.Id,
