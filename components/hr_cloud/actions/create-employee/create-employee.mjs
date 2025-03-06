@@ -44,12 +44,6 @@ export default {
         "startDate",
       ],
     },
-    employeeNumber: {
-      propDefinition: [
-        hrCloud,
-        "employeeNumber",
-      ],
-    },
     locationId: {
       propDefinition: [
         hrCloud,
@@ -62,10 +56,40 @@ export default {
         "employmentStatusId",
       ],
     },
+    employeeNumber: {
+      propDefinition: [
+        hrCloud,
+        "employeeNumber",
+      ],
+    },
     recordStatus: {
       propDefinition: [
         hrCloud,
         "recordStatus",
+      ],
+    },
+    address: {
+      propDefinition: [
+        hrCloud,
+        "address",
+      ],
+    },
+    city: {
+      propDefinition: [
+        hrCloud,
+        "city",
+      ],
+    },
+    state: {
+      propDefinition: [
+        hrCloud,
+        "state",
+      ],
+    },
+    zip: {
+      propDefinition: [
+        hrCloud,
+        "zip",
       ],
     },
   },
@@ -80,9 +104,14 @@ export default {
         xPositionLookup: this.jobTitle,
         xDepartmentLookup: this.departmentId,
         xStartDate: this.startDate,
-        xRecordStatus: this.recordStatus,
-        xEmploymentStatusLookup: this.employmentStatus,
         xLocationLookup: this.locationId,
+        xEmploymentStatusLookup: this.employmentStatus,
+        xEmploymentNumber: this.employmentNumber,
+        xRecordStatus: this.recordStatus,
+        xAddress1: this.address,
+        xCity: this.city,
+        xState: this.state,
+        xZipCode: this.zip,
       },
     });
 

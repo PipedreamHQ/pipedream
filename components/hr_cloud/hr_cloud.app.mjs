@@ -7,7 +7,7 @@ export default {
     departmentId: {
       type: "string",
       label: "Department",
-      description: "The employee department",
+      description: "The ID of an employee department",
       async options({ page }) {
         const departments = await this.getDepartments({
           params: {
@@ -23,7 +23,7 @@ export default {
     jobTitle: {
       type: "string",
       label: "Job Title",
-      description: "The job title to filter by",
+      description: "The ID of a job title",
       async options({ page }) {
         const jobTitles = await this.getJobTitles({
           params: {
@@ -36,40 +36,10 @@ export default {
         }));
       },
     },
-    leaveType: {
-      type: "string",
-      label: "Leave Type",
-      description: "The leave type to filter by",
-      async options() {
-        const leaveTypes = await this.getLeaveTypes();
-        return leaveTypes.map((leaveType) => ({
-          label: leaveType.name,
-          value: leaveType.id,
-        }));
-      },
-      optional: true,
-    },
-    projectId: {
-      type: "string",
-      label: "Project",
-      description: "The project to filter by",
-      async options({ page }) {
-        const projects = await this.getProjects({
-          params: {
-            page: page + 1,
-          },
-        });
-        return projects.map((project) => ({
-          label: project.name,
-          value: project.id,
-        }));
-      },
-      optional: true,
-    },
     employeeId: {
       type: "string",
       label: "Employee",
-      description: "The employee",
+      description: "The ID of an employee",
       async options({ page }) {
         const employees = await this.getEmployees({
           params: {
@@ -77,25 +47,8 @@ export default {
           },
         });
         return employees.map((employee) => ({
-          label: `${employee.first_name} ${employee.last_name}`,
-          value: employee.id,
-        }));
-      },
-    },
-    leaveRequestId: {
-      type: "string",
-      label: "Leave Request ID",
-      description: "The ID of the leave request to approve",
-      async options({ page }) {
-        const leaveRequests = await this.getLeaveRequests({
-          params: {
-            page: page + 1,
-            status: "pending",
-          },
-        });
-        return leaveRequests.map((request) => ({
-          label: `${request.employee_name} - ${request.leave_type} (${request.start_date} to ${request.end_date})`,
-          value: request.id,
+          label: `${employee.xFirstName} ${employee.xLastName}`,
+          value: employee.Id,
         }));
       },
     },
@@ -131,22 +84,6 @@ export default {
         }));
       },
     },
-    hours: {
-      type: "integer",
-      label: "Hours Worked",
-      description: "The number of hours worked",
-    },
-    date: {
-      type: "string",
-      label: "Date",
-      description: "The date of the timesheet entry (YYYY-MM-DD)",
-    },
-    notes: {
-      type: "string",
-      label: "Notes",
-      description: "Additional notes for the timesheet entry",
-      optional: true,
-    },
     firstName: {
       type: "string",
       label: "First Name",
@@ -171,6 +108,7 @@ export default {
       type: "string",
       label: "Employee Number",
       description: "Unique employee number",
+      optional: true,
     },
     recordStatus: {
       type: "string",
@@ -183,11 +121,62 @@ export default {
       default: "Active",
       optional: true,
     },
-    approvalNote: {
+    address: {
       type: "string",
-      label: "Approval Note",
-      description: "Note to include with the leave request approval",
+      label: "Street Address",
+      description: "The street address of the employee",
       optional: true,
+    },
+    city: {
+      type: "string",
+      label: "City",
+      description: "The city of the employee",
+      optional: true,
+    },
+    state: {
+      type: "string",
+      label: "State",
+      description: "The state of the employee",
+      optional: true,
+    },
+    zip: {
+      type: "integer",
+      label: "Zip",
+      description: "The zip code of the employee",
+      optional: true,
+    },
+    applicationCode: {
+      type: "string",
+      label: "Application Code",
+      description: "Alpha-numeric code for application",
+      options: [
+        "coreHr",
+        "onboard",
+        "benefits",
+        "offboard",
+      ],
+    },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "The title of a task",
+    },
+    assigneeType: {
+      type: "string",
+      label: "Assignee Type",
+      description: "Type of assignee",
+      options: [
+        "Employee",
+        "Manager",
+        "ManagersManager",
+        "HrAdmin",
+        "HrUser",
+        "HrOperation",
+        "ItUser",
+        "ItOperation",
+        "SpecificEmployee",
+        "Hierarchy",
+      ],
     },
   },
   methods: {
@@ -228,109 +217,54 @@ export default {
         throw error;
       }
     },
-    async createWebhook({
-      eventType, endpoint, metadata,
-    }) {
+    getDepartments(args = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/webhooks",
-        data: {
-          event_type: eventType,
-          endpoint,
-          metadata,
-        },
-      });
-    },
-    async deleteWebhook(webhookId) {
-      return this._makeRequest({
-        method: "DELETE",
-        path: `/webhooks/${webhookId}`,
-      });
-    },
-    async getEmployees(args = {}) {
-      const response = await this._makeRequest({
-        path: "/employees",
+        path: "/xDepartment",
         ...args,
       });
-      return response.employees || [];
     },
-    async getEmployee(employeeId, args = {}) {
-      const response = await this._makeRequest({
-        path: `/employees/${employeeId}`,
+    getJobTitles(args = {}) {
+      return this._makeRequest({
+        path: "/xPosition",
         ...args,
       });
-      return response.employee;
     },
-    async createEmployee(args = {}) {
+    getLocations(args = {}) {
+      return this._makeRequest({
+        path: "/xLocation",
+        ...args,
+      });
+    },
+    getEmploymentStatus(args = {}) {
+      return this._makeRequest({
+        path: "/xEmploymentStatus",
+        ...args,
+      });
+    },
+    getEmployees(args = {}) {
+      return this._makeRequest({
+        path: "/xEmployee",
+        ...args,
+      });
+    },
+    createEmployee(args = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/xEmployee",
         ...args,
       });
     },
-    async getDepartments(args = {}) {
-      return this._makeRequest({
-        path: "/xDepartment",
-        ...args,
-      });
-    },
-    async getJobTitles(args = {}) {
-      return this._makeRequest({
-        path: "/xPosition",
-        ...args,
-      });
-    },
-    async getLeaveRequests(args = {}) {
-      const response = await this._makeRequest({
-        path: "/leave-requests",
-        ...args,
-      });
-      return response.leave_requests || [];
-    },
-    async getLeaveTypes(args = {}) {
-      const response = await this._makeRequest({
-        path: "/leave-types",
-        ...args,
-      });
-      return response.leave_types || [];
-    },
-    async getLocations(args = {}) {
-      return this._makeRequest({
-        path: "/xLocation",
-        ...args,
-      });
-    },
-    async getEmploymentStatus(args = {}) {
-      return this._makeRequest({
-        path: "/xEmploymentStatus",
-        ...args,
-      });
-    },
-    async approveLeaveRequest(requestId, args = {}) {
-      return this._makeRequest({
-        method: "PUT",
-        path: `/leave-requests/${requestId}/approve`,
-        ...args,
-      });
-    },
-    async getProjects(args = {}) {
-      const response = await this._makeRequest({
-        path: "/projects",
-        ...args,
-      });
-      return response.projects || [];
-    },
-    async getTimesheetEntries(args = {}) {
-      const response = await this._makeRequest({
-        path: "/timesheet-entries",
-        ...args,
-      });
-      return response.timesheet_entries || [];
-    },
-    async createTimesheetEntry(args = {}) {
+    createTask(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/timesheet-entries",
+        path: "/xTask/Portal",
+        ...args,
+      });
+    },
+    updateEmployee(args = {}) {
+      return this._makeRequest({
+        method: "PUT",
+        path: "/xEmployee",
         ...args,
       });
     },
