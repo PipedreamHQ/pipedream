@@ -118,7 +118,6 @@ export default {
       method: "POST",
       headers: form.getHeaders(),
       data: form,
-      debug: true,
     });
 
     // perform bulk import
