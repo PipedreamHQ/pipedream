@@ -5734,8 +5734,7 @@ importers:
 
   components/hasura: {}
 
-  components/hathr_ai:
-    specifiers: {}
+  components/hathr_ai: {}
 
   components/have_i_been_pwned: {}
 
@@ -5995,7 +5994,11 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/hr_cloud: {}
+  components/hr_cloud:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/hr_partner: {}
 
@@ -8252,8 +8255,7 @@ importers:
 
   components/neetokb: {}
 
-  components/neo4j_auradb:
-    specifiers: {}
+  components/neo4j_auradb: {}
 
   components/neon_api_keys:
     dependencies:
