@@ -75,10 +75,10 @@ export default {
       description: "Candidate's school",
       optional: true,
     },
-    educationalInfo: {
+    educationInfo: {
       type: "string[]",
-      label: "Educational Info",
-      description: "A list of objects containing candidate's educational information. **Format: [{\"school\": \"string\", \"parsed_university\": \"string\", \"parsed_school\": \"string\", \"start_date\": \"string\", \"end_date\": \"string\", \"field_of_study\": \"string\", \"parsed_major_1\": \"string\", \"parsed_major_2\": \"string\", \"degree\": \"string\"}]**. [See the documentation](https://api.gem.com/v0/reference#tag/Candidates/paths/~1v0~1candidates/post) for further details.",
+      label: "Education Info",
+      description: "A list of objects containing candidate's education information. **Format: [{\"school\": \"string\", \"parsed_university\": \"string\", \"parsed_school\": \"string\", \"start_date\": \"string\", \"end_date\": \"string\", \"field_of_study\": \"string\", \"parsed_major_1\": \"string\", \"parsed_major_2\": \"string\", \"degree\": \"string\"}]**. [See the documentation](https://api.gem.com/v0/reference#tag/Candidates/paths/~1v0~1candidates/post) for further details.",
       optional: true,
     },
     workInfo: {
@@ -154,7 +154,7 @@ export default {
         company: this.company,
         location: this.location,
         school: this.school,
-        educational_info: parseObject(this.educationalInfo),
+        education_info: parseObject(this.educationInfo),
         work_info: parseObject(this.workInfo),
         profile_urls: parseObject(this.profileUrls),
         phone_number: this.phoneNumber,
