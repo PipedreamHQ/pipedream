@@ -216,7 +216,7 @@ export default {
     attachments: {
       type: "string",
       label: "Attachments",
-      description: "An array of objects where you can specify any attachments you want to include. The fields `content` and `filename` are required. `content` must be base64 encoded. Alternatively, provide a string that will `JSON.parse` to an array of attachments objects. Example: `[{content:\"aGV5\",type:\"text/plain\",filename:\"sample.txt\"}]`",
+      description: "An array of objects where you can specify any attachments you want to include. The fields `content` and `filename` are required. `content` must be base64 encoded. Alternatively, provide a string that will `JSON.parse` to an array of attachments objects. Example: `[{content:\"aGV5\",filepath:\"/tmp/file.txt\",type:\"text/plain\",filename:\"sample.txt\"}]` `You must provide either content in base64 or path to the /temp file`",
       optional: true,
     },
     headers: {
