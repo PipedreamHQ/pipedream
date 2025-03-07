@@ -1,20 +1,25 @@
-import app from "../../common/rest-admin.mjs";
-import common from "./common.mjs";
+import shopify from "../../shopify.app.mjs";
 
 export default {
-  ...common,
   key: "shopify-delete-page",
   name: "Delete Page",
-  description: "Delete an existing page. [See The Documentation](https://shopify.dev/docs/api/admin-rest/2023-04/resources/page#delete-pages-page-id)",
-  version: "0.0.6",
+  description: "Delete an existing page. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/pageDelete)",
+  version: "0.0.7",
   type: "action",
   props: {
-    app,
+    shopify,
     pageId: {
       propDefinition: [
-        app,
+        shopify,
         "pageId",
       ],
     },
+  },
+  async run({ $ }) {
+    const response = await this.shopify.deletePage({
+      id: this.pageId,
+    });
+    $.export("$summary", `Deleted page with ID ${this.pageId}`);
+    return response;
   },
 };
