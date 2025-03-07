@@ -10079,8 +10079,7 @@ importers:
 
   components/qwilr: {}
 
-  components/rabbitmq:
-    specifiers: {}
+  components/rabbitmq: {}
 
   components/radar: {}
 
@@ -11133,6 +11132,9 @@ importers:
       async-retry:
         specifier: ^1.3.1
         version: 1.3.3
+      fs:
+        specifier: ^0.0.1-security
+        version: 0.0.1-security
       lodash:
         specifier: ^4.17.20
         version: 4.17.21
@@ -11274,8 +11276,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/servicetitan:
-    specifiers: {}
+  components/servicetitan: {}
 
   components/serwersms_pl: {}
 
