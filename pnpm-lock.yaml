@@ -5988,6 +5988,9 @@ importers:
         specifier: ^1.2.1
         version: 1.6.6
 
+  components/housecall_pro:
+    specifiers: {}
+
   components/howuku:
     dependencies:
       '@pipedream/platform':
