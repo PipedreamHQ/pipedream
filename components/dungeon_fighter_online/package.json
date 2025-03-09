@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/dungeon_fighter_online",
+  "version": "0.0.1",
+  "description": "Pipedream Dungeon Fighter Online Components",
+  "main": "dungeon_fighter_online.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dungeon_fighter_online"
+  ],
+  "homepage": "https://pipedream.com/apps/dungeon_fighter_online",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
