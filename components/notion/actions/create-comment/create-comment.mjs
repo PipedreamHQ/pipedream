@@ -12,7 +12,7 @@ export default {
     infoLabel: {
       type: "alert",
       alertType: "info",
-      content: "Provide either a page ID or a discussion thread ID to create the comment under.",
+      content: "Provide either a Page ID or a Discussion ID to create the comment under.",
     },
     pageId: {
       propDefinition: [
