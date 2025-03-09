@@ -1,5 +1,6 @@
 import notion from "@notionhq/client";
 import NOTION_META from "./common/notion-meta-selection.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -36,6 +37,7 @@ export default {
       async options({
         prevContext, databaseId,
       }) {
+        this._checkOptionsContext(databaseId, "Database ID");
         const response = await this.queryDatabase(databaseId, {
           start_cursor: prevContext.nextPageParameters ?? undefined,
         });
@@ -48,6 +50,7 @@ export default {
       label: "Property ID",
       description: "Select a page property or provide a property ID",
       async options({ pageId }) {
+        this._checkOptionsContext(pageId, "Page ID");
         const response = await this.retrievePage(pageId);
 
         const parentType = response.parent.type;
@@ -90,6 +93,7 @@ export default {
       async options({
         parentId, parentType,
       }) {
+        this._checkOptionsContext(parentId, "Database ID");
         try {
           const { properties } = parentType === "database"
             ? await this.retrieveDatabase(parentId)
@@ -169,6 +173,11 @@ export default {
     },
   },
   methods: {
+    _checkOptionsContext(value, name) {
+      if (value.match(/{{\s?steps/)) {
+        throw new ConfigurationError(`Please use a custom expression to reference a previous value, since you are also using one for \`${name}\``);
+      }
+    },
     _getNotionClient() {
       return new notion.Client({
         auth: this.$auth.oauth_access_token,

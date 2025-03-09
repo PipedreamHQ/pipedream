@@ -26,17 +26,12 @@ export default {
       reloadProps: true,
       options: [
         {
-          label:
-            "Use objects of existing blocks (e.g. objects returned from previous steps)",
-          value: "blockObjects",
-        },
-        {
-          label: "Select existing blocks or provide their IDs",
+          label: "Append existing blocks",
           value: "blockIds",
         },
         {
           label: "Provide Markdown content to create new blocks with",
-          value: "markupContents",
+          value: "markdownContents",
         },
         {
           label: "Provide Image URLs to create new image blocks",
@@ -44,26 +39,19 @@ export default {
         },
       ],
     },
-    blockObjects: {
-      type: "string[]",
-      label: "Block Objects",
-      description:
-        "An array of block objects to be appended. You can use a custom expression to reference block objects from previous steps. [See the documentation](https://developers.notion.com/reference/block) for more information",
-      hidden: true,
-    },
     blockIds: {
       propDefinition: [
         notion,
         "pageId",
       ],
       type: "string[]",
-      label: "Block IDs",
+      label: "Existing Block IDs",
       description: "Select one or more block(s) or page(s) to append (selecting a page appends its children). You can also provide block or page IDs.",
       hidden: true,
     },
-    markupContents: {
+    markdownContents: {
       type: "string[]",
-      label: "Markup Contents",
+      label: "Markdown Contents",
       description:
         "Each entry is the content of a new block to append, using Markdown syntax. [See the documentation](https://www.notion.com/help/writing-and-editing-basics#markdown-and-shortcuts) for more information",
       hidden: true,
@@ -79,9 +67,8 @@ export default {
     const { blockTypes } = this;
 
     for (let prop of [
-      "blockObjects",
       "blockIds",
-      "markupContents",
+      "markdownContents",
       "imageUrls",
     ]) {
       currentProps[prop].hidden = !blockTypes.includes(prop);
@@ -102,15 +89,6 @@ export default {
   async run({ $ }) {
     const { blockTypes } = this;
     const children = [];
-    // add blocks from blockObjects
-    if (blockTypes.includes("blockObjects") && this.blockObjects?.length > 0) {
-      for (const obj of this.blockObjects) {
-        const child = typeof obj === "string"
-          ? JSON.parse(obj)
-          : obj;
-        children.push(child);
-      }
-    }
 
     // add blocks from blockIds
     if (blockTypes.includes("blockIds") && this.blockIds?.length > 0) {
@@ -123,8 +101,8 @@ export default {
     }
 
     // add blocks from markup
-    if (blockTypes.includes("markupContents") && this.markupContents?.length > 0) {
-      for (const content of this.markupContents) {
+    if (blockTypes.includes("markdownContents") && this.markdownContents?.length > 0) {
+      for (const content of this.markdownContents) {
         const block = this.createBlocks(content);
         children.push(...block);
       }
