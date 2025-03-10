@@ -427,9 +427,6 @@ export default {
     createMetafield(variables) {
       return this._makeGraphQlRequest(mutations.CREATE_METAFIELD, variables);
     },
-    setMetafield(variables) {
-      return this._makeGraphQlRequest(mutations.SET_METAFIELD, variables);
-    },
     updateMetafield(variables) {
       return this._makeGraphQlRequest(mutations.UPDATE_METAFIELD, variables);
     },
