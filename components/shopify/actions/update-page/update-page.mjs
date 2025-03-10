@@ -1,33 +1,45 @@
-import app from "../../common/rest-admin.mjs";
-import common from "./common.mjs";
+import shopify from "../../shopify.app.mjs";
 
 export default {
-  ...common,
   key: "shopify-update-page",
   name: "Update Page",
-  description: "Update an existing page. [See The Documentation](https://shopify.dev/docs/api/admin-rest/2023-04/resources/page#put-pages-page-id)",
-  version: "0.0.6",
+  description: "Update an existing page. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/pageUpdate)",
+  version: "0.0.7",
   type: "action",
   props: {
-    app,
+    shopify,
     pageId: {
       propDefinition: [
-        app,
+        shopify,
         "pageId",
       ],
     },
     title: {
-      description: "The title of the page.",
-      propDefinition: [
-        app,
-        "title",
-      ],
+      type: "string",
+      label: "Title",
+      description: "The title of the page",
+      optional: true,
     },
-    bodyHtml: {
-      propDefinition: [
-        app,
-        "bodyHtml",
-      ],
+    body: {
+      type: "string",
+      label: "Body",
+      description: "The text content of the page, complete with HTML markup",
+      optional: true,
     },
+  },
+  async run({ $ }) {
+
+    const response = await this.shopify.updatePage({
+      id: this.pageId,
+      page: {
+        title: this.title,
+        body: this.body,
+      },
+    });
+    if (response.pageUpdate.userErrors.length > 0) {
+      throw new Error(response.pageUpdate.userErrors[0].message);
+    }
+    $.export("$summary", `Updated page with ID ${response.pageUpdate.page.id}`);
+    return response;
   },
 };

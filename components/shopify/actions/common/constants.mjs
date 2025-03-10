@@ -8,14 +8,6 @@ const RESOURCE_TYPES = [
     value: "collection",
   },
   {
-    label: "Customer",
-    value: "customer",
-  },
-  {
-    label: "Draft Order",
-    value: "draft_order",
-  },
-  {
     label: "Page",
     value: "page",
   },
@@ -24,20 +16,12 @@ const RESOURCE_TYPES = [
     value: "product",
   },
   {
-    label: "Product Image",
-    value: "product_image",
-  },
-  {
     label: "Product Variant",
     value: "variants",
   },
   {
     label: "Article",
     value: "article",
-  },
-  {
-    label: "Order",
-    value: "order",
   },
 ];
 

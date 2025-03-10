@@ -1,20 +1,48 @@
-import app from "../../common/rest-admin.mjs";
-import common from "./common.mjs";
+import shopify from "../../shopify.app.mjs";
 
 export default {
-  ...common,
   key: "shopify-get-articles",
   name: "Get Articles",
-  description: "Retrieve a list of all articles from a blog. [See The Documentation](https://shopify.dev/docs/api/admin-rest/2023-04/resources/article#get-blogs-blog-id-articles)",
-  version: "0.0.6",
+  description: "Retrieve a list of all articles from a blog. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/articles)",
+  version: "0.0.7",
   type: "action",
   props: {
-    app,
+    shopify,
     blogId: {
       propDefinition: [
-        app,
+        shopify,
         "blogId",
       ],
     },
+    maxResults: {
+      propDefinition: [
+        shopify,
+        "maxResults",
+      ],
+    },
+    reverse: {
+      propDefinition: [
+        shopify,
+        "reverse",
+      ],
+    },
+  },
+  async run({ $ }) {
+    const articles = await this.shopify.getPaginated({
+      resourceFn: this.shopify.listBlogArticles,
+      resourceKeys: [
+        "blog",
+        "articles",
+      ],
+      variables: {
+        id: this.blogId,
+        reverse: this.reverse,
+      },
+      max: this.maxResults,
+    });
+    $.export("$summary", `Successfully retrieved ${articles.length} article${articles.length === 1
+      ? ""
+      : "s"}`);
+    return articles;
   },
 };
