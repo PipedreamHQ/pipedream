@@ -7052,6 +7052,9 @@ importers:
 
   components/lettria: {}
 
+  components/leverly:
+    specifiers: {}
+
   components/levity: {}
 
   components/lexoffice: {}
