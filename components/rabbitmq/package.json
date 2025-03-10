@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/rabbitmq",
+  "version": "0.0.1",
+  "description": "Pipedream RabbitMQ Components",
+  "main": "rabbitmq.app.mjs",
+  "keywords": [
+    "pipedream",
+    "rabbitmq"
+  ],
+  "homepage": "https://pipedream.com/apps/rabbitmq",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

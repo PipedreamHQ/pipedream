@@ -13,9 +13,10 @@ import VideoPlayer from "@/components/VideoPlayer";
 Data stores are useful for:
 
 - Storing and retrieving data at a specific key
+- Setting automatic expiration times for temporary data (TTL)
 - Counting or summing values over time
 - Retrieving JSON-serializable data across workflow executions
-- Caching
+- Caching and rate limiting
 - And any other case where you'd use a key-value store
 
 You can connect to the same data store across workflows, so they're also great for sharing state across different services.
@@ -41,6 +42,7 @@ Configure the action:
 1. **Select or create a Data Store** — create a new data store or choose an existing data store.
 2. **Key** - the unique ID for this data that you'll use for lookup later
 3. **Value** - The data to store at the specified `key`
+4. **Time to Live (TTL)** - (Optional) The number of seconds until this record expires and is automatically deleted. Leave blank for records that should not expire.
 
 ![Configure the action](/images/data-stores/configuring-data-store-update-action.png)
 
@@ -73,6 +75,23 @@ Configure the action:
 4. **Value** - The data to store at the specified `key`
 
 ![Get record action](/images/data-stores/configure-data-store-retrieve-record.png)
+
+### Setting or updating record expiration (TTL)
+
+You can set automatic expiration times for records using the **Update record expiration** action:
+
+1. Add a new step to your workflow.
+2. Search for the **Data Stores** app and select it.
+3. Select the **Update record expiration** pre-built action.
+
+Configure the action:
+
+1. **Select a Data Store** - select the data store containing the record to modify
+2. **Key** - the key for the record you want to update the expiration for
+3. **Expiration Type** - choose from preset expiration times (1 hour, 1 day, 1 week, etc.) or select "Custom value" to enter a specific time in seconds
+4. **Custom TTL (seconds)** - (only if "Custom value" is selected) enter the number of seconds until the record expires
+
+To remove expiration from a record, select "No expiration" as the expiration type.
 
 ### Deleting Data
 

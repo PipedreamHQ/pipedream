@@ -407,6 +407,16 @@ export default withNextra({
         permanent: true,
       },
       {
+        source: "/cli/reference/",
+        destination: "/workflows/cli/reference/",
+        permanent: true,
+      },
+      {
+        source: "/cli/login/",
+        destination: "/workflows/cli/login/",
+        permanent: true,
+      },
+      {
         source: "/connect/connect-link/",
         destination: "/connect/managed-auth/connect-link/",
         permanent: true,
@@ -440,6 +450,10 @@ export default withNextra({
   },
   async rewrites() {
     return [
+      {
+        source: "/shopify-faq-2023-10",
+        destination: "/deprecated/shopify-faq-2023-10",
+      },
       {
         source: "/abuse",
         destination: "/hidden/abuse",
