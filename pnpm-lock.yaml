@@ -4021,7 +4021,11 @@ importers:
         specifier: ^1.2.1
         version: 1.6.6
 
-  components/engage: {}
+  components/engage:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/engagebay:
     dependencies:
