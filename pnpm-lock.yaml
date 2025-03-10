@@ -3000,6 +3000,9 @@ importers:
 
   components/current_rms: {}
 
+  components/currents_api:
+    specifiers: {}
+
   components/customer_fields:
     dependencies:
       '@pipedream/platform':
