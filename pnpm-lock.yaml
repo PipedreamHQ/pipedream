@@ -3000,8 +3000,7 @@ importers:
 
   components/current_rms: {}
 
-  components/currents_api:
-    specifiers: {}
+  components/currents_api: {}
 
   components/customer_fields:
     dependencies:
@@ -7055,8 +7054,7 @@ importers:
 
   components/lettria: {}
 
-  components/leverly:
-    specifiers: {}
+  components/leverly: {}
 
   components/levity: {}
 
@@ -7955,8 +7953,7 @@ importers:
 
   components/mindstudio: {}
 
-  components/minerstat:
-    specifiers: {}
+  components/minerstat: {}
 
   components/minio: {}
 
