@@ -177,7 +177,6 @@ export default {
       optional: true,
       async options() {
         const response = await this.listLabels();
-        console.log(response);
         return response.map(({ name }) => name) || [];
       },
     },
