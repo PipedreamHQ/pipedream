@@ -1,19 +1,67 @@
-import metafieldActions from "../common/metafield-actions.mjs";
-import common from "./common.mjs";
+import common from "../common/metafield-actions.mjs";
 
 export default {
   ...common,
   key: "shopify-update-metafield",
   name: "Update Metafield",
-  description: "Updates a metafield belonging to a resource. [See the docs](https://shopify.dev/api/admin-rest/2023-01/resources/metafield#put-blogs-blog-id-metafields-metafield-id)",
-  version: "0.0.10",
+  description: "Updates a metafield belonging to a resource. [See the documentation]()",
+  version: "0.0.11",
   type: "action",
-  props: {
-    ...metafieldActions.props,
-    ...common.props,
+  async additionalProps() {
+    const props = await this.getOwnerIdProp(this.ownerResource);
+
+    if (props.ownerId) {
+      props.ownerId = {
+        ...props.ownerId,
+        reloadProps: true,
+      };
+    }
+
+    if (this.ownerResource && this.ownerId) {
+      props.metafieldId = {
+        type: "string",
+        label: "Metafield ID",
+        description: "The metafield to update",
+        options: async () => {
+          const metafields = await this.listMetafields(this.ownerResource, this.ownerId);
+          return metafields?.map(({
+            id: value, key: label,
+          }) => ({
+            value,
+            label,
+          })) || [];
+        },
+        reloadProps: true,
+      };
+    }
+
+    if (this.metafieldId) {
+      props.value = {
+        type: "string",
+        label: "Value",
+        description: "The data to store in the metafield",
+      };
+    }
+
+    return props;
   },
-  methods: {
-    ...metafieldActions.methods,
-    ...common.methods,
+  async run({ $ }) {
+    const metafields = await this.listMetafields(this.ownerResource, this.ownerId);
+    const metafield = metafields.find(({ id }) => id === this.metafieldId);
+
+    const response = await this.shopify.updateMetafield({
+      metafields: {
+        ownerId: this.ownerId,
+        key: metafield.key,
+        type: metafield.type,
+        value: this.value,
+        namespace: metafield.namespace,
+      },
+    });
+    if (response.metafieldsSet.userErrors.length > 0) {
+      throw new Error(response.metafieldsSet.userErrors[0].message);
+    }
+    $.export("$summary", `Updated metafield for object with ID ${this.ownerId}`);
+    return response;
   },
 };

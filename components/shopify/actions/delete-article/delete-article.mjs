@@ -1,29 +1,34 @@
-import app from "../../common/rest-admin.mjs";
-import common from "./common.mjs";
+import shopify from "../../shopify.app.mjs";
 
 export default {
-  ...common,
   key: "shopify-delete-article",
   name: "Delete Article",
-  description: "Delete an existing blog article. [See The Documentation](https://shopify.dev/docs/api/admin-rest/2023-04/resources/article#delete-blogs-blog-id-articles-article-id)",
-  version: "0.0.6",
+  description: "Delete an existing blog article. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/articleDelete)",
+  version: "0.0.7",
   type: "action",
   props: {
-    app,
+    shopify,
     blogId: {
       propDefinition: [
-        app,
+        shopify,
         "blogId",
       ],
     },
     articleId: {
       propDefinition: [
-        app,
+        shopify,
         "articleId",
-        ({ blogId }) => ({
-          blogId,
+        (c) => ({
+          blogId: c.blogId,
         }),
       ],
     },
+  },
+  async run({ $ }) {
+    const response = await this.shopify.deleteArticle({
+      id: this.articleId,
+    });
+    $.export("$summary", `Deleted article with ID ${this.articleId} from blog with ID ${this.blogId}`);
+    return response;
   },
 };

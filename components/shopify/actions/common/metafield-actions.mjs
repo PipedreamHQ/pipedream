@@ -1,5 +1,7 @@
 import shopify from "../../shopify.app.mjs";
-import consts from "../common/consts.mjs";
+import constants from "./constants.mjs";
+import utils from "../../common/utils.mjs";
+import { MAX_LIMIT } from "../../common/constants.mjs";
 
 export default {
   props: {
@@ -8,7 +10,7 @@ export default {
       type: "string",
       label: "Resource Type",
       description: "Filter by the resource type on which the metafield is attached to",
-      options: consts.RESOURCE_TYPES,
+      options: constants.RESOURCE_TYPES,
       reloadProps: true,
     },
   },
@@ -18,74 +20,91 @@ export default {
         product: {
           ...shopify.propDefinitions.productId,
           options: async ({ prevContext }) => {
-            return this.shopify.getProductOptions(prevContext);
+            return this.shopify.getPropOptions({
+              resourceFn: this.shopify.listProducts,
+              resourceKeys: [
+                "products",
+              ],
+              prevContext,
+            });
           },
         },
         variants: {
           ...shopify.propDefinitions.productVariantId,
           options: async ({ prevContext }) => {
-            return this.shopify.getProductVariantOptions(this.productId, prevContext);
-          },
-        },
-        product_image: {
-          ...shopify.propDefinitions.imageId,
-          options: async() => {
-            return this.shopify.getImageOptions(this.productId);
-          },
-          optional: false,
-        },
-        customer: {
-          ...shopify.propDefinitions.customerId,
-          options: async ({
-            prevContext, query,
-          }) => {
-            return this.shopify.getCustomerOptions(prevContext, query);
+            return this.shopify.getPropOptions({
+              resourceFn: this.shopify.listProductVariants,
+              resourceKeys: [
+                "productVariants",
+              ],
+              variables: {
+                query: `product_id:${this.productId.split("/").pop()}`,
+              },
+              prevContext,
+            });
           },
         },
         collection: {
           ...shopify.propDefinitions.collectionId,
-          options: async () => {
-            return this.shopify.getCollectionOptions();
+          options: async ({ prevContext }) => {
+            return this.shopify.getPropOptions({
+              resourceFn: this.shopify.listCollections,
+              resourceKeys: [
+                "collections",
+              ],
+              prevContext,
+            });
           },
           optional: false,
         },
         blog: {
           ...shopify.propDefinitions.blogId,
-          options: async () => {
-            return this.shopify.getBlogOptions();
+          options: async ({ prevContext }) => {
+            return this.shopify.getPropOptions({
+              resourceFn: this.shopify.listBlogs,
+              resourceKeys: [
+                "blogs",
+              ],
+              prevContext,
+            });
           },
         },
         article: {
           ...shopify.propDefinitions.articleId,
-          options: async () => {
-            return this.shopify.getArticleOptions(this.blogId);
+          options: async ({ prevContext }) => {
+            return this.shopify.getPropOptions({
+              resourceFn: this.shopify.listBlogArticles,
+              resourceKeys: [
+                "blog",
+                "articles",
+              ],
+              variables: {
+                id: this.blogId,
+              },
+              prevContext,
+            });
           },
         },
         page: {
           ...shopify.propDefinitions.pageId,
-          options: async () => {
-            return this.shopify.getPageOptions();
-          },
-        },
-        order: {
-          ...shopify.propDefinitions.orderId,
-          options: async () => {
-            return this.shopify.getOrderOptions();
-          },
-        },
-        draft_order: {
-          ...shopify.propDefinitions.draftOrderId,
-          options: async () => {
-            return this.shopify.getDraftOrderOptions();
+          options: async ({ prevContext }) => {
+            return this.shopify.getPropOptions({
+              resourceFn: this.shopify.listPages,
+              resourceKeys: [
+                "pages",
+              ],
+              prevContext,
+            });
           },
         },
       };
 
       const props = {};
 
-      if (ownerResource === "variants" || ownerResource === "product_image") {
+      if (ownerResource === "variants") {
         props.productId = resources.product;
       }
+
       if (ownerResource === "article") {
         props.blogId = resources.blog;
       }
@@ -95,13 +114,67 @@ export default {
         ownerId: resources[ownerResource],
       };
     },
-    async getMetafieldIdByKey(key, namespace, ownerId, ownerResource) {
-      const results = await this.shopify.listMetafields({
-        metafield: {
-          owner_resource: ownerResource,
-          owner_id: ownerId,
-        },
+    async getMetafields({
+      resourceFn, resourceKeys = [], variables,
+    }) {
+      let results = await resourceFn(variables);
+      for (const key of resourceKeys) {
+        results = results[key];
+      }
+      return results.metafields.nodes;
+    },
+    async listMetafields(ownerResource, ownerId) {
+      const variables = {
+        id: ownerId,
+        first: MAX_LIMIT,
+      };
+      let resourceFn, resourceKeys;
+      if (ownerResource === "product") {
+        resourceFn = this.shopify.getProduct;
+        resourceKeys = [
+          "product",
+        ];
+      }
+      if (ownerResource === "variants") {
+        resourceFn = this.shopify.getProductVariant;
+        resourceKeys = [
+          "productVariant",
+        ];
+      }
+      if (ownerResource === "collection") {
+        resourceFn = this.shopify.getCollection;
+        resourceKeys = [
+          "collection",
+        ];
+      }
+      if (ownerResource === "blog") {
+        resourceFn = this.shopify.getBlog;
+        resourceKeys = [
+          "blog",
+        ];
+      }
+      if (ownerResource === "article") {
+        resourceFn = this.shopify.getArticle;
+        resourceKeys = [
+          "article",
+        ];
+      }
+      if (ownerResource === "page") {
+        resourceFn = this.shopify.getPage;
+        resourceKeys = [
+          "page",
+        ];
+      }
+
+      return this.getMetafields({
+        resourceFn,
+        resourceKeys,
+        variables,
       });
+    },
+    async getMetafieldIdByKey(key, namespace, ownerId, ownerResource) {
+      const results = await this.listMetafields(ownerResource, ownerId);
+
       const metafield = results?.filter(
         (field) => field.key === key && field.namespace === namespace,
       );
@@ -111,8 +184,11 @@ export default {
       return metafield[0].id;
     },
     async createMetafieldsArray(metafieldsOriginal, ownerId, ownerResource) {
+      if (!metafieldsOriginal) {
+        return;
+      }
       const metafields = [];
-      const metafieldsArray = this.shopify.parseArrayOfJSONStrings(metafieldsOriginal);
+      const metafieldsArray = utils.parseJson(metafieldsOriginal);
       for (const meta of metafieldsArray) {
         if (meta.id) {
           metafields.push(meta);
