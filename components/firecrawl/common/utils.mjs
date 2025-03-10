@@ -1,24 +1,39 @@
-export const parseObject = (obj) => {
+export function parseObject (obj) {
   if (!obj) return undefined;
 
   if (Array.isArray(obj)) {
     return obj.map((item) => {
       if (typeof item === "string") {
-        try {
-          return JSON.parse(item);
-        } catch (e) {
-          return item;
-        }
+        return optionalParseAsJSON(item);
       }
       return item;
     });
   }
   if (typeof obj === "string") {
-    try {
-      return JSON.parse(obj);
-    } catch (e) {
-      return obj;
-    }
+    return optionalParseAsJSON(obj);
   }
   return obj;
 };
+
+function optionalParseAsJSON(value) {
+  try {
+    return JSON.parse(value);
+  } catch (e) {
+    return value;
+  }
+}
+
+export function parseObjectEntries(value) {
+  const obj = typeof value === "string"
+    ? JSON.parse(value)
+    : value;
+  return Object.fromEntries(
+    Object.entries(obj).map(([
+      key,
+      value,
+    ]) => [
+      key,
+      optionalParseAsJSON(value),
+    ]),
+  );
+}
