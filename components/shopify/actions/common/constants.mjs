@@ -59,7 +59,7 @@ const METAFIELD_TYPES = {
   "list.number_integer": "string[]",
   "list.number_decimal": "string[]",
   "list.page_reference": "string[]",
-  "list.product_rererence": "string[]",
+  "list.product_reference": "string[]",
   "list.rating": "string[]",
   "list.single_line_text_field": "string[]",
   "list.url": "string[]",
