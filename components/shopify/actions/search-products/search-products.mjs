@@ -29,6 +29,8 @@ export default {
         "productId",
       ],
       type: "string[]",
+      label: "Product IDs",
+      description: "Select multiple Product IDs or provide Product IDs as a JSON array. For example: `{{ [\"gid://shopify/Product/1\", \"gid://shopify/Product/2\"] }}`",
       optional: true,
     },
     collectionId: {
@@ -61,6 +63,7 @@ export default {
         shopify,
         "sortKey",
       ],
+      description: "The key to sort the results by. Keys `RELEVANCE` and `INVENTORY_TOTAL` not for use with `Collection ID`.",
       options: PRODUCT_SORT_KEY,
     },
     reverse: {
@@ -92,7 +95,7 @@ export default {
     const query = queryArray.length
       ? queryArray.join(" AND ")
       : undefined;
-
+    console.log(query);
     let products = await this.shopify.getPaginated({
       resourceFn: this.shopify.listProducts,
       resourceKeys: [

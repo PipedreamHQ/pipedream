@@ -1,15 +1,28 @@
-import common from "../common/metafield-actions.mjs";
+import shopify from "../../shopify.app.mjs";
 import constants from "../common/constants.mjs";
 
 export default {
-  ...common,
   key: "shopify-create-metafield",
   name: "Create Metafield",
-  description: "Creates a metafield belonging to a resource. [See the documentation](https://shopify.dev/docs/api/admin-graphql/unstable/mutations/metafieldsSet)",
+  description: "Creates a metafield belonging to a resource. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/metafieldDefinitionCreate)",
   version: "0.0.11",
   type: "action",
   props: {
-    ...common.props,
+    shopify,
+    ownerResource: {
+      type: "string",
+      label: "Resource Type",
+      description: "Filter by the resource type on which the metafield is attached to",
+      options: constants.RESOURCE_TYPES.map((type) => ({
+        ...type,
+        value: type.value.toUpperCase(),
+      })),
+    },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The human-readable name for the metafield definition",
+    },
     namespace: {
       type: "string",
       label: "Namespace",
@@ -25,36 +38,30 @@ export default {
       label: "Type",
       description: "The type of data that the metafield stores in the `value` field. Refer to the list of [supported types](https://shopify.dev/apps/custom-data/metafields/types).",
       options: Object.keys(constants.METAFIELD_TYPES),
-      reloadProps: true,
     },
-  },
-  async additionalProps() {
-    const props = await this.getOwnerIdProp(this.ownerResource);
-
-    if (this.type) {
-      props.value = {
-        type: "string",
-        label: "Value",
-        description: "The data to store in the metafield",
-      };
-    }
-
-    return props;
+    pin: {
+      type: "boolean",
+      label: "Pin",
+      description: "Whether to pin the metafield definition",
+      default: false,
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await this.shopify.createMetafield({
-      metafields: {
+      definition: {
+        ownerType: this.ownerResource,
+        name: this.name,
+        namespace: this.namespace,
         key: this.key,
         type: this.type,
-        value: this.value,
-        namespace: this.namespace,
-        ownerId: this.ownerId,
+        pin: this.pin,
       },
     });
-    if (response.metafieldsSet.userErrors.length > 0) {
-      throw new Error(response.metafieldsSet.userErrors[0].message);
+    if (response.metafieldDefinitionCreate.userErrors.length > 0) {
+      throw new Error(response.metafieldDefinitionCreate.userErrors[0].message);
     }
-    $.export("$summary", `Created metafield for object with ID ${this.ownerId}`);
+    $.export("$summary", `Created metafield ${this.name} for object type ${this.type}`);
     return response;
   },
 };

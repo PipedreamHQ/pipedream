@@ -173,7 +173,7 @@ const CREATE_PRODUCT = `
   }
 `;
 
-const CREATE_METAFIELD = `
+const SET_METAFIELD = `
   mutation MetafieldsSet($metafields: [MetafieldsSetInput!]!) {
       metafieldsSet(metafields: $metafields) {
         metafields {
@@ -182,6 +182,21 @@ const CREATE_METAFIELD = `
           value
           createdAt
           updatedAt
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+`;
+
+const CREATE_METAFIELD = `
+  mutation CreateMetafieldDefinition($definition: MetafieldDefinitionInput!) {
+      metafieldDefinitionCreate(definition: $definition) {
+        createdDefinition {
+          id
+          name
         }
         userErrors {
           field
@@ -429,6 +444,7 @@ export default {
   CREATE_PAGE,
   CREATE_PRODUCT,
   CREATE_PRODUCT_VARIANTS,
+  SET_METAFIELD,
   CREATE_METAFIELD,
   CREATE_METAOBJECT,
   UPDATE_METAFIELD,

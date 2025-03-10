@@ -16,11 +16,12 @@ export default {
         shopify,
         "metaobjectType",
       ],
+      withLabel: true,
     },
   },
   async run({ $ }) {
     const response = await this.shopify.listMetaobjects({
-      type: this.type,
+      type: this.type.label,
       first: MAX_LIMIT,
     });
 

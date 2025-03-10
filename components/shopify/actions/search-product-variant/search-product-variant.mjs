@@ -110,13 +110,20 @@ export default {
         });
       }
 
-      const title = response.productVariants
-        ? response.productVariants.nodes[0].title
-        : response.productVariant.title;
-      const id = response.productVariants
-        ? response.productVariants.nodes[0].id
-        : response.productVariant.id;
-      $.export("$summary", `Found product variant \`${title}\` with ID \`${id}\``);
+      const variant = response?.productVariants?.nodes?.length
+        ? response.productVariants.nodes[0]
+        : response?.productVariant
+          ? response.productVariant
+          : {};
+
+      const title = variant?.title;
+      const id = variant?.id;
+
+      if (title && id) {
+        $.export("$summary", `Found product variant \`${title}\` with ID \`${id}\``);
+      } else {
+        $.export("$summary", "No product variant found");
+      }
       return response;
     } catch (err) {
       if (!this.createIfNotFound) {

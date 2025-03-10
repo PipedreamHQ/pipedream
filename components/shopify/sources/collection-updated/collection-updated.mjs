@@ -15,7 +15,7 @@ export default {
       return "COLLECTIONS_UPDATE";
     },
     generateMeta(collection) {
-      const ts = Date.parse(collection.updatedAt);
+      const ts = Date.parse(collection.updated_at);
       return {
         id: `${collection.id}${ts}`,
         summary: `Collection Updated: ${collection.title}`,

@@ -1,6 +1,9 @@
 import shopify from "../../shopify.app.mjs";
 import utils from "../../common/utils.mjs";
-import { MAX_LIMIT } from "../../common/constants.mjs";
+import {
+  MAX_LIMIT, WEIGHT_UNITS,
+} from "../../common/constants.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "shopify-update-product-variant",
@@ -70,12 +73,7 @@ export default {
       label: "Weight Unit",
       description: "The unit of measurement that applies to the product variant's weight. If you don't specify a value for weight_unit, then the shop's default unit of measurement is applied.",
       optional: true,
-      options: [
-        "g",
-        "kg",
-        "oz",
-        "lb",
-      ],
+      options: WEIGHT_UNITS,
     },
     metafields: {
       propDefinition: [
@@ -104,6 +102,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if ((this.weightUnit && !this.weight) || (!this.weightUnit && this.weight)) {
+      throw new ConfigurationError("Must enter both Weight and Weight Unit to set weight");
+    }
+
     const response = await this.shopify.updateProductVariant({
       productId: this.productId,
       variants: [
@@ -118,7 +120,7 @@ export default {
             measurement: (this.weightUnit || this.weight) && {
               weight: {
                 unit: this.weightUnit,
-                value: this.weight,
+                value: +this.weight,
               },
             },
           },
