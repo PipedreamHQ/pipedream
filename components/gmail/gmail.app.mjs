@@ -332,7 +332,7 @@ export default {
           : `${baseLink}/@/${workflowId}?o=a&a=gmail`;
 
         if (props.bodyType === constants.BODY_TYPES.HTML) {
-          bodyContent = `${bodyContent}<br><br><small>Sent via <a href="${link}">${linkText}</a></small>`;
+          bodyContent = `${bodyContent}<br><br>Sent via <a href="${link}">${linkText}</a>`;
         } else {
           bodyContent = `${bodyContent}\n\nSent via ${linkText}: ${link}`;
         }
