@@ -1,3 +1,4 @@
+import fs from "fs";
 import validate from "validate.js";
 import common from "../common/common.mjs";
 
@@ -6,7 +7,7 @@ export default {
   key: "sendgrid-send-email-multiple-recipients",
   name: "Send Email Multiple Recipients",
   description: "This action sends a personalized e-mail to multiple specified recipients. [See the docs here](https://docs.sendgrid.com/api-reference/mail-send/mail-send)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     ...common.props,
@@ -186,6 +187,16 @@ export default {
         },
       };
       attachments = this.getArrayObject(this.attachments);
+      attachments.map((attachment) => {
+        if (attachment.filepath) {
+          const filepath = this.checkTmp(attachment.filepath);
+          attachment.content = fs.readFileSync(filepath, {
+            encoding: "base64",
+          });
+        }
+        delete attachment.filepath;
+        return attachment;
+      });
     }
     if (this.categories) {
       constraints.categories = {
