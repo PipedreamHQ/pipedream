@@ -95,7 +95,7 @@ export default {
     const query = queryArray.length
       ? queryArray.join(" AND ")
       : undefined;
-    console.log(query);
+
     let products = await this.shopify.getPaginated({
       resourceFn: this.shopify.listProducts,
       resourceKeys: [
