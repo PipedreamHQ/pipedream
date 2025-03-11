@@ -5988,8 +5988,7 @@ importers:
         specifier: ^1.2.1
         version: 1.6.6
 
-  components/housecall_pro:
-    specifiers: {}
+  components/housecall_pro: {}
 
   components/howuku:
     dependencies:
@@ -8258,7 +8257,11 @@ importers:
 
   components/neetokb: {}
 
-  components/neo4j_auradb: {}
+  components/neo4j_auradb:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/neon_api_keys:
     dependencies:
@@ -10082,8 +10085,7 @@ importers:
 
   components/qwilr: {}
 
-  components/rabbitmq:
-    specifiers: {}
+  components/rabbitmq: {}
 
   components/radar: {}
 
@@ -11277,8 +11279,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/servicetitan:
-    specifiers: {}
+  components/servicetitan: {}
 
   components/serwersms_pl: {}
 
