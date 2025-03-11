@@ -62,7 +62,7 @@ export default {
       ...fields
     } = this;
 
-    const response = await charthop.updatePerson({
+    await charthop.updatePerson({
       $,
       orgId,
       personId: employeeId,
@@ -70,6 +70,13 @@ export default {
         ...fields,
       },
     });
+
+    const response = await charthop.getPerson({
+      $,
+      orgId,
+      personId: employeeId,
+    });
+
     $.export("$summary", `Successfully updated employee with ID ${employeeId}`);
     return response;
   },

@@ -64,29 +64,38 @@ export default {
         };
       },
     },
-
-    // Action: Modify Compensation Records
-    modifyCompensationEmployeeId: {
+    groupTypeId: {
       type: "string",
-      label: "Employee ID",
-      description: "ID of the employee for compensation update.",
-    },
-    modifyCompensationDetails: {
-      type: "string",
-      label: "Compensation Details",
-      description: "Details of the compensation update. Provide as a JSON string.",
-    },
-    modifyCompensationEffectiveDate: {
-      type: "string",
-      label: "Effective Date",
-      description: "Optional effective date for the compensation update.",
-      optional: true,
-    },
-    modifyCompensationReason: {
-      type: "string",
-      label: "Reason for Change",
-      description: "Optional reason for the compensation update.",
-      optional: true,
+      label: "Group Type ID",
+      description: "The identifier of a group type",
+      async options({
+        orgId, prevContext,
+      }) {
+        const params = {
+          includeAll: true,
+        };
+        if (prevContext?.from) {
+          params.from = prevContext.from;
+        }
+        const { data } = await this.listGroupTypes({
+          orgId,
+          params: {
+            ...params,
+          },
+        });
+        const options = data?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+        return {
+          options,
+          context: {
+            from: data[data.length - 1].id,
+          },
+        };
+      },
     },
   },
   methods: {
@@ -121,6 +130,30 @@ export default {
         ...opts,
       });
     },
+    listJobs({
+      orgId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/v2/org/${orgId}/job`,
+        ...opts,
+      });
+    },
+    listGroupTypes({
+      orgId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/v1/org/${orgId}/group-type`,
+        ...opts,
+      });
+    },
+    listGroups({
+      orgId, type, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/v2/org/${orgId}/group/${type}`,
+        ...opts,
+      });
+    },
     getPerson({
       orgId, personId, ...opts
     }) {
@@ -146,6 +179,36 @@ export default {
         path: `/v2/org/${orgId}/person/${personId}`,
         ...opts,
       });
+    },
+    searchOrganization({
+      orgId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/v1/org/${orgId}/search`,
+        ...opts,
+      });
+    },
+    async *paginate({
+      resourceFn,
+      args,
+      max,
+    }) {
+      let count = 0;
+      do {
+        const {
+          data, next,
+        } = await resourceFn(args);
+        for (const item of data) {
+          yield item;
+          if (max && ++count >= max) {
+            return;
+          }
+          args.params = {
+            ...args.params,
+            from: next,
+          };
+        }
+      } while (args.params?.next);
     },
   },
 };
