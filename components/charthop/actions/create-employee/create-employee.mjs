@@ -1,10 +1,11 @@
 import charthop from "../../charthop.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "charthop-create-employee",
   name: "Create Employee",
-  description: "Adds a new employee to the system. [See the documentation](https://api.charthop.com/swagger#/user/createUser)",
-  version: "0.0.{{ts}}",
+  description: "Adds a new employee to the system. [See the documentation](https://api.charthop.com/swagger#/person/createPerson)",
+  version: "0.0.1",
   type: "action",
   props: {
     charthop,
@@ -14,70 +15,32 @@ export default {
         "orgId",
       ],
     },
-    firstName: {
-      propDefinition: [
-        charthop,
-        "firstName",
-      ],
+    name: {
+      type: "string",
+      label: "Name",
+      description: "Name of the employee",
     },
-    middleName: {
-      propDefinition: [
-        charthop,
-        "middleName",
-      ],
-    },
-    lastName: {
-      propDefinition: [
-        charthop,
-        "lastName",
-      ],
-    },
-    preferredFirstName: {
-      propDefinition: [
-        charthop,
-        "preferredFirstName",
-      ],
-    },
-    preferredLastName: {
-      propDefinition: [
-        charthop,
-        "preferredLastName",
-      ],
-    },
-    email: {
-      propDefinition: [
-        charthop,
-        "email",
-      ],
-    },
-    status: {
-      propDefinition: [
-        charthop,
-        "status",
-      ],
+    additionalProperties: {
+      type: "object",
+      label: "Additional Properties",
+      description: "Additional properties to add to the employee",
+      optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.charthop.createUser({
+    const additionalProperties = this.additionalProperties
+      ? parseObject(this.additionalProperties)
+      : {};
+
+    const response = await this.charthop.createPerson({
       $,
+      orgId: this.orgId,
       data: {
-        orgs: [
-          {
-            orgId: this.orgId,
-            access: "MEMBER",
-            roleId: await this.charthop.getEmployeeRoleId($),
-          },
-        ],
-        name: {
-          first: this.firstName,
-          middle: this.middleName,
-          last: this.lastName,
-          pref: this.preferredFirstName,
-          prefLast: this.preferredLastName,
-        },
-        email: this.email,
+        name: this.name,
+        ...additionalProperties,
       },
     });
+
     $.export("$summary", `Successfully created employee with ID: ${response.id}`);
     return response;
   },

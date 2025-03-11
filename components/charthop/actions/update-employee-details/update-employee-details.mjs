@@ -4,7 +4,7 @@ export default {
   key: "charthop-update-employee-details",
   name: "Update Employee Details",
   description: "Updates an existing employee's details. [See the documentation](https://api.charthop.com/swagger#/user/updateUser)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     charthop,
@@ -22,75 +22,55 @@ export default {
           orgId: c.orgId,
         }),
       ],
+      reloadProps: true,
     },
-    firstName: {
-      propDefinition: [
-        charthop,
-        "firstName",
-      ],
-      optional: true,
-    },
-    middleName: {
-      propDefinition: [
-        charthop,
-        "middleName",
-      ],
-    },
-    lastName: {
-      propDefinition: [
-        charthop,
-        "lastName",
-      ],
-      optional: true,
-    },
-    preferredFirstName: {
-      propDefinition: [
-        charthop,
-        "preferredFirstName",
-      ],
-    },
-    preferredLastName: {
-      propDefinition: [
-        charthop,
-        "preferredLastName",
-      ],
-    },
-    email: {
-      propDefinition: [
-        charthop,
-        "email",
-      ],
-      optional: true,
-    },
-    status: {
-      propDefinition: [
-        charthop,
-        "status",
-      ],
-    },
+  },
+  async additionalProps() {
+    const props = {};
+    if (!this.employeeId || !this.orgId) {
+      return props;
+    }
+
+    const employee = await this.charthop.getPerson({
+      orgId: this.orgId,
+      personId: this.employeeId,
+    });
+
+    for (const [
+      key,
+      value,
+    ] of Object.entries(employee)) {
+      if (key === "id") {
+        continue;
+      }
+      props[key] = {
+        type: "string",
+        label: `${key}`,
+        default: key === "name"
+          ? (`${value?.first} ${value?.last}`).trim()
+          : `${value}`,
+      };
+    }
+
+    return props;
   },
   async run({ $ }) {
     const {
-      name, email,
-    } = await this.charthop.getUser({
+      charthop,
+      orgId,
+      employeeId,
+      ...fields
+    } = this;
+
+    const response = await charthop.updatePerson({
       $,
-      userId: this.employeeId,
-    });
-    const response = await this.charthop.updateUser({
-      $,
-      userId: this.employeeId,
+      orgId,
+      personId: employeeId,
       data: {
-        name: {
-          first: this.firstName || name.first,
-          middle: this.middleName || name.middle,
-          last: this.lastName || name.last,
-          pref: this.preferredFirstName || name.pref,
-          prefLast: this.preferredLastName || name.prefLast,
-        },
-        email: this.email || email,
+        ...fields,
       },
     });
-    $.export("$summary", `Successfully updated employee with ID ${this.employeeId}`);
+    $.export("$summary", `Successfully updated employee with ID ${employeeId}`);
     return response;
   },
 };
