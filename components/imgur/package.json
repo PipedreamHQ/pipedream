@@ -1,5 +1,5 @@
 {
-  "name": "imgur",
+  "name": "@pipedream/imgur",
   "version": "1.0.0",
   "description": "The imgur app file for Pipedream action & trigger integrations.",
   "main": "index.js",
@@ -10,6 +10,10 @@
     "imgur",
     "api"
   ],
-  "author": "Dylan Pierce <pierce@pipedream.com>",
+  "homepage": "https://pipedream.com/apps/imgur",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "ISC"
 }

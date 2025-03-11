@@ -647,6 +647,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/alibaba_cloud: {}
+
   components/all_images_ai:
     dependencies:
       '@pipedream/platform':
@@ -1060,6 +1062,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/autotask_psa: {}
 
   components/avaza:
     dependencies:
@@ -1659,6 +1663,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/botx: {}
+
   components/bouncer:
     dependencies:
       '@pipedream/platform':
@@ -1760,7 +1766,11 @@ importers:
         specifier: ^6.11.2
         version: 6.13.1
 
-  components/brillium: {}
+  components/brillium:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/brosix: {}
 
@@ -2526,6 +2536,8 @@ importers:
         specifier: ^0.12.4
         version: 0.12.5
 
+  components/cloudflare_browser_rendering: {}
+
   components/cloudflare_r2: {}
 
   components/cloudinary:
@@ -2987,6 +2999,8 @@ importers:
         version: 0.1.6
 
   components/current_rms: {}
+
+  components/currents_api: {}
 
   components/customer_fields:
     dependencies:
@@ -3479,6 +3493,8 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/docker_engine: {}
+
   components/docker_hub: {}
 
   components/docmosis:
@@ -3763,6 +3779,8 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/dungeon_fighter_online: {}
+
   components/dust:
     dependencies:
       '@pipedream/platform':
@@ -3894,6 +3912,8 @@ importers:
 
   components/efinder: {}
 
+  components/egestor: {}
+
   components/egnyte:
     dependencies:
       '@pipedream/platform':
@@ -3914,7 +3934,11 @@ importers:
 
   components/elastic_cloud: {}
 
-  components/elastic_email: {}
+  components/elastic_email:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/elasticemail: {}
 
@@ -3997,7 +4021,11 @@ importers:
         specifier: ^1.2.1
         version: 1.6.6
 
-  components/engage: {}
+  components/engage:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/engagebay:
     dependencies:
@@ -5340,6 +5368,9 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/google_marketplace:
+    specifiers: {}
+
   components/google_meet:
     dependencies:
       '@googleapis/calendar':
@@ -5526,7 +5557,14 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/govee: {}
+  components/govee:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      uuid:
+        specifier: ^11.1.0
+        version: 11.1.0
 
   components/gozen_growth:
     dependencies:
@@ -5581,13 +5619,19 @@ importers:
         specifier: ^1.6.5
         version: 1.6.6
 
+  components/greenhouse_job_board_api: {}
+
   components/greptile:
     dependencies:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/griptape: {}
+  components/griptape:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/grist:
     dependencies:
@@ -5698,6 +5742,8 @@ importers:
   components/hashnode: {}
 
   components/hasura: {}
+
+  components/hathr_ai: {}
 
   components/have_i_been_pwned: {}
 
@@ -5951,11 +5997,19 @@ importers:
         specifier: ^1.2.1
         version: 1.6.6
 
+  components/housecall_pro: {}
+
   components/howuku:
     dependencies:
       '@pipedream/platform':
         specifier: ^1.6.0
         version: 1.6.6
+
+  components/hr_cloud:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/hr_partner: {}
 
@@ -6466,6 +6520,8 @@ importers:
 
   components/jellyreach: {}
 
+  components/jenkins: {}
+
   components/jibble:
     dependencies:
       '@pipedream/platform':
@@ -6678,7 +6734,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/kindo: {}
+  components/kindo:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/kingsumo:
     dependencies:
@@ -7000,6 +7060,8 @@ importers:
         version: 1.6.6
 
   components/lettria: {}
+
+  components/leverly: {}
 
   components/levity: {}
 
@@ -7751,6 +7813,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/microsoft_dataverse: {}
+
   components/microsoft_dynamics_365_sales:
     dependencies:
       '@pipedream/platform':
@@ -7783,6 +7847,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/microsoft_graph_api_daemon_app: {}
 
   components/microsoft_onedrive:
     dependencies:
@@ -7864,7 +7930,11 @@ importers:
 
   components/microsoft_teams_bot: {}
 
+  components/microsoft_teams_events: {}
+
   components/microsoft_text_translate: {}
+
+  components/microsoft_viva_goals: {}
 
   components/microsofttodo:
     dependencies:
@@ -7889,6 +7959,8 @@ importers:
   components/mindmeister: {}
 
   components/mindstudio: {}
+
+  components/minerstat: {}
 
   components/minio: {}
 
@@ -7969,6 +8041,8 @@ importers:
         version: 1.6.6
 
   components/mojotxt: {}
+
+  components/mollie: {}
 
   components/monday:
     dependencies:
@@ -8196,6 +8270,8 @@ importers:
 
   components/neetokb: {}
 
+  components/neo4j_auradb: {}
+
   components/neon_api_keys:
     dependencies:
       '@pipedream/platform':
@@ -8205,6 +8281,8 @@ importers:
   components/nerv: {}
 
   components/netatmo: {}
+
+  components/netcore: {}
 
   components/nethunt_crm:
     dependencies:
@@ -8430,42 +8508,9 @@ importers:
       '@tryfabric/martian':
         specifier: ^1.2.4
         version: 1.2.4
-      asynckit:
-        specifier: ^0.4.0
-        version: 0.4.0
-      combined-stream:
-        specifier: ^1.0.8
-        version: 1.0.8
-      delayed-stream:
-        specifier: ^1.0.0
-        version: 1.0.0
-      form-data:
-        specifier: ^3.0.1
-        version: 3.0.2
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
-      md5:
-        specifier: ^2.3.0
-        version: 2.3.0
-      mime-db:
-        specifier: ^1.52.0
-        version: 1.53.0
-      mime-types:
-        specifier: ^2.1.35
-        version: 2.1.35
-      node-fetch:
-        specifier: ^2.6.7
-        version: 2.7.0
-      tr46:
-        specifier: ^0.0.3
-        version: 0.0.3
-      webidl-conversions:
-        specifier: ^3.0.1
-        version: 3.0.1
-      whatwg-url:
-        specifier: ^5.0.0
-        version: 5.0.0
 
   components/nozbe_teams: {}
 
@@ -8805,7 +8850,11 @@ importers:
         specifier: ^0.9.0
         version: 0.9.0
 
-  components/opnform: {}
+  components/opnform:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/opsgenie:
     dependencies:
@@ -9460,6 +9509,8 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
+  components/planday: {}
+
   components/planhat: {}
 
   components/planly: {}
@@ -10009,6 +10060,8 @@ importers:
   components/quriiri: {}
 
   components/qwilr: {}
+
+  components/rabbitmq: {}
 
   components/radar: {}
 
@@ -10879,7 +10932,11 @@ importers:
 
   components/scrapein_: {}
 
-  components/scrapeninja: {}
+  components/scrapeninja:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/scrapfly:
     dependencies:
@@ -11198,6 +11255,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/servicetitan: {}
+
   components/serwersms_pl: {}
 
   components/sessions:
@@ -11322,6 +11381,9 @@ importers:
       bottleneck:
         specifier: ^2.19.5
         version: 2.19.5
+      form-data:
+        specifier: ^4.0.2
+        version: 4.0.2
       lodash.get:
         specifier: ^4.4.2
         version: 4.4.2
@@ -11897,6 +11959,10 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.6.6
+
+  components/splunk: {}
+
+  components/splunk_http_event_collector: {}
 
   components/splynx:
     dependencies:
@@ -20481,6 +20547,10 @@ packages:
     resolution: {integrity: sha512-9EtFOZR8g22CL7BWjJ9BUx1+A/djkofnyW3aOXZORNW2kxoUpx2h+uN2cOqwPmFhnpVmxg+KW2OjOSgChTEvsQ==}
     engines: {node: '>=6'}
 
+  call-bind-apply-helpers@1.0.2:
+    resolution: {integrity: sha512-Sp1ablJ0ivDkSzjcaJdxEunN5/XvksFJ2sMBFfq6x0ryhQV/2b/KwFe21cMpmHtPOSij8K99/wSfoEuTObmuMQ==}
+    engines: {node: '>= 0.4'}
+
   call-bind@1.0.7:
     resolution: {integrity: sha512-GHTSNSYICQ7scH7sZ+M2rFopRoLh8t2bLSW6BbgrtLsahOIB5iyAVJf9GjWK3cYTDaMj4XdBpM1cA6pIS0Kv2w==}
     engines: {node: '>= 0.4'}
@@ -21638,6 +21708,10 @@ packages:
     peerDependencies:
       typescript: '>= 3.0.0-dev || >= 3.1.0-dev || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.7.0-dev || >= 3.8.0-dev || >= 3.9.0-dev || >= 4.0.0-dev'
 
+  dunder-proto@1.0.1:
+    resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
+    engines: {node: '>= 0.4'}
+
   duplexer3@0.1.5:
     resolution: {integrity: sha512-1A8za6ws41LQgv9HrE/66jyC5yuSjQ3L/KOpFtoBilsAK2iA2wuS5rTt1OCzIvtS2V7nVmedsUU+DGRcjBmOYA==}
 
@@ -21773,6 +21847,10 @@ packages:
     resolution: {integrity: sha512-jxayLKShrEqqzJ0eumQbVhTYQM27CfT1T35+gCgDFoL82JLsXqTJ76zv6A0YLOgEnLUMvLzsDsGIrl8NFpT2gQ==}
     engines: {node: '>= 0.4'}
 
+  es-define-property@1.0.1:
+    resolution: {integrity: sha512-e3nRfgfUZ4rNGL232gUgX06QNyyez04KdjFrF+LTRoOXmrOgFKDg4BCdsjW8EnT69eqdYGmRpJwiPVYNrCaW3g==}
+    engines: {node: '>= 0.4'}
+
   es-errors@1.3.0:
     resolution: {integrity: sha512-Zf5H2Kxt2xjTvbJvP2ZWLEICxA6j+hAmMzIlypy4xcBg1vKVnx89Wy0GbS+kf5cwCVFFzdCFh2XSCFNULS6csw==}
     engines: {node: '>= 0.4'}
@@ -21788,8 +21866,16 @@ packages:
     resolution: {integrity: sha512-MZ4iQ6JwHOBQjahnjwaC1ZtIBH+2ohjamzAO3oaHcXYup7qxjF2fixyH+Q71voWHeOkI2q/TnJao/KfXYIZWbw==}
     engines: {node: '>= 0.4'}
 
+  es-object-atoms@1.1.1:
+    resolution: {integrity: sha512-FGgH2h8zKNim9ljj7dankFPcICIK9Cp5bm+c2gQSYePhpaG5+esrLODihIorn+Pe6FGJzWhXQotPv73jTaldXA==}
+    engines: {node: '>= 0.4'}
+
   es-set-tostringtag@2.0.3:
     resolution: {integrity: sha512-3T8uNMC3OQTHkFUsFq8r/BwAXLHvU/9O9mE0fBc/MY5iq/8H7ncvO947LmYA6ldWw9Uh8Yhf25zu6n7nML5QWQ==}
+    engines: {node: '>= 0.4'}
+
+  es-set-tostringtag@2.1.0:
+    resolution: {integrity: sha512-j6vWzfrGVfyXxge+O0x5sh6cvxAog0a/4Rdd2K36zCMV5eJ+/+tOAngRO8cODMNWbVRdVlmGZQL2YS3yR8bIUA==}
     engines: {node: '>= 0.4'}
 
   es-shim-unscopables@1.0.2:
@@ -22506,6 +22592,10 @@ packages:
     resolution: {integrity: sha512-tzN8e4TX8+kkxGPK8D5u0FNmjPUjw3lwC9lSLxxoB/+GtsJG91CO8bSWy73APlgAZzZbXEYZJuxjkHH2w+Ezhw==}
     engines: {node: '>= 6'}
 
+  form-data@4.0.2:
+    resolution: {integrity: sha512-hGfm/slu0ZabnNt4oaRZ6uREyfCj6P4fT/n6A1rGV+Z0VdGXjfOhVUpkn6qVQONHGIFwmveGXyDs75+nr6FM8w==}
+    engines: {node: '>= 6'}
+
   format-io@2.0.0:
     resolution: {integrity: sha512-iQz8w2qr4f+doWBV6LsfScHbu1gXhccByjbmA1wjBTaKRhweH2baJL96UGR4C7Fjpr8zSkK7EXiLmbzZWTyQIA==}
     engines: {node: '>=8'}
@@ -22666,9 +22756,17 @@ packages:
     resolution: {integrity: sha512-5uYhsJH8VJBTv7oslg4BznJYhDoRI6waYCxMmCdnTrcCrHA/fCFKoTFz2JKKE0HdDFUF7/oQuhzumXJK7paBRQ==}
     engines: {node: '>= 0.4'}
 
+  get-intrinsic@1.3.0:
+    resolution: {integrity: sha512-9fSjSaos/fRIVIp+xSJlE6lfwhES7LNtKaCBIamHsjr2na1BiABJPo0mOjjz8GJDURarmCPGqaiVg5mfjb98CQ==}
+    engines: {node: '>= 0.4'}
+
   get-package-type@0.1.0:
     resolution: {integrity: sha512-pjzuKtY64GYfWizNAJ0fr9VqttZkNiK2iS430LtIHzjBEr6bX8Am2zm4sW4Ro5wjWW5cAlRL1qAMTcXbjNAO2Q==}
     engines: {node: '>=8.0.0'}
+
+  get-proto@1.0.1:
+    resolution: {integrity: sha512-sTSfBjoXBp89JvIKIefqw7U2CCebsc74kiY6awiGogKtoSGbgjYE/G/+l9sF3MWFPNc9IcoOC4ODfKHfxFmp0g==}
+    engines: {node: '>= 0.4'}
 
   get-stdin@7.0.0:
     resolution: {integrity: sha512-zRKcywvrXlXsA0v0i9Io4KDRaAw7+a1ZpjRwl9Wox8PFlVCCHra7E9c4kqXCoCM9nR5tBkaTTZRBoCm60bFqTQ==}
@@ -22877,6 +22975,10 @@ packages:
   gopd@1.0.1:
     resolution: {integrity: sha512-d65bNlIadxvpb/A2abVdlqKqV563juRnZ1Wtk6s1sIR8uNsXR70xqIzVqxVf1eTqDunwT2MkczEeaezCKTZhwA==}
 
+  gopd@1.2.0:
+    resolution: {integrity: sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==}
+    engines: {node: '>= 0.4'}
+
   got@11.8.6:
     resolution: {integrity: sha512-6tfZ91bOr7bOXnK7PRDCGBLa1H4U080YHNaAQ2KsMGlLEzRbk44nsZF2E1IeRc3vtJHPVbKCYgdFbaGO2ljd8g==}
     engines: {node: '>=10.19.0'}
@@ -22995,6 +23097,10 @@ packages:
 
   has-symbols@1.0.3:
     resolution: {integrity: sha512-l3LCuF6MgDNwTDKkdYGEihYjt5pRPbEg46rtlmnSPlUbgmB8LOIrKJbYYFBSbnPaJexMKtiPO8hmeRjRz2Td+A==}
+    engines: {node: '>= 0.4'}
+
+  has-symbols@1.1.0:
+    resolution: {integrity: sha512-1cDNdwJ2Jaohmb3sg4OmKaMBwuC48sYni5HUw2DvsC8LjGTLK9h+eb1X6RyuOHe4hT0ULCW68iomhjUoKUqlPQ==}
     engines: {node: '>= 0.4'}
 
   has-tostringtag@1.0.2:
@@ -24553,6 +24659,10 @@ packages:
     resolution: {integrity: sha512-PRsaiG84bK+AMvxziE/lCFss8juXjNaWzVbN5tXAm4XjeaS9NAHhop+PjQxz2A9h8Q4M/xGmzP8vqNwy6JeK0A==}
     engines: {node: '>= 12'}
     hasBin: true
+
+  math-intrinsics@1.1.0:
+    resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
+    engines: {node: '>= 0.4'}
 
   mathjax-full@3.2.2:
     resolution: {integrity: sha512-+LfG9Fik+OuI8SLwsiR02IVdjcnRCy5MufYLi0C3TdMT56L/pjB0alMVGgoWJF8pN9Rc7FESycZB9BMNWIid5w==}
@@ -33047,7 +33157,7 @@ snapshots:
       '@std-uritemplate/std-uritemplate': 1.0.6
       tinyduration: 3.3.1
       tslib: 2.8.1
-      uuid: 11.0.5
+      uuid: 11.1.0
 
   '@microsoft/kiota-http-fetchlibrary@1.0.0-preview.77':
     dependencies:
@@ -34956,7 +35066,7 @@ snapshots:
       '@types/retry': 0.12.0
       axios: 1.7.7(debug@3.2.7)
       eventemitter3: 5.0.1
-      form-data: 4.0.1
+      form-data: 4.0.2
       is-electron: 2.2.2
       is-stream: 2.0.1
       p-queue: 6.6.2
@@ -36497,7 +36607,7 @@ snapshots:
       datauri: 4.1.0
       fetch-har: 5.0.5
       find-cache-dir: 3.3.2
-      form-data: 4.0.1
+      form-data: 4.0.2
       get-stream: 6.0.1
       js-yaml: 4.1.0
       make-dir: 3.1.0
@@ -36773,7 +36883,7 @@ snapshots:
   axios@0.28.1:
     dependencies:
       follow-redirects: 1.15.9(debug@3.2.7)
-      form-data: 4.0.1
+      form-data: 4.0.2
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
@@ -36781,7 +36891,7 @@ snapshots:
   axios@1.6.0:
     dependencies:
       follow-redirects: 1.15.9(debug@3.2.7)
-      form-data: 4.0.1
+      form-data: 4.0.2
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
@@ -36789,7 +36899,7 @@ snapshots:
   axios@1.6.7:
     dependencies:
       follow-redirects: 1.15.9(debug@3.2.7)
-      form-data: 4.0.1
+      form-data: 4.0.2
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
@@ -36797,7 +36907,7 @@ snapshots:
   axios@1.6.8:
     dependencies:
       follow-redirects: 1.15.9(debug@3.2.7)
-      form-data: 4.0.1
+      form-data: 4.0.2
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
@@ -36805,7 +36915,7 @@ snapshots:
   axios@1.7.4:
     dependencies:
       follow-redirects: 1.15.9(debug@3.2.7)
-      form-data: 4.0.1
+      form-data: 4.0.2
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
@@ -36821,7 +36931,7 @@ snapshots:
   axios@1.7.9:
     dependencies:
       follow-redirects: 1.15.9(debug@3.2.7)
-      form-data: 4.0.1
+      form-data: 4.0.2
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
@@ -37213,6 +37323,11 @@ snapshots:
       keyv: 5.2.1
 
   cachedir@2.4.0: {}
+
+  call-bind-apply-helpers@1.0.2:
+    dependencies:
+      es-errors: 1.3.0
+      function-bind: 1.1.2
 
   call-bind@1.0.7:
     dependencies:
@@ -38440,6 +38555,12 @@ snapshots:
       typescript: 5.7.2
       yargs: 15.4.1
 
+  dunder-proto@1.0.1:
+    dependencies:
+      call-bind-apply-helpers: 1.0.2
+      es-errors: 1.3.0
+      gopd: 1.2.0
+
   duplexer3@0.1.5: {}
 
   duplexer@0.1.2: {}
@@ -38612,6 +38733,8 @@ snapshots:
     dependencies:
       get-intrinsic: 1.2.4
 
+  es-define-property@1.0.1: {}
+
   es-errors@1.3.0: {}
 
   es-get-iterator@1.1.3:
@@ -38648,9 +38771,20 @@ snapshots:
     dependencies:
       es-errors: 1.3.0
 
+  es-object-atoms@1.1.1:
+    dependencies:
+      es-errors: 1.3.0
+
   es-set-tostringtag@2.0.3:
     dependencies:
       get-intrinsic: 1.2.4
+      has-tostringtag: 1.0.2
+      hasown: 2.0.2
+
+  es-set-tostringtag@2.1.0:
+    dependencies:
+      es-errors: 1.3.0
+      get-intrinsic: 1.3.0
       has-tostringtag: 1.0.2
       hasown: 2.0.2
 
@@ -39496,7 +39630,7 @@ snapshots:
       jsonwebtoken: 9.0.2
       jwks-rsa: 3.1.0
       node-forge: 1.3.1
-      uuid: 11.0.5
+      uuid: 11.1.0
     optionalDependencies:
       '@google-cloud/firestore': 7.11.0
       '@google-cloud/storage': 7.14.0
@@ -39598,6 +39732,13 @@ snapshots:
     dependencies:
       asynckit: 0.4.0
       combined-stream: 1.0.8
+      mime-types: 2.1.35
+
+  form-data@4.0.2:
+    dependencies:
+      asynckit: 0.4.0
+      combined-stream: 1.0.8
+      es-set-tostringtag: 2.1.0
       mime-types: 2.1.35
 
   format-io@2.0.0:
@@ -39812,7 +39953,25 @@ snapshots:
       has-symbols: 1.0.3
       hasown: 2.0.2
 
+  get-intrinsic@1.3.0:
+    dependencies:
+      call-bind-apply-helpers: 1.0.2
+      es-define-property: 1.0.1
+      es-errors: 1.3.0
+      es-object-atoms: 1.1.1
+      function-bind: 1.1.2
+      get-proto: 1.0.1
+      gopd: 1.2.0
+      has-symbols: 1.1.0
+      hasown: 2.0.2
+      math-intrinsics: 1.1.0
+
   get-package-type@0.1.0: {}
+
+  get-proto@1.0.1:
+    dependencies:
+      dunder-proto: 1.0.1
+      es-object-atoms: 1.1.1
 
   get-stdin@7.0.0: {}
 
@@ -40172,6 +40331,8 @@ snapshots:
     dependencies:
       get-intrinsic: 1.2.4
 
+  gopd@1.2.0: {}
+
   got@11.8.6:
     dependencies:
       '@sindresorhus/is': 4.6.0
@@ -40368,6 +40529,8 @@ snapshots:
   has-proto@1.0.3: {}
 
   has-symbols@1.0.3: {}
+
+  has-symbols@1.1.0: {}
 
   has-tostringtag@1.0.2:
     dependencies:
@@ -42319,6 +42482,8 @@ snapshots:
   marked@13.0.3: {}
 
   marked@4.3.0: {}
+
+  math-intrinsics@1.1.0: {}
 
   mathjax-full@3.2.2:
     dependencies:
@@ -46466,7 +46631,7 @@ snapshots:
       cookiejar: 2.1.4
       debug: 4.4.0
       fast-safe-stringify: 2.1.1
-      form-data: 4.0.1
+      form-data: 4.0.2
       formidable: 2.1.2
       methods: 1.1.2
       mime: 2.6.0
@@ -47536,7 +47701,7 @@ snapshots:
 
   webflow-api@2.4.2:
     dependencies:
-      form-data: 4.0.1
+      form-data: 4.0.2
       formdata-node: 6.0.3
       js-base64: 3.7.2
       node-fetch: 2.7.0

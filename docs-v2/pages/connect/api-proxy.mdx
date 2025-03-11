@@ -13,10 +13,10 @@ Pipedream Connect provides a proxy API that you can use to send authenticated re
 The Connect proxy enables you to interface with any integrated API and make authenticated requests on behalf of your users, without dealing with OAuth or storing end user credentials.
 
 1. You send a request to the proxy and identify the end user you want to act on behalf of
-2. The proxy sends the request to the downstream API and dynamically inserts your end user's auth credentials
-3. The proxy returns the response from the downstream API back to you
+2. The proxy sends the request to the upstream API and dynamically inserts your end user's auth credentials
+3. The proxy returns the response from the upstream API back to you
 
-![Connect API proxy visualization](https://res.cloudinary.com/pipedreamin/image/upload/v1740098219/pd-connect-proxy-viz-updated_jb7wfu.png)
+![Connect API proxy visualization](https://res.cloudinary.com/pipedreamin/image/upload/v1741638299/connect-proxy-visual_nnccdk.png)
 
 <Callout type="info">
 Before getting started with the Connect proxy, make sure you've already gone through the [managed auth quickstart](/connect/managed-auth/quickstart/) for Pipedream Connect.
@@ -37,7 +37,7 @@ Refer to the full Connect API [here](/connect/api/).
 
 Most API integrations that use OAuth to authenticate requests require that you pass a user's access token in the `Authorization` header with the `Bearer` prefix. For these apps, the Connect proxy will automatically handle that for you — you don't need to pass any reference to their OAuth access token in this case.
 
-For apps that require a different authentication method, you should include the necessary headers with the value surrounded by `{{ }}` in your request to the proxy, and Pipedream will automatically replace the macro with the real values and forward to the downstream API. For example:
+For apps that require a different authentication method, you should include the necessary headers with the value surrounded by `{{ }}` in your request to the proxy, and Pipedream will automatically replace the macro with the real values and forward to the upstream API. For example:
 
 ```javascript
 /*
@@ -100,7 +100,7 @@ const resp = await pd.makeProxyRequest(
     options: {
       method: "POST",
       headers: {
-        hello: "world!" // Include any headers you need to send to the downstream API
+        hello: "world!" // Include any headers you need to send to the upstream API
       },
       body: {
         text: "hello, world",
@@ -125,17 +125,17 @@ You can also send a request to the Connect REST API with the below config:
 
 **HTTP method**
 
-- Use the HTTP method required by the downstream API
+- Use the HTTP method required by the upstream API
 
 **Body**
 
-- Optionally include a body to send to the downstream API
+- Optionally include a body to send to the upstream API
 
 **Headers**
 
 - If using the REST API, include the `Authorization` header with your Pipedream OAuth access token (`Bearer {access_token}`)
-- Headers that contain the prefix `x-pd-proxy` will get forwarded to the downstream API
-- If the downstream API requires [custom authorization headers](#authenticating-on-behalf-of-your-user), make sure to prepend with `x-pd-proxy` and include the macro `{{ }}` that Pipedream will replace with the actual value. For example,
+- Headers that contain the prefix `x-pd-proxy` will get forwarded to the upstream API
+- If the upstream API requires [custom authorization headers](#authenticating-on-behalf-of-your-user), make sure to prepend with `x-pd-proxy` and include the macro `{{ }}` that Pipedream will replace with the actual value. For example,
 
 ```javascript
 "x-pd-proxy-apiKey: {{api_key}}"
