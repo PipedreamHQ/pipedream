@@ -208,7 +208,7 @@ export default {
             from: next,
           };
         }
-      } while (args.params?.next);
+      } while (args.params?.from);
     },
   },
 };
