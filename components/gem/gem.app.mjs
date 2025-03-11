@@ -27,8 +27,8 @@ export default {
     },
     projectIds: {
       type: "string[]",
-      label: "Project Ids",
-      description: "If `Project Ids` is provided with an array of project ids, the candidate will be added into the projects once they are created.",
+      label: "Project IDs",
+      description: "If `Project IDs` is provided with an array of project ids, the candidate will be added into the projects once they are created.",
       async options({ page }) {
         const data = await this.listProjects({
           params: {

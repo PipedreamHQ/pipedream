@@ -48,7 +48,7 @@ export default {
     linkedInHandle: {
       type: "string",
       label: "LinkedIn Handle",
-      description: "If `LinkedIn Handle` is provided, candidate creation will be de-duplicated. If a candidate with the provided `LinkedIn Handle already exists, a 400 error will be returned with `errors` containing information on the existing candidate in this shape: `{\"errors\": { \"duplicate_candidate\": { \"id\": \"string\", \"linked_in_handle\": \"string\" }}}`.",
+      description: "Enter your candidate's unique LinkedIn identifier (e.g., \"satyanadella\"). This helps the system check for duplicates before creating a new candidate entry.",
       optional: true,
     },
     title: {
@@ -75,16 +75,18 @@ export default {
       description: "Candidate's school",
       optional: true,
     },
-    educationInfo: {
-      type: "string[]",
-      label: "Education Info",
-      description: "A list of objects containing candidate's education information. **Format: [{\"school\": \"string\", \"parsed_university\": \"string\", \"parsed_school\": \"string\", \"start_date\": \"string\", \"end_date\": \"string\", \"field_of_study\": \"string\", \"parsed_major_1\": \"string\", \"parsed_major_2\": \"string\", \"degree\": \"string\"}]**. [See the documentation](https://api.gem.com/v0/reference#tag/Candidates/paths/~1v0~1candidates/post) for further details.",
+    educationInfoNumber: {
+      type: "integer",
+      label: "Education Info Quantity",
+      description: "The number of education info objects to be created",
+      reloadProps: true,
       optional: true,
     },
-    workInfo: {
-      type: "string[]",
-      label: "Work Info",
-      description: "A list of objects containing candidate's work information. **Format: [{\"company\": \"string\", \"title\": \"string\", \"work_start_date\": \"string\", \"work_end_date\": \"string\", \"is_current\": \"string\"}]**. [See the documentation](https://api.gem.com/v0/reference#tag/Candidates/paths/~1v0~1candidates/post) for further details.",
+    workInfoNumber: {
+      type: "integer",
+      label: "Work Info Quantity",
+      description: "The number of work info objects to be created",
+      reloadProps: true,
       optional: true,
     },
     profileUrls: {
@@ -107,9 +109,9 @@ export default {
       optional: true,
     },
     customFields: {
-      type: "string[]",
+      type: "object",
       label: "Custom Fields",
-      description: "Array of objects containing new custom field values. Only custom fields specified in the array are updated. **Format: [{\"custom_field_id\": \"string\", \"value\": \"string\"}]**. [See the documentation](https://api.gem.com/v0/reference#tag/Candidates/paths/~1v0~1candidates/post) for further details.",
+      description: "An object containing new custom field values. Only custom fields specified are updated. **Format: {\"custom_field_id\": \"value\"}**. [See the documentation](https://api.gem.com/v0/reference#tag/Candidates/paths/~1v0~1candidates/post) for further details.",
       optional: true,
     },
     sourcedFrom: {
@@ -126,7 +128,123 @@ export default {
       optional: true,
     },
   },
+  async additionalProps() {
+    const props = {};
+    if (this.educationInfoNumber) {
+      for (let i = 1; i <= this.educationInfoNumber; i++) {
+        props[`educationInfo${i}School`] = {
+          type: "string",
+          label: `Education Info ${i} - School`,
+          description: `Education info ${i} school of the candidate`,
+          optional: true,
+        };
+        props[`educationInfo${i}University`] = {
+          type: "string",
+          label: `Education Info ${i} - University`,
+          description: `Education info ${i} university of the candidate`,
+          optional: true,
+        };
+        props[`educationInfo${i}StartDate`] = {
+          type: "string",
+          label: `Education Info ${i} - Start Date`,
+          description: `Education info ${i} start date of the candidate`,
+          optional: true,
+        };
+        props[`educationInfo${i}EndDate`] = {
+          type: "string",
+          label: `Education Info ${i} - End Date`,
+          description: `Education info ${i} end date of the candidate`,
+          optional: true,
+        };
+        props[`educationInfo${i}FieldOfSchool`] = {
+          type: "string",
+          label: `Education Info ${i} - Field Of School`,
+          description: `Education info ${i} field of school of the candidate`,
+          optional: true,
+        };
+        props[`educationInfo${i}Major1`] = {
+          type: "string",
+          label: `Education Info ${i} - Major 1`,
+          description: `Education info ${i} major 1 of the candidate`,
+          optional: true,
+        };
+        props[`educationInfo${i}Major2`] = {
+          type: "string",
+          label: `Education Info ${i} - Major 2`,
+          description: `Education info ${i} major 2 of the candidate`,
+          optional: true,
+        };
+        props[`educationInfo${i}Degree`] = {
+          type: "string",
+          label: `Education Info ${i} - Degree`,
+          description: `Education info ${i} degree of the candidate`,
+          optional: true,
+        };
+      }
+    }
+    if (this.workInfoNumber) {
+      for (let i = 1; i <= this.workInfoNumber; i++) {
+        props[`WorkInfo${i}Company`] = {
+          type: "string",
+          label: `Work Info ${i} - Company`,
+          description: `Work info ${i} company of the candidate`,
+          optional: true,
+        };
+        props[`WorkInfo${i}Title`] = {
+          type: "string",
+          label: `Work Info ${i} - Title`,
+          description: `Work info ${i} title of the candidate`,
+          optional: true,
+        };
+        props[`WorkInfo${i}WorkStartDate`] = {
+          type: "string",
+          label: `Work Info ${i} - Work Start Date`,
+          description: `Work info ${i} work start date of the candidate`,
+          optional: true,
+        };
+        props[`WorkInfo${i}WorkEndDate`] = {
+          type: "string",
+          label: `Work Info ${i} - Work End Date`,
+          description: `Work info ${i} work end date of the candidate`,
+          optional: true,
+        };
+        props[`WorkInfo${i}IsCurrent`] = {
+          type: "boolean",
+          label: `Work Info ${i} - Is Current`,
+          description: `Work info ${i} is Current of the candidate`,
+          optional: true,
+        };
+      }
+    }
+
+    return props;
+  },
   async run({ $ }) {
+    const educationInfo = [];
+    const workInfo = [];
+    for (var i = 1; i <= this.educationInfoNumber; i++) {
+      educationInfo.push({
+        school: this[`educationInfo${i}School`],
+        university: this[`educationInfo${i}University`],
+        start_date: this[`educationInfo${i}StartDate`],
+        end_date: this[`educationInfo${i}EndDate`],
+        field_of_study: this[`educationInfo${i}FieldOfSchool`],
+        major1: this[`educationInfo${i}Major1`],
+        major2: this[`educationInfo${i}Major2`],
+        degree: this[`educationInfo${i}Degree`],
+      });
+    }
+
+    for (var j = 1; j <= this.workInfoNumber; j++) {
+      workInfo.push({
+        company: this[`WorkInfo${j}Company`],
+        title: this[`WorkInfo${j}Title`],
+        work_start_date: this[`WorkInfo${j}WorkStartDate`],
+        work_end_date: this[`WorkInfo${j}WorkEndDate`],
+        is_current: this[`WorkInfo${j}IsCurrent`],
+      });
+    }
+
     const emails = [
       {
         email_address: this.primaryEmail,
@@ -154,12 +272,18 @@ export default {
         company: this.company,
         location: this.location,
         school: this.school,
-        education_info: parseObject(this.educationInfo),
-        work_info: parseObject(this.workInfo),
+        education_info: educationInfo,
+        work_info: workInfo,
         profile_urls: parseObject(this.profileUrls),
         phone_number: this.phoneNumber,
         project_ids: parseObject(this.projectIds),
-        custom_fields: parseObject(this.customFields),
+        custom_fields: Object.entries(parseObject(this.customFields))?.map(([
+          key,
+          value,
+        ]) => ({
+          custom_field_id: key,
+          value,
+        })),
         sourced_from: this.sourcedFrom,
         autofill: this.autofill,
       },
