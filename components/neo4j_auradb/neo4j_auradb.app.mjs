@@ -1,192 +1,109 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "neo4j_auradb",
-  version: "0.0.{{ts}}",
-  propDefinitions: {
-    nodeLabel: {
-      type: "string",
-      label: "Node Label",
-      description: "The label of the node to filter events for new node creation.",
-    },
-    relationshipType: {
-      type: "string",
-      label: "Relationship Type",
-      description: "The type of the relationship to filter events for new relationship creation.",
-    },
-    monitorCypherQuery: {
-      type: "string",
-      label: "Monitor Cypher Query",
-      description: "The Cypher query to monitor for new results.",
-    },
-    createNodeLabel: {
-      type: "string",
-      label: "Create Node Label",
-      description: "The label of the node to create.",
-    },
-    createNodeProperties: {
-      type: "string[]",
-      label: "Create Node Properties",
-      description: "An array of JSON strings representing the properties of the node to create.",
-    },
-    createRelationshipType: {
-      type: "string",
-      label: "Create Relationship Type",
-      description: "The type of the relationship to create.",
-    },
-    createStartNode: {
-      type: "string",
-      label: "Start Node ID",
-      description: "The ID of the start node for the relationship.",
-    },
-    createEndNode: {
-      type: "string",
-      label: "End Node ID",
-      description: "The ID of the end node for the relationship.",
-    },
-    createRelationshipProperties: {
-      type: "string[]",
-      label: "Create Relationship Properties",
-      description: "An array of JSON strings representing the properties of the relationship to create.",
-    },
-    executeCypherQuery: {
-      type: "string",
-      label: "Execute Cypher Query",
-      description: "A valid Cypher query to execute against the Neo4j AuraDB instance.",
-    },
-  },
+  propDefinitions: {},
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return `https://${this.$auth.host}/db/neo4j`;
+      return `${this.$auth.api_url}`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/tx/commit", headers, ...otherOpts
-      } = opts;
+    _auth() {
+      return {
+        username: `${this.$auth.username}`,
+        password: `${this.$auth.password}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path = "", ...opts
+    }) {
       return axios($, {
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_token}`,
-        },
-        ...otherOpts,
+        auth: this._auth(),
+        ...opts,
       });
     },
-    async createNode({
-      createNodeLabel, createNodeProperties,
+    createNode({
+      label, properties, ...opts
     }) {
-      const properties = createNodeProperties.map(JSON.parse);
-      const cypher = `CREATE (n:${createNodeLabel} $properties) RETURN n`;
-      const mergedProperties = Object.assign({}, ...properties);
+      const cypher = `CREATE (n:${label} $properties) RETURN n AS Node`;
       return this._makeRequest({
         method: "POST",
         data: {
-          statements: [
-            {
-              statement: cypher,
-              parameters: {
-                properties: mergedProperties,
-              },
-            },
-          ],
+          statement: cypher,
+          parameters: {
+            properties,
+          },
         },
+        ...opts,
       });
     },
-    async createRelationship({
-      createRelationshipType,
-      createStartNode,
-      createEndNode,
-      createRelationshipProperties,
+    createRelationship({
+      relationshipType,
+      startNode,
+      endNode,
+      relationshipProperties = {},
+      ...opts
     }) {
-      const properties = createRelationshipProperties.map(JSON.parse);
+      const stringStartNode = JSON.stringify(startNode).replace(/"[^"]*":/g, (match) => match.replace(/"/g, ""));
+      const stringEndNode = JSON.stringify(endNode).replace(/"[^"]*":/g, (match) => match.replace(/"/g, ""));
       const cypher = `
-        MATCH (a), (b)
-        WHERE id(a) = $startNode AND id(b) = $endNode
-        CREATE (a)-[r:${createRelationshipType} $properties]->(b)
+        MATCH (a ${stringStartNode})
+        MATCH (b ${stringEndNode})
+        CREATE (a)-[r:${relationshipType} $properties]->(b)
         RETURN r
       `;
-      const mergedProperties = Object.assign({}, ...properties);
       return this._makeRequest({
         method: "POST",
         data: {
-          statements: [
-            {
-              statement: cypher,
-              parameters: {
-                startNode: parseInt(createStartNode, 10),
-                endNode: parseInt(createEndNode, 10),
-                properties: mergedProperties,
-              },
-            },
-          ],
+          statement: cypher,
+          parameters: {
+            startNode,
+            endNode,
+            properties: relationshipProperties,
+          },
         },
+        ...opts,
       });
     },
-    async executeCypherQuery({ executeCypherQuery }) {
+    executeCypherQuery({
+      cypherQuery, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
         data: {
-          statements: [
-            {
-              statement: executeCypherQuery,
-            },
-          ],
+          statement: cypherQuery,
         },
+        ...opts,
       });
     },
-    async emitNewNodeEvent({ nodeLabel }) {
-      const cypher = `MATCH (n:${nodeLabel}) RETURN n`;
-      return this._makeRequest({
-        method: "POST",
-        data: {
-          statements: [
-            {
-              statement: cypher,
-            },
-          ],
-        },
-      });
-    },
-    async emitNewRelationshipEvent({ relationshipType }) {
-      const cypher = `MATCH ()-[r:${relationshipType}]->() RETURN r`;
-      return this._makeRequest({
-        method: "POST",
-        data: {
-          statements: [
-            {
-              statement: cypher,
-            },
-          ],
-        },
-      });
-    },
-    async emitCypherQueryEvent({ monitorCypherQuery }) {
-      return this.executeCypherQuery({
-        executeCypherQuery: monitorCypherQuery,
-      });
-    },
-    async paginate(fn, ...opts) {
-      let results = [];
-      let moreData = true;
-      let currentPage = 0;
-      while (moreData) {
-        const response = await fn({
-          page: currentPage,
-          ...opts,
+    async *paginate({
+      query, maxResults = null,
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+      let cypherQuery = "";
+
+      do {
+        cypherQuery = `${query} Skip ${LIMIT * page} LIMIT ${LIMIT}`;
+        page++;
+
+        const { data: { values } } = await this.executeCypherQuery({
+          cypherQuery,
         });
-        if (response.length === 0) {
-          moreData = false;
-        } else {
-          results = results.concat(response);
-          currentPage += 1;
+        for (const d of values) {
+          yield d[0];
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
         }
-      }
-      return results;
+
+        hasMore = values.length;
+
+      } while (hasMore);
     },
   },
 };

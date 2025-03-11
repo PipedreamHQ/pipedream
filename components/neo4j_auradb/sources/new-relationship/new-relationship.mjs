@@ -1,120 +1,38 @@
-import {
-  axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-} from "@pipedream/platform";
-import neo4jAuradb from "../../neo4j_auradb.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "neo4j_auradb-new-relationship",
   name: "New Relationship Created",
-  description: "Emit a new event when a new relationship is created between nodes in the Neo4j AuraDB instance. [See the documentation]().",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a new relationship is created between nodes in the Neo4j AuraDB instance.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
-    neo4jAuradb: {
-      type: "app",
-      app: "neo4j_auradb",
-    },
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
-    relationshipType: {
+    ...common.props,
+    relationshipLabel: {
       type: "string",
-      label: "Relationship Type",
-      description: "The type of the relationship to filter events for new relationship creation.",
-      optional: true,
+      label: "Relationship Label",
+      description: "The label of the relationship.",
     },
   },
-  hooks: {
-    async deploy() {
-      const lastTimestamp = 0;
-      let cypher = "MATCH ()-[r]->() RETURN r ORDER BY r.created ASC LIMIT 50";
-      const params = {};
+  methods: {
+    ...common.methods,
+    getBaseQuery(whereClause) {
+      return `MATCH p=()-[r:${this.relationshipLabel}]->() ${whereClause} RETURN p `;
+    },
+    emit(item) {
+      const ts = (this.orderType === "dateTime")
+        ? Date.parse(item[1].properties[this.orderBy])
+        : new Date();
 
-      if (this.relationshipType) {
-        cypher = `MATCH ()-[r:${this.relationshipType}]->() RETURN r ORDER BY r.created ASC LIMIT 50`;
-      }
-
-      const relationships = await this.neo4jAuradb.executeCypherQuery({
-        executeCypherQuery: cypher,
-        ...params,
+      this.$emit(item, {
+        id: item[1].elementId,
+        summary: `New Relationship created with label ${this.relationshipLabel}`,
+        ts,
       });
-
-      let latestTimestamp = lastTimestamp;
-
-      for (const record of relationships) {
-        const relationship = record.r;
-        const ts = relationship.created
-          ? new Date(relationship.created).getTime()
-          : Date.now();
-        latestTimestamp = Math.max(latestTimestamp, ts);
-
-        this.$emit(
-          relationship,
-          {
-            id: relationship.id
-              ? relationship.id.toString()
-              : ts.toString(),
-            summary: `New Relationship${this.relationshipType
-              ? `: ${relationship.type}`
-              : ""}`,
-            ts,
-          },
-        );
-      }
-
-      await this.db.set("lastTimestamp", latestTimestamp);
-    },
-    async activate() {
-      // No webhook to create for polling source
-    },
-    async deactivate() {
-      // No webhook to delete for polling source
     },
   },
-  async run() {
-    const lastTimestamp = (await this.db.get("lastTimestamp")) || 0;
-    let cypher = "MATCH ()-[r]->() WHERE r.created > $lastTimestamp RETURN r ORDER BY r.created ASC";
-    const params = {
-      lastTimestamp: lastTimestamp,
-    };
-
-    if (this.relationshipType) {
-      cypher = `MATCH ()-[r:${this.relationshipType}]->() WHERE r.created > $lastTimestamp RETURN r ORDER BY r.created ASC`;
-    }
-
-    const relationships = await this.neo4jAuradb.executeCypherQuery({
-      executeCypherQuery: cypher,
-      ...params,
-    });
-
-    let latestTimestamp = lastTimestamp;
-
-    for (const record of relationships) {
-      const relationship = record.r;
-      const ts = relationship.created
-        ? new Date(relationship.created).getTime()
-        : Date.now();
-      latestTimestamp = Math.max(latestTimestamp, ts);
-
-      this.$emit(
-        relationship,
-        {
-          id: relationship.id
-            ? relationship.id.toString()
-            : ts.toString(),
-          summary: `New Relationship${this.relationshipType
-            ? `: ${relationship.type}`
-            : ""}`,
-          ts,
-        },
-      );
-    }
-
-    await this.db.set("lastTimestamp", latestTimestamp);
-  },
+  sampleEmit,
 };

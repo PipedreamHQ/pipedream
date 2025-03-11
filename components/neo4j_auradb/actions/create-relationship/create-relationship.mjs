@@ -1,52 +1,47 @@
-import neo4jAuradb from "../../neo4j_auradb.app.mjs";
-import { axios } from "@pipedream/platform";
+import { parseObject } from "../../common/utils.mjs";
+import app from "../../neo4j_auradb.app.mjs";
 
 export default {
   key: "neo4j_auradb-create-relationship",
   name: "Create Relationship",
-  description: "Creates a relationship between two existing nodes. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  description: "Creates a relationship between two existing nodes. [See the documentation](https://neo4j.com/docs/query-api/current/query/)",
+  version: "0.0.1",
   type: "action",
   props: {
-    neo4jAuradb: {
-      type: "app",
-      app: "neo4j_auradb",
+    app,
+    relationshipType: {
+      type: "string",
+      label: "Create Relationship Type",
+      description: "The name of the relationship to create.",
     },
-    createRelationshipType: {
-      propDefinition: [
-        "neo4j_auradb",
-        "createRelationshipType",
-      ],
+    startNode: {
+      type: "object",
+      label: "Start Node Identifier",
+      description: "An object containing any fields used to identify the start node.",
     },
-    createStartNode: {
-      propDefinition: [
-        "neo4j_auradb",
-        "createStartNode",
-      ],
+    endNode: {
+      type: "object",
+      label: "End Node Identifier",
+      description: "An object containing any fields used to identify the end node.",
     },
-    createEndNode: {
-      propDefinition: [
-        "neo4j_auradb",
-        "createEndNode",
-      ],
-    },
-    createRelationshipProperties: {
-      propDefinition: [
-        "neo4j_auradb",
-        "createRelationshipProperties",
-      ],
+    relationshipProperties: {
+      type: "object",
+      label: "Create Relationship Properties",
+      description: "An object representing the properties of the relationship to create.",
+      optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.neo4jAuradb.createRelationship({
-      createRelationshipType: this.createRelationshipType,
-      createStartNode: this.createStartNode,
-      createEndNode: this.createEndNode,
-      createRelationshipProperties: this.createRelationshipProperties,
+    const response = await this.app.createRelationship({
+      $,
+      relationshipType: this.relationshipType,
+      startNode: parseObject(this.startNode),
+      endNode: parseObject(this.endNode),
+      relationshipProperties: parseObject(this.relationshipProperties),
     });
     $.export(
       "$summary",
-      `Created relationship '${this.createRelationshipType}' between nodes '${this.createStartNode}' and '${this.createEndNode}'`,
+      `Created relationship '${this.relationshipType}' between nodes`,
     );
     return response;
   },

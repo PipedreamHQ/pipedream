@@ -1,24 +1,23 @@
-import neo4jAuradb from "../../neo4j_auradb.app.mjs";
-import { axios } from "@pipedream/platform";
+import app from "../../neo4j_auradb.app.mjs";
 
 export default {
   key: "neo4j_auradb-run-query",
   name: "Run Cypher Query",
-  description: "Executes a Cypher query against the Neo4j AuraDB instance. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  description: "Executes a Cypher query against the Neo4j AuraDB instance. [See the documentation](https://neo4j.com/docs/query-api/current/query/)",
+  version: "0.0.1",
   type: "action",
   props: {
-    neo4jAuradb,
-    executeCypherQuery: {
-      propDefinition: [
-        neo4jAuradb,
-        "executeCypherQuery",
-      ],
+    app,
+    cypherQuery: {
+      type: "string",
+      label: "Execute Cypher Query",
+      description: "A valid Cypher query to execute against the Neo4j AuraDB instance.",
     },
   },
   async run({ $ }) {
-    const response = await this.neo4jAuradb.executeCypherQuery({
-      executeCypherQuery: this.executeCypherQuery,
+    const response = await this.app.executeCypherQuery({
+      $,
+      cypherQuery: this.cypherQuery,
     });
     $.export("$summary", "Executed Cypher query successfully");
     return response;

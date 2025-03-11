@@ -1,36 +1,35 @@
-import neo4jAuradb from "../../neo4j_auradb.app.mjs";
-import { axios } from "@pipedream/platform";
+import { parseObject } from "../../common/utils.mjs";
+import app from "../../neo4j_auradb.app.mjs";
 
 export default {
   key: "neo4j_auradb-create-node",
   name: "Create Node",
-  description: "Creates a new node in the Neo4j AuraDB instance. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  description: "Creates a new node in the Neo4j AuraDB instance. [See the documentation](https://neo4j.com/docs/query-api/current/query/)",
+  version: "0.0.1",
   type: "action",
   props: {
-    neo4jAuradb,
-    createNodeLabel: {
-      propDefinition: [
-        neo4jAuradb,
-        "createNodeLabel",
-      ],
+    app,
+    nodeLabel: {
+      type: "string",
+      label: "Node Label",
+      description: "The label of the node to filter events for new node creation.",
     },
-    createNodeProperties: {
-      propDefinition: [
-        neo4jAuradb,
-        "createNodeProperties",
-      ],
+    nodeProperties: {
+      type: "object",
+      label: "Create Node Properties",
+      description: "Anobject representing the properties of the node to create.",
     },
   },
   async run({ $ }) {
-    const response = await this.neo4jAuradb.createNode({
-      createNodeLabel: this.createNodeLabel,
-      createNodeProperties: this.createNodeProperties,
+    const response = await this.app.createNode({
+      $,
+      label: this.nodeLabel,
+      properties: parseObject(this.nodeProperties),
     });
 
-    const node = response.results?.[0]?.data?.[0]?.row?.[0];
-    $.export("$summary", node
-      ? `Created node with id ${node.id}`
+    const elementId = response.data?.values?.[0]?.[0]?.elementId;
+    $.export("$summary", elementId
+      ? `Created node with id ${elementId}`
       : "Node created successfully");
     return response;
   },
