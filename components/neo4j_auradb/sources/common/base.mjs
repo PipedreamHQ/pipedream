@@ -3,12 +3,6 @@ import { ORDER_TYPE_OPTIONS } from "../../common/constants.mjs";
 import app from "../../neo4j_auradb.app.mjs";
 
 export default {
-  key: "neo4j_auradb-new-node",
-  name: "New Node Created",
-  description: "Emit new event when a new node is created in the Neo4j AuraDB instance.",
-  version: "0.0.1",
-  type: "source",
-  dedupe: "unique",
   props: {
     app,
     db: "$.service.db",
