@@ -96,8 +96,8 @@ export default {
       throw new ConfigurationError("Required field missing: Fill in `Product Variant ID` or `Title`");
     }
 
+    let response;
     try {
-      let response;
       if (this.productVariantId) {
         response = await this.shopify.getProductVariant({
           id: this.productVariantId,
@@ -122,15 +122,15 @@ export default {
       if (title && id) {
         $.export("$summary", `Found product variant \`${title}\` with ID \`${id}\``);
       } else {
-        $.export("$summary", "No product variant found");
+        throw new Error("No product variant found");
       }
-      return response;
     } catch (err) {
       if (!this.createIfNotFound) {
-        throw err;
+        $.export("$summary", "No product variant found");
+        return;
       }
 
-      let response = await this.shopify.createProductVariants({
+      response = await this.shopify.createProductVariants({
         productId: this.productId,
         variants: [
           {
@@ -144,7 +144,7 @@ export default {
         throw new Error(response.productVariantsBulkCreate.userErrors[0].message);
       }
       $.export("$summary", `Created new product variant \`${response.productVariantsBulkCreate.productVariants.title}\` with ID \`${response.productVariantsBulkCreate.productVariants.id}\``);
-      return response;
     }
+    return response;
   },
 };

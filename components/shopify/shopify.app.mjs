@@ -117,7 +117,7 @@ export default {
           resourceKeys: [
             "metaobjectDefinitions",
           ],
-          labelKey: "name",
+          labelKey: "type",
           prevContext,
         });
       },
