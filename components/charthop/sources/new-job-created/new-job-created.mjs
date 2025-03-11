@@ -11,7 +11,7 @@ export default {
   methods: {
     ...common.methods,
     getResourceFn() {
-      return this.charthop.listGroups;
+      return this.charthop.listJobs;
     },
     getSummary(item) {
       return `New Job: ${item.id}`;

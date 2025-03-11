@@ -23,7 +23,7 @@ export default {
   methods: {
     ...common.methods,
     getResourceFn() {
-      return this.charthop.listJobs;
+      return this.charthop.listGroups;
     },
     getArgs() {
       return {
