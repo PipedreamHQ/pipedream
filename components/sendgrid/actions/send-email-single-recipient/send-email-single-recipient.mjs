@@ -97,12 +97,6 @@ export default {
       ],
       optional: true,
     },
-    attachments: {
-      propDefinition: [
-        common.props.sendgrid,
-        "attachments",
-      ],
-    },
     headers: {
       propDefinition: [
         common.props.sendgrid,
@@ -163,6 +157,33 @@ export default {
         "trackingSettings",
       ],
     },
+    numberOfAttachments: {
+      propDefinition: [
+        common.props.sendgrid,
+        "numberOfAttachments",
+      ],
+      optional: true,
+    },
+  },
+  async additionalProps() {
+    const props = {};
+    if (this.numberOfAttachments) {
+      for (let i = 1; i <= this.numberOfAttachments; i++) {
+        props[`attachmentsName${i}`] = {
+          type: "string",
+          label: `Attachment File Name ${i}`,
+          description: "The name of the file.",
+          optional: true,
+        };
+        props[`attachmentsPath${i}`] = {
+          type: "string",
+          label: `Attachment File Path ${i}`,
+          description: "The path to your file in /tmp dir. [See the documentation](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp) for how to work with tmp dir.",
+          optional: true,
+        };
+      }
+    }
+    return props;
   },
   async run({ $ }) {
     //Performs validation on parameters.
@@ -203,26 +224,19 @@ export default {
         },
       };
     }
-    let attachments = this.convertEmptyStringToUndefined(this.attachments);
-    if (this.attachments) {
-      constraints.attachments = {
-        arrayValidator: {
-          value: this.attachments,
-          key: "attachments",
-        },
-      };
-      attachments = this.getArrayObject(this.attachments);
-      attachments.map((attachment) => {
-        if (attachment.filepath) {
-          const filepath = this.checkTmp(attachment.filepath);
-          attachment.content = fs.readFileSync(filepath, {
-            encoding: "base64",
-          });
-        }
-        delete attachment.filepath;
-        return attachment;
+    const attachments = [];
+    for (let i = 1; i <= this.numberOfAttachments; i++) {
+      const filepath = this.checkTmp(this["attachmentsPath" + i]);
+      const content = fs.readFileSync(filepath, {
+        encoding: "base64",
+      });
+      attachments.push({
+        content,
+        type: "text/plain",
+        filename: this[`attachmentsName${i}`],
       });
     }
+
     if (this.categories) {
       constraints.categories = {
         type: "array",
