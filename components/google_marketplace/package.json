@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/google_marketplace",
+  "version": "0.0.1",
+  "description": "Pipedream Google Marketplace Components",
+  "main": "google_marketplace.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_marketplace"
+  ],
+  "homepage": "https://pipedream.com/apps/google_marketplace",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
