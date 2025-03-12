@@ -2,9 +2,9 @@ import common from "../common/base-get-by-slug.mjs";
 
 export default {
   ...common,
-  key: "klipy-get-gifs-by-slug",
-  name: "Get GIFs by Slug",
-  description: "Identify user-viewed content and recommend tailored content to the same user. [See the documentation](https://docs.klipy.com/gifs-api/gifs-search-api)",
+  key: "klipy-get-clip-by-slug",
+  name: "Get Clip by Slug",
+  description: "Get a specific Clip idendified by its slug. [See the documentation](https://docs.klipy.com/clips-api/clips-search-api)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -14,12 +14,11 @@ export default {
         common.props.klipy,
         "slug",
       ],
-      description: "The slug of the GIF.",
     },
   },
   methods: {
     getModel() {
-      return "gifs";
+      return "clips";
     },
   },
 };
