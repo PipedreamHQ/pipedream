@@ -764,6 +764,13 @@ export default {
         ...args,
       });
     },
+    responses(args = {}) {
+      return this._makeRequest({
+        path: "/responses",
+        method: "POST",
+        ...args,
+      });
+    },
     async *paginate({
       resourceFn,
       args = {},
