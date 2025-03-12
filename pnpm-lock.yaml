@@ -2343,6 +2343,9 @@ importers:
 
   components/claris_filemaker_server_odata_api: {}
 
+  components/classmarker:
+    specifiers: {}
+
   components/clear_books:
     dependencies:
       '@pipedream/platform':
