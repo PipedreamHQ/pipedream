@@ -5,7 +5,7 @@ import constants from "../../common/constants.mjs";
 export default {
   ...common,
   name: "Chat using File Search",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "openai-chat-using-file-search",
   description: "Chat with your files knowledge base (vector stores). [See the documentation](https://platform.openai.com/docs/guides/tools-file-search)",
   type: "action",
@@ -32,7 +32,7 @@ export default {
     input: {
       type: "string",
       label: "Chat Input",
-      description: "Text, image, or file inputs to the model, used to generate a response",
+      description: "Text inputs to the model used to generate a response",
     },
     instructions: {
       type: "string",

@@ -5,7 +5,7 @@ import constants from "../../common/constants.mjs";
 export default {
   ...common,
   name: "Chat using Functions",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "openai-chat-using-functions",
   description: "Chat with your models and allow them to invoke functions. Optionally, you can build and invoke workflows as functions. [See the documentation](https://platform.openai.com/docs/guides/function-calling)",
   type: "action",
@@ -25,7 +25,7 @@ export default {
     input: {
       type: "string",
       label: "Chat Input",
-      description: "Text, image, or file inputs to the model, used to generate a response",
+      description: "Text inputs to the model used to generate a response",
     },
     functions: {
       type: "string",

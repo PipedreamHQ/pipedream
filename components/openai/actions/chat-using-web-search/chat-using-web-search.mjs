@@ -5,7 +5,7 @@ import constants from "../../common/constants.mjs";
 export default {
   ...common,
   name: "Chat using Web Search",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "openai-chat-using-web-search",
   description: "Chat using the web search tool. [See the documentation](https://platform.openai.com/docs/guides/tools-web-search)",
   type: "action",
@@ -24,7 +24,7 @@ export default {
     input: {
       type: "string",
       label: "Chat Input",
-      description: "Text, image, or file inputs to the model, used to generate a response",
+      description: "Text inputs to the model used to generate a response",
     },
     instructions: {
       type: "string",
