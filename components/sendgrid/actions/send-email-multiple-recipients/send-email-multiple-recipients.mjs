@@ -1,4 +1,6 @@
+import { ConfigurationError } from "@pipedream/platform";
 import fs from "fs";
+import mime from "mime";
 import validate from "validate.js";
 import common from "../common/common.mjs";
 
@@ -163,17 +165,22 @@ export default {
     return props;
   },
   async run({ $ }) {
+    if (!this.personalizations && !this.toEmails) {
+      throw new ConfigurationError("Please input either Personalization or Recipient Emails.");
+    }
     const personalizations = this.personalizations || [];
     if (personalizations.length == 0) {
-      for (const toEmail of this.toEmails) {
-        const personalization = {
-          to: [
-            {
-              email: toEmail,
-            },
-          ],
-        };
-        personalizations.push(personalization);
+      if (this.convertEmptyStringToUndefined(this.toEmails)) {
+        for (const toEmail of this.toEmails) {
+          const personalization = {
+            to: [
+              {
+                email: toEmail,
+              },
+            ],
+          };
+          personalizations.push(personalization);
+        }
       }
     }
     if (this.dynamicTemplateData) {
@@ -205,9 +212,10 @@ export default {
       const content = fs.readFileSync(filepath, {
         encoding: "base64",
       });
+      const type = mime.getType(filepath);
       attachments.push({
         content,
-        type: "text/plain",
+        type,
         filename: this[`attachmentsName${i}`],
       });
     }
@@ -217,7 +225,7 @@ export default {
         type: "array",
       };
     }
-    this.sendAt = this.convertEmptyStringToUndefined(this.sendAt);
+    this.sendAt = this.convertEmptyStringToUndefined(Date.parse(this.sendAt));
     if (this.sendAt != null) {
       constraints.sendAt = this.getIntegerGtZeroConstraint();
     }

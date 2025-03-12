@@ -1,4 +1,5 @@
 import fs from "fs";
+import mime from "mime";
 import validate from "validate.js";
 import common from "../common/common.mjs";
 
@@ -7,7 +8,7 @@ export default {
   key: "sendgrid-send-email-single-recipient",
   name: "Send Email Single Recipient",
   description: "This action sends a personalized e-mail to the specified recipient. [See the docs here](https://docs.sendgrid.com/api-reference/mail-send/mail-send)",
-  version: "0.0.8",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
@@ -230,9 +231,10 @@ export default {
       const content = fs.readFileSync(filepath, {
         encoding: "base64",
       });
+      const type = mime.getType(filepath);
       attachments.push({
         content,
-        type: "text/plain",
+        type,
         filename: this[`attachmentsName${i}`],
       });
     }
@@ -247,7 +249,7 @@ export default {
         email: true,
       };
     }
-    this.sendAt = this.convertEmptyStringToUndefined(this.sendAt);
+    this.sendAt = this.convertEmptyStringToUndefined(Date.parse(this.sendAt));
     if (this.sendAt != null) {
       constraints.sendAt = this.getIntegerGtZeroConstraint();
     }
