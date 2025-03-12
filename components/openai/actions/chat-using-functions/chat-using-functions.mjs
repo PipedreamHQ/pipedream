@@ -73,11 +73,7 @@ export default {
     toolChoice: {
       type: "string",
       label: "Tool Choice",
-      // TODO: fix markdown display
-      description: `Determines how the model will use tools:
-      - **auto**: The model decides whether and how many tools to call.
-      - **required**: The model must call one or more tools.
-      - **function_name**: Write the function name as a custom expression to force the model call this function.`,
+      description: "- **auto**: The model decides whether and how many functions to call.\n- **required**: The model must call one or more functions.\n- **function_name**: Enter a custom expression to force the model to call this specific function.",
       optional: true,
       default: "auto",
       options: [
