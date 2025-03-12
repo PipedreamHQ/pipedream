@@ -247,6 +247,7 @@ export default {
 
     if (response) {
       $.export("$summary", `Successfully sent chat with id ${response.id}`);
+      $.export("chat_responses", response.output);
     }
 
     return response;
