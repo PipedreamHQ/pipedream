@@ -225,12 +225,12 @@ export default {
     for (var i = 1; i <= this.educationInfoNumber; i++) {
       educationInfo.push({
         school: this[`educationInfo${i}School`],
-        university: this[`educationInfo${i}University`],
+        parsed_university: this[`educationInfo${i}University`],
         start_date: this[`educationInfo${i}StartDate`],
         end_date: this[`educationInfo${i}EndDate`],
         field_of_study: this[`educationInfo${i}FieldOfSchool`],
-        major1: this[`educationInfo${i}Major1`],
-        major2: this[`educationInfo${i}Major2`],
+        parsed_major_1: this[`educationInfo${i}Major1`],
+        parsed_major_2: this[`educationInfo${i}Major2`],
         degree: this[`educationInfo${i}Degree`],
       });
     }
