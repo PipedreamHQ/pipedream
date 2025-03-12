@@ -85,6 +85,13 @@ export default {
       optional: true,
       reloadProps: true,
     },
+    skipThisStep: {
+      type: "boolean",
+      label: "Skip This Step",
+      description: "Pass in a boolean custom expression to skip this step's execution at runtime",
+      optional: true,
+      default: false,
+    },
   },
   additionalProps() {
     const {
@@ -139,6 +146,11 @@ export default {
     ...common.methods,
   },
   async run({ $ }) {
+    if (this.skipThisStep) {
+      $.export("$summary", "Step execution skipped");
+      return;
+    }
+
     const data = {
       model: this.modelId,
       input: this.input,
