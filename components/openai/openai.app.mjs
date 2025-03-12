@@ -338,6 +338,9 @@ export default {
         maxBodyLength: Infinity,
       });
     },
+    isReasoningModel(model) {
+      return model.match(/^o[1-9]/gi)?.length;
+    },
     async models({ $ }) {
       const { data: models } = await this._makeRequest({
         $,
