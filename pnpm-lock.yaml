@@ -12592,6 +12592,9 @@ importers:
 
   components/test_apps_for_checking_something_001: {}
 
+  components/test_apps_for_switching_appslug_009:
+    specifiers: {}
+
   components/testmo:
     dependencies:
       '@pipedream/platform':
