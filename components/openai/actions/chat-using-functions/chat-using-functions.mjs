@@ -189,7 +189,11 @@ export default {
 
     let functions = this.functions;
     if (typeof functions === "string") {
-      functions = JSON.parse(functions);
+      try {
+        functions = JSON.parse(functions);
+      } catch (error) {
+        throw new Error("Invalid JSON format in the provided Functions Schema");
+      }
     }
 
     if (Array.isArray(functions)) {
@@ -224,12 +228,16 @@ export default {
     }
 
     if (this.responseFormat === constants.CHAT_RESPONSE_FORMAT.JSON_SCHEMA.value) {
-      data.text = {
-        format: {
-          type: this.responseFormat,
-          ...JSON.parse(this.jsonSchema),
-        },
-      };
+      try {
+        data.text = {
+          format: {
+            type: this.responseFormat,
+            ...JSON.parse(this.jsonSchema),
+          },
+        };
+      } catch (error) {
+        throw new Error("Invalid JSON format in the provided JSON Schema");
+      }
     }
 
     const response = await this.openai.responses({

@@ -173,12 +173,16 @@ export default {
     };
 
     if (this.responseFormat === constants.CHAT_RESPONSE_FORMAT.JSON_SCHEMA.value) {
-      data.text = {
-        format: {
-          type: this.responseFormat,
-          ...JSON.parse(this.jsonSchema),
-        },
-      };
+      try {
+        data.text = {
+          format: {
+            type: this.responseFormat,
+            ...JSON.parse(this.jsonSchema),
+          },
+        };
+      } catch (error) {
+        throw new Error("Invalid JSON format in the provided JSON Schema");
+      }
     }
 
     const response = await this.openai.responses({
