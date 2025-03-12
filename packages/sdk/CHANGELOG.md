@@ -2,6 +2,12 @@
 
 # Changelog
 
+## [1.3.4] - 2025-03-12
+
+### Changed
+
+- Added `description` and `component_type` to `V1Component`
+
 ## [1.3.3] - 2025-02-5
 
 ### Changed
