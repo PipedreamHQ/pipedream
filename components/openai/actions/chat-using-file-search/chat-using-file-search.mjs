@@ -145,7 +145,7 @@ export default {
       props.jsonSchema = {
         type: "string",
         label: "JSON Schema",
-        description: "Define the schema that the model's output must adhere to. [See the documentation here](https://platform.openai.com/docs/guides/structured-outputs/supported-schemas).",
+        description: "Define the schema that the model's output must adhere to. [Generate one here](https://platform.openai.com/docs/guides/structured-outputs/supported-schemas).",
       };
     }
 
@@ -198,6 +198,15 @@ export default {
       data.reasoning = {
         ...data.reasoning,
         generate_summary: this.generateSummary,
+      };
+    }
+
+    if (this.responseFormat === constants.CHAT_RESPONSE_FORMAT.JSON_SCHEMA.value) {
+      data.text = {
+        format: {
+          type: this.responseFormat,
+          ...JSON.parse(this.jsonSchema),
+        },
       };
     }
 
