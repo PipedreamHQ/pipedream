@@ -17,7 +17,7 @@ export default {
     nodeProperties: {
       type: "object",
       label: "Create Node Properties",
-      description: "Anobject representing the properties of the node to create.",
+      description: "An object representing the properties of the node to create.",
     },
   },
   async run({ $ }) {
