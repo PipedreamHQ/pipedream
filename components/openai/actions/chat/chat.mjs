@@ -12,6 +12,11 @@ export default {
   type: "action",
   props: {
     openai,
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: "Looking to chat with your tools? Check out our individual actions: [Chat using Web Search](https://pipedream.com/apps/openai/actions/chat-using-web-search), [Chat using File Search](https://pipedream.com/apps/openai/actions/chat-using-file-search), and [Chat using Functions](https://pipedream.com/apps/openai/actions/chat-using-functions).",
+    },
     modelId: {
       propDefinition: [
         openai,
