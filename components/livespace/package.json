@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/livespace",
+  "version": "0.0.1",
+  "description": "Pipedream Livespace Components",
+  "main": "livespace.app.mjs",
+  "keywords": [
+    "pipedream",
+    "livespace"
+  ],
+  "homepage": "https://pipedream.com/apps/livespace",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
