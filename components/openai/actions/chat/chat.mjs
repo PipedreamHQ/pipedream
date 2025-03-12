@@ -6,12 +6,17 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   ...common,
   name: "Chat",
-  version: "0.2.5",
+  version: "0.2.6",
   key: "openai-chat",
   description: "The Chat API, using the `gpt-3.5-turbo` or `gpt-4` model. [See the documentation](https://platform.openai.com/docs/api-reference/chat)",
   type: "action",
   props: {
     openai,
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: "Looking to chat with your tools? Check out our individual actions: [Chat using Web Search](https://pipedream.com/apps/openai/actions/chat-using-web-search), [Chat using File Search](https://pipedream.com/apps/openai/actions/chat-using-file-search), and [Chat using Functions](https://pipedream.com/apps/openai/actions/chat-using-functions).",
+    },
     modelId: {
       propDefinition: [
         openai,
