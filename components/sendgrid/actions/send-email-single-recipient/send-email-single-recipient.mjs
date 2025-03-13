@@ -250,7 +250,7 @@ export default {
       };
     }
     this.sendAt = this.convertEmptyStringToUndefined(Date.parse(this.sendAt));
-    if (this.sendAt != null) {
+    if (this.sendAt) {
       constraints.sendAt = this.getIntegerGtZeroConstraint();
     }
     //Executes validation

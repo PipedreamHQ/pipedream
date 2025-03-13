@@ -93,6 +93,9 @@ export default {
      * @param {object} value the value to check for returning `undefined`.
      */
     convertEmptyStringToUndefined(value) {
+      if (Array.isArray(value) && value.length === 0) {
+        return undefined;
+      }
       if (value === "" || value === null) {
         return undefined;
       }
