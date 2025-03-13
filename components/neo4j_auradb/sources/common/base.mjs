@@ -16,14 +16,12 @@ export default {
       type: "string",
       label: "Order By",
       description: "The property to order the nodes by including the variable. **Format: {VAR}.{FIELD}**. **Example: p.createdAt**",
-      optional: true,
     },
     orderType: {
       type: "string",
       label: "Order Type",
       description: "The type of the order field.",
       options: ORDER_TYPE_OPTIONS,
-      optional: true,
     },
   },
   methods: {
@@ -95,7 +93,7 @@ export default {
         }
 
         const field = this.orderBy.split(".")[1];
-        const lastData = responseArray[0]?.properties?.[this.orderBy]
+        const lastData = responseArray[0]?.properties?.[field]
          || responseArray[0][1].properties[field];
 
         this._setLastData(lastData);

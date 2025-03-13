@@ -20,7 +20,8 @@ export default {
   methods: {
     ...common.methods,
     getBaseQuery(whereClause) {
-      return `MATCH (n:${this.nodeLabel}) ${whereClause} RETURN n `;
+      const variable = this.orderBy.split(".")[0];
+      return `MATCH (${variable}:${this.nodeLabel}) ${whereClause} RETURN ${variable} `;
     },
     emit(item) {
       const ts = (this.orderType === "dateTime")

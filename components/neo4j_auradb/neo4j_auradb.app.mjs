@@ -87,7 +87,7 @@ export default {
       let cypherQuery = "";
 
       do {
-        cypherQuery = `${query} Skip ${LIMIT * page} LIMIT ${LIMIT}`;
+        cypherQuery = `${query} SKIP ${LIMIT * page} LIMIT ${LIMIT}`;
         page++;
 
         const { data: { values } } = await this.executeCypherQuery({

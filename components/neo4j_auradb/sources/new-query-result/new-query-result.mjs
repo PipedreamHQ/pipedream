@@ -14,7 +14,7 @@ export default {
     query: {
       type: "string",
       label: "Cypher Query",
-      description: "The Cypher query to monitor for new results.",
+      description: "The Cypher query to monitor for new results. **Example: MATCH (n:Node) RETURN n**",
     },
   },
   methods: {

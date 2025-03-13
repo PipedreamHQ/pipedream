@@ -20,7 +20,8 @@ export default {
   methods: {
     ...common.methods,
     getBaseQuery(whereClause) {
-      return `MATCH p=()-[r:${this.relationshipLabel}]->() ${whereClause} RETURN p `;
+      const variable = this.orderBy.split(".")[0];
+      return `MATCH _=()-[${variable}:${this.relationshipLabel}]->() ${whereClause} RETURN ${variable} `;
     },
     emit(item) {
       const ts = (this.orderType === "dateTime")
@@ -28,7 +29,7 @@ export default {
         : new Date();
 
       this.$emit(item, {
-        id: item[1].elementId,
+        id: item.elementId,
         summary: `New Relationship created with label ${this.relationshipLabel}`,
         ts,
       });
