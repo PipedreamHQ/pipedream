@@ -4,7 +4,7 @@ export default {
   key: "data_stores-get-record-or-create",
   name: "Get record (or create one if not found)",
   description: "Get a single record in your [Pipedream Data Store](https://pipedream.com/data-stores/) or create one if it doesn't exist.",
-  version: "0.0.12",
+  version: "0.0.13",
   type: "action",
   props: {
     app,
@@ -68,15 +68,15 @@ export default {
         summary = `Successfully added a new record with the key, \`${this.key}\`.`;
       }
 
+      response = parsedValue;
+
       // Include TTL information in the return value if it was set
       if (this.ttl) {
-        return {
+        response = {
           value: parsedValue,
           ttl: this.ttl,
         };
       }
-
-      response = parsedValue;
     }
 
     $.export("$summary", summary);
