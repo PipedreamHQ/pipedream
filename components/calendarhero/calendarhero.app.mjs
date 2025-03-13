@@ -29,5 +29,20 @@ export default {
         ...args,
       });
     },
+    createWebhook({
+      event, ...args
+    }) {
+      return this._makeRequest({
+        method: "post",
+        url: `webhook/${event}`,
+        ...args,
+      });
+    },
+    deleteWebhook(event) {
+      return this._makeRequest({
+        method: "delete",
+        url: `webhook/${event}`,
+      });
+    },
   },
 };
