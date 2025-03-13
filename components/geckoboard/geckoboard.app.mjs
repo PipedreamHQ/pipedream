@@ -7,7 +7,7 @@ export default {
     fields: {
       type: "string",
       label: "Fields",
-      description: "JSON containing the fields of the dataset, i.e.: `{ \"amount\": { \"type\": \"number\", \"name\": \"Amount\", \"optional\": false }, \"timestamp\": { \"type\": \"datetime\", \"name\": \"Date\" } }`",
+      description: "JSON containing the fields of the dataset, i.e.: `{ \"amount\": { \"type\": \"number\", \"name\": \"Amount\", \"optional\": false }, \"timestamp\": { \"type\": \"datetime\", \"name\": \"Date\" } }. See [documentation](https://developer.geckoboard.com/#plan-your-schema)`",
     },
     id: {
       type: "string",
