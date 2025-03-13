@@ -10769,6 +10769,9 @@ importers:
 
   components/runpod: {}
 
+  components/runsignup:
+    specifiers: {}
+
   components/runware:
     dependencies:
       '@pipedream/platform':
