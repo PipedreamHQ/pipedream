@@ -173,8 +173,12 @@ export default {
     labelNames: {
       type: "string[]",
       label: "Label Names",
-      description: "A list of names to tag this newly created contact. If the name does not exist, Apollo will automatically create it",
+      description: "A list of names to tag this contact. You can select the labels from the list or create new ones using a custom expression, i.e., `[\"label1\", \"label2\"]`",
       optional: true,
+      async options() {
+        const response = await this.listLabels();
+        return response.map(({ name }) => name) || [];
+      },
     },
     address: {
       type: "string",
@@ -381,6 +385,12 @@ export default {
     searchContacts(args = {}) {
       return this.makeRequest({
         path: "/contacts/search",
+        ...args,
+      });
+    },
+    listLabels(args = {}) {
+      return this.makeRequest({
+        path: "/labels",
         ...args,
       });
     },
