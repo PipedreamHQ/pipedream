@@ -12,8 +12,14 @@ export default {
         baseURL: "https://api.calendarhero.com",
         headers: {
           ...headers,
-          Authorization: `${this.calendarhero.api_key}`,
+          Authorization: `${this.$auth.api_key}`,
         },
+        ...args,
+      });
+    },
+    listMeetings(args) {
+      return this._makeRequest({
+        url: "/meeting",
         ...args,
       });
     },
