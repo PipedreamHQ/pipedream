@@ -5,7 +5,7 @@ import constants from "../../common/constants.mjs";
 export default {
   ...common,
   name: "Chat using File Search",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "openai-chat-using-file-search",
   description: "Chat with your files knowledge base (vector stores). [See the documentation](https://platform.openai.com/docs/guides/tools-file-search)",
   type: "action",
@@ -80,7 +80,7 @@ export default {
     responseFormat: {
       type: "string",
       label: "Response Format",
-      description: "Specify the format that the model must output. \n- **Text**: Returns unstructured text output.\n- **JSON Schema**: Enables you to define a [specific structure for the model's output using a JSON schema](https://platform.openai.com/docs/guides/structured-outputs?api-mode=responses).",
+      description: "- **Text**: Returns unstructured text output.\n- **JSON Schema**: Enables you to define a [specific structure for the model's output using a JSON schema](https://platform.openai.com/docs/guides/structured-outputs?api-mode=responses).",
       options: [
         "text",
         "json_schema",
