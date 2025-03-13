@@ -23,5 +23,11 @@ export default {
         ...args,
       });
     },
+    listMeetingTypes(args) {
+      return this._makeRequest({
+        url: "/user/meeting",
+        ...args,
+      });
+    },
   },
 };
