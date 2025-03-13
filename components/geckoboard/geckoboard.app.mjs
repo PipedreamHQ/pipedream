@@ -6,7 +6,7 @@ export default {
   propDefinitions: {
     fields: {
       type: "string",
-      label: "fields",
+      label: "Fields",
       description: "JSON containing the fields of the dataset, i.e.: `{ \"amount\": { \"type\": \"number\", \"name\": \"Amount\", \"optional\": false }, \"timestamp\": { \"type\": \"datetime\", \"name\": \"Date\" } }`",
     },
     id: {
