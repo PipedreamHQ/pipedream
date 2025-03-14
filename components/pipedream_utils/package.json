@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/pipedream_utils",
+  "version": "0.0.1",
+  "description": "Pipedream Utils Components",
+  "main": "pipedream_utils.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pipedream_utils"
+  ],
+  "homepage": "https://pipedream.com/apps/pipedream_utils",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
