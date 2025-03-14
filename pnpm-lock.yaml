@@ -1930,7 +1930,11 @@ importers:
         specifier: ^1.3.3
         version: 1.3.3
 
-  components/calendarhero: {}
+  components/calendarhero:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/calendly_v2:
     dependencies:
