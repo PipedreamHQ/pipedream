@@ -3618,7 +3618,11 @@ importers:
 
   components/dokan: {}
 
-  components/domain_group: {}
+  components/domain_group:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/domo: {}
 
