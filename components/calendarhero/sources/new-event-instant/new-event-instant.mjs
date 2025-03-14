@@ -7,7 +7,7 @@ export default {
   description:
     "Emit new event when a selected type of CalendarHero event occurs. [See the documentation](https://api.calendarhero.com/documentation#/webhook/postWebhookEvent)",
   type: "source",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   dedupe: "unique",
   props: {
     app,
@@ -47,14 +47,15 @@ export default {
       });
     },
   },
-  async run(event) {
-    const { body } = event;
+  async run({ body }) {
     const ts = Date.now();
+    const id = body.id ?? ts;
     this.$emit(body, {
-      id: ts,
-      summary: "New event",
+      id,
+      summary: `New event${id
+        ? ` (ID ${id})`
+        : ""}`,
       ts,
     });
   },
-  // sampleEmit,
 };
