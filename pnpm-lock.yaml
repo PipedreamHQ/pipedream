@@ -4225,6 +4225,9 @@ importers:
 
   components/extensiv_integration_manager: {}
 
+  components/extracta_ai:
+    specifiers: {}
+
   components/eyepop_ai: {}
 
   components/ez_texting: {}
