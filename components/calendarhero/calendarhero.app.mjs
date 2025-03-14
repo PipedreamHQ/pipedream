@@ -38,10 +38,13 @@ export default {
         ...args,
       });
     },
-    deleteWebhook(event) {
+    deleteWebhook({
+      event, ...args
+    }) {
       return this._makeRequest({
         method: "delete",
         url: `webhook/${event}`,
+        ...args,
       });
     },
   },
