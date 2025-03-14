@@ -11492,8 +11492,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
       '@pipedream/shopify':
-        specifier: ^0.6.8
-        version: 0.6.8
+        specifier: ^0.7.0
+        version: 0.7.0
       shopify-api-node:
         specifier: ^3.14.2
         version: 3.14.2
@@ -17707,8 +17707,8 @@ packages:
   '@pipedream/sftp@0.4.1':
     resolution: {integrity: sha512-K+tYweZBO4cAZDXqCsciPeDEG6tJsuCS0+kP+JlWfwjKHH/Z75G/P5NXFO3tGCwmSrhwyB/Ew1Zi89oUsQq8mQ==}
 
-  '@pipedream/shopify@0.6.8':
-    resolution: {integrity: sha512-SKdygl45yUUAMkRpVhIuiAR2EwqKv8rjQWXpu92j6i815K7K7k7iib+EiZ8KIqfQrogck1LcHpF+9wQcCQHRzw==}
+  '@pipedream/shopify@0.7.0':
+    resolution: {integrity: sha512-bZoTDxcwBIepWhT8LVXzOxAO3S9NM8U1NEfS5106aDHFizr6L7lg/78+GaPdishK12oce0B/fCFY0ssd5AQxWA==}
 
   '@pipedream/snowflake-sdk@1.0.8':
     resolution: {integrity: sha512-/nLCQNjlSCz71MUnOUZqWmnjZTbEX7mie91mstPspb8uDG/GvaDk/RynLGhhYfgEP5d1KWj+OPaI71hmPSxReg==}
@@ -31161,7 +31161,7 @@ snapshots:
       '@babel/helper-validator-option': 8.0.0-alpha.13
       browserslist: 4.24.2
       lru-cache: 7.18.3
-      semver: 7.6.3
+      semver: 7.7.1
 
   '@babel/helper-create-class-features-plugin@7.25.9(@babel/core@7.26.0)':
     dependencies:
@@ -33920,11 +33920,12 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@pipedream/shopify@0.6.8':
+  '@pipedream/shopify@0.7.0':
     dependencies:
       '@pipedream/platform': 3.0.3
       async-retry: 1.3.3
       bottleneck: 2.19.5
+      form-data: 4.0.2
       lodash.get: 4.4.2
       lodash.topath: 4.5.2
       shopify-api-node: 3.14.2
@@ -37087,7 +37088,7 @@ snapshots:
   axios@1.8.2:
     dependencies:
       follow-redirects: 1.15.9(debug@3.2.7)
-      form-data: 4.0.1
+      form-data: 4.0.2
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
@@ -41194,7 +41195,7 @@ snapshots:
 
   is-bun-module@1.2.1:
     dependencies:
-      semver: 7.6.3
+      semver: 7.7.1
 
   is-callable@1.2.7: {}
 
