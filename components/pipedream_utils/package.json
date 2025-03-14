@@ -23,6 +23,7 @@
     "streamifier": "^0.1.1",
     "sugar": "^2.0.6",
     "title-case": "^3.0.3",
+    "turndown": "^7.2.0",
     "xml-js": "^1.6.11"
   }
 }
