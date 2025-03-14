@@ -4225,8 +4225,7 @@ importers:
 
   components/extensiv_integration_manager: {}
 
-  components/extracta_ai:
-    specifiers: {}
+  components/extracta_ai: {}
 
   components/eyepop_ai: {}
 
@@ -6880,8 +6879,7 @@ importers:
 
   components/kucoin_futures: {}
 
-  components/kustomer:
-    specifiers: {}
+  components/kustomer: {}
 
   components/kvdb:
     dependencies:
@@ -8303,7 +8301,11 @@ importers:
 
   components/neetokb: {}
 
-  components/neo4j_auradb: {}
+  components/neo4j_auradb:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/neon_api_keys:
     dependencies:
@@ -8573,8 +8575,7 @@ importers:
 
   components/nusii_proposals: {}
 
-  components/nutrient_document_web_services_api:
-    specifiers: {}
+  components/nutrient_document_web_services_api: {}
 
   components/nutshell:
     dependencies:
@@ -9455,6 +9456,8 @@ importers:
         version: 6.2.13
 
   components/pipedream_connect: {}
+
+  components/pipedream_utils: {}
 
   components/pipedrive:
     dependencies:
@@ -10787,8 +10790,7 @@ importers:
 
   components/runpod: {}
 
-  components/runsignup:
-    specifiers: {}
+  components/runsignup: {}
 
   components/runware:
     dependencies:
@@ -31086,7 +31088,7 @@ snapshots:
       '@babel/helper-validator-option': 8.0.0-alpha.13
       browserslist: 4.24.2
       lru-cache: 7.18.3
-      semver: 7.6.3
+      semver: 7.7.1
 
   '@babel/helper-create-class-features-plugin@7.25.9(@babel/core@7.26.0)':
     dependencies:
@@ -41113,7 +41115,7 @@ snapshots:
 
   is-bun-module@1.2.1:
     dependencies:
-      semver: 7.6.3
+      semver: 7.7.1
 
   is-callable@1.2.7: {}
 
