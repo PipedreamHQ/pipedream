@@ -4,7 +4,7 @@ const MAX_REPLACES = 10000;
 export default {
   name: "Formatting - [Text] Replace Text",
   description: "Replace all instances of any character, word or phrase in the text with another character, word or phrase.",
-  key: "formatting-replace-text",
+  key: "pipedream_utils-replace-text",
   version: "0.0.5",
   type: "action",
   props: {

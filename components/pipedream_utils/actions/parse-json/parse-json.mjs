@@ -2,7 +2,7 @@ import pipedream_utils from "../../pipedream_utils.app.mjs";
 export default {
   name: "Formatting - [Data] Parse JSON",
   description: "Parse a JSON string",
-  key: "formatting-parse-json",
+  key: "pipedream_utils-parse-json",
   version: "0.0.5",
   type: "action",
   props: {

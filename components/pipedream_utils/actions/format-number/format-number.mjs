@@ -7,7 +7,7 @@ import pipedream_utils from "../../pipedream_utils.app.mjs";
 export default {
   name: "Formatting - [Numbers] Format Number",
   description: "Format a number to a new style. Does not perform any rounding or padding of the number.",
-  key: "formatting-format-number",
+  key: "pipedream_utils-format-number",
   version: "0.0.5",
   type: "action",
   props: {

@@ -2,7 +2,7 @@ import pipedream_utils from "../../pipedream_utils.app.mjs";
 export default {
   name: "Formatting - [Text] Encode URL",
   description: "Encode a string as a URL",
-  key: "formatting-url-encode",
+  key: "pipedream_utils-url-encode",
   version: "0.0.5",
   type: "action",
   props: {

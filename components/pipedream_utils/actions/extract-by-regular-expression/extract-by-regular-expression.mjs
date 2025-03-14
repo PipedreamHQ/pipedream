@@ -3,7 +3,7 @@ import pipedream_utils from "../../pipedream_utils.app.mjs";
 export default {
   name: "Formatting - [Text] Extract by Regular Expression",
   description: "Find a match for a regular expression pattern. Returns all matched groups with start and end position.",
-  key: "formatting-extract-by-regular-expression",
+  key: "pipedream_utils-extract-by-regular-expression",
   version: "0.0.5",
   type: "action",
   props: {

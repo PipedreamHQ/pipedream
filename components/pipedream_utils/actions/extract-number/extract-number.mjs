@@ -3,7 +3,7 @@ export default {
   ...commonExtractText,
   name: "Formatting - [Text] Extract Number",
   description: "Find a number out of a text field. Finds the first number only.",
-  key: "formatting-extract-number",
+  key: "pipedream_utils-extract-number",
   version: "0.0.5",
   type: "action",
   props: {

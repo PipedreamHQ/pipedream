@@ -6,7 +6,7 @@ import pipedream_utils from "../../pipedream_utils.app.mjs";
 export default {
   name: "Formatting - [Text] Split Text",
   description: "Split the text on a character or word and return one or all segments",
-  key: "formatting-split-text",
+  key: "pipedream_utils-split-text",
   version: "0.0.5",
   type: "action",
   props: {

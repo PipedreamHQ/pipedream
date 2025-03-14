@@ -2,7 +2,7 @@ import pipedream_utils from "../../pipedream_utils.app.mjs";
 export default {
   name: "Formatting - [Text] Decode URL",
   description: "Decode a URL string",
-  key: "formatting-url-decode",
+  key: "pipedream_utils-url-decode",
   version: "0.0.5",
   type: "action",
   props: {

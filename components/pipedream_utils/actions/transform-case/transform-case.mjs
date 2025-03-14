@@ -6,7 +6,7 @@ import pipedream_utils from "../../pipedream_utils.app.mjs";
 export default {
   name: "Formatting - [Text] Transform Case",
   description: "Transform case for a text input",
-  key: "formatting-transform-case",
+  key: "pipedream_utils-transform-case",
   version: "0.0.5",
   type: "action",
   props: {

@@ -2,7 +2,7 @@ import pipedream_utils from "../../pipedream_utils.app.mjs";
 export default {
   name: "Formatting - [Data] Convert JSON to String",
   description: "Convert an object to a JSON format string",
-  key: "formatting-convert-json-to-string",
+  key: "pipedream_utils-convert-json-to-string",
   version: "0.0.5",
   type: "action",
   props: {

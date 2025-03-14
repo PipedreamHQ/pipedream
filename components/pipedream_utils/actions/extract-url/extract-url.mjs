@@ -3,7 +3,7 @@ export default {
   ...commonExtractText,
   name: "Formatting - [Text] Extract URL",
   description: "Find a web URL out of a text field. Finds the first URL only.",
-  key: "formatting-extract-url",
+  key: "pipedream_utils-extract-url",
   version: "0.0.5",
   type: "action",
   props: {

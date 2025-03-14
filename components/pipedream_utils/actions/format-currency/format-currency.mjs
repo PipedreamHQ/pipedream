@@ -6,7 +6,7 @@ import pipedream_utils from "../../pipedream_utils.app.mjs";
 export default {
   name: "Formatting - [Numbers] Format Currency",
   description: "Format a number as a currency",
-  key: "formatting-format-currency",
+  key: "pipedream_utils-format-currency",
   version: "0.0.5",
   type: "action",
   props: {

@@ -14,7 +14,7 @@ export default {
   ...commonDateTime,
   name: "Formatting - [Date/Time] Add/Subtract Time",
   description: "Add or subtract time from a given input",
-  key: "formatting-add-subtract-time",
+  key: "pipedream_utils-add-subtract-time",
   version: "0.0.5",
   type: "action",
   props: {

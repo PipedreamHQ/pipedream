@@ -4,7 +4,7 @@ import pipedream_utils from "../../pipedream_utils.app.mjs";
 export default {
   name: "Formatting - [Text] Convert Markdown to HTML",
   description: "Convert Markdown text to HTML",
-  key: "formatting-convert-markdown-to-html",
+  key: "pipedream_utils-convert-markdown-to-html",
   version: "0.0.6",
   type: "action",
   props: {
