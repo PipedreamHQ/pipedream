@@ -2,12 +2,9 @@ import metafieldActions from "../common/metafield-actions.mjs";
 import common from "@pipedream/shopify/actions/update-metafield/update-metafield.mjs";
 import shopify from "../../shopify_developer_app.app.mjs";
 
-import { adjustPropDefinitions } from "../../common/utils.mjs";
-
 const {
   name, description, type, ...others
 } = common;
-const props = adjustPropDefinitions(others.props, shopify);
 
 export default {
   ...others,
@@ -18,8 +15,7 @@ export default {
   type,
   props: {
     shopify,
-    ...props,
-    ...common.props,
+    ...metafieldActions.props,
   },
   async additionalProps() {
     const props = await this.getOwnerIdProp(this.ownerResource);
@@ -39,7 +35,6 @@ export default {
   },
   methods: {
     ...metafieldActions.methods,
-    ...common.methods,
     async getOwnerIdProp(ownerResource) {
       const resources = {
         product: shopify.propDefinitions.productId,
@@ -62,7 +57,7 @@ export default {
 
       const props = {};
 
-      if (ownerResource === "variants" || ownerResource === "product_image") {
+      if (ownerResource === "variants") {
         props.productId = resources.product;
       }
       if (ownerResource === "article") {

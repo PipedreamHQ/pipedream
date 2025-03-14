@@ -98,7 +98,7 @@ export default {
           },
         },
         customer: {
-          ...shopify.propDefinition.customerId,
+          ...shopify.propDefinitions.customerId,
           options: async ({ prevContext }) => {
             return this.shopify.getPropOptions({
               resourceFn: this.shopify.listCustomers,

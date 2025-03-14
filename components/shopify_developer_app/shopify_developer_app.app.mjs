@@ -2,12 +2,14 @@ import commonApp from "@pipedream/shopify";
 import Shopify from "shopify-api-node";
 import queries from "./common/queries.mjs";
 import mutations from "./common/mutations.mjs";
+import { API_VERSION } from "@pipedream/shopify/common/constants.mjs";
 
 export default {
   ...commonApp,
   type: "app",
   app: "shopify_developer_app",
   propDefinitions: {
+    ...commonApp.propDefinitions,
     orderId: {
       type: "string",
       label: "Order ID",
@@ -111,6 +113,7 @@ export default {
         shopName: this.getShopId(),
         accessToken: this.$auth.access_token,
         autoLimit: true,
+        apiVersion: API_VERSION,
       });
     },
     getOrder(variables) {

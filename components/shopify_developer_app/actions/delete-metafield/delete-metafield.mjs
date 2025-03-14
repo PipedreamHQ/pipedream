@@ -2,12 +2,9 @@ import metafieldActions from "../common/metafield-actions.mjs";
 import common from "@pipedream/shopify/actions/delete-metafield/delete-metafield.mjs";
 import shopify from "../../shopify_developer_app.app.mjs";
 
-import { adjustPropDefinitions } from "../../common/utils.mjs";
-
 const {
   name, description, type, ...others
 } = common;
-const props = adjustPropDefinitions(others.props, shopify);
 
 export default {
   ...others,
@@ -18,11 +15,38 @@ export default {
   type,
   props: {
     shopify,
-    ...props,
-    ...common.props,
+    ...metafieldActions.props,
   },
   methods: {
     ...metafieldActions.methods,
-    ...common.methods,
+  },
+  async additionalProps() {
+    const props = await this.getOwnerIdProp(this.ownerResource); console.log(props);
+
+    if (props.ownerId) {
+      props.ownerId = {
+        ...props.ownerId,
+        reloadProps: true,
+      };
+    }
+
+    if (this.ownerResource && this.ownerId) {
+      props.metafieldId = {
+        type: "string",
+        label: "Metafield ID",
+        description: "The metafield to update",
+        options: async () => {
+          const metafields = await this.listMetafields(this.ownerResource, this.ownerId);
+          return metafields?.map(({
+            id: value, key: label,
+          }) => ({
+            value,
+            label,
+          })) || [];
+        },
+      };
+    }
+
+    return props;
   },
 };

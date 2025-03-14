@@ -109,7 +109,7 @@ const LIST_ORDERS = `
       nodes {
         id
         updatedAt
-        metafields (first: $first) {
+        metafields (first: $first, after: $after) {
           nodes {
             id
             key
@@ -118,6 +118,9 @@ const LIST_ORDERS = `
             type
           }
         }
+      }
+      pageInfo {
+        endCursor
       }
     }
   }
@@ -128,7 +131,7 @@ const LIST_DRAFT_ORDERS = `
     draftOrders(first: $first, after: $after) {
       nodes {
         id
-        metafields (first: $first) {
+        metafields (first: $first, after: $after) {
           nodes {
             id
             key
@@ -137,6 +140,9 @@ const LIST_DRAFT_ORDERS = `
             type
           }
         }
+      }
+      pageInfo {
+        endCursor
       }
     }
   }
@@ -148,7 +154,7 @@ const LIST_CUSTOMERS = `
       nodes {
         id
         displayName
-        metafields (first: $first) {
+        metafields (first: $first, after: $after) {
           nodes {
             id
             key
@@ -157,6 +163,9 @@ const LIST_CUSTOMERS = `
             type
           }
         }
+      }
+      pageInfo {
+        endCursor
       }
     }
   }
