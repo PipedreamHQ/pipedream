@@ -8303,7 +8303,11 @@ importers:
 
   components/neetokb: {}
 
-  components/neo4j_auradb: {}
+  components/neo4j_auradb:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/neon_api_keys:
     dependencies:
