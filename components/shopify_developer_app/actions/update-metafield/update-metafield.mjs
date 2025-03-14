@@ -17,6 +17,7 @@ export default {
   description,
   type,
   props: {
+    shopify,
     ...props,
     ...common.props,
   },
