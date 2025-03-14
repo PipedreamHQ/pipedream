@@ -1,4 +1,4 @@
-import pipedream_utils from "../../app/pipedream_utils.app.mjs";
+import pipedream_utils from "../../pipedream_utils.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import {
   DATE_FORMAT_PARSE_MAP, DEFAULT_INPUT_FUNCTION,
