@@ -4,7 +4,7 @@ export default {
   key: "notion-retrieve-page",
   name: "Retrieve Page",
   description: "Get details of a page. [See the documentation](https://developers.notion.com/reference/retrieve-a-page)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     notion,
