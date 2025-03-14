@@ -4225,8 +4225,7 @@ importers:
 
   components/extensiv_integration_manager: {}
 
-  components/extracta_ai:
-    specifiers: {}
+  components/extracta_ai: {}
 
   components/eyepop_ai: {}
 
@@ -6880,8 +6879,7 @@ importers:
 
   components/kucoin_futures: {}
 
-  components/kustomer:
-    specifiers: {}
+  components/kustomer: {}
 
   components/kvdb:
     dependencies:
@@ -8573,8 +8571,7 @@ importers:
 
   components/nusii_proposals: {}
 
-  components/nutrient_document_web_services_api:
-    specifiers: {}
+  components/nutrient_document_web_services_api: {}
 
   components/nutshell:
     dependencies:
@@ -9457,7 +9454,61 @@ importers:
   components/pipedream_connect: {}
 
   components/pipedream_utils:
-    specifiers: {}
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.0
+        version: 3.0.3
+      csv-parse:
+        specifier: ^5.5.6
+        version: 5.6.0
+      html-to-text:
+        specifier: ^8.2.1
+        version: 8.2.1
+      linkedom:
+        specifier: ^0.14.26
+        version: 0.14.26
+      lodash.get:
+        specifier: ^4.4.2
+        version: 4.4.2
+      lodash.set:
+        specifier: ^4.3.2
+        version: 4.3.2
+      moment:
+        specifier: ^2.30.1
+        version: 2.30.1
+      moment-timezone:
+        specifier: ^0.5.47
+        version: 0.5.47
+      nodemailer:
+        specifier: ^6.7.8
+        version: 6.9.16
+      pluralize:
+        specifier: ^8.0.0
+        version: 8.0.0
+      rss-parser:
+        specifier: ^3.12.0
+        version: 3.13.0
+      showdown:
+        specifier: ^2.1.0
+        version: 2.1.0
+      slackify-html:
+        specifier: ^1.0.1
+        version: 1.0.1
+      streamifier:
+        specifier: ^0.1.1
+        version: 0.1.1
+      sugar:
+        specifier: ^2.0.6
+        version: 2.0.6
+      title-case:
+        specifier: ^3.0.3
+        version: 3.0.3
+      turndown:
+        specifier: ^7.2.0
+        version: 7.2.0
+      xml-js:
+        specifier: ^1.6.11
+        version: 1.6.11
 
   components/pipedrive:
     dependencies:
@@ -10790,8 +10841,7 @@ importers:
 
   components/runpod: {}
 
-  components/runsignup:
-    specifiers: {}
+  components/runsignup: {}
 
   components/runware:
     dependencies:
@@ -17246,6 +17296,9 @@ packages:
   '@microsoft/tsdoc@0.15.0':
     resolution: {integrity: sha512-HZpPoABogPvjeJOdzCOSJsXeL/SMCBgBZMVC3X3d7YYp2gf31MfxhUoYUNwf1ERPJOnQc0wkFn9trqI6ZEdZuA==}
 
+  '@mixmark-io/domino@2.2.0':
+    resolution: {integrity: sha512-Y28PR25bHXUg88kCV7nivXrP2Nj2RueZ3/l/jdx6J9f8J4nsEGcgX0Qe6lt7Pa+J79+kPiJU3LguR6O/6zrLOw==}
+
   '@mongodb-js/saslprep@1.1.9':
     resolution: {integrity: sha512-tVkljjeEaAhCqTzajSdgbQ6gE6f3oneVwa3iXR6csiEwXXOFsiC6Uh9iAjAhXPtqa/XMDHWjjeNH/77m/Yq2dw==}
 
@@ -23262,6 +23315,9 @@ packages:
   html-entities-decoder@1.0.5:
     resolution: {integrity: sha512-Cc/RSOGlojr7NDw1oXamUQenYBB0f/SISO8QWtRdZkDOmlO/hvbGZMjgyl+6+mh2PKPRrGXUKH4JhCU18LNS2g==}
 
+  html-entities@1.4.0:
+    resolution: {integrity: sha512-8nxjcBcd8wovbeKx7h3wTji4e6+rhaVuPNpMqwWgnHh+N9ToqsCs6XztWRBPQ+UtzsoMAdKZtUENoVzU/EMtZA==}
+
   html-entities@2.5.2:
     resolution: {integrity: sha512-K//PSRMQk4FZ78Kyau+mZurHn3FH0Vwr+H36eE0rPbeYkRRi9YxceYPhuN60UwWorxyKHhqoAJl2OFKa4BVtaA==}
 
@@ -23295,6 +23351,10 @@ packages:
 
   htmlparser2@8.0.2:
     resolution: {integrity: sha512-GYdjWKDkbRLkZ5geuHs5NY1puJ+PXwP7+fHPRz06Eirsb9ugf6d8kkXav6ADhcODhFFPMIXyxkxSuMf3D6NCFA==}
+
+  htmlparser@1.7.7:
+    resolution: {integrity: sha512-zpK66ifkT0fauyFh2Mulrq4AqGTucxGtOhZ8OjkbSfcCpkqQEI8qRkY0tSQSJNAQ4HUZkgWaU4fK4EH6SVH9PQ==}
+    engines: {node: '>=0.1.33'}
 
   http-cache-semantics@4.1.1:
     resolution: {integrity: sha512-er295DKPVsV82j5kw1Gjt+ADA/XYHsajl82cGNQG2eyoPkvgUhX+nDIyelzhIWbbsXP39EHcI6l5tYs2FYqYXQ==}
@@ -24542,6 +24602,9 @@ packages:
   lodash.pickby@4.6.0:
     resolution: {integrity: sha512-AZV+GsS/6ckvPOVQPXSiFFacKvKB4kOQu6ynt9wz0F3LO4R9Ij4K1ddYsIytDpSgLz88JHd9P+oaLeej5/Sl7Q==}
 
+  lodash.set@4.3.2:
+    resolution: {integrity: sha512-4hNPN5jlm/N/HLMCO43v8BXKq9Z7QdAGc/VGrRD61w8gN9g/6jF9A4L1pbUgBLCffi0w9VsXfTOij5x8iTyFvg==}
+
   lodash.snakecase@4.1.1:
     resolution: {integrity: sha512-QZ1d4xoBHYUeuouhEq3lk3Uq7ldgyFXGBhg04+oRLnIz8o9T65Eh+8YdroUwn846zchkA9yDsDl5CVVaV2nqYw==}
 
@@ -25162,6 +25225,9 @@ packages:
 
   moment-timezone@0.5.46:
     resolution: {integrity: sha512-ZXm9b36esbe7OmdABqIWJuBBiLLwAjrN7CE+7sYdCCx82Nabt1wHDj8TVseS59QIlfFPbOoiBPm6ca9BioG4hw==}
+
+  moment-timezone@0.5.47:
+    resolution: {integrity: sha512-UbNt/JAWS0m/NJOebR0QMRHBk0hu03r5dx9GK8Cs0AS3I81yDcOc9k+DytPItgVvBP7J6Mf6U2n3BPAacAV9oA==}
 
   moment@2.29.4:
     resolution: {integrity: sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==}
@@ -27105,6 +27171,9 @@ packages:
   sisteransi@1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
 
+  slackify-html@1.0.1:
+    resolution: {integrity: sha512-9e5Wo8Z2QSORedN6vqImnjIUwaHI8mpjeQQfXBcIcvIewoJ9SGB56MN2FVIPt6ACn+g4gLsQZHeGXwe5VQMnzA==}
+
   slash@2.0.0:
     resolution: {integrity: sha512-ZYKh3Wh2z1PpEXWr0MpSBZ0V6mZHAQfYevttO11c51CaWjGTaadiKZ+wVt1PbMlDV5qhMFslpZCemhwOK7C89A==}
     engines: {node: '>=6'}
@@ -27925,6 +27994,9 @@ packages:
   tunnel@0.0.6:
     resolution: {integrity: sha512-1h/Lnq9yajKY2PEbBadPXj3VxsDDu844OnaAo52UVmIzIvwwtBPIuNvkjuzBlTWpfJyUbG3ez0KSBibQkj4ojg==}
     engines: {node: '>=0.6.11 <=0.7.0 || >=0.7.3'}
+
+  turndown@7.2.0:
+    resolution: {integrity: sha512-eCZGBN4nNNqM9Owkv9HAtWRYfLA4h909E/WGAWWBpmB275ehNhZyk87/Tpvjbp0jjNl9XwCsbe6bm6CqFsgD+A==}
 
   tweetnacl@0.14.5:
     resolution: {integrity: sha512-KXXFFdAbFXY4geFIwoyNK+f5Z1b7swfXABfL7HXCmoIWMKU3dmS26672A4EeQtDzLKy7SXmfBu51JolvEKwtGA==}
@@ -33263,6 +33335,8 @@ snapshots:
       resolve: 1.22.8
 
   '@microsoft/tsdoc@0.15.0': {}
+
+  '@mixmark-io/domino@2.2.0': {}
 
   '@mongodb-js/saslprep@1.1.9':
     dependencies:
@@ -40812,6 +40886,8 @@ snapshots:
 
   html-entities-decoder@1.0.5: {}
 
+  html-entities@1.4.0: {}
+
   html-entities@2.5.2:
     optional: true
 
@@ -40855,6 +40931,8 @@ snapshots:
       domhandler: 5.0.3
       domutils: 3.1.0
       entities: 4.5.0
+
+  htmlparser@1.7.7: {}
 
   http-cache-semantics@4.1.1: {}
 
@@ -42368,6 +42446,8 @@ snapshots:
 
   lodash.pickby@4.6.0: {}
 
+  lodash.set@4.3.2: {}
+
   lodash.snakecase@4.1.1: {}
 
   lodash.sortby@4.7.0: {}
@@ -43361,6 +43441,10 @@ snapshots:
       node-source-walk: 4.3.0
 
   moment-timezone@0.5.46:
+    dependencies:
+      moment: 2.30.1
+
+  moment-timezone@0.5.47:
     dependencies:
       moment: 2.30.1
 
@@ -46149,6 +46233,11 @@ snapshots:
 
   sisteransi@1.0.5: {}
 
+  slackify-html@1.0.1:
+    dependencies:
+      html-entities: 1.4.0
+      htmlparser: 1.7.7
+
   slash@2.0.0: {}
 
   slash@3.0.0: {}
@@ -47204,6 +47293,10 @@ snapshots:
       safe-buffer: 5.2.1
 
   tunnel@0.0.6: {}
+
+  turndown@7.2.0:
+    dependencies:
+      '@mixmark-io/domino': 2.2.0
 
   tweetnacl@0.14.5: {}
 
