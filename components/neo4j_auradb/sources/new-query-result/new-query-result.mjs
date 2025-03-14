@@ -13,8 +13,13 @@ export default {
     ...common.props,
     query: {
       type: "string",
-      label: "Cypher Query",
-      description: "The Cypher query to monitor for new results. **Example: MATCH (n:Node) RETURN n**",
+      label: "Match Query",
+      description: "The Cypher query to monitor for new results. **Only the MATCH query without RETURN**. **Example: MATCH (n:Node)**.",
+    },
+    variable: {
+      type: "string",
+      label: "Variable",
+      description: "The variable you want to return from the query.",
     },
   },
   methods: {
@@ -22,14 +27,17 @@ export default {
     getBaseQuery() {
       return this.query;
     },
+    getReturnVariable() {
+      return this.variable;
+    },
     emit(item) {
       const ts = (this.orderType === "dateTime")
-        ? Date.parse(item[1].properties[this.orderBy])
+        ? Date.parse(item.properties[this.orderBy])
         : new Date();
 
       this.$emit(item, {
-        id: item[1].elementId,
-        summary: "New query result",
+        id: item.elementId,
+        summary: `New query result with ID: ${item.elementId}`,
         ts,
       });
     },

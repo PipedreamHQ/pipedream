@@ -15,7 +15,7 @@ export default {
     orderBy: {
       type: "string",
       label: "Order By",
-      description: "The property to order the nodes by including the variable. **Format: {VAR}.{FIELD}**. **Example: p.createdAt**",
+      description: "Order By property is required for Pipedream source to identify the entity. We recommend to choose the property represent the created time property of your entity with a variable, for example createdAt.",
     },
     orderType: {
       type: "string",
@@ -32,10 +32,10 @@ export default {
       default: return "";
       }
     },
-    _getWhereClause(lastData, type) {
+    _getWhereClause(lastData, type, returnVariable) {
       switch (type) {
-      case "datetime": return `WHERE ${this.orderBy} > datetime("${lastData}")`;
-      case "sequencial": return `WHERE ${this.orderBy} > ${lastData}`;
+      case "datetime": return `WHERE ${returnVariable}.${this.orderBy} > datetime("${lastData}")`;
+      case "sequencial": return `WHERE ${returnVariable}.${this.orderBy} > ${parseInt(lastData)}`;
       default: return "";
       }
     },
@@ -71,10 +71,11 @@ export default {
       return "";
     },
     async emitEvent(maxResults = false) {
+      const returnVariable = this.getReturnVariable();
       const lastData = this._getLastData();
-      const whereClause = this._getWhereClause(lastData, this.orderType);
-      const queryBase = this.getBaseQuery(whereClause);
-      const query = `${queryBase} ORDER BY ${this.orderBy} DESC `;
+      const whereClause = this._getWhereClause(lastData, this.orderType, returnVariable);
+      const queryBase = this.getBaseQuery(whereClause, returnVariable);
+      const query = `${queryBase} RETURN ${returnVariable} ORDER BY ${returnVariable}.${this.orderBy} DESC `;
 
       const response = this.app.paginate({
         query,
@@ -92,9 +93,10 @@ export default {
           responseArray.length = maxResults;
         }
 
-        const field = this.orderBy.split(".")[1];
-        const lastData = responseArray[0]?.properties?.[field]
-         || responseArray[0][1].properties[field];
+        console.log("responseArray: ", responseArray);
+
+        const lastData = responseArray[0]?.properties?.[this.orderBy]
+         || responseArray[0][1].properties[this.orderBy];
 
         this._setLastData(lastData);
       }

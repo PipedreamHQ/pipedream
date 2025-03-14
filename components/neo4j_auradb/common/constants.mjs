@@ -6,8 +6,8 @@ export const ORDER_TYPE_OPTIONS = [
     value: "datetime",
   },
   {
-    label: "Sequencial (integer)",
-    value: "sequencial",
+    label: "Sequential (Integer)",
+    value: "sequential",
   },
   {
     label: "Other",
