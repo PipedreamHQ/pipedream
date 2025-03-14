@@ -8563,8 +8563,7 @@ importers:
 
   components/nusii_proposals: {}
 
-  components/nutrient_document_web_services_api:
-    specifiers: {}
+  components/nutrient_document_web_services_api: {}
 
   components/nutshell:
     dependencies:
@@ -10777,8 +10776,7 @@ importers:
 
   components/runpod: {}
 
-  components/runsignup:
-    specifiers: {}
+  components/runsignup: {}
 
   components/runware:
     dependencies:
@@ -11429,8 +11427,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
       '@pipedream/shopify':
-        specifier: ^0.6.8
-        version: 0.6.8
+        specifier: ^0.7.0
+        version: 0.7.0
       shopify-api-node:
         specifier: ^3.14.2
         version: 3.14.2
@@ -13653,8 +13651,7 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/wafrow:
-    specifiers: {}
+  components/wafrow: {}
 
   components/waitless: {}
 
@@ -17642,8 +17639,8 @@ packages:
   '@pipedream/sftp@0.4.1':
     resolution: {integrity: sha512-K+tYweZBO4cAZDXqCsciPeDEG6tJsuCS0+kP+JlWfwjKHH/Z75G/P5NXFO3tGCwmSrhwyB/Ew1Zi89oUsQq8mQ==}
 
-  '@pipedream/shopify@0.6.8':
-    resolution: {integrity: sha512-SKdygl45yUUAMkRpVhIuiAR2EwqKv8rjQWXpu92j6i815K7K7k7iib+EiZ8KIqfQrogck1LcHpF+9wQcCQHRzw==}
+  '@pipedream/shopify@0.7.0':
+    resolution: {integrity: sha512-bZoTDxcwBIepWhT8LVXzOxAO3S9NM8U1NEfS5106aDHFizr6L7lg/78+GaPdishK12oce0B/fCFY0ssd5AQxWA==}
 
   '@pipedream/snowflake-sdk@1.0.8':
     resolution: {integrity: sha512-/nLCQNjlSCz71MUnOUZqWmnjZTbEX7mie91mstPspb8uDG/GvaDk/RynLGhhYfgEP5d1KWj+OPaI71hmPSxReg==}
@@ -33834,11 +33831,12 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@pipedream/shopify@0.6.8':
+  '@pipedream/shopify@0.7.0':
     dependencies:
       '@pipedream/platform': 3.0.3
       async-retry: 1.3.3
       bottleneck: 2.19.5
+      form-data: 4.0.2
       lodash.get: 4.4.2
       lodash.topath: 4.5.2
       shopify-api-node: 3.14.2
@@ -34204,6 +34202,8 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
+    transitivePeerDependencies:
+      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
@@ -36999,7 +36999,7 @@ snapshots:
   axios@1.8.2:
     dependencies:
       follow-redirects: 1.15.9(debug@3.2.7)
-      form-data: 4.0.1
+      form-data: 4.0.2
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
