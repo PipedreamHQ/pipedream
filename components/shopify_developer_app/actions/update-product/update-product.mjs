@@ -1,6 +1,6 @@
 import shopify from "../../shopify_developer_app.app.mjs";
 import common from "../common/metafield-actions.mjs";
-import utils from "@pipedream/platform/common/utils.mjs";
+import utils from "@pipedream/shopify/common/utils.mjs";
 
 export default {
   ...common,

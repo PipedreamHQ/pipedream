@@ -1,15 +1,23 @@
 import metafieldActions from "../common/metafield-actions.mjs";
 import common from "@pipedream/shopify/actions/delete-metafield/delete-metafield.mjs";
+import shopify from "../../shopify_developer_app.app.mjs";
+
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
+const props = adjustPropDefinitions(others.props, shopify);
 
 export default {
-  ...common,
+  ...others,
   key: "shopify_developer_app-delete-metafield",
-  name: "Delete Metafield",
-  description: "Deletes a metafield belonging to a resource. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/metafieldsDelete)",
   version: "0.0.6",
-  type: "action",
+  name,
+  description,
+  type,
   props: {
-    ...metafieldActions.props,
+    ...props,
     ...common.props,
   },
   methods: {

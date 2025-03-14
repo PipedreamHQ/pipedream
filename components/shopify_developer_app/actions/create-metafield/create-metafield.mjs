@@ -1,17 +1,24 @@
 import metafieldActions from "../common/metafield-actions.mjs";
 import common from "@pipedream/shopify/actions/create-metafield/create-metafield.mjs";
+import shopify from "../../shopify_developer_app.app.mjs";
+
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
+const props = adjustPropDefinitions(others.props, shopify);
 
 export default {
-  ...common,
+  ...others,
   key: "shopify_developer_app-create-metafield",
-  name: "Create Metafield",
-  description: "Creates a metafield belonging to a resource. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/metafieldDefinitionCreate)",
   version: "0.0.6",
-  type: "action",
+  name,
+  description,
+  type,
   props: {
-    ...metafieldActions.props,
+    ...props,
     ...common.props,
-
   },
   methods: {
     ...metafieldActions.methods,
