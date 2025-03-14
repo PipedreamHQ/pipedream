@@ -4225,8 +4225,7 @@ importers:
 
   components/extensiv_integration_manager: {}
 
-  components/extracta_ai:
-    specifiers: {}
+  components/extracta_ai: {}
 
   components/eyepop_ai: {}
 
@@ -6880,8 +6879,7 @@ importers:
 
   components/kucoin_futures: {}
 
-  components/kustomer:
-    specifiers: {}
+  components/kustomer: {}
 
   components/kvdb:
     dependencies:
@@ -8573,8 +8571,7 @@ importers:
 
   components/nusii_proposals: {}
 
-  components/nutrient_document_web_services_api:
-    specifiers: {}
+  components/nutrient_document_web_services_api: {}
 
   components/nutshell:
     dependencies:
@@ -9457,7 +9454,37 @@ importers:
   components/pipedream_connect: {}
 
   components/pipedream_utils:
-    specifiers: {}
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.0
+        version: 3.0.3
+      csv-parse:
+        specifier: ^5.5.6
+        version: 5.6.0
+      html-to-text:
+        specifier: ^8.2.1
+        version: 8.2.1
+      linkedom:
+        specifier: ^0.14.26
+        version: 0.14.26
+      pluralize:
+        specifier: ^8.0.0
+        version: 8.0.0
+      showdown:
+        specifier: ^2.1.0
+        version: 2.1.0
+      streamifier:
+        specifier: ^0.1.1
+        version: 0.1.1
+      sugar:
+        specifier: ^2.0.6
+        version: 2.0.6
+      title-case:
+        specifier: ^3.0.3
+        version: 3.0.3
+      xml-js:
+        specifier: ^1.6.11
+        version: 1.6.11
 
   components/pipedrive:
     dependencies:
@@ -10790,8 +10817,7 @@ importers:
 
   components/runpod: {}
 
-  components/runsignup:
-    specifiers: {}
+  components/runsignup: {}
 
   components/runware:
     dependencies:
