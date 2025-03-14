@@ -4878,7 +4878,11 @@ importers:
         specifier: ^1.11.7
         version: 1.11.13
 
-  components/geckoboard: {}
+  components/geckoboard:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/gem:
     dependencies:
