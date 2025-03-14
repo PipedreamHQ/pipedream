@@ -84,7 +84,7 @@ const GET_CUSTOMER = `
 `;
 
 const GET_DRAFT_ORDER = `
-  query ($first: Int, $after: String) {
+  query ($id: ID!, $first: Int, $after: String) {
     draftOrder(id: $id) {
       name
       metafields (first: $first, after: $after) {

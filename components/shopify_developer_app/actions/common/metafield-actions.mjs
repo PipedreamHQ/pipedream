@@ -118,7 +118,7 @@ export default {
             return this.shopify.getPropOptions({
               resourceFn: this.shopify.listDraftOrders,
               resourceKeys: [
-                "draftrders",
+                "draftOrders",
               ],
               labelKey: "id",
               prevContext,

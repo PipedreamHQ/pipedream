@@ -17,7 +17,7 @@ export default {
     billingAddress: {
       type: "object",
       label: "Billing Address",
-      description: "The mailing address associated with the payment method. More details when searching **billing_address** in [Shopify Order Object](hhttps://shopify.dev/docs/api/admin-graphql/latest/objects/order)",
+      description: "The mailing address associated with the payment method. More details when searching **billing_address** in [Shopify Order Object](https://shopify.dev/docs/api/admin-graphql/latest/objects/order)",
       optional: true,
     },
     shippingAddress: {
@@ -141,7 +141,7 @@ export default {
         shippingAddress: utils.parseJson(this.shippingAddress),
         financialStatus: this.financialStatus,
         discountCode: utils.parseJson(this.discountCode),
-        fulfillment: utils.parseJson(this.fulfillments),
+        fulfillment: utils.parseJson(this.fulfillment),
         fulfillmentStatus: this.fulfillmentStatus,
         taxLines: utils.parseJson(this.taxLines),
         currency: this.currency,
