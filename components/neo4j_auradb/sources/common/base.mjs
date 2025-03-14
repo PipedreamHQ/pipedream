@@ -93,8 +93,6 @@ export default {
           responseArray.length = maxResults;
         }
 
-        console.log("responseArray: ", responseArray);
-
         const lastData = responseArray[0]?.properties?.[this.orderBy]
          || responseArray[0][1].properties[this.orderBy];
 
