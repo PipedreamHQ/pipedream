@@ -1,13 +1,13 @@
 import metafieldActions from "../common/metafield-actions.mjs";
-import common from "@pipedream/shopify/actions/update-metafield/common.mjs";
+import common from "@pipedream/shopify/actions/update-metafield/update-metafield.mjs";
 import shopify from "@pipedream/shopify/shopify.app.mjs";
 
 export default {
   ...common,
   key: "shopify_developer_app-update-metafield",
   name: "Update Metafield",
-  description: "Updates a metafield belonging to a resource. [See the docs](https://shopify.dev/api/admin-rest/2023-01/resources/metafield#put-blogs-blog-id-metafields-metafield-id)",
-  version: "0.0.5",
+  description: "Updates a metafield belonging to a resource. [See the documentation](https://shopify.dev/docs/api/admin-graphql/unstable/queries/metafields)",
+  version: "0.0.6",
   type: "action",
   props: {
     ...metafieldActions.props,
@@ -36,10 +36,6 @@ export default {
       const resources = {
         product: shopify.propDefinitions.productId,
         variants: shopify.propDefinitions.productVariantId,
-        product_image: {
-          ...shopify.propDefinitions.imageId,
-          optional: false,
-        },
         customer: shopify.propDefinitions.customerId,
         collection: {
           ...shopify.propDefinitions.collectionId,
@@ -49,7 +45,11 @@ export default {
         article: shopify.propDefinitions.articleId,
         page: shopify.propDefinitions.pageId,
         order: shopify.propDefinitions.orderId,
-        draft_order: shopify.propDefinitions.draftOrderId,
+        draftOrder: {
+          type: "string",
+          label: "Draft Order ID",
+          description: "The identifier of a draft order",
+        },
       };
 
       const props = {};

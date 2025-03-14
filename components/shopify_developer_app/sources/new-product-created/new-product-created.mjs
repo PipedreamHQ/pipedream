@@ -1,4 +1,3 @@
-import constants from "../common/constants.mjs";
 import common from "../common/webhook-metafields.mjs";
 
 export default {
@@ -7,15 +6,15 @@ export default {
   name: "New Product Created (Instant)",
   type: "source",
   description: "Emit new event for each product added to a store.",
-  version: "0.0.8",
+  version: "0.0.9",
   dedupe: "unique",
   methods: {
     ...common.methods,
     getTopic() {
-      return constants.EVENT_TOPIC.PRODUCTS_CREATE;
+      return "PRODUCTS_CREATE";
     },
     generateMeta(resource) {
-      const ts = Date.parse(resource.created_at);
+      const ts = Date.parse(resource.createdAt);
       return {
         id: resource.id,
         summary: `New Product ${resource.id}.`,
