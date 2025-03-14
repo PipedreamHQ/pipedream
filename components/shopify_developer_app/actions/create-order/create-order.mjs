@@ -154,7 +154,7 @@ export default {
         shippingLines: utils.parseJson(this.shippingLines),
       },
     });
-    $.export("$summary", `Created new order with ID \`${response.orderCreate.orderid}\``);
+    $.export("$summary", `Created new order with ID \`${response.orderCreate.order.id}\``);
     return response;
   },
 };
