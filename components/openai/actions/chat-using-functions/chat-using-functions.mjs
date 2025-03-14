@@ -5,7 +5,7 @@ import constants from "../../common/constants.mjs";
 export default {
   ...common,
   name: "Chat using Functions",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "openai-chat-using-functions",
   description: "Chat with your models and allow them to invoke functions. Optionally, you can build and invoke workflows as functions. [See the documentation](https://platform.openai.com/docs/guides/function-calling)",
   type: "action",
@@ -14,7 +14,7 @@ export default {
     alert: {
       type: "alert",
       alertType: "info",
-      content: "Provide function names and parameters, and the model will either answer the question directly or decide to invoke one of the functions, returning a function call that adheres to your specified schema. Add a custom code step that includes all available functions which can be invoked based on the model's response - [you can even build an entire workflow as a function](https://pipedream.com/docs/workflows/building-workflows/code/nodejs/#invoke-another-workflow)! Once the appropriate function or workflow is executed, continue the overall execution or pass the result back to the model for further analysis. For more details, [see this guide](https://platform.openai.com/docs/guides/function-calling?api-mode=responses#overview).",
+      content: "Provide function names and parameters, and the model will either answer the question directly or decide to invoke one of the functions, returning a function call that adheres to your specified schema. Add a custom code step that includes all available functions which can be invoked based on the model's response - [you can even build an entire workflow as a function](https://pipedream.com/docs/workflows/building-workflows/code/nodejs/#invoke-another-workflow)! Once the appropriate function or workflow is executed, continue the overall execution or pass the result back to the model for further analysis. For more details, [see this guide](https://platform.openai.com/docs/guides/function-calling?api-mode=responses#overview) and this [walkthrough](https://pipedream.com/blog/introducing-enhanced-openai-chat-actions-for-pipedream/#using-pipedream-workflows-as-functions).",
     },
     modelId: {
       propDefinition: [
