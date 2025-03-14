@@ -1,7 +1,7 @@
-import app from "../../app/formatting.app.mjs";
+import pipedream_utils from "../../pipedream_utils.app.mjs";
 export default {
   props: {
-    app,
+    pipedream_utils,
   },
   methods: {
     getRegExp() {

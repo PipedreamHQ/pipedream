@@ -1,7 +1,7 @@
 import { readFileSync } from "fs";
 import path from "path";
 import { parse } from "csv-parse/sync";
-import app from "../../helper_functions.app.mjs";
+import pipedream_utils from "../../pipedream_utils.app.mjs";
 
 export default {
   key: "pipedream_utils-csv-file-to-objects",
@@ -10,7 +10,7 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    app,
+    pipedream_utils,
     filePath: {
       type: "string",
       label: "CSV File Path",
