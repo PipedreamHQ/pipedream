@@ -17,7 +17,7 @@ export default {
       const ts = Date.parse(resource.createdAt);
       return {
         id: resource.id,
-        summary: `New Draft Order ${resource.id}.`,
+        summary: `New Draft Order ${resource.id}`,
         ts,
       };
     },

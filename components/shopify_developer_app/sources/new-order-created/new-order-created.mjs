@@ -17,7 +17,7 @@ export default {
       const ts = Date.parse(resource.createdAt);
       return {
         id: resource.id,
-        summary: `New Order ${resource.id}.`,
+        summary: `New Order ${resource.id}`,
         ts,
       };
     },
@@ -25,7 +25,7 @@ export default {
   hooks: {
     ...common.hooks,
     async deploy() {
-      const results = await this.app.getOrders({
+      const { orders: { nodes: results } } = await this.app.listOrders({
         first: 5,
         reverse: true,
       });

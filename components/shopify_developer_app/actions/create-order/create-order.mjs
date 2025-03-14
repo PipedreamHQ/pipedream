@@ -12,7 +12,7 @@ export default {
     lineItems: {
       type: "string[]",
       label: "Line Items",
-      description: "A list of line item objects, each containing information about an item in the order. Example: `{ \"variant_id\": 447654529, \"quantity\": 1, \"price\": 2.50, \"name\": \"Name\", \"title\": \"Title\" }`. More details in [Shopify Order Object](https://shopify.dev/docs/api/admin-graphql/latest/objects/order)",
+      description: "A list of line item objects, each containing information about an item in the order. Example: `{ \"variantId\": \"gid://shopify/ProductVariant/44572675571992\", \"quantity\": 1, \"title\": \"Title\" }`. More details in [Shopify Order Object](https://shopify.dev/docs/api/admin-graphql/latest/objects/order)",
     },
     billingAddress: {
       type: "object",
@@ -126,7 +126,6 @@ export default {
         shopify,
         "customerId",
       ],
-      optional: true,
     },
   },
   async run({ $ }) {
@@ -155,7 +154,7 @@ export default {
         shippingLines: utils.parseJson(this.shippingLines),
       },
     });
-    $.export("$summary", `Created new order with ID \`${response.id}\``);
+    $.export("$summary", `Created new order with ID \`${response.orderCreate.orderid}\``);
     return response;
   },
 };

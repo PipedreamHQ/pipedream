@@ -89,6 +89,7 @@ export default {
 
     const response = await this.shopify.updateCustomer({
       input: {
+        id: this.customerId,
         firstName: this.firstName,
         lastName: this.lastName,
         email: this.email,
@@ -106,7 +107,7 @@ export default {
         metafields,
       },
     });
-    $.export("$summary", `Updated customer \`${response.email || response.first_name}\` with id \`${response.id}\``);
+    $.export("$summary", `Updated customer \`${response.customerUpdate.customer.email || response.customerUpdate.customer.firstName}\` with ID \`${response.customerUpdate.customer.id}\``);
     return response;
   },
 };

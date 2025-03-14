@@ -1,4 +1,5 @@
 import shopify from "../../shopify_developer_app.app.mjs";
+import { MAX_LIMIT } from "@pipedream/shopify/common/constants.mjs";
 
 export default {
   key: "shopify_developer_app-get-order",
@@ -18,6 +19,7 @@ export default {
   async run({ $ }) {
     const response = await this.shopify.getOrder({
       id: this.orderId,
+      first: MAX_LIMIT,
     });
     $.export("$summary", `Successfully retrieved order with ID: ${this.orderId}`);
     return response;

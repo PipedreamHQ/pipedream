@@ -33,7 +33,7 @@ export default {
       const ts = Date.now();
       return {
         id: ts,
-        summary: `New Event Emitted at ${new Date(ts)}.`,
+        summary: `New Event Emitted at ${new Date(ts)}`,
         ts,
       };
     },

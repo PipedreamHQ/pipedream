@@ -16,7 +16,7 @@ export default {
   description,
   type,
   props: {
-    shopify,
+    app: shopify,
     ...props,
   },
 };

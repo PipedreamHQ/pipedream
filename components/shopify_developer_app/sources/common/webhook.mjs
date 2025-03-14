@@ -53,7 +53,7 @@ export default {
         shopId,
       ] = domain.split(constants.DOMAIN_SUFFIX);
       return this.app.getShopId() === shopId
-        && this.getTopic() === topic;
+        && constants.EVENT_TOPIC[this.getTopic()] === topic;
     },
     checkMetaFields({
       metafields = [], private_metafields: privateMetafields = [],

@@ -17,7 +17,7 @@ export default {
       const ts = Date.parse(resource.updatedAt);
       return {
         id: ts,
-        summary: `Customer Updated ${resource.id}.`,
+        summary: `Customer Updated ${resource.id}`,
         ts,
       };
     },

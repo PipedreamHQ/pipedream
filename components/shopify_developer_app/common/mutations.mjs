@@ -71,6 +71,9 @@ const UPDATE_CUSTOMER = `
     customerUpdate(input: $input) {
       customer {
         id
+        email
+        firstName
+        lastName
         metafields(first: 3) {
           edges {
             node {

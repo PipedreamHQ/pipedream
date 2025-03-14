@@ -17,7 +17,7 @@ export default {
       const ts = Date.parse(resource.updatedAt);
       return {
         id: ts,
-        summary: `New Fulfilled Order ${resource.id}.`,
+        summary: `New Fulfilled Order ${resource.id}`,
         ts,
       };
     },

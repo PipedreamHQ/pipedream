@@ -70,7 +70,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.shoify.createCustomer({
+    const response = await this.shopify.createCustomer({
       input: {
         firstName: this.firstName,
         lastName: this.lastName,
@@ -88,7 +88,7 @@ export default {
         ],
       },
     });
-    $.export("$summary", `Created new customer with ID \`${response.id}\``);
+    $.export("$summary", `Created new customer with ID \`${response.customerCreate.customer.id}\``);
     return response;
   },
 };
