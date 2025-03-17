@@ -255,6 +255,20 @@ export default {
 
       return this._makeRequest(opts, $);
     },
+    async listUserAvailabilitySchedules(uuid, $) {
+      const user = this._buildUserUri(uuid);
+      const opts = {
+        path: "/user_availability_schedules",
+        params: {
+          user,
+        },
+      };
+
+      return axios(
+        $ ?? this,
+        this._makeRequestOpts(opts),
+      );
+    },
     async getEvent(uuid, $) {
       const opts = {
         path: `/scheduled_events/${uuid}`,
