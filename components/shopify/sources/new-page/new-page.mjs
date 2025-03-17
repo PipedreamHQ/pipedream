@@ -1,5 +1,5 @@
-import shopify from "../../shopify.app.mjs";
-import common from "./common.mjs";
+import common from "../common/polling.mjs";
+import { MAX_LIMIT } from "../../common/constants.mjs";
 
 export default {
   ...common,
@@ -7,10 +7,26 @@ export default {
   name: "New Page",
   type: "source",
   description: "Emit new event for each new page published.",
-  version: "0.0.18",
+  version: "0.0.19",
   dedupe: "unique",
-  props: {
-    shopify,
-    ...common.props,
+  methods: {
+    ...common.methods,
+    async getResults() {
+      const { pages: { nodes } } = await this.app.listPages({
+        first: MAX_LIMIT,
+        reverse: true,
+      });
+      return nodes;
+    },
+    getTsField() {
+      return "createdAt";
+    },
+    generateMeta(page) {
+      return {
+        id: page.id,
+        summary: `New Page: ${page.title}`,
+        ts: Date.parse(page[this.getTsField()]),
+      };
+    },
   },
 };

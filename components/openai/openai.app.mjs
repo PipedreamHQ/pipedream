@@ -338,6 +338,9 @@ export default {
         maxBodyLength: Infinity,
       });
     },
+    isReasoningModel(model) {
+      return model.match(/^o[1-9]/gi)?.length;
+    },
     async models({ $ }) {
       const { data: models } = await this._makeRequest({
         $,
@@ -761,6 +764,13 @@ export default {
     listBatches(args = {}) {
       return this._makeRequest({
         path: "/batches",
+        ...args,
+      });
+    },
+    responses(args = {}) {
+      return this._makeRequest({
+        path: "/responses",
+        method: "POST",
         ...args,
       });
     },

@@ -21,10 +21,17 @@ export default {
     pageId: {
       type: "string",
       label: "Page ID",
-      description: "Select a page or provide a page ID",
-      async options({ prevContext }) {
-        const response = await this.search(undefined, {
+      description: "Search for a page or provide a page ID",
+      useQuery: true,
+      async options({
+        query, prevContext,
+      }) {
+        const response = await this.search(query || undefined, {
           start_cursor: prevContext.nextPageParameters ?? undefined,
+          filter: {
+            property: "object",
+            value: "page",
+          },
         });
         const options = this._extractPageTitleOptions(response.results);
         return this._buildPaginatedOptions(options, response.next_cursor);
@@ -33,12 +40,14 @@ export default {
     pageIdInDatabase: {
       type: "string",
       label: "Page ID",
-      description: "Select a page from the database or provide a page ID",
+      description: "Search for a page from the database or provide a page ID",
+      useQuery: true,
       async options({
-        prevContext, databaseId,
+        query, prevContext, databaseId,
       }) {
         this._checkOptionsContext(databaseId, "Database ID");
         const response = await this.queryDatabase(databaseId, {
+          query,
           start_cursor: prevContext.nextPageParameters ?? undefined,
         });
         const options = this._extractPageTitleOptions(response.results);

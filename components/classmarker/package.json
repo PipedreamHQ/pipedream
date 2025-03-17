@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/classmarker",
+  "version": "0.0.1",
+  "description": "Pipedream ClassMarker Components",
+  "main": "classmarker.app.mjs",
+  "keywords": [
+    "pipedream",
+    "classmarker"
+  ],
+  "homepage": "https://pipedream.com/apps/classmarker",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
