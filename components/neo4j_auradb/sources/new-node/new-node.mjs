@@ -22,9 +22,6 @@ export default {
     getBaseQuery(whereClause) {
       return `MATCH (n:${this.nodeLabel}) ${whereClause}`;
     },
-    getReturnVariable() {
-      return "n";
-    },
     emit(item) {
       const ts = (this.orderType === "dateTime")
         ? Date.parse(item.properties[this.orderBy])

@@ -20,10 +20,7 @@ export default {
   methods: {
     ...common.methods,
     getBaseQuery(whereClause) {
-      return `MATCH _=()-[r:${this.relationshipLabel}]->() ${whereClause}`;
-    },
-    getReturnVariable() {
-      return "r";
+      return `MATCH p=()-[n:${this.relationshipLabel}]->() ${whereClause}`;
     },
     emit(item) {
       const ts = (this.orderType === "dateTime")

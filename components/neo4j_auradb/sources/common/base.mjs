@@ -32,10 +32,10 @@ export default {
       default: return "";
       }
     },
-    _getWhereClause(lastData, type, returnVariable) {
+    _getWhereClause(lastData, type) {
       switch (type) {
-      case "datetime": return `WHERE ${returnVariable}.${this.orderBy} > datetime("${lastData}")`;
-      case "sequencial": return `WHERE ${returnVariable}.${this.orderBy} > ${parseInt(lastData)}`;
+      case "datetime": return `WHERE datetime(n.${this.orderBy}) > datetime.fromepochmillis(${Date.parse(lastData)})`;
+      case "sequencial": return `WHERE n.${this.orderBy} > ${parseInt(lastData)}`;
       default: return "";
       }
     },
@@ -67,15 +67,11 @@ export default {
     _setLastData(lastData) {
       this.db.set("lastData", lastData);
     },
-    getVarName() {
-      return "";
-    },
     async emitEvent(maxResults = false) {
-      const returnVariable = this.getReturnVariable();
       const lastData = this._getLastData();
-      const whereClause = this._getWhereClause(lastData, this.orderType, returnVariable);
-      const queryBase = this.getBaseQuery(whereClause, returnVariable);
-      const query = `${queryBase} RETURN ${returnVariable} ORDER BY ${returnVariable}.${this.orderBy} DESC `;
+      const whereClause = this._getWhereClause(lastData, this.orderType);
+      const queryBase = this.getBaseQuery(whereClause);
+      const query = `${queryBase} RETURN n ORDER BY n.${this.orderBy} DESC `;
 
       const response = this.app.paginate({
         query,
