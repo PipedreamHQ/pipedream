@@ -26,7 +26,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.calendly.listUSerAvailabilitySchedules(this.user, $);
+    const response = await this.calendly.listUserAvailabilitySchedules(this.user, $);
     $.export("$summary", `Successfully retrieved availability schedules for user ${this.user}`);
     return response;
   },
