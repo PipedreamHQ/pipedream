@@ -7146,8 +7146,7 @@ importers:
         specifier: ^6.11.1
         version: 6.13.1
 
-  components/line_messaging_api:
-    specifiers: {}
+  components/line_messaging_api: {}
 
   components/linear:
     dependencies:
