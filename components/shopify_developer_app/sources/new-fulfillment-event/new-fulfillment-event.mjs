@@ -6,7 +6,7 @@ export default {
   name: "New Fulfillment Event (Instant)",
   type: "source",
   description: "Emit new event for each new fulfillment event for a store.",
-  version: "0.0.7",
+  version: "0.0.8",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -14,7 +14,7 @@ export default {
       return "FULFILLMENT_EVENTS_CREATE";
     },
     generateMeta(resource) {
-      const ts = Date.parse(resource.updatedAt);
+      const ts = Date.parse(resource.updated_at);
       return {
         id: ts,
         summary: `New Fulfillment Event ${resource.id}`,

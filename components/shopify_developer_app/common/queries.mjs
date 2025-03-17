@@ -109,7 +109,7 @@ const LIST_ORDERS = `
       nodes {
         id
         updatedAt
-        metafields (first: $first, after: $after) {
+        metafields (first: $first) {
           nodes {
             id
             key
@@ -131,7 +131,7 @@ const LIST_DRAFT_ORDERS = `
     draftOrders(first: $first, after: $after) {
       nodes {
         id
-        metafields (first: $first, after: $after) {
+        metafields (first: $first) {
           nodes {
             id
             key
@@ -154,7 +154,7 @@ const LIST_CUSTOMERS = `
       nodes {
         id
         displayName
-        metafields (first: $first, after: $after) {
+        metafields (first: $first) {
           nodes {
             id
             key

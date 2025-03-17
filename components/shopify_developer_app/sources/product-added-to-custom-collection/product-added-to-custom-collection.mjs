@@ -11,12 +11,12 @@ const props = adjustPropDefinitions(others.props, shopify);
 export default {
   ...others,
   key: "shopify_developer_app-product-added-to-custom-collection",
-  version: "0.0.5",
+  version: "0.0.6",
   name,
   description,
   type,
   props: {
-    shopify,
+    app: shopify,
     ...props,
   },
 };

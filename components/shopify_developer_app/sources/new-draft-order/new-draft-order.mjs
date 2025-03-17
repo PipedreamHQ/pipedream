@@ -6,7 +6,7 @@ export default {
   name: "New Draft Order (Instant)",
   type: "source",
   description: "Emit new event for each new draft order submitted to a store.",
-  version: "0.0.9",
+  version: "0.0.10",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -14,7 +14,7 @@ export default {
       return "DRAFT_ORDERS_CREATE";
     },
     generateMeta(resource) {
-      const ts = Date.parse(resource.createdAt);
+      const ts = Date.parse(resource.created_at);
       return {
         id: resource.id,
         summary: `New Draft Order ${resource.id}`,
