@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "pipedream_utils",
+  app: "line_messaging_api",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data

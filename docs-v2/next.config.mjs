@@ -446,6 +446,11 @@ export default withNextra({
         destination: "/connect/managed-auth/webhooks/",
         permanent: true,
       },
+      {
+        source: "/integrations/connected-accounts/oauth-clients/",
+        destination: "/integrations/oauth-clients/",
+        permanent: true,
+      },
     ];
   },
   async rewrites() {
