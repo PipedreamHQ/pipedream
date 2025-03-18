@@ -12495,6 +12495,9 @@ importers:
 
   components/taggun: {}
 
+  components/tailscale:
+    specifiers: {}
+
   components/taleez:
     dependencies:
       '@pipedream/platform':
