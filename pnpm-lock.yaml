@@ -12495,8 +12495,7 @@ importers:
 
   components/taggun: {}
 
-  components/tailscale:
-    specifiers: {}
+  components/tailscale: {}
 
   components/taleez:
     dependencies:
