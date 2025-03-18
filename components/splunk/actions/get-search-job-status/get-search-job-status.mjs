@@ -1,0 +1,36 @@
+import splunk from "../../splunk.app.mjs";
+
+export default {
+  key: "splunk-get-search-job-status",
+  name: "Get Search Job Status",
+  description: "Retrieve the status of a previously executed Splunk search job. [See the documentation](https://docs.splunk.com/Documentation/Splunk/9.4.1/RESTREF/RESTsearch#search.2Fjobs)",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    splunk,
+    selfSigned: {
+      propDefinition: [
+        splunk,
+        "selfSigned",
+      ],
+    },
+    searchId: {
+      propDefinition: [
+        splunk,
+        "searchId",
+        (c) => ({
+          selfSigned: c.selfSigned,
+        }),
+      ],
+    },
+  },
+  async run({ $ }) {
+    const response = await this.splunk.getSearchJobStatus({
+      $,
+      selfSigned: this.selfSigned,
+      searchId: this.searchId,
+    });
+    $.export("$summary", `Successfully retrieved status for job ID ${this.searchId}`);
+    return response;
+  },
+};
