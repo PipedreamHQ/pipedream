@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/agentql",
+  "version": "0.0.1",
+  "description": "Pipedream AgentQL Components",
+  "main": "agentql.app.mjs",
+  "keywords": [
+    "pipedream",
+    "agentql"
+  ],
+  "homepage": "https://pipedream.com/apps/agentql",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
