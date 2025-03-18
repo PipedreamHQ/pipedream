@@ -113,7 +113,7 @@ export default {
     }
     if (this.seoDescription) {
       args.input.seo = {
-        ...args.product?.seo,
+        ...args.input?.seo,
         description: this.seoDescription,
       };
     }
