@@ -117,9 +117,11 @@ export default {
             types.push("im");
             userNamesOrPromise = this.userNames();
           }
+        } else if (types.includes("im")) {
+          userNamesOrPromise = this.userNames();
         }
         const [
-          userNames = await this.userNames(),
+          userNames,
           conversationsResp,
         ] = await Promise.all([
           userNamesOrPromise,
@@ -595,12 +597,13 @@ export default {
      * @param {string}  [args.cursor] Pagination value e.g. (`dXNlcjpVMDYxTkZUVDI=`)
      * @param {boolean} [args.include_locale] Set this to `true` to receive the locale
      * for users. Defaults to `false`
-     * @param {number}  [args.limit] Pagination value. Defaults to `0`
+     * @param {number}  [args.limit] The maximum number of items to return. Defaults to `250`
      * @param {string}  [args.team_id] Encoded team id to list users in,
      * required if org token is used
      * @returns Promise
      */
     usersList(args = {}) {
+      args.limit ||= 250;
       return this.makeRequest({
         method: "users.list",
         ...args,
