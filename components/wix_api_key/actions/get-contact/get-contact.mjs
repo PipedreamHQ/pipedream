@@ -4,7 +4,7 @@ export default {
   key: "wix_api_key-get-contact",
   name: "Get Contact",
   description: "Retrieves information about a contact. [See the documentation](https://dev.wix.com/api/rest/contacts/contacts/contacts-v4/get-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     wix,

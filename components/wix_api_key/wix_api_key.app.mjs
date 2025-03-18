@@ -133,6 +133,107 @@ export default {
         })) || [];
       },
     },
+    categoryId: {
+      type: "string",
+      label: "Category ID",
+      description: "Category ID of the draft post",
+      optional: true,
+      async options({ page }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const { categories } = await this.listCategories({
+          params: {
+            "paging.limit": limit,
+            "paging.offset": page * limit,
+          },
+        });
+        return categories?.map(({
+          id: value, label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
+    },
+    memberId: {
+      type: "string",
+      label: "Member ID",
+      description: "The identifier of a member",
+      optional: true,
+      async options({ page }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const { members } = await this.listMembers({
+          params: {
+            "paging.limit": limit,
+            "paging.offset": page * limit,
+          },
+        });
+        return members?.map(({
+          id: value, loginEmail: label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
+    },
+    tagId: {
+      type: "string",
+      label: "Tag ID",
+      description: "Tag ID of the draft post",
+      optional: true,
+      async options({ page }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const { tags } = await this.queryTags({
+          data: {
+            query: {
+              paging: {
+                limit,
+                offset: page * limit,
+              },
+            },
+          },
+        });
+        return tags?.map(({
+          id: value, label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
+    },
+    postId: {
+      type: "string",
+      label: "Post ID",
+      description: "ID of a post",
+      optional: true,
+      useQuery: true,
+      async options({
+        page, query,
+        filter = {
+          title: {
+            "$contains": query,
+          },
+        },
+      }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const { posts } = await this.queryPosts({
+          data: {
+            query: {
+              filter,
+              paging: {
+                limit,
+                offset: page * limit,
+              },
+            },
+          },
+        });
+        return posts?.map(({
+          id: value, title,
+        }) => ({
+          value,
+          label: title,
+        }));
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -146,7 +247,9 @@ export default {
     },
     async getSiteHeaders(siteId) {
       if (!siteId) {
-        return {};
+        return {
+          "wix-account-id": this.$auth.account_id,
+        };
       }
       const accountId = await this.getSiteAccountId(siteId);
       return {
@@ -233,6 +336,26 @@ export default {
       return this._makeRequest({
         path: "/stores/v1/collections/query",
         method: "POST",
+        ...args,
+      });
+    },
+    listCategories(args = {}) {
+      return this._makeRequest({
+        path: "/blog/v3/categories",
+        ...args,
+      });
+    },
+    queryTags(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/blog/v2/tags/query",
+        ...args,
+      });
+    },
+    queryPosts(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/blog/v3/posts/query",
         ...args,
       });
     },

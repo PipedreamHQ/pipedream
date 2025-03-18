@@ -6,7 +6,7 @@ export default {
   key: "wix_api_key-new-member-registered",
   name: "New Member Registered",
   description: "Emit new event when a new member is registered. [See the documentation](https://dev.wix.com/api/rest/members/members/list-members)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   methods: {
     ...common.methods,

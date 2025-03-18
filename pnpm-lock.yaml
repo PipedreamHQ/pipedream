@@ -14014,8 +14014,8 @@ importers:
   components/wix_api_key:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/wiza:
     dependencies:
@@ -20390,8 +20390,8 @@ packages:
   axios@1.7.9:
     resolution: {integrity: sha512-LhLcE7Hbiryz8oMDdDptSrWowmB4Bl6RCt6sIJKpRB4XtVf0iEgewX3au/pJqm+Py1kCASkb/FFKjxQaLtxJvw==}
 
-  axios@1.8.2:
-    resolution: {integrity: sha512-ls4GYBm5aig9vWx8AWDSGLpnpDQRtWAfrjU+EuytuODrFBkqesN2RkOQCBzrA1RQNHw1SmRMSDDDSwzNAYQ6Rg==}
+  axios@1.8.3:
+    resolution: {integrity: sha512-iP4DebzoNlP/YN2dpwCgb8zoCmhtkajzS48JvwmkSkXvPI3DHc7m+XYL5tGnSlJtR6nImXZmdCuN5aP8dh1d8A==}
 
   axobject-query@4.1.0:
     resolution: {integrity: sha512-qIj0G9wZbMGNLjLmg1PT6v2mE9AH2zlnADJD/2tC6E00hgmhUOfEB6greHPAfLRSufHqROIUTkw6E+M3lH0PTQ==}
@@ -22708,6 +22708,10 @@ packages:
 
   form-data@2.5.2:
     resolution: {integrity: sha512-GgwY0PS7DbXqajuGf4OYlsrIu3zgxD6Vvql43IBhm6MahqA5SK/7mwhtNj2AdH2z35YR34ujJ7BN+3fFC3jP5Q==}
+    engines: {node: '>= 0.12'}
+
+  form-data@2.5.3:
+    resolution: {integrity: sha512-XHIrMD0NpDrNM/Ckf7XJiBbLl57KEhT3+i3yY+eWm+cqYZJQTZrKo8Y8AWKnuV5GT4scfuUGt9LzNoIx3dU1nQ==}
     engines: {node: '>= 0.12'}
 
   form-data@3.0.0:
@@ -33904,7 +33908,7 @@ snapshots:
 
   '@pipedream/platform@3.0.3':
     dependencies:
-      axios: 1.7.7(debug@3.2.7)
+      axios: 1.8.3
       fp-ts: 2.16.9
       io-ts: 2.2.22(fp-ts@2.16.9)
       querystring: 0.2.1
@@ -36336,7 +36340,7 @@ snapshots:
       '@types/caseless': 0.12.5
       '@types/node': 20.17.6
       '@types/tough-cookie': 4.0.5
-      form-data: 2.5.2
+      form-data: 2.5.3
 
   '@types/responselike@1.0.3':
     dependencies:
@@ -36998,7 +37002,7 @@ snapshots:
     dependencies:
       '@aws-sdk/util-utf8-browser': 3.259.0
       '@httptoolkit/websocket-stream': 6.0.1
-      axios: 1.8.2
+      axios: 1.8.3
       buffer: 6.0.3
       crypto-js: 4.2.0
       mqtt: 4.3.8
@@ -37104,7 +37108,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  axios@1.8.2:
+  axios@1.8.3:
     dependencies:
       follow-redirects: 1.15.9(debug@3.2.7)
       form-data: 4.0.2
@@ -39889,6 +39893,14 @@ snapshots:
     dependencies:
       asynckit: 0.4.0
       combined-stream: 1.0.8
+      mime-types: 2.1.35
+      safe-buffer: 5.2.1
+
+  form-data@2.5.3:
+    dependencies:
+      asynckit: 0.4.0
+      combined-stream: 1.0.8
+      es-set-tostringtag: 2.1.0
       mime-types: 2.1.35
       safe-buffer: 5.2.1
 
