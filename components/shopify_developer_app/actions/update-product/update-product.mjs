@@ -1,6 +1,5 @@
 import shopify from "../../shopify_developer_app.app.mjs";
 import common from "../common/metafield-actions.mjs";
-import utils from "@pipedream/shopify/common/utils.mjs";
 
 export default {
   ...common,
@@ -58,12 +57,6 @@ export default {
       description: "A list of URLs of images to associate with the new product",
       optional: true,
     },
-    options: {
-      type: "string[]",
-      label: "Options",
-      description: "The custom product properties. For example, Size, Color, and Material. Each product can have up to 3 options and each option value can be up to 255 characters. Product variants are made of up combinations of option values. Options cannot be created without values. To create new options, a variant with an associated option value also needs to be created. Example: `[{\"name\":\"Color\",\"values\":[{\"name\": \"Blue\"},{\"name\": \"Black\"}]},{\"name\":\"Size\",\"values\":[{\"name\": \"155\"},{\"name\": \"159\"}]}]`",
-      optional: true,
-    },
     tags: {
       propDefinition: [
         shopify,
@@ -99,7 +92,7 @@ export default {
   async run({ $ }) {
     const metafields = await this.createMetafieldsArray(this.metafields, this.productId, "product");
 
-    const response = await this.shopify.updateProduct({
+    const args = {
       input: {
         id: this.productId,
         title: this.title,
@@ -107,15 +100,32 @@ export default {
         vendor: this.vendor,
         productType: this.productType,
         status: this.status,
-        images: utils.parseJson(this.images),
-        options: utils.parseJson(this.options),
         tags: this.tags,
         metafields,
-        metafields_global_title_tag: this.seoTitle,
-        metafields_global_description_tag: this.seoDescription,
         handle: this.handle,
       },
-    });
+    };
+
+    if (this.seoTitle) {
+      args.input.seo = {
+        title: this.seoTitle,
+      };
+    }
+    if (this.seoDescription) {
+      args.input.seo = {
+        ...args.product?.seo,
+        description: this.seoDescription,
+      };
+    }
+
+    if (this.images?.length) {
+      args.media = this.images.map((originalSource) => ({
+        originalSource,
+        mediaContentType: "IMAGE",
+      }));
+    }
+
+    const response = await this.shopify.updateProduct(args);
     if (response.productUpdate.userErrors.length > 0) {
       throw new Error(response.productUpdate.userErrors[0].message);
     }
