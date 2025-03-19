@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/evernote",
+  "version": "0.0.1",
+  "description": "Pipedream Evernote Components",
+  "main": "evernote.app.mjs",
+  "keywords": [
+    "pipedream",
+    "evernote"
+  ],
+  "homepage": "https://pipedream.com/apps/evernote",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

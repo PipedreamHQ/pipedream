@@ -255,7 +255,7 @@ export default {
 
       return this._makeRequest(opts, $);
     },
-    async listUSerAvailabilitySchedules(uuid, $) {
+    async listUserAvailabilitySchedules(uuid, $) {
       const user = this._buildUserUri(uuid);
       const opts = {
         path: "/user_availability_schedules",

@@ -1,21 +1,22 @@
-import app from "../../common/rest-admin.mjs";
-import common from "@pipedream/shopify/actions/create-blog/common.mjs";
+import shopify from "../../shopify_developer_app.app.mjs";
+import common from "@pipedream/shopify/actions/create-blog/create-blog.mjs";
+
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
+const props = adjustPropDefinitions(others.props, shopify);
 
 export default {
-  ...common,
+  ...others,
   key: "shopify_developer_app-create-blog",
-  name: "Create Blog",
-  description: "Create a new blog. [See The Documentation](https://shopify.dev/docs/api/admin-rest/2023-04/resources/blog#post-blogs)",
-  version: "0.0.6",
-  type: "action",
+  version: "0.0.8",
+  name,
+  description,
+  type,
   props: {
-    app,
-    title: {
-      description: "The title of the blog.",
-      propDefinition: [
-        app,
-        "title",
-      ],
-    },
+    shopify,
+    ...props,
   },
 };

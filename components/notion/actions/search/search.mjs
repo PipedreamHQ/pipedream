@@ -3,19 +3,16 @@ import common from "../common/base-search.mjs";
 export default {
   ...common,
   key: "notion-search",
-  name: "Search",
-  description: "Searches for a page or database. [See the docs](https://developers.notion.com/reference/post-search)",
-  version: "0.0.4",
+  name: "Find Pages or Databases",
+  description: "Searches for a page or database. [See the documentation](https://developers.notion.com/reference/post-search)",
+  version: "0.0.6",
   type: "action",
   props: {
     ...common.props,
     title: {
-      propDefinition: [
-        common.props.notion,
-        "title",
-      ],
-      label: "Query",
-      description: "The object title.",
+      type: "string",
+      label: "Query (Title)",
+      description: "The object title to search for",
     },
     filter: {
       propDefinition: [
@@ -25,14 +22,10 @@ export default {
     },
   },
   methods: {
-    getSummary({
-      response, title,
-    }) {
-      return `Found ${response.results.length} object${response.results.length > 1
-        ? "s"
-        : ""} ${title
-        ? `with query search ${this.title}`
-        : ""}`;
+    getSummary({ response }) {
+      return `Found ${response.results?.length} object${response.results?.length === 1
+        ? ""
+        : "s"} with query search ${this.title}`;
     },
     getFilter() {
       return this.filter;

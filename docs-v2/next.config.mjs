@@ -407,6 +407,16 @@ export default withNextra({
         permanent: true,
       },
       {
+        source: "/cli/reference/",
+        destination: "/workflows/cli/reference/",
+        permanent: true,
+      },
+      {
+        source: "/cli/login/",
+        destination: "/workflows/cli/login/",
+        permanent: true,
+      },
+      {
         source: "/connect/connect-link/",
         destination: "/connect/managed-auth/connect-link/",
         permanent: true,
@@ -434,6 +444,11 @@ export default withNextra({
       {
         source: "/connect/webhooks/",
         destination: "/connect/managed-auth/webhooks/",
+        permanent: true,
+      },
+      {
+        source: "/integrations/connected-accounts/oauth-clients/",
+        destination: "/integrations/oauth-clients/",
         permanent: true,
       },
     ];

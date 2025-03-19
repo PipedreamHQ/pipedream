@@ -7,9 +7,9 @@ import zlib from "zlib";
 export default {
   ...base,
   key: "notion-updated-page",
-  name: "Updated Page in Database", /* eslint-disable-line pipedream/source-name */
-  description: "Emit new event when a page in a database is updated. To select a specific page, use `Updated Page ID` instead",
-  version: "0.1.4",
+  name: "New or Updated Page in Database", /* eslint-disable-line pipedream/source-name */
+  description: "Emit new event when a page is created or updated in the selected database. [See the documentation](https://developers.notion.com/reference/page)",
+  version: "0.1.6",
   type: "source",
   dedupe: "unique",
   props: {
@@ -23,7 +23,7 @@ export default {
     includeNewPages: {
       type: "boolean",
       label: "Include New Pages",
-      description: "Set to `true` to emit events when pages are created. Set to `false` to ignore new pages.",
+      description: "Set to `false` to emit events only for updates, not for new pages.",
       default: true,
     },
     properties: {
@@ -40,7 +40,7 @@ export default {
     },
     alert: {
       type: "alert",
-      alertType: "info",
+      alertType: "warning",
       content: "Source not saving? Your database might be too large. If deployment takes longer than one minute, an error will occur.",
     },
   },
