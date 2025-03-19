@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/miyn",
+  "version": "0.0.1",
+  "description": "Pipedream Miyn Components",
+  "main": "miyn.app.mjs",
+  "keywords": [
+    "pipedream",
+    "miyn"
+  ],
+  "homepage": "https://pipedream.com/apps/miyn",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
