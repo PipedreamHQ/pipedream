@@ -15,9 +15,10 @@ export default {
       ],
     },
     query: {
-      type: "string",
-      label: "Search Query",
-      description: "The Splunk search query. Example: `search *`. [See the documentation](https://docs.splunk.com/Documentation/Splunk/9.4.1/SearchReference/Search) for more information about search command sytax.",
+      propDefinition: [
+        splunk,
+        "query",
+      ],
     },
     earliestTime: {
       type: "string",

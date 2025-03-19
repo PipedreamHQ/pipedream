@@ -14,10 +14,10 @@ export default {
         "selfSigned",
       ],
     },
-    searchId: {
+    jobId: {
       propDefinition: [
         splunk,
-        "searchId",
+        "jobId",
         (c) => ({
           selfSigned: c.selfSigned,
         }),
@@ -28,9 +28,9 @@ export default {
     const response = await this.splunk.getSearchJobStatus({
       $,
       selfSigned: this.selfSigned,
-      searchId: this.searchId,
+      jobId: this.jobId,
     });
-    $.export("$summary", `Successfully retrieved status for job ID ${this.searchId}`);
+    $.export("$summary", `Successfully retrieved status for job ID ${this.jobId}`);
     return response;
   },
 };

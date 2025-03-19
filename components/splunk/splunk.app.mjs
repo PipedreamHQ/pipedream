@@ -1,19 +1,19 @@
 import { axios } from "@pipedream/platform";
 import https from "https";
-const DEFAULT_LIMIT = 20;
+const DEFAULT_LIMIT = 50;
 
 export default {
   type: "app",
   app: "splunk",
   propDefinitions: {
-    searchId: {
+    jobId: {
       type: "string",
       label: "Search ID",
       description: "The ID of the Splunk search job to retrieve status for",
       async options({
         selfSigned, page,
       }) {
-        const { entry } = await this.listSearches({
+        const { entry } = await this.listJobs({
           selfSigned,
           params: {
             count: DEFAULT_LIMIT,
@@ -45,15 +45,37 @@ export default {
         return entry?.map(({ name }) => name) || [];
       },
     },
+    savedSearchName: {
+      type: "string",
+      label: "Saved Search Name",
+      description: "The name of a saved search",
+      async options({
+        selfSigned, page,
+      }) {
+        const { entry } = await this.listSavedSearches({
+          selfSigned,
+          params: {
+            count: DEFAULT_LIMIT,
+            offset: DEFAULT_LIMIT * page,
+          },
+        });
+        return entry?.map(({ name }) => name) || [];
+      },
+    },
     selfSigned: {
       type: "boolean",
       label: "Self Signed",
       description: "Set to `true` if your instance is using a self-signed certificate",
     },
+    query: {
+      type: "string",
+      label: "Search Query",
+      description: "The Splunk search query. Example: `search *`. [See the documentation](https://docs.splunk.com/Documentation/Splunk/9.4.1/SearchReference/Search) for more information about search command sytax.",
+    },
   },
   methods: {
     _baseUrl() {
-      return `${this.$auth.api_url}:${this.$auth.api_port}`;
+      return `${this.$auth.api_url}:${this.$auth.api_port}/services`;
     },
     _makeRequest({
       $ = this,
@@ -64,7 +86,6 @@ export default {
     }) {
       const config = {
         ...otherOpts,
-        debug: true,
         url: `${this._baseUrl()}${path}`,
         headers: {
           Authorization: `Bearer ${this.$auth.api_token}`,
@@ -81,39 +102,95 @@ export default {
       }
       return axios($, config);
     },
-    listSearches(opts = {}) {
+    listJobs(opts = {}) {
       return this._makeRequest({
-        path: "/services/search/jobs",
+        path: "/search/jobs",
         ...opts,
       });
     },
     listIndexes(opts = {}) {
       return this._makeRequest({
-        path: "/services/data/indexes",
+        path: "/data/indexes",
+        ...opts,
+      });
+    },
+    listSavedSearches(opts = {}) {
+      return this._makeRequest({
+        path: "/saved/searches",
+        ...opts,
+      });
+    },
+    listFiredAlerts(opts = {}) {
+      return this._makeRequest({
+        path: "/alerts/fired_alerts",
         ...opts,
       });
     },
     executeSearchQuery(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/services/search/jobs",
+        path: "/search/jobs",
         ...opts,
       });
     },
     getSearchJobStatus({
-      searchId, ...opts
+      jobId, ...opts
     }) {
       return this._makeRequest({
-        path: `/services/search/jobs/${searchId}`,
+        path: `/search/jobs/${jobId}`,
+        ...opts,
+      });
+    },
+    getSearchResults({
+      jobId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/search/v2/jobs/${jobId}/results`,
+        ...opts,
+      });
+    },
+    getSearchEvents({
+      jobId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/search/v2/jobs/${jobId}/events`,
         ...opts,
       });
     },
     sendEvent(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/services/receivers/simple",
+        path: "/receivers/simple",
         ...opts,
       });
+    },
+    async *paginate({
+      resourceFn,
+      args,
+      max,
+    }) {
+      args = {
+        ...args,
+        params: {
+          ...args?.params,
+          count: DEFAULT_LIMIT,
+        },
+      };
+      let hasMore, count = 0;
+      do {
+        const {
+          entry, paging,
+        } = await resourceFn(args);
+        for (const item of entry) {
+          yield item;
+          count++;
+          if (max && count >= max) {
+            return;
+          }
+        }
+        hasMore = paging.total > count;
+        args.params.offset += args.params.count;
+      } while (hasMore);
     },
   },
 };
