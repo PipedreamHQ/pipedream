@@ -4,7 +4,7 @@ export default {
   key: "shopify_developer_app-create-customer",
   name: "Create Customer",
   description: "Create a new customer. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/customercreate)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     shopify,
@@ -88,6 +88,9 @@ export default {
         ],
       },
     });
+    if (response.customerCreate.userErrors.length > 0) {
+      throw new Error(response.customerCreate.userErrors[0].message);
+    }
     $.export("$summary", `Created new customer with ID \`${response.customerCreate.customer.id}\``);
     return response;
   },

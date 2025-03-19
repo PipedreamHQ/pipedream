@@ -6,7 +6,7 @@ export default {
   name: "New Paid Order (Instant)",
   type: "source",
   description: "Emit new event each time a new order is paid.",
-  version: "0.0.9",
+  version: "0.0.10",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -14,7 +14,7 @@ export default {
       return "ORDERS_PAID";
     },
     generateMeta(resource) {
-      const ts = Date.parse(resource.updatedAt);
+      const ts = Date.parse(resource.updated_at);
       return {
         id: ts,
         summary: `Order Paid ${resource.id}`,

@@ -6,7 +6,7 @@ export default {
   name: "New Cancelled Order (Instant)",
   type: "source",
   description: "Emit new event each time a new order is cancelled.",
-  version: "0.0.9",
+  version: "0.0.10",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -14,7 +14,7 @@ export default {
       return "ORDERS_CANCELLED";
     },
     generateMeta(resource) {
-      const ts = Date.parse(resource.updatedAt);
+      const ts = Date.parse(resource.updated_at);
       return {
         id: ts,
         summary: `Order Cancelled ${resource.id}`,
