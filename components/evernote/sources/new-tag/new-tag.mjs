@@ -1,64 +1,38 @@
-import {
-  axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-} from "@pipedream/platform";
-import evernote from "../../evernote.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "evernote-new-tag",
   name: "New Tag Created",
-  description: "Emit new event when a new tag is created in Evernote. Useful for tracking new organizational labels. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a new tag is created in Evernote. Useful for tracking new organizational labels.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    evernote,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
+  methods: {
+    ...common.methods,
+    getSummary(item) {
+      return `New tag created: ${item.name}`;
     },
-    tagFilter: {
-      propDefinition: [
-        "evernote",
-        "tagFilter",
-      ],
-      optional: true,
+    getData() {
+      return this.evernote.listTags();
     },
-  },
-  hooks: {
-    async deploy() {
-      const tags = await this.evernote.listTags();
-      const sortedTags = tags.sort((a, b) => new Date(b.created) - new Date(a.created));
-      const recentTags = sortedTags.slice(0, 50);
-      for (const tag of recentTags) {
-        this.evernote.emitNewTagEvent(tag);
+    getDefaultData() {
+      return [];
+    },
+    prepareResults(results, lastData, maxResults) {
+      results = results.filter((item) => !lastData.includes(item.guid));
+
+      if (results.length) {
+        if (maxResults && (results.length > maxResults)) {
+          results.length = maxResults;
+        }
       }
-      const tagIds = tags.map((tag) => tag.id);
-      await this.db.set("tagIds", tagIds);
+      return results;
     },
-    async activate() {
-      // No activation logic required
-    },
-    async deactivate() {
-      // No deactivation logic required
+    lastData(results) {
+      return results[results.length - 1].created;
     },
   },
-  async run() {
-    const currentTags = await this.evernote.listTags();
-    const storedTagIds = (await this.db.get("tagIds")) || [];
-    let newTags = currentTags.filter((tag) => !storedTagIds.includes(tag.id));
-
-    if (this.tagFilter) {
-      newTags = newTags.filter((tag) => tag.id === this.tagFilter);
-    }
-
-    for (const tag of newTags) {
-      this.evernote.emitNewTagEvent(tag);
-    }
-
-    const currentTagIds = currentTags.map((tag) => tag.id);
-    await this.db.set("tagIds", currentTagIds);
-  },
+  sampleEmit,
 };

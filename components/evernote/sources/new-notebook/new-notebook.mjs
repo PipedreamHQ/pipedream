@@ -1,91 +1,37 @@
-import {
-  axios, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-} from "@pipedream/platform";
-import evernote from "../../evernote.app.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "evernote-new-notebook",
   name: "New Notebook Created",
-  description: "Emit a new event when a notebook is created in Evernote. [See the documentation](),",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when a notebook is created in Evernote.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    evernote,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
-    notebookFilter: {
-      propDefinition: [
-        evernote,
-        "notebookFilter",
-      ],
-    },
-  },
   methods: {
-    async fetchNotebooks() {
-      const notebooks = await this.evernote.listNotebooks();
-      return notebooks;
+    ...common.methods,
+    getSummary(item) {
+      return `New notebook created: ${item.name}`;
     },
-    getStoredNotebooks() {
-      return this.db.get("notebooks") || [];
+    getData() {
+      return this.evernote.listNotebooks();
     },
-    storeNotebooks(notebooks) {
-      this.db.set("notebooks", notebooks);
-    },
-    findNewNotebooks(currentNotebooks, storedNotebooks) {
-      const storedIds = new Set(storedNotebooks.map((nb) => nb.id));
-      return currentNotebooks.filter((nb) => !storedIds.has(nb.id));
-    },
-    async emitNotebookEvents(newNotebooks) {
-      for (const notebook of newNotebooks) {
-        const timestamp = notebook.created
-          ? Date.parse(notebook.created)
-          : Date.now();
-        this.$emit(notebook, {
-          id: notebook.id,
-          summary: `New notebook created: ${notebook.name}`,
-          ts: timestamp,
-        });
-      }
-    },
-  },
-  hooks: {
-    async deploy() {
-      const notebooks = await this.fetchNotebooks();
-      this.storeNotebooks(notebooks);
+    prepareResults(results, lastData, maxResults) {
+      results = results
+        .filter((item) => item.serviceCreated > lastData)
+        .sort((a, b) => b.serviceCreated - a.serviceCreated);
 
-      const recentNotebooks = notebooks.slice(-50).reverse();
-      for (const notebook of recentNotebooks) {
-        const timestamp = notebook.created
-          ? Date.parse(notebook.created)
-          : Date.now();
-        this.$emit(notebook, {
-          id: notebook.id,
-          summary: `New notebook created: ${notebook.name}`,
-          ts: timestamp,
-        });
+      if (results.length) {
+        if (maxResults && (results.length > maxResults)) {
+          results.length = maxResults;
+        }
       }
+      return results.reverse();
     },
-    async activate() {
-      // No webhook subscription needed for polling
-    },
-    async deactivate() {
-      // No webhook subscription to remove
+    lastData(results) {
+      return results[results.length - 1].serviceCreated;
     },
   },
-  async run() {
-    const currentNotebooks = await this.fetchNotebooks();
-    const storedNotebooks = this.getStoredNotebooks();
-
-    const newNotebooks = this.findNewNotebooks(currentNotebooks, storedNotebooks);
-    if (newNotebooks.length > 0) {
-      await this.emitNotebookEvents(newNotebooks);
-      this.storeNotebooks(currentNotebooks);
-    }
-  },
+  sampleEmit,
 };
