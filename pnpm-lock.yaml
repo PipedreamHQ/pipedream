@@ -9316,6 +9316,9 @@ importers:
 
   components/perry_github_test: {}
 
+  components/persanaai:
+    specifiers: {}
+
   components/persistiq:
     dependencies:
       '@pipedream/platform':
