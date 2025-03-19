@@ -22,7 +22,18 @@ export default {
       label: "Order Type",
       description: "The type of the order field.",
       options: ORDER_TYPE_OPTIONS,
+      reloadProps: true,
     },
+    datetimeFormat: {
+      type: "string",
+      label: "Datetime Format",
+      description: "The format of the datetime field. **E.g. YYYY-MM-DD HH:mm:ss.SSSSZ**",
+      hidden: true,
+    },
+  },
+  async additionalProps(props) {
+    props.datetimeFormat.hidden = !(this.orderType === "datetime");
+    return {};
   },
   methods: {
     _getDefaultValue() {
@@ -34,7 +45,7 @@ export default {
     },
     _getWhereClause(lastData, type) {
       switch (type) {
-      case "datetime": return `WHERE datetime(n.${this.orderBy}) > datetime.fromepochmillis(${Date.parse(lastData)})`;
+      case "datetime": return `WHERE apoc.date.parse(n.${this.orderBy}, "ms", "${this.datetimeFormat}") > ${Date.parse(lastData)}`;
       case "sequencial": return `WHERE n.${this.orderBy} > ${parseInt(lastData)}`;
       default: return "";
       }
