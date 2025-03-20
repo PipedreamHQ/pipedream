@@ -3,7 +3,6 @@ import {
   DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
 } from "@pipedream/platform";
 import common from "./base.mjs";
-import utils from "../../common/utils.mjs";
 
 export default {
   ...common,
@@ -36,19 +35,21 @@ export default {
     filterResources(resources) {
       return resources;
     },
-    async processStreamEvents(resourcesStream) {
-      const resources = await utils.streamIterator(resourcesStream);
+    async processStreamEvents(resources) {
       const relevantResources = this.filterResources(resources);
       relevantResources.reverse().forEach(this.processEvent);
+      console.log(`Fetched ${resources.length} total resources`);
+      console.log(`Emitting ${relevantResources.length} resources`);
+      console.log(`Filtered out ${resources.length - relevantResources.length} unchanged`);
     },
   },
   async run() {
-    const resourcesStream = this.app.getResourcesStream({
+    const resources = await this.app.paginate({
       resourceFn: this.getResourceFn(),
       resourceFnArgs: this.getResourceFnArgs(),
       resourceName: this.getResourceName(),
     });
 
-    await this.processStreamEvents(resourcesStream);
+    await this.processStreamEvents(resources);
   },
 };
