@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import { parseObject } from "../../common/utils.mjs";
 import app from "../../neo4j_auradb.app.mjs";
 
@@ -26,6 +27,10 @@ export default {
       label: this.nodeLabel,
       properties: parseObject(this.nodeProperties),
     });
+
+    if (response.errors) {
+      throw new ConfigurationError(response.errors[0].message);
+    }
 
     const elementId = response.data?.values?.[0]?.[0]?.elementId;
     $.export("$summary", elementId
