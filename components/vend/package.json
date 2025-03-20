@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/vend",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Vend Components",
-  "main": "vend.app.js",
+  "main": "vend.app.mjs",
   "keywords": [
     "pipedream",
     "vend"

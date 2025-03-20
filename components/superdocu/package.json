@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/superdocu",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Superdocu Components",
-  "main": "superdocu.app.js",
+  "main": "superdocu.app.mjs",
   "keywords": [
     "pipedream",
     "superdocu"

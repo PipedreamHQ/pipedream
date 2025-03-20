@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/voice_monkey",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Voice Monkey Components",
-  "main": "voice_monkey.app.js",
+  "main": "voice_monkey.app.mjs",
   "keywords": [
     "pipedream",
     "voice_monkey"

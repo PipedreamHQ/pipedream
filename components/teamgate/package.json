@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/teamgate",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Teamgate Components",
-  "main": "teamgate.app.js",
+  "main": "teamgate.app.mjs",
   "keywords": [
     "pipedream",
     "teamgate"
