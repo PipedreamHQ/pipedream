@@ -5,8 +5,8 @@ import pipedream_utils from "../../pipedream_utils.app.mjs";
 export default {
   key: "pipedream_utils-schedule-task-in-future",
   name: "Helper Functions - Pipedream Task Scheduler - Schedule Task",
-  description: "Schedule a task with an existing task scheduler source. See [here](https://github.com/PipedreamHQ/pipedream/blob/master/components/pipedream/sources/new-scheduled-tasks/README.md) for more details.",
-  version: "0.0.1",
+  description: "Schedule a task with an existing task scheduler source. See [here](https://pipedream.com/apps/pipedream/triggers/new-scheduled-tasks) for more details.",
+  version: "0.0.2",
   type: "action",
   props: {
     pipedream_utils,
