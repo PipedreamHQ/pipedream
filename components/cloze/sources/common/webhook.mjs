@@ -13,7 +13,7 @@ export default {
     scope: {
       type: "string",
       label: "Scope",
-      description: "Scope of subscription, changes to the user's local person, project, and company may be monitored, or team relations may be monitored, or team hierarchies can be monitored. Can be `local`, `team`, `hierarchy:/X/Y/Z` or `hierarchy:/X/Y/Z/*`",
+      description: "Scope of subscription.",
       options: [
         "local",
         "team",
