@@ -9,3 +9,9 @@ Airtable (OAuth) API on Pipedream allows you to manipulate and leverage your Air
 - **Aggregate and Email Weekly Reports**: Collect data from an Airtable base at the end of each week, create a summary report, and send it via email with SendGrid or Gmail. Perfect for providing stakeholders with regular insights without manual report generation.
 
 - **Trigger SMS Notifications on Record Status Change**: Monitor an Airtable base for specific status changes and use Twilio to send an SMS notification whenever a record meets the criteria. This workflow ensures immediate alerts for time-sensitive operations.
+
+# Troubleshooting
+
+## Unable to find a new base
+
+After creating a new base, reconnect your account and select it to enable Pipedream access.
