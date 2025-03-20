@@ -847,6 +847,9 @@ importers:
 
   components/api_bible: {}
 
+  components/api_labz:
+    specifiers: {}
+
   components/api_ninjas: {}
 
   components/api_sports: {}
