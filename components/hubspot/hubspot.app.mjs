@@ -712,6 +712,15 @@ export default {
         ...opts,
       });
     },
+    getFormDefinition({
+      formId, ...opts
+    } = {}) {
+      return this.makeRequest({
+        api: API_PATH.MARKETINGV3,
+        endpoint: `/forms/${formId}`,
+        ...opts,
+      });
+    },
     getForms(opts = {}) {
       return this.makeRequest({
         api: API_PATH.FORMS,
