@@ -103,8 +103,9 @@ export default {
         if (this.excludeLabels && message.labelIds.some((i) => this.excludeLabels.includes(i))) {
           return;
         }
-      } catch {
-        console.log(`Message ${id} not found`);
+      } catch (error) {
+        console.log(`Message ${id} not found: ${error.message}`);
+        return;
       }
       this.emitEvent(message);
     },

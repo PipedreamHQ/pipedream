@@ -4,23 +4,27 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "notion-create-comment",
   name: "Create Comment",
-  description: "Creates a comment in a page or existing discussion thread. [See the documentation](https://developers.notion.com/reference/create-a-comment)",
-  version: "0.0.1",
+  description: "Create a comment in a page or existing discussion thread. [See the documentation](https://developers.notion.com/reference/create-a-comment)",
+  version: "0.0.3",
   type: "action",
   props: {
     notion,
+    infoLabel: {
+      type: "alert",
+      alertType: "info",
+      content: "Provide either a Page ID or a Discussion ID to create the comment under.",
+    },
     pageId: {
       propDefinition: [
         notion,
         "pageId",
       ],
-      description: "Unique identifier of a page. Either this or a Discussion ID is required (not both)",
       optional: true,
     },
     discussionId: {
       type: "string",
       label: "Discussion ID",
-      description: "A UUID identifier for a discussion thread. Either this or a Page ID is required (not both)",
+      description: "The ID of a discussion thread. [See the documentation](https://developers.notion.com/docs/working-with-comments#retrieving-a-discussion-id) for more information",
       optional: true,
     },
     comment: {
@@ -31,7 +35,7 @@ export default {
   },
   async run({ $ }) {
     if ((this.pageId && this.discussionId) || (!this.pageId && !this.discussionId)) {
-      throw new ConfigurationError("Either a Page ID or a Discussion ID is required (not both)");
+      throw new ConfigurationError("Provide either a page ID or a discussion thread ID to create the comment under");
     }
 
     const response = await this.notion._getNotionClient().comments.create({
@@ -47,7 +51,7 @@ export default {
         },
       ],
     });
-    $.export("$summary", `Successfully added comment with ID: ${response.id}`);
+    $.export("$summary", `Successfully created comment (ID: ${response.id})`);
     return response;
   },
 };

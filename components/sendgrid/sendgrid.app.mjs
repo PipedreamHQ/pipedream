@@ -213,10 +213,11 @@ export default {
       label: "Content",
       description: "Content of the email in `text/html`",
     },
-    attachments: {
-      type: "string",
-      label: "Attachments",
-      description: "An array of objects where you can specify any attachments you want to include. The fields `content` and `filename` are required. `content` must be base64 encoded. Alternatively, provide a string that will `JSON.parse` to an array of attachments objects. Example: `[{content:\"aGV5\",type:\"text/plain\",filename:\"sample.txt\"}]`",
+    numberOfAttachments: {
+      type: "integer",
+      label: "Number Of Attachments",
+      description: "The number of attachments to be sent with the email.",
+      reloadProps: true,
       optional: true,
     },
     headers: {
@@ -240,7 +241,7 @@ export default {
     sendAt: {
       type: "integer",
       label: "Send At",
-      description: "A unix timestamp allowing you to specify when you want your email to be delivered. This may be overridden by the `send_at` parameter set at the personalizations level. Delivery cannot be scheduled more than 72 hours in advance. If you have the flexibility, it's better to schedule mail for off-peak times. Most emails are scheduled and sent at the top of the hour or half hour. Scheduling email to avoid peak times — for example, scheduling at 10:53 — can result in lower deferral rates due to the reduced traffic during off-peak times.",
+      description: "An ISO 8601 formatted date-time (YYYY-MM-DDTHH:MM:SSZ) allowing you to specify when you want your email to be delivered. This may be overridden by the `send_at` parameter set at the personalizations level. Delivery cannot be scheduled more than 72 hours in advance. If you have the flexibility, it's better to schedule mail for off-peak times. Most emails are scheduled and sent at the top of the hour or half hour. Scheduling email to avoid peak times — for example, scheduling at 10:53 — can result in lower deferral rates due to the reduced traffic during off-peak times.",
       optional: true,
     },
     asm: {

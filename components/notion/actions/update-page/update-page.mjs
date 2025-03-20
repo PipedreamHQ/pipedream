@@ -6,18 +6,23 @@ export default {
   ...base,
   key: "notion-update-page",
   name: "Update Page",
-  description: "Updates page property values for the specified page. Properties that are not set will remain unchanged. To append page content, use the *append block* action. [See the documentation](https://developers.notion.com/reference/patch-page)",
-  version: "1.1.3",
+  description: "Update a page's property values. To append page content, use the *Append Block* action instead. [See the documentation](https://developers.notion.com/reference/patch-page)",
+  version: "1.1.5",
   type: "action",
   props: {
     notion,
+    infoLabel: {
+      type: "alert",
+      alertType: "info",
+      content: "Properties that are not set will remain unchanged.",
+    },
     parent: {
       propDefinition: [
         notion,
         "databaseId",
       ],
       label: "Parent Database ID",
-      description: "The identifier for a Notion parent database",
+      description: "Select the database that contains the page to update. If you instead provide a database ID in a custom expression, you will also have to provide the page's ID in a custom expression",
       reloadProps: true,
     },
     pageId: {

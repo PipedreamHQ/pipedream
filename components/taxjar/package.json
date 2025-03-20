@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/taxjar",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream TaxJar Components",
-  "main": "dist/app/taxjar.app.mjs",
+  "main": "taxjar.app.mjs",
   "keywords": [
     "pipedream",
     "taxjar"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/taxjar",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
   }
 }

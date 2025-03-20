@@ -3,8 +3,8 @@ import notion from "../../notion.app.mjs";
 export default {
   key: "notion-retrieve-block",
   name: "Retrieve Block",
-  description: "Retrieves a block. A block object represents content within Notion. Blocks can be text, lists, media, and more. A page is also a type of block. [See the docs](https://developers.notion.com/reference/retrieve-a-block)",
-  version: "0.0.4",
+  description: "Get details of a block, which can be text, lists, media, a page, among others. [See the documentation](https://developers.notion.com/reference/retrieve-a-block)",
+  version: "0.0.6",
   type: "action",
   props: {
     notion,
@@ -14,12 +14,12 @@ export default {
         "pageId",
       ],
       label: "Block ID",
-      description: "The identifier for a Notion block",
+      description: "Select a block or provide a block ID",
     },
     retrieveChildren: {
       type: "boolean",
-      label: "Retrieve Block Children",
-      description: "Returns recursively all the children for the block ID specified. [See docs](https://developers.notion.com/reference/get-block-children)",
+      label: "Retrieve Children",
+      description: "Retrieve all the children (recursively) for the specified block. [See the documentation](https://developers.notion.com/reference/get-block-children) for more information",
       optional: true,
       default: false,
     },
@@ -29,7 +29,9 @@ export default {
     if (this.retrieveChildren) {
       block.children = await this.notion.retrieveBlockChildren(block);
     }
-    $.export("$summary", "Retrieved block successfully");
+    $.export("$summary", `Successfully retrieved block${this.retrieveChildren
+      ? ` with ${block.children.length ?? 0} children`
+      : ""}`);
     return block;
   },
 };

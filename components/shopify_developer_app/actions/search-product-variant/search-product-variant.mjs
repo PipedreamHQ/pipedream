@@ -1,38 +1,22 @@
 import shopify from "../../shopify_developer_app.app.mjs";
-import common from "@pipedream/shopify/actions/search-product-variant/common.mjs";
+import common from "@pipedream/shopify/actions/search-product-variant/search-product-variant.mjs";
+
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
+const props = adjustPropDefinitions(others.props, shopify);
 
 export default {
-  ...common,
+  ...others,
   key: "shopify_developer_app-search-product-variant",
-  name: "Search for Product Variant",
-  description: "Search for product variants or create one if not found. [See the documentation](https://shopify.dev/api/admin-rest/2022-01/resources/product-variant#top)",
-  version: "0.0.4",
-  type: "action",
+  version: "0.0.6",
+  name,
+  description,
+  type,
   props: {
     shopify,
-    productId: {
-      propDefinition: [
-        shopify,
-        "productId",
-      ],
-    },
-    productVariantId: {
-      propDefinition: [
-        shopify,
-        "productVariantId",
-        (c) => c,
-      ],
-      description: "ID of the product variant. Takes precedence over **Title**",
-      optional: true,
-    },
-    title: {
-      propDefinition: [
-        shopify,
-        "title",
-      ],
-      description: "The name of the product variant",
-      optional: true,
-    },
-    ...common.props,
+    ...props,
   },
 };
