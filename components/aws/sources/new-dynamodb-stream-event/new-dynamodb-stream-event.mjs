@@ -6,7 +6,7 @@ export default {
   name: "New DynamoDB Stream Event",
   description: "Emit new event when a DynamoDB stream receives new events. [See the docs here](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_streams_GetRecords.html)",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -36,6 +36,12 @@ export default {
   },
   hooks: {
     async deploy() {
+      await this._getNewShardIterator();
+    },
+  },
+  methods: {
+    ...common.methods,
+    async _getNewShardIterator() {
       const { StreamDescription: streamDescription } = await this.listShards({
         StreamArn: this.stream,
       });
@@ -46,10 +52,8 @@ export default {
         ShardIteratorType: "LATEST",
       });
       this._setShardIterator(shardIterator);
+      return shardIterator;
     },
-  },
-  methods: {
-    ...common.methods,
     _getShardIterator() {
       return this.db.get("shardIterator");
     },
@@ -71,7 +75,7 @@ export default {
       throw new Error("Stream is no longer enabled.");
     }
 
-    const shardIterator = this._getShardIterator();
+    const shardIterator = this._getShardIterator() ?? (await this._getNewShardIterator());
 
     const {
       Records: records, NextShardIterator: nextShardIterator,
@@ -84,6 +88,8 @@ export default {
       this.$emit(record, meta);
     }
 
-    this._setShardIterator(nextShardIterator);
+    if (nextShardIterator) {
+      this._setShardIterator(nextShardIterator);
+    }
   },
 };
