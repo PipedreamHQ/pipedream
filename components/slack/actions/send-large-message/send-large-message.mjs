@@ -71,9 +71,10 @@ export default {
     if (this.post_at) {
       obj.post_at = this.post_at;
       response = await this.slack.scheduleMessage(obj);
+    } else {
+      response = await this.slack.postChatMessage(obj);
     }
 
-    response = await this.slack.postChatMessage(obj);
     const { channel } = await this.slack.conversationsInfo({
       channel: response.channel,
     });
