@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/yotpo",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Pipedream Yotpo Components",
-  "main": "yotpo.app.js",
+  "main": "yotpo.app.mjs",
   "keywords": [
     "pipedream",
     "yotpo"

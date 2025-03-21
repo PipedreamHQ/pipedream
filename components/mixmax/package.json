@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/mixmax",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream MixMax Components",
-  "main": "mixmax.app.js",
+  "main": "mixmax.app.mjs",
   "keywords": [
     "pipedream",
     "mixmax"

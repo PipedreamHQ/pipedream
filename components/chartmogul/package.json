@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/chartmogul",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream ChartMogul Components",
-  "main": "chartmogul.app.js",
+  "main": "chartmogul.app.mjs",
   "keywords": [
     "pipedream",
     "chartmogul"

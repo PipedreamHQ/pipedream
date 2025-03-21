@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/data_stores",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Pipedream Data Stores Components",
-  "main": "data_stores.app.js",
+  "main": "data_stores.app.mjs",
   "keywords": [
     "pipedream",
     "blogger"

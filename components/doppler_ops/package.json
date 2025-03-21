@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/doppler_ops",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Doppler Secrets Manager Components",
-  "main": "doppler_ops.app.js",
+  "main": "doppler_ops.app.mjs",
   "keywords": [
     "pipedream",
     "doppler_ops"
