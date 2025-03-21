@@ -847,8 +847,7 @@ importers:
 
   components/api_bible: {}
 
-  components/api_labz:
-    specifiers: {}
+  components/api_labz: {}
 
   components/api_ninjas: {}
 
@@ -4661,9 +4660,6 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/formatting:
-    specifiers: {}
-
   components/formbricks:
     dependencies:
       '@pipedream/platform':
@@ -8043,8 +8039,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/miyn:
-    specifiers: {}
+  components/miyn: {}
 
   components/moaform:
     dependencies:
@@ -9328,8 +9323,7 @@ importers:
 
   components/perry_github_test: {}
 
-  components/persanaai:
-    specifiers: {}
+  components/persanaai: {}
 
   components/persistiq:
     dependencies:
@@ -34342,8 +34336,6 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
-    transitivePeerDependencies:
-      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
