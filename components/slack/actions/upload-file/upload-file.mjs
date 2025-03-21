@@ -6,7 +6,7 @@ export default {
   key: "slack-upload-file",
   name: "Upload File",
   description: "Upload a file. [See the documentation](https://api.slack.com/methods/files.upload)",
-  version: "0.0.26",
+  version: "0.0.27",
   type: "action",
   props: {
     slack,
@@ -35,7 +35,7 @@ export default {
     if (!fs.existsSync(this.content)) {
       throw new ConfigurationError(`\`${this.content}\` not found, a valid \`/tmp\` path is needed`);
     }
-    const response = await this.slack.sdk().filesUploadV2({
+    const response = await this.slack.uploadFile({
       file: fs.createReadStream(this.content),
       channel_id: this.conversation,
       initial_comment: this.initialComment,

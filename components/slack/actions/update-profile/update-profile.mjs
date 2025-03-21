@@ -5,7 +5,7 @@ export default {
   key: "slack-update-profile",
   name: "Update Profile",
   description: "Update basic profile field such as name or title. [See the documentation](https://api.slack.com/methods/users.profile.set)",
-  version: "0.0.22",
+  version: "0.0.23",
   type: "action",
   props: {
     slack,
@@ -70,7 +70,7 @@ export default {
     ) {
       throw new ConfigurationError("Please provide at least one value to update");
     }
-    const response = await this.slack.sdk().users.profile.set({
+    const response = await this.slack.updateProfile({
       profile: {
         display_name: this.displayName,
         first_name: this.firstName,

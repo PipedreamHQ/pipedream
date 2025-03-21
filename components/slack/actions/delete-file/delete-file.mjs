@@ -4,7 +4,7 @@ export default {
   key: "slack-delete-file",
   name: "Delete File",
   description: "Delete a file. [See the documentation](https://api.slack.com/methods/files.delete)",
-  version: "0.0.22",
+  version: "0.0.23",
   type: "action",
   props: {
     slack,
@@ -16,7 +16,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.slack.sdk().files.delete({
+    const response = await this.slack.deleteFiles({
       file: this.file,
     });
     $.export("$summary", `Successfully deleted file with ID ${this.file}`);

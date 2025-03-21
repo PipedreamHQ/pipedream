@@ -5,7 +5,7 @@ export default {
   key: "slack-kick-user",
   name: "Kick User",
   description: "Remove a user from a conversation. [See the documentation](https://api.slack.com/methods/conversations.kick)",
-  version: "0.0.22",
+  version: "0.0.23",
   type: "action",
   props: {
     slack,
@@ -33,7 +33,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.slack.sdk().conversations.kick({
+    const response = await this.slack.kickUserFromConversation({
       channel: this.conversation,
       user: this.user,
     });

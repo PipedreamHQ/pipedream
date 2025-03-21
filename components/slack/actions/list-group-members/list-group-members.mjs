@@ -4,7 +4,7 @@ export default {
   key: "slack-list-group-members",
   name: "List Group Members",
   description: "List all users in a User Group. [See the documentation](https://api.slack.com/methods/usergroups.users.list)",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     slack,
@@ -22,21 +22,42 @@ export default {
       optional: true,
       description: "Encoded team id where the user group exists, required if org token is used.",
     },
+    pageSize: {
+      propDefinition: [
+        slack,
+        "pageSize",
+      ],
+    },
+    numPages: {
+      propDefinition: [
+        slack,
+        "numPages",
+      ],
+    },
   },
   async run({ $ }) {
-    const {
-      userGroup,
-      team,
-    } = this;
-    const response = await this.slack.sdk().usergroups.users.list({
-      usergroup: userGroup,
-      team_id: team,
-    });
-    if (response.users?.length) {
-      $.export("$summary", `Successfully retrieved ${response.users.length} user${response.users.length === 1
+    const members = [];
+    const params = {
+      usergroup: this.userGroup,
+      team_id: this.team,
+      limit: this.pageSize,
+    };
+    let page = 0;
+
+    do {
+      const {
+        users, response_metadata: { next_cursor: nextCursor },
+      } = await this.slack.listGroupMembers(params);
+      members.push(...users);
+      params.cursor = nextCursor;
+      page++;
+    } while (params.cursor && page < this.numPages);
+
+    if (members?.length) {
+      $.export("$summary", `Successfully retrieved ${members.length} user${members.length === 1
         ? ""
         : "s"}`);
     }
-    return response;
+    return members;
   },
 };

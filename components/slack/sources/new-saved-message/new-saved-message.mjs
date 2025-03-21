@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "slack-new-saved-message",
   name: "New Saved Message (Instant)",
-  version: "0.0.4",
+  version: "0.0.5",
   description: "Emit new event when a message is saved. Note: The endpoint is marked as deprecated, and Slack might shut this off at some point down the line.",
   type: "source",
   dedupe: "unique",

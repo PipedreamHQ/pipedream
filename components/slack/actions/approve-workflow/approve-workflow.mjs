@@ -5,7 +5,7 @@ export default {
   key: "slack-approve-workflow",
   name: "Approve Workflow",
   description: "Suspend the workflow until approved by a Slack message. [See the documentation](https://pipedream.com/docs/code/nodejs/rerun#flowsuspend)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     slack,
@@ -44,7 +44,7 @@ export default {
       resume_url, cancel_url,
     } = $.flow.suspend();
 
-    const response = await this.slack.sdk().chat.postMessage({
+    const response = await this.slack.postChatMessage({
       text: "Click here to approve or cancel workflow",
       blocks: [
         {
