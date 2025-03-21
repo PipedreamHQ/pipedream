@@ -21,9 +21,6 @@ export default {
   async run() {
     const results = this.splunk.paginate({
       resourceFn: this.splunk.listFiredAlerts,
-      args: {
-        selfSigned: this.selfSigned,
-      },
     });
 
     const alerts = [];

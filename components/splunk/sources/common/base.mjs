@@ -11,20 +11,11 @@ export default {
       },
     },
     db: "$.service.db",
-    selfSigned: {
-      propDefinition: [
-        splunk,
-        "selfSigned",
-      ],
-    },
   },
   methods: {
     async getRecentJobIds() {
       const results = this.splunk.paginate({
         resourceFn: this.splunk.listJobs,
-        args: {
-          selfSigned: this.selfSigned,
-        },
       });
       const jobIds = [];
       for await (const job of results) {

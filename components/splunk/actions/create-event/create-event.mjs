@@ -8,19 +8,10 @@ export default {
   type: "action",
   props: {
     splunk,
-    selfSigned: {
-      propDefinition: [
-        splunk,
-        "selfSigned",
-      ],
-    },
     indexName: {
       propDefinition: [
         splunk,
         "indexName",
-        (c) => ({
-          selfSigned: c.selfSigned,
-        }),
       ],
     },
     eventData: {
@@ -44,7 +35,6 @@ export default {
   async run({ $ }) {
     const response = await this.splunk.sendEvent({
       $,
-      selfSigned: this.selfSigned,
       params: {
         index: this.indexName,
         source: this.source,

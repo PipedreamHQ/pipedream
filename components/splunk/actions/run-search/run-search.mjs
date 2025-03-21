@@ -8,12 +8,6 @@ export default {
   type: "action",
   props: {
     splunk,
-    selfSigned: {
-      propDefinition: [
-        splunk,
-        "selfSigned",
-      ],
-    },
     query: {
       propDefinition: [
         splunk,
@@ -36,7 +30,6 @@ export default {
   async run({ $ }) {
     const response = await this.splunk.executeSearchQuery({
       $,
-      selfSigned: this.selfSigned,
       data: {
         search: this.query,
         earliest_time: this.earliestTime,

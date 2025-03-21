@@ -10,11 +10,8 @@ export default {
       type: "string",
       label: "Search ID",
       description: "The ID of the Splunk search job to retrieve status for",
-      async options({
-        selfSigned, page,
-      }) {
+      async options({ page }) {
         const { entry } = await this.listJobs({
-          selfSigned,
           params: {
             count: DEFAULT_LIMIT,
             offset: DEFAULT_LIMIT * page,
@@ -32,11 +29,8 @@ export default {
       type: "string",
       label: "Index Name",
       description: "The name of the Splunk index",
-      async options({
-        selfSigned, page,
-      }) {
+      async options({ page }) {
         const { entry } = await this.listIndexes({
-          selfSigned,
           params: {
             count: DEFAULT_LIMIT,
             offset: DEFAULT_LIMIT * page,
@@ -49,11 +43,8 @@ export default {
       type: "string",
       label: "Saved Search Name",
       description: "The name of a saved search",
-      async options({
-        selfSigned, page,
-      }) {
+      async options({ page }) {
         const { entry } = await this.listSavedSearches({
-          selfSigned,
           params: {
             count: DEFAULT_LIMIT,
             offset: DEFAULT_LIMIT * page,
@@ -61,11 +52,6 @@ export default {
         });
         return entry?.map(({ name }) => name) || [];
       },
-    },
-    selfSigned: {
-      type: "boolean",
-      label: "Self Signed",
-      description: "Set to `true` if your instance is using a self-signed certificate",
     },
     query: {
       type: "string",
@@ -81,7 +67,6 @@ export default {
       $ = this,
       path,
       params,
-      selfSigned = false,
       ...otherOpts
     }) {
       const config = {
@@ -95,7 +80,7 @@ export default {
           output_mode: "json",
         },
       };
-      if (selfSigned) {
+      if (this.$auth.self_signed) {
         config.httpsAgent = new https.Agent({
           rejectUnauthorized: false,
         });

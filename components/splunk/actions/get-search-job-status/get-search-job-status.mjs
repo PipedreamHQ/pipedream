@@ -8,26 +8,16 @@ export default {
   type: "action",
   props: {
     splunk,
-    selfSigned: {
-      propDefinition: [
-        splunk,
-        "selfSigned",
-      ],
-    },
     jobId: {
       propDefinition: [
         splunk,
         "jobId",
-        (c) => ({
-          selfSigned: c.selfSigned,
-        }),
       ],
     },
   },
   async run({ $ }) {
     const response = await this.splunk.getSearchJobStatus({
       $,
-      selfSigned: this.selfSigned,
       jobId: this.jobId,
     });
     $.export("$summary", `Successfully retrieved status for job ID ${this.jobId}`);

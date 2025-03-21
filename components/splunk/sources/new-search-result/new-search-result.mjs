@@ -24,7 +24,6 @@ export default {
     for (const jobId of jobIds) {
       try {
         const response = await this.splunk.getSearchResults({
-          selfSigned: this.selfSigned,
           jobId,
         });
         if (response?.results?.length) {
