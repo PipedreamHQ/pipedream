@@ -7,7 +7,7 @@ export default {
   key: "slack-send-block-kit-message",
   name: "Build and Send a Block Kit Message",
   description: "Configure custom blocks and send to a channel, group, or user. [See the documentation](https://api.slack.com/tools/block-kit-builder).",
-  version: "0.4.3",
+  version: "0.4.4",
   type: "action",
   props: {
     slack: common.props.slack,

@@ -5,7 +5,7 @@ export default {
   key: "slack-send-large-message",
   name: "Send a Large Message (3000+ characters)",
   description: "Send a large message (more than 3000 characters) to a channel, group or user. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.0.22",
+  version: "0.0.23",
   type: "action",
   props: {
     slack: common.props.slack,
@@ -70,17 +70,20 @@ export default {
     let response;
     if (this.post_at) {
       obj.post_at = this.post_at;
-      response = await this.slack.sdk().chat.scheduleMessage(obj);
+      response = await this.slack.scheduleMessage(obj);
+    } else {
+      response = await this.slack.postChatMessage(obj);
     }
 
-    response = await this.slack.sdk().chat.postMessage(obj);
     const { channel } = await this.slack.conversationsInfo({
       channel: response.channel,
     });
     let channelName = `#${channel?.name}`;
     if (channel.is_im) {
-      const usernames = await this.slack.userNames();
-      channelName = `@${usernames[channel.user]}`;
+      const { profile } = await this.slack.getUserProfile({
+        user: channel.user,
+      });
+      channelName = `@${profile.real_name}`;
     } else if (channel.is_mpim) {
       channelName = `@${channel.purpose.value}`;
     }

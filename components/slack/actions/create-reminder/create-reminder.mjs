@@ -4,7 +4,7 @@ export default {
   key: "slack-create-reminder",
   name: "Create Reminder",
   description: "Create a reminder. [See the documentation](https://api.slack.com/methods/reminders.add)",
-  version: "0.0.23",
+  version: "0.0.24",
   type: "action",
   props: {
     slack,
@@ -35,7 +35,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.slack.sdk().reminders.add({
+    const response = await this.slack.addReminders({
       text: this.text,
       team_id: this.team_id,
       time: this.timestamp,

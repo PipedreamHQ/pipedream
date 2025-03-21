@@ -4,7 +4,7 @@ export default {
   key: "slack-delete-message",
   name: "Delete Message",
   description: "Delete a message. [See the documentation](https://api.slack.com/methods/chat.delete)",
-  version: "0.0.22",
+  version: "0.0.23",
   type: "action",
   props: {
     slack,
@@ -29,7 +29,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.slack.sdk().chat.delete({
+    const response = await this.slack.deleteMessage({
       channel: this.conversation,
       ts: this.timestamp,
       as_user: this.as_user,

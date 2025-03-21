@@ -4,7 +4,7 @@ export default {
   key: "slack-list-files",
   name: "List Files",
   description: "Return a list of files within a team. [See the documentation](https://api.slack.com/methods/files.list)",
-  version: "0.0.50",
+  version: "0.0.51",
   type: "action",
   props: {
     slack,
@@ -28,6 +28,18 @@ export default {
       ],
       optional: true,
     },
+    pageSize: {
+      propDefinition: [
+        slack,
+        "pageSize",
+      ],
+    },
+    numPages: {
+      propDefinition: [
+        slack,
+        "numPages",
+      ],
+    },
   },
   async run({ $ }) {
     const allFiles = [];
@@ -36,15 +48,16 @@ export default {
       user: this.user,
       team_id: this.team_id,
       page: 1,
+      count: this.pageSize,
     };
     let hasMore;
 
     do {
-      const { files } = await this.slack.sdk().files.list(params);
+      const { files } = await this.slack.listFiles(params);
       allFiles.push(...files);
       hasMore = files.length;
       params.page++;
-    } while (hasMore);
+    } while (hasMore && params.page <= this.numPages);
 
     $.export("$summary", `Successfully retrieved ${allFiles.length} file${allFiles.length === 1
       ? ""

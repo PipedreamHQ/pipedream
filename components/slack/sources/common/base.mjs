@@ -85,7 +85,7 @@ export default {
     },
     async getUserName(id) {
       return this.maybeCached(`users:${id}`, async () => {
-        const info = await this.slack.sdk().users.info({
+        const info = await this.slack.usersInfo({
           user: id,
         });
         if (!info.ok) throw new Error(info.error);
@@ -94,7 +94,7 @@ export default {
     },
     async getRealName(id) {
       return this.maybeCached(`users_real_names:${id}`, async () => {
-        const info = await this.slack.sdk().users.info({
+        const info = await this.slack.usersInfo({
           user: id,
         });
         if (!info.ok) throw new Error(info.error);
@@ -103,7 +103,7 @@ export default {
     },
     async getBotName(id) {
       return this.maybeCached(`bots:${id}`, async () => {
-        const info = await this.slack.sdk().bots.info({
+        const info = await this.slack.getBotInfo({
           bot: id,
         });
         if (!info.ok) throw new Error(info.error);
@@ -112,7 +112,7 @@ export default {
     },
     async getConversationName(id) {
       return this.maybeCached(`conversations:${id}`, async () => {
-        const info = await this.slack.sdk().conversations.info({
+        const info = await this.slack.conversationsInfo({
           channel: id,
         });
         if (!info.ok) throw new Error(info.error);
@@ -125,7 +125,7 @@ export default {
     async getTeamName(id) {
       return this.maybeCached(`team:${id}`, async () => {
         try {
-          const info = await this.slack.sdk().team.info({
+          const info = await this.slack.getTeamInfo({
             team: id,
           });
           return info.team.name;
@@ -144,7 +144,7 @@ export default {
       return await this.maybeCached(
         `lastMessage:${channel}:${ts}`,
         async () => {
-          const response = await this.slack.sdk().conversations.replies({
+          const response = await this.slack.sdk().getConversationReplies({
             channel,
             ts,
             limit: 1,

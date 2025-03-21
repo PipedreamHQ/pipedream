@@ -4,7 +4,7 @@ export default {
   key: "slack-update-message",
   name: "Update Message",
   description: "Update a message. [See the documentation](https://api.slack.com/methods/chat.update)",
-  version: "0.1.22",
+  version: "0.1.23",
   type: "action",
   props: {
     slack,
@@ -41,7 +41,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.slack.sdk().chat.update({
+    const response = await this.slack.updateMessage({
       ts: this.timestamp,
       text: this.text,
       channel: this.conversation,

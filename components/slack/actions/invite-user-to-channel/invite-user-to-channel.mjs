@@ -4,7 +4,7 @@ export default {
   key: "slack-invite-user-to-channel",
   name: "Invite User to Channel",
   description: "Invite a user to an existing channel. [See the documentation](https://api.slack.com/methods/conversations.invite)",
-  version: "0.0.22",
+  version: "0.0.23",
   type: "action",
   props: {
     slack,
@@ -22,7 +22,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.slack.sdk().conversations.invite({
+    const response = await this.slack.inviteToConversation({
       channel: this.conversation,
       users: this.user,
     });

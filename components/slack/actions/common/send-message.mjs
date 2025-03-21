@@ -235,16 +235,18 @@ export default {
 
     if (this.post_at) {
       obj.post_at = Math.floor(new Date(this.post_at).getTime() / 1000);
-      return await this.slack.sdk().chat.scheduleMessage(obj);
+      return await this.slack.scheduleMessage(obj);
     }
-    const resp = await this.slack.sdk().chat.postMessage(obj);
+    const resp = await this.slack.postChatMessage(obj);
     const { channel } = await this.slack.conversationsInfo({
       channel: resp.channel,
     });
     let channelName = `#${channel?.name}`;
     if (channel.is_im) {
-      const usernames = await this.slack.userNames();
-      channelName = `@${usernames[channel.user]}`;
+      const { profile } = await this.slack.getUserProfile({
+        user: channel.user,
+      });
+      channelName = `@${profile.real_name}`;
     } else if (channel.is_mpim) {
       channelName = `@${channel.purpose.value}`;
     }

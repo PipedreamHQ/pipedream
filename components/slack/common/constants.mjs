@@ -1,5 +1,5 @@
 const MAX_RESOURCES = 800;
-const LIMIT = 200;
+const LIMIT = 250;
 
 const CHANNEL_TYPE = {
   PUBLIC: "public_channel",
