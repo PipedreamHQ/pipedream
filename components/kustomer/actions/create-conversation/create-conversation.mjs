@@ -1,59 +1,56 @@
+import {
+  parseObject, throwError,
+} from "../../common/utils.mjs";
 import kustomer from "../../kustomer.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "kustomer-create-conversation",
   name: "Create Conversation",
-  description: "Creates a new conversation in Kustomer. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  description: "Creates a new conversation in Kustomer. [See the documentation](https://developer.kustomer.com/kustomer-api-docs/reference/createaconversation)",
+  version: "0.0.1",
   type: "action",
   props: {
     kustomer,
-
-    // Required prop
-    customerId: {
-      type: "string",
-      label: "Customer ID",
-      description: "Unique identifier for the customer",
+    customer: {
+      propDefinition: [
+        kustomer,
+        "customerId",
+      ],
     },
-
-    // Optional props
     externalId: {
-      type: "string",
-      label: "External ID",
-      description: "External identifier",
+      propDefinition: [
+        kustomer,
+        "externalId",
+      ],
       optional: true,
     },
     name: {
-      type: "string",
-      label: "Name",
+      propDefinition: [
+        kustomer,
+        "name",
+      ],
       description: "Name of the conversation",
       optional: true,
     },
     status: {
-      type: "string",
-      label: "Status",
-      description: "Status of the conversation",
+      propDefinition: [
+        kustomer,
+        "status",
+      ],
       optional: true,
     },
     priority: {
-      type: "integer",
-      label: "Priority",
-      description: "Priority level (1-5)",
+      propDefinition: [
+        kustomer,
+        "priority",
+      ],
       optional: true,
-      min: 1,
-      max: 5,
     },
     direction: {
-      type: "string",
-      label: "Direction",
-      description: "Direction of the conversation",
-      optional: true,
-    },
-    replyChannel: {
-      type: "string",
-      label: "Reply Channel",
-      description: "Channel to reply to",
+      propDefinition: [
+        kustomer,
+        "direction",
+      ],
       optional: true,
     },
     tags: {
@@ -78,35 +75,45 @@ export default {
       optional: true,
     },
     defaultLang: {
-      type: "string",
-      label: "Default Language",
+      propDefinition: [
+        kustomer,
+        "defaultLang",
+      ],
       description: "Default language for the conversation",
       optional: true,
     },
-    queue: {
-      type: "string",
-      label: "Queue",
-      description: "Queue information",
-      optional: true,
+    queueId: {
+      propDefinition: [
+        kustomer,
+        "queueId",
+      ],
     },
   },
   async run({ $ }) {
-    const response = await this.kustomer.createConversation({
-      customerId: this.customerId,
-      externalId: this.externalId,
-      name: this.name,
-      status: this.status,
-      priority: this.priority,
-      direction: this.direction,
-      replyChannel: this.replyChannel,
-      tags: this.tags,
-      assignedUsers: this.assignedUsers,
-      assignedTeams: this.assignedTeams,
-      defaultLang: this.defaultLang,
-      queue: this.queue,
-    });
+    try {
+      const response = await this.kustomer.createConversation({
+        $,
+        data: {
+          customer: this.customer,
+          externalId: this.externalId,
+          name: this.name,
+          status: this.status,
+          priority: this.priority,
+          direction: this.direction,
+          tags: parseObject(this.tags),
+          assignedUsers: parseObject(this.assignedUsers),
+          assignedTeams: parseObject(this.assignedTeams),
+          defaultLang: this.defaultLang,
+          queue: {
+            id: this.queueId,
+          },
+        },
+      });
 
-    $.export("$summary", `Created conversation with ID ${response.id}`);
-    return response;
+      $.export("$summary", `Created conversation with ID ${response.data.id}`);
+      return response;
+    } catch ({ message }) {
+      throwError(message);
+    }
   },
 };

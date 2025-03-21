@@ -1,17 +1,16 @@
+import {
+  parseObject, throwError,
+} from "../../common/utils.mjs";
 import kustomer from "../../kustomer.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "kustomer-update-customer",
   name: "Update Customer",
   description: "Updates an existing customer in Kustomer. [See the documentation](https://developer.kustomer.com/kustomer-api-docs/reference/updatecustomer)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    kustomer: {
-      type: "app",
-      app: "kustomer",
-    },
+    kustomer,
     customerId: {
       propDefinition: [
         kustomer,
@@ -43,34 +42,6 @@ export default {
       propDefinition: [
         kustomer,
         "username",
-      ],
-      optional: true,
-    },
-    signedUpAt: {
-      propDefinition: [
-        kustomer,
-        "signedUpAt",
-      ],
-      optional: true,
-    },
-    lastActivityAt: {
-      propDefinition: [
-        kustomer,
-        "lastActivityAt",
-      ],
-      optional: true,
-    },
-    lastCustomerActivityAt: {
-      propDefinition: [
-        kustomer,
-        "lastCustomerActivityAt",
-      ],
-      optional: true,
-    },
-    lastSeenAt: {
-      propDefinition: [
-        kustomer,
-        "lastSeenAt",
       ],
       optional: true,
     },
@@ -130,59 +101,10 @@ export default {
       ],
       optional: true,
     },
-    facebookIds: {
-      propDefinition: [
-        kustomer,
-        "facebookIds",
-      ],
-      optional: true,
-    },
-    instagramIds: {
-      propDefinition: [
-        kustomer,
-        "instagramIds",
-      ],
-      optional: true,
-    },
-    socials: {
-      propDefinition: [
-        kustomer,
-        "socials",
-      ],
-      optional: true,
-    },
-    sharedSocials: {
-      propDefinition: [
-        kustomer,
-        "sharedSocials",
-      ],
-      optional: true,
-    },
     urls: {
       propDefinition: [
         kustomer,
         "urls",
-      ],
-      optional: true,
-    },
-    locations: {
-      propDefinition: [
-        kustomer,
-        "locations",
-      ],
-      optional: true,
-    },
-    locale: {
-      propDefinition: [
-        kustomer,
-        "locale",
-      ],
-      optional: true,
-    },
-    timeZone: {
-      propDefinition: [
-        kustomer,
-        "timeZone",
       ],
       optional: true,
     },
@@ -193,10 +115,17 @@ export default {
       ],
       optional: true,
     },
-    sentiment: {
+    sentimentPolarity: {
       propDefinition: [
         kustomer,
-        "sentiment",
+        "sentimentPolarity",
+      ],
+      optional: true,
+    },
+    sentimentConfidence: {
+      propDefinition: [
+        kustomer,
+        "sentimentConfidence",
       ],
       optional: true,
     },
@@ -214,27 +143,6 @@ export default {
       ],
       optional: true,
     },
-    createdAt: {
-      propDefinition: [
-        kustomer,
-        "createdAt",
-      ],
-      optional: true,
-    },
-    importedAt: {
-      propDefinition: [
-        kustomer,
-        "importedAt",
-      ],
-      optional: true,
-    },
-    rev: {
-      propDefinition: [
-        kustomer,
-        "rev",
-      ],
-      optional: true,
-    },
     defaultLang: {
       propDefinition: [
         kustomer,
@@ -244,47 +152,59 @@ export default {
     },
   },
   async run({ $ }) {
-    const updateData = {
-      name: this.name,
-      company: this.company,
-      externalId: this.externalId,
-      username: this.username,
-      signedUpAt: this.signedUpAt,
-      lastActivityAt: this.lastActivityAt,
-      lastCustomerActivityAt: this.lastCustomerActivityAt,
-      lastSeenAt: this.lastSeenAt,
-      avatarUrl: this.avatarUrl,
-      externalIds: this.externalIds,
-      sharedExternalIds: this.sharedExternalIds,
-      emails: this.emails,
-      sharedEmails: this.sharedEmails,
-      phones: this.phones,
-      sharedPhones: this.sharedPhones,
-      whatsApps: this.whatsApps,
-      facebookIds: this.facebookIds,
-      instagramIds: this.instagramIds,
-      socials: this.socials,
-      sharedSocials: this.sharedSocials,
-      urls: this.urls,
-      locations: this.locations,
-      locale: this.locale,
-      timeZone: this.timeZone,
-      tags: this.tags,
-      sentiment: this.sentiment,
-      birthdayAt: this.birthdayAt,
-      gender: this.gender,
-      createdAt: this.createdAt,
-      importedAt: this.importedAt,
-      rev: this.rev,
-      defaultLang: this.defaultLang,
-    };
+    try {
+      const sentiment = {};
+      if (this.sentimentConfidence) sentiment.confidence = parseInt(this.sentimentConfidence);
+      if (this.sentimentPolarity) sentiment.polarity = parseInt(this.sentimentPolarity);
 
-    const response = await this.kustomer.updateCustomer({
-      customerId: this.customerId,
-      ...updateData,
-    });
-
-    $.export("$summary", `Successfully updated customer with ID ${this.customerId}`);
-    return response;
+      const response = await this.kustomer.updateCustomer({
+        $,
+        customerId: this.customerId,
+        data: {
+          name: this.name,
+          company: this.company,
+          externalId: this.externalId,
+          username: this.username,
+          avatarUrl: this.avatarUrl,
+          externalIds: parseObject(this.externalIds)?.map((id) => ({
+            externalId: id,
+          })),
+          sharedExternalIds: parseObject(this.sharedExternalIds)?.map((id) => ({
+            externalId: id,
+          })),
+          emails: parseObject(this.emails)?.map((email) => ({
+            email,
+          })),
+          sharedEmails: parseObject(this.sharedEmails)?.map((email) => ({
+            email,
+          })),
+          phones: parseObject(this.phones)?.map((phone) => ({
+            phone: `${phone}`,
+          })),
+          sharedPhones: parseObject(this.sharedPhones)?.map((phone) => ({
+            phone: `${phone}`,
+          })),
+          whatsapps: parseObject(this.whatsApps)?.map((phone) => ({
+            phone: `${phone}`,
+          })),
+          urls: parseObject(this.urls)?.map((url) => ({
+            url,
+          })),
+          tags: parseObject(this.tags),
+          sentiment: Object.entries(sentiment).length
+            ? sentiment
+            : undefined,
+          birthdayAt: this.birthdayAt,
+          gender: this.gender,
+          createdAt: this.createdAt,
+          importedAt: this.importedAt,
+          defaultLang: this.defaultLang,
+        },
+      });
+      $.export("$summary", `Successfully updated customer with ID ${this.customerId}`);
+      return response;
+    } catch ({ message }) {
+      throwError(message);
+    }
   },
 };

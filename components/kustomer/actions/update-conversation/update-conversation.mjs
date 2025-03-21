@@ -1,11 +1,13 @@
+import {
+  parseObject, throwError,
+} from "../../common/utils.mjs";
 import kustomer from "../../kustomer.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "kustomer-update-conversation",
   name: "Update Conversation",
-  description: "Updates an existing conversation in Kustomer. [See the documentation]().",
-  version: "0.0.{{ts}}",
+  description: "Updates an existing conversation in Kustomer. [See the documentation](https://developer.kustomer.com/kustomer-api-docs/reference/updateconversation).",
+  version: "0.0.1",
   type: "action",
   props: {
     kustomer,
@@ -27,12 +29,13 @@ export default {
         kustomer,
         "name",
       ],
+      description: "Name of the conversation",
       optional: true,
     },
-    direction: {
+    status: {
       propDefinition: [
         kustomer,
-        "direction",
+        "status",
       ],
       optional: true,
     },
@@ -43,52 +46,10 @@ export default {
       ],
       optional: true,
     },
-    satisfaction: {
+    direction: {
       propDefinition: [
         kustomer,
-        "satisfaction",
-      ],
-      optional: true,
-    },
-    satisfactionLevel: {
-      propDefinition: [
-        kustomer,
-        "satisfactionLevel",
-      ],
-      optional: true,
-    },
-    suggestedShortcuts: {
-      propDefinition: [
-        kustomer,
-        "suggestedShortcuts",
-      ],
-      optional: true,
-    },
-    status: {
-      propDefinition: [
-        kustomer,
-        "status",
-      ],
-      optional: true,
-    },
-    replyChannel: {
-      propDefinition: [
-        kustomer,
-        "replyChannel",
-      ],
-      optional: true,
-    },
-    subStatus: {
-      propDefinition: [
-        kustomer,
-        "subStatus",
-      ],
-      optional: true,
-    },
-    snooze: {
-      propDefinition: [
-        kustomer,
-        "snooze",
+        "direction",
       ],
       optional: true,
     },
@@ -96,20 +57,6 @@ export default {
       propDefinition: [
         kustomer,
         "tags",
-      ],
-      optional: true,
-    },
-    suggestedTags: {
-      propDefinition: [
-        kustomer,
-        "suggestedTags",
-      ],
-      optional: true,
-    },
-    sentiment: {
-      propDefinition: [
-        kustomer,
-        "sentiment",
       ],
       optional: true,
     },
@@ -127,109 +74,48 @@ export default {
       ],
       optional: true,
     },
-    deleted: {
-      propDefinition: [
-        kustomer,
-        "deleted",
-      ],
-      optional: true,
-    },
-    ended: {
-      propDefinition: [
-        kustomer,
-        "ended",
-      ],
-      optional: true,
-    },
-    endedAt: {
-      propDefinition: [
-        kustomer,
-        "endedAt",
-      ],
-      optional: true,
-    },
-    endedReason: {
-      propDefinition: [
-        kustomer,
-        "endedReason",
-      ],
-      optional: true,
-    },
-    endedBy: {
-      propDefinition: [
-        kustomer,
-        "endedBy",
-      ],
-      optional: true,
-    },
-    endedByType: {
-      propDefinition: [
-        kustomer,
-        "endedByType",
-      ],
-      optional: true,
-    },
-    locked: {
-      propDefinition: [
-        kustomer,
-        "locked",
-      ],
-      optional: true,
-    },
-    rev: {
-      propDefinition: [
-        kustomer,
-        "rev",
-      ],
-      optional: true,
-    },
     defaultLang: {
       propDefinition: [
         kustomer,
         "defaultLang",
       ],
+      description: "Default language for the conversation",
       optional: true,
     },
-    queue: {
+    queueId: {
       propDefinition: [
         kustomer,
-        "queue",
+        "queueId",
       ],
       optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.kustomer.updateConversation({
-      conversationId: this.conversationId,
-      externalId: this.externalId,
-      name: this.name,
-      direction: this.direction,
-      priority: this.priority,
-      satisfaction: this.satisfaction,
-      satisfactionLevel: this.satisfactionLevel,
-      suggestedShortcuts: this.suggestedShortcuts,
-      status: this.status,
-      replyChannel: this.replyChannel,
-      subStatus: this.subStatus,
-      snooze: this.snooze,
-      tags: this.tags,
-      suggestedTags: this.suggestedTags,
-      sentiment: this.sentiment,
-      assignedUsers: this.assignedUsers,
-      assignedTeams: this.assignedTeams,
-      deleted: this.deleted,
-      ended: this.ended,
-      endedAt: this.endedAt,
-      endedReason: this.endedReason,
-      endedBy: this.endedBy,
-      endedByType: this.endedByType,
-      locked: this.locked,
-      rev: this.rev,
-      defaultLang: this.defaultLang,
-      queue: this.queue,
-    });
+    try {
+      const data = {
+        externalId: this.externalId,
+        name: this.name,
+        status: this.status,
+        priority: this.priority,
+        direction: this.direction,
+        tags: parseObject(this.tags),
+        assignedUsers: parseObject(this.assignedUsers),
+        assignedTeams: parseObject(this.assignedTeams),
+        defaultLang: this.defaultLang,
+      };
 
-    $.export("$summary", `Conversation ${this.conversationId} updated successfully`);
-    return response;
+      if (this.queue) data.queue = this.queue;
+
+      const response = await this.kustomer.updateConversation({
+        $,
+        conversationId: this.conversationId,
+        data,
+      });
+
+      $.export("$summary", `Conversation ${this.conversationId} updated successfully`);
+      return response;
+    } catch ({ message }) {
+      throwError(message);
+    }
   },
 };
