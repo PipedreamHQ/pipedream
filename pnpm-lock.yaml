@@ -13207,6 +13207,9 @@ importers:
 
   components/tutor_lms: {}
 
+  components/tuya:
+    specifiers: {}
+
   components/twelve_data: {}
 
   components/twenty:
