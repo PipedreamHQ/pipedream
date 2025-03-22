@@ -6892,6 +6892,9 @@ importers:
 
   components/koyeb: {}
 
+  components/kraken_io:
+    specifiers: {}
+
   components/krispcall:
     dependencies:
       '@pipedream/platform':
