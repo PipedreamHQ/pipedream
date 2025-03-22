@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/appsflyer",
+  "version": "0.0.1",
+  "description": "Pipedream AppsFlyer Components",
+  "main": "appsflyer.app.mjs",
+  "keywords": [
+    "pipedream",
+    "appsflyer"
+  ],
+  "homepage": "https://pipedream.com/apps/appsflyer",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
