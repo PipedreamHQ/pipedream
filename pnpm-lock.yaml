@@ -14075,6 +14075,9 @@ importers:
         specifier: ^7.1.1
         version: 7.1.3
 
+  components/woodelivery:
+    specifiers: {}
+
   components/woodpecker_co:
     dependencies:
       woodpecker-api:
