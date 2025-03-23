@@ -6,7 +6,7 @@ export default {
   key: "shopify_developer_app-update-customer",
   name: "Update Customer",
   description: "Update a existing customer. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/customerupdate)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     shopify,
@@ -107,6 +107,9 @@ export default {
         metafields,
       },
     });
+    if (response.customerUpdate.userErrors.length > 0) {
+      throw new Error(response.customerUpdate.userErrors[0].message);
+    }
     $.export("$summary", `Updated customer \`${response.customerUpdate.customer.email || response.customerUpdate.customer.firstName}\` with ID \`${response.customerUpdate.customer.id}\``);
     return response;
   },

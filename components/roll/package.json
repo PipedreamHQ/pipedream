@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/roll",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Roll Components",
-  "main": "roll.app.js",
+  "main": "roll.app.mjs",
   "keywords": [
     "pipedream",
     "roll"

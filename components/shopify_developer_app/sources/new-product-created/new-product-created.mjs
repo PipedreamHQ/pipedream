@@ -6,7 +6,7 @@ export default {
   name: "New Product Created (Instant)",
   type: "source",
   description: "Emit new event for each product added to a store.",
-  version: "0.0.9",
+  version: "0.0.10",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -14,7 +14,7 @@ export default {
       return "PRODUCTS_CREATE";
     },
     generateMeta(resource) {
-      const ts = Date.parse(resource.createdAt);
+      const ts = Date.parse(resource.created_at);
       return {
         id: resource.id,
         summary: `New Product ${resource.id}`,

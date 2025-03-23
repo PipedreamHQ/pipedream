@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/algolia",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Algolia Components",
-  "main": "algolia.app.js",
+  "main": "algolia.app.mjs",
   "keywords": [
     "pipedream",
     "algolia"

@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/raindrop",
-  "version": "0.3.13",
+  "version": "0.3.14",
   "description": "Pipedream Raindrop.io Components",
-  "main": "raindrop.app.js",
+  "main": "raindrop.app.mjs",
   "keywords": [
     "pipedream",
     "raindrop",

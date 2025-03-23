@@ -6,7 +6,7 @@ export default {
   name: "New Updated Order (Instant)",
   type: "source",
   description: "Emit new event each time an order is updated.",
-  version: "0.0.9",
+  version: "0.0.10",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -14,7 +14,7 @@ export default {
       return "ORDERS_UPDATED";
     },
     generateMeta(resource) {
-      const ts = Date.parse(resource.updatedAt);
+      const ts = Date.parse(resource.updated_at);
       return {
         id: ts,
         summary: `Order Updated ${resource.id}`,

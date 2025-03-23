@@ -6,7 +6,7 @@ export default {
   name: "New Order Fulfilled (Instant)",
   type: "source",
   description: "Emit new event whenever an order is fulfilled.",
-  version: "0.0.6",
+  version: "0.0.7",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -14,7 +14,7 @@ export default {
       return "ORDERS_FULFILLED";
     },
     generateMeta(resource) {
-      const ts = Date.parse(resource.updatedAt);
+      const ts = Date.parse(resource.updated_at);
       return {
         id: ts,
         summary: `New Fulfilled Order ${resource.id}`,

@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/pointagram",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Pointagram Components",
-  "main": "pointagram.app.js",
+  "main": "pointagram.app.mjs",
   "keywords": [
     "pipedream",
     "pointagram"

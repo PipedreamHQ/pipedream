@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/crove_app",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Pipedream Crove Components",
-  "main": "crove_app.app.js",
+  "main": "crove_app.app.mjs",
   "keywords": [
     "pipedream",
     "crove_app"

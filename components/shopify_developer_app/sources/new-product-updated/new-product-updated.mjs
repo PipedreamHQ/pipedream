@@ -5,7 +5,7 @@ export default {
   key: "shopify_developer_app-new-product-updated",
   name: "New Product Updated (Instant)",
   description: "Emit new event for each product updated in a store.",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "source",
   dedupe: "unique",
   props: {
@@ -43,7 +43,7 @@ export default {
       return relevant;
     },
     generateMeta(resource) {
-      const ts = Date.parse(resource.updatedAt);
+      const ts = Date.parse(resource.updated_at);
       return {
         id: `${resource.id}-${ts}`,
         summary: `Product Updated ${resource.id}`,

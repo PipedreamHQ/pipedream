@@ -61,6 +61,10 @@ Another option is to make an HTTP request to a Pipedream HTTP webhook trigger.
 
 ## Triggers
 
+### Why is my trigger not saving?
+
+If your trigger continuously spins without saving, it might be processing too much data at once or taking longer than expected. This issue often occurs with polling database-related triggers (e.g., PostgreSQL, Snowflake, Notion Databases). To resolve it, try reducing the volume of data fetched, e.g., by limiting the number of rows returned in your query.
+
 ### Why is my trigger not emitting events?
 
 First, look at your [trigger logs](/troubleshooting/#where-can-i-find-the-trigger-logs) and check for any errors there. Verify that it has been running, whether on a new webhook event or at the configured polling interval.

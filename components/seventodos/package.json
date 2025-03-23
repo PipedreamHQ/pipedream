@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/seventodos",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream 7todos Components",
-  "main": "seventodos.app.js",
+  "main": "seventodos.app.mjs",
   "keywords": [
     "pipedream",
     "seventodos"

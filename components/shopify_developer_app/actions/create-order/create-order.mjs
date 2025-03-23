@@ -5,7 +5,7 @@ export default {
   key: "shopify_developer_app-create-order",
   name: "Create Order",
   description: "Creates a new order. For full order object details [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/ordercreate)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     shopify,
@@ -154,6 +154,9 @@ export default {
         shippingLines: utils.parseJson(this.shippingLines),
       },
     });
+    if (response.orderCreate.userErrors.length > 0) {
+      throw new Error(response.orderCreate.userErrors[0].message);
+    }
     $.export("$summary", `Created new order with ID \`${response.orderCreate.order.id}\``);
     return response;
   },

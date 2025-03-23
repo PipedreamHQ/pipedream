@@ -421,6 +421,8 @@ importers:
 
   components/agentos: {}
 
+  components/agentql: {}
+
   components/agenty:
     dependencies:
       '@pipedream/platform':
@@ -845,6 +847,8 @@ importers:
 
   components/api_bible: {}
 
+  components/api_labz: {}
+
   components/api_ninjas: {}
 
   components/api_sports: {}
@@ -917,6 +921,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/appsflyer:
+    specifiers: {}
 
   components/appveyor:
     dependencies:
@@ -4047,6 +4054,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/enginemailer: {}
+
   components/enigma: {}
 
   components/enormail: {}
@@ -4170,7 +4179,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/evernote: {}
+  components/evernote:
+    dependencies:
+      evernote:
+        specifier: ^2.0.5
+        version: 2.0.5
 
   components/eversign:
     dependencies:
@@ -6879,6 +6892,9 @@ importers:
 
   components/koyeb: {}
 
+  components/kraken_io:
+    specifiers: {}
+
   components/krispcall:
     dependencies:
       '@pipedream/platform':
@@ -8029,6 +8045,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/miyn: {}
+
   components/moaform:
     dependencies:
       '@pipedream/platform':
@@ -8283,7 +8301,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/navigatr: {}
+  components/navigatr:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/ncscale:
     dependencies:
@@ -8966,6 +8988,9 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
+  components/outline:
+    specifiers: {}
+
   components/outreach:
     dependencies:
       '@pipedream/platform':
@@ -9306,6 +9331,8 @@ importers:
         version: 1.6.6
 
   components/perry_github_test: {}
+
+  components/persanaai: {}
 
   components/persistiq:
     dependencies:
@@ -13180,6 +13207,9 @@ importers:
 
   components/tutor_lms: {}
 
+  components/tuya:
+    specifiers: {}
+
   components/twelve_data: {}
 
   components/twenty:
@@ -14053,6 +14083,9 @@ importers:
       query-string:
         specifier: ^7.1.1
         version: 7.1.3
+
+  components/woodelivery:
+    specifiers: {}
 
   components/woodpecker_co:
     dependencies:
@@ -22362,6 +22395,9 @@ packages:
     resolution: {integrity: sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==}
     engines: {node: '>=0.8.x'}
 
+  evernote@2.0.5:
+    resolution: {integrity: sha512-DuOk3t9HKwkxZBaZU1Mz8vmZSEM2LVI3eLdML90Is3+8WlPwpYcLeo4z+eklT8NUGD3GA6oOnlP+6e0z0rDX1Q==}
+
   execa@1.0.0:
     resolution: {integrity: sha512-adbxcyWV46qiHyvSp50TKt05tB4tK3HcmF7/nxfAdhnox83seTDbwnaqKO4sXRy7roHAIFqJP/Rw/AuEbX61LA==}
     engines: {node: '>=6'}
@@ -25649,6 +25685,9 @@ packages:
 
   oauth4webapi@3.1.4:
     resolution: {integrity: sha512-eVfN3nZNbok2s/ROifO0UAc5G8nRoLSbrcKJ09OqmucgnhXEfdIQOR4gq1eJH1rN3gV7rNw62bDEgftsgFtBEg==}
+
+  oauth@0.9.15:
+    resolution: {integrity: sha512-a5ERWK1kh38ExDEfoO6qUHJb32rd7aYmPHuyCu3Fta/cnICvYmgd2uhuKXvPD+PXB+gCEYYEaQdIRAjCOwAKNA==}
 
   object-assign@4.1.1:
     resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
@@ -39494,6 +39533,10 @@ snapshots:
 
   events@3.3.0: {}
 
+  evernote@2.0.5:
+    dependencies:
+      oauth: 0.9.15
+
   execa@1.0.0:
     dependencies:
       cross-spawn: 6.0.6
@@ -44055,6 +44098,8 @@ snapshots:
   oauth-sign@0.9.0: {}
 
   oauth4webapi@3.1.4: {}
+
+  oauth@0.9.15: {}
 
   object-assign@4.1.1: {}
 
