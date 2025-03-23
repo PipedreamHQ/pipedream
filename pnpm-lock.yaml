@@ -922,8 +922,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/appsflyer:
-    specifiers: {}
+  components/appsflyer: {}
 
   components/appveyor:
     dependencies:
@@ -6892,8 +6891,7 @@ importers:
 
   components/koyeb: {}
 
-  components/kraken_io:
-    specifiers: {}
+  components/kraken_io: {}
 
   components/krispcall:
     dependencies:
@@ -8988,8 +8986,7 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
-  components/outline:
-    specifiers: {}
+  components/outline: {}
 
   components/outreach:
     dependencies:
@@ -13207,8 +13204,7 @@ importers:
 
   components/tutor_lms: {}
 
-  components/tuya:
-    specifiers: {}
+  components/tuya: {}
 
   components/twelve_data: {}
 
@@ -14084,8 +14080,7 @@ importers:
         specifier: ^7.1.1
         version: 7.1.3
 
-  components/woodelivery:
-    specifiers: {}
+  components/woodelivery: {}
 
   components/woodpecker_co:
     dependencies:
