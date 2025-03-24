@@ -111,10 +111,12 @@ export default {
         ...opts,
       });
     },
-    executeSearchQuery(opts = {}) {
+    executeSearchQuery({
+      name, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
-        path: "/search/jobs",
+        path: `/saved/searches/${name}/dispatch`,
         ...opts,
       });
     },

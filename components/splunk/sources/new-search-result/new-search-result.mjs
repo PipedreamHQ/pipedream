@@ -10,30 +10,37 @@ export default {
   dedupe: "unique",
   methods: {
     ...common.methods,
+    async getRecentJobs() {
+      const jobs = [];
+      const results = this.splunk.paginate({
+        resourceFn: this.splunk.listJobs,
+      });
+      for await (const job of results) {
+        jobs.push(job);
+      }
+      return jobs;
+    },
     generateMeta(result) {
       return {
-        id: result.sid,
-        summary: `New Search Results with SID: ${result.sid}`,
+        id: result.id,
+        summary: `New Search with ID: ${result.id}`,
         ts: Date.now(),
       };
     },
   },
   async run() {
-    const jobIds = await this.getRecentJobIds();
-    const searchResults = [];
-    for (const jobId of jobIds) {
-      try {
-        const response = await this.splunk.getSearchResults({
-          jobId,
+    const jobs = await this.getRecentJobs();
+    for (const job of jobs) {
+      if (job.content?.resultCount > 0) {
+        const { results } = await this.splunk.getSearchResults({
+          jobId: job.content.sid,
         });
-        if (response?.results?.length) {
-          searchResults.push(...response.results);
+        if (results) {
+          job.results = results;
         }
-      } catch {
-        console.log(`No results found for sid: ${jobId}`);
       }
     }
-    searchResults.forEach((result) => {
+    jobs.forEach((result) => {
       const meta = this.generateMeta(result);
       this.$emit(result, meta);
     });
