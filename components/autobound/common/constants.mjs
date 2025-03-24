@@ -25,7 +25,7 @@ export default {
       value: "data_driven",
     },
     {
-      label: "For short, personalized content that follow Basho protocol",
+      label: "For short, personalized content that follows Basho protocol",
       value: "basho",
     },
     {
