@@ -1,16 +1,22 @@
 import shopify from "../../shopify_developer_app.app.mjs";
-import common from "../../../shopify/sources/product-added-to-custom-collection/common.mjs";
+import common from "@pipedream/shopify/sources/collection-updated/collection-updated.mjs";
+
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
+const props = adjustPropDefinitions(others.props, shopify);
 
 export default {
-  ...common,
+  ...others,
   key: "shopify_developer_app-product-added-to-custom-collection",
-  name: "New product added to custom collection",
-  description: "Emit new event each time a product is added to a custom collection.",
-  version: "0.0.3",
-  type: "source",
-  dedupe: "unique",
+  version: "0.0.6",
+  name,
+  description,
+  type,
   props: {
-    shopify,
-    ...common.props,
+    app: shopify,
+    ...props,
   },
 };

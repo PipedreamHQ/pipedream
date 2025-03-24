@@ -42,7 +42,10 @@ function buildVariables(endCursor, args) {
   const issueLabels = args.filter.issueLabels
     ? `, labels: { name: { in: ${JSON.stringify(args.filter.issueLabels)} } }`
     : "";
-  let filter = `${title}${teamId}${projectId}${team}${project}${state}${assigneeId}${issueLabels}`;
+  const createdAt = args.filter.createdAt
+    ? `, createdAt: { gte: "${args.filter.createdAt.gte}" }`
+    : "";
+  let filter = `${title}${teamId}${projectId}${team}${project}${state}${assigneeId}${issueLabels}${createdAt}`;
   if (filter[0] === ",") {
     filter = filter.substring(2, filter.length);
   }

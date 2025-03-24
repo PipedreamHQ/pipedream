@@ -1,24 +1,9 @@
-import app from "../../basecamp.app.mjs";
+import common from "../../common/common.mjs";
 
 export default {
   props: {
-    app,
+    ...common.props,
     db: "$.service.db",
-    accountId: {
-      propDefinition: [
-        app,
-        "accountId",
-      ],
-    },
-    projectId: {
-      propDefinition: [
-        app,
-        "projectId",
-        ({ accountId }) => ({
-          accountId,
-        }),
-      ],
-    },
   },
   methods: {
     getWebhookTypes() {

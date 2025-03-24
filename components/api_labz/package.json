@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/api_labz",
+  "version": "0.0.1",
+  "description": "Pipedream API Labz Components",
+  "main": "api_labz.app.mjs",
+  "keywords": [
+    "pipedream",
+    "api_labz"
+  ],
+  "homepage": "https://pipedream.com/apps/api_labz",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

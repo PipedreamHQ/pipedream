@@ -2,6 +2,7 @@ import { pipeline } from "stream/promises";
 import fs from "fs";
 import common from "../../common/common-s3.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
+import "@aws-sdk/signature-v4-crt";
 
 export default {
   ...common,
@@ -9,9 +10,9 @@ export default {
   name: "S3 - Download File to /tmp",
   description: toSingleLineString(`
     Downloads a file from S3 to the /tmp directory.
-    [See the docs](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
+    [See the documentation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
   `),
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     aws: common.props.aws,

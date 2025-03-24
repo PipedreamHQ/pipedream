@@ -3,10 +3,10 @@ import common from "../common/polling.mjs";
 export default {
   ...common,
   key: "apollo_io-contact-created",
-  name: "Contact Created",
-  description: "Triggers when a contact is created. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#search-for-contacts)",
+  name: "New Contact Created",
+  description: "Emit new event when a contact is created. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#search-for-contacts)",
   type: "source",
-  version: "0.0.4",
+  version: "0.0.7",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -18,6 +18,7 @@ export default {
     },
     getResourceFnArgs() {
       return {
+        debug: true,
         params: {
           sort_by_field: "contact_created_at",
           sort_ascending: false,

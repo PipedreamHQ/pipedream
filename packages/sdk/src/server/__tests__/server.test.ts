@@ -1,45 +1,61 @@
+import { jest } from "@jest/globals"
 import {
-  ServerClient, createClient,
-} from "../index";
-import fetchMock from "jest-fetch-mock";
-import { ClientCredentials } from "simple-oauth2";
+  BackendClient,
+  BackendClientOpts,
+  createBackendClient,
+  HTTPAuthType,
+} from "../index.js";
+import isEqual from "lodash.isequal"
 
-describe("ServerClient", () => {
-  let client: ServerClient;
+const fetchMock = setupFetchMock() // see bottom of file
 
-  beforeEach(() => {
-    fetchMock.resetMocks();
+const projectId = "proj_abc123";
+const clientParams: BackendClientOpts = {
+  environment: "production",
+  credentials: {
+    clientId: "test-client-id",
+    clientSecret: "test-client-secret",
+  },
+  projectId,
+};
+
+let client: BackendClient;
+let customDomainClient: BackendClient;
+
+beforeEach(() => {
+  client = new BackendClient(
+    clientParams,
+  );
+  customDomainClient = new BackendClient({
+    ...clientParams,
+    workflowDomain: "example.com",
   });
+});
 
-  describe("createClient", () => {
-    it("should mock the createClient method and return a ServerClient instance", () => {
-      const params = {
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
-      };
+afterEach(() => {
+  jest.clearAllMocks();
+});
 
-      const client = createClient(params);
-      expect(client).toBeInstanceOf(ServerClient);
+describe("BackendClient", () => {
+  describe("createBackendClient", () => {
+    it("should mock the createBackendClient method and return a BackendClient instance", () => {
+      const client = createBackendClient(clientParams);
+      expect(client).toBeInstanceOf(BackendClient);
     });
   });
 
   describe("makeRequest", () => {
     it("should make a GET request successfully", async () => {
-      fetchMock.mockResponseOnce(
-        JSON.stringify({
-          data: "test-response",
-        }),
-        {
-          headers: {
-            "Content-Type": "application/json",
+      fetchMock.expect({
+        request: {
+          url: "https://api.pipedream.com/v1/test-path",
+        },
+        response: {
+          json: {
+            data: "test-response",
           },
         },
-      );
-
-      client = new ServerClient({
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
-      });
+      })
 
       const result = await client.makeRequest("/test-path", {
         method: "GET",
@@ -48,28 +64,22 @@ describe("ServerClient", () => {
       expect(result).toEqual({
         data: "test-response",
       });
-      expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/test-path",
-        expect.any(Object),
-      );
     });
 
     it("should make a POST request with JSON body", async () => {
-      fetchMock.mockResponseOnce(
-        JSON.stringify({
-          success: true,
-        }),
-        {
-          headers: {
-            "Content-Type": "application/json",
+      fetchMock.expect({
+        request: {
+          url: "https://api.pipedream.com/v1/test-path",
+          json: {
+            key: "value",
           },
         },
-      );
-
-      client = new ServerClient({
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
-      });
+        response: {
+          json: {
+            success: true,
+          },
+        },
+      })
 
       const result = await client.makeRequest("/test-path", {
         method: "POST",
@@ -81,168 +91,103 @@ describe("ServerClient", () => {
       expect(result).toEqual({
         success: true,
       });
-      expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/test-path",
-        expect.objectContaining({
-          method: "POST",
-          body: JSON.stringify({
-            key: "value",
-          }),
-          headers: expect.objectContaining({
-            "Content-Type": "application/json",
-          }),
-        }),
-      );
     });
 
     it("should handle non-200 HTTP responses", async () => {
-      fetchMock.mockResponseOnce("Not Found", {
-        status: 404,
-        headers: {
-          "Content-Type": "text/plain",
+      fetchMock.expect({
+        request: {
+          url: "https://api.pipedream.com/v1/bad-path",
         },
-      });
-
-      client = new ServerClient({
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
+        response: new Response("Not Found", {
+          status: 404,
+          headers: {
+            "Content-Type": "text/plain",
+          },
+        }),
       });
 
       await expect(client.makeRequest("/bad-path")).rejects.toThrow("HTTP error! status: 404, body: Not Found");
-      expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/bad-path",
-        expect.any(Object),
-      );
     });
   });
 
-  describe("makeApiRequest", () => {
+  describe("makeAuthorizedRequest", () => {
     it("should include OAuth Authorization header and make an API request", async () => {
-      const getTokenMock = jest.fn().mockResolvedValue({
-        token: {
-          access_token: "mocked-oauth-token",
-        },
-        expired: jest.fn().mockReturnValue(false),
-      });
-
-      const oauthClientMock = {
-        getToken: getTokenMock,
-      } as unknown as ClientCredentials;
-
-      // Inject the mock oauthClient into the ServerClient instance
-      client = new ServerClient(
-        {
-          publicKey: "test-public-key",
-          secretKey: "test-secret-key",
-          oauthClientId: "test-client-id",
-          oauthClientSecret: "test-client-secret",
-        },
-        oauthClientMock,
-      );
-
-      fetchMock.mockResponseOnce(
-        JSON.stringify({
-          success: true,
-        }),
-        {
-          headers: {
-            "Content-Type": "application/json",
+      const accessToken = fetchMock.expectAccessTokenSuccess();
+      fetchMock.expect({
+        request: {
+          url: "https://api.pipedream.com/v1/test-path",
+          headersContaining: {
+            authorization: `Bearer ${accessToken}`,
           },
         },
-      );
+        response: {
+          json: {
+            success: true,
+          },
+        },
+      })
 
-      const result = await client["makeApiRequest"]("/test-path");
+      const result = await client["makeAuthorizedRequest"]("/test-path");
 
       expect(result).toEqual({
         success: true,
       });
-      expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/test-path",
-        expect.objectContaining({
-          headers: expect.objectContaining({
-            "Authorization": "Bearer mocked-oauth-token",
-            "Content-Type": "application/json",
-          }),
-        }),
-      );
     });
 
     it("should handle OAuth token retrieval failure", async () => {
-      // Create a mock oauthClient that fails to get a token
-      const getTokenMock = jest.fn().mockRejectedValue(new Error("Invalid credentials"));
-
-      const oauthClientMock = {
-        getToken: getTokenMock,
-      } as unknown as ClientCredentials;
-
-      client = new ServerClient(
-        {
-          publicKey: "test-public-key",
-          secretKey: "test-secret-key",
-          oauthClientId: "test-client-id",
-          oauthClientSecret: "test-client-secret",
-        },
-        oauthClientMock,
-      );
-
-      await expect(client["makeApiRequest"]("/test-path")).rejects.toThrow("Failed to obtain OAuth token: Invalid credentials");
+      fetchMock.expectAccessTokenFailure();
+      await expect(client.makeAuthorizedRequest("/test-path")).rejects.toThrow();
     });
   });
 
   describe("makeConnectRequest", () => {
     it("should include Connect Authorization header and make a request", async () => {
-      client = new ServerClient({
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
-      });
-
-      fetchMock.mockResponseOnce(
-        JSON.stringify({
-          success: true,
-        }),
-        {
-          headers: {
-            "Content-Type": "application/json",
+      const accessToken = fetchMock.expectAccessTokenSuccess();
+      fetchMock.expect({
+        request: {
+          url: `https://api.pipedream.com/v1/connect/${projectId}/test-path`,
+          headersContaining: {
+            authorization: `Bearer ${accessToken}`,
           },
         },
-      );
+        response: {
+          json: {
+            success: true,
+          },
+        },
+      })
 
       const result = await client["makeConnectRequest"]("/test-path");
 
       expect(result).toEqual({
         success: true,
       });
-      expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/test-path",
-        expect.objectContaining({
-          headers: expect.objectContaining({
-            "Authorization": expect.stringContaining("Basic "),
-          }),
-        }),
-      );
     });
   });
 
-  describe("connectTokenCreate", () => {
+  describe("createConnectToken", () => {
     it("should create a connect token", async () => {
-      fetchMock.mockResponseOnce(
-        JSON.stringify({
-          token: "connect-token",
-          expires_at: "2024-01-01T00:00:00Z",
-        }),
-        {
-          headers: {
-            "Content-Type": "application/json",
+      fetchMock.expectAccessTokenSuccess();
+      fetchMock.expect({
+        request: {
+          url: `https://api.pipedream.com/v1/connect/${projectId}/tokens`,
+          headersContaining: {
+            "X-PD-Environment": "production",
+          },
+          json: {
+            external_user_id: "user-id",
+            external_id: "user-id",
           },
         },
-      );
-
-      client = new ServerClient({
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
+        response: {
+          json: {
+            token: "connect-token",
+            expires_at: "2024-01-01T00:00:00Z",
+          },
+        },
       });
 
-      const result = await client.connectTokenCreate({
+      const result = await client.createConnectToken({
         external_user_id: "user-id",
       });
 
@@ -250,41 +195,29 @@ describe("ServerClient", () => {
         token: "connect-token",
         expires_at: "2024-01-01T00:00:00Z",
       });
-      expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/tokens",
-        expect.objectContaining({
-          method: "POST",
-          body: JSON.stringify({
-            external_user_id: "user-id",
-            external_id: "user-id",
-          }),
-          headers: expect.objectContaining({
-            "Authorization": expect.any(String),
-            "Content-Type": "application/json",
-          }),
-        }),
-      );
     });
 
     it("should create a connect token with optional redirect URIs", async () => {
-      fetchMock.mockResponseOnce(
-        JSON.stringify({
-          token: "connect-token-with-redirects",
-          expires_at: "2024-01-01T00:00:00Z",
-        }),
-        {
-          headers: {
-            "Content-Type": "application/json",
+      fetchMock.expectAccessTokenSuccess();
+      fetchMock.expect({
+        request: {
+          url: `https://api.pipedream.com/v1/connect/${projectId}/tokens`,
+          json: {
+            external_user_id: "user-id",
+            success_redirect_uri: "https://example.com/success",
+            error_redirect_uri: "https://example.com/error",
+            external_id: "user-id",
           },
         },
-      );
-
-      client = new ServerClient({
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
+        response: {
+          json: {
+            token: "connect-token-with-redirects",
+            expires_at: "2024-01-01T00:00:00Z",
+          },
+        },
       });
 
-      const result = await client.connectTokenCreate({
+      const result = await client.createConnectToken({
         external_user_id: "user-id",
         success_redirect_uri: "https://example.com/success",
         error_redirect_uri: "https://example.com/error",
@@ -294,117 +227,111 @@ describe("ServerClient", () => {
         token: "connect-token-with-redirects",
         expires_at: "2024-01-01T00:00:00Z",
       });
-      expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/tokens",
-        expect.objectContaining({
-          method: "POST",
-          body: JSON.stringify({
-            external_user_id: "user-id",
-            success_redirect_uri: "https://example.com/success",
-            error_redirect_uri: "https://example.com/error",
-            external_id: "user-id",
-          }),
-          headers: expect.objectContaining({
-            "Authorization": expect.any(String),
-            "Content-Type": "application/json",
-          }),
-        }),
-      );
     });
   });
 
   describe("getAccounts", () => {
     it("should retrieve accounts", async () => {
-      fetchMock.mockResponseOnce(
-        JSON.stringify([
-          {
-            id: "account-1",
-            name: "Test Account",
-          },
-        ]),
-        {
-          headers: {
-            "Content-Type": "application/json",
+      fetchMock.expectAccessTokenSuccess();
+      fetchMock.expect({
+        request: {
+          url: `https://api.pipedream.com/v1/connect/${projectId}/accounts?include_credentials=true`,
+        },
+        response: {
+          json: {
+            data: [
+              {
+                id: "account-1",
+                name: "Test Account",
+              },
+            ],
           },
         },
-      );
-
-      client = new ServerClient({
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
-      });
+      })
 
       const result = await client.getAccounts({
-        include_credentials: 1,
+        include_credentials: true,
       });
 
-      expect(result).toEqual([
+      expect(result.data).toEqual([
         {
           id: "account-1",
           name: "Test Account",
         },
       ]);
-      expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/accounts?include_credentials=1",
-        expect.any(Object),
-      );
     });
   });
 
-  describe("getAccount", () => {
+  describe("getAccountById", () => {
     it("should retrieve a specific account by ID", async () => {
-      fetchMock.mockResponseOnce(
-        JSON.stringify({
-          id: "account-1",
-          name: "Test Account",
-        }),
-        {
-          headers: {
-            "Content-Type": "application/json",
+      fetchMock.expectAccessTokenSuccess();
+      fetchMock.expect({
+        request: {
+          url: `https://api.pipedream.com/v1/connect/${projectId}/accounts/account-1`,
+        },
+        response: {
+          json: {
+            id: "account-1",
+            name: "Test Account",
           },
         },
-      );
-
-      client = new ServerClient({
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
       });
 
-      const result = await client.getAccount("account-1");
+      const result = await client.getAccountById("account-1");
 
       expect(result).toEqual({
         id: "account-1",
         name: "Test Account",
       });
-      expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/accounts/account-1",
-        expect.any(Object),
-      );
+    });
+
+    it("should include credentials when the flag is set", async () => {
+      fetchMock.expectAccessTokenSuccess();
+      fetchMock.expect({
+        request: {
+          url: `https://api.pipedream.com/v1/connect/${projectId}/accounts/account-1?include_credentials=true`,
+        },
+        response: {
+          json: {
+            id: "account-1",
+            name: "Test Account",
+            credentials: {},
+          },
+        },
+      });
+
+      const result = await client.getAccountById("account-1", {
+        include_credentials: true,
+      });
+
+      expect(result).toEqual({
+        id: "account-1",
+        name: "Test Account",
+        credentials: {},
+      });
     });
   });
 
-  describe("getAccountsByApp", () => {
+  describe("Get accounts by app", () => {
     it("should retrieve accounts associated with a specific app", async () => {
-      fetchMock.mockResponseOnce(
-        JSON.stringify([
-          {
-            id: "account-1",
-            name: "Test Account",
-          },
-        ]),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
+      fetchMock.expectAccessTokenSuccess();
+      fetchMock.expect({
+        request: {
+          url: `https://api.pipedream.com/v1/connect/${projectId}/accounts?app=app-1`,
         },
-      );
-
-      client = new ServerClient({
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
+        response: {
+          json: [
+            {
+              id: "account-1",
+              name: "Test Account",
+            },
+          ],
+        },
       });
 
-      const result = await client.getAccountsByApp("app-1");
+      const result = await client.getAccounts({
+        app: "app-1",
+      });
 
       expect(result).toEqual([
         {
@@ -412,35 +339,29 @@ describe("ServerClient", () => {
           name: "Test Account",
         },
       ]);
-      expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/accounts/app/app-1",
-        expect.any(Object),
-      );
     });
   });
 
-  describe("getAccountsByExternalId", () => {
+  describe("Get accounts by external user ID", () => {
     it("should retrieve accounts associated with a specific external ID", async () => {
-      fetchMock.mockResponseOnce(
-        JSON.stringify([
-          {
-            id: "account-1",
-            name: "Test Account",
-          },
-        ]),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
+      fetchMock.expectAccessTokenSuccess();
+      fetchMock.expect({
+        request: {
+          url: `https://api.pipedream.com/v1/connect/${projectId}/accounts?external_user_id=external-id-1`,
         },
-      );
-
-      client = new ServerClient({
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
+        response: {
+          json: [
+            {
+              id: "account-1",
+              name: "Test Account",
+            },
+          ],
+        },
       });
 
-      const result = await client.getAccountsByExternalId("external-id-1");
+      const result = await client.getAccounts({
+        external_user_id: "external-id-1",
+      });
 
       expect(result).toEqual([
         {
@@ -448,101 +369,79 @@ describe("ServerClient", () => {
           name: "Test Account",
         },
       ]);
-      expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/users/external-id-1/accounts",
-        expect.any(Object),
-      );
     });
   });
 
   describe("deleteAccount", () => {
     it("should delete a specific account by ID", async () => {
-      fetchMock.mockResponseOnce("", {
-        status: 204,
-      });
-
-      client = new ServerClient({
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
+      fetchMock.expectAccessTokenSuccess();
+      fetchMock.expect({
+        request: {
+          method: "DELETE",
+          url: `https://api.pipedream.com/v1/connect/${projectId}/accounts/account-1`,
+        },
+        response: {
+          status: 204,
+        },
       });
 
       await client.deleteAccount("account-1");
-
-      expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/accounts/account-1",
-        expect.objectContaining({
-          method: "DELETE",
-        }),
-      );
     });
   });
 
   describe("deleteAccountsByApp", () => {
     it("should delete all accounts associated with a specific app", async () => {
-      fetchMock.mockResponseOnce("", {
-        status: 204,
-      });
-
-      client = new ServerClient({
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
+      fetchMock.expectAccessTokenSuccess();
+      fetchMock.expect({
+        request: {
+          method: "DELETE",
+          url: `https://api.pipedream.com/v1/connect/${projectId}/accounts/app/app-1`,
+        },
+        response: {
+          status: 204,
+        },
       });
 
       await client.deleteAccountsByApp("app-1");
-
-      expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/accounts/app/app-1",
-        expect.objectContaining({
-          method: "DELETE",
-        }),
-      );
     });
   });
 
   describe("deleteExternalUser", () => {
     it("should delete all accounts associated with a specific external ID", async () => {
-      fetchMock.mockResponseOnce("", {
-        status: 204,
-      });
-
-      client = new ServerClient({
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
+      fetchMock.expectAccessTokenSuccess();
+      fetchMock.expect({
+        request: {
+          method: "DELETE",
+          url: `https://api.pipedream.com/v1/connect/${projectId}/users/external-id-1`,
+        },
+        response: {
+          status: 204,
+        },
       });
 
       await client.deleteExternalUser("external-id-1");
-
-      expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/users/external-id-1",
-        expect.objectContaining({
-          method: "DELETE",
-        }),
-      );
     });
   });
 
   describe("getProjectInfo", () => {
     it("should retrieve project info", async () => {
-      fetchMock.mockResponseOnce(
-        JSON.stringify({
-          apps: [
-            {
-              id: "app-1",
-              name_slug: "test-app",
-            },
-          ],
-        }),
-        {
-          headers: {
-            "Content-Type": "application/json",
+      fetchMock.expectAccessTokenSuccess();
+      fetchMock.expect({
+        request: {
+          method: "GET",
+          url: `https://api.pipedream.com/v1/connect/${projectId}/projects/info`,
+        },
+        response: {
+          json: {
+            apps: [
+              {
+                id: "app-1",
+                name_slug: "test-app",
+              },
+            ],
           },
         },
-      );
-
-      client = new ServerClient({
-        publicKey: "test-public-key",
-        secretKey: "test-secret-key",
-      });
+      })
 
       const result = await client.getProjectInfo();
 
@@ -554,50 +453,35 @@ describe("ServerClient", () => {
           },
         ],
       });
-      expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/connect/projects/info",
-        expect.objectContaining({
-          method: "GET",
-        }),
-      );
     });
   });
 
   describe("invokeWorkflow", () => {
-    it("should invoke a workflow with provided URL and body", async () => {
-      // Create a mock oauthClient
-      const getTokenMock = jest.fn().mockResolvedValue({
-        token: {
-          access_token: "mocked-oauth-token",
-        },
-        expired: jest.fn().mockReturnValue(false),
+    beforeEach(() => {
+      client = new BackendClient({
+        ...clientParams,
+        workflowDomain: "example.com",
       });
+    });
 
-      const oauthClientMock = {
-        getToken: getTokenMock,
-      } as unknown as ClientCredentials;
-
-      // Inject the mock oauthClient into the ServerClient instance
-      client = new ServerClient(
-        {
-          publicKey: "test-public-key",
-          secretKey: "test-secret-key",
-          oauthClientId: "test-client-id",
-          oauthClientSecret: "test-client-secret",
-        },
-        oauthClientMock,
-      );
-
-      fetchMock.mockResponseOnce(
-        JSON.stringify({
-          result: "workflow-response",
-        }),
-        {
-          headers: {
-            "Content-Type": "application/json",
+    it("should invoke a workflow with provided URL and body, with no auth type", async () => {
+      fetchMock.expect({
+        request: {
+          method: "POST",
+          url: "https://example.com/workflow",
+          json: {
+            foo: "bar",
+          },
+          headersContaining: {
+            "X-PD-Environment": "production",
           },
         },
-      );
+        response: {
+          json: {
+            result: "workflow-response",
+          },
+        },
+      })
 
       const result = await client.invokeWorkflow("https://example.com/workflow", {
         body: {
@@ -608,83 +492,384 @@ describe("ServerClient", () => {
       expect(result).toEqual({
         result: "workflow-response",
       });
-      expect(fetchMock).toHaveBeenCalledWith(
-        "https://example.com/workflow",
-        expect.objectContaining({
-          method: "POST",
-          body: JSON.stringify({
-            foo: "bar",
-          }),
-          headers: expect.objectContaining({
-            Authorization: "Bearer mocked-oauth-token",
-          }),
-        }),
-      );
+    });
+
+    it("should invoke a workflow with OAuth auth type", async () => {
+      const token = "" + Math.random()
+      fetchMock.expectAccessTokenSuccess({
+        accessToken: token,
+      });
+      fetchMock.expect({
+        request: {
+          url: "https://example.com/workflow",
+          headersContaining: {
+            authorization: `Bearer ${token}`,
+          },
+        },
+        response: {
+          json: {
+            result: "workflow-response",
+          },
+        },
+      })
+
+      const result = await client.invokeWorkflow("https://example.com/workflow", {}, HTTPAuthType.OAuth);
+
+      expect(result).toEqual({
+        result: "workflow-response",
+      });
+    });
+
+    it("should invoke a workflow with static bearer auth type", async () => {
+      const token = "" + Math.random()
+      fetchMock.expect({
+        request: {
+          url: "https://example.com/workflow",
+          headersContaining: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+        response: {
+          json: {
+            result: "workflow-response",
+          },
+        },
+      })
+
+      const result = await client.invokeWorkflow("https://example.com/workflow", {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      }, HTTPAuthType.StaticBearer);
+
+      expect(result).toEqual({
+        result: "workflow-response",
+      });
     });
   });
 
   describe("OAuth Token Handling", () => {
     it("should refresh token when expired", async () => {
-      // Create mock AccessToken objects
-      const expiredTokenMock = {
-        token: {
-          access_token: "expired-oauth-token",
+      // First request will get the expired token and fetch a new one
+      fetchMock.expectAccessTokenFailure();
+      fetchMock.expectAccessTokenSuccess();
+      fetchMock.expect({
+        request: {
+          url: "https://api.pipedream.com/v1/test-path",
         },
-        expired: jest.fn().mockReturnValue(true),
-      };
-
-      const newTokenMock = {
-        token: {
-          access_token: "new-oauth-token",
-        },
-        expired: jest.fn().mockReturnValue(false),
-      };
-
-      const getTokenMock = jest
-        .fn()
-        .mockResolvedValueOnce(expiredTokenMock)
-        .mockResolvedValueOnce(newTokenMock);
-
-      const oauthClientMock = {
-        getToken: getTokenMock,
-      } as unknown as ClientCredentials;
-
-      const client = new ServerClient(
-        {
-          publicKey: "test-public-key",
-          secretKey: "test-secret-key",
-          oauthClientId: "test-client-id",
-          oauthClientSecret: "test-client-secret",
-        },
-        oauthClientMock,
-      );
-
-      fetchMock.mockResponse(
-        JSON.stringify({
-          success: true,
-        }),
-        {
-          headers: {
-            "Content-Type": "application/json",
+        response: {
+          json: {
+            success: true,
           },
         },
-      );
+      })
 
-      // First request will get the expired token and fetch a new one
-      const result1 = await client["makeApiRequest"]("/test-path");
+      const result1 = await client["makeAuthorizedRequest"]("/test-path");
 
       expect(result1).toEqual({
         success: true,
       });
-      expect(getTokenMock).toHaveBeenCalledTimes(2); // One for initial token, one for refresh
-      expect(fetchMock).toHaveBeenCalledWith(
-        "https://api.pipedream.com/v1/test-path",
-        expect.objectContaining({
-          headers: expect.objectContaining({
-            Authorization: "Bearer new-oauth-token",
-          }),
-        }),
-      );
+    });
+  });
+
+  describe("invokeWorkflowForExternalUser", () => {
+    let client: BackendClient;
+
+    beforeEach(() => {
+      client = new BackendClient({
+        ...clientParams,
+        workflowDomain: "example.com",
+      });
+    });
+
+    it("should include externalUserId and environment headers", async () => {
+      fetchMock.expectAccessTokenSuccess();
+      fetchMock.expect({
+        request: {
+          url: "https://example.com/workflow",
+          headersContaining: {
+            "X-PD-External-User-ID": "external-user-id",
+            "X-PD-Environment": "production",
+          },
+        },
+        response: {
+          json: {
+            result: "workflow-response",
+          },
+        },
+      })
+
+      const result = await client.invokeWorkflowForExternalUser("https://example.com/workflow", "external-user-id", {
+        body: {
+          foo: "bar",
+        },
+      });
+
+      expect(result).toEqual({
+        result: "workflow-response",
+      });
+    });
+
+    it("should throw error when externalUserId is missing", async () => {
+      await expect(client.invokeWorkflowForExternalUser("https://example.com/workflow", "", {
+        body: {
+          foo: "bar",
+        },
+      })).rejects.toThrow("External user ID is required");
+    });
+
+    it("should throw error when externalUserId is blank", async () => {
+      await expect(client.invokeWorkflowForExternalUser("https://example.com/workflow", "    ", {
+        body: {
+          foo: "bar",
+        },
+      })).rejects.toThrow("External user ID is required");
+    });
+
+    it("should throw error when the URL is blank", async () => {
+      await expect(client.invokeWorkflowForExternalUser("  ", "external-user-id", {
+        body: {
+          foo: "bar",
+        },
+      })).rejects.toThrow("Workflow URL is required");
+    });
+  });
+
+  describe("BackendClient - buildWorkflowUrl", () => {
+    describe("Validations", () => {
+      it("should throw an error when the input is blank", () => {
+        expect(() => client["buildWorkflowUrl"]("   ")).toThrow("URL or endpoint ID is required");
+      });
+
+      it("should throw an error when the URL doesn't match the workflow domain", () => {
+        const url = "https://example.com";
+        expect(() => client["buildWorkflowUrl"](url)).toThrow("Invalid workflow domain");
+      });
+
+      it("should throw an error when the endpoint ID doesn't match the expected format", () => {
+        const input = "foo123";
+        expect(() => client["buildWorkflowUrl"](input)).toThrow("Invalid endpoint ID format");
+      });
+    });
+
+    describe("Default domain (m.pipedream.net)", () => {
+      it("should return full URL if input is a full URL with protocol", () => {
+        const input = "https://en123.m.pipedream.net";
+        const expected = "https://en123.m.pipedream.net/";
+        expect(client["buildWorkflowUrl"](input)).toBe(expected);
+      });
+
+      it("should return full URL if input is a URL without protocol", () => {
+        const input = "en123.m.pipedream.net";
+        const expected = "https://en123.m.pipedream.net/";
+        expect(client["buildWorkflowUrl"](input)).toBe(expected);
+      });
+
+      it("should construct URL with 'm.pipedream.net' if input is an endpoint ID", () => {
+        const input = "en123";
+        const expected = "https://en123.m.pipedream.net";
+        expect(client["buildWorkflowUrl"](input)).toBe(expected);
+      });
+
+      it("should handle input with a path in full URL with protocol", () => {
+        const input = "https://en123.m.pipedream.net/foo";
+        const expected = "https://en123.m.pipedream.net/foo";
+        expect(client["buildWorkflowUrl"](input)).toBe(expected);
+      });
+
+      it("should handle input with a path when no protocol is provided", () => {
+        const input = "en123.m.pipedream.net/foo";
+        const expected = "https://en123.m.pipedream.net/foo";
+        expect(client["buildWorkflowUrl"](input)).toBe(expected);
+      });
+    });
+
+    describe("Custom domain (example.com)", () => {
+      it("should return full URL if input is a full URL with protocol", () => {
+        const input = "https://en123.example.com";
+        const expected = "https://en123.example.com/";
+        expect(customDomainClient["buildWorkflowUrl"](input)).toBe(expected);
+      });
+
+      it("should return full URL if input is a URL without protocol", () => {
+        const input = "en123.example.com";
+        const expected = "https://en123.example.com/";
+        expect(customDomainClient["buildWorkflowUrl"](input)).toBe(expected);
+      });
+
+      it("should construct URL with 'example.com' if input is an endpoint ID", () => {
+        const input = "en123";
+        const expected = "https://en123.example.com";
+        expect(customDomainClient["buildWorkflowUrl"](input)).toBe(expected);
+      });
+
+      it("should handle input with a path in full URL with protocol", () => {
+        const input = "https://en123.example.com/foo";
+        const expected = "https://en123.example.com/foo";
+        expect(customDomainClient["buildWorkflowUrl"](input)).toBe(expected);
+      });
+
+      it("should handle input with a path when no protocol is provided", () => {
+        const input = "en123.example.com/foo";
+        const expected = "https://en123.example.com/foo";
+        expect(customDomainClient["buildWorkflowUrl"](input)).toBe(expected);
+      });
     });
   });
 });
+
+type ExpectRequest = {
+  method?: string
+  url?: string | RegExp
+  json?: Record<string, unknown>
+  headersContaining?: Record<string, string>
+}
+type MockResponse =
+  | Response
+  | { status?: number; json?: unknown }
+type IfOpts = {
+  method: string
+  url: string
+  headers: Record<string, string> // NonNullable<RequestInit["headers"]>
+  json?: unknown // body json
+  // XXX etc.
+}
+function setupFetchMock() {
+  let intercepts: {
+    if: (opts: IfOpts) => boolean
+    response: () => Response
+  }[] = []
+
+  const jsonResponse = (o: unknown, opts?: { status?: number }) => {
+    return new Response(JSON.stringify(o), {
+      status: opts?.status,
+      headers: {
+        "content-type": "application/json",
+      },
+    })
+  }
+
+  beforeEach(() => {
+    intercepts = [];
+    // without these generics this fails typecheck and can't figure out why
+    jest.spyOn<any, any, any>(global, "fetch").mockImplementation(jest.fn<typeof fetch>(async (...args: Parameters<typeof fetch>) => { // eslint-disable-line @typescript-eslint/no-explicit-any
+      const [
+        url,
+        init,
+      ] = args
+      let json: unknown
+      if (init?.body && typeof init.body === "string") {
+        try {
+          json = JSON.parse(init.body)
+        } catch {
+          // pass
+        }
+      }
+      if (url instanceof Request) {
+        throw new Error("not supported")
+      }
+      const ifOpts: IfOpts = {
+        method: init?.method || "GET",
+        url: url.toString(),
+        headers: init?.headers as Record<string, string> || {},
+        json,
+      }
+      for (let i = 0; i < intercepts.length; i++) {
+        const intercept = intercepts[i]
+        if (intercept.if(ifOpts)) {
+          intercepts.splice(i, 1)
+          return intercept.response()
+        }
+      }
+      throw new Error(`Request to ${url} not intercepted`)
+    }) as jest.Mock);
+  })
+
+  afterEach(() => {
+    if (intercepts.length) {
+      throw new Error("Expected requests not yet intercepted")
+    }
+  })
+
+  // const _expect = (opts: { if: (opts: IfOpts) => boolean, jsonResponse?: any, response?: Response }) => {
+  const _expect = (opts: { request: ExpectRequest, response: MockResponse }) => {
+    const {
+      method, url, headersContaining, json,
+    } = opts.request
+    intercepts.push({
+      if: (ifOpts) => {
+        if (method && ifOpts.method !== method) return false
+        if (url) {
+          if (typeof url === "string") return url === ifOpts.url
+          if (url instanceof RegExp) return !!ifOpts.url.match(url)
+          throw new Error(`unexpected type for request.url: ${url}`)
+        }
+        if (headersContaining) {
+          for (const header in headersContaining) {
+            if (ifOpts.headers[header.toLowerCase()] !== headersContaining[header.toLowerCase()]) {
+              return false
+            }
+          }
+        }
+        if (json && !isEqual(json, ifOpts.json)) {
+          return false
+        }
+        return true
+      },
+      response: () => {
+        if (opts.response instanceof Response) {
+          return opts.response
+        }
+        if (opts.response.json) {
+          return jsonResponse(opts.response.json, {
+            status: opts.response.status,
+            // XXX...
+          })
+        }
+        return new Response(null, {
+          status: opts.response.status,
+          headers: {
+            "content-type": "text/plain",
+          },
+        })
+      },
+    })
+  }
+
+  const expectAccessTokenSuccess = (opts?: { accessToken?: string; expiresIn?: number }) => {
+    const accessToken = opts?.accessToken || "" + Math.random()
+    _expect({
+      request: {
+        url: /\/v1\/oauth\/token$/,
+      },
+      response: {
+        json: {
+          access_token: accessToken,
+          token_type: "Bearer",
+          expires_in: opts?.expiresIn ?? 3600,
+        },
+      },
+    })
+    return accessToken
+  }
+
+  const expectAccessTokenFailure = () => {
+    _expect({
+      request: {
+        url: /\/v1\/oauth\/token$/,
+      },
+      response: new Response("", {
+        status: 401,
+        headers: {
+          "content-type": "application/json",
+        },
+      }),
+    })
+  }
+
+  return {
+    expect: _expect,
+    expectAccessTokenSuccess,
+    expectAccessTokenFailure,
+  }
+}

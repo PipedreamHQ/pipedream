@@ -1,4 +1,4 @@
-import issueCreatedInstant from "../../../linear_app/sources/issue-created-instant/issue-created-instant.mjs";
+import issueCreatedInstant from "@pipedream/linear_app/sources/issue-created-instant/issue-created-instant.mjs";
 import utils from "../../common/utils.mjs";
 
 /* eslint-disable pipedream/required-properties-type */
@@ -9,6 +9,6 @@ export default {
   ...issueCreatedInstant,
   ...utils.getAppProps(issueCreatedInstant),
   key: "linear-issue-created-instant",
-  description: "Emit new event when a new issue is created (OAuth). See the docs [here](https://developers.linear.app/docs/graphql/webhooks)",
-  version: "0.3.5",
+  description: "Emit new event when a new issue is created (OAuth). [See the documentation](https://developers.linear.app/docs/graphql/webhooks)",
+  version: "0.3.10",
 };

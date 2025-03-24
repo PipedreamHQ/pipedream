@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/osu",
+  "version": "0.0.1",
+  "description": "Pipedream Osu! Components",
+  "main": "osu.app.mjs",
+  "keywords": [
+    "pipedream",
+    "osu"
+  ],
+  "homepage": "https://pipedream.com/apps/osu",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

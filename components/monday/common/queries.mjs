@@ -98,8 +98,19 @@ export default {
       boards (ids: [$boardId]) {
         columns {
           id
+          settings_str
           title
           type
+        }
+      }
+    }
+  `,
+  listColumnOptions: `
+    query listColumnOptions ($boardId: ID!) {
+      boards (ids: [$boardId]) {
+        columns {
+          id
+          title
         }
       }
     }

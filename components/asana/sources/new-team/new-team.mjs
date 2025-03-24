@@ -1,12 +1,12 @@
-import asana from "../../asana.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import asana from "../../asana.app.mjs";
 
 export default {
   key: "asana-new-team",
   type: "source",
   name: "New Team",
-  description: "Emit new event for each task added to an organization.",
-  version: "0.1.7",
+  description: "Emit new event for each team added to an organization.",
+  version: "0.1.8",
   dedupe: "unique",
   props: {
     asana,

@@ -20,6 +20,15 @@ export default {
         return this.listDomainsOpts(true);
       },
     },
+    folderId: {
+      type: "string",
+      label: "Folder ID",
+      description: "The folder to use.",
+      optional: true,
+      async options({ domainId }) {
+        return this.listFolderOptions(domainId);
+      },
+    },
     originalURL: {
       type: "string",
       label: "Original URL",
@@ -324,6 +333,22 @@ export default {
         params: params,
       }));
       return response;
+    },
+    async getDomainInfo(domainId) {
+      return axios(this, this._getRequestParams({
+        path: `/domains/${domainId}`,
+      }));
+    },
+    async listFolderOptions(domainId) {
+      const response = await axios(this, this._getRequestParams({
+        path: `/links/folders/${domainId}`,
+      }));
+      return response.linkFolders?.map(({
+        id, name,
+      }) => ({
+        label: name,
+        value: id,
+      }));
     },
   },
 };

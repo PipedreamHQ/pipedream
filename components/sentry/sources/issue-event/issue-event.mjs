@@ -2,7 +2,7 @@ import sentry from "../../sentry.app.mjs";
 
 export default {
   key: "sentry-issue-event",
-  version: "0.1.1",
+  version: "0.1.2",
   name: "New Issue Event (Instant)",
   description: "Emit new events for issues that have been created or updated.",
   type: "source",

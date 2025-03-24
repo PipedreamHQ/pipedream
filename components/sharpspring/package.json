@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/sharpspring",
+  "version": "0.6.0",
+  "description": "Pipedream sharpspring Components",
+  "main": "sharpspring.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sharpspring"
+  ],
+  "homepage": "https://pipedream.com/apps/sharpspring",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

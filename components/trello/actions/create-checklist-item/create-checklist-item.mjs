@@ -4,7 +4,7 @@ export default {
   key: "trello-create-checklist-item",
   name: "Create a Checklist Item",
   description: "Creates a new checklist item in a card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-checklists/#api-checklists-id-checkitems-post).",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
     app,
@@ -20,6 +20,7 @@ export default {
         "cards",
         ({ board }) => ({
           board,
+          checklistCardsOnly: true,
         }),
       ],
       type: "string",
@@ -56,26 +57,15 @@ export default {
       optional: true,
     },
   },
-  methods: {
-    createChecklistItem({
-      checklistId, ...args
-    } = {}) {
-      return this.app.post({
-        path: `/checklists/${checklistId}/checkItems`,
-        ...args,
-      });
-    },
-  },
   async run({ $ }) {
     const {
-      createChecklistItem,
       checklistId,
       name,
       pos,
       checked,
     } = this;
 
-    const response = await createChecklistItem({
+    const response = await this.app.createChecklistItem({
       $,
       checklistId,
       params: {
@@ -85,7 +75,7 @@ export default {
       },
     });
 
-    $.export("$summary", "Successfully created a checklist item");
+    $.export("$summary", `Successfully created a checklist item with ID: ${response.id}`);
 
     return response;
   },

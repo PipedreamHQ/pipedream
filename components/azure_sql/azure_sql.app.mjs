@@ -28,6 +28,13 @@ export default {
         return recordset.map(({ COLUMN_NAME: columnName }) => columnName);
       },
     },
+    requestTimeout: {
+      type: "integer",
+      label: "Request Timeout",
+      description: "The timeout for query execution in seconds. Default is 60 seconds if not specified.",
+      optional: true,
+      default: 60,
+    },
   },
   methods: {
     ...sqlProxy.methods,
@@ -37,7 +44,7 @@ export default {
     },
     getConfig() {
       const {
-        host, username, password, port, database,
+        host, username, password, port, database, requestTimeout,
       } = this.$auth;
       return {
         user: username,
@@ -51,7 +58,7 @@ export default {
         options: {
           encrypt: true,
           port: Number(port),
-          requestTimeout: 60000,
+          requestTimeout: (requestTimeout || 60) * 1000, // Convert to milliseconds
         },
       };
     },
@@ -148,10 +155,16 @@ export default {
     },
     async executeQuery(preparedStatement = {}) {
       let connection;
-      const { query } = preparedStatement;
+      const {
+        query, requestTimeout,
+      } = preparedStatement;
       const inputs = preparedStatement?.inputs || {};
       try {
-        connection = await sql.connect(this.getClientConfiguration());
+        const config = this.getConfig();
+        if (requestTimeout) {
+          config.options.requestTimeout = requestTimeout * 1000; // Convert to milliseconds
+        }
+        connection = await sql.connect(config);
         const input =
           Object.entries(inputs)
             .reduce((req, inputArgs) =>

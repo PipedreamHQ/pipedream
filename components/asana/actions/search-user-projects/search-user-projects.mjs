@@ -1,11 +1,11 @@
-import asana from "../../asana.app.mjs";
 import _ from "lodash";
+import asana from "../../asana.app.mjs";
 
 export default {
   key: "asana-search-user-projects",
   name: "Get list of user projects",
   description: "Return list of projects given the user and workspace gid. [See the documentation](https://developers.asana.com/docs/get-multiple-projects)",
-  version: "0.4.6",
+  version: "0.5.0",
   type: "action",
   props: {
     asana,
@@ -17,7 +17,6 @@ export default {
         asana,
         "workspaces",
       ],
-      optional: true,
     },
     user: {
       label: "User",
@@ -26,6 +25,9 @@ export default {
       propDefinition: [
         asana,
         "users",
+        ({ workspace }) => ({
+          workspace,
+        }),
       ],
     },
   },

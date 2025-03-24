@@ -1,26 +1,25 @@
 import { ConfigurationError } from "@pipedream/platform";
 import fs from "fs";
 import FormData from "form-data";
-import common from "../common.mjs";
+import app from "../../trello.app.mjs";
 
 export default {
-  ...common,
   key: "trello-add-attachment-to-card",
   name: "Add Attachment To Card",
   description: "Adds a file attachment on a card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-attachments-post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
-    ...common.props,
+    app,
     board: {
       propDefinition: [
-        common.props.app,
+        app,
         "board",
       ],
     },
     cardId: {
       propDefinition: [
-        common.props.app,
+        app,
         "cards",
         (c) => ({
           board: c.board,
@@ -33,49 +32,57 @@ export default {
     },
     name: {
       propDefinition: [
-        common.props.app,
+        app,
         "name",
       ],
     },
+    fileType: {
+      propDefinition: [
+        app,
+        "fileType",
+      ],
+      reloadProps: true,
+    },
     url: {
       propDefinition: [
-        common.props.app,
+        app,
         "url",
       ],
-    },
-    mimeType: {
-      propDefinition: [
-        common.props.app,
-        "mimeType",
-      ],
+      hidden: true,
     },
     file: {
       propDefinition: [
-        common.props.app,
+        app,
         "file",
       ],
+      hidden: true,
+    },
+    mimeType: {
+      propDefinition: [
+        app,
+        "mimeType",
+      ],
+      hidden: true,
     },
     setCover: {
       type: "boolean",
       label: "Set Cover?",
       description: "Determines whether to use the new attachment as a cover for the Card",
       default: false,
+      optional: true,
     },
   },
-  methods: {
-    ...common.methods,
-    addAttachmentToCard({
-      cardId, ...args
-    } = {}) {
-      return this.app.post({
-        path: `/cards/${cardId}/attachments`,
-        ...args,
-      });
-    },
+  async additionalProps(props) {
+    const attachmentIsPath = this.fileType === "path";
+    const attachmentIsUrl = this.fileType === "url";
+    props.file.hidden = !attachmentIsPath;
+    props.mimeType.hidden = !attachmentIsPath;
+    props.url.hidden = !attachmentIsUrl;
+
+    return {};
   },
   async run({ $ }) {
     const {
-      addAttachmentToCard,
       cardId,
       name,
       url,
@@ -99,7 +106,7 @@ export default {
       const form = new FormData();
       form.append("file", fs.createReadStream(file));
 
-      response = await addAttachmentToCard({
+      response = await this.app.addAttachmentToCard({
         $,
         cardId,
         params,
@@ -108,7 +115,7 @@ export default {
       });
 
     } else {
-      response = await addAttachmentToCard({
+      response = await this.app.addAttachmentToCard({
         $,
         cardId,
         params: {

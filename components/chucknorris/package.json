@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/chucknorris",
+  "version": "0.6.0",
+  "description": "Pipedream chucknorris Components",
+  "main": "chucknorris.app.mjs",
+  "keywords": [
+    "pipedream",
+    "chucknorris"
+  ],
+  "homepage": "https://pipedream.com/apps/chucknorris",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

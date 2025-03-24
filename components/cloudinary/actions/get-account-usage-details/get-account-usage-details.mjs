@@ -3,15 +3,20 @@ import cloudinary from "../../cloudinary.app.mjs";
 export default {
   key: "cloudinary-get-account-usage-details",
   name: "Get Account Usage Details",
-  description: "Enables you to get a report on the status of your Cloudinary account usage details, including storage, credits, bandwidth, requests, number of resources, and add-on usage. [See the documentation](https://cloudinary.com/documentation/admin_api#usage)",
-  version: "0.1.2",
+  description: "Gets a report of your Cloudinary account usage details, including storage, credits, bandwidth, requests, number of resources, and add-on usage. [See the documentation](https://cloudinary.com/documentation/admin_api#usage)",
+  version: "0.2.0",
   type: "action",
   props: {
     cloudinary,
+    dateInfo: {
+      type: "alert",
+      alertType: "info",
+      content: "If `Date` is not specified, it defaults to the current date.",
+    },
     date: {
       type: "string",
       label: "Date",
-      description: "The date for the usage report. Must be within the last 3 months and given in the format: `dd-mm-yyyy`. Default: the current date",
+      description: "The date for the usage report, in the `yyyy-mm-dd` format, e.g. `2019-07-21`. Must be between yesterday and the last 3 months.",
       optional: true,
     },
   },
@@ -20,12 +25,17 @@ export default {
       date: this.date,
     };
 
-    const response = await this.cloudinary.getUsage(options);
+    try {
+      const response = await this.cloudinary.getUsage(options);
 
-    if (response) {
-      $.export("$summary", "Successfully retrieved usage details.");
+      if (response) {
+        $.export("$summary", "Successfully retrieved usage details");
+      }
+
+      return response;
     }
-
-    return response;
+    catch (err) {
+      throw new Error(`Cloudinary error response: ${err.error?.message ?? JSON.stringify(err)}`);
+    }
   },
 };

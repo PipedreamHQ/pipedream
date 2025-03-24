@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/wati",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream WATI Components",
-  "main": "dist/app/wati.app.mjs",
+  "main": "wati.app.mjs",
   "keywords": [
     "pipedream",
     "wati"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/wati",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
   }
 }

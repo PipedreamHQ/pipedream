@@ -17,9 +17,9 @@ export default {
       "mostPopular" :
       undefined;
 
-    const videos = (await this.youtubeDataApi.listVideos({
+    const { data: videos } = await this.youtubeDataApi.listVideos({
       part,
-      id,
+      id: id && id.join(),
       chart,
       myRating,
       hl,
@@ -28,8 +28,10 @@ export default {
       maxResults,
       videoCategoryId,
       regionCode,
-    })).data;
-    $.export("$summary", `Successfully fetched ${videos.items.length} video(s)`);
+    });
+    $.export("$summary", `Successfully fetched ${videos.items.length} video${videos.items.length === 1
+      ? ""
+      : "s"}`);
     return videos;
   },
 };

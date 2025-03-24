@@ -4,7 +4,7 @@ export function parseToolsArray(arr) {
   if (!arr) return undefined;
   return arr.map((value) => {
     if ([
-      "retrieval",
+      "file_search",
       "code_interpreter",
     ].includes(value)) {
       return {

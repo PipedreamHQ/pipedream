@@ -5,9 +5,9 @@ export default {
   ...common,
   key: "asana-task-updated-in-project",
   type: "source",
-  name: "Task Updated In Project (Instant)",
+  name: "New Task Updated In Project (Instant)",
   description: "Emit new event for each update to a task.",
-  version: "1.1.5",
+  version: "1.1.6",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -41,6 +41,9 @@ export default {
       propDefinition: [
         asana,
         "users",
+        ({ workspace }) => ({
+          workspace,
+        }),
       ],
     },
     delay: {

@@ -20,22 +20,26 @@ export default {
     },
   },
   methods: {
-    async connect() {
+    getConfig() {
       const {
         host,
         username,
         privateKey,
       } = this.$auth;
 
-      const config = {
+      return {
         host,
         username,
         privateKey,
       };
-
+    },
+    async connect() {
       const sftp = new Client();
-      await sftp.connect(config);
+      await sftp.connect(this.getConfig());
       return sftp;
+    },
+    async disconnect(sftp) {
+      await sftp.end();
     },
     async put({
       buffer,

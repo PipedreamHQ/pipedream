@@ -1,31 +1,38 @@
 import common from "../common/common-webhook.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "trello-new-board",
   name: "New Board (Instant)",
   description: "Emit new event for each new board added.",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     async getSampleEvents() {
       const boards = await this.app.getBoards();
-      return {
-        sampleEvents: boards,
-        sortField: "dateLastView",
-      };
+      const allBoards = [];
+      for (const board of boards) {
+        const b = await this.app.getBoard({
+          boardId: board.id,
+        });
+        allBoards.push(b);
+      }
+      return allBoards;
     },
-    isCorrectEventType(event) {
-      const eventType = event.body?.action?.type;
-      return eventType === "createBoard";
+    getSortField() {
+      return "dateLastView";
     },
-    async getResult(event) {
-      const boardId = event.body?.action?.data?.board?.id;
+    isCorrectEventType({ type }) {
+      return type === "createBoard";
+    },
+    getResult({ data }) {
       return this.app.getBoard({
-        boardId,
+        boardId: data?.board?.id,
       });
     },
   },
+  sampleEmit,
 };

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/active_trail",
+  "version": "0.6.0",
+  "description": "Pipedream active_trail Components",
+  "main": "active_trail.app.mjs",
+  "keywords": [
+    "pipedream",
+    "active_trail"
+  ],
+  "homepage": "https://pipedream.com/apps/active_trail",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

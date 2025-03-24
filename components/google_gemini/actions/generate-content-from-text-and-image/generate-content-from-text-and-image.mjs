@@ -1,37 +1,39 @@
 import fs from "fs";
 import { ConfigurationError } from "@pipedream/platform";
-import app from "../../google_gemini.app.mjs";
+import common from "../common/generate-content.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
+  ...common,
   key: "google_gemini-generate-content-from-text-and-image",
   name: "Generate Content from Text and Image",
   description: "Generates content from both text and image input using the Gemini API. [See the documentation](https://ai.google.dev/tutorials/rest_quickstart#text-and-image_input)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
-    app,
-    model: {
-      propDefinition: [
-        app,
-        "model",
-      ],
-    },
+    ...common.props,
     text: {
       propDefinition: [
-        app,
+        common.props.app,
         "text",
       ],
     },
     mimeType: {
       propDefinition: [
-        app,
+        common.props.app,
         "mimeType",
       ],
     },
     imagePaths: {
       propDefinition: [
-        app,
+        common.props.app,
         "imagePaths",
+      ],
+    },
+    responseFormat: {
+      propDefinition: [
+        common.props.app,
+        "responseFormat",
       ],
     },
   },
@@ -55,6 +57,13 @@ export default {
       text,
       imagePaths,
       mimeType,
+      responseFormat,
+      responseSchema,
+      maxOutputTokens,
+      temperature,
+      topP,
+      topK,
+      stopSequences,
     } = this;
 
     if (!Array.isArray(imagePaths)) {
@@ -79,6 +88,21 @@ export default {
             ],
           },
         ],
+        ...(
+          responseFormat || maxOutputTokens || temperature || topP || topK || stopSequences?.length
+            ? {
+              generationConfig: {
+                responseMimeType: "application/json",
+                responseSchema: utils.parse(responseSchema),
+                maxOutputTokens,
+                temperature,
+                topP,
+                topK,
+                stopSequences,
+              },
+            }
+            : {}
+        ),
       },
     });
 

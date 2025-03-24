@@ -1,44 +1,46 @@
-import common from "../common.mjs";
+import app from "../../trello.app.mjs";
 
 export default {
-  ...common,
   key: "trello-search-boards",
   name: "Search Boards",
   description: "Searches for boards matching the specified query. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-search/#api-search-get).",
-  version: "0.3.0",
+  version: "0.3.1",
   type: "action",
   props: {
-    ...common.props,
+    app,
     query: {
       propDefinition: [
-        common.props.app,
+        app,
         "query",
       ],
     },
     idOrganizations: {
       propDefinition: [
-        common.props.app,
+        app,
         "idOrganizations",
       ],
       description: "Specify the organizations to search for boards in",
     },
     partial: {
       propDefinition: [
-        common.props.app,
+        app,
         "partial",
       ],
+      optional: true,
     },
     boardFields: {
       propDefinition: [
-        common.props.app,
+        app,
         "boardFields",
       ],
+      optional: true,
     },
     boardsLimit: {
       type: "integer",
       label: "Boards Limit",
       description: "The maximum number of boards to return.",
       default: 10,
+      optional: true,
     },
   },
   async run({ $ }) {

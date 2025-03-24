@@ -16,6 +16,9 @@ export default {
           sheetId: c.sheetID,
         }),
       ],
+      type: "string[]",
+      label: "Worksheet ID(s)",
+      description: "Select one or more worksheet(s), or provide an array of worksheet IDs.",
     },
   },
   methods: {

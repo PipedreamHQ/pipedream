@@ -1,22 +1,22 @@
-import webflow from "../../webflow.app.mjs";
+import app from "../../webflow.app.mjs";
 
 export default {
   key: "webflow-get-collection",
   name: "Get Collection",
-  description: "Get a collection. [See the docs here](https://developers.webflow.com/#get-collection-with-full-schema)",
-  version: "0.0.5",
+  description: "Get a collection. [See the documentation](https://developers.webflow.com/data/reference/cms/collections/get)",
+  version: "2.0.0",
   type: "action",
   props: {
-    webflow,
+    app,
     siteId: {
       propDefinition: [
-        webflow,
+        app,
         "sites",
       ],
     },
     collectionId: {
       propDefinition: [
-        webflow,
+        app,
         "collections",
         (c) => ({
           siteId: c.siteId,
@@ -25,7 +25,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.webflow.getCollection(this.collectionId);
+    const response = await this.app.getCollection(this.collectionId);
 
     $.export("$summary", "Successfully retrieved collection");
 

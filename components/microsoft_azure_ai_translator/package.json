@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/microsoft_azure_ai_translator",
+  "version": "0.1.0",
+  "description": "Pipedream Microsoft Azure AI Translator Components",
+  "main": "microsoft_azure_ai_translator.app.mjs",
+  "keywords": [
+    "pipedream",
+    "microsoft_azure_ai_translator"
+  ],
+  "homepage": "https://pipedream.com/apps/microsoft_azure_ai_translator",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

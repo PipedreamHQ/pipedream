@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/current_rms",
+  "version": "0.0.1",
+  "description": "Pipedream Current RMS Components",
+  "main": "current_rms.app.mjs",
+  "keywords": [
+    "pipedream",
+    "current_rms"
+  ],
+  "homepage": "https://pipedream.com/apps/current_rms",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

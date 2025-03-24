@@ -1,16 +1,32 @@
-import shopify from "../../shopify.app.mjs";
-import common from "./common.mjs";
+import common from "../common/polling.mjs";
+import { MAX_LIMIT } from "../../common/constants.mjs";
 
 export default {
   ...common,
   key: "shopify-new-abandoned-cart",
   name: "New Abandoned Cart",
-  type: "source",
   description: "Emit new event each time a user abandons their cart.",
-  version: "0.0.19",
+  version: "0.0.20",
+  type: "source",
   dedupe: "unique",
-  props: {
-    shopify,
-    ...common.props,
+  methods: {
+    ...common.methods,
+    async getResults() {
+      const { abandonedCheckouts: { nodes } } = await this.app.listAbandonedCheckouts({
+        first: MAX_LIMIT,
+        reverse: true,
+      });
+      return nodes;
+    },
+    getTsField() {
+      return "createdAt";
+    },
+    generateMeta(checkout) {
+      return {
+        id: checkout.id,
+        summary: `New Abandoned Cart: ${checkout.id}`,
+        ts: Date.parse(checkout[this.getTsField()]),
+      };
+    },
   },
 };

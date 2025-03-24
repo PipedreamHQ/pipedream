@@ -171,6 +171,11 @@ export default {
     }) {
       return this._makeRequest({
         path: `/portals/${portalId}/departments/${groupId}/surveys/${surveyId}/collectors/metainfo`,
+        params: {
+          ...args?.params,
+          status: "open",
+          fromservice: "pipedream",
+        },
         ...args,
       });
     },

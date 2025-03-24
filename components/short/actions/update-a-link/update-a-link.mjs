@@ -4,9 +4,9 @@ import lodash from "lodash";
 
 export default {
   key: "short-update-a-link",
-  name: "Update a Short Link.",
-  description: "Update original url, title or path for existing URL by id. [See the docs](https://developers.short.io/reference/linksbylinkidpost).",
-  version: "0.0.1",
+  name: "Update Link",
+  description: "Update original URL, title or path for existing URL by id. [See the documentation](https://developers.short.io/reference/linksbylinkidpost).",
+  version: "0.0.2",
   type: "action",
   props: {
     shortApp,

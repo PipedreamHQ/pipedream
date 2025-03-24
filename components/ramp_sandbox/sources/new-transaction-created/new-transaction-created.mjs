@@ -1,5 +1,5 @@
 import common from "../common/base.mjs";
-import newTransactionCreated from "../../../ramp/sources/new-transaction-created/new-transaction-created.mjs";
+import newTransactionCreated from "@pipedream/ramp/sources/new-transaction-created/new-transaction-created.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
@@ -7,7 +7,7 @@ export default {
   key: "ramp_sandbox-new-transaction-created",
   name: "New Transaction Created",
   description: "Emit new event for each new transaction created in Ramp.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

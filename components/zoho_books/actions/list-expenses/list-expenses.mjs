@@ -1,163 +1,142 @@
-// legacy_hash_id: a_gnir81
-import { axios } from "@pipedream/platform";
+// legacy_hash_id: a_gnir81// legacy_hash_id: a_RAiV28
+import {
+  FILTER_BY_OPTIONS,
+  SORT_COLUMN_OPTIONS,
+  STATUS_OPTIONS,
+} from "../../common/constants.mjs";
+import zohoBooks from "../../zoho_books.app.mjs";
 
 export default {
   key: "zoho_books-list-expenses",
   name: "List Expenses",
-  description: "List all the Expenses.",
-  version: "0.2.1",
+  description: "List all the Expenses. [See the documentation](https://www.zoho.com/books/api/v3/expenses/#list-expenses)",
+  version: "0.3.0",
   type: "action",
   props: {
-    zoho_books: {
-      type: "app",
-      app: "zoho_books",
-    },
-    organization_id: {
-      type: "string",
-      description: "In Zoho Books, your business is termed as an organization. If you have multiple businesses, you simply set each of those up as an individual organization. Each organization is an independent Zoho Books Organization with it's own organization ID, base currency, time zone, language, contacts, reports, etc.\n\nThe parameter `organization_id` should be sent in with every API request to identify the organization.\n\nThe `organization_id` can be obtained from the GET `/organizations` API's JSON response. Alternatively, it can be obtained from the **Manage Organizations** page in the admin console.",
-    },
+    zohoBooks,
     description: {
       type: "string",
+      label: "Description",
       description: "Search expenses by description.Variants `description_startswith` and `description_contains`. Max-length [100]",
       optional: true,
     },
-    reference_number: {
+    referenceNumber: {
       type: "string",
+      label: "Reference Number",
       description: "Search expenses by reference number. Variants `reference_number_startswith` and `reference_number_contains`. Max-length [100]",
       optional: true,
     },
     date: {
       type: "string",
+      label: "Date",
       description: "Search expenses by expense date. Variants `date_start`, `date_end`, `date_before` and `date_after`. Format [yyyy-mm-dd]",
       optional: true,
     },
     status: {
       type: "string",
-      description: "Search expenses by expense status. Allowed Values `unbilled`, `invoiced`, `reimbursed`, `non-billable` and `billable`.",
+      label: "Status",
+      description: "Search expenses by expense status.",
+      options: STATUS_OPTIONS,
       optional: true,
-      options: [
-        "unbilled",
-        "invoiced",
-        "reimbursed",
-        "non-billable",
-        "billable",
-      ],
     },
     amount: {
       type: "string",
-      description: "Search expenses by amount. Variants: `amount_less_than`, `amount_less_equals`, `amount_greater_than` and `amount_greater_than`.",
+      label: "Amount",
+      description: "Search expenses by amount.",
       optional: true,
     },
-    account_name: {
+    accountName: {
       type: "string",
-      description: "Search expenses by expense account name. Variants `account_name_startswith` and `account_name_contains`. Max-length [100",
+      label: "Account Name",
+      description: "Search expenses by expense account name. Max-length [100]",
       optional: true,
     },
-    customer_name: {
+    customerName: {
       type: "string",
-      description: "Search expenses by customer name. Variants: `customer_name_startswith` and `customer_name_contains`. Max-length [100]",
+      label: "Customer Name",
+      description: "Search expenses by customer name. Max-length [100]",
       optional: true,
     },
-    vendor_name: {
+    vendorName: {
       type: "string",
-      description: "Search expenses by vendor name. Variants: `vendor_name_startswith` and `vendor_name_contains`.",
+      label: "Vendor Name",
+      description: "Search expenses by vendor name.",
       optional: true,
     },
-    customer_id: {
+    customerId: {
       type: "string",
+      label: "Customer Id",
       description: "ID of the expense account.",
       optional: true,
     },
-    vendor_id: {
+    vendorId: {
       type: "string",
+      label: "Vendor Id",
       description: "ID of the vendor the expense is made.",
       optional: true,
     },
-    recurring_expense_id: {
+    recurringExpenseId: {
       type: "string",
+      label: "Recurring Expense Id",
       description: "Search expenses by recurring expense id.",
       optional: true,
     },
-    paid_through_account_id: {
+    paidThroughAccountId: {
       type: "string",
+      label: "Paid Through Account Id",
       description: "Search expenses by paid through account id.",
       optional: true,
     },
-    search_text: {
+    searchText: {
       type: "string",
+      label: "Search Text",
       description: "Search expenses by account name or description or `customer name` or `vendor name`. Max-length [100]",
       optional: true,
     },
-    sort_column: {
+    sortColumn: {
       type: "string",
-      description: "Sort expenses.Allowed Values `date`, `account_name`, `total`, `bcy_total`, `reference_number`, `customer_name` and `created_time`.",
+      label: "Sort Column",
+      description: "Sort expenses.",
       optional: true,
-      options: [
-        "date",
-        "account_name",
-        "total",
-        "bcy_total",
-        "reference_number",
-        "customer_name",
-        "created_time",
-      ],
+      options: SORT_COLUMN_OPTIONS,
     },
-    filter_by: {
+    filterBy: {
       type: "string",
-      description: "Filter expenses by expense status. Allowed Values `Status.All`, `Status.Billable`, `Status.Nonbillable`, `Status.Reimbursed`, `Status.Invoiced` and `Status.Unbilled`.",
+      label: "Filter By",
+      description: "Filter expenses by expense status.",
       optional: true,
-      options: [
-        "Status.All",
-        "Status.Billable",
-        "Status.Nonbillable",
-        "Status.Reimbursed",
-        "Status.Invoiced",
-        "Status.Unbilled",
-      ],
-    },
-    page: {
-      type: "string",
-      description: "By default first page will be listed. For navigating through `pages`, use the `page` parameter.",
-      optional: true,
-    },
-    per_page: {
-      type: "string",
-      description: "The `per_page` parameter can be used to set the number of records that you want to receive in response.",
-      optional: true,
+      options: FILTER_BY_OPTIONS,
     },
   },
   async run({ $ }) {
-  //See the API docs: https://www.zoho.com/books/api/v3/#Expenses_List_Expenses
-
-    if (!this.organization_id) {
-      throw new Error("Must provide organization_id parameters.");
-    }
-
-    return await axios($, {
-      method: "get",
-      url: `https://books.${this.zoho_books.$auth.base_api_uri}/api/v3/expenses?organization_id=${this.organization_id}`,
-      headers: {
-        Authorization: `Zoho-oauthtoken ${this.zoho_books.$auth.oauth_access_token}`,
-      },
+    const response = this.zohoBooks.paginate({
+      fn: this.zohoBooks.listExpenses,
+      fieldName: "expenses",
       params: {
         description: this.description,
-        reference_number: this.reference_number,
+        reference_number: this.referenceNumber,
         date: this.date,
         status: this.status,
         amount: this.amount,
-        account_name: this.account_name,
-        customer_name: this.customer_name,
-        vendor_name: this.vendor_name,
-        customer_id: this.customer_id,
-        vendor_id: this.vendor_id,
-        recurring_expense_id: this.recurring_expense_id,
-        paid_through_account_id: this.paid_through_account_id,
-        search_text: this.search_text,
-        sort_column: this.sort_column,
-        filter_by: this.filter_by,
-        page: this.page,
-        per_page: this.per_page,
+        account_name: this.accountName,
+        customer_name: this.customerName,
+        vendor_name: this.vendorName,
+        customer_id: this.customerId,
+        vendor_id: this.vendorId,
+        recurring_expense_id: this.recurringExpenseId,
+        paid_through_account_id: this.paidThroughAccountId,
+        search_text: this.searchText,
+        sort_column: this.sortColumn,
+        filter_by: this.filterBy,
       },
     });
+
+    const responseArray = [];
+    for await (const item of response) {
+      responseArray.push(item);
+    }
+
+    $.export("$summary", `Successfully fetched ${responseArray.length} expenses(s)`);
+    return responseArray;
   },
 };

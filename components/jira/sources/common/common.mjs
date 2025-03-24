@@ -21,6 +21,13 @@ export default {
       ],
       description: "The JQL filter that specifies which issues the webhook is sent for, only a subset of JQL can be used, e.g. `project = P1` [See supported JQL filters](https://developer.atlassian.com/cloud/jira/service-desk/webhooks/#supported-jql-queries)",
     },
+    overrideExistingWebhooks: {
+      type: "boolean",
+      label: "Override Existing Webhooks",
+      description: "Override existing webhooks with this new Pipedream source's webhook. Recommend to set this to `true` if you have an existing Jira webhook that you no longer use and want to override with the new Pipedream source.",
+      default: false,
+      optional: true,
+    },
   },
   methods: {
     _getHookID() {
@@ -91,9 +98,28 @@ export default {
         ts,
       };
     },
+    async deleteExistingWebhooks() {
+      const resourcesStream = await this.jira.getResourcesStream({
+        cloudId: this.cloudId,
+        resourceFn: this.jira.getWebhook,
+        resourceFnArgs: {
+          params: {},
+        },
+        resourceFiltererFn: (resource) => resource.values,
+      });
+      for await (const webhook of resourcesStream) {
+        await this.jira.deleteHook({
+          hookId: webhook.id,
+          cloudId: this.cloudId,
+        });
+      }
+    },
   },
   hooks: {
     async activate() {
+      if (this.overrideExistingWebhooks) {
+        await this.deleteExistingWebhooks();
+      }
       const { hookId } = await this.jira.createHook({
         url: this.http.endpoint,
         events: this.getEvents(),

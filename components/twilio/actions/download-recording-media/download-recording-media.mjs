@@ -8,7 +8,7 @@ export default {
   key: "twilio-download-recording-media",
   name: "Download Recording Media",
   description: "Download a recording media file. [See the documentation](https://www.twilio.com/docs/voice/api/recording#fetch-a-recording-media-file)",
-  version: "0.1.5",
+  version: "0.1.6",
   type: "action",
   props: {
     twilio,

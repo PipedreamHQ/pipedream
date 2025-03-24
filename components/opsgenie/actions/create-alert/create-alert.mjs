@@ -4,7 +4,7 @@ export default {
   key: "opsgenie-create-alert",
   name: "Create Alert",
   description: "Send a new Alert for processing. [See the documentation](https://www.postman.com/api-evangelist/opsgenie/request/zuj17nj/create-alert)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

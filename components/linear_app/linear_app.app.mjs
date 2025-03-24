@@ -248,6 +248,9 @@ export default {
     async getProject(id) {
       return this.client().project(id);
     },
+    async getProjectUpdate(id) {
+      return this.client().projectUpdate(id);
+    },
     async getState(id) {
       return this.client().workflowState(id);
     },
@@ -265,6 +268,15 @@ export default {
         },
       });
       return projects;
+    },
+    async listProjectUpdates(variables) {
+      const { data: { projectUpdates } } = await this.post({
+        data: {
+          query: queries.listProjectUpdates,
+          variables,
+        },
+      });
+      return projectUpdates;
     },
     async listUsers(variables = {}) {
       return this.client().users(variables);

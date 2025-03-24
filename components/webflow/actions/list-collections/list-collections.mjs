@@ -1,22 +1,22 @@
-import webflow from "../../webflow.app.mjs";
+import app from "../../webflow.app.mjs";
 
 export default {
   key: "webflow-list-collections",
   name: "List Collections",
-  description: "List collections. [See the docs here](https://developers.webflow.com/#list-collections)",
-  version: "0.0.4",
+  description: "List collections. [See the documentation](https://developers.webflow.com/data/reference/cms/collections/list)",
+  version: "2.0.0",
   type: "action",
   props: {
-    webflow,
+    app,
     siteId: {
       propDefinition: [
-        webflow,
+        app,
         "sites",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.webflow.getCollections(this.siteId);
+    const response = await this.app.listCollections(this.siteId);
 
     $.export("$summary", "Successfully retrieved collections");
 

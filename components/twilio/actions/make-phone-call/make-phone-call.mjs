@@ -6,7 +6,7 @@ export default {
   key: "twilio-make-phone-call",
   name: "Make a Phone Call",
   description: "Make a phone call passing text, a URL, or an application that Twilio will use to handle the call. [See the documentation](https://www.twilio.com/docs/voice/api/call-resource#create-a-call-resource)",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "action",
   props: {
     twilio,

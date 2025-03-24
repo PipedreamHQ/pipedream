@@ -3,10 +3,10 @@ import common from "../common/polling.mjs";
 export default {
   ...common,
   key: "apollo_io-account-created",
-  name: "Account Created",
-  description: "Triggers when an account is created. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#search-for-accounts)",
+  name: "New Account Created",
+  description: "Emit new event when an account is created. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#search-for-accounts)",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -27,10 +27,11 @@ export default {
       return "accounts";
     },
     getResourceFn() {
-      return this.app.listAccounts;
+      return this.app.searchAccounts;
     },
     getResourceFnArgs() {
       return {
+        debug: true,
         params: {
           account_stage_ids: this.accountStageIds,
           sort_by_field: "account_created_at",

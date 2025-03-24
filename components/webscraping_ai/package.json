@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/webscraping_ai",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Pipedream WebScraping.AI Components",
-  "main": "dist/app/webscraping_ai.app.mjs",
+  "main": "webscraping_ai.app.mjs",
   "keywords": [
     "pipedream",
     "webscraping_ai"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/webscraping_ai",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
   }
 }

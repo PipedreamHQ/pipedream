@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/zerotier",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Pipedream Zerotier Components",
-  "main": "zerotier.app.js",
+  "main": "zerotier.app.mjs",
   "keywords": [
     "pipedream",
     "zerotier"

@@ -1,11 +1,12 @@
 import common from "../common/common-webhook.mjs";
+import actions from "../common/actions.mjs";
 
 export default {
   ...common,
   key: "trello-new-activity",
-  name: "New Activity (Instant)",
+  name: "New Board Activity (Instant)",
   description: "Emit new event for new activity on a board.",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "source",
   props: {
     ...common.props,
@@ -15,50 +16,40 @@ export default {
         "board",
       ],
     },
-  },
-  hooks: {
-    ...common.hooks,
-    async deploy() {
-      const {
-        sampleEvents, sortField,
-      } = await this.getSampleEvents();
-      sampleEvents.sort((a, b) => (Date.parse(a[sortField]) > Date.parse(b[sortField]))
-        ? 1
-        : -1);
-      for (const action of sampleEvents.slice(-25)) {
-        this.emitEvent({
-          action,
-        });
-      }
+    activityTypes: {
+      type: "string[]",
+      label: "Activity Types",
+      description: "Filter incoming events by the activity type",
+      options: actions,
+      optional: true,
     },
   },
   methods: {
     ...common.methods,
-    async getSampleEvents() {
-      const actions = await this.app.getBoardActivity({
+    getSampleEvents() {
+      return this.app.getBoardActivity({
         boardId: this.board,
       });
-      return {
-        sampleEvents: actions,
-        sortField: "date",
-      };
     },
-    async getResult(event) {
-      return event.body;
+    getSortField() {
+      return "date";
     },
-    isRelevant({ event }) {
-      const boardId = event.body?.action?.data?.board?.id;
-      return !this.board || this.board === boardId;
+    isRelevant({ action }) {
+      const {
+        data, type,
+      } = action;
+      return ((!this.board || this.board === data?.board?.id)
+        && (!this.activityTypes?.length || this.activityTypes.includes(type)));
     },
-    generateMeta({ action }) {
+    generateMeta(action) {
       const {
         id,
-        type: summary,
+        type,
         date,
       } = action;
       return {
         id,
-        summary,
+        summary: `New ${type} activity`,
         ts: Date.parse(date),
       };
     },

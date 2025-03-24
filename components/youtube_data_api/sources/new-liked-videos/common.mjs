@@ -1,4 +1,4 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
@@ -18,9 +18,6 @@ export default {
         summary: snippet.title,
         ts: Date.parse(snippet.publishedAt),
       };
-    },
-    isRelevant() {
-      return true;
     },
   },
   async run() {

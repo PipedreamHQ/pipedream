@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/mitra",
+  "version": "0.0.1",
+  "description": "Pipedream Mitra Components",
+  "main": "mitra.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mitra"
+  ],
+  "homepage": "https://pipedream.com/apps/mitra",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,10 +1,11 @@
 import { Octokit } from "@octokit/core";
 import { paginateRest } from "@octokit/plugin-paginate-rest";
-import queries from "./common/queries.mjs";
 import {
   axios, ConfigurationError,
 } from "@pipedream/platform";
+import constants from "./actions/common/constants.mjs";
 import mutations from "./common/mutations.mjs";
+import queries from "./common/queries.mjs";
 
 const CustomOctokit = Octokit.plugin(paginateRest);
 
@@ -14,7 +15,7 @@ export default {
   propDefinitions: {
     orgName: {
       label: "Organization",
-      description: "The name of the Github organization. The name is not case sensitive.",
+      description: "The name of the Github organization (not case sensitive).",
       type: "string",
       async options() {
         const organizations = await this.getOrganizations();
@@ -24,7 +25,7 @@ export default {
     },
     repoFullname: {
       label: "Repository",
-      description: "The name of the repository. The name is not case sensitive",
+      description: "The name of the repository (not case sensitive). The format should be `owner/repo` (for example, `PipedreamHQ/pipedream`).",
       type: "string",
       async options({ org }) {
         const repositories = await this.getRepos({
@@ -268,6 +269,48 @@ export default {
         return teams.map((team) => ({
           label: team.name,
           value: team.id,
+        }));
+      },
+    },
+    workflowId: {
+      type: "string",
+      label: "Workflow Id",
+      description: "The Id of the workflow.",
+      async options({
+        repoFullname, page,
+      }) {
+        const { workflows: items } = await this.listWorkflows({
+          repoFullname,
+          perPage: constants.LIMIT,
+          page,
+        });
+
+        return items.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    workflowRunId: {
+      type: "string",
+      label: "Workflow Run Id",
+      description: "The Id of the workflow Run.",
+      async options({
+        repoFullname, page,
+      }) {
+        const { workflow_runs: items } = await this.listWorkflowRuns({
+          repoFullname,
+          perPage: constants.LIMIT,
+          page,
+        });
+
+        return items.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -685,6 +728,66 @@ export default {
 
       return response.data;
     },
+    async listWorkflows({
+      repoFullname,
+      perPage,
+      page,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/actions/workflows`, {
+        per_page: perPage,
+        page: page,
+      });
+
+      return response.data;
+    },
+    async listWorkflowRuns({
+      repoFullname,
+      perPage,
+      page,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/actions/runs`, {
+        per_page: perPage,
+        page: page,
+      });
+
+      return response.data;
+    },
+    async getWorkflowRun({
+      repoFullname, workflowRunId,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/actions/runs/${workflowRunId}`);
+
+      return response.data;
+    },
+    createWorkflowDispatch({
+      repoFullname,
+      workflowId,
+      ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/repos/${repoFullname}/actions/workflows/${workflowId}/dispatches`,
+        ...opts,
+      });
+    },
+    disableWorkflow({
+      repoFullname,
+      workflowId,
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/repos/${repoFullname}/actions/workflows/${workflowId}/disable`,
+      });
+    },
+    enableWorkflow({
+      repoFullname,
+      workflowId,
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/repos/${repoFullname}/actions/workflows/${workflowId}/enable`,
+      });
+    },
     async getUserRepoPermissions({
       repoFullname, username,
     }) {
@@ -783,6 +886,15 @@ export default {
       const response = await this._client().request(`GET /repos/${repoFullname}/stargazers`, {
         ...args,
         per_page: 100,
+      });
+
+      return response.data;
+    },
+    async starRepo({
+      repoFullname, ...args
+    }) {
+      const response = await this._client().request(`PUT /user/starred/${repoFullname}`, {
+        ...args,
       });
 
       return response.data;

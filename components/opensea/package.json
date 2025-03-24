@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/opensea",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Opensea Components",
   "main": "opensea.app.mjs",
   "keywords": [
     "pipedream",
     "opensea"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/opensea",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
@@ -16,6 +13,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.2.0"
+    "@pipedream/platform": "^3.0.3",
+    "bottleneck": "^2.19.5",
+    "md5": "^2.3.0"
   }
 }

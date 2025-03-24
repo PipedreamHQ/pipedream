@@ -2,15 +2,14 @@ import VideoPlayer from "@/components/VideoPlayer";
 
 # Introduction to Pipedream
 
-Pipedream is the fastest way to automate any process that connects APIs. Build and run workflows with code-level control when you need it, and no code when you don't.
+Pipedream is the fastest way to automate any process that connects APIs. Build and run workflows with code-level control when you need it, and no code when you don't. Easily add thousands of customer-facing integrations to your app or AI agent in minutes.
 
 The Pipedream platform includes:
 
-- A [serverless runtime](/code/) and [workflow service](/workflows/)
-- Source-available [triggers](/workflows/steps/triggers/) and [actions](/workflows/steps/actions/) for [hundreds of integrated apps](https://pipedream.com/explore/)
-- One-click [OAuth and key-based authentication](/connected-accounts/) for more than {process.env.PUBLIC_APPS} APIs (use tokens directly in code or with pre-built actions)
-
-Watch a demo or review our [quickstart guide](/quickstart/):
+- A [serverless runtime](/workflows/building-workflows/code/) and [workflow service](/workflows/building-workflows/)
+- SDK to handle [customer authentication](/connect/) for {process.env.PUBLIC_APPS}+ APIs
+- Source-available pre-built [triggers](/workflows/building-workflows/triggers/) and [actions](/workflows/building-workflows/actions/) for [thousands of integrated apps](https://pipedream.com/explore/)
+- One-click [OAuth and key-based authentication](/integrations/connected-accounts/) for more than {process.env.PUBLIC_APPS} APIs (use tokens directly in code or with pre-built actions)
 
 <VideoPlayer
   src="https://www.youtube.com/embed/Y-4byg2pXL0"
@@ -25,9 +24,9 @@ To get started, [sign up for a free account](https://pipedream.com/auth/signup) 
 
 Once you understand the basics of workflow development, learn how to get more out of Pipedream:
 
-- [Use code in workflows](/code/)
-- [Develop custom actions](/components/quickstart/nodejs/actions/)
-- [Develop custom triggers](/components/quickstart/nodejs/sources/)
+- [Use code in workflows](/workflows/building-workflows/code/)
+- [Develop custom actions](/workflows/contributing/components/actions-quickstart/)
+- [Develop custom triggers](/workflows/contributing/components/quickstart/nodejs/sources/)
 
 ## Use Cases
 
@@ -41,7 +40,7 @@ Our [community](https://pipedream.com/community) uses Pipedream for a wide varie
 
 - Connecting SaaS apps
 - General API orchestration and automation
-- Database automations ([learn about connecting to resources behind a firewall](/databases))
+- Database automations ([learn about connecting to resources behind a firewall](/workflows/data-management/databases/))
 - Custom notifications and alerting
 - Mobile and JAMstack backends
 - Rate limiting, request smoothing
@@ -51,13 +50,13 @@ Our [community](https://pipedream.com/community) uses Pipedream for a wide varie
 
 ## Source-available
 
-Pipedream maintains a [source-available component registry](https://github.com/pipedreamhq/pipedream/) on GitHub so you can avoid writing boilerplate code for common API integrations. Use components as no code building blocks in workflows, or use them to scaffold code that you can customize. You can also [create a PR to contribute new components](/apps/contributing/#contribution-process) via GitHub.
+Pipedream maintains a [source-available component registry](https://github.com/PipedreamHQ/pipedream) on GitHub so you can avoid writing boilerplate code for common API integrations. Use components as no code building blocks in workflows, or use them to scaffold code that you can customize. You can also [create a PR to contribute new components](/workflows/contributing/#contribution-process) via GitHub.
 
 ## Contributing
 
 We hope is that by providing a generous free tier, you will not only get value from Pipedream, but you will give back to help us improve the product for the entire community and grow the platform by:
 
-- [Contributing components](/apps/contributing/) to the [Pipedream registry](https://github.com/pipedreamhq/pipedream) or sharing via your own GitHub repo
+- [Contributing components](/workflows/contributing/) to the [Pipedream registry](https://github.com/PipedreamHQ/pipedream) or sharing via your own GitHub repo
 - Asking and answering questions in our [public community](https://pipedream.com/community/)
 - [Reporting bugs](https://pipedream.com/community/c/bugs/9) and [requesting features](https://github.com/PipedreamHQ/pipedream/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=%5BFEATURE%5D+) that help us build a better product
 - Following us on [Twitter](https://twitter.com/pipedream), starring our [GitHub repo](https://github.com/PipedreamHQ/pipedream) and subscribing to our [YouTube channel](https://www.youtube.com/c/pipedreamhq)
@@ -67,10 +66,10 @@ Learn about [all the ways you can contribute](https://pipedream.com/contributing
 
 ## Support & Community
 
-If you have any questions or feedback, please [reach out in our community forum](https://pipedream.com/community).
+If you have any questions or feedback, please [reach out in our community forum](https://pipedream.com/community) or [to our support team](https://pipedream.com/support).
 
 ## Service Status
 
-Pipedream operates a status page at [https://status.pipedream.com](https://status.pipedream.com). That page displays the uptime history and current status of every Pipedream service.
+Pipedream operates a status page at [https://status.pipedream.com](https://status.pipedream.com/). That page displays the uptime history and current status of every Pipedream service.
 
 When incidents occur, updates are published to the **#incidents** channel of [Pipedream's Slack Community](https://pipedream.com/support) and to the [@PipedreamStatus](https://twitter.com/PipedreamStatus) account on Twitter. On the status page itself, you can also subscribe to updates directly.

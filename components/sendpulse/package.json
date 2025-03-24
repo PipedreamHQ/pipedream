@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/sendpulse",
+  "version": "0.6.0",
+  "description": "Pipedream sendpulse Components",
+  "main": "sendpulse.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sendpulse"
+  ],
+  "homepage": "https://pipedream.com/apps/sendpulse",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

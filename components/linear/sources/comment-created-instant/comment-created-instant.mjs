@@ -1,4 +1,4 @@
-import commentCreatedInstant from "../../../linear_app/sources/comment-created-instant/comment-created-instant.mjs";
+import commentCreatedInstant from "@pipedream/linear_app/sources/comment-created-instant/comment-created-instant.mjs";
 import utils from "../../common/utils.mjs";
 
 /* eslint-disable pipedream/required-properties-type */
@@ -9,6 +9,6 @@ export default {
   ...commentCreatedInstant,
   ...utils.getAppProps(commentCreatedInstant),
   key: "linear-comment-created-instant",
-  description: "Emit new event when a new comment is created (OAuth). See the docs [here](https://developers.linear.app/docs/graphql/webhooks)",
-  version: "0.1.5",
+  description: "Emit new event when a new comment is created (OAuth). [See the documentation](https://developers.linear.app/docs/graphql/webhooks)",
+  version: "0.1.10",
 };

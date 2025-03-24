@@ -1,30 +1,28 @@
-import webflow from "../../webflow.app.mjs";
+import app from "../../webflow.app.mjs";
 
 export default {
   key: "webflow-unfulfill-order",
   name: "Unfulfill Order",
-  description: "Unfulfill an order. [See the docs here](https://developers.webflow.com/#unfulfill-order)",
-  version: "0.0.4",
+  description: "Unfulfill an order. [See the documentation](https://developers.webflow.com/data/reference/ecommerce/orders/update-unfulfill)",
+  version: "2.0.0",
   type: "action",
   props: {
-    webflow,
+    app,
     siteId: {
       propDefinition: [
-        webflow,
+        app,
         "sites",
       ],
     },
     orderId: {
       propDefinition: [
-        webflow,
+        app,
         "orders",
       ],
     },
   },
   async run({ $ }) {
-    const apiClient = this.webflow._createApiClient();
-
-    const response = apiClient.post(`/sites/${this.siteId}/order/${this.orderId}/unfulfill`);
+    const response = await this.app.unfulfillOrder(this.siteId, this.orderId);
 
     $.export("$summary", "Successfully unfulfilled order");
 

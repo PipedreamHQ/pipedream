@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/calllerapi",
+  "version": "0.0.1",
+  "description": "Pipedream CalllerAPI Components",
+  "main": "calllerapi.app.mjs",
+  "keywords": [
+    "pipedream",
+    "calllerapi"
+  ],
+  "homepage": "https://pipedream.com/apps/calllerapi",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

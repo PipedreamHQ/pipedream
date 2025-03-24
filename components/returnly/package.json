@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/returnly",
+  "version": "0.6.0",
+  "description": "Pipedream returnly Components",
+  "main": "returnly.app.mjs",
+  "keywords": [
+    "pipedream",
+    "returnly"
+  ],
+  "homepage": "https://pipedream.com/apps/returnly",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

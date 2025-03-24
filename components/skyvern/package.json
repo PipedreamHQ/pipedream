@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/skyvern",
+  "version": "0.1.0",
+  "description": "Pipedream Skyvern Components",
+  "main": "skyvern.app.mjs",
+  "keywords": [
+    "pipedream",
+    "skyvern"
+  ],
+  "homepage": "https://pipedream.com/apps/skyvern",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

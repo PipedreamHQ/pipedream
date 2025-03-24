@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://www.wrike.com/api/v4";
+      return `https://${this.$auth.host}/api/v4`;
     },
     _buildPath({
       basePath, folderId, spaceId,

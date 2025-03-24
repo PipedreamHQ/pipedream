@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/uber_direct",
+  "version": "0.0.1",
+  "description": "Pipedream Uber Direct Components",
+  "main": "uber_direct.app.mjs",
+  "keywords": [
+    "pipedream",
+    "uber_direct"
+  ],
+  "homepage": "https://pipedream.com/apps/uber_direct",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

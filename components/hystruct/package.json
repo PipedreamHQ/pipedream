@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/hystruct",
+  "version": "0.0.1",
+  "description": "Pipedream Hystruct Components",
+  "main": "hystruct.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hystruct"
+  ],
+  "homepage": "https://pipedream.com/apps/hystruct",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

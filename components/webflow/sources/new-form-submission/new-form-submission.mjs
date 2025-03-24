@@ -5,8 +5,8 @@ export default {
   type: "source",
   key: "webflow-new-form-submission",
   name: "New Form Submission",
-  description: "Emit new event when a new form is submitted. [See the docs here](https://developers.webflow.com/#trigger-types)",
-  version: "0.2.4",
+  description: "Emit new event when a form is submitted. [See the documentation](https://developers.webflow.com/data/reference/webhooks/events/form-submission)",
+  version: "2.0.0",
   ...common,
   methods: {
     ...common.methods,
@@ -14,10 +14,13 @@ export default {
       return "form_submission";
     },
     generateMeta(data) {
+      const {
+        name, id, submittedAt,
+      } = data;
       return {
-        id: data._id,
-        summary: `New form ${data._id} submission`,
-        ts: Date.parse(data.date),
+        id,
+        summary: `Form submitted: ${name ?? id}`,
+        ts: Date.parse(submittedAt),
       };
     },
   },

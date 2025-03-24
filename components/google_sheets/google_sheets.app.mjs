@@ -1,6 +1,6 @@
 import { axios } from "@pipedream/platform";
 import sheets from "@googleapis/sheets";
-import googleDrive from "../google_drive/google_drive.app.mjs";
+import googleDrive from "@pipedream/google_drive";
 import {
   INSERT_DATA_OPTION, VALUE_INPUT_OPTION,
 } from "./common/constants.mjs";
@@ -57,8 +57,8 @@ export default {
     },
     sheetID: {
       type: "string",
-      label: "Spreadsheet",
-      description: "The Spreadsheet ID",
+      label: "Spreadsheet ID",
+      description: "Select a spreadsheet or provide a spreadsheet ID",
       useQuery: true,
       options({
         query,
@@ -70,9 +70,9 @@ export default {
       },
     },
     worksheetIDs: {
-      type: "string[]",
-      label: "Worksheet(s)",
-      description: "The Worksheet ID",
+      type: "string",
+      label: "Worksheet ID",
+      description: "Select a worksheet or provide a worksheet ID",
       async options({ sheetId }) {
         const { sheets } = await this.getSpreadsheet(sheetId);
 

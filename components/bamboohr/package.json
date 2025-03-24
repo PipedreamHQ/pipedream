@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/bamboohr",
+  "version": "0.6.0",
+  "description": "Pipedream bamboohr Components",
+  "main": "bamboohr.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bamboohr"
+  ],
+  "homepage": "https://pipedream.com/apps/bamboohr",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

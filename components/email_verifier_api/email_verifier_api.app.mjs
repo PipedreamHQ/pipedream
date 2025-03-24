@@ -1,11 +1,36 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "email_verifier_api",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return "https://emailverifierapi.com/v2/";
+    },
+    _makeRequest({
+      $ = this,
+      params,
+      ...opts
+    }) {
+      return axios($, {
+        url: this._baseUrl(),
+        params: {
+          ...params,
+          apiKey: this.$auth.api_key,
+        },
+        ...opts,
+      });
+    },
+    verifyEmail({
+      $, email,
+    }) {
+      return this._makeRequest({
+        $,
+        params: {
+          email,
+        },
+      });
     },
   },
 };

@@ -12,9 +12,9 @@ export default {
       options: constants.ENGINES,
     },
     q: {
-      type: "string[]",
+      type: "string",
       label: "Query",
-      description: "The query or queries you want to search. When passing multiple queries you need to use a comma `,` to separate them",
+      description: "The query you want to search. You can use anything that you would use in a regular Google search. e.g. `inurl:`, `site:`, `intitle:`. SerpApi also supports advanced search query parameters such as `as_dt` and `as_eq`. See the [full list](https://serpapi.com/advanced-google-query-parameters) of supported advanced search query parameters.",
     },
     device: {
       type: "string",

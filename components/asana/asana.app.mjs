@@ -120,9 +120,12 @@ export default {
       label: "Users",
       description: "List of users. This field uses the user GID.",
       type: "string[]",
-      async options({ prevContext }) {
+      async options({
+        prevContext, workspace,
+      }) {
         const params = {
           limit: DEFAULT_LIMIT,
+          workspace,
         };
         if (prevContext?.offset) {
           params.offset = prevContext.offset;

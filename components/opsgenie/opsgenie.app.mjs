@@ -5,6 +5,26 @@ export default {
   type: "app",
   app: "opsgenie",
   propDefinitions: {
+    alertId: {
+      type: "string",
+      label: "Alert ID",
+      description: "ID of the alert",
+      async options({ page }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const { data } = await this.listAlerts({
+          params: {
+            limit,
+            offset: page * limit,
+          },
+        });
+        return data?.map(({
+          id: value, message: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
     user: {
       type: "string",
       label: "User ID",
@@ -22,7 +42,7 @@ export default {
     },
     message: {
       type: "string",
-      label: "message",
+      label: "Message",
       description: "The message of the alert",
     },
     note: {
@@ -56,7 +76,7 @@ export default {
     _baseUrl() {
       return `https://${this.$auth.instance_region}.opsgenie.com/v2`;
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
         path,
@@ -66,14 +86,21 @@ export default {
       } = opts;
       return axios($, {
         ...otherOpts,
-        url: this._baseUrl() + path,
+        url: `${this._baseUrl()}${path}`,
         headers: {
           ...headers,
           Authorization: `GenieKey ${APIKey}`,
         },
       });
     },
-    async createAlert(args = {}) {
+    listAlerts(opts = {}) {
+      return this._makeRequest({
+        path: "/alerts",
+        APIKey: this.$auth.team_api_key,
+        ...opts,
+      });
+    },
+    createAlert(args = {}) {
       return this._makeRequest({
         method: "post",
         path: "/alerts",
@@ -81,7 +108,7 @@ export default {
         ...args,
       });
     },
-    async getAlertStatus({
+    getAlertStatus({
       requestId, ...args
     }) {
       return this._makeRequest({
@@ -90,10 +117,30 @@ export default {
         ...args,
       });
     },
-    async listUsers(args = {}) {
+    listUsers(args = {}) {
       return this._makeRequest({
         path: "/users",
         APIKey: this.$auth.api_key,
+        ...args,
+      });
+    },
+    addNoteToAlert({
+      alertId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/alerts/${alertId}/notes`,
+        APIKey: this.$auth.team_api_key,
+        ...args,
+      });
+    },
+    deleteAlert({
+      alertId, ...args
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/alerts/${alertId}`,
+        APIKey: this.$auth.team_api_key,
         ...args,
       });
     },

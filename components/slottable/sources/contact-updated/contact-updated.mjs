@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "slottable-contact-updated",
   name: "Contact Updated",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Emit new event when a contact is changed (new, updated, or deleted) in Slottable.",
   type: "source",
   dedupe: "unique",

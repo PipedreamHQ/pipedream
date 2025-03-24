@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/kustomer",
+  "version": "0.0.1",
+  "description": "Pipedream Kustomer Components",
+  "main": "kustomer.app.mjs",
+  "keywords": [
+    "pipedream",
+    "kustomer"
+  ],
+  "homepage": "https://pipedream.com/apps/kustomer",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

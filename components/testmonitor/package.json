@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/testmonitor",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Pipedream Testmonitor Components",
   "main": "testmonitor.app.mjs",
   "keywords": [
@@ -10,7 +10,8 @@
   "homepage": "https://pipedream.com/apps/testmonitor",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^1.2.1",
+    "@pipedream/platform": "^3.0.3",
+    "fs": "^0.0.1-security",
     "moment": "^2.29.4"
   },
   "publishConfig": {

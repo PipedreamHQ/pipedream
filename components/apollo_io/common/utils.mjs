@@ -1,9 +1,9 @@
-async function streamIterator(stream) {
-  const resources = [];
-  for await (const resource of stream) {
-    resources.push(resource);
+async function iterate(iterations) {
+  const items = [];
+  for await (const item of iterations) {
+    items.push(item);
   }
-  return resources;
+  return items;
 }
 
 function cleanObject(o) {
@@ -16,6 +16,6 @@ function cleanObject(o) {
 }
 
 export default {
-  streamIterator,
+  iterate,
   cleanObject,
 };

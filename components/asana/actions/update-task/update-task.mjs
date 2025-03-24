@@ -5,7 +5,7 @@ export default {
   key: "asana-update-task",
   name: "Update Task",
   description: "Updates a specific and existing task. [See the documentation](https://developers.asana.com/docs/update-a-task)",
-  version: "0.3.6",
+  version: "0.4.0",
   type: "action",
   props: {
     ...common.props,
@@ -34,6 +34,9 @@ export default {
       propDefinition: [
         asana,
         "users",
+        ({ workspace }) => ({
+          workspace,
+        }),
       ],
     },
     assignee_section: {

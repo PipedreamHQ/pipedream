@@ -6,12 +6,17 @@ export default {
   ...base,
   key: "notion-page-or-subpage-updated",
   name: "Page or Subpage Updated", /* eslint-disable-line pipedream/source-name */
-  description: "Emit new event when a page or one of its sub-pages is updated.",
-  version: "0.0.6",
+  description: "Emit new event when the selected page or one of its sub-pages is updated. [See the documentation](https://developers.notion.com/reference/page)",
+  version: "0.0.8",
   type: "source",
   dedupe: "unique",
   props: {
     ...base.props,
+    infoLabel: {
+      type: "alert",
+      alertType: "info",
+      content: "Ensure the selected page is shared with your Pipedream integration to receive events.",
+    },
     pageId: {
       propDefinition: [
         base.props.notion,

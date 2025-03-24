@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/google_search_console",
+  "version": "0.6.0",
+  "description": "Pipedream google_search_console Components",
+  "main": "google_search_console.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_search_console"
+  ],
+  "homepage": "https://pipedream.com/apps/google_search_console",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

@@ -50,12 +50,18 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4.1.7
         with:
-          # Full git history is needed to get a proper list of changed files
-          # within `super-linter`
+          # See https://github.com/actions/checkout#checkout-v2
+          # This will be slow. The intent is to fetch all commits
+          # since the merge-base (the commit where we branched off)
+          # so we can check the git diff against all changed files.
+          # By default, the checkout action only returns the last commit,
+          # There's no native way to do this in the checkout action, so
+          # we have to fetch the entire history. See
+          # https://github.com/actions/checkout/issues/266#issuecomment-638346893
           fetch-depth: 0
       - uses: pnpm/action-setup@v4.0.0
         with:
-          version: 7.33.6
+          version: 9.14.2
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
@@ -70,31 +76,19 @@ jobs:
       - name: Install dependencies
         run: pnpm install -r
       - name: Setup Node Env
-        uses: actions/setup-node@v4.0.3
+        uses: actions/setup-node@v4.1.0
         with:
           node-version: 18
           registry-url: https://registry.npmjs.org/
           cache: 'pnpm'
-      - name: Compile TypeScript
-        run: npm run build
-      - name: Lint Code Base
-        uses: github/super-linter@v6
-        env:
-          DEFAULT_BRANCH: master
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          JAVASCRIPT_ES_CONFIG_FILE: .eslintrc
-          LINTER_RULES_PATH: /
-          VALIDATE_ALL_CODEBASE: false
-          VALIDATE_JAVASCRIPT_ES: true
-          VALIDATE_JSON: true
-      # ESLint only on changed files (not the same as the above super-linter)
+      # ESLint only on changed files
       - name: Get Changed Files (space-separated)
         id: changed_files_space
         uses: Ana06/get-changed-files@v2.3.0
         with:
           format: 'space-delimited'
       - name: Lint changed files
-        run: npx eslint --quiet ${{ steps.changed_files_space.outputs.added_modified }} ${{ steps.changed_files_space.outputs.renamed }}
+        run: pnpm exec eslint ${{ steps.changed_files_space.outputs.added_modified }} ${{ steps.changed_files_space.outputs.renamed }}
       - name: Get Changed Files (comma-separated)
         id: changed_files
         uses: Ana06/get-changed-files@v2.3.0

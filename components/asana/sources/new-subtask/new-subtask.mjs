@@ -7,7 +7,7 @@ export default {
   type: "source",
   name: "New Subtask (Instant)",
   description: "Emit new event for each subtask added to a project.",
-  version: "1.0.6",
+  version: "1.0.7",
   dedupe: "unique",
   props: {
     ...common.props,

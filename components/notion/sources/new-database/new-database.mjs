@@ -5,10 +5,18 @@ import constants from "../common/constants.mjs";
 export default {
   ...base,
   key: "notion-new-database",
-  name: "New Database",
-  description: "Emit new event when a database is created. Note: Databases must be shared with your Pipedream Integtration to trigger event.",
-  version: "0.0.8",
+  name: "New Database Created",
+  description: "Emit new event when a database is created. [See the documentation](https://developers.notion.com/reference/database)",
+  version: "0.0.10",
   type: "source",
+  props: {
+    ...base.props,
+    infoLabel: {
+      type: "alert",
+      alertType: "info",
+      content: "Ensure Databases are shared with your Pipedream integration to receive events.",
+    },
+  },
   async run() {
     const databases = [];
     const params = this.lastCreatedSortParam();

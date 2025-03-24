@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/richpanel",
+  "version": "0.1.0",
+  "description": "Pipedream Richpanel Components",
+  "main": "richpanel.app.mjs",
+  "keywords": [
+    "pipedream",
+    "richpanel"
+  ],
+  "homepage": "https://pipedream.com/apps/richpanel",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

@@ -66,6 +66,21 @@ export default {
       label: "To Date Time",
       description: "Date and time (in ISO-8601 format: `2018-02-18T02:30:00-07:00` or `2018-02-18T08:00:00Z`, where Z stands for UTC) until which to list recorded calls. Returns calls that started up to but excluding specified date and time. If not provided, list ends with most recent call.",
     },
+    callIds: {
+      type: "string[]",
+      label: "Call IDs",
+      description: "List of calls Ids to be filtered. If not supplied, returns all calls between **From Date Time** and **To Date Time**.",
+      optional: true,
+      async options() {
+        const { calls } = await this.listCalls();
+        return calls.map(({
+          id: value, title: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
   },
   methods: {
     exportSummary(step) {

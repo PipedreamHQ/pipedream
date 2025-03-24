@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/silfer_bots",
+  "version": "0.6.0",
+  "description": "Pipedream silfer_bots Components",
+  "main": "silfer_bots.app.mjs",
+  "keywords": [
+    "pipedream",
+    "silfer_bots"
+  ],
+  "homepage": "https://pipedream.com/apps/silfer_bots",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

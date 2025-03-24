@@ -14,7 +14,7 @@ export default {
       ],
     },
     onlyEventsRelatedWithAuthenticatedUser: {
-      label: "Only Events Related With Me",
+      label: "Only Events Related To Me",
       description: "Only will emit events from the cards related with the authenticated user",
       type: "boolean",
       default: false,
@@ -32,19 +32,24 @@ export default {
         return false;
       }
 
+      if (this.lists?.length) {
+        const list = await this.app.getCardList({
+          cardId: result.idCard,
+        });
+        if (!this.lists.includes(list.id)) {
+          return false;
+        }
+      }
+
       const member = await this.app.getMember({
         memberId: "me",
       });
 
-      if (
+      return !(
         this.onlyEventsRelatedWithAuthenticatedUser &&
         result?.idMembers?.length &&
         !result.idMembers.includes(member.id)
-      ) {
-        return false;
-      }
-
-      return true;
+      );
     },
   },
 };

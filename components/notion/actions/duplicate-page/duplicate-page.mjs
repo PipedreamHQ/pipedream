@@ -6,8 +6,8 @@ export default {
   ...base,
   key: "notion-duplicate-page",
   name: "Duplicate Page",
-  description: "Creates a new page copied from an existing page block. [See the docs](https://developers.notion.com/reference/post-page)",
-  version: "0.0.7",
+  description: "Create a new page copied from an existing page block. [See the documentation](https://developers.notion.com/reference/post-page)",
+  version: "0.0.11",
   type: "action",
   props: {
     notion,
@@ -16,7 +16,7 @@ export default {
         notion,
         "pageId",
       ],
-      description: "The page to copy",
+      description: "Select a page to copy or provide a page ID",
     },
     title: {
       propDefinition: [
@@ -31,7 +31,7 @@ export default {
         "pageId",
       ],
       label: "Parent Page ID",
-      description: "The parent page of the new page being created",
+      description: "Select a parent page for the new page being created, or provide the ID of a parent page",
     },
   },
   async run({ $ }) {
@@ -65,7 +65,7 @@ export default {
 
     const results = await this.notion.createPage(page);
     const pageName = this.notion.extractPageTitle(results);
-    $.export("$summary", `Successfully created the new page, "[${pageName}](${results.url})"`);
+    $.export("$summary", `Successfully created page "[${pageName}](${results.url})"`);
     return results;
   },
 };

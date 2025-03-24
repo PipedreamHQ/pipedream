@@ -5,7 +5,7 @@ export default {
   key: "hostaway-reservation-updated",
   name: "New Reservation Updated",
   description: "Emit new event when a reservation is updated in Hostaway.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

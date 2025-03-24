@@ -1,4 +1,4 @@
-import linearApp from "../linear_app/linear_app.app.mjs";
+import linearApp from "@pipedream/linear_app";
 
 export default {
   ...linearApp,

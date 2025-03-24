@@ -7,7 +7,7 @@ export default {
   key: "zoho_survey-new-survey-response",
   name: "New Survey Response (Instant)",
   description: "Emit new event when a new survey response is received in Zoho Surveys.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   methods: {

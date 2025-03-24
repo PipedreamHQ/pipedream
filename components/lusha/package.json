@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/lusha",
-  "version": "0.0.3",
+  "version": "0.1.1",
   "description": "Pipedream Lusha Components",
   "main": "lusha.app.mjs",
   "keywords": [
@@ -14,6 +14,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^0.10.0"
+    "@pipedream/platform": "^3.0.3"
   }
 }

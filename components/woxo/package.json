@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/woxo",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream WOXO Components",
-  "main": "woxo.app.js",
+  "main": "woxo.app.mjs",
   "keywords": [
     "pipedream",
     "woxo"

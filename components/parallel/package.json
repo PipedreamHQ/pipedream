@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/parallel",
+  "version": "0.0.1",
+  "description": "Pipedream Parallel Components",
+  "main": "parallel.app.mjs",
+  "keywords": [
+    "pipedream",
+    "parallel"
+  ],
+  "homepage": "https://pipedream.com/apps/parallel",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,17 +1,21 @@
 import metafieldActions from "../common/metafield-actions.mjs";
-import common from "../../../shopify/actions/update-metafield/common.mjs";
-import shopify from "../../../shopify/shopify.app.mjs";
+import common from "@pipedream/shopify/actions/update-metafield/update-metafield.mjs";
+import shopify from "../../shopify_developer_app.app.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
 
 export default {
-  ...common,
+  ...others,
   key: "shopify_developer_app-update-metafield",
-  name: "Update Metafield",
-  description: "Updates a metafield belonging to a resource. [See the docs](https://shopify.dev/api/admin-rest/2023-01/resources/metafield#put-blogs-blog-id-metafields-metafield-id)",
-  version: "0.0.4",
-  type: "action",
+  version: "0.0.7",
+  name,
+  description,
+  type,
   props: {
+    shopify,
     ...metafieldActions.props,
-    ...common.props,
   },
   async additionalProps() {
     const props = await this.getOwnerIdProp(this.ownerResource);
@@ -31,15 +35,10 @@ export default {
   },
   methods: {
     ...metafieldActions.methods,
-    ...common.methods,
     async getOwnerIdProp(ownerResource) {
       const resources = {
         product: shopify.propDefinitions.productId,
         variants: shopify.propDefinitions.productVariantId,
-        product_image: {
-          ...shopify.propDefinitions.imageId,
-          optional: false,
-        },
         customer: shopify.propDefinitions.customerId,
         collection: {
           ...shopify.propDefinitions.collectionId,
@@ -49,12 +48,16 @@ export default {
         article: shopify.propDefinitions.articleId,
         page: shopify.propDefinitions.pageId,
         order: shopify.propDefinitions.orderId,
-        draft_order: shopify.propDefinitions.draftOrderId,
+        draftOrder: {
+          type: "string",
+          label: "Draft Order ID",
+          description: "The identifier of a draft order",
+        },
       };
 
       const props = {};
 
-      if (ownerResource === "variants" || ownerResource === "product_image") {
+      if (ownerResource === "variants") {
         props.productId = resources.product;
       }
       if (ownerResource === "article") {

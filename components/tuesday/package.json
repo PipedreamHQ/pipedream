@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/tuesday",
+  "version": "0.0.1",
+  "description": "Pipedream Tuesday Components",
+  "main": "tuesday.app.mjs",
+  "keywords": [
+    "pipedream",
+    "tuesday"
+  ],
+  "homepage": "https://pipedream.com/apps/tuesday",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

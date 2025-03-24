@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/oanda",
+  "version": "0.6.0",
+  "description": "Pipedream oanda Components",
+  "main": "oanda.app.mjs",
+  "keywords": [
+    "pipedream",
+    "oanda"
+  ],
+  "homepage": "https://pipedream.com/apps/oanda",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

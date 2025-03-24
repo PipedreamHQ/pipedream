@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/bitwarden",
+  "version": "0.6.0",
+  "description": "Pipedream bitwarden Components",
+  "main": "bitwarden.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bitwarden"
+  ],
+  "homepage": "https://pipedream.com/apps/bitwarden",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

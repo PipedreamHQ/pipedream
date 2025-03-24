@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/scrapegraphai",
+  "version": "0.1.0",
+  "description": "Pipedream ScrapeGraphAI Components",
+  "main": "scrapegraphai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "scrapegraphai"
+  ],
+  "homepage": "https://pipedream.com/apps/scrapegraphai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

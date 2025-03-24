@@ -1,20 +1,22 @@
-import app from "../../common/rest-admin.mjs";
-import common from "../../../shopify/actions/delete-page/common.mjs";
+import shopify from "../../shopify_developer_app.app.mjs";
+import common from "@pipedream/shopify/actions/delete-page/delete-page.mjs";
+
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
+const props = adjustPropDefinitions(others.props, shopify);
 
 export default {
-  ...common,
+  ...others,
   key: "shopify_developer_app-delete-page",
-  name: "Delete Page",
-  description: "Delete an existing page. [See The Documentation](https://shopify.dev/docs/api/admin-rest/2023-04/resources/page#delete-pages-page-id)",
-  version: "0.0.4",
-  type: "action",
+  version: "0.0.8",
+  name,
+  description,
+  type,
   props: {
-    app,
-    pageId: {
-      propDefinition: [
-        app,
-        "pageId",
-      ],
-    },
+    shopify,
+    ...props,
   },
 };

@@ -1,16 +1,22 @@
 import openai from "../../openai.app.mjs";
 import common from "../common/common.mjs";
 import constants from "../../common/constants.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   ...common,
   name: "Chat",
-  version: "0.2.0",
+  version: "0.2.7",
   key: "openai-chat",
   description: "The Chat API, using the `gpt-3.5-turbo` or `gpt-4` model. [See the documentation](https://platform.openai.com/docs/api-reference/chat)",
   type: "action",
   props: {
     openai,
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: "Looking to chat with your tools? Check out our individual actions: [Chat using Web Search](https://pipedream.com/apps/openai/actions/chat-using-web-search), [Chat using File Search](https://pipedream.com/apps/openai/actions/chat-using-file-search), and [Chat using Functions](https://pipedream.com/apps/openai/actions/chat-using-functions).",
+    },
     modelId: {
       propDefinition: [
         openai,
@@ -38,38 +44,119 @@ export default {
     images: {
       label: "Images",
       type: "string[]",
-      description: "Provide one or more images to [OpenAI's vision model](https://platform.openai.com/docs/guides/vision). Accepts URLs or base64 encoded strings. Compatible with the `gpt4-vision-preview model`",
+      description: "Provide one or more images to [OpenAI's vision model](https://platform.openai.com/docs/guides/vision). Accepts URLs or base64 encoded strings. Compatible with the `gpt4-vision-preview` model",
+      optional: true,
+    },
+    audio: {
+      type: "string",
+      label: "Audio",
+      description: "Provide the file path to an audio file in the `/tmp` directory. For use with the `gpt-4o-audio-preview` model. Currently supports `wav` and `mp3` files.",
       optional: true,
     },
     responseFormat: {
       type: "string",
       label: "Response Format",
-      description: "Specify the format that the model must output. \n- **Text** (default): Returns unstructured text output.\n- **JSON Object**: Ensures the model's output is a valid JSON object.\n- **JSON Schema** (GPT-4o and later): Enables you to define a specific structure for the model's output using a JSON schema. Supported with models `gpt-4o-2024-08-06` and later, and `gpt-4o-mini-2024-07-18` and later.",
+      description: "- **Text**: Returns unstructured text output.\n- **JSON Schema**: Enables you to define a [specific structure for the model's output using a JSON schema](https://platform.openai.com/docs/guides/structured-outputs?api-mode=responses).",
       options: Object.values(constants.CHAT_RESPONSE_FORMAT),
       default: constants.CHAT_RESPONSE_FORMAT.TEXT.value,
       optional: true,
       reloadProps: true,
     },
+    toolTypes: {
+      type: "string[]",
+      label: "Tool Types",
+      description: "The types of tools to enable on the assistant",
+      options: constants.TOOL_TYPES.filter((toolType) => toolType === "function"),
+      optional: true,
+      reloadProps: true,
+    },
   },
   additionalProps() {
-    const { responseFormat } = this;
-    if (responseFormat !== constants.CHAT_RESPONSE_FORMAT.JSON_SCHEMA.value) {
-      return {};
-    }
-    return {
-      jsonSchema: {
+    const {
+      responseFormat,
+      toolTypes,
+      numberOfFunctions,
+    } = this;
+    const props = {};
+
+    if (responseFormat === constants.CHAT_RESPONSE_FORMAT.JSON_SCHEMA.value) {
+      props.jsonSchema = {
         type: "string",
         label: "JSON Schema",
         description: "Define the schema that the model's output must adhere to. [See the documentation here](https://platform.openai.com/docs/guides/structured-outputs/supported-schemas).",
-      },
-    };
+      };
+    }
+
+    if (toolTypes?.includes("function")) {
+      props.numberOfFunctions = {
+        type: "integer",
+        label: "Number of Functions",
+        description: "The number of functions to define",
+        optional: true,
+        reloadProps: true,
+        default: 1,
+      };
+
+      for (let i = 0; i < (numberOfFunctions || 1); i++) {
+        props[`functionName_${i}`] = {
+          type: "string",
+          label: `Function Name ${i + 1}`,
+          description: "The name of the function to be called. Must be a-z, A-Z, 0-9, or contain underscores and dashes, with a maximum length of 64.",
+        };
+        props[`functionDescription_${i}`] = {
+          type: "string",
+          label: `Function Description ${i + 1}`,
+          description: "A description of what the function does, used by the model to choose when and how to call the function.",
+          optional: true,
+        };
+        props[`functionParameters_${i}`] = {
+          type: "object",
+          label: `Function Parameters ${i + 1}`,
+          description: "The parameters the functions accepts, described as a JSON Schema object. See the [guide](https://platform.openai.com/docs/guides/text-generation/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.",
+          optional: true,
+        };
+      }
+    }
+
+    return props;
+  },
+  methods: {
+    ...common.methods,
+    _buildTools() {
+      const tools = this.toolTypes?.filter((toolType) => toolType !== "function")?.map((toolType) => ({
+        type: toolType,
+      })) || [];
+      if (this.toolTypes?.includes("function")) {
+        const numberOfFunctions = this.numberOfFunctions || 1;
+        for (let i = 0; i < numberOfFunctions; i++) {
+          tools.push({
+            type: "function",
+            function: {
+              name: this[`functionName_${i}`],
+              description: this[`functionDescription_${i}`],
+              parameters: this[`functionParameters_${i}`],
+            },
+          });
+        }
+      }
+      return tools.length
+        ? tools
+        : undefined;
+    },
   },
   async run({ $ }) {
+    if (this.audio && !this.modelId.includes("gpt-4o-audio-preview")) {
+      throw new ConfigurationError("Use of audio files requires using the `gpt-4o-audio-preview` model.");
+    }
+
     const args = this._getChatArgs();
 
     const response = await this.openai.createChatCompletion({
       $,
-      data: args,
+      data: {
+        ...args,
+        tools: this._buildTools(),
+      },
     });
 
     if (response) {

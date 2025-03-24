@@ -1,0 +1,48 @@
+{
+  "name": "@pipedream/connect-react",
+  "version": "1.0.0-preview.30",
+  "description": "Pipedream Connect library for React",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "browser": "./dist/connect-react.umd.js",
+  "module": "./dist/connect-react.es.js",
+  "types": "./dist/connect-react.umd.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/connect-react.es.js",
+      "require": "./dist/connect-react.umd.js",
+      "default": "./dist/connect-react.umd.js"
+    }
+  },
+  "scripts": {
+    "build": "vite build",
+    "prepare": "pnpm run build",
+    "watch": "NODE_ENV=development vite build --watch --mode development"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [],
+  "author": "Pipedream Engineering",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/sdk": "workspace:^",
+    "@tanstack/react-query": "^5.59.16",
+    "lodash.isequal": "^4.5.0",
+    "react-markdown": "^9.0.1",
+    "react-select": "^5.8.2"
+  },
+  "devDependencies": {
+    "@emotion/react": "^11.13.5",
+    "@types/lodash.isequal": "^4.5.8",
+    "@types/react": "^18.3.12",
+    "vite": "^5.4.11",
+    "vite-plugin-dts": "^4.3.0"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+  }
+}

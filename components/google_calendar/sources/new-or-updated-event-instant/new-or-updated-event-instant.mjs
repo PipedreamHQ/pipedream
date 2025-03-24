@@ -1,14 +1,14 @@
 import { v4 as uuid } from "uuid";
 import sampleEmit from "./test-event.mjs";
 import googleCalendar from "../../google_calendar.app.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "google_calendar-new-or-updated-event-instant",
   type: "source",
   name: "New Created or Updated Event (Instant)",
   description: "Emit new event when a Google Calendar events is created or updated (does not emit cancelled events)",
-  version: "0.1.13",
+  version: "0.1.15",
   dedupe: "unique",
   props: {
     googleCalendar,
@@ -38,7 +38,7 @@ export default {
       description: "The Google Calendar API requires occasional renewal of push notification subscriptions. **This runs in the background, so you should not need to modify this schedule**.",
       type: "$.interface.timer",
       static: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+        intervalSeconds: constants.WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
       },
     },
   },
@@ -66,7 +66,11 @@ export default {
       await this.makeWatchRequest();
     },
     async deactivate() {
-      await this.stopWatchRequest();
+      try {
+        await this.stopWatchRequest();
+      } catch (e) {
+        console.log(`Error deactivating webhook. ${e}`);
+      }
     },
   },
   methods: {
@@ -199,16 +203,18 @@ export default {
       }
       return new Date(min);
     },
-    getChannelIds() {
-      const channelIds = [];
+    getCalendarIdForChannelId(incomingChannelId) {
       for (const calendarId of this.calendarIds) {
-        const channelId = this.db.get(`${calendarId}.channelId`);
-        channelIds.push(channelId);
+        if (this.db.get(`${calendarId}.channelId`) === incomingChannelId) {
+          return calendarId;
+        }
       }
-      return channelIds;
+      return null;
     },
   },
   async run(event) {
+    let calendarId = null; // calendar ID matching incoming channel ID
+
     // refresh watch
     if (event.interval_seconds) {
       // get time
@@ -224,9 +230,9 @@ export default {
       }
     } else {
       // Verify channel ID
-      const channelIds = this.getChannelIds();
       const incomingChannelId = event?.headers?.["x-goog-channel-id"];
-      if (!channelIds.includes(incomingChannelId)) {
+      calendarId = this.getCalendarIdForChannelId(incomingChannelId);
+      if (!calendarId) {
         console.log(
           `Unexpected channel ID ${incomingChannelId}. This likely means there are multiple, older subscriptions active.`,
         );
@@ -252,41 +258,49 @@ export default {
     }
 
     // Fetch and emit events
-    for (const calendarId of this.calendarIds) {
+    const checkCalendarIds = calendarId
+      ? [
+        calendarId,
+      ]
+      : this.calendarIds;
+    for (const calendarId of checkCalendarIds) {
       const syncToken = this.getNextSyncToken(calendarId);
       let nextSyncToken = null;
       let nextPageToken = null;
       while (!nextSyncToken) {
-        const {
-          data: syncData = {},
-          status: syncStatus,
-        } = await this.googleCalendar.listEvents({
-          returnOnlyData: false,
-          calendarId,
-          syncToken,
-          pageToken: nextPageToken,
-          maxResults: 2500,
-        });
-        if (syncStatus === 410) {
-          console.log("Sync token invalid, resyncing");
-          nextSyncToken = await this.googleCalendar.fullSync(this.calendarId);
-          break;
-        }
-        nextPageToken = syncData.nextPageToken;
-        nextSyncToken = syncData.nextSyncToken;
-
-        const { items: events = [] } = syncData;
-        events
-          .filter(this.isEventRelevant, this)
-          .forEach((event) => {
-            const { status } = event;
-            if (status === "cancelled") {
-              console.log("Event cancelled. Exiting.");
-              return;
-            }
-            const meta = this.generateMeta(event);
-            this.$emit(event, meta);
+        try {
+          const { data: syncData = {} } = await this.googleCalendar.listEvents({
+            returnOnlyData: false,
+            calendarId,
+            syncToken,
+            pageToken: nextPageToken,
+            maxResults: 2500,
           });
+
+          nextPageToken = syncData.nextPageToken;
+          nextSyncToken = syncData.nextSyncToken;
+
+          const { items: events = [] } = syncData;
+          events
+            .filter(this.isEventRelevant, this)
+            .forEach((event) => {
+              const { status } = event;
+              if (status === "cancelled") {
+                console.log("Event cancelled. Exiting.");
+                return;
+              }
+              const meta = this.generateMeta(event);
+              this.$emit(event, meta);
+            });
+        } catch (error) {
+          if (error === "Sync token is no longer valid, a full sync is required.") {
+            console.log("Sync token invalid, resyncing");
+            nextSyncToken = await this.googleCalendar.fullSync(calendarId);
+            break;
+          } else {
+            throw error;
+          }
+        }
       }
 
       this.setNextSyncToken(calendarId, nextSyncToken);

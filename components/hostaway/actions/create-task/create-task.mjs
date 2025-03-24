@@ -5,7 +5,7 @@ export default {
   key: "hostaway-create-task",
   name: "Create Task",
   description: "Creates a new task in Hostaway. [See the documentation](https://api.hostaway.com/documentation#create-task)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     hostaway,

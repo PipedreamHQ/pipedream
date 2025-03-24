@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/perigon",
+  "version": "0.6.0",
+  "description": "Pipedream perigon Components",
+  "main": "perigon.app.mjs",
+  "keywords": [
+    "pipedream",
+    "perigon"
+  ],
+  "homepage": "https://pipedream.com/apps/perigon",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

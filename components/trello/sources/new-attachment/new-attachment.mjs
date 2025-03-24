@@ -1,11 +1,12 @@
 import common from "../common/common-webhook.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "trello-new-attachment",
   name: "New Attachment (Instant)",
-  description: "Emit new event for new attachment on a board.",
-  version: "0.1.0",
+  description: "Emit new event when a new attachment is added on a board.",
+  version: "0.1.1",
   type: "source",
   props: {
     ...common.props,
@@ -15,62 +16,52 @@ export default {
         "board",
       ],
     },
-  },
-  hooks: {
-    ...common.hooks,
-    async deploy() {
-      const {
-        sampleEvents, sortField,
-      } = await this.getSampleEvents();
-      sampleEvents.sort((a, b) => (Date.parse(a[sortField]) > Date.parse(b[sortField]))
-        ? 1
-        : -1);
-      for (const action of sampleEvents.slice(-25)) {
-        this.$emit(action, {
-          id: action.id,
-          summary: action?.data?.attachment?.name,
-          ts: Date.parse(action.date),
-        });
-      }
+    lists: {
+      propDefinition: [
+        common.props.app,
+        "lists",
+        (c) => ({
+          board: c.board,
+        }),
+      ],
+      description: "If specified, events will only be emitted when an attachment is added to a card in one of the specified lists",
     },
   },
   methods: {
     ...common.methods,
-    getAttachment({
-      cardId, attachmentId, ...args
-    } = {}) {
-      return this.app._makeRequest({
-        path: `/cards/${cardId}/attachments/${attachmentId}`,
-        ...args,
-      });
-    },
     async getSampleEvents() {
-      const actions = await this.app.getBoardActivity({
-        boardId: this.board,
-        params: {
-          filter: "addAttachmentToCard",
-        },
+      const cards = this.lists?.length
+        ? await this.app.getCardsInList({
+          listId: this.lists[0],
+        })
+        : await this.app.getCards({
+          boardId: this.board,
+        });
+      const attachments = [];
+      for (const card of cards) {
+        const cardAttachments = await this.app.listCardAttachments({
+          cardId: card.id,
+        });
+        attachments.push(...cardAttachments);
+      }
+      return attachments;
+    },
+    getSortField() {
+      return "date";
+    },
+    isCorrectEventType({ type }) {
+      return type === "addAttachmentToCard";
+    },
+    getResult({ data }) {
+      return this.app.getAttachment({
+        cardId: data?.card?.id,
+        attachmentId: data?.attachment?.id,
       });
-      return {
-        sampleEvents: actions,
-        sortField: "date",
-      };
     },
-    isCorrectEventType(event) {
-      const eventType = event.body?.action?.type;
-      return eventType === "addAttachmentToCard";
-    },
-    async getResult(event) {
-      const cardId = event.body?.action?.data?.card?.id;
-      const attachmentId = event.body?.action?.data?.attachment?.id;
-      return this.getAttachment({
-        cardId,
-        attachmentId,
-      });
-    },
-    isRelevant({ event }) {
-      const boardId = event.body?.action?.data?.board?.id;
-      return !this.board || this.board === boardId;
+    isRelevant({ action }) {
+      return (!this.board || this.board === action?.data?.board?.id)
+        && (!this.lists?.length || this.lists.includes(action?.data?.list?.id));
     },
   },
+  sampleEmit,
 };

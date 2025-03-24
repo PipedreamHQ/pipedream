@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/pingone",
+  "version": "0.0.1",
+  "description": "Pipedream PingOne Components",
+  "main": "pingone.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pingone"
+  ],
+  "homepage": "https://pipedream.com/apps/pingone",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/neo4j_auradb",
+  "version": "0.0.1",
+  "description": "Pipedream Neo4j AuraDB Components",
+  "main": "neo4j_auradb.app.mjs",
+  "keywords": [
+    "pipedream",
+    "neo4j_auradb"
+  ],
+  "homepage": "https://pipedream.com/apps/neo4j_auradb",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

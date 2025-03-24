@@ -34,7 +34,8 @@ export default {
       label: "Channel",
       description: "Team Channel",
       async options({
-        teamId, prevContext,
+        teamId,
+        prevContext,
       }) {
         const response = prevContext.nextLink
           ? await this.makeRequest({
@@ -58,21 +59,69 @@ export default {
     chat: {
       type: "string",
       label: "Chat",
-      description: "Team Chat within the organization (No external Contacts)",
-      async options({ prevContext }) {
-        const response = prevContext.nextLink
+      description: "Select a chat (type to search by participant names)",
+      async options({
+        prevContext, query,
+      }) {
+        let path = "/chats?$expand=members";
+        path += "&$top=20";
+
+        if (query) {
+          path += `&$search="${query}"`;
+        }
+
+        const response = prevContext?.nextLink
           ? await this.makeRequest({
             path: prevContext.nextLink,
           })
-          : await this.listChats();
+          : await this.makeRequest({
+            path,
+          });
+
+        this._userCache = this._userCache || new Map();
         const options = [];
+
         for (const chat of response.value) {
-          const members = chat.members.map((member) => member.displayName);
+          let members = chat.members.map((member) => ({
+            displayName: member.displayName,
+            wasNull: !member.displayName,
+            userId: member.userId,
+            email: member.email,
+          }));
+
+          if (members.some((member) => !member.displayName)) {
+            try {
+              const messages = await this.makeRequest({
+                path: `/chats/${chat.id}/messages?$top=10&$orderby=createdDateTime desc`,
+              });
+
+              const nameMap = new Map();
+              messages.value.forEach((msg) => {
+                if (msg.from?.user?.id && msg.from?.user?.displayName) {
+                  nameMap.set(msg.from.user.id, msg.from.user.displayName);
+                }
+              });
+
+              members = members.map((member) => ({
+                ...member,
+                displayName: member.displayName || nameMap.get(member.userId) || member.email || "Unknown User",
+              }));
+            } catch (err) {
+              console.error(`Failed to fetch messages for chat ${chat.id}:`, err);
+            }
+          }
+
+          const memberNames = members.map((member) =>
+            member.wasNull
+              ? `${member.displayName} (External)`
+              : member.displayName);
+
           options.push({
-            label: members.join(", "),
+            label: memberNames.join(", "),
             value: chat.id,
           });
         }
+
         return {
           options,
           context: {
@@ -80,6 +129,7 @@ export default {
           },
         };
       },
+      useQuery: true,
     },
     channelDisplayName: {
       type: "string",
@@ -120,7 +170,10 @@ export default {
       });
     },
     async makeRequest({
-      method, path, params = {}, content,
+      method,
+      path,
+      params = {},
+      content,
     }) {
       const api = this.client().api(path);
 
@@ -167,7 +220,8 @@ export default {
       });
     },
     async createChannel({
-      teamId, content,
+      teamId,
+      content,
     }) {
       return this.makeRequest({
         method: "post",
@@ -176,7 +230,9 @@ export default {
       });
     },
     async sendChannelMessage({
-      teamId, channelId, content,
+      teamId,
+      channelId,
+      content,
     }) {
       return this.makeRequest({
         method: "post",
@@ -185,7 +241,8 @@ export default {
       });
     },
     async sendChatMessage({
-      chatId, content,
+      chatId,
+      content,
     }) {
       return this.makeRequest({
         method: "post",
@@ -215,7 +272,8 @@ export default {
         .get();
     },
     async listChannelMessages({
-      teamId, channelId,
+      teamId,
+      channelId,
     }) {
       return this.makeRequest({
         path: `/teams/${teamId}/channels/${channelId}/messages/delta`,

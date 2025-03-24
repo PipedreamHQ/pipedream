@@ -2,9 +2,9 @@ import app from "../../trello.app.mjs";
 
 export default {
   key: "trello-add-checklist",
-  name: "Create a Checklist",
+  name: "Add Checklist",
   description: "Adds a new checklist to a card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-checklists-post).",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
     app,
@@ -42,34 +42,24 @@ export default {
           board: boardId,
         }),
       ],
+      label: "Copy from Checklist",
     },
     pos: {
-      type: "string",
-      label: "Position",
-      description: "The position of the checklist on the card. One of: top, bottom, or a positive number.",
-      optional: true,
-    },
-  },
-  methods: {
-    addChecklist({
-      cardId, ...args
-    } = {}) {
-      return this.app.post({
-        path: `/cards/${cardId}/checklists`,
-        ...args,
-      });
+      propDefinition: [
+        app,
+        "pos",
+      ],
     },
   },
   async run({ $ }) {
     const {
-      addChecklist,
       cardId,
       name,
       idChecklistSource,
       pos,
     } = this;
 
-    const response = await addChecklist({
+    const response = await this.app.addChecklist({
       $,
       cardId,
       params: {
@@ -79,7 +69,7 @@ export default {
       },
     });
 
-    $.export("$summary", "Successfully added checklist.");
+    $.export("$summary", `Successfully added checklist with ID: ${response.id}`);
 
     return response;
   },

@@ -172,7 +172,7 @@ export default {
           ...requestConfig,
           params,
         };
-      } else if (prevContext.nextPage) {
+      } else if (String(prevContext.nextPage.results).toLowerCase() === "true") { // sentry returns this field as a string... so adding this in case they change it to a boolean
         // Retrieve next page of options.
         url = prevContext.nextPage.url;
       } else {

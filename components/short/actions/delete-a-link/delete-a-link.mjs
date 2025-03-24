@@ -2,9 +2,9 @@ import shortApp from "../../short.app.mjs";
 
 export default {
   key: "short-delete-a-link",
-  name: "Delete a Short Link",
-  description: "Delete a Short Link. [See the docs](https://developers.short.io/reference/linksbylinkiddelete).",
-  version: "0.0.1",
+  name: "Delete Link",
+  description: "Delete a Short Link. [See the documentation](https://developers.short.io/reference/linksbylinkiddelete).",
+  version: "0.0.2",
   type: "action",
   props: {
     shortApp,

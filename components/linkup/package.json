@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/linkup",
+  "version": "0.1.0",
+  "description": "Pipedream Linkup Components",
+  "main": "linkup.app.mjs",
+  "keywords": [
+    "pipedream",
+    "linkup"
+  ],
+  "homepage": "https://pipedream.com/apps/linkup",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "linkup-sdk": "^1.0.3"
+  }
+}

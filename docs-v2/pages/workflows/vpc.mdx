@@ -1,6 +1,6 @@
 import VideoPlayer from '@/components/VideoPlayer';
 
-# Virtual Private Clouds (VPCs)
+# Virtual Private Clouds
 
 <VideoPlayer src="https://www.youtube.com/embed/E_dfTCCccPE" title="Virtual Private Clouds" />
 
@@ -52,15 +52,15 @@ If you're interested in running Pipedream workflows in your own infrastructure, 
 
 ## Limitations
 
-- Only workflows can run in VPCs (other resources like sources or data stores are not currently supported). For example, [sources](/sources/) cannot yet run in VPCs.
+- Only workflows can run in VPCs (other resources like sources or data stores are not currently supported). For example, [sources](/workflows/building-workflows/triggers/) cannot yet run in VPCs.
 - Creating a new network can take up to 5 minutes. Deploying your first workflow into a new network and testing that workflow for the first time can take up to 1 min. Subsequent operations should be as fast as normal.
 - VPCs only provide static IPs for outbound network requests. This feature does not provide a static IP for or otherwise restrict inbound requests.
 - You can't set a default network for all new workflows in a workspace or project (you must select the network every time you create a new workflow). Please [reach out](https://pipedream.com/support) if you're interesting in imposing controls like this in your workspace.
-- Workflows running in a VPC will still route specific requests routed through [the shared Pipedream network](/destinations/http/#ip-addresses-for-pipedream-http-requests):
-  - [`$.send.http()`](/destinations/http/) requests
+- Workflows running in a VPC will still route specific requests routed through [the shared Pipedream network](/workflows/data-management/destinations/http/#ip-addresses-for-pipedream-http-requests):
+  - [`$.send.http()`](/workflows/data-management/destinations/http/) requests
   - Async options requests (these are requests that are made to populate options in drop down menus for actions while a building a workflow — e.g., the option to “select a Google Sheet” when using the “add row to Google Sheets” action)
 
-## Frequently Asked Questions
+## FAQ
 
 ### Will HTTP requests sent from Node.js, Python and the HTTP request steps use the assigned static IP address?
 

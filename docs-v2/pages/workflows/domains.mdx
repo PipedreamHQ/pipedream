@@ -1,6 +1,6 @@
 # Custom Domains
 
-By default, all new [Pipedream HTTP endpoints](/workflows/steps/triggers/#http) are hosted on the **{process.env.ENDPOINT_BASE_URL}** domain. But you can configure any domain you want: instead of `https://endpoint.m.pipedream.net`, the endpoint would be available on `https://endpoint.example.com`.
+By default, all new [Pipedream HTTP endpoints](/workflows/building-workflows/triggers/#http) are hosted on the **{process.env.ENDPOINT_BASE_URL}** domain. But you can configure any domain you want: instead of `https://endpoint.m.pipedream.net`, the endpoint would be available on `https://endpoint.example.com`.
 
 ## Configuring a new custom domain
 
@@ -32,11 +32,11 @@ Before you move on, make sure you have access to manage DNS records for your dom
 
 #### A note on domain wildcards
 
-Note that the records referenced above use the wildcard (`*`) for the host portion of the domain. When you configure DNS records in [step 3](#_3-add-your-dns-records), this allows you to point all traffic for a specific domain to Pipedream and create any number of Pipedream HTTP endpoints that will work with your domain.
+Note that the records referenced above use the wildcard (`*`) for the host portion of the domain. When you configure DNS records in [step 3](#3-add-your-dns-records), this allows you to point all traffic for a specific domain to Pipedream and create any number of Pipedream HTTP endpoints that will work with your domain.
 
 ### 2. Reach out to Pipedream Support
 
-Once you've chosen your domain, [reach out to Pipedream Support](https://pipedream.com/support) and let us know what domain you'd like to configure for your workspace. We'll configure a TLS/SSL certificate for that domain, and give you two DNS CNAME records to add for that domain in [step 3](#_3-add-your-dns-records).
+Once you've chosen your domain and are in an [eligible plan](https://pipedream.com/pricing), [reach out to Pipedream Support](https://pipedream.com/support) and let us know what domain you'd like to configure for your workspace. We'll configure a TLS/SSL certificate for that domain, and give you two DNS CNAME records to add for that domain in [step 3](#3-add-your-dns-records).
 
 ### 3. Add your DNS records
 

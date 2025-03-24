@@ -7,7 +7,21 @@ export default {
   name: "New Record (Instant, of Selectable Type)",
   key: "salesforce_rest_api-new-record-instant",
   description: "Emit new event when a record of the selected object type is created. [See the documentation](https://sforce.co/3yPSJZy)",
-  version: "0.1.0",
+  version: "0.2.0",
+  props: {
+    ...common.props,
+    fieldsToObtain: {
+      propDefinition: [
+        common.props.salesforce,
+        "fieldsToObtain",
+        (c) => ({
+          objType: c.objectType,
+        }),
+      ],
+      optional: true,
+      description: "Select the field(s) to be retrieved for the records. Only applicable if the source is running on a timer. If running on a webhook, or if not specified, all fields will be retrieved.",
+    },
+  },
   hooks: {
     ...common.hooks,
     async deploy() {
@@ -40,7 +54,7 @@ export default {
         Id: id,
       } = item;
       const entityType = startCase(objectType);
-      const summary = `New ${entityType} created: ${name}`;
+      const summary = `New ${entityType} created: ${name ?? id}`;
       const ts = Date.parse(createdDate);
       return {
         id,
@@ -57,7 +71,7 @@ export default {
         [nameField]: name,
       } = newObject;
       const entityType = startCase(this.objectType).toLowerCase();
-      const summary = `New ${entityType} created: ${name}`;
+      const summary = `New ${entityType} created: ${name ?? id}`;
       const ts = Date.parse(createdDate);
       return {
         id,
@@ -118,8 +132,11 @@ export default {
         setObjectTypeColumns,
       } = this;
 
-      const { fields } = await getObjectTypeDescription(objectType);
-      const columns = fields.map(({ name }) => name);
+      let columns = this.fieldsToObtain;
+      if (!columns?.length) {
+        const { fields } = await getObjectTypeDescription(objectType);
+        columns = fields.map(({ name }) => name);
+      }
 
       setObjectTypeColumns(columns);
     },

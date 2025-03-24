@@ -23,6 +23,7 @@ export default {
           // Use record propDefinition directly to workaround lack of support
           // for propDefinition in additionalProps
           record: airtable.propDefinitions.record,
+          customExpressionInfo: airtable.propDefinitions.customExpressionInfo,
         };
       }
       throw new ConfigurationError("Could not find a table for the specified base ID and table ID. Please adjust the action configuration to continue.");

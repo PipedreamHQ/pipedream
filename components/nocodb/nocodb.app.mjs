@@ -69,6 +69,27 @@ export default {
         return rows?.map(({ Id }) => `${Id}` ) || [];
       },
     },
+    viewId: {
+      type: "string",
+      label: "View ID",
+      description: "The ID of a view",
+      async options({
+        tableId, page,
+      }) {
+        const { list } = await this.listViews({
+          tableId,
+          params: {
+            offset: page * DEFAULT_LIMIT,
+          },
+        });
+        return list?.map(({
+          id: value, title: label,
+        }) => ({
+          label,
+          value,
+        })) || [];
+      },
+    },
     data: {
       type: "any",
       label: "data",
@@ -230,6 +251,14 @@ export default {
     }) {
       return this._makeRequest({
         path: `/tables/${tableId}/records`,
+        ...opts,
+      });
+    },
+    listViews({
+      tableId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/meta/tables/${tableId}/views`,
         ...opts,
       });
     },

@@ -1,15 +1,14 @@
-import webflow from "../../webflow.app.mjs";
+import app from "../../webflow.app.mjs";
 import { v4 as uuid } from "uuid";
-import { axios } from "@pipedream/platform";
 import constants from "../../common/constants.mjs";
 
 export default {
   dedupe: "unique",
   props: {
-    webflow,
+    app,
     siteId: {
       propDefinition: [
-        webflow,
+        app,
         "sites",
       ],
     },
@@ -17,16 +16,6 @@ export default {
     http: "$.interface.http",
   },
   methods: {
-    async _makeRequest(path, params = {}) {
-      return axios(this, {
-        url: "https://api.webflow.com" + path,
-        headers: {
-          "Authorization": `Bearer ${this.webflow.$auth.oauth_access_token}`,
-          "Accept-Version": "1.0.0",
-        },
-        params,
-      });
-    },
     _getWebhookId() {
       return this.db.get("webhookId");
     },
@@ -36,12 +25,6 @@ export default {
     getWebhookTriggerType() {
       throw new Error("getWebhookTriggerType is not implemented");
     },
-    getWebhookFilter() {
-      return {};
-    },
-    isEventRelevant(event) {
-      if (event) return true;
-    },
     generateMeta(data) {
       return {
         id: data.id || uuid(),
@@ -50,13 +33,9 @@ export default {
       };
     },
     processEvent(event) {
-      if (!this.isEventRelevant(event)) {
-        return;
-      }
-
-      const { body } = event;
-      const meta = this.generateMeta(body);
-      this.$emit(body, meta);
+      const { body: { payload } } = event;
+      const meta = this.generateMeta(payload);
+      this.$emit(payload, meta);
     },
     emitHistoricalEvents(events, limit = constants.DEPLOY_OFFSET) {
       for (const event of events.slice(0, limit)) {
@@ -67,18 +46,15 @@ export default {
   },
   hooks: {
     async activate() {
-      const { endpoint } = this.http;
-      const triggerType = this.getWebhookTriggerType();
-      const filter = this.getWebhookFilter();
-      const webhook = await this.webflow.createWebhook(
-        this.siteId, endpoint, triggerType, filter,
-      );
+      const webhook = await this.app.createWebhook(this.siteId, {
+        url: this.http.endpoint,
+        triggerType: this.getWebhookTriggerType(),
+      });
 
-      this._setWebhookId(webhook._id);
+      this._setWebhookId(webhook?.id);
     },
     async deactivate() {
-      const webhookId = this._getWebhookId();
-      await this.webflow.removeWebhook(this.siteId, webhookId);
+      await this.app.removeWebhook(this._getWebhookId());
     },
   },
   async run(event) {

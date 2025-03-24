@@ -6,6 +6,9 @@ const PULL_REQUEST_STATES = [
   "PENDING",
 ];
 
+const LIMIT = 100;
+
 export default {
   PULL_REQUEST_STATES,
+  LIMIT,
 };

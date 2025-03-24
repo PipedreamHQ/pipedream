@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/algorithmia",
+  "version": "0.6.0",
+  "description": "Pipedream algorithmia Components",
+  "main": "algorithmia.app.mjs",
+  "keywords": [
+    "pipedream",
+    "algorithmia"
+  ],
+  "homepage": "https://pipedream.com/apps/algorithmia",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

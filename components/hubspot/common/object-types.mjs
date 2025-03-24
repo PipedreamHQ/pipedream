@@ -17,6 +17,7 @@ const OBJECT_TYPE = {
   NOTE: "note",
   EMAIL: "email",
   TASK: "task",
+  LEAD: "lead",
 };
 
 /**
@@ -77,6 +78,10 @@ const OBJECT_TYPES = [
     label: "Tasks",
     value: OBJECT_TYPE.TASK,
   },
+  {
+    label: "Leads",
+    value: OBJECT_TYPE.LEAD,
+  },
 ];
 
 const SEARCHABLE_OBJECT_TYPES_ARRAY = [
@@ -87,70 +92,11 @@ const SEARCHABLE_OBJECT_TYPES_ARRAY = [
   OBJECT_TYPE.PRODUCT,
   OBJECT_TYPE.TICKET,
   OBJECT_TYPE.LINE_ITEM,
+  OBJECT_TYPE.LEAD,
 ];
 const SEARCHABLE_OBJECT_TYPES = OBJECT_TYPES.filter(
   (type) => SEARCHABLE_OBJECT_TYPES_ARRAY.includes(type.value),
 );
-
-const SEARCHABLE_OBJECT_PROPERTIES = {
-  [OBJECT_TYPE.COMPANY]: [
-    "name",
-    "domain",
-    "createdate",
-    "hs_lastmodifieddate",
-    "hs_object_id",
-  ],
-  [OBJECT_TYPE.CONTACT]: [
-    "firstname",
-    "lastname",
-    "email",
-    "lastmodifieddate",
-    "hs_object_id",
-    "createdate",
-  ],
-  [OBJECT_TYPE.DEAL]: [
-    "dealname",
-    "amount",
-    "closedate",
-    "pipeline",
-    "dealstage",
-    "createdate",
-    "hs_lastmodifieddate",
-    "hs_object_id",
-  ],
-  [OBJECT_TYPE.FEEDBACK_SUBMISSION]: [
-    "hs_createdate",
-    "hs_lastmodifieddate",
-    "hs_object_id",
-  ],
-  [OBJECT_TYPE.PRODUCT]: [
-    "name",
-    "description",
-    "price",
-    "createdate",
-    "hs_lastmodifieddate",
-    "hs_object_id",
-  ],
-  [OBJECT_TYPE.TICKET]: [
-    "content",
-    "hs_pipeline",
-    "hs_pipeline_stage",
-    "hs_ticket_category",
-    "hs_ticket_priority",
-    "subject",
-    "createdate",
-    "hs_lastmodifieddate",
-    "hs_object_id",
-  ],
-  [OBJECT_TYPE.LINE_ITEM]: [
-    "quantity",
-    "amount",
-    "price",
-    "createdate",
-    "hs_lastmodifieddate",
-    "hs_object_id",
-  ],
-};
 
 const ENGAGEMENT_TYPES = [
   {
@@ -223,7 +169,6 @@ export {
   OBJECT_TYPES,
   HUBSPOT_OWNER,
   SEARCHABLE_OBJECT_TYPES,
-  SEARCHABLE_OBJECT_PROPERTIES,
   ENGAGEMENT_TYPES,
   EMAIL_EVENT_TYPES,
 };

@@ -13,6 +13,7 @@ const RESOURCE_TYPE = {
   ISSUE: "Issue",
   ISSUE_LABEL: "IssueLabel",
   PROJECT: "Project",
+  PROJECT_UPDATE: "ProjectUpdate",
   CYCLE: "Cycle",
   REACTION: "Reaction",
 };

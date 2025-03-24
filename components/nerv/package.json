@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/nerv",
+  "version": "0.0.1",
+  "description": "Pipedream Nerv Components",
+  "main": "nerv.app.mjs",
+  "keywords": [
+    "pipedream",
+    "nerv"
+  ],
+  "homepage": "https://pipedream.com/apps/nerv",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

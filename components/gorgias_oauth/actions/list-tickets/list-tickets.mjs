@@ -4,7 +4,7 @@ export default {
   key: "gorgias_oauth-list-tickets",
   name: "List Tickets",
   description: "List all tickets. [See the docs](https://developers.gorgias.com/reference/get_api-tickets)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     gorgias_oauth,

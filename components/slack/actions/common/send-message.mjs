@@ -19,8 +19,8 @@ export default {
       type: "boolean",
       optional: true,
       default: true,
-      label: "Include link to workflow",
-      description: "Defaults to `true`, includes a link to the workflow at the end of your Slack message.",
+      label: "Include link to Pipedream",
+      description: "Defaults to `true`, includes a link to Pipedream at the end of your Slack message.",
     },
     customizeBotSettings: {
       type: "boolean",
@@ -139,15 +139,21 @@ export default {
   methods: {
     _makeSentViaPipedreamBlock() {
       const workflowId = process.env.PIPEDREAM_WORKFLOW_ID;
-      // The link is a URL without a protocol to prevent link unfurling. See
-      // https://api.slack.com/reference/messaging/link-unfurling#classic_unfurl
-      const link = `https://pipedream.com/@/${workflowId}?o=a&a=slack`;
+      const baseLink = "https://pipedream.com";
+      const linkText = !workflowId
+        ? "Pipedream Connect"
+        : "Pipedream";
+
+      const link = !workflowId
+        ? `${baseLink}/connect`
+        : `${baseLink}/@/${workflowId}?o=a&a=slack`;
+
       return {
         "type": "context",
         "elements": [
           {
             "type": "mrkdwn",
-            "text": `Sent via <${link}|Pipedream>`,
+            "text": `Sent via <${link}|${linkText}>`,
           },
         ],
       };
@@ -169,6 +175,9 @@ export default {
           "text": serializedText,
         },
       };
+    },
+    getChannelId() {
+      return this.conversation ?? this.reply_channel;
     },
   },
   async run({ $ }) {
@@ -207,7 +216,7 @@ export default {
 
     const obj = {
       text: this.text,
-      channel: this.conversation ?? this.reply_channel,
+      channel: await this.getChannelId(),
       attachments: this.attachments,
       unfurl_links: this.unfurl_links,
       unfurl_media: this.unfurl_media,

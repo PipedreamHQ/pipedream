@@ -1,5 +1,6 @@
 import twilio from "twilio";
 import {
+  formatTimeElapsed,
   callToString,
   messageToString,
   recordingToString,
@@ -177,6 +178,22 @@ export default {
         })) || [];
       },
     },
+    transcriptSids: {
+      type: "string[]",
+      label: "Transcript SIDs",
+      description: "The unique SID identifiers of the Transcripts to retrieve",
+      async options({ page }) {
+        const transcripts = await this.listTranscripts({
+          page,
+        });
+        return transcripts?.map(({
+          sid: value, dateCreated, duration,
+        }) => ({
+          value,
+          label: `${dateCreated} for ${formatTimeElapsed(duration)}`,
+        })) || [];
+      },
+    },
   },
   methods: {
     validateRequest({
@@ -258,6 +275,10 @@ export default {
     listTranscriptSentences(transcriptId, params = {}) {
       const client = this.getClient();
       return client.intelligence.v2.transcripts(transcriptId).sentences.list(params);
+    },
+    getTranscript(transcriptId) {
+      const client = this.getClient();
+      return client.intelligence.v2.transcripts(transcriptId).fetch();
     },
     async getSentences(transcriptId) {
       const sentences = await this.listTranscriptSentences(transcriptId, {
@@ -394,7 +415,6 @@ export default {
       const client = this.getClient();
       return client.recordings(sid).transcriptions.list(params);
     },
-
     /**
      * Send a verification code via sms
      *
@@ -409,7 +429,6 @@ export default {
         channel: "sms",
       });
     },
-
     /**
      * List all services
      *
@@ -419,7 +438,6 @@ export default {
       const client = this.getClient();
       return client.verify.v2.services.list();
     },
-
     /**
      * Check whether the verification token is valid
      *

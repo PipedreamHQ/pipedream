@@ -2,19 +2,39 @@ import shortApp from "../../short.app.mjs";
 import common from "../common/common.mjs";
 import lodash from "lodash";
 
+const {
+  props: { // eslint-disable-next-line no-unused-vars
+    domain, ...props
+  },
+} = common;
+
 export default {
   key: "short-create-a-link",
-  name: "Create a Short Link",
-  description: "Create a Short Link. [See the docs](https://developers.short.io/reference/linkspost).",
-  version: "0.0.1",
+  name: "Create Link",
+  description: "Create a Short Link. [See the documentation](https://developers.short.io/reference/linkspost).",
+  version: "0.1.0",
   type: "action",
   props: {
     shortApp,
-    ...common.props,
+    domainId: {
+      propDefinition: [
+        shortApp,
+        "domainId",
+      ],
+    },
+    ...props,
+    folderId: {
+      propDefinition: [
+        shortApp,
+        "folderId",
+        ({ domainId }) => ({
+          domainId,
+        }),
+      ],
+    },
   },
   async run({ $ }) {
     const param = lodash.pick(this, [
-      "domain",
       "originalURL",
       "path",
       "title",
@@ -32,8 +52,13 @@ export default {
       "utmContent",
       "cloaking",
       "redirectType",
+      "folderId",
     ]);
-    const link = await this.shortApp.createLink($, param);
+    const { hostname: domain } = await this.shortApp.getDomainInfo(this.domainId);
+    const link = await this.shortApp.createLink($, {
+      domain,
+      ...param,
+    });
     $.export("$summary", `Successfully created the link: ${link.secureShortURL}`);
     return link;
   },

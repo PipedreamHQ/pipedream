@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sinch_messagemedia",
+  "version": "0.0.1",
+  "description": "Pipedream Sinch MessageMedia Components",
+  "main": "sinch_messagemedia.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sinch_messagemedia"
+  ],
+  "homepage": "https://pipedream.com/apps/sinch_messagemedia",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

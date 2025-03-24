@@ -40,7 +40,7 @@ export default {
       return this.$auth.oauth_access_token;
     },
     _getBaseUrl() {
-      return "https://campaigns.zoho.com/api/v1.1";
+      return `https://campaigns.${this.$auth.base_api_url}/api/v1.1`;
     },
     _getHeaders() {
       return {

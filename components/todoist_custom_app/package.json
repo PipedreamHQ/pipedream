@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/todoist_custom_app",
+  "version": "0.6.0",
+  "description": "Pipedream todoist_custom_app Components",
+  "main": "todoist_custom_app.app.mjs",
+  "keywords": [
+    "pipedream",
+    "todoist_custom_app"
+  ],
+  "homepage": "https://pipedream.com/apps/todoist_custom_app",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

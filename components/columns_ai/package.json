@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/columns_ai",
+  "version": "0.1.2",
+  "description": "Pipedream Columns Ai Components",
+  "main": "columns_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "columns_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/columns_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "columns-graph-model": "^1.1.4",
+    "columns-sdk": "^0.0.6"
+  }
+}
