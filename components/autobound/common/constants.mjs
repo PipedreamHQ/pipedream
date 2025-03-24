@@ -17,7 +17,7 @@ export default {
       value: "clever_poet",
     },
     {
-      label: "For concise, executive- level pitches",
+      label: "For concise, executive-level pitches",
       value: "cxo_pitch",
     },
     {
