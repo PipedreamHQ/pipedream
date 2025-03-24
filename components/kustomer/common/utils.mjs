@@ -28,7 +28,10 @@ export const parseObject = (obj) => {
 export const throwError = (message) => {
   const parsedMessage = JSON.parse(message);
   const error = parsedMessage.errors[0];
-  const errorParameter = error.meta.subErrors[0].source.pointer || error.source.parameter;
-  const errorMessage = error.detail || error.meta.subErrors[0].title;
+  const errorParameter =
+    error.source.parameter ||
+    error.source.pointer ||
+    error.meta?.subErrors[0]?.source?.pointer;
+  const errorMessage = error.detail || error.title || error.meta?.subErrors[0]?.title;
   throw new ConfigurationError(`${errorParameter} - ${errorMessage}`);
 };
