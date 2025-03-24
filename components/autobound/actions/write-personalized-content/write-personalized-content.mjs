@@ -3,7 +3,7 @@ import app from "../../autobound.app.mjs";
 export default {
   key: "autobound-write-personalized-content",
   name: "Write Personalized Content",
-  description: "Write a personalized content using Autobound. [See the documentation](https://autobound-api.readme.io/docs/generate-personalized-content-copy)",
+  description: "Write personalized content using Autobound. [See the documentation](https://autobound-api.readme.io/docs/generate-personalized-content-copy)",
   version: "0.0.1",
   type: "action",
   props: {
