@@ -53,20 +53,6 @@ export default {
         return entry?.map(({ name }) => name) || [];
       },
     },
-    metricAlertName: {
-      type: "string",
-      label: "Alert Name",
-      description: "The name of the alert to trigger events for",
-      async options({ page }) {
-        const { entry } = await this.listMetricAlerts({
-          params: {
-            count: DEFAULT_LIMIT,
-            offset: DEFAULT_LIMIT * page,
-          },
-        });
-        return entry?.map(({ name }) => name) || [];
-      },
-    },
     query: {
       type: "string",
       label: "Search Query",
@@ -125,18 +111,20 @@ export default {
         ...opts,
       });
     },
-    listMetricAlerts(opts = {}) {
-      return this._makeRequest({
-        path: "/alerts/metric_alerts",
-        ...opts,
-      });
-    },
-    updateMetricAlert({
+    updateSavedSearch({
       name, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/alerts/metric_alerts/${name}`,
+        path: `/saved/searches/${name}`,
+        ...opts,
+      });
+    },
+    getSavedSearch({
+      name, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/saved/searches/${name}`,
         ...opts,
       });
     },
