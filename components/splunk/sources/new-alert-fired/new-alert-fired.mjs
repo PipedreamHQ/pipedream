@@ -11,6 +11,31 @@ export default {
   props: {
     splunk,
     http: "$.interface.http",
+    metricAlertName: {
+      propDefinition: [
+        splunk,
+        "metricAlertName",
+      ],
+    },
+  },
+  hooks: {
+    async activate() {
+      await this.splunk.updateMetricAlert({
+        name: this.metricAlertName,
+        data: {
+          "action.webhook": true,
+          "action.webhook.url": this.http.endpoint,
+        },
+      });
+    },
+    async deactivate() {
+      await this.splunk.updateMetricAlert({
+        name: this.metricAlertName,
+        data: {
+          "action.webhook": false,
+        },
+      });
+    },
   },
   methods: {
     generateMeta(alert) {
