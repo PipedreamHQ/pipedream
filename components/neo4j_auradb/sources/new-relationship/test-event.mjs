@@ -1,0 +1,29 @@
+export default [
+  {
+    "elementId":"4:52eb161a-501d-4f5f-b499-f72cbe80d169:9",
+    "labels":["player"],
+    "properties":{
+      "name":"Jao",
+      "POB":"Delhi",
+      "id":"4:52eb161a-501d-4f5f-b499-f72cbe80d169:3",
+      "YOB":1985
+    }
+  },
+  {
+    "elementId":"5:52eb161a-501d-4f5f-b499-f72cbe80d169:1152921504606846985",
+    "startNodeElementId":"4:52eb161a-501d-4f5f-b499-f72cbe80d169:9",
+    "endNodeElementId":"4:52eb161a-501d-4f5f-b499-f72cbe80d169:10",
+    "type":"ARE_ASSOCIATED",
+    "properties":{}
+  },
+  {
+    "elementId":"4:52eb161a-501d-4f5f-b499-f72cbe80d169:10",
+    "labels":["player"],
+    "properties":{
+      "name":"Jonas",
+      "POB":"Delhi",
+      "id":"4:52eb161a-501d-4f5f-b499-f72cbe80d169:2",
+      "YOB":1985
+    }
+  }
+]
