@@ -22,7 +22,7 @@ export default {
       throw new ConfigurationError("User ID is required");
     }
 
-    const { data: { user: { recent_meeting: meetingId } } } = await this.fireflies.query({
+    const user = await this.fireflies.query({
       $,
       data: {
         query: queries.getUser,
@@ -31,6 +31,12 @@ export default {
         },
       },
     });
+
+    if (user.errors?.length) {
+      throw new ConfigurationError(`Error: ${user.errors[0].message}`);
+    }
+
+    const meetingId = user?.data?.user?.recent_meeting;
     if (!meetingId) {
       $.export("$summary", `No meeting found for user with ID ${this.userId}`);
       return;
