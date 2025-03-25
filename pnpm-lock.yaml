@@ -1035,7 +1035,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/autobound: {}
+  components/autobound:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/autodesk:
     dependencies:
@@ -5400,6 +5404,9 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/google_identity:
+    specifiers: {}
+
   components/google_maps_platform:
     dependencies:
       '@pipedream/platform':
@@ -5844,6 +5851,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+
+  components/helpdesk:
+    specifiers: {}
 
   components/helper_functions:
     dependencies:
@@ -6901,7 +6911,11 @@ importers:
 
   components/kucoin_futures: {}
 
-  components/kustomer: {}
+  components/kustomer:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/kvdb:
     dependencies:
@@ -8331,7 +8345,11 @@ importers:
 
   components/neetokb: {}
 
-  components/neo4j_auradb: {}
+  components/neo4j_auradb:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/neon_api_keys:
     dependencies:
@@ -13560,6 +13578,9 @@ importers:
         version: 2.30.1
 
   components/vectera: {}
+
+  components/vectorshift:
+    specifiers: {}
 
   components/vend:
     dependencies:
