@@ -249,7 +249,7 @@ export interface ServiceDBProp extends BasePropInterface {
 
 export interface ServiceDB {
   get<T extends JSONValue>(key: string): T | undefined;
-  set(key: string, value: JSONValue): void;
+  set(key: string, value: JSONValue | undefined): void;
 }
 
 // https://pipedream.com/docs/code/nodejs/using-data-stores/#using-the-data-store
