@@ -5404,8 +5404,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/google_identity:
-    specifiers: {}
+  components/google_identity: {}
 
   components/google_maps_platform:
     dependencies:
@@ -5852,8 +5851,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/helpdesk:
-    specifiers: {}
+  components/helpdesk: {}
 
   components/helper_functions:
     dependencies:
@@ -13571,8 +13569,7 @@ importers:
 
   components/vectera: {}
 
-  components/vectorshift:
-    specifiers: {}
+  components/vectorshift: {}
 
   components/vend:
     dependencies:
