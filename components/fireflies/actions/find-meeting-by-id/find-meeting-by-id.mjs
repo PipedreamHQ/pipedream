@@ -1,11 +1,12 @@
 import fireflies from "../../fireflies.app.mjs";
 import queries from "../../common/queries.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "fireflies-find-meeting-by-id",
   name: "Find Meeting by ID",
   description: "Locates a specific user meeting by its unique ID. [See the documentation](https://docs.fireflies.ai/graphql-api/query/transcript)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     fireflies,
@@ -17,6 +18,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if (!this.meetingId) {
+      throw new ConfigurationError("Meeting ID is required");
+    }
+
     const meeting = await this.fireflies.query({
       $,
       data: {
@@ -26,6 +31,11 @@ export default {
         },
       },
     });
+
+    if (meeting.errors?.length) {
+      throw new ConfigurationError(`Error: ${meeting.errors[0].message}`);
+    }
+
     $.export("$summary", `Successfully found meeting with ID: ${this.meetingId}`);
     return meeting;
   },
