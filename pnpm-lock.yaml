@@ -13561,6 +13561,9 @@ importers:
 
   components/vectera: {}
 
+  components/vectorshift:
+    specifiers: {}
+
   components/vend:
     dependencies:
       '@pipedream/platform':
