@@ -342,6 +342,7 @@ interface BaseSource<
   props?: SourcePropDefinitions;
   dedupe?: "last" | "greatest" | "unique";
   additionalProps?: (
+    this: SourcePropDefinitions,
     previousPropDefs: SourcePropDefinitions
   ) => Promise<SourcePropDefinitions>;
   run: (this: PropThis<SourcePropDefinitions> & Methods & EmitFunction, options?: SourceRunOptions) => void | Promise<void>;
