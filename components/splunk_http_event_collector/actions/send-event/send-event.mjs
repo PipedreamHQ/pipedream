@@ -35,7 +35,7 @@ export default {
     host: {
       propDefinition: [
         splunk,
-        "index",
+        "host",
       ],
     },
   },
