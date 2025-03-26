@@ -26,24 +26,6 @@ export default {
       description: "The host sending the event",
       optional: true,
     },
-    filterSourceType: {
-      type: "string",
-      label: "Filter Sourcetype",
-      description: "Filter events by sourcetype",
-      optional: true,
-    },
-    filterIndex: {
-      type: "string",
-      label: "Filter Index",
-      description: "Filter events by index",
-      optional: true,
-    },
-    filterFields: {
-      type: "string[]",
-      label: "Filter Fields",
-      description: "Filter events by specific fields",
-      optional: true,
-    },
   },
   methods: {
     _baseUrl() {
