@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/rocketadmin",
+  "version": "0.0.1",
+  "description": "Pipedream Rocketadmin Components",
+  "main": "rocketadmin.app.mjs",
+  "keywords": [
+    "pipedream",
+    "rocketadmin"
+  ],
+  "homepage": "https://pipedream.com/apps/rocketadmin",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
