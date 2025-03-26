@@ -10809,6 +10809,9 @@ importers:
         specifier: ^1.6.2
         version: 1.6.6
 
+  components/rocketadmin:
+    specifiers: {}
+
   components/rocketreach:
     dependencies:
       '@pipedream/platform':
