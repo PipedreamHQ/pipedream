@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/timelink",
+  "version": "0.0.1",
+  "description": "Pipedream timelink Components",
+  "main": "timelink.app.mjs",
+  "keywords": [
+    "pipedream",
+    "timelink"
+  ],
+  "homepage": "https://pipedream.com/apps/timelink",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
