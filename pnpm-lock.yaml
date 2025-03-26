@@ -10807,8 +10807,7 @@ importers:
         specifier: ^1.6.2
         version: 1.6.6
 
-  components/rocketadmin:
-    specifiers: {}
+  components/rocketadmin: {}
 
   components/rocketreach:
     dependencies:
@@ -12390,8 +12389,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/supadata:
-    specifiers: {}
+  components/supadata: {}
 
   components/supercast:
     dependencies:
@@ -12938,8 +12936,7 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
-  components/timelink:
-    specifiers: {}
+  components/timelink: {}
 
   components/timely_time_tracking: {}
 
