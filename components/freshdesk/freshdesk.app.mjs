@@ -108,7 +108,9 @@ export default {
     async *filterTickets(params) {
       let loadedData = 0;
       do {
-        const response = await this.searchTickets(params);
+        const response = await this.searchTickets({
+          params,
+        });
 
         if (!response?.results?.length) {
           return;
@@ -126,7 +128,9 @@ export default {
     async *filterContacts(params) {
       let loadedData = 0;
       do {
-        const response = await this.searchContacts(params);
+        const response = await this.searchContacts({
+          params,
+        });
 
         if (!response?.results?.length) {
           return;
