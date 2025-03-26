@@ -32,10 +32,6 @@ export default {
       },
     });
 
-    if (user.errors?.length) {
-      throw new ConfigurationError(`Error: ${user.errors[0].message}`);
-    }
-
     const meetingId = user?.data?.user?.recent_meeting;
     if (!meetingId) {
       $.export("$summary", `No meeting found for user with ID ${this.userId}`);
@@ -50,10 +46,6 @@ export default {
         },
       },
     });
-
-    if (meeting.errors?.length) {
-      throw new ConfigurationError(`Error: ${meeting.errors[0].message}`);
-    }
 
     $.export("$summary", `Successfully fetched the most recent meeting for user with ID ${this.userId}`);
     return meeting;

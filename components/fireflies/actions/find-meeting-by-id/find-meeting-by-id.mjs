@@ -32,10 +32,6 @@ export default {
       },
     });
 
-    if (meeting.errors?.length) {
-      throw new ConfigurationError(`Error: ${meeting.errors[0].message}`);
-    }
-
     $.export("$summary", `Successfully found meeting with ID: ${this.meetingId}`);
     return meeting;
   },
