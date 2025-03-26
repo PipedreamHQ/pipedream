@@ -6,7 +6,7 @@ export const DATA_TYPE_OPTIONS = [
   "git",
 ];
 
-export const RESCRAPE_FRANQUENCY_OPTIONS = [
+export const RESCRAPE_FREQUENCY_OPTIONS = [
   "Never",
   "Hourly",
   "Daily",
