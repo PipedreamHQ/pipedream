@@ -4,15 +4,13 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "freshdesk-new-contact",
-  name: "New Contact",
-  description: "Emit new notifications when a new contact is created",
-  version: "0.0.2",
+  name: "New Contact Created",
+  description: "Emit new event when a contact is created. [See the documentation](https://developers.freshdesk.com/api/#filter_contacts)",
+  version: "0.0.3",
   type: "source",
   props: {
     freshdesk,
     timer: {
-      label: "Polling interval",
-      description: "Pipedream will poll Harvest API on this schedule",
       type: "$.interface.timer",
       default: {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
@@ -42,7 +40,7 @@ export default {
         this.$emit(contact,
           {
             id: contact.id,
-            summary: `Contact name: ${contact.name}`,
+            summary: `New Contact: "${contact.name}"`,
             ts: Date.parse(contact.created_at),
           });
       }

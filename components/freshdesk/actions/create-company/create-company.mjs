@@ -4,31 +4,31 @@ export default {
   key: "freshdesk-create-company",
   name: "Create a Company",
   description: "Create a company. [See the documentation](https://developers.freshdesk.com/api/#create_company)",
-  version: "0.1.0",
+  version: "0.0.3",
   type: "action",
   props: {
     freshdesk,
     name: {
       type: "string",
       label: "Name",
-      description: "Name of the company.",
+      description: "Name of the company",
     },
     description: {
       type: "string",
       label: "Description",
-      description: "Description of the company.",
+      description: "Description of the company",
       optional: true,
     },
     note: {
       type: "string",
       label: "Note",
-      description: "Any specific note about the company.",
+      description: "Any specific note about the company",
       optional: true,
     },
     industry: {
       type: "string",
       label: "Industry",
-      description: "The industry the company serves in.",
+      description: "The industry the company serves in",
       optional: true,
     },
     domains: {

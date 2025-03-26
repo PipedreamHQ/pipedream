@@ -15,20 +15,20 @@ export default {
     },
     email: {
       type: "string",
-      label: "Email",
-      description: "Primary email address of the contact. If you want to associate additional email(s) with this contact, use the other_emails attribute.",
+      label: "Email Address",
+      description: "Primary email address of the contact",
       optional: true,
     },
     otherEmails: {
       type: "string[]",
-      label: "Additional email addresses",
-      description: "String array of additional email addresses.",
+      label: "Additional Email Addresses",
+      description: "One or more additional email addresses for the contact",
       optional: true,
     },
     phone: {
       type: "string",
-      label: "Phone number",
-      description: "Telephone number of the contact.",
+      label: "Phone Number",
+      description: "Phone number of the contact",
       optional: true,
     },
     companyId: {

@@ -52,7 +52,7 @@ export default {
     phone: {
       type: "string",
       label: "Phone number",
-      description: "Phone number of the contact",
+      description: "Phone number of the requester. If no contact exists with this phone number on Freshdesk, it will be added as a new contact",
       optional: true,
     },
     status: {
