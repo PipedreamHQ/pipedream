@@ -1,35 +1,34 @@
-import { removeNullEntries } from "../../common/utils.mjs";
 import freshdesk from "../../freshdesk.app.mjs";
 
 export default {
   key: "freshdesk-create-company",
   name: "Create a Company",
-  description: "Create a company. [See docs here](https://developers.freshdesk.com/api/#companies)",
-  version: "0.0.1",
+  description: "Create a company. [See the documentation](https://developers.freshdesk.com/api/#create_company)",
+  version: "0.0.2",
   type: "action",
   props: {
     freshdesk,
     name: {
       type: "string",
       label: "Name",
-      description: "Name of the company.",
+      description: "Name of the company",
     },
     description: {
       type: "string",
       label: "Description",
-      description: "Description of the company.",
+      description: "Description of the company",
       optional: true,
     },
     note: {
       type: "string",
       label: "Note",
-      description: "Any specific note about the company.",
+      description: "Any specific note about the company",
       optional: true,
     },
     industry: {
       type: "string",
       label: "Industry",
-      description: "The industry the company serves in.",
+      description: "The industry the company serves in",
       optional: true,
     },
     domains: {
@@ -40,18 +39,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const payload = removeNullEntries({
-      name: this.name,
-      domains: this.domains,
-      note: this.note,
-      industry: this.industry,
-      description: this.description,
-    });
-    const response = await this.freshdesk.createCompany({
+    const {
+      freshdesk, ...data
+    } = this;
+    const response = await freshdesk.createCompany({
       $,
-      payload,
+      data,
     });
-    response && $.export("$summary", "Company sucessfully created");
+    response && $.export("$summary", "Company successfully created");
     return response;
   },
 };
