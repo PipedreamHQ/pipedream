@@ -1,5 +1,5 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import app from "../../verctorshift.app.mjs";
+import app from "../../vectorshift.app.mjs";
 
 export default {
   props: {
