@@ -6,7 +6,7 @@ export default {
   key: "customjs-run-puppeteer",
   name: "Run Puppeteer",
   description: "Run Puppeteer. [See the documentation](https://www.customjs.space/api/docs#_5-run-puppeteer)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     customjs,

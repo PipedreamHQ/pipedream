@@ -6,7 +6,7 @@ export default {
   key: "customjs-convert-html-to-png",
   name: "Convert HTML to PNG",
   description: "Converts an HTML string to a PNG image. [See the documentation](https://www.customjs.space/api/docs#_4-html-to-png)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     customjs,
