@@ -92,9 +92,12 @@ export default {
       label: "Tags",
       description: "List of tags. This field uses the tag GID.",
       type: "string[]",
-      async options({ prevContext }) {
+      async options({
+        prevContext, workspace,
+      }) {
         const params = {
           limit: DEFAULT_LIMIT,
+          workspace,
         };
         if (prevContext?.offset) {
           params.offset = prevContext.offset;
@@ -480,9 +483,9 @@ export default {
     getTag({
       tagId, ...opts
     }) {
-      return  this._makeRequest({
+      return this._makeRequest({
         path: `tags/${tagId}`,
-        opts,
+        ...opts,
       });
     },
     /**
