@@ -1,5 +1,5 @@
 import {
-  DATA_TYPE_OPTIONS, RESCRAPE_FRANQUENCY_OPTIONS,
+  DATA_TYPE_OPTIONS, RESCRAPE_FREQUENCY_OPTIONS,
 } from "../../common/constants.mjs";
 import vectorshift from "../../vectorshift.app.mjs";
 
@@ -46,7 +46,7 @@ export default {
       type: "string",
       label: "Rescrape Frequency",
       description: "The frequency to rescrape the URL",
-      options: RESCRAPE_FRANQUENCY_OPTIONS,
+      options: RESCRAPE_FREQUENCY_OPTIONS,
       optional: true,
       hidden: true,
     },
