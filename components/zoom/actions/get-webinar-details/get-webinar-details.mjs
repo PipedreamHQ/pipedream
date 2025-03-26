@@ -3,11 +3,17 @@ import app from "../../zoom.app.mjs";
 export default {
   key: "zoom-get-webinar-details",
   name: "Get Webinar Details",
-  description: "Gets details of a scheduled webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/webinar).",
-  version: "0.3.3",
+  description: "Gets details of a scheduled webinar. Requires a paid Zoom account. [See the documentation](https://developers.zoom.us/docs/api/meetings/#tag/webinars/GET/webinars/{webinarId}).",
+  version: "0.3.4",
   type: "action",
   props: {
     app,
+    paidAccountAlert: {
+      propDefinition: [
+        app,
+        "paidAccountAlert",
+      ],
+    },
     webinarId: {
       propDefinition: [
         app,
@@ -15,9 +21,22 @@ export default {
       ],
     },
     occurrenceId: {
+      propDefinition: [
+        app,
+        "occurrenceIds",
+        (c) => ({
+          webinarId: c.webinarId,
+        }),
+      ],
       type: "string",
-      label: "Occurrence ID",
-      description: "Unique Identifier that identifies an occurrence of a recurring webinar.  Recurring webinars can have a maximum of 50 occurrences.",
+      label: "Occurence ID",
+      description: "Unique Identifier that identifies an occurrence of a recurring webinar",
+      optional: true,
+    },
+    showPreviousOccurrences: {
+      type: "boolean",
+      label: "Show Previous Occurrences",
+      description: "Set the value of this field to true if you would like to view Webinar details of all previous occurrences of a recurring Webinar.",
       optional: true,
     },
   },
@@ -35,6 +54,7 @@ export default {
     const {
       webinarId,
       occurrenceId,
+      showPreviousOccurrences,
     } = this;
 
     const response = await this.getWebinarDetails({
@@ -42,6 +62,7 @@ export default {
       webinarId,
       params: {
         occurrence_id: occurrenceId,
+        show_previous_occurrences: showPreviousOccurrences,
       },
     });
 
