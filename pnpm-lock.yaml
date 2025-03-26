@@ -1667,8 +1667,7 @@ importers:
         specifier: ^1.6.5
         version: 1.6.6
 
-  components/botsonic:
-    specifiers: {}
+  components/botsonic: {}
 
   components/botstar:
     dependencies:
@@ -9495,8 +9494,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.1(web-streams-polyfill@3.3.3)
 
-  components/piped:
-    specifiers: {}
+  components/piped: {}
 
   components/pipedream:
     dependencies:
@@ -13773,8 +13771,7 @@ importers:
 
   components/vosfactures: {}
 
-  components/voxapp:
-    specifiers: {}
+  components/voxapp: {}
 
   components/vryno:
     dependencies:

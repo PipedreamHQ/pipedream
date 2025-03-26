@@ -24,6 +24,7 @@ export default {
         headers: {
           ...headers,
           "Content-Type": "application/json",
+          "customjs-origin": "pipedream",
         },
         responseType: "arraybuffer",
       });
