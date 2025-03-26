@@ -1,11 +1,10 @@
-import { removeNullEntries } from "../../common/utils.mjs";
 import freshdesk from "../../freshdesk.app.mjs";
 
 export default {
   key: "freshdesk-create-contact",
   name: "Create a Contact",
-  description: "Create a contact. [See docs here](https://developers.freshdesk.com/api/#create_contact)",
-  version: "0.0.1",
+  description: "Create a contact. [See the documentation](https://developers.freshdesk.com/api/#create_contact)",
+  version: "0.1.0",
   type: "action",
   props: {
     freshdesk,
@@ -41,16 +40,16 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = removeNullEntries({
-      name: this.name,
-      email: this.email,
-      other_emails: this.otherEmails,
-      phone: this.phone,
-      company_id: this.companyId && Number(this.companyId),
-    });
+    const {
+      companyId, otherEmails, ...data
+    } = this;
     const response = await this.freshdesk.createContact({
       $,
-      data,
+      data: {
+        other_emails: otherEmails,
+        company_id: companyId && Number(companyId),
+        ...data,
+      },
     });
     response && $.export("$summary", "Contact successfully created");
     return response;
