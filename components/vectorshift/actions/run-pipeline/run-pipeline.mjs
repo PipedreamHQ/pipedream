@@ -1,11 +1,12 @@
+import { ConfigurationError } from "@pipedream/platform";
+import { parseObject } from "../../common/utils.mjs";
 import vectorshift from "../../vectorshift.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "vectorshift-run-pipeline",
   name: "Run Pipeline",
   description: "Executes a VectorShift pipeline with specified inputs. [See the documentation](https://docs.vectorshift.ai/api-reference/pipelines/run)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     vectorshift,
@@ -16,19 +17,26 @@ export default {
       ],
     },
     inputs: {
-      type: "string",
+      type: "object",
       label: "Pipeline Inputs",
-      description: "Inputs for the pipeline execution as a JSON string",
+      description: "Inputs for the pipeline execution. [See the documentation](https://docs.vectorshift.ai/platform/pipelines/general/input) for further details",
+      optional: true,
     },
   },
   async run({ $ }) {
-    const runId = await this.vectorshift.executePipeline({
-      pipelineId: this.pipelineId,
-      inputs: this.inputs,
-    });
-    $.export("$summary", `Pipeline executed successfully. Run ID: ${runId}`);
-    return {
-      run_id: runId,
-    };
+    try {
+      const response = await this.vectorshift.executePipeline({
+        $,
+        pipelineId: this.pipelineId,
+        data: {
+          inputs: parseObject(this.inputs),
+        },
+      });
+      $.export("$summary", `Pipeline executed successfully. Run ID: ${response.run_id}`);
+      return response;
+    } catch ({ message }) {
+      const parsedError = JSON.parse(message).error;
+      throw new ConfigurationError(parsedError);
+    }
   },
 };
