@@ -8,10 +8,19 @@ export default {
   type: "action",
   props: {
     slack,
+    conversation: {
+      propDefinition: [
+        slack,
+        "conversation",
+      ],
+    },
     file: {
       propDefinition: [
         slack,
         "file",
+        (c) => ({
+          channel: c.conversation,
+        }),
       ],
     },
   },

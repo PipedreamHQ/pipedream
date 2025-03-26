@@ -33,11 +33,19 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.slack.kickUserFromConversation({
-      channel: this.conversation,
-      user: this.user,
-    });
-    $.export("$summary", `Successfully kicked user ${this.user} from channel with ID ${this.conversation}`);
-    return response;
+    try {
+      const response = await this.slack.kickUserFromConversation({
+        channel: this.conversation,
+        user: this.user,
+      });
+      $.export("$summary", `Successfully kicked user ${this.user} from channel with ID ${this.conversation}`);
+      return response;
+    } catch (error) {
+      if (error.includes("not_in_channel")) {
+        $.export("$summary", `The user ${this.user} is not in the channel`);
+        return;
+      }
+      throw error;
+    }
   },
 };

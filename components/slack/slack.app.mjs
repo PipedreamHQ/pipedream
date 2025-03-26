@@ -483,7 +483,7 @@ export default {
       const sdk = props.reduce((reduction, prop) =>
         reduction[prop], this.sdk());
 
-      const response = await this._withRetries(() => sdk(args, throwRateLimitError));
+      const response = await this._withRetries(() => sdk(args), throwRateLimitError);
 
       if (!response.ok) {
         console.log(`Error in response with method ${method}`, response.error);
@@ -494,23 +494,22 @@ export default {
     async _withRetries(apiCall, throwRateLimitError = false) {
       const retryOpts = {
         retries: 3,
-        factor: 2,
-        minTimeout: 3000,
+        minTimeout: 30000,
       };
       return retry(async (bail) => {
         try {
           return await apiCall();
         } catch (error) {
           const statusCode = get(error, "code");
-          if (statusCode === 429) {
+          if (statusCode === "slack_webapi_rate_limited_error") {
             if (throwRateLimitError) {
               bail(`Rate limit exceeded. ${error}`);
             } else {
               console.log(`Rate limit exceeded. Will retry in ${retryOpts.minTimeout / 1000} seconds`);
+              throw error;
             }
-          } else {
-            throw error;
           }
+          bail(`${error}`);
         }
       }, retryOpts);
     },
@@ -799,7 +798,7 @@ export default {
       });
     },
     listFiles(args = {}) {
-      args.limit ||= constants.LIMIT;
+      args.count ||= constants.LIMIT;
       return this.makeRequest({
         method: "files.list",
         ...args,
@@ -938,9 +937,15 @@ export default {
         ...args,
       });
     },
-    uploadFile(args = {}) {
+    getUploadUrl(args = {}) {
       return this.makeRequest({
-        method: "filesUploadV2",
+        method: "files.getUploadURLExternal",
+        ...args,
+      });
+    },
+    completeUpload(args = {}) {
+      return this.makeRequest({
+        method: "files.completeUploadExternal",
         ...args,
       });
     },

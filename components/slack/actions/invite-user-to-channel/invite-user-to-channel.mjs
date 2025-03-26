@@ -22,11 +22,19 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.slack.inviteToConversation({
-      channel: this.conversation,
-      users: this.user,
-    });
-    $.export("$summary", `Successfully invited user ${this.user} to channel with ID ${this.conversation}`);
-    return response;
+    try {
+      const response = await this.slack.inviteToConversation({
+        channel: this.conversation,
+        users: this.user,
+      });
+      $.export("$summary", `Successfully invited user ${this.user} to channel with ID ${this.conversation}`);
+      return response;
+    } catch (error) {
+      if (error.includes("already_in_channel")) {
+        $.export("$summary", `The user ${this.user} is already in the channel`);
+        return;
+      }
+      throw error;
+    }
   },
 };
