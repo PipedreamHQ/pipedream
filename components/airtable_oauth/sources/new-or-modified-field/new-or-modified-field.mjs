@@ -6,7 +6,7 @@ export default {
   name: "New or Modified Field (Instant)",
   description: "Emit new event when a field is created or updated in the selected table",
   key: "airtable_oauth-new-or-modified-field",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "source",
   dedupe: "unique",
   methods: {
