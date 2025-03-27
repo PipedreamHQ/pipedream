@@ -6,9 +6,19 @@ export default {
   key: "telegram_bot_api-message-updates",
   name: "New Message Updates (Instant)",
   description: "Emit new event each time a Telegram message is created or updated.",
-  version: "0.1.5",
+  version: "0.1.6",
   type: "source",
   dedupe: "unique",
+  props: {
+    ...base.props,
+    chatId: {
+      propDefinition: [
+        base.props.telegramBotApi,
+        "chatId",
+      ],
+      optional: true,
+    },
+  },
   methods: {
     ...base.methods,
     getMeta(event, message) {
@@ -26,6 +36,9 @@ export default {
     },
     processEvent(event) {
       const message = event.edited_message ?? event.message;
+      if (this.chatId && this.chatId != message?.chat?.id) {
+        return;
+      }
       this.$emit(event, this.getMeta(event, message));
     },
   },
