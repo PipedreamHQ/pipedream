@@ -8949,6 +8949,9 @@ importers:
 
   components/optimoroute: {}
 
+  components/oracle_cloud_infrastructure:
+    specifiers: {}
+
   components/orbisx: {}
 
   components/orbit:
