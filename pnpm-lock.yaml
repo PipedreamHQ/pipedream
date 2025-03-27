@@ -1667,8 +1667,7 @@ importers:
         specifier: ^1.6.5
         version: 1.6.6
 
-  components/botsonic:
-    specifiers: {}
+  components/botsonic: {}
 
   components/botstar:
     dependencies:
@@ -4503,8 +4502,8 @@ importers:
   components/fireflies:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.2
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/firmalyzer_iotvas: {}
 
@@ -9499,8 +9498,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.1(web-streams-polyfill@3.3.3)
 
-  components/piped:
-    specifiers: {}
+  components/piped: {}
 
   components/pipedream:
     dependencies:
@@ -11813,8 +11811,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
       '@slack/web-api':
-        specifier: ^7.0.4
-        version: 7.7.0
+        specifier: ^7.9.0
+        version: 7.9.1
 
   components/slack_bot:
     dependencies:
@@ -12123,7 +12121,17 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
-  components/splunk: {}
+  components/splunk:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      https:
+        specifier: ^1.0.0
+        version: 1.0.0
+      md5:
+        specifier: ^2.3.0
+        version: 2.3.0
 
   components/splunk_http_event_collector: {}
 
@@ -13767,8 +13775,7 @@ importers:
 
   components/vosfactures: {}
 
-  components/voxapp:
-    specifiers: {}
+  components/voxapp: {}
 
   components/vryno:
     dependencies:
@@ -19066,8 +19073,8 @@ packages:
     resolution: {integrity: sha512-tjQ8Zqv/Fmj9SOL9yIEd7IpTiKfKHi9DKAkfRVeotoX0clMr3SqQtBqO+KZMX27gm7dmgJsQaDKlILyzdCO+IA==}
     engines: {node: '>= 8.9.0', npm: '>= 5.5.1'}
 
-  '@slack/web-api@7.7.0':
-    resolution: {integrity: sha512-DtRyjgQi0mObA2uC6H8nL2OhAISKDhvtOXgRjGRBnBhiaWb6df5vPmKHsOHjpweYALBMHtiqE5ajZFkDW/ag8Q==}
+  '@slack/web-api@7.9.1':
+    resolution: {integrity: sha512-qMcb1oWw3Y/KlUIVJhkI8+NcQXq1lNymwf+ewk93ggZsGd6iuz9ObQsOEbvlqlx1J+wd8DmIm3DORGKs0fcKdg==}
     engines: {node: '>= 18', npm: '>= 8.6.0'}
 
   '@smiirl/smiirl-library-js@1.0.5':
@@ -20457,6 +20464,9 @@ packages:
 
   axios@1.8.2:
     resolution: {integrity: sha512-ls4GYBm5aig9vWx8AWDSGLpnpDQRtWAfrjU+EuytuODrFBkqesN2RkOQCBzrA1RQNHw1SmRMSDDDSwzNAYQ6Rg==}
+
+  axios@1.8.4:
+    resolution: {integrity: sha512-eBSYY4Y68NNlHbHBMdeDmKNtDgXWhQsJcGqzO3iLUM0GraQFSS9cVgPX5I9b3lbdFKyYoAEGAZF1DwhTaljNAw==}
 
   axobject-query@4.1.0:
     resolution: {integrity: sha512-qIj0G9wZbMGNLjLmg1PT6v2mE9AH2zlnADJD/2tC6E00hgmhUOfEB6greHPAfLRSufHqROIUTkw6E+M3lH0PTQ==}
@@ -23489,6 +23499,9 @@ packages:
   https-proxy-agent@7.0.5:
     resolution: {integrity: sha512-1e4Wqeblerz+tMKPIq2EMGiiWW1dIjZOksyHWSUm1rmuvw/how9hBHZ38lAGj5ID4Ik6EdkOw7NmWPy6LAwalw==}
     engines: {node: '>= 14'}
+
+  https@1.0.0:
+    resolution: {integrity: sha512-4EC57ddXrkaF0x83Oj8sM6SLQHAWXw90Skqu2M4AEWENZ3F02dFJE/GARA8igO79tcgYqGrD7ae4f5L3um2lgg==}
 
   human-signals@2.1.0:
     resolution: {integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==}
@@ -35295,13 +35308,13 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@slack/web-api@7.7.0':
+  '@slack/web-api@7.9.1':
     dependencies:
       '@slack/logger': 4.0.0
       '@slack/types': 2.14.0
       '@types/node': 20.17.6
       '@types/retry': 0.12.0
-      axios: 1.7.7(debug@3.2.7)
+      axios: 1.8.4
       eventemitter3: 5.0.1
       form-data: 4.0.2
       is-electron: 2.2.2
@@ -37178,6 +37191,14 @@ snapshots:
       - debug
 
   axios@1.8.2:
+    dependencies:
+      follow-redirects: 1.15.9(debug@3.2.7)
+      form-data: 4.0.2
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+
+  axios@1.8.4:
     dependencies:
       follow-redirects: 1.15.9(debug@3.2.7)
       form-data: 4.0.2
@@ -41098,6 +41119,8 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  https@1.0.0: {}
+
   human-signals@2.1.0: {}
 
   human-signals@5.0.0: {}
@@ -41914,7 +41937,7 @@ snapshots:
       jest-util: 29.7.0
       natural-compare: 1.4.0
       pretty-format: 29.7.0
-      semver: 7.6.3
+      semver: 7.7.1
     transitivePeerDependencies:
       - supports-color
 

@@ -4,7 +4,7 @@ export default {
   key: "slack-create-channel",
   name: "Create a Channel",
   description: "Create a new channel. [See the documentation](https://api.slack.com/methods/conversations.create)",
-  version: "0.0.23",
+  version: "0.0.24",
   type: "action",
   props: {
     slack,
@@ -25,7 +25,7 @@ export default {
     // parse name
     const name = this.channelName.replace(/\s+/g, "-").toLowerCase();
 
-    const response = await this.slack.sdk().conversations.create({
+    const response = await this.slack.createConversations({
       name,
       is_private: this.isPrivate,
     });

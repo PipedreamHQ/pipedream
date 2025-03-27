@@ -42,5 +42,12 @@ export default {
       const formattedTimestamp = new Date(timestampMillis).toISOString();
       this._setLastTimestamp(formattedTimestamp);
     },
+    getListRecordsParams(params) {
+      return {
+        filterByFormula: `LAST_MODIFIED_TIME() > "${this._getLastTimestamp()}"`,
+        returnFieldsByFieldId: this.returnFieldsByFieldId || false,
+        ...params,
+      };
+    },
   },
 };

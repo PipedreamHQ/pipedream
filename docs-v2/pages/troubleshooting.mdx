@@ -53,6 +53,12 @@ If you're encountering a specific issue in a workflow, try the following steps, 
 
 If you're still seeing the issue after trying these steps, please reach out in [the community](https://pipedream.com/support).
 
+### Error in workflow
+
+If you see a generic `Error in workflow` when invoking a webhook-triggered workflow, follow these steps to resolve the issue:
+1. Check if your trigger is configured to return a custom HTTP response.
+2. Confirm that your workflow is [returning an HTTP response](https://pipedream.com/docs/workflows/building-workflows/triggers/#customizing-the-http-response) in *every* situation, e.g., by using `$.respond()`.
+
 ### How do I invoke another workflow?
 
 We provide a [Trigger Workflow](https://pipedream.com/apps/helper-functions/actions/trigger-workflow) action in the [Helper Functions](https://pipedream.com/apps/helper-functions) app. [See more here](/workflows/building-workflows/code/nodejs/#invoke-another-workflow).
