@@ -21,11 +21,11 @@ export default {
       type: "string[]",
       label: "Phone Numbers",
       description:
-        "Array of phone number objects (max 20). Each should contain `label` and `value`. If a string is provided, it will be used as both the label and value. For example, `{{ [{ label: 'Work', value: '+1234567890' }] }}`",
+        "Array of phone number objects (max 20). Each should contain `label` and `value`. If a string is provided, it will be used as both the label and value. For example, `{{ [{\"label\": \"test1\", \"value\": \"+1 812-641-5139\"}] }}`, or `{{ [\"+1 812-641-5139\"] }}`",
     },
   },
-  refinedPhoneNumbers() {
-    return this.phoneNumbers.map((item) => {
+  async run({ $ }) {
+    const refinedPhoneNumbers = this.phoneNumbers.map((item) => {
       if (typeof item === "object" && item !== null) {
         return item;
       }
@@ -35,12 +35,11 @@ export default {
         value: item,
       };
     });
-  },
-  async run({ $ }) {
+
     const data = {
       ...this.getCommonData(),
       emails: this.emails,
-      phone_numbers: this.refinedPhoneNumbers(),
+      phone_numbers: refinedPhoneNumbers,
     };
 
     const response = await this.aircall.createContact({
