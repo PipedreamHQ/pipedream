@@ -5,7 +5,7 @@ export default {
   key: "brillium-new-assessment",
   name: "New Assessment Created",
   description: "Emit new event when a new assessment is created in Brillium. [See the documentation](https://support.brillium.com/en-us/knowledgebase/article/KA-01063)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
