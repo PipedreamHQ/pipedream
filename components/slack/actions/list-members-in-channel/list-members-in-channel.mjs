@@ -4,7 +4,7 @@ export default {
   key: "slack-list-members-in-channel",
   name: "List Members in Channel",
   description: "Retrieve members of a channel. [See the documentation](https://api.slack.com/methods/conversations.members)",
-  version: "0.0.22",
+  version: "0.0.23",
   type: "action",
   props: {
     slack,
@@ -20,19 +20,44 @@ export default {
       description: "Optionally, return usernames in addition to IDs",
       optional: true,
     },
+    pageSize: {
+      propDefinition: [
+        slack,
+        "pageSize",
+      ],
+    },
+    numPages: {
+      propDefinition: [
+        slack,
+        "numPages",
+      ],
+    },
   },
   async run({ $ }) {
-    const { members } = await this.slack.sdk().conversations.members({
+    let channelMembers = [];
+    const params = {
       channel: this.conversation,
-    });
-    let channelMembers = members;
+      limit: this.pageSize,
+    };
+    let page = 0;
+
+    do {
+      const {
+        members, response_metadata: { next_cursor: nextCursor },
+      } = await this.slack.listChannelMembers(params);
+      channelMembers.push(...members);
+      params.cursor = nextCursor;
+      page++;
+    } while (params.cursor && page < this.numPages);
+
     if (this.returnUsernames) {
-      const usernames = await this.slack.userNames();
+      const usernames = await this.slack.userNameLookup(channelMembers);
       channelMembers = channelMembers?.map((id) => ({
         id,
         username: usernames[id],
       })) || [];
     }
+
     $.export("$summary", `Successfully retrieved ${channelMembers.length} member${channelMembers.length === 1
       ? ""
       : "s"}`);

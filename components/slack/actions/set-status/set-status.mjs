@@ -4,7 +4,7 @@ export default {
   key: "slack-set-status",
   name: "Set Status",
   description: "Set the current status for a user. [See the documentation](https://api.slack.com/methods/users.profile.set)",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     slack,
@@ -30,7 +30,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.slack.sdk().users.profile.set({
+    const response = await this.slack.updateProfile({
       profile: {
         status_text: this.statusText,
         status_emoji: this.statusEmoji && `:${this.statusEmoji}:`,

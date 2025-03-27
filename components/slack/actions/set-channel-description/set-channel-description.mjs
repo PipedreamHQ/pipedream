@@ -4,7 +4,7 @@ export default {
   key: "slack-set-channel-description",
   name: "Set Channel Description",
   description: "Change the description or purpose of a channel. [See the documentation](https://api.slack.com/methods/conversations.setPurpose)",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     slack,
@@ -22,7 +22,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.slack.sdk().conversations.setPurpose({
+    const response = await this.slack.setChannelDescription({
       channel: this.conversation,
       purpose: this.purpose,
     });
