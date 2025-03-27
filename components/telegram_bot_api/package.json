@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/telegram_bot_api",
-  "version": "0.3.11",
+  "version": "0.3.12",
   "description": "Pipedream Telegram_bot_api Components",
   "main": "telegram_bot_api.app.mjs",
   "keywords": [
@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/telegram_bot_api",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^0.9.0",
+    "@pipedream/platform": "^3.0.3",
     "node-telegram-bot-api": "^0.54.0",
     "uuid": "^8.3.2"
   },
