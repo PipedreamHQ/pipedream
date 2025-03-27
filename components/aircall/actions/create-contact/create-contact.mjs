@@ -25,7 +25,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const refinedPhoneNumbers = this.phoneNumbers.map((item) => {
+    const refinedPhoneNumbers = (this.phoneNumbers || []).map((item) => {
       if (typeof item === "object" && item !== null) {
         return item;
       }
@@ -35,7 +35,7 @@ export default {
         value: item,
       };
     });
-    const refinedEmails = this.emails.map((item) => {
+    const refinedEmails = (this.emails || []).map((item) => {
       if (typeof item === "object" && item !== null) {
         return item;
       }
