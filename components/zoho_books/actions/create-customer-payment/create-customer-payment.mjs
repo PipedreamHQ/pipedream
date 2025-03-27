@@ -7,7 +7,7 @@ export default {
   key: "zoho_books-create-customer-payment",
   name: "Create Customer Payment",
   description: "Creates a new payment. [See the documentation](https://www.zoho.com/books/api/v3/customer-payments/#create-a-payment)",
-  version: "0.3.0",
+  version: "0.3.1",
   type: "action",
   props: {
     zohoBooks,
