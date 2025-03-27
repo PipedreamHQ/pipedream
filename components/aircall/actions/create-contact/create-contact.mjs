@@ -14,14 +14,14 @@ export default {
       type: "string[]",
       label: "Emails",
       description:
-        "Array of email address objects (max 20). Each should contain `label` and `value`. If a string is provided, it will be used as both the label and value.",
+        "Array of email address objects (max 20). Each should contain `label` and `value`. If a string is provided, it will be used as both the label and value. For example, `{{ [{\"label\": \"Work\", \"value\": \"john.doe@test.com\"}] }}`, or `{{ [\"john.doe@test.com\"] }}`",
       optional: true,
     },
     phoneNumbers: {
       type: "string[]",
       label: "Phone Numbers",
       description:
-        "Array of phone number objects (max 20). Each should contain `label` and `value`. If a string is provided, it will be used as both the label and value. For example, `{{ [{\"label\": \"test1\", \"value\": \"+1 812-641-5139\"}] }}`, or `{{ [\"+1 812-641-5139\"] }}`",
+        "Array of phone number objects (max 20). Each should contain `label` and `value`. If a string is provided, it will be used as both the label and value. For example, `{{ [{\"label\": \"Work\", \"value\": \"+1 812-641-5139\"}] }}`, or `{{ [\"+1 812-641-5139\"] }}`",
     },
   },
   async run({ $ }) {
@@ -35,10 +35,20 @@ export default {
         value: item,
       };
     });
+    const refinedEmails = this.emails.map((item) => {
+      if (typeof item === "object" && item !== null) {
+        return item;
+      }
+
+      return {
+        label: item,
+        value: item,
+      };
+    });
 
     const data = {
       ...this.getCommonData(),
-      emails: this.emails,
+      emails: refinedEmails,
       phone_numbers: refinedPhoneNumbers,
     };
 
