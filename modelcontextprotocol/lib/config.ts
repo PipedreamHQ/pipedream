@@ -19,10 +19,12 @@ interface Config {
 
 export const config: Config = {
   // Default app to use if none is specified
-  defaultApp: "slack",
+  defaultApp: process.env.APP || "slack",
 
   // Port for the SSE server
-  serverPort: 3010,
+  serverPort: process.env.PORT
+    ? parseInt(process.env.PORT, 10)
+    : 3010,
 
   // Pipedream configuration
   pipedream: {
