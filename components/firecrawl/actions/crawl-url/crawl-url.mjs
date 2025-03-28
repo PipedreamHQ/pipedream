@@ -5,7 +5,7 @@ export default {
   key: "firecrawl-crawl-url",
   name: "Crawl URL",
   description: "Crawls a given URL and returns the contents of sub-pages. [See the documentation](https://docs.firecrawl.dev/api-reference/endpoint/crawl-post)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   props: {
     firecrawl,

@@ -62,5 +62,20 @@ export default {
         ...opts,
       });
     },
+    extract(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/extract",
+        ...opts,
+      });
+    },
+    getExtractStatus({
+      id, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/extract/${id}`,
+        ...opts,
+      });
+    },
   },
 };
