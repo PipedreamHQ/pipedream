@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/bloomerang",
+  "version": "0.0.1",
+  "description": "Pipedream Bloomerang Components",
+  "main": "bloomerang.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bloomerang"
+  ],
+  "homepage": "https://pipedream.com/apps/bloomerang",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
