@@ -9,7 +9,7 @@ import { fileURLToPath } from "url"
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const packageJson = JSON.parse(
-  fs.readFileSync(path.join(__dirname, "../../package.json"), "utf8")
+  fs.readFileSync(path.join(__dirname, "../../package.json"), "utf8"),
 )
 const version = packageJson.version
 
@@ -26,7 +26,7 @@ program
   .requiredOption("--app <app>", "Specify the MCP app name")
   .option(
     "--external-user-id <id>",
-    "Specify the external user ID (defaults to a random UUID)"
+    "Specify the external user ID (defaults to a random UUID)",
   )
   .action(async (options) => {
     try {

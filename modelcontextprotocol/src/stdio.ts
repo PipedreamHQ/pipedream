@@ -22,7 +22,7 @@ export async function main(appName: string, externalUserId?: string) {
   })
   await server.connect(transport)
   console.error(
-    `pd-connect MCP Server running on stdio for app: ${appName}, external_user_id: ${userId}`
+    `pd-connect MCP Server running on stdio for app: ${appName}, external_user_id: ${userId}`,
   )
 }
 

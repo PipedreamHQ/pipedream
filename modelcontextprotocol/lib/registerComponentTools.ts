@@ -1,5 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js"
-import { z, ZodRawShape } from "zod"
+import {
+  z, ZodRawShape,
+} from "zod"
 import { createPdClient } from "./pd-client.js"
 import { RunActionOpts } from "@pipedream/sdk"
 import { getAuthProvision } from "./authProvisions.js"
@@ -28,17 +30,23 @@ export async function registerComponentTools({
     name: string,
     description: string,
     schema: ZodRawShape,
-    handler: any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    handler: any,
   ): SafeRegisterToolResult => {
     try {
       server.tool(name, description, schema, handler)
-      return { success: true }
+      return {
+        success: true,
+      }
     } catch (error) {
       if (
         error instanceof Error &&
         error.message.includes("already registered")
       ) {
-        return { success: false, reason: "already_registered" }
+        return {
+          success: false,
+          reason: "already_registered",
+        }
       }
       throw error // Re-throw any other errors
     }
@@ -78,8 +86,10 @@ export async function registerComponentTools({
             z.string().transform((val) => {
               try {
                 return JSON.parse(val)
-              } catch (e) {
-                return [val] // If not valid JSON, treat as single item array
+              } catch {
+                return [
+                  val,
+                ] // If not valid JSON, treat as single item array
               }
             }),
             z.array(z.string()),
@@ -123,10 +133,13 @@ export async function registerComponentTools({
     const description = `
 ${component.description ?? "No description available"}
 
-${configurablePropsDescription ? "\n\n\n\nIMPORTANT: The arguments have specific formats. Please follow the instructions below:\n" + configurablePropsDescription : ""}
+${configurablePropsDescription
+    ? "\n\n\n\nIMPORTANT: The arguments have specific formats. Please follow the instructions below:\n" + configurablePropsDescription
+    : ""}
     `.trim()
 
     // Register the tool for this component
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     safeRegisterTool(component.key, description, schema, async (_args: any) => {
       const args = z.object(schema).parse(_args)
       const authProvisionResponse = await getAuthProvision({
@@ -162,7 +175,7 @@ ${configurablePropsDescription ? "\n\n\n\nIMPORTANT: The arguments have specific
       console.log(
         "Running action:",
         component.key,
-        "for external user: [REDACTED]"
+        "for external user: [REDACTED]",
       )
       const response = await pd.runAction(requestOpts)
 
@@ -186,6 +199,7 @@ ${configurablePropsDescription ? "\n\n\n\nIMPORTANT: The arguments have specific
     CONFIGURE_COMPONENT_TOOL_NAME,
     configureComponentDescription,
     ConfigureComponentRawSchema,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async (_args: any) => {
       const args = z.object(ConfigureComponentRawSchema).parse(_args)
       const authProvisionResponse = await getAuthProvision({
@@ -226,6 +240,6 @@ ${configurablePropsDescription ? "\n\n\n\nIMPORTANT: The arguments have specific
           },
         ],
       }
-    }
+    },
   )
 }

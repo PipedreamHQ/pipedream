@@ -24,7 +24,7 @@ export async function main(appName?: string, portOption?: string) {
   // Log all requests for debugging
   app.use((req, res, next) => {
     console.log(
-      `Received ${req.method} request for ${req.url.replace(/\/[^/]+\//, "/[REDACTED]/")}`
+      `Received ${req.method} request for ${req.url.replace(/\/[^/]+\//, "/[REDACTED]/")}`,
     )
     next()
   })
@@ -44,14 +44,14 @@ export async function main(appName?: string, portOption?: string) {
   const handleSSEConnection = async (
     req: express.Request,
     res: express.Response,
-    appName: string
+    appName: string,
   ) => {
     const messagePath = `/${req.params.external_user_id}/${appName}/messages`
     const transport = setupSSEConnection(res, messagePath)
 
     try {
       console.log(
-        `Starting serverFactory for app: ${appName}, external_user_id: [REDACTED]`
+        `Starting serverFactory for app: ${appName}, external_user_id: [REDACTED]`,
       )
       const server = await serverFactory({
         app: appName,
@@ -84,17 +84,21 @@ export async function main(appName?: string, portOption?: string) {
 
   const handlePostMessage = async (
     req: express.Request,
-    res: express.Response
+    res: express.Response,
   ) => {
     if (!req.query.sessionId || typeof req.query.sessionId !== "string") {
-      res.status(400).json({ error: "Invalid sessionId" })
+      res.status(400).json({
+        error: "Invalid sessionId",
+      })
       return
     }
 
     const transport = transports.get(req.query.sessionId)
     if (!transport) {
       console.log("No transport found")
-      res.status(500).json({ error: "No SSE connection established" })
+      res.status(500).json({
+        error: "No SSE connection established",
+      })
       return
     }
 
@@ -106,10 +110,14 @@ export async function main(appName?: string, portOption?: string) {
       console.error("Error handling message:", error)
       if (error instanceof Error) {
         console.error(error.stack)
-        res.status(500).json({ error: error.message })
+        res.status(500).json({
+          error: error.message,
+        })
       } else {
         // For non-Error objects that were thrown
-        res.status(500).json({ error: String(error) })
+        res.status(500).json({
+          error: String(error),
+        })
       }
       return
     }
@@ -125,7 +133,7 @@ export async function main(appName?: string, portOption?: string) {
     app.post(`/:external_user_id/${appName}/messages`, async (req, res) => {
       console.log(
         `POST /:external_user_id/${appName}/messages`,
-        "[REDACTED]" // Redacted sessionId
+        "[REDACTED]", // Redacted sessionId
       )
       await handlePostMessage(req, res)
     })
@@ -158,17 +166,17 @@ export async function main(appName?: string, portOption?: string) {
       console.log("- GET / - Health check")
       if (appName) {
         console.log(
-          `- GET /:external_user_id/${appName} - App-specific SSE connection endpoint`
+          `- GET /:external_user_id/${appName} - App-specific SSE connection endpoint`,
         )
         console.log(
-          `- POST /:external_user_id/${appName}/messages - App-specific message handler`
+          `- POST /:external_user_id/${appName}/messages - App-specific message handler`,
         )
       } else {
         console.log(
-          "- GET /:external_user_id/:app - App-specific SSE connection endpoint"
+          "- GET /:external_user_id/:app - App-specific SSE connection endpoint",
         )
         console.log(
-          "- POST /:external_user_id/:app/messages - App-specific message handler"
+          "- POST /:external_user_id/:app/messages - App-specific message handler",
         )
       }
     })

@@ -9,7 +9,10 @@ export const createPdClient = () => {
     const clientSecret = z.string().parse(config.pipedream.clientSecret)
     const projectId = z.string().parse(config.pipedream.projectId)
     const environment = z
-      .enum(["development", "production"])
+      .enum([
+        "development",
+        "production",
+      ])
       .parse(config.pipedream.environment)
 
     return createBackendClient({
@@ -23,7 +26,9 @@ export const createPdClient = () => {
   } catch (error) {
     console.error(
       "Failed to create Pipedream client:",
-      error instanceof Error ? error.message : "Unknown error"
+      error instanceof Error
+        ? error.message
+        : "Unknown error",
     )
     console.error("Make sure you've set all required environment variables:")
     console.error("- PIPEDREAM_CLIENT_ID (not shown for security)")
