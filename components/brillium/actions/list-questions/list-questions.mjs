@@ -4,7 +4,7 @@ export default {
   key: "brillium-list-questions",
   name: "List Questions",
   description: "Retrieve all Questions for an Assessment. [See the documentation](https://support.brillium.com/en-us/knowledgebase/article/KA-01071)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     brillium,

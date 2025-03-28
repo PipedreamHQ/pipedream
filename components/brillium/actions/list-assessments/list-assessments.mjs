@@ -4,7 +4,7 @@ export default {
   key: "brillium-list-assessments",
   name: "List Assessments",
   description: "Retrieve all Assessments for a Brillium account. [See the documentation](https://support.brillium.com/en-us/knowledgebase/article/KA-01063)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     brillium,
