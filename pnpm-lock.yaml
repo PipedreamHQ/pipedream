@@ -8625,6 +8625,9 @@ importers:
 
   components/nutrient_document_web_services_api: {}
 
+  components/nutrient_workflow_automation:
+    specifiers: {}
+
   components/nutshell:
     dependencies:
       '@pipedream/platform':
