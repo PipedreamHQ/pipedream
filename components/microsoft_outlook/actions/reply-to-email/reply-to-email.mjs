@@ -1,13 +1,20 @@
 import microsoftOutlook from "../../microsoft_outlook.app.mjs";
 
 export default {
+  key: "microsoft_outlook-reply-to-email",
+  name: "Reply to Email",
+  description: "Reply to an email in Microsoft Outlook. [See the documentation](https://learn.microsoft.com/en-us/graph/api/message-reply)",
+  version: "0.0.1",
   type: "action",
-  key: "microsoft_outlook-send-email",
-  version: "0.0.12",
-  name: "Send Email",
-  description: "Send an email to one or multiple recipients, [See the docs](https://docs.microsoft.com/en-us/graph/api/user-sendmail)",
   props: {
     microsoftOutlook,
+    messageId: {
+      propDefinition: [
+        microsoftOutlook,
+        "messageId",
+      ],
+      description: "The identifier of the message to reply to",
+    },
     recipients: {
       propDefinition: [
         microsoftOutlook,
@@ -32,17 +39,12 @@ export default {
         "subject",
       ],
     },
-    contentType: {
-      propDefinition: [
-        microsoftOutlook,
-        "contentType",
-      ],
-    },
-    content: {
+    comment: {
       propDefinition: [
         microsoftOutlook,
         "content",
       ],
+      description: "Content of the reply in text format",
     },
     files: {
       propDefinition: [
@@ -59,15 +61,17 @@ export default {
     },
   },
   async run({ $ }) {
-    await this.microsoftOutlook.sendEmail({
+    await this.microsoftOutlook.replyToEmail({
       $,
+      messageId: this.messageId,
       data: {
+        comment: this.comment,
         message: {
           ...this.microsoftOutlook.prepareMessageBody(this),
           ...this.expand,
         },
       },
     });
-    $.export("$summary", "Email has been sent.");
+    $.export("$summary", "Email has been replied to.");
   },
 };
