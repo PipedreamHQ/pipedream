@@ -1,0 +1,8 @@
+node_modules
+dist
+*.md
+*.png
+Dockerfile
+*.log
+*.env
+
