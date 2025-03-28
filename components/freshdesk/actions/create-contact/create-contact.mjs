@@ -1,10 +1,11 @@
 import freshdesk from "../../freshdesk.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "freshdesk-create-contact",
   name: "Create a Contact",
   description: "Create a contact. [See the documentation](https://developers.freshdesk.com/api/#create_contact)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     freshdesk,
@@ -41,9 +42,14 @@ export default {
   },
   async run({ $ }) {
     const {
-      companyId, otherEmails, ...data
+      freshdesk, companyId, otherEmails, ...data
     } = this;
-    const response = await this.freshdesk.createContact({
+
+    if (!this.email && !this.phone) {
+      throw new ConfigurationError("Must specify `email` and/or `phone`");
+    }
+
+    const response = await freshdesk.createContact({
       $,
       data: {
         other_emails: otherEmails,
