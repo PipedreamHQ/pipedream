@@ -1,4 +1,5 @@
 import common from "../common/common.mjs";
+import sampleEmit from "./test-event.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
@@ -6,7 +7,7 @@ export default {
   key: "wix_api_key-new-order-created",
   name: "New Order Created",
   description: "Emit new event when a new order is created. [See the documentation](https://dev.wix.com/api/rest/wix-stores/orders/query-orders)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   methods: {
     ...common.methods,
@@ -44,4 +45,5 @@ export default {
       };
     },
   },
+  sampleEmit,
 };
