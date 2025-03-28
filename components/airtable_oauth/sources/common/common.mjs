@@ -17,6 +17,12 @@ export default {
         "baseId",
       ],
     },
+    filterByFormula: {
+      propDefinition: [
+        airtable,
+        "filterByFormula",
+      ],
+    },
   },
   hooks: {
     activate() {
@@ -42,9 +48,17 @@ export default {
       const formattedTimestamp = new Date(timestampMillis).toISOString();
       this._setLastTimestamp(formattedTimestamp);
     },
-    getListRecordsParams(params) {
+    getListRecordsParams({
+      formula, ...params
+    } = {}) {
+      let filterByFormula = formula;
+
+      if (this.filterByFormula) {
+        filterByFormula = `AND(${formula}, ${this.filterByFormula})`;
+      }
+
       return {
-        filterByFormula: `LAST_MODIFIED_TIME() > "${this._getLastTimestamp()}"`,
+        filterByFormula,
         returnFieldsByFieldId: this.returnFieldsByFieldId || false,
         ...params,
       };
