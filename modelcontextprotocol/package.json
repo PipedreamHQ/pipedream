@@ -1,0 +1,35 @@
+{
+  "name": "@pipedream/mcp",
+  "version": "0.0.1",
+  "description": "Pipedream stdio and SSE MCP servers",
+  "type": "module",
+  "bin": {
+    "@pipedream/mcp": "./dist/src/cli.js"
+  },
+  "scripts": {
+    "dev:stdio": "tsx watch src/stdio.ts",
+    "dev:sse": "tsx watch src/sse.ts",
+    "start:stdio": "tsx src/cli.ts stdio",
+    "start:sse": "tsx src/cli.ts sse",
+    "start:stdio:app": "tsx src/cli.ts stdio --app",
+    "start:sse:app": "tsx src/cli.ts sse --app",
+    "build": "tsc",
+    "prepare": "npm run build",
+    "start:stdio:prod": "node dist/src/cli.js stdio",
+    "start:sse:prod": "node dist/src/cli.js sse"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.7.0",
+    "@pipedream/sdk": "^1.4.0",
+    "commander": "^13.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.0.0"
+  }
+}

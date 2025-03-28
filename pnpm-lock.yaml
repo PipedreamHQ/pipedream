@@ -8625,8 +8625,7 @@ importers:
 
   components/nutrient_document_web_services_api: {}
 
-  components/nutrient_workflow_automation:
-    specifiers: {}
+  components/nutrient_workflow_automation: {}
 
   components/nutshell:
     dependencies:
@@ -8952,8 +8951,7 @@ importers:
 
   components/optimoroute: {}
 
-  components/oracle_cloud_infrastructure:
-    specifiers: {}
+  components/oracle_cloud_infrastructure: {}
 
   components/orbisx: {}
 
