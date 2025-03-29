@@ -6,7 +6,7 @@ export default {
   key: "wix_api_key-new-product-created",
   name: "New Product Created",
   description: "Emit new event when a new product is created. [See the documentation](https://dev.wix.com/api/rest/wix-stores/catalog/products/query-products)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   methods: {
     ...common.methods,
