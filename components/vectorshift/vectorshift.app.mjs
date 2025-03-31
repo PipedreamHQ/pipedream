@@ -28,11 +28,7 @@ export default {
       label: "Pipeline ID",
       description: "The ID of the pipeline to execute",
       async options() {
-        const { objects } = await this.listPipelines({
-          params: {
-            verbose: true,
-          },
-        });
+        const { objects } = await this.listPipelines();
 
         return objects.map(({
           _id: value, name: label,
@@ -49,7 +45,8 @@ export default {
     },
     _headers() {
       return {
-        Authorization: `Bearer ${this.$auth.api_key}`,
+        "Authorization": `Bearer ${this.$auth.api_key}`,
+        "Content-Type": "application/json",
       };
     },
     _makeRequest({
@@ -61,15 +58,39 @@ export default {
         ...opts,
       });
     },
-    listPipelines(opts = {}) {
+    listPipelines({
+      params = {}, ...opts
+    } = {}) {
       return this._makeRequest({
         path: "/pipelines",
+        params: {
+          verbose: true,
+          ...params,
+        },
         ...opts,
       });
     },
-    listKnowledgeBases(opts = {}) {
+    listKnowledgeBases({
+      params = {}, ...opts
+    } = {}) {
       return this._makeRequest({
         path: "/knowledge-bases",
+        params: {
+          verbose: true,
+          ...params,
+        },
+        ...opts,
+      });
+    },
+    listChatbots({
+      params = {}, ...opts
+    } = {}) {
+      return this._makeRequest({
+        path: "/chatbots",
+        params: {
+          verbose: true,
+          ...params,
+        },
         ...opts,
       });
     },

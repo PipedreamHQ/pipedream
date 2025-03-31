@@ -14,7 +14,7 @@ export default {
   methods: {
     async emitEvent(maxResults = false) {
       const fn = this.getFunction();
-      const { objects: response } = await fn();
+      const { objects: response = [] } = await fn();
 
       if (response.length) {
         if (maxResults && (response.length > maxResults)) {
@@ -24,9 +24,9 @@ export default {
 
       for (const item of response) {
         this.$emit(item, {
-          id: item.id,
+          id: item._id,
           summary: this.getSummary(item),
-          ts: Date.parse(item.created || new Date()),
+          ts: Date.parse(item.createdDate || new Date()),
         });
       }
     },

@@ -15,7 +15,7 @@ export default {
       return this.app.listChatbots;
     },
     getSummary(item) {
-      return `New Chatbot: ${item.name || "Unnamed"}`;
+      return `New Chatbot: ${item.name || item._id}`;
     },
   },
   sampleEmit,

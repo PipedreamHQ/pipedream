@@ -15,7 +15,7 @@ export default {
       return this.app.listPipelines;
     },
     getSummary(item) {
-      return `New Pipeline Created: ${item.name}`;
+      return `New Pipeline Created: ${item.name || item._id}`;
     },
   },
   sampleEmit,

@@ -15,7 +15,7 @@ export default {
       return this.app.listKnowledgeBases;
     },
     getSummary(item) {
-      return `New Knowledge Base: ${item.name}`;
+      return `New Knowledge Base: ${item.name || item._id}`;
     },
   },
   sampleEmit,
