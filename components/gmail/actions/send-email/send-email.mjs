@@ -6,7 +6,7 @@ export default {
   key: "gmail-send-email",
   name: "Send Email",
   description: "Send an email from your Google Workspace email account. [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/send)",
-  version: "0.1.7",
+  version: "0.1.8",
   type: "action",
   props: {
     gmail,
@@ -63,6 +63,13 @@ export default {
         gmail,
         "bodyType",
       ],
+    },
+    include_sent_via_pipedream_flag: {
+      type: "boolean",
+      optional: true,
+      default: true,
+      label: "Include link to Pipedream",
+      description: "Defaults to `true`, includes a link to Pipedream at the end of your email.",
     },
     attachmentFilenames: {
       propDefinition: [

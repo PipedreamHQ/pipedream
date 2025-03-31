@@ -318,10 +318,30 @@ export default {
         }
       }
 
+      let bodyContent = props.body;
+
+      // Add "Sent via Pipedream" if the flag is enabled
+      if (props.include_sent_via_pipedream_flag) {
+        const workflowId = process.env.PIPEDREAM_WORKFLOW_ID;
+        const baseLink = "https://pipedream.com";
+        const linkText = !workflowId
+          ? "Pipedream Connect"
+          : "Pipedream";
+        const link = !workflowId
+          ? `${baseLink}/connect`
+          : `${baseLink}/@/${workflowId}?o=a&a=gmail`;
+
+        if (props.bodyType === constants.BODY_TYPES.HTML) {
+          bodyContent = `${bodyContent}<br><br>Sent via <a href="${link}">${linkText}</a>`;
+        } else {
+          bodyContent = `${bodyContent}\n\nSent via ${linkText}: ${link}`;
+        }
+      }
+
       if (props.bodyType === constants.BODY_TYPES.HTML) {
-        opts.html = props.body;
+        opts.html = bodyContent;
       } else {
-        opts.text = props.body;
+        opts.text = bodyContent;
       }
 
       return opts;
