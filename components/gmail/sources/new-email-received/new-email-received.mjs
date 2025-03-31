@@ -145,7 +145,9 @@ export default {
       };
       newProps.timer = {
         type: "$.interface.timer",
-        intervalSeconds: 60 * 60, // 1 hour for webhook renewal
+        static: {
+          intervalSeconds: 60 * 60, // 1 hour for webhook renewal
+        },
         hidden: true,
       };
 
