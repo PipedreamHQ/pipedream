@@ -70,7 +70,7 @@ export default {
         prompt: this.prompt,
         schema: this.schema && parseObjectEntries(this.schema),
         enableWebSearch: this.enableWebSearch,
-        ignoreSitemap: this.importSitemap,
+        ignoreSitemap: this.ignoreSitemap,
         includeSubdomains: this.includeSubdomains,
         showSources: this.showSources,
       },
