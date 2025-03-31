@@ -255,14 +255,16 @@ export default {
       }
       const message = {
         subject: self.subject,
-        body: {
-          content: self.content,
-          contentType: self.contentType,
-        },
-        toRecipients,
         attachments,
       };
 
+      if (self.content) {
+        message.body = {
+          content: self.content,
+          contentType: self.contentType,
+        };
+      }
+      if (toRecipients.length > 0) message.toRecipients = toRecipients;
       if (ccRecipients.length > 0) message.ccRecipients = ccRecipients;
       if (bccRecipients.length > 0) message.bccRecipients = bccRecipients;
 
@@ -272,6 +274,15 @@ export default {
       return await this._makeRequest({
         method: "POST",
         path: "/me/sendMail",
+        ...args,
+      });
+    },
+    async replyToEmail({
+      messageId, ...args
+    }) {
+      return await this._makeRequest({
+        method: "POST",
+        path: `/me/messages/${messageId}/reply`,
         ...args,
       });
     },

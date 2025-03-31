@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/hyperbrowser",
+  "version": "0.0.1",
+  "description": "Pipedream Hyperbrowser Components",
+  "main": "hyperbrowser.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hyperbrowser"
+  ],
+  "homepage": "https://pipedream.com/apps/hyperbrowser",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

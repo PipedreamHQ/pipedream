@@ -4,7 +4,7 @@ export default {
   key: "brillium-list-respondent-results",
   name: "List Respondent Results",
   description: "Retrieves results for a respondent. [See the documentation](https://support.brillium.com/en-us/knowledgebase/article/KA-01073)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     brillium,
