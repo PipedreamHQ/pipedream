@@ -1584,8 +1584,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/bloomerang:
-    specifiers: {}
+  components/bloomerang: {}
 
   components/blue: {}
 
@@ -6175,6 +6174,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+
+  components/hyperbrowser: {}
 
   components/hyperise:
     dependencies:
