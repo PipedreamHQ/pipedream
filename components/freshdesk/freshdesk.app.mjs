@@ -58,10 +58,13 @@ export default {
       label: "Email",
       description: "Select a contact or provide a contact's email",
       async options({ companyId }) {
-        const contacts = await this.getContacts();
-        const numId = Number(companyId);
+        const contacts = await this.getContacts({
+          params: {
+            company_id: companyId,
+          },
+        });
         return contacts
-          .filter((contact) => contact.company_id === numId)
+          .filter(({ email }) => email)
           .map(({
             email, name,
           }) => ({
