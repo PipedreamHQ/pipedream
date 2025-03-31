@@ -1,4 +1,4 @@
-import { parseObjectEntries } from "../../../firecrawl/common/utils.mjs";
+import { parseObjectEntries } from "../../common/utils.mjs";
 import connectwise from "../../connectwise_psa.app.mjs";
 
 export default {
