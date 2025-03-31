@@ -33,9 +33,9 @@ export default {
       description: "When `true`, the extraction will use web search to find additional data",
       optional: true,
     },
-    importSitemap: {
+    ignoreSitemap: {
       type: "boolean",
-      label: "Import Sitemap",
+      label: "Ignore Sitemap",
       description: "When true, sitemap.xml files will be ignored during website scanning",
       optional: true,
     },
@@ -70,7 +70,7 @@ export default {
         prompt: this.prompt,
         schema: this.schema && parseObjectEntries(this.schema),
         enableWebSearch: this.enableWebSearch,
-        importSitemap: this.importSitemap,
+        ignoreSitemap: this.importSitemap,
         includeSubdomains: this.includeSubdomains,
         showSources: this.showSources,
       },
