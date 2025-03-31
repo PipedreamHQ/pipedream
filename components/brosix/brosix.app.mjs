@@ -25,7 +25,7 @@ export default {
         ...otherOpts,
         url: this._baseUrl() + path,
         params: {
-          "apikey ": `${this.$auth.api_key}`,
+          "apikey": `${this.$auth.api_key}`,
           ...params,
         },
       });
