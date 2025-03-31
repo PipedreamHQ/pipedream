@@ -1786,7 +1786,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/brosix: {}
+  components/brosix:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/browse_ai:
     dependencies:
