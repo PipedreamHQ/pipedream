@@ -5,7 +5,7 @@ export default {
   name: "List Tickets",
   description:
     "Fetch up to 100 tickets according to the selected filters. [See the documentation](https://developers.freshdesk.com/api/#list_all_tickets)",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
     freshdesk,

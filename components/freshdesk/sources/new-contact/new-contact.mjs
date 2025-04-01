@@ -6,7 +6,7 @@ export default {
   key: "freshdesk-new-contact",
   name: "New Contact Created",
   description: "Emit new event when a contact is created. [See the documentation](https://developers.freshdesk.com/api/#filter_contacts)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   props: {
     freshdesk,

@@ -1,14 +1,19 @@
 import asana from "../../asana.app.mjs";
 import common from "../common/common.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "asana-search-tasks",
   name: "Search Tasks",
   description: "Searches for a Task by name within a Project. [See the documentation](https://developers.asana.com/docs/get-multiple-tasks)",
-  version: "0.3.1",
+  version: "0.3.2",
   type: "action",
   props: {
     ...common.props,
+    project: {
+      ...common.props.project,
+      optional: true,
+    },
     name: {
       label: "Name",
       description: "The task name to search for.",
@@ -30,7 +35,7 @@ export default {
     section: {
       label: "Section",
       type: "string",
-      description: "The section to filter tasks on.",
+      description: "The section to filter tasks on. Must specify Project to list options.",
       optional: true,
       propDefinition: [
         asana,
@@ -40,13 +45,13 @@ export default {
         }),
       ],
     },
-    completed_since: {
+    completedSince: {
       label: "Completed Since",
       type: "string",
       description: "Only return tasks that are either incomplete or that have been completed since this time. ISO 8601 date string",
       optional: true,
     },
-    modified_since: {
+    modifiedSince: {
       label: "Modified Since",
       type: "string",
       description: "Only return tasks that have been modified since the given time. ISO 8601 date string",
@@ -54,19 +59,30 @@ export default {
     },
   },
   async run({ $ }) {
-    if ((!this.workspace || !this.assignee) && !this.project && !this.section) {
-      throw new Error("You must specify a Project or Section if you do not specify Assignee and Workspace");
+    if (!this.project && !this.section && !this.assignee) {
+      throw new ConfigurationError("Must specify one of Project, Section, or Assignee");
+    }
+
+    if ((this.project || this.section) && this.assignee) {
+      throw new ConfigurationError("Must specify only one of Assignee, Project, or Project + Section");
+    }
+
+    const params = {
+      completed_since: this.completedSince,
+      modified_since: this.modifiedSince,
+    };
+
+    if (this.assignee) {
+      params.assignee = this.assignee;
+      params.workspace = this.workspace;
+    } else if (this.section) {
+      params.section = this.section;
+    } else {
+      params.project = this.project;
     }
 
     const { data: tasks } = await this.asana.getTasks({
-      params: {
-        assignee: this.assignee,
-        project: this.project,
-        section: this.section,
-        workspace: this.workspace,
-        completed_since: this.completed_since,
-        modified_since: this.modified_since,
-      },
+      params,
       $,
     });
 
