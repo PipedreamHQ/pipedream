@@ -8072,6 +8072,9 @@ importers:
         specifier: ^1.4.1
         version: 1.6.6
 
+  components/mistral_ai:
+    specifiers: {}
+
   components/mitra: {}
 
   components/mixmax:
