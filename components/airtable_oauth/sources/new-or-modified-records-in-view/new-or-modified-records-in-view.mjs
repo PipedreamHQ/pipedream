@@ -6,7 +6,7 @@ export default {
   name: "New or Modified Records in View",
   description: "Emit new event for each new or modified record in a view",
   key: "airtable_oauth-new-or-modified-records-in-view",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "source",
   props: {
     ...base.props,
@@ -50,6 +50,7 @@ export default {
     const lastTimestamp = this._getLastTimestamp();
     const params = this.getListRecordsParams({
       view: viewId,
+      formula: `LAST_MODIFIED_TIME() > "${lastTimestamp}"`,
     });
 
     const records = await this.airtable.listRecords({

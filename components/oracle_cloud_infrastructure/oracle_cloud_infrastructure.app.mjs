@@ -1,8 +1,6 @@
-import { defineApp } from "@pipedream/types";
-
-export default defineApp({
+export default {
   type: "app",
-  app: "brosix",
+  app: "oracle_cloud_infrastructure",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
@@ -10,4 +8,4 @@ export default defineApp({
       console.log(Object.keys(this.$auth));
     },
   },
-});
+};

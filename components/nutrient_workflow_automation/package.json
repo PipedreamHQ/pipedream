@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/nutrient_workflow_automation",
+  "version": "0.0.1",
+  "description": "Pipedream Nutrient Workflow Automation Components",
+  "main": "nutrient_workflow_automation.app.mjs",
+  "keywords": [
+    "pipedream",
+    "nutrient_workflow_automation"
+  ],
+  "homepage": "https://pipedream.com/apps/nutrient_workflow_automation",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

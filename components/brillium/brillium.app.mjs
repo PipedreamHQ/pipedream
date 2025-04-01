@@ -121,23 +121,23 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return `${this.$auth.api_url}/api`;
+      return `${this.$auth.api_url}`;
     },
     _makeRequest({
       $ = this, path, ...opts
     }) {
+      const base64Encoded = Buffer.from(`${this.$auth.api_key}:${this.$auth.api_password}`).toString("base64");
       return axios($, {
         url: `${this._baseUrl()}${path}`,
-        auth: {
-          username: "ASSESSMENTS-API",
-          password: `${this.$auth.api_password}${this.$auth.security_token}`,
+        headers: {
+          Authorization: `Basic ${base64Encoded}`,
         },
         ...opts,
       });
     },
     listAccounts(opts = {}) {
       return this._makeRequest({
-        path: "/Accounts",
+        path: "Accounts",
         ...opts,
       });
     },
@@ -145,7 +145,7 @@ export default {
       accountId, ...opts
     }) {
       return this._makeRequest({
-        path: `/Accounts/${accountId}/Assessments`,
+        path: `Accounts/${accountId}/Assessments`,
         ...opts,
       });
     },
@@ -153,7 +153,7 @@ export default {
       accountId, ...opts
     }) {
       return this._makeRequest({
-        path: `/Accounts/${accountId}/Respondents`,
+        path: `Accounts/${accountId}/Respondents`,
         ...opts,
       });
     },
@@ -161,7 +161,7 @@ export default {
       assessmentId, ...opts
     }) {
       return this._makeRequest({
-        path: `/Assessments/${assessmentId}/Respondents`,
+        path: `Assessments/${assessmentId}/Respondents`,
         ...opts,
       });
     },
@@ -169,7 +169,7 @@ export default {
       assessmentId, ...opts
     }) {
       return this._makeRequest({
-        path: `/Assessments/${assessmentId}/Questions`,
+        path: `Assessments/${assessmentId}/Questions`,
         ...opts,
       });
     },
@@ -177,7 +177,7 @@ export default {
       assessmentId, ...opts
     }) {
       return this._makeRequest({
-        path: `/Assessments/${assessmentId}/QuestionGroups`,
+        path: `Assessments/${assessmentId}/QuestionGroups`,
         ...opts,
       });
     },
@@ -185,7 +185,7 @@ export default {
       topicId, ...opts
     }) {
       return this._makeRequest({
-        path: `/QuestionGroups/${topicId}/Questions`,
+        path: `QuestionGroups/${topicId}/Questions`,
         ...opts,
       });
     },
@@ -193,7 +193,7 @@ export default {
       respondentId, ...opts
     }) {
       return this._makeRequest({
-        path: `/Respondents/${respondentId}/Results`,
+        path: `Respondents/${respondentId}/Results`,
         ...opts,
       });
     },

@@ -5,7 +5,7 @@ export default {
   key: "firecrawl-crawl-url",
   name: "Crawl URL",
   description: "Crawls a given URL and returns the contents of sub-pages. [See the documentation](https://docs.firecrawl.dev/api-reference/endpoint/crawl-post)",
-  version: "1.0.0",
+  version: "1.0.2",
   type: "action",
   props: {
     firecrawl,
@@ -68,7 +68,7 @@ export default {
         firecrawl,
         "additionalOptions",
       ],
-      description: "Additional parameters to send in the request. [https://docs.firecrawl.dev/api-reference/endpoint/crawl-post) for available parameters. Values will be parsed as JSON where applicable. For example, to add the `webhook` param, use the value `{\"webhook\": {\"url\": \"https://your-server-webhook-api.com\",\"headers\": {},\"metadata\": {},\"events\": [\"completed\"]}}`",
+      description: "Additional parameters to send in the request. [See the documentation](https://docs.firecrawl.dev/api-reference/endpoint/crawl-post) for available parameters. Values will be parsed as JSON where applicable. For example, to add the `webhook` param, use the value `{\"webhook\": {\"url\": \"https://your-server-webhook-api.com\",\"headers\": {},\"metadata\": {},\"events\": [\"completed\"]}}`",
     },
   },
   async run({ $ }) {
