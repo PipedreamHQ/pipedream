@@ -15,7 +15,7 @@ export default {
   name: "New Email Received",
   description: "Emit new event when a new email is received.",
   type: "source",
-  version: "0.2.1",
+  version: "0.2.2",
   dedupe: "unique",
   props: {
     gmail,
@@ -32,6 +32,14 @@ export default {
       reloadProps: true,
       optional: true,
       default: "polling",
+    },
+    timer: {
+      type: "$.interface.timer",
+      label: "Polling Interval",
+      description: "How often to poll for new emails",
+      default: {
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+      },
     },
     serviceAccountKeyJson: {
       type: "string",
@@ -120,19 +128,6 @@ export default {
   async additionalProps() {
     const newProps = {};
 
-    // Add timer for polling mode
-    if (this.triggerType !== "webhook") {
-      newProps.timer = {
-        type: "$.interface.timer",
-        label: "Polling Interval",
-        description: "How often to poll for new emails",
-        default: {
-          intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-        },
-      };
-      return newProps;
-    }
-
     // Handle webhook mode
     if (this.triggerType === "webhook") {
       // verify that a Custom OAuth client is being used only if webhook mode is selected
@@ -150,7 +145,7 @@ export default {
       };
       newProps.timer = {
         type: "$.interface.timer",
-        default: {
+        static: {
           intervalSeconds: 60 * 60, // 1 hour for webhook renewal
         },
         hidden: true,

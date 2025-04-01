@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/pdf4me",
+  "version": "0.0.1",
+  "description": "Pipedream PDF4me Components",
+  "main": "pdf4me.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pdf4me"
+  ],
+  "homepage": "https://pipedream.com/apps/pdf4me",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

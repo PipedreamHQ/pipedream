@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/lucca",
+  "version": "0.0.1",
+  "description": "Pipedream Lucca Components",
+  "main": "lucca.app.mjs",
+  "keywords": [
+    "pipedream",
+    "lucca"
+  ],
+  "homepage": "https://pipedream.com/apps/lucca",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
