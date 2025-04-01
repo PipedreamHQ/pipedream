@@ -883,8 +883,7 @@ importers:
         specifier: ^1.1.1
         version: 1.6.6
 
-  components/apiverve:
-    specifiers: {}
+  components/apiverve: {}
 
   components/apollo_io:
     dependencies:
@@ -7473,8 +7472,7 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/lucca:
-    specifiers: {}
+  components/lucca: {}
 
   components/lucid:
     dependencies:
@@ -8072,8 +8070,7 @@ importers:
         specifier: ^1.4.1
         version: 1.6.6
 
-  components/mistral_ai:
-    specifiers: {}
+  components/mistral_ai: {}
 
   components/mitra: {}
 
@@ -9299,8 +9296,7 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
 
-  components/pdf4me:
-    specifiers: {}
+  components/pdf4me: {}
 
   components/pdf_api_io: {}
 
@@ -10069,8 +10065,7 @@ importers:
 
   components/proprofs_quiz_maker: {}
 
-  components/provesource:
-    specifiers: {}
+  components/provesource: {}
 
   components/proworkflow:
     dependencies:
@@ -13688,8 +13683,7 @@ importers:
         specifier: 3.2.2
         version: 3.2.2
 
-  components/verifiedemail:
-    specifiers: {}
+  components/verifiedemail: {}
 
   components/verifone: {}
 
@@ -14370,8 +14364,7 @@ importers:
         specifier: ^0.1.4
         version: 0.1.6
 
-  components/yepcode:
-    specifiers: {}
+  components/yepcode: {}
 
   components/yespo:
     dependencies:
