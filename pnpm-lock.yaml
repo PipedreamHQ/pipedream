@@ -12165,7 +12165,11 @@ importers:
         specifier: ^2.3.0
         version: 2.3.0
 
-  components/splunk_http_event_collector: {}
+  components/splunk_http_event_collector:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/splynx:
     dependencies:
