@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-create-ticket",
   name: "Create a Ticket",
   description: "Create a ticket. [See the documentation](https://developers.freshdesk.com/api/#create_ticket)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     freshdesk,
@@ -22,7 +22,6 @@ export default {
           companyId,
         }),
       ],
-      optional: true,
     },
     priority: {
       propDefinition: [
@@ -30,24 +29,17 @@ export default {
         "ticketPriority",
       ],
       default: 1,
+      optional: true,
     },
     subject: {
       type: "string",
       label: "Subject",
       description: "Subject of the ticket",
-      optional: true,
     },
     description: {
       type: "string",
       label: "Description",
       description: "HTML content of the ticket",
-      optional: true,
-    },
-    descriptionText: {
-      type: "string",
-      label: "Description text",
-      description: "Content of the ticket in plain text",
-      optional: true,
     },
     phone: {
       type: "string",
@@ -66,13 +58,12 @@ export default {
   },
   async run({ $ }) {
     const {
-      freshdesk, companyId, descriptionText, ...data
+      freshdesk, companyId, ...data
     } = this;
     const response = await freshdesk.createTicket({
       $,
       data: {
         company_id: Number(companyId),
-        description_text: descriptionText,
         ...data,
       },
     });
