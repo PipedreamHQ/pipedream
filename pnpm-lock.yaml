@@ -8070,6 +8070,9 @@ importers:
         specifier: ^1.4.1
         version: 1.6.6
 
+  components/mistral_ai:
+    specifiers: {}
+
   components/mitra: {}
 
   components/mixmax:
@@ -13680,6 +13683,9 @@ importers:
       verifalia:
         specifier: 3.2.2
         version: 3.2.2
+
+  components/verifiedemail:
+    specifiers: {}
 
   components/verifone: {}
 
