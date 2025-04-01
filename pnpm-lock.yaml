@@ -1402,6 +1402,9 @@ importers:
 
   components/better_uptime: {}
 
+  components/bettercontact:
+    specifiers: {}
+
   components/bettervoice:
     dependencies:
       '@pipedream/platform':
