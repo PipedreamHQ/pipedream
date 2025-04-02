@@ -8,7 +8,7 @@ export default {
   name: "New Issue Status Updated (Instant)",
   description: "Emit new event when the status of an issue is updated. [See the documentation](https://developers.linear.app/docs/graphql/webhooks)",
   type: "source",
-  version: "0.1.9",
+  version: "0.1.10",
   dedupe: "unique",
   props: {
     linearApp: common.props.linearApp,
@@ -108,11 +108,14 @@ export default {
       const previousStatuses = this._getPreviousStatuses();
       const newStatuses = {};
 
+      // Use the specified limit or default to a reasonable number
+      const maxLimit = this.limit || constants.DEFAULT_NO_QUERY_LIMIT;
+
       const stream = this.linearApp.paginateResources({
         resourcesFn: this.getResourcesFn(),
         resourcesFnArgs: this.getResourcesFnArgs(),
         useGraphQl: this.useGraphQl(),
-        max: 1000,
+        max: maxLimit, // Use the configured limit instead of hardcoded 1000
       });
       const resources = await utils.streamIterator(stream);
 

@@ -164,7 +164,8 @@ export default {
     query: {
       type: "string",
       label: "Query",
-      description: "Search string to look for",
+      description: "Search string to look for in issue titles. The query is used to filter issues where the title contains the query text (case insensitive).",
+      optional: true,
     },
     orderBy: {
       type: "string",
@@ -177,6 +178,12 @@ export default {
       type: "boolean",
       label: "Include archived",
       description: "Should archived resources be included? (default: `false`)",
+      optional: true,
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Maximum number of issues to return. If no query is provided, this defaults to 20 to avoid returning too many results.",
       optional: true,
     },
   },
