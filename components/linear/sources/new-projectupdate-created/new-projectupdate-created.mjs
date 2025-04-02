@@ -11,5 +11,5 @@ export default {
   ...utils.getAppProps(newProjectUpdateCreated),
   key: "linear-new-projectupdate-created",
   description: "Project updates are short status reports on the health of your projects. Emit new event when a new Project Update is written. [See the documentation](https://developers.linear.app/docs/graphql/webhooks)",
-  version: "0.0.1",
+  version: "0.0.2",
 };
