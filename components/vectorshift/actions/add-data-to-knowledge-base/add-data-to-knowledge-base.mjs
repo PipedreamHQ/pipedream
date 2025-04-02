@@ -31,7 +31,7 @@ export default {
       label: "Rescrape Frequency",
       description: "The frequency to rescrape the URL",
       options: RESCRAPE_FREQUENCY_OPTIONS,
-      optional: true,
+      default: RESCRAPE_FREQUENCY_OPTIONS[0],
     },
   },
   async run({ $ }) {
