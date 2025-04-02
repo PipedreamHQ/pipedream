@@ -1,11 +1,11 @@
 import bloomerang from "../../bloomerang.app.mjs";
-import { axios } from "@pipedream/platform";
+import { PAYMENT_METHOD_OPTIONS } from "../../common/constants.mjs";
 
 export default {
   key: "bloomerang-create-donation",
   name: "Create Donation",
   description: "Creates a new donation record in Bloomerang. [See the documentation](https://bloomerang.co/product/integrations-data-management/api/rest-api/)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     bloomerang,
@@ -15,11 +15,15 @@ export default {
         "constituentId",
       ],
     },
+    date: {
+      type: "string",
+      label: "Date",
+      description: "The date of the donation",
+    },
     amount: {
-      propDefinition: [
-        bloomerang,
-        "amount",
-      ],
+      type: "string",
+      label: "Amount",
+      description: "The amount for the donation",
     },
     fundId: {
       propDefinition: [
@@ -27,46 +31,55 @@ export default {
         "fundId",
       ],
     },
-    date: {
-      propDefinition: [
-        bloomerang,
-        "date",
-      ],
-    },
     paymentMethod: {
+      type: "string",
+      label: "Payment Method",
+      description: "The method of payment",
+      options: PAYMENT_METHOD_OPTIONS,
+    },
+    campaignId: {
       propDefinition: [
         bloomerang,
-        "paymentMethod",
+        "campaignId",
+      ],
+      optional: true,
+    },
+    appealId: {
+      propDefinition: [
+        bloomerang,
+        "appealId",
       ],
       optional: true,
     },
     note: {
-      propDefinition: [
-        bloomerang,
-        "note",
-      ],
-      optional: true,
-    },
-    appeal: {
-      propDefinition: [
-        bloomerang,
-        "appeal",
-      ],
+      type: "string",
+      label: "Note",
+      description: "A note for the donation",
       optional: true,
     },
   },
   async run({ $ }) {
     const response = await this.bloomerang.createDonation({
-      constituentId: this.constituentId,
-      amount: this.amount,
-      fundId: this.fundId,
-      date: this.date,
-      paymentMethod: this.paymentMethod,
-      note: this.note,
-      appeal: this.appeal,
+      $,
+      data: {
+        AccountId: this.constituentId,
+        Date: this.date,
+        Amount: this.amount,
+        Method: this.paymentMethod,
+        Designations: [
+          {
+            FundId: this.fundId,
+            Amount: this.amount,
+            Type: "Donation",
+            CampaignId: this.campaignId,
+            AppealId: this.appealId,
+            Note: this.note,
+          },
+        ],
+      },
     });
 
-    $.export("$summary", `Successfully created donation with ID: ${response.id}`);
+    $.export("$summary", `Successfully created donation with ID: ${response.Id}`);
     return response;
   },
 };

@@ -1,21 +1,26 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "bloomerang",
   propDefinitions: {
-    donationType: {
+    constituentId: {
       type: "string",
-      label: "Donation Type",
-      description: "Filter donations by type",
-      optional: true,
-      async options() {
-        const response = await this._makeRequest({
-          path: "/donation-types",
+      label: "Constituent ID",
+      description: "The ID of the constituent",
+      async options({ page }) {
+        const { Results: response } = await this.listConstituents({
+          params: {
+            skip: LIMIT * page,
+            take: LIMIT,
+          },
         });
-        return response.map((type) => ({
-          label: type.name,
-          value: type.id,
+        return response.map(({
+          Id: value, FullName: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -23,44 +28,18 @@ export default {
       type: "string",
       label: "Fund",
       description: "Filter donations by fund",
-      optional: true,
-      async options() {
-        const response = await this._makeRequest({
-          path: "/funds",
+      async options({ page }) {
+        const { Results: response } = await this.listFunds({
+          params: {
+            skip: LIMIT * page,
+            take: LIMIT,
+          },
         });
-        return response.map((fund) => ({
-          label: fund.name,
-          value: fund.id,
-        }));
-      },
-    },
-    constituentType: {
-      type: "string",
-      label: "Constituent Type",
-      description: "Filter constituents by type",
-      optional: true,
-      async options() {
-        const response = await this._makeRequest({
-          path: "/constituent-types",
-        });
-        return response.map((type) => ({
-          label: type.name,
-          value: type.id,
-        }));
-      },
-    },
-    interactionType: {
-      type: "string",
-      label: "Interaction Type",
-      description: "Filter interactions by type",
-      optional: true,
-      async options() {
-        const response = await this._makeRequest({
-          path: "/interaction-types",
-        });
-        return response.map((type) => ({
-          label: type.name,
-          value: type.id,
+        return response.map(({
+          Id: value, Name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -68,179 +47,143 @@ export default {
       type: "string",
       label: "Campaign",
       description: "Filter interactions by campaign",
-      optional: true,
-      async options() {
-        const response = await this._makeRequest({
-          path: "/campaigns",
+      async options({ page }) {
+        const { Results: response } = await this.listCampaigns({
+          params: {
+            skip: LIMIT * page,
+            take: LIMIT,
+          },
         });
-        return response.map((campaign) => ({
-          label: campaign.name,
-          value: campaign.id,
+        return response.map(({
+          Id: value, Name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
-    constituentId: {
-      type: "string",
-      label: "Constituent ID",
-      description: "The ID of the constituent",
-    },
-    amount: {
-      type: "string",
-      label: "Amount",
-      description: "The amount for the donation",
-    },
-    date: {
-      type: "string",
-      label: "Date",
-      description: "The date of the donation",
-    },
-    paymentMethod: {
-      type: "string",
-      label: "Payment Method",
-      description: "The method of payment",
-      optional: true,
-    },
-    note: {
-      type: "string",
-      label: "Note",
-      description: "A note for the donation",
-      optional: true,
-    },
-    appeal: {
+    appealId: {
       type: "string",
       label: "Appeal",
       description: "An appeal for the donation",
-      optional: true,
-    },
-    name: {
-      type: "string",
-      label: "Name",
-      description: "The name of the constituent",
-    },
-    contactDetails: {
-      type: "string",
-      label: "Contact Details",
-      description: "Contact details of the constituent",
-    },
-    address: {
-      type: "string",
-      label: "Address",
-      description: "Address of the constituent",
-      optional: true,
-    },
-    tags: {
-      type: "string[]",
-      label: "Tags",
-      description: "Tags for the constituent",
-      optional: true,
-    },
-    customFields: {
-      type: "string[]",
-      label: "Custom Fields",
-      description: "Custom fields for the constituent",
-      optional: true,
-    },
-    interactionDate: {
-      type: "string",
-      label: "Interaction Date",
-      description: "The date of the interaction",
-    },
-    notes: {
-      type: "string",
-      label: "Notes",
-      description: "Notes for the interaction",
-      optional: true,
+      async options({ page }) {
+        const { Results: response } = await this.listAppeals({
+          params: {
+            skip: LIMIT * page,
+            take: LIMIT,
+          },
+        });
+        return response.map(({
+          Id: value, Name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.bloomerang.co/v2";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "accept": "application/json",
+        "x-api-key": `${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async listDonationTypes() {
+    listConstituents(opts = {}) {
       return this._makeRequest({
-        path: "/donation-types",
+        path: "/constituents",
+        ...opts,
       });
     },
-    async listFunds() {
+    listInteractions(opts = {}) {
+      return this._makeRequest({
+        path: "/interactions",
+        ...opts,
+      });
+    },
+    listTransactions(opts = {}) {
+      return this._makeRequest({
+        path: "/transactions",
+        ...opts,
+      });
+    },
+    listFunds(opts = {}) {
       return this._makeRequest({
         path: "/funds",
+        ...opts,
       });
     },
-    async listConstituentTypes() {
-      return this._makeRequest({
-        path: "/constituent-types",
-      });
-    },
-    async listInteractionTypes() {
-      return this._makeRequest({
-        path: "/interaction-types",
-      });
-    },
-    async listCampaigns() {
+    listCampaigns(opts = {}) {
       return this._makeRequest({
         path: "/campaigns",
+        ...opts,
       });
     },
-    async createDonation({
-      constituentId, amount, fundId, date, paymentMethod, note, appeal,
-    }) {
+    listAppeals(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/donations",
-        data: {
-          constituentId,
-          amount,
-          fundId,
-          date,
-          paymentMethod,
-          note,
-          appeal,
-        },
+        path: "/appeals",
+        ...opts,
       });
     },
-    async createConstituent({
-      constituentType, name, contactDetails, address, tags, customFields,
-    }) {
+    createDonation(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/constituents",
-        data: {
-          constituentType,
-          name,
-          contactDetails,
-          address,
-          tags,
-          customFields,
-        },
+        path: "/transaction",
+        ...opts,
       });
     },
-    async createInteraction({
-      constituentId, interactionType, interactionDate, notes, campaignId,
-    }) {
+    createConstituent(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/constituents/${constituentId}/interactions`,
-        data: {
-          interactionType,
-          interactionDate,
-          notes,
-          campaignId,
-        },
+        path: "/constituent",
+        ...opts,
       });
+    },
+    createInteraction(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/interaction",
+        ...opts,
+      });
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.skip = LIMIT * page;
+        params.take = LIMIT;
+        page++;
+        const { Results: data } = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of data) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = data.length;
+
+      } while (hasMore);
     },
   },
 };

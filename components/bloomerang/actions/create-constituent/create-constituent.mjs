@@ -1,73 +1,162 @@
 import bloomerang from "../../bloomerang.app.mjs";
-import { axios } from "@pipedream/platform";
+import {
+  COMMUNICATION_CHANNEL_OPTIONS,
+  CONSTITUENT_GENDER_OPTIONS,
+  CONSTITUENT_PREFIX_OPTIONS,
+  CONSTITUENT_STATUS_OPTIONS,
+  CONSTITUENT_SUFFIX_OPTIONS,
+  CONSTITUENT_TYPE_OPTIONS,
+} from "../../common/constants.mjs";
 
 export default {
   key: "bloomerang-create-constituent",
   name: "Create Constituent",
-  description: "Creates a new constituent in Bloomerang. [See the documentation](https://bloomerang.co/product/integrations-data-management/api/rest-api/)",
-  version: "0.0.{{ts}}",
+  description: "Creates a new constituent in Bloomerang. [See the documentation](https://bloomerang.co/product/integrations-data-management/api/rest-api/#/Constituents/post_constituent)",
+  version: "0.0.1",
   type: "action",
   props: {
     bloomerang,
-    constituentType: {
-      propDefinition: [
-        bloomerang,
-        "constituentType",
-      ],
-    },
-    name: {
+    type: {
       type: "string",
-      label: "Name",
-      description: "The name of the constituent",
+      label: "Constituent Type",
+      description: "Filter constituents by type",
+      options: CONSTITUENT_TYPE_OPTIONS,
+      reloadProps: true,
     },
-    contactDetails: {
+    status: {
       type: "string",
-      label: "Contact Details",
-      description: "Contact details of the constituent in JSON format",
-    },
-    address: {
-      type: "string",
-      label: "Address",
-      description: "Address of the constituent",
+      label: "Status",
+      description: "The status of the constituent",
+      options: CONSTITUENT_STATUS_OPTIONS,
       optional: true,
     },
-    tags: {
-      type: "string[]",
-      label: "Tags",
-      description: "Tags for the constituent",
+    fullName: {
+      type: "string",
+      label: "Organization Name",
+      description: "The organization's name of the constituent",
+      hidden: true,
+    },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "The first name of the constituent",
+      hidden: true,
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "The last name of the constituent",
+      hidden: true,
+    },
+    middleName: {
+      type: "string",
+      label: "Middle Name",
+      description: "The middle name of the constituent",
       optional: true,
     },
-    customFields: {
-      type: "string[]",
-      label: "Custom Fields",
-      description: "Custom fields for the constituent in JSON format",
+    prefix: {
+      type: "string",
+      label: "Title",
+      description: "The prefix of the constituent",
+      options: CONSTITUENT_PREFIX_OPTIONS,
+      optional: true,
+    },
+    suffix: {
+      type: "string",
+      label: "Suffix",
+      description: "The suffix of the constituent",
+      options: CONSTITUENT_SUFFIX_OPTIONS,
+      optional: true,
+    },
+    jobTitle: {
+      type: "string",
+      label: "Job Title",
+      description: "The job title of the constituent",
+      optional: true,
+    },
+    gender: {
+      type: "string",
+      label: "Gender",
+      description: "The gender of the constituent",
+      options: CONSTITUENT_GENDER_OPTIONS,
+      optional: true,
+    },
+    birthdate: {
+      type: "string",
+      label: "Birthdate",
+      description: "The birth date of the constituent",
+      optional: true,
+    },
+    employer: {
+      type: "string",
+      label: "Employer",
+      description: "The employer of the constituent",
+      optional: true,
+    },
+    website: {
+      type: "string",
+      label: "Website",
+      description: "An website of the constituent",
+      optional: true,
+    },
+    facebookId: {
+      type: "string",
+      label: "Facebook",
+      description: "The constituent's facebook page",
+      optional: true,
+    },
+    twitterId: {
+      type: "string",
+      label: "Twitter ID",
+      description: "The constituent's twitter ID",
+      optional: true,
+    },
+    linkedInId: {
+      type: "string",
+      label: "LinkedIn",
+      description: "The constituent's linkedIn page",
+      optional: true,
+    },
+    preferredCommunicationChannel: {
+      type: "string",
+      label: "Preferred Communication Channel",
+      description: "The preferred comunication channel of the constituent",
+      options: COMMUNICATION_CHANNEL_OPTIONS,
       optional: true,
     },
   },
+  async additionalProps(props) {
+    const isIndividual = this.type === "Individual";
+    props.firstName.hidden = !isIndividual;
+    props.lastName.hidden = !isIndividual;
+    props.fullName.hidden = isIndividual;
+    return {};
+  },
   async run({ $ }) {
-    const data = {
-      constituentType: this.constituentType,
-      name: this.name,
-      contactDetails: JSON.parse(this.contactDetails),
-      address: this.address
-        ? JSON.parse(this.address)
-        : undefined,
-      tags: this.tags,
-      customFields: this.customFields
-        ? this.customFields.map(JSON.parse)
-        : undefined,
-    };
-
-    const response = await axios($, {
-      method: "POST",
-      url: `${this.bloomerang._baseUrl()}/constituents`,
-      headers: {
-        Authorization: `Bearer ${this.bloomerang.$auth.api_key}`,
+    const response = await this.bloomerang.createConstituent({
+      $,
+      data: {
+        Type: this.type,
+        Status: this.status,
+        FullName: this.fullName,
+        FirstName: this.firstName,
+        LastName: this.lastName,
+        MiddleName: this.middleName,
+        Prefix: this.prefix,
+        Suffix: this.suffix,
+        JobTitle: this.jobTitle,
+        Gender: this.gender,
+        Birthdate: this.birthdate,
+        Employer: this.employer,
+        Website: this.website,
+        FacebookId: this.facebookId,
+        TwitterId: this.twitterId,
+        LinkedInId: this.linkedInId,
+        PreferredCommunicationChannel: this.preferredCommunicationChannel,
       },
-      data,
     });
 
-    $.export("$summary", `Successfully created constituent with ID ${response.id}`);
+    $.export("$summary", `Successfully created constituent with ID ${response.Id}`);
     return response;
   },
 };
