@@ -1,11 +1,11 @@
 # Overview
 
-The Snapchat Marketing API provides a programmable interface to interact with Snapchat's advertising tools. This API enables automated creation and management of ad campaigns, audience targeting, and performance analytics, which can be a boon for marketers seeking to streamline their Snapchat advertising workflows. Leveraging this API on Pipedream, users can create serverless workflows that automate repetitive tasks, integrate with other marketing tools, and dynamically respond to campaign performance data.
+The Snapchat Marketing API provides powerful tools for managing advertising campaigns on one of the most popular social platforms among younger demographics. With this API, you can create, manage, and optimize ad campaigns, generate detailed performance reports, and leverage audience data for targeted marketing efforts. Integrating the Snapchat Marketing API with Pipedream allows you to automate these tasks, seamlessly connecting your Snapchat campaigns with other business tools to enhance efficiency and insights.
 
 # Example Use Cases
 
-- **Automate Ad Campaign Creation**: Utilize Pipedream to listen for new product listings on an eCommerce platform like Shopify. When a new product is listed, automatically create a corresponding ad campaign in Snapchat, including setting budgets, target demographics, and creative assets.
+- **Automated Campaign Reporting**: Set up a workflow that triggers daily to fetch campaign performance data from the Snapchat Marketing API. This data can then be sent to Google Sheets or a BI tool like Tableau using Pipedream's built-in connectors, providing regular insights and trends analysis without manual intervention.
 
-- **Dynamic Campaign Adjustment**: Set up a workflow that monitors campaign performance metrics through the Snapchat Marketing API. If the cost per acquisition (CPA) rises above a certain threshold, the workflow could adjust the bid amount or pause the campaign and send an alert to the marketing team via Slack or email.
+- **Audience Sync for Targeted Ads**: Create a workflow that synchronizes your CRM contacts with Snapchat's audience data. Whenever a new contact is added to your CRM (e.g., Salesforce), the workflow automatically updates your Snapchat ad campaigns' target audiences through the API, ensuring that your ads are always reaching the most relevant users.
 
-- **Synchronize Audiences**: Implement a workflow that syncs email lists from a Customer Relationship Management (CRM) app like HubSpot with Snapchat's Custom Audiences. Periodically update the audience in Snapchat to ensure the most recent contacts are being targeted for upcoming ad campaigns.
+- **Real-Time Budget Adjustment**: Implement a workflow that monitors your spending on Snapchat ads in real-time through the API and compares it with your set budget in a tool like QuickBooks. If spending exceeds the predetermined threshold, the workflow can automatically adjust campaign budgets or pause certain ads to prevent overspending.
