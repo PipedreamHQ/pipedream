@@ -8076,8 +8076,7 @@ importers:
         specifier: ^1.4.1
         version: 1.6.6
 
-  components/mistral_ai:
-    specifiers: {}
+  components/mistral_ai: {}
 
   components/mitra: {}
 
@@ -13696,8 +13695,7 @@ importers:
         specifier: 3.2.2
         version: 3.2.2
 
-  components/verifiedemail:
-    specifiers: {}
+  components/verifiedemail: {}
 
   components/verifone: {}
 
