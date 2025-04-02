@@ -3,7 +3,7 @@ import mistralAI from "../../mistral_ai.app.mjs";
 export default {
   key: "mistral_ai-generate-text",
   name: "Generate Text",
-  description: "Retrieve a list of available Mistral AI models that the user is authorized to access. [See the Documentation](https://docs.mistral.ai/api/#tag/fim/operation/fim_completion_v1_fim_completions_post)",
+  description: "Generate text using Mistral AI models. [See the Documentation](https://docs.mistral.ai/api/#tag/chat/operation/chat_completion_v1_chat_completions_post)",
   version: "0.0.1",
   type: "action",
   props: {
