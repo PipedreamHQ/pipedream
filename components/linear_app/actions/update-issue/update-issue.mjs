@@ -5,7 +5,7 @@ export default {
   name: "Update Issue",
   description: "Update an issue (API Key). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#creating-and-editing-issues)",
   type: "action",
-  version: "0.1.7",
+  version: "0.1.8",
   props: {
     linearApp,
     teamId: {
