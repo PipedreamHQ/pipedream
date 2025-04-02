@@ -102,6 +102,7 @@ export default {
       type: "object",
       label: "Additional Options",
       description: "Additional parameters to send in the request. [See the documentation](https://developer.connectwise.com/Products/ConnectWise_PSA/REST#/Contacts/postCompanyContacts) for available parameters. Values will be parsed as JSON where applicable.",
+      optional: true
     },
   },
   async run({ $ }) {
