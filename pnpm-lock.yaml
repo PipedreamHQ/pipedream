@@ -579,7 +579,7 @@ importers:
     dependencies:
       axios:
         specifier: ^1.5.1
-        version: 1.7.7(debug@3.2.7)
+        version: 1.7.7
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -905,7 +905,7 @@ importers:
         version: 1.6.6
       axios:
         specifier: ^1.6.2
-        version: 1.7.7(debug@3.2.7)
+        version: 1.7.7
       sqlstring:
         specifier: ^2.3.3
         version: 2.3.3
@@ -1400,6 +1400,9 @@ importers:
         version: 1.6.6
 
   components/better_uptime: {}
+
+  components/bettercontact:
+    specifiers: {}
 
   components/bettervoice:
     dependencies:
@@ -1931,6 +1934,9 @@ importers:
         specifier: ^4.2.0
         version: 4.2.0
 
+  components/bytebot:
+    specifiers: {}
+
   components/byteforms:
     dependencies:
       '@pipedream/platform':
@@ -2228,7 +2234,7 @@ importers:
         version: 1.6.6
       axios:
         specifier: ^1.6.5
-        version: 1.7.7(debug@3.2.7)
+        version: 1.7.7
 
   components/chatfai:
     dependencies:
@@ -2958,7 +2964,7 @@ importers:
     dependencies:
       axios:
         specifier: ^1.4.0
-        version: 1.7.7(debug@3.2.7)
+        version: 1.7.7
       js2xmlparser:
         specifier: ^5.0.0
         version: 5.0.0
@@ -3412,7 +3418,7 @@ importers:
     dependencies:
       axios:
         specifier: ^1.6.1
-        version: 1.7.7(debug@3.2.7)
+        version: 1.7.7
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -6589,7 +6595,14 @@ importers:
 
   components/jellyreach: {}
 
-  components/jenkins: {}
+  components/jenkins:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      fast-xml-parser:
+        specifier: ^4.3.2
+        version: 4.5.0
 
   components/jibble:
     dependencies:
@@ -7242,7 +7255,7 @@ importers:
         version: 3.0.3
       axios:
         specifier: ^1.2.3
-        version: 1.7.7(debug@3.2.7)
+        version: 1.7.7
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -7710,7 +7723,7 @@ importers:
         version: 1.6.6
       axios:
         specifier: ^1.2.1
-        version: 1.7.7(debug@3.2.7)
+        version: 1.7.7
 
   components/mattermost:
     dependencies:
@@ -8066,6 +8079,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.4.1
         version: 1.6.6
+
+  components/mistral_ai:
+    specifiers: {}
 
   components/mitra: {}
 
@@ -8600,6 +8616,9 @@ importers:
         specifier: ^1.3.0
         version: 1.6.6
 
+  components/notiff:
+    specifiers: {}
+
   components/notion:
     dependencies:
       '@notionhq/client':
@@ -8883,7 +8902,7 @@ importers:
         version: 0.1.6
       axios:
         specifier: ^1.6.2
-        version: 1.7.7(debug@3.2.7)
+        version: 1.7.7
       bottleneck:
         specifier: ^2.19.5
         version: 2.19.5
@@ -9213,7 +9232,7 @@ importers:
     dependencies:
       axios:
         specifier: ^1.2.1
-        version: 1.7.7(debug@3.2.7)
+        version: 1.7.7
       url:
         specifier: ^0.11.0
         version: 0.11.4
@@ -10236,7 +10255,11 @@ importers:
         specifier: ^1.2.1
         version: 1.6.6
 
-  components/quriiri: {}
+  components/quriiri:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/qwilr: {}
 
@@ -12161,7 +12184,11 @@ importers:
         specifier: ^2.3.0
         version: 2.3.0
 
-  components/splunk_http_event_collector: {}
+  components/splunk_http_event_collector:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/splynx:
     dependencies:
@@ -12743,8 +12770,8 @@ importers:
   components/telegram_bot_api:
     dependencies:
       '@pipedream/platform':
-        specifier: ^0.9.0
-        version: 0.9.0
+        specifier: ^3.0.3
+        version: 3.0.3
       node-telegram-bot-api:
         specifier: ^0.54.0
         version: 0.54.0
@@ -12759,6 +12786,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.0
         version: 1.6.6
+
+  components/teltel:
+    specifiers: {}
 
   components/temi:
     dependencies:
@@ -13669,6 +13699,9 @@ importers:
       verifalia:
         specifier: 3.2.2
         version: 3.2.2
+
+  components/verifiedemail:
+    specifiers: {}
 
   components/verifone: {}
 
@@ -14801,7 +14834,7 @@ importers:
         version: 1.6.6
       axios:
         specifier: ^1.5.1
-        version: 1.7.7(debug@3.2.7)
+        version: 1.7.7
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -15077,7 +15110,7 @@ importers:
     dependencies:
       axios:
         specifier: ^1.7.4
-        version: 1.7.7(debug@3.2.7)
+        version: 1.7.7
       fp-ts:
         specifier: ^2.0.2
         version: 2.16.9
@@ -20488,12 +20521,6 @@ packages:
 
   axios@1.7.7:
     resolution: {integrity: sha512-S4kL7XrjgBmvdGut0sN3yJxqYzrDOnivkBiN0OFs6hLiUam3UPvswUo0kqGyhqUZGEOytHyumEdXsAkgCOUf3Q==}
-
-  axios@1.7.9:
-    resolution: {integrity: sha512-LhLcE7Hbiryz8oMDdDptSrWowmB4Bl6RCt6sIJKpRB4XtVf0iEgewX3au/pJqm+Py1kCASkb/FFKjxQaLtxJvw==}
-
-  axios@1.8.2:
-    resolution: {integrity: sha512-ls4GYBm5aig9vWx8AWDSGLpnpDQRtWAfrjU+EuytuODrFBkqesN2RkOQCBzrA1RQNHw1SmRMSDDDSwzNAYQ6Rg==}
 
   axios@1.8.4:
     resolution: {integrity: sha512-eBSYY4Y68NNlHbHBMdeDmKNtDgXWhQsJcGqzO3iLUM0GraQFSS9cVgPX5I9b3lbdFKyYoAEGAZF1DwhTaljNAw==}
@@ -32111,7 +32138,7 @@ snapshots:
   '@bandwidth/messaging@4.1.7':
     dependencies:
       '@apimatic/schema': 0.6.0
-      axios: 1.7.7(debug@3.2.7)
+      axios: 1.8.4(debug@3.2.7)
       detect-node: 2.1.0
       form-data: 3.0.2
       json-bigint: 1.0.0
@@ -33293,7 +33320,7 @@ snapshots:
     dependencies:
       '@types/body-parser': 1.19.5
       '@types/node': 18.19.64
-      axios: 1.7.7(debug@3.2.7)
+      axios: 1.8.4(debug@3.2.7)
       body-parser: 1.20.3
       file-type: 16.5.4
       form-data: 4.0.1
@@ -33315,7 +33342,7 @@ snapshots:
 
   '@lob/lob-typescript-sdk@1.3.5':
     dependencies:
-      axios: 1.7.7(debug@3.2.7)
+      axios: 1.8.4(debug@3.2.7)
       tslib: 2.8.1
     transitivePeerDependencies:
       - debug
@@ -33911,7 +33938,7 @@ snapshots:
   '@pipedream/linkedin@0.1.1':
     dependencies:
       '@pipedream/platform': 1.6.6
-      axios: 1.7.7(debug@3.2.7)
+      axios: 1.8.4(debug@3.2.7)
       form-data: 4.0.1
     transitivePeerDependencies:
       - debug
@@ -33955,7 +33982,7 @@ snapshots:
 
   '@pipedream/platform@1.6.0':
     dependencies:
-      axios: 1.7.7(debug@3.2.7)
+      axios: 1.8.4(debug@3.2.7)
       fp-ts: 2.16.9
       io-ts: 2.2.21(fp-ts@2.16.9)
       querystring: 0.2.1
@@ -33964,7 +33991,7 @@ snapshots:
 
   '@pipedream/platform@1.6.2':
     dependencies:
-      axios: 1.7.7(debug@3.2.7)
+      axios: 1.8.4(debug@3.2.7)
       fp-ts: 2.16.9
       io-ts: 2.2.21(fp-ts@2.16.9)
       querystring: 0.2.1
@@ -33973,7 +34000,7 @@ snapshots:
 
   '@pipedream/platform@1.6.4':
     dependencies:
-      axios: 1.7.7(debug@3.2.7)
+      axios: 1.8.4(debug@3.2.7)
       fp-ts: 2.16.9
       io-ts: 2.2.21(fp-ts@2.16.9)
       querystring: 0.2.1
@@ -33982,7 +34009,7 @@ snapshots:
 
   '@pipedream/platform@1.6.5':
     dependencies:
-      axios: 1.7.7(debug@3.2.7)
+      axios: 1.8.4(debug@3.2.7)
       fp-ts: 2.16.9
       io-ts: 2.2.21(fp-ts@2.16.9)
       querystring: 0.2.1
@@ -33991,7 +34018,7 @@ snapshots:
 
   '@pipedream/platform@1.6.6':
     dependencies:
-      axios: 1.7.7(debug@3.2.7)
+      axios: 1.8.4(debug@3.2.7)
       fp-ts: 2.16.9
       io-ts: 2.2.21(fp-ts@2.16.9)
       querystring: 0.2.1
@@ -34000,7 +34027,7 @@ snapshots:
 
   '@pipedream/platform@2.0.0':
     dependencies:
-      axios: 1.7.7(debug@3.2.7)
+      axios: 1.8.4(debug@3.2.7)
       fp-ts: 2.16.9
       io-ts: 2.2.21(fp-ts@2.16.9)
       querystring: 0.2.1
@@ -34009,7 +34036,7 @@ snapshots:
 
   '@pipedream/platform@3.0.1':
     dependencies:
-      axios: 1.7.7(debug@3.2.7)
+      axios: 1.8.4(debug@3.2.7)
       fp-ts: 2.16.9
       io-ts: 2.2.21(fp-ts@2.16.9)
       querystring: 0.2.1
@@ -34018,7 +34045,7 @@ snapshots:
 
   '@pipedream/platform@3.0.3':
     dependencies:
-      axios: 1.7.7(debug@3.2.7)
+      axios: 1.8.4(debug@3.2.7)
       fp-ts: 2.16.9
       io-ts: 2.2.22(fp-ts@2.16.9)
       querystring: 0.2.1
@@ -35344,7 +35371,7 @@ snapshots:
       '@slack/types': 2.14.0
       '@types/node': 20.17.6
       '@types/retry': 0.12.0
-      axios: 1.8.4
+      axios: 1.8.4(debug@3.2.7)
       eventemitter3: 5.0.1
       form-data: 4.0.2
       is-electron: 2.2.2
@@ -36086,7 +36113,7 @@ snapshots:
 
   '@types/axios@0.14.4':
     dependencies:
-      axios: 1.7.7(debug@3.2.7)
+      axios: 1.8.4(debug@3.2.7)
     transitivePeerDependencies:
       - debug
 
@@ -37114,7 +37141,7 @@ snapshots:
     dependencies:
       '@aws-sdk/util-utf8-browser': 3.259.0
       '@httptoolkit/websocket-stream': 6.0.1
-      axios: 1.8.2
+      axios: 1.8.4(debug@3.2.7)
       buffer: 6.0.3
       crypto-js: 4.2.0
       mqtt: 4.3.8
@@ -37204,7 +37231,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  axios@1.7.7(debug@3.2.7):
+  axios@1.7.7:
     dependencies:
       follow-redirects: 1.15.9(debug@3.2.7)
       form-data: 4.0.1
@@ -37212,23 +37239,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  axios@1.7.9:
-    dependencies:
-      follow-redirects: 1.15.9(debug@3.2.7)
-      form-data: 4.0.2
-      proxy-from-env: 1.1.0
-    transitivePeerDependencies:
-      - debug
-
-  axios@1.8.2:
-    dependencies:
-      follow-redirects: 1.15.9(debug@3.2.7)
-      form-data: 4.0.2
-      proxy-from-env: 1.1.0
-    transitivePeerDependencies:
-      - debug
-
-  axios@1.8.4:
+  axios@1.8.4(debug@3.2.7):
     dependencies:
       follow-redirects: 1.15.9(debug@3.2.7)
       form-data: 4.0.2
@@ -37969,7 +37980,7 @@ snapshots:
 
   columns-sdk@0.0.6:
     dependencies:
-      axios: 1.7.7(debug@3.2.7)
+      axios: 1.8.4(debug@3.2.7)
       columns-graph-model: 1.1.4
       nebula-js-lib: 0.3.2
       pako: 2.1.0
@@ -42309,7 +42320,7 @@ snapshots:
 
   klaviyo-api@11.0.0:
     dependencies:
-      axios: 1.7.7(debug@3.2.7)
+      axios: 1.8.4(debug@3.2.7)
       exponential-backoff: 3.1.1
       form-data: 4.0.1
     transitivePeerDependencies:
@@ -42439,7 +42450,7 @@ snapshots:
 
   linkup-sdk@1.0.3:
     dependencies:
-      axios: 1.7.9
+      axios: 1.8.4(debug@3.2.7)
       zod: 3.24.1
       zod-to-json-schema: 3.24.1(zod@3.24.1)
     transitivePeerDependencies:
@@ -44670,7 +44681,7 @@ snapshots:
 
   pipedrive@24.1.1:
     dependencies:
-      axios: 1.7.9
+      axios: 1.8.4(debug@3.2.7)
       qs: 6.13.1
     transitivePeerDependencies:
       - debug
@@ -46435,7 +46446,7 @@ snapshots:
       agent-base: 6.0.2
       asn1.js-rfc2560: 5.0.1(asn1.js@5.4.1)
       asn1.js-rfc5280: 3.0.0
-      axios: 1.7.7(debug@3.2.7)
+      axios: 1.8.4(debug@3.2.7)
       big-integer: 1.6.52
       bignumber.js: 2.4.0
       binascii: 0.0.2

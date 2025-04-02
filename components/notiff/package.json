@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/notiff",
+  "version": "0.0.1",
+  "description": "Pipedream Notiff Components",
+  "main": "notiff.app.mjs",
+  "keywords": [
+    "pipedream",
+    "notiff"
+  ],
+  "homepage": "https://pipedream.com/apps/notiff",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

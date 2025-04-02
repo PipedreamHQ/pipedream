@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "oracle_cloud_infrastructure",
+  app: "verifiedemail",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
