@@ -1,31 +1,26 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "lucca",
   propDefinitions: {
-    leaveType: {
-      type: "string",
-      label: "Leave Type",
-      description: "Filter by leave type",
-      optional: true,
-      async options() {
-        const leaveTypes = await this.listLeaveTypes();
-        return leaveTypes.map((type) => ({
-          label: type.name,
-          value: type.id,
-        }));
-      },
-    },
     userId: {
       type: "string",
       label: "User ID",
       description: "The ID of the user",
-      async options() {
-        const users = await this.listUsers();
-        return users.map((user) => ({
-          label: user.displayName,
-          value: user.id,
+      async options({ page }) {
+        const { data: { items } } = await this.listUsers({
+          params: {
+            paging: `${LIMIT * page},${LIMIT}`,
+          },
+        });
+
+        return items.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -33,114 +28,107 @@ export default {
       type: "string",
       label: "Leave Request ID",
       description: "The ID of the leave request to approve",
-      async options() {
-        const leaveRequests = await this.listLeaveRequests();
-        return leaveRequests.map((request) => ({
-          label: `${request.id} - ${request.status}`,
-          value: request.id,
+      async options({ page }) {
+        const { data: { items } } = await this.listLeaveRequests({
+          params: {
+            paging: `${LIMIT * page},${LIMIT}`,
+            status: 0,
+          },
+        });
+        return items.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
   },
   methods: {
     _baseUrl() {
-      return `https://${this.$auth.account}.ilucca.net/api/v3`;
+      return `${this.$auth.api_url}/api/v3`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "authorization": `lucca application=${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async listLeaveTypes(opts = {}) {
+    listLeaveTypes(opts = {}) {
       return this._makeRequest({
         path: "/leaveperiods/leavetypes",
         ...opts,
       });
     },
-    async listUsers(opts = {}) {
-      const response = await this._makeRequest({
+    listUsers(opts = {}) {
+      return this._makeRequest({
         path: "/users",
         ...opts,
       });
-      return response.items;
     },
-    async listLeaveRequests(opts = {}) {
-      const response = await this._makeRequest({
+    listLeaveRequests(opts = {}) {
+      return this._makeRequest({
         path: "/leaveRequests",
         ...opts,
       });
-      return response.items;
     },
-    async approveLeaveRequest({
-      leaveRequestId, approved = true, comment = "",
+    approveLeaveRequest({
+      leaveRequestId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
         path: `/leaveRequests/${leaveRequestId}/approvals`,
-        data: {
-          approved,
-          comment,
-        },
+        ...opts,
       });
     },
-    async updateUserProfile({
-      userId, firstname, lastname, mail, login, legalentityid, cspid, calendarid,
-      employeenumber, birthdate, userworkcycles, departmentid, managerid,
-      roleprincipalid, habilitedroles, cultureid, address, bankname,
-      directline, jobtitle, gender, nationality, personalemail, personalmobile,
-      professionalmobile, quote,
+    updateUserProfile({
+      userId, ...opts
     }) {
       return this._makeRequest({
         method: "PUT",
         path: `/users/${userId}`,
-        data: {
-          firstName: firstname,
-          lastName: lastname,
-          mail,
-          login,
-          legalEntityId: legalentityid,
-          cspId: cspid,
-          calendarId: calendarid,
-          employeeNumber: employeenumber,
-          birthDate: birthdate,
-          userWorkCycles: userworkcycles
-            ? userworkcycles.map(JSON.parse)
-            : [],
-          departmentId: departmentid,
-          managerId: managerid,
-          rolePrincipalId: roleprincipalid,
-          habilitedRoles: habilitedroles
-            ? habilitedroles.map(JSON.parse)
-            : [],
-          cultureId: cultureid,
-          address,
-          bankName: bankname,
-          directLine: directline,
-          jobTitle: jobtitle,
-          gender,
-          nationality,
-          personalEmail: personalemail,
-          personalMobile: personalmobile,
-          professionalMobile: professionalmobile,
-          quote,
-        },
+        ...opts,
       });
     },
-    async listExpenseClaims(opts = {}) {
+    listExpenseClaims(opts = {}) {
       return this._makeRequest({
         path: "/expenseClaims",
         ...opts,
       });
     },
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.paging = `${LIMIT * page},${LIMIT}`;
+        page++;
+        const { data: { items } } = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of items) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = items.length;
+
+      } while (hasMore);
+    },
   },
-  version: "0.0.{{ts}}",
 };
