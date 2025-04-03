@@ -6,7 +6,7 @@ export default {
   key: "krispcall-new-voicemail-instant",
   name: "New Voicemail (Instant)",
   description: "Emit new event when a new voicemail is sent.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {
