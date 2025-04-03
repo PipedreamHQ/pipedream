@@ -13650,7 +13650,14 @@ importers:
 
   components/vectera: {}
 
-  components/vectorshift: {}
+  components/vectorshift:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      fs:
+        specifier: ^0.0.1-security
+        version: 0.0.1-security
 
   components/vend:
     dependencies:
@@ -44914,7 +44921,7 @@ snapshots:
       jsdoc: 4.0.4
       minimist: 1.2.8
       protobufjs: 7.2.4
-      semver: 7.6.3
+      semver: 7.7.1
       tmp: 0.2.3
       uglify-js: 3.19.3
 
