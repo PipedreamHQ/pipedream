@@ -10,6 +10,6 @@ export default {
   ...utils.getAppProps(getIssue),
   key: "linear-get-issue",
   description: "Get an issue by ID (OAuth). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api)",
-  version: "0.1.8",
+  version: "0.1.9",
 };
 

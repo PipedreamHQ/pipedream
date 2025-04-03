@@ -10,5 +10,5 @@ export default {
   ...utils.getAppProps(newIssueStatusUpdated),
   key: "linear-new-issue-status-updated",
   description: "Emit new event when the status of an issue is updated (OAuth). [See the documentation](https://developers.linear.app/docs/graphql/webhooks)",
-  version: "0.1.10",
+  version: "0.1.12",
 };
