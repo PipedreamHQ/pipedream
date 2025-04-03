@@ -44,7 +44,6 @@ export default {
     const response = await this.apiverve.getWeather({
       $,
       params: {
-        domain: this.domain,
         city: this.city,
         zip: this.zip,
       },
