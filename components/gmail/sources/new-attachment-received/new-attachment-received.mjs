@@ -57,6 +57,7 @@ export default {
     emitEvent(message) {
       if (message) {
         const { parts: attachments } = message.payload;
+        delete message.payload;
 
         attachments.filter((attachment) => attachment.body.attachmentId).forEach((attachment) => {
           this.$emit({
