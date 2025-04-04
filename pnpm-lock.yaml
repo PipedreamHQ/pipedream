@@ -883,7 +883,11 @@ importers:
         specifier: ^1.1.1
         version: 1.6.6
 
-  components/apiverve: {}
+  components/apiverve:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/apollo_io:
     dependencies:
