@@ -1,7 +1,7 @@
 import fs from "fs";
 
 function normalizeFilePath(path) {
-  return path.includes("tmp/")
+  return path.startsWith("/tmp/")
     ? path
     : `/tmp/${path}`;
 }
