@@ -13,7 +13,7 @@ export default {
     filePath: {
       propDefinition: [
         pdf4me,
-        "filePath,",
+        "filePath",
       ],
     },
     optimizeProfile: {
