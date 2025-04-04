@@ -1,4 +1,12 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
+import Bottleneck from "bottleneck";
+const limiter = new Bottleneck({
+  minTime: 100, // 10 requests per seconds (https://www.openphone.com/docs/mdx/api-reference/rate-limits)
+  maxConcurrent: 1,
+});
+const axiosRateLimiter = limiter.wrap(axios);
 
 export default {
   type: "app",
@@ -10,51 +18,53 @@ export default {
       description: "The sender's phone number. Can be either your OpenPhone phone number ID or the full phone number in E.164 format.",
       async options() {
         const { data } = await this.listPhoneNumbers();
-        return data.map(({
+        return data?.map(({
           id: value, name, formattedNumber,
         }) => ({
-          label: `${name} - ${formattedNumber}`,
+          label: name && formattedNumber
+            ? `${name} - ${formattedNumber}`
+            : value,
           value,
-        }));
+        })) || [];
       },
     },
     firstName: {
       type: "string",
       label: "First Name",
-      description: "The contact's first name.",
+      description: "The contact's first name",
     },
     lastName: {
       type: "string",
       label: "Last Name",
-      description: "The contact's last name.",
+      description: "The contact's last name",
       optional: true,
     },
     company: {
       type: "string",
       label: "Company",
-      description: "The contact's company name.",
+      description: "The contact's company name",
       optional: true,
     },
     role: {
       type: "string",
       label: "Role",
-      description: "The contact's role.",
+      description: "The contact's role",
       optional: true,
     },
     emails: {
       type: "string[]",
       label: "Emails",
-      description: "Array of objects of contact's emails. **Example:** `{\"name\": \"Company Email\", \"value\": \"abc@example.com\"}`.",
+      description: "Array of objects of contact's emails. **Example:** `{\"name\": \"Company Email\", \"value\": \"abc@example.com\"}`",
     },
     phoneNumbers: {
       type: "string[]",
       label: "Phone Numbers",
-      description: "Array of objects of contact's phone numbers. **Example:** `{\"name\": \"Company Phone\", \"value\": \"+12345678901\"}`.",
+      description: "Array of objects of contact's phone numbers. **Example:** `{\"name\": \"Company Phone\", \"value\": \"+12345678901\"}`",
     },
     customFields: {
       type: "string[]",
       label: "Custom Fields",
-      description: "Array of objects of custom fields for the contact. **Example:** `{\"key\": \"inbound-lead\", \"value\": \"[\"option1\", \"option2\"]\"}`.",
+      description: "Array of objects of custom fields for the contact. **Example:** `{\"key\": \"inbound-lead\", \"value\": [\"option1\", \"option2\"]}`",
     },
   },
   methods: {
@@ -66,14 +76,22 @@ export default {
         Authorization: `${this.$auth.api_key}`,
       };
     },
-    _makeRequest({
+    async _makeRequest({
       $ = this, path, ...opts
     }) {
-      return axios($, {
-        url: this._baseUrl() + path,
-        headers: this._headers(),
-        ...opts,
-      });
+      try {
+        return await axiosRateLimiter($, {
+          url: this._baseUrl() + path,
+          headers: this._headers(),
+          ...opts,
+        });
+      } catch ({ response }) {
+        const errorMessage = response?.data?.errors
+          ? `Prop: ${response.data.errors[0].path} - ${response.data.errors[0].message}`
+          : response?.data?.message;
+
+        throw new ConfigurationError(errorMessage);
+      }
     },
     listPhoneNumbers(opts = {}) {
       return this._makeRequest({

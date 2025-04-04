@@ -4,9 +4,9 @@ import sampleEmit from "./test-event.mjs";
 export default {
   ...common,
   key: "openphone-new-call-recording-completed-instant",
-  name: "New Call Recording Completed",
+  name: "New Call Recording Completed (Instant)",
   description: "Emit new event when a call recording has finished.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

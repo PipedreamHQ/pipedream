@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/openphone",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream OpenPhone Components",
   "main": "openphone.app.mjs",
   "keywords": [
@@ -13,6 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.0.3"
+    "@pipedream/platform": "^3.0.3",
+    "bottleneck": "^2.19.5"
   }
 }
