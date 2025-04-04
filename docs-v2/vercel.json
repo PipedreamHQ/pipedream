@@ -1,4 +1,5 @@
 {
   "installCommand": "npx pnpm@9.14.2 install --frozen-lockfile=false",
-  "buildCommand": "npx pnpm@9.14.2 run build"
+  "buildCommand": "npx pnpm@9.14.2 run build",
+  "rootDirectory": "docs-v2"
 }
