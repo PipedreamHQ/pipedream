@@ -3,19 +3,19 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "krispcall-new-contact-instant",
-  name: "New Contact (Instant)",
-  description: "Emit new event when a new contact is created.",
-  version: "0.0.3",
+  key: "krispcall-new-call-instant",
+  name: "New Call (Instant)",
+  description: "Emit new event when a new call is created.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     getAction() {
-      return "new_contact";
+      return "new_call_log";
     },
     getSummary(body) {
-      return `New contact created: ${body.name} ${body.contact_number}`;
+      return `New call from ${body.call_from} to ${body.call_to}`;
     },
   },
   sampleEmit,
