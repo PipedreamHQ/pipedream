@@ -8074,7 +8074,11 @@ importers:
         specifier: ^1.4.1
         version: 1.6.6
 
-  components/mistral_ai: {}
+  components/mistral_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/mitra: {}
 
