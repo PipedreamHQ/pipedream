@@ -292,6 +292,10 @@ export default withNextra({
         permanent: true,
       },
       {
+        source: "/workflows/sharing/",
+        destination: "/workflows/building-workflows/sharing/",
+      },
+      {
         source: "/code/",
         destination: "/workflows/building-workflows/code/",
         permanent: true,
