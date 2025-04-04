@@ -18,8 +18,7 @@
     "noImplicitAny": true,
     "types": [
       "node",
-      "jest",
-      "jest-fetch-mock"
+      "jest"
     ]
   },
   "include": [

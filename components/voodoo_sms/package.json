@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/voodoo_sms",
+  "version": "0.6.0",
+  "description": "Pipedream voodoo_sms Components",
+  "main": "voodoo_sms.app.mjs",
+  "keywords": [
+    "pipedream",
+    "voodoo_sms"
+  ],
+  "homepage": "https://pipedream.com/apps/voodoo_sms",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

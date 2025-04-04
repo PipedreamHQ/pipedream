@@ -1,5 +1,4 @@
 import hubspot from "../../hubspot.app.mjs";
-import Bottleneck from "bottleneck";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
@@ -14,14 +13,6 @@ export default {
     },
   },
   methods: {
-    _limiter() {
-      return new Bottleneck({
-        minTime: 250, // max 4 requests per second
-      });
-    },
-    async _requestWithLimiter(limiter, resourceFn, params) {
-      return limiter.schedule(async () => await resourceFn(params));
-    },
     _getAfter() {
       return this.db.get("after") || new Date().setDate(new Date().getDate() - 1); // 1 day ago
     },
@@ -76,9 +67,8 @@ export default {
     async paginate(params, resourceFn, resultType = null, after = null) {
       let results = null;
       let maxTs = after || 0;
-      const limiter = this._limiter();
       while (!results || params.after) {
-        results = await this._requestWithLimiter(limiter, resourceFn, params);
+        results = await resourceFn(params);
         if (results.paging) {
           params.after = results.paging.next.after;
         } else {
@@ -114,10 +104,9 @@ export default {
       let results, items;
       let count = 0;
       let maxTs = after || 0;
-      const limiter = this._limiter();
       while (hasMore && (!limitRequest || count < limitRequest)) {
         count++;
-        results = await this._requestWithLimiter(limiter, resourceFn, params);
+        results = await resourceFn(params);
         hasMore = results.hasMore;
         if (hasMore) {
           params.offset = results.offset;

@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/givebutter",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Pipedream Givebutter Components",
-  "main": "givebutter.app.js",
+  "main": "givebutter.app.mjs",
   "keywords": [
     "pipedream",
     "givebutter"

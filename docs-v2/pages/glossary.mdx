@@ -28,7 +28,7 @@ Pipedream's plan for individuals and teams running production workflows. [See th
 
 ### Auto-retry
 
-[A workflow setting](/workflows/settings#auto-retry-errors) that lets you automatically retry an execution from the failed step when it encounters an error.
+[A workflow setting](/workflows/building-workflows/settings/#auto-retry-errors) that lets you automatically retry an execution from the failed step when it encounters an error.
 
 ## B
 
@@ -64,7 +64,7 @@ Synonym for [project changelog](#project-changelog).
 
 ### Code step
 
-[Steps](#step) that let users run [custom code](/code) in a workflow.
+[Steps](#step) that let users run [custom code](/workflows/building-workflows/code/) in a workflow.
 
 ### Cold start
 
@@ -76,7 +76,7 @@ Short for [Git commit](https://git-scm.com/book/en/v2/Git-Basics-Recording-Chang
 
 ### Component
 
-Components are Node.js modules that run on Pipedream's serverless infrastructure. [Sources](#source) and [actions](#action) are two types of components. See [the component API](/components/api) for more details.
+Components are Node.js modules that run on Pipedream's serverless infrastructure. [Sources](#source) and [actions](#action) are two types of components. See [the component API](/workflows/contributing/components/api/) for more details.
 
 ### Component API
 
@@ -92,23 +92,23 @@ The public registry of [components](#component) available to Pipedream users, [a
 
 ### Concurrency
 
-[A workflow setting](/workflows/concurrency-and-throttling#concurrency) that lets users configure the number of concurrent [workers](#worker) available to process events.
+[A workflow setting](/workflows/building-workflows/settings/concurrency-and-throttling/#concurrency) that lets users configure the number of concurrent [workers](#worker) available to process events.
 
 ### Connected account
 
-A specific account or credentials used to connect to a Pipedream [integration](#integrations). If both you and your team member have an account with OpenAI, for example, you would connect each account as a distinct connected account. [See the docs](/connected-accounts) for more details.
+A specific account or credentials used to connect to a Pipedream [integration](#integrations). If both you and your team member have an account with OpenAI, for example, you would connect each account as a distinct connected account. [See the docs](/integrations/connected-accounts) for more details.
 
 ### Connected account access control
 
-You can restrict access to connected accounts to specific individuals or share with the entire workspace. [See the docs](/connected-accounts#access-control) for more details.
+You can restrict access to connected accounts to specific individuals or share with the entire workspace. [See the docs](/integrations/connected-accounts#access-control) for more details.
 
 ### Credit
 
-Pipedream charges one credit per 30 seconds of compute time at 256MB megabytes of memory (the default) per workflow execution. Credits are also charged for [dedicated workers](#dedicated-workers). [See the docs](/pricing#credits) for more details.
+Pipedream charges one credit per 30 seconds of compute time at 256MB megabytes of memory (the default) per workflow execution. Credits are also charged for [dedicated workers](#dedicated-workers). [See the docs](/pricing/#credits) for more details.
 
 ### Custom domain
 
-By default, [HTTP endpoints](#http-endpoint) are served from the `*.m.pipedream.net` domain. You can configure a [custom domain](/workflows/domains) if you want to host that endpoint on your own domain.
+By default, [HTTP endpoints](#http-endpoint) are served from the `*.m.pipedream.net` domain. You can configure a [custom domain](/workflows/domains/) if you want to host that endpoint on your own domain.
 
 ### Custom source
 
@@ -118,23 +118,23 @@ An [event source](#event-source) that you create using custom code, or by modify
 
 ### Data retention
 
-A workflow setting that allows you to configure how long Pipedream stores event data and logs associated with [executions](#execution). [See the docs](/workflows/settings#data-retention-controls) for more details.
+A workflow setting that allows you to configure how long Pipedream stores event data and logs associated with [executions](#execution). [See the docs](/workflows/building-workflows/settings/#data-retention-controls) for more details.
 
 ### Dedicated workers
 
-[Workers](#worker) that remain available to process events, even when the workflow is not running. This can help reduce [cold starts](#cold-start) and improve performance for workflows that require low latency. [See the docs](/workflows/settings#eliminate-cold-starts) for more details.
+[Workers](#worker) that remain available to process events, even when the workflow is not running. This can help reduce [cold starts](#cold-start) and improve performance for workflows that require low latency. [See the docs](/workflows/building-workflows/settings/#eliminate-cold-starts) for more details.
 
 ### Deduper
 
-[Event sources](#event-source) can receive duplicate requests tied to the same event. Pipedream's infrastructure supports [deduplication](/components/api#dedupe-strategies) to ensure that only unique events are emitted by a source.
+[Event sources](#event-source) can receive duplicate requests tied to the same event. Pipedream's infrastructure supports [deduplication](/workflows/contributing/components/api/#dedupe-strategies) to ensure that only unique events are emitted by a source.
 
 ### Delay
 
-[A built-in service](/workflows/control-flow/delay) that lets you pause a workflow for a specified amount of time. You can delay workflows using pre-built actions, or delay in code.
+[A built-in service](/workflows/building-workflows/control-flow/delay/) that lets you pause a workflow for a specified amount of time. You can delay workflows using pre-built actions, or delay in code.
 
 ### Destination
 
-[Destinations](/destinations) are built-in services that abstract the delivery and connection logic required to send events to services like Amazon S3, or targets like HTTP and email.
+[Destinations](/workflows/data-management/destinations/) are built-in services that abstract the delivery and connection logic required to send events to services like Amazon S3, or targets like HTTP and email.
 
 ### Domain
 
@@ -142,11 +142,11 @@ Synonum for [custom domain](#custom-domain).
 
 ### Data store
 
-[Data stores](/data-stores) are Pipedream's built-in key-value store.
+[Data stores](/workflows/data-management/data-stores/) are Pipedream's built-in key-value store.
 
 ### Deploy key
 
-When you configure [GitHub Sync](#github-sync), you can use a deploy key to authenticate Pipedream with your GitHub repository. [See the docs](/projects/git#create-a-new-project-and-enable-github-sync) for more details.
+When you configure [GitHub Sync](#github-sync), you can use a deploy key to authenticate Pipedream with your GitHub repository. [See the docs](/workflows/git/#create-a-new-project-and-enable-github-sync) for more details.
 
 ## E
 
@@ -168,7 +168,7 @@ A resource that [emits](#emit) [events](#event). Emitters can be [event sources]
 
 ### Error notification
 
-When a workflow execution encounters an error, Pipedream sends an [error notification](/workflows/errors) to the configured error [listeners](#listener).
+When a workflow execution encounters an error, Pipedream sends an [error notification](/workflows/building-workflows/errors/) to the configured error [listeners](#listener).
 
 ### Environment variable
 
@@ -183,15 +183,15 @@ Events are emitted by [sources](#event-source) and consumed by workflows. Events
 
 ### Event context
 
-Metadata about a workflow execution, including the timestamp of the event, the event ID, and more. Exposed in [`steps.trigger.context`](/workflows/events#stepstriggercontext).
+Metadata about a workflow execution, including the timestamp of the event, the event ID, and more. Exposed in [`steps.trigger.context`](/workflows/building-workflows/triggers/#stepstriggercontext).
 
 ### Event data
 
-The content of the event, exposed in [`steps.trigger.event`](/workflows/events).
+The content of the event, exposed in [`steps.trigger.event`](/workflows/building-workflows/triggers/).
 
 ### Event history
 
-A log of all workflow events and executions, available in the [event inspector](#inspector) or the global [event history UI](/event-history).
+A log of all workflow events and executions, available in the [event inspector](#inspector) or the global [event history UI](/workflows/event-history/).
 
 ### Event queue
 
@@ -207,32 +207,32 @@ When a workflow is triggered by an event, the running instance of the workflow o
 
 ### Execution environment
 
-[The virtual machine](/privacy-and-security#execution-environment) and internal Pipedream platform code that runs a workflow execution. An instance of an execution environment is called a [worker](#worker).
+[The virtual machine](/privacy-and-security/#execution-environment) and internal Pipedream platform code that runs a workflow execution. An instance of an execution environment is called a [worker](#worker).
 
 ### Execution rate controls
 
-The workflow setting that allows users to configure the number of executions a workflow can process per unit time. Also known as throttling. [See the docs](/workflows/concurrency-and-throttling#throttling) for more details.
+The workflow setting that allows users to configure the number of executions a workflow can process per unit time. Also known as throttling. [See the docs](/workflows/building-workflows/settings/concurrency-and-throttling/#throttling) for more details.
 
 ### Export
 
 Depending on the context, **export** can function as a noun or verb:
 
 - **Noun**: A synonym for [step export](#step-export)
-- **Verb**: The act of exporting data from a step using Pipedream primitives like [`$.export`](/code/nodejs#using-export) or `return`.
+- **Verb**: The act of exporting data from a step using Pipedream primitives like [`$.export`](/workflows/building-workflows/code/nodejs/#using-export) or `return`.
 
 ### Expression
 
-In programming, expressions are code that resolve to a value. In Pipedream, [you can use expressions within props forms](/workflows/using-props#entering-expressions) to reference prior steps or compute custom values at runtime.
+In programming, expressions are code that resolve to a value. In Pipedream, [you can use expressions within props forms](/workflows/building-workflows/using-props/#entering-expressions) to reference prior steps or compute custom values at runtime.
 
 ### External credentials
 
-[Connected accounts](#connected-account) are accounts that users link directly in Pipedream. External credentials are credentials that users store in their own database or service, and reference in Pipedream at runtime. [See the docs](/connected-accounts/external-auth) for more details.
+[Connected accounts](#connected-account) are accounts that users link directly in Pipedream. External credentials are credentials that users store in their own database or service, and reference in Pipedream at runtime. [See the docs](/integrations/connected-accounts/external-auth) for more details.
 
 ## F
 
 ### File store
 
-[File stores](/projects/file-stores) are filesystems scoped to projects. Any files stored in the file store are available to all workflows in the project.
+[File stores](/workflows/projects/file-stores) are filesystems scoped to projects. Any files stored in the file store are available to all workflows in the project.
 
 ### Filter
 
@@ -244,7 +244,7 @@ Within projects, you can organize workflows into folders.
 
 ### Free plan
 
-Pipedream's free plan. [See the limits docs](/limits) for more details.
+Pipedream's free plan. [See the limits docs](/workflows/limits/) for more details.
 
 ## G
 
@@ -254,7 +254,7 @@ Press `Ctrl + K` or `Cmd + K` to open the global search bar in the Pipedream UI.
 
 ### GitHub Sync
 
-When enabled on a [project](#project), GitHub Sync syncs the project's workflow code with a GitHub repository. [See the docs](/projects/git) for more details.
+When enabled on a [project](#project), GitHub Sync syncs the project's workflow code with a GitHub repository. [See the docs](/workflows/git/) for more details.
 
 ### Golang runtime
 
@@ -268,7 +268,7 @@ Pipedream's internal code in the [execution environment](#execution-environment)
 
 ### Hooks
 
-[Hooks](/components/api#hooks) are functions executed as a part of the [event source](#event-source) lifecycle. They can be used to perform setup tasks before the source is deployed, or teardown tasks after the source is destroyed.
+[Hooks](/workflows/contributing/components/api/#hooks) are functions executed as a part of the [event source](#event-source) lifecycle. They can be used to perform setup tasks before the source is deployed, or teardown tasks after the source is destroyed.
 
 ### HTTP endpoint
 
@@ -282,7 +282,7 @@ A [workflow trigger](#trigger) that listens for incoming HTTP requests. This tri
 
 ### Inspector
 
-The Pipedream UI that displays a specific workflow's event history. [See the docs](/workflows/inspect) for more details.
+The Pipedream UI that displays a specific workflow's event history. [See the docs](/workflows/building-workflows/inspect/) for more details.
 
 ### Integrations
 
@@ -304,7 +304,7 @@ A resource that listens for events emitted by [emitters](#emitter). Listeners ca
 
 ### Logs
 
-Standard output and error logs generated by steps during a workflow execution. Logs are available as a part of the step execution details in the [event inspector](#inspector) or the global [event history UI](/event-history).
+Standard output and error logs generated by steps during a workflow execution. Logs are available as a part of the step execution details in the [event inspector](#inspector) or the global [event history UI](/workflows/event-history/).
 
 ## M
 
@@ -332,15 +332,15 @@ A [connected account](#connected-account) that uses OAuth to authenticate with a
 
 ### Premium apps
 
-Pipedream's built-in [integrations](#integrations) that require a paid plan to use. [See the pricing page](https://pipedream.com/pricing) for more details and the [full list of premium apps](/apps#premium-apps).
+Pipedream's built-in [integrations](#integrations) that require a paid plan to use. [See the pricing page](https://pipedream.com/pricing) for more details and the [full list of premium apps](/integrations/apps#premium-apps).
 
 ### Project
 
-A container for workflows, secrets, and other resources in Pipedream. Projects can be synced with a GitHub repository using [GitHub Sync](#github-sync). [See the docs](/projects) for more details.
+A container for workflows, secrets, and other resources in Pipedream. Projects can be synced with a GitHub repository using [GitHub Sync](#github-sync). [See the docs](/workflows/projects/) for more details.
 
 ### Project-based access control
 
-You can restrict access to projects to specific individuals or share with the entire workspace. [See the docs](/projects#access-controls) for more details.
+You can restrict access to projects to specific individuals or share with the entire workspace. [See the docs](/workflows/projects/access-controls) for more details.
 
 ### Project changelog
 
@@ -364,7 +364,7 @@ Project-specific environment variables, available to all workflows in a project.
 
 ### Props
 
-[Props](/workflows/using-props) allow you to pass input to [components](#component).
+[Props](/workflows/building-workflows/using-props/) allow you to pass input to [components](#component).
 
 ### Python runtime
 
@@ -372,7 +372,7 @@ Pipedream's internal code in the [execution environment](#execution-environment)
 
 ### Object explorer
 
-The [builder](#builder) UI that allows you to search objects [exported](#export) from prior steps. [See the docs](/workflows/using-props#use-the-object-explorer) for more details.
+The [builder](#builder) UI that allows you to search objects [exported](#export) from prior steps. [See the docs](/workflows/building-workflows/using-props/#use-the-object-explorer) for more details.
 
 ## Q
 
@@ -394,7 +394,7 @@ A [workflow trigger](#trigger) that runs on a schedule. This trigger exposes a c
 
 ### Single sign-on (SSO)
 
-Users can [configure SSO](/workspaces/sso) to authenticate with Pipedream using their identity provider.
+Users can [configure SSO](/workflows/workspaces/sso/) to authenticate with Pipedream using their identity provider.
 
 ### Source
 
@@ -402,15 +402,15 @@ Synonym for [event source](#event-source).
 
 ### Step
 
-[Steps](/workflows/steps) are the building blocks used to create workflows. Steps can be [triggers](#trigger), [actions](#action), or [code steps](#code-step).
+[Steps](/workflows/#steps) are the building blocks used to create workflows. Steps can be [triggers](#trigger), [actions](#action), or [code steps](#code-step).
 
 ### Step export
 
-JSON-serializable data returned from steps, available in future steps of a workflow. [See the docs](/workflows/steps#step-exports) for more details.
+JSON-serializable data returned from steps, available in future steps of a workflow. [See the docs](/workflows/#step-exports) for more details.
 
 ### Step notes
 
-[Step notes](/workflows/steps#step-notes) are Markdown notes you can add to a step to document its purpose.
+[Step notes](/workflows/#step-notes) are Markdown notes you can add to a step to document its purpose.
 
 ### Subscription
 
@@ -418,7 +418,7 @@ A connection between a [listener](#listener) and an [emitter](#emitter) that all
 
 ### Suspend
 
-Workflow [executions](#execution) are suspended when you [delay](#delay) or use functions like [`$.flow.suspend`](/code/nodejs/rerun#flowsuspend) to pause the workflow.
+Workflow [executions](#execution) are suspended when you [delay](#delay) or use functions like [`$.flow.suspend`](/workflows/building-workflows/code/nodejs/rerun/#flowsuspend) to pause the workflow.
 
 ## T
 
@@ -428,7 +428,7 @@ Synonym for [execution rate controls](#execution-rate-controls).
 
 ### Timeout
 
-All workflows have [a default timeout](/limits#time-per-execution). You can configure a custom timeout in the [workflow settings](/workflows/settings#execution-timeout-limit).
+All workflows have [a default timeout](/workflows/limits/#time-per-execution). You can configure a custom timeout in the [workflow settings](/workflows/building-workflows/settings/#execution-timeout-limit).
 
 ### `/tmp` directory
 
@@ -440,7 +440,7 @@ Triggers process data from third-party APIs and [emit](#emit) [events](#event) t
 
 ### Two-factor authentication (2FA)
 
-Two-factor authentication. [Configure 2FA](/user-settings#two-factor-authentication) to add an extra layer of security to your Pipedream account.
+Two-factor authentication. [Configure 2FA](/account/user-settings/#two-factor-authentication) to add an extra layer of security to your Pipedream account.
 
 ## U
 
@@ -448,7 +448,7 @@ Two-factor authentication. [Configure 2FA](/user-settings#two-factor-authenticat
 
 ### VPC (Virtual Private Cloud)
 
-VPCs are customer-specific private networks where workflows can run. [See the docs](/workflows/vpc) for more details.
+VPCs are customer-specific private networks where workflows can run. [See the docs](/workflows/vpc/) for more details.
 
 ## W-Z
 
@@ -458,11 +458,11 @@ An instance of a workflow [execution environment](#execution-environment) availa
 
 ### Workspace
 
-You create a workspace when you sign up for Pipedream. Workspaces contain projects, workflows, and other resources. [See the docs](/workspaces) for more details.
+You create a workspace when you sign up for Pipedream. Workspaces contain projects, workflows, and other resources. [See the docs](/workflows/workspaces) for more details.
 
 ### Workspace admin
 
-A workspace can have multiple [admins](/workspaces#promoting-a-member-to-admin), who can administer the workspace, manage billing, and more.
+A workspace can have multiple [admins](/workflows/workspaces/#promoting-a-member-to-admin), who can administer the workspace, manage billing, and more.
 
 ### Workspace member
 
@@ -482,7 +482,7 @@ When you use [GitHub Sync](#github-sync), Pipedream serializes the workflow conf
 
 ### Workflow template
 
-When you [share a workflow](/workflows/sharing), you create a template that anyone can copy and run.
+When you [share a workflow](/workflows/building-workflows/sharing/), you create a template that anyone can copy and run.
 
 ### Workspace variable
 

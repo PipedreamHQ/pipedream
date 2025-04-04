@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/agenty",
+  "version": "0.6.0",
+  "description": "Pipedream agenty Components",
+  "main": "agenty.app.mjs",
+  "keywords": [
+    "pipedream",
+    "agenty"
+  ],
+  "homepage": "https://pipedream.com/apps/agenty",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

@@ -1,4 +1,3 @@
-import constants from "../common/constants.mjs";
 import common from "../common/webhook-metafields.mjs";
 
 export default {
@@ -7,18 +6,18 @@ export default {
   name: "New Order Fulfilled (Instant)",
   type: "source",
   description: "Emit new event whenever an order is fulfilled.",
-  version: "0.0.3",
+  version: "0.0.7",
   dedupe: "unique",
   methods: {
     ...common.methods,
     getTopic() {
-      return constants.EVENT_TOPIC.ORDERS_FULFILLED;
+      return "ORDERS_FULFILLED";
     },
     generateMeta(resource) {
       const ts = Date.parse(resource.updated_at);
       return {
         id: ts,
-        summary: `New Fulfilled Order ${resource.id}.`,
+        summary: `New Fulfilled Order ${resource.id}`,
         ts,
       };
     },

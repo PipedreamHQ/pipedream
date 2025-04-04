@@ -1,5 +1,7 @@
 import { WebClient } from "@slack/web-api";
 import constants from "./common/constants.mjs";
+import get from "lodash/get.js";
+import retry from "async-retry";
 
 export default {
   type: "app",
@@ -15,27 +17,24 @@ export default {
         const types = [
           "im",
         ];
-        let [
-          userNames,
-          conversationsResp,
-        ] = await Promise.all([
-          prevContext.userNames ?? this.userNames(),
-          this.availableConversations(types.join(), prevContext.cursor),
-        ]);
+        let conversationsResp
+          = await this.availableConversations(types.join(), prevContext.cursor, true);
         if (channelId) {
-          const { members } = await this.sdk().conversations.members({
+          const { members } = await this.listChannelMembers({
             channel: channelId,
+            throwRateLimitError: true,
           });
           conversationsResp.conversations = conversationsResp.conversations
             .filter((c) => members.includes(c.user || c.id));
         }
+        const userIds = conversationsResp.conversations.map(({ user }) => user);
+        const userNames = await this.userNameLookup(userIds);
         return {
           options: conversationsResp.conversations.map((c) => ({
             label: `@${userNames[c.user]}`,
             value: c.user || c.id,
           })),
           context: {
-            userNames,
             cursor: conversationsResp.cursor,
           },
         };
@@ -50,7 +49,7 @@ export default {
         const types = [
           "mpim",
         ];
-        const resp = await this.availableConversations(types.join(), cursor);
+        const resp = await this.availableConversations(types.join(), cursor, true);
         return {
           options: resp.conversations.map((c) => {
             return {
@@ -69,7 +68,9 @@ export default {
       label: "User Group",
       description: "The encoded ID of the User Group.",
       async options() {
-        const { usergroups } = await this.usergroupsList();
+        const { usergroups } = await this.usergroupsList({
+          throwRateLimitError: true,
+        });
         return usergroups.map((c) => ({
           label: c.name,
           value: c.id,
@@ -81,7 +82,9 @@ export default {
       label: "Reminder",
       description: "Select a reminder",
       async options() {
-        const { reminders } = await this.remindersList();
+        const { reminders } = await this.remindersList({
+          throwRateLimitError: true,
+        });
         return reminders.map((c) => ({
           label: c.text,
           value: c.id,
@@ -95,15 +98,14 @@ export default {
       async options({
         prevContext, types,
       }) {
-        let {
-          cursor,
-          userNames: userNamesOrPromise,
-        } = prevContext;
+        let { cursor } = prevContext;
         if (prevContext?.types) {
           types = prevContext.types;
         }
         if (types == null) {
-          const { response_metadata: { scopes } } = await this.authTest();
+          const { response_metadata: { scopes } } = await this.authTest({
+            throwRateLimitError: true,
+          });
           types = [
             "public_channel",
           ];
@@ -115,19 +117,17 @@ export default {
           }
           if (scopes.includes("im:read")) {
             types.push("im");
-            userNamesOrPromise = this.userNames();
           }
         }
-        const [
-          userNames = await this.userNames(),
-          conversationsResp,
-        ] = await Promise.all([
-          userNamesOrPromise,
-          this.availableConversations(types.join(), cursor),
-        ]);
-        const conversations = userNames
-          ? conversationsResp.conversations
-          : conversationsResp.conversations.filter((c) => !c.is_im);
+        const conversationsResp = await this.availableConversations(types.join(), cursor, true);
+        let conversations, userNames;
+        if (types.includes("im")) {
+          conversations = conversationsResp.conversations;
+          const userIds = conversations.map(({ user }) => user);
+          userNames = await this.userNameLookup(userIds);
+        } else {
+          conversations = conversationsResp.conversations.filter((c) => !c.is_im);
+        }
         return {
           options: conversations.map((c) => {
             if (c.is_im) {
@@ -152,7 +152,6 @@ export default {
           context: {
             types,
             cursor: conversationsResp.cursor,
-            userNames,
           },
         };
       },
@@ -167,7 +166,6 @@ export default {
         channelsFilter = (channel) => channel,
         excludeArchived = true,
       }) {
-        const userNames = prevContext.userNames || await this.userNames();
         const {
           channels,
           response_metadata: { next_cursor: cursor },
@@ -176,7 +174,14 @@ export default {
           cursor: prevContext.cursor,
           limit: constants.LIMIT,
           exclude_archived: excludeArchived,
+          throwRateLimitError: true,
         });
+
+        let userNames;
+        if (types.includes("im")) {
+          const userIds = channels.filter(({ is_im }) => is_im).map(({ user }) => user);
+          userNames = await this.userNameLookup(userIds);
+        }
 
         const options = channels
           .filter(channelsFilter)
@@ -205,7 +210,6 @@ export default {
           options,
           context: {
             cursor,
-            userNames,
           },
         };
       },
@@ -220,6 +224,8 @@ export default {
           response_metadata: { next_cursor: cursor },
         } = await this.authTeamsList({
           cursor: prevContext.cursor,
+          limit: constants.LIMIT,
+          throwRateLimitError: true,
         });
 
         return {
@@ -266,9 +272,11 @@ export default {
       async options({
         channel, page,
       }) {
-        const { files } = await this.sdk().files.list({
+        const { files } = await this.listFiles({
           channel,
           page: page + 1,
+          count: constants.LIMIT,
+          throwRateLimitError: true,
         });
         return files?.map(({
           id: value, name: label,
@@ -287,15 +295,15 @@ export default {
     unfurl_links: {
       type: "boolean",
       label: "Unfurl Links",
-      description: "`TRUE` by default. Pass `FALSE` to disable unfurling of links.",
-      default: true,
+      description: "Default to `false`. Pass `true` to enable unfurling of links.",
+      default: false,
       optional: true,
     },
     unfurl_media: {
       type: "boolean",
       label: "Unfurl Media",
-      description: "`TRUE` by default. Pass `FALSE` to disable unfurling of media content.",
-      default: true,
+      description: "Defaults to `false`. Pass `true` to enable unfurling of media content.",
+      default: false,
       optional: true,
     },
     parse: {
@@ -307,14 +315,14 @@ export default {
     as_user: {
       type: "boolean",
       label: "Send as User",
-      description: "Optionally pass `TRUE` to post the message as the authenticated user, instead of as a bot. Defaults to `FALSE`.",
+      description: "Optionally pass `true` to post the message as the authenticated user, instead of as a bot. Defaults to `false`.",
       default: false,
       optional: true,
     },
     mrkdwn: {
       label: "Send text as Slack mrkdwn",
       type: "boolean",
-      description: "`TRUE` by default. Pass `FALSE` to disable Slack markup parsing. [See docs here](https://api.slack.com/reference/surfaces/formatting)",
+      description: "`true` by default. Pass `false` to disable Slack markup parsing. [See docs here](https://api.slack.com/reference/surfaces/formatting)",
       default: true,
       optional: true,
     },
@@ -342,7 +350,9 @@ export default {
       description: "Optionally provide an emoji to use as the icon for this message. E.g., `:fire:` Overrides `icon_url`.  Must be used in conjunction with `Send as User` set to `false`, otherwise ignored.",
       optional: true,
       async options() {
-        return await this.getCustomEmojis();
+        return await this.getCustomEmojis({
+          throwRateLimitError: true,
+        });
       },
     },
     content: {
@@ -423,6 +433,20 @@ export default {
       default: false,
       optional: true,
     },
+    pageSize: {
+      type: "integer",
+      label: "Page Size",
+      description: "The number of results to include in a page. Default: 250",
+      default: constants.LIMIT,
+      optional: true,
+    },
+    numPages: {
+      type: "integer",
+      label: "Number of Pages",
+      description: "The number of pages to retrieve. Default: 1",
+      default: 1,
+      optional: true,
+    },
   },
   methods: {
     getChannelLabel(resource) {
@@ -448,28 +472,46 @@ export default {
      * token
      */
     sdk() {
-      return new WebClient(this.getToken());
+      return new WebClient(this.getToken(), {
+        rejectRateLimitedCalls: true,
+      });
     },
     async makeRequest({
-      method = "", ...args
+      method = "", throwRateLimitError = false, ...args
     } = {}) {
-      let response;
       const props = method.split(".");
       const sdk = props.reduce((reduction, prop) =>
         reduction[prop], this.sdk());
 
-      try {
-        response = await sdk(args);
-      } catch (error) {
-        console.log(`Error calling ${method}`, error);
-        throw error;
-      }
+      const response = await this._withRetries(() => sdk(args), throwRateLimitError);
 
       if (!response.ok) {
         console.log(`Error in response with method ${method}`, response.error);
         throw response.error;
       }
       return response;
+    },
+    async _withRetries(apiCall, throwRateLimitError = false) {
+      const retryOpts = {
+        retries: 3,
+        minTimeout: 30000,
+      };
+      return retry(async (bail) => {
+        try {
+          return await apiCall();
+        } catch (error) {
+          const statusCode = get(error, "code");
+          if (statusCode === "slack_webapi_rate_limited_error") {
+            if (throwRateLimitError) {
+              bail(`Rate limit exceeded. ${error}`);
+            } else {
+              console.log(`Rate limit exceeded. Will retry in ${retryOpts.minTimeout / 1000} seconds`);
+              throw error;
+            }
+          }
+          bail(`${error}`);
+        }
+      }, retryOpts);
     },
     /**
      * Returns a list of channel-like conversations in a workspace. The
@@ -483,7 +525,7 @@ export default {
      * @returns an object containing a list of conversations and the cursor for the next
      * page of conversations
      */
-    async availableConversations(types, cursor) {
+    async availableConversations(types, cursor, throwRateLimitError = false) {
       const {
         channels: conversations,
         response_metadata: { next_cursor: nextCursor },
@@ -492,18 +534,14 @@ export default {
         cursor,
         limit: constants.LIMIT,
         exclude_archived: true,
+        throwRateLimitError,
       });
       return {
         cursor: nextCursor,
         conversations,
       };
     },
-    /**
-     * Returns a mapping from user ID to user name for all users in the workspace
-     *
-     * @returns the mapping from user ID to user name
-     */
-    async userNames() {
+    async userNameLookup(ids = [], throwRateLimitError = true, args = {}) {
       let cursor;
       const userNames = {};
       do {
@@ -511,15 +549,20 @@ export default {
           members: users,
           response_metadata: { next_cursor: nextCursor },
         } = await this.usersList({
+          limit: constants.LIMIT,
           cursor,
+          throwRateLimitError,
+          ...args,
         });
 
         for (const user of users) {
-          userNames[user.id] = user.name;
+          if (ids.includes(user.id)) {
+            userNames[user.id] = user.name;
+          }
         }
 
         cursor = nextCursor;
-      } while (cursor);
+      } while (cursor && Object.keys(userNames).length < ids.length);
       return userNames;
     },
     /**
@@ -558,6 +601,7 @@ export default {
       });
     },
     authTeamsList(args = {}) {
+      args.limit ||= constants.LIMIT;
       return this.makeRequest({
         method: "auth.teams.list",
         ...args,
@@ -570,7 +614,7 @@ export default {
      * @param {string}  [args.cursor] Pagination value e.g. (`dXNlcjpVMDYxTkZUVDI=`)
      * @param {boolean} [args.exclude_archived] Set to `true` to exclude archived channels
      * from the list. Defaults to `false`
-     * @param {number}  [args.limit] Pagination value. Defaults to `0`
+     * @param {number}  [args.limit] Pagination value. Defaults to `250`
      * @param {string}  [args.team_id] Encoded team id to list users in,
      * required if org token is used
      * @param {string}  [args.types] Mix and match channel types by providing a
@@ -582,6 +626,7 @@ export default {
      * @returns Promise
      */
     usersConversations(args = {}) {
+      args.limit ||= constants.LIMIT;
       return this.makeRequest({
         method: "users.conversations",
         user: this.$auth.oauth_uid,
@@ -595,12 +640,13 @@ export default {
      * @param {string}  [args.cursor] Pagination value e.g. (`dXNlcjpVMDYxTkZUVDI=`)
      * @param {boolean} [args.include_locale] Set this to `true` to receive the locale
      * for users. Defaults to `false`
-     * @param {number}  [args.limit] Pagination value. Defaults to `0`
+     * @param {number}  [args.limit] The maximum number of items to return. Defaults to `250`
      * @param {string}  [args.team_id] Encoded team id to list users in,
      * required if org token is used
      * @returns Promise
      */
     usersList(args = {}) {
+      args.limit ||= constants.LIMIT;
       return this.makeRequest({
         method: "users.list",
         ...args,
@@ -613,7 +659,7 @@ export default {
      * @param {string}  [args.cursor] Pagination value e.g. (`dXNlcjpVMDYxTkZUVDI=`)
      * @param {boolean} [args.exclude_archived] Set to `true` to exclude archived channels
      * from the list. Defaults to `false`
-     * @param {number}  [args.limit] pagination value. Defaults to `0`
+     * @param {number}  [args.limit] pagination value. Defaults to `250`
      * @param {string}  [args.team_id] encoded team id to list users in,
      * required if org token is used
      * @param {string}  [args.types] Mix and match channel types by providing a
@@ -622,6 +668,7 @@ export default {
      * @returns Promise
      */
     conversationsList(args = {}) {
+      args.limit ||= constants.LIMIT;
       return this.makeRequest({
         method: "conversations.list",
         ...args,
@@ -641,6 +688,7 @@ export default {
      * @returns Promise
      */
     conversationsHistory(args = {}) {
+      args.limit ||= constants.LIMIT;
       return this.makeRequest({
         method: "conversations.history",
         ...args,
@@ -683,7 +731,7 @@ export default {
      * User Scopes: `search:read`
      * @param {SearchMessagesArguments} args Arguments object
      * @param {string}  args.query Search query
-     * @param {number}  [args.count] Number of items to return per page. Default `20`
+     * @param {number}  [args.count] Number of items to return per page. Default `250`
      * @param {string}  [args.cursor] Use this when getting results with cursormark
      * pagination. For first call send `*` for subsequent calls, send the value of
      * `next_cursor` returned in the previous call's results
@@ -696,6 +744,7 @@ export default {
      * @returns Promise
      */
     searchMessages(args = {}) {
+      args.count ||= constants.LIMIT;
       return this.makeRequest({
         method: "search.messages",
         ...args,
@@ -722,14 +771,17 @@ export default {
      * @returns Promise
      */
     reactionsList(args = {}) {
+      args.limit ||= constants.LIMIT;
       return this.makeRequest({
         method: "reactions.list",
         ...args,
       });
     },
-    async getCustomEmojis() {
+    async getCustomEmojis(args = {}) {
       const resp = await this.sdk().emoji.list({
         include_categories: true,
+        limit: constants.LIMIT,
+        ...args,
       });
 
       const emojis = Object.keys(resp.emoji);
@@ -737,6 +789,165 @@ export default {
         emojis.push(...category.emoji_names);
       }
       return emojis;
+    },
+    listChannelMembers(args = {}) {
+      args.limit ||= constants.LIMIT;
+      return this.makeRequest({
+        method: "conversations.members",
+        ...args,
+      });
+    },
+    listFiles(args = {}) {
+      args.count ||= constants.LIMIT;
+      return this.makeRequest({
+        method: "files.list",
+        ...args,
+      });
+    },
+    listGroupMembers(args = {}) {
+      args.limit ||= constants.LIMIT;
+      return this.makeRequest({
+        method: "usergroups.users.list",
+        ...args,
+      });
+    },
+    getFileInfo(args = {}) {
+      return this.makeRequest({
+        method: "files.info",
+        ...args,
+      });
+    },
+    getUserProfile(args = {}) {
+      return this.makeRequest({
+        method: "users.profile.get",
+        ...args,
+      });
+    },
+    getBotInfo(args = {}) {
+      return this.makeRequest({
+        method: "bots.info",
+        ...args,
+      });
+    },
+    getTeamInfo(args = {}) {
+      return this.makeRequest({
+        method: "team.info",
+        ...args,
+      });
+    },
+    getConversationReplies(args = {}) {
+      return this.makeRequest({
+        method: "conversations.replies",
+        ...args,
+      });
+    },
+    addReactions(args = {}) {
+      return this.makeRequest({
+        method: "reactions.add",
+        ...args,
+      });
+    },
+    postChatMessage(args = {}) {
+      return this.makeRequest({
+        method: "chat.postMessage",
+        ...args,
+      });
+    },
+    archiveConversations(args = {}) {
+      return this.makeRequest({
+        method: "conversations.archive",
+        ...args,
+      });
+    },
+    scheduleMessage(args = {}) {
+      return this.makeRequest({
+        method: "chat.scheduleMessage",
+        ...args,
+      });
+    },
+    createConversations(args = {}) {
+      return this.makeRequest({
+        method: "conversations.create",
+        ...args,
+      });
+    },
+    inviteToConversation(args = {}) {
+      return this.makeRequest({
+        method: "conversations.invite",
+        ...args,
+      });
+    },
+    kickUserFromConversation(args = {}) {
+      return this.makeRequest({
+        method: "conversations.kick",
+        ...args,
+      });
+    },
+    addReminders(args = {}) {
+      return this.makeRequest({
+        method: "reminders.add",
+        ...args,
+      });
+    },
+    deleteFiles(args = {}) {
+      return this.makeRequest({
+        method: "files.delete",
+        ...args,
+      });
+    },
+    deleteMessage(args = {}) {
+      return this.makeRequest({
+        method: "chat.delete",
+        ...args,
+      });
+    },
+    lookupUserByEmail(args = {}) {
+      return this.makeRequest({
+        method: "users.lookupByEmail",
+        ...args,
+      });
+    },
+    setChannelDescription(args = {}) {
+      return this.makeRequest({
+        method: "conversations.setPurpose",
+        ...args,
+      });
+    },
+    setChannelTopic(args = {}) {
+      return this.makeRequest({
+        method: "conversations.setTopic",
+        ...args,
+      });
+    },
+    updateProfile(args = {}) {
+      return this.makeRequest({
+        method: "users.profile.set",
+        ...args,
+      });
+    },
+    updateGroupMembers(args = {}) {
+      return this.makeRequest({
+        method: "usergroups.users.update",
+        ...args,
+      });
+    },
+    updateMessage(args = {}) {
+      return this.makeRequest({
+        method: "chat.update",
+        ...args,
+      });
+    },
+    getUploadUrl(args = {}) {
+      return this.makeRequest({
+        method: "files.getUploadURLExternal",
+        ...args,
+      });
+    },
+    completeUpload(args = {}) {
+      return this.makeRequest({
+        method: "files.completeUploadExternal",
+        ...args,
+      });
     },
   },
 };

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/omniconvert",
+  "version": "0.6.0",
+  "description": "Pipedream omniconvert Components",
+  "main": "omniconvert.app.mjs",
+  "keywords": [
+    "pipedream",
+    "omniconvert"
+  ],
+  "homepage": "https://pipedream.com/apps/omniconvert",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

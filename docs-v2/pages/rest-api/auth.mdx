@@ -13,7 +13,7 @@ When testing the API or using the CLI, you can use your user API key. This key i
 
 ## OAuth
 
-Workspace administrators can create OAuth clients in your workspace's [API settings](https://pipedream.com/settings/api). 
+Workspace administrators can create OAuth clients in your workspace's [API settings](https://pipedream.com/settings/api).
 
 Since API requests are meant to be made server-side, and since grants are not tied to individual end users, all OAuth clients are [**Client Credentials** applications](https://www.oauth.com/oauth2-servers/access-tokens/client-credentials/).
 
@@ -29,28 +29,26 @@ Since API requests are meant to be made server-side, and since grants are not ti
 
 In the client credentials model, you exchange your OAuth client ID and secret for an access token. Then you use the access token to make API requests.
 
-If you're running a server that executes JavaScript, we recommend using [the Pipedream SDK](/connect/api#installing-the-typescript-sdk), which automatically refreshes tokens for you.
+If you're running a server that executes JavaScript, we recommend using [the Pipedream SDK](/connect/api/#installing-the-typescript-sdk), which automatically refreshes tokens for you.
 
 ```javascript
 import { createBackendClient } from "@pipedream/sdk/server";
- 
+
 // These secrets should be saved securely and passed to your environment
 const pd = createBackendClient({
   credentials: {
     clientId: "YOUR_CLIENT_ID",
     clientSecret: "YOUR_CLIENT_SECRET",
   },
+  projectId: "YOUR_PROJECT_ID", // This is typically required for most Connect API endpoints
 });
 
 // Use the SDK's helper methods to make requests
 const accounts = await pd.getAccounts({ include_credentials: 1 });
 
 // Or make any Pipedream API request with the fresh token
-const accounts = await pd.makeRequest("/accounts", {
+const accounts = await pd.makeAuthorizedRequest("/accounts", {
   method: "GET"
-  headers: {
-    "Authorization": await this.oauthAuthorizationHeader(), // Automatically uses a fresh token
-  },
   params: {
     include_credentials: 1,
   }
@@ -75,11 +73,11 @@ Access tokens expire after 1 hour. Store access tokens securely, server-side.
 
 ### OAuth security
 
-See [the OAuth section of the security docs](/privacy-and-security#pipedream-rest-api-security-oauth-clients) for more information on how Pipedream secures OAuth credentials.
+See [the OAuth section of the security docs](/privacy-and-security/#pipedream-rest-api-security-oauth-clients) for more information on how Pipedream secures OAuth credentials.
 
 ## User API keys
 
-When you sign up for Pipedream, an API key is automatically generated for your user account. You can use this key to authorize requests to the API. 
+When you sign up for Pipedream, an API key is automatically generated for your user account. You can use this key to authorize requests to the API.
 
 You'll find this API key in your [User Settings](https://pipedream.com/user) (**My Account** -> **API Key**).
 
@@ -112,4 +110,4 @@ curl 'https://api.pipedream.com/v1/users/me' \
 
 ## Using the Pipedream CLI
 
-You can [link the CLI to your Pipedream account](/cli/login/), which will automatically pass your API key in the `Authorization` header with every API request.
+You can [link the CLI to your Pipedream account](/workflows/cli/login/), which will automatically pass your API key in the `Authorization` header with every API request.

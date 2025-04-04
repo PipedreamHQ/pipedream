@@ -1,43 +1,22 @@
-import app from "../../common/rest-admin.mjs";
-import common from "@pipedream/shopify/actions/update-article/common.mjs";
+import shopify from "../../shopify_developer_app.app.mjs";
+import common from "@pipedream/shopify/actions/update-article/update-article.mjs";
+
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
+const props = adjustPropDefinitions(others.props, shopify);
 
 export default {
-  ...common,
+  ...others,
   key: "shopify_developer_app-update-article",
-  name: "Update Article",
-  description: "Update a blog article. [See The Documentation](https://shopify.dev/docs/api/admin-rest/2023-04/resources/article#put-blogs-blog-id-articles-article-id)",
-  version: "0.0.6",
-  type: "action",
+  version: "0.0.8",
+  name,
+  description,
+  type,
   props: {
-    app,
-    blogId: {
-      propDefinition: [
-        app,
-        "blogId",
-      ],
-    },
-    articleId: {
-      propDefinition: [
-        app,
-        "articleId",
-        ({ blogId }) => ({
-          blogId,
-        }),
-      ],
-    },
-    title: {
-      description: "The title of the article.",
-      propDefinition: [
-        app,
-        "title",
-      ],
-    },
-    bodyHtml: {
-      description: "The text content of the article, complete with HTML markup.",
-      propDefinition: [
-        app,
-        "bodyHtml",
-      ],
-    },
+    shopify,
+    ...props,
   },
 };

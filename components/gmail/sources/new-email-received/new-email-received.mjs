@@ -15,7 +15,7 @@ export default {
   name: "New Email Received",
   description: "Emit new event when a new email is received.",
   type: "source",
-  version: "0.1.9",
+  version: "0.2.3",
   dedupe: "unique",
   props: {
     gmail,
@@ -24,12 +24,22 @@ export default {
       type: "string",
       label: "Trigger Type",
       options: [
-        "webhook",
         "polling",
+        "webhook",
       ],
       description:
         "Configuring this source as a `webhook` (instant) trigger requires a custom OAuth client. [Refer to the guide here to get started](https://pipedream.com/apps/gmail/#getting-started).",
       reloadProps: true,
+      optional: true,
+      default: "polling",
+    },
+    timer: {
+      type: "$.interface.timer",
+      label: "Polling Interval",
+      description: "How often to poll for new emails",
+      default: {
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+      },
     },
     serviceAccountKeyJson: {
       type: "string",
@@ -72,14 +82,27 @@ export default {
       hidden: true,
       reloadProps: true,
     },
-    label: {
+    labels: {
       propDefinition: [
         gmail,
         "label",
       ],
-      default: "INBOX",
+      type: "string[]",
+      label: "Labels",
+      default: [
+        "INBOX",
+      ],
       optional: true,
-      hidden: true,
+    },
+    excludeLabels: {
+      propDefinition: [
+        gmail,
+        "label",
+      ],
+      type: "string[]",
+      label: "Exclude Labels",
+      description: "Emails with the specified labels will be excluded from results",
+      optional: true,
     },
     permissionAlert: {
       type: "alert",
@@ -102,18 +125,12 @@ export default {
       hidden: true,
     },
   },
-  async additionalProps(props) {
+  async additionalProps() {
     const newProps = {};
-    if (this.triggerType === "polling") {
-      newProps.timer = {
-        type: "$.interface.timer",
-        default: {
-          intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-        },
-      };
-    }
+
+    // Handle webhook mode
     if (this.triggerType === "webhook") {
-      // verify that a Custom OAuth client is being used
+      // verify that a Custom OAuth client is being used only if webhook mode is selected
       const isValidClientId = await this.checkClientId();
       if (!isValidClientId) {
         throw new ConfigurationError(
@@ -121,113 +138,227 @@ export default {
         );
       }
 
+      // Add HTTP interface and hidden timer for webhooks
       newProps.http = {
         type: "$.interface.http",
         customResponse: true,
       };
       newProps.timer = {
         type: "$.interface.timer",
-        default: {
-          intervalSeconds: 60 * 60,
+        static: {
+          intervalSeconds: 60 * 60, // 1 hour for webhook renewal
         },
         hidden: true,
       };
 
-      props.serviceAccountKeyJson.hidden = false;
-      props.serviceAccountKeyJson.optional = false;
-      props.serviceAccountKeyJsonInstructions.hidden = false;
+      // Make webhook-specific props visible
+      newProps.serviceAccountKeyJson = {
+        type: "string",
+        label: "Service Account Key JSON",
+        hidden: false,
+        optional: false,
+        reloadProps: true,
+      };
+      newProps.serviceAccountKeyJsonInstructions = {
+        type: "alert",
+        alertType: "info",
+        content: `1) [Create a service account in GCP](https://cloud.google.com/iam/docs/creating-managing-service-accounts) and set the following permission: **Pub/Sub Admin**
+          \n2) [Generate a service account key](https://cloud.google.com/iam/docs/creating-managing-service-account-keys)
+          \n3) Download the key details in JSON format
+          \n4) Open the JSON in a text editor, and **copy and paste its contents here**.
+        `,
+        hidden: false,
+      };
 
-      if (!this.serviceAccountKeyJson) {
+      // Always show the topic type selection after service account key is provided
+      newProps.topicType = {
+        type: "string",
+        label: "Pub/Sub Topic",
+        description: "Do you have an existing Pub/Sub topic, or would you like to create a new one?",
+        options: [
+          "existing",
+          "new",
+        ],
+        hidden: false,
+        optional: false,
+        reloadProps: true,
+      };
+
+      // Only proceed with topic operations if the service account key and topicType are provided
+      if (!this.serviceAccountKeyJson || !this.topicType) {
         return newProps;
       }
 
-      props.topicType.hidden = false;
-      props.topicType.optional = false;
-
-      if (!this.topicType) {
-        return newProps;
-      }
-
-      // create topic prop
-      let topicName = this.topic;
-      if (this.topicType === "new") {
+      // Handle topic prop based on topicType selection
+      try {
         const authKeyJSON = JSON.parse(this.serviceAccountKeyJson);
-        const { project_id: projectId } = authKeyJSON;
-        topicName = `projects/${projectId}/topics/${this.convertNameToValidPubSubTopicName(
-          uuidv4(),
-        )}`;
-        props.topic.default = topicName;
-        props.topic.reloadProps = false;
-      } else {
-        props.topic.hidden = false;
-        props.topic.optional = false;
+
+        if (this.topicType === "new") {
+          // For new topics, generate a name and don't show selection
+          const { project_id: projectId } = authKeyJSON;
+          const topicName = `projects/${projectId}/topics/${this.convertNameToValidPubSubTopicName(
+            uuidv4(),
+          )}`;
+
+          newProps.topic = {
+            type: "string",
+            default: topicName,
+            hidden: true, // Hide this for new topics
+          };
+
+          // Store for later use
+          this._topicName = topicName;
+
+        } else if (this.topicType === "existing") {
+          // For existing topics, show the dropdown
+          newProps.topic = {
+            type: "string",
+            label: "Pub/Sub Topic Name",
+            description: "Select a Pub/Sub topic from your GCP account to watch",
+            options: async () => {
+              try {
+                // Using the PubSub client directly here to avoid potential method binding issues
+                const sdkParams = {
+                  credentials: {
+                    client_email: authKeyJSON.client_email,
+                    private_key: authKeyJSON.private_key,
+                  },
+                  projectId: authKeyJSON.project_id,
+                };
+
+                const pubSubClient = new PubSub(sdkParams);
+                const topics = (await pubSubClient.getTopics())[0];
+                if (topics.length > 0) {
+                  return topics.map((topic) => topic.name);
+                }
+                return [];
+              } catch (err) {
+                console.log("Error fetching topics:", err);
+                return [];
+              }
+            },
+            hidden: false,
+            optional: false,
+            reloadProps: true,
+          };
+        }
+      } catch (err) {
+        console.log("Error with service account key JSON:", err);
+        newProps.serviceAccountKeyJsonError = {
+          type: "alert",
+          alertType: "error",
+          content: "Invalid service account key JSON. Please check your input and try again.",
+          hidden: false,
+        };
+        return newProps;
       }
 
-      if (this.topic || this.topicType === "new") {
-        const topic = await this.getOrCreateTopic(topicName);
-
-        // Retrieves the IAM policy for the topic
-        let hasPublisherRole;
+      // Only proceed with topic creation/configuration if required fields are set
+      if ((this.topic && this.topicType === "existing") || this.topicType === "new") {
         try {
-          const [
-            policy,
-          ] = await topic.iam.getPolicy();
-          hasPublisherRole = policy.bindings.find(
-            ({
-              members, role,
-            }) =>
-              members.includes(
-                "serviceAccount:gmail-api-push@system.gserviceaccount.com",
-              ) && role === "roles/pubsub.publisher",
-          );
-        } catch {
-          console.log("Could not retrieve iam policy");
-        }
+          // Get the appropriate topic name
+          const topicName = this.topicType === "new"
+            ? this._topicName
+            : this.topic;
 
-        if (!hasPublisherRole) {
-          // Grant publish permission to Gmail API service account
-          try {
-            await topic.iam.setPolicy({
-              bindings: [
-                {
-                  role: "roles/pubsub.publisher",
-                  members: [
-                    "serviceAccount:gmail-api-push@system.gserviceaccount.com",
-                  ],
-                },
-              ],
-            });
-            console.log("Permissions granted to Gmail API service account.");
-          } catch {
-            props.permissionAlert.hidden = false;
+          if (!topicName) {
+            // Skip topic creation/setup if no topic name is available yet
             return newProps;
           }
+
+          // Create or get the topic using our helper method
+          const topic = await this.getOrCreateTopic(topicName);
+
+          // Retrieves the IAM policy for the topic
+          let hasPublisherRole;
+          try {
+            const [
+              policy,
+            ] = await topic.iam.getPolicy();
+            hasPublisherRole = policy.bindings.find(
+              ({
+                members, role,
+              }) =>
+                members.includes(
+                  "serviceAccount:gmail-api-push@system.gserviceaccount.com",
+                ) && role === "roles/pubsub.publisher",
+            );
+          } catch (err) {
+            console.log("Could not retrieve iam policy:", err);
+          }
+
+          if (!hasPublisherRole) {
+            // Grant publish permission to Gmail API service account
+            try {
+              await topic.iam.setPolicy({
+                bindings: [
+                  {
+                    role: "roles/pubsub.publisher",
+                    members: [
+                      "serviceAccount:gmail-api-push@system.gserviceaccount.com",
+                    ],
+                  },
+                ],
+              });
+              console.log("Permissions granted to Gmail API service account.");
+            } catch (err) {
+              console.log("Could not set permission:", err);
+              newProps.permissionAlert = {
+                type: "alert",
+                alertType: "error",
+                content: `Unable to grant publish permission to Gmail API service account.
+                \n1. Navigate to your [Google Cloud PubSub Topics List](https://console.cloud.google.com/cloudpubsub)
+                \n2. Select "View Permissions" for the topic you intend to use for this source.
+                \n3. Click "ADD PRINCIPAL"
+                \n4. Select "Pub/Sub Publisher" for the Role.
+                \n5. Enter \`serviceAccount:gmail-api-push@system.gserviceaccount.com\` as the principal. 
+                \n6. Click "Save"
+                `,
+                hidden: false,
+              };
+              return newProps;
+            }
+          }
+
+          newProps.latencyWarningAlert = {
+            type: "alert",
+            alertType: "warning",
+            content:
+              "Please allow up to 1 minute for deployment. We're setting up your real-time email notifications behind the scenes.",
+            hidden: false,
+          };
+
+          // Setup Gmail notifications
+          try {
+            const {
+              historyId, expiration,
+            } = await this.setupGmailNotifications(topicName);
+            newProps.initialHistoryId = {
+              type: "string",
+              default: historyId,
+              hidden: true,
+            };
+            newProps.expiration = {
+              type: "string",
+              default: expiration,
+              hidden: true,
+            };
+          } catch (err) {
+            console.log("Error setting up Gmail notifications:", err);
+            return newProps;
+          }
+        } catch (err) {
+          console.log("Error with topic setup:", err);
+          return newProps;
         }
-
-        props.latencyWarningAlert.hidden = false;
-
-        const {
-          historyId, expiration,
-        } = await this.setupGmailNotifications(topicName);
-        newProps.initialHistoryId = {
-          type: "string",
-          default: historyId,
-          hidden: true,
-        };
-        newProps.expiration = {
-          type: "string",
-          default: expiration,
-          hidden: true,
-        };
       }
     }
-    props.label.hidden = false;
     return newProps;
   },
   hooks: {
     ...common.hooks,
     async activate() {
-      if (this.triggerType === "polling") {
+      if (this.triggerType !== "webhook") {
         return;
       }
 
@@ -255,7 +386,7 @@ export default {
       this._setSubscriptionName(subscriptionResult.name);
     },
     async deactivate() {
-      if (this.triggerType === "polling") {
+      if (this.triggerType !== "webhook") {
         return;
       }
 
@@ -302,27 +433,42 @@ export default {
       this.db.set("lastReceivedTime", lastReceivedTime);
     },
     sdkParams() {
-      const authKeyJSON = JSON.parse(this.serviceAccountKeyJson);
-      const {
-        project_id: projectId, client_email, private_key,
-      } = authKeyJSON;
-      const sdkParams = {
-        credentials: {
-          client_email,
-          private_key,
-        },
-        projectId,
-      };
-      return sdkParams;
+      try {
+        const authKeyJSON = JSON.parse(this.serviceAccountKeyJson);
+        const {
+          project_id: projectId, client_email, private_key,
+        } = authKeyJSON;
+
+        if (!projectId || !client_email || !private_key) {
+          throw new Error("Missing required fields in service account key JSON");
+        }
+
+        const sdkParams = {
+          credentials: {
+            client_email,
+            private_key,
+          },
+          projectId,
+        };
+        return sdkParams;
+      } catch (error) {
+        console.log("Error parsing service account key:", error);
+        throw new ConfigurationError("Invalid service account key JSON. Please check your input and try again.");
+      }
     },
     async getTopics() {
-      const sdkParams = this.sdkParams();
-      const pubSubClient = new PubSub(sdkParams);
-      const topics = (await pubSubClient.getTopics())[0];
-      if (topics.length > 0) {
-        return topics.map((topic) => topic.name);
+      try {
+        const sdkParams = this.sdkParams();
+        const pubSubClient = new PubSub(sdkParams);
+        const topics = (await pubSubClient.getTopics())[0];
+        if (topics.length > 0) {
+          return topics.map((topic) => topic.name);
+        }
+        return [];
+      } catch (error) {
+        console.log("Error fetching topics:", error);
+        return [];
       }
-      return [];
     },
     convertNameToValidPubSubTopicName(name) {
       // For valid names, see https://cloud.google.com/pubsub/docs/admin#resource_names
@@ -354,8 +500,8 @@ export default {
         path: "/users/me/watch",
         data: {
           topicName,
-          labelIds: [
-            this.label || "INBOX",
+          labelIds: this.labels || [
+            "INBOX",
           ],
         },
       });
@@ -363,25 +509,45 @@ export default {
       return watchResponse;
     },
     async getOrCreateTopic(name) {
-      const sdkParams = this.sdkParams();
-      const pubSubClient = new PubSub(sdkParams);
-      const topicName = name || this.topic;
-      // Create or get Pub/Sub topic
-      let topic;
       try {
-        [
-          topic,
-        ] = await pubSubClient.createTopic(topicName);
-        console.log(`Topic ${topicName} created.`);
-      } catch (error) {
-        if (error.code === 6) {
-          // Already exists
-          topic = pubSubClient.topic(topicName);
+        const sdkParams = this.sdkParams();
+        const pubSubClient = new PubSub(sdkParams);
+
+        // Use provided name or fallback appropriately
+        let topicName;
+        if (name) {
+          topicName = name;
+        } else if (this.topicType === "new" && this._topicName) {
+          topicName = this._topicName;
         } else {
-          throw error;
+          topicName = this.topic;
         }
+
+        if (!topicName) {
+          throw new Error("No topic name provided");
+        }
+
+        // Create or get Pub/Sub topic
+        let topic;
+        try {
+          [
+            topic,
+          ] = await pubSubClient.createTopic(topicName);
+          console.log(`Topic ${topicName} created.`);
+        } catch (error) {
+          if (error.code === 6) {
+            // Already exists
+            console.log(`Topic ${topicName} already exists.`);
+            topic = pubSubClient.topic(topicName);
+          } else {
+            throw error;
+          }
+        }
+        return topic;
+      } catch (error) {
+        console.log("Error in getOrCreateTopic:", error);
+        throw error;
       }
-      return topic;
     },
     getHistoryTypes() {
       return [
@@ -396,14 +562,18 @@ export default {
       };
     },
     filterHistory(history) {
-      return this.label
-        ? history.filter(
-          (item) =>
-            item.messagesAdded?.length &&
-              item.messagesAdded[0].message.labelIds &&
-              item.messagesAdded[0].message.labelIds.includes(this.label),
-        )
-        : history.filter((item) => item.messagesAdded?.length);
+      let filteredHistory = history.filter((item) => item.messagesAdded?.length);
+      if (this.labels) {
+        filteredHistory = filteredHistory.filter((item) =>
+          item.messagesAdded[0].message.labelIds &&
+          item.messagesAdded[0].message.labelIds.some((i) => this.labels.includes(i)));
+      }
+      if (this.excludeLabels) {
+        filteredHistory = filteredHistory.filter((item) =>
+          item.messagesAdded[0].message.labelIds &&
+          !(item.messagesAdded[0].message.labelIds.some((i) => this.excludeLabels.includes(i))));
+      }
+      return filteredHistory;
     },
     async getMessageDetails(ids) {
       const messages = await Promise.all(ids.map(async (id) => {
@@ -419,26 +589,34 @@ export default {
       }));
       return messages;
     },
-    getHistoryResponse(startHistoryId) {
-      return this.gmail.listHistory({
-        startHistoryId,
-        historyTypes: [
-          "messageAdded",
-        ],
-        labelId: this.label,
-      });
+    async getHistoryResponses(startHistoryId) {
+      const historyResponses = [];
+      for (const labelId of this.labels) {
+        const response = await this.gmail.listHistory({
+          startHistoryId,
+          historyTypes: [
+            "messageAdded",
+          ],
+          labelId,
+        });
+        historyResponses.push(response);
+      }
+      return historyResponses;
     },
   },
   async run(event) {
-    if (this.triggerType === "polling") {
+    // Default to polling if triggerType is not webhook
+    if (this.triggerType !== "webhook") {
       let lastHistoryId = this._getLastHistoryId();
 
       if (!lastHistoryId) {
         lastHistoryId = await this.getHistoryId();
       }
       await this.emitHistories(lastHistoryId);
+      return;
     }
 
+    // Handle webhook case
     if (this.triggerType === "webhook") {
       if (event.timestamp) {
         // event was triggered by timer
@@ -495,9 +673,9 @@ export default {
       console.log("Using startHistoryId:", startHistoryId);
 
       // Fetch the history
-      let historyResponse;
+      let historyResponses;
       try {
-        historyResponse = await this.getHistoryResponse(startHistoryId);
+        historyResponses = await this.getHistoryResponses(startHistoryId);
       } catch {
         // catch error thrown if startHistoryId is invalid or expired
 
@@ -507,19 +685,20 @@ export default {
         // set startHistoryId to the historyId received from the webhook
         startHistoryId = parseInt(receivedHistoryId);
         console.log("Using startHistoryId:", startHistoryId);
-        historyResponse = await this.getHistoryResponse(startHistoryId);
+        historyResponses = await this.getHistoryResponses(startHistoryId);
       }
 
       console.log(
-        "History response:",
-        JSON.stringify(historyResponse, null, 2),
+        "History responses:",
+        JSON.stringify(historyResponses, null, 2),
       );
 
       // Process history to find new messages
       const newMessages = [];
-      if (historyResponse.history) {
-        for (const historyItem of historyResponse.history) {
-          if (historyItem.messagesAdded) {
+      for (const historyResponse of historyResponses) {
+        if (historyResponse.history) {
+          const historyResponseFiltered = this.filterHistory(historyResponse.history);
+          for (const historyItem of historyResponseFiltered) {
             newMessages.push(
               ...historyItem.messagesAdded.map((msg) => msg.message),
             );
@@ -540,7 +719,10 @@ export default {
       console.log("Fetched message details count:", messageDetails.length);
 
       // Store the latest historyId in the db
-      const latestHistoryId = historyResponse.historyId || receivedHistoryId;
+      let latestHistoryId = receivedHistoryId;
+      for (const historyResponse of historyResponses) {
+        latestHistoryId = Math.max(latestHistoryId, historyResponse.historyId);
+      }
       this._setLastProcessedHistoryId(latestHistoryId);
       console.log("Updated lastProcessedHistoryId:", latestHistoryId);
 

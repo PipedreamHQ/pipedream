@@ -1,14 +1,14 @@
 import { v4 as uuid } from "uuid";
 import sampleEmit from "./test-event.mjs";
 import googleCalendar from "../../google_calendar.app.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "google_calendar-new-or-updated-event-instant",
   type: "source",
   name: "New Created or Updated Event (Instant)",
   description: "Emit new event when a Google Calendar events is created or updated (does not emit cancelled events)",
-  version: "0.1.14",
+  version: "0.1.15",
   dedupe: "unique",
   props: {
     googleCalendar,
@@ -38,7 +38,7 @@ export default {
       description: "The Google Calendar API requires occasional renewal of push notification subscriptions. **This runs in the background, so you should not need to modify this schedule**.",
       type: "$.interface.timer",
       static: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+        intervalSeconds: constants.WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
       },
     },
   },
@@ -66,7 +66,11 @@ export default {
       await this.makeWatchRequest();
     },
     async deactivate() {
-      await this.stopWatchRequest();
+      try {
+        await this.stopWatchRequest();
+      } catch (e) {
+        console.log(`Error deactivating webhook. ${e}`);
+      }
     },
   },
   methods: {

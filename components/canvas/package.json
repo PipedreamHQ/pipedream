@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/canvas",
+  "version": "0.6.0",
+  "description": "Pipedream canvas Components",
+  "main": "canvas.app.mjs",
+  "keywords": [
+    "pipedream",
+    "canvas"
+  ],
+  "homepage": "https://pipedream.com/apps/canvas",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

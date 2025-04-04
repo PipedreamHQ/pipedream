@@ -7,7 +7,7 @@ Pipedream provides a TypeScript SDK and a REST API to interact with the Connect 
 
 ## REST API base URL
 
-Pipedream Connect resources are scoped to [projects](/projects), so you'll need to pass [the project's ID](/projects#finding-your-projects-id) as a part of the base URL:
+Pipedream Connect resources are scoped to [projects](/workflows/projects/), so you'll need to pass [the project's ID](/workflows/projects/#finding-your-projects-id) as a part of the base URL:
 
 ```
 https://api.pipedream.com/v1/connect/{project_id}
@@ -41,13 +41,13 @@ or a specific version:
 
 ## Authentication
 
-See the [REST API Authentication docs](/rest-api/auth).
+See the [REST API Authentication docs](/rest-api/auth/).
 
 ### TypeScript SDK (server)
 
 Most of your interactions with the Connect API will happen on the server, to protect API requests and user credentials. You'll use the SDK in [your frontend](#typescript-sdk-browser) to let users connect accounts. Once connected, you'll use the SDK on the server to retrieve credentials, invoke workflows on their behalf, and more.
 
-[Create a Pipedream OAuth client](/rest-api/auth#oauth) and instantiate the SDK with your client ID and secret:
+[Create a Pipedream OAuth client](/rest-api/auth/#oauth) and instantiate the SDK with your client ID and secret:
 
 ```typescript
 import { createBackendClient } from "@pipedream/sdk/server";
@@ -70,7 +70,7 @@ You'll primarily use the browser SDK to let your users securely connect apps fro
 1. [Create a short-lived token on your server](#create-a-new-token)
 2. Initiate auth with that token to securely connect an account for a specific user
 
-Here's a Next.js example [from our quickstart](/connect/quickstart):
+Here's a Next.js example [from our quickstart](/connect/managed-auth/quickstart/):
 
 ```typescript
 import { createFrontendClient } from "@pipedream/sdk/browser"
@@ -104,7 +104,7 @@ export default function Home() {
 
 ## Environment
 
-Some API endpoints accept an [environment](/connect/environments) parameter. This lets you specify the environment (`production` or `development`) where resources will live in your project.
+Some API endpoints accept an [environment](/connect/environments/) parameter. This lets you specify the environment (`production` or `development`) where resources will live in your project.
 
 Always set the environment when you create the SDK client:
 
@@ -142,24 +142,103 @@ External User IDs are limited to 250 characters.
 
 ## Rate limits
 
+### Pipedream rate limits
+
 | API Endpoint               | Rate Limit                                           |
 |----------------------------|------------------------------------------------------|
 | `POST /tokens`   | 100 requests per minute per `external_user_id`            |
-| `GET */accounts/*`| The sum of requests across all `*/accounts/*` endpoints must not exceed 100 requests per minute. This includes requests to `/accounts`, `/apps/:app_id/accounts`, `/accounts/:account_id`, and more — any request for account metadata and credentials is counted towards this total. |
+| `GET /accounts`| 100 requests per minute per project <br /><br />The sum of requests across all `*/accounts/*` endpoints must not exceed 100 requests per minute. This includes requests to,<br />• `/accounts`<br />• `/apps/:app_id/accounts`<br />• `/accounts/:account_id` |
+| `/proxy` | 100 requests per minute per project |
 
 If you need higher rate limits, please [reach out](https://pipedream.com/support).
+
+### Developer rate limits
+
+- You can optionally set rate limits for your users to control their usage of the Connect API from within your application, to prevent runaway use or abuse.
+- Specify a time window in seconds and how many requests to allow in that window. The API will give you a `rate_limit_token` that you'll need to include in future `/connect/` requests:
+
+```
+POST /rate_limits
+```
+
+**Body parameters**
+
+`window_size_seconds` **integer**
+
+Define the size of the time window in seconds.
+
+---
+
+`requests_per_window` **integer**
+
+Define the number of requests you want to allow per time window.
+
+**Example request**
+
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# Define the rate limit parameters
+
+curl -X POST https://api.pipedream.com/v1/connect/rate_limits \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {access_token}" \
+  -d '{
+    "window_size_seconds": 10,
+    "requests_per_window": 1000
+  }'
+```
+
+**Example response**
+```json
+{
+  "token": "CiKpqRdTmNwLfhzSvYxBjAkMnVbXuQrWeZyHgPtJsDcEvFpLnE"
+}
+```
+
+**Example usage**
+
+```bash
+# The response will include a rate limit token.
+# Pass it as a header in your downstream requests to the Connect API.
+# Below is an example request that runs the "List Commits" action for the Gitlab app.
+
+curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/actions/run" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -H "x-pd-rate-limit: {rate_limit_token}" \ # Pass the rate limit token in the header
+  -d '{
+    "external_user_id": "jverce",
+    "id": "gitlab-list-commits",
+    "configured_props": {
+      "gitlab": {
+        "authProvisionId": "apn_kVh9AoD"
+      },
+      "projectId": 45672541,
+      "refName": "main"
+    }
+  }'
+```
 
 ## API Reference
 
 ### Invoke workflows
 
-You can use the SDK to [invoke workflows on behalf of any end user](/connect/workflows). **Write one workflow, run it for all of your users**.
+You can use the SDK to [invoke workflows on behalf of any end user](/connect/workflows/). **Write one workflow, run it for all of your users**.
 
 ### Tokens
 
 Your app will initiate the account connection flow for your end users in your frontend. To securely scope connection to a specific end user, on your server, **you retrieve a short-lived token for that user**, and return that token to your frontend.
 
-See [the Connect tokens docs](/connect/tokens) for more information.
+See [the Connect tokens docs](/connect/tokens/) for more information.
 
 #### Create a new token
 
@@ -171,7 +250,7 @@ POST /{project_id}/tokens
 
 `project_id` **string**
 
-[The project's ID](/projects#finding-your-projects-id)
+[The project's ID](/workflows/projects/#finding-your-projects-id)
 
 ##### Body parameters
 
@@ -194,19 +273,19 @@ When using the Connect API to make requests from a client environment like a bro
 
 `success_redirect_uri` **string** (_optional_)
 
-When using [Connect Link](/connect/connect-link), you can optionally redirect your end user to the `success_redirect_uri` on successful completion of the auth flow.
+When using [Connect Link](/connect/connect-link/), you can optionally redirect your end user to the `success_redirect_uri` on successful completion of the auth flow.
 
 ---
 
 `error_redirect_uri` **string** (_optional_)
 
-When using [Connect Link](/connect/connect-link), you can optionally redirect your end user to the `error_redirect_uri` on any errors in the auth flow. This lets you handle errors in whatever way you want in your own app.
+When using [Connect Link](/connect/connect-link/), you can optionally redirect your end user to the `error_redirect_uri` on any errors in the auth flow. This lets you handle errors in whatever way you want in your own app.
 
 ---
 
 `webhook_uri` **string** (_optional_)
 
-Pipedream will send events on successful auth, or any errors, to this URL via webhook. [See the webhooks docs](/connect/webhooks) for more information.
+Pipedream will send events on successful auth, or any errors, to this URL via webhook. [See the webhooks docs](/connect/webhooks/) for more information.
 
 ##### Examples
 
@@ -219,24 +298,40 @@ In other languages, you'll need to make an HTTP POST request to the `/tokens` en
 ```typescript
 import {
   createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
   type ConnectAPIResponse,
   type ConnectTokenCreateOpts,
   type ConnectTokenResponse,
 } from "@pipedream/sdk/server";
 
-const pd = createBackendClient({
+const clientOpts: BackendClientOpts = {
   environment: "development", // change to production if running for a test production account, or in production
   credentials: {
     clientId: "{oauth_client_id}",
     clientSecret: "{oauth_client_secret}",
   },
   projectId: "{your_project_id}"
-});
+};
+const pd: BackendClient = createBackendClient(clientOpts);
 
-const { token, expires_at } = await pd.createConnectToken({
-  external_user_id: "{your_external_user_id}"  // The end user's ID in your system
-  allowed_origins: ["http://localhost:3000", "https://example.com"], // The allowed origins for the token (required for client-side requests)
-});
+const requestOpts: ConnectTokenCreateOpts = {
+  // The end user's ID in your system
+  external_user_id: "{your_external_user_id}",
+  // The allowed origins for the token (required for client-side requests)
+  allowed_origins: ["http://localhost:3000", "https://example.com"],
+};
+const response: ConnectTokenResponse = await pd.createConnectToken(requestOpts);
+
+const {
+  token,            // The token you'll pass to the frontend
+  expires_at,       // The token's expiration date
+  connect_link_url, // The URL to redirect the user to for the Connect Link flow
+}: {
+  token: string,
+  expires_at: string,
+  connect_link_url: string,
+} = response;
 ```
 </Tabs.Tab>
 <Tabs.Tab>
@@ -300,7 +395,7 @@ GET /{project_id}/accounts/
 
 `project_id` **string**
 
-[The project's ID](/projects#finding-your-projects-id)
+[The project's ID](/workflows/projects/#finding-your-projects-id)
 
 ##### Query parameters
 
@@ -308,13 +403,13 @@ GET /{project_id}/accounts/
 
 The ID or name slug the app you'd like to retrieve. For example, Slack's unique app ID is `app_OkrhR1`, and its name slug is `slack`.
 
-You can find the app's ID in the response from the [List apps](/rest-api#list-apps) endpoint, and the name slug under the **Authentication** section of any [app page](https://pipedream.com/apps).
+You can find the app's ID in the response from the [List apps](/rest-api/#list-apps) endpoint, and the name slug under the **Authentication** section of any [app page](https://pipedream.com/apps).
 
 ---
 
 `oauth_app_id` **string** (_optional_)
 
-The ID of the [OAuth app](/connect/quickstart#create-a-pipedream-oauth-client) you'd like to retrieve accounts for.
+The ID of the [OAuth app](/connect/managed-auth/quickstart/#create-a-pipedream-oauth-client) you'd like to retrieve accounts for.
 
 ---
 
@@ -333,7 +428,7 @@ Never return user credentials to the client
 </Callout>
 
 <Callout type="info">
-To retrieve the credentials for any account in `production` for OAuth apps (Slack, Google Sheets, etc), the connected account must be using [your own OAuth client](/connect/oauth-clients#using-a-custom-oauth-client). You can only retrieve end user credentials for accounts that are using Pipedream's OAuth clients in `development`. [Learn more here](/connect/oauth-clients#using-pipedream-oauth).
+To retrieve the credentials for any account in `production` for OAuth apps (Slack, Google Sheets, etc), the connected account must be using [your own OAuth client](/connect/managed-auth/oauth-clients/#using-a-custom-oauth-client). You can only retrieve end user credentials for accounts that are using Pipedream's OAuth clients in `development`. [Learn more here](/connect/managed-auth/oauth-clients/#using-pipedream-oauth).
 </Callout>
 
 ##### Examples
@@ -343,25 +438,36 @@ To retrieve the credentials for any account in `production` for OAuth apps (Slac
 ```typescript
 import {
   createBackendClient,
+  type Account,
+  type BackendClientOpts,
+  type BackendClient,
+  type GetAccountOpts,
+  type GetAccountsResponse,
 } from "@pipedream/sdk/server";
 
-const pd = createBackendClient({
+const clientOpts: BackendClientOpts = {
   environment: "development", // change to production if running for a test production account, or in production
   credentials: {
     clientId: "{oauth_client_id}",
     clientSecret: "{oauth_client_secret}",
   },
   projectId: "{your_project_id}"
-});
+};
+const pd: BackendClient = createBackendClient(clientOpts);
 
-const accounts = await pd.getAccounts({
+const requestOpts: GetAccountOpts = {
   app: "github", // optional, filter by app
   external_user_id: "user-abc-123", // optional, filter by external user ID
   include_credentials: true, // optional, set to true to include credentials
-});
+};
+const response: GetAccountsResponse = await pd.getAccounts(requestOpts);
 
-// Parse and return the data you need. These may contain credentials,
-// which you should never return to the client
+// These may contain credentials, which you should never return to the client
+const {
+  data
+}: {
+  data: Account[]
+} = response;
 ```
 </Tabs.Tab>
 <Tabs.Tab>
@@ -556,7 +662,7 @@ GET /{project_id}/accounts/{account_id}
 
 `project_id` **string**
 
-[The project's ID](/projects#finding-your-projects-id)
+[The project's ID](/workflows/projects/#finding-your-projects-id)
 
 ---
 
@@ -575,7 +681,7 @@ Never return user credentials to the client
 </Callout>
 
 <Callout type="info">
-To retrieve the credentials for any account in `production` for OAuth apps (Slack, Google Sheets, etc), the connected account must be using [your own OAuth client](/connect/oauth-clients#using-a-custom-oauth-client). You can only retrieve end user credentials for accounts that are using Pipedream's OAuth clients in `development`. [Learn more here](/connect/oauth-clients#using-pipedream-oauth).
+To retrieve the credentials for any account in `production` for OAuth apps (Slack, Google Sheets, etc), the connected account must be using [your own OAuth client](/connect/managed-auth/oauth-clients/#using-a-custom-oauth-client). You can only retrieve end user credentials for accounts that are using Pipedream's OAuth clients in `development`. [Learn more here](/connect/managed-auth/oauth-clients/#using-pipedream-oauth).
 </Callout>
 
 ##### Examples
@@ -585,25 +691,28 @@ To retrieve the credentials for any account in `production` for OAuth apps (Slac
 ```typescript
 import {
   createBackendClient,
+  type Account,
+  type BackendClient,
+  type BackendClientOpts,
+  type GetAccountOpts,
 } from "@pipedream/sdk/server";
 
-const pd = createBackendClient({
+const clientOpts: BackendClientOpts = {
   environment: "development", // change to production if running for a test production account, or in production
   credentials: {
     clientId: "{oauth_client_id}",
     clientSecret: "{oauth_client_secret}",
   },
   projectId: "{your_project_id}"
-});
+};
+const pd: BackendClient = createBackendClient(clientOpts);
 
-const account = await pd.getAccountById(accountId, {
-  app: "github", // optional, filter by app
-  external_user_id: "user-abc-123", // optional, filter by external user ID
+const accountId: string = "{account_id}"; // Replace with your account ID
+const requestOpts: GetAccountOpts = {
   include_credentials: true, // optional, set to true to include credentials
-});
-
-// Parse and return the data you need. These may contain credentials,
-// which you should never return to the client
+};
+// These may contain credentials, which you should never return to the client.
+const account: Account = await pd.getAccountById(accountId, requestOpts);
 ```
 </Tabs.Tab>
 <Tabs.Tab>
@@ -622,8 +731,6 @@ const pd = createBackendClient({
 const accountId = "{account_id}"; // Replace with your account ID
 
 const account = await pd.getAccountById(accountId, {
-  app: "github", // optional, filter by app
-  external_user_id: "user-abc-123", // optional, filter by external user ID
   include_credentials: true, // optional, set to true to include credentials
 });
 
@@ -728,7 +835,7 @@ DELETE /{project_id}/accounts/{account_id}
 
 `project_id` **string**
 
-[The project's ID](/projects#finding-your-projects-id)
+[The project's ID](/workflows/projects/#finding-your-projects-id)
 
 ---
 
@@ -741,17 +848,21 @@ DELETE /{project_id}/accounts/{account_id}
 ```typescript
 import {
   createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
 } from "@pipedream/sdk/server";
 
-const pd = createBackendClient({
+const clientOpts: BackendClientOpts = {
   environment: "development", // change to production if running for a test production account, or in production
   credentials: {
     clientId: "{oauth_client_id}",
     clientSecret: "{oauth_client_secret}",
   },
   projectId: "{your_project_id}"
-});
+};
+const pd: BackendClient = createBackendClient(clientOpts);
 
+const accountId: string = "{account_id}"; // Replace with your account ID
 await pd.deleteAccount(accountId);
 
 // You can return a message or handle any post-deletion logic here.
@@ -770,6 +881,7 @@ const pd = createBackendClient({
   projectId: "{your_project_id}"
 });
 
+const accountId = "{account_id}"; // Replace with your account ID
 await pd.deleteAccount(accountId);
 
 // You can return a message or handle any post-deletion logic here.
@@ -810,13 +922,13 @@ DELETE /{project_id}/apps/{app_id}/accounts
 
 `project_id` **string**
 
-[The project's ID](/projects#finding-your-projects-id)
+[The project's ID](/workflows/projects/#finding-your-projects-id)
 
 ---
 
 `app_id` **string**
 
-The app ID for which you want to delete all connected accounts. `app_id` can be `oauth_app_id` for [OAuth apps](/connect/quickstart#create-a-pipedream-oauth-client) or name slug for key-based apps, which you can find under the **Authentication** section of any [app page](https://pipedream.com/apps)
+The app ID for which you want to delete all connected accounts. `app_id` can be `oauth_app_id` for [OAuth apps](/connect/managed-auth/quickstart/#create-a-pipedream-oauth-client) or name slug for key-based apps, which you can find under the **Authentication** section of any [app page](https://pipedream.com/apps)
 
 ##### Examples
 
@@ -825,17 +937,21 @@ The app ID for which you want to delete all connected accounts. `app_id` can be 
 ```typescript
 import {
   createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
 } from "@pipedream/sdk/server";
 
-const pd = createBackendClient({
+const clientOpts: BackendClientOpts = {
   environment: "development", // change to production if running for a test production account, or in production
   credentials: {
     clientId: "{oauth_client_id}",
     clientSecret: "{oauth_client_secret}",
   },
   projectId: "{your_project_id}"
-});
+};
+const pd: BackendClient = createBackendClient(clientOpts);
 
+const appId: string = "{app_id}"; // Replace with the app ID
 await pd.deleteAccountsByApp(appId);
 
 // You can return a message or handle any post-deletion logic here.
@@ -854,7 +970,8 @@ const pd = createBackendClient({
   projectId: "{your_project_id}"
 });
 
-await pd.deleteAccount(accountId);
+const appId = "{app_id}"; // Replace with the app ID
+await pd.deleteAccountsByApp(appId);
 
 // You can return a message or handle any post-deletion logic here.
 ```
@@ -894,7 +1011,7 @@ DELETE /{project_id}/users/{external_user_id}
 
 `project_id` **string**
 
-[The project's ID](/projects#finding-your-projects-id)
+[The project's ID](/workflows/projects/#finding-your-projects-id)
 
 ---
 
@@ -909,20 +1026,24 @@ DELETE /{project_id}/users/{external_user_id}
 ```typescript
 import {
   createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
 } from "@pipedream/sdk/server";
 
-const pd = createBackendClient({
+const clientOpts: BackendClientOpts = {
   environment: "development", // change to production if running for a test production account, or in production
   credentials: {
     clientId: "{oauth_client_id}",
     clientSecret: "{oauth_client_secret}",
   },
   projectId: "{your_project_id}"
-});
+};
+const pd: BackendClient = createBackendClient(clientOpts);
 
+const externalId: string = "{external_user_id}"; // Replace with your external user ID
 await pd.deleteExternalUser(externalId);
 
-console.log("All accounts associated with the external ID have been deleted.");
+// You can return a message or handle any post-deletion logic here.
 ```
 </Tabs.Tab>
 <Tabs.Tab>
@@ -939,10 +1060,9 @@ const pd = createBackendClient({
 });
 
 const externalId = "{external_user_id}"; // Replace with your external user ID
-
 await pd.deleteExternalUser(externalId);
 
-console.log("All accounts associated with the external ID have been deleted.");
+// You can return a message or handle any post-deletion logic here.
 ```
 </Tabs.Tab>
 <Tabs.Tab>
@@ -993,7 +1113,7 @@ The ID or name slug the app you'd like to retrieve. For example, Slack's unique
 app ID is `app_OkrhR1`, and its name slug is `slack`.
 
 You can find the app's ID in the response from the [List
-apps](/rest-api#list-apps) endpoint, and the name slug under the
+apps](/rest-api/#list-apps) endpoint, and the name slug under the
 **Authentication** section of any [app page](https://pipedream.com/apps).
 
 ---
@@ -1001,7 +1121,7 @@ apps](/rest-api#list-apps) endpoint, and the name slug under the
 `q` **string** (_optional_)
 
 A search query to filter the components by key (see the [component structure
-table](/components/api#component-structure)).
+table](/workflows/contributing/components/api/#component-structure)).
 
 ##### Examples
 
@@ -1011,25 +1131,36 @@ table](/components/api#component-structure)).
 ```typescript
 import {
   createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type GetComponentsOpts,
+  type GetComponentsResponse,
+  type V1Component,
 } from "@pipedream/sdk/server";
 
-const pd = createBackendClient({
+const clientOpts: BackendClientOpts = {
   environment: "development", // change to production if running for a test production account, or in production
   credentials: {
     clientId: "{oauth_client_id}",
     clientSecret: "{oauth_client_secret}",
   },
   projectId: "{your_project_id}"
-});
+};
+const pd: BackendClient = createBackendClient(clientOpts);
 
 // Retrieve components containing the word "issue" in their name, belonging to
 // the Gitlab app
-const { data: components } = await pd.getComponents({
+const requestOpts: GetComponentsOpts = {
   app: "gitlab",
   q: "issue",
-});
+};
+const response: GetComponentsResponse = await pd.getComponents(requestOpts);
 
-// Parse and return the data you need
+const {
+  data  // The list of components for the Gitlab app and query `q`
+}: {
+  data: Omit<V1Component, "configurable_props">[];
+} = response;
 ```
 </Tabs.Tab>
 
@@ -1127,7 +1258,7 @@ Either `triggers`, `actions`, or `components`.
 `component_key` **string**
 
 The key that identifies the component (see the [component structure
-table](/components/api#component-structure)).
+table](/workflows/contributing/components/api/#component-structure)).
 
 ##### Examples
 
@@ -1137,23 +1268,34 @@ table](/components/api#component-structure)).
 ```typescript
 import {
   createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type GetComponentOpts,
+  type GetComponentResponse,
+  type V1Component,
 } from "@pipedream/sdk/server";
 
-const pd = createBackendClient({
+const clientOpts: BackendClientOpts = {
   environment: "development", // change to production if running for a test production account, or in production
   credentials: {
     clientId: "{oauth_client_id}",
     clientSecret: "{oauth_client_secret}",
   },
   projectId: "{your_project_id}"
-});
+};
+const pd: BackendClient = createBackendClient(clientOpts);
 
 // Retrieve the "New Issue (Instant)" component for the Gitlab app
-const { data: component } = await pd.getComponent({
+const requestOpts: GetComponentOpts = {
   key: "gitlab-new-issue",
-});
+};
+const response: GetComponentResponse = await pd.getComponent(requestOpts);
 
-// Parse and return the data you need
+const {
+  data  // The "New Issue (Instant)" component for the Gitlab app
+}: {
+  data: V1Component;
+} = response;
 ```
 </Tabs.Tab>
 
@@ -1273,7 +1415,7 @@ want to retrieve accounts for.
 `id` **string**
 
 The key that identifies the component (see the [component structure
-table](/components/api#component-structure)).
+table](/workflows/contributing/components/api/#component-structure)).
 
 ---
 
@@ -1289,20 +1431,26 @@ The name of the component's prop to configure.
 ```typescript
 import {
   createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type ConfigureComponentOpts,
+  type ConfigureComponentResponse,
+  type PropOption,
 } from "@pipedream/sdk/server";
 
-const pd = createBackendClient({
+const clientOpts: BackendClientOpts = {
   environment: "development", // change to production if running for a test production account, or in production
   credentials: {
     clientId: "{oauth_client_id}",
     clientSecret: "{oauth_client_secret}",
   },
   projectId: "{your_project_id}"
-});
+};
+const pd: BackendClient = createBackendClient(clientOpts);
 
 // Retrieve the configuration options for the "projectId" prop of the "List
 // Commits" component for the Gitlab app.
-const { options } = await pd.configureComponent({
+const requestOpts: ConfigureComponentOpts = {
   componentId: {
     key: "gitlab-list-commits",
   },
@@ -1313,9 +1461,18 @@ const { options } = await pd.configureComponent({
   },
   externalUserId: "jverce",
   propName: "projectId",
-});
+};
+const response: ConfigureComponentResponse = await pd.configureComponent(requestOpts);
 
-// Parse and return the data you need
+const {
+  options,        // The list of options for the "projectId" prop
+  stringOptions,  // The list of string options for the "projectId" prop
+  errors,         // Any errors that occurred during the configuration
+}: {
+  options: PropOption[];
+  stringOptions: string[];
+  errors: string[];
+} = response;
 ```
 </Tabs.Tab>
 
@@ -1441,7 +1598,7 @@ Reload the component's props after configuring a dynamic prop, based on the
 current component's configuration. This endpoint will use the component's
 configuration to retrieve a new list of props depending on the value of the
 props that were configured so far. See the [Dynamic
-Props](/connect/components#dynamic-props-optional) section for more information.
+Props](/workflows/contributing/components#dynamic-props-optional) section for more information.
 
 ```text
 GET /{component_type}/props
@@ -1473,7 +1630,7 @@ want to retrieve accounts for.
 `id` **string**
 
 The key that identifies the component (see the [component structure
-table](/components/api#component-structure)).
+table](/workflows/contributing/components/api/#component-structure)).
 
 ---
 
@@ -1490,20 +1647,26 @@ for the first time).
 ```typescript
 import {
   createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type ConfigurableProps,
+  type ReloadComponentPropsOpts,
+  type ReloadComponentPropsResponse,
 } from "@pipedream/sdk/server";
 
-const pd = createBackendClient({
+const clientOpts: BackendClientOpts = {
   environment: "development", // change to production if running for a test production account, or in production
   credentials: {
     clientId: "{oauth_client_id}",
     clientSecret: "{oauth_client_secret}",
   },
   projectId: "{your_project_id}"
-});
+};
+const pd: BackendClient = createBackendClient(clientOpts);
 
 // Retrieve the configuration options for the "Add Single Row" component for
 // the Google Sheets app. Note that the `sheetId` prop is a dynamic prop.
-const { dynamicProps } = await pd.reloadComponentProps({
+const requestOpts: ReloadComponentPropsOpts = {
   componentId: {
     key: "google_sheets-add-single-row",
   },
@@ -1514,14 +1677,16 @@ const { dynamicProps } = await pd.reloadComponentProps({
     sheetId: "1BfWjFF2dTW_YDiLISj5N9nKCUErShgugPS434liyytg",
   },
   externalUserId: "jay",
-});
+};
+const response: ReloadComponentPropsResponse = await pd.reloadComponentProps(requestOpts);
 
 const {
   configurableProps,  // The new set of props
   id: dynamicPropsId, // The ID of the last prop reconfiguration
-} = dynamicProps;
-
-// Parse and return the data you need
+}: {
+  configurableProps: ConfigurableProps,
+  id: string,
+} = response.dynamicProps;
 ```
 </Tabs.Tab>
 
@@ -1668,7 +1833,7 @@ POST /actions/run
 `id` **string**
 
 The key that identifies the action component (see the [component structure
-table](/components/api#component-structure)).
+table](/workflows/contributing/components/api/#component-structure)).
 
 ---
 
@@ -1699,23 +1864,24 @@ The ID of the last prop reconfiguration (if applicable).
 ```typescript
 import {
   createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type RunActionOpts,
+  type RunActionResponse,
 } from "@pipedream/sdk/server";
 
-const pd = createBackendClient({
+const clientOpts: BackendClientOpts = {
   environment: "development", // change to production if running for a test production account, or in production
   credentials: {
     clientId: "{oauth_client_id}",
     clientSecret: "{oauth_client_secret}",
   },
   projectId: "{your_project_id}"
-});
+};
+const pd: BackendClient = createBackendClient(clientOpts);
 
 // Run the "List Commits" action for the Gitlab app
-const {
-  exports,  // The named exports produced by the action
-  os,       // The observations produced by the action
-  ret,      // The value returned by the action
-} = await pd.runAction({
+const requestOpts: RunActionOpts = {
   actionId: {
     key: "gitlab-list-commits",
   },
@@ -1727,9 +1893,18 @@ const {
     refName: "main"
   },
   externalUserId: "jverce",
-});
+};
+const response: RunActionResponse = await pd.runAction(requestOpts);
 
-// Parse and return the data you need
+const {
+  exports,  // The named exports produced by the action
+  os,       // The observations produced by the action
+  ret,      // The value returned by the action
+}: {
+  exports: unknown,
+  os: unknown[],
+  ret: unknown,
+} = response;
 ```
 </Tabs.Tab>
 
@@ -1836,7 +2011,7 @@ curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/actions/run
 
 #### Deploy a trigger
 
-Deploy a trigger component for a Pipedream Connect user in a project.
+Deploy a trigger component that will emit events to a webhook or workflow for a Pipedream Connect user.
 
 ```text
 POST /triggers/deploy
@@ -1847,7 +2022,7 @@ POST /triggers/deploy
 `id` **string**
 
 The key that identifies the action component (see the [component structure
-table](/components/api#component-structure)).
+table](/workflows/contributing/components/api/#component-structure)).
 
 ---
 
@@ -1866,9 +2041,19 @@ which you want to execute the action.
 
 ---
 
-`webhook_url` **string**
+`webhook_url` **string** (_optional_)
 
 The URL to which the trigger will send events.
+
+---
+
+`workflow_url` **string** (_optional_)
+
+The Pipedream workflow ID to which you want to emit events (ex, `p_1234567`).
+
+<Callout type="warning">
+The workflow must be in the same Pipedream project as the trigger.
+</Callout>
 
 ---
 
@@ -1884,19 +2069,24 @@ The ID of the last prop reconfiguration (if applicable).
 ```typescript
 import {
   createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type DeployTriggerOpts,
+  type DeployTriggerResponse,
 } from "@pipedream/sdk/server";
 
-const pd = createBackendClient({
+const clientOpts: BackendClientOpts = {
   environment: "development", // change to production if running for a test production account, or in production
   credentials: {
     clientId: "{oauth_client_id}",
     clientSecret: "{oauth_client_secret}",
   },
   projectId: "{your_project_id}"
-});
+};
+const pd: BackendClient = createBackendClient(clientOpts);
 
 // Deploy the "New Issue (Instant)" trigger for the Gitlab app
-const { data: deployedTrigger } = await pd.deployTrigger({
+const requestOpts: DeployTriggerOpts = {
   triggerId: {
     key: "gitlab-new-issue",
   },
@@ -1908,15 +2098,18 @@ const { data: deployedTrigger } = await pd.deployTrigger({
   },
   externalUserId: "jverce",
   webhookUrl: "https://events.example.com/gitlab-new-issue",
-});
+};
+const response: DeployTriggerResponse = await pd.deployTrigger(requestOpts);
 
 const {
   id: triggerId,      // The unique ID of the deployed trigger
   name: triggerName,  // The name of the deployed trigger
   owner_id: userId,   // The unique ID in Pipedream of your user
-} = deployedTrigger;
-
-// Parse and return the data you need
+}: {
+  id: string,
+  name: string,
+  owner_id: string,
+} = response.data;
 ```
 </Tabs.Tab>
 
@@ -2063,6 +2256,68 @@ which you want to deploy the trigger.
 
 ##### Examples
 
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type GetTriggersOpts,
+  type GetTriggersResponse,
+  type V1DeployedComponent,
+} from "@pipedream/sdk/server";
+
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
+
+// List all deployed triggers for the specified user
+const requestOpts: GetTriggersOpts = {
+  externalUserId: "jverce",
+};
+const response: GetTriggersResponse = await pd.getTriggers(requestOpts);
+
+const {
+  data: triggers,  // The list of deployed triggers
+}: {
+  data: V1DeployedComponent[],
+} = response;
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// List all deployed triggers for the specified user
+const { data: triggers } = await pd.getTriggers({
+  externalUserId: "jverce"
+});
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
 ```bash
 # First, obtain an OAuth access token
 curl -X POST https://api.pipedream.com/v1/oauth/token \
@@ -2084,6 +2339,8 @@ curl -X GET \
   -H "x-pd-environment: development" \
   -d "external_user_id={external_user_id}"
 ```
+</Tabs.Tab>
+</Tabs>
 
 ##### Example response
 
@@ -2254,6 +2511,70 @@ which you want to deploy the trigger.
 
 ##### Examples
 
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type GetTriggerOpts,
+  type GetTriggerResponse,
+  type V1DeployedComponent,
+} from "@pipedream/sdk/server";
+
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
+
+// Retrieve the deployed trigger for the specified user
+const requestOpts: GetTriggerOpts = {
+  id: "dc_gzumK2e",
+  externalUserId: "jverce",
+};
+const response: GetTriggerResponse = await pd.getTrigger(requestOpts);
+
+const {
+  data: trigger,  // The deployed trigger
+}: {
+  data: V1DeployedComponent,
+} = response;
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Retrieve the deployed trigger for the specified user
+const { data: trigger } = await pd.getTrigger({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce"
+});
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
 ```bash
 # First, obtain an OAuth access token
 curl -X POST https://api.pipedream.com/v1/oauth/token \
@@ -2275,6 +2596,8 @@ curl -X GET \
   -H "x-pd-environment: development" \
   -d "external_user_id={external_user_id}"
 ```
+</Tabs.Tab>
+</Tabs>
 
 ##### Example response
 
@@ -2373,6 +2696,63 @@ which you want to deploy the trigger.
 
 ##### Examples
 
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type DeleteTriggerOpts,
+} from "@pipedream/sdk/server";
+
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
+
+// Delete the deployed trigger for the specified user.
+const requestOpts: DeleteTriggerOpts = {
+  id: "dc_gzumK2e",
+  externalUserId: "jverce",
+};
+
+// The method doesn't return any data.
+await pd.deleteTrigger(requestOpts);
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Delete the deployed trigger for the specified user. The method doesn't return
+// any data.
+await pd.deleteTrigger({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce"
+});
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
 ```bash
 # First, obtain an OAuth access token
 curl -X POST https://api.pipedream.com/v1/oauth/token \
@@ -2394,7 +2774,730 @@ curl -X DELETE \
   -H "x-pd-environment: development" \
   -d "external_user_id={external_user_id}"
 ```
+</Tabs.Tab>
+</Tabs>
 
 ##### Response
 
 Pipedream returns a `204 No Content` response on successful deletion
+
+
+#### Retrieve the events emitted by a deployed trigger
+
+Retrieve a list of the last events that a deployed trigger emitted.
+
+```text
+GET /deployed-triggers/{deployed_component_id}/events/
+```
+
+##### Path parameters
+
+`dcid` **string**
+
+The deployed component ID for the trigger you'd like to retrieve.
+
+##### Query parameters
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system on behalf of
+which you want to deploy the trigger.
+
+`n` **number** (_optional_)
+
+The number of events to retrieve. Defaults to 10, and it's capped at 100.
+
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type GetTriggerEventsOpts,
+  type GetTriggerEventsResponse,
+  type V1EmittedEvent,
+} from "@pipedream/sdk/server";
+
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
+
+// List the last 10 events emitted by the deployed trigger of the specified user
+const requestOpts: GetTriggerEventsOpts = {
+  id: "dc_gzumK2e",
+  externalUserId: "jverce",
+};
+const response: GetTriggerEventsResponse = await pd.getTriggerEvents(requestOpts);
+
+const {
+  data: events,  // The list of events emitted by the trigger
+}: {
+  data: V1EmittedEvent[],
+} = response;
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// List the last 10 events emitted by the deployed trigger of the specified user
+const { data: events } = await pd.getTriggerEvents({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce"
+});
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will list all events emitted by the specified deployed trigger.
+
+curl -X GET \
+  -G \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{dcid}/events" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -H "x-pd-environment: development" \
+  -d "external_user_id={external_user_id}"
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "data": [
+    {
+      "e": {
+        "method": "PUT",
+        "path": "/",
+        "query": {},
+        "client_ip": "127.0.0.1",
+        "url": "http://6c367a3dcffce4d01a7b691e906f8982.m.d.pipedream.net/",
+        "headers": {
+          "host": "6c367a3dcffce4d01a7b691e906f8982.m.d.pipedream.net",
+          "connection": "close",
+          "user-agent": "curl/8.7.1",
+          "accept": "*/*"
+        }
+      },
+      "k": "emit",
+      "ts": 1737155977519,
+      "id": "1737155977519-0"
+    },
+    {
+      "e": {
+        "method": "PUT",
+        "path": "/",
+        "query": {},
+        "client_ip": "127.0.0.1",
+        "url": "http://6c367a3dcffce4d01a7b691e906f8982.m.d.pipedream.net/",
+        "headers": {
+          "host": "6c367a3dcffce4d01a7b691e906f8982.m.d.pipedream.net",
+          "connection": "close",
+          "user-agent": "curl/8.7.1",
+          "accept": "*/*"
+        }
+      },
+      "k": "emit",
+      "ts": 1737062972013,
+      "id": "1737062972013-0"
+    },
+    {
+      "e": {
+        "method": "POST",
+        "path": "/",
+        "query": {},
+        "client_ip": "127.0.0.1",
+        "url": "http://6c367a3dcffce4d01a7b691e906f8982.m.d.pipedream.net/",
+        "headers": {
+          "host": "6c367a3dcffce4d01a7b691e906f8982.m.d.pipedream.net",
+          "connection": "close",
+          "user-agent": "curl/8.7.1",
+          "accept": "*/*"
+        }
+      },
+      "k": "emit",
+      "ts": 1737047546217,
+      "id": "1737047546217-0"
+    },
+    {
+      "e": {
+        "method": "GET",
+        "path": "/",
+        "query": {},
+        "client_ip": "127.0.0.1",
+        "url": "http://6c367a3dcffce4d01a7b691e906f8982.m.d.pipedream.net/",
+        "headers": {
+          "host": "6c367a3dcffce4d01a7b691e906f8982.m.d.pipedream.net",
+          "connection": "close",
+          "user-agent": "curl/8.7.1",
+          "accept": "*/*"
+        }
+      },
+      "k": "emit",
+      "ts": 1736985883016,
+      "id": "1736985883016-0"
+    }
+  ]
+}
+```
+
+#### Retrieve the webhooks listening to a deployed trigger
+
+Retrieve the list of webhook URLs listening to a deployed trigger.
+
+```text
+GET /deployed-triggers/{deployed_component_id}/webhooks/
+```
+
+##### Path parameters
+
+`dcid` **string**
+
+The deployed component ID for the trigger you'd like to retrieve.
+
+##### Query parameters
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system on behalf of
+which you want to deploy the trigger.
+
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type GetTriggerWebhooksOpts,
+  type GetTriggerWebhooksResponse,
+} from "@pipedream/sdk/server";
+
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
+
+// Retrieve the list of webhook URLs listening to the deployed trigger for the
+// specified user
+const requestOpts: GetTriggerWebhooksOpts = {
+  id: "dc_gzumK2e",
+  externalUserId: "jverce",
+};
+const response: GetTriggerWebhooksResponse = await pd.getTriggerWebhooks(requestOpts);
+
+const {
+  webhook_urls: urls,  // The list of webhook URLs listening to the deployed trigger
+}: {
+  webhook_urls: string[],
+} = response;
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Retrieve the list of webhook URLs listening to the deployed trigger for the
+// specified user
+const { webhook_urls: urls } = await pd.getTriggerWebhooks({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce"
+});
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will list all webhook URLs listening to the specified deployed trigger.
+
+curl -X GET \
+  -G \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{dcid}/webhooks/" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -H "x-pd-environment: development" \
+  -d "external_user_id={external_user_id}"
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "webhook_urls": [
+    "https://events.example.com/gitlab-new-issue",
+  ]
+}
+```
+
+#### Update the webhooks listening to a deployed trigger
+
+Update the list of webhook URLs that will listen to a deployed trigger.
+
+```text
+PUT /deployed-triggers/{deployed_component_id}/webhooks/
+```
+
+##### Path parameters
+
+`dcid` **string**
+
+The deployed component ID for the trigger you'd like to retrieve.
+
+##### Query parameters
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system on behalf of
+which you want to deploy the trigger.
+
+##### Body parameters
+
+`webhook_urls` **string[]**
+
+The list of webhook URLs that will listen to the deployed trigger.
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type UpdateTriggerWebhooksOpts,
+  type UpdateTriggerWebhooksResponse,
+} from "@pipedream/sdk/server";
+
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
+
+// The new list of webhook URLs that will listen to the deployed trigger
+const webhookUrls: string[] = [
+  "https://events.example.com/gitlab-new-issue",
+];
+
+const requestOpts: UpdateTriggerWebhooksOpts = {
+  id: "dc_gzumK2e",
+  externalUserId: "jverce",
+  webhookUrls,
+};
+
+// Update the list of webhook URLs listening to the deployed trigger
+const response: UpdateTriggerWebhooksResponse = await pd.updateTriggerWebhooks(requestOpts);
+
+// `webhookUrls` will match `confirmedUrls` if the update was successful
+const {
+  webhook_urls: confirmedUrls,
+}: {
+  webhook_urls: string[],
+} = response;
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// The new list of webhook URLs that will listen to the deployed trigger
+const webhookUrls = [
+  "https://events.example.com/gitlab-new-issue",
+];
+
+// Update the list of webhook URLs listening to the deployed trigger
+const { webhook_urls: confirmedUrls } = await pd.updateTriggerWebhooks({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce",
+  webhookUrls,
+});
+
+// `webhookUrls` will match `confirmedUrls` if the update was successful
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will update the list of webhook URLs listening to the specified deployed trigger.
+
+curl -X PUT \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{dcid}/webhooks/" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -H "x-pd-environment: development" \
+  -d '{"external_user_id": "{external_user_id}", "webhook_urls": ["https://events.example.com/gitlab-new-issue"]}'
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "webhook_urls": [
+    "https://events.example.com/gitlab-new-issue",
+  ]
+}
+```
+
+#### Retrieve the workflows listening to a deployed trigger
+
+Retrieve the list of workflow IDs listening to a deployed trigger.
+
+```text
+GET /deployed-triggers/{deployed_component_id}/workflows/
+```
+
+##### Path parameters
+
+`dcid` **string**
+
+The deployed component ID for the trigger you'd like to retrieve.
+
+##### Query parameters
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system on behalf of
+which you want to deploy the trigger.
+
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type GetTriggerWorkflowsOpts,
+  type GetTriggerWorkflowsResponse,
+} from "@pipedream/sdk/server";
+
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
+
+// Retrieve the list of workflow IDs listening to the deployed trigger for the
+// specified user
+const requestOpts: GetTriggerWorkflowsOpts = {
+  id: "dc_gzumK2e",
+  externalUserId: "jverce",
+};
+const response: GetTriggerWorkflowsResponse = await pd.getTriggerWorkflows(requestOpts);
+
+const {
+  workflow_ids: ids,  // The list of workflow IDs listening to the deployed trigger
+}: {
+  workflow_ids: string[],
+} = response;
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Retrieve the list of workflow IDs listening to the deployed trigger for the
+// specified user
+const { workflow_ids: ids } = await pd.getTriggerWorkflows({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce"
+});
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will list all workflow IDs listening to the specified deployed trigger.
+
+curl -X GET \
+  -G \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{dcid}/workflows/" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -H "x-pd-environment: development" \
+  -d "external_user_id={external_user_id}"
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "workflow_ids": [
+    "p_ERRCzw",
+    "p_2LniLm",
+  ]
+}
+```
+
+#### Update the workflows listening to a deployed trigger
+
+Update the list of workflows that will listen to a deployed trigger.
+
+```text
+PUT /deployed-triggers/{deployed_component_id}/workflows/
+```
+
+##### Path parameters
+
+`dcid` **string**
+
+The deployed component ID for the trigger you'd like to retrieve.
+
+##### Query parameters
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system on behalf of
+which you want to deploy the trigger.
+
+##### Body parameters
+
+`workflow_ids` **string[]**
+
+The list of workflow IDs that will listen to the deployed trigger.
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type UpdateTriggerWorkflowsOpts,
+  type UpdateTriggerWorkflowsResponse,
+} from "@pipedream/sdk/server";
+
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}",
+};
+const pd: BackendClient = createBackendClient(clientOpts);
+
+// The new list of workflow IDs that will listen to the deployed trigger
+const workflowIds: string[] = [
+  "p_ERRCzw",
+  "p_2LniLm",
+];
+const requestOpts: UpdateTriggerWorkflowsOpts = {
+  id: "dc_gzumK2e",
+  externalUserId: "jverce",
+  workflowIds,
+};
+
+// Update the list of workflows listening to the deployed trigger
+const response: UpdateTriggerWorkflowsResponse = await pd.updateTriggerWorkflows(requestOpts);
+
+// `workflowIds` will match `confirmedIds` if the update was successful
+const {
+  workflow_ids: confirmedIds,
+}: {
+  workflow_ids: string[],
+} = response;
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// The new list of workflow IDs that will listen to the deployed trigger
+const workflowIds = [
+  "p_ERRCzw",
+  "p_2LniLm",
+];
+
+// Update the list of workflows listening to the deployed trigger
+const { workflow_ids: confirmedIds } = await pd.updateTriggerWorkflows({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce",
+  workflowIds,
+});
+
+// `workflowIds` will match `confirmedIds` if the update was successful
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will update the list of webhook URLs listening to the specified deployed trigger.
+
+curl -X PUT \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{dcid}/webhooks/" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -H "x-pd-environment: development" \
+  -d '{"external_user_id": "{external_user_id}", "workflow_ids": ["p_ERRCzw", "p_2LniLm"]}'
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "workflow_ids": [
+    "p_ERRCzw",
+    "p_2LniLm",
+  ]
+}
+```

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/connect-react",
-  "version": "1.0.0-preview.19",
+  "version": "1.0.0-preview.30",
   "description": "Pipedream Connect library for React",
   "files": [
     "dist"
@@ -18,7 +18,8 @@
   },
   "scripts": {
     "build": "vite build",
-    "prepare": "pnpm run build"
+    "prepare": "pnpm run build",
+    "watch": "NODE_ENV=development vite build --watch --mode development"
   },
   "publishConfig": {
     "access": "public"

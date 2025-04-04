@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/egestor",
+  "version": "0.0.1",
+  "description": "Pipedream eGestor Components",
+  "main": "egestor.app.mjs",
+  "keywords": [
+    "pipedream",
+    "egestor"
+  ],
+  "homepage": "https://pipedream.com/apps/egestor",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,38 +1,50 @@
 import { FormContext } from "../hooks/form-context";
 import type { FormFieldContext } from "../hooks/form-field-context";
 import {
-  ConfigurableProp, ConfigurableProps,
+  ConfigurableProp, ConfigurablePropAlert, ConfigurableProps,
 } from "@pipedream/sdk";
-import { useCustomize } from "../hooks/customization-context";
-import type { CSSProperties } from "react";
+import { Alert } from "./Alert";
 
 export type ErrorsProps<T extends ConfigurableProps, U extends ConfigurableProp> = {
-  errors: string[];
   field: FormFieldContext<U>;
   form: FormContext<T>;
 };
 
 export function Errors<T extends ConfigurableProps, U extends ConfigurableProp>(props: ErrorsProps<T, U>) {
-  const { errors } = props;
-
+  const { field } = props;
   const {
-    getProps, theme,
-  } = useCustomize();
+    errors = {}, prop = {}, enableDebugging,
+  } = field
 
-  const baseStyles: CSSProperties = {
-    color: theme.colors.danger,
-    gridArea: "errors",
-  };
+  if (!enableDebugging) {
+    return null
+  }
 
-  if (!errors.length) {
-    return null;
+  if (!errors[prop.name]) {
+    return null
   }
 
   // TODO depending on type does different shit... we might need async loader around the label, etc.?
   // maybe that should just be handled by FormFieldContext instead of container?
+
+  const formattedErrors: ConfigurablePropAlert[] = errors[prop.name].map((e) => {
+    return {
+      type: "alert",
+      alertType: "error",
+      content: e,
+    }
+  })
+
+  const baseStyles = {
+    display: "grid",
+    gridTemplateColumns: "max-content",
+  }
+
+  const FormattedErrors = () => {
+    return <>{formattedErrors.map((fe, idx: number) => <Alert prop={fe} key={idx}/>)}</>
+  }
+
   return (
-    <ul {...getProps("errors", baseStyles, props)}>
-      {errors.map((msg) => <li key={msg} {...getProps("error", baseStyles, props)}>{msg}</li>)}
-    </ul>
+    <div className="pd-errors" style={baseStyles}><FormattedErrors/></div>
   );
 }

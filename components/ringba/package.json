@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/ringba",
+  "version": "0.6.0",
+  "description": "Pipedream ringba Components",
+  "main": "ringba.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ringba"
+  ],
+  "homepage": "https://pipedream.com/apps/ringba",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

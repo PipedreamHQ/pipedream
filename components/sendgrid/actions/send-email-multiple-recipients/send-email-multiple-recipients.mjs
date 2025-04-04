@@ -1,3 +1,6 @@
+import { ConfigurationError } from "@pipedream/platform";
+import fs from "fs";
+import mime from "mime";
 import validate from "validate.js";
 import common from "../common/common.mjs";
 
@@ -6,7 +9,7 @@ export default {
   key: "sendgrid-send-email-multiple-recipients",
   name: "Send Email Multiple Recipients",
   description: "This action sends a personalized e-mail to multiple specified recipients. [See the docs here](https://docs.sendgrid.com/api-reference/mail-send/mail-send)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     ...common.props,
@@ -73,12 +76,6 @@ export default {
       ],
       optional: true,
     },
-    attachments: {
-      propDefinition: [
-        common.props.sendgrid,
-        "attachments",
-      ],
-    },
     headers: {
       propDefinition: [
         common.props.sendgrid,
@@ -139,19 +136,51 @@ export default {
         "trackingSettings",
       ],
     },
+    numberOfAttachments: {
+      propDefinition: [
+        common.props.sendgrid,
+        "numberOfAttachments",
+      ],
+      optional: true,
+    },
+  },
+  async additionalProps() {
+    const props = {};
+    if (this.numberOfAttachments) {
+      for (let i = 1; i <= this.numberOfAttachments; i++) {
+        props[`attachmentsName${i}`] = {
+          type: "string",
+          label: `Attachment File Name ${i}`,
+          description: "The name of the file.",
+          optional: true,
+        };
+        props[`attachmentsPath${i}`] = {
+          type: "string",
+          label: `Attachment File Path ${i}`,
+          description: "The path to your file in /tmp dir. [See the documentation](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp) for how to work with tmp dir.",
+          optional: true,
+        };
+      }
+    }
+    return props;
   },
   async run({ $ }) {
+    if (!this.personalizations && !this.toEmails) {
+      throw new ConfigurationError("Please input either Personalization or Recipient Emails.");
+    }
     const personalizations = this.personalizations || [];
     if (personalizations.length == 0) {
-      for (const toEmail of this.toEmails) {
-        const personalization = {
-          to: [
-            {
-              email: toEmail,
-            },
-          ],
-        };
-        personalizations.push(personalization);
+      if (this.convertEmptyStringToUndefined(this.toEmails)) {
+        for (const toEmail of this.toEmails) {
+          const personalization = {
+            to: [
+              {
+                email: toEmail,
+              },
+            ],
+          };
+          personalizations.push(personalization);
+        }
       }
     }
     if (this.dynamicTemplateData) {
@@ -177,23 +206,27 @@ export default {
         email: true,
       };
     }
-    let attachments = this.convertEmptyStringToUndefined(this.attachments);
-    if (this.attachments) {
-      constraints.attachments = {
-        arrayValidator: {
-          value: this.attachments,
-          key: "attachments",
-        },
-      };
-      attachments = this.getArrayObject(this.attachments);
+    const attachments = [];
+    for (let i = 1; i <= this.numberOfAttachments; i++) {
+      const filepath = this.checkTmp(this["attachmentsPath" + i]);
+      const content = fs.readFileSync(filepath, {
+        encoding: "base64",
+      });
+      const type = mime.getType(filepath);
+      attachments.push({
+        content,
+        type,
+        filename: this[`attachmentsName${i}`],
+      });
     }
+
     if (this.categories) {
       constraints.categories = {
         type: "array",
       };
     }
-    this.sendAt = this.convertEmptyStringToUndefined(this.sendAt);
-    if (this.sendAt != null) {
+    this.sendAt = this.convertEmptyStringToUndefined(Date.parse(this.sendAt));
+    if (this.sendAt) {
       constraints.sendAt = this.getIntegerGtZeroConstraint();
     }
     if (this.asm || this.asmGroupsToDisplay) {

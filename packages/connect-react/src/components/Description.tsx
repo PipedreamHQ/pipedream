@@ -1,6 +1,8 @@
 import type { CSSProperties } from "react";
 import Markdown from "react-markdown";
-import { ConfigurableProp, ConfigurableProps } from "@pipedream/sdk";
+import {
+  ConfigurableProp, ConfigurableProps,
+} from "@pipedream/sdk";
 import { useCustomize } from "../hooks/customization-context";
 import { FormFieldContext } from "../hooks/form-field-context";
 import { FormContext } from "../hooks/form-context";
@@ -14,9 +16,6 @@ export type DescriptionProps<T extends ConfigurableProps, U extends Configurable
 // XXX should we rename to FieldDescription (so shared prefix + clear we need field context
 // eg. cannot be used in OptionalFieldButton, or they need to be set up better)
 export function Description<T extends ConfigurableProps, U extends ConfigurableProp>(props: DescriptionProps<T, U>) {
-  if (!props.field) {
-    console.log("props", props);
-  }
   const {
     field, markdown,
   } = props;
@@ -41,5 +40,11 @@ export function Description<T extends ConfigurableProps, U extends ConfigurableP
   if (!prop.description) {
     return null;
   }
-  return <div className={getClassNames("description", props)} style={getStyles("description", baseStyles, props)}><Markdown>{markdown}</Markdown></div>;
+  return <div className={getClassNames("description", props)} style={getStyles("description", baseStyles, props)}> <Markdown components={{
+    a: ({ ...props }) => {
+      return <a {...props} target="_blank" rel="noopener noreferrer" />;
+    },
+  }}>
+    {markdown}
+  </Markdown></div>;
 }

@@ -5,7 +5,7 @@ export default {
   key: "intercom-new-company",
   name: "New Companies",
   description: "Emit new event each time a new company is added.",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   methods: {

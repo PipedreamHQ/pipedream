@@ -5,7 +5,7 @@ export default {
   key: "intercom-new-unsubscription",
   name: "New Unsubscriptions",
   description: "Emit new event each time a user unsubscribes from receiving emails.",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   methods: {

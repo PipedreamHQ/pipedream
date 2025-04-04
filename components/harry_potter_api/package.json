@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/harry_potter_api",
+  "version": "0.6.0",
+  "description": "Pipedream harry_potter_api Components",
+  "main": "harry_potter_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "harry_potter_api"
+  ],
+  "homepage": "https://pipedream.com/apps/harry_potter_api",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

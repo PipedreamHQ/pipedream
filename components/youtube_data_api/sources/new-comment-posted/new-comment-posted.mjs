@@ -7,14 +7,28 @@ export default {
   key: "youtube_data_api-new-comment-posted",
   name: "New Comment Posted",
   description: "Emit new event for each new comment or reply posted to a Youtube video.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     youtubeDataApi,
+    channelId: {
+      propDefinition: [
+        youtubeDataApi,
+        "userOwnedChannel",
+      ],
+      description: "Select a Channel or provide a custom Channel ID. E.g. `UChkRx83xLq2nk55D8CRODVz`",
+      optional: true,
+    },
     videoId: {
-      type: "string",
-      label: "Video Id",
-      description: "Return comment threads associated with the specified video ID.",
+      propDefinition: [
+        youtubeDataApi,
+        "userOwnedVideo",
+        (c) => ({
+          channelId: c.channelId,
+        }),
+      ],
+      description: "Return comment threads associated with the specified video ID. E.g. `H1h07Rq7nrz`",
+      optional: true,
     },
     ...common.props,
   },

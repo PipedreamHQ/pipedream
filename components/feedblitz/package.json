@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/feedblitz",
+  "version": "0.6.0",
+  "description": "Pipedream feedblitz Components",
+  "main": "feedblitz.app.mjs",
+  "keywords": [
+    "pipedream",
+    "feedblitz"
+  ],
+  "homepage": "https://pipedream.com/apps/feedblitz",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

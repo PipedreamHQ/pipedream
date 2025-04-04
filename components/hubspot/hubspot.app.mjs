@@ -13,6 +13,12 @@ import {
   DEFAULT_PRODUCT_PROPERTIES,
   DEFAULT_LINE_ITEM_PROPERTIES,
 } from "./common/constants.mjs";
+import Bottleneck from "bottleneck";
+const limiter = new Bottleneck({
+  minTime: 250, // 4 requests per second
+  maxConcurrent: 1,
+});
+const axiosRateLimiter = limiter.wrap(axios);
 
 export default {
   type: "app",
@@ -82,7 +88,7 @@ export default {
         if (includeCustom) {
           const { results } = await this.listSchemas();
           const customObjects = results?.map(({
-            name: value, labels,
+            fullyQualifiedName: value, labels,
           }) => ({
             value,
             label: labels.plural,
@@ -431,10 +437,15 @@ export default {
     customObjectType: {
       type: "string",
       label: "Custom Object Type",
-      description: "Tye type of custom object to create",
+      description: "The type of custom object to create",
       async options() {
         const { results } = await this.listSchemas();
-        return results?.map(({ name }) => name ) || [];
+        return results?.map(({
+          name, fullyQualifiedName,
+        }) => ({
+          label: name,
+          value: fullyQualifiedName,
+        }) ) || [];
       },
     },
   },
@@ -473,7 +484,7 @@ export default {
       params,
       ...otherOpts
     }) {
-      return axios($, {
+      return axiosRateLimiter($, {
         url: `${BASE_URL}${api}${endpoint}`,
         headers: this._getHeaders(),
         data: data && this.trimStringValues(data),
@@ -698,6 +709,15 @@ export default {
       return this.makeRequest({
         api: API_PATH.EVENTS,
         endpoint: "/events",
+        ...opts,
+      });
+    },
+    getFormDefinition({
+      formId, ...opts
+    } = {}) {
+      return this.makeRequest({
+        api: API_PATH.MARKETINGV3,
+        endpoint: `/forms/${formId}`,
         ...opts,
       });
     },

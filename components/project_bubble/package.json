@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/project_bubble",
+  "version": "0.6.0",
+  "description": "Pipedream project_bubble Components",
+  "main": "project_bubble.app.mjs",
+  "keywords": [
+    "pipedream",
+    "project_bubble"
+  ],
+  "homepage": "https://pipedream.com/apps/project_bubble",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

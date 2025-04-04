@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/helpdesk",
+  "version": "0.0.1",
+  "description": "Pipedream HelpDesk Components",
+  "main": "helpdesk.app.mjs",
+  "keywords": [
+    "pipedream",
+    "helpdesk"
+  ],
+  "homepage": "https://pipedream.com/apps/helpdesk",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -4,7 +4,7 @@ export default {
   key: "google_docs-replace-text",
   name: "Replace Text",
   description: "Replace all instances of matched text in an existing document. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/request#ReplaceAllTextRequest)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     googleDocs,

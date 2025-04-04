@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/epic_games",
+  "version": "0.0.1",
+  "description": "Pipedream Epic Games Components",
+  "main": "epic_games.app.mjs",
+  "keywords": [
+    "pipedream",
+    "epic_games"
+  ],
+  "homepage": "https://pipedream.com/apps/epic_games",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

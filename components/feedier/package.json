@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/feedier",
+  "version": "0.6.0",
+  "description": "Pipedream feedier Components",
+  "main": "feedier.app.mjs",
+  "keywords": [
+    "pipedream",
+    "feedier"
+  ],
+  "homepage": "https://pipedream.com/apps/feedier",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/woodelivery",
+  "version": "0.0.1",
+  "description": "Pipedream WooDelivery Components",
+  "main": "woodelivery.app.mjs",
+  "keywords": [
+    "pipedream",
+    "woodelivery"
+  ],
+  "homepage": "https://pipedream.com/apps/woodelivery",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/uptime_robot",
+  "version": "0.6.0",
+  "description": "Pipedream uptime_robot Components",
+  "main": "uptime_robot.app.mjs",
+  "keywords": [
+    "pipedream",
+    "uptime_robot"
+  ],
+  "homepage": "https://pipedream.com/apps/uptime_robot",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

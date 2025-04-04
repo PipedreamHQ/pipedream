@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/ssh_password_based_auth",
+  "version": "0.6.0",
+  "description": "Pipedream ssh_password_based_auth Components",
+  "main": "ssh_password_based_auth.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ssh_password_based_auth"
+  ],
+  "homepage": "https://pipedream.com/apps/ssh_password_based_auth",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

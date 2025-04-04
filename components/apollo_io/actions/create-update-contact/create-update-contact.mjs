@@ -6,7 +6,7 @@ export default {
   name: "Create Or Update Contact",
   description: "Creates or updates a specific contact. If the contact email already exists, it's updated. Otherwise, a new contact is created. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#create-a-contact)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.3",
   props: {
     app,
     email: {
@@ -88,7 +88,7 @@ export default {
       direct_phone: this.phone,
     });
 
-    const { contacts } = await this.app.listContacts({
+    const { contacts } = await this.app.searchContacts({
       params: {
         q_keywords: this.email,
       },

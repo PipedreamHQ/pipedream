@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/verifiedemail",
+  "version": "0.0.1",
+  "description": "Pipedream VerifiedEmail Components",
+  "main": "verifiedemail.app.mjs",
+  "keywords": [
+    "pipedream",
+    "verifiedemail"
+  ],
+  "homepage": "https://pipedream.com/apps/verifiedemail",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

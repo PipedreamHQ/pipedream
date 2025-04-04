@@ -6,16 +6,17 @@ export default {
   ...common,
   key: "youtube_data_api-update-playlist",
   name: "Update Playlist",
-  description: "Modifies a playlist. For example, you could change a playlist's title, description, or privacy status. **If you are submitting an update request, and your request does not specify a value for a property that already has a value, the property's existing value will be deleted.** [See the docs](https://developers.google.com/youtube/v3/docs/playlists/update) for more information",
-  version: "0.0.3",
+  description: "Modifies a playlist. For example, you could change a playlist's title, description, or privacy status. [See the documentation](https://developers.google.com/youtube/v3/docs/playlists/update) for more information",
+  version: "0.0.4",
   type: "action",
   props: {
     youtubeDataApi,
     id: {
       propDefinition: [
         youtubeDataApi,
-        "playlistId",
+        "userOwnedPlaylist",
       ],
+      description: "The identifier of the playlist to update. E.g. `PLJswo-CV0rmlwxKysf33cUnyBp8JztH0k`",
       optional: false,
       reloadProps: true,
     },
@@ -32,21 +33,30 @@ export default {
     const dynamicProps = {};
     const playlist = await this.fetchPlaylist(this.id);
     if (!playlist) {
-      return dynamicProps;
+      return {
+        playlistIdAlert: {
+          type: "alert",
+          alertType: "error",
+          content: "Error retrieving Playlist ID. The provided ID is either not valid or you don't have permission to fetch this data.",
+        },
+      };
     }
     dynamicProps.title = {
       ...youtubeDataApi.propDefinitions.title,
       description: `The playlist's title.\n\n**Current title**: \`${playlist.snippet.title}\``,
+      optional: true,
     };
     dynamicProps.description = {
       ...youtubeDataApi.propDefinitions.description,
       description: `The playlist's description.\n\n**Current title**: \`${playlist.snippet.description}\``,
+      optional: true,
     };
     dynamicProps.privacyStatus = {
       label: "Privacy Status",
       description: `The playlist's privacy status.\n\n**Current privacy status**: \`${playlist.status.privacyStatus}\``,
       type: "string",
       options: consts.UPDATE_PLAYLIST_PRIVACY_STATUS_OPTS,
+      optional: true,
     };
     return dynamicProps;
   },

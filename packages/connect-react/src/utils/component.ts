@@ -40,6 +40,9 @@ export function valuesFromOptions<T>(value: unknown | T[] | PropOptions<T>): T[]
     }
     return results
   }
+  if (value && typeof value === "object" && Array.isArray(value.__lv)) {
+    return value.__lv as T[]
+  }
   if (!Array.isArray(value))
     return []
   return value as T[]
@@ -94,16 +97,13 @@ export function integerPropErrors(opts: ValidationOpts<ConfigurablePropInteger>)
 }
 
 export function stringPropErrors(opts: ValidationOpts<ConfigurablePropString>): string[] | undefined {
-  const _value = valueFromOption(opts.value)
+  const {
+    prop, value: valueOpt,
+  } = opts
 
-  if (!opts.prop.default) {
-    if (typeof _value === "undefined" || _value == null) return [
-      "required",
-    ]
-    if (!String(_value).length) return [
-      "string must not be empty",
-    ]
-  }
+  if (!prop.default && (valueOpt == null || typeof valueOpt === "undefined")) return [
+    "required",
+  ]
 }
 
 type AppWithExtractedCustomFields = App & {

@@ -13,6 +13,10 @@ import {
   appPropErrors, arrayPropErrors, booleanPropErrors, integerPropErrors,
   stringPropErrors,
 } from "../utils/component";
+import _ from "lodash";
+import {
+  Observation, SdkError,
+} from "../types";
 
 export type DynamicProps<T extends ConfigurableProps> = { id: string; configurableProps: T; }; // TODO
 
@@ -23,6 +27,7 @@ export type FormContext<T extends ConfigurableProps> = {
   dynamicProps?: DynamicProps<T>; // lots of calls require dynamicProps?.id, so need to expose
   dynamicPropsQueryIsFetching?: boolean;
   errors: Record<string, string[]>;
+  sdkErrors: SdkError[];
   fields: Record<string, FormFieldContext<ConfigurableProp>>;
   id: string;
   isValid: boolean;
@@ -36,6 +41,7 @@ export type FormContext<T extends ConfigurableProps> = {
   setSubmitting: (submitting: boolean) => void;
   submitting: boolean;
   userId: string;
+  enableDebugging?: boolean;
 };
 
 export const skippablePropTypes = [
@@ -72,7 +78,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const id = useId();
 
   const {
-    component, configuredProps: __configuredProps, propNames, userId,
+    component, configuredProps: __configuredProps, propNames, userId, sdkResponse, enableDebugging,
   } = formProps;
   const componentId = component.key;
 
@@ -92,6 +98,11 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     errors,
     setErrors,
   ] = useState<Record<string, string[]>>({});
+
+  const [
+    sdkErrors,
+    setSdkErrors,
+  ] = useState<SdkError[]>([])
 
   const [
     enabledOptionalProps,
@@ -142,7 +153,18 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       queryKeyInput,
     ],
     queryFn: async () => {
-      const { dynamicProps } = await client.componentReloadProps(componentReloadPropsInput);
+      const result = await client.componentReloadProps(componentReloadPropsInput);
+      const {
+        dynamicProps, observations, errors: __errors,
+      } = result
+
+      // Prioritize errors from observations over the errors array
+      if (observations && observations.filter((o) => o.k === "error").length > 0) {
+        handleSdkErrors(observations)
+      } else {
+        handleSdkErrors(__errors)
+      }
+
       // XXX what about if null?
       // TODO observation errors, etc.
       if (dynamicProps) {
@@ -242,6 +264,10 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const updateConfiguredProps = (configuredProps: ConfiguredProps<T>) => {
     setConfiguredProps(configuredProps);
     updateConfiguredPropsQueryDisabledIdx(configuredProps);
+    updateConfigurationErrors(configuredProps)
+  };
+
+  const updateConfigurationErrors = (configuredProps: ConfiguredProps<T>) => {
     const _errors: typeof errors = {};
     for (let idx = 0; idx < configurableProps.length; idx++) {
       const prop = configurableProps[idx];
@@ -253,6 +279,29 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     }
     setErrors(_errors);
   };
+
+  useEffect(() => {
+    // Initialize queryDisabledIdx on load so that we don't force users
+    // to reconfigure a prop they've already configured whenever the page
+    // or component is reloaded
+    updateConfiguredPropsQueryDisabledIdx(_configuredProps)
+  }, [
+    _configuredProps,
+  ]);
+
+  useEffect(() => {
+    updateConfigurationErrors(configuredProps)
+  }, [
+    configuredProps,
+    reloadPropIdx,
+    queryDisabledIdx,
+  ]);
+
+  useEffect(() => {
+    handleSdkErrors(sdkResponse)
+  }, [
+    sdkResponse,
+  ]);
 
   useEffect(() => {
     const newConfiguredProps: ConfiguredProps<T> = {};
@@ -365,6 +414,15 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       }
     }
     // propsNeedConfiguring.splice(0, propsNeedConfiguring.length, ..._propsNeedConfiguring)
+
+    // Prevent useEffect/useState infinite loop by updating
+    // propsNeedConfiguring only if there is an actual change to the list of
+    // props that need to be configured.
+    // NB: The infinite loop is triggered because of calling
+    // checkPropsNeedConfiguring() from registerField, which is called
+    // from inside useEffect.
+    if (_propsNeedConfiguring && propsNeedConfiguring && _.isEqual(_propsNeedConfiguring, propsNeedConfiguring)) return;
+
     setPropsNeedConfiguring(_propsNeedConfiguring)
   }
 
@@ -373,7 +431,110 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       fields[field.prop.name] = field
       return fields
     });
+    checkPropsNeedConfiguring()
   };
+
+  const handleSdkErrors = (sdkResponse: unknown[] | unknown | undefined) => {
+    if (!sdkResponse) return
+
+    let newErrors = [
+      ...sdkErrors,
+    ]
+
+    const errorFromString = (item: string, ret: SdkError[]) => {
+      try {
+        const json = JSON.parse(item)
+        const err: SdkError = {
+          name: json.name,
+          message: json.message,
+        }
+        if (err.name && err.message) {
+          ret.push(err)
+        }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // pass
+      }
+    }
+
+    const errorFromObject = (item: unknown, ret: SdkError[]) => {
+      const err: SdkError = {
+        name: item.name,
+        message: item.message,
+      }
+      if (err.name && err.message) {
+        ret.push(err)
+      }
+    }
+
+    const errorFromObservationError = (item: Error, ret: SdkError[]) => {
+      const err: SdkError = {
+        name: item.err?.name,
+        message: item.err?.message,
+      }
+      if (err.name && err.message) {
+        ret.push(err)
+      }
+    }
+
+    const errorFromObservation = (payload: Observation, ret: SdkError[]) => {
+      const os = payload.os || payload.observations
+      if (Array.isArray(os) && os.length > 0) {
+        for (let i = 0; i < os.length; i++) {
+          if (os[i].k !== "error") continue
+          errorFromObservationError(os[i], ret)
+        }
+      }
+    }
+
+    const errorFromDetails = (data: unknown, ret: SdkError[]) => {
+      ret.push({
+        name: data.error,
+        message: JSON.stringify(data.details),
+        //     message: ` // TODO: It would be nice to render the JSON in markdown
+        // \`\`\`json
+        // ${JSON.stringify(data.details)}
+        // \`\`\`
+        // `,
+        //   })
+      })
+    }
+
+    const errorFromHttpError = (payload: Error, ret: SdkError[]) => {
+      // Handle HTTP errors thrown by the SDK
+      try {
+        const data = JSON.parse(payload.message)?.data
+        if (data && "observations" in data) {
+          errorFromObservation(data, ret)
+        } else if (data && "error" in data && "details" in data) {
+          errorFromDetails(data, ret)
+        }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        // pass
+      }
+    }
+
+    if (Array.isArray(sdkResponse) && sdkResponse.length > 0) {
+      for (let i = 0; i < sdkResponse.length; i++) {
+        const item = sdkResponse[i]
+        if (typeof item === "string") {
+          errorFromString(item, newErrors)
+        } else if (typeof item === "object" && "name" in item && "message" in item) {
+          errorFromObject(item, newErrors)
+        } else if (typeof item === "object" && item.k === "error") {
+          errorFromObservationError(item, newErrors)
+        }
+      }
+    } else if (typeof sdkResponse === "object" && "os" in sdkResponse || "observations" in sdkResponse) {
+      errorFromObservation(sdkResponse, newErrors)
+    } else if (typeof sdkResponse === "object" && "message" in sdkResponse) {
+      errorFromHttpError(sdkResponse, newErrors)
+    } else {
+      newErrors = []
+    }
+    setSdkErrors(newErrors)
+  }
 
   // console.log("***", configurableProps, configuredProps)
   const value: FormContext<T> = {
@@ -396,6 +557,8 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     setConfiguredProp,
     setSubmitting,
     submitting,
+    sdkErrors,
+    enableDebugging,
   };
   return <FormContext.Provider value={value}>{children}</FormContext.Provider>;
 };

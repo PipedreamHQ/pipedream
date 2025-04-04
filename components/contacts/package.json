@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/contacts",
+  "version": "0.6.0",
+  "description": "Pipedream contacts Components",
+  "main": "contacts.app.mjs",
+  "keywords": [
+    "pipedream",
+    "contacts"
+  ],
+  "homepage": "https://pipedream.com/apps/contacts",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

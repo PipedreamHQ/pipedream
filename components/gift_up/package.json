@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/gift_up",
+  "version": "0.6.0",
+  "description": "Pipedream gift_up Components",
+  "main": "gift_up.app.mjs",
+  "keywords": [
+    "pipedream",
+    "gift_up"
+  ],
+  "homepage": "https://pipedream.com/apps/gift_up",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

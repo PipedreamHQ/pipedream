@@ -1,29 +1,22 @@
-import app from "../../common/rest-admin.mjs";
-import common from "@pipedream/shopify/actions/delete-article/common.mjs";
+import shopify from "../../shopify_developer_app.app.mjs";
+import common from "@pipedream/shopify/actions/delete-article/delete-article.mjs";
+
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
+const props = adjustPropDefinitions(others.props, shopify);
 
 export default {
-  ...common,
+  ...others,
   key: "shopify_developer_app-delete-article",
-  name: "Delete Article",
-  description: "Delete an existing blog article. [See The Documentation](https://shopify.dev/docs/api/admin-rest/2023-04/resources/article#delete-blogs-blog-id-articles-article-id)",
-  version: "0.0.6",
-  type: "action",
+  version: "0.0.8",
+  name,
+  description,
+  type,
   props: {
-    app,
-    blogId: {
-      propDefinition: [
-        app,
-        "blogId",
-      ],
-    },
-    articleId: {
-      propDefinition: [
-        app,
-        "articleId",
-        ({ blogId }) => ({
-          blogId,
-        }),
-      ],
-    },
+    shopify,
+    ...props,
   },
 };

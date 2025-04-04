@@ -9,7 +9,7 @@ export default {
   key: "google_sheets-update-multiple-rows",
   name: "Update Multiple Rows",
   description: "Update multiple rows in a spreadsheet defined by a range. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)",
-  version: "0.1.9",
+  version: "0.1.10",
   type: "action",
   props: {
     googleSheets,
@@ -39,8 +39,6 @@ export default {
           sheetId: c.sheetId,
         }),
       ],
-      type: "string",
-      label: "Worksheet Id",
       reloadProps: true,
     },
     headersDisplay: {

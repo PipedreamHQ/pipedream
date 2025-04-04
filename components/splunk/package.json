@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/splunk",
+  "version": "0.1.0",
+  "description": "Pipedream Splunk Components",
+  "main": "splunk.app.mjs",
+  "keywords": [
+    "pipedream",
+    "splunk"
+  ],
+  "homepage": "https://pipedream.com/apps/splunk",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3",
+    "https": "^1.0.0",
+    "md5": "^2.3.0"
+  }
+}

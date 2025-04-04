@@ -1,5 +1,5 @@
 import common from "../common/webhook.mjs";
-import constants from "../common/constants.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -7,20 +7,21 @@ export default {
   name: "New Product Created (Instant)",
   type: "source",
   description: "Emit new event for each product added to a store.",
-  version: "0.0.11",
+  version: "0.0.15",
   dedupe: "unique",
   methods: {
     ...common.methods,
     getTopic() {
-      return constants.EVENT_TOPIC.PRODUCTS_CREATE;
+      return "PRODUCTS_CREATE";
     },
     generateMeta(resource) {
-      const ts = Date.parse(resource.created_at);
+      const ts = Date.parse(resource.createdAt);
       return {
         id: resource.id,
-        summary: `New Product ${resource.id}.`,
+        summary: `New Product ${resource.title}`,
         ts,
       };
     },
   },
+  sampleEmit,
 };

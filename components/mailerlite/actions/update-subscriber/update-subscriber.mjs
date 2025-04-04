@@ -4,7 +4,7 @@ export default {
   key: "mailerlite-update-subscriber",
   name: "Update Subscriber",
   description: "Updates single active subscriber. [See the documentation](https://developers.mailerlite.com/docs/subscribers.html#create-update-subscriber)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     mailerlite,
@@ -22,6 +22,8 @@ export default {
           type: "update",
         }),
       ],
+      description: "Subscriber type",
+      default: "",
     },
     fields: {
       propDefinition: [
@@ -54,9 +56,11 @@ export default {
       }
     }
     const data = {
-      status: this.type,
       fields,
     };
+    if (this.type && this.type !== "") {
+      data.status = this.type;
+    }
     const resp = await this.mailerlite.updateSubscriber({
       $,
       subscriber: this.subscriber,

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/housecall_pro",
+  "version": "0.0.1",
+  "description": "Pipedream Housecall Pro Components",
+  "main": "housecall_pro.app.mjs",
+  "keywords": [
+    "pipedream",
+    "housecall_pro"
+  ],
+  "homepage": "https://pipedream.com/apps/housecall_pro",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

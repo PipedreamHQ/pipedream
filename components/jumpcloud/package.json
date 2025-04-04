@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/jumpcloud",
+  "version": "0.0.1",
+  "description": "Pipedream JumpCloud Components",
+  "main": "jumpcloud.app.mjs",
+  "keywords": [
+    "pipedream",
+    "jumpcloud"
+  ],
+  "homepage": "https://pipedream.com/apps/jumpcloud",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

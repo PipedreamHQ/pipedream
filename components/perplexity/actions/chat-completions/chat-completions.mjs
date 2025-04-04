@@ -4,7 +4,7 @@ export default {
   key: "perplexity-chat-completions",
   name: "Chat Completions",
   description: "Generates a model's response for the given chat conversation. [See the documentation](https://docs.perplexity.ai/reference/post_chat_completions)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     app,

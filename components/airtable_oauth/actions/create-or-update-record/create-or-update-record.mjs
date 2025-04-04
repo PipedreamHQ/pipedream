@@ -6,7 +6,7 @@ export default {
   key: "airtable_oauth-create-or-update-record",
   name: "Create or Update Record",
   description: "Create a new record or update an existing one. [See the documentation](https://airtable.com/developers/web/api/create-records)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     ...common.props,

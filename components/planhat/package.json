@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/planhat",
+  "version": "0.0.1",
+  "description": "Pipedream Planhat Components",
+  "main": "planhat.app.mjs",
+  "keywords": [
+    "pipedream",
+    "planhat"
+  ],
+  "homepage": "https://pipedream.com/apps/planhat",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

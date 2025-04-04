@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/backendless",
+  "version": "0.6.0",
+  "description": "Pipedream backendless Components",
+  "main": "backendless.app.mjs",
+  "keywords": [
+    "pipedream",
+    "backendless"
+  ],
+  "homepage": "https://pipedream.com/apps/backendless",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

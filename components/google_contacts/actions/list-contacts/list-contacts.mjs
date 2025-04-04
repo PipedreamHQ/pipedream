@@ -6,7 +6,7 @@ export default {
   key: "google_contacts-list-contacts",
   name: "List Contacts",
   description: "Lists all contacts of the authenticated user. [See the documentation](https://developers.google.com/people/api/rest/v1/people.connections/list)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     ...common.props,
@@ -26,7 +26,7 @@ export default {
       const contacts = [];
       do {
         const {
-          connections,
+          connections = [],
           nextPageToken,
         } = await this.googleContacts.listContacts(client, params);
         params.pageToken = nextPageToken;

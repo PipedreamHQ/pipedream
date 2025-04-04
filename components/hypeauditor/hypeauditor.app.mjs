@@ -4,6 +4,11 @@ export default {
   type: "app",
   app: "hypeauditor",
   propDefinitions: {
+    twitchChannel: {
+      type: "string",
+      label: "Twitch Channel Username",
+      description: "The Twitch username (e.g. `nasa`) from a Twitch channel URL (in this example, `https://www.twitch.tv/nasa`).",
+    },
     username: {
       type: "string",
       label: "Username",
@@ -71,6 +76,12 @@ export default {
         path: "/auditor.tiktok",
         method: "post",
         ...args,
+      });
+    },
+    async getTwitchReport(opts = {}) {
+      return this._makeRequest({
+        path: "/auditor.twitch/",
+        ...opts,
       });
     },
   },

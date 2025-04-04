@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/siteleaf",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Siteleaf Components",
-  "main": "siteleaf.app.js",
+  "main": "siteleaf.app.mjs",
   "keywords": [
     "pipedream",
     "siteleaf"

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/membership_io",
+  "version": "0.0.1",
+  "description": "Pipedream Membership.io Components",
+  "main": "membership_io.app.mjs",
+  "keywords": [
+    "pipedream",
+    "membership_io"
+  ],
+  "homepage": "https://pipedream.com/apps/membership_io",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

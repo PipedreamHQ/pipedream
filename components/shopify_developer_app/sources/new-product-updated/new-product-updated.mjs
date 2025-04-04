@@ -1,4 +1,3 @@
-import constants from "../common/constants.mjs";
 import common from "../common/webhook-metafields.mjs";
 
 export default {
@@ -6,7 +5,7 @@ export default {
   key: "shopify_developer_app-new-product-updated",
   name: "New Product Updated (Instant)",
   description: "Emit new event for each product updated in a store.",
-  version: "0.0.4",
+  version: "0.0.8",
   type: "source",
   dedupe: "unique",
   props: {
@@ -27,11 +26,11 @@ export default {
   methods: {
     ...common.methods,
     getTopic() {
-      return constants.EVENT_TOPIC.PRODUCTS_UPDATE;
+      return "PRODUCTS_UPDATE";
     },
     isRelevant(resource) {
       let relevant = true;
-      if (this.productType && resource.product_type !== this.productType) {
+      if (this.productType && resource.productType !== this.productType) {
         relevant = false;
       }
       if (this.tags?.length) {

@@ -6,7 +6,7 @@ export default {
   name: "New Records in View",
   description: "Emit new event for each new record in a view",
   key: "airtable_oauth-new-records-in-view",
-  version: "0.0.8",
+  version: "0.0.10",
   type: "source",
   dedupe: "unique",
   props: {
@@ -49,11 +49,10 @@ export default {
     } = this;
 
     const lastTimestamp = this._getLastTimestamp();
-    const params = {
+    const params = this.getListRecordsParams({
       view: viewId,
-      filterByFormula: `CREATED_TIME() > "${lastTimestamp}"`,
-      returnFieldsByFieldId: this.returnFieldsByFieldId || false,
-    };
+      formula: `CREATED_TIME() > "${lastTimestamp}"`,
+    });
 
     const records = await this.airtable.listRecords({
       baseId,

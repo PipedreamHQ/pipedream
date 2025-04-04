@@ -12,7 +12,7 @@ The base URL for all requests is [https://api.pipedream.com/v1](https://api.pipe
 
 ## Authentication
 
-The Pipedream API supports two methods of authentication: [OAuth](/rest-api/auth#oauth) and [User API keys](/rest-api/auth#user-api-keys). **Pipedream recommends using OAuth for most use cases**.
+The Pipedream API supports two methods of authentication: [OAuth](/rest-api/auth/#oauth) and [User API keys](/rest-api/auth/#user-api-keys). **Pipedream recommends using OAuth for most use cases**.
 
 All credentials are passed as a Bearer token in the `Authorization` header. For example:
 
@@ -25,7 +25,7 @@ Learn more in the [Authentication docs](/rest-api/auth/).
 
 ### Authenticating as a workspace vs. a user
 
-Pipedream recommends using [OAuth](/rest-api/auth#oauth) to auth against the Pipedream API. OAuth tokens are associated with a workspace, and the API will automatically use the workspace associated with the token.
+Pipedream recommends using [OAuth](/rest-api/auth/#oauth) to auth against the Pipedream API. OAuth tokens are associated with a workspace, and the API will automatically use the workspace associated with the token.
 
 When you authenticate with a user API key, you must [specify the workspace ID in the `org_id` parameter](#common-parameters) when making requests to specific endpoints.
 
@@ -40,7 +40,7 @@ header set to `application/json`. For example:
 curl https://api.pipedream.com/v1/components \
   -H "Authorization: Bearer <token>" \
   -H "Content-Type: application/json" \
-  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js"}'
+  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.ts"}'
 ```
 
 ## Common Parameters
@@ -72,15 +72,15 @@ including all fields). Pass as a string of comma-separated values:
 `org_id` **string**
 
 <Callout>
-The `org_id` parameter is only required when using [User API keys](/rest-api/auth#user-api-keys). When authenticating with OAuth tokens, the API will automatically use the workspace associated with the token.
+The `org_id` parameter is only required when using [User API keys](/rest-api/auth/#user-api-keys). When authenticating with OAuth tokens, the API will automatically use the workspace associated with the token.
 </Callout>
 
-When using [User API keys](/rest-api/auth#user-api-keys), some endpoints require you to specify [your workspace ID](/workspaces/#finding-your-workspaces-id) you want the operation to take effect in:
+When using [User API keys](/rest-api/auth/#user-api-keys), some endpoints require you to specify [your workspace ID](/workflows/workspaces/#finding-your-workspaces-id) you want the operation to take effect in:
 
 - When _fetching_ specific resources (for example, when you [retrieve events for a specific source](#get-source-events)), **you should not need to pass `org_id`**. If your user is a part of the workspace, and you have access to that resource, and the API will return the details of the resource.
 - When _creating_ new resources, you'll need to specify the `org_id` in which you want to create the resource.
 
-[Find your workspace / org ID here](/workspaces/#finding-your-workspaces-id).
+[Find your workspace / org ID here](/workflows/workspaces/#finding-your-workspaces-id).
 
 ## Pagination
 
@@ -164,10 +164,10 @@ failure of an API request:
 ## Accounts
 
 <Callout type="info">
-These docs discuss connected accounts **for Pipedream users**. To retrieve accounts for your end users via Connect, refer to the [Connect API docs](/connect/api#accounts).
+These docs discuss connected accounts **for Pipedream users**. To retrieve accounts for your end users via Connect, refer to the [Connect API docs](/connect/api/#accounts).
 </Callout>
 
-[Connected accounts](/connected-accounts/) let you manage credentials for integrated APIs.
+[Connected accounts](/integrations/connected-accounts/) let you manage credentials for integrated APIs.
 
 ### List accounts
 
@@ -189,7 +189,7 @@ You can find the app's ID in the response from the [List apps](#list-apps) endpo
 
 `oauth_app_id` **string** (_optional_)
 
-The ID of the custom [OAuth app](/connect/quickstart#create-a-pipedream-oauth-client) you'd like to retrieve accounts for.
+The ID of the custom [OAuth app](/connect/managed-auth/quickstart/#create-a-pipedream-oauth-client) you'd like to retrieve accounts for.
 
 ---
 
@@ -241,7 +241,7 @@ GET /accounts/{account_id}
 
 To retrieve your account ID:
 
-1. [Connect your account](/connected-accounts/#connecting-a-new-account)
+1. [Connect your account](/integrations/connected-accounts/#connecting-a-new-account)
 2. On [https://pipedream.com/accounts](https://pipedream.com/accounts), find your account and click the `...` to the right of the account,
 3. **Copy Account ID**
 
@@ -456,7 +456,7 @@ curl https://api.pipedream.com/v1/apps/app_OkrhR1 \
 ## Components
 
 <Callout type="info">
-These docs discuss the management of Pipedream components. To run components on behalf of your end users in your application, refer to the [Connect API docs](/connect/api#components).
+These docs discuss the management of Pipedream components. To run components on behalf of your end users in your application, refer to the [Connect API docs](/connect/api/#components).
 </Callout>
 
 Components are objects that represent the code for an [event source](#sources).
@@ -464,7 +464,7 @@ Components are objects that represent the code for an [event source](#sources).
 ### Create a component
 
 <Callout>
-`/components` endpoints are only available when using [user API keys](/rest-api/auth#user-api-keys), not yet for workspace [OAuth tokens](/rest-api/auth#oauth).
+`/components` endpoints are only available when using [user API keys](/rest-api/auth/#user-api-keys), not yet for workspace [OAuth tokens](/rest-api/auth/#oauth).
 </Callout>
 
 Before you can create a source using the REST API, you must first create a
@@ -483,7 +483,7 @@ POST /components
 
 `component_code` **string** (_optional_)
 
-The full code for a [Pipedream component](/components/api/).
+The full code for a [Pipedream component](/workflows/contributing/components/api/).
 
 ---
 
@@ -492,7 +492,7 @@ The full code for a [Pipedream component](/components/api/).
 A reference to the URL where the component is hosted.
 
 For example, to create an RSS component, pass
-`https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js`.
+`https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.ts`.
 
 ---
 
@@ -508,7 +508,7 @@ Here's an example of how to create an RSS component from a Github URL:
 curl https://api.pipedream.com/v1/components \
   -H "Authorization: Bearer <token>" \
   -H "Content-Type: application/json" \
-  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js"}'
+  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.ts"}'
 ```
 
 #### Example Response
@@ -724,7 +724,7 @@ curl https://api.pipedream.com/v1/components/search\?query\="When a new Hubspot 
 
 ## Connect
 
-[Pipedream Connect](/connect) is the easiest way for your users to connect to [over {process.env.PUBLIC_APPS}+ APIs](https://pipedream.com/apps), **right in your product**. You can build in-app messaging, CRM syncs, AI-driven products, [and much more](/connect/use-cases), all in a few minutes. Visit [the quickstart](/connect/quickstart) to build your first integration.
+[Pipedream Connect](/connect/) is the easiest way for your users to connect to [over {process.env.PUBLIC_APPS}+ APIs](https://pipedream.com/apps), **right in your product**. You can build in-app messaging, CRM syncs, AI-driven products, [and much more](/connect/use-cases/), all in a few minutes. Visit [the quickstart](/connect/quickstart/) to build your first integration.
 
 Read more about the Connect API in the [Connect API docs](/connect/api/).
 
@@ -937,12 +937,12 @@ This endpoint will return a `200 OK` response with an empty body if the token wa
 
 Event sources run code to collect events from an API, or receive events via
 webhooks, emitting those events for use on Pipedream. Event sources can function
-as workflow triggers. [Read more here](/sources/).
+as workflow triggers. [Read more here](/workflows/building-workflows/triggers/).
 
 ### Create a Source
 
 <Callout>
-This endpoint is only available when using [user API keys](/rest-api/auth#user-api-keys), not yet for workspace [OAuth tokens](/rest-api/auth#oauth).
+This endpoint is only available when using [user API keys](/rest-api/auth/#user-api-keys), not yet for workspace [OAuth tokens](/rest-api/auth/#oauth).
 </Callout>
 
 #### Endpoint
@@ -962,7 +962,7 @@ endpoints](/rest-api/#components) for information on how to retrieve this ID.
 
 `component_code` **string** (_optional_)
 
-The full code for a [Pipedream component](/components/api/).
+The full code for a [Pipedream component](/workflows/contributing/components/api/).
 
 ---
 
@@ -971,7 +971,7 @@ The full code for a [Pipedream component](/components/api/).
 A reference to the URL where the component is hosted.
 
 For example, to create an RSS component, pass
-`https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js`.
+`https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.ts`.
 
 ---
 
@@ -986,7 +986,7 @@ as metadata to identify the location of the code.
 The name of the source.
 
 If absent, this defaults to using the [name
-slug](/components/api/#component-structure)
+slug](/workflows/contributing/components/api/#component-structure)
 of the component used to create the source.
 
 #### Example Request
@@ -995,7 +995,7 @@ of the component used to create the source.
 curl https://api.pipedream.com/v1/sources \
   -H "Authorization: Bearer <token>" \
   -H "Content-Type: application/json" \
-  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js", "name": "your-name-here", "configured_props": { "url": "https://rss.m.pipedream.net", "timer": { "intervalSeconds": 60 }}}'
+  -d '{"component_url": "https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.ts", "name": "your-name-here", "configured_props": { "url": "https://rss.m.pipedream.net", "timer": { "intervalSeconds": 60 }}}'
 ```
 
 #### Example Response
@@ -1044,7 +1044,7 @@ endpoints](/rest-api/#components) for information on how to retrieve this ID.
 `component_code` **string** (_optional_)
 
 The full code for a [Pipedream
-component](/components/api/).
+component](/workflows/contributing/components/api/).
 
 ---
 
@@ -1053,7 +1053,7 @@ component](/components/api/).
 A reference to the URL where the component is hosted.
 
 For example, to create an RSS component, pass
-`https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.js`.
+`https://github.com/PipedreamHQ/pipedream/blob/master/components/rss/sources/new-item-in-feed/new-item-in-feed.ts`.
 
 ---
 
@@ -1067,7 +1067,7 @@ as metadata to identify the location of the code.
 
 The name of the source.
 
-If absent, this defaults to using the [name slug](/components/api/#component-structure)
+If absent, this defaults to using the [name slug](/workflows/contributing/components/api/#component-structure)
 of the component used to create the source.
 
 ---
@@ -1090,7 +1090,7 @@ DELETE /sources/{id}
 ## Subscriptions
 
 <Callout type="warning">
-  The Subscriptions API is currently incompatible with projects that have [GitHub Sync](https://pipedream.com/docs/projects/git) enabled. To [trigger another workflow](https://pipedream.com/docs/code/nodejs#invoke-another-workflow), use `$.flow.trigger` instead.
+  The Subscriptions API is currently incompatible with projects that have [GitHub Sync](/workflows/git/) enabled. To [trigger another workflow](/workflows/building-workflows/code/nodejs/#invoke-another-workflow), use `$.flow.trigger` instead.
 </Callout>
 
 ### Listen for events from another source or workflow
@@ -1134,7 +1134,7 @@ in your workflow's URL - it's the string `p_2gCPml` in
 event_name=<custom_channel>
 ```
 
-See [the `this.$emit` docs](/components/api/#emit) for more information on how to emit events on custom channels.
+See [the `this.$emit` docs](/workflows/contributing/components/api/#emit) for more information on how to emit events on custom channels.
 
 Pipedream also exposes channels for logs and errors:
 
@@ -1301,7 +1301,7 @@ curl "https://api.pipedream.com/v1/subscriptions?emitter_id=dc_def456&listener_i
 ## Users
 
 <Callout>
-These endpoints only work when using [user API keys](/rest-api/auth#user-api-keys), and will not work with workspace-level OAuth clients.
+These endpoints only work when using [user API keys](/rest-api/auth/#user-api-keys), and will not work with workspace-level OAuth clients.
 </Callout>
 
 ### Get Current User Info
@@ -1387,12 +1387,12 @@ Pipedream supports webhooks as a way to deliver events to a endpoint you own.
 Webhooks are managed at an account-level, and you send data to these webhooks
 using [subscriptions](#subscriptions).
 
-For example, you can run a Twitter [event source](/sources/) that listens
+For example, you can run a Twitter [event source](/workflows/building-workflows/triggers/) that listens
 for new tweets. If you [subscribe](#subscriptions) the webhook to this source,
 Pipedream will deliver those tweets directly to your webhook's URL without
 running a workflow.
 
-[**See these tutorials**](/rest-api/webhooks/) for examples.
+[**See these tutorials**](/rest-api/webhooks) for examples.
 
 ### Create a webhook
 
@@ -1508,12 +1508,12 @@ curl "https://api.pipedream.com/v1/webhooks/wh_abc123" \
 
 ### Invoke workflow
 
-You can invoke workflows by making an HTTP request to a workflow's HTTP trigger. [See the docs on authorizing requests and invoking workflows](/workflows/triggers#authorizing-http-requests) for more detail.
+You can invoke workflows by making an HTTP request to a workflow's HTTP trigger. [See the docs on authorizing requests and invoking workflows](/workflows/building-workflows/triggers/#authorizing-http-requests) for more detail.
 
 ### Create a Workflow
 
 <Callout>
-This endpoint is only available when using [user API keys](/rest-api/auth#user-api-keys), not yet for workspace [OAuth tokens](/rest-api/auth#oauth).
+This endpoint is only available when using [user API keys](/rest-api/auth/#user-api-keys), not yet for workspace [OAuth tokens](/rest-api/auth/#oauth).
 </Callout>
 
 Creates a new workflow within an organization's project. This endpoint allows defining workflow steps, triggers, and settings, based on a supplied template.
@@ -1528,7 +1528,7 @@ POST /workflows
 
 `org_id` **string**
 
-[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspaces-id).
+[Switch to your workspace's context](/workflows/workspaces/#switching-between-workspaces) and [find your org's ID](/workflows/workspaces/#finding-your-workspaces-id).
 
 ---
 
@@ -1538,7 +1538,7 @@ The ID of the project where the new workflow will be created. To find your proje
 
 Click on the project where you'd like to create the new workflow, and the project ID can be found in the URL, starting with `proj_`.
 
-If the URL is [https://pipedream.com/@pd-testing/projects/proj_GzsRY5N/tree](https://pipedream.com/@pd-testing/projects/proj_GzsRY5N/tree), your `project_id` is `proj_GzsRY5N`.
+If the URL is [https://pipedream.com/@pd-testing/workflows/projects/proj_GzsRY5N/tree](https://pipedream.com/@pd-testing/workflows/projects/proj_GzsRY5N/tree), your `project_id` is `proj_GzsRY5N`.
 
 ---
 
@@ -1781,7 +1781,7 @@ The ID of the workflow template to base the workflow on. To find a workflow's `t
 ### Update a Workflow
 
 <Callout>
-This endpoint is only available when using [user API keys](/rest-api/auth#user-api-keys), not yet for workspace [OAuth tokens](/rest-api/auth#oauth).
+This endpoint is only available when using [user API keys](/rest-api/auth/#user-api-keys), not yet for workspace [OAuth tokens](/rest-api/auth/#oauth).
 </Callout>
 
 Updates the workflow's activation status. If you need to modify the workflow's steps, triggers, or connected accounts [consider making a new workflow](#create-a-workflow).
@@ -1807,7 +1807,7 @@ If the URL is [https://pipedream.com/@michael-testing/api-p_13CDnxK/inspect](htt
 The activation status of a workflow. Set to `true` to activate the workflow, or `false` to deactivate it.
 
 `org_id` **string**
-[Find your org's ID](/workspaces/#finding-your-workspaces-id).
+[Find your org's ID](/workflows/workspaces/#finding-your-workspaces-id).
 
 #### Example Request
 
@@ -1890,7 +1890,7 @@ curl 'https://api.pipedream.com/v1/workflows/p_abc123?org_id=o_abc123' \
 ### Get Workflow Emits
 
 Retrieve up to the last 100 events emitted from a workflow using
-[`$send.emit()`](/destinations/emit/#emit-events).
+[`$send.emit()`](/workflows/data-management/destinations/emit/#emit-events).
 
 #### Endpoint
 
@@ -2033,7 +2033,7 @@ curl 'https://api.pipedream.com/v1/workflows/p_abc123/$errors/event_summaries?ex
 
 ## Workspaces
 
-[Workspaces](/workspaces/) provide your team a way to manage resources in a shared workspace. Any resources created by the workspace are owned by the workspace and accessible to its members.
+[Workspaces](/workflows/workspaces/) provide your team a way to manage resources in a shared workspace. Any resources created by the workspace are owned by the workspace and accessible to its members.
 
 ### Get a Workspace
 
@@ -2042,14 +2042,14 @@ Programmatically view your workspace's current credit usage for the billing peri
 #### Endpoint
 
 ```
-GET /v1/workspaces/<org_id>
+GET /v1/workflows/workspaces/<org_id>
 ```
 
 #### Path Parameters
 
 `workspaces_id` **string**
 
-[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspaces-id).
+[Switch to your workspace's context](/workflows/workspaces/#switching-between-workspaces) and [find your org's ID](/workflows/workspaces/#finding-your-workspaces-id).
 
 #### Example Response
 
@@ -2073,14 +2073,14 @@ Retrieve all the connected accounts for a specific workspace.
 #### Endpoint
 
 ```
-GET /workspaces/<org_id>/accounts
+GET /workflows/workspaces/<org_id>/accounts
 ```
 
 #### Path Parameters
 
 `org_id` **string**
 
-[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspaces-id).
+[Switch to your workspace's context](/workflows/workspaces/#switching-between-workspaces) and [find your org's ID](/workflows/workspaces/#finding-your-workspaces-id).
 
 #### Query Parameters
 
@@ -2091,7 +2091,7 @@ To look up the connected account information for a specific app, use the `query`
 #### Example Request
 
 ```shell
-curl 'https://api.pipedream.com/v1/workspaces/o_abc123/accounts?query=google_sheets' \
+curl 'https://api.pipedream.com/v1/workflows/workspaces/o_abc123/accounts?query=google_sheets' \
   -H 'Authorization: Bearer <token>'
 ```
 
@@ -2121,19 +2121,19 @@ Retrieve all the [subscriptions](#subscriptions) configured for a specific works
 #### Endpoint
 
 ```
-GET /workspaces/<org_id>/subscriptions
+GET /workflows/workspaces/<org_id>/subscriptions
 ```
 
 #### Path Parameters
 
 `workspaces_id` **string**
 
-[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspaces-id).
+[Switch to your workspace's context](/workflows/workspaces/#switching-between-workspaces) and [find your org's ID](/workflows/workspaces/#finding-your-workspaces-id).
 
 #### Example Request
 
 ```shell
-curl 'https://api.pipedream.com/v1/workspaces/o_abc123/subscriptions' \
+curl 'https://api.pipedream.com/v1/workflows/workspaces/o_abc123/subscriptions' \
   -H 'Authorization: Bearer <token>'
 ```
 
@@ -2172,7 +2172,7 @@ GET /orgs/<org_id>/sources
 
 `org_id` **string**
 
-[Switch to your workspace's context](/workspaces/#switching-between-workspaces) and [find your org's ID](/workspaces/#finding-your-workspaces-id).
+[Switch to your workspace's context](/workflows/workspaces/#switching-between-workspaces) and [find your org's ID](/workflows/workspaces/#finding-your-workspaces-id).
 
 #### Example Request
 

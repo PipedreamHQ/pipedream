@@ -12,7 +12,7 @@ import DocSearch from "./components/DocSearch";
 const config: DocsThemeConfig = {
   head: function Head() {
     const router = useRouter()
-    const { frontMatter } = useConfig()
+    const { title } = useConfig()
 
     return (
       <>
@@ -21,7 +21,7 @@ const config: DocsThemeConfig = {
           ? ""
           : router.route}`} />}
         <link rel="icon" href="/docs/favicon.ico" />
-        <meta property="og:title" content={`${frontMatter?.title || ""} — Pipedream`} />
+        <meta property="og:title" content={`${title} — Pipedream`} />
       </>
     )
   },

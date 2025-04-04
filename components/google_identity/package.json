@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/google_identity",
+  "version": "0.0.1",
+  "description": "Pipedream Google Identity Components",
+  "main": "google_identity.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_identity"
+  ],
+  "homepage": "https://pipedream.com/apps/google_identity",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/oracle_cloud_infrastructure",
+  "version": "0.0.1",
+  "description": "Pipedream Oracle Cloud Infrastructure Components",
+  "main": "oracle_cloud_infrastructure.app.mjs",
+  "keywords": [
+    "pipedream",
+    "oracle_cloud_infrastructure"
+  ],
+  "homepage": "https://pipedream.com/apps/oracle_cloud_infrastructure",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

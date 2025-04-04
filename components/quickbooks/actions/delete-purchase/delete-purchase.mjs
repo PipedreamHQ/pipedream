@@ -4,7 +4,7 @@ export default {
   key: "quickbooks-delete-purchase",
   name: "Delete Purchase",
   description: "Delete a specific purchase. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/purchase#delete-a-purchase)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     quickbooks,
@@ -16,21 +16,18 @@ export default {
     },
   },
   async run({ $ }) {
-    const {
-      quickbooks,
+    const purchaseId = this.purchaseId.value || this.purchaseId;
+
+    const { Purchase: { SyncToken: syncToken } } = await this.quickbooks.getPurchase({
+      $,
       purchaseId,
-    } = this;
+    });
 
-    const [
-      Id,
-      SyncToken,
-    ] = purchaseId.value.split("|");
-
-    const response = await quickbooks.deletePurchase({
+    const response = await this.quickbooks.deletePurchase({
       $,
       data: {
-        Id,
-        SyncToken,
+        Id: purchaseId,
+        SyncToken: syncToken,
       },
       params: {
         operation: "delete",
@@ -38,7 +35,7 @@ export default {
     });
 
     if (response) {
-      $.export("summary", `Successfully deleted purchase with ID ${Id}`);
+      $.export("summary", `Successfully deleted purchase with ID ${purchaseId}`);
     }
 
     return response;

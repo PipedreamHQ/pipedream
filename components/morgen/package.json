@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/morgen",
+  "version": "0.0.1",
+  "description": "Pipedream Morgen Components",
+  "main": "morgen.app.mjs",
+  "keywords": [
+    "pipedream",
+    "morgen"
+  ],
+  "homepage": "https://pipedream.com/apps/morgen",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

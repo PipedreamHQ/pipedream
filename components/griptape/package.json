@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/griptape",
+  "version": "0.1.0",
+  "description": "Pipedream Griptape Components",
+  "main": "griptape.app.mjs",
+  "keywords": [
+    "pipedream",
+    "griptape"
+  ],
+  "homepage": "https://pipedream.com/apps/griptape",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

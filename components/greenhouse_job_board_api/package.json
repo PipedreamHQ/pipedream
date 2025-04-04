@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/greenhouse_job_board_api",
+  "version": "0.0.1",
+  "description": "Pipedream Greenhouse Job Board API Components",
+  "main": "greenhouse_job_board_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "greenhouse_job_board_api"
+  ],
+  "homepage": "https://pipedream.com/apps/greenhouse_job_board_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

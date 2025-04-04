@@ -1,6 +1,6 @@
 import newFilesInstant from "@pipedream/google_drive/sources/new-files-instant/new-files-instant.mjs";
 import googleDrive from "../../google_docs.app.mjs";
-import { MY_DRIVE_VALUE } from "../../../google_drive/common/constants.mjs";
+import { MY_DRIVE_VALUE } from "@pipedream/google_drive/common/constants.mjs";
 
 export default {
   ...newFilesInstant,

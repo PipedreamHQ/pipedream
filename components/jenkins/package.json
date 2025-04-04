@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/jenkins",
+  "version": "0.1.0",
+  "description": "Pipedream Jenkins Components",
+  "main": "jenkins.app.mjs",
+  "keywords": [
+    "pipedream",
+    "jenkins"
+  ],
+  "homepage": "https://pipedream.com/apps/jenkins",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3",
+    "fast-xml-parser": "^4.3.2"
+  }
+}

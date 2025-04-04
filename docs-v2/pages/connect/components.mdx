@@ -1,39 +1,105 @@
 import { Steps, Tabs } from 'nextra/components'
 import Callout from '@/components/Callout'
 
-# Embedding components in your application
+# Pre-built tools for your app or agent
 
-Pipedream Connect provides APIs to embed [pre-built components](/components) directly in your application
-or AI agent, unlocking access to {process.env.REGISTRY_COMPONENTS}+ pre-built API operations. Enable [your end users](/connect/api#external-users) to
+Pipedream Connect provides APIs to embed pre-built tools ([triggers and actions](/workflows/contributing/components/)) directly in your application
+or AI agent, enabling access to 10,000+ built-in API operations. Enable [your end users](/connect/api/#external-users) to
 configure, deploy, and invoke Pipedream triggers and actions for more than {process.env.PUBLIC_APPS} APIs.
 
-## What are components?
+## What are triggers and actions?
 
-In Pipedream, [components](/components) are self-contained executable units of code. Your end users configure the inputs and the components produce a
+In Pipedream, we call triggers and actions [components](/workflows/contributing/components/), which are self-contained executable units of code. Your end users configure the inputs and these components produce a
 result that's exported as output. These components are developed and maintained by Pipedream
 and our community and their source code is available in our [public Github repo](https://github.com/PipedreamHQ/pipedream/tree/master/components).
 
+## Implementation
+
+### Use Pipedream's frontend SDK
+- Pipedream provides a frontend React SDK to enable your users to configure and run triggers and actions in your app's UI
+- Style the UI components however you want to match the design of your app, and you can also fork the SDK
+- Refer to the [SDK](https://github.com/PipedreamHQ/pipedream/blob/master/packages/connect-react/README.md) to get started
+
 <Callout type="info">
-Running components for your end users via Pipedream Connect is in **beta**, and we're looking for feedback. Please [let us know](https://pipedream.com/support) how you're using it, what's not working, and what else you'd like to see.
+Check out the [public demo app](https://pdrm.co/connect) to see the API and SDK in action. You can also [run it locally and explore the code](https://github.com/PipedreamHQ/pipedream-connect-examples/tree/master/connect-react-demo).
 </Callout>
+
+### Use your own frontend
+- See below to get started with the REST API
+- Refer to the [full API reference](/connect/api/#components) for supported SDK methods as well
 
 ## Getting started
 
 <Callout type="info">
-Refer to the [Connect API docs](/connect/api) for the full API reference. Below is a quickstart with a few specific examples.
+Refer to the [Connect API docs](/connect/api/) for the full API reference. Below is a quickstart with a few specific examples.
 
-You can skip steps 1 and 2 if you already know the component you want to use or if you'd prefer to [pass a natural language prompt to Pipedream's component search API](/rest-api#search-for-registry-components).
+You can skip steps 1 and 2 if you already know the component you want to use or if you'd prefer to [pass a natural language prompt to Pipedream's component search API](/rest-api/#search-for-registry-components).
 </Callout>
 
 <Steps>
 
+### Authenticate to the Pipedream API
+
+Before sending requests to the API, make sure to [authenticate using a Pipedream OAuth client](/rest-api/auth/#oauth):
+
+<Tabs items={['Node.js', 'HTTP (cURL)']}>
+<Tabs.Tab>
+```javascript
+// Initialize the Pipedream client with the SDK
+
+import { createBackendClient } from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development | production",
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```bash
+# Get an access token for the REST API
+
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{your_oauth_client_id}",
+    "client_secret": "{your_oauth_client_secret}"
+  }'
+```
+</Tabs.Tab>
+</Tabs>
+
+<Callout type="info">
+All subsequent examples assume that you've either initialized the SDK client or have a valid access token.
+</Callout>
+
 ### Find the app you want to use
 
-In order to find the right trigger or action to configure and run, you first need to find the app. In this example, we'll search for `gitlab`.
+To find the right trigger or action to configure and run, first find the app. In this example, we'll search for `gitlab`.
 
-```text
-GET /v1/connect/apps?q=gitlab
+<Tabs items={['Node.js', 'HTTP (cURL)']}>
+<Tabs.Tab>
+```javascript
+const apps = await pd.getApps({ q: "gitlab" });
+
+// Parse and return the data you need
 ```
+</Tabs.Tab>
+<Tabs.Tab>
+```bash
+curl -X https://api.pipedream.com/v1/apps?q=gitlab \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {access_token}"
+
+# Parse and return the data you need
+```
+</Tabs.Tab>
+</Tabs>
 
 Here's the response:
 
@@ -66,9 +132,25 @@ Here's the response:
 
 Once you have the app you want to use, now you can list the triggers and/or actions for that app. We'll list the actions for Gitlab and we'll pass the `name_slug` `gitlab` as the `app`.
 
-```text
-GET /actions?app=gitlab
+<Tabs items={['Node.js', 'HTTP (cURL)']}>
+<Tabs.Tab>
+```javascript
+const components = await pd.getComponents({ q: "gitlab" });
+
+// Parse and return the data you need
 ```
+</Tabs.Tab>
+<Tabs.Tab>
+```bash
+curl -X https://api.pipedream.com/v1/connect/{project_id}/actions?app=gitlab \
+  -H "Content-Type: application/json" \
+  -H "X-PD-Environment: development" \
+  -H "Authorization: Bearer {access_token}"
+
+# Parse and return the data you need
+```
+</Tabs.Tab>
+</Tabs>
 
 Here's the response:
 
@@ -139,19 +221,35 @@ Here's the response:
 To configure and run a component for your end users, you need to understand
 the component's definition. Now that you have the component's key from the previous step,
 you can retrieve its structure from the Pipedream API. See the [component
-structure](/components/api#component-structure) section in our docs for more
+structure](/workflows/contributing/components/api/#component-structure) section in our docs for more
 details.
 
 As an example, the following API call will return the structure of the **List
 Commits** action for Gitlab:
 
-```text
-GET /v1/connect/components/gitlab-list-commits
+<Tabs items={['Node.js', 'HTTP (cURL)']}>
+<Tabs.Tab>
+```javascript
+const component = await pd.getComponent({ key: "gitlab-list-commits" });
+
+// Parse and return the data you need
 ```
+</Tabs.Tab>
+<Tabs.Tab>
+```bash
+curl -X https://api.pipedream.com/v1/connect/{project_id}/components/gitlab-list-commits \
+  -H "Content-Type: application/json" \
+  -H "X-PD-Environment: development" \
+  -H "Authorization: Bearer {access_token}"
+
+# Parse and return the data you need
+```
+</Tabs.Tab>
+</Tabs>
 
 The response will contain the component's structure, including its user-friendly name,
 version, and most importantly, the configuration options the component accepts
-(also known as [props](/components/api#props) or "properties").
+(also known as [props](/workflows/contributing/components/api/#props) or "properties").
 Here's an example of the response for the component in the example above:
 
 ```json
@@ -201,14 +299,10 @@ your end users, as described in the next section.
 
 Component execution on behalf of your end users requires a few preliminary
 steps, focused on getting the right input parameters (aka
-[props](/workflows/using-props)) to the component.
+[props](/workflows/building-workflows/using-props/)) to the component.
 
 Configuring each prop for a component often involves an API call to retrieve the possible values,
 unless the values that a prop can take are static or free-form. The endpoint is accessible at:
-
-```text
-POST /v1/connect/components/configure
-```
 
 Typically, the options for a prop are linked to a specific user's account. Each
 of these props implements an `options` method that retrieves the necessary
@@ -221,31 +315,56 @@ The payload for the configuration API call must contain the following fields:
 2. `id`: the component's unique ID (aka **key**)
 3. `prop_name`: the name of the prop you want to configure
 4. `configured_props`: an object containing the props that have already been
-   configured. The initial configuration call must contain the ID of the account
-   (aka `authProvisionId`) that your user has connected to the target app (see
-   [this section](workflows#configure-accounts-to-use-your-end-users-auth) for
-   more details on how to create these accounts).
+    configured. The initial configuration call must contain the ID of the account
+    (aka `authProvisionId`) that your user has connected to the target app (see
+    [this section](workflows#configure-accounts-to-use-your-end-users-auth) for
+    more details on how to create these accounts).
 
 We'll use the [**List Commits** component for
 Gitlab](https://github.com/PipedreamHQ/pipedream/blob/master/components/gitlab/actions/list-commits/list-commits.mjs#L4)
 as an example, to illustrate a call that retrieves the options for the
-`projectId` prop of that component. The payload sent to the configuration API
-would look like this:
+`projectId` prop of that component:
 
-```json
-{
-  "external_user_id": "demo-34c13d13-a31e-4a3d-8b63-0ac954671095",
-  "id": "gitlab-list-commits",
-  "prop_name": "projectId",
-  "configured_props": {
-    "gitlab": {
-      "authProvisionId": "apn_oOhaBlD"
+<Tabs items={['Node.js', 'HTTP (cURL)']}>
+<Tabs.Tab>
+```javascript
+const { options } = await pd.configureComponent({
+  externalUserId: "abc-123",
+  id: "gitlab-list-commits",
+  propName: "projectId",
+  configuredProps: {
+    gitlab: {
+      authProvisionId: "apn_kVh9AoD",
     }
   }
-}
-```
+});
 
-The response will contain the possible values (and their human-readable labels
+// Parse and return the data you need
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```bash
+curl -X POST https://api.pipedream.com/v1/connect/{project_id}/components/configure \
+  -H "Content-Type: application/json" \
+  -H "X-PD-Environment: development" \
+  -H "Authorization: Bearer {access_token}" \
+  -d '{
+    "external_user_id": "abc-123",
+    "id": "gitlab-list-commits",
+    "prop_name": "projectId",
+    "configured_props": {
+      "gitlab": {
+        "authProvisionId": "apn_kVh9AoD"
+      }
+    }
+  }'
+# Parse and return the data you need
+```
+</Tabs.Tab>
+</Tabs>
+
+
+The response contains the possible values (and their human-readable labels
 when applicable) for the prop, as well as any possible errors that might have
 occurred. The response for the request above would look like this:
 
@@ -335,9 +454,9 @@ For example, to retrieve the configuration options for the `refName` prop:
 
 The set of props that a component can accept might not be static, and may change
 depending on the values of prior props. Props that behave this way are called
-[dynamic props](/components/api#dynamic-props), and they need to be configured
+[dynamic props](/workflows/contributing/components/api/#dynamic-props), and they need to be configured
 in a different way. Props that are dynamic will have a `reloadProps` attribute
-set to `true` in the component's code.
+set to `true` in the component's definition.
 
 After configuring a dynamic prop, the set of subsequent props must be recomputed
 (or reloaded), which is possible using the following API call:
@@ -436,13 +555,13 @@ To illustrate, the response for the request above would look like this:
 ### Execution
 
 Once all the props have been configured, the component can be invoked. Pipedream
-supports two types of components: [actions](/components#actions) and
-[sources](/components#sources) (aka triggers).
+supports two types of components: [actions](/workflows/contributing/components/api/#actions) and
+[sources](/workflows/contributing/components/api/#sources) (aka triggers).
 
 Actions are components that perform a task by taking an input either during
 [configuration](#configure-the-component) and/or during invocation (usually both), and
-produce a result. Sources are very similar, but the difference is that they are
-not invoked directly by Pipedream users, but rather by events that happen on a
+produces a result. Sources are very similar, but the difference is that they are
+not invoked directly by end users directly, but rather by events that happen on a
 third-party service. For example, the "New File" source for Google Drive will be
 triggered every time a new file is created in a specific folder in Google Drive,
 then will emit an event for you to consume.
@@ -461,11 +580,11 @@ used for configuring a prop, with the exception of the `prop_name` attribute
 ```json
 {
   "async_handle": "xFfBakdTGTkI",
-  "external_user_id": "demo-20a1b80e-23a5-4d4d-a8ef-c91cdbd0dad9",
+  "external_user_id": "abc-123",
   "id": "gitlab-list-commits",
   "configured_props": {
     "gitlab": {
-      "authProvisionId": "apn_JjhWOl0"
+      "authProvisionId": "apn_kVh9AoD"
     },
     "projectId": 45672541,
     "refName": "main"
@@ -476,15 +595,51 @@ used for configuring a prop, with the exception of the `prop_name` attribute
 To run the action with this configuration, simply send it as the request payload
 to the following endpoint:
 
-```text
-POST /v1/connect/actions/run
+<Tabs items={['Node.js', 'HTTP (cURL)']}>
+<Tabs.Tab>
+```javascript
+const resp = await pd.runAction({
+  externalUserId: "abc-123",
+  id: "gitlab-list-commits",
+  configuredProps: {
+    gitlab: {
+      authProvisionId: "apn_kVh9AoD",
+    },
+    projectId: 45672541,
+    refName: "main"
+  }
+});
+
+// Parse and return the data you need
 ```
+</Tabs.Tab>
+<Tabs.Tab>
+```bash
+curl -X POST https://api.pipedream.com/v1/connect/{project_id}/actions/run \
+  -H "Content-Type: application/json" \
+  -H "X-PD-Environment: development" \
+  -H "Authorization: Bearer {access_token}" \
+  -d '{
+    "external_user_id": "abc-123",
+    "id": "gitlab-list-commits",
+    "prop_name": "projectId",
+    "configured_props": {
+      "gitlab": {
+        "authProvisionId": "apn_kVh9AoD"
+      }
+    }
+  }'
+
+# Parse and return the data you need
+```
+</Tabs.Tab>
+</Tabs>
 
 The output of executing the action will be a JSON object containing the
 following fields:
 
 1. `exports`: all the named exports produced by the action, like when calling
-   [`$.export` in a Node.js](/code/nodejs#using-export) component.
+   [`$.export` in a Node.js](/workflows/building-workflows/code/nodejs/#using-export) component.
 2. `os`: a list of observations produced by the action (e.g. logs, errors, etc).
 3. `ret`: the return value of the action, if any.
 
@@ -523,19 +678,17 @@ above:
 
 Because sources are exercised by events that happen on a third-party service,
 their semantics are different from actions. Once a source is configured, it must
-be deployed in order to start listening for events. You might be asking where do
-those events go, and you'd be right to ask. That's the reason why when deploying
-a source you must provide a URL where the source will send these events, similar
-to how a webhook works.
+be deployed to start listening for events. When deploying a source, you
+can define either a webhook URL or a Pipedream workflow ID to consume those events.
 
 Deploying a source is done by sending a payload similar to the one used for
-running an action, with the addition of the webhook URL mentioned above. Using
+running an action, with the addition of the webhook URL or workflow ID. Using
 the **New Issue (Instant)** source for Gitlab as an example, the payload would
 look something like this:
 
 ```json
 {
-  "external_user_id": "demo-20a1b80e-23a5-4d4d-a8ef-c91cdbd0dad9",
+  "external_user_id": "abc-123",
   "id": "gitlab-new-issue",
   "prop_name": "http",
   "configured_props": {
@@ -548,11 +701,53 @@ look something like this:
 }
 ```
 
-The endpoint to deploy a source is:
+Deploy a source for your users:
 
-```text
-POST /v1/connect/triggers/deploy
+<Tabs items={['Node.js', 'HTTP (cURL)']}>
+<Tabs.Tab>
+```javascript
+const { data: deployedTrigger } = await pd.deployTrigger({
+  externalUserId: "abc-123",
+  id: "gitlab-new-issue",
+  propName: "projectId",
+  configuredProps: {
+    gitlab: {
+      authProvisionId: "apn_kVh9AoD",
+    }
+  },
+  webhookUrl: "https://events.example.com/gitlab-new-issue"
+});
+
+const {
+  id: triggerId,      // The unique ID of the deployed trigger
+  name: triggerName,  // The name of the deployed trigger
+  owner_id: userId,   // The unique ID in Pipedream of your user
+} = deployedTrigger;
+
+// Parse and return the data you need
 ```
+</Tabs.Tab>
+<Tabs.Tab>
+```bash
+curl -X POST https://api.pipedream.com/v1/connect/{project_id}/components/triggers/deploy \
+  -H "Content-Type: application/json" \
+  -H "X-PD-Environment: development" \
+  -H "Authorization: Bearer {access_token}" \
+  -d '{
+    "external_user_id": "abc-123",
+    "id": "gitlab-new-issue",
+    "prop_name": "projectId",
+    "configured_props": {
+      "gitlab": {
+        "authProvisionId": "apn_kVh9AoD"
+      }
+    },
+    "webhook_url": "https://events.example.com/gitlab-new-issue"
+  }'
+# Parse and return the data you need
+```
+</Tabs.Tab>
+</Tabs>
 
 If the source deployment succeeds, the response will contain the information
 regarding the state of the source, including all the component's props metadata,
@@ -611,11 +806,9 @@ this:
 }
 ```
 
-In the example above, the source ID is `dc_dAuGmW7`, which can be used to delete
-the source in the future:
+In the example above, the source ID is `dc_dAuGmW7`, which can be used to delete,
+retrieve, or update the source in the future.
 
-```text
-DELETE /v1/connect/deployed-triggers/dc_dAuGmW7?external_user_id=demo-20a1b80e-23a5-4d4d-a8ef-c91cdbd0dad9
-```
+Refer to the [full Connect API reference](/connect/api#components) for questions and additional examples.
 
 </Steps>

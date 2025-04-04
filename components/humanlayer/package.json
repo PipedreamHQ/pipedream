@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/humanlayer",
+  "version": "0.0.1",
+  "description": "Pipedream HumanLayer Components",
+  "main": "humanlayer.app.mjs",
+  "keywords": [
+    "pipedream",
+    "humanlayer"
+  ],
+  "homepage": "https://pipedream.com/apps/humanlayer",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

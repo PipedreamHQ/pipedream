@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/botsonic",
+  "version": "0.0.1",
+  "description": "Pipedream Botsonic Components",
+  "main": "botsonic.app.mjs",
+  "keywords": [
+    "pipedream",
+    "botsonic"
+  ],
+  "homepage": "https://pipedream.com/apps/botsonic",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

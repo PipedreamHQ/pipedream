@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/referral_rocket",
+  "version": "0.0.1",
+  "description": "Pipedream Referral Rocket Components",
+  "main": "referral_rocket.app.mjs",
+  "keywords": [
+    "pipedream",
+    "referral_rocket"
+  ],
+  "homepage": "https://pipedream.com/apps/referral_rocket",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/apiverve",
+  "version": "0.1.0",
+  "description": "Pipedream APIVerve Components",
+  "main": "apiverve.app.mjs",
+  "keywords": [
+    "pipedream",
+    "apiverve"
+  ],
+  "homepage": "https://pipedream.com/apps/apiverve",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

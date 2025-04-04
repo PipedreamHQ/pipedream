@@ -3,8 +3,8 @@ import notion from "../../notion.app.mjs";
 export default {
   key: "notion-retrieve-database-schema",
   name: "Retrieve Database Schema",
-  description: "Retrieves a database object. Database objects describe the property schema of a database in Notion. [See the docs](https://developers.notion.com/reference/retrieve-a-database)",
-  version: "0.0.5",
+  description: "Get the property schema of a database in Notion. [See the documentation](https://developers.notion.com/reference/retrieve-a-database)",
+  version: "0.0.7",
   type: "action",
   props: {
     notion,
@@ -17,7 +17,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.notion.retrieveDatabase(this.databaseId);
-    $.export("$summary", "Retrieved database successfully");
+    $.export("$summary", "Successfully retrieved database schema");
     return response;
   },
 };

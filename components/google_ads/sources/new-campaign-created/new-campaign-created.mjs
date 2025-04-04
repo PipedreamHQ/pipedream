@@ -6,8 +6,8 @@ export default {
   ...common,
   key: "google_ads-new-campaign-created",
   name: "New Campaign Created",
-  description: "Emit new event when a new campaign is created. [See the documentation](https://developers.google.com/google-ads/api/fields/v16/campaign)",
-  version: "0.0.2",
+  description: "Emit new event when a new campaign is created. [See the documentation](https://developers.google.com/google-ads/api/fields/v18/campaign)",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   sampleEmit,
@@ -15,12 +15,11 @@ export default {
     ...common.props,
     customerClientId: {
       ...common.props.customerClientId,
-      optional: false,
     },
     fields: {
       type: "string[]",
       label: "Extra Fields",
-      description: "Additional [campaign fields](https://developers.google.com/google-ads/api/fields/v16/campaign) to emit in the event",
+      description: "Additional [campaign fields](https://developers.google.com/google-ads/api/fields/v18/campaign) to emit in the event",
       options: campaign.fields,
       optional: true,
       default: [

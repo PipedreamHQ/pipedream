@@ -5,7 +5,7 @@ export default {
   key: "intercom-new-admin-reply",
   name: "New Reply From Admin",
   description: "Emit new event each time an admin replies to a conversation.",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   methods: {

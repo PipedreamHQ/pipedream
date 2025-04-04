@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/piped",
+  "version": "0.0.1",
+  "description": "Pipedream Piped Components",
+  "main": "piped.app.mjs",
+  "keywords": [
+    "pipedream",
+    "piped"
+  ],
+  "homepage": "https://pipedream.com/apps/piped",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

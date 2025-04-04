@@ -75,4 +75,32 @@ export default {
     ${fragments.project}
     ${fragments.pageInfo}
   `,
+  listProjectUpdates: `
+    query ListProjectUpdates(
+      $filter: ProjectUpdateFilter,
+      $before: String,
+      $after: String,
+      $first: Int,
+      $last: Int,
+      $orderBy: PaginationOrderBy
+    ) {
+      projectUpdates(
+        filter: $filter,
+        before: $before,
+        after: $after,
+        first: $first,
+        last: $last,
+        orderBy: $orderBy
+      ) {
+        pageInfo {
+          ...PageInfo
+        }
+        nodes {
+          ...ProjectUpdate
+        }
+      }
+    }
+    ${fragments.projectUpdate}
+    ${fragments.pageInfo}
+  `,
 };

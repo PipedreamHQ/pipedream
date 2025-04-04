@@ -5,8 +5,8 @@ export default {
   ...common,
   key: "youtube_data_api-upload-video",
   name: "Upload Video",
-  description: "Post a video to your channel. [See the docs](https://developers.google.com/youtube/v3/docs/videos/insert) for more information",
-  version: "0.0.6",
+  description: "Post a video to your channel. [See the documentation](https://developers.google.com/youtube/v3/docs/videos/insert) for more information",
+  version: "0.0.7",
   type: "action",
   props: {
     youtubeDataApi,

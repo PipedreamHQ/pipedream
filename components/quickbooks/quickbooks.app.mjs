@@ -451,6 +451,7 @@ export default {
     async _makeRequest({
       $ = this,
       path,
+      params,
       ...opts
     }) {
       const requestFn = async () => {
@@ -459,6 +460,10 @@ export default {
           headers: {
             Authorization: `Bearer ${this._accessToken()}`,
             accept: "application/json",
+          },
+          params: {
+            ...params,
+            minorversion: 75,
           },
           ...opts,
         });
