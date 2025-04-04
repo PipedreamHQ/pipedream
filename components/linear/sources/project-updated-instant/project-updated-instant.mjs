@@ -11,5 +11,5 @@ export default {
   ...utils.getAppProps(projectUpdatedInstant),
   key: "linear-project-updated-instant",
   description: "Emit new event when a project is updated (OAuth). [See the documentation](https://developers.linear.app/docs/graphql/webhooks)",
-  version: "0.0.2",
+  version: "0.0.3",
 };

@@ -59,7 +59,17 @@ function buildVariables(endCursor, args) {
   const after = endCursor
     ? `, after: "${endCursor}"`
     : "";
-  return strToObj(`{ filter: { ${filter} }, first: ${constants.DEFAULT_LIMIT}${orderBy}${includeArchived}${after} }`);
+  // Determine the appropriate limit:
+  // 1. Use custom limit if provided
+  // 2. Use a smaller default limit when no query is provided to avoid returning too many results
+  // 3. Otherwise use the standard default limit
+  const limit = args.limit
+    ? args.limit
+    : (args.filter.query
+      ? constants.DEFAULT_LIMIT
+      : constants.DEFAULT_NO_QUERY_LIMIT);
+
+  return strToObj(`{ filter: { ${filter} }, first: ${limit}${orderBy}${includeArchived}${after} }`);
 }
 
 export default {

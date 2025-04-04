@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/teltel",
+  "version": "0.0.1",
+  "description": "Pipedream TelTel Components",
+  "main": "teltel.app.mjs",
+  "keywords": [
+    "pipedream",
+    "teltel"
+  ],
+  "homepage": "https://pipedream.com/apps/teltel",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

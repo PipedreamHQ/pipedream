@@ -2,6 +2,7 @@ const WEBHOOK_ID = "webhookId";
 const LINEAR_DELIVERY_HEADER = "linear-delivery";
 const DEFAULT_LIMIT = 100;
 const DEFAULT_MAX_RECORDS = 200;
+const DEFAULT_NO_QUERY_LIMIT = 20;
 
 const ACTION = {
   CREATE: "create",
@@ -49,6 +50,7 @@ export default {
   LINEAR_DELIVERY_HEADER,
   DEFAULT_LIMIT,
   DEFAULT_MAX_RECORDS,
+  DEFAULT_NO_QUERY_LIMIT,
   ACTION,
   RESOURCE_TYPE,
   RESOURCE_TYPES,

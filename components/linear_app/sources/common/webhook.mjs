@@ -21,6 +21,13 @@ export default {
         "projectId",
       ],
     },
+    limit: {
+      propDefinition: [
+        linearApp,
+        "limit",
+      ],
+      description: "Maximum number of items to return when polling. Defaults to 20 if not specified.",
+    },
     db: "$.service.db",
   },
   async additionalProps() {
@@ -102,10 +109,14 @@ export default {
       return data?.user?.admin;
     },
     async emitPolledResources() {
+      // Use the specified limit or default to a reasonable number
+      const maxLimit = this.limit || constants.DEFAULT_NO_QUERY_LIMIT;
+
       const stream = this.linearApp.paginateResources({
         resourcesFn: this.getResourcesFn(),
         resourcesFnArgs: this.getResourcesFnArgs(),
         useGraphQl: this.useGraphQl(),
+        max: maxLimit, // Apply the limit to pagination
       });
       const resources = await utils.streamIterator(stream);
 

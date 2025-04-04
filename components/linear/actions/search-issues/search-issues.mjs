@@ -10,6 +10,6 @@ export default {
   ...utils.getAppProps(searchIssues),
   key: "linear-search-issues",
   description: "Search issues (OAuth). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api)",
-  version: "0.2.8",
+  version: "0.2.9",
 };
 
