@@ -16462,8 +16462,8 @@ packages:
   '@dabh/diagnostics@2.0.3':
     resolution: {integrity: sha512-hrlQOIi7hAfzsMqlGSFyVucrx38O+j6wiGOf//H2ecvIEqYN4ADBSS2iLMh5UFyDunCNniUIPk/q3riFv45xRA==}
 
-  '@definitelytyped/header-parser@0.2.18':
-    resolution: {integrity: sha512-3JWGzhieGOx+zhy+qaPDoiby2TPA1PZGpEJHt0VwR1aK0R9dER5BoBvnT5zSafg9kHQTw4aBRFbt3o41FNkaLw==}
+  '@definitelytyped/header-parser@0.2.19':
+    resolution: {integrity: sha512-zu+RxQpUCgorYUQZoyyrRIn9CljL1CeM4qak3NDeMO1r7tjAkodfpAGnVzx/6JR2OUk0tAgwmZxNMSwd9LVgxw==}
     engines: {node: '>=18.18.0'}
 
   '@definitelytyped/typescript-versions@0.1.8':
@@ -32205,7 +32205,7 @@ snapshots:
       enabled: 2.0.0
       kuler: 2.0.0
 
-  '@definitelytyped/header-parser@0.2.18':
+  '@definitelytyped/header-parser@0.2.19':
     dependencies:
       '@definitelytyped/typescript-versions': 0.1.8
       '@definitelytyped/utils': 0.1.8
@@ -38845,7 +38845,7 @@ snapshots:
 
   dts-critic@3.3.11(typescript@5.7.2):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.18
+      '@definitelytyped/header-parser': 0.2.19
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -38855,7 +38855,7 @@ snapshots:
 
   dtslint@4.2.1(typescript@5.7.2):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.18
+      '@definitelytyped/header-parser': 0.2.19
       '@definitelytyped/typescript-versions': 0.1.8
       '@definitelytyped/utils': 0.1.8
       dts-critic: 3.3.11(typescript@5.7.2)
