@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "lucca-new-leave-request",
   name: "New Leave Request",
-  description: "Emit new event when a new leave request is submitted by an employee.",
+  description: "Emit new event when a new leave request is submitted by an employee. [See the documentation](https://developers.lucca.fr/api-reference/legacy/timmi-absences/leave-requests/list-leave-requests)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

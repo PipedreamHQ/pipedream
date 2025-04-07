@@ -43,6 +43,44 @@ export default {
         }));
       },
     },
+    legalEntityId: {
+      type: "integer",
+      label: "Legal Entity ID",
+      description: "The ID of the legal entity",
+      async options({ page }) {
+        const { data: { items } } = await this.listEstablishments({
+          params: {
+            paging: `${LIMIT * page},${LIMIT}`,
+            status: 0,
+          },
+        });
+        return items.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    departmentId: {
+      type: "integer",
+      label: "Department ID",
+      description: "The ID of the department",
+      async options({ page }) {
+        const { data: { items } } = await this.listDepartments({
+          params: {
+            paging: `${LIMIT * page},${LIMIT}`,
+            status: 0,
+          },
+        });
+        return items.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -77,6 +115,18 @@ export default {
     listLeaveRequests(opts = {}) {
       return this._makeRequest({
         path: "/leaveRequests",
+        ...opts,
+      });
+    },
+    listEstablishments(opts = {}) {
+      return this._makeRequest({
+        path: "/establishments",
+        ...opts,
+      });
+    },
+    listDepartments(opts = {}) {
+      return this._makeRequest({
+        path: "/departments",
         ...opts,
       });
     },

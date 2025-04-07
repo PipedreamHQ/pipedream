@@ -39,9 +39,10 @@ export default {
       optional: true,
     },
     legalEntityId: {
-      type: "integer",
-      label: "Legal Entity ID",
-      description: "The ID of the legal entity",
+      propDefinition: [
+        lucca,
+        "legalEntityId",
+      ],
       optional: true,
     },
     cspId: {
@@ -69,9 +70,10 @@ export default {
       optional: true,
     },
     departmentId: {
-      type: "integer",
-      label: "Department ID",
-      description: "The ID of the department",
+      propDefinition: [
+        lucca,
+        "departmentId",
+      ],
       optional: true,
     },
     managerId: {
