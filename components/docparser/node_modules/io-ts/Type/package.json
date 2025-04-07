@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Type.js",
+  "module": "../es6/Type.js",
+  "typings": "../lib/Type.d.ts",
+  "sideEffects": false
+}

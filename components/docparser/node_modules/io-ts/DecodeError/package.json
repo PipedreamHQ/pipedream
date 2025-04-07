@@ -1,0 +1,6 @@
+{
+  "main": "../lib/DecodeError.js",
+  "module": "../es6/DecodeError.js",
+  "typings": "../lib/DecodeError.d.ts",
+  "sideEffects": false
+}
