@@ -102,5 +102,11 @@ export default {
         ...args,
       });
     },
+    listAppointments(args = {}) {
+      return this.makeRequest({
+        path: "/appointments",
+        ...args,
+      });
+    },
   },
 };
