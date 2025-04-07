@@ -2,8 +2,8 @@ import notion from "../../notion.app.mjs";
 
 export default {
   key: "notion-retrieve-block",
-  name: "Retrieve Block",
-  description: "Get details of a block, which can be text, lists, media, a page, among others. [See the documentation](https://developers.notion.com/reference/retrieve-a-block)",
+  name: "Retrieve Page Content",
+  description: "Get page content as block objects or markdown. Blocks can be text, lists, media, a page, among others. [See the documentation](https://developers.notion.com/reference/retrieve-a-block)",
   version: "0.1.0",
   type: "action",
   props: {
@@ -13,13 +13,11 @@ export default {
         notion,
         "pageId",
       ],
-      label: "Block ID",
-      description: "Select a block or provide a block ID",
     },
     retrieveChildren: {
       type: "boolean",
-      label: "Retrieve Children",
-      description: "Retrieve all the children (recursively) for the specified block. [See the documentation](https://developers.notion.com/reference/get-block-children) for more information",
+      label: "Retrieve Content (Child Blocks)",
+      description: "Retrieve all the children (recursively) for the specified page. [See the documentation](https://developers.notion.com/reference/get-block-children) for more information",
       optional: true,
       default: false,
     },
