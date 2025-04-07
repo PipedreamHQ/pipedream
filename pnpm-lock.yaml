@@ -426,6 +426,9 @@ importers:
 
   components/agentql: {}
 
+  components/agentset:
+    specifiers: {}
+
   components/agenty:
     dependencies:
       '@pipedream/platform':
