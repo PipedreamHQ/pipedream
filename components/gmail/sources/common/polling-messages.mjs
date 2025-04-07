@@ -12,6 +12,11 @@ export default {
       }
       await this.processHistoricalEvents(messageIds);
     },
+    async activate() {
+      console.log(`Previous lastDate: ${this.getLastDate()}`);
+      console.log("Activating source, will poll for new messages from now...");
+      this.setLastDate(Date.now());
+    },
   },
   methods: {
     ...common.methods,

@@ -4,7 +4,7 @@ export default {
   key: "krispcall-add-contact",
   name: "Add Contact",
   description: "Creates a new contact. [See the documentation](https://documenter.getpostman.com/view/32476792/2sA3dxFCaL)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     krispcall,

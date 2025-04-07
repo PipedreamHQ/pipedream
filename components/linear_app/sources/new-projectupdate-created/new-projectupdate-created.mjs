@@ -8,7 +8,7 @@ export default {
   name: "New Project Update Written (Instant)",
   description: "Project updates are short status reports on the health of your projects. Emit new event when a new Project Update is written. [See the documentation](https://developers.linear.app/docs/graphql/webhooks)",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   props: {
     linearApp,

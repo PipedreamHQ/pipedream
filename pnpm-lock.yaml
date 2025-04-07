@@ -379,6 +379,9 @@ importers:
         specifier: ^20.0.0
         version: 20.0.0
 
+  components/adyntel:
+    specifiers: {}
+
   components/aerisweather:
     dependencies:
       '@pipedream/platform':
@@ -883,7 +886,11 @@ importers:
         specifier: ^1.1.1
         version: 1.6.6
 
-  components/apiverve: {}
+  components/apiverve:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/apollo_io:
     dependencies:
@@ -5764,6 +5771,9 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/hamsa:
+    specifiers: {}
+
   components/handwrytten: {}
 
   components/hansei:
@@ -7215,8 +7225,8 @@ importers:
         specifier: ^13.0.0
         version: 13.0.0
       '@pipedream/linear_app':
-        specifier: ^0.7.0
-        version: 0.7.0
+        specifier: ^0.7.1
+        version: 0.7.1
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
@@ -8942,6 +8952,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+      bottleneck:
+        specifier: ^2.19.5
+        version: 2.19.5
 
   components/openrouter: {}
 
@@ -13654,7 +13667,14 @@ importers:
 
   components/vectera: {}
 
-  components/vectorshift: {}
+  components/vectorshift:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      fs:
+        specifier: ^0.0.1-security
+        version: 0.0.1-security
 
   components/vend:
     dependencies:
@@ -17802,8 +17822,8 @@ packages:
   '@pipedream/helpers@1.3.12':
     resolution: {integrity: sha512-k305RiFddUBtKY11V9G2aqYD8ICgarHV+A0Isxh0j3il4asnht0q4+t6ykPOb+hl5uo9UV8WY+9eAWlj6VFt6Q==}
 
-  '@pipedream/linear_app@0.7.0':
-    resolution: {integrity: sha512-c3Yk7ySggn+j7G9JpfOUBoICcpdPp7mksCVcqBgKvK1lBPrLI98DqtplP3H/fYCWLtUi7VN/rRAD0sCn+HUJ0A==}
+  '@pipedream/linear_app@0.7.1':
+    resolution: {integrity: sha512-DsErH1lO1HhA2Om4My0KGd4L3h7SjN+gg8kvB6u+EliY3e5tjqde+cosolSn3ZYzBbbboSEZUMjVHtl/nFQ7Wg==}
 
   '@pipedream/linkedin@0.1.1':
     resolution: {integrity: sha512-9pFjaohz/wnJMIRpPmDPqHeWiXUIJVWIPvQudE8TkUjaBbyieDpscy8reWMp96UK9aXz1Z2J2yiNh0msILAX9Q==}
@@ -33921,7 +33941,7 @@ snapshots:
       '@pipedream/types': 0.0.5
       lodash-es: 4.17.21
 
-  '@pipedream/linear_app@0.7.0':
+  '@pipedream/linear_app@0.7.1':
     dependencies:
       '@linear/sdk': 13.0.0
       '@pipedream/platform': 3.0.3
@@ -44918,7 +44938,7 @@ snapshots:
       jsdoc: 4.0.4
       minimist: 1.2.8
       protobufjs: 7.2.4
-      semver: 7.6.3
+      semver: 7.7.1
       tmp: 0.2.3
       uglify-js: 3.19.3
 

@@ -10,5 +10,5 @@ export default {
   ...utils.getAppProps(commentCreatedInstant),
   key: "linear-comment-created-instant",
   description: "Emit new event when a new comment is created (OAuth). [See the documentation](https://developers.linear.app/docs/graphql/webhooks)",
-  version: "0.1.10",
+  version: "0.1.11",
 };

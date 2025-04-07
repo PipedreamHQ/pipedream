@@ -33,43 +33,36 @@ You can send requests to the Connect proxy using the [Pipedream SDK](/connect/sd
 
 Refer to the full Connect API [here](/connect/api/).
 
-### Authenticating on behalf of your user
+### Authenticating on behalf of your users
 
-Most API integrations that use OAuth to authenticate requests require that you pass a user's access token in the `Authorization` header with the `Bearer` prefix. For these apps, the Connect proxy will automatically handle that for you — you don't need to pass any reference to their OAuth access token in this case.
+One of the core benefits of using the Connect API Proxy is not having to deal with storing or retrieving sensitive credentials for your end users. 
 
-For apps that require a different authentication method, you should include the necessary headers with the value surrounded by `{{ }}` in your request to the proxy, and Pipedream will automatically replace the macro with the real values and forward to the upstream API. For example:
+Since Pipedream has {process.env.PUBLIC_APPS}+ integrated apps, we know how the upstream APIs are expecting to receive access tokens or API keys. When you send a request to the proxy, Pipedream will look up the corresponding connected account for the relevant user, and **automatically insert the authorization credentials in the appropriate header or URL param**.
 
-```javascript
-/*
-OpenAI requires that you pass the API key
-in the `Authorization` header with the `Bearer` prefix:
-*/
+### Sending requests
 
-headers: {
-  authorization: "Bearer {{api_key}}",
-}
+**URL**
 
-// Pipedream will replace the `{{api_key}}` macro with the actual API key
-```
-
-```javascript
-/*
-Zoho apps require that you pass the OAuth access token
-in the `Authorization` header with a custom `Zoho-oauthtoken` prefix:
-*/
-
-headers: {
-  authorization: "Zoho-oauthtoken {{oauth_access_token}}",
-}
-
-// Pipedream will replace the `{{oauth_access_token}}` macro with the actual token
-```
+- The URL of the API you want to call (ex, `https://slack.com/api/chat.postMessage`)
+- When using the REST API, this should be a URL-safe Base64 encoded string (ex, `aHR0cHM6Ly9zbGFjay5jb20vYXBpL2NoYXQucG9zdE1lc3NhZ2U`)
 
 <Callout type="info">
-Refer to the relevant API's developer documentation for the correct way to authenticate requests.
+- Some APIs like Zendesk, Zoho, and others use dynamic base domains that are account-specific (e.g, `https://foo.zendesk.com`). For any of these apps, you should pass a relative path as the `url` in your proxy request, like `/api/v2/chat/chats` for example.
+- Those dynamic fields are typically defined by the end user during the account connection flow, so the domain value will be stored as part of their connected account credentials in Pipedream.
 </Callout>
 
-### Making a request
+**HTTP method**
+
+- Use the HTTP method required by the upstream API
+
+**Body**
+
+- Optionally include a body to send to the upstream API
+
+**Headers**
+
+- If using the REST API, include the `Authorization` header with your Pipedream OAuth access token (`Bearer {access_token}`)
+- Headers that contain the prefix `x-pd-proxy` will get forwarded to the upstream API
 
 #### Using the Pipedream SDK
 
@@ -80,7 +73,7 @@ import { createBackendClient } from "@pipedream/sdk/server";
 
 const pd = createBackendClient({
   environment: {development | production},
-  projectId: {your_projectId},
+  projectId: {your_pipedream_project_i_d},
   credentials: {
     clientId: {your_oauth_client_id},
     clientSecret: {your_oauth_client_secret}
@@ -116,30 +109,7 @@ console.log(resp);
 
 #### Using the REST API
 
-You can also send a request to the Connect REST API with the below config:
-
-**URL**
-
-- The URL of the API you want to call (ex, `https://slack.com/api/chat.postMessage`)
-- When using the REST API, this should be an URL-safe Base64 encoded string (ex, `aHR0cHM6Ly9zbGFjay5jb20vYXBpL2NoYXQucG9zdE1lc3NhZ2U`)
-
-**HTTP method**
-
-- Use the HTTP method required by the upstream API
-
-**Body**
-
-- Optionally include a body to send to the upstream API
-
-**Headers**
-
-- If using the REST API, include the `Authorization` header with your Pipedream OAuth access token (`Bearer {access_token}`)
-- Headers that contain the prefix `x-pd-proxy` will get forwarded to the upstream API
-- If the upstream API requires [custom authorization headers](#authenticating-on-behalf-of-your-user), make sure to prepend with `x-pd-proxy` and include the macro `{{ }}` that Pipedream will replace with the actual value. For example,
-
-```javascript
-"x-pd-proxy-apiKey: {{api_key}}"
-```
+You can also use the Connect REST API directly. If using the REST API, send your Pipedream OAuth access token in the `Authorization` header:
 
 ```bash
 # First, obtain an OAuth access token to authenticate to the Pipedream API
@@ -165,6 +135,9 @@ curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/proxy/{url_
 # Parse and return the data you need
 ```
 
-## Rate limits
+## Limits
 
-The Connect proxy limits API requests to **100 per minute per project**. [Let us know](https://pipedream.com/support) if you need higher limits.
+The Connect proxy limits API requests to,
+- 100 requests per minute per project. Requests that surpass this limit will receive a `429` response.
+- A maximum timeout of 30 seconds. Requests that take longer than 30 seconds will be terminated, and Pipedream will return a `504` error to the caller.
+- Please [let us know](https://pipedream.com/support) if you need higher limits.
