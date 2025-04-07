@@ -1,4 +1,5 @@
 import fs from "fs";
+import { ConfigurationError } from "@pipedream/platform";
 
 function normalizeFilePath(path) {
   return path.startsWith("/tmp/")
@@ -24,8 +25,22 @@ function downloadToTmp(response, filename) {
   ];
 }
 
+function handleErrorMessage(error) {
+  let errorMessage = error.name;
+  if (error.response && error.response.data) {
+    const text = Buffer.from(error.response.data).toString("utf-8");
+    try {
+      errorMessage = JSON.stringify(JSON.parse(text));
+    } catch (parseErr) {
+      errorMessage = text;
+    }
+  }
+  throw new ConfigurationError(`${errorMessage}`);
+}
+
 export default {
   normalizeFilePath,
   checkForExtension,
   downloadToTmp,
+  handleErrorMessage,
 };

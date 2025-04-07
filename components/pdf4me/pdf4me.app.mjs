@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import utils from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -19,18 +20,22 @@ export default {
     _baseUrl() {
       return "https://api.pdf4me.com/api/v2";
     },
-    _makeRequest({
+    async _makeRequest({
       $ = this,
       path = "/",
       ...otherOpts
     }) {
-      return axios($, {
-        ...otherOpts,
-        url: `${this._baseUrl()}${path}`,
-        headers: {
-          authorization: this.$auth.api_key,
-        },
-      });
+      try {
+        return await axios($, {
+          ...otherOpts,
+          url: `${this._baseUrl()}${path}`,
+          headers: {
+            authorization: this.$auth.api_key,
+          },
+        });
+      } catch (error) {
+        utils.handleErrorMessage(error);
+      }
     },
     convertToPdf(opts = {}) {
       return this._makeRequest({
