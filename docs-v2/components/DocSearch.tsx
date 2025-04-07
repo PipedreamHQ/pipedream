@@ -12,7 +12,6 @@ function Search() {
         facetFilters: [
           "version:latest",
         ],
-        indexName: process.env.ALGOLIA_INDEX_NAME,
       }}
       transformItems={(items) => {
         return items.map((item) => ({
