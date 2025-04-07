@@ -119,7 +119,7 @@ export default {
           },
           tts: {
             voice_id: this.voiceId,
-            model_id: this.modelId,
+            model_id: this.ttsModelId,
           },
         },
         name: this.name,

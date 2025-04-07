@@ -34,7 +34,7 @@ export default {
 
     do {
       const {
-        submissions, meta,
+        submissions = [], meta,
       } = await this.app.listFormSubmissions({
         params,
       });
