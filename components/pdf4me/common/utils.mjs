@@ -8,7 +8,7 @@ function normalizeFilePath(path) {
 }
 
 function checkForExtension(filename, ext = "pdf") {
-  return filename.includes(`.${ext}`)
+  return filename.endsWith(`.${ext}`)
     ? filename
     : `${filename}.${ext}`;
 }
@@ -26,8 +26,11 @@ function downloadToTmp(response, filename) {
 }
 
 function handleErrorMessage(error) {
+  if (!error) {
+    throw new ConfigurationError("Unknown error occurred");
+  }
   let errorMessage = error.name;
-  if (error.response && error.response.data) {
+  if (error.response?.data) {
     const text = Buffer.from(error.response.data).toString("utf-8");
     try {
       errorMessage = JSON.stringify(JSON.parse(text));
@@ -35,7 +38,7 @@ function handleErrorMessage(error) {
       errorMessage = text;
     }
   }
-  throw new ConfigurationError(`${errorMessage}`);
+  throw new ConfigurationError(errorMessage);
 }
 
 export default {
