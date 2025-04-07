@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "bettercontact",
+  app: "adyntel",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data

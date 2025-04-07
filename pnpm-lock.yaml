@@ -379,6 +379,9 @@ importers:
         specifier: ^20.0.0
         version: 20.0.0
 
+  components/adyntel:
+    specifiers: {}
+
   components/aerisweather:
     dependencies:
       '@pipedream/platform':
@@ -8942,6 +8945,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+      bottleneck:
+        specifier: ^2.19.5
+        version: 2.19.5
 
   components/openrouter: {}
 
