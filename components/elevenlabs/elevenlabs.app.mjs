@@ -182,27 +182,27 @@ export default {
     },
     listPhoneNumbers(args = {}) {
       return this._makeRequest({
-        path: "/convai/phone-numbers/",
+        path: "convai/phone-numbers/",
         ...args,
       });
     },
     listAgents(args = {}) {
       return this._makeRequest({
-        path: "/convai/agents",
+        path: "convai/agents",
         ...args,
       });
     },
     createAgent(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/convai/agents/create",
+        path: "convai/agents/create",
         ...args,
       });
     },
     makeOutboundCall(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/convai/twilio/outbound_call",
+        path: "convai/twilio/outbound_call",
         ...args,
       });
     },

@@ -59,7 +59,7 @@ export default {
       data,
     });
 
-    $.export("$summary", `Sucessfully added voice (ID: ${response.voice_id})`);
+    $.export("$summary", `Successfully added voice (ID: ${response.voice_id})`);
     return response;
   },
 };

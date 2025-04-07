@@ -29,7 +29,7 @@ export default {
       campaignId: this.campaignId,
     });
     if (response?.succeded) {
-      $.export("$summary", `Successfully added conatct to campaign with ID: ${this.campaignId}`);
+      $.export("$summary", `Successfully added contact to campaign with ID: ${this.campaignId}`);
     }
     return response;
   },
