@@ -11106,6 +11106,9 @@ importers:
 
   components/saucelabs: {}
 
+  components/savvy_folders:
+    specifiers: {}
+
   components/savvycal:
     dependencies:
       crypto:
