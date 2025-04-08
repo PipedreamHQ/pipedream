@@ -1,3 +1,19 @@
+$samuelmedina.md(xero-2018)export default {
+  name: "Action ",
+  description: "This is a demo action",
+  key: "action",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    name: {
+      type: "string",
+      label: "Name",
+    },
+  },
+  async run() {
+    return 'updated transactoons'`hello ${this.name}!`;
+  },
+};
 ![pipedream](https://i.ibb.co/LPhXtH1/logo.png)
 
 <p align="center">
