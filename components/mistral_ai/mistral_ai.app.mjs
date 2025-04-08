@@ -9,11 +9,14 @@ export default {
       type: "string[]",
       label: "File IDs",
       description: "Array of input file UUIDs for batch processing",
-      async options({ page }) {
+      async options({
+        page, sampleType,
+      }) {
         const { data } = await this.listFiles({
           params: {
             page,
             page_size: constants.DEFAULT_PAGE_SIZE,
+            sample_type: sampleType,
           },
         });
         return data?.map(({
@@ -38,6 +41,20 @@ export default {
         })) || [];
       },
     },
+    batchJobId: {
+      type: "string",
+      label: "Batch Job ID",
+      description: "The identifier of the batch job to retrieve",
+      async options({ page }) {
+        const { data } = await this.listBatchJobs({
+          params: {
+            page,
+            page_size: constants.DEFAULT_PAGE_SIZE,
+          },
+        });
+        return data?.map(({ id }) => id) || [];
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -46,6 +63,7 @@ export default {
     _makeRequest({
       $ = this,
       path,
+      headers,
       ...otherOpts
     }) {
       return axios($, {
@@ -54,6 +72,7 @@ export default {
         headers: {
           "Authorization": `Bearer ${this.$auth.api_key}`,
           "Content-Type": "application/json",
+          ...headers,
         },
       });
     },
@@ -71,6 +90,29 @@ export default {
     },
     listFiles(opts = {}) {
       return this._makeRequest({
+        path: "/files",
+        ...opts,
+      });
+    },
+    getBatchJobDetails({
+      jobId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/batch/jobs/${jobId}`,
+        ...opts,
+      });
+    },
+    downloadFile({
+      fileId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/files/${fileId}/content`,
+        ...opts,
+      });
+    },
+    uploadFile(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
         path: "/files",
         ...opts,
       });
