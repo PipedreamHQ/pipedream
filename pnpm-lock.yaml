@@ -555,8 +555,8 @@ importers:
   components/airtable_oauth:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.0
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
       airtable:
         specifier: ^0.11.1
         version: 0.11.6

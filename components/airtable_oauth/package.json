@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/airtable_oauth",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Pipedream Airtable (OAuth) Components",
   "main": "airtable_oauth.app.mjs",
   "keywords": [
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.6.0",
+    "@pipedream/platform": "^3.0.3",
     "airtable": "^0.11.1",
     "bottleneck": "^2.19.5",
     "lodash.chunk": "^4.2.0",

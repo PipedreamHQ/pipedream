@@ -121,15 +121,46 @@ function makeFieldProps(tableSchema) {
  * @param {object} props - A component's props
  * @returns {object} a record
  */
-function makeRecord(props) {
+async function makeRecord(ctx) {
   let record = {};
-  for (const key of Object.keys(props)) {
+  const fieldTypes = await mapFieldTypes(ctx);
+  for (const key of Object.keys(ctx)) {
     if (key.startsWith(FIELD_PREFIX)) {
       const fieldName = key.slice(FIELD_PREFIX.length);
-      record[fieldName] = props[key];
+      if (fieldTypes[fieldName] === FieldType.SINGLE_COLLABORATOR) {
+        record[fieldName] = buildSingleCollaboratorField(ctx[key]);
+        continue;
+      }
+      record[fieldName] = ctx[key];
     }
   }
   return record;
+}
+
+async function mapFieldTypes(ctx) {
+  const baseId = ctx.baseId?.value ?? ctx.baseId;
+  const tableId = ctx.tableId?.value ?? ctx.tableId;
+  const { tables } = await ctx.airtable.listTables({
+    baseId,
+  });
+  const tableSchema = tables.find(({ id }) => id === tableId);
+  const fieldTypes = {};
+  for (const field of tableSchema?.fields ?? []) {
+    fieldTypes[field.name] = field.type;
+  }
+  return fieldTypes;
+}
+
+const isEmail = (str) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(str);
+
+function buildSingleCollaboratorField(value) {
+  return isEmail(value)
+    ? {
+      email: value,
+    }
+    : {
+      id: value,
+    };
 }
 
 export {

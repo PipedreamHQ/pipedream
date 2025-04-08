@@ -6,7 +6,7 @@ export default {
   name: "List Records in View",
   description: "Retrieve records from a view, optionally sorting and filtering results. [See the documentation](https://airtable.com/developers/web/api/list-views)",
   type: "action",
-  version: "0.0.9",
+  version: "0.0.10",
   ...commonList,
   props: {
     accountTierAlert: {
