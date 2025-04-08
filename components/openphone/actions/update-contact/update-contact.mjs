@@ -5,14 +5,14 @@ export default {
   key: "openphone-update-contact",
   name: "Update Contact",
   description: "Update an existing contact on OpenPhone. [See the documentation](https://www.openphone.com/docs/api-reference/contacts/update-a-contact-by-id)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     openphone,
     contactId: {
       type: "string",
       label: "Contact ID",
-      description: "The unique identifier of the contact.",
+      description: "The unique identifier of the contact",
     },
     firstName: {
       propDefinition: [
