@@ -3076,8 +3076,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/cvr_dev:
-    specifiers: {}
+  components/cvr_dev: {}
 
   components/cyberimpact:
     dependencies:
@@ -7893,8 +7892,7 @@ importers:
 
   components/mezmo: {}
 
-  components/microbilt_developer:
-    specifiers: {}
+  components/microbilt_developer: {}
 
   components/microsoft_365:
     dependencies:
@@ -8066,8 +8064,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/milvus:
-    specifiers: {}
+  components/milvus: {}
 
   components/mindbody: {}
 
@@ -11098,8 +11095,7 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/satws:
-    specifiers: {}
+  components/satws: {}
 
   components/saucelabs: {}
 
@@ -12159,8 +12155,7 @@ importers:
 
   components/sparkpost: {}
 
-  components/speak_ai:
-    specifiers: {}
+  components/speak_ai: {}
 
   components/specific:
     dependencies:
@@ -12932,8 +12927,7 @@ importers:
         specifier: ^1.11.10
         version: 1.11.13
 
-  components/thesportsdb:
-    specifiers: {}
+  components/thesportsdb: {}
 
   components/thinkific:
     dependencies:
