@@ -1,11 +1,13 @@
+import FormData from "form-data";
+import fs from "fs";
+import { checkTmp } from "../../common/utils.mjs";
 import docparser from "../../docparser.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "docparser-upload-document",
   name: "Upload Document",
-  description: "Uploads a document to docparser that initiates parsing immediately after reception. [See the documentation](https://docparser.com/api/)",
-  version: "0.0.{{ts}}",
+  description: "Uploads a document to docparser that initiates parsing immediately after reception. [See the documentation](https://docparser.com/api/#import-documents)",
+  version: "0.0.1",
   type: "action",
   props: {
     docparser,
@@ -16,16 +18,20 @@ export default {
       ],
     },
     file: {
-      propDefinition: [
-        docparser,
-        "file",
-      ],
+      type: "string",
+      label: "File",
+      description: "The path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
     },
   },
   async run({ $ }) {
+    const data = new FormData();
+    data.append("file", fs.createReadStream(checkTmp(this.file)));
+
     const response = await this.docparser.uploadDocument({
+      $,
       parserId: this.parserId,
-      file: this.file,
+      data,
+      headers: data.getHeaders(),
     });
 
     $.export("$summary", `Successfully uploaded document. Document ID: ${response.id}`);
