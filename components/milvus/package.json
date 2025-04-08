@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/milvus",
+  "version": "0.0.1",
+  "description": "Pipedream Milvus Components",
+  "main": "milvus.app.mjs",
+  "keywords": [
+    "pipedream",
+    "milvus"
+  ],
+  "homepage": "https://pipedream.com/apps/milvus",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
