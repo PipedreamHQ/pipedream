@@ -12920,6 +12920,9 @@ importers:
         specifier: ^1.11.10
         version: 1.11.13
 
+  components/thesportsdb:
+    specifiers: {}
+
   components/thinkific:
     dependencies:
       '@pipedream/platform':
