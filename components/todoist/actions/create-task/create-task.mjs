@@ -11,7 +11,7 @@ export default {
     recurringInfoLabel: {
       type: "alert",
       alertType: "info",
-      content: "To create a recurring task, use the `Due String` prop with a value such as `every week`. [See the Todoist documentation on recurring dates](https://www.todoist.com/help/articles/introduction-to-recurring-dates-YUYVJJAV) for more information.",
+      content: "To create a recurring task, use the `Due String` prop with a value such as `every week`. [See the Todoist documentation on recurring dates](https://www.todoist.com/help/articles/introduction-to-recurring-dates-YUYVJJAV) for more examples and information.",
     },
     content: {
       propDefinition: [
