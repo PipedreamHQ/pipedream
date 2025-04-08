@@ -2147,8 +2147,7 @@ importers:
 
   components/changenow: {}
 
-  components/changes_page:
-    specifiers: {}
+  components/changes_page: {}
 
   components/channeladvisor:
     dependencies:
@@ -11106,8 +11105,7 @@ importers:
 
   components/saucelabs: {}
 
-  components/savvy_folders:
-    specifiers: {}
+  components/savvy_folders: {}
 
   components/savvycal:
     dependencies:
