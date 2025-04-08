@@ -133,27 +133,32 @@ export default {
     return {};
   },
   async run({ $ }) {
+    const data = {
+      Type: this.type,
+      Status: this.status,
+      Prefix: this.prefix,
+      Suffix: this.suffix,
+      JobTitle: this.jobTitle,
+      Gender: this.gender,
+      Birthdate: this.birthdate,
+      Employer: this.employer,
+      Website: this.website,
+      FacebookId: this.facebookId,
+      TwitterId: this.twitterId,
+      LinkedInId: this.linkedInId,
+      PreferredCommunicationChannel: this.preferredCommunicationChannel,
+    };
+    if (this.type === "Individual") {
+      data.FirstName = this.firstName;
+      data.LastName = this.lastName;
+      data.MiddleName = this.middleName;
+    } else {
+      data.FullName = this.fullName;
+    }
+
     const response = await this.bloomerang.createConstituent({
       $,
-      data: {
-        Type: this.type,
-        Status: this.status,
-        FullName: this.fullName,
-        FirstName: this.firstName,
-        LastName: this.lastName,
-        MiddleName: this.middleName,
-        Prefix: this.prefix,
-        Suffix: this.suffix,
-        JobTitle: this.jobTitle,
-        Gender: this.gender,
-        Birthdate: this.birthdate,
-        Employer: this.employer,
-        Website: this.website,
-        FacebookId: this.facebookId,
-        TwitterId: this.twitterId,
-        LinkedInId: this.linkedInId,
-        PreferredCommunicationChannel: this.preferredCommunicationChannel,
-      },
+      data,
     });
 
     $.export("$summary", `Successfully created constituent with ID ${response.Id}`);
