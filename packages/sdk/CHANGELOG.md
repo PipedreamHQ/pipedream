@@ -2,6 +2,13 @@
 
 # Changelog
 
+## [1.5.0] - 2025-04-08
+
+### Added
+
+- Added support for the `query` option to the `configureComponent` method,
+  enabling API-based search using the specified query.
+
 ## [1.4.0] - 2025-03-12
 
 ### Changed
