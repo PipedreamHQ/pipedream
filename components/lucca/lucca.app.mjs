@@ -48,12 +48,13 @@ export default {
       label: "Legal Entity ID",
       description: "The ID of the legal entity",
       async options({ page }) {
-        const { data: { items } } = await this.listEstablishments({
+        const { items } = await this.listEstablishments({
           params: {
             paging: `${LIMIT * page},${LIMIT}`,
             status: 0,
           },
         });
+
         return items.map(({
           id: value, name: label,
         }) => ({
@@ -70,9 +71,22 @@ export default {
         const { data: { items } } = await this.listDepartments({
           params: {
             paging: `${LIMIT * page},${LIMIT}`,
-            status: 0,
           },
         });
+        return items.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    nationalityId: {
+      type: "string",
+      label: "Nationality",
+      description: "The nationality of the user",
+      async options() {
+        const { items } = await this.listCountries();
         return items.map(({
           id: value, name: label,
         }) => ({
@@ -84,7 +98,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return `${this.$auth.api_url}/api/v3`;
+      return `${this.$auth.api_url}`;
     },
     _headers() {
       return {
@@ -102,31 +116,37 @@ export default {
     },
     listLeaveTypes(opts = {}) {
       return this._makeRequest({
-        path: "/leaveperiods/leavetypes",
+        path: "/api/v3/leaveperiods/leavetypes",
         ...opts,
       });
     },
     listUsers(opts = {}) {
       return this._makeRequest({
-        path: "/users",
+        path: "/api/v3/users",
         ...opts,
       });
     },
     listLeaveRequests(opts = {}) {
       return this._makeRequest({
-        path: "/leaveRequests",
+        path: "/api/v3/leaveRequests",
         ...opts,
       });
     },
     listEstablishments(opts = {}) {
       return this._makeRequest({
-        path: "/establishments",
+        path: "/organization/structure/api/establishments",
+        ...opts,
+      });
+    },
+    listCountries(opts = {}) {
+      return this._makeRequest({
+        path: "/organization/structure/api/countries",
         ...opts,
       });
     },
     listDepartments(opts = {}) {
       return this._makeRequest({
-        path: "/departments",
+        path: "/api/v3/departments",
         ...opts,
       });
     },
@@ -135,7 +155,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/leaveRequests/${leaveRequestId}/approvals`,
+        path: `/api/v3/leaveRequests/${leaveRequestId}/approvals`,
         ...opts,
       });
     },
@@ -144,13 +164,13 @@ export default {
     }) {
       return this._makeRequest({
         method: "PUT",
-        path: `/users/${userId}`,
+        path: `/api/v3/users/${userId}`,
         ...opts,
       });
     },
     listExpenseClaims(opts = {}) {
       return this._makeRequest({
-        path: "/expenseClaims",
+        path: "/api/v3/expenseClaims",
         ...opts,
       });
     },

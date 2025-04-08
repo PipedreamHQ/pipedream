@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import lucca from "../../lucca.app.mjs";
 
 export default {
@@ -45,12 +46,6 @@ export default {
       ],
       optional: true,
     },
-    cspId: {
-      type: "integer",
-      label: "CSP ID",
-      description: "The ID of the CSP",
-      optional: true,
-    },
     calendarId: {
       type: "integer",
       label: "Calendar ID",
@@ -67,31 +62,6 @@ export default {
       type: "string",
       label: "Birth Date",
       description: "The birth date of the user. Format: 'YYYY-MM-DD'.",
-      optional: true,
-    },
-    departmentId: {
-      propDefinition: [
-        lucca,
-        "departmentId",
-      ],
-      optional: true,
-    },
-    managerId: {
-      type: "integer",
-      label: "Manager ID",
-      description: "The ID of the manager",
-      optional: true,
-    },
-    rolePrincipalId: {
-      type: "integer",
-      label: "Role Principal ID",
-      description: "The ID of the role principal",
-      optional: true,
-    },
-    cultureId: {
-      type: "integer",
-      label: "Culture ID",
-      description: "The ID of the culture",
       optional: true,
     },
     address: {
@@ -112,12 +82,6 @@ export default {
       description: "The direct line of the user",
       optional: true,
     },
-    jobTitle: {
-      type: "string",
-      label: "Job Title",
-      description: "The job title of the user",
-      optional: true,
-    },
     gender: {
       type: "string",
       label: "Gender",
@@ -125,9 +89,10 @@ export default {
       optional: true,
     },
     nationality: {
-      type: "string",
-      label: "Nationality",
-      description: "The nationality of the user",
+      propDefinition: [
+        lucca,
+        "nationalityId",
+      ],
       optional: true,
     },
     personalEmail: {
@@ -156,19 +121,26 @@ export default {
     },
   },
   async run({ $ }) {
-    const {
-      lucca,
-      userId,
-      ...data
-    } = this;
+    try {
+      const {
+        lucca,
+        userId,
+        ...data
+      } = this;
 
-    const response = await lucca.updateUserProfile({
-      $,
-      userId,
-      data,
-    });
+      const response = await lucca.updateUserProfile({
+        $,
+        userId,
+        data,
+      });
 
-    $.export("$summary", `Successfully updated user with ID: ${this.userId}`);
-    return response;
+      $.export("$summary", `Successfully updated user with ID: ${this.userId}`);
+      return response;
+    } catch ({ message }) {
+      console.log("message: ", message);
+
+      const parsedError = JSON.parse(message);
+      throw new ConfigurationError(parsedError.Message || parsedError[0].message);
+    }
   },
 };
