@@ -2147,6 +2147,9 @@ importers:
 
   components/changenow: {}
 
+  components/changes_page:
+    specifiers: {}
+
   components/channeladvisor:
     dependencies:
       '@pipedream/platform':
