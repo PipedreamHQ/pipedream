@@ -874,8 +874,8 @@ importers:
   components/apify:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.5
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/apilio: {}
 
@@ -2147,8 +2147,7 @@ importers:
 
   components/changenow: {}
 
-  components/changes_page:
-    specifiers: {}
+  components/changes_page: {}
 
   components/channeladvisor:
     dependencies:
