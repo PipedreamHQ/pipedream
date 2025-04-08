@@ -120,6 +120,7 @@ export default {
       dueDate,
       dueDatetime,
       dueLang,
+      dueIsRecurring,
       assignee,
     } = this;
     const data = {
@@ -135,6 +136,7 @@ export default {
       due_date: dueDate,
       due_datetime: dueDatetime,
       due_lang: dueLang,
+      due_is_recurring: dueIsRecurring,
       assignee_id: assignee,
     };
     const resp = await this.todoist.createTask({
