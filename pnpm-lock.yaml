@@ -11105,8 +11105,7 @@ importers:
 
   components/saucelabs: {}
 
-  components/savvy_folders:
-    specifiers: {}
+  components/savvy_folders: {}
 
   components/savvycal:
     dependencies:
