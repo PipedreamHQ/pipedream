@@ -36,13 +36,15 @@ export default {
         ? ""
         : "has:attachment";
       const after = !query?.includes("after:") && lastDate
-        ? `after:${lastDate / 1000}`
+        ? `after:${Math.trunc(lastDate / 1000)}`
         : "";
-      return [
+      const q = [
         hasAttachment,
         after,
         query,
       ].join(" ").trim();
+      console.log(`Polling for new messages with query: ${q}`);
+      return q;
     },
     getLabels() {
       return this.labels;

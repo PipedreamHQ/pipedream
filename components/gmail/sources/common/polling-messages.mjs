@@ -29,15 +29,16 @@ export default {
     constructQuery(lastDate) {
       const { q: query } = this;
       const after = !query?.includes("after:") && lastDate
-        ? `after:${lastDate / 1000}`
+        ? `after:${Math.trunc(lastDate / 1000)}`
         : "";
-      return [
+      const q = [
         after,
         query,
       ].join(" ").trim();
+      console.log(`Polling for new messages with query: ${q}`);
+      return q;
     },
     async getMessageIds(max, lastDate = 0) {
-      console.log("Polling for new messages...");
       const { messages } = await this.gmail.listMessages({
         q: this.constructQuery(lastDate),
         labelIds: this.getLabels(),
@@ -48,6 +49,7 @@ export default {
     async processMessageIds(messageIds, lastDate) {
       let maxDate = lastDate;
       const messages = this.gmail.getAllMessages(messageIds);
+      console.log("Processing messages...");
       for await (const message of messages) {
         if (message.internalDate >= lastDate) {
           this.emitEvent(message);
