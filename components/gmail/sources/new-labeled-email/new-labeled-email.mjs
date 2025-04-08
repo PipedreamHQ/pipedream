@@ -8,11 +8,11 @@ export default {
   name: "New Labeled Email",
   description: "Emit new event when a new email is labeled.",
   type: "source",
-  version: "0.0.9",
+  version: "0.0.10",
   dedupe: "unique",
   props: {
-    ...common.props,
     gmail,
+    ...common.props,
     labels: {
       propDefinition: [
         gmail,
