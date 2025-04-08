@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Guard.js",
-  "module": "../es6/Guard.js",
-  "typings": "../lib/Guard.d.ts",
-  "sideEffects": false
-}

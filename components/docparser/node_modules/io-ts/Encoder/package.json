@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Encoder.js",
-  "module": "../es6/Encoder.js",
-  "typings": "../lib/Encoder.d.ts",
-  "sideEffects": false
-}

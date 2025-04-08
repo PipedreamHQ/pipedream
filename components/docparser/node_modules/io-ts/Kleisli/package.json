@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Kleisli.js",
-  "module": "../es6/Kleisli.js",
-  "typings": "../lib/Kleisli.d.ts",
-  "sideEffects": false
-}
