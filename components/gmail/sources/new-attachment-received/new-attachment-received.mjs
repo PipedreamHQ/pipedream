@@ -31,20 +31,13 @@ export default {
   methods: {
     ...common.methods,
     constructQuery(lastDate) {
-      const { q: query } = this;
-      const hasAttachment = query?.includes("has:attachment")
-        ? ""
-        : "has:attachment";
-      const after = !query?.includes("after:") && lastDate
-        ? `after:${Math.trunc(lastDate / 1000)}`
-        : "";
-      const q = [
-        hasAttachment,
-        after,
-        query,
-      ].join(" ").trim();
-      console.log(`Polling for new messages with query: ${q}`);
-      return q;
+      const hasAttachment = "has:attachment";
+      if (!this.q) {
+        this.q = hasAttachment;
+      } else if (!this.q.includes(hasAttachment)) {
+        this.q = `${this.q} ${hasAttachment}`;
+      }
+      return common.methods.constructQuery.call(this, lastDate);
     },
     getLabels() {
       return this.labels;

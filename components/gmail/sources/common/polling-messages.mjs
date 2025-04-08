@@ -7,10 +7,9 @@ export default {
     ...common.hooks,
     async deploy() {
       const messageIds = await this.getMessageIds(constants.HISTORICAL_EVENTS);
-      if (!messageIds?.length) {
-        return;
+      if (messageIds.length) {
+        await this.processHistoricalEvents(messageIds);
       }
-      await this.processHistoricalEvents(messageIds);
     },
     async activate() {
       console.log(`Previous lastDate: ${this.getLastDate()}`);
@@ -24,7 +23,7 @@ export default {
       return this.db.get("lastDate");
     },
     setLastDate(lastDate) {
-      this.db.set("lastDate", lastDate);
+      this.db.set("lastDate", parseInt(lastDate));
     },
     constructQuery(lastDate) {
       const { q: query } = this;
@@ -44,19 +43,18 @@ export default {
         labelIds: this.getLabels(),
         maxResults: max,
       });
-      return messages?.map((message) => message.id);
+      return messages?.map((message) => message.id) ?? [];
     },
     async processMessageIds(messageIds, lastDate) {
       let maxDate = lastDate;
       const messages = this.gmail.getAllMessages(messageIds);
-      console.log("Processing messages...");
       for await (const message of messages) {
-        if (message.internalDate >= lastDate) {
-          this.emitEvent(message);
-          maxDate = Math.max(maxDate, message.internalDate);
-        }
+        this.emitEvent(message);
+        maxDate = Math.max(maxDate, message.internalDate);
       }
-      if (maxDate) this.setLastDate(maxDate);
+      if (maxDate !== lastDate) {
+        this.setLastDate(maxDate);
+      }
     },
     async processHistoricalEvents(messageIds) {
       let messages = await this.gmail.getMessages(messageIds);
@@ -68,10 +66,11 @@ export default {
   async run() {
     const lastDate = this.getLastDate();
     const messageIds = await this.getMessageIds(constants.DEFAULT_LIMIT, lastDate);
-    if (!messageIds?.length) {
+    if (messageIds.length) {
+      console.log(`Processing ${messageIds.length} message(s)...`);
+      await this.processMessageIds(messageIds.reverse(), lastDate);
+    } else {
       console.log("There are no new messages. Exiting...");
-      return;
     }
-    await this.processMessageIds(messageIds.reverse(), lastDate);
   },
 };
