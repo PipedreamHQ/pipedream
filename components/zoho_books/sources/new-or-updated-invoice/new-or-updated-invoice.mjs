@@ -25,7 +25,7 @@ export default {
     },
     getParams(lastDate) {
       return {
-        last_modifed_time: this.formatTimestamp(lastDate),
+        last_modified_time: this.formatTimestamp(lastDate),
       };
     },
     formatTimestamp(ts) {
