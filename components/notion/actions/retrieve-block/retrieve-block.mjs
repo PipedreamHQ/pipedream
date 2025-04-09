@@ -4,7 +4,7 @@ export default {
   key: "notion-retrieve-block",
   name: "Retrieve Page Content",
   description: "Get page content as block objects or markdown. Blocks can be text, lists, media, a page, among others. [See the documentation](https://developers.notion.com/reference/retrieve-a-block)",
-  version: "0.1.0",
+  version: "0.2.0",
   type: "action",
   props: {
     notion,
@@ -15,33 +15,50 @@ export default {
       ],
     },
     retrieveChildren: {
-      type: "boolean",
-      label: "Retrieve Content (Child Blocks)",
-      description: "Retrieve all the children (recursively) for the specified page. [See the documentation](https://developers.notion.com/reference/get-block-children) for more information",
+      type: "string",
+      label: "Retrieve Children",
+      description: "Retrieve all the children (recursively) for the specified page, or optionally filter to include only sub-pages in the result. [See the documentation](https://developers.notion.com/reference/get-block-children) for more information",
       optional: true,
-      default: false,
+      options: [
+        "All Children",
+        "Sub-Pages Only",
+        "None",
+      ],
     },
     retrieveMarkdown: {
       type: "boolean",
       label: "Retrieve as Markdown",
-      description: "Return the page content as markdown instead of block objects.",
+      description: "Additionally return the page content as markdown",
       optional: true,
     },
   },
   async run({ $ }) {
+    let markdownContent;
     if (this.retrieveMarkdown) {
-      const response = await this.notion.getPageAsMarkdown(this.blockId);
-      $.export("$summary", "Successfully retrieved page as markdown");
-      return response;
+      markdownContent = await this.notion.getPageAsMarkdown(this.blockId);
     }
 
+    const { retrieveChildren } = this;
+    const subpagesOnly = retrieveChildren === "Sub-Pages Only";
+
     const block = await this.notion.retrieveBlock(this.blockId);
-    if (this.retrieveChildren) {
-      block.children = await this.notion.retrieveBlockChildren(block);
+    if ([
+      true,
+      "All Children",
+      "Sub-Pages Only",
+    ].includes(retrieveChildren)) {
+      block.children = await this.notion.retrieveBlockChildren(block, subpagesOnly);
     }
-    $.export("$summary", `Successfully retrieved block${this.retrieveChildren
-      ? ` with ${block.children.length ?? 0} children`
+    $.export("$summary", `Successfully retrieved block${retrieveChildren
+      ? ` with ${block.children.length ?? 0} ${subpagesOnly
+        ? "sub-pages"
+        : "children"}`
       : ""}`);
-    return block;
+    return markdownContent
+      ? {
+        markdownContent,
+        block,
+      }
+      : block;
   },
 };

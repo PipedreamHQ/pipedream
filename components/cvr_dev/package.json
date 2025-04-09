@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/cvr_dev",
+  "version": "0.0.1",
+  "description": "Pipedream cvr.dev Components",
+  "main": "cvr_dev.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cvr_dev"
+  ],
+  "homepage": "https://pipedream.com/apps/cvr_dev",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

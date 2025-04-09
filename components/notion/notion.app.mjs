@@ -325,7 +325,8 @@ export default {
         block_id: blockId,
       });
     },
-    async retrieveBlockChildren(block, params = {}) {
+    async retrieveBlockChildren(block, subpagesOnly = false) {
+      const params = {};
       const children = [];
       if (!block.has_children) return children;
 
@@ -335,11 +336,11 @@ export default {
           next_cursor: nextCursor,
         } = await this.listBlockChildren(block.id, params);
 
-        children.push(...results);
+        children.push(...(results.filter((child) => !subpagesOnly || child.type === "child_page")));
         params.next_cursor = nextCursor;
       } while (params.next_cursor);
 
-      (await Promise.all(children.map((child) => this.retrieveBlockChildren(child))))
+      (await Promise.all(children.map((child) => this.retrieveBlockChildren(child, subpagesOnly))))
         .forEach((c, i) => {
           children[i].children = c;
         });
