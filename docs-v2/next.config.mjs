@@ -422,13 +422,13 @@ export default withNextra({
         permanent: true,
       },
       {
-        source: "/connect/connect-link/",
-        destination: "/connect/managed-auth/connect-link/",
+        source: "/limits/",
+        destination: "/workflows/limits/",
         permanent: true,
       },
       {
-        source: "/limits/",
-        destination: "/workflows/limits/",
+        source: "/connect/connect-link/",
+        destination: "/connect/managed-auth/connect-link/",
         permanent: true,
       },
       {
