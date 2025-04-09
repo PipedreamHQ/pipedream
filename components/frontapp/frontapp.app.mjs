@@ -165,6 +165,28 @@ export default {
         });
       },
     },
+    commentId: {
+      type: "string",
+      label: "Comment ID",
+      description: "ID of the comment to retrieve",
+      async options({
+        prevContext, conversationId,
+      }) {
+        return this.paginateOptions({
+          prevContext,
+          listResourcesFn: this.listComments,
+          mapper: ({
+            id, body,
+          }) => ({
+            label: body.slice(0, 50),
+            value: id,
+          }),
+          args: {
+            conversationId,
+          },
+        });
+      },
+    },
     to: {
       type: "string[]",
       label: "To",
@@ -329,12 +351,38 @@ export default {
         ...args,
       });
     },
+    getComment({
+      commentId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/comments/${commentId}`,
+        ...args,
+      });
+    },
+    listComments({
+      conversationId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/conversations/${conversationId}/comments`,
+        ...args,
+      });
+    },
+    addComment({
+      conversationId, ...args
+    }) {
+      return this.makeRequest({
+        method: "POST",
+        path: `/conversations/${conversationId}/comments`,
+        ...args,
+      });
+    },
     async paginateOptions({
       prevContext,
       listResourcesFn,
       filter = () => true,
       mapper = (resource) => resource,
       appendNull = false,
+      args = {},
     } = {}) {
       const { pageToken } = prevContext;
 
@@ -353,7 +401,9 @@ export default {
         _pagination: { next: nextPageToken },
         _results: resources,
       } = await listResourcesFn({
+        ...args,
         params: {
+          ...args?.params,
           page_token: pageToken,
         },
       });
