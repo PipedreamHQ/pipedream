@@ -4922,6 +4922,9 @@ importers:
 
   components/gatekeeper: {}
 
+  components/gather:
+    specifiers: {}
+
   components/gatherup:
     dependencies:
       '@pipedream/platform':
