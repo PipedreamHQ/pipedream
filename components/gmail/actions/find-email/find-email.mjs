@@ -4,7 +4,7 @@ export default {
   key: "gmail-find-email",
   name: "Find Email",
   description: "Find an email using Google's Search Engine. [See the docs](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/list)",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "action",
   props: {
     gmail,
@@ -34,7 +34,7 @@ export default {
     maxResults: {
       type: "integer",
       label: "Max Results",
-      description: "Maximum number of messages to return. This field defaults to 100. The maximum allowed value for this field is 500.",
+      description: "Maximum number of messages to return. Defaults to `100`.",
       default: 100,
       optional: true,
     },
