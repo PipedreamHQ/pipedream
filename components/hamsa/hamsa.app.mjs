@@ -1,139 +1,120 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "hamsa",
   propDefinitions: {
-    mediaUrl: {
+    jobId: {
       type: "string",
-      label: "Media URL",
-      description: "The URL of the video to be transcribed.",
+      label: "Job Id",
+      description: "The ID of the job you want to use.",
+      async options({ page }) {
+        const { data: { jobs } } = await this.listJobs({
+          params: {
+            take: LIMIT,
+            skip: page * LIMIT,
+          },
+        });
+
+        return jobs.map(({
+          id: value, title: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
     voiceId: {
       type: "string",
       label: "Voice ID",
       description: "The voice ID for Text to Speech conversion.",
-    },
-    text: {
-      type: "string",
-      label: "Text for TTS",
-      description: "The text you want to convert to speech. Minimum 5 words required.",
+      async options({ page }) {
+        const params = {
+          take: LIMIT,
+        };
+        if (page) {
+          params.skip = page * LIMIT;
+        }
+        const { data: { voiceAgents } } = await this.listVoiceAgents({
+          params,
+        });
+
+        return voiceAgents.map(({
+          id: value, agentName: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
     webhookUrl: {
       type: "string",
       label: "Webhook URL",
       description: "The URL to receive the webhook notifications.",
     },
-    aiParts: {
-      type: "string[]",
-      label: "AI Parts",
-      description: "Parts for AI content in marketing, e.g., introduction, titles, etc.",
-      async options() {
-        return [
-          {
-            label: "Introduction",
-            value: "introduction",
-          },
-          {
-            label: "Titles",
-            value: "titles",
-          },
-          {
-            label: "Summary",
-            value: "summary",
-          },
-          {
-            label: "Web Article SEO Friendly",
-            value: "webArticleSEOFriendly",
-          },
-          {
-            label: "Key Topics With Bullets",
-            value: "keyTopicsWithBullets",
-          },
-          {
-            label: "Keywords",
-            value: "keywords",
-          },
-          {
-            label: "Threads By Instagram",
-            value: "threadsByInstagram",
-          },
-          {
-            label: "FAQ",
-            value: "faq",
-          },
-          {
-            label: "Facebook Post",
-            value: "facebookPost",
-          },
-          {
-            label: "YouTube Description",
-            value: "youtubeDescription",
-          },
-          {
-            label: "Twitter Thread",
-            value: "twitterThread",
-          },
-          {
-            label: "LinkedIn Post",
-            value: "linkedInPost",
-          },
-        ];
-      },
-    },
   },
   methods: {
     _baseUrl() {
       return "https://api.tryhamsa.com/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "POST", path = "/", headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "authorization": `Token ${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Token ${this.$auth.api_key}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async transcribeVideo({
-      mediaUrl, webhookUrl, webhookAuth,
+    async listJobs({
+      params, ...opts
     }) {
+      const { data: { id: projectId } } = await this._makeRequest({
+        path: "/projects/by-api-key",
+        ...opts,
+      });
+
       return this._makeRequest({
+        method: "POST",
+        path: "/jobs/all",
+        params: {
+          ...params,
+          projectId,
+        },
+        ...opts,
+      });
+    },
+    listVoiceAgents(opts = {}) {
+      return this._makeRequest({
+        path: "/voice-agents",
+        ...opts,
+      });
+    },
+    transcribeVideo(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
         path: "/jobs/transcribe",
-        data: {
-          mediaUrl,
-          processingType: "async",
-          webhookUrl,
-          webhookAuth,
-          model: "Hamsa-General-V2.0",
-          language: "ar",
-        },
+        ...opts,
       });
     },
-    async generateTTS({
-      voiceId, text, webhookUrl, webhookAuth,
-    }) {
+    generateTTS(opts = {}) {
       return this._makeRequest({
+        method: "POST",
         path: "/jobs/text-to-speech",
-        data: {
-          voiceId,
-          text,
-          webhookUrl,
-          webhookAuth,
-        },
+        ...opts,
       });
     },
-    async createAIContent({ aiParts }) {
+    createAIContent(opts = {}) {
       return this._makeRequest({
+        method: "POST",
         path: "/jobs/ai-content",
-        data: {
-          aiParts,
-        },
+        ...opts,
       });
     },
   },

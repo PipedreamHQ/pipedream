@@ -1,5 +1,8 @@
+import {
+  LANGUAGE_OPTIONS,
+  MODEL_OPTIONS,
+} from "../../common/constants.mjs";
 import hamsa from "../../hamsa.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "hamsa-transcribe-video",
@@ -10,16 +13,22 @@ export default {
   props: {
     hamsa,
     mediaUrl: {
-      propDefinition: [
-        hamsa,
-        "mediaUrl",
-      ],
+      type: "string",
+      label: "Media URL",
+      description: "The URL of the video to be transcribed.",
+    },
+    model: {
+      type: "string",
+      label: "Model",
+      description: "The model you want to use to transcribe.",
+      options: MODEL_OPTIONS,
     },
     webhookUrl: {
       propDefinition: [
         hamsa,
         "webhookUrl",
       ],
+      optional: true,
     },
     webhookAuthKey: {
       type: "string",
@@ -31,17 +40,46 @@ export default {
       type: "string",
       label: "Webhook Auth Secret",
       description: "The secret to use for authenticating the webhook.",
+      secret: true,
+      optional: true,
+    },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "The title of the transcription.",
+      optional: true,
+    },
+    language: {
+      type: "string",
+      label: "Language",
+      description: "The language of the transcription.",
+      options: LANGUAGE_OPTIONS,
       optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.hamsa.transcribeVideo({
+    const webhookAuth = {};
+    if (this.webhookAuthKey) {
+      webhookAuth.authKey = this.webhookAuthKey;
+    }
+    if (this.webhookAuthSecret) {
+      webhookAuth.authSecret = this.webhookAuthSecret;
+    }
+    const data = {
       mediaUrl: this.mediaUrl,
+      model: this.model,
+      processingType: "async",
       webhookUrl: this.webhookUrl,
-      webhookAuth: {
-        authKey: this.webhookAuthKey || null,
-        authSecret: this.webhookAuthSecret || null,
-      },
+      title: this.title,
+      language: this.language,
+    };
+    if (Object.keys(webhookAuth).length) {
+      data.webhookAuth = webhookAuth;
+    }
+
+    const response = await this.hamsa.transcribeVideo({
+      $,
+      data,
     });
 
     $.export("$summary", "Transcription job started successfully.");

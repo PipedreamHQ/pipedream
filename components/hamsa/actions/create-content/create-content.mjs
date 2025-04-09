@@ -1,5 +1,5 @@
+import { AI_PARTS_OPTIONS } from "../../common/constants.mjs";
 import hamsa from "../../hamsa.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "hamsa-create-content",
@@ -9,42 +9,32 @@ export default {
   type: "action",
   props: {
     hamsa,
-    mediaUrl: {
+    jobId: {
       propDefinition: [
         hamsa,
-        "mediaUrl",
-      ],
-    },
-    webhookUrl: {
-      propDefinition: [
-        hamsa,
-        "webhookUrl",
+        "jobId",
       ],
     },
     aiParts: {
-      propDefinition: [
-        hamsa,
-        "aiParts",
-      ],
+      type: "string[]",
+      label: "AI Parts",
+      description: "Parts for AI content in marketing.",
+      options: AI_PARTS_OPTIONS,
     },
   },
   async run({ $ }) {
-    const transcribeResponse = await this.hamsa.transcribeVideo({
-      mediaUrl: this.mediaUrl,
-      webhookUrl: this.webhookUrl,
+    const response = await this.hamsa.createAIContent({
+      $,
+      params: {
+        jobId: this.jobId,
+      },
+      data: {
+        aiParts: this.aiParts,
+      },
     });
 
-    $.export("$summary", `Video transcription job created with ID: ${transcribeResponse.id}`);
+    $.export("$summary", `AI content creation job created with ID: ${response.data.id}`);
 
-    const aiContentResponse = await this.hamsa.createAIContent({
-      aiParts: this.aiParts,
-    });
-
-    $.export("$summary", `AI content creation job created with ID: ${aiContentResponse.id}`);
-
-    return {
-      transcriptionJob: transcribeResponse,
-      aiContentJob: aiContentResponse,
-    };
+    return response;
   },
 };

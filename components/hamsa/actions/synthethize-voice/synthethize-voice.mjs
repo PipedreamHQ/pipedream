@@ -1,5 +1,4 @@
 import hamsa from "../../hamsa.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "hamsa-synthesize-voice",
@@ -16,24 +15,24 @@ export default {
       ],
     },
     text: {
-      propDefinition: [
-        hamsa,
-        "text",
-      ],
+      type: "string",
+      label: "Text for TTS",
+      description: "The text you want to convert to speech. Minimum 5 words required.",
     },
     webhookUrl: {
       propDefinition: [
         hamsa,
         "webhookUrl",
       ],
+      optional: true,
     },
-    authKey: {
+    webhookAuthKey: {
       type: "string",
       label: "Webhook Auth Key",
       description: "Authorization key for the webhook notifications.",
       optional: true,
     },
-    authSecret: {
+    webhookAuthSecret: {
       type: "string",
       label: "Webhook Auth Secret",
       description: "Authorization secret for the webhook notifications.",
@@ -41,14 +40,24 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.hamsa.generateTTS({
+    const webhookAuth = {};
+    if (this.webhookAuthKey) {
+      webhookAuth.authKey = this.webhookAuthKey;
+    }
+    if (this.webhookAuthSecret) {
+      webhookAuth.authSecret = this.webhookAuthSecret;
+    }
+    const data = {
       voiceId: this.voiceId,
       text: this.text,
       webhookUrl: this.webhookUrl,
-      webhookAuth: {
-        authKey: this.authKey,
-        authSecret: this.authSecret,
-      },
+    };
+    if (Object.keys(webhookAuth).length) {
+      data.webhookAuth = webhookAuth;
+    }
+    const response = await this.hamsa.generateTTS({
+      $,
+      data,
     });
 
     $.export("$summary", `Text to speech job successfully created with ID ${response.id}`);
