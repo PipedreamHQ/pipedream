@@ -7493,7 +7493,11 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/lucca: {}
+  components/lucca:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/lucid:
     dependencies:
