@@ -1,89 +1,22 @@
-import agentset from "../../agentset.app.mjs";
-import { axios } from "@pipedream/platform";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "agentset-new-document",
-  name: "New Document Created",
-  description: "Emit a new event when a new document is created. [See the documentation](https://docs.agentset.ai/api-reference/endpoint/documents/list)",
-  version: "0.0.{{ts}}",
+  name: "New Document Status",
+  description: "Emit new event when a new document status is updated. [See the documentation](https://docs.agentset.ai/api-reference/endpoint/documents/list)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    agentset,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 900,
-      },
-    },
-    namespaceId: {
-      propDefinition: [
-        agentset,
-        "namespaceId",
-      ],
-    },
-    documentStatuses: {
-      propDefinition: [
-        agentset,
-        "documentStatuses",
-      ],
-    },
-  },
   methods: {
-    async _getDocuments(cursor) {
-      return this.agentset.listDocuments(this.namespaceId, {
-        params: {
-          statuses: this.documentStatuses,
-          cursor,
-          orderBy: "createdAt",
-          order: "desc",
-        },
-      });
+    ...common.methods,
+    getFunction() {
+      return this.agentset.listDocuments;
     },
-    _getStoredCursor() {
-      return this.db.get("cursor") || null;
-    },
-    _setStoredCursor(cursor) {
-      this.db.set("cursor", cursor);
+    getSummary(item) {
+      return `New Document: ${item.name || item.id}`;
     },
   },
-  hooks: {
-    async deploy() {
-      const {
-        data, pagination,
-      } = await this._getDocuments();
-      for (const doc of data.slice(0, 50).reverse()) {
-        this.$emit(doc, {
-          id: doc.id,
-          summary: `New Document: ${doc.name || doc.id}`,
-          ts: new Date(doc.createdAt).getTime(),
-        });
-      }
-      if (pagination.nextCursor) {
-        this._setStoredCursor(pagination.nextCursor);
-      }
-    },
-  },
-  async run() {
-    let cursor = this._getStoredCursor();
-    while (true) {
-      const {
-        data, pagination,
-      } = await this._getDocuments(cursor);
-      for (const doc of data.reverse()) {
-        this.$emit(doc, {
-          id: doc.id,
-          summary: `New Document: ${doc.name || doc.id}`,
-          ts: new Date(doc.createdAt).getTime(),
-        });
-      }
-
-      if (!pagination.nextCursor || data.length === 0) break;
-      cursor = pagination.nextCursor;
-    }
-
-    // Update cursor for next run
-    this._setStoredCursor(cursor);
-  },
+  sampleEmit,
 };

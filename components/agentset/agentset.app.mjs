@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { STATUSES_OPTIONS } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -9,203 +10,113 @@ export default {
       label: "Namespace ID",
       description: "The ID of the namespace",
       async options() {
-        const namespaces = await this.listNamespaces();
-        return namespaces.map((ns) => ({
-          label: ns.name,
-          value: ns.id,
+        const { data } = await this.listNamespaces();
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
-    documentStatuses: {
+    statuses: {
       type: "string[]",
-      label: "Document Statuses",
-      description: "Filter documents by status",
-      optional: true,
-      options: [
-        {
-          label: "BACKLOG",
-          value: "BACKLOG",
-        },
-        {
-          label: "QUEUED",
-          value: "QUEUED",
-        },
-        {
-          label: "QUEUED_FOR_RESYNC",
-          value: "QUEUED_FOR_RESYNC",
-        },
-        {
-          label: "QUEUED_FOR_DELETE",
-          value: "QUEUED_FOR_DELETE",
-        },
-        {
-          label: "PRE_PROCESSING",
-          value: "PRE_PROCESSING",
-        },
-        {
-          label: "PROCESSING",
-          value: "PROCESSING",
-        },
-        {
-          label: "DELETING",
-          value: "DELETING",
-        },
-        {
-          label: "CANCELLING",
-          value: "CANCELLING",
-        },
-        {
-          label: "COMPLETED",
-          value: "COMPLETED",
-        },
-        {
-          label: "FAILED",
-          value: "FAILED",
-        },
-        {
-          label: "CANCELLED",
-          value: "CANCELLED",
-        },
-      ],
-    },
-    payloadType: {
-      type: "string",
-      label: "Payload Type",
-      description: "Type of payload for the ingest job",
-    },
-    payload: {
-      type: "string",
-      label: "Payload",
-      description: "The data payload for the ingest job",
-    },
-    query: {
-      type: "string",
-      label: "Query",
-      description: "The query for semantic search",
-    },
-    topK: {
-      type: "integer",
-      label: "Top K",
-      description: "Number of top documents to return",
-      optional: true,
-    },
-    rerank: {
-      type: "boolean",
-      label: "Rerank",
-      description: "Rerank documents based on query",
-      optional: true,
-    },
-    rerankLimit: {
-      type: "integer",
-      label: "Rerank Limit",
-      description: "Limit for reranking documents",
-      optional: true,
-    },
-    filter: {
-      type: "string",
-      label: "Filter",
-      description: "Filter to apply to search results",
-      optional: true,
-    },
-    minScore: {
-      type: "number",
-      label: "Minimum Score",
-      description: "Minimum score threshold for results",
-      optional: true,
-    },
-    includeRelationship: {
-      type: "boolean",
-      label: "Include Relationship",
-      description: "Include relationship data in results",
-      optional: true,
-    },
-    includeMetadata: {
-      type: "boolean",
-      label: "Include Metadata",
-      description: "Include metadata in results",
-      optional: true,
+      label: "Statuses",
+      description: "Filter by status",
+      options: STATUSES_OPTIONS,
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.agentset.ai/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async listNamespaces(opts = {}) {
+    listNamespaces(opts = {}) {
       return this._makeRequest({
         path: "/namespace",
         ...opts,
       });
     },
-    async createNamespace(name) {
+    createNamespace(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/namespace",
-        data: {
-          name,
-        },
+        ...opts,
       });
     },
-    async createIngestJob(namespaceId, payloadType, payload) {
+    createIngestJob({
+      namespaceId, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
         path: `/namespace/${namespaceId}/ingest-jobs`,
-        data: {
-          payloadType,
-          payload,
-        },
+        ...opts,
       });
     },
-    async listIngestJobs(namespaceId, opts = {}) {
+    listIngestJobs({
+      namespaceId, ...opts
+    }) {
       return this._makeRequest({
         path: `/namespace/${namespaceId}/ingest-jobs`,
         ...opts,
       });
     },
-    async listDocuments(namespaceId, opts = {}) {
+    listDocuments({
+      namespaceId, ...opts
+    }) {
       return this._makeRequest({
         path: `/namespace/${namespaceId}/documents`,
         ...opts,
       });
     },
-    async searchNamespace(namespaceId, query, opts = {}) {
+    searchNamespace({
+      namespaceId, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
         path: `/namespace/${namespaceId}/search`,
-        data: {
-          query,
-          ...opts,
-        },
+        ...opts,
       });
     },
-  },
-  async createNamespaceAndEmitEvent($, name) {
-    const namespace = await this.createNamespace(name);
-    $.export("namespace", namespace);
-  },
-  async createIngestJobAndEmitEvent($, namespaceId, payloadType, payload) {
-    const ingestJob = await this.createIngestJob(namespaceId, payloadType, payload);
-    $.export("ingestJob", ingestJob);
-  },
-  async listDocumentsAndEmit($, namespaceId, statuses) {
-    const documents = await this.listDocuments(namespaceId, {
-      params: {
-        statuses,
-      },
-    });
-    $.export("documents", documents);
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let count = 0;
+      let cursor;
+
+      do {
+        params.cursor = cursor;
+        const {
+          data,
+          pagination: { nextCursor },
+        } = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of data) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        cursor = nextCursor;
+
+      } while (cursor);
+    },
   },
 };
