@@ -2,7 +2,7 @@ import hamsa from "../../hamsa.app.mjs";
 
 export default {
   key: "hamsa-synthethize-voice",
-  name: "Synthesize Voice",
+  name: "Synthethize Voice",
   description: "Converts text input into artificial speech using Hamsa. [See the documentation](https://docs.tryhamsa.com/api-reference/endpoint/generate-tts)",
   version: "0.0.1",
   type: "action",
