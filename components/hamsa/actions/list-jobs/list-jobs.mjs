@@ -14,7 +14,7 @@ export default {
       $,
     });
 
-    $.export("$summary", `Successfully fetched ${response?.data?.jobs?.legnth} jobs.`);
+    $.export("$summary", `Successfully fetched ${response?.data?.jobs?.length} jobs.`);
 
     return response;
   },
