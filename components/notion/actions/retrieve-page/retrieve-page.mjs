@@ -2,12 +2,17 @@ import notion from "../../notion.app.mjs";
 
 export default {
   key: "notion-retrieve-page",
-  name: "Retrieve Page",
+  name: "Retrieve Page Metadata",
   description: "Get details of a page. [See the documentation](https://developers.notion.com/reference/retrieve-a-page)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     notion,
+    infoLabel: {
+      type: "alert",
+      alertType: "info",
+      content: "If you need to retrieve page content or block objects, use the **Retrieve Page Content** action instead.",
+    },
     pageId: {
       propDefinition: [
         notion,

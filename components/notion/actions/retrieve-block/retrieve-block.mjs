@@ -2,9 +2,9 @@ import notion from "../../notion.app.mjs";
 
 export default {
   key: "notion-retrieve-block",
-  name: "Retrieve Block",
-  description: "Get details of a block, which can be text, lists, media, a page, among others. [See the documentation](https://developers.notion.com/reference/retrieve-a-block)",
-  version: "0.0.6",
+  name: "Retrieve Page Content",
+  description: "Get page content as block objects or markdown. Blocks can be text, lists, media, a page, among others. [See the documentation](https://developers.notion.com/reference/retrieve-a-block)",
+  version: "0.2.0",
   type: "action",
   props: {
     notion,
@@ -13,25 +13,52 @@ export default {
         notion,
         "pageId",
       ],
-      label: "Block ID",
-      description: "Select a block or provide a block ID",
     },
     retrieveChildren: {
-      type: "boolean",
+      type: "string",
       label: "Retrieve Children",
-      description: "Retrieve all the children (recursively) for the specified block. [See the documentation](https://developers.notion.com/reference/get-block-children) for more information",
+      description: "Retrieve all the children (recursively) for the specified page, or optionally filter to include only sub-pages in the result. [See the documentation](https://developers.notion.com/reference/get-block-children) for more information",
       optional: true,
-      default: false,
+      options: [
+        "All Children",
+        "Sub-Pages Only",
+        "None",
+      ],
+    },
+    retrieveMarkdown: {
+      type: "boolean",
+      label: "Retrieve as Markdown",
+      description: "Additionally return the page content as markdown",
+      optional: true,
     },
   },
   async run({ $ }) {
-    const block = await this.notion.retrieveBlock(this.blockId);
-    if (this.retrieveChildren) {
-      block.children = await this.notion.retrieveBlockChildren(block);
+    let markdownContent;
+    if (this.retrieveMarkdown) {
+      markdownContent = await this.notion.getPageAsMarkdown(this.blockId);
     }
-    $.export("$summary", `Successfully retrieved block${this.retrieveChildren
-      ? ` with ${block.children.length ?? 0} children`
+
+    const { retrieveChildren } = this;
+    const subpagesOnly = retrieveChildren === "Sub-Pages Only";
+
+    const block = await this.notion.retrieveBlock(this.blockId);
+    if ([
+      true,
+      "All Children",
+      "Sub-Pages Only",
+    ].includes(retrieveChildren)) {
+      block.children = await this.notion.retrieveBlockChildren(block, subpagesOnly);
+    }
+    $.export("$summary", `Successfully retrieved block${retrieveChildren
+      ? ` with ${block.children.length ?? 0} ${subpagesOnly
+        ? "sub-pages"
+        : "children"}`
       : ""}`);
-    return block;
+    return markdownContent
+      ? {
+        markdownContent,
+        block,
+      }
+      : block;
   },
 };

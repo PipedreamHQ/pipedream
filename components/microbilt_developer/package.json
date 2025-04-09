@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/microbilt_developer",
+  "version": "0.0.1",
+  "description": "Pipedream Microbilt Developer Components",
+  "main": "microbilt_developer.app.mjs",
+  "keywords": [
+    "pipedream",
+    "microbilt_developer"
+  ],
+  "homepage": "https://pipedream.com/apps/microbilt_developer",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -5,7 +5,7 @@ export default {
   key: "openphone-create-contact",
   name: "Create Contact",
   description: "Create a new contact in OpenPhone. [See the documentation](https://www.openphone.com/docs/api-reference/contacts/create-a-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     openphone,

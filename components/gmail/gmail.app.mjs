@@ -7,7 +7,7 @@ import { convert } from "html-to-text";
 import mime from "mime/types/standard.js";
 import MailComposer from "nodemailer/lib/mail-composer/index.js";
 import constants from "./common/constants.mjs";
-import { google } from "googleapis";
+import { JWT } from "google-auth-library";
 
 export default {
   type: "app",
@@ -489,13 +489,12 @@ export default {
       const scopes = [
         "https://www.googleapis.com/auth/gmail.settings.basic",
       ];
-      return new google.auth.JWT(
-        credentials.client_email,
-        null,
-        credentials.private_key,
+      return new JWT({
+        email: credentials.client_email,
+        key: credentials.private_key,
         scopes,
-        impersonatedUser,
-      );
+        subject: impersonatedUser,
+      });
     },
     async updateSignature({
       signature, email, credentials,

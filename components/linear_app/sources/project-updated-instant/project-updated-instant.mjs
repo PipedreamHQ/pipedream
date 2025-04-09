@@ -8,7 +8,7 @@ export default {
   name: "New Updated Project (Instant)",
   description: "Emit new event when a project is updated. [See the documentation](https://developers.linear.app/docs/graphql/webhooks)",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     linearApp,

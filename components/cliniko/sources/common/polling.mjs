@@ -28,12 +28,15 @@ export default {
     getResourcesFn() {
       throw new ConfigurationError("getResourcesFn is not implemented");
     },
+    getSort() {
+      return "created_at:desc";
+    },
     getResourcesFnArgs() {
       return {
         debug: true,
         params: {
           per_page: constants.DEFAULT_LIMIT,
-          sort: "created_at:desc",
+          sort: this.getSort(),
         },
       };
     },

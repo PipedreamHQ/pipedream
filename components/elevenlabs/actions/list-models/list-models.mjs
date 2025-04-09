@@ -3,7 +3,7 @@ import elevenlabs from "../../elevenlabs.app.mjs";
 export default {
   key: "elevenlabs-list-models",
   name: "Get Models",
-  version: "0.0.2",
+  version: "0.0.3",
   description: "Gets a list of available models. [See the documentation](https://docs.elevenlabs.io/api-reference/models-get)",
   type: "action",
   props: {

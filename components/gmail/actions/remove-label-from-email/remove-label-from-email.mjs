@@ -4,7 +4,7 @@ export default {
   key: "gmail-remove-label-from-email",
   name: "Remove Label from Email",
   description: "Remove label(s) from an email message. [See the docs](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/modify)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     gmail,

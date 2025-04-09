@@ -1,4 +1,4 @@
-import common from "../common/common.mjs";
+import common from "../common/common-contacts.mjs";
 
 const {
   props: {
@@ -11,7 +11,7 @@ export default {
   key: "highlevel_oauth-upsert-contact",
   name: "Upsert Contact",
   description: "Creates or updates a contact on HighLevel. [See the documentation](https://highlevel.stoplight.io/docs/integrations/f71bbdd88f028-upsert-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
