@@ -6,7 +6,7 @@ export default {
   key: "google_gemini-generate-content-from-text",
   name: "Generate Content from Text",
   description: "Generates content from text input using the Google Gemini API. [See the documentation](https://ai.google.dev/tutorials/rest_quickstart#text-only_input)",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     ...common.props,
