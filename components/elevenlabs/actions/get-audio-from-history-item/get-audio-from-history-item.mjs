@@ -6,7 +6,7 @@ import elevenlabs from "../../elevenlabs.app.mjs";
 export default {
   key: "elevenlabs-get-audio-from-history-item",
   name: "Get Audio From History Item",
-  version: "0.0.2",
+  version: "0.0.3",
   description: "Returns the audio of an history item and converts it to a file. [See the documentation](https://docs.elevenlabs.io/api-reference/history-audio)",
   type: "action",
   props: {

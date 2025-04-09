@@ -3999,8 +3999,8 @@ importers:
   components/elevenlabs:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.0
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -5975,8 +5975,8 @@ importers:
   components/highlevel_oauth:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.2
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/highrise:
     dependencies:
