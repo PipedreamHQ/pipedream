@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/oracle_cloud_infrastructure",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Oracle Cloud Infrastructure Components",
   "main": "oracle_cloud_infrastructure.app.mjs",
   "keywords": [
@@ -11,5 +11,16 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3",
+    "bunyan": "^1.8.15",
+    "oci-common": "^2.106.2",
+    "oci-core": "^2.106.2",
+    "oci-datacatalog": "^2.106.2",
+    "oci-events": "^2.106.2",
+    "oci-identity": "^2.106.2",
+    "oci-objectstorage": "^2.106.2",
+    "oci-ons": "^2.106.2"
   }
 }
