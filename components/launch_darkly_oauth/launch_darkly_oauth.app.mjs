@@ -1,11 +1,16 @@
+import launchdarkly from "../launchdarkly/launchdarkly.app.mjs";
+
 export default {
-  type: "app",
+  ...launchdarkly,
   app: "launch_darkly_oauth",
-  propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    ...launchdarkly.methods,
+    getHeaders(headers) {
+      return {
+        "Content-Type": "application/json",
+        ...headers,
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+      };
     },
   },
 };
