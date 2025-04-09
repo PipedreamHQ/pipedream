@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mistral_ai",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Mistral AI Components",
   "main": "mistral_ai.app.mjs",
   "keywords": [
@@ -11,5 +11,9 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3",
+    "form-data": "^4.0.2"
   }
 }
