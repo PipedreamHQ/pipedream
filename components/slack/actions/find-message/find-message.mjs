@@ -63,7 +63,7 @@ export default {
     do {
       const { messages } = await this.slack.searchMessages(params);
       matches.push(...messages.matches);
-      if (messages.length >= this.maxResults) {
+      if (matches.length >= this.maxResults) {
         break;
       }
       hasMore = messages?.length;
