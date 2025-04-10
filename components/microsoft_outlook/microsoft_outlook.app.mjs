@@ -417,7 +417,7 @@ export default {
       };
       let total, count = 0;
       do {
-        const { value } = await fn(args); console.log(args.params);
+        const { value } = await fn(args);
         for (const item of value) {
           yield item;
           if (max && ++count >= max) {
