@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import { Analytics } from "@vercel/analytics/react";
 import { useRouter } from "next/router";
 
+import CR from "@/components/CR";
 import RB2B from "@/components/RB2B";
 import Vector from "@/components/Vector";
 
@@ -15,7 +16,12 @@ export default function MyApp({
   if (router.pathname === "/") {
     script = <Vector />;
   } else if (router.pathname.startsWith("/connect")) {
-    script = <RB2B />;
+    script = (
+      <>
+        <CR />
+        <RB2B />
+      </>
+    );
   }
 
   return <>
