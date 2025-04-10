@@ -99,10 +99,12 @@ export default {
         ...opts,
       });
     },
-    createWebhook(opts = {}) {
+    createWebhook({
+      webhookType, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
-        path: "/webhooks/calls",
+        path: `/webhooks/${webhookType}`,
         ...opts,
       });
     },
