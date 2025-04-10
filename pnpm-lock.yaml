@@ -4312,8 +4312,7 @@ importers:
 
   components/facebook_conversions: {}
 
-  components/facebook_graph_api:
-    specifiers: {}
+  components/facebook_graph_api: {}
 
   components/facebook_groups:
     dependencies:
