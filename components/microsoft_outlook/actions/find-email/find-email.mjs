@@ -15,23 +15,32 @@ export default {
       optional: true,
     },
     maxResults: {
-      type: "integer",
-      label: "Max Results",
-      description: "The maximum number of results to return",
-      optional: true,
+      propDefinition: [
+        microsoftOutlook,
+        "maxResults",
+      ],
     },
   },
   async run({ $ }) {
-    const { value } = await this.microsoftOutlook.listMessages({
-      $,
-      params: {
-        "$filter": this.filter,
-        "$top": this.maxResults,
+    const items = this.microsoftOutlook.paginate({
+      fn: this.microsoftOutlook.listMessages,
+      args: {
+        $,
+        params: {
+          "$filter": this.filter,
+        },
       },
+      max: this.maxResults,
     });
-    $.export("$summary", `Successfully retrieved ${value.length} message${value.length != 1
+
+    const emails = [];
+    for await (const item of items) {
+      emails.push(item);
+    }
+
+    $.export("$summary", `Successfully retrieved ${emails.length} message${emails.length != 1
       ? "s"
       : ""}.`);
-    return value;
+    return emails;
   },
 };

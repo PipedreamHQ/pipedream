@@ -5,7 +5,7 @@ export default {
   key: "microsoft_outlook-create-draft-email",
   version: "0.0.11",
   name: "Create Draft Email",
-  description: "Create a draft email, [See the docs](https://docs.microsoft.com/en-us/graph/api/user-post-messages)",
+  description: "Create a draft email, [See the documentation](https://docs.microsoft.com/en-us/graph/api/user-post-messages)",
   props: {
     microsoftOutlook,
     recipients: {

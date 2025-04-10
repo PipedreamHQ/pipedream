@@ -5,23 +5,39 @@ export default {
   key: "microsoft_outlook-list-contacts",
   version: "0.0.11",
   name: "List Contacts",
-  description: "Get a contact collection from the default contacts folder, [See the docs](https://docs.microsoft.com/en-us/graph/api/user-list-contacts)",
+  description: "Get a contact collection from the default contacts folder, [See the documentation](https://docs.microsoft.com/en-us/graph/api/user-list-contacts)",
   props: {
     microsoftOutlook,
     filterAddress: {
-      label: "Email adress",
+      label: "Email Address",
       description: "If this is given, only contacts with the given address will be retrieved.",
       type: "string",
       optional: true,
     },
+    maxResults: {
+      propDefinition: [
+        microsoftOutlook,
+        "maxResults",
+      ],
+    },
   },
   async run({ $ }) {
-    const response = await this.microsoftOutlook.listContacts({
-      $,
-      filterAddress: this.filterAddress,
+    const items = this.microsoftOutlook.paginate({
+      fn: this.microsoftOutlook.listContacts,
+      args: {
+        $,
+        filterAddress: this.filterAddress,
+      },
+      max: this.maxResults,
     });
+
+    const contacts = [];
+    for await (const item of items) {
+      contacts.push(item);
+    }
+
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `${response.value.length} contact${response.value.length != 1 ? "s" : ""} has been retrieved.`);
-    return response.value;
+    $.export("$summary", `${contacts.length} contact${contacts.length != 1 ? "s" : ""} retrieved.`);
+    return contacts;
   },
 };

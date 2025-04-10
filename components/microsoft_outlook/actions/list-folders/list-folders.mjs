@@ -8,14 +8,30 @@ export default {
   type: "action",
   props: {
     microsoftOutlook,
+    maxResults: {
+      propDefinition: [
+        microsoftOutlook,
+        "maxResults",
+      ],
+    },
   },
   async run({ $ }) {
-    const { value } = await this.microsoftOutlook.listFolders({
-      $,
+    const items = this.microsoftOutlook.paginate({
+      fn: this.microsoftOutlook.listFolders,
+      args: {
+        $,
+      },
+      max: this.maxResults,
     });
-    $.export("$summary", `Successfully retrieved ${value.length} folder${value.length != 1
+
+    const folders = [];
+    for await (const item of items) {
+      folders.push(item);
+    }
+
+    $.export("$summary", `Successfully retrieved ${folders.length} folder${folders.length != 1
       ? "s"
       : ""}.`);
-    return value;
+    return folders;
   },
 };

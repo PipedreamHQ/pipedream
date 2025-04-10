@@ -5,7 +5,7 @@ export default {
   key: "microsoft_outlook-create-contact",
   version: "0.0.11",
   name: "Create Contact",
-  description: "Add a contact to the root Contacts folder, [See the docs](https://docs.microsoft.com/en-us/graph/api/user-post-contacts)",
+  description: "Add a contact to the root Contacts folder, [See the documentation](https://docs.microsoft.com/en-us/graph/api/user-post-contacts)",
   props: {
     microsoftOutlook,
     givenName: {
