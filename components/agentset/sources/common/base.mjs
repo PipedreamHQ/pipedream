@@ -1,5 +1,6 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import agentset from "../../agentset.app.mjs";
+import { prepareDateTime } from "../../common/utils.mjs";
 
 export default {
   props: {
@@ -49,7 +50,8 @@ export default {
 
       let responseArray = [];
       for await (const item of response) {
-        if (Date.parse(item.createdAt) <= lastData) break;
+        const dateTime = prepareDateTime(item);
+        if (Date.parse(dateTime) <= lastData) break;
         responseArray.push(item);
       }
 
@@ -58,10 +60,11 @@ export default {
       }
 
       for (const item of responseArray.reverse()) {
+        const dateTime = prepareDateTime(item);
         this.$emit(item, {
           id: `${item.id}-${item.status}`,
           summary: this.getSummary(item),
-          ts: Date.parse(item.createdAt),
+          ts: Date.parse(dateTime),
         });
       }
     },
