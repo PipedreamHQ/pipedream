@@ -36,14 +36,14 @@ export default {
         if (page) {
           params.skip = page * LIMIT;
         }
-        const { data: { voiceAgents } } = await this.listVoiceAgents({
+        const { data } = await this.listVoices({
           params,
         });
 
-        return voiceAgents.map(({
-          id: value, agentName: label,
+        return data.map(({
+          id: value, name, tags,
         }) => ({
-          label,
+          label: `${name} (${tags.join(" - ")})`,
           value,
         }));
       },
@@ -90,9 +90,9 @@ export default {
         ...opts,
       });
     },
-    listVoiceAgents(opts = {}) {
+    listVoices(opts = {}) {
       return this._makeRequest({
-        path: "/voice-agents",
+        path: "/tts/voices",
         ...opts,
       });
     },

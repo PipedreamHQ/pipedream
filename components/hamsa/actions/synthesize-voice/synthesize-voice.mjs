@@ -60,7 +60,7 @@ export default {
       data,
     });
 
-    $.export("$summary", `Text to speech job successfully created with ID ${response.id}`);
+    $.export("$summary", `Text to speech job successfully created with ID ${response.data.id}`);
     return response;
   },
 };
