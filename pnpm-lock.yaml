@@ -878,8 +878,8 @@ importers:
   components/apify:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.5
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/apilio: {}
 
@@ -1600,7 +1600,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/bloomerang: {}
+  components/bloomerang:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/blue: {}
 
@@ -4307,6 +4311,9 @@ importers:
         version: 1.6.6
 
   components/facebook_conversions: {}
+
+  components/facebook_graph_api:
+    specifiers: {}
 
   components/facebook_groups:
     dependencies:

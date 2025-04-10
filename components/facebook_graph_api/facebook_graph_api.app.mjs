@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "microbilt_developer",
+  app: "facebook_graph_api",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data

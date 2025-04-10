@@ -86,6 +86,56 @@ export default {
         }));
       },
     },
+    datasetId: {
+      type: "string",
+      label: "Dataset ID",
+      description: "The ID of the dataset to retrieve items within",
+      async options({ page }) {
+        const { data: { items } } = await this.listDatasets({
+          params: {
+            offset: LIMIT * page,
+            limit: LIMIT,
+          },
+        });
+        return items?.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        })) || [];
+      },
+    },
+    clean: {
+      type: "boolean",
+      label: "Clean",
+      description: "Return only non-empty items and skips hidden fields (i.e. fields starting with the # character)",
+      optional: true,
+    },
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      description: "An array of fields which should be picked from the items, only these fields will remain in the resulting record objects.",
+      optional: true,
+    },
+    omit: {
+      type: "string[]",
+      label: "Omit",
+      description: "An array of fields which should be omitted from the items",
+      optional: true,
+    },
+    flatten: {
+      type: "string[]",
+      label: "Flatten",
+      description: "An array of fields which should transform nested objects into flat structures. For example, with `flatten=\"foo\"` the object `{\"foo\":{\"bar\": \"hello\"}}` is turned into `{\"foo.bar\": \"hello\"}`",
+      optional: true,
+    },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "The maximum number of items to return",
+      default: LIMIT,
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
@@ -165,6 +215,28 @@ export default {
     listKeyValueStores(opts = {}) {
       return this._makeRequest({
         path: "/key-value-stores",
+        ...opts,
+      });
+    },
+    listDatasets(opts = {}) {
+      return this._makeRequest({
+        path: "/datasets",
+        ...opts,
+      });
+    },
+    listDatasetItems({
+      datasetId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/datasets/${datasetId}/items`,
+        ...opts,
+      });
+    },
+    runTaskSynchronously({
+      taskId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/actor-tasks/${taskId}/run-sync-get-dataset-items`,
         ...opts,
       });
     },
