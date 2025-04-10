@@ -204,6 +204,13 @@ export default {
       description: "List of the recipeient handles who received a blind copy of the message.",
       optional: true,
     },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "The maximum number of results to return",
+      default: 100,
+      optional: true,
+    },
   },
   methods: {
     getUrl(path, url) {
@@ -221,10 +228,10 @@ export default {
       };
     },
     getConfig({
-      headers, path, url, data: oriignalData, ...args
+      headers, path, url, data: originalData, ...args
     } = {}) {
       const hasMultipartHeader = this.hasMultipartHeader(headers);
-      const data = hasMultipartHeader && utils.getFormData(oriignalData) || oriignalData;
+      const data = hasMultipartHeader && utils.getFormData(originalData) || originalData;
       const currentHeaders = this.getHeaders(headers);
       const builtHeaders = hasMultipartHeader
         ? {
@@ -351,6 +358,22 @@ export default {
         ...args,
       });
     },
+    getTeammate({
+      teammateId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/teammates/${teammateId}`,
+        ...args,
+      });
+    },
+    getConversation({
+      conversationId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/conversations/${conversationId}`,
+        ...args,
+      });
+    },
     getComment({
       commentId, ...args
     }) {
@@ -371,8 +394,35 @@ export default {
       conversationId, ...args
     }) {
       return this.makeRequest({
-        method: "POST",
+        method: constants.METHOD.POST,
         path: `/conversations/${conversationId}/comments`,
+        ...args,
+      });
+    },
+    createDraft({
+      channelId, ...args
+    }) {
+      return this.makeRequest({
+        method: constants.METHOD.POST,
+        path: `/channels/${channelId}/drafts`,
+        ...args,
+      });
+    },
+    createDraftReply({
+      conversationId, ...args
+    }) {
+      return this.makeRequest({
+        method: constants.METHOD.POST,
+        path: `/conversations/${conversationId}/drafts`,
+        ...args,
+      });
+    },
+    updateConversationAssignee({
+      conversationId, ...args
+    }) {
+      return this.makeRequest({
+        method: constants.METHOD.PUT,
+        path: `/conversations/${conversationId}/assignee`,
         ...args,
       });
     },

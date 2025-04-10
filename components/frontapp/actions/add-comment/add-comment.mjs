@@ -1,4 +1,5 @@
 import frontApp from "../../frontapp.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "frontapp-add-comment",
@@ -33,6 +34,12 @@ export default {
       description: "Whether or not the comment is pinned in its conversation",
       optional: true,
     },
+    attachments: {
+      propDefinition: [
+        frontApp,
+        "attachments",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.frontApp.addComment({
@@ -42,6 +49,10 @@ export default {
         body: this.body,
         author_id: this.authorId,
         is_pinned: this.isPinned,
+        attachments: this.attachments,
+      },
+      headers: utils.hasArrayItems(this.attachments) && {
+        "Content-Type": "multipart/form-data",
       },
     });
     $.export("$summary", `Successfully created comment with ID: ${response.id}`);
