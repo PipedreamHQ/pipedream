@@ -878,8 +878,8 @@ importers:
   components/apify:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.5
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/apilio: {}
 
@@ -1600,7 +1600,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/bloomerang: {}
+  components/bloomerang:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/blue: {}
 
@@ -4308,6 +4312,9 @@ importers:
 
   components/facebook_conversions: {}
 
+  components/facebook_graph_api:
+    specifiers: {}
+
   components/facebook_groups:
     dependencies:
       '@pipedream/platform':
@@ -4925,6 +4932,9 @@ importers:
         version: 1.6.4
 
   components/gatekeeper: {}
+
+  components/gather:
+    specifiers: {}
 
   components/gatherup:
     dependencies:
@@ -7494,7 +7504,11 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/lucca: {}
+  components/lucca:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/lucid:
     dependencies:

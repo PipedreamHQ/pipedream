@@ -20,6 +20,9 @@ export default {
   hooks: {
     async activate() {
       const response = await this.pipedrive.addWebhook({
+        // Specifying v1 because webhooks v2 became the default on March 17, 2025:
+        // https://developers.pipedrive.com/changelog/post/breaking-change-webhooks-v2-will-become-the-new-default-version
+        version: "1.0",
         subscription_url: this.http.endpoint,
         ...this.getExtraData(),
       });
