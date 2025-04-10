@@ -4312,8 +4312,7 @@ importers:
 
   components/facebook_conversions: {}
 
-  components/facebook_graph_api:
-    specifiers: {}
+  components/facebook_graph_api: {}
 
   components/facebook_groups:
     dependencies:
@@ -4933,8 +4932,7 @@ importers:
 
   components/gatekeeper: {}
 
-  components/gather:
-    specifiers: {}
+  components/gather: {}
 
   components/gatherup:
     dependencies:
