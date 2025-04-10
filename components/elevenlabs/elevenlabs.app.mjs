@@ -6,7 +6,7 @@ export default {
   propDefinitions: {
     historyItemId: {
       type: "string",
-      label: "History Item Id",
+      label: "History Item ID",
       description: "History item ID to be used.",
       async options({ prevContext }) {
         const {
@@ -34,7 +34,7 @@ export default {
     },
     voiceId: {
       type: "string",
-      label: "Voice Id",
+      label: "Voice ID",
       description: "Identifier of the voice that will be used.",
       async options() {
         const { voices } = await this.listVoices();
@@ -49,7 +49,7 @@ export default {
     },
     modelId: {
       type: "string",
-      label: "Model Id",
+      label: "Model ID",
       description: "Identifier of the model that will be used. Default: `eleven_monolingual_v1`",
       async options() {
         const models = await this.listModels();
@@ -60,6 +60,47 @@ export default {
           label,
           value,
         }));
+      },
+    },
+    phoneNumberId: {
+      type: "string",
+      label: "Phone Number ID",
+      description: "Identifier of a phone number to use for the agent",
+      async options() {
+        const phoneNumbers = await this.listPhoneNumbers();
+        return phoneNumbers?.map(({
+          phone_number_id: value, phone_number: label,
+        }) => ({
+          label,
+          value,
+        })) || [];
+      },
+    },
+    agentId: {
+      type: "string",
+      label: "Agent ID",
+      description: "Identifier of an agent to use for the outbound call",
+      async options({ prevContext }) {
+        const {
+          agents, next_cursor: cursor,
+        } = await this.listAgents({
+          params: {
+            cursor: prevContext?.cursor,
+            page_size: 30,
+          },
+        });
+        const options = agents?.map(({
+          agent_id: value, name: label,
+        }) => ({
+          label,
+          value,
+        })) || [];
+        return {
+          options,
+          context: {
+            cursor,
+          },
+        };
       },
     },
   },
@@ -136,6 +177,32 @@ export default {
         path: `text-to-speech/${voiceId}/stream`,
         returnFullResponse: true,
         responseType: "stream",
+        ...args,
+      });
+    },
+    listPhoneNumbers(args = {}) {
+      return this._makeRequest({
+        path: "convai/phone-numbers/",
+        ...args,
+      });
+    },
+    listAgents(args = {}) {
+      return this._makeRequest({
+        path: "convai/agents",
+        ...args,
+      });
+    },
+    createAgent(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "convai/agents/create",
+        ...args,
+      });
+    },
+    makeOutboundCall(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "convai/twilio/outbound_call",
         ...args,
       });
     },
