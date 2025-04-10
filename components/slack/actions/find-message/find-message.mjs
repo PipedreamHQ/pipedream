@@ -28,12 +28,34 @@ export default {
       default: 100,
       optional: true,
     },
+    sort: {
+      type: "string",
+      label: "Sort",
+      description: "Return matches sorted by either `score` or `timestamp`",
+      options: [
+        "score",
+        "timestamp",
+      ],
+      optional: true,
+    },
+    sortDirection: {
+      type: "string",
+      label: "Sort Direction",
+      description: "Sort ascending (asc) or descending (desc)`",
+      options: [
+        "desc",
+        "asc",
+      ],
+      optional: true,
+    },
   },
   async run({ $ }) {
     const matches = [];
     const params = {
       query: this.query,
       team_id: this.teamId,
+      sort: this.sort,
+      sort_dir: this.sortDirection,
       page: 1,
     };
     let hasMore;
