@@ -34,8 +34,17 @@ export default {
       }
       const date = new Date(ts);
       const pad = (n) => n.toString().padStart(2, "0");
-      const formattedUTC = `${date.getUTCFullYear()}-${pad(date.getUTCMonth() + 1)}-${pad(date.getUTCDate())}T${pad(date.getUTCHours())}:${pad(date.getUTCMinutes())}:${pad(date.getUTCSeconds())}`;
-      return formattedUTC;
+      const formatted = `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+
+      const offsetMinutes = date.getTimezoneOffset();
+      const sign = offsetMinutes > 0
+        ? "-"
+        : "+";
+      const absOffset = Math.abs(offsetMinutes);
+      const offsetHours = pad(Math.floor(absOffset / 60));
+      const offsetMins = pad(absOffset % 60);
+
+      return `${formatted}${sign}${offsetHours}${offsetMins}`;
     },
     getItemId(item) {
       return `${item.invoice_id}${Date.parse(item[this.getTsField()])}`;
