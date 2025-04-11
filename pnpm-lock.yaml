@@ -11992,8 +11992,7 @@ importers:
 
   components/smartengage: {}
 
-  components/smartlead:
-    specifiers: {}
+  components/smartlead: {}
 
   components/smartproxy: {}
 
