@@ -31,12 +31,3 @@ export const parseObject = (obj) => {
   }
   return obj;
 };
-
-export const prepareDateTime = (data) => {
-  return data.completedAt ||
-  data.failedAt ||
-  data.processingAt ||
-  data.preProcessingAt ||
-  data.queuedAt ||
-  data.createdAt;
-};

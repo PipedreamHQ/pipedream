@@ -1,6 +1,5 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import agentset from "../../agentset.app.mjs";
-import { prepareDateTime } from "../../common/utils.mjs";
 
 export default {
   props: {
@@ -18,13 +17,6 @@ export default {
         "namespaceId",
       ],
     },
-    statuses: {
-      propDefinition: [
-        agentset,
-        "statuses",
-      ],
-      optional: true,
-    },
   },
   methods: {
     _getLastData() {
@@ -40,7 +32,6 @@ export default {
         fn: this.getFunction(),
         namespaceId: this.namespaceId,
         params: {
-          statuses: this.statuses,
           orderBy: "createdAt",
           order: "desc",
           pageSize: 100,
@@ -50,8 +41,7 @@ export default {
 
       let responseArray = [];
       for await (const item of response) {
-        const dateTime = prepareDateTime(item);
-        if (Date.parse(dateTime) <= lastData) break;
+        if (Date.parse(item.createdAt) <= lastData) break;
         responseArray.push(item);
       }
 
@@ -60,11 +50,10 @@ export default {
       }
 
       for (const item of responseArray.reverse()) {
-        const dateTime = prepareDateTime(item);
         this.$emit(item, {
-          id: `${item.id}-${item.status}`,
+          id: `${item.id}`,
           summary: this.getSummary(item),
-          ts: Date.parse(dateTime),
+          ts: Date.parse(item.createdAt),
         });
       }
     },
