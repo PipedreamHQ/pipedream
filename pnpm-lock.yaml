@@ -12000,8 +12000,7 @@ importers:
 
   components/smartengage: {}
 
-  components/smartlead:
-    specifiers: {}
+  components/smartlead: {}
 
   components/smartproxy: {}
 
@@ -12230,7 +12229,11 @@ importers:
 
   components/sparkpost: {}
 
-  components/speak_ai: {}
+  components/speak_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/specific:
     dependencies:
@@ -34522,8 +34525,6 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
-    transitivePeerDependencies:
-      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:

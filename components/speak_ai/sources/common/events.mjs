@@ -1,0 +1,18 @@
+export default {
+  MEDIA_CREATED: "media.created",
+  MEDIA_ANALYZED: "media.analyzed",
+  MEDIA_REANALYZED: "media.reanalyzed",
+  MEDIA_FAILED: "media.failed",
+  TEXT_CREATED: "text.created",
+  TEXT_ANALYZED: "text.analyzed",
+  TEXT_REANALYZED: "text.reanalyzed",
+  TEXT_FAILED: "text.failed",
+  TEXT_DELETED: "text.deleted",
+  EMBED_RECORDER_CREATED: "embed_recorder.created",
+  EMBED_RECORDER_DELETED: "embed_recorder.deleted",
+  EMBED_RECORDER_RECORDING_RECEIVED: "embed_recorder.recording_received",
+  MEETING_ASSISTANT_STATUS: "meeting_assistant.status",
+  CHAT_STATUS: "chat.status",
+  CSV_UPLOADED: "csv.uploaded",
+  CSV_FAILED: "csv.failed",
+};
