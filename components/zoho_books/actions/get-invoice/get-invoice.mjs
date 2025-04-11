@@ -6,7 +6,7 @@ export default {
   key: "zoho_books-get-invoice",
   name: "Get Invoice",
   description: "Gets the details of an invoice. [See the documentation](https://www.zoho.com/books/api/v3/invoices/#get-an-invoice)",
-  version: "0.3.0",
+  version: "0.3.1",
   type: "action",
   props: {
     zohoBooks,

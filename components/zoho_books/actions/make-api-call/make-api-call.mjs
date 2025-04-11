@@ -6,7 +6,7 @@ export default {
   key: "zoho_books-make-api-call",
   name: "Make API Call",
   description: "Makes an aribitrary call to Zoho Books API",
-  version: "0.4.0",
+  version: "0.4.1",
   type: "action",
   props: {
     zohoBooks,
