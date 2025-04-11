@@ -4,7 +4,7 @@ export default {
   key: "swell-update-account",
   name: "Update Account",
   description: "Update an existing account with the corresponding ID. [See the documentation](https://developers.swell.is/backend-api/accounts/update-an-account)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
@@ -57,7 +57,7 @@ export default {
         notes: this.notes,
       },
     });
-    $.export("$summary", "Successfully updated account with ID: " + this.id);
+    $.export("$summary", "Successfully updated account with ID: " + this.accountId);
     return response;
   },
 };
