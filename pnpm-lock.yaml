@@ -4308,8 +4308,7 @@ importers:
 
   components/facebook_conversions: {}
 
-  components/facebook_graph_api:
-    specifiers: {}
+  components/facebook_graph_api: {}
 
   components/facebook_groups:
     dependencies:
@@ -4929,8 +4928,7 @@ importers:
 
   components/gatekeeper: {}
 
-  components/gather:
-    specifiers: {}
+  components/gather: {}
 
   components/gatherup:
     dependencies:
@@ -12667,7 +12665,11 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
-  components/swell: {}
+  components/swell:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/swiftype: {}
 
