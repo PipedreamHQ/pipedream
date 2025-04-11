@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { encode } from "js-base64";
 import mime from "mime-types";
+const DEFAULT_LIMIT = 50;
 
 export default {
   type: "app",
@@ -62,8 +63,14 @@ export default {
       label: "Contact",
       description: "The contact to be updated",
       type: "string",
-      async options() {
-        const contactResponse = await this.listContacts();
+      async options({ page }) {
+        const limit = DEFAULT_LIMIT;
+        const contactResponse = await this.listContacts({
+          params: {
+            $top: limit,
+            $skip: limit * page,
+          },
+        });
         return contactResponse.value.map((co) => ({
           label: co.displayName,
           value: co.id,
@@ -127,7 +134,7 @@ export default {
       label: "Message ID",
       description: "The identifier of the message to update",
       async options({ page }) {
-        const limit = 50;
+        const limit = DEFAULT_LIMIT;
         const { value } = await this.listMessages({
           params: {
             $top: limit,
@@ -147,8 +154,14 @@ export default {
       type: "string[]",
       label: "Folder IDs to Monitor",
       description: "Specify the folder IDs or names in Outlook that you want to monitor for new emails. Leave empty to monitor all folders (excluding \"Sent Items\" and \"Drafts\").",
-      async options() {
-        const { value: folders } = await this.listFolders();
+      async options({ page }) {
+        const limit = DEFAULT_LIMIT;
+        const { value: folders } = await this.listFolders({
+          params: {
+            $top: limit,
+            $skip: limit * page,
+          },
+        });
         return folders?.map(({
           id: value, displayName: label,
         }) => ({
@@ -156,6 +169,13 @@ export default {
           label,
         })) || [];
       },
+    },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "The maximum number of results to return",
+      default: 100,
+      optional: true,
     },
   },
   methods: {
@@ -304,16 +324,15 @@ export default {
       filterAddress,
       ...args
     } = {}) {
-      const paramsContainer = {};
+      args.params = {
+        ...args?.params,
+      };
       if (filterAddress) {
-        paramsContainer.params = {
-          "$filter": `emailAddresses/any(a:a/address eq '${filterAddress}')`,
-        };
+        args.params["$filter"] = `emailAddresses/any(a:a/address eq '${filterAddress}')`;
       }
       return await this._makeRequest({
         method: "GET",
         path: "/me/contacts",
-        ...paramsContainer,
         ...args,
       });
     },
@@ -383,6 +402,31 @@ export default {
         path: `/me/messages/${messageId}`,
         ...args,
       });
+    },
+    async *paginate({
+      fn, args = {}, max,
+    }) {
+      const limit = DEFAULT_LIMIT;
+      args = {
+        ...args,
+        params: {
+          ...args?.params,
+          $top: limit,
+          $skip: 0,
+        },
+      };
+      let total, count = 0;
+      do {
+        const { value } = await fn(args);
+        for (const item of value) {
+          yield item;
+          if (max && ++count >= max) {
+            return;
+          }
+        }
+        total = value?.length;
+        args.params["$skip"] += limit;
+      } while (total);
     },
   },
 };
