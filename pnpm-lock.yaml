@@ -8648,6 +8648,9 @@ importers:
 
   components/notiff: {}
 
+  components/notiff_io:
+    specifiers: {}
+
   components/notion:
     dependencies:
       '@notionhq/client':
@@ -11989,6 +11992,9 @@ importers:
 
   components/smartengage: {}
 
+  components/smartlead:
+    specifiers: {}
+
   components/smartproxy: {}
 
   components/smartreach: {}
@@ -12662,7 +12668,11 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
-  components/swell: {}
+  components/swell:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/swiftype: {}
 
