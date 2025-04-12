@@ -98,6 +98,7 @@ export default {
       channelId: this.channelId,
       data: {
         body: this.body,
+        subject: this.subject,
         author_id: this.authorId,
         to: this.to,
         cc: this.cc,
