@@ -9,6 +9,12 @@ export default {
   type: "action",
   props: {
     frontApp,
+    teamId: {
+      propDefinition: [
+        frontApp,
+        "teamId",
+      ],
+    },
     conversationId: {
       propDefinition: [
         frontApp,
@@ -38,7 +44,6 @@ export default {
         "teammateId",
       ],
       label: "Author ID",
-      optional: true,
     },
     to: {
       propDefinition: [
@@ -65,6 +70,33 @@ export default {
         "attachments",
       ],
     },
+    mode: {
+      propDefinition: [
+        frontApp,
+        "mode",
+      ],
+    },
+    signatureId: {
+      propDefinition: [
+        frontApp,
+        "signatureId",
+        (c) => ({
+          teamId: c.teamId,
+        }),
+      ],
+    },
+    shouldAddDefaultSignature: {
+      propDefinition: [
+        frontApp,
+        "shouldAddDefaultSignature",
+      ],
+    },
+    quoteBody: {
+      propDefinition: [
+        frontApp,
+        "quoteBody",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.frontApp.createDraftReply({
@@ -78,6 +110,10 @@ export default {
         cc: this.cc,
         bcc: this.bcc,
         attachments: this.attachments,
+        mode: this.mode,
+        signature_id: this.signatureId,
+        should_add_default_signature: this.shouldAddDefaultSignature,
+        quote_body: this.quoteBody,
       },
       headers: utils.hasArrayItems(this.attachments) && {
         "Content-Type": "multipart/form-data",

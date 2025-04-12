@@ -68,9 +68,9 @@ export default {
           listResourcesFn: this.listChannels,
           filter,
           mapper: ({
-            id, address,
+            id, name,
           }) => ({
-            label: address,
+            label: name,
             value: id,
           }),
         });
@@ -186,6 +186,68 @@ export default {
           },
         });
       },
+    },
+    teamId: {
+      type: "string",
+      label: "Team ID",
+      description: "ID of a team",
+      async options({ prevContext }) {
+        return this.paginateOptions({
+          prevContext,
+          listResourcesFn: this.listTeams,
+          mapper: ({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          }),
+        });
+      },
+    },
+    signatureId: {
+      type: "string",
+      label: "Signature ID",
+      description: "ID of the signature to attach. If ommited, no signature is attached.",
+      optional: true,
+      async options({
+        teamId, prevContext,
+      }) {
+        return this.paginateOptions({
+          prevContext,
+          listResourcesFn: this.listSignatures,
+          mapper: ({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          }),
+          args: {
+            teamId,
+          },
+        });
+      },
+    },
+    mode: {
+      type: "string",
+      label: "Mode",
+      description: "Mode of the draft to create. Can be 'private' (draft is visible to the author only) or 'shared' (draft is visible to all teammates with access to the conversation).",
+      options: [
+        "private",
+        "shared",
+      ],
+      optional: true,
+    },
+    shouldAddDefaultSignature: {
+      type: "boolean",
+      label: "Should Add Default Signature",
+      description: "Whether or not Front should try to resolve a signature for the message. Is ignored if signature_id is included. Default `false`",
+      optional: true,
+    },
+    quoteBody: {
+      type: "string",
+      label: "Quote Body",
+      description: "Body for the quote that the message is referencing. Only available on email channels.",
+      optional: true,
     },
     to: {
       type: "string[]",
@@ -387,6 +449,28 @@ export default {
     }) {
       return this.makeRequest({
         path: `/conversations/${conversationId}/comments`,
+        ...args,
+      });
+    },
+    listTeams(args = {}) {
+      return this.makeRequest({
+        path: "/teams",
+        ...args,
+      });
+    },
+    listSignatures({
+      teamId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/teams/${teamId}/signatures`,
+        ...args,
+      });
+    },
+    listCommentMentions({
+      commentId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/comments/${commentId}/mentions`,
         ...args,
       });
     },

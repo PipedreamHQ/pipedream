@@ -1,13 +1,19 @@
 import frontApp from "../../frontapp.app.mjs";
 
 export default {
-  key: "frontapp-list-teammates",
-  name: "List Teammate",
-  description: "List teammates in the company. [See the documentation](https://dev.frontapp.com/reference/list-teammates)",
+  key: "frontapp-list-comments",
+  name: "List Conversation Comments",
+  description: "List the comments in a conversation. [See the documentation](https://dev.frontapp.com/reference/list-conversation-comments)",
   version: "0.0.1",
   type: "action",
   props: {
     frontApp,
+    conversationId: {
+      propDefinition: [
+        frontApp,
+        "conversationId",
+      ],
+    },
     maxResults: {
       propDefinition: [
         frontApp,
@@ -17,9 +23,10 @@ export default {
   },
   async run({ $ }) {
     const items = this.frontApp.paginate({
-      fn: this.frontApp.listTeammates,
+      fn: this.frontApp.listComments,
       maxResults: this.maxResults,
       $,
+      conversationId: this.conversationId,
     });
 
     const results = [];
@@ -27,7 +34,7 @@ export default {
       results.push(item);
     }
 
-    $.export("$summary", `Successfully retrieved ${results.length} teammate${results.length === 1
+    $.export("$summary", `Successfully retrieved ${results.length} comment${results.length === 1
       ? ""
       : "s"}`);
     return results;

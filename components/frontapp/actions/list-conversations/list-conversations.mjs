@@ -19,9 +19,7 @@ export default {
     const items = this.frontApp.paginate({
       fn: this.frontApp.listConversations,
       maxResults: this.maxResults,
-      args: {
-        $,
-      },
+      $,
     });
 
     const results = [];
