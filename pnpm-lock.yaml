@@ -4855,8 +4855,8 @@ importers:
   components/frontapp:
     dependencies:
       '@pipedream/platform':
-        specifier: ^0.10.0
-        version: 0.10.0
+        specifier: ^3.0.3
+        version: 3.0.3
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
