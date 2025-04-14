@@ -1,39 +1,37 @@
 import { Steps, Tabs } from 'nextra/components'
 import Callout from '@/components/Callout'
 
-# Pre-built tools for your app or agent
+# Pre-built triggers and actions
 
-Pipedream Connect provides APIs to embed pre-built tools ([triggers and actions](/workflows/contributing/components/)) directly in your application
-or AI agent, enabling access to 10,000+ built-in API operations. Enable [your end users](/connect/api/#external-users) to
-configure, deploy, and invoke Pipedream triggers and actions for more than {process.env.PUBLIC_APPS} APIs.
+Pipedream Connect provides APIs to embed pre-built tools ([triggers and actions](/contributing/components/)) directly in your app,
+where you're building a workflow builder or AI-driven app, enabling access to 10,000+ built-in API operations. Enable [your end users](/connect/api/#external-users) (or LLM)
+to configure, deploy, and invoke Pipedream triggers and actions for more than {process.env.PUBLIC_APPS} APIs.
 
 ## What are triggers and actions?
 
-In Pipedream, we call triggers and actions [components](/workflows/contributing/components/), which are self-contained executable units of code. Your end users configure the inputs and these components produce a
-result that's exported as output. These components are developed and maintained by Pipedream
-and our community and their source code is available in our [public Github repo](https://github.com/PipedreamHQ/pipedream/tree/master/components).
+In Pipedream, we call triggers and actions [components](/contributing/components/), which are self-contained Node.js modules.
+Your end users configure the inputs and these components produce a result that's exported as output. These components are developed
+and maintained by Pipedream and our community and their source code is available in our [public Github repo](https://github.com/PipedreamHQ/pipedream/tree/master/components).
 
 ## Implementation
 
 ### Use Pipedream's frontend SDK
-- Pipedream provides a frontend React SDK to enable your users to configure and run triggers and actions in your app's UI
+- Pipedream provides a frontend React SDK to enable your users to configure and run triggers and actions in your UI
 - Style the UI components however you want to match the design of your app, and you can also fork the SDK
-- Refer to the [SDK](https://github.com/PipedreamHQ/pipedream/blob/master/packages/connect-react/README.md) to get started
+- Refer to the `connect-react` [SDK](https://github.com/PipedreamHQ/pipedream/blob/master/packages/connect-react/README.md) to get started
 
 <Callout type="info">
-Check out the [public demo app](https://pdrm.co/connect) to see the API and SDK in action. You can also [run it locally and explore the code](https://github.com/PipedreamHQ/pipedream-connect-examples/tree/master/connect-react-demo).
+Check out the [public demo app](https://pdrm.co/connect) to see the API and SDK in action. You can also [run it locally and explore the code](https://github.com/PipedreamHQ/pipedream-connect-examples/tree/master/connect-react-demo) for a reference implementation.
 </Callout>
 
-### Use your own frontend
-- See below to get started with the REST API
-- Refer to the [full API reference](/connect/api/#components) for supported SDK methods as well
+### Use the backend SDK or REST API
+- Implement your own frontend or ship a LLM-driven configuration with the backend SDK
+- See below for the quickstart and examples
 
 ## Getting started
 
 <Callout type="info">
 Refer to the [Connect API docs](/connect/api/) for the full API reference. Below is a quickstart with a few specific examples.
-
-You can skip steps 1 and 2 if you already know the component you want to use or if you'd prefer to [pass a natural language prompt to Pipedream's component search API](/rest-api/#search-for-registry-components).
 </Callout>
 
 <Steps>
@@ -221,7 +219,7 @@ Here's the response:
 To configure and run a component for your end users, you need to understand
 the component's definition. Now that you have the component's key from the previous step,
 you can retrieve its structure from the Pipedream API. See the [component
-structure](/workflows/contributing/components/api/#component-structure) section in our docs for more
+structure](/contributing/components/api/#component-structure) section in our docs for more
 details.
 
 As an example, the following API call will return the structure of the **List
@@ -249,7 +247,7 @@ curl -X https://api.pipedream.com/v1/connect/{project_id}/components/gitlab-list
 
 The response will contain the component's structure, including its user-friendly name,
 version, and most importantly, the configuration options the component accepts
-(also known as [props](/workflows/contributing/components/api/#props) or "properties").
+(also known as [props](/contributing/components/api/#props) or "properties").
 Here's an example of the response for the component in the example above:
 
 ```json
@@ -302,7 +300,7 @@ steps, focused on getting the right input parameters (aka
 [props](/workflows/building-workflows/using-props/)) to the component.
 
 Configuring each prop for a component often involves an API call to retrieve the possible values,
-unless the values that a prop can take are static or free-form. The endpoint is accessible at:
+unless the values that a prop can take are static or free-form.
 
 Typically, the options for a prop are linked to a specific user's account. Each
 of these props implements an `options` method that retrieves the necessary
@@ -316,9 +314,7 @@ The payload for the configuration API call must contain the following fields:
 3. `prop_name`: the name of the prop you want to configure
 4. `configured_props`: an object containing the props that have already been
     configured. The initial configuration call must contain the ID of the account
-    (aka `authProvisionId`) that your user has connected to the target app (see
-    [this section](workflows#configure-accounts-to-use-your-end-users-auth) for
-    more details on how to create these accounts).
+    (aka `authProvisionId`) that your user has connected to the target app.
 
 We'll use the [**List Commits** component for
 Gitlab](https://github.com/PipedreamHQ/pipedream/blob/master/components/gitlab/actions/list-commits/list-commits.mjs#L4)
@@ -452,9 +448,9 @@ For example, to retrieve the configuration options for the `refName` prop:
 
 ### Configure dynamic props (optional)
 
-The set of props that a component can accept might not be static, and may change
-depending on the values of prior props. Props that behave this way are called
-[dynamic props](/workflows/contributing/components/api/#dynamic-props), and they need to be configured
+**The set of props that a component can accept might not be static, and may change
+depending on the values of prior props.** Props that behave this way are called
+[dynamic props](/contributing/components/api/#dynamic-props), and they need to be configured
 in a different way. Props that are dynamic will have a `reloadProps` attribute
 set to `true` in the component's definition.
 
@@ -555,8 +551,8 @@ To illustrate, the response for the request above would look like this:
 ### Execution
 
 Once all the props have been configured, the component can be invoked. Pipedream
-supports two types of components: [actions](/workflows/contributing/components/api/#actions) and
-[sources](/workflows/contributing/components/api/#sources) (aka triggers).
+supports two types of components: [actions](/contributing/components/api/#actions) and
+[sources](/contributing/components/api/#sources) (aka triggers).
 
 Actions are components that perform a task by taking an input either during
 [configuration](#configure-the-component) and/or during invocation (usually both), and
@@ -690,7 +686,6 @@ look something like this:
 {
   "external_user_id": "abc-123",
   "id": "gitlab-new-issue",
-  "prop_name": "http",
   "configured_props": {
     "gitlab": {
       "authProvisionId": "apn_kVh9AoD"
@@ -709,11 +704,11 @@ Deploy a source for your users:
 const { data: deployedTrigger } = await pd.deployTrigger({
   externalUserId: "abc-123",
   id: "gitlab-new-issue",
-  propName: "projectId",
   configuredProps: {
     gitlab: {
       authProvisionId: "apn_kVh9AoD",
-    }
+    },
+    projectId: "45672541",
   },
   webhookUrl: "https://events.example.com/gitlab-new-issue"
 });
@@ -736,11 +731,11 @@ curl -X POST https://api.pipedream.com/v1/connect/{project_id}/components/trigge
   -d '{
     "external_user_id": "abc-123",
     "id": "gitlab-new-issue",
-    "prop_name": "projectId",
     "configured_props": {
       "gitlab": {
         "authProvisionId": "apn_kVh9AoD"
-      }
+      },
+      projectId: "45672541",
     },
     "webhook_url": "https://events.example.com/gitlab-new-issue"
   }'

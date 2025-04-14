@@ -195,9 +195,9 @@ Yes, you can use the GitHub Syncing feature to develop your workflows from YAML 
 Then pushing changes to the `production` branch will trigger a deploy for your Pipedream workflows.
 
 ### Why am I seeing the error "could not resolve step[index].uses: component-key@version" when merging to production?
-This error occurs when a workflow references a [private component](/workflows/contributing/components/#using-private-actions) without properly prefixing the component key with your workspace name in the `workflow.yaml` configuration file. Pipedream requires this prefix to correctly identify and resolve components specific to your workspace.
+This error occurs when a workflow references a [private component](/contributing/components/#using-private-actions) without properly prefixing the component key with your workspace name in the `workflow.yaml` configuration file. Pipedream requires this prefix to correctly identify and resolve components specific to your workspace.
 
-For example, if you modified a [registry action](/workflows/contributing/) and published it privately, the correct component key should be formatted as `@workspacename/component-key@version` (e.g., `@pipedream/github-update-issue@0.1.0`).
+For example, if you modified a [registry action](/contributing/) and published it privately, the correct component key should be formatted as `@workspacename/component-key@version` (e.g., `@pipedream/github-update-issue@0.1.0`).
 
 To resolve this error:
 

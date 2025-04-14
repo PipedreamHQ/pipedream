@@ -113,7 +113,7 @@ scoped components are easier for users to understand and use.
 
 ### Required Metadata
 
-Registry [components](/workflows/contributing/components/api/#component-structure) require a unique
+Registry [components](/contributing/components/api/#component-structure) require a unique
 `key` and `version`, and a friendly `name` and `description`. Action components
 require a `type` field to be set to `action` (sources will require a type to be
 set in the future).
@@ -195,7 +195,7 @@ directory](https://github.com/PipedreamHQ/pipedream/tree/master/components).
 #### Using APIs vs Client Libraries
 
 If the app has a well-supported [Node.js client
-library](/workflows/contributing/components/api/#using-npm-packages), feel free to use that instead of
+library](/contributing/components/api/#using-npm-packages), feel free to use that instead of
 manually constructing API requests.
 
 ### `package.json`
@@ -321,7 +321,7 @@ logic should:
 #### Capturing Sensitive Data
 
 If users are required to enter sensitive data, always use
-[secret](/workflows/contributing/components/api/#general) props.
+[secret](/contributing/components/api/#general) props.
 
 ### Promoting Reusability
 
@@ -336,7 +336,7 @@ out](https://pipedream.com/community/c/dev/11).
 ##### Prop Definitions
 
 Whenever possible, reuse existing [prop
-definitions](/workflows/contributing/components/api/#prop-definitions-example).
+definitions](/contributing/components/api/#prop-definitions-example).
 
 If a prop definition does not exist and you are adding an app-specific prop that
 may be reused in future components, add it as a prop definition to the app file.
@@ -344,7 +344,7 @@ Prop definitions will also be surfaced for apps the Pipedream marketplace.
 
 ##### Methods
 
-Whenever possible, reuse [methods](/workflows/contributing/components/api/#methods) defined in the app
+Whenever possible, reuse [methods](/contributing/components/api/#methods) defined in the app
 file. If you need to use an API for which a method is not defined and it may be
 used in future components, define a new method in the app file.
 
@@ -436,7 +436,7 @@ simply as possible.
 
 ### Labels
 
-Use [prop](/workflows/contributing/components/api/#user-input-props) labels to customize the name of a
+Use [prop](/contributing/components/api/#user-input-props) labels to customize the name of a
 prop or propDefinition (independent of the variable name in the code). The label
 should mirror the name users of an app are familiar with; i.e., it should mirror
 the equivalent label in the app’s UI. This applies to usage in labels,
@@ -445,7 +445,7 @@ but its label is set to “Search Term”.
 
 ### Descriptions
 
-Include a description for [props](/workflows/contributing/components/api/#user-input-props) if it helps
+Include a description for [props](/contributing/components/api/#user-input-props) if it helps
 the user understand what they need to do. Use Markdown as appropriate to improve
 the clarity of the description or instructions. When using Markdown:
 
@@ -474,7 +474,7 @@ Examples:
 
 ### Optional vs Required Props
 
-Use optional [props](/workflows/contributing/components/api/#user-input-props) whenever possible to
+Use optional [props](/contributing/components/api/#user-input-props) whenever possible to
 minimize the input fields required to use a component.
 
 For example, the Twitter search mentions source only requires that a user
@@ -486,7 +486,7 @@ activate the source:
 
 ### Default Values
 
-Provide [default values](/workflows/contributing/components/api/#user-input-props) whenever possible.
+Provide [default values](/contributing/components/api/#user-input-props) whenever possible.
 NOTE: the best default for a source doesn’t always map to the default
 recommended by the app. For example, Twitter defaults search results to an
 algorithm that balances recency and popularity. However, the best default for
@@ -495,7 +495,7 @@ the use case on Pipedream is recency.
 ### Async Options
 
 Avoid asking users to enter ID values. Use [async
-options](/workflows/contributing/components/api/#async-options-example) (with label/value definitions)
+options](/contributing/components/api/#async-options-example) (with label/value definitions)
 so users can make selections from a drop down menu. For example, Todoist
 identifies projects by numeric IDs (e.g., 12345). The async option to select a
 project displays the name of the project as the label, so that’s the value the
@@ -503,7 +503,7 @@ user sees when interacting with the source (e.g., “My Project”). The code
 referencing the selection receives the numeric ID (12345).
 
 Async options should also support
-[pagination](/workflows/contributing/components/api/#async-options-example) (so users can navigate
+[pagination](/contributing/components/api/#async-options-example) (so users can navigate
 across multiple pages of options for long lists). See
 [Hubspot](https://github.com/PipedreamHQ/pipedream/blob/a9b45d8be3b84504dc22bb2748d925f0d5c1541f/components/hubspot/hubspot.app.mjs#L136)
 for an example of offset-based pagination. See
@@ -512,7 +512,7 @@ for an example of cursor-based pagination.
 
 ### Dynamic Props
 
-[Dynamic props](/workflows/contributing/components/api/#dynamic-props) can improve the user experience
+[Dynamic props](/contributing/components/api/#dynamic-props) can improve the user experience
 for components. They let you render props in Pipedream dynamically, based on the
 value of other props, and can be used to collect more specific information that
 can make it easier to use the component. See the Google Sheets example in the
@@ -521,8 +521,8 @@ linked component API docs.
 ### Interface & Service Props
 
 In the interest of consistency, use the following naming patterns when defining
-[interface](/workflows/contributing/components/api/#interface-props) and
-[service](/workflows/contributing/components/api/#service-props) props in source components:
+[interface](/contributing/components/api/#interface-props) and
+[service](/contributing/components/api/#service-props) props in source components:
 
 | Prop                | **Recommended Prop Variable Name** |
 | ------------------- | ---------------------------------- |
@@ -567,7 +567,7 @@ search criteria”.
 
 ### Emit a Summary
 
-Always [emit a summary](/workflows/contributing/components/api/#emit) for each event. For example, the
+Always [emit a summary](/contributing/components/api/#emit) for each event. For example, the
 summary for each new Tweet emitted by the Search Mentions source is the content
 of the Tweet itself.
 
@@ -576,7 +576,7 @@ format as the summary.
 
 ### Deduping
 
-Use built-in [deduping strategies](/workflows/contributing/components/api/#dedupe-strategies) whenever
+Use built-in [deduping strategies](/contributing/components/api/#dedupe-strategies) whenever
 possible (`unique`, `greatest`, `last`) vs developing custom deduping code.
 Develop custom deduping code if the existing strategies do not support the
 requirements for a source.
@@ -673,9 +673,9 @@ of just letting the error bubble up).
 
 #### Hooks
 
-[Hooks](/workflows/contributing/components/api/#hooks) are methods that are automatically invoked by
+[Hooks](/contributing/components/api/#hooks) are methods that are automatically invoked by
 Pipedream at different stages of the [component
-lifecycle](/workflows/contributing/components/api/#source-lifecycle). Webhook subscriptions are
+lifecycle](/contributing/components/api/#source-lifecycle). Webhook subscriptions are
 typically created when components are instantiated or activated via the
 `activate()` hook, and deleted when components are deactivated or deleted via
 the `deactivate()` hook.
@@ -683,7 +683,7 @@ the `deactivate()` hook.
 #### Helper Methods
 
 Whenever possible, create methods in the app file to manage [creating and
-deleting webhook subscriptions](/workflows/contributing/components/api/#hooks).
+deleting webhook subscriptions](/contributing/components/api/#hooks).
 
 | **Description**                         | **Method Name** |
 | --------------------------------------- | --------------- |
@@ -765,7 +765,7 @@ number of records to return.
 
 ### Use `$.summary` to Summarize What Happened
 
-[Describe what happened](/workflows/contributing/components/api/#returning-data-from-steps) when an
+[Describe what happened](/contributing/components/api/#returning-data-from-steps) when an
 action succeeds by following these guidelines:
 
 - Use plain language and provide helpful and contextually relevant information

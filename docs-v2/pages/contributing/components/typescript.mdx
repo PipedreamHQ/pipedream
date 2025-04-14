@@ -21,7 +21,7 @@ If you haven't written TypeScript, start with [this tutorial](https://www.typesc
 ## Quickstart
 
 <Callout type="info">
-If you've never developed Pipedream components before, [start here](/workflows/contributing/components/).
+If you've never developed Pipedream components before, [start here](/contributing/components/).
 </Callout>
 
 ### Developing TypeScript components in the `PipedreamHQ/pipedream` registry
@@ -88,7 +88,7 @@ See [the RSS sources and actions](https://github.com/PipedreamHQ/pipedream/tree/
 
 We welcome PRs in [the `PipedreamHQ/pipedream` repo](https://github.com/PipedreamHQ/pipedream), where we store all sources and actions, the `@pipedream/types` package, these docs, and other Pipedream code. Here are a few known issues durin the **beta**:
 
-- `this` is strictly-typed within `methods`, `run`, `hooks`, and everywhere you have access to `this` in [the component API](/workflows/contributing/components/api/). But this typing can be improved. For example, we don't yet map props to their appropriate TypeScript type (everything is typed with `any`).
+- `this` is strictly-typed within `methods`, `run`, `hooks`, and everywhere you have access to `this` in [the component API](/contributing/components/api/). But this typing can be improved. For example, we don't yet map props to their appropriate TypeScript type (everything is typed with `any`).
 - The compile -> publish lifecycle hasn't been fully-automated when you're developing in the `pipedream` repo. Currently, you have to run `npm run build` from the repo root, then use the `pd` CLI to publish components after compilation. It would be nice to run `tsc-watch` and have that compile and publish the new version of the component using the `--onSuccess` flag, publishing any sources or actions accordingly.
 - We should add a linter (like `dtslint`) to all TypeScript components). Currently, `dtslint` is configured only for the `@pipedream/types` package.
 
