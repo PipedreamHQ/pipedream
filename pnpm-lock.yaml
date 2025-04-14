@@ -962,8 +962,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/arlo:
-    specifiers: {}
+  components/arlo: {}
 
   components/aroflo:
     dependencies:
@@ -5618,8 +5617,7 @@ importers:
         specifier: ^0.1.4
         version: 0.1.6
 
-  components/goqr_me:
-    specifiers: {}
+  components/goqr_me: {}
 
   components/gorgias:
     dependencies:
