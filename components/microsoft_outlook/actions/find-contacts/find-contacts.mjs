@@ -31,11 +31,11 @@ export default {
     const relatedContacts = [];
     for await (const contact of contacts) {
       if (
-        contact.displayName.includes(this.searchString) ||
-        contact.givenName.includes(this.searchString) ||
-        contact.surname.includes(this.searchString) ||
-        contact.emailAddresses.find(
-          (e) => e.address == this.searchString || e.name.includes(this.searchString),
+        contact?.displayName?.includes(this.searchString) ||
+        contact?.givenName?.includes(this.searchString) ||
+        contact?.surname?.includes(this.searchString) ||
+        contact?.emailAddresses?.find(
+          (e) => e?.address == this.searchString || e?.name?.includes(this.searchString),
         )
       ) {
         relatedContacts.push(contact);
