@@ -31,6 +31,24 @@ export default {
         }));
       },
     },
+    campaignId: {
+      type: "string",
+      label: "Campaign ID",
+      description: "The ID of the campaign to add contact to",
+      async options() {
+        const { campaigns } = await this.listCampaigns({
+          params: {
+            locationId: this.getLocationId(),
+          },
+        });
+        return campaigns?.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        })) || [];
+      },
+    },
   },
   methods: {
     getLocationId() {
@@ -39,7 +57,7 @@ export default {
     _baseUrl() {
       return "https://services.leadconnectorhq.com";
     },
-    async _makeRequest({
+    _makeRequest({
       $ = this,
       headers,
       ...otherOpts
@@ -54,14 +72,14 @@ export default {
         ...otherOpts,
       });
     },
-    async createContact(args) {
+    createContact(args = {}) {
       return this._makeRequest({
         method: "POST",
         url: "/contacts/",
         ...args,
       });
     },
-    async updateContact({
+    updateContact({
       contactId, ...args
     }) {
       return this._makeRequest({
@@ -70,16 +88,37 @@ export default {
         ...args,
       });
     },
-    async upsertContact(args) {
+    upsertContact(args = {}) {
       return this._makeRequest({
         method: "POST",
         url: "/contacts/upsert",
         ...args,
       });
     },
-    async searchContacts(args) {
+    searchContacts(args = {}) {
       return this._makeRequest({
         url: "/contacts/",
+        ...args,
+      });
+    },
+    listCampaigns(args = {}) {
+      return this._makeRequest({
+        url: "/campaigns/",
+        ...args,
+      });
+    },
+    listFormSubmissions(args = {}) {
+      return this._makeRequest({
+        url: "/forms/submissions",
+        ...args,
+      });
+    },
+    addContactToCampaign({
+      contactId, campaignId, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        url: `/contacts/${contactId}/campaigns/${campaignId}`,
         ...args,
       });
     },

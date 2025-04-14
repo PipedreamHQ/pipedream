@@ -6,7 +6,7 @@ export default {
   key: "airtable_oauth-get-record-or-create",
   name: "Get Record Or Create",
   description: "Get a specific record, or create one if it doesn't exist. [See the documentation](https://airtable.com/developers/web/api/create-records)",
-  version: "0.0.10",
+  version: "0.0.12",
   type: "action",
   props: {
     ...common.props,

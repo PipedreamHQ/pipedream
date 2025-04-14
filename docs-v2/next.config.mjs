@@ -292,6 +292,11 @@ export default withNextra({
         permanent: true,
       },
       {
+        source: "/workflows/sharing/",
+        destination: "/workflows/building-workflows/sharing/",
+        permanent: true,
+      },
+      {
         source: "/code/",
         destination: "/workflows/building-workflows/code/",
         permanent: true,
@@ -414,6 +419,11 @@ export default withNextra({
       {
         source: "/cli/login/",
         destination: "/workflows/cli/login/",
+        permanent: true,
+      },
+      {
+        source: "/limits/",
+        destination: "/workflows/limits/",
         permanent: true,
       },
       {

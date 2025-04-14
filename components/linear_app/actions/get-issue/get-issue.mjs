@@ -4,7 +4,7 @@ export default {
   key: "linear_app-get-issue",
   name: "Get Issue",
   description: "Get an issue by ID (API Key). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api)",
-  version: "0.1.7",
+  version: "0.1.8",
   type: "action",
   props: {
     linearApp,

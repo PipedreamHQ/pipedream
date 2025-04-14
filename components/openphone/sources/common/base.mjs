@@ -12,13 +12,13 @@ export default {
       ],
       type: "string[]",
       label: "Resource IDs",
-      description: "The unique identifiers of phone numbers associated with the webhook.",
+      description: "The IDs of the incoming or outgoing phone numbers to retrieve events for. Use the List Phone Numbers action to retrieve information about phone numbers.",
       optional: true,
     },
     label: {
       type: "string",
       label: "Label",
-      description: "Webhook's label",
+      description: "A label to identify the webhook",
       optional: true,
     },
   },
@@ -32,6 +32,9 @@ export default {
     getEventFilter() {
       return true;
     },
+    getWebhookType() {
+      return "calls";
+    },
   },
   hooks: {
     async activate() {
@@ -42,6 +45,7 @@ export default {
           resourceIds: this.resourceIds,
           label: this.label,
         },
+        webhookType: this.getWebhookType(),
       });
       this._setHookId(response.data.id);
     },

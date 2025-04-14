@@ -255,6 +255,36 @@ export default {
       `),
       optional: true,
     },
+    accessProposalId: {
+      type: "string",
+      label: "Access Proposal ID",
+      description: "The identifier of an access proposal (when a user requests access to a file/folder)",
+      async options({
+        fileId, prevContext,
+      }) {
+        if (!fileId) {
+          return [];
+        }
+        const { pageToken } = prevContext;
+        const {
+          accessProposals, nextPageToken,
+        } = await this.listAccessProposals({
+          fileId,
+          pageToken,
+        });
+        return {
+          options: accessProposals?.map(({
+            proposalId: value, requesterEmailAddress: label,
+          }) => ({
+            label,
+            value,
+          })) || [],
+          context: {
+            pageToken: nextPageToken,
+          },
+        };
+      },
+    },
   },
   methods: {
     // Static methods
@@ -1436,6 +1466,14 @@ export default {
      */
     async getExportFormats() {
       return (await this.getAbout("exportFormats")).exportFormats;
+    },
+    async listAccessProposals(opts = {}) {
+      const drive = this.drive();
+      return (await drive.accessproposals.list(opts)).data;
+    },
+    async resolveAccessProposal(opts = {}) {
+      const drive = this.drive();
+      return (await drive.accessproposals.resolve(opts)).data;
     },
   },
 };

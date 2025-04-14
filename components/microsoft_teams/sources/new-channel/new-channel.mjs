@@ -5,7 +5,7 @@ export default {
   key: "microsoft_teams-new-channel",
   name: "New Channel",
   description: "Emit new event when a new channel is created within a team",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "source",
   dedupe: "unique",
   props: {

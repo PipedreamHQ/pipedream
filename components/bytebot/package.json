@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/bytebot",
+  "version": "0.0.1",
+  "description": "Pipedream bytebot Components",
+  "main": "bytebot.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bytebot"
+  ],
+  "homepage": "https://pipedream.com/apps/bytebot",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

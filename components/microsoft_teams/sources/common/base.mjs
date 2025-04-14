@@ -6,8 +6,6 @@ export default {
     microsoftTeams,
     db: "$.service.db",
     timer: {
-      label: "Polling interval",
-      description: "Pipedream will poll the YouTube API on this schedule",
       type: "$.interface.timer",
       default: {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,

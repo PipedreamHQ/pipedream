@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/bettercontact",
+  "version": "0.0.1",
+  "description": "Pipedream BetterContact Components",
+  "main": "bettercontact.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bettercontact"
+  ],
+  "homepage": "https://pipedream.com/apps/bettercontact",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -4,7 +4,7 @@ export default {
   key: "krispcall-new-mms",
   name: "Send New MMS",
   description: "Send a new MMS to a contact. [See the documentation](https://documenter.getpostman.com/view/32476792/2sA3dxFCaL)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     krispcall,

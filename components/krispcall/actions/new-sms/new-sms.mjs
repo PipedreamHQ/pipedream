@@ -4,7 +4,7 @@ export default {
   key: "krispcall-new-sms",
   name: "Send New SMS",
   description: "Send a new SMS to a number. [See the documentation](https://documenter.getpostman.com/view/32476792/2sA3dxFCaL)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     krispcall,

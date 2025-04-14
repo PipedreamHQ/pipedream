@@ -19,32 +19,60 @@ export default {
     _setLastDate(lastDate) {
       this.db.set("lastDate", lastDate);
     },
+    getTsField() {
+      return "created_time";
+    },
+    getParams() {
+      return {};
+    },
+    isSorted() {
+      return true;
+    },
+    getItemId(item) {
+      return item[this.getFieldId()];
+    },
     async emitEvent(maxResults = false) {
       const lastDate = this._getLastDate();
+      let maxDate = lastDate;
 
       const response = this.zohoBooks.paginate({
         fn: this.getFunction(),
         fieldName: this.getFieldName(),
+        params: this.getParams(lastDate),
       });
 
       let responseArray = [];
+      const tsField = this.getTsField();
+      const isSorted = this.isSorted();
+
       for await (const item of response) {
-        if (item.created_time <= lastDate) break;
-        responseArray.push(item);
+        const ts = Date.parse(item[tsField]);
+        if (ts > lastDate) {
+          responseArray.push(item);
+          if (!isSorted) {
+            maxDate = Math.max(maxDate, ts);
+          }
+        } else {
+          if (isSorted) {
+            break;
+          }
+        }
       }
 
       if (responseArray.length) {
         if (maxResults && (responseArray.length > maxResults)) {
           responseArray.length = maxResults;
         }
-        this._setLastDate(Date.parse(responseArray[0].created_time));
+        this._setLastDate(isSorted
+          ? Date.parse(responseArray[0][tsField])
+          : maxDate);
       }
 
       for (const item of responseArray.reverse()) {
         this.$emit(item, {
-          id: item[this.getFieldId()],
+          id: this.getItemId(item),
           summary: this.getSummary(item),
-          ts: Date.parse(item.created_time),
+          ts: Date.parse(item[tsField]),
         });
       }
     },
