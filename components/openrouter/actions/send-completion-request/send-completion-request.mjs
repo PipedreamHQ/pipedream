@@ -154,8 +154,6 @@ export default {
       topA: this.topA && parseFloat(this.topA),
       transforms: this.transforms,
       models: this.models,
-      provider: this.provider,
-      reasoning: this.reasoning,
     };
     if (this.sort) {
       data.provider = {
