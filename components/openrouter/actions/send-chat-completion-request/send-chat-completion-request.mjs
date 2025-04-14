@@ -139,7 +139,7 @@ export default {
     }
     const data = {
       model: this.model,
-      messages: parseObject(this.prompt),
+      messages: parseObject(this.messages),
       stream: false,
       maxTokens: this.maxTokens,
       temperature: this.temperature && parseFloat(this.temperature),
