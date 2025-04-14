@@ -4,8 +4,8 @@ import instantly from "../../instantly.app.mjs";
 export default {
   key: "instantly-update-lead-status",
   name: "Update Lead Status",
-  description: "Updates the status of a lead in a campaign. [See the documentation](https://developer.instantly.ai/lead/update-lead-status)",
-  version: "0.0.1",
+  description: "Updates the status of a lead in a campaign. [See the documentation](https://developer.instantly.ai/api/v2/customtag/toggletagresource)",
+  version: "0.0.2",
   type: "action",
   props: {
     instantly,
@@ -18,8 +18,14 @@ export default {
     email: {
       propDefinition: [
         instantly,
-        "email",
+        "leadIds",
+        () => ({
+          valueKey: "email",
+        }),
       ],
+      type: "string",
+      label: "Lead Email",
+      description: "Email address of the lead to update",
     },
     newStatus: {
       propDefinition: [
@@ -33,12 +39,12 @@ export default {
       const response = await this.instantly.updateLeadStatus({
         $,
         data: {
-          email: this.email,
-          new_status: this.newStatus,
+          lead_email: this.email,
+          interest_value: this.newStatus,
           campaign_id: this.campaignId,
         },
       });
-      $.export("$summary", `Updated lead ${this.email} to status '${this.newStatus}'`);
+      $.export("$summary", `Updated status of lead: ${this.email}`);
       return response;
     } catch ({ response }) {
       throw new ConfigurationError(response.data.error);
