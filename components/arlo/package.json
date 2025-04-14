@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/arlo",
+  "version": "0.0.1",
+  "description": "Pipedream Arlo Components",
+  "main": "arlo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "arlo"
+  ],
+  "homepage": "https://pipedream.com/apps/arlo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
