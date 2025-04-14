@@ -5415,8 +5415,8 @@ importers:
         specifier: ^2.3.0
         version: 2.4.0
       '@pipedream/platform':
-        specifier: ^1.4.0
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
       cron-parser:
         specifier: ^4.9.0
         version: 4.9.0
