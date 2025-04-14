@@ -15,7 +15,7 @@ export default {
       return this.agentset.listDocuments;
     },
     getSummary(item) {
-      return `New document cerated: ${item.name || item.id}`;
+      return `New document created: ${item.name || item.id}`;
     },
   },
   sampleEmit,
