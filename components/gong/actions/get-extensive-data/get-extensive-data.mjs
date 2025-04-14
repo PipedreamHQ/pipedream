@@ -1,5 +1,6 @@
 import app from "../../gong.app.mjs";
 import constants from "../../common/constants.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "gong-get-extensive-data",
@@ -70,21 +71,29 @@ export default {
       ...filter
     } = this;
 
-    const calls = await app.paginate({
-      resourceFn: getExtensiveData,
-      resourceFnArgs: {
-        $,
-        data: {
-          filter,
-        },
-      },
-      resourceName: "calls",
-      max: maxResults,
-    });
-
-    if (calls?.length) {
-      $.export("$summary", `Successfully retrieved data for ${calls.length} calls`);
+    if (filter?.workspaceId && filter?.callIds) {
+      throw new ConfigurationError("Must not provide both `callIds` and `workspaceId`");
     }
-    return calls;
+
+    try {
+      const calls = await app.paginate({
+        resourceFn: getExtensiveData,
+        resourceFnArgs: {
+          $,
+          data: {
+            filter,
+          },
+        },
+        resourceName: "calls",
+        max: maxResults,
+      });
+
+      if (calls?.length) {
+        $.export("$summary", `Successfully retrieved data for ${calls.length} calls`);
+      }
+      return calls;
+    } catch {
+      $.export("$summary", "No calls found matching the provided criteria");
+    }
   },
 };
