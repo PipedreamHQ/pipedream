@@ -429,7 +429,11 @@ importers:
 
   components/agentql: {}
 
-  components/agentset: {}
+  components/agentset:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/agenty:
     dependencies:
@@ -957,6 +961,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/arlo:
+    specifiers: {}
 
   components/aroflo:
     dependencies:
@@ -4855,8 +4862,8 @@ importers:
   components/frontapp:
     dependencies:
       '@pipedream/platform':
-        specifier: ^0.10.0
-        version: 0.10.0
+        specifier: ^3.0.3
+        version: 3.0.3
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -5415,8 +5422,8 @@ importers:
         specifier: ^2.3.0
         version: 2.4.0
       '@pipedream/platform':
-        specifier: ^1.4.0
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
       cron-parser:
         specifier: ^4.9.0
         version: 4.9.0
@@ -5610,6 +5617,9 @@ importers:
       '@pipedream/types':
         specifier: ^0.1.4
         version: 0.1.6
+
+  components/goqr_me:
+    specifiers: {}
 
   components/gorgias:
     dependencies:
