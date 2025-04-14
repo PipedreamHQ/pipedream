@@ -8,32 +8,61 @@ export default {
       type: "string",
       label: "Workspace ID",
       description: "Description for workspaceId",
-      async options() {
-        const response = await this.getWorkspaces();
-        const workspaces = response.results;
-        return workspaces.map(({
-          title, id,
-        }) => ({
-          label: title,
-          value: id,
-        }));
+      async options({
+        prevContext, page,
+      }) {
+        const params = prevContext?.next
+          ? {
+            page: page + 1,
+          }
+          : {};
+        const {
+          results, next,
+        } = await this.getWorkspaces({
+          params,
+        });
+        return {
+          options: results.map(({
+            title, id,
+          }) => ({
+            label: title,
+            value: id,
+          })),
+          context: {
+            next,
+          },
+        };
       },
     },
     boardId: {
       type: "string",
       label: "Board ID",
       description: "Description for boardId",
-      async options({ workspaceId }) {
-        const response = await this.getBoards({
+      async options({
+        workspaceId, prevContext, page,
+      }) {
+        const params = prevContext?.next
+          ? {
+            page: page + 1,
+          }
+          : {};
+        const {
+          results, next,
+        } = await this.getBoards({
           workspaceId,
+          params,
         });
-        const boards = response.results;
-        return boards.map(({
-          title, id,
-        }) => ({
-          label: title,
-          value: id,
-        }));
+        return {
+          options: results.map(({
+            title, id,
+          }) => ({
+            label: title,
+            value: id,
+          })),
+          context: {
+            next,
+          },
+        };
       },
     },
     dueDt: {
