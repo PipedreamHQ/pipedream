@@ -6,7 +6,7 @@ export default {
   key: "openphone-new-call-recording-completed-instant",
   name: "New Call Recording Completed (Instant)",
   description: "Emit new event when a call recording has finished.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -16,7 +16,7 @@ export default {
         "call.recording.completed",
       ];
     },
-    getEmit(body) {
+    getSummary(body) {
       return `New call recording completed for call ID: ${body.data.object.id}`;
     },
   },
