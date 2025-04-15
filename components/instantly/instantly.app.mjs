@@ -197,7 +197,7 @@ export default {
           }
         }
         args[optsKey].starting_after = next;
-      } while (args[optsKey].next);
+      } while (args[optsKey].starting_after);
     },
   },
 };
