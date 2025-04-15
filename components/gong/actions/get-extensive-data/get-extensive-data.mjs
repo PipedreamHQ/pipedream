@@ -79,7 +79,7 @@ export default {
       const calls = await app.paginate({
         resourceFn: getExtensiveData,
         resourceFnArgs: {
-          $,
+          step: $,
           data: {
             filter,
           },
@@ -92,8 +92,14 @@ export default {
         $.export("$summary", `Successfully retrieved data for ${calls.length} calls`);
       }
       return calls;
-    } catch {
-      $.export("$summary", "No calls found matching the provided criteria");
+    }
+    catch (error) {
+      const noCallsMessage = "No calls found corresponding to the provided filters";
+      if (error?.message.includes(noCallsMessage)) {
+        $.export("$summary", noCallsMessage);
+      } else {
+        throw new ConfigurationError(`${error?.message}`);
+      }
     }
   },
 };
