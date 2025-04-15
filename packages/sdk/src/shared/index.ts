@@ -847,6 +847,17 @@ export interface AsyncRequestOptions extends RequestOptions {
   body: { async_handle: string; } & Required<RequestOptions["body"]>;
 }
 
+export function DEBUG(...args: any[]) {
+  if (
+    typeof process !== "undefined" &&
+    typeof process.env !== "undefined" &&
+    process.env.DEBUG === "true"
+  ) {
+    console.log("[DEBUG]", ...args);
+  }
+}
+
+
 /**
  * A client for interacting with the Pipedream Connect API on the server-side.
  */
@@ -905,6 +916,8 @@ export abstract class BaseClient {
       ...fetchOpts
     } = opts;
 
+
+
     const url = new URL(`${baseURL}${path}`);
 
     if (params) {
@@ -958,10 +971,13 @@ export abstract class BaseClient {
     ) {
       requestOptions.body = processedBody;
     }
+    DEBUG("makeRequest")
+    DEBUG("url: ", url.toString())
+    DEBUG("requestOptions: ", requestOptions)
 
     const response: Response = await fetch(url.toString(), requestOptions);
 
-    if (!response.ok) {
+/*    if (!response.ok) {
       const errorBody = await response.text();
       throw new Error(
         `HTTP error! status: ${response.status}, body: ${errorBody}`,
@@ -974,7 +990,27 @@ export abstract class BaseClient {
       return (await response.json()) as T;
     }
 
-    return (await response.text()) as unknown as T;
+    return (await response.text()) as unknown as T;*/
+    const rawBody = await response.text();
+    DEBUG("Response status:", response.status);
+    DEBUG("Response body:", rawBody);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}, body: ${rawBody}`);
+    }
+
+    const contentType = response.headers.get("Content-Type");
+    if (contentType && contentType.includes("application/json")) {
+      try {
+        const json = JSON.parse(rawBody);
+        DEBUG("Parsed JSON:", json);
+        return json as T;
+      } catch (err) {
+        DEBUG("Failed to parse JSON, returning raw body as fallback.");
+      }
+    }
+
+    return rawBody as unknown as T;
   }
 
   protected abstract authHeaders(): string | Promise<string>;
