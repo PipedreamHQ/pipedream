@@ -11048,7 +11048,11 @@ importers:
 
   components/ruly: {}
 
-  components/rumble: {}
+  components/rumble:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/runpod: {}
 
