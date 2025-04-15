@@ -8076,6 +8076,9 @@ importers:
 
   components/microsoft_viva_goals: {}
 
+  components/microsoft_word:
+    specifiers: {}
+
   components/microsofttodo:
     dependencies:
       '@pipedream/platform':
