@@ -1,6 +1,5 @@
 import { axios } from "@pipedream/platform";
 import {
-  EVENT_TYPE_OPTIONS,
   LIMIT,
   NEW_STATUS_OPTIONS,
 } from "./common/constants.mjs";
@@ -87,24 +86,6 @@ export default {
         };
       },
     },
-    skipIfInWorkspace: {
-      type: "boolean",
-      label: "Skip if in Workspace",
-      description: "Skip lead if it exists in any campaigns in the workspace",
-      optional: true,
-    },
-    skipIfInCampaign: {
-      type: "boolean",
-      label: "Skip if in Campaign",
-      description: "Skip lead if it exists in the campaign",
-      optional: true,
-    },
-    eventType: {
-      type: "string",
-      label: "Event Type",
-      description: "Type of event to filter",
-      options: EVENT_TYPE_OPTIONS,
-    },
     newStatus: {
       type: "string",
       label: "New Status",
@@ -150,6 +131,18 @@ export default {
         ...opts,
       });
     },
+    listEmails(opts = {}) {
+      return this._makeRequest({
+        path: "/emails",
+        ...opts,
+      });
+    },
+    listBackgroundJobs(opts = {}) {
+      return this._makeRequest({
+        path: "/background-jobs",
+        ...opts,
+      });
+    },
     getBackgroundJob({
       jobId, ...opts
     }) {
@@ -179,19 +172,32 @@ export default {
         ...opts,
       });
     },
-    createWebhook(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/webhook/subscribe",
-        ...opts,
-      });
-    },
-    deleteWebhook(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/webhook/unsubscribe",
-        ...opts,
-      });
+    async *paginate({
+      fn, args = {}, max,
+    }) {
+      const optsKey = args?.data
+        ? "data"
+        : "params";
+
+      args[optsKey] = {
+        ...args[optsKey],
+        limit: LIMIT,
+      };
+
+      let count = 0;
+
+      do {
+        const {
+          items, next_starting_after: next,
+        } = await fn(args);
+        for (const item of items) {
+          yield item;
+          if (max && ++count >= max) {
+            return;
+          }
+        }
+        args[optsKey].starting_after = next;
+      } while (args[optsKey].next);
     },
   },
 };
