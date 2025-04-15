@@ -12242,7 +12242,11 @@ importers:
 
   components/sparkpost: {}
 
-  components/speak_ai: {}
+  components/speak_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/specific:
     dependencies:
