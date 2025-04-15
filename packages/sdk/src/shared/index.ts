@@ -847,8 +847,18 @@ export interface AsyncRequestOptions extends RequestOptions {
   body: { async_handle: string; } & Required<RequestOptions["body"]>;
 }
 
-const SENSITIVE_KEYS = ["token", "password", "secret", "apiKey", "authorization", "auth", "key", "access_token"];
+const SENSITIVE_KEYS = [
+  "token",
+  "password",
+  "secret",
+  "apiKey",
+  "authorization",
+  "auth",
+  "key",
+  "access_token",
+];
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function sanitize(value: any, seen = new WeakSet()): any {
   if (value === null || value === undefined) return value;
 
@@ -860,12 +870,17 @@ function sanitize(value: any, seen = new WeakSet()): any {
       return value.map((v) => sanitize(v, seen));
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const sanitizedObj: Record<string, any> = {};
-    for (const [k, v] of Object.entries(value)) {
+    for (const [
+      k,
+      v,
+    ] of Object.entries(value)) {
       const isSensitiveKey = SENSITIVE_KEYS.some((sensitiveKey) =>
-        k.toLowerCase().includes(sensitiveKey.toLowerCase())
-      );
-      sanitizedObj[k] = isSensitiveKey ? "[REDACTED]" : sanitize(v, seen);
+        k.toLowerCase().includes(sensitiveKey.toLowerCase()));
+      sanitizedObj[k] = isSensitiveKey
+        ? "[REDACTED]"
+        : sanitize(v, seen);
     }
     return sanitizedObj;
   }
@@ -873,6 +888,7 @@ function sanitize(value: any, seen = new WeakSet()): any {
   return value; // numbers, booleans, functions, etc.
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function DEBUG(...args: any[]) {
   if (
     typeof process !== "undefined" &&
@@ -883,7 +899,6 @@ export function DEBUG(...args: any[]) {
     console.log("[PD_SDK_DEBUG]", ...safeArgs);
   }
 }
-
 
 /**
  * A client for interacting with the Pipedream Connect API on the server-side.
@@ -1012,6 +1027,7 @@ export abstract class BaseClient {
         const json = JSON.parse(rawBody);
         return json as T;
       } catch (err) {
+        DEBUG("Couldn't parse json, falling back to raw", err)
       }
     }
 
