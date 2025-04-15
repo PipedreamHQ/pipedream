@@ -1,33 +1,26 @@
+/* eslint-disable no-unused-vars */
 import common from "../common/common-create.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import {
-  ASSOCIATION_CATEGORY, ENGAGEMENT_TYPE_OPTIONS,
+  ASSOCIATION_CATEGORY, OBJECT_TYPE,
 } from "../../common/constants.mjs";
 
 export default {
   ...common,
-  key: "hubspot-create-engagement",
-  name: "Create Engagement",
-  description: "Create a new engagement for a contact. [See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
-  version: "0.0.19",
+  key: "hubspot-create-meeting",
+  name: "Create Meeting",
+  description: "Creates a new meeting with optional associations to other objects. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/engagements/meetings#post-%2Fcrm%2Fv3%2Fobjects%2Fmeetings)",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
-    engagementType: {
-      type: "string",
-      label: "Engagement Type",
-      description: "The type of engagement to create",
-      reloadProps: true,
-      options: ENGAGEMENT_TYPE_OPTIONS,
-    },
     toObjectType: {
       propDefinition: [
         common.props.hubspot,
         "objectType",
       ],
       label: "Associated Object Type",
-      description: "Type of object the engagement is being associated with",
-      optional: true,
+      description: "Type of object the meeting is being associated with",
     },
     toObjectId: {
       propDefinition: [
@@ -38,7 +31,7 @@ export default {
         }),
       ],
       label: "Associated Object",
-      description: "ID of object the engagement is being associated with",
+      description: "ID of object the meeting is being associated with",
       optional: true,
     },
     associationType: {
@@ -46,30 +39,29 @@ export default {
         common.props.hubspot,
         "associationType",
         (c) => ({
-          fromObjectType: c.engagementType,
+          fromObjectType: "meetings",
           toObjectType: c.toObjectType,
         }),
       ],
-      description: "A unique identifier to indicate the association type between the task and the other object",
+      description: "A unique identifier to indicate the association type between the meeting and the other object",
       optional: true,
     },
     objectProperties: {
       type: "object",
-      label: "Object Properties",
-      description: "Enter the `engagement` properties as a JSON object",
+      label: "Meeting Properties",
+      description: "Enter the meeting properties as a JSON object. Required properties: hs_meeting_title, hs_meeting_body, hs_meeting_start_time, hs_meeting_end_time. Optional: hs_meeting_status",
     },
   },
   methods: {
     ...common.methods,
     getObjectType() {
-      return this.engagementType;
+      return OBJECT_TYPE.MEETING;
     },
     isRelevantProperty(property) {
-      return common.methods.isRelevantProperty(property) && !property.name.includes("hs_pipeline");
+      return common.methods.isRelevantProperty(property);
     },
-    createEngagement(objectType, properties, associations, $) {
-      return this.hubspot.createObject({
-        objectType,
+    createMeeting(properties, associations, $) {
+      return this.hubspot.createMeeting({
         data: {
           properties,
           associations,
@@ -81,12 +73,9 @@ export default {
   async run({ $ }) {
     const {
       hubspot,
-      /* eslint-disable no-unused-vars */
-      engagementType,
       toObjectType,
       toObjectId,
       associationType,
-      $db,
       objectProperties,
       ...otherProperties
     } = this;
@@ -100,8 +89,6 @@ export default {
         ? JSON.parse(objectProperties)
         : objectProperties
       : otherProperties;
-
-    const objectType = this.getObjectType();
 
     const associations = toObjectId
       ? [
@@ -119,15 +106,10 @@ export default {
       ]
       : undefined;
 
-    if (properties.hs_task_reminders) {
-      properties.hs_task_reminders = Date.parse(properties.hs_task_reminders);
-    }
+    const meeting = await this.createMeeting(properties, associations, $);
 
-    const engagement = await this.createEngagement(objectType, properties, associations, $);
+    $.export("$summary", `Successfully created meeting "${properties.hs_meeting_title}"`);
 
-    const objectName = hubspot.getObjectTypeName(objectType);
-    $.export("$summary", `Successfully created ${objectName} for the contact`);
-
-    return engagement;
+    return meeting;
   },
 };
