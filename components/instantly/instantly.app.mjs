@@ -184,7 +184,7 @@ export default {
         limit: LIMIT,
       };
 
-      let count = 0;
+      let total, count = 0;
 
       do {
         const {
@@ -196,8 +196,9 @@ export default {
             return;
           }
         }
+        total = items?.length;
         args[optsKey].starting_after = next;
-      } while (args[optsKey].starting_after);
+      } while (total === args[optsKey].limit);
     },
   },
 };
