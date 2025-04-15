@@ -2715,8 +2715,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/cogmento:
-    specifiers: {}
+  components/cogmento: {}
 
   components/cohere_platform:
     dependencies:
@@ -8079,8 +8078,7 @@ importers:
 
   components/microsoft_viva_goals: {}
 
-  components/microsoft_word:
-    specifiers: {}
+  components/microsoft_word: {}
 
   components/microsofttodo:
     dependencies:
@@ -14848,8 +14846,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/zoho_fms:
-    specifiers: {}
+  components/zoho_fms: {}
 
   components/zoho_forms:
     dependencies:
@@ -34545,6 +34542,8 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
+    transitivePeerDependencies:
+      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
