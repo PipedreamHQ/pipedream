@@ -943,8 +943,6 @@ export abstract class BaseClient {
       ...fetchOpts
     } = opts;
 
-
-
     const url = new URL(`${baseURL}${path}`);
 
     if (params) {
@@ -1001,20 +999,6 @@ export abstract class BaseClient {
 
     const response: Response = await fetch(url.toString(), requestOptions);
 
-/*    if (!response.ok) {
-      const errorBody = await response.text();
-      throw new Error(
-        `HTTP error! status: ${response.status}, body: ${errorBody}`,
-      );
-    }
-
-    // Attempt to parse JSON, fall back to raw text if it fails
-    const contentType = response.headers.get("Content-Type");
-    if (contentType && contentType.includes("application/json")) {
-      return (await response.json()) as T;
-    }
-
-    return (await response.text()) as unknown as T;*/
     const rawBody = await response.text();
 
     if (!response.ok) {
@@ -1033,7 +1017,6 @@ export abstract class BaseClient {
 
     return rawBody as unknown as T;
   }
-
 
   protected abstract authHeaders(): string | Promise<string>;
 
