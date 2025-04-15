@@ -1,17 +1,57 @@
 // eslint-disable @typescript-eslint/no-explicit-any
 type BaseConfigurableProp = {
+  /**
+   * When building `configuredProps`, make sure to use this field as the key when
+   * setting the prop value.
+   */
   name: string;
   type: string;
 
   // XXX don't actually apply to all, fix
+
+  /**
+   * Value to use as an input label. In cases where `type` is "app", should load
+   * the app via `getApp`, etc. and show `app.name` instead.
+   */
   label?: string;
+
   description?: string;
   optional?: boolean;
   disabled?: boolean;
+
+  /**
+   * If true, should not expose this prop to the user.
+   */
   hidden?: boolean;
+
+  /**
+   * If true, call `configureComponent` for this prop to load remote options.
+   * It is safe, and preferred, given a returned list of
+   * { label: string; value: any } objects to set the prop
+   * value to { __lv: { label: string; value: any } }. This way, on load, you
+   * can access label for the value without necessarily reloading these options.
+   */
   remoteOptions?: boolean;
+
+  /**
+   * If true, calls to `configureComponent` for this prop support receiving a
+   * `query` parameter to filter remote options.
+   */
   useQuery?: boolean;
+
+  /**
+   * If true, after setting a value for this prop, a call to `reloadComponentProps` is
+   * required as the component has dynamic configurable props dependent on this
+   * one.
+   */
   reloadProps?: boolean;
+
+  /**
+   * If true, you must save the configured prop value as a "label-value" object
+   * which should look like: { __lv: { label: string; value: any } }
+   * because the execution needs to access the label.
+   */
+  withLabel?: boolean;
 };
 
 // XXX fix duplicating mapping to value type here and with PropValue
