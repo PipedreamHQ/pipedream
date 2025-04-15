@@ -6,7 +6,7 @@ export default {
   key: "zoho_books-new-sales-order",
   name: "New Sales Order",
   description: "Emit new event when a new sales order is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

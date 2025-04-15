@@ -1,13 +1,10 @@
-import { ConfigurationError } from "@pipedream/platform";
 import { parseObjectEntries } from "../../common/utils.mjs";
-import app from "../../highlevel_oauth.app.mjs";
+import common from "../../common/base.mjs";
 
 export default {
+  ...common,
   props: {
-    app: {
-      ...app,
-      reloadProps: true,
-    },
+    ...common.props,
     name: {
       type: "string",
       label: "Name",
@@ -34,15 +31,8 @@ export default {
       optional: true,
     },
   },
-  async additionalProps() {
-    const locationId = this.app.getLocationId();
-    if (!locationId) {
-      throw new ConfigurationError("This component requires you to authenticate as a **location**, not as an agency/company. *(`locationId` field is missing from `$auth`)*");
-    }
-
-    return {};
-  },
   methods: {
+    ...common.methods,
     getData(useLocation = true) {
       const {
         app, additionalOptions, locationId, ...data

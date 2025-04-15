@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/public_record",
+  "version": "0.0.1",
+  "description": "Pipedream Public Record Components",
+  "main": "public_record.app.mjs",
+  "keywords": [
+    "pipedream",
+    "public_record"
+  ],
+  "homepage": "https://pipedream.com/apps/public_record",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

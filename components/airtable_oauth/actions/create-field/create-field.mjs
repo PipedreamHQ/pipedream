@@ -5,7 +5,7 @@ export default {
   key: "airtable_oauth-create-field",
   name: "Create Field",
   description: "Create a new field in a table. [See the documentation](https://airtable.com/developers/web/api/create-field)",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     ...common.props,

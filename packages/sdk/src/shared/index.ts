@@ -394,6 +394,10 @@ export type ConfigureComponentOpts = ExternalUserId & {
    */
   dynamicPropsId?: string;
 
+  /**
+   * A string with the user input if the prop has the useQuery property set to
+   * true. Use with APIs that return items based on a query or search parameter.
+   */
   query?: string;
 
   /**
@@ -1228,6 +1232,7 @@ export abstract class BaseClient {
       dynamic_props_id: opts.dynamicPropsId,
       page: opts.page,
       prev_context: opts.prevContext,
+      query: opts.query,
     };
     return this.makeConnectRequest<ConfigureComponentResponse>("/components/configure", {
       method: "POST",

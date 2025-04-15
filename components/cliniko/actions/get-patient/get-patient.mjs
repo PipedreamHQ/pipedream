@@ -4,7 +4,7 @@ export default {
   name: "Get Patient",
   key: "cliniko-get-patient",
   description: "Get the details of a patient by patient ID.",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     app,

@@ -15,7 +15,7 @@ export default {
           }) => ![
             "discontinued",
             "deprecated",
-          ].some((keyword) => description.includes(keyword))
+          ].some((keyword) => description?.includes(keyword))
             && supportedGenerationMethods?.includes(constants.MODEL_METHODS.GENERATE_CONTENT),
         }),
       ],

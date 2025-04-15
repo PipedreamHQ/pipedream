@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/changes_page",
+  "version": "0.0.1",
+  "description": "Pipedream changes.page Components",
+  "main": "changes_page.app.mjs",
+  "keywords": [
+    "pipedream",
+    "changes_page"
+  ],
+  "homepage": "https://pipedream.com/apps/changes_page",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -5,7 +5,7 @@ import elevenlabs from "../../elevenlabs.app.mjs";
 export default {
   key: "elevenlabs-add-voice",
   name: "Add Voice",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Add a voice from one or more audio files. [See the documentation](https://elevenlabs.io/docs/api-reference/add-voice)",
   type: "action",
   props: {
@@ -59,7 +59,7 @@ export default {
       data,
     });
 
-    $.export("$summary", `Sucessfully added voice (ID: ${response.voice_id})`);
+    $.export("$summary", `Successfully added voice (ID: ${response.voice_id})`);
     return response;
   },
 };

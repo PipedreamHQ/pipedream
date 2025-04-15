@@ -31,13 +31,14 @@ First, sign into your [ServiceNow Developer Portal](https://developer.servicenow
 ### Create the OAuth Validator app
 
 1. Copy the client ID and secret from the `Pipedream` app you created above.
-2. Name this app `Pipedream OAuth Validator` and add the previously copied client ID and secret. 
-3. Set the grant type to **Authorization Code** and the **Token URL** to `oauth_token.do`.
-4. Use the same **Redirect URL** as before.
+2. Go back to the **System OAuth > Application Registry > New** and select **Connect to an OAuth Provider (simplified)**
+3. Name this app `Pipedream OAuth Validator` and add the previously copied client ID and secret. 
+4. Set the grant type to **Authorization Code** and the **Token URL** to `oauth_token.do`.
+5. Use the same **Redirect URL** as before.
 
-5. Visit [Pipedream's account page](https://pipedream.com/accounts), and click **Click Here to Connect An App**. Search for **ServiceNow** and select it. Enter the client ID, client secret, and your instance name (e.g., `dev98042` from `https://dev98042.service-now.com/`).
+6. Visit [Pipedream's account page](https://pipedream.com/accounts), and click **Click Here to Connect An App**. Search for **ServiceNow** and select it. Enter the client ID, client secret, and your instance name (e.g., `dev98042` from `https://dev98042.service-now.com/`).
 
-6. Press **Connect**. A new window will prompt you to login to your ServiceNow instance, authorizing Pipedream's access to the ServiceNow REST API.
+7. Press **Connect**. A new window will prompt you to login to your ServiceNow instance, authorizing Pipedream's access to the ServiceNow REST API.
 
 ## ServiceNow Authorization Reference
 
