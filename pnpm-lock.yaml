@@ -17,6 +17,9 @@ importers:
       '@sentry/node':
         specifier: ^7.7.0
         version: 7.120.0
+      '@types/node':
+        specifier: ^20.17.6
+        version: 20.17.6
       crypto:
         specifier: ^1.0.1
         version: 1.0.1
@@ -48,9 +51,6 @@ importers:
       '@types/jest':
         specifier: ^27.4.1
         version: 27.5.2
-      '@types/node':
-        specifier: ^20.17.6
-        version: 20.17.6
       '@typescript-eslint/eslint-plugin':
         specifier: ^8
         version: 8.15.0(@typescript-eslint/parser@8.15.0(eslint@8.57.1)(typescript@5.6.3))(eslint@8.57.1)(typescript@5.6.3)
