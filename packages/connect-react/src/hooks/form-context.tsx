@@ -4,7 +4,7 @@ import {
 import isEqual from "lodash.isequal";
 import { useQuery } from "@tanstack/react-query";
 import type {
-  ComponentReloadPropsOpts, ConfigurableProp, ConfigurableProps, ConfiguredProps, V1Component,
+  ConfigurableProp, ConfigurableProps, ConfiguredProps, ReloadComponentPropsOpts, V1Component,
 } from "@pipedream/sdk";
 import { useFrontendClient } from "./frontend-client-context";
 import type { ComponentFormProps } from "../components/ComponentForm";
@@ -13,7 +13,6 @@ import {
   appPropErrors, arrayPropErrors, booleanPropErrors, integerPropErrors,
   stringPropErrors,
 } from "../utils/component";
-import _ from "lodash";
 import {
   Observation, SdkError,
 } from "../types";
@@ -134,7 +133,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     reloadPropIdx,
     setReloadPropIdx,
   ] = useState<number>();
-  const componentReloadPropsInput: ComponentReloadPropsOpts = {
+  const componentReloadPropsInput: ReloadComponentPropsOpts = {
     userId,
     componentId,
     configuredProps,
@@ -153,7 +152,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       queryKeyInput,
     ],
     queryFn: async () => {
-      const result = await client.componentReloadProps(componentReloadPropsInput);
+      const result = await client.reloadComponentProps(componentReloadPropsInput);
       const {
         dynamicProps, observations, errors: __errors,
       } = result
@@ -421,7 +420,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     // NB: The infinite loop is triggered because of calling
     // checkPropsNeedConfiguring() from registerField, which is called
     // from inside useEffect.
-    if (_propsNeedConfiguring && propsNeedConfiguring && _.isEqual(_propsNeedConfiguring, propsNeedConfiguring)) return;
+    if (_propsNeedConfiguring && propsNeedConfiguring && isEqual(_propsNeedConfiguring, propsNeedConfiguring)) return;
 
     setPropsNeedConfiguring(_propsNeedConfiguring)
   }

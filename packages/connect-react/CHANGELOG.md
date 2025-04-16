@@ -1,6 +1,12 @@
 <!-- markdownlint-disable MD024 -->
 # Changelog
 
+# [1.0.1] - 2025-02-19
+
+- remove bad polyfill (would break checking `document`)
+- handle bad `decode-named-character-reference` browser import via vite resolve.alias
+- stop accidentally bundling `lodash` (-80KB for es build)
+
 # [1.0.0-preview.30] - 2025-02-19
 
 - SelectApp and SelectComponent Improvements
