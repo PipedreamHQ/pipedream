@@ -1,8 +1,6 @@
 export default {
   "index": "Overview",
   "building-workflows": "Building Workflows",
-  "projects": "Projects",
-  "workspaces": "Workspaces",
   "data-management": "Data Management",
   "event-history": "Event History",
   "environment-variables": "Environment Variables",
@@ -10,6 +8,5 @@ export default {
   "domains": "Custom Domains",
   "vpc": "Virtual Private Clouds",
   "limits": "Limits",
-  "contributing": "Contributing",
   "cli": "CLI",
 } as const

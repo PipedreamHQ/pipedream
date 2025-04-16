@@ -56,7 +56,7 @@ export default withNextra({
       },
       {
         source: "/apps/contributing/",
-        destination: "/workflows/contributing/",
+        destination: "/contributing/",
         permanent: true,
       },
       {
@@ -171,7 +171,7 @@ export default withNextra({
       },
       {
         source: "/projects/",
-        destination: "/workflows/projects/",
+        destination: "/projects/",
         permanent: true,
       },
       {
@@ -191,7 +191,7 @@ export default withNextra({
       },
       {
         source: "/projects/:path*/",
-        destination: "/workflows/projects/:path*/",
+        destination: "/projects/:path*/",
         permanent: true,
       },
       {
@@ -318,17 +318,17 @@ export default withNextra({
       },
       {
         source: "/components/quickstart/nodejs/actions/",
-        destination: "/workflows/contributing/components/actions-quickstart/",
+        destination: "/contributing/components/actions-quickstart/",
         permanent: true,
       },
       {
         source: "/components/",
-        destination: "/workflows/contributing/components/",
+        destination: "/contributing/components/",
         permanent: true,
       },
       {
         source: "/components/:path*/",
-        destination: "/workflows/contributing/components/:path*/",
+        destination: "/contributing/components/:path*/",
         permanent: true,
       },
       {
@@ -338,32 +338,62 @@ export default withNextra({
       },
       {
         source: "/workspaces/",
-        destination: "/workflows/workspaces/",
+        destination: "/workspaces/",
         permanent: true,
       },
       {
         source: "/workspaces/okta/",
-        destination: "/workflows/workspaces/sso/okta/",
+        destination: "/workspaces/sso/okta/",
         permanent: true,
       },
       {
         source: "/workspaces/google/",
-        destination: "/workflows/workspaces/sso/google/",
+        destination: "/workspaces/sso/google/",
         permanent: true,
       },
       {
         source: "/workspaces/saml/",
-        destination: "/workflows/workspaces/sso/saml/",
+        destination: "/workspaces/sso/saml/",
         permanent: true,
       },
       {
         source: "/workspaces/:path*/",
-        destination: "/workflows/workspaces/:path*/",
+        destination: "/workspaces/:path*/",
         permanent: true,
       },
       {
         source: "/workspaces-and-credits-faq/",
         destination: "/pricing/faq/",
+        permanent: true,
+      },
+      {
+        source: "/workflows/contributing/",
+        destination: "/contributing/",
+        permanent: true,
+      },
+      {
+        source: "/workflows/contributing/:path*/",
+        destination: "/contributing/:path*/",
+        permanent: true,
+      },
+      {
+        source: "/workflows/projects/",
+        destination: "/projects/",
+        permanent: true,
+      },
+      {
+        source: "/workflows/projects/:path*/",
+        destination: "/projects/:path*/",
+        permanent: true,
+      },
+      {
+        source: "/workflows/workspaces/",
+        destination: "/workspaces/",
+        permanent: true,
+      },
+      {
+        source: "/workflows/workspaces/:path*/",
+        destination: "/workspaces/:path*/",
         permanent: true,
       },
       {

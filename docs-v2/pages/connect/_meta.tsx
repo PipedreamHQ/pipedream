@@ -3,16 +3,19 @@ export default {
     "title": "Overview",
   },
   "use-cases": {
-    "title": "Use cases",
+    "title": "Use Cases",
   },
   "managed-auth": {
-    "title": "Managed auth",
+    "title": "Managed Auth",
   },
   "components": {
-    "title": "Pre-built tools",
+    "title": "Triggers and Actions",
+  },
+  "mcp": {
+    "title": "MCP",
   },
   "api-proxy": {
-    "title": "API proxy",
+    "title": "API Proxy",
   },
   "workflows": {
     "title": "Workflows",
@@ -21,7 +24,7 @@ export default {
     "title": "Environments",
   },
   "api": {
-    "title": "API & SDK reference",
+    "title": "API & SDK Reference",
   },
   "migrating-from-project-keys-to-oauth": {
     "display": "hidden",

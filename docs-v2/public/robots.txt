@@ -1,0 +1,10 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://pipedream.com/docs
+
+# Sitemaps
+Sitemap: https://pipedream.com/docs/sitemap.xml
+Sitemap: https://pipedream.com/sitemap.xml
