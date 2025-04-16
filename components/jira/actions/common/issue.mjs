@@ -129,7 +129,7 @@ export default {
       return Object.values(fields)
         .filter(predicate)
         .reduce(async (props, {
-          schema, name: label, key, autoCompleteUrl,
+          schema, name: label, key, autoCompleteUrl, required,
         }) => {
           const reduction = await props;
 
@@ -147,7 +147,7 @@ export default {
             type: constants.TYPE[schemaType] || "object",
             label,
             description: "Set your field value",
-            optional: true,
+            optional: !required,
           };
 
           // Requests by URL
