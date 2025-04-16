@@ -9008,7 +9008,11 @@ importers:
         specifier: ^2.19.5
         version: 2.19.5
 
-  components/openrouter: {}
+  components/openrouter:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/opensea:
     dependencies:
