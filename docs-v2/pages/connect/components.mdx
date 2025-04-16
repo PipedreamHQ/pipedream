@@ -144,7 +144,7 @@ const components = await pd.getComponents({ q: "gitlab" });
 ```bash
 curl -X https://api.pipedream.com/v1/connect/{project_id}/actions?app=gitlab \
   -H "Content-Type: application/json" \
-  -H "X-PD-Environment: development" \
+  -H "X-PD-Environment: {environment}" \
   -H "Authorization: Bearer {access_token}"
 
 # Parse and return the data you need
@@ -239,7 +239,7 @@ const component = await pd.getComponent({ key: "gitlab-list-commits" });
 ```bash
 curl -X https://api.pipedream.com/v1/connect/{project_id}/components/gitlab-list-commits \
   -H "Content-Type: application/json" \
-  -H "X-PD-Environment: development" \
+  -H "X-PD-Environment: {environment}" \
   -H "Authorization: Bearer {access_token}"
 
 # Parse and return the data you need
@@ -346,7 +346,7 @@ const { options } = await pd.configureComponent({
 ```bash
 curl -X POST https://api.pipedream.com/v1/connect/{project_id}/components/configure \
   -H "Content-Type: application/json" \
-  -H "X-PD-Environment: development" \
+  -H "X-PD-Environment: {environment}" \
   -H "Authorization: Bearer {access_token}" \
   -d '{
     "external_user_id": "abc-123",
@@ -450,7 +450,7 @@ For example, to retrieve the configuration options for the `refName` prop:
 }
 ```
 
-### Configure dynamic props (optional)
+### Configure dynamic props
 
 The set of props that a component can accept might not be static, and may change
 depending on the values of prior props. Props that behave this way are called
@@ -617,16 +617,16 @@ const resp = await pd.runAction({
 ```bash
 curl -X POST https://api.pipedream.com/v1/connect/{project_id}/actions/run \
   -H "Content-Type: application/json" \
-  -H "X-PD-Environment: development" \
+  -H "X-PD-Environment: {environment}" \
   -H "Authorization: Bearer {access_token}" \
   -d '{
     "external_user_id": "abc-123",
     "id": "gitlab-list-commits",
-    "prop_name": "projectId",
     "configured_props": {
       "gitlab": {
         "authProvisionId": "apn_kVh9AoD"
-      }
+      },
+      "projectId": 45672541,
     }
   }'
 
@@ -709,11 +709,11 @@ Deploy a source for your users:
 const { data: deployedTrigger } = await pd.deployTrigger({
   externalUserId: "abc-123",
   id: "gitlab-new-issue",
-  propName: "projectId",
   configuredProps: {
     gitlab: {
       authProvisionId: "apn_kVh9AoD",
-    }
+    },
+    projectId: 45672541,
   },
   webhookUrl: "https://events.example.com/gitlab-new-issue"
 });
@@ -731,16 +731,16 @@ const {
 ```bash
 curl -X POST https://api.pipedream.com/v1/connect/{project_id}/components/triggers/deploy \
   -H "Content-Type: application/json" \
-  -H "X-PD-Environment: development" \
+  -H "X-PD-Environment: {environment}" \
   -H "Authorization: Bearer {access_token}" \
   -d '{
     "external_user_id": "abc-123",
     "id": "gitlab-new-issue",
-    "prop_name": "projectId",
     "configured_props": {
       "gitlab": {
         "authProvisionId": "apn_kVh9AoD"
-      }
+      },
+      "projectId": 45672541,
     },
     "webhook_url": "https://events.example.com/gitlab-new-issue"
   }'
