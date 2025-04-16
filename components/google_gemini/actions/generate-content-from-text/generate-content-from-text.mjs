@@ -6,28 +6,15 @@ export default {
   key: "google_gemini-generate-content-from-text",
   name: "Generate Content from Text",
   description: "Generates content from text input using the Google Gemini API. [See the documentation](https://ai.google.dev/tutorials/rest_quickstart#text-only_input)",
-  version: "0.1.2",
+  version: "0.2.0",
   type: "action",
-  props: {
-    ...common.props,
-    text: {
-      propDefinition: [
-        common.props.app,
-        "text",
-      ],
-    },
-    responseFormat: {
-      propDefinition: [
-        common.props.app,
-        "responseFormat",
-      ],
-    },
-  },
   async run({ $ }) {
     const {
       app,
       model,
       text,
+      history,
+      safetySettings,
       responseFormat,
       responseSchema,
       maxOutputTokens,
@@ -37,19 +24,24 @@ export default {
       stopSequences,
     } = this;
 
+    const contents = [
+      ...this.formatHistoryToContent(history),
+      {
+        parts: [
+          {
+            text,
+          },
+        ],
+        role: "user",
+      },
+    ];
+
     const response = await app.generateContent({
       $,
       model,
       data: {
-        contents: [
-          {
-            parts: [
-              {
-                text,
-              },
-            ],
-          },
-        ],
+        contents,
+        safetySettings: this.formatSafetySettings(safetySettings),
         ...(
           responseFormat || maxOutputTokens || temperature || topP || topK || stopSequences?.length
             ? {
