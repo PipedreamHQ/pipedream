@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/screenshot_api",
+  "version": "0.0.1",
+  "description": "Pipedream Screenshot API Components",
+  "main": "screenshot_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "screenshot_api"
+  ],
+  "homepage": "https://pipedream.com/apps/screenshot_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

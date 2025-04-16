@@ -812,3 +812,181 @@ retrieve, or update the source in the future.
 Refer to the [full Connect API reference](/connect/api#components) for questions and additional examples.
 
 </Steps>
+
+## Deploying triggers
+
+These are 2 categories of triggers you can deploy on behalf of your end users:
+- [App-based event sources](#app-based-event-sources)
+- [Native triggers](#native-triggers)
+
+<Callout type="info">
+Refer to the [full Connect API reference](/connect/api/#deploy-a-trigger) to list, retrieve, delete, and manage triggers for your user
+</Callout>
+
+### App-based event sources
+- Listen for events that occur in other systems: for example, when [a new file is added to Google Drive](https://pipedream.com/apps/google-drive/triggers/new-files-instant) or when [a new contact is created in HubSpot](https://pipedream.com/apps/hubspot/triggers/new-or-updated-contact)
+- Deploying these triggers requires that your customers first connect their account using [Pipedream Connect Managed Auth](/managed-auth/quickstart), since the triggers are deployed on their behalf using account
+- Refer to the [quickstart above](#deploying-a-source) to get started 
+
+### Native triggers
+- You can also deploy native triggers, which don't require any authentication from your end users, so **you should skip the account connection process when configuring these triggers**
+- Because these triggers don't use a connected account from your end users, APIs to deploy and manage them are slightly different (see below)
+
+#### HTTP Webhook
+Generate a unique HTTP webhook URL for your end users to configure in any other upstream service.
+
+<Tabs items={['Node.js', 'HTTP (cURL)']}>
+<Tabs.Tab>
+```javascript
+const { data: deployedTrigger } = await pd.deployTrigger({
+  externalUserId: "abc-123",
+  id: "http-new-requests",
+  webhookUrl: "https://events.example.com/http-new-requests"
+});
+
+const {
+  id: triggerId,              // The unique ID of the deployed trigger
+  endpoint_url: endpointUrl,  // The endpoint URL to return to the user
+} = deployedTrigger;
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```bash
+curl -X POST https://api.pipedream.com/v1/connect/{project_id}/components/triggers/deploy \
+  -H "Content-Type: application/json" \
+  -H "X-PD-Environment: {environment}" \
+  -H "Authorization: Bearer {access_token}" \
+  -d '{
+    "external_user_id": "abc-123",
+    "id": "http-new-requests",
+    "webhook_url": "https://events.example.com/http-new-requests"
+  }'
+
+# Parse and return the data you need
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "id": "hi_zbGHMx",
+  "key": "xxxxxxxxxx",
+  "endpoint_url": "http://xxxxxxxxxx.m.pipedream.net",
+  "custom_response": true,
+  "created_at": 1744508049,
+  "updated_at": 1744508049
+}
+```
+
+#### Schedule
+Deploy a timer to act as a cron job that will emit an event on a custom schedule you or your users define.
+
+<Tabs items={['Node.js', 'HTTP (cURL)']}>
+<Tabs.Tab>
+```javascript
+const { data: deployedTrigger } = await pd.deployTrigger({
+  externalUserId: "abc-123",
+  id: "schedule-custom-interval",
+  configuredProps: {
+    "cron": {
+      "intervalSeconds": 900
+    }
+  },
+  webhookUrl: "https://events.example.com/schedule-custom-interval"
+});
+
+const {
+  id: triggerId,              // The unique ID of the deployed trigger
+  endpoint_url: endpointUrl,  // The endpoint URL to return to the user
+} = deployedTrigger;
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```bash
+curl -X POST https://api.pipedream.com/v1/connect/{project_id}/components/triggers/deploy \
+  -H "Content-Type: application/json" \
+  -H "X-PD-Environment: {environment}" \
+  -H "Authorization: Bearer {access_token}" \
+  -d '{
+    "external_user_id": "abc-123",
+    "id": "schedule-custom-interval",
+    "configured_props": {
+      "cron": {
+        "intervalSeconds": 900
+      }
+    },
+    "webhook_url": "https://events.example.com/schedule-custom-interval"
+  }'
+
+# Parse and return the data you need
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "id": "ti_aqGTJ2",
+  "interval_seconds": 900,
+  "cron": null,
+  "timezone": "UTC",
+  "schedule_changed_at": 1744508391,
+  "created_at": 1744508391,
+  "updated_at": 1744508391
+}
+```
+
+#### New emails received 
+Generate a unique email address for your customers to emit events to
+
+<Tabs items={['Node.js', 'HTTP (cURL)']}>
+<Tabs.Tab>
+```javascript
+const { data: deployedTrigger } = await pd.deployTrigger({
+  externalUserId: "abc-123",
+  id: "email-new-email",
+  webhookUrl: "https://events.example.com/email-new-email"
+});
+
+const {
+  id: triggerId,              // The unique ID of the deployed trigger
+  email_address: emailAddress,  // The unique email address to return to the user
+} = deployedTrigger;
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```bash
+curl -X POST https://api.pipedream.com/v1/connect/{project_id}/components/triggers/deploy \
+  -H "Content-Type: application/json" \
+  -H "X-PD-Environment: {environment}" \
+  -H "Authorization: Bearer {access_token}" \
+  -d '{
+    "external_user_id": "abc-123",
+    "id": "email-new-email",
+    "webhook_url": "https://events.example.com/email-new-email"
+  }'
+
+# Parse and return the data you need
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "id": "ei_QaJTb0",
+  "email_address": "xxxxxxxxxx@upload.pipedream.net",
+  "created_at": 1744499847,
+  "updated_at": 1744499847
+}
+```
