@@ -4,7 +4,7 @@ export default {
   key: "notion-retrieve-block",
   name: "Retrieve Page Content",
   description: "Get page content as block objects or markdown. Blocks can be text, lists, media, a page, among others. [See the documentation](https://developers.notion.com/reference/retrieve-a-block)",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
     notion,
@@ -42,14 +42,15 @@ export default {
     const subpagesOnly = retrieveChildren === "Sub-Pages Only";
 
     const block = await this.notion.retrieveBlock(this.blockId);
-    if ([
+    const shouldRetrieveChildren = [
       true,
       "All Children",
       "Sub-Pages Only",
-    ].includes(retrieveChildren)) {
+    ].includes(retrieveChildren);
+    if (shouldRetrieveChildren) {
       block.children = await this.notion.retrieveBlockChildren(block, subpagesOnly);
     }
-    $.export("$summary", `Successfully retrieved block${retrieveChildren
+    $.export("$summary", `Successfully retrieved block${shouldRetrieveChildren
       ? ` with ${block.children.length ?? 0} ${subpagesOnly
         ? "sub-pages"
         : "children"}`

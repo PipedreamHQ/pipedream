@@ -16,7 +16,7 @@ Pipedream's MCP servers are powered by [Pipedream Connect](https://pipedream.com
 - Secure account connections with revocable access
 
 <Callout type="info">
-Pipedream handles all OAuth and credential management through our [secure credential infrastructure](/privacy-and-security/#third-party-oauth-grants-api-keys-and-environment-variables). User credentials are encrypted at rest and all requests are made through Pipedream's servers, never directly exposing credentials to AI models.
+User credentials are encrypted at rest and all requests are made through Pipedream's servers, never directly exposing credentials to AI models. Read more about how we protect user credentials [here](/privacy-and-security/#third-party-oauth-grants-api-keys-and-environment-variables). 
 </Callout>
 
 ## Available MCP servers
@@ -170,13 +170,19 @@ Pipedream's MCP servers enable AI assistants to perform a wide range of tasks:
 - Each MCP server provides tools specific to that app. Tools are automatically created based on Pipedream's registry of pre-built actions.
 - You can find the supported tools for a given app on its MCP server page or search for specific actions here: [pipedream.com/expore](https://pipedream.com/explore#popular-actions).
 
+## Known gaps and limitations
+
+- Pipedream's MCP server doesn't yet support [configuring dynamic props](/connect/components/#configure-dynamic-props), which means LLMs may get confused when trying to configure props that require inputs from previous props
+- As an end user, you need to manually add distinct MCP servers for every app you want to interact with, instead of using a single MCP server that contains tools for many APIs
+
 ## Pricing
 
 - Anyone can use Pipedream's hosted MCP servers for their own use **for free**
 - To deploy Pipedream's MCP servers to your own app or agent, [contact our sales team](https://pipedream.com/pricing?plan=Enterprise)
 
-## Resources
+## Additional resources
 
+- [Pipedream hosted MCP servers](https://mcp.pipedream.com)
 - [MCP official spec](https://modelcontextprotocol.io/)
 - [Pipedream MCP reference implementation](https://github.com/PipedreamHQ/pipedream/tree/master/modelcontextprotocol)
 - [MCP inspector tool](https://modelcontextprotocol.io/docs/tools/inspector/)
