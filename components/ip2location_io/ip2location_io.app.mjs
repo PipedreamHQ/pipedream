@@ -40,5 +40,11 @@ export default {
         ...args,
       });
     },
+    lookupHostedDomain(args = {}) {
+      return this._makeRequest({
+        url: "https://domains.ip2whois.com/domains",
+        ...args,
+      });
+    },
   },
 };
