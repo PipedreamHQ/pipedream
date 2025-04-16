@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/upwave",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream Upwave Components",
-  "main": "dist/app/upwave.app.mjs",
+  "main": "upwave.app.mjs",
   "keywords": [
     "pipedream",
     "upwave"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/upwave",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
