@@ -11,6 +11,9 @@ export default {
   "components": {
     "title": "Pre-built tools",
   },
+  "mcp": {
+    "title": "MCP servers",
+  },
   "api-proxy": {
     "title": "API proxy",
   },
