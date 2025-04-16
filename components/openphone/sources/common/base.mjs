@@ -32,6 +32,9 @@ export default {
     getEventFilter() {
       return true;
     },
+    getWebhookType() {
+      return "calls";
+    },
   },
   hooks: {
     async activate() {
@@ -42,6 +45,7 @@ export default {
           resourceIds: this.resourceIds,
           label: this.label,
         },
+        webhookType: this.getWebhookType(),
       });
       this._setHookId(response.data.id);
     },

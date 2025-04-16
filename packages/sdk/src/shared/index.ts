@@ -109,6 +109,11 @@ export type App = AppInfo & {
    * Categories associated with the app.
    */
   categories: string[];
+
+  /**
+   * A rough directional ordering of app popularity, subject to changes by Pipedream.
+   */
+  featured_weight: number
 };
 
 /**

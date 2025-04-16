@@ -379,7 +379,11 @@ importers:
         specifier: ^20.0.0
         version: 20.0.0
 
-  components/adyntel: {}
+  components/adyntel:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/aerisweather:
     dependencies:
@@ -425,7 +429,13 @@ importers:
 
   components/agentql: {}
 
-  components/agentset: {}
+  components/agentset:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+
+  components/agentx: {}
 
   components/agenty:
     dependencies:
@@ -953,6 +963,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/arlo: {}
 
   components/aroflo:
     dependencies:
@@ -2705,6 +2717,8 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/cogmento: {}
+
   components/cohere_platform:
     dependencies:
       cohere-ai:
@@ -2816,8 +2830,8 @@ importers:
   components/confluence:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.0
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/confluent: {}
 
@@ -4851,8 +4865,8 @@ importers:
   components/frontapp:
     dependencies:
       '@pipedream/platform':
-        specifier: ^0.10.0
-        version: 0.10.0
+        specifier: ^3.0.3
+        version: 3.0.3
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -5411,8 +5425,8 @@ importers:
         specifier: ^2.3.0
         version: 2.4.0
       '@pipedream/platform':
-        specifier: ^1.4.0
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
       cron-parser:
         specifier: ^4.9.0
         version: 4.9.0
@@ -5607,6 +5621,8 @@ importers:
         specifier: ^0.1.4
         version: 0.1.6
 
+  components/goqr_me: {}
+
   components/gorgias:
     dependencies:
       '@pipedream/platform':
@@ -5784,7 +5800,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/hamsa: {}
+  components/hamsa:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/handwrytten: {}
 
@@ -8060,6 +8080,8 @@ importers:
 
   components/microsoft_viva_goals: {}
 
+  components/microsoft_word: {}
+
   components/microsofttodo:
     dependencies:
       '@pipedream/platform':
@@ -8647,6 +8669,8 @@ importers:
         version: 1.6.6
 
   components/notiff: {}
+
+  components/notiff_io: {}
 
   components/notion:
     dependencies:
@@ -11024,7 +11048,11 @@ importers:
 
   components/ruly: {}
 
-  components/rumble: {}
+  components/rumble:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/runpod: {}
 
@@ -11090,6 +11118,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+
+  components/salesloft: {}
 
   components/salesmate:
     dependencies:
@@ -11252,6 +11282,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+
+  components/screenshot_api: {}
 
   components/screenshot_fyi:
     dependencies:
@@ -11563,8 +11595,8 @@ importers:
   components/sevdesk:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/seven:
     dependencies:
@@ -12218,7 +12250,11 @@ importers:
 
   components/sparkpost: {}
 
-  components/speak_ai: {}
+  components/speak_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/specific:
     dependencies:
@@ -12664,7 +12700,11 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
-  components/swell: {}
+  components/swell:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/swiftype: {}
 
@@ -14811,6 +14851,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+
+  components/zoho_fms: {}
 
   components/zoho_forms:
     dependencies:
@@ -34506,8 +34548,6 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
-    transitivePeerDependencies:
-      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
@@ -47606,7 +47646,7 @@ snapshots:
       cac: 6.7.14
       chokidar: 4.0.3
       consola: 3.4.0
-      debug: 4.4.0
+      debug: 4.3.7(supports-color@9.4.0)
       esbuild: 0.24.2
       joycon: 3.1.1
       picocolors: 1.1.1

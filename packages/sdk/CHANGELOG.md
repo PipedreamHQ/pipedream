@@ -2,6 +2,14 @@
 
 # Changelog
 
+## [1.5.1] - 2025-04-15
+
+### Added
+
+- `withLabel` to `BaseConfigurableProp` type definition
+- documentation describing various fields in `BaseConfigurableProp`
+- `featured_weight` to `App` type definition now that API returns this value
+
 ## [1.5.0] - 2025-04-08
 
 ### Added

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/goqr_me",
+  "version": "0.0.1",
+  "description": "Pipedream goQR.me Components",
+  "main": "goqr_me.app.mjs",
+  "keywords": [
+    "pipedream",
+    "goqr_me"
+  ],
+  "homepage": "https://pipedream.com/apps/goqr_me",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

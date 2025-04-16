@@ -748,3 +748,22 @@ export const CURRENCY_OPTIONS = [
     label: "Zimbabwean Dollar",
   },
 ];
+
+export const CONTACT_CATEGORIES = [
+  {
+    label: "Supplier",
+    value: 2,
+  },
+  {
+    label: "Customer",
+    value: 3,
+  },
+  {
+    label: "Partner",
+    value: 4,
+  },
+  {
+    label: "Prospect Customer",
+    value: 28,
+  },
+];

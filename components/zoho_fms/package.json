@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/zoho_fms",
+  "version": "0.0.1",
+  "description": "Pipedream Zoho FMS Components",
+  "main": "zoho_fms.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zoho_fms"
+  ],
+  "homepage": "https://pipedream.com/apps/zoho_fms",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

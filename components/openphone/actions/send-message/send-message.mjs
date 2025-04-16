@@ -4,7 +4,7 @@ export default {
   key: "openphone-send-message",
   name: "Send a Text Message",
   description: "Send a text message from your OpenPhone number to a recipient. [See the documentation](https://www.openphone.com/docs/api-reference/messages/send-a-text-message)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     openphone,

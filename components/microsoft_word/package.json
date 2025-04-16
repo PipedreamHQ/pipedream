@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/microsoft_word",
+  "version": "0.0.1",
+  "description": "Pipedream Microsoft Word Components",
+  "main": "microsoft_word.app.mjs",
+  "keywords": [
+    "pipedream",
+    "microsoft_word"
+  ],
+  "homepage": "https://pipedream.com/apps/microsoft_word",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -68,9 +68,9 @@ export default {
           listResourcesFn: this.listChannels,
           filter,
           mapper: ({
-            id, address,
+            id, name,
           }) => ({
-            label: address,
+            label: name,
             value: id,
           }),
         });
@@ -165,6 +165,90 @@ export default {
         });
       },
     },
+    commentId: {
+      type: "string",
+      label: "Comment ID",
+      description: "ID of the comment to retrieve",
+      async options({
+        prevContext, conversationId,
+      }) {
+        return this.paginateOptions({
+          prevContext,
+          listResourcesFn: this.listComments,
+          mapper: ({
+            id, body,
+          }) => ({
+            label: body.slice(0, 50),
+            value: id,
+          }),
+          args: {
+            conversationId,
+          },
+        });
+      },
+    },
+    teamId: {
+      type: "string",
+      label: "Team ID",
+      description: "ID of a team",
+      async options({ prevContext }) {
+        return this.paginateOptions({
+          prevContext,
+          listResourcesFn: this.listTeams,
+          mapper: ({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          }),
+        });
+      },
+    },
+    signatureId: {
+      type: "string",
+      label: "Signature ID",
+      description: "ID of the signature to attach. If ommited, no signature is attached.",
+      optional: true,
+      async options({
+        teamId, prevContext,
+      }) {
+        return this.paginateOptions({
+          prevContext,
+          listResourcesFn: this.listSignatures,
+          mapper: ({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          }),
+          args: {
+            teamId,
+          },
+        });
+      },
+    },
+    mode: {
+      type: "string",
+      label: "Mode",
+      description: "Mode of the draft to create. Can be 'private' (draft is visible to the author only) or 'shared' (draft is visible to all teammates with access to the conversation).",
+      options: [
+        "private",
+        "shared",
+      ],
+      optional: true,
+    },
+    shouldAddDefaultSignature: {
+      type: "boolean",
+      label: "Should Add Default Signature",
+      description: "Whether or not Front should try to resolve a signature for the message. Is ignored if signature_id is included. Default `false`",
+      optional: true,
+    },
+    quoteBody: {
+      type: "string",
+      label: "Quote Body",
+      description: "Body for the quote that the message is referencing. Only available on email channels.",
+      optional: true,
+    },
     to: {
       type: "string[]",
       label: "To",
@@ -180,6 +264,13 @@ export default {
       type: "string[]",
       label: "BCC",
       description: "List of the recipeient handles who received a blind copy of the message.",
+      optional: true,
+    },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "The maximum number of results to return",
+      default: 100,
       optional: true,
     },
   },
@@ -199,10 +290,10 @@ export default {
       };
     },
     getConfig({
-      headers, path, url, data: oriignalData, ...args
+      headers, path, url, data: originalData, ...args
     } = {}) {
       const hasMultipartHeader = this.hasMultipartHeader(headers);
-      const data = hasMultipartHeader && utils.getFormData(oriignalData) || oriignalData;
+      const data = hasMultipartHeader && utils.getFormData(originalData) || originalData;
       const currentHeaders = this.getHeaders(headers);
       const builtHeaders = hasMultipartHeader
         ? {
@@ -329,12 +420,103 @@ export default {
         ...args,
       });
     },
+    getTeammate({
+      teammateId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/teammates/${teammateId}`,
+        ...args,
+      });
+    },
+    getConversation({
+      conversationId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/conversations/${conversationId}`,
+        ...args,
+      });
+    },
+    getComment({
+      commentId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/comments/${commentId}`,
+        ...args,
+      });
+    },
+    listComments({
+      conversationId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/conversations/${conversationId}/comments`,
+        ...args,
+      });
+    },
+    listTeams(args = {}) {
+      return this.makeRequest({
+        path: "/teams",
+        ...args,
+      });
+    },
+    listSignatures({
+      teamId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/teams/${teamId}/signatures`,
+        ...args,
+      });
+    },
+    listCommentMentions({
+      commentId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/comments/${commentId}/mentions`,
+        ...args,
+      });
+    },
+    addComment({
+      conversationId, ...args
+    }) {
+      return this.makeRequest({
+        method: constants.METHOD.POST,
+        path: `/conversations/${conversationId}/comments`,
+        ...args,
+      });
+    },
+    createDraft({
+      channelId, ...args
+    }) {
+      return this.makeRequest({
+        method: constants.METHOD.POST,
+        path: `/channels/${channelId}/drafts`,
+        ...args,
+      });
+    },
+    createDraftReply({
+      conversationId, ...args
+    }) {
+      return this.makeRequest({
+        method: constants.METHOD.POST,
+        path: `/conversations/${conversationId}/drafts`,
+        ...args,
+      });
+    },
+    updateConversationAssignee({
+      conversationId, ...args
+    }) {
+      return this.makeRequest({
+        method: constants.METHOD.PUT,
+        path: `/conversations/${conversationId}/assignee`,
+        ...args,
+      });
+    },
     async paginateOptions({
       prevContext,
       listResourcesFn,
       filter = () => true,
       mapper = (resource) => resource,
       appendNull = false,
+      args = {},
     } = {}) {
       const { pageToken } = prevContext;
 
@@ -353,7 +535,9 @@ export default {
         _pagination: { next: nextPageToken },
         _results: resources,
       } = await listResourcesFn({
+        ...args,
         params: {
+          ...args?.params,
           page_token: pageToken,
         },
       });

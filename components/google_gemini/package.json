@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_gemini",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Pipedream Google Gemini Components",
   "main": "google_gemini.app.mjs",
   "keywords": [

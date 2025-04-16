@@ -13,7 +13,7 @@ export default {
   key: "google_drive-upload-file",
   name: "Upload File",
   description: "Upload a file to Google Drive. [See the documentation](https://developers.google.com/drive/api/v3/manage-uploads) for more information",
-  version: "1.0.0",
+  version: "1.0.2",
   type: "action",
   additionalProps,
   props: {
@@ -43,7 +43,7 @@ export default {
         googleDrive,
         "fileUrl",
       ],
-      optional: false,
+      optional: true,
       hidden: true,
     },
     filePath: {
@@ -51,7 +51,7 @@ export default {
         googleDrive,
         "filePath",
       ],
-      optional: false,
+      optional: true,
       hidden: true,
     },
     name: {
