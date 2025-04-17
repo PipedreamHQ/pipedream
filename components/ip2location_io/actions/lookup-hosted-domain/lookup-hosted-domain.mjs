@@ -38,7 +38,7 @@ export default {
       if (response && response.total_domains) {
         $.export(
           "$summary",
-          `Successfully retrieved hosted domain information about IP ${this.ip}.`
+          `Successfully retrieved hosted domain information about IP ${this.ip}.`,
         );
       }
       return response;
