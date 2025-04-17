@@ -8691,8 +8691,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       notion-to-md:
-        specifier: ^4.0.0-alpha.4
-        version: 4.0.0-alpha.4(@notionhq/client@2.2.15)
+        specifier: 3.1.8
+        version: 3.1.8
 
   components/nozbe_teams: {}
 
@@ -25866,11 +25866,9 @@ packages:
     resolution: {integrity: sha512-IO9QvjUMWxPQQhs60oOu10CRkWCiZzSUkzbXGGV9pviYl1fXYcvkzQ5jV9z8Y6un8ARoVRl4EtC6v6jNqbaJ/w==}
     engines: {node: '>=14.16'}
 
-  notion-to-md@4.0.0-alpha.4:
-    resolution: {integrity: sha512-MxK71vIj0l8jCDbzTAROp/2pXI8f2bhjJINuUk/uIlGKs2XPJCzYKFu+4ELvSG+DiNvmGWxdr+Dtba47fnULTg==}
+  notion-to-md@3.1.8:
+    resolution: {integrity: sha512-DuEslJAbmUG2IRVcoeiCdsE2tI8yXOG6NiHlzxYTcKMmkAtoj2Fgq35Gf5T8s92uzpT2ueVf3aCOq7XuVLVYOA==}
     engines: {node: '>=12'}
-    peerDependencies:
-      '@notionhq/client': ^2.0.0
 
   npm-normalize-package-bin@1.0.1:
     resolution: {integrity: sha512-EPfafl6JL5/rU+ot6P3gRSCpPDW5VmIzX959Ob1+ySFUuuYHWHekXpwdUZcKP5C+DS4GEtdJluwBjnsNDl+fSA==}
@@ -44336,10 +44334,9 @@ snapshots:
 
   normalize-url@8.0.1: {}
 
-  notion-to-md@4.0.0-alpha.4(@notionhq/client@2.2.15):
+  notion-to-md@3.1.8:
     dependencies:
-      '@notionhq/client': 2.2.15
-      mime: 3.0.0
+      markdown-table: 2.0.0
       node-fetch: 2.7.0
     transitivePeerDependencies:
       - encoding

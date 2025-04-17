@@ -9,7 +9,7 @@ export default {
   key: "notion-updated-page",
   name: "New or Updated Page in Database", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event when a page is created or updated in the selected database. [See the documentation](https://developers.notion.com/reference/page)",
-  version: "0.1.6",
+  version: "0.1.7",
   type: "source",
   dedupe: "unique",
   props: {
