@@ -1,4 +1,4 @@
 export default {
   "index": "Overview",
-  "components": "Components",
+  "contributing": "Contributing",
 } as const

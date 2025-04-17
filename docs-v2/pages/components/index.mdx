@@ -5,12 +5,12 @@ import VideoPlayer from '@/components/VideoPlayer'
 
 ## What are Components?
 
-Components are [Node.js modules](api/#component-structure) that run on Pipedream's serverless infrastructure. They can use Pipedream managed auth for [{process.env.PUBLIC_APPS}+ apps](https://pipedream.com/explore) (for both OAuth and key-based APIs) and [use most npm packages](api/#using-npm-packages) with no `npm install` or `package.json` required.
+Components are [Node.js modules](/components/contributing/api/#component-structure) that run on Pipedream's serverless infrastructure. They can use Pipedream managed auth for [{process.env.PUBLIC_APPS}+ apps](https://pipedream.com/explore) (for both OAuth and key-based APIs) and [use most npm packages](/components/contributing/api/#using-npm-packages) with no `npm install` or `package.json` required.
 
 Components are most commonly used as the building blocks of Pipedream workflows, but they can also be used like typical serverless functions. You can explore curated components for popular apps in Pipedream's [Marketplace](https://pipedream.com/explore) and [GitHub repo](https://github.com/PipedreamHQ/pipedream/tree/master/components) or you can author and share your own.
 
 <Callout type="info">
-Our TypeScript component API is in **beta**. If you're interested in developing TypeScript components and providing feedback, [see our TypeScript docs](/workflows/contributing/components/typescript/).
+Our TypeScript component API is in **beta**. If you're interested in developing TypeScript components and providing feedback, [see our TypeScript docs](/components/contributing/typescript/).
 </Callout>
 
 ## Component Types
@@ -24,10 +24,10 @@ Pipedream supports two types of components — [sources](#sources) and [actions]
 **Capabilities**
 
 - Accept user input on deploy via `props`
-- [Trigger](api/#interface-props) on HTTP requests, timers, cron schedules, or manually
+- [Trigger](/components/contributing/api/#interface-props) on HTTP requests, timers, cron schedules, or manually
 - Emit events that can be inspected, trigger Pipedream [workflows](/workflows/building-workflows/) and that can be consumed in your own app via [API](/rest-api/)
-- Store and retrieve state using the [built-in key-value store](api/#db)
-- Use any of Pipedream's built-in [deduping strategies](api/#dedupe-strategies)
+- Store and retrieve state using the [built-in key-value store](/components/contributing/api/#db)
+- Use any of Pipedream's built-in [deduping strategies](/components/contributing/api/#dedupe-strategies)
 - Deploy via Pipedream's UI, CLI or API
 
 **Example**
@@ -94,12 +94,12 @@ Finally, the target app must be integrated with Pipedream. You can explore all a
 
 ### Quickstart Guides
 
-- [Sources](/workflows/contributing/components/sources-quickstart/)
-- [Actions](/workflows/contributing/components/actions-quickstart/)
+- [Sources](/components/contributing/sources-quickstart/)
+- [Actions](/components/contributing/actions-quickstart/)
 
 ### Component API Reference
 
-After getting familiar with source/action development using the quickstart guides, check out [the Component API Reference](/workflows/contributing/components/api/) and [examples on GitHub](https://github.com/PipedreamHQ/pipedream/tree/master/components) to learn more.
+After getting familiar with source/action development using the quickstart guides, check out [the Component API Reference](/components/contributing/api/) and [examples on GitHub](https://github.com/PipedreamHQ/pipedream/tree/master/components) to learn more.
 
 ## Managing Privately Published Components
 
@@ -127,7 +127,7 @@ Contribute to the Pipedream community by publishing and sharing new components, 
 
 ### Verified Components
 
-Pipedream maintains a source-available registry of components (sources and actions) that have been curated for the community. Registered components are verified by Pipedream through the [GitHub PR process](/workflows/contributing/#contribution-process) and:
+Pipedream maintains a source-available registry of components (sources and actions) that have been curated for the community. Registered components are verified by Pipedream through the [GitHub PR process](/components/contributing/#contribution-process) and:
 
 - Can be trusted by end users
 - Follow consistent patterns for usability
