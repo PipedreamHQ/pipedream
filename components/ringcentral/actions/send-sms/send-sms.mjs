@@ -5,7 +5,7 @@ export default {
   key: "ringcentral-send-sms",
   name: "Send SMS",
   description: "Creates and sends a new text message. See the API docs [here](https://developers.ringcentral.com/api-reference/SMS/createSMSMessage)",
-  version: "0.5.1",
+  version: "0.5.2",
   type: "action",
   props: {
     ringcentral,
