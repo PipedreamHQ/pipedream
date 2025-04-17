@@ -41,6 +41,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.15.0",
+    "@next/eslint-plugin-next": "^14.2.5",
     "@pipedream/types": "0.1.4",
     "@tsconfig/node14": "^1.0.1",
     "@types/jest": "^27.4.1",
@@ -59,7 +60,6 @@
     "husky": "^7.0.4",
     "jest": "^29.7.0",
     "lint-staged": "^12.3.4",
-    "@next/eslint-plugin-next": "^14.2.5",
     "pnpm": "9.14.2",
     "putout": ">=36",
     "renamer": "^4.0.0",

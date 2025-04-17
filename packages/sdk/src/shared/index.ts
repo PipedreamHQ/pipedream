@@ -852,6 +852,59 @@ export interface AsyncRequestOptions extends RequestOptions {
   body: { async_handle: string; } & Required<RequestOptions["body"]>;
 }
 
+const SENSITIVE_KEYS = [
+  "token",
+  "password",
+  "secret",
+  "apiKey",
+  "authorization",
+  "auth",
+  "key",
+  "access_token",
+];
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function sanitize(value: any, seen = new WeakSet()): any {
+  if (value === null || value === undefined) return value;
+
+  if (typeof value === "object") {
+    if (seen.has(value)) return "[CIRCULAR]";
+    seen.add(value);
+
+    if (Array.isArray(value)) {
+      return value.map((v) => sanitize(v, seen));
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const sanitizedObj: Record<string, any> = {};
+    for (const [
+      k,
+      v,
+    ] of Object.entries(value)) {
+      const isSensitiveKey = SENSITIVE_KEYS.some((sensitiveKey) =>
+        k.toLowerCase().includes(sensitiveKey.toLowerCase()));
+      sanitizedObj[k] = isSensitiveKey
+        ? "[REDACTED]"
+        : sanitize(v, seen);
+    }
+    return sanitizedObj;
+  }
+
+  return value; // numbers, booleans, functions, etc.
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function DEBUG(...args: any[]) {
+  if (
+    typeof process !== "undefined" &&
+    typeof process.env !== "undefined" &&
+    process.env.PD_SDK_DEBUG === "true"
+  ) {
+    const safeArgs = args.map((arg) => sanitize(arg));
+    console.log("[PD_SDK_DEBUG]", ...safeArgs);
+  }
+}
+
 /**
  * A client for interacting with the Pipedream Connect API on the server-side.
  */
@@ -966,20 +1019,24 @@ export abstract class BaseClient {
 
     const response: Response = await fetch(url.toString(), requestOptions);
 
+    const rawBody = await response.text();
+
     if (!response.ok) {
-      const errorBody = await response.text();
-      throw new Error(
-        `HTTP error! status: ${response.status}, body: ${errorBody}`,
-      );
+      throw new Error(`HTTP error! status: ${response.status}, body: ${rawBody}`);
     }
 
-    // Attempt to parse JSON, fall back to raw text if it fails
+    DEBUG(response.status, url.toString(), requestOptions, rawBody)
     const contentType = response.headers.get("Content-Type");
     if (contentType && contentType.includes("application/json")) {
-      return (await response.json()) as T;
+      try {
+        const json = JSON.parse(rawBody);
+        return json as T;
+      } catch (err) {
+        DEBUG("Couldn't parse json, falling back to raw", err)
+      }
     }
 
-    return (await response.text()) as unknown as T;
+    return rawBody as unknown as T;
   }
 
   protected abstract authHeaders(): string | Promise<string>;
