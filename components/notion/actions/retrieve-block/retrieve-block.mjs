@@ -33,20 +33,20 @@ export default {
     },
   },
   async run({ $ }) {
-    let markdownContent;
-    if (this.retrieveMarkdown) {
-      markdownContent = await this.notion.getPageAsMarkdown(this.blockId);
-    }
-
     const { retrieveChildren } = this;
     const subpagesOnly = retrieveChildren === "Sub-Pages Only";
-
-    const block = await this.notion.retrieveBlock(this.blockId);
     const shouldRetrieveChildren = [
       true,
       "All Children",
       "Sub-Pages Only",
     ].includes(retrieveChildren);
+
+    let markdownContent;
+    if (this.retrieveMarkdown) {
+      markdownContent = await this.notion.getPageAsMarkdown(this.blockId, shouldRetrieveChildren);
+    }
+
+    const block = await this.notion.retrieveBlock(this.blockId);
     if (shouldRetrieveChildren) {
       block.children = await this.notion.retrieveBlockChildren(block, subpagesOnly);
     }

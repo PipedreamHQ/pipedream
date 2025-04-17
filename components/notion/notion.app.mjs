@@ -357,14 +357,20 @@ export default {
 
       return response.results;
     },
-    async getPageAsMarkdown(pageId) {
-      const notionClient = this._getNotionClient();
+    async getPageAsMarkdown(pageId, shouldRetrieveChildren) {
+      const notion = this._getNotionClient();
 
       const n2m = new NotionToMarkdown({
-        notionClient,
+        notionClient: notion,
+        config: {
+          separateChildPage: true,
+        },
       });
       const blocks = await n2m.pageToMarkdown(pageId);
-      return n2m.toMarkdownString(blocks).parent;
+      const output = n2m.toMarkdownString(blocks);
+      return shouldRetrieveChildren
+        ? output
+        : output.parent;
     },
   },
 };
