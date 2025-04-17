@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/notion",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Pipedream Notion Components",
   "main": "notion.app.mjs",
   "keywords": [
@@ -14,7 +14,7 @@
     "@pipedream/platform": "^3.0.3",
     "@tryfabric/martian": "^1.2.4",
     "lodash-es": "^4.17.21",
-    "notion-to-md": "^4.0.0-alpha.4"
+    "notion-to-md": "^3.1.8"
   },
   "publishConfig": {
     "access": "public"
