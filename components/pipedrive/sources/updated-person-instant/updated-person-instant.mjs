@@ -6,19 +6,19 @@ export default {
   key: "pipedrive-updated-person-instant",
   name: "New Person Update (Instant)",
   description: "Emit new event when a person is updated.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     getExtraData() {
       return {
-        event_action: "updated",
+        event_action: "change",
         event_object: "person",
       };
     },
     getSummary(body) {
-      return `Person successfully updated: ${body.current.id}`;
+      return `Person successfully updated: ${body.data.id}`;
     },
   },
   sampleEmit,

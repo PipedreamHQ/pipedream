@@ -20,13 +20,10 @@ export default {
   hooks: {
     async activate() {
       const response = await this.pipedrive.addWebhook({
-        // Specifying v1 because webhooks v2 became the default on March 17, 2025:
-        // https://developers.pipedrive.com/changelog/post/breaking-change-webhooks-v2-will-become-the-new-default-version
-        version: "1.0",
+        version: "2.0",
         subscription_url: this.http.endpoint,
         ...this.getExtraData(),
       });
-      console.log("response: ", response);
 
       this._setHookId(response.data.id);
     },
@@ -36,10 +33,10 @@ export default {
     },
   },
   async run({ body }) {
-    const ts = Date.parse(body.current.update_time);
+    const ts = Date.parse(body.meta.timestamp);
 
     this.$emit(body, {
-      id: `${body.current.id}-${ts}`,
+      id: `${body.data.id}-${ts}`,
       summary: this.getSummary(body),
       ts,
     });

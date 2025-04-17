@@ -6,19 +6,19 @@ export default {
   key: "pipedrive-new-deal-instant",
   name: "New Deal (Instant)",
   description: "Emit new event when a new deal is created.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     getExtraData() {
       return {
-        event_action: "added",
+        event_action: "create",
         event_object: "deal",
       };
     },
     getSummary(body) {
-      return `New Deal successfully created: ${body.current.id}`;
+      return `New Deal successfully created: ${body.data.id}`;
     },
   },
   sampleEmit,

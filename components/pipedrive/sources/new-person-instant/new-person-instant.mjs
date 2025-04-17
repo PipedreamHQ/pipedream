@@ -6,19 +6,19 @@ export default {
   key: "pipedrive-new-person-instant",
   name: "New Person (Instant)",
   description: "Emit new event when a new person is created.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
     getExtraData() {
       return {
-        event_action: "added",
+        event_action: "create",
         event_object: "person",
       };
     },
     getSummary(body) {
-      return `New Person successfully created: ${body.current.id}`;
+      return `New Person successfully created: ${body.data.id}`;
     },
   },
   sampleEmit,
