@@ -10,6 +10,18 @@ module.exports = {
     "/hidden/*",
     "/deprecated/*",
   ],
+  transform: async (config, path) => {
+    // Add any custom transformations for URL paths here if needed in the future
+    return {
+      loc: path,
+      changefreq: config.changefreq,
+      priority: config.priority,
+      lastmod: config.autoLastmod
+        ? new Date().toISOString()
+        : undefined,
+      alternateRefs: config.alternateRefs ?? [],
+    };
+  },
   robotsTxtOptions: {
     policies: [
       {
