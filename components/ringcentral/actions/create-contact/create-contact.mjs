@@ -1,4 +1,5 @@
 import ringcentral from "../../ringcentral.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "ringcentral-create-contact",
@@ -48,7 +49,7 @@ export default {
     additionalOptions: {
       type: "object",
       label: "Additional Options",
-      description: "Additional parameters to set for the contact. [See the documentation](https://developers.ringcentral.com/api-reference/External-Contacts/createContact) for all available parameters. Example: `{ \"notes\": \"Notes for the contact\" }`",
+      description: "Additional parameters to set for the contact. [See the documentation](https://developers.ringcentral.com/api-reference/External-Contacts/createContact) for all available parameters. Values will be parsed as JSON where applicable. Example: `{ \"notes\": \"Notes for the contact\" }`",
       optional: true,
     },
   },
@@ -75,7 +76,7 @@ export default {
         extensionId,
         data: {
           ...data,
-          ...additionalOptions,
+          ...(additionalOptions && utils.parseObjectEntries(additionalOptions)),
         },
       });
 
