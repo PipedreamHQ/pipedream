@@ -13952,6 +13952,9 @@ importers:
 
   components/voice_monkey: {}
 
+  components/voicemaker:
+    specifiers: {}
+
   components/voilanorbert:
     dependencies:
       '@pipedream/platform':
