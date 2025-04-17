@@ -27,18 +27,23 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.ip2location.lookupHostedDomain({
-      params: {
-        ip: this.ip,
-        format: this.format,
-        page: this.page,
-      },
-    });
-
-    if (response) {
-      $.export("$summary", `Successfully retrieved hosted domains about IP ${this.ip}.`);
+    try {
+      const response = await this.ip2location.lookupHostedDomain({
+        params: {
+          ip: this.ip,
+          format: this.format,
+          page: this.page,
+        },
+      });
+      if (response && response.total_domains) {
+        $.export(
+          "$summary",
+          `Successfully retrieved hosted domain information about IP ${this.ip}.`
+        );
+      }
+      return response;
+    } catch (error) {
+      throw new Error(`Error retrieving hosted domains: ${error.message}`);
     }
-
-    return response;
   },
 };
