@@ -5,6 +5,7 @@ module.exports = {
   outDir: "public",
   changefreq: "daily",
   priority: 0.7,
+  generateIndexSitemap: false,
   exclude: [
     "/hidden/*",
     "/deprecated/*",
