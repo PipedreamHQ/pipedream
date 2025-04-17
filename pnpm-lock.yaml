@@ -8691,7 +8691,7 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       notion-to-md:
-        specifier: ^3.1.8
+        specifier: 3.1.8
         version: 3.1.8
 
   components/nozbe_teams: {}
