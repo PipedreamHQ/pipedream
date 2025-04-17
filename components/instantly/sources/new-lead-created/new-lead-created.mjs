@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "instantly-new-lead-created",
   name: "New Lead Created",
-  description: "Emit new event when a new lead is created. [See the documentation](https://developer.instantly.ai/api/v2/lead/listleads",
+  description: "Emit new event when a new lead is created. [See the documentation](https://developer.instantly.ai/api/v2/lead/listleads)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
