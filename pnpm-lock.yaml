@@ -13952,8 +13952,7 @@ importers:
 
   components/voice_monkey: {}
 
-  components/voicemaker:
-    specifiers: {}
+  components/voicemaker: {}
 
   components/voilanorbert:
     dependencies:
