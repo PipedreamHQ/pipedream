@@ -43,9 +43,9 @@ export default {
      * @param {Object} [args.params] - The query parameters
      * @param {string} [args.params.ip] - The IP address to lookup (IPv4 or IPv6)
      * @param {string} [args.params.format] - Response format (json or xml)
-     * @param {string} [args.params.lang] - Translation information(ISO639-1) for 
-     *                                      continent, country, 
-     *                                      region and city name
+     * @param {string} [args.params.lang] - Translation information(ISO639-1) for
+     *                                       continent, country,
+     *                                       region and city name
      * @returns {Promise<Object>} The hosted domain information
      */
     lookupIpAddress(args = {}) {
