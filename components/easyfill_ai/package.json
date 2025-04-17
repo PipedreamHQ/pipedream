@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/easyfill_ai",
+  "version": "0.0.1",
+  "description": "Pipedream EasyFill.ai Components",
+  "main": "easyfill_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "easyfill_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/easyfill_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
