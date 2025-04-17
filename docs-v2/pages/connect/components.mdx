@@ -3,13 +3,13 @@ import Callout from '@/components/Callout'
 
 # Pre-built tools for your app or agent
 
-Pipedream Connect provides APIs to embed pre-built tools ([triggers and actions](/workflows/contributing/components/)) directly in your application
+Pipedream Connect provides APIs to embed pre-built tools ([triggers and actions](/components/contributing/)) directly in your application
 or AI agent, enabling access to 10,000+ built-in API operations. Enable [your end users](/connect/api/#external-users) to
 configure, deploy, and invoke Pipedream triggers and actions for more than {process.env.PUBLIC_APPS} APIs.
 
 ## What are triggers and actions?
 
-In Pipedream, we call triggers and actions [components](/workflows/contributing/components/), which are self-contained executable units of code. Your end users configure the inputs and these components produce a
+In Pipedream, we call triggers and actions [components](/components/contributing/), which are self-contained executable units of code. Your end users configure the inputs and these components produce a
 result that's exported as output. These components are developed and maintained by Pipedream
 and our community and their source code is available in our [public Github repo](https://github.com/PipedreamHQ/pipedream/tree/master/components).
 
@@ -221,7 +221,7 @@ Here's the response:
 To configure and run a component for your end users, you need to understand
 the component's definition. Now that you have the component's key from the previous step,
 you can retrieve its structure from the Pipedream API. See the [component
-structure](/workflows/contributing/components/api/#component-structure) section in our docs for more
+structure](/components/contributing/api/#component-structure) section in our docs for more
 details.
 
 As an example, the following API call will return the structure of the **List
@@ -249,7 +249,7 @@ curl -X https://api.pipedream.com/v1/connect/{project_id}/components/gitlab-list
 
 The response will contain the component's structure, including its user-friendly name,
 version, and most importantly, the configuration options the component accepts
-(also known as [props](/workflows/contributing/components/api/#props) or "properties").
+(also known as [props](/components/contributing/api/#props) or "properties").
 Here's an example of the response for the component in the example above:
 
 ```json
@@ -454,7 +454,7 @@ For example, to retrieve the configuration options for the `refName` prop:
 
 The set of props that a component can accept might not be static, and may change
 depending on the values of prior props. Props that behave this way are called
-[dynamic props](/workflows/contributing/components/api/#dynamic-props), and they need to be configured
+[dynamic props](/components/contributing/api/#dynamic-props), and they need to be configured
 in a different way. Props that are dynamic will have a `reloadProps` attribute
 set to `true` in the component's definition.
 
@@ -555,8 +555,8 @@ To illustrate, the response for the request above would look like this:
 ### Execution
 
 Once all the props have been configured, the component can be invoked. Pipedream
-supports two types of components: [actions](/workflows/contributing/components/api/#actions) and
-[sources](/workflows/contributing/components/api/#sources) (aka triggers).
+supports two types of components: [actions](/components/contributing/api/#actions) and
+[sources](/components/contributing/api/#sources) (aka triggers).
 
 Actions are components that perform a task by taking an input either during
 [configuration](#configure-the-component) and/or during invocation (usually both), and
