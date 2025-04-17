@@ -7,7 +7,7 @@ export default {
   key: "notion-create-page-from-database",
   name: "Create Page from Database",
   description: "Create a page from a database. [See the documentation](https://developers.notion.com/reference/post-page)",
-  version: "0.1.17",
+  version: "0.1.18",
   type: "action",
   props: {
     notion,
