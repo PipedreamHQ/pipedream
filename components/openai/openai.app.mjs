@@ -37,7 +37,7 @@ export default {
       label: "Model",
       description: "The ID of the model to use for the assistant",
       async options() {
-        const models = (await this.models({})).filter(({ id }) => (id.includes("gpt-3.5-turbo") || id.includes("gpt-4-turbo") || id.includes("gpt-4o")) && (id !== "gpt-3.5-turbo-0301"));
+        const models = await this.getAssistantsModels({});
         return models.map(({ id }) => id);
       },
     },
@@ -352,7 +352,7 @@ export default {
       const models = await this.models({
         $,
       });
-      return models.filter((model) => model.id.match(/4o|o[1-9]/gi));
+      return models.filter((model) => model.id.match(/4o|o[1-9]|4\.1/gi));
     },
     async getCompletionModels({ $ }) {
       const models = await this.models({
@@ -375,6 +375,12 @@ export default {
           id.match(/^(text-embedding-ada-002|text-embedding-3.*|.*-(davinci|curie|babbage|ada)-.*-001)$/gm)
         );
       });
+    },
+    async getAssistantsModels({ $ }) {
+      const models = await this.models({
+        $,
+      });
+      return models.filter(({ id }) => (id.includes("gpt-3.5-turbo") || id.includes("gpt-4-turbo") || id.includes("gpt-4o") || id.includes("gpt-4.1")) && (id !== "gpt-3.5-turbo-0301"));
     },
     async _makeCompletion({
       path, ...args
