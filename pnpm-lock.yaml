@@ -484,6 +484,9 @@ importers:
 
   components/ahrefs: {}
 
+  components/ai_chatbot_hub:
+    specifiers: {}
+
   components/ai_ml_api: {}
 
   components/ai_textraction:
