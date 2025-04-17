@@ -1,8 +1,7 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: "https://pipedream.com",
+  siteUrl: "https://pipedream.com/docs",
   generateRobotsTxt: true,
-  basePath: "/docs",
   outDir: "public",
   changefreq: "daily",
   priority: 0.7,
