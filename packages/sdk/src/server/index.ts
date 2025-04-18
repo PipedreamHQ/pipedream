@@ -150,6 +150,14 @@ export type ProxyTargetApiRequest = {
 };
 
 /**
+ * The parsed response body from a proxied API request.
+ *
+ * If the response has a Content-Type of application/json, the body will be parsed
+ * and returned as an object. Otherwise the type will be a string.
+ */
+export type ProxyResponse = Record<string, any> | string;
+
+/**
  * Creates a new instance of BackendClient with the provided options.
  *
  * @example
@@ -422,7 +430,7 @@ export class BackendClient extends BaseClient {
    *
    * @returns A promise resolving to the response from the downstream service
    */
-  public makeProxyRequest(proxyOptions: ProxyApiOpts, targetRequest: ProxyTargetApiRequest): Promise<string> {
+  public makeProxyRequest(proxyOptions: ProxyApiOpts, targetRequest: ProxyTargetApiRequest): Promise<ProxyResponse> {
     const url64 = btoa(targetRequest.url).replace(/\+/g, "-")
       .replace(/\//g, "_")
       .replace(/=+$/, "");

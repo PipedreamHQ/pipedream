@@ -2,6 +2,13 @@
 
 # Changelog
 
+## [1.5.3] - 2025-04-18
+
+### Added
+
+- Added `ProxyResponse` type for makeProxyRequest
+- changed the location of connect DEBUG calls so they'll still show in the error case.
+
 ## [1.5.2] - 2025-04-15
 
 ### Added
