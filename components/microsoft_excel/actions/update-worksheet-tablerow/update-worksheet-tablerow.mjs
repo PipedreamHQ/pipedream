@@ -3,7 +3,7 @@ import microsoftExcel from "../../microsoft_excel.app.mjs";
 export default {
   key: "microsoft_excel-update-worksheet-tablerow",
   name: "Update Worksheet Tablerow",
-  version: "0.0.4",
+  version: "0.0.5",
   description: "Update the properties of tablerow object. `(Only for work or school account)` [See the documentation](https://learn.microsoft.com/en-us/graph/api/tablerow-update?view=graph-rest-1.0&tabs=http)",
   type: "action",
   props: {
@@ -14,10 +14,10 @@ export default {
         "folderId",
       ],
     },
-    itemId: {
+    sheetId: {
       propDefinition: [
         microsoftExcel,
-        "itemId",
+        "sheetId",
         ({ folderId }) => ({
           folderId,
         }),
@@ -27,8 +27,8 @@ export default {
       propDefinition: [
         microsoftExcel,
         "tableId",
-        ({ itemId }) => ({
-          itemId,
+        ({ sheetId }) => ({
+          sheetId,
         }),
       ],
     },
@@ -37,9 +37,9 @@ export default {
         microsoftExcel,
         "rowId",
         ({
-          itemId, tableId,
+          sheetId, tableId,
         }) => ({
-          itemId,
+          sheetId,
           tableId,
         }),
       ],
@@ -55,7 +55,7 @@ export default {
   async run({ $ }) {
     const {
       microsoftExcel,
-      itemId,
+      sheetId,
       tableId,
       rowId,
       values,
@@ -63,7 +63,7 @@ export default {
 
     const response = await microsoftExcel.updateRow({
       $,
-      itemId,
+      sheetId,
       tableId,
       rowId,
       data: {

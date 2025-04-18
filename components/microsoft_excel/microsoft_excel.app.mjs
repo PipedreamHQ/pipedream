@@ -6,8 +6,8 @@ export default {
   propDefinitions: {
     folderId: {
       type: "string",
-      label: "Folder Id",
-      description: "The ID of the folder where the item is located.",
+      label: "Folder ID",
+      description: "The ID of the folder where the item is located",
       async options() {
         const folders = await this.listFolderOptions();
         return [
@@ -16,15 +16,14 @@ export default {
         ];
       },
     },
-    itemId: {
+    sheetId: {
       type: "string",
-      label: "Item Id",
-      description: "The Id of the item you want to use.",
+      label: "Sheet ID",
+      description: "The ID of the spreadsheet you want to use",
       async options({ folderId }) {
         const { value } = await this.listItems({
           folderId,
         });
-
         return value.filter(
           (item) => item.file?.mimeType === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         ).map(({
@@ -37,13 +36,13 @@ export default {
     },
     rowId: {
       type: "string",
-      label: "Row Id",
-      description: "The Id of the row you want to use.",
+      label: "Row ID",
+      description: "The ID of the row you want to use",
       async options({
-        itemId, tableId,
+        sheetId, tableId,
       }) {
         const { value } = await this.listRows({
-          itemId,
+          sheetId,
           tableId,
         });
 
@@ -57,11 +56,11 @@ export default {
     },
     tableId: {
       type: "string",
-      label: "Table Id",
-      description: "The Id of the table you want to use.",
-      async options({ itemId }) {
+      label: "Table ID",
+      description: "The ID of the table you want to use",
+      async options({ sheetId }) {
         const { value } = await this.listTables({
-          itemId,
+          sheetId,
         });
 
         return value.map(({
@@ -99,11 +98,11 @@ export default {
       return axios($, config);
     },
     addRow({
-      itemId, tableId, tableName, ...args
+      sheetId, tableId, tableName, ...args
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `me/drive/items/${itemId}/workbook/tables/${tableId || tableName}/rows/add`,
+        path: `me/drive/items/${sheetId}/workbook/tables/${tableId || tableName}/rows/add`,
         ...args,
       });
     },
@@ -131,28 +130,28 @@ export default {
       });
     },
     listRows({
-      itemId, tableId, ...args
+      sheetId, tableId, ...args
     }) {
       return this._makeRequest({
-        path: `me/drive/items/${itemId}/workbook/tables/${tableId}/rows`,
+        path: `me/drive/items/${sheetId}/workbook/tables/${tableId}/rows`,
         ...args,
       });
     },
     // List tables endpoint is not supported for personal accounts
     listTables({
-      itemId, ...args
+      sheetId, ...args
     }) {
       return this._makeRequest({
-        path: `me/drive/items/${itemId}/workbook/tables`,
+        path: `me/drive/items/${sheetId}/workbook/tables`,
         ...args,
       });
     },
     updateRow({
-      itemId, tableId, rowId, ...args
+      sheetId, tableId, rowId, ...args
     }) {
       return this._makeRequest({
         method: "PATCH",
-        path: `me/drive/items/${itemId}/workbook/tables/${tableId}/rows/itemAt(index=${rowId})`,
+        path: `me/drive/items/${sheetId}/workbook/tables/${tableId}/rows/itemAt(index=${rowId})`,
         ...args,
       });
     },
@@ -169,6 +168,22 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "$batch",
+        ...args,
+      });
+    },
+    getDriveItem({
+      itemId, ...args
+    }) {
+      return this._makeRequest({
+        path: `me/drive/items/${itemId}`,
+        ...args,
+      });
+    },
+    getDelta({
+      path, token, ...args
+    }) {
+      return this._makeRequest({
+        path: `${path}/delta?token=${token}`,
         ...args,
       });
     },
