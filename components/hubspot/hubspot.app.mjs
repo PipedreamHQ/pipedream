@@ -448,6 +448,56 @@ export default {
         }) ) || [];
       },
     },
+    timeframe: {
+      type: "string",
+      label: "Time Frame",
+      description: "Filter meetings within a specific time frame",
+      optional: true,
+      reloadProps: true,
+      options: [
+        {
+          label: "Today",
+          value: "today",
+        },
+        {
+          label: "This Week",
+          value: "this_week",
+        },
+        {
+          label: "This Month",
+          value: "this_month",
+        },
+        {
+          label: "Last Month",
+          value: "last_month",
+        },
+        {
+          label: "Custom Range",
+          value: "custom",
+        },
+      ],
+    },
+    mostRecent: {
+      type: "boolean",
+      label: "Most Recent Only",
+      description: "Only return the most recent meeting",
+      optional: true,
+      default: false,
+    },
+    meetingId: {
+      type: "string",
+      label: "Meeting ID",
+      description: "The ID of the meeting to retrieve",
+      useQuery: true,
+      async options({ query }) {
+        const { results } = await this.searchMeetings({
+          data: {
+            query,
+          },
+        });
+        return results.map(({ id }) => id);
+      },
+    },
   },
   methods: {
     _getHeaders() {
@@ -1039,6 +1089,56 @@ export default {
       return this.makeRequest({
         api: API_PATH.CRMV3,
         endpoint: "/objects/tasks",
+        ...opts,
+      });
+    },
+    getAssociations({
+      objectType, objectId, toObjectType, ...opts
+    } = {}) {
+      return this.makeRequest({
+        api: API_PATH.CRMV4,
+        endpoint: `/objects/${objectType}/${objectId}/associations/${toObjectType}`,
+        ...opts,
+      });
+    },
+    /**
+     * Get meeting by ID
+     * @param {string} meetingId - The ID of the meeting to retrieve
+     * @param {object} opts - Additional options to pass to the request
+     * @returns {Promise<object>} The meeting object
+     */
+    getMeeting({
+      meetingId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: `/objects/meetings/${meetingId}`,
+        ...opts,
+      });
+    },
+    /**
+     * Create a new meeting
+     * @param {object} opts - The meeting data and request options
+     * @returns {Promise<object>} The created meeting object
+     */
+    createMeeting(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: "/objects/meetings",
+        method: "POST",
+        ...opts,
+      });
+    },
+    /**
+     * Search meetings using a filter
+     * @param {object} opts - Search parameters and request options
+     * @returns {Promise<object>} Search results
+     */
+    searchMeetings(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: "/objects/meetings/search",
+        method: "POST",
         ...opts,
       });
     },

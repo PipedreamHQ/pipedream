@@ -15,7 +15,7 @@ Read [our quickstart](/quickstart/) or watch our videos on [Pipedream University
 
 Steps are the building blocks you use to create workflows.
 
-- Use [triggers](/workflows/building-workflows/triggers/), [code](/workflows/building-workflows/code/), and [pre-built actions](/workflows/contributing/components/#actions)
+- Use [triggers](/workflows/building-workflows/triggers/), [code](/workflows/building-workflows/code/), and [pre-built actions](/components/contributing/#actions)
 - Steps are run linearly, in the order they appear in your workflow
 - You can pass data between steps using [the `steps` object](#step-exports)
 - Observe the logs, errors, timing, and other execution details for every step
@@ -28,7 +28,7 @@ You can add [multiple triggers](/workflows/building-workflows/triggers/#can-i-ad
 
 ### Code, Actions
 
-[Actions](/workflows/contributing/components/#actions) and [code](/workflows/building-workflows/code/) steps drive the logic of your workflow. Anytime your workflow runs, Pipedream executes each step of your workflow in order. Actions are prebuilt code steps that let you connect to hundreds of APIs without writing code. When you need more control than the default actions provide, code steps let you write any custom Node.js code.
+[Actions](/components/contributing/#actions) and [code](/workflows/building-workflows/code/) steps drive the logic of your workflow. Anytime your workflow runs, Pipedream executes each step of your workflow in order. Actions are prebuilt code steps that let you connect to hundreds of APIs without writing code. When you need more control than the default actions provide, code steps let you write any custom Node.js code.
 
 Code and action steps cannot precede triggers, since they'll have no data to operate on.
 

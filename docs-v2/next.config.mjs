@@ -323,12 +323,17 @@ export default withNextra({
       },
       {
         source: "/components/",
-        destination: "/workflows/contributing/components/",
+        destination: "/components/contributing/",
         permanent: true,
       },
       {
-        source: "/components/:path*/",
-        destination: "/workflows/contributing/components/:path*/",
+        source: "/components/api/",
+        destination: "/components/contributing/api/",
+        permanent: true,
+      },
+      {
+        source: "/components/quickstart/:path*/",
+        destination: "/components/contributing/:path*/",
         permanent: true,
       },
       {
@@ -459,6 +464,46 @@ export default withNextra({
       {
         source: "/integrations/connected-accounts/oauth-clients/",
         destination: "/integrations/oauth-clients/",
+        permanent: true,
+      },
+      {
+        source: "/integrations/:path*/",
+        destination: "/apps/:path*/",
+        permanent: true,
+      },
+      {
+        source: "/workflows/contributing/components/:path*/",
+        destination: "/components/contributing/:path*/",
+        permanent: true,
+      },
+      {
+        source: "/workflows/contributing/components/",
+        destination: "/components/contributing/",
+        permanent: true,
+      },
+      {
+        source: "/workflows/contributing/",
+        destination: "/components/contributing/",
+        permanent: true,
+      },
+      {
+        source: "/workflows/projects/:path*/",
+        destination: "/projects/:path*/",
+        permanent: true,
+      },
+      {
+        source: "/workflows/projects/",
+        destination: "/projects/",
+        permanent: true,
+      },
+      {
+        source: "/workflows/workspaces/:path*/",
+        destination: "/workspaces/:path*/",
+        permanent: true,
+      },
+      {
+        source: "/workflows/workspaces/",
+        destination: "/workspaces/",
         permanent: true,
       },
     ];

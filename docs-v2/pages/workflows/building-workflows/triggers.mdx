@@ -87,7 +87,7 @@ Pipedream also supports [custom domains](/workflows/domains/). This lets you hos
 
 ### Accessing HTTP request data
 
-You can access properties of the HTTP request, like the method, payload, headers, and more, in [the `event` object](/workflows/building-workflows/triggers/#event-format), accessible in any [code](/workflows/building-workflows/code/) or [action](/workflows/contributing/components/#actions) step.
+You can access properties of the HTTP request, like the method, payload, headers, and more, in [the `event` object](/workflows/building-workflows/triggers/#event-format), accessible in any [code](/workflows/building-workflows/code/) or [action](/components/contributing/#actions) step.
 
 ### Valid Requests
 
@@ -592,7 +592,7 @@ Clicking on a specific job shows the execution details for that job — all the 
 
 ### Trigger a notification to an external service (email, Slack, etc.)
 
-You can send yourself a notification — for example, an email or a Slack message — at any point in a workflow by using the relevant [Action](/workflows/contributing/components/#actions) or [Destination](/workflows/data-management/destinations/).
+You can send yourself a notification — for example, an email or a Slack message — at any point in a workflow by using the relevant [Action](/components/contributing/#actions) or [Destination](/workflows/data-management/destinations/).
 
 If you'd like to email yourself when a job finishes successfully, you can use the [Email Destination](/workflows/data-management/destinations/email/). You can send yourself a Slack message using the Slack Action, or trigger an [HTTP request](/workflows/data-management/destinations/http/) to an external service.
 
@@ -606,7 +606,7 @@ Any time a scheduled job runs, you'll see a new execution appear in the [Inspect
 
 Code steps show [logs](/workflows/building-workflows/code/nodejs/#logs) below the step itself. Any time you run `console.log()` or other functions that print output, you should see the logs appear directly below the step where the code ran.
 
-[Actions](/workflows/contributing/components/#actions) and [Destinations](/workflows/data-management/destinations/) also show execution details relevant to the specific Action or Destination. For example, when you use the [HTTP Destination](/workflows/data-management/destinations/http/) to make an HTTP request, you'll see the HTTP request and response details tied to that Destination step:
+[Actions](/components/contributing/#actions) and [Destinations](/workflows/data-management/destinations/) also show execution details relevant to the specific Action or Destination. For example, when you use the [HTTP Destination](/workflows/data-management/destinations/http/) to make an HTTP request, you'll see the HTTP request and response details tied to that Destination step:
 
 ## Email
 
@@ -772,7 +772,7 @@ When you send an event to your workflow, Pipedream takes the trigger data — fo
 
 **This data is exposed in the `steps.trigger.event` variable. You can reference this variable in any step of your workflow**.
 
-You can reference your event data in any [code](/workflows/building-workflows/code/) or [action](/workflows/contributing/components/#actions) step. See those docs or the general [docs on passing data between steps](/workflows/#steps) for more information.
+You can reference your event data in any [code](/workflows/building-workflows/code/) or [action](/components/contributing/#actions) step. See those docs or the general [docs on passing data between steps](/workflows/#steps) for more information.
 
 The specific shape of `steps.trigger.event` depends on the trigger type:
 
@@ -813,7 +813,7 @@ You can use the data in `steps.trigger.context` to uniquely identify the Pipedre
 | `deployment_id`    |                                      A globally-unique string representing the current version of the workflow                                       |
 | `emitter_id`       |                            The ID of the workflow trigger that emitted this event, e.g. the [event source](/workflows/building-workflows/triggers/) ID.                             |
 | `id`               |                                  A unique, Pipedream-provided identifier for the event that triggered this workflow                                  |
-| `owner_id`         |                        The Pipedream-assigned [workspace ID](/workflows/workspaces/#finding-your-workspaces-id) that owns the workflow                        |
+| `owner_id`         |                        The Pipedream-assigned [workspace ID](/workspaces/#finding-your-workspaces-id) that owns the workflow                        |
 | `platform_version` |                                         The version of the Pipedream execution environment this event ran on                                         |
 | `replay`           |                                                 A boolean, whether the event was replayed via the UI                                                 |
 | `trace_id`         | Holds the same value for all executions tied to an original event. [See below for more details](#how-do-i-retrieve-the-execution-id-for-a-workflow). |

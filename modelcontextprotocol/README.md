@@ -39,6 +39,31 @@ If you're running MCP servers for your app, you'll likely want to use the [SSE i
 
 If your user `123` wants to connect to the `slack` MCP server, your MCP client would make a request to the `/123/slack` route. [See the SSE docs below](#sse) for more detail.
 
+### Running the server via locally for development
+
+sse
+```bash
+npm run dev:sse
+```
+
+stdio
+```bash
+npm run dev:stdio
+```
+
+optionally you can add add the env var `PD_SDK_DEBUG=true` to the above commands to dump requests and responses to the Pipecream Connect API.
+
+sse
+```bash
+PD_SDK_DEBUG=true npm run dev:sse
+```
+
+stdio
+```bash
+PD_SDK_DEBUG=true npm run dev:stdio
+```
+
+
 ### Running the server via `npx`
 
 Pipedream MCP servers provide [two interfaces](https://modelcontextprotocol.io/docs/concepts/architecture#transport-layer) clients can connect to:
