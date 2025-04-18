@@ -33,7 +33,7 @@ export default {
       ],
     },
     column: {
-      type: "string[]",
+      type: "string",
       label: "Column",
       description: "The column to search. E.g. `A`",
     },
