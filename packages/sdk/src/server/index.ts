@@ -155,7 +155,7 @@ export type ProxyTargetApiRequest = {
  * If the response has a Content-Type of application/json, the body will be parsed
  * and returned as an object. Otherwise the type will be a string.
  */
-export type ProxyResponse = Record<string, any> | string;
+export type ProxyResponse = Record<string, unknown> | string;
 
 /**
  * Creates a new instance of BackendClient with the provided options.
