@@ -4,10 +4,15 @@ export default {
   key: "todoist-create-task",
   name: "Create Task",
   description: "Creates a task. [See the docs here](https://developer.todoist.com/rest/v2/#create-a-new-task)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     todoist,
+    recurringInfoLabel: {
+      type: "alert",
+      alertType: "info",
+      content: "To create a recurring task, use the `Due String` prop with a value such as `every week`. [See the Todoist documentation on recurring dates](https://www.todoist.com/help/articles/introduction-to-recurring-dates-YUYVJJAV) for more examples and information.",
+    },
     content: {
       propDefinition: [
         todoist,
