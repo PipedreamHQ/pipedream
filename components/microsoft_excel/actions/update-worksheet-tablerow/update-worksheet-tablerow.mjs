@@ -35,7 +35,7 @@ export default {
     rowId: {
       propDefinition: [
         microsoftExcel,
-        "rowId",
+        "tableRowId",
         ({
           sheetId, tableId,
         }) => ({
@@ -61,7 +61,7 @@ export default {
       values,
     } = this;
 
-    const response = await microsoftExcel.updateRow({
+    const response = await microsoftExcel.updateTableRow({
       $,
       sheetId,
       tableId,

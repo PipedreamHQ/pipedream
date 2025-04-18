@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+const DEFAULT_LIMIT = 50;
 
 export default {
   type: "app",
@@ -34,18 +35,35 @@ export default {
         }));
       },
     },
-    rowId: {
+    worksheet: {
+      type: "string",
+      label: "Worksheet",
+      description: "The name of the worksheet to use",
+      async options({
+        sheetId, page,
+      }) {
+        const limit = DEFAULT_LIMIT;
+        const { value } = await this.listWorksheets({
+          sheetId,
+          params: {
+            $top: limit,
+            $skip: limit * page,
+          },
+        });
+        return value.map(({ name }) => name );
+      },
+    },
+    tableRowId: {
       type: "string",
       label: "Row ID",
       description: "The ID of the row you want to use",
       async options({
         sheetId, tableId,
       }) {
-        const { value } = await this.listRows({
+        const { value } = await this.listTableRows({
           sheetId,
           tableId,
         });
-
         return value.map(({
           index: value, values,
         }) => ({
@@ -62,7 +80,6 @@ export default {
         const { value } = await this.listTables({
           sheetId,
         });
-
         return value.map(({
           id: value, name: label,
         }) => ({
@@ -97,7 +114,7 @@ export default {
 
       return axios($, config);
     },
-    addRow({
+    addTableRow({
       sheetId, tableId, tableName, ...args
     }) {
       return this._makeRequest({
@@ -129,7 +146,7 @@ export default {
         ...args,
       });
     },
-    listRows({
+    listTableRows({
       sheetId, tableId, ...args
     }) {
       return this._makeRequest({
@@ -146,7 +163,15 @@ export default {
         ...args,
       });
     },
-    updateRow({
+    listWorksheets({
+      sheetId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/me/drive/items/${sheetId}/workbook/worksheets`,
+        ...args,
+      });
+    },
+    updateTableRow({
       sheetId, tableId, rowId, ...args
     }) {
       return this._makeRequest({
@@ -184,6 +209,40 @@ export default {
     }) {
       return this._makeRequest({
         path: `${path}/delta?token=${token}`,
+        ...args,
+      });
+    },
+    getRange({
+      sheetId, worksheet, range, ...args
+    }) {
+      return this._makeRequest({
+        path: `me/drive/items/${sheetId}/workbook/worksheets/${worksheet}/range(address='${range}')`,
+        ...args,
+      });
+    },
+    getUsedRange({
+      sheetId, worksheet, ...args
+    }) {
+      return this._makeRequest({
+        path: `me/drive/items/${sheetId}/workbook/worksheets/${worksheet}/range/usedRange`,
+        ...args,
+      });
+    },
+    insertRange({
+      sheetId, worksheet, range, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `me/drive/items/${sheetId}/workbook/worksheets/${worksheet}/range(address='${range}')/insert`,
+        ...args,
+      });
+    },
+    updateRange({
+      sheetId, worksheet, range, ...args
+    }) {
+      return this._makeRequest({
+        method: "PATCH",
+        path: `me/drive/items/${sheetId}/workbook/worksheets/${worksheet}/range(address='${range}')`,
         ...args,
       });
     },

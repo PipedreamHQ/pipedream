@@ -71,7 +71,7 @@ export default {
       values,
     } = this;
 
-    const response = await microsoftExcel.addRow({
+    const response = await microsoftExcel.addTableRow({
       $,
       sheetId,
       tableId,

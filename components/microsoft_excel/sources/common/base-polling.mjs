@@ -11,8 +11,29 @@ export default {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
-  },
-  async run() {
-
+    folderId: {
+      propDefinition: [
+        common.props.microsoftExcel,
+        "folderId",
+      ],
+    },
+    sheetId: {
+      propDefinition: [
+        common.props.microsoftExcel,
+        "sheetId",
+        ({ folderId }) => ({
+          folderId,
+        }),
+      ],
+    },
+    worksheet: {
+      propDefinition: [
+        common.props.microsoftExcel,
+        "worksheet",
+        ({ sheetId }) => ({
+          sheetId,
+        }),
+      ],
+    },
   },
 };

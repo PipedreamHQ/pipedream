@@ -77,6 +77,9 @@ export default {
         token: new URL(deltaLink).searchParams.get("token"),
       };
     },
+    filterRelevantSpreadsheets(spreadsheets) {
+      return spreadsheets;
+    },
   },
   async run({ query }) {
     if (query.validationToken) {
@@ -103,7 +106,8 @@ export default {
     await this.updateSubscription();
     this._setDeltaToken(token);
 
-    const spreadsheets = value.filter(({ file }) => file?.mimeType === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+    let spreadsheets = value.filter(({ file }) => file?.mimeType === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+    spreadsheets = this.filterRelevantSpreadsheets(spreadsheets);
 
     if (!spreadsheets?.length) {
       return;
