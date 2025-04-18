@@ -1,5 +1,4 @@
 import common from "../common/common-new-email.mjs";
-import md5 from "md5";
 
 export default {
   ...common,
@@ -61,7 +60,7 @@ export default {
     },
     generateMeta(item) {
       return {
-        id: md5(item.id), // id > 64 characters, so dedupe on hash of id
+        id: item.contentId,
         summary: `New attachment ${item.name}`,
         ts: Date.parse(item.messageReceivedDateTime),
       };
