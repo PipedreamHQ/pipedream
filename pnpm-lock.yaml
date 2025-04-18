@@ -8339,6 +8339,9 @@ importers:
 
   components/murlist: {}
 
+  components/musicbrainz:
+    specifiers: {}
+
   components/mux:
     dependencies:
       '@pipedream/platform':
