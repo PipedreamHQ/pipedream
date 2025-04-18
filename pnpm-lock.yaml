@@ -484,8 +484,7 @@ importers:
 
   components/ahrefs: {}
 
-  components/ai_chatbot_hub:
-    specifiers: {}
+  components/ai_chatbot_hub: {}
 
   components/ai_ml_api: {}
 
@@ -3929,8 +3928,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/easyfill_ai:
-    specifiers: {}
+  components/easyfill_ai: {}
 
   components/easyhire: {}
 
@@ -8339,8 +8337,7 @@ importers:
 
   components/murlist: {}
 
-  components/musicbrainz:
-    specifiers: {}
+  components/musicbrainz: {}
 
   components/mux:
     dependencies:

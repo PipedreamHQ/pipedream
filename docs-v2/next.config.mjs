@@ -323,12 +323,17 @@ export default withNextra({
       },
       {
         source: "/components/",
-        destination: "/workflows/contributing/components/",
+        destination: "/components/contributing/",
         permanent: true,
       },
       {
-        source: "/components/:path*/",
-        destination: "/workflows/contributing/components/:path*/",
+        source: "/components/api/",
+        destination: "/components/contributing/api/",
+        permanent: true,
+      },
+      {
+        source: "/components/quickstart/:path*/",
+        destination: "/components/contributing/:path*/",
         permanent: true,
       },
       {
