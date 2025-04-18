@@ -80,26 +80,26 @@ export async function registerComponentTools({
         continue
       } else if (cp.type === "string") {
         if (
-           cp.options &&
-           Array.isArray(cp.options) &&
-           cp.options.length > 0 &&
-           cp.options.some((o) => typeof o === "string")
-         ) {
-           schema[cp.name] = z.enum(cp.options)
-         } else {
-           schema[cp.name] = z.string()
-         }
+          cp.options &&
+          Array.isArray(cp.options) &&
+          cp.options.length > 0 &&
+          cp.options.some((o) => typeof o === "string")
+        ) {
+          schema[cp.name] = z.enum(cp.options)
+        } else {
+          schema[cp.name] = z.string()
+        }
       } else if (cp.type === "string[]") {
         if (
-           cp.options &&
-           Array.isArray(cp.options) &&
-           cp.options.length > 0 &&
-           cp.options.some((o) => o.value != null)
-         ) {
-           schema[cp.name] = z.array(z.enum(cp.options.map((o) => o.value)))
-         } else {
-           schema[cp.name] = z.array(z.string())
-         }
+          cp.options &&
+          Array.isArray(cp.options) &&
+          cp.options.length > 0 &&
+          cp.options.some((o) => o.value != null)
+        ) {
+          schema[cp.name] = z.array(z.enum(cp.options.map((o) => o.value)))
+        } else {
+          schema[cp.name] = z.array(z.string())
+        }
         configurablePropsDescription += `- ${cp.name}: Return JSON in this format: string[]\n`
       } else if (cp.type === "number") {
         schema[cp.name] = z.number()
