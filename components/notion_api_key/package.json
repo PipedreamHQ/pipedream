@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/notion_api_key",
+  "version": "0.0.1",
+  "description": "Pipedream Notion (API Key) Components",
+  "main": "notion_api_key.app.mjs",
+  "keywords": [
+    "pipedream",
+    "notion_api_key"
+  ],
+  "homepage": "https://pipedream.com/apps/notion_api_key",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
