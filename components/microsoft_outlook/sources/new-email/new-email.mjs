@@ -1,4 +1,4 @@
-import common from "../common.mjs";
+import common from "../common/common-new-email.mjs";
 import md5 from "md5";
 import sampleEmit from "./test-event.mjs";
 
@@ -7,52 +7,11 @@ export default {
   key: "microsoft_outlook-new-email",
   name: "New Email Event (Instant)",
   description: "Emit new event when an email is received in specified folders.",
-  version: "0.0.16",
+  version: "0.0.17",
   type: "source",
   dedupe: "unique",
-  props: {
-    ...common.props,
-    folderIds: {
-      propDefinition: [
-        common.props.microsoftOutlook,
-        "folderIds",
-      ],
-      optional: true,
-    },
-  },
-  hooks: {
-    ...common.hooks,
-    async deploy() {
-      this.db.set("sentItemFolderId", await this.getFolderIdByName("Sent Items"));
-      this.db.set("draftsFolderId", await this.getFolderIdByName("Drafts"));
-
-      const events = await this.getSampleEvents({
-        pageSize: 25,
-      });
-      if (!events || events.length == 0) {
-        return;
-      }
-      for (const item of events) {
-        this.emitEvent(item);
-      }
-    },
-    async activate() {
-      await this.activate({
-        changeType: "created",
-        resource: "/me/messages",
-      });
-    },
-    async deactivate() {
-      await this.deactivate();
-    },
-  },
   methods: {
     ...common.methods,
-    async getFolderIdByName(name) {
-      const { value: folders } = await this.microsoftOutlook.listFolders();
-      const folder = folders.find(({ displayName }) => displayName === name);
-      return folder?.id;
-    },
     async getSampleEvents({ pageSize }) {
       const folders = this.folderIds?.length
         ? this.folderIds.map((id) => `/me/mailFolders/${id}/messages`)
@@ -72,15 +31,6 @@ export default {
         results.push(...messages);
       }
       return results;
-    },
-    isRelevant(item) {
-      if (this.folderIds?.length) {
-        return this.folderIds.includes(item.parentFolderId);
-      }
-      // if no folderIds are specified, filter out items in Sent Items & Drafts
-      const sentItemFolderId = this.db.get("sentItemFolderId");
-      const draftsFolderId = this.db.get("draftsFolderId");
-      return item.parentFolderId !== sentItemFolderId && item.parentFolderId !== draftsFolderId;
     },
     emitEvent(item) {
       if (this.isRelevant(item)) {

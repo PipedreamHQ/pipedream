@@ -1,4 +1,4 @@
-import microsoftOutlook from "../microsoft_outlook.app.mjs";
+import microsoftOutlook from "../../microsoft_outlook.app.mjs";
 
 const getRenewalInterval = (period) => {
   let day = 24 * 60 * 60;

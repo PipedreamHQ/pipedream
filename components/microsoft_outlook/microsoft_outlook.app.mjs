@@ -170,6 +170,29 @@ export default {
         })) || [];
       },
     },
+    attachmentId: {
+      type: "string",
+      label: "Attachment ID",
+      description: "The identifier of the attachment to download",
+      async options({
+        messageId, page,
+      }) {
+        const limit = DEFAULT_LIMIT;
+        const { value: attachments } = await this.listAttachments({
+          messageId,
+          params: {
+            $top: limit,
+            $skip: limit * page,
+          },
+        });
+        return attachments?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
     maxResults: {
       type: "integer",
       label: "Max Results",
@@ -400,6 +423,22 @@ export default {
       return this._makeRequest({
         method: "PATCH",
         path: `/me/messages/${messageId}`,
+        ...args,
+      });
+    },
+    getAttachment({
+      messageId, attachmentId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/me/messages/${messageId}/attachments/${attachmentId}/$value`,
+        ...args,
+      });
+    },
+    listAttachments({
+      messageId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/me/messages/${messageId}/attachments`,
         ...args,
       });
     },
