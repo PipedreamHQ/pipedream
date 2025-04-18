@@ -79,24 +79,27 @@ export async function registerComponentTools({
         appKey = cp.name
         continue
       } else if (cp.type === "string") {
-        schema[cp.name] = z.string()
+        if (
+           cp.options &&
+           Array.isArray(cp.options) &&
+           cp.options.length > 0 &&
+           cp.options.some((o) => typeof o === "string")
+         ) {
+           schema[cp.name] = z.enum(cp.options)
+         } else {
+           schema[cp.name] = z.string()
+         }
       } else if (cp.type === "string[]") {
-        schema[cp.name] = z
-          .union([
-            z.string().transform((val) => {
-              try {
-                return JSON.parse(val)
-              } catch {
-                return [
-                  val,
-                ] // If not valid JSON, treat as single item array
-              }
-            }),
-            z.array(z.string()),
-          ])
-          .refine((val) => Array.isArray(val), {
-            message: "Must be an array of strings",
-          })
+        if (
+           cp.options &&
+           Array.isArray(cp.options) &&
+           cp.options.length > 0 &&
+           cp.options.some((o) => o.value != null)
+         ) {
+           schema[cp.name] = z.array(z.enum(cp.options.map((o) => o.value)))
+         } else {
+           schema[cp.name] = z.array(z.string())
+         }
         configurablePropsDescription += `- ${cp.name}: Return JSON in this format: string[]\n`
       } else if (cp.type === "number") {
         schema[cp.name] = z.number()
