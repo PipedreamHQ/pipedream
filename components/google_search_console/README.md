@@ -9,3 +9,9 @@ The Google Search Console API opens a treasure trove of data and insights about 
 - **Sync Search Results with Google Sheets**: Create a workflow that periodically pulls data from the Google Search Console API and adds it to a Google Sheet. This is useful for maintaining an evolving dataset for deeper analysis, historical reference, or sharing insights across teams without giving direct access to the Search Console.
 
 - **Automatic Sitemap Submission**: Set up a Pipedream workflow that triggers whenever a new sitemap is generated in your content management system (CMS). The workflow can then automatically submit the sitemap to Google Search Console via API, ensuring Google has the latest structure of your site for crawling and indexing.
+
+## Available Actions
+
+[Get Site Performance Data](components/google_search_console/actions/retrieve-site-performance-data/README.md)
+[Submit URL to Google Indexing API](components/google_search_console/actions/submit-url-for-indexing/README.md)
+
