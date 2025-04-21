@@ -98,7 +98,6 @@ export default {
           "content-type": "text/plain",
         },
       });
-    }
       return;
     }
 
