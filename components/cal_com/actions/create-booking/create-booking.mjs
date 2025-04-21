@@ -3,15 +3,15 @@ import calCom from "../../cal_com.app.mjs";
 export default {
   key: "cal_com-create-booking",
   name: "Create Booking",
-  description: "Create a new booking. [See the docs here](https://developer.cal.com/api/api-reference/bookings#create-a-new-booking)",
-  version: "0.0.1",
+  description: "Create a new booking. [See the documentation](https://developer.cal.com/api/api-reference/bookings#create-a-new-booking)",
+  version: "0.0.2",
   type: "action",
   props: {
     calCom,
-    eventType: {
+    eventTypeId: {
       propDefinition: [
         calCom,
-        "eventType",
+        "eventTypeId",
       ],
     },
     name: {
@@ -33,12 +33,12 @@ export default {
     startTime: {
       type: "string",
       label: "Start Time",
-      description: "The start time of the new booking in **ISO 8601** format",
+      description: "The start time of the new booking in **ISO 8601** format. E.g. `2025-04-21T20:28:00`",
     },
     endTime: {
       type: "string",
       label: "End Time",
-      description: "The end time of the new booking in **ISO 8601** format",
+      description: "The end time of the new booking in **ISO 8601** format. E.g. `2025-04-21T20:28:00`",
     },
     recurringCount: {
       type: "integer",
@@ -61,7 +61,7 @@ export default {
   },
   async run({ $ }) {
     const data = {
-      eventTypeId: this.eventType,
+      eventTypeId: this.eventTypeId,
       name: this.name,
       email: this.email,
       title: this.title,
