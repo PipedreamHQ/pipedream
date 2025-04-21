@@ -53,13 +53,21 @@ export default {
       this.db.set("deltaToken", token);
     },
     async updateSubscription() {
-      const hookId = this._getHookId();
-      await this.microsoftExcel.updateSubscription({
-        hookId,
+      try {
+        await this.microsoftExcel.deleteHook(this._getHookId("hookId"));
+      } catch {
+        // couldn't find webhook
+      }
+
+      const { id } = await this.microsoftExcel.createHook({
         data: {
+          changeType: "updated",
+          notificationUrl: this.http.endpoint,
+          resource: "me/drive/root",
           expirationDateTime: moment().add(30, "days"),
         },
       });
+      this._setHookId(id);
     },
     path() {
       return this.folderId === "root"

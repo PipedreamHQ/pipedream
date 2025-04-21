@@ -1,4 +1,5 @@
 import microsoftExcel from "../../microsoft_excel.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "microsoft_excel-update-worksheet-tablerow",
@@ -49,7 +50,7 @@ export default {
         microsoftExcel,
         "values",
       ],
-      description: "Represents the raw values of the specified range. The data returned could be of type string, number, or a boolean. Cells that contain errors return the error string.",
+      description: "An array of values for the updated row. Each item in the array represents one cell. E.g. `[1, 2, 3]`",
     },
   },
   async run({ $ }) {
@@ -67,7 +68,9 @@ export default {
       tableId,
       rowId,
       data: {
-        values: JSON.parse(values),
+        values: [
+          parseObject(values),
+        ],
       },
     });
 

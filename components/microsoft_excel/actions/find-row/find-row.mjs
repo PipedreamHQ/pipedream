@@ -57,7 +57,7 @@ export default {
       $,
       sheetId: this.sheetId,
       worksheet: this.worksheet,
-      range: `${this.worksheet}!${this.column}1:${this.column}${rowCount}`,
+      range: `${this.column}1:${this.column}${rowCount}`,
     });
     const values = rangeValues.map((v) => v[0]);
     const index = values.indexOf(this.value);
@@ -72,7 +72,7 @@ export default {
       $,
       sheetId: this.sheetId,
       worksheet: this.worksheet,
-      range: `${this.worksheet}!A${row}:${lastColumn}${row}`,
+      range: `A${row}:${lastColumn}${row}`,
     });
 
     $.export("$summary", `Found value in row ${row}`);

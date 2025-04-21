@@ -48,7 +48,7 @@ export default {
       $,
       sheetId: this.sheetId,
       worksheet: this.worksheet,
-      range: `${this.worksheet}!${this.cell}:${this.cell}`,
+      range: `${this.cell}:${this.cell}`,
       data: {
         values: [
           [

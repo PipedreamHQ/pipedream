@@ -1,4 +1,5 @@
 import microsoftExcel from "../../microsoft_excel.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "microsoft_excel-get-columns",
@@ -46,12 +47,13 @@ export default {
     });
 
     const values = {};
-    for (const column of this.columns) {
+    const columns = parseObject(this.columns);
+    for (const column of columns) {
       const response = await this.microsoftExcel.getRange({
         $,
         sheetId: this.sheetId,
         worksheet: this.worksheet,
-        range: `${this.worksheet}!${column}1:${column}${rowCount}`,
+        range: `${column}1:${column}${rowCount}`,
       });
       values[column] = response.values.map((v) => v[0]);
     }

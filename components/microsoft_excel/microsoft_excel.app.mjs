@@ -176,7 +176,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "PATCH",
-        path: `me/drive/items/${sheetId}/workbook/tables/${tableId}/rows/itemAt(index=${rowId})`,
+        path: `me/drive/items/${sheetId}/workbook/tables/${tableId}/rows/ItemAt(index=${rowId})`,
         ...args,
       });
     },

@@ -39,7 +39,7 @@ export default {
     const response = await this.microsoftExcel.getRange({
       sheetId: this.sheetId,
       worksheet: this.worksheet,
-      range: `${this.worksheet}!${this.cell}:${this.cell}`,
+      range: `${this.cell}:${this.cell}`,
     });
 
     const value = response.values[0][0];

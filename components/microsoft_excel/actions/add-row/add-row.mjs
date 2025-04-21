@@ -1,4 +1,7 @@
 import microsoftExcel from "../../microsoft_excel.app.mjs";
+import {
+  parseObject, getColumnLetter,
+} from "../../common/utils.mjs";
 
 export default {
   key: "microsoft_excel-add-row",
@@ -39,7 +42,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const { address } = await this.microsoftExcel.getUsedRange({
+    const {
+      address, columnCount,
+    } = await this.microsoftExcel.getUsedRange({
       $,
       sheetId: this.sheetId,
       worksheet: this.worksheet,
@@ -47,15 +52,13 @@ export default {
 
     // get next row range
     const match = address.match(/^(.+!)?([A-Z]+)(\d+):([A-Z]+)(\d+)$/);
-    const [
-      , sheet = "",
-      colStart,
-      /* eslint-disable no-unused-vars */
-      rowStart,
-      colEnd,
-    ] = match;
     const nextRow = parseInt(match[5], 10) + 1;
-    const range = `${sheet}${colStart}${nextRow}:${colEnd}${nextRow}`;
+    const values = parseObject(this.values);
+    if (values.length < columnCount) {
+      values.length = columnCount;
+    }
+    const colEnd = getColumnLetter(values.length);
+    const range = `A${nextRow}:${colEnd}${nextRow}`;
 
     // insert range
     await this.microsoftExcel.insertRange({
@@ -76,7 +79,7 @@ export default {
       range,
       data: {
         values: [
-          this.values,
+          values,
         ],
       },
     });

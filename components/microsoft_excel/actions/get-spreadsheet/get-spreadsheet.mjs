@@ -46,7 +46,7 @@ export default {
         $,
         sheetId: this.sheetId,
         worksheet: this.worksheet,
-        range: `${this.worksheet}!${this.range}`,
+        range: `${this.range}`,
       })
       : await this.microsoftExcel.getUsedRange({
         $,
