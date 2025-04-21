@@ -1,3 +1,4 @@
+import { parseObject } from "../../common/utils.mjs";
 import xendit from "../../xendit.app.mjs";
 
 export default {
@@ -70,7 +71,7 @@ export default {
       optional: true,
     },
     metadata: {
-      type: "string",
+      type: "object",
       label: "Metadata",
       description: "A list of objects of metadata key-value pairs. The key must be a string and the value can be a string or number.",
       optional: true,
@@ -95,7 +96,7 @@ export default {
           email_cc: this.emailCc,
           email_bcc: this.emailBcc,
         },
-        metadata: this.metadata,
+        metadata: parseObject(this.metadata),
       },
     });
 
