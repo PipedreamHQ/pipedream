@@ -4,7 +4,7 @@ import sampleEmit from "./test-event.mjs";
 export default {
   ...common,
   key: "pipedrive-updated-person-instant",
-  name: "New Person Update (Instant)",
+  name: "Updated Person (Instant)",
   description: "Emit new event when a person is updated.",
   version: "0.0.3",
   type: "source",
