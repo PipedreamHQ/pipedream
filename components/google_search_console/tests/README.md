@@ -1,11 +1,11 @@
-#  Local Tests Directory
+# Local Tests Directory
 
 This folder contains **non-production test scripts** used for developing and validating Pipedream components locally.  
 **You can safely delete the entire folder** — it does not affect runtime or deployment.
 
 ---
 
-##  Folder Structure
+## Folder Structure
 
 ### `action-tests/`
 Component-level test runners that simulate a real Pipedream `$` context using `mockery-dollar.mjs`.

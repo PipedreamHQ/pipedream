@@ -102,7 +102,7 @@ export default {
   name: "Retrieve Site Performance Data",
   description: "Fetches search analytics from Google Search Console for a verified site.",
   key: "retrieve-site-performance-data",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     gsConsole,

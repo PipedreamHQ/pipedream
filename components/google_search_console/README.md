@@ -12,6 +12,7 @@ The Google Search Console API opens a treasure trove of data and insights about 
 
 ## Available Actions
 
-[Get Site Performance Data](components/google_search_console/actions/retrieve-site-performance-data/README.md)
-[Submit URL to Google Indexing API](components/google_search_console/actions/submit-url-for-indexing/README.md)
+[Retrieve Site Performance Data](./actions/retrieve-site-performance-data/README.md)
+[Submit URL for Indexing](./actions/submit-url-for-indexing/README.md)
+
 
