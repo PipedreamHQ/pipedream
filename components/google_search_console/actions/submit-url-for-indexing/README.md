@@ -24,8 +24,8 @@ Use this action when:
 
 ## 🔐 Auth
 
-Requires OAuth 2.0 with this scope: https://www.googleapis.com/auth/indexing
++Requires OAuth 2.0 with [indexing](https://www.googleapis.com/auth/indexing) scope: 
 
 ## 🔗 Endpoint
 
-https://indexing.googleapis.com/v3/urlNotifications:publish
+[https://indexing.googleapis.com/v3/urlNotifications:publish](https://www.googleapis.com/auth/indexing)

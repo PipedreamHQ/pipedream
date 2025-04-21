@@ -12,7 +12,7 @@ const validCases = {
 
 
 
-console.log("Running checkUrl() tests...");
+console.log("Running throwIfNotYMDDashDate() tests...");
 
 let counterOfFails = 0;
 

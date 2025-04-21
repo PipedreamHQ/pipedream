@@ -2,7 +2,7 @@ import methods from "../../common/methods.mjs";
 import bogus from "./bogus-data/bogus-data-url.mjs";
 
 
-// Any other case from bogus data shoul lead to throw
+// Any other case from bogus data should lead to throw
 // Valid data : expected result;
 const validCases = {
     
