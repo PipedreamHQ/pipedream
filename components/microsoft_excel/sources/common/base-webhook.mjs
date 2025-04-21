@@ -95,9 +95,10 @@ export default {
         status: 200,
         body: query.validationToken,
         headers: {
-          "content-type": "text/plan",
+          "content-type": "text/plain",
         },
       });
+    }
       return;
     }
 
