@@ -830,7 +830,7 @@ Refer to the [full Connect API reference](/connect/api/#deploy-a-trigger) to lis
 - Refer to the [quickstart above](#deploying-a-source) to get started 
 
 #### Handling test events
-- Many event sources attempt to retrieve a small set of historical events on deploy in order to provide visibility into the event shape for end users and developers
+- Many event sources attempt to retrieve a small set of historical events on deploy to provide visibility into the event shape for end users and developers
 - Exposing real test events make it easier to consume the event in downstream systems without requiring users to trigger real events ([more info](/components/contributing/guidelines/#surfacing-test-events))
 - However, this results in emitting those events to the listening webhook immediately, which may not always be ideal, depending on your use case
 - If you'd like to avoid emitting historical events, you can deploy a trigger without defining a `webhook_url`, then [update the listening webhooks for the deployed trigger](/connect/api/#update-the-webhooks-listening-to-a-deployed-trigger) after roughly a minute
@@ -897,7 +897,7 @@ Deploy a timer to act as a cron job that will emit an event on a custom schedule
 
 `cron` (**object**)
 
-When defining schedules, you can pass one of the below:
+When defining schedules, you can pass one of the following:
 - `intervalSeconds`: Define the frequency in seconds
 - `cron`: Define a custom cron schedule and optionally define the `timezone`. For example:
 
