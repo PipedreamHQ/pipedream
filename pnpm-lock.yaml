@@ -6300,6 +6300,9 @@ importers:
 
   components/if_else: {}
 
+  components/ifthenpay:
+    specifiers: {}
+
   components/ifttt:
     dependencies:
       '@pipedream/platform':
