@@ -122,7 +122,8 @@ Here's the response:
       "custom_fields_json": "[{\"name\":\"base_api_url\",\"label\":\"Base API URL\",\"description\":\"The Base API URL defaults to `gitlab.com`. If you are using self-hosted Gitlab, enter your base url here, e.g. `gitlab.example.com`\",\"default\":\"gitlab.com\",\"optional\":null}]",
       "categories": [
         "Developer Tools"
-      ]
+      ],
+      "featured_weight": 5000
     }
   ]
 }
@@ -820,13 +821,20 @@ These are 2 categories of triggers you can deploy on behalf of your end users:
 - [Native triggers](#native-triggers)
 
 <Callout type="info">
-Refer to the [full Connect API reference](/connect/api/#deploy-a-trigger) to list, retrieve, delete, and manage triggers for your user
+Refer to the [full Connect API reference](/connect/api/#deploy-a-trigger) to list, retrieve, delete, and manage triggers for your user.
 </Callout>
 
 ### App-based event sources
 - Listen for events that occur in other systems: for example, when [a new file is added to Google Drive](https://pipedream.com/apps/google-drive/triggers/new-files-instant) or when [a new contact is created in HubSpot](https://pipedream.com/apps/hubspot/triggers/new-or-updated-contact)
 - Deploying these triggers requires that your customers first connect their account using [Pipedream Connect Managed Auth](/managed-auth/quickstart), since the triggers are deployed on their behalf using account
 - Refer to the [quickstart above](#deploying-a-source) to get started 
+
+#### Handling test events
+- Many event sources attempt to retrieve a small set of historical events on deploy in order to provide visibility into the event shape for end users and developers
+- Exposing real test events make it easier to consume the event in downstream systems without requiring users to trigger real events ([more info](/components/contributing/guidelines/#surfacing-test-events))
+- However, this results in emitting those events to the listening webhook immediately, which may not always be ideal, depending on your use case
+- If you'd like to avoid emitting historical events, you can deploy a trigger without defining a `webhook_url`, then [update the listening webhooks for the deployed trigger](/connect/api/#update-the-webhooks-listening-to-a-deployed-trigger) after roughly a minute
+
 
 ### Native triggers
 - You can also deploy native triggers, which don't require any authentication from your end users, so **you should skip the account connection process when configuring these triggers**
@@ -884,6 +892,21 @@ curl -X POST https://api.pipedream.com/v1/connect/{project_id}/components/trigge
 
 #### Schedule
 Deploy a timer to act as a cron job that will emit an event on a custom schedule you or your users define.
+
+##### Configured props
+
+`cron` (**object**)
+
+When defining schedules, you can pass one of the below:
+- `intervalSeconds`: Define the frequency in seconds
+- `cron`: Define a custom cron schedule and optionally define the `timezone`. For example:
+
+```json
+"cron": {
+  "cron": "0 * * * *",
+  "timezone": "America/Los_Angeles" // optional, defaults to UTC
+}
+```
 
 <Tabs items={['Node.js', 'HTTP (cURL)']}>
 <Tabs.Tab>
