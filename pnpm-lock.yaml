@@ -6300,8 +6300,7 @@ importers:
 
   components/if_else: {}
 
-  components/ifthenpay:
-    specifiers: {}
+  components/ifthenpay: {}
 
   components/ifttt:
     dependencies:
