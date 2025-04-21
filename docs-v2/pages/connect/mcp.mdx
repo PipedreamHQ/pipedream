@@ -1,0 +1,188 @@
+import Callout from '@/components/Callout'
+import { Steps, Tabs } from 'nextra/components'
+import Image from 'next/image'
+
+# MCP Servers
+
+Pipedream offers dedicated MCP ([Model Context Protocol](https://modelcontextprotocol.io/)) servers for all of our {process.env.PUBLIC_APPS}+ integrated apps. These servers enable AI assistants like Claude to securely access and interact with thousands of APIs through a standardized communication protocol, performing real-world tasks by connecting to your accounts.
+
+{/* ![MCP visualization](https://res.cloudinary.com/pipedreamin/image/upload/v1714074324/pd-mcp-illustration_y76lnt.webp) */}
+
+Pipedream's MCP servers are powered by [Pipedream Connect](https://pipedream.com/docs/connect), including:
+
+- Access to {process.env.PUBLIC_APPS}+ apps and APIs through a consistent interface
+- Over 10,000 pre-built tools and actions
+- Fully-managed OAuth and credential storage
+- Secure account connections with revocable access
+
+<Callout type="info">
+User credentials are encrypted at rest and all requests are made through Pipedream's servers, never directly exposing credentials to AI models. Read more about how we protect user credentials [here](/privacy-and-security/#third-party-oauth-grants-api-keys-and-environment-variables). 
+</Callout>
+
+## Available MCP servers
+
+Pipedream provides MCP servers for all our [supported apps](https://pipedream.com/apps). Each app has its own dedicated MCP server with tools specific to that API. For example:
+
+- **[Slack MCP server](https://mcp.pipedream.com/app/slack)**:  Send messages, manage channels, create reminders, and more
+- **[GitHub MCP server](https://mcp.pipedream.com/app/github)**:  Create issues, manage pull requests, search repositories
+- **[Google Sheets MCP server](https://mcp.pipedream.com/app/google-sheets)**:  Read and write data, format cells, create charts
+
+Explore the full list of available MCP servers at [mcp.pipedream.com](https://mcp.pipedream.com).
+
+## Getting started
+
+You can use Pipedream's MCP servers in two ways:
+
+1. **[As an end user](#for-end-users)**:  Connect your accounts through our hosted MCP servers at [mcp.pipedream.com](https://mcp.pipedream.com)
+2. **[As a developer](#for-developers)**:  Host your own MCP servers for your application or organization
+
+### For end users
+
+Set up MCP servers to use with any compatible MCP client, like Claude Desktop, Windsurf, Cursor, and VS Code.
+
+<Steps>
+
+#### Configure MCP servers and connect accounts
+
+- Navigate to [mcp.pipedream.com](https://mcp.pipedream.com) and sign in or create an account (this is a separate account from pipdream.com)
+- Browse available MCP servers
+- Follow the configuration instructions on the server page to add it to your preferred MCP client
+- Connect your account (you can do this in the UI or the AI will prompt you when you first use a tool)
+
+#### Start chatting
+
+Ask the LLM or agent to perform tasks using your connected services. For example:
+
+- "Send a message to my team in Slack"
+- "Create a new issue in GitHub"
+- "Add data to my Google Sheet"
+
+The AI will refer to the configured tools available in its MCP servers to complete the task.
+
+#### Get things done
+
+With MCP-enabled AI, you can:
+
+- Send messages and manage communication
+- Create and update documents
+- Query and analyze data
+- Automate workflows across your favorite tools
+
+All using your own connected accounts with full control and security.
+
+</Steps>
+
+### For developers
+
+Deploy Pipedream's MCP servers to your application or agent and make authenticated request on behalf of your customers. Refer to our reference implementation [here](https://github.com/PipedreamHQ/pipedream/blob/master/modelcontextprotocol/README.md).
+
+<Steps>
+
+#### Prerequisites
+
+To run your own MCP server, you'll need:
+
+1. A [Pipedream account](https://pipedream.com/auth/signup)
+2. A [Pipedream project](/projects/#creating-projects). Accounts connected via MCP will be stored here.
+3. [Pipedream OAuth credentials](/connect/managed-auth/oauth-clients/)
+
+#### Set up environment variables
+
+Set the following environment variables:
+
+```bash
+PIPEDREAM_CLIENT_ID=your_client_id
+PIPEDREAM_CLIENT_SECRET=your_client_secret
+PIPEDREAM_PROJECT_ID=your_project_id
+PIPEDREAM_PROJECT_ENVIRONMENT=development
+```
+
+#### Run the MCP server
+
+Pipedream's MCP servers can run in two modes:
+
+##### Stdio (for local testing)
+
+```bash
+npx @pipedream/mcp stdio --app slack --external-user-id user123
+```
+
+##### SSE (for hosting)
+
+```bash
+npx @pipedream/mcp sse
+```
+
+This exposes routes at:
+- `GET /:external_user_id/:app` - App-specific SSE connection endpoint
+- `POST /:external_user_id/:app/messages` - App-specific message handler
+
+Where:
+- `:external_user_id` is your user's unique identifier in your system
+- `:app` is the app slug (e.g., "slack", "github")
+
+#### Customize for your needs
+
+You can host and customize the MCP server for your specific requirements:
+
+```bash
+# Clone the repo
+git clone https://github.com/PipedreamHQ/pipedream
+cd pipedream/modelcontextprotocol
+
+# Install dependencies
+npm install
+
+# Build
+npm run build
+
+# Run the SSE server
+npm run start:sse:prod
+```
+
+See the [MCP server README](https://github.com/PipedreamHQ/pipedream/blob/master/modelcontextprotocol/README.md) for detailed instructions on customization options.
+
+</Steps>
+
+## Security
+
+MCP servers follow strict security best practices:
+
+- **Credential isolation**:  Each user's credentials are stored securely and isolated from other users
+- **No credential exposure**:  Credentials are never exposed to AI models or your client-side code
+- **Request authentication**:  All requests to the MCP server are authenticated
+- **Revocable access**:  Users can revoke access to their connected accounts at any time
+
+For more information on security, see our [security documentation](/privacy-and-security/).
+
+## Use cases
+
+Pipedream's MCP servers enable AI assistants to perform a wide range of tasks:
+
+- **Productivity automation**:  Schedule meetings, send emails, create documents
+- **Data analysis**:  Query databases, analyze spreadsheets, generate reports
+- **Content creation**:  Post social media updates, create marketing materials
+- **Customer support**:  Respond to inquiries, create tickets, update CRM records
+- **Developer workflows**:  Create issues, review code, deploy applications
+
+## Supported tools
+
+- Each MCP server provides tools specific to that app. Tools are automatically created based on Pipedream's registry of pre-built actions.
+- You can find the supported tools for a given app on its MCP server page or search for specific actions here: [pipedream.com/expore](https://pipedream.com/explore#popular-actions).
+
+## Known gaps and limitations
+
+- Pipedream's MCP server doesn't yet support [configuring dynamic props](/connect/components/#configure-dynamic-props), which means LLMs may get confused when trying to configure props that require inputs from previous props
+- As an end user, you need to manually add distinct MCP servers for every app you want to interact with, instead of using a single MCP server that contains tools for many APIs
+
+## Pricing
+
+- Anyone can use Pipedream's hosted MCP servers for their own use **for free**
+- To deploy Pipedream's MCP servers to your own app or agent, [contact our sales team](https://pipedream.com/pricing?plan=Enterprise)
+
+## Additional resources
+
+- [Pipedream hosted MCP servers](https://mcp.pipedream.com)
+- [MCP official spec](https://modelcontextprotocol.io/)
+- [Pipedream MCP reference implementation](https://github.com/PipedreamHQ/pipedream/tree/master/modelcontextprotocol)
+- [MCP inspector tool](https://modelcontextprotocol.io/docs/tools/inspector/)

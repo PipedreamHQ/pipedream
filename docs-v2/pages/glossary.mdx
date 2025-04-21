@@ -76,7 +76,7 @@ Short for [Git commit](https://git-scm.com/book/en/v2/Git-Basics-Recording-Chang
 
 ### Component
 
-Components are Node.js modules that run on Pipedream's serverless infrastructure. [Sources](#source) and [actions](#action) are two types of components. See [the component API](/workflows/contributing/components/api/) for more details.
+Components are Node.js modules that run on Pipedream's serverless infrastructure. [Sources](#source) and [actions](#action) are two types of components. See [the component API](/components/contributing/api/) for more details.
 
 ### Component API
 
@@ -96,11 +96,11 @@ The public registry of [components](#component) available to Pipedream users, [a
 
 ### Connected account
 
-A specific account or credentials used to connect to a Pipedream [integration](#integrations). If both you and your team member have an account with OpenAI, for example, you would connect each account as a distinct connected account. [See the docs](/integrations/connected-accounts) for more details.
+A specific account or credentials used to connect to a Pipedream [integration](#integrations). If both you and your team member have an account with OpenAI, for example, you would connect each account as a distinct connected account. [See the docs](/apps/connected-accounts) for more details.
 
 ### Connected account access control
 
-You can restrict access to connected accounts to specific individuals or share with the entire workspace. [See the docs](/integrations/connected-accounts#access-control) for more details.
+You can restrict access to connected accounts to specific individuals or share with the entire workspace. [See the docs](/apps/connected-accounts#access-control) for more details.
 
 ### Credit
 
@@ -126,7 +126,7 @@ A workflow setting that allows you to configure how long Pipedream stores event 
 
 ### Deduper
 
-[Event sources](#event-source) can receive duplicate requests tied to the same event. Pipedream's infrastructure supports [deduplication](/workflows/contributing/components/api/#dedupe-strategies) to ensure that only unique events are emitted by a source.
+[Event sources](#event-source) can receive duplicate requests tied to the same event. Pipedream's infrastructure supports [deduplication](/components/contributing/api/#dedupe-strategies) to ensure that only unique events are emitted by a source.
 
 ### Delay
 
@@ -226,13 +226,13 @@ In programming, expressions are code that resolve to a value. In Pipedream, [you
 
 ### External credentials
 
-[Connected accounts](#connected-account) are accounts that users link directly in Pipedream. External credentials are credentials that users store in their own database or service, and reference in Pipedream at runtime. [See the docs](/integrations/connected-accounts/external-auth) for more details.
+[Connected accounts](#connected-account) are accounts that users link directly in Pipedream. External credentials are credentials that users store in their own database or service, and reference in Pipedream at runtime. [See the docs](/apps/connected-accounts/external-auth) for more details.
 
 ## F
 
 ### File store
 
-[File stores](/workflows/projects/file-stores) are filesystems scoped to projects. Any files stored in the file store are available to all workflows in the project.
+[File stores](/projects/file-stores) are filesystems scoped to projects. Any files stored in the file store are available to all workflows in the project.
 
 ### Filter
 
@@ -268,7 +268,7 @@ Pipedream's internal code in the [execution environment](#execution-environment)
 
 ### Hooks
 
-[Hooks](/workflows/contributing/components/api/#hooks) are functions executed as a part of the [event source](#event-source) lifecycle. They can be used to perform setup tasks before the source is deployed, or teardown tasks after the source is destroyed.
+[Hooks](/components/contributing/api/#hooks) are functions executed as a part of the [event source](#event-source) lifecycle. They can be used to perform setup tasks before the source is deployed, or teardown tasks after the source is destroyed.
 
 ### HTTP endpoint
 
@@ -332,15 +332,15 @@ A [connected account](#connected-account) that uses OAuth to authenticate with a
 
 ### Premium apps
 
-Pipedream's built-in [integrations](#integrations) that require a paid plan to use. [See the pricing page](https://pipedream.com/pricing) for more details and the [full list of premium apps](/integrations/apps#premium-apps).
+Pipedream's built-in [integrations](#integrations) that require a paid plan to use. [See the pricing page](https://pipedream.com/pricing) for more details and the [full list of premium apps](/apps/apps#premium-apps).
 
 ### Project
 
-A container for workflows, secrets, and other resources in Pipedream. Projects can be synced with a GitHub repository using [GitHub Sync](#github-sync). [See the docs](/workflows/projects/) for more details.
+A container for workflows, secrets, and other resources in Pipedream. Projects can be synced with a GitHub repository using [GitHub Sync](#github-sync). [See the docs](/projects/) for more details.
 
 ### Project-based access control
 
-You can restrict access to projects to specific individuals or share with the entire workspace. [See the docs](/workflows/projects/access-controls) for more details.
+You can restrict access to projects to specific individuals or share with the entire workspace. [See the docs](/projects/access-controls) for more details.
 
 ### Project changelog
 
@@ -394,7 +394,7 @@ A [workflow trigger](#trigger) that runs on a schedule. This trigger exposes a c
 
 ### Single sign-on (SSO)
 
-Users can [configure SSO](/workflows/workspaces/sso/) to authenticate with Pipedream using their identity provider.
+Users can [configure SSO](/workspaces/sso/) to authenticate with Pipedream using their identity provider.
 
 ### Source
 
@@ -462,7 +462,7 @@ You create a workspace when you sign up for Pipedream. Workspaces contain projec
 
 ### Workspace admin
 
-A workspace can have multiple [admins](/workflows/workspaces/#promoting-a-member-to-admin), who can administer the workspace, manage billing, and more.
+A workspace can have multiple [admins](/workspaces/#promoting-a-member-to-admin), who can administer the workspace, manage billing, and more.
 
 ### Workspace member
 

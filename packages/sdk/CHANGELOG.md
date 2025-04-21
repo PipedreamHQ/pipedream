@@ -2,6 +2,30 @@
 
 # Changelog
 
+## [1.5.3] - 2025-04-18
+
+### Added
+
+- Added `ProxyResponse` type for makeProxyRequest
+- changed the location of connect DEBUG calls so they'll still show in the
+  error case.
+
+## [1.5.2] - 2025-04-15
+
+### Added
+
+- PD_SDK_DEBUG env var.  Set it to true to enable debugging of Pipedream Connect
+  API requests.  Simple sanitization is performed to prevent sensitive field leakage
+  but use caution.
+
+## [1.5.1] - 2025-04-15
+
+### Added
+
+- `withLabel` to `BaseConfigurableProp` type definition
+- documentation describing various fields in `BaseConfigurableProp`
+- `featured_weight` to `App` type definition now that API returns this value
+
 ## [1.5.0] - 2025-04-08
 
 ### Added

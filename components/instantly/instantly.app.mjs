@@ -1,6 +1,5 @@
 import { axios } from "@pipedream/platform";
 import {
-  EVENT_TYPE_OPTIONS,
   LIMIT,
   NEW_STATUS_OPTIONS,
 } from "./common/constants.mjs";
@@ -13,140 +12,193 @@ export default {
       type: "string",
       label: "Campaign ID",
       description: "The ID of the campaign",
-      async options({ page }) {
-        const campaigns = await this.listCampaigns({
+      async options({ prevContext }) {
+        const {
+          items, next_starting_after: next,
+        } = await this.listCampaigns({
           params: {
             limit: LIMIT,
-            skip: LIMIT * page,
+            starting_after: prevContext?.next,
           },
         });
-        return campaigns.map(({
-          id: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
+        return {
+          options: items?.map(({
+            id: value, name: label,
+          }) => ({
+            label,
+            value,
+          })) || [],
+          context: {
+            next,
+          },
+        };
       },
     },
     tagIds: {
       type: "string[]",
-      label: "Tags Id",
-      description: "List of tag Ids to add",
-      async options({ page }) {
-        const { data } = await this.listTags({
+      label: "Tags ID",
+      description: "List of tag IDs to add",
+      async options({ prevContext }) {
+        const {
+          items, next_starting_after: next,
+        } = await this.listTags({
           params: {
             limit: LIMIT,
-            skip: LIMIT * page,
+            starting_after: prevContext?.next,
           },
         });
-        return data.map(({
-          id: value, label,
-        }) => ({
-          label,
-          value,
-        }));
+        return {
+          options: items?.map(({
+            id: value, label,
+          }) => ({
+            label,
+            value,
+          })) || [],
+          context: {
+            next,
+          },
+        };
       },
     },
-    leads: {
+    leadIds: {
       type: "string[]",
-      label: "Leads",
-      description: "An array of lead objects to add to the campaign. **Example: [{ \"email\":\"john2@abc.com\", \"first_name\":\"John\", \"last_name\":\"Doe\", \"company_name\":\"Instantly\", \"personalization\":\"Loved your latest post\", \"phone\":\"123456789\", \"website\":\"instantly.ai\", \"custom_variables\":{ \"favorite_restaurant\":\"Chipotle\", \"language\":\"English\"}}]**",
-    },
-    skipIfInWorkspace: {
-      type: "boolean",
-      label: "Skip if in Workspace",
-      description: "Skip lead if it exists in any campaigns in the workspace",
-      optional: true,
-    },
-    skipIfInCampaign: {
-      type: "boolean",
-      label: "Skip if in Campaign",
-      description: "Skip lead if it exists in the campaign",
-      optional: true,
-    },
-    eventType: {
-      type: "string",
-      label: "Event Type",
-      description: "Type of event to filter",
-      options: EVENT_TYPE_OPTIONS,
-    },
-    email: {
-      type: "string",
-      label: "Lead Email",
-      description: "Email address of the lead",
+      label: "Lead IDs",
+      description: "The array of lead IDs to include",
+      async options({
+        prevContext, valueKey = "id",
+      }) {
+        const {
+          items, next_starting_after: next,
+        } = await this.listLeads({
+          params: {
+            limit: LIMIT,
+            starting_after: prevContext?.next,
+          },
+        });
+        return {
+          options: items?.map((lead) => ({
+            label: (`${lead?.first_name} ${lead?.last_name}`).trim(),
+            value: lead[valueKey],
+          })) || [],
+          context: {
+            next,
+          },
+        };
+      },
     },
     newStatus: {
       type: "string",
       label: "New Status",
-      description: "New status to assign to the lead",
+      description: "Lead interest status. It can be either a static value, or a custom status interest value.",
       options: NEW_STATUS_OPTIONS,
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.instantly.ai/api/v1";
+      return "https://api.instantly.ai/api/v2";
     },
-    _params(params = {}) {
+    _headers(headers = {}) {
       return {
-        ...params,
-        api_key: `${this.$auth.api_key}`,
+        ...headers,
+        Authorization: `Bearer ${this.$auth.api_key}`,
       };
     },
     _makeRequest({
-      $ = this, params, path, ...opts
+      $ = this, headers, path, ...opts
     }) {
       return axios($, {
         url: this._baseUrl() + path,
-        params: this._params(params),
+        headers: this._headers(headers),
         ...opts,
       });
     },
     listCampaigns(opts = {}) {
       return this._makeRequest({
-        path: "/campaign/list",
+        path: "/campaigns",
         ...opts,
       });
     },
     listTags(opts = {}) {
       return this._makeRequest({
-        path: "/custom-tag",
+        path: "/custom-tags",
+        ...opts,
+      });
+    },
+    listLeads(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/leads/list",
+        ...opts,
+      });
+    },
+    listEmails(opts = {}) {
+      return this._makeRequest({
+        path: "/emails",
+        ...opts,
+      });
+    },
+    listBackgroundJobs(opts = {}) {
+      return this._makeRequest({
+        path: "/background-jobs",
+        ...opts,
+      });
+    },
+    getBackgroundJob({
+      jobId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/background-jobs/${jobId}`,
         ...opts,
       });
     },
     addTagsToCampaign(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/custom-tag/toggle-tag-resource",
+        path: "/custom-tags/toggle-resource",
         ...opts,
       });
     },
     addLeadsToCampaign(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/lead/add",
+        path: "/leads/move",
         ...opts,
       });
     },
     updateLeadStatus(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/lead/update/status",
+        path: "/leads/update-interest-status",
         ...opts,
       });
     },
-    createWebhook(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/webhook/subscribe",
-        ...opts,
-      });
-    },
-    deleteWebhook(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/webhook/unsubscribe",
-        ...opts,
-      });
+    async *paginate({
+      fn, args = {}, max,
+    }) {
+      const optsKey = args?.data
+        ? "data"
+        : "params";
+
+      args[optsKey] = {
+        ...args[optsKey],
+        limit: LIMIT,
+      };
+
+      let total, count = 0;
+
+      do {
+        const {
+          items, next_starting_after: next,
+        } = await fn(args);
+        for (const item of items) {
+          yield item;
+          if (max && ++count >= max) {
+            return;
+          }
+        }
+        total = items?.length;
+        args[optsKey].starting_after = next;
+      } while (total === args[optsKey].limit);
     },
   },
 };

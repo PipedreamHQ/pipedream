@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/voicemaker",
+  "version": "0.0.1",
+  "description": "Pipedream Voicemaker Components",
+  "main": "voicemaker.app.mjs",
+  "keywords": [
+    "pipedream",
+    "voicemaker"
+  ],
+  "homepage": "https://pipedream.com/apps/voicemaker",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

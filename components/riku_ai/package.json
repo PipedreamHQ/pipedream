@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/riku_ai",
+  "version": "0.0.1",
+  "description": "Pipedream Riku.AI Components",
+  "main": "riku_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "riku_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/riku_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

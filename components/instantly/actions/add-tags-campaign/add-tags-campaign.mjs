@@ -4,8 +4,8 @@ import instantly from "../../instantly.app.mjs";
 export default {
   key: "instantly-add-tags-campaign",
   name: "Add Tags to Campaign",
-  description: "Adds tags to a specific campaign. [See the documentation](https://developer.instantly.ai/tags/assign-or-unassign-a-tag)",
-  version: "0.0.1",
+  description: "Adds tags to a specific campaign. [See the documentation](https://developer.instantly.ai/api/v2/customtag/toggletagresource)",
+  version: "0.0.2",
   type: "action",
   props: {
     instantly,
@@ -15,6 +15,7 @@ export default {
         "campaignId",
       ],
       type: "string[]",
+      description: "The campaign IDs to assign tags to",
     },
     tagIds: {
       propDefinition: [
@@ -34,7 +35,7 @@ export default {
         resource_ids: parseObject(this.campaignIds),
       },
     });
-    $.export("$summary", response.message);
+    $.export("$summary", "Successfully added tags to campaign(s)");
     return response;
   },
 };

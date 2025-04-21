@@ -7,7 +7,7 @@ Pipedream provides a TypeScript SDK and a REST API to interact with the Connect 
 
 ## REST API base URL
 
-Pipedream Connect resources are scoped to [projects](/workflows/projects/), so you'll need to pass [the project's ID](/workflows/projects/#finding-your-projects-id) as a part of the base URL:
+Pipedream Connect resources are scoped to [projects](/projects/), so you'll need to pass [the project's ID](/projects/#finding-your-projects-id) as a part of the base URL:
 
 ```
 https://api.pipedream.com/v1/connect/{project_id}
@@ -250,7 +250,7 @@ POST /{project_id}/tokens
 
 `project_id` **string**
 
-[The project's ID](/workflows/projects/#finding-your-projects-id)
+[The project's ID](/projects/#finding-your-projects-id)
 
 ##### Body parameters
 
@@ -395,7 +395,7 @@ GET /{project_id}/accounts/
 
 `project_id` **string**
 
-[The project's ID](/workflows/projects/#finding-your-projects-id)
+[The project's ID](/projects/#finding-your-projects-id)
 
 ##### Query parameters
 
@@ -662,7 +662,7 @@ GET /{project_id}/accounts/{account_id}
 
 `project_id` **string**
 
-[The project's ID](/workflows/projects/#finding-your-projects-id)
+[The project's ID](/projects/#finding-your-projects-id)
 
 ---
 
@@ -835,7 +835,7 @@ DELETE /{project_id}/accounts/{account_id}
 
 `project_id` **string**
 
-[The project's ID](/workflows/projects/#finding-your-projects-id)
+[The project's ID](/projects/#finding-your-projects-id)
 
 ---
 
@@ -922,7 +922,7 @@ DELETE /{project_id}/apps/{app_id}/accounts
 
 `project_id` **string**
 
-[The project's ID](/workflows/projects/#finding-your-projects-id)
+[The project's ID](/projects/#finding-your-projects-id)
 
 ---
 
@@ -1011,7 +1011,7 @@ DELETE /{project_id}/users/{external_user_id}
 
 `project_id` **string**
 
-[The project's ID](/workflows/projects/#finding-your-projects-id)
+[The project's ID](/projects/#finding-your-projects-id)
 
 ---
 
@@ -1121,7 +1121,7 @@ apps](/rest-api/#list-apps) endpoint, and the name slug under the
 `q` **string** (_optional_)
 
 A search query to filter the components by key (see the [component structure
-table](/workflows/contributing/components/api/#component-structure)).
+table](/components/contributing/api/#component-structure)).
 
 ##### Examples
 
@@ -1258,7 +1258,7 @@ Either `triggers`, `actions`, or `components`.
 `component_key` **string**
 
 The key that identifies the component (see the [component structure
-table](/workflows/contributing/components/api/#component-structure)).
+table](/components/contributing/api/#component-structure)).
 
 ##### Examples
 
@@ -1415,7 +1415,7 @@ want to retrieve accounts for.
 `id` **string**
 
 The key that identifies the component (see the [component structure
-table](/workflows/contributing/components/api/#component-structure)).
+table](/components/contributing/api/#component-structure)).
 
 ---
 
@@ -1630,7 +1630,7 @@ want to retrieve accounts for.
 `id` **string**
 
 The key that identifies the component (see the [component structure
-table](/workflows/contributing/components/api/#component-structure)).
+table](/components/contributing/api/#component-structure)).
 
 ---
 
@@ -1833,7 +1833,7 @@ POST /actions/run
 `id` **string**
 
 The key that identifies the action component (see the [component structure
-table](/workflows/contributing/components/api/#component-structure)).
+table](/components/contributing/api/#component-structure)).
 
 ---
 
@@ -2011,6 +2011,10 @@ curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/actions/run
 
 #### Deploy a trigger
 
+<Callout type="info">
+See [here](/connect/components/#deploying-triggers) for more info on supported trigger types with example payloads
+</Callout>
+
 Deploy a trigger component that will emit events to a webhook or workflow for a Pipedream Connect user.
 
 ```text
@@ -2022,7 +2026,7 @@ POST /triggers/deploy
 `id` **string**
 
 The key that identifies the action component (see the [component structure
-table](/workflows/contributing/components/api/#component-structure)).
+table](/components/contributing/api/#component-structure)).
 
 ---
 
@@ -2492,14 +2496,14 @@ curl -X GET \
 Retrieve a single deployed trigger for a given user.
 
 ```text
-GET /deployed-triggers/{deployed_component_id}/
+GET /deployed-triggers/{deployed_trigger_id}/
 ```
 
 ##### Path parameters
 
-`dcid` **string**
+`deployed_trigger_id` **string**
 
-The deployed component ID for the trigger you'd like to retrieve.
+The deployed trigger ID for the trigger you'd like to retrieve (ex, `dc_xxxxxxx`, `hi_xxxxxxx`, `ti_xxxxxxx`, or `ei_xxxxxxx`).
 
 ##### Query parameters
 
@@ -2590,7 +2594,7 @@ curl -X POST https://api.pipedream.com/v1/oauth/token \
 
 curl -X GET \
   -G \
-  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{dcid}/" \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{deployed_trigger_id}/" \
   -H "Authorization: Bearer {access_token}" \
   -H "Content-Type: application/json" \
   -H "x-pd-environment: development" \
@@ -2677,14 +2681,14 @@ curl -X GET \
 Delete deployed trigger for a given user.
 
 ```text
-DELETE /deployed-triggers/{deployed_component_id}/
+DELETE /deployed-triggers/{deployed_trigger_id}/
 ```
 
 ##### Path parameters
 
-`dcid` **string**
+`deployed_trigger_id` **string**
 
-The deployed component ID for the trigger you'd like to retrieve.
+The deployed trigger ID for the trigger you'd like to retrieve (ex, `dc_xxxxxxx`, `hi_xxxxxxx`, `ti_xxxxxxx`, or `ei_xxxxxxx`).
 
 ##### Query parameters
 
@@ -2768,7 +2772,7 @@ curl -X POST https://api.pipedream.com/v1/oauth/token \
 
 curl -X DELETE \
   -G \
-  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{dcid}/" \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{deployed_trigger_id}/" \
   -H "Authorization: Bearer {access_token}" \
   -H "Content-Type: application/json" \
   -H "x-pd-environment: development" \
@@ -2787,14 +2791,14 @@ Pipedream returns a `204 No Content` response on successful deletion
 Retrieve a list of the last events that a deployed trigger emitted.
 
 ```text
-GET /deployed-triggers/{deployed_component_id}/events/
+GET /deployed-triggers/{deployed_trigger_id}/events/
 ```
 
 ##### Path parameters
 
-`dcid` **string**
+`deployed_trigger_id` **string**
 
-The deployed component ID for the trigger you'd like to retrieve.
+The deployed trigger ID for the trigger you'd like to retrieve (ex, `dc_xxxxxxx`, `hi_xxxxxxx`, `ti_xxxxxxx`, or `ei_xxxxxxx`).
 
 ##### Query parameters
 
@@ -2889,7 +2893,7 @@ curl -X POST https://api.pipedream.com/v1/oauth/token \
 
 curl -X GET \
   -G \
-  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{dcid}/events" \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{deployed_trigger_id}/events" \
   -H "Authorization: Bearer {access_token}" \
   -H "Content-Type: application/json" \
   -H "x-pd-environment: development" \
@@ -2984,14 +2988,14 @@ curl -X GET \
 Retrieve the list of webhook URLs listening to a deployed trigger.
 
 ```text
-GET /deployed-triggers/{deployed_component_id}/webhooks/
+GET /deployed-triggers/{deployed_trigger_id}/webhooks/
 ```
 
 ##### Path parameters
 
-`dcid` **string**
+`deployed_trigger_id` **string**
 
-The deployed component ID for the trigger you'd like to retrieve.
+The deployed trigger ID for the trigger you'd like to retrieve (ex, `dc_xxxxxxx`, `hi_xxxxxxx`, `ti_xxxxxxx`, or `ei_xxxxxxx`).
 
 ##### Query parameters
 
@@ -3081,7 +3085,7 @@ curl -X POST https://api.pipedream.com/v1/oauth/token \
 
 curl -X GET \
   -G \
-  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{dcid}/webhooks/" \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{deployed_trigger_id}/webhooks/" \
   -H "Authorization: Bearer {access_token}" \
   -H "Content-Type: application/json" \
   -H "x-pd-environment: development" \
@@ -3105,14 +3109,14 @@ curl -X GET \
 Update the list of webhook URLs that will listen to a deployed trigger.
 
 ```text
-PUT /deployed-triggers/{deployed_component_id}/webhooks/
+PUT /deployed-triggers/{deployed_trigger_id}/webhooks/
 ```
 
 ##### Path parameters
 
-`dcid` **string**
+`deployed_trigger_id` **string**
 
-The deployed component ID for the trigger you'd like to retrieve.
+The deployed trigger ID for the trigger you'd like to retrieve (ex, `dc_xxxxxxx`, `hi_xxxxxxx`, `ti_xxxxxxx`, or `ei_xxxxxxx`).
 
 ##### Query parameters
 
@@ -3220,7 +3224,7 @@ curl -X POST https://api.pipedream.com/v1/oauth/token \
 # This request will update the list of webhook URLs listening to the specified deployed trigger.
 
 curl -X PUT \
-  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{dcid}/webhooks/" \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{deployed_trigger_id}/webhooks/" \
   -H "Authorization: Bearer {access_token}" \
   -H "Content-Type: application/json" \
   -H "x-pd-environment: development" \
@@ -3244,14 +3248,14 @@ curl -X PUT \
 Retrieve the list of workflow IDs listening to a deployed trigger.
 
 ```text
-GET /deployed-triggers/{deployed_component_id}/workflows/
+GET /deployed-triggers/{deployed_trigger_id}/workflows/
 ```
 
 ##### Path parameters
 
-`dcid` **string**
+`deployed_trigger_id` **string**
 
-The deployed component ID for the trigger you'd like to retrieve.
+The deployed trigger ID for the trigger you'd like to retrieve (ex, `dc_xxxxxxx`, `hi_xxxxxxx`, `ti_xxxxxxx`, or `ei_xxxxxxx`).
 
 ##### Query parameters
 
@@ -3341,7 +3345,7 @@ curl -X POST https://api.pipedream.com/v1/oauth/token \
 
 curl -X GET \
   -G \
-  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{dcid}/workflows/" \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{deployed_trigger_id}/workflows/" \
   -H "Authorization: Bearer {access_token}" \
   -H "Content-Type: application/json" \
   -H "x-pd-environment: development" \
@@ -3366,14 +3370,14 @@ curl -X GET \
 Update the list of workflows that will listen to a deployed trigger.
 
 ```text
-PUT /deployed-triggers/{deployed_component_id}/workflows/
+PUT /deployed-triggers/{deployed_trigger_id}/workflows/
 ```
 
 ##### Path parameters
 
-`dcid` **string**
+`deployed_trigger_id` **string**
 
-The deployed component ID for the trigger you'd like to retrieve.
+The deployed trigger ID for the trigger you'd like to retrieve (ex, `dc_xxxxxxx`, `hi_xxxxxxx`, `ti_xxxxxxx`, or `ei_xxxxxxx`).
 
 ##### Query parameters
 
@@ -3482,7 +3486,7 @@ curl -X POST https://api.pipedream.com/v1/oauth/token \
 # This request will update the list of webhook URLs listening to the specified deployed trigger.
 
 curl -X PUT \
-  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{dcid}/webhooks/" \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{deployed_trigger_id}/webhooks/" \
   -H "Authorization: Bearer {access_token}" \
   -H "Content-Type: application/json" \
   -H "x-pd-environment: development" \

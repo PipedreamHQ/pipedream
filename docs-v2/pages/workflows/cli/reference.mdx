@@ -59,7 +59,7 @@ or author a component locally and deploy that local file:
 pd deploy http.js
 ```
 
-[Read more about authoring your own event sources](/workflows/contributing/components/quickstart/nodejs/sources/).
+[Read more about authoring your own event sources](/components/contributing/quickstart/nodejs/sources/).
 
 ### `pd describe`
 
@@ -121,7 +121,7 @@ Generate new app and component files from templates.
 
 #### `pd init app`
 
-Creates a directory and [an app file](/workflows/contributing/components/guidelines/#app-files) from a template
+Creates a directory and [an app file](/components/contributing/guidelines/#app-files) from a template
 
 ```bash
 # Creates google_calendar/ directory and google_calendar.mjs file
@@ -130,7 +130,7 @@ pd init app google_calendar
 
 #### `pd init action`
 
-Creates a new directory and [a component action](/workflows/contributing/components/#actions) from a template.
+Creates a new directory and [a component action](/components/contributing/#actions) from a template.
 
 ```bash
 # Creates add-new-event/ directory and add-new-event.mjs file
@@ -146,7 +146,7 @@ Creates a new directory and [an event source](/workflows/building-workflows/trig
 pd init source cancelled-event
 ```
 
-You can attach [database](/workflows/contributing/components/api/#db), [HTTP](/workflows/contributing/components/api/#http), or [Timer](/workflows/contributing/components/api/#timer) props to your template using the following flags:
+You can attach [database](/components/contributing/api/#db), [HTTP](/components/contributing/api/#http), or [Timer](/components/contributing/api/#timer) props to your template using the following flags:
 
 | Prop type | Flag      |
 | --------- | --------- |
@@ -302,9 +302,9 @@ You can also run `pd signup -p <profile>` if you'd like to sign up for a new Pip
 
 ### Creating a profile for a workspace
 
-If you're working with resources in an [workspace](/workflows/workspaces/), you'll need to add an `org_id` to your profile.
+If you're working with resources in an [workspace](/workspaces/), you'll need to add an `org_id` to your profile.
 
-1. [Retrieve your workspaces's ID](/workflows/workspaces/#finding-your-workspaces-id)
+1. [Retrieve your workspaces's ID](/workspaces/#finding-your-workspaces-id)
 2. Open up your [Pipedream config file](#cli-config-file) and create a new [profile](#profiles) with the following information:
 
 ```bash

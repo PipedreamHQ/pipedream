@@ -1,8 +1,7 @@
 import notion from "@notionhq/client";
 import NOTION_META from "./common/notion-meta-selection.mjs";
 import { ConfigurationError } from "@pipedream/platform";
-import { NotionConverter } from "notion-to-md";
-import { DefaultExporter } from "notion-to-md/plugins/exporter";
+import { NotionToMarkdown } from "notion-to-md";
 
 export default {
   type: "app",
@@ -358,19 +357,20 @@ export default {
 
       return response.results;
     },
-    async getPageAsMarkdown(pageId) {
-      const client = this._getNotionClient();
+    async getPageAsMarkdown(pageId, shouldRetrieveChildren) {
+      const notion = this._getNotionClient();
 
-      const buffer = {};
-      const exporter = new DefaultExporter({
-        outputType: "buffer",
-        buffer,
+      const n2m = new NotionToMarkdown({
+        notionClient: notion,
+        config: {
+          separateChildPage: true,
+        },
       });
-
-      const n2m = new NotionConverter(client).withExporter(exporter);
-      await n2m.convert(pageId);
-
-      return Object.values(buffer)[0];
+      const blocks = await n2m.pageToMarkdown(pageId);
+      const output = n2m.toMarkdownString(blocks);
+      return shouldRetrieveChildren
+        ? output
+        : output.parent;
     },
   },
 };
