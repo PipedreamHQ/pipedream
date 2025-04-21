@@ -174,7 +174,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/acts/${actorId}/runs`,
+        path: `/acts/${actorId}/run-sync`,
         ...opts,
       });
     },

@@ -5,7 +5,7 @@ export default {
   key: "apify-run-actor",
   name: "Run Actor",
   description: "Performs an execution of a selected actor in Apify. [See the documentation](https://docs.apify.com/api/v2#/reference/actors/run-collection/run-actor)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     apify,
@@ -104,6 +104,12 @@ export default {
         };
         const options = this.prepareOptions(value);
         if (options) props[key].options = options;
+        if (value.default) {
+          props[key].description += ` Default: \`${JSON.stringify(value.default)}\``;
+          if (props[key].type !== "object") { // default values don't work properly for object props
+            props[key].default = value.default;
+          }
+        }
       }
     }
     return props;
