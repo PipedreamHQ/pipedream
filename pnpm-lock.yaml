@@ -6512,6 +6512,9 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/instasent:
+    specifiers: {}
+
   components/intellexer_api:
     dependencies:
       '@pipedream/platform':
