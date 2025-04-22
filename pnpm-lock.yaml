@@ -1486,6 +1486,9 @@ importers:
 
   components/bigpicture_io: {}
 
+  components/bika_ai:
+    specifiers: {}
+
   components/bilflo:
     dependencies:
       '@pipedream/platform':
