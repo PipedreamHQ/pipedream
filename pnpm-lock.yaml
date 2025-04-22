@@ -2864,8 +2864,7 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
 
-  components/consulta_unica:
-    specifiers: {}
+  components/consulta_unica: {}
 
   components/contact_enhance:
     dependencies:
@@ -6512,8 +6511,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/instasent:
-    specifiers: {}
+  components/instasent: {}
 
   components/intellexer_api:
     dependencies:
@@ -13754,8 +13752,7 @@ importers:
         specifier: ^6.11.2
         version: 6.13.1
 
-  components/urltopdf:
-    specifiers: {}
+  components/urltopdf: {}
 
   components/uscreen:
     dependencies:
@@ -34616,6 +34613,8 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
+    transitivePeerDependencies:
+      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
