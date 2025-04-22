@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import apify from "../../apify.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "apify-run-actor",
@@ -14,7 +15,52 @@ export default {
         apify,
         "actorId",
       ],
+    },
+    buildId: {
+      propDefinition: [
+        apify,
+        "buildId",
+        (c) => ({
+          actorId: c.actorId,
+        }),
+      ],
       reloadProps: true,
+    },
+    runAsynchronously: {
+      type: "boolean",
+      label: "Run Asynchronously",
+      description: "Set to `true` to run the actor asynchronously",
+      reloadProps: true,
+    },
+    timeout: {
+      type: "string",
+      label: "Timeout",
+      description: "Optional timeout for the run, in seconds. By default, the run uses a timeout specified in the default run configuration for the Actor.",
+      optional: true,
+    },
+    memory: {
+      type: "string",
+      label: "Memory",
+      description: "Memory limit for the run, in megabytes. The amount of memory can be set to a power of 2 with a minimum of 128. By default, the run uses a memory limit specified in the default run configuration for the Actor.",
+      optional: true,
+    },
+    maxItems: {
+      type: "string",
+      label: "Max Items",
+      description: "The maximum number of items that the Actor run should return. This is useful for pay-per-result Actors, as it allows you to limit the number of results that will be charged to your subscription. You can access the maximum number of items in your Actor by using the ACTOR_MAX_PAID_DATASET_ITEMS environment variable.",
+      optional: true,
+    },
+    maxTotalChargeUsd: {
+      type: "string",
+      label: "Max Total Charge USD",
+      description: "Specifies the maximum cost of the Actor run. This parameter is useful for pay-per-event Actors, as it allows you to limit the amount charged to your subscription. You can access the maximum cost in your Actor by using the ACTOR_MAX_TOTAL_CHARGE_USD environment variable.",
+      optional: true,
+    },
+    webhooks: {
+      type: "string",
+      label: "Webhooks",
+      description: "Specifies optional webhooks associated with the Actor run, which can be used to receive a notification e.g. when the Actor finished or failed. The value is a Base64-encoded JSON array of objects defining the webhooks. For more information, see [Webhooks documentation](https://docs.apify.com/platform/integrations/webhooks).",
+      optional: true,
     },
   },
   methods: {
@@ -28,16 +74,14 @@ export default {
         ? type
         : "string[]";
     },
-    async getSchema() {
-      const { data: { items: builds } } = await this.apify.listBuilds(this.actorId);
-      const buildId = builds.at(-1).id;
+    async getSchema(buildId) {
       const { data: { inputSchema } } = await this.apify.getBuild(buildId);
       return JSON.parse(inputSchema);
     },
     async prepareData(data) {
       const newData = {};
 
-      const { properties } = await this.getSchema();
+      const { properties } = await this.getSchema(this.buildId);
       for (const [
         key,
         value,
@@ -85,31 +129,54 @@ export default {
   },
   async additionalProps() {
     const props = {};
-    if (this.actorId) {
-      const {
-        properties, required: requiredProps = [],
-      } = await this.getSchema();
+    if (this.buildId) {
+      try {
+        const {
+          properties, required: requiredProps = [],
+        } = await this.getSchema(this.buildId);
 
-      for (const [
-        key,
-        value,
-      ] of Object.entries(properties)) {
-        if (value.editor === "hidden") continue;
+        for (const [
+          key,
+          value,
+        ] of Object.entries(properties)) {
+          if (value.editor === "hidden") continue;
 
-        props[key] = {
-          type: this.getType(value.type),
-          label: value.title,
-          description: value.description,
-          optional: !requiredProps.includes(key),
-        };
-        const options = this.prepareOptions(value);
-        if (options) props[key].options = options;
-        if (value.default) {
-          props[key].description += ` Default: \`${JSON.stringify(value.default)}\``;
-          if (props[key].type !== "object") { // default values don't work properly for object props
-            props[key].default = value.default;
+          props[key] = {
+            type: this.getType(value.type),
+            label: value.title,
+            description: value.description,
+            optional: !requiredProps.includes(key),
+          };
+          const options = this.prepareOptions(value);
+          if (options) props[key].options = options;
+          if (value.default) {
+            props[key].description += ` Default: \`${JSON.stringify(value.default)}\``;
+            if (props[key].type !== "object") { // default values don't work properly for object props
+              props[key].default = value.default;
+            }
           }
         }
+      } catch {
+        props.properties = {
+          type: "object",
+          label: "Properties",
+          description: "Properties to set for this actor",
+        };
+      }
+      if (this.runAsynchronously) {
+        props.outputRecordKey = {
+          type: "string",
+          label: "Output Record Key",
+          description: "Key of the record from run's default key-value store to be returned in the response. By default, it is OUTPUT.",
+          optional: true,
+        };
+      } else {
+        props.waitForFinish = {
+          type: "string",
+          label: "Wait For Finish",
+          description: "The maximum number of seconds the server waits for the run to finish. By default, it is 0, the maximum value is 60. If the build finishes in time then the returned run object will have a terminal status (e.g. SUCCEEDED), otherwise it will have a transitional status (e.g. RUNNING).",
+          optional: true,
+        };
       }
     }
     return props;
@@ -123,12 +190,37 @@ export default {
       prepareData,
       apify,
       actorId,
+      buildId,
+      properties,
+      runAsynchronously,
+      outputRecordKey,
+      timeout,
+      memory,
+      maxItems,
+      maxTotalChargeUsd,
+      waitForFinish,
+      webhooks,
       ...data
     } = this;
 
-    const response = await apify.runActor({
+    const fn = runAsynchronously
+      ? apify.runActorAsynchronously
+      : apify.runActor;
+
+    const response = await fn({
       actorId,
-      data: await prepareData(data),
+      data: properties
+        ? parseObject(properties)
+        : await prepareData(data),
+      params: {
+        outputRecordKey,
+        timeout,
+        memory,
+        maxItems,
+        maxTotalChargeUsd,
+        waitForFinish,
+        webhooks,
+      },
     });
     $.export("$summary", `Successfully started actor run with ID: ${response.data.id}`);
     return response;
