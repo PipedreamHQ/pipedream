@@ -1,4 +1,5 @@
 import calCom from "../../cal_com.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "cal_com-create-booking",
@@ -74,11 +75,19 @@ export default {
       customInputs: [],
       metadata: {},
     };
-    const response = await this.calCom.createBooking({
-      data,
-      $,
-    });
-    $.export("$summary", `Successfully created booking with ID ${response.id}`);
-    return response;
+    try {
+      const response = await this.calCom.createBooking({
+        data,
+        $,
+      });
+      $.export("$summary", `Successfully created booking with ID ${response.id}`);
+      return response;
+    } catch (error) {
+      const errorJson = JSON.parse(error.slice(error.indexOf("{")));
+      const message = errorJson?.data?.message;
+      throw new ConfigurationError(`Error: ${message}${message === "no_available_users_found_error"
+        ? ". No users are available to be assigned to a booking at the specified time"
+        : ""}`);
+    }
   },
 };
