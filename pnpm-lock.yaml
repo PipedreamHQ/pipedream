@@ -484,6 +484,8 @@ importers:
 
   components/ahrefs: {}
 
+  components/ai_chatbot_hub: {}
+
   components/ai_ml_api: {}
 
   components/ai_textraction:
@@ -2717,7 +2719,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/cogmento: {}
+  components/cogmento:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/cohere_platform:
     dependencies:
@@ -2857,6 +2863,9 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
+
+  components/consulta_unica:
+    specifiers: {}
 
   components/contact_enhance:
     dependencies:
@@ -3921,6 +3930,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/easyfill_ai: {}
 
   components/easyhire: {}
 
@@ -6292,6 +6303,8 @@ importers:
 
   components/if_else: {}
 
+  components/ifthenpay: {}
+
   components/ifttt:
     dependencies:
       '@pipedream/platform':
@@ -8333,6 +8346,8 @@ importers:
 
   components/murlist: {}
 
+  components/musicbrainz: {}
+
   components/mux:
     dependencies:
       '@pipedream/platform':
@@ -8691,8 +8706,10 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       notion-to-md:
-        specifier: ^4.0.0-alpha.4
-        version: 4.0.0-alpha.4(@notionhq/client@2.2.15)
+        specifier: 3.1.8
+        version: 3.1.8
+
+  components/notion_api_key: {}
 
   components/nozbe_teams: {}
 
@@ -10178,6 +10195,8 @@ importers:
 
   components/proposify: {}
 
+  components/proprofs_knowledge_base: {}
+
   components/proprofs_quiz_maker: {}
 
   components/provesource: {}
@@ -10898,6 +10917,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/riku_ai: {}
+
   components/ringba:
     dependencies:
       '@pipedream/platform':
@@ -10907,8 +10928,8 @@ importers:
   components/ringcentral:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.2.0
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/ringover:
     dependencies:
@@ -11981,6 +12002,12 @@ importers:
       '@slack/web-api':
         specifier: ^7.9.0
         version: 7.9.1
+      async-retry:
+        specifier: ^1.3.3
+        version: 1.3.3
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
 
   components/slack_bot:
     dependencies:
@@ -15070,6 +15097,9 @@ importers:
       autoprefixer:
         specifier: ^10.4.19
         version: 10.4.20(postcss@8.4.49)
+      next-sitemap:
+        specifier: ^4.2.3
+        version: 4.2.3(next@14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
       postcss:
         specifier: ^8.4.40
         version: 8.4.49
@@ -16523,6 +16553,9 @@ packages:
     peerDependencies:
       '@bufbuild/protobuf': ^2.2.0
 
+  '@corex/deepmerge@4.0.43':
+    resolution: {integrity: sha512-N8uEMrMPL0cu/bdboEWpQYb/0i2K5Qn8eCsxzOmxSggJbbQte7ljMRoXm917AbntqTGOzdTu+vP3KOOzoC70HQ==}
+
   '@csstools/css-parser-algorithms@3.0.4':
     resolution: {integrity: sha512-Up7rBoV77rv29d3uKHUIVubz1BTcgyUK72IvCQAbfbMv584xHcGKCKbWh7i8hPrRJ7qU4Y8IO3IY9m+iTB7P3A==}
     engines: {node: '>=18'}
@@ -17642,6 +17675,9 @@ packages:
     resolution: {integrity: sha512-XqvgFXN8YpIiHmmu4jdhHS+Huln81YnT1bieBBiadmHsFPblT9Fr6bWEp2Wlz31caEBXAxp1BAIZisp6Jmx+Mg==}
     engines: {node: '>=8.3.0'}
     hasBin: true
+
+  '@next/env@13.5.11':
+    resolution: {integrity: sha512-fbb2C7HChgM7CemdCY+y3N1n8pcTKdqtQLbC7/EQtPdLvlMUT9JX/dBYl8MMZAtYG4uVMyPFHXckb68q/NRwqg==}
 
   '@next/env@14.2.19':
     resolution: {integrity: sha512-8yWSNi1p+AOsd1QsxZMMkXtdrz8wvYoRxoUa9olmHBspHVLnxpptyKoI574ZF90yq1gXv/CqpchVLBoK8RcN7w==}
@@ -25663,6 +25699,13 @@ packages:
     resolution: {integrity: sha512-dBpDMdxv9Irdq66304OLfEmQ9tbNRFnFTuZiLo+bD+r332bBmMJ8GBLXklIXXgxd3+v9+KUnZaUR5PJMa75Gsg==}
     engines: {node: '>= 0.4.0'}
 
+  next-sitemap@4.2.3:
+    resolution: {integrity: sha512-vjdCxeDuWDzldhCnyFCQipw5bfpl4HmZA7uoo3GAaYGjGgfL4Cxb1CiztPuWGmS+auYs7/8OekRS8C2cjdAsjQ==}
+    engines: {node: '>=14.18'}
+    hasBin: true
+    peerDependencies:
+      next: '*'
+
   next-themes@0.4.3:
     resolution: {integrity: sha512-nG84VPkTdUHR2YeD89YchvV4I9RbiMAql3GiLEQlPvq1ioaqPaIReK+yMRdg/zgiXws620qS1rU30TiWmmG9lA==}
     peerDependencies:
@@ -25850,11 +25893,9 @@ packages:
     resolution: {integrity: sha512-IO9QvjUMWxPQQhs60oOu10CRkWCiZzSUkzbXGGV9pviYl1fXYcvkzQ5jV9z8Y6un8ARoVRl4EtC6v6jNqbaJ/w==}
     engines: {node: '>=14.16'}
 
-  notion-to-md@4.0.0-alpha.4:
-    resolution: {integrity: sha512-MxK71vIj0l8jCDbzTAROp/2pXI8f2bhjJINuUk/uIlGKs2XPJCzYKFu+4ELvSG+DiNvmGWxdr+Dtba47fnULTg==}
+  notion-to-md@3.1.8:
+    resolution: {integrity: sha512-DuEslJAbmUG2IRVcoeiCdsE2tI8yXOG6NiHlzxYTcKMmkAtoj2Fgq35Gf5T8s92uzpT2ueVf3aCOq7XuVLVYOA==}
     engines: {node: '>=12'}
-    peerDependencies:
-      '@notionhq/client': ^2.0.0
 
   npm-normalize-package-bin@1.0.1:
     resolution: {integrity: sha512-EPfafl6JL5/rU+ot6P3gRSCpPDW5VmIzX959Ob1+ySFUuuYHWHekXpwdUZcKP5C+DS4GEtdJluwBjnsNDl+fSA==}
@@ -32291,6 +32332,8 @@ snapshots:
     dependencies:
       '@bufbuild/protobuf': 2.2.2
 
+  '@corex/deepmerge@4.0.43': {}
+
   '@csstools/css-parser-algorithms@3.0.4(@csstools/css-tokenizer@3.0.3)':
     dependencies:
       '@csstools/css-tokenizer': 3.0.3
@@ -33704,6 +33747,8 @@ snapshots:
       yargs: 15.4.1
     transitivePeerDependencies:
       - supports-color
+
+  '@next/env@13.5.11': {}
 
   '@next/env@14.2.19': {}
 
@@ -44053,6 +44098,14 @@ snapshots:
 
   netmask@2.0.2: {}
 
+  next-sitemap@4.2.3(next@14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)):
+    dependencies:
+      '@corex/deepmerge': 4.0.43
+      '@next/env': 13.5.11
+      fast-glob: 3.3.2
+      minimist: 1.2.8
+      next: 14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+
   next-themes@0.4.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       react: 18.3.1
@@ -44308,10 +44361,9 @@ snapshots:
 
   normalize-url@8.0.1: {}
 
-  notion-to-md@4.0.0-alpha.4(@notionhq/client@2.2.15):
+  notion-to-md@3.1.8:
     dependencies:
-      '@notionhq/client': 2.2.15
-      mime: 3.0.0
+      markdown-table: 2.0.0
       node-fetch: 2.7.0
     transitivePeerDependencies:
       - encoding

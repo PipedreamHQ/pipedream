@@ -150,7 +150,7 @@ The workflow builder now can accept text input to populate the `firstName` to th
 
 Accepting a single string is just one example, you can build a step to accept arrays of strings through a dropdown presented in the workflow builder.
 
-[Read the props reference for the full list of options](/workflows/contributing/components/api/#props).
+[Read the props reference for the full list of options](/components/contributing/api/#props).
 
 ## How Pipedream Node.js components work
 
@@ -166,10 +166,10 @@ export default defineComponent({
 });
 ```
 
-This defines [a Node.js component](/workflows/contributing/components/api/). Components let you:
+This defines [a Node.js component](/components/contributing/api/). Components let you:
 
 - Pass input to steps using [props](/workflows/building-workflows/code/nodejs/#passing-props-to-code-steps)
-- [Connect an account to a step](/integrations/connected-accounts/#from-a-code-step)
+- [Connect an account to a step](/apps/connected-accounts/#from-a-code-step)
 - [Issue HTTP responses](/workflows/building-workflows/triggers/#http-responses)
 - Perform workflow-level flow control, like [ending a workflow early](#ending-a-workflow-early)
 
@@ -177,9 +177,9 @@ When the step runs, Pipedream executes the `run` method:
 
 - Any asynchronous code within a code step [**must** be run synchronously](/workflows/building-workflows/code/nodejs/async/), using the `await` keyword or with a Promise chain, using `.then()`, `.catch()`, and related methods.
 - Pipedream passes the `steps` variable to the run method. `steps` is also an object, and contains the [data exported from previous steps](/workflows/#step-exports) in your workflow.
-- You also have access to the `$` variable, which gives you access to methods like `$.respond`, `$.export`, [and more](/workflows/contributing/components/api/#actions).
+- You also have access to the `$` variable, which gives you access to methods like `$.respond`, `$.export`, [and more](/components/contributing/api/#actions).
 
-If you're using [props](/workflows/building-workflows/code/nodejs/#passing-props-to-code-steps) or [connect an account to a step](/integrations/connected-accounts/#from-a-code-step), the component exposes them in the variable `this`, which refers to the current step:
+If you're using [props](/workflows/building-workflows/code/nodejs/#passing-props-to-code-steps) or [connect an account to a step](/apps/connected-accounts/#from-a-code-step), the component exposes them in the variable `this`, which refers to the current step:
 
 ```javascript
 export default defineComponent({
@@ -190,7 +190,7 @@ export default defineComponent({
 });
 ```
 
-When you [connect an account to a step](/integrations/connected-accounts/#from-a-code-step), Pipedream exposes the auth info in the variable [`this.appName.$auth`](/workflows/building-workflows/code/nodejs/auth/#accessing-connected-account-data-with-thisappnameauth).
+When you [connect an account to a step](/apps/connected-accounts/#from-a-code-step), Pipedream exposes the auth info in the variable [`this.appName.$auth`](/workflows/building-workflows/code/nodejs/auth/#accessing-connected-account-data-with-thisappnameauth).
 
 ## Logs
 

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ifthenpay",
+  "version": "0.0.1",
+  "description": "Pipedream ifthenpay Components",
+  "main": "ifthenpay.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ifthenpay"
+  ],
+  "homepage": "https://pipedream.com/apps/ifthenpay",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

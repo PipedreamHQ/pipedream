@@ -1021,11 +1021,15 @@ export abstract class BaseClient {
 
     const rawBody = await response.text();
 
+    DEBUG("status: ", response.status)
+    DEBUG("url: ", url.toString())
+    DEBUG("requestOptions: ", requestOptions)
+    DEBUG("rawBody: ", rawBody)
+
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}, body: ${rawBody}`);
     }
 
-    DEBUG(response.status, url.toString(), requestOptions, rawBody)
     const contentType = response.headers.get("Content-Type");
     if (contentType && contentType.includes("application/json")) {
       try {
