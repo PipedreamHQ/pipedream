@@ -40,7 +40,7 @@ export default {
     value: {
       type: "string",
       label: "Value",
-      description: "The value to search for. For non-string values, use a custom expression. For example: `{{ 1 }}` for the numeric value 1",
+      description: "The value to search for",
     },
   },
   async run({ $ }) {
@@ -60,7 +60,10 @@ export default {
       range: `${this.column}1:${this.column}${rowCount}`,
     });
     const values = rangeValues.map((v) => v[0]);
-    const index = values.indexOf(this.value);
+    let index = values.indexOf(this.value);
+    if (index === -1 && !isNaN(this.value)) {
+      index = values.indexOf(+this.value);
+    }
 
     if (index === -1) {
       $.export("$summary", "No matching rows found");

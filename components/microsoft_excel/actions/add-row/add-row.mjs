@@ -1,7 +1,5 @@
 import microsoftExcel from "../../microsoft_excel.app.mjs";
-import {
-  parseObject, getColumnLetter,
-} from "../../common/utils.mjs";
+import { getColumnLetter } from "../../common/utils.mjs";
 
 export default {
   key: "microsoft_excel-add-row",
@@ -41,6 +39,34 @@ export default {
       description: "An array of values for the new row. Each item in the array represents one cell. E.g. `[1, 2, 3]`",
     },
   },
+  methods: {
+    isArrayString(str) {
+      return typeof str === "string" && ((str.startsWith("[") && str.endsWith("]")) || ((str.startsWith("[[") || str.startsWith("[ [")) && (str.endsWith("]]") || str.endsWith("] ]"))));
+    },
+    convertStringToArray(str) {
+      const arrayString = str.match(/\[\[?(.*?)\]?\]/)[1];
+      return arrayString.split(",");
+    },
+    parseValues(columnCount) {
+      let values = this.values;
+      if (Array.isArray(this.values)) {
+        if (Array.isArray(this.values[0])) {
+          values = this.values[0];
+        } else if (this.isArrayString(this.values[0])) {
+          values = this.convertStringToArray(this.values[0]);
+        }
+      } else {
+        if (this.isArrayString(this.values)) {
+          values = this.convertStringToArray(this.values);
+        }
+      }
+
+      if (values.length < columnCount) {
+        values.length = columnCount;
+      }
+      return values;
+    },
+  },
   async run({ $ }) {
     const {
       address, columnCount,
@@ -53,10 +79,7 @@ export default {
     // get next row range
     const match = address.match(/^(.+!)?([A-Z]+)(\d+):([A-Z]+)(\d+)$/);
     const nextRow = parseInt(match[5], 10) + 1;
-    const values = parseObject(this.values);
-    if (values.length < columnCount) {
-      values.length = columnCount;
-    }
+    const values = this.parseValues(columnCount);
     const colEnd = getColumnLetter(values.length);
     const range = `A${nextRow}:${colEnd}${nextRow}`;
 
