@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/inferable",
+  "version": "0.0.1",
+  "description": "Pipedream Inferable Components",
+  "main": "inferable.app.mjs",
+  "keywords": [
+    "pipedream",
+    "inferable"
+  ],
+  "homepage": "https://pipedream.com/apps/inferable",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

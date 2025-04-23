@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "riku_ai",
+  app: "bika_ai",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data

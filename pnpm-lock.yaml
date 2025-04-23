@@ -1486,6 +1486,8 @@ importers:
 
   components/bigpicture_io: {}
 
+  components/bika_ai: {}
+
   components/bilflo:
     dependencies:
       '@pipedream/platform':
@@ -6421,6 +6423,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/inferable: {}
+
   components/infinity: {}
 
   components/influxdb_cloud:
@@ -6514,6 +6518,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+
+  components/instasent: {}
 
   components/intellexer_api:
     dependencies:
@@ -9487,6 +9493,8 @@ importers:
       '@pipedream/platform':
         specifier: ^2.0.0
         version: 2.0.0
+
+  components/peerdom: {}
 
   components/pendo: {}
 
@@ -13753,6 +13761,8 @@ importers:
       qs:
         specifier: ^6.11.2
         version: 6.13.1
+
+  components/urltopdf: {}
 
   components/uscreen:
     dependencies:

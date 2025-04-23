@@ -2247,8 +2247,20 @@ curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/triggers/de
 List all of the deployed triggers for a given user.
 
 ```text
-GET /deployed-triggers/
+GET /deployed-triggers/{emitter_type}
 ```
+
+##### Path parameters
+
+`emitter_type` **string** (optional)
+
+Specify the type of emitter to retrieve deployed triggers from one of these options:
+- `source`: default if no other `emitter_type` is specified, includes any app-based event source
+- `http`: native HTTP webhook trigger
+- `timer`: native schedule trigger
+- `email`: native email trigger
+
+[See here](/connect/components/#deploying-triggers) for more info on source types.
 
 ##### Query parameters
 

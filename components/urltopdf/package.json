@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/urltopdf",
+  "version": "0.0.1",
+  "description": "Pipedream UrlToPDF Components",
+  "main": "urltopdf.app.mjs",
+  "keywords": [
+    "pipedream",
+    "urltopdf"
+  ],
+  "homepage": "https://pipedream.com/apps/urltopdf",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
