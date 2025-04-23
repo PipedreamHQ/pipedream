@@ -1,11 +1,17 @@
+import notion from "@notionhq/client";
+import common from "@pipedream/notion";
+
 export default {
+  ...common,
   type: "app",
   app: "notion_api_key",
-  propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    ...common.methods,
+    _getNotionClient() {
+      return new notion.Client({
+        auth: this.$auth.api_secret,
+        notionVersion: "2022-02-22",
+      });
     },
   },
 };
