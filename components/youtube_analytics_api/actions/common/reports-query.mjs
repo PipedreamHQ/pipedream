@@ -6,19 +6,34 @@ export default {
   props: {
     app,
     startDate: {
-      propDefinition: [app, "startDate"],
+      propDefinition: [
+        app,
+        "startDate",
+      ],
     },
     endDate: {
-      propDefinition: [app, "endDate"],
+      propDefinition: [
+        app,
+        "endDate",
+      ],
     },
     dimensions: {
-      propDefinition: [app, "dimensions"],
+      propDefinition: [
+        app,
+        "dimensions",
+      ],
     },
     sort: {
-      propDefinition: [app, "sort"],
+      propDefinition: [
+        app,
+        "sort",
+      ],
     },
     maxResults: {
-      propDefinition: [app, "maxResults"],
+      propDefinition: [
+        app,
+        "maxResults",
+      ],
     },
     idType: {
       type: "string",
@@ -69,7 +84,9 @@ export default {
       return {};
     },
     getIdsParam() {
-      const { idType, ids } = this;
+      const {
+        idType, ids,
+      } = this;
       if (idType === constants.ID_TYPE.CHANNEL.value) {
         return "channel==MINE";
       }
@@ -90,7 +107,13 @@ export default {
 
       return utils.arrayToCommaSeparatedList(
         Object.entries(filtersObj).reduce(
-          (acc, [key, val]) => [...acc, `${key}==${val}`],
+          (acc, [
+            key,
+            val,
+          ]) => [
+            ...acc,
+            `${key}==${val}`,
+          ],
           [],
         ),
         ";",
