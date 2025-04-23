@@ -10,10 +10,15 @@ export default {
     elevenlabs,
   },
   async run({ $ }) {
-    const { voices } = await this.elevenlabs.listVoices({ $ });
+    try {
+      const { voices } = await this.elevenlabs.listVoices({ $ });
 
-    $.export("$summary", `Fetched ${voices.length} voices`);
+      $.export("$summary", `Fetched ${voices.length} voices`);
 
-    return voices;
+      return voices;
+    }catch(error){
+      $.export("$summary", `Failed to fetch voices: ${error.message}` );
+      throw (error);
+    }
   },
 };
