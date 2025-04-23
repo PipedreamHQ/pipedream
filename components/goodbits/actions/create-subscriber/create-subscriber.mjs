@@ -31,12 +31,14 @@ export default {
     const response = await this.app.createSubscriber({
       $,
       data: {
-        email: this.email,
-        first_name: this.firstName,
-        last_name: this.lastName,
+        subscriber: {
+          email: this.email,
+          first_name: this.firstName,
+          last_name: this.lastName,
+        },
       },
     });
-    $.export("$summary", "Successfully created new subscriber named");
+    $.export("$summary", "Successfully created new subscriber");
     return response;
   },
 };

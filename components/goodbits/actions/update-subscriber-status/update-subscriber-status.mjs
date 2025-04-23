@@ -22,11 +22,13 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.unsubscribeSubscriber({
+    const response = await this.app.updateSubscriberStatus({
       $,
       email: this.email,
       data: {
-        status: this.status,
+        subscriber: {
+          status: this.status,
+        },
       },
     });
     $.export("$summary", "Successfully uptated subscriber status");

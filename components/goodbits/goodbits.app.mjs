@@ -52,7 +52,7 @@ export default {
       optional: true,
     },
     imageCandidates: {
-      type: "string",
+      type: "string[]",
       label: "Image Candidates",
       description: "List of candidate image URLs",
       optional: true,
@@ -85,7 +85,7 @@ export default {
         ...args,
       });
     },
-    async unsubscribeSubscriber({
+    async updateSubscriberStatus({
       email, ...args
     }) {
       return this._makeRequest({
