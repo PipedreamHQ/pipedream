@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect } from "react";
 import { createFrontendClient } from "@pipedream/sdk/browser";
+import { getServerCodeSnippet, getClientCodeSnippet } from "./ConnectCodeSnippets";
 
 // Generate a UUID v4 for use as external_user_id
 function generateUUID() {
@@ -34,46 +35,11 @@ export function GlobalConnectProvider({ children }) {
     setExternalUserId(generateUUID());
   }, []);
 
-  // Get server code snippet
-  const getServerCodeSnippet = () => `import { createBackendClient } from "@pipedream/sdk/server";
- 
-// This code runs on your server
-const pd = createBackendClient({
-  environment: "development", 
-  credentials: {
-    clientId: process.env.PIPEDREAM_CLIENT_ID,
-    clientSecret: process.env.PIPEDREAM_CLIENT_SECRET,
-  },
-  projectId: process.env.PIPEDREAM_PROJECT_ID
-});
- 
-// Create a token for a specific user
-const { token, expires_at, connect_link_url } = await pd.createConnectToken({
-  external_user_id: "${externalUserId || "YOUR_USER_ID"}", 
-});`;
+  // Get server code snippet wrapper function
+  const getServerSnippet = () => getServerCodeSnippet(externalUserId);
 
-  // Get client code snippet
-  const getClientCodeSnippet = () => `import { createFrontendClient } from "@pipedream/sdk/browser"
- 
-// This code runs in the browser
-const pd = createFrontendClient()
-
-// Connect an account using the token from your server
-pd.connectAccount({
-  app: "${appSlug}", 
-  token: "${tokenData?.token ? tokenData.token.substring(0, 10) + "..." : "YOUR_TOKEN"}", 
-  onSuccess: (account) => {
-    // Handle successful connection
-    console.log(\`Account successfully connected: \${account.name}\`)
-  },
-  onError: (err) => {
-    // Handle connection error
-    console.error(\`Connection error: \${err.message}\`)
-  },
-  onClose: () => {
-    // Handle dialog closed by user
-  }
-})`;
+  // Get client code snippet wrapper function 
+  const getClientSnippet = () => getClientCodeSnippet(appSlug, tokenData);
 
   // Generate token async function
   async function generateToken() {
@@ -150,8 +116,8 @@ pd.connectAccount({
     connectAccount,
     
     // Code snippets
-    getServerCodeSnippet,
-    getClientCodeSnippet,
+    getServerCodeSnippet: getServerSnippet,
+    getClientCodeSnippet: getClientSnippet,
   };
 
   return (
