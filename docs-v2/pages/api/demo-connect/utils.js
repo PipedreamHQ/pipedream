@@ -21,7 +21,12 @@ export function getAllowedOrigins() {
 
   // Vercel preview deployment support - match any Vercel preview URL
   const vercelPreviewRegexes = [
+    // Standard preview URLs: project-branch-username.vercel.app
     /^https:\/\/[a-zA-Z0-9-]+-[a-zA-Z0-9-]+-[a-zA-Z0-9-]+\.vercel\.app$/,
+    // Shortened preview URLs: project-username.vercel.app
+    /^https:\/\/[a-zA-Z0-9-]+-[a-zA-Z0-9-]+\.vercel\.app$/,
+    // Any subdomain on vercel.app (most permissive)
+    /^https:\/\/[a-zA-Z0-9-]+\.vercel\.app$/,
   ];
 
   return {
@@ -88,19 +93,38 @@ export function validateRequest(req, res, allowedMethod) {
   }
 
   // Referer validation for docs context
-  if (
-    referer &&
-    // Check if referer starts with any allowed origin
-    !ALLOWED_ORIGINS.originsList.some((allowed) => referer.startsWith(allowed)) &&
-    // Check if referer matches any regex pattern
-    !ALLOWED_ORIGINS.regexPatterns.some((pattern) =>
-      pattern.test(referer.split("/")[0] + "//" + referer.split("/")[2])) &&
-    // Allow if it contains the docs path
-    !referer.includes("/docs/connect/")
-  ) {
-    return res.status(403).json({
-      error: "Access denied",
-    });
+  if (referer) {
+    // Extract the origin part of the referer URL (protocol + hostname)
+    let refererOrigin;
+    try {
+      // Try to parse the referer as a URL
+      const refererUrl = new URL(referer);
+      refererOrigin = refererUrl.origin;
+    } catch (e) {
+      // If parsing fails, construct it manually
+      const parts = referer.split("/");
+      if (parts.length >= 3) {
+        refererOrigin = parts[0] + "//" + parts[2];
+      }
+    }
+
+    // Check if the referer origin is allowed
+    const isRefererAllowed =
+      // Check if referer matches allowed origins list
+      ALLOWED_ORIGINS.originsList.some((allowed) => referer.startsWith(allowed)) ||
+      // Check if referer origin matches any regex pattern
+      (refererOrigin &&
+        ALLOWED_ORIGINS.regexPatterns.some((pattern) =>
+          pattern.test(refererOrigin))
+      ) ||
+      // Allow if it contains the docs path
+      referer.includes("/docs/connect/");
+
+    if (!isRefererAllowed) {
+      return res.status(403).json({
+        error: "Access denied",
+      });
+    }
   }
 
   // Request token validation to prevent API automation
