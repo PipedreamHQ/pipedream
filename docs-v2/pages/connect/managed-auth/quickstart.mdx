@@ -84,13 +84,13 @@ You'll need these when configuring the SDK and making API requests.
 
 To securely initiate account connections for your users, you'll need to generate a short-lived token for your users and use that in the [account connection flow](#connect-your-users-account). See [the docs on Connect tokens](/connect/tokens/) for a general overview of why we need to create tokens and scope them to end users.
 
-Try the interactive demo below to generate a token with your own unique user ID:
+In the code below you can see how we generate a Connect token for an example user, and even **try it yourself**:
 
 <div className="not-prose">
   <TokenGenerationDemo />
 </div>
 
-In the Next.js example, we're using server components to securely call the Pipedream API. The demo above uses a similar approach with a server-side API route to generate tokens. Once you have a token, return it to your frontend to start the account connection flow for the user, or redirect them to a Pipedream-hosted URL with [Connect Link](#or-use-connect-link).
+Once you have a token, return it to your frontend to start the account connection flow for the user, or redirect them to a Pipedream-hosted URL with [Connect Link](#or-use-connect-link).
 
 <Callout type="info">
 Refer to the API docs for [full set of parameters you can pass](/connect/api/#create-a-new-token) in the `ConnectTokenCreate` call.
