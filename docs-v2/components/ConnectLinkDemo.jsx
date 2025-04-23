@@ -4,9 +4,7 @@ import {
   useState,
   useEffect,
 } from "react";
-import {
-  useGlobalConnect,
-} from "./GlobalConnectProvider";
+import { useGlobalConnect } from "./GlobalConnectProvider";
 
 export default function ConnectLinkDemo() {
   const {
