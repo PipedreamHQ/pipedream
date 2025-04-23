@@ -1,6 +1,6 @@
 "use client";
 
-import { useConnectDemo } from './ConnectDemoContext';
+import { useConnectDemo } from "./ConnectDemoContext";
 
 export default function DemoConnectButton() {
   const { connectAccount, tokenData } = useConnectDemo();
