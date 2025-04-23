@@ -40,7 +40,7 @@ export function GlobalConnectProvider({ children }) {
   const [
     appSlug,
     setAppSlug,
-  ] = useState("slack");
+  ] = useState("google_sheets");
   const [
     externalUserId,
     setExternalUserId,
