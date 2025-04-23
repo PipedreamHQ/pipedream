@@ -5,7 +5,7 @@ export default {
   key: "stripe-list-balance-history",
   name: "List Balance History",
   type: "action",
-  version: "0.1.0",
+  version: "0.1.1",
   description: "Returns the last 100 transactions that have contributed to the Stripe account " +
     "balance (e.g., charges, transfers, and so forth). The transactions are returned in " +
     "sorted order, with the most recent transactions appearing first. [See the " +

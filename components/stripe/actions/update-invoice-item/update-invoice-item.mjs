@@ -5,7 +5,7 @@ export default {
   key: "stripe-update-invoice-item",
   name: "Update Invoice Line Item",
   type: "action",
-  version: "0.1.0",
+  version: "0.1.1",
   description: "Update an invoice line item. [See the " +
     "docs](https://stripe.com/docs/api/invoiceitems/update) for more information",
   props: {

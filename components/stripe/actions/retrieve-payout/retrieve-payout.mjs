@@ -4,7 +4,7 @@ export default {
   key: "stripe-retrieve-payout",
   name: "Retrieve a Payout",
   type: "action",
-  version: "0.1.0",
+  version: "0.1.1",
   description: "Retrieves the details of an existing payout. [See the " +
     "docs](https://stripe.com/docs/api/payouts/retrieve) for more information",
   props: {

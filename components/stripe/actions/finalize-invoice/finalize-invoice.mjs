@@ -5,7 +5,7 @@ export default {
   key: "stripe-finalize-invoice",
   name: "Finalize Draft Invoice",
   type: "action",
-  version: "0.1.0",
+  version: "0.1.1",
   description: "Finalize a draft invoice. [See the " +
     "docs](https://stripe.com/docs/api/invoices/finalize) for more information",
   props: {

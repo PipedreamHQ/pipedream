@@ -5,7 +5,7 @@ export default {
   key: "stripe-list-invoices",
   name: "List Invoices",
   type: "action",
-  version: "0.1.0",
+  version: "0.1.1",
   description: "Find or list invoices. [See the docs](https://stripe.com/docs/api/invoices/list) " +
     "for more information",
   props: {
