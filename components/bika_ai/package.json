@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/bika_ai",
+  "version": "0.0.1",
+  "description": "Pipedream Bika.ai Components",
+  "main": "bika_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bika_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/bika_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
