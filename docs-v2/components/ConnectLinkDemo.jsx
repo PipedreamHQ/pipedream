@@ -1,11 +1,23 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useGlobalConnect } from "./GlobalConnectProvider";
+import {
+  useState,
+  useEffect,
+} from "react";
+import {
+  useGlobalConnect,
+} from "./GlobalConnectProvider";
 
 export default function ConnectLinkDemo() {
-  const { tokenData, appSlug, setAppSlug } = useGlobalConnect();
-  const [connectLinkUrl, setConnectLinkUrl] = useState("");
+  const {
+    tokenData,
+    appSlug,
+    setAppSlug,
+  } = useGlobalConnect();
+  const [
+    connectLinkUrl,
+    setConnectLinkUrl,
+  ] = useState("");
 
   useEffect(() => {
     if (tokenData?.connect_link_url) {
@@ -92,12 +104,12 @@ export default function ConnectLinkDemo() {
 
         <div className="mt-4 text-sm text-gray-600">
           <p>
-            This URL contains a Connect Token that expires in 4 hours 
+            This URL contains a Connect Token that expires in 4 hours
             <strong> or after it&apos;s used once</strong>.
             You can send this link to your users via email, SMS, or chat.
           </p>
           <p className="mt-2 text-xs text-gray-500">
-            <strong>Note:</strong> Connect tokens are single-use. After a successful connection, 
+            <strong>Note:</strong> Connect tokens are single-use. After a successful connection,
             you&apos;ll need to generate a new token.
           </p>
         </div>

@@ -1,19 +1,19 @@
 "use client";
 
-import { 
-  createContext, 
-  useContext, 
-  useState, 
-  useEffect 
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
 } from "react";
 import { createFrontendClient } from "@pipedream/sdk/browser";
-import { 
-  getServerCodeSnippet, 
-  getClientCodeSnippet 
+import {
+  getServerCodeSnippet,
+  getClientCodeSnippet,
 } from "./ConnectCodeSnippets";
-import { 
-  generateConnectToken, 
-  fetchAccountDetails 
+import {
+  generateConnectToken,
+  fetchAccountDetails,
 } from "./api";
 
 /**
@@ -22,8 +22,8 @@ import {
 function generateUUID() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
     const r = Math.random() * 16 | 0;
-    const v = c === "x" 
-      ? r 
+    const v = c === "x"
+      ? r
       : (r & 0x3 | 0x8);
     return v.toString(16);
   });
@@ -38,32 +38,32 @@ const GlobalConnectContext = createContext(null);
 export function GlobalConnectProvider({ children }) {
   // User and app state
   const [
-    appSlug, 
-    setAppSlug
+    appSlug,
+    setAppSlug,
   ] = useState("slack");
   const [
-    externalUserId, 
-    setExternalUserId
+    externalUserId,
+    setExternalUserId,
   ] = useState("");
   const [
-    connectedAccount, 
-    setConnectedAccount
+    connectedAccount,
+    setConnectedAccount,
   ] = useState(null);
 
   // Token state
   const [
-    tokenData, 
-    setTokenData
+    tokenData,
+    setTokenData,
   ] = useState(null);
-  
+
   // UI state
   const [
-    tokenLoading, 
-    setTokenLoading
+    tokenLoading,
+    setTokenLoading,
   ] = useState(false);
   const [
-    error, 
-    setError
+    error,
+    setError,
   ] = useState(null);
 
   // Generate a new UUID when the component mounts
