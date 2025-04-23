@@ -6,8 +6,9 @@ export default {
   ...common,
   key: "youtube_analytics_api-query-custom-analytics",
   name: "Query Custom Analytics",
-  description: "Execute a custom analytics query using specified metrics, dimensions, filters, and date ranges. Requires query parameters to configure. [See the documentation](https://developers.google.com/youtube/analytics/reference/reports/query).",
-  version: "0.0.1",
+  description:
+    "Execute a custom analytics query using specified metrics, dimensions, filters, and date ranges. Requires query parameters to configure. [See the documentation](https://developers.google.com/youtube/analytics/reference/reports/query).",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
