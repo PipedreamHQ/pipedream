@@ -1,3 +1,4 @@
+import { v7 as uuidV7 } from "uuid";
 import { parseObject } from "../../common/utils.mjs";
 import xendit from "../../xendit.app.mjs";
 
@@ -80,6 +81,9 @@ export default {
   async run({ $ }) {
     const response = await this.xendit.createPayout({
       $,
+      headers: {
+        "idempotency-key": uuidV7(),
+      },
       data: {
         reference_id: this.referenceId,
         channel_code: this.channelCode,

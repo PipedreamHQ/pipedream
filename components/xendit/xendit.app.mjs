@@ -20,7 +20,7 @@ export default {
         return {
           options: data.map(({ id }) => id),
           context: {
-            afterId: data[data.length - 1].id,
+            afterId: data[data?.length - 1]?.id,
           },
         };
       },

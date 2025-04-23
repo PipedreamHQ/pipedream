@@ -1,6 +1,7 @@
 import {
   INVOICE_NOTIFICATION_OPTIONS,
   LOCALE_OPTIONS,
+  PAYMENT_METHODS_OPTIONS,
 } from "../../common/constants.mjs";
 import { parseObject } from "../../common/utils.mjs";
 import xendit from "../../xendit.app.mjs";
@@ -99,10 +100,10 @@ export default {
       optional: true,
     },
     paymentMethods: {
-      propDefinition: [
-        xendit,
-        "paymentMethods",
-      ],
+      type: "string[]",
+      label: "Payment Methods",
+      description: "Specify the payment channels that you wish to be available on your Invoice.",
+      options: PAYMENT_METHODS_OPTIONS,
       optional: true,
     },
     currency: {
