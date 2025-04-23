@@ -28,9 +28,11 @@ export default function AccountConnectionDemo() {
               onChange={(e) => setAppSlug(e.target.value)}
               className="ml-2 p-1 border rounded text-sm"
             >
-              <option value="slack">Slack</option>
-              <option value="github">GitHub</option>
               <option value="google_sheets">Google Sheets</option>
+              <option value="github">GitHub</option>
+              <option value="notion">Notion</option>
+              <option value="gmail">Gmail</option>
+              <option value="openai">OpenAI</option>
             </select>
           </label>
 
