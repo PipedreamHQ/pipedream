@@ -6,34 +6,19 @@ export default {
   props: {
     app,
     startDate: {
-      propDefinition: [
-        app,
-        "startDate",
-      ],
+      propDefinition: [app, "startDate"],
     },
     endDate: {
-      propDefinition: [
-        app,
-        "endDate",
-      ],
+      propDefinition: [app, "endDate"],
     },
     dimensions: {
-      propDefinition: [
-        app,
-        "dimensions",
-      ],
+      propDefinition: [app, "dimensions"],
     },
     sort: {
-      propDefinition: [
-        app,
-        "sort",
-      ],
+      propDefinition: [app, "sort"],
     },
     maxResults: {
-      propDefinition: [
-        app,
-        "maxResults",
-      ],
+      propDefinition: [app, "maxResults"],
     },
     idType: {
       type: "string",
@@ -43,6 +28,14 @@ export default {
       options: Object.values(constants.ID_TYPE),
       default: constants.ID_TYPE.CHANNEL.value,
       reloadProps: true,
+    },
+    ids: {
+      type: "string",
+      label: "Channel ID OR Content Owner Name",
+      description:
+        "The use of this property depends on the value of the `idType` prop.  If `idType` is set to `MINE`, then this property is unused. If `idType` is set to `channelId`, then this property is used to specify the Channel ID for this action. If `idType` is set to `contentOwner`, then this property is used to specify the Content Owner Name for this action.",
+      optional: true,
+      hidden: true,
     },
   },
   methods: {
@@ -56,10 +49,11 @@ export default {
             label: "Content Owner Name",
             description:
               "The content owner name for the user. Eg. `MyContentOwnerName`.",
+            optional: false,
+            hidden: false,
           },
         };
       }
-
       if (idType === constants.ID_TYPE.CHANNEL_ID.value) {
         return {
           ids: {
@@ -67,16 +61,15 @@ export default {
             label: "Channel ID",
             description:
               "The channel ID for the user. Eg. `UC_x5XG1OV2P6uZZ5FSM9Ttw`. You can find the ID using the [YouTube Data API](https://developers.google.com/youtube/v3/docs/channels/list).",
+            optional: false,
+            hidden: false,
           },
         };
       }
-
       return {};
     },
     getIdsParam() {
-      const {
-        idType, ids,
-      } = this;
+      const { idType, ids } = this;
       if (idType === constants.ID_TYPE.CHANNEL.value) {
         return "channel==MINE";
       }
@@ -97,13 +90,7 @@ export default {
 
       return utils.arrayToCommaSeparatedList(
         Object.entries(filtersObj).reduce(
-          (acc, [
-            key,
-            val,
-          ]) => [
-            ...acc,
-            `${key}==${val}`,
-          ],
+          (acc, [key, val]) => [...acc, `${key}==${val}`],
           [],
         ),
         ";",
