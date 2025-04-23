@@ -1,9 +1,10 @@
 import microsoftExcel from "../../microsoft_excel.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "microsoft_excel-update-worksheet-tablerow",
   name: "Update Worksheet Tablerow",
-  version: "0.0.4",
+  version: "0.0.5",
   description: "Update the properties of tablerow object. `(Only for work or school account)` [See the documentation](https://learn.microsoft.com/en-us/graph/api/tablerow-update?view=graph-rest-1.0&tabs=http)",
   type: "action",
   props: {
@@ -14,10 +15,10 @@ export default {
         "folderId",
       ],
     },
-    itemId: {
+    sheetId: {
       propDefinition: [
         microsoftExcel,
-        "itemId",
+        "sheetId",
         ({ folderId }) => ({
           folderId,
         }),
@@ -27,19 +28,19 @@ export default {
       propDefinition: [
         microsoftExcel,
         "tableId",
-        ({ itemId }) => ({
-          itemId,
+        ({ sheetId }) => ({
+          sheetId,
         }),
       ],
     },
     rowId: {
       propDefinition: [
         microsoftExcel,
-        "rowId",
+        "tableRowId",
         ({
-          itemId, tableId,
+          sheetId, tableId,
         }) => ({
-          itemId,
+          sheetId,
           tableId,
         }),
       ],
@@ -49,25 +50,27 @@ export default {
         microsoftExcel,
         "values",
       ],
-      description: "Represents the raw values of the specified range. The data returned could be of type string, number, or a boolean. Cells that contain errors return the error string.",
+      description: "An array of values for the updated row. Each item in the array represents one cell. E.g. `[1, 2, 3]`",
     },
   },
   async run({ $ }) {
     const {
       microsoftExcel,
-      itemId,
+      sheetId,
       tableId,
       rowId,
       values,
     } = this;
 
-    const response = await microsoftExcel.updateRow({
+    const response = await microsoftExcel.updateTableRow({
       $,
-      itemId,
+      sheetId,
       tableId,
       rowId,
       data: {
-        values: JSON.parse(values),
+        values: [
+          parseObject(values),
+        ],
       },
     });
 
