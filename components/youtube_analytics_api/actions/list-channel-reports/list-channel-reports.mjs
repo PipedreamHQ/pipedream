@@ -12,7 +12,9 @@ export default {
   version: "0.0.2",
   type: "action",
   additionalProps() {
-    const { getIdsProps, getReportTypeProps } = this;
+    const {
+      getIdsProps, getReportTypeProps,
+    } = this;
 
     return {
       ...getIdsProps(),
@@ -23,7 +25,9 @@ export default {
     ...common.methods,
     getReportTypeProps() {
       const { channelReportType } = this;
-      const { VIDEO_BASIC_USER_ACTIVITY_STATS, PLAYLIST_BASIC_STATS } =
+      const {
+        VIDEO_BASIC_USER_ACTIVITY_STATS, PLAYLIST_BASIC_STATS,
+      } =
         constants.CHANNEL_REPORT_TYPE;
 
       if (channelReportType === VIDEO_BASIC_USER_ACTIVITY_STATS.value) {
