@@ -50,7 +50,8 @@ async function tokenHandler(req, res) {
       },
       body: JSON.stringify({
         external_user_id,
-        allowed_origins: ALLOWED_ORIGINS,
+        // Use only the list of origins for the API, not the helper object
+        allowed_origins: ALLOWED_ORIGINS.originsList,
         webhook_uri: process.env.PIPEDREAM_CONNECT_TOKEN_WEBHOOK_URI,
         success_redirect_uri: process.env.PIPEDREAM_CONNECT_SUCCESS_REDIRECT_URI,
         error_redirect_uri: process.env.PIPEDREAM_CONNECT_ERROR_REDIRECT_URI,

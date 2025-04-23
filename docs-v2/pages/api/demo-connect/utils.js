@@ -2,12 +2,50 @@
  * Shared utilities for Connect demo API routes
  */
 
-// Allowed origins for CORS security
-export const ALLOWED_ORIGINS = [
-  "https://pipedream.com",
-  "https://www.pipedream.com",
-  "http://localhost:3000", // For local development
-];
+/**
+ * Get allowed origins from environment variables or use defaults
+ * This supports Vercel preview deployments with their dynamic URLs
+ */
+export function getAllowedOrigins() {
+  // Get from environment if defined
+  const originsFromEnv = process.env.ALLOWED_ORIGINS
+    ? process.env.ALLOWED_ORIGINS.split(",").map((origin) => origin.trim())
+    : [];
+
+  // Default allowed origins
+  const defaultOrigins = [
+    "https://pipedream.com",
+    "https://www.pipedream.com",
+    "http://localhost:3000", // For local development
+  ];
+
+  // Vercel preview deployment support - match any Vercel preview URL
+  const vercelPreviewRegexes = [
+    /^https:\/\/[a-zA-Z0-9-]+-[a-zA-Z0-9-]+-[a-zA-Z0-9-]+\.vercel\.app$/,
+  ];
+
+  return {
+    originsList: [
+      ...defaultOrigins,
+      ...originsFromEnv,
+    ],
+    regexPatterns: vercelPreviewRegexes,
+
+    // Helper method to check if an origin is allowed
+    isAllowed(origin) {
+      if (!origin) return false;
+
+      // Check exact matches
+      if (this.originsList.includes(origin)) return true;
+
+      // Check regex patterns
+      return this.regexPatterns.some((pattern) => pattern.test(origin));
+    },
+  };
+}
+
+// Export the helper for consistent use
+export const ALLOWED_ORIGINS = getAllowedOrigins();
 
 /**
  * Generate a browser-specific token based on request properties
@@ -22,9 +60,10 @@ export function generateRequestToken(req) {
  * Sets CORS headers for API responses
  */
 export function setCorsHeaders(req, res, methods = "GET, POST, OPTIONS") {
+  // Use the new isAllowed method to check if the origin is allowed
   res.setHeader(
     "Access-Control-Allow-Origin",
-    ALLOWED_ORIGINS.includes(req.headers.origin)
+    ALLOWED_ORIGINS.isAllowed(req.headers.origin)
       ? req.headers.origin
       : "",
   );
@@ -42,16 +81,21 @@ export function validateRequest(req, res, allowedMethod) {
   const requestToken = req.headers["x-request-token"];
 
   // Origin validation
-  if (origin && !ALLOWED_ORIGINS.includes(origin)) {
+  if (origin && !ALLOWED_ORIGINS.isAllowed(origin)) {
     return res.status(403).json({
       error: "Access denied",
     });
   }
 
-  // Referer validation
+  // Referer validation for docs context
   if (
     referer &&
-    !ALLOWED_ORIGINS.some((allowed) => referer.startsWith(allowed)) &&
+    // Check if referer starts with any allowed origin
+    !ALLOWED_ORIGINS.originsList.some((allowed) => referer.startsWith(allowed)) &&
+    // Check if referer matches any regex pattern
+    !ALLOWED_ORIGINS.regexPatterns.some((pattern) =>
+      pattern.test(referer.split("/")[0] + "//" + referer.split("/")[2])) &&
+    // Allow if it contains the docs path
     !referer.includes("/docs/connect/")
   ) {
     return res.status(403).json({
