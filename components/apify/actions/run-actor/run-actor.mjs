@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import apify from "../../apify.app.mjs";
 import { parseObject } from "../../common/utils.mjs";
+import { EVENT_TYPES } from "../../common/constants.mjs";
 
 export default {
   key: "apify-run-actor",
@@ -56,11 +57,12 @@ export default {
       description: "Specifies the maximum cost of the Actor run. This parameter is useful for pay-per-event Actors, as it allows you to limit the amount charged to your subscription. You can access the maximum cost in your Actor by using the ACTOR_MAX_TOTAL_CHARGE_USD environment variable.",
       optional: true,
     },
-    webhooks: {
+    webhook: {
       type: "string",
-      label: "Webhooks",
-      description: "Specifies optional webhooks associated with the Actor run, which can be used to receive a notification e.g. when the Actor finished or failed. The value is a Base64-encoded JSON array of objects defining the webhooks. For more information, see [Webhooks documentation](https://docs.apify.com/platform/integrations/webhooks).",
+      label: "Webhook",
+      description: "Specifies optional webhook associated with the Actor run, which can be used to receive a notification e.g. when the Actor finished or failed.",
       optional: true,
+      reloadProps: true,
     },
   },
   methods: {
@@ -179,6 +181,14 @@ export default {
         };
       }
     }
+    if (this.webhook) {
+      props.eventTypes = {
+        type: "string[]",
+        label: "Event Types",
+        description: "The types of events to send to the webhook",
+        options: EVENT_TYPES,
+      };
+    }
     return props;
   },
   async run({ $ }) {
@@ -199,7 +209,8 @@ export default {
       maxItems,
       maxTotalChargeUsd,
       waitForFinish,
-      webhooks,
+      webhook,
+      eventTypes,
       ...data
     } = this;
 
@@ -219,10 +230,18 @@ export default {
         maxItems,
         maxTotalChargeUsd,
         waitForFinish,
-        webhooks,
+        webhooks: webhook
+          ? {
+            eventTypes,
+            requestUrl: webhook,
+          }
+          : undefined,
       },
     });
-    $.export("$summary", `Successfully started actor run with ID: ${response.data.id}`);
+    const summary = this.runAsynchronously
+      ? `Successfully started actor run with ID: ${response.data.id}`
+      : `Successfully ran actor with ID: ${this.actorId}`;
+    $.export("$summary", `${summary}`);
     return response;
   },
 };
