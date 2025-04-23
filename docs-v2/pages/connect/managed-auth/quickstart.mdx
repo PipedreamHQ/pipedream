@@ -91,7 +91,6 @@ To securely initiate account connections for your users, you'll need to generate
 Try the interactive demo below to generate a token with your own unique user ID:
 
 <ConnectDemo>
-<div className="space-y-8">
   <div className="border rounded-md overflow-hidden">
     <div className="bg-gray-100 border-b px-4 py-2 font-medium text-sm">
       Step 1: Generate a Connect Token (Server-side)
@@ -118,7 +117,6 @@ Try the interactive demo below to generate a token with your own unique user ID:
       <DemoTokenResponse />
     </div>
   </div>
-</div>
 </ConnectDemo>
 
 In the Next.js example, we're using server components to securely call the Pipedream API. The demo above uses a similar approach with a server-side API route to generate tokens. Once you have a token, return it to your frontend to start the account connection flow for the user, or redirect them to a Pipedream-hosted URL with [Connect Link](#or-use-connect-link).
