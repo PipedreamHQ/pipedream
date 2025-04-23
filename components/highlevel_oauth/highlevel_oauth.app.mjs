@@ -49,6 +49,58 @@ export default {
         })) || [];
       },
     },
+    noteId: {
+      type: "string",
+      label: "Note ID",
+      description: "The ID of the note to update",
+      async options({ contactId }) {
+        const { notes } = await this.listNotes({
+          contactId,
+        });
+        return notes?.map(({
+          id: value, body,
+        }) => ({
+          label: body.slice(0, 50),
+          value,
+        })) || [];
+      },
+    },
+    userId: {
+      type: "string",
+      label: "User ID",
+      description: "The ID of a user",
+      async options() {
+        const { users } = await this.listNotes({
+          params: {
+            locationId: this.getLocationId(),
+          },
+        });
+        return users?.map(({
+          id, name, email,
+        }) => ({
+          label: name ?? email ?? id,
+          value: id,
+        }));
+      },
+    },
+    schemaKey: {
+      type: "string",
+      label: "Object Schema Key",
+      description: "Key used to refer the custom / standard Object internally (lowercase + underscore_separated)",
+      async options() {
+        const { objects } = await this.listObjects({
+          params: {
+            locationId: this.getLocationId(),
+          },
+        });
+        return objects?.map(({
+          key: value, labels,
+        }) => ({
+          label: labels.plural,
+          value,
+        })) || [];
+      },
+    },
   },
   methods: {
     getLocationId() {
@@ -110,6 +162,61 @@ export default {
     listFormSubmissions(args = {}) {
       return this._makeRequest({
         url: "/forms/submissions",
+        ...args,
+      });
+    },
+    listNotes({
+      contactId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/contacts/${contactId}/notes`,
+        ...args,
+      });
+    },
+    getObject({
+      schemaKey, ...args
+    }) {
+      return this._makeRequest({
+        url: `/objects/${schemaKey}`,
+        ...args,
+      });
+    },
+    listObjects(args = {}) {
+      return this._makeRequest({
+        url: "/objects",
+        ...args,
+      });
+    },
+    listUsers(args = {}) {
+      return this._makeRequest({
+        url: "/users",
+        ...args,
+      });
+    },
+    updateNote({
+      contactId, noteId, ...args
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        url: `/contacts/${contactId}/notes/${noteId}`,
+        ...args,
+      });
+    },
+    createRecord({
+      schemaKey, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        url: `/objects/${schemaKey}/records`,
+        ...args,
+      });
+    },
+    updateRecord({
+      schemaKey, recordId, ...args
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        url: `/objects/${schemaKey}/records/${recordId}`,
         ...args,
       });
     },

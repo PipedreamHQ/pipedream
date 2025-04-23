@@ -1,0 +1,41 @@
+export default {
+  "id": "2N41CyHhuw4dUROfablK",
+  "locationId": "t8lsEHvfdlZugCobd4t7",
+  "contactName": "hello world",
+  "firstName": "hello",
+  "lastName": "world",
+  "firstNameRaw": "Hello",
+  "lastNameRaw": "World",
+  "companyName": null,
+  "email": "email@email.com",
+  "phone": "+18314654820",
+  "dnd": false,
+  "dndSettings": {},
+  "type": "lead",
+  "source": "form 0",
+  "assignedTo": null,
+  "city": null,
+  "state": null,
+  "postalCode": null,
+  "address1": null,
+  "dateAdded": "2025-04-04T18:31:11.343Z",
+  "dateUpdated": "2025-04-23T17:02:23.305Z",
+  "dateOfBirth": null,
+  "businessId": null,
+  "tags": [],
+  "followers": [],
+  "country": "US",
+  "website": null,
+  "timezone": "America/Detroit",
+  "additionalEmails": [],
+  "attributions": [
+    {
+      "utmSessionSource": "Direct traffic",
+      "isLast": true,
+      "medium": "form",
+      "mediumId": "AhRYrvMdMFRmZ7GxDlDS",
+      "url": "https://link.apisystem.tech/widget/form/AhRYrvMdMFRmZ7GxDlDS"
+    }
+  ],
+  "customFields": []
+}
