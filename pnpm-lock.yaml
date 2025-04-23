@@ -8003,6 +8003,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+      json-2-csv:
+        specifier: ^5.5.9
+        version: 5.5.9
       moment:
         specifier: ^2.29.4
         version: 2.30.1
@@ -21872,6 +21875,10 @@ packages:
     resolution: {integrity: sha512-PZrpz5xLo2JPZa3L+kqMMMdZU5pRwMysTM1xd6pLhNtgQw4Iq3wbF2QWaQTVh+HRq9Yg4rcjDIJ+scfGLxmsjQ==}
     engines: {node: '>= 12'}
 
+  deeks@3.1.0:
+    resolution: {integrity: sha512-e7oWH1LzIdv/prMQ7pmlDlaVoL64glqzvNgkgQNgyec9ORPHrT2jaOqMtRyqJuwWjtfb6v+2rk9pmaHj+F137A==}
+    engines: {node: '>= 16'}
+
   deep-assign@3.0.0:
     resolution: {integrity: sha512-YX2i9XjJ7h5q/aQ/IM9PEwEnDqETAIYbggmdDB3HLTlSgo1CxPsj6pvhPG68rq6SVE0+p+6Ywsm5fTYNrYtBWw==}
     engines: {node: '>=0.10.0'}
@@ -22051,6 +22058,10 @@ packages:
   doc-path@3.1.0:
     resolution: {integrity: sha512-Pv2hLQbUM8du5681lTWIYk0OtVBmNhMAeZNGeFhMMJBIR89Nw4XesBwee1Xtlfk83n71tn0Y6VsJOn4d3qIiTw==}
     engines: {node: '>=12'}
+
+  doc-path@4.1.1:
+    resolution: {integrity: sha512-h1ErTglQAVv2gCnOpD3sFS6uolDbOKHDU1BZq+Kl3npPqroU3dYL42lUgMfd5UimlwtRgp7C9dLGwqQ5D2HYgQ==}
+    engines: {node: '>=16'}
 
   doctrine@2.1.0:
     resolution: {integrity: sha512-35mSku4ZXK0vfCuHEDAwt55dg2jNajHZ1odvF+8SSr82EsZY4QmXfuWso8oEd8zRhVObSN18aM0CjSdoBX7zIw==}
@@ -24490,6 +24501,10 @@ packages:
   json-2-csv@3.20.0:
     resolution: {integrity: sha512-IbqUB+yaycVNB/q2fiY5kyRjy5kRiEXqvNvGlxM5L0Bfi0RdvklVHc4t9MfeYF1GsZVpZWDBs9LdWmSjsQ8jvg==}
     engines: {node: '>= 12'}
+
+  json-2-csv@5.5.9:
+    resolution: {integrity: sha512-l4g6GZVHrsN+5SKkpOmGNSvho+saDZwXzj/xmcO0lJAgklzwsiqy70HS5tA9djcRvBEybZ9IF6R1MDFTEsaOGQ==}
+    engines: {node: '>= 16'}
 
   json-bigint@1.0.0:
     resolution: {integrity: sha512-SiPv/8VpZuWbvLSMtTDU8hEfrZWg/mH/nV/b4o0CYbSxu1UIQPLdwKOCIyLQX+VIPO5vrLX3i8qtqFyhdPSUSQ==}
@@ -38792,6 +38807,8 @@ snapshots:
 
   deeks@2.6.1: {}
 
+  deeks@3.1.0: {}
+
   deep-assign@3.0.0:
     dependencies:
       is-obj: 1.0.1
@@ -38967,6 +38984,8 @@ snapshots:
       got: 11.8.6
 
   doc-path@3.1.0: {}
+
+  doc-path@4.1.1: {}
 
   doctrine@2.1.0:
     dependencies:
@@ -42396,6 +42415,11 @@ snapshots:
     dependencies:
       deeks: 2.6.1
       doc-path: 3.1.0
+
+  json-2-csv@5.5.9:
+    dependencies:
+      deeks: 3.1.0
+      doc-path: 4.1.1
 
   json-bigint@1.0.0:
     dependencies:

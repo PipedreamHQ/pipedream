@@ -1,12 +1,12 @@
 export default {
   "@microsoft.graph.downloadUrl": "",
-  "createdDateTime": "2024-08-02T18:04:17.28Z",
+  "createdDateTime": "2025-04-17T21:06:34.207Z",
   "cTag": "",
   "eTag": "",
   "id": "",
-  "lastModifiedDateTime": "2025-04-17T19:19:55.427Z",
+  "lastModifiedDateTime": "2025-04-17T21:06:37.6Z",
   "name": "Book.xlsx",
-  "size": 10367,
+  "size": 8176,
   "webUrl": "",
   "reactions": {
     "commentCount": 0
@@ -21,9 +21,6 @@ export default {
     }
   },
   "lastModifiedBy": {
-    "application": {
-      "id": ""
-    },
     "user": {
       "displayName": "",
       "id": ""
@@ -33,8 +30,8 @@ export default {
     "driveId": "",
     "driveType": "personal",
     "id": "",
-    "name": "root:",
-    "path": "/drive/root:"
+    "name": "Documents",
+    "path": "/drive/root:/Documents"
   },
   "file": {
     "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -43,7 +40,7 @@ export default {
     }
   },
   "fileSystemInfo": {
-    "createdDateTime": "2024-08-02T18:04:17.28Z",
-    "lastModifiedDateTime": "2025-04-17T19:19:55.103Z"
+    "createdDateTime": "2025-04-17T21:06:34.206Z",
+    "lastModifiedDateTime": "2025-04-17T21:06:37.583Z"
   }
 }
