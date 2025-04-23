@@ -176,6 +176,22 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     enabled: reloadPropIdx != null, // TODO or props.dynamicPropsId && !dynamicProps
   });
 
+  const triggerHiddenPropsReload = () => {
+    for (let idx = 0; idx < configurableProps.length; idx++) {
+      const prop = configurableProps[idx];
+      if (prop.hidden && prop.reloadProps) {
+        // Get current value or default
+        const value = configuredProps[prop.name as keyof ConfiguredProps<T>] ||
+                     ("default" in prop && prop.default != null ? prop.default : undefined);
+        // Call setConfiguredProp to trigger reload
+        setConfiguredProp(idx, value);
+      }
+    }
+  };
+  useEffect(() => {
+    triggerHiddenPropsReload();
+  }, []);
+
   const [
     propsNeedConfiguring,
     setPropsNeedConfiguring,
