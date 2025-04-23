@@ -1,5 +1,5 @@
 import app from "../../notion_api_key.app.mjs";
-import common from "@pipedream/notion/sources/updated-page-by-id/updated-page-by-id.mjs";
+import common from "@pipedream/notion/sources/updated-page-id/updated-page-id.mjs";
 
 import { adjustPropDefinitions } from "../../common/utils.mjs";
 
@@ -10,7 +10,7 @@ const props = adjustPropDefinitions(others.props, app);
 
 export default {
   ...others,
-  key: "notion_api_key-updated-page-by-id",
+  key: "notion_api_key-updated-page-id",
   version: "0.0.1",
   name,
   description,
