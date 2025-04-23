@@ -1,7 +1,16 @@
 import Callout from '@/components/Callout'
 import { Steps, Tabs } from 'nextra/components'
 import Image from 'next/image'
-import VideoPlayer from "@/components/VideoPlayer";
+import VideoPlayer from "@/components/VideoPlayer"
+import ConnectDemo from '@/components/ConnectDemo'
+import DemoExternalUserID from '@/components/DemoExternalUserID'
+import DemoServerCode from '@/components/DemoServerCode'
+import DemoClientCode from '@/components/DemoClientCode'
+import DemoGenerateTokenButton from '@/components/DemoGenerateTokenButton'
+import DemoTokenResponse from '@/components/DemoTokenResponse'
+import DemoAppSelector from '@/components/DemoAppSelector'
+import DemoConnectButton from '@/components/DemoConnectButton'
+import DemoConnectionStatus from '@/components/DemoConnectionStatus'
 
 # Managed Auth Quickstart
 
@@ -19,6 +28,74 @@ Here's how Connect sits in your frontend and backend, and communicates with Pipe
 <br />
 <Image src="https://res.cloudinary.com/pipedreamin/image/upload/v1723834101/docs/Screenshot_2024-08-16_at_11.48.15_AM_kijxa7.png" alt="Connect developer flow" width={800} height={500} />
 
+## Try it yourself
+
+<ConnectDemo>
+  <div className="space-y-8">
+    <div className="border rounded-md overflow-hidden">
+      <div className="bg-gray-100 border-b px-4 py-2 font-medium text-sm">
+        Step 1: Generate a Connect Token (Server-side)
+      </div>
+      <div className="p-4">
+        <div className="mb-3">
+          <div className="flex items-center mb-4">
+            <span className="font-medium text-sm">External User ID:</span>
+            <span className="ml-2"><DemoExternalUserID /></span>
+          </div>
+          
+          <div className="mb-4">
+            <div className="text-sm mb-2 font-medium">Server-side code running in the API route:</div>
+            <div className="border border-blue-100 rounded-lg overflow-hidden">
+              <DemoServerCode />
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-4 mb-2">
+          <DemoGenerateTokenButton />
+        </div>
+
+        <DemoTokenResponse />
+      </div>
+    </div>
+    
+    <div className="border rounded-md overflow-hidden">
+      <div className="bg-gray-100 border-b px-4 py-2 font-medium text-sm">
+        Step 2: Connect an Account (Client-side)
+      </div>
+      <div className="p-4">
+        <div className="mb-4">
+          <label className="flex items-center mb-4">
+            <span className="font-medium text-sm">App to connect:</span>
+            <span className="ml-2"><DemoAppSelector /></span>
+          </label>
+          
+          <div className="mb-4">
+            <div className="text-sm mb-2 font-medium">Client-side code executed in the browser:</div>
+            <div className="border border-blue-100 rounded-lg overflow-hidden">
+              <DemoClientCode />
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-4 mb-2">
+          <DemoConnectButton />
+        </div>
+
+        <DemoConnectionStatus />
+      </div>
+    </div>
+    
+    <div className="mt-4 text-sm text-gray-600 border-t pt-4">
+      <p className="text-sm">This demo showcases the recommended implementation flow:</p>
+      <ol className="list-decimal pl-5 mt-2 space-y-1 text-sm">
+        <li>Securely generate a token on your server (keeping credentials private)</li>
+        <li>Pass the token to your frontend to connect an account</li>
+      </ol>
+      <p className="mt-2 text-sm opacity-80">Note: Each time you reload this page, a new unique user ID is generated.</p>
+    </div>
+  </div>
+</ConnectDemo>
 
 ## Getting started
 
