@@ -1,4 +1,5 @@
 import fs from "fs";
+import mime from "mime";
 import { ConfigurationError } from "@pipedream/platform";
 import common from "../common/generate-content.mjs";
 import utils from "../../common/utils.mjs";
@@ -8,44 +9,30 @@ export default {
   key: "google_gemini-generate-content-from-text-and-image",
   name: "Generate Content from Text and Image",
   description: "Generates content from both text and image input using the Gemini API. [See the documentation](https://ai.google.dev/tutorials/rest_quickstart#text-and-image_input)",
-  version: "0.1.2",
+  version: "0.2.0",
   type: "action",
   props: {
     ...common.props,
-    text: {
+    mediaPaths: {
       propDefinition: [
         common.props.app,
-        "text",
-      ],
-    },
-    mimeType: {
-      propDefinition: [
-        common.props.app,
-        "mimeType",
-      ],
-    },
-    imagePaths: {
-      propDefinition: [
-        common.props.app,
-        "imagePaths",
-      ],
-    },
-    responseFormat: {
-      propDefinition: [
-        common.props.app,
-        "responseFormat",
+        "mediaPaths",
       ],
     },
   },
   methods: {
-    fileToGenerativePart(path, mimeType) {
-      if (!path) {
+    ...common.methods,
+    fileToGenerativePart(filePath) {
+      if (!filePath) {
         return;
       }
+
+      const mimeType = mime.getType(filePath);
+
       return {
         inline_data: {
           mime_type: mimeType,
-          data: Buffer.from(fs.readFileSync(path)).toString("base64"),
+          data: Buffer.from(fs.readFileSync(filePath)).toString("base64"),
         },
       };
     },
@@ -55,8 +42,9 @@ export default {
       app,
       model,
       text,
-      imagePaths,
-      mimeType,
+      history,
+      mediaPaths,
+      safetySettings,
       responseFormat,
       responseSchema,
       maxOutputTokens,
@@ -66,28 +54,33 @@ export default {
       stopSequences,
     } = this;
 
-    if (!Array.isArray(imagePaths)) {
-      throw new ConfigurationError("Image paths must be an array.");
+    if (!Array.isArray(mediaPaths)) {
+      throw new ConfigurationError("Image/Video paths must be an array.");
     }
 
-    if (!imagePaths.length) {
-      throw new ConfigurationError("At least one image path must be provided.");
+    if (!mediaPaths.length) {
+      throw new ConfigurationError("At least one media path must be provided.");
     }
+
+    const contents = [
+      ...this.formatHistoryToContent(history),
+      {
+        parts: [
+          ...mediaPaths.map((path) => this.fileToGenerativePart(path)),
+          {
+            text,
+          },
+        ],
+        role: "user",
+      },
+    ];
 
     const response = await app.generateContent({
       $,
       model,
       data: {
-        contents: [
-          {
-            parts: [
-              {
-                text,
-              },
-              ...imagePaths.map((path) => this.fileToGenerativePart(path, mimeType)),
-            ],
-          },
-        ],
+        contents,
+        safetySettings: this.formatSafetySettings(safetySettings),
         ...(
           responseFormat || maxOutputTokens || temperature || topP || topK || stopSequences?.length
             ? {

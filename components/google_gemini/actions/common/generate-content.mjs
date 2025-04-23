@@ -1,5 +1,6 @@
 import app from "../../google_gemini.app.mjs";
 import constants from "../../common/constants.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   props: {
@@ -19,6 +20,106 @@ export default {
             && supportedGenerationMethods?.includes(constants.MODEL_METHODS.GENERATE_CONTENT),
         }),
       ],
+    },
+    text: {
+      propDefinition: [
+        app,
+        "text",
+      ],
+    },
+    responseFormat: {
+      propDefinition: [
+        app,
+        "responseFormat",
+      ],
+    },
+    history: {
+      type: "string[]",
+      label: "Conversation History",
+      description: "Previous messages in the conversation. Each item must be a valid JSON string with `text` and `role` (either `user` or `model`). Example: `{\"text\": \"Hello\", \"role\": \"user\"}`",
+      optional: true,
+    },
+    safetySettings: {
+      type: "string[]",
+      label: "Safety Settings",
+      description: "Configure content filtering for different harm categories. Each item must be a valid JSON string with `category` (one of: `HARASSMENT`, `HATE_SPEECH`, `SEXUALLY_EXPLICIT`, `DANGEROUS`, `CIVIC`) and `threshold` (one of: `BLOCK_NONE`, `BLOCK_ONLY_HIGH`, `BLOCK_MEDIUM_AND_ABOVE`, `BLOCK_LOW_AND_ABOVE`). Example: `{\"category\": \"HARASSMENT\", \"threshold\": \"BLOCK_MEDIUM_AND_ABOVE\"}`",
+      optional: true,
+    },
+  },
+  methods: {
+    formatHistoryToContent(history) {
+      if (typeof(history) === "string") {
+        try {
+          history = JSON.parse(history);
+        } catch (e) {
+          throw new ConfigurationError(`Invalid JSON in history: ${history}`);
+        }
+      }
+
+      if (Array.isArray(history) && !history?.length) {
+        return [];
+      }
+
+      return history.map((itemStr) => {
+        let item = itemStr;
+        if (typeof item === "string") {
+          try {
+            item = JSON.parse(itemStr);
+          } catch (e) {
+            throw new ConfigurationError(`Invalid JSON in history item: ${itemStr}`);
+          }
+        }
+
+        if (!item.text || !item.role || ![
+          "user",
+          "model",
+        ].includes(item.role)) {
+          throw new ConfigurationError("Each history item must include `text` and `role` (either `user` or `model`)");
+        }
+
+        return {
+          parts: [
+            {
+              text: item.text,
+            },
+          ],
+          role: item.role,
+        };
+      });
+    },
+    formatSafetySettings(safetySettings) {
+      if (!safetySettings?.length) {
+        return undefined;
+      }
+
+      return safetySettings.map((settingStr) => {
+        let setting = settingStr;
+        if (typeof setting === "string") {
+          try {
+            setting = JSON.parse(settingStr);
+          } catch (e) {
+            throw new ConfigurationError(`Invalid JSON in safety setting: ${settingStr}`);
+          }
+        }
+
+        if (!setting.category || !setting.threshold) {
+          throw new ConfigurationError("Each safety setting must include 'category' and 'threshold'");
+        }
+
+        const category = constants.HARM_CATEGORIES[setting.category];
+        if (!category) {
+          throw new ConfigurationError(`Invalid category '${setting.category}'. Must be one of: ${Object.keys(constants.HARM_CATEGORIES).join(", ")}`);
+        }
+
+        if (!constants.BLOCK_THRESHOLDS[setting.threshold]) {
+          throw new ConfigurationError(`Invalid threshold '${setting.threshold}'. Must be one of: ${Object.keys(constants.BLOCK_THRESHOLDS).join(", ")}`);
+        }
+
+        return {
+          category,
+          threshold: setting.threshold,
+        };
+      });
     },
   },
   async additionalProps() {

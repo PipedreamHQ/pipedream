@@ -19,6 +19,14 @@ const FINE_TUNING_MODEL_OPTIONS = [
     label: "gpt-4-0613 (experimental — eligible users will be presented with an option to request access in the fine-tuning UI)",
     value: "gpt-4-0613",
   },
+  {
+    label: "gpt-4.1-mini-2025-04-14",
+    value: "gpt-4.1-mini-2025-04-14",
+  },
+  {
+    label: "gpt-4.1-2025-04-14",
+    value: "gpt-4.1-2025-04-14",
+  },
 ];
 
 const TTS_MODELS = [

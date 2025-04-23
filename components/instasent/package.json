@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/instasent",
+  "version": "0.0.1",
+  "description": "Pipedream Instasent Components",
+  "main": "instasent.app.mjs",
+  "keywords": [
+    "pipedream",
+    "instasent"
+  ],
+  "homepage": "https://pipedream.com/apps/instasent",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

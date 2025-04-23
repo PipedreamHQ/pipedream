@@ -3,16 +3,16 @@ import instantly from "../../instantly.app.mjs";
 
 export default {
   key: "instantly-add-lead-campaign",
-  name: "Add Lead to Campaign",
-  description: "Adds a lead to a campaign for tracking or further actions. [See the documentation](https://developer.instantly.ai/lead/add-leads-to-a-campaign)",
-  version: "0.0.1",
+  name: "Add Leads to Campaign",
+  description: "Adds a lead or leads to a campaign for tracking or further actions. [See the documentation](https://developer.instantly.ai/api/v2/lead/moveleads)",
+  version: "0.0.2",
   type: "action",
   props: {
     instantly,
-    leads: {
+    leadIds: {
       propDefinition: [
         instantly,
-        "leads",
+        "leadIds",
       ],
     },
     campaignId: {
@@ -21,30 +21,42 @@ export default {
         "campaignId",
       ],
     },
-    skipIfInWorkspace: {
-      type: "boolean",
-      label: "Skip if in Workspace",
-      description: "Skip lead if it exists in any campaigns in the workspace",
-      optional: true,
-    },
     skipIfInCampaign: {
       type: "boolean",
       label: "Skip if in Campaign",
       description: "Skip lead if it exists in the campaign",
       optional: true,
     },
+    waitForCompletion: {
+      type: "boolean",
+      label: "Wait for Completion",
+      description: "Set to `true` to poll the API in 3-second intervals until the background job is completed",
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const response = await this.instantly.addLeadsToCampaign({
+    let response = await this.instantly.addLeadsToCampaign({
       $,
       data: {
-        leads: parseObject(this.leads),
-        campaign_id: this.campaignId,
-        skip_if_in_workspace: this.skipIfInWorkspace,
-        skip_if_in_campaign: this.skipIfInCampaign,
+        ids: parseObject(this.leadIds),
+        to_campaign_id: this.campaignId,
+        check_duplicates_in_campaigns: this.skipIfInCampaign,
       },
     });
-    $.export("$summary", `Added ${response.leads_uploaded} leads to campaign ${this.campaignId}`);
+
+    if (this.waitForCompletion) {
+      const jobId = response.id;
+      const timer = (ms) => new Promise((res) => setTimeout(res, ms));
+      while (response.status === "pending" || response.status === "in-progress") {
+        response = await this.instantly.getBackgroundJob({
+          $,
+          jobId,
+        });
+        await timer(3000);
+      }
+    }
+
+    $.export("$summary", `Added ${this.leadIds.length} lead(s) to campaign ${this.campaignId}`);
     return response;
   },
 };

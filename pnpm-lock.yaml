@@ -484,8 +484,7 @@ importers:
 
   components/ahrefs: {}
 
-  components/ai_chatbot_hub:
-    specifiers: {}
+  components/ai_chatbot_hub: {}
 
   components/ai_ml_api: {}
 
@@ -1487,6 +1486,8 @@ importers:
 
   components/bigpicture_io: {}
 
+  components/bika_ai: {}
+
   components/bilflo:
     dependencies:
       '@pipedream/platform':
@@ -1975,8 +1976,8 @@ importers:
   components/cal_com:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.1.1
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
       async-retry:
         specifier: ^1.3.3
         version: 1.3.3
@@ -2864,6 +2865,8 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
+
+  components/consulta_unica: {}
 
   components/contact_enhance:
     dependencies:
@@ -3929,8 +3932,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/easyfill_ai:
-    specifiers: {}
+  components/easyfill_ai: {}
 
   components/easyhire: {}
 
@@ -5469,6 +5471,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+      mime:
+        specifier: ^4.0.7
+        version: 4.0.7
 
   components/google_identity: {}
 
@@ -6302,6 +6307,8 @@ importers:
 
   components/if_else: {}
 
+  components/ifthenpay: {}
+
   components/ifttt:
     dependencies:
       '@pipedream/platform':
@@ -6412,6 +6419,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/inferable: {}
+
   components/infinity: {}
 
   components/influxdb_cloud:
@@ -6505,6 +6514,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+
+  components/instasent: {}
 
   components/intellexer_api:
     dependencies:
@@ -7992,6 +8003,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+      json-2-csv:
+        specifier: ^5.5.9
+        version: 5.5.9
       moment:
         specifier: ^2.29.4
         version: 2.30.1
@@ -8195,7 +8209,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/modelry: {}
+  components/modelry:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/modern_treasury:
     dependencies:
@@ -8339,8 +8357,7 @@ importers:
 
   components/murlist: {}
 
-  components/musicbrainz:
-    specifiers: {}
+  components/musicbrainz: {}
 
   components/mux:
     dependencies:
@@ -8702,6 +8719,8 @@ importers:
       notion-to-md:
         specifier: 3.1.8
         version: 3.1.8
+
+  components/notion_api_key: {}
 
   components/nozbe_teams: {}
 
@@ -9478,6 +9497,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
 
+  components/peerdom: {}
+
   components/pendo: {}
 
   components/pennylane:
@@ -10186,6 +10207,8 @@ importers:
   components/propeller: {}
 
   components/proposify: {}
+
+  components/proprofs_knowledge_base: {}
 
   components/proprofs_quiz_maker: {}
 
@@ -10907,6 +10930,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/riku_ai: {}
+
   components/ringba:
     dependencies:
       '@pipedream/platform':
@@ -10916,8 +10941,8 @@ importers:
   components/ringcentral:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.2.0
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/ringover:
     dependencies:
@@ -11990,6 +12015,12 @@ importers:
       '@slack/web-api':
         specifier: ^7.9.0
         version: 7.9.1
+      async-retry:
+        specifier: ^1.3.3
+        version: 1.3.3
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
 
   components/slack_bot:
     dependencies:
@@ -13223,8 +13254,8 @@ importers:
   components/todoist:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.2.1
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
       json-2-csv:
         specifier: ^3.15.1
         version: 3.20.0
@@ -13733,6 +13764,8 @@ importers:
       qs:
         specifier: ^6.11.2
         version: 6.13.1
+
+  components/urltopdf: {}
 
   components/uscreen:
     dependencies:
@@ -21846,6 +21879,10 @@ packages:
     resolution: {integrity: sha512-PZrpz5xLo2JPZa3L+kqMMMdZU5pRwMysTM1xd6pLhNtgQw4Iq3wbF2QWaQTVh+HRq9Yg4rcjDIJ+scfGLxmsjQ==}
     engines: {node: '>= 12'}
 
+  deeks@3.1.0:
+    resolution: {integrity: sha512-e7oWH1LzIdv/prMQ7pmlDlaVoL64glqzvNgkgQNgyec9ORPHrT2jaOqMtRyqJuwWjtfb6v+2rk9pmaHj+F137A==}
+    engines: {node: '>= 16'}
+
   deep-assign@3.0.0:
     resolution: {integrity: sha512-YX2i9XjJ7h5q/aQ/IM9PEwEnDqETAIYbggmdDB3HLTlSgo1CxPsj6pvhPG68rq6SVE0+p+6Ywsm5fTYNrYtBWw==}
     engines: {node: '>=0.10.0'}
@@ -22025,6 +22062,10 @@ packages:
   doc-path@3.1.0:
     resolution: {integrity: sha512-Pv2hLQbUM8du5681lTWIYk0OtVBmNhMAeZNGeFhMMJBIR89Nw4XesBwee1Xtlfk83n71tn0Y6VsJOn4d3qIiTw==}
     engines: {node: '>=12'}
+
+  doc-path@4.1.1:
+    resolution: {integrity: sha512-h1ErTglQAVv2gCnOpD3sFS6uolDbOKHDU1BZq+Kl3npPqroU3dYL42lUgMfd5UimlwtRgp7C9dLGwqQ5D2HYgQ==}
+    engines: {node: '>=16'}
 
   doctrine@2.1.0:
     resolution: {integrity: sha512-35mSku4ZXK0vfCuHEDAwt55dg2jNajHZ1odvF+8SSr82EsZY4QmXfuWso8oEd8zRhVObSN18aM0CjSdoBX7zIw==}
@@ -24465,6 +24506,10 @@ packages:
     resolution: {integrity: sha512-IbqUB+yaycVNB/q2fiY5kyRjy5kRiEXqvNvGlxM5L0Bfi0RdvklVHc4t9MfeYF1GsZVpZWDBs9LdWmSjsQ8jvg==}
     engines: {node: '>= 12'}
 
+  json-2-csv@5.5.9:
+    resolution: {integrity: sha512-l4g6GZVHrsN+5SKkpOmGNSvho+saDZwXzj/xmcO0lJAgklzwsiqy70HS5tA9djcRvBEybZ9IF6R1MDFTEsaOGQ==}
+    engines: {node: '>= 16'}
+
   json-bigint@1.0.0:
     resolution: {integrity: sha512-SiPv/8VpZuWbvLSMtTDU8hEfrZWg/mH/nV/b4o0CYbSxu1UIQPLdwKOCIyLQX+VIPO5vrLX3i8qtqFyhdPSUSQ==}
 
@@ -25421,6 +25466,11 @@ packages:
 
   mime@4.0.6:
     resolution: {integrity: sha512-4rGt7rvQHBbaSOF9POGkk1ocRP16Md1x36Xma8sz8h8/vfCUI2OtEIeCqe4Ofes853x4xDoPiFLIT47J5fI/7A==}
+    engines: {node: '>=16'}
+    hasBin: true
+
+  mime@4.0.7:
+    resolution: {integrity: sha512-2OfDPL+e03E0LrXaGYOtTFIYhiuzep94NSsuhrNULq+stylcJedcHdzHtz0atMUuGwJfFYs0YL5xeC/Ca2x0eQ==}
     engines: {node: '>=16'}
     hasBin: true
 
@@ -38761,6 +38811,8 @@ snapshots:
 
   deeks@2.6.1: {}
 
+  deeks@3.1.0: {}
+
   deep-assign@3.0.0:
     dependencies:
       is-obj: 1.0.1
@@ -38936,6 +38988,8 @@ snapshots:
       got: 11.8.6
 
   doc-path@3.1.0: {}
+
+  doc-path@4.1.1: {}
 
   doctrine@2.1.0:
     dependencies:
@@ -42366,6 +42420,11 @@ snapshots:
       deeks: 2.6.1
       doc-path: 3.1.0
 
+  json-2-csv@5.5.9:
+    dependencies:
+      deeks: 3.1.0
+      doc-path: 4.1.1
+
   json-bigint@1.0.0:
     dependencies:
       bignumber.js: 9.1.2
@@ -43761,6 +43820,8 @@ snapshots:
   mime@4.0.4: {}
 
   mime@4.0.6: {}
+
+  mime@4.0.7: {}
 
   mimer@2.0.2: {}
 
