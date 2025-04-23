@@ -4,12 +4,12 @@ import { useGlobalConnect } from "./GlobalConnectProvider";
 import CodeBlock from "./CodeBlock";
 
 export default function TokenGenerationDemo() {
-  const { 
-    externalUserId, 
-    getServerCodeSnippet, 
-    generateToken, 
+  const {
+    externalUserId,
+    getServerCodeSnippet,
+    generateToken,
     tokenLoading,
-    tokenData 
+    tokenData,
   } = useGlobalConnect();
 
   return (
@@ -36,18 +36,20 @@ export default function TokenGenerationDemo() {
             disabled={tokenLoading}
             className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors disabled:opacity-50 font-medium text-sm"
           >
-            {tokenLoading ? "Generating..." : "Generate Token"}
+            {tokenLoading
+              ? "Generating..."
+              : "Generate Token"}
           </button>
         </div>
 
         {tokenData && (
           <div className="mt-4">
-            <div className="text-sm mb-2 font-medium">Server Response:</div>
+            <div className="text-sm mb-2 font-medium">Response:</div>
             <div className="border border-green-200 rounded-lg overflow-hidden">
-              <CodeBlock 
-                code={JSON.stringify(tokenData, null, 2)} 
-                language="json" 
-                className="max-h-48 overflow-auto" 
+              <CodeBlock
+                code={JSON.stringify(tokenData, null, 2)}
+                language="json"
+                className="max-h-48 overflow-auto"
               />
             </div>
           </div>

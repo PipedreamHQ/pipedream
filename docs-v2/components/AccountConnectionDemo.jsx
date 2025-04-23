@@ -4,14 +4,14 @@ import { useGlobalConnect } from "./GlobalConnectProvider";
 import CodeBlock from "./CodeBlock";
 
 export default function AccountConnectionDemo() {
-  const { 
-    appSlug, 
-    setAppSlug, 
-    tokenData, 
-    getClientCodeSnippet, 
+  const {
+    appSlug,
+    setAppSlug,
+    tokenData,
+    getClientCodeSnippet,
     connectAccount,
     connectedAccount,
-    error
+    error,
   } = useGlobalConnect();
 
   return (
@@ -34,7 +34,7 @@ export default function AccountConnectionDemo() {
               <option value="google_sheets">Google Sheets</option>
             </select>
           </label>
-          
+
           <div className="mb-4">
             <div className="border border-blue-100 rounded-lg overflow-hidden">
               <CodeBlock code={getClientCodeSnippet()} language="javascript" />
@@ -50,6 +50,7 @@ export default function AccountConnectionDemo() {
           >
             Connect Account
           </button>
+          {!tokenData && <p className="mt-2 text-sm text-gray-500"><a href="/docs/connect/managed-auth/quickstart/#generate-a-short-lived-token" className="font-semibold underline underline-offset-4 hover:decoration-2 decoration-brand/50">Generate a token above</a> in order to test the account connection flow</p>}
         </div>
 
         {error && (
@@ -58,7 +59,7 @@ export default function AccountConnectionDemo() {
             <div className="mt-1 text-sm">{error}</div>
           </div>
         )}
-        
+
         {connectedAccount && (
           <div className="mt-4 p-3 bg-green-50 border border-green-200 text-green-800 rounded-md">
             <div className="font-medium text-sm">Account successfully connected!</div>

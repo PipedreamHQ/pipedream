@@ -36,25 +36,30 @@ const { token, expires_at, connect_link_url } = await pd.createConnectToken({
 export function getClientCodeSnippet(appSlug, tokenData) {
   return `import { createFrontendClient } from "@pipedream/sdk/browser"
  
-// This code runs in the browser
-const pd = createFrontendClient()
-
-// Connect an account using the token from your server
-pd.connectAccount({
-  app: "${appSlug}", 
-  token: "${tokenData?.token
+// This code runs in the frontend using the token from your server
+export default function Home() {
+  function connectAccount() {
+  const pd = createFrontendClient()
+    pd.connectAccount({
+      app: "${appSlug}", 
+      token: "${tokenData?.token
     ? tokenData.token.substring(0, 10) + "..."
-    : "YOUR_TOKEN"}", 
-  onSuccess: (account) => {
-    // Handle successful connection
-    console.log(\`Account successfully connected: \${account.name}\`)
-  },
-  onError: (err) => {
-    // Handle connection error
-    console.error(\`Connection error: \${err.message}\`)
-  },
-  onClose: () => {
-    // Handle dialog closed by user
+    : "{connect_token}"}", 
+      onSuccess: (account) => {
+        // Handle successful connection
+        console.log(\`Account successfully connected: \${account.id}\`)
+      },
+      onError: (err) => {
+        // Handle connection error
+        console.error(\`Connection error: \${err.message}\`)
+      }
+    })
   }
-})`;
+
+  return (
+    <main>
+      <button onClick={connectAccount}>Connect Account</button>
+    </main>
+  )
+}`;
 }
