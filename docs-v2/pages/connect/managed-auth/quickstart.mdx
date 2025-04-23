@@ -2,11 +2,13 @@ import Callout from '@/components/Callout'
 import { Steps, Tabs } from 'nextra/components'
 import Image from 'next/image'
 import VideoPlayer from "@/components/VideoPlayer"
-import ConnectDemo from '@/components/ConnectDemo'
+import { GlobalConnectProvider } from '@/components/GlobalConnectProvider'
 import TokenGenerationDemo from '@/components/TokenGenerationDemo'
 import AccountConnectionDemo from '@/components/AccountConnectionDemo'
 
 # Managed Auth Quickstart
+
+<GlobalConnectProvider>
 
 Pipedream Connect is the easiest way for your users to connect to [over {process.env.PUBLIC_APPS}+ APIs](https://pipedream.com/apps), **right in your product**. You can build in-app messaging, CRM syncs, AI agents, [and much more](/connect/use-cases/), all in a few minutes.
 
@@ -84,9 +86,9 @@ To securely initiate account connections for your users, you'll need to generate
 
 Try the interactive demo below to generate a token with your own unique user ID:
 
-<ConnectDemo>
+<div className="not-prose">
   <TokenGenerationDemo />
-</ConnectDemo>
+</div>
 
 In the Next.js example, we're using server components to securely call the Pipedream API. The demo above uses a similar approach with a server-side API route to generate tokens. Once you have a token, return it to your frontend to start the account connection flow for the user, or redirect them to a Pipedream-hosted URL with [Connect Link](#or-use-connect-link).
 
@@ -115,9 +117,9 @@ When the user connects an account in your product, [pass the token from your bac
 
 Try the interactive demo below to connect an account after generating a token in the previous step:
 
-<ConnectDemo>
+<div className="not-prose">
   <AccountConnectionDemo />
-</ConnectDemo>
+</div>
 
 In our example Next.js app, `app/page.tsx` calls the `connectAccount` method from the Pipedream SDK when the user clicks the **Connect your account** button, similar to how our interactive demo above works.
 
@@ -189,3 +191,5 @@ Now that your users have connected an account, you can use their auth in one of 
   </ol>
   <p className="mt-2 text-sm opacity-80">Note: Each time you reload this page, a new unique user ID is generated.</p>
 </div>
+
+</GlobalConnectProvider>

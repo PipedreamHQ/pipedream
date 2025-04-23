@@ -156,8 +156,6 @@ pd.connectAccount({
   return (
     <div className={`not-prose border border-gray-200 rounded-lg my-6 ${className || ""}`}>
       <div className="p-4 sm:p-6">
-        <h3 className="text-lg font-medium mb-4">Interactive Demo</h3>
-
         <div className="mb-6 border rounded-md overflow-hidden">
           <div className="bg-gray-100 border-b px-4 py-2 font-medium text-sm">
             Step 1: Generate a Connect Token (Server-side)

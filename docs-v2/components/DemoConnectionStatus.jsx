@@ -1,9 +1,9 @@
 "use client";
 
-import { useConnectDemo } from "./ConnectDemoContext";
+import { useGlobalConnect } from "./GlobalConnectProvider";
 
 export default function DemoConnectionStatus() {
-  const { connectedAccount, error } = useConnectDemo();
+  const { connectedAccount, error } = useGlobalConnect();
   
   return (
     <>

@@ -1,10 +1,10 @@
 "use client";
 
-import { useConnectDemo } from "./ConnectDemoContext";
+import { useGlobalConnect } from "./GlobalConnectProvider";
 import CodeBlock from "./CodeBlock";
 
 export default function DemoClientCode() {
-  const { getClientCodeSnippet } = useConnectDemo();
+  const { getClientCodeSnippet } = useGlobalConnect();
   
   return (
     <CodeBlock code={getClientCodeSnippet()} language="javascript" />

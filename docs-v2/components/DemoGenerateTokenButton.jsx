@@ -1,9 +1,9 @@
 "use client";
 
-import { useConnectDemo } from "./ConnectDemoContext";
+import { useGlobalConnect } from "./GlobalConnectProvider";
 
 export default function DemoGenerateTokenButton() {
-  const { generateToken, tokenLoading } = useConnectDemo();
+  const { generateToken, tokenLoading } = useGlobalConnect();
   
   return (
     <button

@@ -1,6 +1,6 @@
 "use client";
 
-import { useConnectDemo } from "./ConnectDemoContext";
+import { useGlobalConnect } from "./GlobalConnectProvider";
 import DemoAppSelector from "./DemoAppSelector";
 import DemoClientCode from "./DemoClientCode";
 import DemoConnectButton from "./DemoConnectButton";

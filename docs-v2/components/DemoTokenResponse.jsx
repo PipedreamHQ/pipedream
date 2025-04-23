@@ -1,10 +1,10 @@
 "use client";
 
-import { useConnectDemo } from "./ConnectDemoContext";
+import { useGlobalConnect } from "./GlobalConnectProvider";
 import CodeBlock from "./CodeBlock";
 
 export default function DemoTokenResponse() {
-  const { tokenData } = useConnectDemo();
+  const { tokenData } = useGlobalConnect();
   
   if (!tokenData) return null;
   

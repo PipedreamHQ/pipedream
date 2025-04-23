@@ -1,9 +1,9 @@
 "use client";
 
-import { useConnectDemo } from "./ConnectDemoContext";
+import { useGlobalConnect } from "./GlobalConnectProvider";
 
 export default function DemoAppSelector() {
-  const { appSlug, setAppSlug, tokenData } = useConnectDemo();
+  const { appSlug, setAppSlug, tokenData } = useGlobalConnect();
   
   return (
     <select
