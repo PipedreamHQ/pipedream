@@ -61,9 +61,22 @@ export default function AccountConnectionDemo() {
 
         {connectedAccount && (
           <div className="mt-4 p-3 bg-green-50 border border-green-200 text-green-800 rounded-md">
-            <div className="font-medium text-sm">Account successfully connected!</div>
-            <div className="mt-1 text-sm">
-              <div>Account ID: <span className="font-mono text-xs">{connectedAccount.id}</span></div>
+            <div className="font-medium text-sm">Successfully connected your {appSlug} account!</div>
+            <div className="mt-4 text-sm">
+              {connectedAccount.loading
+                ? (
+                  <div>Loading account details...</div>
+                )
+                : (
+                  <>
+                    {connectedAccount.name
+                      ? (
+                        <div>Account info: <span className="font-medium">{connectedAccount.name}</span></div>
+                      )
+                      : null}
+                    <div>Account ID: <span className="font-medium">{connectedAccount.id}</span></div>
+                  </>
+                )}
             </div>
           </div>
         )}

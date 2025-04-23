@@ -97,6 +97,34 @@ export function GlobalConnectProvider({ children }) {
     }
   }
 
+  // Fetch account details from API
+  async function fetchAccountDetails(accountId) {
+    try {
+      // Use the same token credentials to fetch account details
+      const response = await fetch(`/docs/api-demo-connect/accounts/${accountId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        console.warn("Failed to fetch account details", await response.text());
+        return {
+          id: accountId,
+        }; // Fall back to just the ID
+      }
+
+      const data = await response.json();
+      return data; // Return the full account details
+    } catch (err) {
+      console.warn("Error fetching account details:", err);
+      return {
+        id: accountId,
+      }; // Fall back to just the ID
+    }
+  }
+
   // Connect account function
   function connectAccount() {
     if (!tokenData?.token) {
@@ -111,10 +139,22 @@ export function GlobalConnectProvider({ children }) {
       pd.connectAccount({
         app: appSlug,
         token: tokenData.token,
-        onSuccess: (account) => {
+        onSuccess: async (account) => {
+          // Initialize with just the ID
           setConnectedAccount({
             id: account.id,
+            loading: true,
           });
+
+          // Fetch additional account details
+          const accountDetails = await fetchAccountDetails(account.id);
+
+          // Update with the full details
+          setConnectedAccount({
+            ...accountDetails,
+            loading: false,
+          });
+
           // Token is single-use, so clear it after successful connection
           setTokenData(null);
         },
