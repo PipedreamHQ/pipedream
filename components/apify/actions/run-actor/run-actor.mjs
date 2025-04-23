@@ -231,10 +231,12 @@ export default {
         maxTotalChargeUsd,
         waitForFinish,
         webhooks: webhook
-          ? {
-            eventTypes,
-            requestUrl: webhook,
-          }
+          ? btoa(JSON.stringify([
+            {
+              eventTypes,
+              requestUrl: webhook,
+            },
+          ]))
           : undefined,
       },
     });
