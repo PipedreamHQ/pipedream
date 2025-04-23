@@ -43,7 +43,7 @@ export default function Home() {
     pd.connectAccount({
       app: "${appSlug}", 
       token: "${tokenData?.token
-    ? tokenData.token.substring(0, 10) + "..."
+    ? tokenData.token
     : "{connect_token}"}", 
       onSuccess: (account) => {
         // Handle successful connection

@@ -65,6 +65,15 @@ export function GlobalConnectProvider({ children }) {
   // Get client code snippet wrapper function
   const getClientSnippet = () => getClientCodeSnippet(appSlug, tokenData);
 
+  /**
+   * Generate a request token based on the browser environment
+   * This creates a token that matches what the API will generate
+   */
+  function generateRequestToken() {
+    const baseString = `${navigator.userAgent}:${window.location.host}:connect-demo`;
+    return btoa(baseString);
+  }
+
   // Generate token async function
   async function generateToken() {
     setTokenLoading(true);
@@ -73,10 +82,12 @@ export function GlobalConnectProvider({ children }) {
     setConnectedAccount(null);
 
     try {
+      const requestToken = generateRequestToken();
       const response = await fetch("/docs/api-demo-connect/token", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "X-Request-Token": requestToken,
         },
         body: JSON.stringify({
           external_user_id: externalUserId,
@@ -100,11 +111,13 @@ export function GlobalConnectProvider({ children }) {
   // Fetch account details from API
   async function fetchAccountDetails(accountId) {
     try {
-      // Use the same token credentials to fetch account details
+      // Fetch the account details from our API endpoint
+      const requestToken = generateRequestToken();
       const response = await fetch(`/docs/api-demo-connect/accounts/${accountId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          "X-Request-Token": requestToken,
         },
       });
 
