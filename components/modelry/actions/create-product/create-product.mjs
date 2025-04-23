@@ -66,7 +66,7 @@ export default {
         },
       },
     });
-    $.export("$summary", "Successfully created the product");
+    $.export("$summary", `Successfully created product "${response.data.attributes.title}" with ID: ${response.data.id}`);
     return response;
   },
 };

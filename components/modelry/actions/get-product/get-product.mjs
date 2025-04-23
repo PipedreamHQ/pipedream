@@ -20,7 +20,7 @@ export default {
       $,
       productId: this.productId,
     });
-    $.export("$summary", "Successfully retrieved the product details");
+    $.export("$summary", `Successfully retrieved the details for the product "${response.data.attributes.title}" with ID: ${response.data.id}`);
     return response;
   },
 };
