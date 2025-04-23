@@ -1,20 +1,17 @@
 "use client";
 
-import {
-  createContext, useContext, useState, useEffect,
-} from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { createFrontendClient } from "@pipedream/sdk/browser";
-import {
-  getServerCodeSnippet, getClientCodeSnippet,
-} from "./ConnectCodeSnippets";
+import { getServerCodeSnippet, getClientCodeSnippet } from "./ConnectCodeSnippets";
+import { generateConnectToken, fetchAccountDetails } from "./api";
 
-// Generate a UUID v4 for use as external_user_id
+/**
+ * Generate a UUID v4 for use as external_user_id
+ */
 function generateUUID() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
     const r = Math.random() * 16 | 0;
-    const v = c === "x"
-      ? r
-      : (r & 0x3 | 0x8);
+    const v = c === "x" ? r : (r & 0x3 | 0x8);
     return v.toString(16);
   });
 }
@@ -22,59 +19,34 @@ function generateUUID() {
 // Create the context
 const GlobalConnectContext = createContext(null);
 
-// Provider component
+/**
+ * Provider component for Connect demo state management
+ */
 export function GlobalConnectProvider({ children }) {
-  // User and account state
-  const [
-    appSlug,
-    setAppSlug,
-  ] = useState("slack");
-  const [
-    externalUserId,
-    setExternalUserId,
-  ] = useState("");
-  const [
-    connectedAccount,
-    setConnectedAccount,
-  ] = useState(null);
+  // User and app state
+  const [appSlug, setAppSlug] = useState("slack");
+  const [externalUserId, setExternalUserId] = useState("");
+  const [connectedAccount, setConnectedAccount] = useState(null);
 
   // Token state
-  const [
-    tokenData,
-    setTokenData,
-  ] = useState(null);
-
+  const [tokenData, setTokenData] = useState(null);
+  
   // UI state
-  const [
-    tokenLoading,
-    setTokenLoading,
-  ] = useState(false);
-  const [
-    error,
-    setError,
-  ] = useState(null);
+  const [tokenLoading, setTokenLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   // Generate a new UUID when the component mounts
   useEffect(() => {
     setExternalUserId(generateUUID());
   }, []);
 
-  // Get server code snippet wrapper function
+  // Get code snippet wrapper functions
   const getServerSnippet = () => getServerCodeSnippet(externalUserId);
-
-  // Get client code snippet wrapper function
   const getClientSnippet = () => getClientCodeSnippet(appSlug, tokenData);
 
   /**
-   * Generate a request token based on the browser environment
-   * This creates a token that matches what the API will generate
+   * Generate a token for the Connect demo
    */
-  function generateRequestToken() {
-    const baseString = `${navigator.userAgent}:${window.location.host}:connect-demo`;
-    return btoa(baseString);
-  }
-
-  // Generate token async function
   async function generateToken() {
     setTokenLoading(true);
     setError(null);
@@ -82,24 +54,7 @@ export function GlobalConnectProvider({ children }) {
     setConnectedAccount(null);
 
     try {
-      const requestToken = generateRequestToken();
-      const response = await fetch("/docs/api-demo-connect/token", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Request-Token": requestToken,
-        },
-        body: JSON.stringify({
-          external_user_id: externalUserId,
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to get token");
-      }
-
-      const data = await response.json();
+      const data = await generateConnectToken(externalUserId);
       setTokenData(data);
     } catch (err) {
       setError(err.message || "An error occurred");
@@ -108,37 +63,9 @@ export function GlobalConnectProvider({ children }) {
     }
   }
 
-  // Fetch account details from API
-  async function fetchAccountDetails(accountId) {
-    try {
-      // Fetch the account details from our API endpoint
-      const requestToken = generateRequestToken();
-      const response = await fetch(`/docs/api-demo-connect/accounts/${accountId}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Request-Token": requestToken,
-        },
-      });
-
-      if (!response.ok) {
-        console.warn("Failed to fetch account details", await response.text());
-        return {
-          id: accountId,
-        }; // Fall back to just the ID
-      }
-
-      const data = await response.json();
-      return data; // Return the full account details
-    } catch (err) {
-      console.warn("Error fetching account details:", err);
-      return {
-        id: accountId,
-      }; // Fall back to just the ID
-    }
-  }
-
-  // Connect account function
+  /**
+   * Connect an account using the Pipedream Connect SDK
+   */
   function connectAccount() {
     if (!tokenData?.token) {
       setError("Please generate a token first");
@@ -153,7 +80,7 @@ export function GlobalConnectProvider({ children }) {
         app: appSlug,
         token: tokenData.token,
         onSuccess: async (account) => {
-          // Initialize with just the ID
+          // Initialize with just the ID and loading state
           setConnectedAccount({
             id: account.id,
             loading: true,
@@ -172,7 +99,7 @@ export function GlobalConnectProvider({ children }) {
           setTokenData(null);
         },
         onError: (err) => {
-          setError(err.message || "Failed to connect account, please refresh the page and try again.");
+          setError(err.message || "Failed to connect account");
         },
         onClose: () => {
           // Dialog closed by user - no action needed
@@ -183,8 +110,8 @@ export function GlobalConnectProvider({ children }) {
     }
   }
 
-  // Create value object
-  const value = {
+  // Create context value object
+  const contextValue = {
     // State
     appSlug,
     externalUserId,
@@ -204,13 +131,15 @@ export function GlobalConnectProvider({ children }) {
   };
 
   return (
-    <GlobalConnectContext.Provider value={value}>
+    <GlobalConnectContext.Provider value={contextValue}>
       {children}
     </GlobalConnectContext.Provider>
   );
 }
 
-// Custom hook for using the context
+/**
+ * Custom hook for accessing the Connect demo context
+ */
 export function useGlobalConnect() {
   const context = useContext(GlobalConnectContext);
   if (!context) {
