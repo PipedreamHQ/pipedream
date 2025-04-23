@@ -1,5 +1,6 @@
+import { ConfigurationError } from "@pipedream/platform";
+import { parseObject } from "../../common/utils.mjs";
 import peerdom from "../../peerdom.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "peerdom-update-role",
@@ -15,51 +16,84 @@ export default {
         "roleId",
       ],
     },
-    roleName: {
+    name: {
       propDefinition: [
         peerdom,
-        "roleName",
+        "name",
       ],
       optional: true,
     },
-    description: {
+    parentId: {
       propDefinition: [
         peerdom,
-        "description",
+        "groupId",
+      ],
+    },
+    electable: {
+      propDefinition: [
+        peerdom,
+        "electable",
       ],
       optional: true,
     },
-    linkedDomains: {
+    external: {
       propDefinition: [
         peerdom,
-        "linkedDomains",
+        "external",
+      ],
+      optional: true,
+    },
+    color: {
+      propDefinition: [
+        peerdom,
+        "color",
+      ],
+      optional: true,
+    },
+    shape: {
+      propDefinition: [
+        peerdom,
+        "shape",
+      ],
+      optional: true,
+    },
+    customFields: {
+      propDefinition: [
+        peerdom,
+        "customFields",
+      ],
+      optional: true,
+    },
+    groupEmail: {
+      propDefinition: [
+        peerdom,
+        "groupEmail",
       ],
       optional: true,
     },
   },
   async run({ $ }) {
-    const data = {
-      ...(this.roleName && {
-        name: this.roleName,
-      }),
-      ...(this.description && {
-        customFields: {
-          Description: this.description,
-        },
-      }),
-      ...(this.linkedDomains && {
-        customFields: {
-          LinkedDomains: this.linkedDomains,
-        },
-      }),
-    };
+    try {
+      const {
+        peerdom,
+        roleId,
+        customFields,
+        ...data
+      } = this;
 
-    const response = await this.peerdom.updateRole({
-      roleId: this.roleId,
-      ...data,
-    });
+      const response = await peerdom.updateRole({
+        $,
+        roleId,
+        data: {
+          ...data,
+          customFields: parseObject(customFields),
+        },
+      });
 
-    $.export("$summary", `Successfully updated role with ID ${this.roleId}`);
-    return response;
+      $.export("$summary", `Successfully updated role with ID ${this.roleId}`);
+      return response;
+    } catch ({ response }) {
+      throw new ConfigurationError(response.data.message);
+    }
   },
 };

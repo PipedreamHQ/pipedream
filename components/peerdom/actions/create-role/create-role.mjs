@@ -1,50 +1,96 @@
+import { ConfigurationError } from "@pipedream/platform";
+import { parseObject } from "../../common/utils.mjs";
 import peerdom from "../../peerdom.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "peerdom-create-role",
   name: "Create Role",
   description: "Create a new role within a specified circle. [See the documentation](https://api.peerdom.org/v1/docs)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     peerdom,
-    circleId: {
+    name: {
       propDefinition: [
         peerdom,
-        "circleId",
+        "name",
       ],
     },
-    roleName: {
+    mapId: {
       propDefinition: [
         peerdom,
-        "roleName",
+        "mapId",
       ],
     },
-    description: {
+    parentId: {
       propDefinition: [
         peerdom,
-        "description",
+        "groupId",
+      ],
+    },
+    electable: {
+      propDefinition: [
+        peerdom,
+        "electable",
       ],
       optional: true,
     },
-    linkedDomains: {
+    external: {
       propDefinition: [
         peerdom,
-        "linkedDomains",
+        "external",
+      ],
+      optional: true,
+    },
+    color: {
+      propDefinition: [
+        peerdom,
+        "color",
+      ],
+      optional: true,
+    },
+    shape: {
+      propDefinition: [
+        peerdom,
+        "shape",
+      ],
+      optional: true,
+    },
+    customFields: {
+      propDefinition: [
+        peerdom,
+        "customFields",
+      ],
+      optional: true,
+    },
+    groupEmail: {
+      propDefinition: [
+        peerdom,
+        "groupEmail",
       ],
       optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.peerdom.createRole({
-      circleId: this.circleId,
-      roleName: this.roleName,
-      description: this.description,
-      linkedDomains: this.linkedDomains,
-    });
+    try {
+      const {
+        peerdom,
+        customFields,
+        ...data
+      } = this;
 
-    $.export("$summary", `Successfully created role: ${response.name}`);
-    return response;
+      const response = await peerdom.createRole({
+        $,
+        data: {
+          ...data,
+          customFields: parseObject(customFields),
+        },
+      });
+
+      $.export("$summary", `Successfully created role: ${response.name}`);
+      return response;
+    } catch ({ response }) {
+      throw new ConfigurationError(response.data.message);
+    }
   },
 };
