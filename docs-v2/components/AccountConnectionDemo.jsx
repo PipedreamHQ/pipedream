@@ -27,7 +27,6 @@ export default function AccountConnectionDemo() {
               value={appSlug}
               onChange={(e) => setAppSlug(e.target.value)}
               className="ml-2 p-1 border rounded text-sm"
-              disabled={!tokenData}
             >
               <option value="slack">Slack</option>
               <option value="github">GitHub</option>
@@ -64,12 +63,7 @@ export default function AccountConnectionDemo() {
           <div className="mt-4 p-3 bg-green-50 border border-green-200 text-green-800 rounded-md">
             <div className="font-medium text-sm">Account successfully connected!</div>
             <div className="mt-1 text-sm">
-              {connectedAccount.name && (
-                <div>Account name: <span className="font-medium">{connectedAccount.name}</span></div>
-              )}
-              {connectedAccount.id && (
-                <div>Account ID: <span className="font-mono text-xs">{connectedAccount.id}</span></div>
-              )}
+              <div>Account ID: <span className="font-mono text-xs">{connectedAccount.id}</span></div>
             </div>
           </div>
         )}

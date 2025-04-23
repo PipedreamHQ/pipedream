@@ -5,6 +5,7 @@ import VideoPlayer from "@/components/VideoPlayer"
 import { GlobalConnectProvider } from '@/components/GlobalConnectProvider'
 import TokenGenerationDemo from '@/components/TokenGenerationDemo'
 import AccountConnectionDemo from '@/components/AccountConnectionDemo'
+import ConnectLinkDemo from '@/components/ConnectLinkDemo'
 
 # Managed Auth Quickstart
 
@@ -123,14 +124,17 @@ Use this option when you can't execute JavaScript or open an iFrame in your envi
 
 The Connect Link URL opens a Pipedream-hosted page, guiding users through the account connection process. The URL is specific to the user and expires after 4 hours.
 
-1. First, [generate a token](#generate-a-short-lived-token) for your users
-2. Check out the [optional arguments](/connect/api/#create-a-new-token) to define redirect URLs on success or error 
-3. Extract the `connect_link_url` from the token response
-4. Before returning the URL to your user, add an `app` parameter to the end of the query string:
+After generating a token in the [step above](#generate-a-short-lived-token), you can use the resulting Connect Link URL. Try it below:
 
-```
-https://pipedream.com/_static/connect.html?token={token}&connectLink=true&app={appSlug}&oauthAppId={oauthAppId}
-```
+<div className="not-prose">
+  <ConnectLinkDemo />
+</div>
+
+<Callout type="info">
+Make sure to add the `app` parameter to the end of the URL to specify the app.
+
+Check out the [full API docs](/connect/api/#create-a-new-token) for all parameters you can pass when creating tokens, including setting redirect URLs for success or error cases.
+</Callout>
 
 ### Make authenticated requests
 
