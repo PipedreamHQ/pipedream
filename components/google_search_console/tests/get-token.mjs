@@ -65,14 +65,19 @@ new Promise((resolve, reject) => {
           console.log("Access Token:", data.access_token);
           console.log("Refresh Token:", data.refresh_token);
           console.log("Expires In:", data.expires_in);
+          console.log("Token retrieval complete. Shutting down server...");
+          process.exit(0);
         } else {
           console.error(" Failed to get tokens:", data);
+          process.exit(1);
         }
       })
       .catch((err) => {
         console.error("Error while exchanging code:", err);
+        process.exit(1);
       });
   })
   .catch((error) => {
     console.error("Error during authorization:", error);
+    process.exit(1);
   });

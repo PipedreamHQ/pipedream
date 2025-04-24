@@ -67,38 +67,38 @@ export default {
     aValidYMDDashDate : {
       value :   `2025-05-28`,
       jsType : "string",
-      extendedType : "ymlDashDate"
+      extendedType : "ymdDashDate"
     },
 
     
     aCharinYMDDashDate : {
       value :   `20G5-h5-28`,
       jsType : "string",
-      extendedType : "ymlDashDate"
+      extendedType : "ymdDashDate"
     },
 
     aShortYearYMDDashDate : {
       value :   `20-23-28`,
       jsType : "string",
-      extendedType : "ymlDashDate"
+      extendedType : "ymdDashDate"
     },
 
     aMonthOusideValYMDDashDate : {
     value :   `2025-23-28`,
     jsType : "string",
-    extendedType : "ymlDashDate"
+    extendedType : "ymdDashDate"
     },
 
     aDayOusideValYMDDashDate : {
       value :   `2025-12-56`,
       jsType : "string",
-      extendedType : "ymlDashDate"
+      extendedType : "ymdDashDate"
     },
 
     anInvalidSeparatorYMDDashDate : {
       value :   `2025/12.56`,
       jsType : "string",
-      extendedType : "ymlDashDate"
+      extendedType : "ymdDashDate"
     },
 
 
