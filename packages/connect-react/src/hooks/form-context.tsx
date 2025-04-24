@@ -182,8 +182,9 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       if (prop.hidden && prop.reloadProps) {
         // Get current value or default
         const value = configuredProps[prop.name as keyof ConfiguredProps<T>] ||
-                     ("default" in prop && prop.default != null ? prop.default : undefined);
-
+                      ("default" in prop && prop.default != null 
+                        ? prop.default 
+                        : undefined);
         // Call setConfiguredProp to trigger reload
         setConfiguredProp(idx, value);
       }
