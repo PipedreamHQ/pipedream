@@ -21,30 +21,28 @@ authUrl.searchParams.set("scope", scopes);
 authUrl.searchParams.set("access_type", "offline");
 authUrl.searchParams.set("prompt", "consent");
 
-
 new Promise((resolve, reject) => {
-    // Start a local HTTP server to catch Google's OAuth redirect
-    http.createServer((incomingRequest, outgoingResponse) => {
-      const fullRequestUrl = new URL(incomingRequest.url, `http://${incomingRequest.headers.host}`);
-      const authorizationCode = fullRequestUrl.searchParams.get("code");
+  // Start a local HTTP server to catch Google's OAuth redirect
+  http.createServer((incomingRequest) => {
+    const fullRequestUrl = new URL(incomingRequest.url, `http://${incomingRequest.headers.host}`);
+    const authorizationCode = fullRequestUrl.searchParams.get("code");
 
-      if (authorizationCode) {
-        console.log("AUTH CODE RECEIVED:", authorizationCode);
-        resolve(authorizationCode);
-      } else {
-        console.log("Unexpected request received — no code param found.");
-        reject("Unexpected request received — no code param.");
-      }
-    }).listen(3000, () => {
-      console.log("🌐 Listening on http://localhost:3000");
-      console.log("🔗 Opening browser for Google OAuth...");
-      open(authUrl.toString());
-    });
+    if (authorizationCode) {
+      console.log("AUTH CODE RECEIVED:", authorizationCode);
+      resolve(authorizationCode);
+    } else {
+      console.log("Unexpected request received — no code param found.");
+      reject("Unexpected request received — no code param.");
+    }
+  }).listen(3000, () => {
+    console.log("🌐 Listening on http://localhost:3000");
+    console.log("🔗 Opening browser for Google OAuth...");
+    open(authUrl.toString());
+  });
 })
-.then((authorizationCode) => {
+  .then((authorizationCode) => {
     console.log("✅ Got the code! Exchanging for tokens...");
-  
-  
+
     fetch("https://oauth2.googleapis.com/token", {
       method: "POST",
       headers: {
@@ -53,7 +51,7 @@ new Promise((resolve, reject) => {
       body: new URLSearchParams({
         code: authorizationCode,
         client_id: clientId,
-        client_secret: "*CLIENT SECRET HERE", 
+        client_secret: "*CLIENT SECRET HERE",
         redirect_uri: redirectUri,
         grant_type: "authorization_code",
       }),

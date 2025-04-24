@@ -20,7 +20,9 @@
 import mockery$ from "../mockery-dollar.mjs";
 import { axios } from "@pipedream/platform";
 import gsConsole from "../../google_search_console.app.mjs";
-import {removeCustomPropFields, trimIfString } from "../../common/utils.mjs"
+import {
+  removeCustomPropFields, trimIfString,
+} from "../../common/utils.mjs";
 
 // Define prop metadata separately and spread it into the props object.
 // Useful for accessing extended metadata during runtime — available because it stays in closure.
@@ -36,12 +38,17 @@ const mockeryData = {
   endDate: "2025-12-31",
 
   // Recommended
-  dimensions: ["query", "page", "country", "device"], // valid values only
+  dimensions: [
+    "query",
+    "page",
+    "country",
+    "device",
+  ], // valid values only
 
   searchType: "web", // one of: web, image, video, news, googleNews, discover
 
   rowLimit: 10,
-  
+
   startRow: 0, // Optional pagination
 
   // Optional but valid
@@ -68,11 +75,8 @@ const mockeryData = {
   ],
 };
 
-
-
 const propsMeta = {
 
-  
   siteUrl: {
     type: "string",
     extendedType: "url",
@@ -102,7 +106,14 @@ const propsMeta = {
     type: "string",
     label: "Search Type",
     optional: true,
-    options: ["web", "image", "video", "news", "googleNews", "discover"],
+    options: [
+      "web",
+      "image",
+      "video",
+      "news",
+      "googleNews",
+      "discover",
+    ],
     default: "web",
     postBody: true,
   },
@@ -110,7 +121,10 @@ const propsMeta = {
     type: "string",
     label: "Aggregation Type",
     optional: true,
-    options: ["auto", "byPage"],
+    options: [
+      "auto",
+      "byPage",
+    ],
     postBody: true,
   },
   rowLimit: {
@@ -136,19 +150,20 @@ const propsMeta = {
     type: "string",
     label: "Data State",
     optional: true,
-    options: ["all", "final"],
+    options: [
+      "all",
+      "final",
+    ],
     default: "final",
     postBody: true,
   },
-
-
 
 };
 
 const testAction = {
 
   ...mockeryData,
-  
+
   name: "Get Site Performance Data",
   description: "Fetches search analytics data for a verified site.",
   key: "get_search_console_analytics",
@@ -156,36 +171,35 @@ const testAction = {
   type: "action",
   props: {
     gsConsole,
-   // Remove custom prop metadata and spread only valid prop fields
+    // Remove custom prop metadata and spread only valid prop fields
     ...removeCustomPropFields(propsMeta),
   },
 
-
-  async run({$}) {
+  async run({ $ }) {
 
     // body for POST request. Will be filled in the following loop.
     const body = {};
 
-    // warnings accumulator 
+    // warnings accumulator
     let warnings = [];
 
     /* This loop performs the following tasks:
    - Validates user input
    - Populates the `body` object for the upcoming POST request
    - Accumulates messages to display to the user at the end of the action
-*/ 
-    for (let propName in propsMeta){
+*/
+    for (let propName in propsMeta) {
 
       console.log("===VALUE", this[propName]);
       const meta = propsMeta[propName];
 
-       // Trim the input if it's a string
-       this[propName] = trimIfString(this[propName]);
+      // Trim the input if it's a string
+      this[propName] = trimIfString(this[propName]);
 
-       // If the optional prop is undefined, null, or a blank string — skip it
-      if (meta.optional === true && ((this[propName] ?? '') === '')) continue;
-      
-       // Validate the input and throw an error if it's invalid.
+      // If the optional prop is undefined, null, or a blank string — skip it
+      if (meta.optional === true && ((this[propName] ?? "") === "")) continue;
+
+      // Validate the input and throw an error if it's invalid.
       // Also return an empty string or a warning message, if applicable
       const validationResult = gsConsole.methods.validateUserInput(meta, this[propName]);
 
@@ -195,7 +209,7 @@ const testAction = {
       // If the prop should be included in the POST request, add it to the body
       if (meta.postBody === true) body[propName] = this[propName];
 
-      console.log(" SUCCESS"); 
+      console.log(" SUCCESS");
     };
 
     // Trimmed in loop above
@@ -205,32 +219,29 @@ const testAction = {
     let response;
 
     try {
-        response = await axios($, {
-          method: "POST",
-          url: `https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(url)}/searchAnalytics/query`,
-          headers: {
-             // TEMP: Local-only token for manual testing. Do not commit this to source control.
-            Authorization: `Bearer  *HARDCODED TOKEN HERE*`,
-            "Content-Type": "application/json",
-          },
-          data: body,
-       })
+      response = await axios($, {
+        method: "POST",
+        url: `https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(url)}/searchAnalytics/query`,
+        headers: {
+          // TEMP: Local-only token for manual testing. Do not commit this to source control.
+          "Authorization": "Bearer  *HARDCODED TOKEN HERE*",
+          "Content-Type": "application/json",
+        },
+        data: body,
+      });
 
     } catch (error) {
- // Check who threw the error. Internal code or the request. To ease debugging.
+      // Check who threw the error. Internal code or the request. To ease debugging.
       const thrower = gsConsole.methods.checkWhoThrewError(error);
-                                            
+
       throw new Error(`Failed to fetch data ( ${thrower.whoThrew} error ) : ${error.message}. `  + warnings.join("\n- "));
-    
+
     };
-    
 
     $.export("$summary", ` Fetched ${response.rows?.length || 0} rows of data. ` + warnings.join("\n- "));
     return response;
   },
 };
-
-
 
 // await is just in case if node wants to finish its job before time =)
 async function runTest() {

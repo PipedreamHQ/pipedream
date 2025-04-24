@@ -5,30 +5,26 @@
 
 import { axios } from "@pipedream/platform";
 import gsConsole from "../../google_search_console.app.mjs";
-import { trimIfString } from "../../common/utils.mjs"
+import { trimIfString } from "../../common/utils.mjs";
 
-
- 
 export default {
 
   name: "Submit URL for Indexing",
   description: "Sends a URL update notification to the Google Indexing API",
-  key: "submit-url-for-indexing",
+  key: "google_search_console-submit-url-for-indexing",
   version: "0.0.1",
   type: "action",
   props: {
     gsConsole,
-    siteUrl : {
-      type: "string", 
-      label: "URL for indexing", 
-      description: "URL to be submitted for indexing"
+    siteUrl: {
+      type: "string",
+      label: "URL for indexing",
+      description: "URL to be submitted for indexing",
     },
   },
 
-
   //=================== RUN ==============================
   //======================================================
-
 
   async run({ $ }) {
 
@@ -37,7 +33,7 @@ export default {
     // Accumulator for non-blocking warnings
     let warnings = [];
 
-      /*
+    /*
       Validate the submitted site URL.
       - May throw if invalid
       - May return warnings for issues like suspicious characters
@@ -45,7 +41,6 @@ export default {
     const urlCheck = this.gsConsole.checkIfUrlValid(this.siteUrl);
 
     if (urlCheck.warnings) warnings.push(...urlCheck.warnings);
-
 
     // Prepare the API response object
     let response;
@@ -56,8 +51,7 @@ export default {
         method: "POST",
         url: "https://indexing.googleapis.com/v3/urlNotifications:publish",
         headers: {
-
-          Authorization: `Bearer ${this.gsConsole.$auth.oauth_access_token}`,
+          "Authorization": `Bearer ${this.gsConsole.$auth.oauth_access_token}`,
           "Content-Type": "application/json",
         },
         data: {
@@ -74,13 +68,13 @@ export default {
         Helps distinguish between coding issues vs API issues.
       */
       const thrower = gsConsole.methods.checkWhoThrewError(error);
-                                                  
+
       throw new Error(`Failed to fetch data ( ${thrower.whoThrew} error ) : ${error.message}. ` + warnings.join("\n- "));
-          
+
     };
     // Output a summary message and any accumulated warnings
     $.export("$summary", ` URL submitted to Google: ${this.siteUrl}`  + warnings.join("\n- "));
-     // Return the raw API response
+    // Return the raw API response
     return response;
   },
 };
