@@ -85,7 +85,7 @@ export default {
     color: {
       type: "string",
       label: "Color",
-      description: "The choice of color for the node in hexa decimal string format",
+      description: "The choice of color for the node in hexadecimal string format, e.g. `#f3a935`",
     },
     shape: {
       type: "string",
