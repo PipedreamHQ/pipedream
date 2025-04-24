@@ -193,8 +193,8 @@ throwIfNotObjectOrArray(input, reason) {
     if (dubiousMatches) {
       const uniqueChars = [...new Set(dubiousMatches)].join(" ");
      
-         warnings.push(`*!* URL contains dubious or non-standard characters " ${uniqueChars} " ` + 
-          `that may be rejected by Google. Proceed only if you know what you are doing.  ${this._reasonMsg(reason)}*!*`) ;
+         warnings.push(` URL contains dubious or non-standard characters " ${uniqueChars} " ` + 
+          `that may be rejected by Google. Proceed only if you know what you are doing.  ${this._reasonMsg(reason)}`) ;
     };
 
     // urlObject for further use if the next check passes.
@@ -206,8 +206,8 @@ throwIfNotObjectOrArray(input, reason) {
       // Warn if user typed only one slash (e.g., https:/)
       if (/^(https?):\/(?!\/)/.test(input)) {
 
-         warnings.push(`*!* It looks like you're missing one slash after "${urlObject.protocol}".` + 
-        `Did you mean "${urlObject.protocol}//..."? ${this._reasonMsg(reason)} *!*`);
+         warnings.push(` It looks like you're missing one slash after "${urlObject.protocol}".` + 
+        `Did you mean "${urlObject.protocol}//..."? ${this._reasonMsg(reason)} `);
         
       };
 
@@ -217,11 +217,11 @@ throwIfNotObjectOrArray(input, reason) {
           // If it works then there was no protocol in the input string;
           urlObject = new URL("http://" + trimmedInput); 
 
-          warnings.push(`*!* URL does not have http or https protocol *!*"`);
+          warnings.push(` URL does not have http or https protocol "`);
                     
         } catch(err) {
           // If after all checks we are here that means that the url contain potentially unacceptable characters.
-          warnings.push(`*!* URL contains potentionally unacceptable characters*!*"  ${this._reasonMsg(reason)}`);
+          warnings.push(` URL contains potentionally unacceptable characters"  ${this._reasonMsg(reason)}`);
 
         };
 

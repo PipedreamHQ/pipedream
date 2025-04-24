@@ -180,12 +180,12 @@ export default {
        // Identify if the error was thrown by internal validation or by the API call
       const thrower = this.gsConsole.checkWhoThrewError(error);
                                             
-      throw new Error(`Failed to fetch data ( ${thrower.whoThrew} error ) : ${error.message}. ` + warnings.join("*!*"));
+      throw new Error(`Failed to fetch data ( ${thrower.whoThrew} error ) : ${error.message}. ` + warnings.join("\n- "));
     
     };
     
     // Output summary and any warnings for the user
-    $.export("$summary", ` Fetched ${response.rows?.length || 0} rows of data. ` + warnings.join("*!*"));
+    $.export("$summary", ` Fetched ${response.rows?.length || 0} rows of data. ` + warnings.join("\n- "));
     return response;
   },
 };

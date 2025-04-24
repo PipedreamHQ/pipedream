@@ -61,7 +61,7 @@ const testAction = { // TEST ONLY. Replace to export in real code
         url: "https://indexing.googleapis.com/v3/urlNotifications:publish",
         headers: {
           // Tested with real hardcoded token that had required scopes.
-          Authorization: `Bearer *HARDCODED TOKEN HERE*`,
+          Authorization: `Bearer *HARDCODED TOKEN HERE*`, // Replace with a token from get-token.mjs with scope: "https://www.googleapis.com/auth/indexing".
           "Content-Type": "application/json",
         },
         data: {
@@ -73,11 +73,11 @@ const testAction = { // TEST ONLY. Replace to export in real code
       // Check who threw the error. Internal code or the request. To ease debugging.
       const thrower = gsConsole.methods.checkWhoThrewError(error);
                                                   
-      throw new Error(`Failed to fetch data ( ${thrower.whoThrew} error ) : ${error.message}. ` + warnings.join("*!*"));
+      throw new Error(`Failed to fetch data ( ${thrower.whoThrew} error ) : ${error.message}. ` + warnings.join("\n- "));
           
     };
 
-    $.export("$summary", ` URL submitted to Google: ${this.siteUrl}`  + warnings.join("*!*"));
+    $.export("$summary", ` URL submitted to Google: ${this.siteUrl}`  + warnings.join("\n- "));
     return response;
   },
 };

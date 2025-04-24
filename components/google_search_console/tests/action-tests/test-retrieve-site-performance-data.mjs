@@ -176,7 +176,7 @@ const testAction = {
 */ 
     for (let propName in propsMeta){
 
-      console.log("===VALUE", this[propName]); // TEST ONLY
+      console.log("===VALUE", this[propName]);
       const meta = propsMeta[propName];
 
        // Trim the input if it's a string
@@ -195,7 +195,7 @@ const testAction = {
       // If the prop should be included in the POST request, add it to the body
       if (meta.postBody === true) body[propName] = this[propName];
 
-      console.log(" SUCCESS"); // TEST ONLY
+      console.log(" SUCCESS"); 
     };
 
     // Trimmed in loop above
@@ -220,12 +220,12 @@ const testAction = {
  // Check who threw the error. Internal code or the request. To ease debugging.
       const thrower = gsConsole.methods.checkWhoThrewError(error);
                                             
-      throw new Error(`Failed to fetch data ( ${thrower.whoThrew} error ) : ${error.message}. `);
+      throw new Error(`Failed to fetch data ( ${thrower.whoThrew} error ) : ${error.message}. `  + warnings.join("\n- "));
     
     };
     
 
-    $.export("$summary", ` Fetched ${response.rows?.length || 0} rows of data. ` + warnings.join("*!*"));
+    $.export("$summary", ` Fetched ${response.rows?.length || 0} rows of data. ` + warnings.join("\n- "));
     return response;
   },
 };

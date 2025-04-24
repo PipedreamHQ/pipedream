@@ -5,7 +5,7 @@
 
 import { axios } from "@pipedream/platform";
 import gsConsole from "../../google_search_console.app.mjs";
-import {trimIfString } from "../../common/utils.mjs"
+import { trimIfString } from "../../common/utils.mjs"
 
 
  
@@ -57,7 +57,7 @@ export default {
         url: "https://indexing.googleapis.com/v3/urlNotifications:publish",
         headers: {
 
-          Authorization: `Bearer  ${this.gsConsole.$auth.oauth_access_token}`,
+          Authorization: `Bearer ${this.gsConsole.$auth.oauth_access_token}`,
           "Content-Type": "application/json",
         },
         data: {
@@ -75,11 +75,11 @@ export default {
       */
       const thrower = gsConsole.methods.checkWhoThrewError(error);
                                                   
-      throw new Error(`Failed to fetch data ( ${thrower.whoThrew} error ) : ${error.message}. ` + warnings.join("*!*"));
+      throw new Error(`Failed to fetch data ( ${thrower.whoThrew} error ) : ${error.message}. ` + warnings.join("\n- "));
           
     };
     // Output a summary message and any accumulated warnings
-    $.export("$summary", ` URL submitted to Google: ${this.siteUrl}`  + warnings.join("*!*"));
+    $.export("$summary", ` URL submitted to Google: ${this.siteUrl}`  + warnings.join("\n- "));
      // Return the raw API response
     return response;
   },
