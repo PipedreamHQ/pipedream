@@ -80,7 +80,7 @@ export default {
     external: {
       type: "boolean",
       label: "External",
-      description: "Set external to true if node is outside of the organization",
+      description: "Set to `true` if node is outside of the organization",
     },
     color: {
       type: "string",
