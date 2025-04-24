@@ -57,7 +57,23 @@ export const ALLOWED_ORIGINS = getAllowedOrigins();
  * Used to verify requests are coming from our frontend
  */
 export function generateRequestToken(req) {
-  const baseString = `${req.headers["user-agent"]}:${req.headers["host"]}:connect-demo`;
+  // Try to use x-forwarded-host or origin's hostname instead of host to handle domain mapping
+  // This handles the case where the request goes through a reverse proxy or domain mapping
+  let effectiveHost = req.headers["host"];
+
+  // If there's an origin header, extract its hostname
+  // as it will match the client's window.location.host
+  if (req.headers.origin) {
+    try {
+      const originUrl = new URL(req.headers.origin);
+      effectiveHost = originUrl.host;
+    } catch (e) {
+      // Fall back to host header if origin parsing fails
+      console.log("Error parsing origin:", e.message);
+    }
+  }
+
+  const baseString = `${req.headers["user-agent"]}:${effectiveHost}:connect-demo`;
   return Buffer.from(baseString).toString("base64");
 }
 
@@ -129,36 +145,6 @@ export function validateRequest(req, res, allowedMethod) {
 
   // Request token validation to prevent API automation
   const expectedToken = generateRequestToken(req);
-
-  // Debug logging to diagnose token validation issues
-  console.log("Request headers:", {
-    host: req.headers.host,
-    origin: req.headers.origin,
-    referer: req.headers.referer,
-    // Truncate user-agent to avoid huge logs
-    userAgent: req.headers["user-agent"]?.substring(0, 50) + "...",
-  });
-
-  // Log token information
-  console.log("Token comparison:", {
-    received: requestToken,
-    expected: expectedToken,
-    matches: requestToken === expectedToken,
-  });
-
-  // If there's a mismatch, decode both tokens to see what's different
-  if (requestToken !== expectedToken) {
-    try {
-      const decodedReceived = Buffer.from(requestToken, "base64").toString();
-      const decodedExpected = Buffer.from(expectedToken, "base64").toString();
-      console.log("Decoded tokens:", {
-        received: decodedReceived,
-        expected: decodedExpected,
-      });
-    } catch (e) {
-      console.log("Error decoding tokens:", e.message);
-    }
-  }
 
   if (!requestToken || requestToken !== expectedToken) {
     return res.status(403).json({
