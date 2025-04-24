@@ -3,7 +3,9 @@
  * Retrieves information about connected accounts for the interactive demo
  */
 import { createBackendClient } from "@pipedream/sdk/server";
-import { createApiHandler } from "../utils";
+import {
+  createApiHandler, generateRequestToken,
+} from "../utils";
 
 /**
  * Handler for account details retrieval
@@ -16,6 +18,15 @@ async function accountHandler(req, res) {
       error: "Account ID is required",
     });
   }
+
+  // Debug logging for troubleshooting token validation
+  console.log("Account API request:", {
+    id,
+    host: req.headers.host,
+    origin: req.headers.origin,
+    requestToken: req.headers["x-request-token"],
+    expectedToken: generateRequestToken(req),
+  });
 
   try {
     // Initialize the Pipedream SDK client
