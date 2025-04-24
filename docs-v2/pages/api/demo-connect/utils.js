@@ -129,6 +129,37 @@ export function validateRequest(req, res, allowedMethod) {
 
   // Request token validation to prevent API automation
   const expectedToken = generateRequestToken(req);
+
+  // Debug logging to diagnose token validation issues
+  console.log("Request headers:", {
+    host: req.headers.host,
+    origin: req.headers.origin,
+    referer: req.headers.referer,
+    // Truncate user-agent to avoid huge logs
+    userAgent: req.headers["user-agent"]?.substring(0, 50) + "...",
+  });
+
+  // Log token information
+  console.log("Token comparison:", {
+    received: requestToken,
+    expected: expectedToken,
+    matches: requestToken === expectedToken,
+  });
+
+  // If there's a mismatch, decode both tokens to see what's different
+  if (requestToken !== expectedToken) {
+    try {
+      const decodedReceived = Buffer.from(requestToken, "base64").toString();
+      const decodedExpected = Buffer.from(expectedToken, "base64").toString();
+      console.log("Decoded tokens:", {
+        received: decodedReceived,
+        expected: decodedExpected,
+      });
+    } catch (e) {
+      console.log("Error decoding tokens:", e.message);
+    }
+  }
+
   if (!requestToken || requestToken !== expectedToken) {
     return res.status(403).json({
       error: "Access denied",
