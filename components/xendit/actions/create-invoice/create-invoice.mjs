@@ -54,10 +54,40 @@ export default {
       description: "Mobile phone number of the customer in E164 format",
       optional: true,
     },
-    addresses: {
-      type: "string[]",
-      label: "Addresses",
-      description: "A list of objects of customer's addresses",
+    addressCity: {
+      type: "string",
+      label: "City",
+      description: "The city of the customer",
+      optional: true,
+    },
+    addressCountry: {
+      type: "string",
+      label: "Country",
+      description: "The country of the customer",
+      optional: true,
+    },
+    addressPostalCode: {
+      type: "string",
+      label: "Postal Code",
+      description: "The postal code of the customer",
+      optional: true,
+    },
+    addressstate: {
+      type: "string",
+      label: "State",
+      description: "The state of the customer",
+      optional: true,
+    },
+    addressLine1: {
+      type: "string",
+      label: "Address Line 1",
+      description: "The address line 1 of the customer",
+      optional: true,
+    },
+    addressLine2: {
+      type: "string",
+      label: "Address Line 2",
+      description: "The address line 2 of the customer",
       optional: true,
     },
     invoiceCreatedNotification: {
@@ -150,7 +180,16 @@ export default {
           surname: this.surname,
           email: this.email,
           mobile_number: this.mobileNumber,
-          addresses: parseObject(this.addresses),
+          addresses: [
+            {
+              city: this.addressCity,
+              country: this.addressCountry,
+              postal_code: this.addressPostalCode,
+              state: this.addressstate,
+              street_line1: this.addressLine1,
+              street_line2: this.addressLine2,
+            },
+          ],
         },
         customer_notification_preference: {
           invoice_created: parseObject(this.invoiceCreatedNotification),

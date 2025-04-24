@@ -92,7 +92,7 @@ export default {
           account_number: this.accountNumber,
           account_type: this.accountType,
         },
-        amount: this.amount,
+        amount: parseFloat(this.amount),
         description: this.description,
         currency: this.currency,
         receipt_notification: {
