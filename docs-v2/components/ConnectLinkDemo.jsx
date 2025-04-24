@@ -108,8 +108,10 @@ export default function ConnectLinkDemo() {
             You can send this link to your users via email, SMS, or chat.
           </p>
           <p className={`mt-2 ${styles.text.small}`}>
-            <strong className={styles.text.strongMuted}>Note:</strong> Connect tokens are single-use. After a successful connection,
-            you&apos;ll need to generate a new token.
+            <strong className={styles.text.strongMuted}>
+              Note:
+            </strong>
+            {" "}Connect tokens are single-use. After a successful connection, you&apos;ll need to generate a new token.
           </p>
         </div>
       </div>
