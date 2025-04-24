@@ -550,6 +550,14 @@ export default withNextra({
         source: "/subprocessors",
         destination: "/hidden/subprocessors",
       },
+      {
+        source: "/api-demo-connect/token",
+        destination: "/api/demo-connect/token",
+      },
+      {
+        source: "/api-demo-connect/accounts/:id",
+        destination: "/api/demo-connect/accounts/:id",
+      },
     ];
   },
   env: {
