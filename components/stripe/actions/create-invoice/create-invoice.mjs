@@ -81,7 +81,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const resp = await this.app.sdk().invoices.create({
+    const resp = await this.app.sdk("2022-11-15").invoices.create({
       ...pick(this, [
         "customer",
         "subscription",

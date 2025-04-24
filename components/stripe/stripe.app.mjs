@@ -656,9 +656,9 @@ export default {
     _apiKey() {
       return this.$auth.api_key;
     },
-    sdk() {
+    sdk(apiVersion = "2020-03-02") {
       return stripe(this._apiKey(), {
-        apiVersion: "2022-11-15",
+        apiVersion,
         maxNetworkRetries: 2,
       });
     },
