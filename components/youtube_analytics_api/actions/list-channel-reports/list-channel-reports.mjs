@@ -7,13 +7,13 @@ export default {
   ...common,
   key: "youtube_analytics_api-list-channel-reports",
   name: "List Channel Reports",
-  description: "Fetch summary analytics reports for a specified youtube channel. Optional filters include date range and report type. [See the documentation](https://developers.google.com/youtube/analytics/reference/reports/query)",
-  version: "0.0.1",
+  description:
+    "Fetch summary analytics reports for a specified youtube channel. Optional filters include date range and report type. [See the documentation](https://developers.google.com/youtube/analytics/reference/reports/query)",
+  version: "0.0.2",
   type: "action",
   additionalProps() {
     const {
-      getIdsProps,
-      getReportTypeProps,
+      getIdsProps, getReportTypeProps,
     } = this;
 
     return {
@@ -26,16 +26,19 @@ export default {
     getReportTypeProps() {
       const { channelReportType } = this;
       const {
-        VIDEO_BASIC_USER_ACTIVITY_STATS,
-        PLAYLIST_BASIC_STATS,
-      } = constants.CHANNEL_REPORT_TYPE;
+        VIDEO_BASIC_USER_ACTIVITY_STATS, PLAYLIST_BASIC_STATS,
+      } =
+        constants.CHANNEL_REPORT_TYPE;
 
       if (channelReportType === VIDEO_BASIC_USER_ACTIVITY_STATS.value) {
-        const supportedFilters = VIDEO_BASIC_USER_ACTIVITY_STATS.metadata.filters
-          .reduce((acc, filter) => ({
-            ...acc,
-            [filter]: "",
-          }), {});
+        const supportedFilters =
+          VIDEO_BASIC_USER_ACTIVITY_STATS.metadata.filters.reduce(
+            (acc, filter) => ({
+              ...acc,
+              [filter]: "",
+            }),
+            {},
+          );
 
         return {
           channelReportType: propsFragments.channelReportType,
@@ -51,11 +54,13 @@ export default {
       }
 
       if (channelReportType === PLAYLIST_BASIC_STATS.value) {
-        const supportedFilters = PLAYLIST_BASIC_STATS.metadata.filters
-          .reduce((acc, filter) => ({
+        const supportedFilters = PLAYLIST_BASIC_STATS.metadata.filters.reduce(
+          (acc, filter) => ({
             ...acc,
             [filter]: "",
-          }), {});
+          }),
+          {},
+        );
 
         return {
           channelReportType: propsFragments.channelReportType,

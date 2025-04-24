@@ -337,6 +337,26 @@ export default withNextra({
         permanent: true,
       },
       {
+        source: "/components/guidelines/",
+        destination: "/components/contributing/guidelines/",
+        permanent: true,
+      },
+      {
+        source: "/components/actions-quickstart/",
+        destination: "/components/contributing/actions-quickstart/",
+        permanent: true,
+      },
+      {
+        source: "/components/sources-quickstart/",
+        destination: "/components/contributing/sources-quickstart/",
+        permanent: true,
+      },
+      {
+        source: "/components/typescript/",
+        destination: "/components/contributing/typescript/",
+        permanent: true,
+      },
+      {
         source: "/github-sync/",
         destination: "/workflows/git/",
         permanent: true,
@@ -529,6 +549,22 @@ export default withNextra({
       {
         source: "/subprocessors",
         destination: "/hidden/subprocessors",
+      },
+      {
+        source: "/api-demo-connect/token",
+        destination: "/api/demo-connect/token",
+      },
+      {
+        source: "/api-demo-connect/token/",
+        destination: "/api/demo-connect/token",
+      },
+      {
+        source: "/api-demo-connect/accounts/:id",
+        destination: "/api/demo-connect/accounts/:id",
+      },
+      {
+        source: "/api-demo-connect/accounts/:id/",
+        destination: "/api/demo-connect/accounts/:id",
       },
     ];
   },

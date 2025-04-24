@@ -1,7 +1,12 @@
 <!-- markdownlint-disable MD024 -->
+
 # Changelog
 
-# [1.0.1] - 2025-02-19
+# [1.0.2] - 2025-04-24
+
+- Updating README to remove note about this package being in early preview
+
+# [1.0.1] - 2025-04-16
 
 - remove bad polyfill (would break checking `document`)
 - handle bad `decode-named-character-reference` browser import via vite resolve.alias
@@ -20,7 +25,7 @@
 - Surface SDK errors in the form
 
 # [1.0.0-preview.27] - 2025-01-30
- 
+
 - Add styling to alerts
 
 # [1.0.0-preview.26] - 2025-01-29

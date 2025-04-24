@@ -390,7 +390,8 @@ curl https://api.pipedream.com/v1/apps
       "custom_fields_json": "[]",
       "categories": [
         "Communication"
-      ]
+      ],
+      "featured_weight": 1000000001
     },
     {
       "id": "app_mWnheL",
@@ -402,11 +403,16 @@ curl https://api.pipedream.com/v1/apps
       "custom_fields_json": "[{\"name\":\"bot_token\",\"label\":\"Bot Token\",\"description\":null,\"default\":null,\"optional\":null,\"type\":\"password\"}]",
       "categories": [
         "Communication"
-      ]
+      ],
+      "featured_weight": 4100
     }
   ]
 }
 ```
+
+<Callout type="info">
+The `apps` API returns a `featured_weight` for integrated apps, which powers the sort order on [pipedream.com/apps](https://pipedream.com/apps). Note that this is roughly based on popularity from Pipedream users, but is manually defined by Pipedream and is subject to change.
+</Callout>
 
 ### Get an App
 
@@ -449,6 +455,7 @@ curl https://api.pipedream.com/v1/apps/app_OkrhR1 \
     "categories": [
       "Communication"
     ]
+    "featured_weight": 1000000001
   }
 ]
 ```
