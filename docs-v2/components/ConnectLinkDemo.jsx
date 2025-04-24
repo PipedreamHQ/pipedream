@@ -5,6 +5,7 @@ import {
   useEffect,
 } from "react";
 import { useGlobalConnect } from "./GlobalConnectProvider";
+import { styles } from "../utils/componentStyles";
 
 export default function ConnectLinkDemo() {
   const {
@@ -38,8 +39,8 @@ export default function ConnectLinkDemo() {
   // No token data or connect_link_url - need to generate a token
   if (!tokenData?.connect_link_url) {
     return (
-      <div className="border border-gray-200 rounded-md p-4 mt-4">
-        <p className="text-sm text-gray-500">
+      <div className={`${styles.container} p-4`}>
+        <p className={styles.text.muted}>
           <a href="/docs/connect/managed-auth/quickstart/#generate-a-short-lived-token" className="font-semibold underline underline-offset-4 hover:decoration-2 decoration-brand/50">Generate a token above</a>
           {" "} to see a Connect Link URL here
         </p>
@@ -48,18 +49,18 @@ export default function ConnectLinkDemo() {
   }
 
   return (
-    <div className="border rounded-md overflow-hidden mt-4">
-      <div className="bg-gray-100 border-b px-4 py-2 font-medium text-sm">
+    <div className={styles.container}>
+      <div className={styles.header}>
         Connect Link URL
       </div>
       <div className="p-4">
         <div className="mb-4">
           <label className="flex items-center mb-4">
-            <span className="font-medium text-sm">App to connect:</span>
+            <span className={styles.label}>App to connect:</span>
             <select
               value={appSlug}
               onChange={(e) => setAppSlug(e.target.value)}
-              className="ml-2 p-1 border rounded text-sm"
+              className={styles.select}
             >
               <option value="slack">Slack</option>
               <option value="github">GitHub</option>
@@ -68,8 +69,8 @@ export default function ConnectLinkDemo() {
           </label>
 
           <div className="mb-4">
-            <div className="p-3 bg-gray-50 border border-gray-200 rounded-md">
-              <code className="text-sm break-all">{connectLinkUrl}</code>
+            <div className={styles.codeDisplay}>
+              <code className={styles.codeText}>{connectLinkUrl}</code>
             </div>
           </div>
         </div>
@@ -79,7 +80,7 @@ export default function ConnectLinkDemo() {
             href={connectLinkUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors disabled:opacity-50 font-medium text-sm inline-flex items-center"
+            className={`${styles.primaryButton} inline-flex items-center`}
           >
             Open Connect Link
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -91,7 +92,7 @@ export default function ConnectLinkDemo() {
             onClick={() => {
               navigator.clipboard.writeText(connectLinkUrl);
             }}
-            className="px-4 py-2 bg-gray-100 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-200 transition-colors font-medium text-sm inline-flex items-center"
+            className={styles.secondaryButton}
           >
             Copy URL
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -100,14 +101,14 @@ export default function ConnectLinkDemo() {
           </button>
         </div>
 
-        <div className="mt-4 text-sm text-gray-600">
+        <div className={`mt-4 ${styles.text.normal}`}>
           <p>
             This URL contains a Connect Token that expires in 4 hours
-            <strong> or after it&apos;s used once</strong>.
+            <strong className={styles.text.strong}> or after it&apos;s used once</strong>.
             You can send this link to your users via email, SMS, or chat.
           </p>
-          <p className="mt-2 text-xs text-gray-500">
-            <strong>Note:</strong> Connect tokens are single-use. After a successful connection,
+          <p className={`mt-2 ${styles.text.small}`}>
+            <strong className={styles.text.strongMuted}>Note:</strong> Connect tokens are single-use. After a successful connection,
             you&apos;ll need to generate a new token.
           </p>
         </div>

@@ -18,6 +18,15 @@ pre[class*="language-"] {
   -moz-hyphens: none;
   -ms-hyphens: none;
   hyphens: none;
+  text-shadow: none !important;
+}
+
+/* Dark mode overrides */
+html.dark code[class*="language-"],
+html.dark pre[class*="language-"] {
+  color: #e0e0e0;
+  background: none;
+  text-shadow: none !important;
 }
 
 .token.comment,
@@ -77,6 +86,62 @@ pre[class*="language-"] {
 .token.important,
 .token.variable {
   color: #e90;
+}
+
+/* Dark mode token styles */
+html.dark .token.comment,
+html.dark .token.prolog,
+html.dark .token.doctype,
+html.dark .token.cdata {
+  color: #8b9cb3;
+}
+
+html.dark .token.punctuation {
+  color: #bbb;
+}
+
+html.dark .token.property,
+html.dark .token.tag,
+html.dark .token.boolean,
+html.dark .token.number,
+html.dark .token.constant,
+html.dark .token.symbol,
+html.dark .token.deleted {
+  color: #f76d82;
+}
+
+html.dark .token.selector,
+html.dark .token.attr-name,
+html.dark .token.string,
+html.dark .token.char,
+html.dark .token.builtin,
+html.dark .token.inserted {
+  color: #a5d6a7;
+}
+
+html.dark .token.operator,
+html.dark .token.entity,
+html.dark .token.url,
+html.dark .language-css .token.string,
+html.dark .style .token.string {
+  color: #e6c07b;
+}
+
+html.dark .token.atrule,
+html.dark .token.attr-value,
+html.dark .token.keyword {
+  color: #61afef;
+}
+
+html.dark .token.function,
+html.dark .token.class-name {
+  color: #f06292;
+}
+
+html.dark .token.regex,
+html.dark .token.important,
+html.dark .token.variable {
+  color: #ffb74d;
 }
 
 .token.important,

@@ -2,6 +2,7 @@
 
 import { useGlobalConnect } from "./GlobalConnectProvider";
 import CodeBlock from "./CodeBlock";
+import { styles } from "../utils/componentStyles";
 
 export default function AccountConnectionDemo() {
   const {
@@ -15,18 +16,18 @@ export default function AccountConnectionDemo() {
   } = useGlobalConnect();
 
   return (
-    <div className="border rounded-md overflow-hidden mt-4">
-      <div className="bg-gray-100 border-b px-4 py-2 font-medium text-sm">
+    <div className={styles.container}>
+      <div className={styles.header}>
         Connect an account from your frontend
       </div>
       <div className="p-4">
         <div className="mb-4">
           <label className="flex items-center mb-4">
-            <span className="font-medium text-sm">App to connect:</span>
+            <span className={styles.label}>App to connect:</span>
             <select
               value={appSlug}
               onChange={(e) => setAppSlug(e.target.value)}
-              className="ml-2 p-1 border rounded text-sm"
+              className={styles.select}
             >
               <option value="google_sheets">Google Sheets</option>
               <option value="github">GitHub</option>
@@ -47,22 +48,22 @@ export default function AccountConnectionDemo() {
           <button
             onClick={connectAccount}
             disabled={!tokenData}
-            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors disabled:opacity-50 font-medium text-sm"
+            className={styles.primaryButton}
           >
             Connect Account
           </button>
-          {!tokenData && <p className="mt-2 text-sm text-gray-500"><a href="/docs/connect/managed-auth/quickstart/#generate-a-short-lived-token" className="font-semibold underline underline-offset-4 hover:decoration-2 decoration-brand/50">Generate a token above</a> in order to test the account connection flow</p>}
+          {!tokenData && <p className={`mt-2 ${styles.text.muted}`}><a href="/docs/connect/managed-auth/quickstart/#generate-a-short-lived-token" className="font-semibold underline underline-offset-4 hover:decoration-2 decoration-brand/50">Generate a token above</a> in order to test the account connection flow</p>}
         </div>
 
         {error && (
-          <div className="mt-4 p-3 bg-red-50 border border-red-200 text-red-800 rounded-md">
+          <div className={styles.statusBox.error}>
             <div className="font-medium text-sm">Error</div>
             <div className="mt-1 text-sm">{error}</div>
           </div>
         )}
 
         {connectedAccount && (
-          <div className="mt-4 p-3 bg-green-50 border border-green-200 text-green-800 rounded-md">
+          <div className={styles.statusBox.success}>
             <div className="font-medium text-sm">Successfully connected your {appSlug} account!</div>
             <div className="mt-4 text-sm">
               {connectedAccount.loading

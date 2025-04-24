@@ -3,7 +3,8 @@
 import {
   useState, useEffect,
 } from "react";
-import "prismjs/themes/prism.css";
+// We don't need the default Prism CSS as we're using our custom CSS
+// import "prismjs/themes/prism.css";
 
 // We'll dynamically import Prism on the client side only
 let Prism;
@@ -68,11 +69,11 @@ export default function CodeBlock({
 
   return (
     <div className={`relative group ${className}`}>
-      <pre className="overflow-x-auto rounded-lg font-medium border border-gray-200 bg-gray-50 p-4 text-[13px] leading-relaxed mb-0">
+      <pre className="overflow-x-auto rounded-lg font-medium border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-4 text-[13px] leading-relaxed mb-0">
         <div className="absolute top-2 right-2 z-10">
           <button
             onClick={copyToClipboard}
-            className="opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8 rounded-md bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 hover:text-gray-700 focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8 rounded-md bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300 focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
             aria-label={copied
               ? "Copied"
               : "Copy code"}
@@ -93,14 +94,14 @@ export default function CodeBlock({
         {isClient
           ? (
             <code
-              className={`language-${language} text-gray-800`}
+              className={`language-${language} text-gray-800 dark:text-gray-200 [text-shadow:none]`}
               dangerouslySetInnerHTML={{
                 __html: highlightedCode,
               }}
             />
           )
           : (
-            <code className={`language-${language} text-gray-800`}>{code}</code>
+            <code className={`language-${language} text-gray-800 dark:text-gray-200 [text-shadow:none]`}>{code}</code>
           )}
       </pre>
     </div>
