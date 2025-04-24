@@ -23,7 +23,9 @@ export default {
             value,
           })),
           context: {
-            token: payments[0].paymentDate,
+            token: payments.length
+              ? payments[0].paymentDate
+              : null,
           },
         };
       },
@@ -69,10 +71,8 @@ export default {
       let path;
       if (paymentMethod === "Multibanco") {
         path = "/multibanco/reference/init";
-        data.mbKey = this.$auth.mb_key;
       } else if (paymentMethod === "MB WAY") {
         path = "/spg/payment/mbway";
-        data.mbWayKey = this.$auth.mbWayKey;
       }
 
       return this._makeRequest({

@@ -44,7 +44,6 @@ export default {
       type: "string",
       label: "Mobile Number",
       description: "Place the country code before the mobile number without any spaces (use '#'' to separate the country code from the mobile number - p.e. 351#912345678)",
-      optional: true,
       hidden: true,
     },
     description: {
@@ -105,10 +104,14 @@ export default {
   async additionalProps(props) {
     const isMb = this.paymentMethod === "Multibanco";
 
-    props.mbKey.default = this.ifthenpay.$auth.mb_key;
+    props.mbKey.default = isMb
+      ? this.ifthenpay.$auth.mb_key
+      : null;
     props.mbKey.hidden = !isMb;
 
-    props.mbWayKey.default = this.ifthenpay.$auth.mbway_key;
+    props.mbWayKey.default = !isMb
+      ? this.ifthenpay.$auth.mbway_key
+      : null;
     props.mbWayKey.hidden = isMb;
     props.mobileNumber.hidden = isMb;
     props.url.hidden = isMb;
