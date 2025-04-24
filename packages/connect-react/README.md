@@ -1,7 +1,6 @@
 # Pipedream Connect-React
 
-> [!IMPORTANT]
-> This package is in early preview and is undergoing rapid development, polish, and expanding customization capabilities.
+> This package is actively maintained and is continuing to expand supported capabilities and overall developer experience.
 >
 > Please join [our community](https://pipedream.com/support) or reach out to `connect@pipedream.com` with feedback.
 
@@ -149,7 +148,7 @@ type ComponentFormProps = {
   onUpdateConfiguredProps: (v: Record<string, any>) => void;
   /** Hide optional props section */
   hideOptionalProps: boolean;
-  /** SDK response payload. Used in conjunction with enableDebugging to 
+  /** SDK response payload. Used in conjunction with enableDebugging to
    * show errors in the form. */
   sdkResponse: unknown[] | unknown | undefined;
   /** Whether to show show errors in the form. Requires sdkErrors to be set. */
