@@ -1,7 +1,7 @@
 import elevenlabs from "../../elevenlabs.app.mjs";
 
 export default {
-  key: "get-voices-with-descriptions",
+  key: "elevenlabs-get-voices-with-descriptions",
   name: "Get Voices with Descriptions",
   version: "0.0.1",
   description: "Fetches all available voices from ElevenLabs, including metadata like name, gender, accent, and category. [See the documentation](https://elevenlabs.io/docs/api-reference/voices/search)",
