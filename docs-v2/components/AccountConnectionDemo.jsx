@@ -63,7 +63,7 @@ export default function AccountConnectionDemo() {
         )}
 
         {connectedAccount && (
-          <div className={styles.statusBox.success}>
+          <div className={`${styles.statusBox.success} p-4`}>
             <div className="font-medium text-sm">Successfully connected your {appSlug} account!</div>
             <div className="mt-4 text-sm">
               {connectedAccount.loading

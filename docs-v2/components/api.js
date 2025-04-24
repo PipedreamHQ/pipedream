@@ -5,10 +5,14 @@
 /**
  * Generate a request token based on the browser environment
  * Creates a token that matches what the API will generate
+ *
+ * Note: Server-side uses the origin's hostname for token generation
+ * to handle domain mapping in production environments
  */
 export function generateRequestToken() {
   if (typeof window === "undefined") return "";
 
+  // Use the same origin's hostname that the server will use when generating the token
   const baseString = `${navigator.userAgent}:${window.location.host}:connect-demo`;
   return btoa(baseString);
 }
