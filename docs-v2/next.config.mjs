@@ -555,7 +555,15 @@ export default withNextra({
         destination: "/api/demo-connect/token",
       },
       {
+        source: "/api-demo-connect/token/",
+        destination: "/api/demo-connect/token",
+      },
+      {
         source: "/api-demo-connect/accounts/:id",
+        destination: "/api/demo-connect/accounts/:id",
+      },
+      {
+        source: "/api-demo-connect/accounts/:id/",
         destination: "/api/demo-connect/accounts/:id",
       },
     ];
