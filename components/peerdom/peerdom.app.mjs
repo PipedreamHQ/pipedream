@@ -10,7 +10,7 @@ export default {
     groupId: {
       type: "string",
       label: "Parent ID",
-      description: "The Id should be a valid group ID.",
+      description: "The ID should be a valid group ID.",
       async options() {
         const data = await this.listGroups();
 
