@@ -45,12 +45,12 @@ const testAction = { // TEST ONLY. Replace to export in real code
   },
   async run({ $ }) {
 
-    this.siteUrl = trimIfString(this.siteUrl);
+    this.url = trimIfString(this.url);
 
     // warnings accumulator
     let warnings = [];
 
-    const urlCheck = gsConsole.methods.checkIfUrlValid(this.siteUrl); // TEST ONLY. Replace to "this"
+    const urlCheck = gsConsole.methods.checkIfUrlValid(this.url); // TEST ONLY. Replace to "this"
 
     if (urlCheck.warnings) warnings.push(...urlCheck.warnings);
 
@@ -67,7 +67,7 @@ const testAction = { // TEST ONLY. Replace to export in real code
           "Content-Type": "application/json",
         },
         data: {
-          url: this.siteUrl,
+          url: this.url,
           type: "URL_UPDATED",
         },
       });
