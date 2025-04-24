@@ -19,8 +19,8 @@
 
 import mockery$ from "../mockery-dollar.mjs"; // TEST ONLY. Delete in production code
 import { axios } from "@pipedream/platform";
-import gsConsole from "../../google_search_console.app.mjs";
-import { trimIfString } from "../../common/utils.mjs";
+import gsConsole from "../../../google_search_console.app.mjs";
+import { trimIfString } from "../../../common/utils.mjs";
 
 const mockeryData = {
   siteUrl: "https://falc1.com/", // Must be verified in your GSC account

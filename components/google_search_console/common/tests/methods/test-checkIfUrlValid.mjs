@@ -1,4 +1,4 @@
-import methods from "../../common/methods.mjs";
+import methods from "../../../common/methods.mjs";
 import bogus from "./bogus-data/bogus-data-url.mjs";
 
 // Any other case from bogus data should lead to throw

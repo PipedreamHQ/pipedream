@@ -19,10 +19,10 @@
 
 import mockery$ from "../mockery-dollar.mjs";
 import { axios } from "@pipedream/platform";
-import gsConsole from "../../google_search_console.app.mjs";
+import gsConsole from "../../../google_search_console.app.mjs";
 import {
   removeCustomPropFields, trimIfString,
-} from "../../common/utils.mjs";
+} from "../../../common/utils.mjs";
 
 // Define prop metadata separately and spread it into the props object.
 // Useful for accessing extended metadata during runtime — available because it stays in closure.
