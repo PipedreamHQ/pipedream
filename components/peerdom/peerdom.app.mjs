@@ -102,7 +102,7 @@ export default {
     groupEmail: {
       type: "string",
       label: "Group Email",
-      description: "Email for node(group/role) communication",
+      description: "Email for node (group/role) communication",
       optional: true,
     },
 
