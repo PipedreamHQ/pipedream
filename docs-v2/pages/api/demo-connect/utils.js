@@ -57,19 +57,45 @@ export const ALLOWED_ORIGINS = getAllowedOrigins();
  * Used to verify requests are coming from our frontend
  */
 export function generateRequestToken(req) {
-  // Try to use x-forwarded-host or origin's hostname instead of host to handle domain mapping
-  // This handles the case where the request goes through a reverse proxy or domain mapping
+  // Try to determine the effective host that matches what the client would use
   let effectiveHost = req.headers["host"];
 
-  // If there's an origin header, extract its hostname
-  // as it will match the client's window.location.host
+  // First try to use origin header (best match for client's window.location.host)
   if (req.headers.origin) {
     try {
       const originUrl = new URL(req.headers.origin);
       effectiveHost = originUrl.host;
     } catch (e) {
-      // Fall back to host header if origin parsing fails
       console.log("Error parsing origin:", e.message);
+    }
+  }
+  // If no origin, try referer (can also contain the original hostname)
+  else if (req.headers.referer) {
+    try {
+      const refererUrl = new URL(req.headers.referer);
+      effectiveHost = refererUrl.host;
+    } catch (e) {
+      console.log("Error parsing referer:", e.message);
+    }
+  }
+  // Fall back to x-forwarded-host which might be set by proxies
+  else if (req.headers["x-forwarded-host"]) {
+    effectiveHost = req.headers["x-forwarded-host"];
+  }
+
+  // For account endpoints specifically, try to extract the host from the requestToken
+  // This is a special case for the accounts endpoint where the origin header might be missing
+  if (req.url?.includes("/accounts/") && req.headers["x-request-token"]) {
+    try {
+      const decodedToken = Buffer.from(req.headers["x-request-token"], "base64").toString();
+      const parts = decodedToken.split(":");
+      // If the token has the expected format with 3 parts, use the host from the token
+      if (parts.length === 3) {
+        // User-agent:host:connect-demo
+        effectiveHost = parts[1];
+      }
+    } catch (e) {
+      console.log("Error extracting host from token:", e.message);
     }
   }
 
@@ -90,6 +116,10 @@ export function setCorsHeaders(req, res, methods = "GET, POST, OPTIONS") {
   );
   res.setHeader("Access-Control-Allow-Methods", methods);
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, X-Request-Token");
+
+  // Set COOP header to allow popups to communicate with the parent window
+  // This is important for OAuth flows in the Connect integration
+  res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
 }
 
 /**
