@@ -16,7 +16,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const resourcesStream = this.app.getResourcesStream({
+    const resourcesStream = this.app.getIterations({
       resourceFn: this.app.listSequences,
       resourceFnArgs: {
         params: {
@@ -26,7 +26,7 @@ export default {
       resourceName: "emailer_campaigns",
     });
 
-    const sequences = await utils.streamIterator(resourcesStream);
+    const sequences = await utils.iterate(resourcesStream);
 
     $.export("$summary", `Successfully fetched ${sequences.length} sequences.`);
 
