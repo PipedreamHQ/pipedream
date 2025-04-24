@@ -17,6 +17,21 @@ export default withNextra({
       },
     ],
   },
+  // Add custom headers for better cross-origin support
+  async headers() {
+    return [
+      {
+        // Apply to all routes serving the Connect demo pages
+        source: "/connect/:path*",
+        headers: [
+          {
+            key: "Cross-Origin-Opener-Policy",
+            value: "same-origin-allow-popups",
+          },
+        ],
+      },
+    ];
+  },
   async redirects() {
     return [
       {
