@@ -550,8 +550,7 @@ importers:
         specifier: ^4.0.0
         version: 4.0.1
 
-  components/airpinpoint:
-    specifiers: {}
+  components/airpinpoint: {}
 
   components/airplane:
     dependencies:
@@ -14006,8 +14005,7 @@ importers:
 
   components/vk: {}
 
-  components/vlm_run:
-    specifiers: {}
+  components/vlm_run: {}
 
   components/voice: {}
 
