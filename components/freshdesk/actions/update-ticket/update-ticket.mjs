@@ -4,8 +4,8 @@ import { removeNullEntries } from "../../common/utils.mjs";
 export default {
   key: "freshdesk-update-ticket",
   name: "Update a Ticket",
-  description: "Update status, priority, subject, description, agent, group, tags, etc. [See docs](https://developers.freshdesk.com/api/#update_a_ticket)",
-  version: "0.0.11",
+  description: "Update status, priority, subject, description, agent, group, etc. [See docs](https://developers.freshdesk.com/api/#update_a_ticket)",
+  version: "0.0.12",
   type: "action",
   props: {
     freshdesk,
@@ -105,7 +105,6 @@ export default {
       email,
       phone,
       name,
-      tags,
       custom_fields,
     } = this;
 
@@ -120,7 +119,6 @@ export default {
       email,
       phone,
       name,
-      tags,
       custom_fields,
     });
 
