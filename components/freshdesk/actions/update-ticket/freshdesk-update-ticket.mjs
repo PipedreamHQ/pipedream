@@ -2,10 +2,10 @@ import freshdesk from "../../freshdesk.app.mjs";
 import { removeNullEntries } from "../../common/utils.mjs";
 
 export default {
-  key: "freshdesk-update-ticket-testpd",
+  key: "freshdesk-update-ticket",
   name: "Update a Ticket",
   description: "Update status, priority, subject, description, agent, group, tags, etc. [See docs](https://developers.freshdesk.com/api/#update_a_ticket)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     freshdesk,
