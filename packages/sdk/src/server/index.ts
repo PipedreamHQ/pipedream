@@ -258,7 +258,7 @@ export class BackendClient extends BaseClient {
     let attempts = 0;
     const maxAttempts = 2;
 
-    while (!this.oauthAccessToken || this.oauthAccessToken.expiresAt - Date.now() <= 0) {
+    while (!this.oauthAccessToken || this.oauthAccessToken.expiresAt - Date.now() < 1000) {
       if (attempts > maxAttempts) {
         throw new Error("ran out of attempts trying to retrieve oauth access token");
       }
