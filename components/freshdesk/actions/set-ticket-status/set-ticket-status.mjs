@@ -1,7 +1,7 @@
 import freshdesk from "../../freshdesk.app.mjs";
 
 export default {
-  key: "freshdesk-set-ticket-status-test",
+  key: "freshdesk-set-ticket-status",
   name: "Set Ticket Status",
   description: "Update the status of a ticket in Freshdesk",
   version: "0.0.1",

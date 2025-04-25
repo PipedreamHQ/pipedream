@@ -1,7 +1,7 @@
 import freshdesk from "../../freshdesk.app.mjs";
 
 export default {
-  key: "freshdesk-set-ticket-priority-test",
+  key: "freshdesk-set-ticket-priority",
   name: "Set Ticket Priority",
   description: "Update the priority of a ticket in Freshdesk",
   version: "0.0.1",
