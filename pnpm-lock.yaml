@@ -8723,7 +8723,14 @@ importers:
         specifier: 3.1.8
         version: 3.1.8
 
-  components/notion_api_key: {}
+  components/notion_api_key:
+    dependencies:
+      '@notionhq/client':
+        specifier: ^2.3.0
+        version: 2.3.0
+      '@pipedream/notion':
+        specifier: ^0.6.2
+        version: 0.6.2
 
   components/nozbe_teams: {}
 
@@ -17846,6 +17853,10 @@ packages:
     resolution: {integrity: sha512-XhdSY/4B1D34tSco/GION+23GMjaS9S2zszcqYkMHo8RcWInymF6L1x+Gk7EmHdrSxNFva2WM8orhC4BwQCwgw==}
     engines: {node: '>=12'}
 
+  '@notionhq/client@2.3.0':
+    resolution: {integrity: sha512-l7WqTCpQqC+HibkB9chghONQTYcxNQT0/rOJemBfmuKQRTu2vuV8B3yA395iKaUdDo7HI+0KvQaz9687Xskzkw==}
+    engines: {node: '>=12'}
+
   '@octokit/auth-token@2.5.0':
     resolution: {integrity: sha512-r5FVUJCOLl19AxiuZD2VRZ/ORjp/4IN98Of6YJoJOkY75CIBuYfmiNHGrDwXr+aLGG55igl9QrxX3hbiXlLb+g==}
 
@@ -17966,6 +17977,9 @@ packages:
 
   '@pipedream/monday@0.7.0':
     resolution: {integrity: sha512-ovVtLhKMJpOTSoc7JcVLrbVrJxW4BT96eW79TiiPc+DgMSM7ouRmCk5lHL2xCAtrqDForXSrXXGjHOAzhJsytA==}
+
+  '@pipedream/notion@0.6.2':
+    resolution: {integrity: sha512-xA2oh2eVwUrQ/pvAAtlLjWaWJsYaDhNQ00W3xkv5RcAMYKA0EbUQzSjL6ljSWlWiye3CftoFxK/L56Mld38iOQ==}
 
   '@pipedream/platform@0.10.0':
     resolution: {integrity: sha512-N3F/xVfBZQXc9wl+2/4E8U9Zma1rxpvylK6Gtw8Ofmiwjnmnvs+2SNjEpIXBPUeL+wxEkofSGOq7bkqt1hqwDg==}
@@ -33895,6 +33909,13 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
+  '@notionhq/client@2.3.0':
+    dependencies:
+      '@types/node-fetch': 2.6.12
+      node-fetch: 2.7.0
+    transitivePeerDependencies:
+      - encoding
+
   '@octokit/auth-token@2.5.0':
     dependencies:
       '@octokit/types': 6.41.0
@@ -34158,6 +34179,18 @@ snapshots:
     transitivePeerDependencies:
       - debug
       - encoding
+
+  '@pipedream/notion@0.6.2':
+    dependencies:
+      '@notionhq/client': 2.3.0
+      '@pipedream/platform': 3.0.3
+      '@tryfabric/martian': 1.2.4
+      lodash-es: 4.17.21
+      notion-to-md: 3.1.8
+    transitivePeerDependencies:
+      - debug
+      - encoding
+      - supports-color
 
   '@pipedream/platform@0.10.0':
     dependencies:
