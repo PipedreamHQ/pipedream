@@ -484,6 +484,8 @@ importers:
 
   components/ahrefs: {}
 
+  components/ai_chatbot_hub: {}
+
   components/ai_ml_api: {}
 
   components/ai_textraction:
@@ -547,6 +549,9 @@ importers:
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
+
+  components/airpinpoint:
+    specifiers: {}
 
   components/airplane:
     dependencies:
@@ -1484,6 +1489,8 @@ importers:
 
   components/bigpicture_io: {}
 
+  components/bika_ai: {}
+
   components/bilflo:
     dependencies:
       '@pipedream/platform':
@@ -1972,8 +1979,8 @@ importers:
   components/cal_com:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.1.1
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
       async-retry:
         specifier: ^1.3.3
         version: 1.3.3
@@ -2717,7 +2724,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/cogmento: {}
+  components/cogmento:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/cohere_platform:
     dependencies:
@@ -2857,6 +2868,8 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
+
+  components/consulta_unica: {}
 
   components/contact_enhance:
     dependencies:
@@ -3921,6 +3934,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/easyfill_ai: {}
 
   components/easyhire: {}
 
@@ -5463,6 +5478,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+      mime:
+        specifier: ^4.0.7
+        version: 4.0.7
 
   components/google_identity: {}
 
@@ -6296,6 +6314,8 @@ importers:
 
   components/if_else: {}
 
+  components/ifthenpay: {}
+
   components/ifttt:
     dependencies:
       '@pipedream/platform':
@@ -6406,6 +6426,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/inferable: {}
+
   components/infinity: {}
 
   components/influxdb_cloud:
@@ -6499,6 +6521,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+
+  components/instasent: {}
 
   components/intellexer_api:
     dependencies:
@@ -7986,6 +8010,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+      json-2-csv:
+        specifier: ^5.5.9
+        version: 5.5.9
       moment:
         specifier: ^2.29.4
         version: 2.30.1
@@ -8189,7 +8216,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/modelry: {}
+  components/modelry:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/modern_treasury:
     dependencies:
@@ -8332,6 +8363,8 @@ importers:
         version: 3.0.3
 
   components/murlist: {}
+
+  components/musicbrainz: {}
 
   components/mux:
     dependencies:
@@ -8691,8 +8724,10 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       notion-to-md:
-        specifier: ^4.0.0-alpha.4
-        version: 4.0.0-alpha.4(@notionhq/client@2.2.15)
+        specifier: 3.1.8
+        version: 3.1.8
+
+  components/notion_api_key: {}
 
   components/nozbe_teams: {}
 
@@ -9469,6 +9504,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
 
+  components/peerdom: {}
+
   components/pendo: {}
 
   components/pennylane:
@@ -10177,6 +10214,8 @@ importers:
   components/propeller: {}
 
   components/proposify: {}
+
+  components/proprofs_knowledge_base: {}
 
   components/proprofs_quiz_maker: {}
 
@@ -10898,6 +10937,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/riku_ai: {}
+
   components/ringba:
     dependencies:
       '@pipedream/platform':
@@ -10907,8 +10948,8 @@ importers:
   components/ringcentral:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.2.0
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/ringover:
     dependencies:
@@ -10936,6 +10977,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/rize: {}
 
   components/rkvst:
     dependencies:
@@ -11981,6 +12024,12 @@ importers:
       '@slack/web-api':
         specifier: ^7.9.0
         version: 7.9.1
+      async-retry:
+        specifier: ^1.3.3
+        version: 1.3.3
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
 
   components/slack_bot:
     dependencies:
@@ -13214,8 +13263,8 @@ importers:
   components/todoist:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.2.1
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
       json-2-csv:
         specifier: ^3.15.1
         version: 3.20.0
@@ -13724,6 +13773,8 @@ importers:
       qs:
         specifier: ^6.11.2
         version: 6.13.1
+
+  components/urltopdf: {}
 
   components/uscreen:
     dependencies:
@@ -15030,6 +15081,9 @@ importers:
       '@docsearch/react':
         specifier: ^3.8.1
         version: 3.9.0(@algolia/client-search@5.17.1)(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.3)
+      '@pipedream/sdk':
+        specifier: ^1.5.3
+        version: 1.5.3
       '@vercel/analytics':
         specifier: ^1.3.1
         version: 1.4.1(next@14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)(vue@2.7.16)
@@ -15051,6 +15105,9 @@ importers:
       nextra-theme-docs:
         specifier: ^3
         version: 3.3.1(next@14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(nextra@3.3.1(@types/react@18.3.12)(acorn@8.14.0)(next@14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      prismjs:
+        specifier: ^1.30.0
+        version: 1.30.0
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -15070,6 +15127,9 @@ importers:
       autoprefixer:
         specifier: ^10.4.19
         version: 10.4.20(postcss@8.4.49)
+      next-sitemap:
+        specifier: ^4.2.3
+        version: 4.2.3(next@14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
       postcss:
         specifier: ^8.4.40
         version: 8.4.49
@@ -16523,6 +16583,9 @@ packages:
     peerDependencies:
       '@bufbuild/protobuf': ^2.2.0
 
+  '@corex/deepmerge@4.0.43':
+    resolution: {integrity: sha512-N8uEMrMPL0cu/bdboEWpQYb/0i2K5Qn8eCsxzOmxSggJbbQte7ljMRoXm917AbntqTGOzdTu+vP3KOOzoC70HQ==}
+
   '@csstools/css-parser-algorithms@3.0.4':
     resolution: {integrity: sha512-Up7rBoV77rv29d3uKHUIVubz1BTcgyUK72IvCQAbfbMv584xHcGKCKbWh7i8hPrRJ7qU4Y8IO3IY9m+iTB7P3A==}
     engines: {node: '>=18'}
@@ -17643,6 +17706,9 @@ packages:
     engines: {node: '>=8.3.0'}
     hasBin: true
 
+  '@next/env@13.5.11':
+    resolution: {integrity: sha512-fbb2C7HChgM7CemdCY+y3N1n8pcTKdqtQLbC7/EQtPdLvlMUT9JX/dBYl8MMZAtYG4uVMyPFHXckb68q/NRwqg==}
+
   '@next/env@14.2.19':
     resolution: {integrity: sha512-8yWSNi1p+AOsd1QsxZMMkXtdrz8wvYoRxoUa9olmHBspHVLnxpptyKoI574ZF90yq1gXv/CqpchVLBoK8RcN7w==}
 
@@ -17946,6 +18012,10 @@ packages:
 
   '@pipedream/sdk@1.3.3':
     resolution: {integrity: sha512-sh0dZWdQlh7IprVs1Ka04+jMmpwTKf5SlyvaAJFmSbcvJ7So1fj/YLuU3BMXU91ehA1R6DGb66Yr+QzBsANcSA==}
+    engines: {node: '>=18.0.0'}
+
+  '@pipedream/sdk@1.5.3':
+    resolution: {integrity: sha512-shXEDK91RzaTAbFQCVLHCV+PuKjQaes9V1C8r1abV6hRCyAQcYnr5j6alJuKiozBnIh5BGA/OYh0JEYBWau7yA==}
     engines: {node: '>=18.0.0'}
 
   '@pipedream/sftp@0.4.1':
@@ -21828,6 +21898,10 @@ packages:
     resolution: {integrity: sha512-PZrpz5xLo2JPZa3L+kqMMMdZU5pRwMysTM1xd6pLhNtgQw4Iq3wbF2QWaQTVh+HRq9Yg4rcjDIJ+scfGLxmsjQ==}
     engines: {node: '>= 12'}
 
+  deeks@3.1.0:
+    resolution: {integrity: sha512-e7oWH1LzIdv/prMQ7pmlDlaVoL64glqzvNgkgQNgyec9ORPHrT2jaOqMtRyqJuwWjtfb6v+2rk9pmaHj+F137A==}
+    engines: {node: '>= 16'}
+
   deep-assign@3.0.0:
     resolution: {integrity: sha512-YX2i9XjJ7h5q/aQ/IM9PEwEnDqETAIYbggmdDB3HLTlSgo1CxPsj6pvhPG68rq6SVE0+p+6Ywsm5fTYNrYtBWw==}
     engines: {node: '>=0.10.0'}
@@ -22007,6 +22081,10 @@ packages:
   doc-path@3.1.0:
     resolution: {integrity: sha512-Pv2hLQbUM8du5681lTWIYk0OtVBmNhMAeZNGeFhMMJBIR89Nw4XesBwee1Xtlfk83n71tn0Y6VsJOn4d3qIiTw==}
     engines: {node: '>=12'}
+
+  doc-path@4.1.1:
+    resolution: {integrity: sha512-h1ErTglQAVv2gCnOpD3sFS6uolDbOKHDU1BZq+Kl3npPqroU3dYL42lUgMfd5UimlwtRgp7C9dLGwqQ5D2HYgQ==}
+    engines: {node: '>=16'}
 
   doctrine@2.1.0:
     resolution: {integrity: sha512-35mSku4ZXK0vfCuHEDAwt55dg2jNajHZ1odvF+8SSr82EsZY4QmXfuWso8oEd8zRhVObSN18aM0CjSdoBX7zIw==}
@@ -24447,6 +24525,10 @@ packages:
     resolution: {integrity: sha512-IbqUB+yaycVNB/q2fiY5kyRjy5kRiEXqvNvGlxM5L0Bfi0RdvklVHc4t9MfeYF1GsZVpZWDBs9LdWmSjsQ8jvg==}
     engines: {node: '>= 12'}
 
+  json-2-csv@5.5.9:
+    resolution: {integrity: sha512-l4g6GZVHrsN+5SKkpOmGNSvho+saDZwXzj/xmcO0lJAgklzwsiqy70HS5tA9djcRvBEybZ9IF6R1MDFTEsaOGQ==}
+    engines: {node: '>= 16'}
+
   json-bigint@1.0.0:
     resolution: {integrity: sha512-SiPv/8VpZuWbvLSMtTDU8hEfrZWg/mH/nV/b4o0CYbSxu1UIQPLdwKOCIyLQX+VIPO5vrLX3i8qtqFyhdPSUSQ==}
 
@@ -25406,6 +25488,11 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
 
+  mime@4.0.7:
+    resolution: {integrity: sha512-2OfDPL+e03E0LrXaGYOtTFIYhiuzep94NSsuhrNULq+stylcJedcHdzHtz0atMUuGwJfFYs0YL5xeC/Ca2x0eQ==}
+    engines: {node: '>=16'}
+    hasBin: true
+
   mimer@2.0.2:
     resolution: {integrity: sha512-izxvjsB7Ur5HrTbPu6VKTrzxSMBFBqyZQc6dWlZNQ4/wAvf886fD4lrjtFd8IQ8/WmZKdxKjUtqFFNaj3hQ52g==}
     engines: {node: '>= 12'}
@@ -25663,6 +25750,13 @@ packages:
     resolution: {integrity: sha512-dBpDMdxv9Irdq66304OLfEmQ9tbNRFnFTuZiLo+bD+r332bBmMJ8GBLXklIXXgxd3+v9+KUnZaUR5PJMa75Gsg==}
     engines: {node: '>= 0.4.0'}
 
+  next-sitemap@4.2.3:
+    resolution: {integrity: sha512-vjdCxeDuWDzldhCnyFCQipw5bfpl4HmZA7uoo3GAaYGjGgfL4Cxb1CiztPuWGmS+auYs7/8OekRS8C2cjdAsjQ==}
+    engines: {node: '>=14.18'}
+    hasBin: true
+    peerDependencies:
+      next: '*'
+
   next-themes@0.4.3:
     resolution: {integrity: sha512-nG84VPkTdUHR2YeD89YchvV4I9RbiMAql3GiLEQlPvq1ioaqPaIReK+yMRdg/zgiXws620qS1rU30TiWmmG9lA==}
     peerDependencies:
@@ -25850,11 +25944,9 @@ packages:
     resolution: {integrity: sha512-IO9QvjUMWxPQQhs60oOu10CRkWCiZzSUkzbXGGV9pviYl1fXYcvkzQ5jV9z8Y6un8ARoVRl4EtC6v6jNqbaJ/w==}
     engines: {node: '>=14.16'}
 
-  notion-to-md@4.0.0-alpha.4:
-    resolution: {integrity: sha512-MxK71vIj0l8jCDbzTAROp/2pXI8f2bhjJINuUk/uIlGKs2XPJCzYKFu+4ELvSG+DiNvmGWxdr+Dtba47fnULTg==}
+  notion-to-md@3.1.8:
+    resolution: {integrity: sha512-DuEslJAbmUG2IRVcoeiCdsE2tI8yXOG6NiHlzxYTcKMmkAtoj2Fgq35Gf5T8s92uzpT2ueVf3aCOq7XuVLVYOA==}
     engines: {node: '>=12'}
-    peerDependencies:
-      '@notionhq/client': ^2.0.0
 
   npm-normalize-package-bin@1.0.1:
     resolution: {integrity: sha512-EPfafl6JL5/rU+ot6P3gRSCpPDW5VmIzX959Ob1+ySFUuuYHWHekXpwdUZcKP5C+DS4GEtdJluwBjnsNDl+fSA==}
@@ -26603,6 +26695,10 @@ packages:
     resolution: {integrity: sha512-GA3TdL8szPK4AQ2YnOe/b+Y1jUFwmmGMMK/qbY7VcE3Z7FU8JstbKiKRzO6CIiAKPhTO8m01NoQ0V5f3jc4OGg==}
     engines: {node: '>=0.8'}
     hasBin: true
+
+  prismjs@1.30.0:
+    resolution: {integrity: sha512-DEvV2ZF2r2/63V+tK8hQvrR2ZGn10srHbXviTlcv7Kpzw8jWiNTqbVgjO3IY8RxrrOUF8VPMQQFysYYYv0YZxw==}
+    engines: {node: '>=6'}
 
   process-nextick-args@2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
@@ -32291,6 +32387,8 @@ snapshots:
     dependencies:
       '@bufbuild/protobuf': 2.2.2
 
+  '@corex/deepmerge@4.0.43': {}
+
   '@csstools/css-parser-algorithms@3.0.4(@csstools/css-tokenizer@3.0.3)':
     dependencies:
       '@csstools/css-tokenizer': 3.0.3
@@ -33705,6 +33803,8 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@next/env@13.5.11': {}
+
   '@next/env@14.2.19': {}
 
   '@next/env@15.0.3': {}
@@ -34174,6 +34274,16 @@ snapshots:
       - debug
 
   '@pipedream/sdk@1.3.3':
+    dependencies:
+      '@rails/actioncable': 8.0.0
+      commander: 12.1.0
+      oauth4webapi: 3.1.4
+      ws: 8.18.0
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+
+  '@pipedream/sdk@1.5.3':
     dependencies:
       '@rails/actioncable': 8.0.0
       commander: 12.1.0
@@ -38734,6 +38844,8 @@ snapshots:
 
   deeks@2.6.1: {}
 
+  deeks@3.1.0: {}
+
   deep-assign@3.0.0:
     dependencies:
       is-obj: 1.0.1
@@ -38909,6 +39021,8 @@ snapshots:
       got: 11.8.6
 
   doc-path@3.1.0: {}
+
+  doc-path@4.1.1: {}
 
   doctrine@2.1.0:
     dependencies:
@@ -42339,6 +42453,11 @@ snapshots:
       deeks: 2.6.1
       doc-path: 3.1.0
 
+  json-2-csv@5.5.9:
+    dependencies:
+      deeks: 3.1.0
+      doc-path: 4.1.1
+
   json-bigint@1.0.0:
     dependencies:
       bignumber.js: 9.1.2
@@ -43735,6 +43854,8 @@ snapshots:
 
   mime@4.0.6: {}
 
+  mime@4.0.7: {}
+
   mimer@2.0.2: {}
 
   mimic-fn@2.1.0: {}
@@ -44053,6 +44174,14 @@ snapshots:
 
   netmask@2.0.2: {}
 
+  next-sitemap@4.2.3(next@14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)):
+    dependencies:
+      '@corex/deepmerge': 4.0.43
+      '@next/env': 13.5.11
+      fast-glob: 3.3.2
+      minimist: 1.2.8
+      next: 14.2.19(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+
   next-themes@0.4.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       react: 18.3.1
@@ -44308,10 +44437,9 @@ snapshots:
 
   normalize-url@8.0.1: {}
 
-  notion-to-md@4.0.0-alpha.4(@notionhq/client@2.2.15):
+  notion-to-md@3.1.8:
     dependencies:
-      '@notionhq/client': 2.2.15
-      mime: 3.0.0
+      markdown-table: 2.0.0
       node-fetch: 2.7.0
     transitivePeerDependencies:
       - encoding
@@ -45173,6 +45301,8 @@ snapshots:
       react-is: 18.3.1
 
   printj@1.3.1: {}
+
+  prismjs@1.30.0: {}
 
   process-nextick-args@2.0.1: {}
 

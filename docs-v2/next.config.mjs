@@ -17,6 +17,21 @@ export default withNextra({
       },
     ],
   },
+  // Add custom headers for better cross-origin support
+  async headers() {
+    return [
+      {
+        // Apply to all routes serving the Connect demo pages
+        source: "/connect/:path*",
+        headers: [
+          {
+            key: "Cross-Origin-Opener-Policy",
+            value: "same-origin-allow-popups",
+          },
+        ],
+      },
+    ];
+  },
   async redirects() {
     return [
       {
@@ -323,12 +338,37 @@ export default withNextra({
       },
       {
         source: "/components/",
-        destination: "/workflows/contributing/components/",
+        destination: "/components/contributing/",
         permanent: true,
       },
       {
-        source: "/components/:path*/",
-        destination: "/workflows/contributing/components/:path*/",
+        source: "/components/api/",
+        destination: "/components/contributing/api/",
+        permanent: true,
+      },
+      {
+        source: "/components/quickstart/:path*/",
+        destination: "/components/contributing/:path*/",
+        permanent: true,
+      },
+      {
+        source: "/components/guidelines/",
+        destination: "/components/contributing/guidelines/",
+        permanent: true,
+      },
+      {
+        source: "/components/actions-quickstart/",
+        destination: "/components/contributing/actions-quickstart/",
+        permanent: true,
+      },
+      {
+        source: "/components/sources-quickstart/",
+        destination: "/components/contributing/sources-quickstart/",
+        permanent: true,
+      },
+      {
+        source: "/components/typescript/",
+        destination: "/components/contributing/typescript/",
         permanent: true,
       },
       {
@@ -461,6 +501,46 @@ export default withNextra({
         destination: "/integrations/oauth-clients/",
         permanent: true,
       },
+      {
+        source: "/integrations/:path*/",
+        destination: "/apps/:path*/",
+        permanent: true,
+      },
+      {
+        source: "/workflows/contributing/components/:path*/",
+        destination: "/components/contributing/:path*/",
+        permanent: true,
+      },
+      {
+        source: "/workflows/contributing/components/",
+        destination: "/components/contributing/",
+        permanent: true,
+      },
+      {
+        source: "/workflows/contributing/",
+        destination: "/components/contributing/",
+        permanent: true,
+      },
+      {
+        source: "/workflows/projects/:path*/",
+        destination: "/projects/:path*/",
+        permanent: true,
+      },
+      {
+        source: "/workflows/projects/",
+        destination: "/projects/",
+        permanent: true,
+      },
+      {
+        source: "/workflows/workspaces/:path*/",
+        destination: "/workspaces/:path*/",
+        permanent: true,
+      },
+      {
+        source: "/workflows/workspaces/",
+        destination: "/workspaces/",
+        permanent: true,
+      },
     ];
   },
   async rewrites() {
@@ -484,6 +564,22 @@ export default withNextra({
       {
         source: "/subprocessors",
         destination: "/hidden/subprocessors",
+      },
+      {
+        source: "/api-demo-connect/token",
+        destination: "/api/demo-connect/token",
+      },
+      {
+        source: "/api-demo-connect/token/",
+        destination: "/api/demo-connect/token",
+      },
+      {
+        source: "/api-demo-connect/accounts/:id",
+        destination: "/api/demo-connect/accounts/:id",
+      },
+      {
+        source: "/api-demo-connect/accounts/:id/",
+        destination: "/api/demo-connect/accounts/:id",
       },
     ];
   },

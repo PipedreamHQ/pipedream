@@ -1,3 +1,6 @@
+/* Import custom Prism styles */
+@import './prism-custom.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

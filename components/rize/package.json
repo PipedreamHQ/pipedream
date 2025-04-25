@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/rize",
+  "version": "0.0.1",
+  "description": "Pipedream Rize Components",
+  "main": "rize.app.mjs",
+  "keywords": [
+    "pipedream",
+    "rize"
+  ],
+  "homepage": "https://pipedream.com/apps/rize",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

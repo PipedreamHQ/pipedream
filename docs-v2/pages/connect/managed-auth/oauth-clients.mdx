@@ -3,7 +3,7 @@ import Callout from '@/components/Callout'
 
 # OAuth Clients
 
-When connecting an account for any OAuth app via Pipedream Connect, we'll default to using Pipedream's official OAuth client, which enables you to quickly get up and running. [Read more about OAuth clients in Pipedream here](/integrations/connected-accounts/oauth-clients).
+When connecting an account for any OAuth app via Pipedream Connect, we'll default to using Pipedream's official OAuth client, which enables you to quickly get up and running. [Read more about OAuth clients in Pipedream here](/apps/connected-accounts/oauth-clients).
 
 ## Using Pipedream OAuth
 
@@ -29,7 +29,7 @@ For any OAuth app that supports it, **you can always use your own client.** Your
 
 ## Using a custom OAuth client
 
-1. Follow the steps [here](/integrations/oauth-clients#configuring-custom-oauth-clients) to create an OAuth client in Pipedream.
+1. Follow the steps [here](/apps/oauth-clients#configuring-custom-oauth-clients) to create an OAuth client in Pipedream.
 2. When connecting an account either via the [frontend SDK](/connect/managed-auth/quickstart/#use-the-pipedream-sdk-in-your-frontend), make sure to include the `oauthAppId` in `pd.connectAccount()`.
 3. If using [Connect Link](/connect/managed-auth/quickstart/#or-use-connect-link), make sure to include the `oauthAppId` in the URL.
 
