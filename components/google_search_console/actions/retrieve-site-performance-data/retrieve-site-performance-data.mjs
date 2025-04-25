@@ -94,9 +94,13 @@ export default {
       ...fields
     } = this;
 
-    const body = fields?.length
-      ? fields.map((prop) => trimIfString(prop))
-      : [];
+    const body = Object.entries(fields).reduce((acc, [
+      key,
+      value,
+    ]) => {
+      acc[key] = trimIfString(value);
+      return acc;
+    }, {});
 
     let response;
     try {
