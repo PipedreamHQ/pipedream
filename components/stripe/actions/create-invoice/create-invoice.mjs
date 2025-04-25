@@ -5,7 +5,7 @@ export default {
   key: "stripe-create-invoice",
   name: "Create Invoice",
   type: "action",
-  version: "0.1.0",
+  version: "0.1.1",
   description: "Create an invoice. [See the docs](https://stripe.com/docs/api/invoices/create) " +
     "for more information",
   props: {
@@ -81,7 +81,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const resp = await this.app.sdk().invoices.create({
+    const resp = await this.app.sdk("2022-11-15").invoices.create({
       ...pick(this, [
         "customer",
         "subscription",
