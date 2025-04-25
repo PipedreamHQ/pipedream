@@ -6,8 +6,9 @@
 
 ### Added
 
-- Changed server-side authorized requests to refresh its auth token if it expires 
+- Changed server-side authorized requests to refresh its auth token if it expires
   within 1 second.
+
 ## [1.5.3] - 2025-04-18
 
 ### Added
