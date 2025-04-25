@@ -9567,7 +9567,7 @@ importers:
   components/philips_hue:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
+        specifier: ^3.0.3
         version: 3.0.3
 
   components/phone_com: {}
