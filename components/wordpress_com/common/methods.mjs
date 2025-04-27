@@ -1,198 +1,62 @@
 
 export default {
 
-/* ===================================================================================================
-    Iterates through the provided props metadata and validates each input value.
-
-    - Trims input strings using `trimIfString()`.
-    - Skips validation for optional fields that are undefined, null, or blank.
-    - Calls `validateUserInput()` for each defined input and accumulates any warnings.
-
-    Parameters:
-      propsMeta (object): An object describing metadata for each prop.
-      context (object): The source of values to be validated (usually `this`).
-
-    Returns:
-      Array: A flat array of warning messages (empty if no issues).
-====================================================================================================== */
-
-validationLoop(propsMeta, context){
-
-  const warnings = [];
-
-  for (let propName in propsMeta){
-    
-  const meta = propsMeta[propName];
-
-  // Trim the input if it's a string
-  context[propName] = this.trimIfString(context[propName]);
-
-  // If the optional prop is undefined, null, or a blank string — skip it
-  if (meta.optional === true && ((context[propName] ?? '') === '')) continue;
-      
-  // Validate the input and accumulate the warning message if any.
-  warnings.push(...this.validateUserInput(meta, context[propName]));
-
-    console.log("SUCCESS");
-  
-
-  };
-
-  return warnings;
-  
+isString(input){
+  return typeof input === "string";
 },
 
-/* ===================================================================================================
-    Calls the appropriate validation method based on the input's type.
-    Uses either the standard `type` or an extended override via `extendedType`.
-    Throws if no validator is found or if the value fails validation.
-====================================================================================================== */
-
-validateUserInput(propMeta, value){
-
-  this.throwIfNotObject(propMeta, propMeta.label);
-
-  const warnings = [];
-
-  // Check if there is extra type in prop meta. Like string can be also date type
-  const type = ("extendedType" in propMeta) ? propMeta.extendedType : propMeta.type;
-
-  // Decide which method to call based on the input we want to check.
-
-  const validators = {
-    "string": this.throwIfBlankOrNotString,
-    "integer": this.throwIfNotWholeNumber,
-    "string[]": this.throwIfNotArrayOfStrings,
-    "object": this.checkObject,
-    "array": this.throwIfNotArray,
-    "YYYY-MM-DD": this.throwIfNotYMDDashDate,
-    "url": this.checkIfUrlValid,
-    "domainOrId" : this.checkDomainOrId,
-  };
-
-  const validator = validators[type];
-
-  if (!validator) {
-    this.throwCustomError(`No validator found for type "${type}"`, propMeta.label);
-  };
-
-  // Calls the correct function and passes label 
-  const validationResult = validator.call(this, value, propMeta.label);
-  
-  // Just to double-check: we're expecting an array here.
-  // Helps catch developer mistakes early.
-  if (validationResult){
-    this.throwIfNotArray(validationResult);
-    warnings.push(...validationResult);
-  };
-
-  // Returns empty array if no warnings.
-  return warnings;
+isNumber(input){
+  return typeof input === "number";
 },
 
+isEmptySting(input){
+  if(this.isString(input)){
+    if(input.trim() === "") return true;
+  };
 
+  return false;
+},
 
-/* ===================================================================================================
-    Builds a payload object using only the props marked for inclusion in the POST body.
+isIdNumber(input){
+  return Number.isInteger(input) && input > 0;
+},
 
-    Parameters:
-      propsMeta (object): Metadata for each prop, including the `postBody` flag.
-      context (object): Typically `this`; contains raw user input values that may or may not be validated.
-                        It is advised to call this function only after running `validationLoop()` to ensure inputs are trimmed and validated.
+isObject(input) {
+  return ( 
+    typeof input === "object" && 
+    input !== null && 
+    !Array.isArray(input)
+  );
+},
 
-    Returns:
-      Object: A payload object containing only the props that should be sent in the request body.
-====================================================================================================== */
+isArrayOfStrings(input){
 
-preparePayload(propsMeta, context) {
-  
-  const payload = {};
+  if (!Array.isArray(input)) return false;
 
-  for (const propName in propsMeta) {
-
-    // If the optional prop is undefined, null, or a blank string — skip it
-    if ( propsMeta[propName].optional === true && ((context[propName] ?? '') === '')) continue;
-
-    // If the prop is meant for the payload - add it.
-    if (propsMeta[propName].postBody === true) {
-      payload[propName] = context[propName];
+  for (let i = 0; i < input.length; i++) {
+    if (!this.isString(input[i]))
+      return false;
     };
-  }
 
-  return payload;
+  return true;
+},
+
+isFormData(input) {
+  return (
+    typeof input === "object" &&
+    input !== null &&
+    typeof input.getHeaders === "function" &&
+    typeof input.append === "function"
+  );
 },
 
 
-
-
 /* ===================================================================================================
-    Return the trimmed string or input as is if its not a string
+    Return the trimmed string or input as is if it's not a string
 ====================================================================================================== */
-// 
 trimIfString(input) {
   return (typeof input === 'string') ? input.trim() : input; 
 },
-
-/* ===================================================================================================
-    Throws a custom error and marks it with a flag (`isCustom`) for easier debugging and testing.
-====================================================================================================== */
-
-  throwCustomError(msg){
-    const err = new Error(msg);
-    err.isCustom = true;
-    throw err; 
-  },
-
-/* ===================================================================================================
-    Determines whether an error originated from your own validation code or from the API request.
-    Useful for debugging and crafting more helpful error messages.
-====================================================================================================== */
-
-  // ===================================================================== 
-  checkWhoThrewError(error) {   
-    return { whoThrew: error?.response?.status ? "API response" : "Internal Code", error, };
-  },
-
-/* ===================================================================================================
-    Throws if the input is not a string or is a blank string (only whitespace, tabs, newlines, etc.).
-====================================================================================================== */
-
-  throwIfBlankOrNotString(input, reason) {
-
-    if (typeof input !== "string") {
-      this.throwCustomError(
-        `Expected a string, but got ${typeof input}` + this._reasonMsg(reason)
-      );
-    }
-    if (input.trim() === "") {
-      this.throwCustomError(
-        "Expected a non-empty string with visible characters." + this._reasonMsg(reason)
-      );
-    }
-  },
-
-
-/* ===================================================================================================
-    Throws if the input is not a JSON.
-====================================================================================================== */
-
-throwIfNotJSON(input, reason) {
-  try {
-    return JSON.parse(input);
-  } catch (err) {
-    this.throwCustomError( `Can not parse JSON. Error : ${err}`  +  this._reasonMsg(reason))
-  };
-}, 
-
-/* ===================================================================================================
-    Throws if the input is not a whole number (non-negative integer).
-====================================================================================================== */
-
-  throwIfNotWholeNumber(input, reason) {
-    if (!Number.isInteger(input) || input < 0) {
-      this.throwCustomError( `Expected a whole number (0 or positive integer), but got ${typeof input}` + this._reasonMsg(reason));
-    };
-  },
 
 /* ===================================================================================================
     Throws if not string or if not whole number.
@@ -216,74 +80,19 @@ throwIfNotStrOrId(input, reason) {
 
 
 /* ===================================================================================================
-    Throws if the input is not an array.
+    Checks if a string follows the YYYY-MM-DD date format.
+    Warns if the format or any individual part (year, month, day) is invalid.
 ====================================================================================================== */
 
+  checkYMDDashDate(input) {
 
-  throwIfNotArray(input, reason) {
-
-    if (!Array.isArray(input)) {
-      this.throwCustomError(`Invalid argument type. Expected an array ` +  this._reasonMsg(reason));
-    };
-  },
-
-/* ===================================================================================================
-    Throws if the input is not an array of strings.
-====================================================================================================== */
-
-  throwIfNotArrayOfStrings(input, reason){
-
-    this.throwIfNotArray(input, reason);
-
-    for (let i = 0; i < input.length; i++) {
-      if (typeof input[i] !== "string"){
-         this.throwCustomError(`Expected an array of strings ` +  this._reasonMsg(reason));
-      }
-    }; 
-  },
-
-
-/* ===================================================================================================
-    Throws if the input is not a plain object (arrays are excluded).
-====================================================================================================== */
-
-  throwIfNotObject(input, reason) {
-    
-    if( typeof input === "object" && input !== null && !Array.isArray(input)){
-      return input;
-    };
-      
-    this.throwCustomError(`Invalid argument type. Expected an object ` +  this._reasonMsg(reason));
-  },
-
-
-/* ===================================================================================================
-    Throws if the input is neither an object nor an array.
-====================================================================================================== */
-
-throwIfNotObjectOrArray(input, reason) {
-    
-  if( typeof input === "object" && input !== null){
-    return input;
-  };
-  this.throwCustomError(`Invalid argument type. Expected an object or array` +  this._reasonMsg(reason));
-},
-
-
-
-/* ===================================================================================================
-    Validates that a string follows the YYYY-MM-DD date format.
-    Throws if the format or any individual part (year, month, day) is invalid.
-====================================================================================================== */
-
-  throwIfNotYMDDashDate(input, reason) {
-
-    this.throwIfBlankOrNotString(input, reason);
+    const warings = [];
+    this.throwIfBlankOrNotString(input);
   
     const parts = input.trim().split("-");
   
     if (parts.length !== 3) {
-      this.throwCustomError("Date must be in format YYYY-MM-DD"  +  this._reasonMsg(reason));
+      warings.push("Date must be in format YYYY-MM-DD"  +  this._reasonMsg(input));
     };
   
     let [year, month, day] = parts;
@@ -291,47 +100,41 @@ throwIfNotObjectOrArray(input, reason) {
     // --- YEAR ---
     year = +year;
     if (!Number.isInteger(year) || year < 1990 || year > 2100) {
-      this.throwCustomError("Year must be between 1990 and 2100" +  this._reasonMsg(reason));
+      warings.push("Year must be between 1990 and 2100" +  this._reasonMsg(input));
     };
   
     const monthNum = +month;
     if (month.length !== 2 || Number.isNaN(monthNum) || monthNum < 1 || monthNum > 12 ) {
-      this.throwCustomError(`Month must be between 01 and 12. Got: '${month}'` +  this._reasonMsg(reason));
+      warings.push(`Month must be between 01 and 12. Got: '${month}'` +  this._reasonMsg(input));
     };
   
     const dayNum = +day;
     if (day.length !== 2 || Number.isNaN(dayNum) || dayNum < 1 || dayNum > 31 ) {
-      this.throwCustomError(`Day must be between 01 and 31. Got: '${day}'` +  this._reasonMsg(reason));
+      warings.push(`Day must be between 01 and 31. Got: '${day}'` +  this._reasonMsg(reason));
     };
+
+    return warings;
     
   },
 
 
 /* ===================================================================================================
-            *********** !!!!!! IMPORTANT !!!!!!!! **************************  
-  Objects in Pipedream require special treatment. Technically, they can be arrays
-  or even JSON strings. 
-
-  This function checks whether the input is a JS object, JS array, or a JSON string.
-  If it's a JSON string, it leaves it as-is but logs a message to the console indicating that a JSON string was received.
-  
-  It's up to the maintainer or contributor to decide what to do next.
+  Function tries to parse the input as JSON, If it is not return the value as it was passed 
 //====================================================================================================*/
+  parseIfJSONString(input) {
 
-  checkObject (input, reason){
-    
-    // If type is string but can not be parsed as JSON then throw.
     if (typeof input === "string") {
-      this.throwIfNotJSON(input, reason);
-      console.log ('Object was received as JSON.' + this._reasonMsg(reason));
-      return; // Return early
-    };
+      try {
+        return JSON.parse(input);
+      } catch (error) {
+        // Parsing failed — return original input
+        return input;
+      }
+    }
 
-    // If it’s not a string, ensure it’s either an object or an array – otherwise, throw.
-    this.throwIfNotObjectOrArray(input, reason);
- 
+    // If input is not a string, just return it as-is
+    return input;
   },
-
 
 /* ===================================================================================================
     Validates a URL string:
@@ -344,22 +147,28 @@ throwIfNotObjectOrArray(input, reason) {
         url: string (trimmed original input)
       }
 ====================================================================================================== */
-
-  // =====================================================================
-  checkIfUrlValid(input, reason) {
-   
-    // Throws an error if the input is not a string or if its a blank string;
-    this.throwIfBlankOrNotString(input);
-
+  checkIfUrlValid(input) {
+  
     // Warnin accumulator
     let warnings = [];
-;
-    // Trim the input (already checked for string);
+
+    if (!this.isString(input)) {
+      warnings.push('URL is not a string');
+     
+    };
+
+    if (this.isEmptySting(input)) {
+      warnings.push('URL is empty string');
+      return warnings;
+    };
+
+
     const trimmedInput = input.trim();
 
     // Reject if spaces, tabs, or newlines are present
     if ((/[ \t\n]/.test(trimmedInput))) {
-      this.throwCustomError( `Url contains invalid characters like space, backslash etc., please check.`  +  this._reasonMsg(reason))
+      warnings.push( `Url contains invalid characters like space, backslash etc., please check.`  +  this._reasonMsg(reason));
+      return warnings;
     };
   
   // Warn about suspicious characters
@@ -369,7 +178,6 @@ throwIfNotObjectOrArray(input, reason) {
 
     if (dubiousMatches) {
       const uniqueChars = [...new Set(dubiousMatches)].join(" ");
-     
          warnings.push(` URL contains dubious or non-standard characters " ${uniqueChars} " ` + 
           `that may be rejected by Google. Proceed only if you know what you are doing.  ${this._reasonMsg(reason)}`) ;
     };
@@ -404,8 +212,6 @@ throwIfNotObjectOrArray(input, reason) {
 
     };
 
-    // Here I wanted to check for "ftp" and other protocols but if user uses them they know what they are doing.
-
     return warnings;
     
   },
@@ -428,43 +234,51 @@ throwIfNotObjectOrArray(input, reason) {
       string[]: An array of warning messages (empty if input is clean)
 ====================================================================================================== */
 
-  checkDomainOrId(input, reason) {
+  checkDomainOrId(input) {
     
     const warnings = [];
-    
-    this.throwIfBlankOrNotString(input,reason);
-    const trimmed = this.trimIfString(input);
-  
-  
-    // Check if it’s a numeric ID (e.g. "123456")
-    const num = Number(trimmed);
-    const isNumericId = Number.isInteger(num) && num > 0;
-  
-    if (isNumericId) {
-      //  Valid Site ID — skip domain checks
+
+    // If it's an ID like number or string (e.g 12345 or "12345");
+    // it's Valid. Return empty warnings array.
+    if(this.isIdNumber(Number(input))) return warnings;
+
+    // If it's not a string.
+    if (!this.isString(input)) {
+      warnings.push("Provided value is not a domain or ID-like value (e.g., 1234 or '1234').");
       return warnings;
     }
-  
+
+    const trimmed = input.trim();
+
     // Now treat it as a domain and run checks:
     if (/https?:\/\//.test(trimmed)) {
-      warnings.push(`Domain contains protocol (http or https). Remove it.` + this._reasonMsg(reason));
-    }
-  
-    if (/^www\./i.test(trimmed)) {
-      warnings.push(`Domain starts with 'www.'. May or may not cause problems.` + this._reasonMsg(reason));
+      warnings.push(`Domain contains protocol (http or https). Remove it.` + this._reasonMsg(input));
     }
   
     if (/[^a-zA-Z0-9.-]/.test(trimmed)) {
-      warnings.push(`Domain contains unusual characters. Only letters, numbers, dots, and dashes are allowed.` + this._reasonMsg(reason));
+      warnings.push(`Domain contains unusual characters. Only letters, numbers, dots, and dashes are allowed.` + this._reasonMsg(input));
     }
   
     if (!trimmed.includes(".")) {
-      warnings.push(`Domain should contain at least one dot (e.g. example.com).` + this._reasonMsg(reason));
+      warnings.push(`Domain should contain at least one dot (e.g. example.com).` + this._reasonMsg(input));
     }
   
     return warnings;
   },
 
+
+
+  /* ===================================================================================================
+    throws a custom ERROR if axios request fails.
+    Determines whether an error originated from your own validation code or from the API request.
+    Useful for debugging and crafting more helpful error messages.
+====================================================================================================== */
+  onAxiosCatch(mainMessage, error, warnings){
+
+    const thrower = error?.response?.status ? "API response" : "Internal Code";                                   
+    
+    throw new Error(` ${mainMessage} ( ${thrower} error ) : ${error.message}. ` + "\n- " + warnings.join("\n- "));
+  },
 
 /* ===================================================================================================
     Appends a reason string to error messages for additional context.
@@ -474,5 +288,12 @@ throwIfNotObjectOrArray(input, reason) {
 
     return (reason && typeof reason === "string") ? ` Reason: ${reason} ` : "";
   },
+  
 
 };
+
+
+/* ===================================================================================================
+   If 
+====================================================================================================== */
+
