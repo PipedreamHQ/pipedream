@@ -82,7 +82,7 @@ export default {
         data : form,
       });
       
-      const media = response.media.[0];
+      const media = response.media[0];
 
       $.export("$summary", `Media "${media.title}" uploaded successfully (ID: ${media.ID})` + "\n- " + warnings.join("\n- "));
 
