@@ -3,7 +3,7 @@ import wordpress from "../wordpress_com.app.mjs";
 export default {
   key: "wordpress_com-new-comment",
   name: "New Comment",
-  description: "Emit a separate event for each new comment added since the last run. If no new comments, emit nothing.",
+  description: "Emit new event for each new comment added since the last run. If no new comments, emit nothing.",
   version: "0.0.1",
   type: "source",
   props: {
@@ -42,13 +42,13 @@ export default {
       site,
       postId,
       number,
-    } = this; 
+    } = this;
 
     warnings.push(...wordpress.checkDomainOrId(site));
 
     let response;
     try {
-      response = await wordpress.getWordpressComments({ 
+      response = await wordpress.getWordpressComments({
         $,
         site,
         postId,
@@ -107,7 +107,6 @@ export default {
       console.log("No new comments found.");
     }
 
-   
     if (warnings.length > 0) {
       console.log("Warnings:\n- " + warnings.join("\n- "));
     };

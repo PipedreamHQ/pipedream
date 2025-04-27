@@ -15,39 +15,41 @@ export default {
       contentType,
       ...opts
     }) {
-  
+
       return axios($, {
-          url,
-          headers : {
-            "Authorization":  `Bearer ${this.$auth.oauth_access_token}`,
-            "Content-Type": (contentType) ? contentType : "application/json",
-          },
-          ...opts,
-        });
+        url,
+        headers: {
+          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+          "Content-Type": (contentType)
+            ? contentType
+            : "application/json",
+        },
+        ...opts,
+      });
     },
 
     createWordpressPost({
-      site, 
+      site,
       ...opts
     }) {
 
       return this._makeRequest({
         method: "POST",
-        url: `https://public-api.wordpress.com/rest/v1.1/sites/${site}/posts/new`, 
+        url: `https://public-api.wordpress.com/rest/v1.1/sites/${site}/posts/new`,
         ...opts,
       });
     },
 
     uploadWordpressMedia({
       site,
-      contentType, 
+      contentType,
       ...opts
     }) {
       return this._makeRequest({
         method: "POST",
         url: `https://public-api.wordpress.com/rest/v1.1/sites/${site}/media/new`,
         contentType,
-        ...opts
+        ...opts,
       });
     },
 
@@ -55,9 +57,9 @@ export default {
       site,
       postId,
     }) {
-      
+
       return this._makeRequest({
-        method: "POST", // use POST instead of DELETE. Wordpress does not allow DELETE methods on free accounts. 
+        method: "POST", // use POST instead of DELETE. Wordpress does not allow DELETE methods on free accounts.
         url: `https://public-api.wordpress.com/rest/v1.1/sites/${site}/posts/${postId}/delete`,
       });
     },
@@ -67,15 +69,15 @@ export default {
       number,
       type,
       ...opts
-    }){
+    }) {
       const url = (type === "attachment")
-      ? `https://public-api.wordpress.com/rest/v1.1/sites/${site}/media/`
-      : `https://public-api.wordpress.com/rest/v1.1/sites/${site}/posts/`;
+        ? `https://public-api.wordpress.com/rest/v1.1/sites/${site}/media/`
+        : `https://public-api.wordpress.com/rest/v1.1/sites/${site}/posts/`;
 
       return this._makeRequest({
-        method: "GET", // use POST instead of DELETE. Wordpress does not allow DELETE methods on free accounts. 
-        url, 
-        params : {
+        method: "GET", // use POST instead of DELETE. Wordpress does not allow DELETE methods on free accounts.
+        url,
+        params: {
           order_by: "date",
           order: "DESC",
           type,
@@ -94,7 +96,7 @@ export default {
       const url = postId
         ? `https://public-api.wordpress.com/rest/v1.1/sites/${site}/posts/${postId}/replies/`
         : `https://public-api.wordpress.com/rest/v1.1/sites/${site}/comments/`;
-    
+
       return this._makeRequest({
         method: "GET",
         url,

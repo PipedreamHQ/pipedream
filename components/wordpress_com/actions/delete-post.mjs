@@ -10,6 +10,7 @@ export default {
   props: {
     wordpress,
     site: {
+      label: "Domain or ID",
       type: "string",
       description: "Enter a site ID or domain (e.g. testsit38.wordpress.com).",
     },
@@ -19,7 +20,7 @@ export default {
       description: "The ID of the post you want to delete.",
     },
   },
- 
+
   async run({ $ }) {
 
     const warnings = [];
@@ -27,23 +28,24 @@ export default {
     const {
       site,
       wordpress,
-      postId
+      postId,
     } =  this;
 
+    warnings.push(...wordpress.checkDomainOrId(site));
 
-    warnings.push(...wordpress.checkDomainOrId(site)); 
-    
     let response;
 
     try {
-      response = await wordpress.deleteWordpressPost({$, site, postId});
+      response = await wordpress.deleteWordpressPost({
+        $,
+        site,
+        postId,
+      });
     } catch (error) {
-      wordpress.throwCustomError("Could not delete post", error, warnings); 
+      wordpress.throwCustomError("Could not delete post", error, warnings);
     };
-    
+
     $.export("$summary", `Post ID = ${response?.ID} successfully deleted.` + "\n- "  + warnings.join("\n- "));
   },
 };
-
- 
 

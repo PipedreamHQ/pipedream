@@ -3,7 +3,7 @@ import wordpress from "../wordpress_com.app.mjs";
 export default {
   key: "wordpress_com-new-post",
   name: "New Post",
-  description: "Emit a separate event for each new post published since the last run. If no new posts, emit nothing.",
+  description: "Emit new event for each new post published since the last run. If no new posts, emit nothing.",
   version: "0.0.4",
   type: "source",
   props: {
@@ -17,10 +17,20 @@ export default {
     type: {
       type: "string",
       label: "Post Type",
+      description: "Select the type of content to fetch",
       options: [
-        { label: "Post", value: "post" },
-        { label: "Page", value: "page" },
-        { label: "Attachment", value: "attachment" },
+        {
+          label: "Post",
+          value: "post",
+        },
+        {
+          label: "Page",
+          value: "page",
+        },
+        {
+          label: "Attachment",
+          value: "attachment",
+        },
       ],
       default: "post",
     },
@@ -45,13 +55,13 @@ export default {
       site,
       type,
       number,
-    } = this; 
+    } = this;
 
     warnings.push(...wordpress.checkDomainOrId(site));
 
     let response;
     try {
-      response = await wordpress.getWordpressPosts({ 
+      response = await wordpress.getWordpressPosts({
         $,
         site,
         type,
@@ -59,12 +69,13 @@ export default {
       });
 
     } catch (error) {
-      wordpress.throwCustomError("Failed to fetch posts from WordPress:", error, warnings); 
+      wordpress.throwCustomError("Failed to fetch posts from WordPress:", error, warnings);
     }
 
-    const posts = (type === "attachment") ? (response.media || []) : (response.posts || []);
+    const posts = (type === "attachment")
+      ? (response.media || [])
+      : (response.posts || []);
     const lastPostId = Number(await db.get("lastPostId"));
-    
 
     // First run: Initialize cursor
     if (!lastPostId) {
@@ -87,7 +98,7 @@ export default {
 
     const newPosts = [];
 
-    for (const post of posts) { 
+    for (const post of posts) {
       if (Number(post.ID) > lastPostId) {
         newPosts.push(post);
         if (Number(post.ID) > maxPostIdTracker) {
@@ -97,13 +108,13 @@ export default {
     }
 
     for (const post of newPosts.reverse()) {
-      
+
       this.$emit(post, {
         id: post.ID,
         summary: post.title,
         ts: post.date && +new Date(post.date),
       });
-      
+
     }
 
     // Update last seen post ID

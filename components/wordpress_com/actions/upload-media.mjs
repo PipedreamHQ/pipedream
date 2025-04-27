@@ -1,4 +1,4 @@
-import {prepareMediaUpload} from "../common/utils.mjs";
+import { prepareMediaUpload } from "../common/utils.mjs";
 import wordpress from "../wordpress_com.app.mjs";
 
 export default {
@@ -10,7 +10,7 @@ export default {
   type: "action",
 
   props: {
-    wordpress, 
+    wordpress,
     site: {
       type: "string",
       label: "Site ID or domain",
@@ -30,11 +30,13 @@ export default {
     caption: {
       type: "string",
       label: "Caption",
+      description: "Optional caption text to associate with the uploaded media.",
       optional: true,
     },
     description: {
       type: "string",
       label: "Description",
+      descripion: "Optional description text to provide more details about the uploaded media.",
       optional: true,
     },
   },
@@ -43,20 +45,20 @@ export default {
 
     const warnings = [];
 
-    const  
-    {
-      wordpress,
-      site,
-      media,
-      ...fields
-    } = this; 
+    const
+      {
+        wordpress,
+        site,
+        media,
+        ...fields
+      } = this;
 
     warnings.push(...wordpress.checkDomainOrId(site));
 
     let form;
 
     // If not form data
-    if (wordpress.isFormData(media)){ 
+    if (wordpress.isFormData(media)) {
 
       console.log("Media was received as multipart/form-data");
       warnings.push("Media was received as multipart/form-data");
@@ -66,7 +68,7 @@ export default {
     } else {
 
       warnings.push("Media was received as URL");
-      warnings.push(...wordpress.checkIfUrlValid(media)); 
+      warnings.push(...wordpress.checkIfUrlValid(media));
 
       form = await prepareMediaUpload(media, fields, $);
     }
@@ -77,11 +79,11 @@ export default {
 
       response = await wordpress.uploadWordpressMedia({
         $,
-        contentType : form.getHeaders()["content-type"],
+        contentType: form.getHeaders()["content-type"],
         site,
-        data : form,
+        data: form,
       });
-      
+
       const media = response.media[0];
 
       $.export("$summary", `Media "${media.title}" uploaded successfully (ID: ${media.ID})` + "\n- " + warnings.join("\n- "));
@@ -90,8 +92,8 @@ export default {
       return response;
 
     } catch (error) {
-      
-      wordpress.throwCustomError("Failed to upload media", error, warnings); 
+
+      wordpress.throwCustomError("Failed to upload media", error, warnings);
 
     };
   },

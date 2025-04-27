@@ -11,7 +11,7 @@ export default {
     site: {
       type: "string",
       label: "Site ID or domain",
-      description: "Enter a site ID or domain (e.g. testsit38.wordpress.com). Do not include 'https://' or 'www'."
+      description: "Enter a site ID or domain (e.g. testsit38.wordpress.com). Do not include 'https://' or 'www'.",
     },
     title: {
       type: "string",
@@ -40,13 +40,19 @@ export default {
       label: "Post Type",
       description: "The type of the post (post or page). For attachments, use the 'Upload Media' action.",
       options: [
-        { label: "Post", value: "post" },
-        { label: "Page", value: "page" },
+        {
+          label: "Post",
+          value: "post",
+        },
+        {
+          label: "Page",
+          value: "page",
+        },
       ],
       default: "post",
-    }
+    },
   },
- 
+
   async run({ $ }) {
 
     const warnings = [];
@@ -61,22 +67,22 @@ export default {
 
     let response;
 
-      try {
-        response = await wordpress.createWordpressPost({ //TEST
-          
-          $,
-          site,
-          data : {
-            ...fields
-          }
-        });
+    try {
+      response = await wordpress.createWordpressPost({ //TEST
 
-      } catch (error) {
-        wordpress.throwCustomError("Could not create post", error, warnings); 
-      };
-      
-      $.export("$summary", `Post successfully created. ID = ${response?.ID}` + "\n- "  + warnings.join("\n- "));
+        $,
+        site,
+        data: {
+          ...fields,
+        },
+      });
+
+    } catch (error) {
+      wordpress.throwCustomError("Could not create post", error, warnings);
+    };
+
+    $.export("$summary", `Post successfully created. ID = ${response?.ID}` + "\n- "  + warnings.join("\n- "));
   },
-   
+
 };
 
