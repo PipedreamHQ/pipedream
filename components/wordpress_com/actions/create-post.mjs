@@ -1,9 +1,9 @@
 import wordpress from "../wordpress_com.app.mjs";
 
 export default {
-  key: "worpress_com-create-post",
+  key: "wordpress_com-create-post",
   name: "Create New Post",
-  description: "Retrieves the authenticated user's account information.",
+  description: "Creates a new post on a WordPress.com site.",
   version: "0.0.1",
   type: "action",
   props: {

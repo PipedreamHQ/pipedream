@@ -58,65 +58,6 @@ trimIfString(input) {
   return (typeof input === 'string') ? input.trim() : input; 
 },
 
-/* ===================================================================================================
-    Throws if not string or if not whole number.
-====================================================================================================== */
-
-throwIfNotStrOrId(input, reason) {
-  if (typeof input === "number") {
-    this.throwIfNotWholeNumber(input, reason);
-    return;
-  }
-
-  if (typeof input === "string") {
-    this.throwIfBlankOrNotString(input, reason);
-    return;
-  }
-
-  this.throwCustomError(
-    `Expected a non-empty string or a whole number. but got ${typeof input}` + this._reasonMsg(reason)
-  );
-},
-
-
-/* ===================================================================================================
-    Checks if a string follows the YYYY-MM-DD date format.
-    Warns if the format or any individual part (year, month, day) is invalid.
-====================================================================================================== */
-
-  checkYMDDashDate(input) {
-
-    const warings = [];
-    this.throwIfBlankOrNotString(input);
-  
-    const parts = input.trim().split("-");
-  
-    if (parts.length !== 3) {
-      warings.push("Date must be in format YYYY-MM-DD"  +  this._reasonMsg(input));
-    };
-  
-    let [year, month, day] = parts;
-  
-    // --- YEAR ---
-    year = +year;
-    if (!Number.isInteger(year) || year < 1990 || year > 2100) {
-      warings.push("Year must be between 1990 and 2100" +  this._reasonMsg(input));
-    };
-  
-    const monthNum = +month;
-    if (month.length !== 2 || Number.isNaN(monthNum) || monthNum < 1 || monthNum > 12 ) {
-      warings.push(`Month must be between 01 and 12. Got: '${month}'` +  this._reasonMsg(input));
-    };
-  
-    const dayNum = +day;
-    if (day.length !== 2 || Number.isNaN(dayNum) || dayNum < 1 || dayNum > 31 ) {
-      warings.push(`Day must be between 01 and 31. Got: '${day}'` +  this._reasonMsg(reason));
-    };
-
-    return warings;
-    
-  },
-
 
 /* ===================================================================================================
   Function tries to parse the input as JSON, If it is not return the value as it was passed 
@@ -141,11 +82,6 @@ throwIfNotStrOrId(input, reason) {
     - Rejects blank strings, spaces, tabs, and newlines
     - Warns about suspicious or unusual characters
     - Adds a warning if protocol is missing or malformed
-    Returns:
-      {
-        warnings: string[],
-        url: string (trimmed original input)
-      }
 ====================================================================================================== */
   checkIfUrlValid(input) {
   
@@ -167,7 +103,7 @@ throwIfNotStrOrId(input, reason) {
 
     // Reject if spaces, tabs, or newlines are present
     if ((/[ \t\n]/.test(trimmedInput))) {
-      warnings.push( `Url contains invalid characters like space, backslash etc., please check.`  +  this._reasonMsg(reason));
+      warnings.push( `Url contains invalid characters like space, backslash etc., please check.`  +  this._reasonMsg(input));
       return warnings;
     };
   
@@ -178,8 +114,7 @@ throwIfNotStrOrId(input, reason) {
 
     if (dubiousMatches) {
       const uniqueChars = [...new Set(dubiousMatches)].join(" ");
-         warnings.push(` URL contains dubious or non-standard characters " ${uniqueChars} " ` + 
-          `that may be rejected by Google. Proceed only if you know what you are doing.  ${this._reasonMsg(reason)}`) ;
+         warnings.push(` URL contains dubious or non-standard characters ` + this._reasonMsg(input) );
     };
 
     // urlObject for further use if the next check passes.
@@ -192,7 +127,7 @@ throwIfNotStrOrId(input, reason) {
       if (/^(https?):\/(?!\/)/.test(input)) {
 
          warnings.push(` It looks like you're missing one slash after "${urlObject.protocol}".` + 
-        `Did you mean "${urlObject.protocol}//..."? ${this._reasonMsg(reason)} `);
+        `Did you mean "${urlObject.protocol}//..."? ${this._reasonMsg(input)} `);
         
       };
 
@@ -206,7 +141,7 @@ throwIfNotStrOrId(input, reason) {
                     
         } catch(err) {
           // If after all checks we are here that means that the url contain potentially unacceptable characters.
-          warnings.push(` URL contains potentionally unacceptable characters"  ${this._reasonMsg(reason)}`);
+          warnings.push(` URL contains potentionally unacceptable characters"  ${this._reasonMsg(input)}`);
 
         };
 
@@ -220,18 +155,6 @@ throwIfNotStrOrId(input, reason) {
     Validates a Site Identifier string, which may be either:
     - A numeric Site ID (e.g., "123456")
     - A custom or subdomain (e.g., "mysite.example.com")
-
-    The function:
-    - Throws on blank or non-string input
-    - Detects and skips further checks if the input is a valid numeric Site ID
-    - If the input is not numeric, performs domain checks:
-        - Warns if the input includes protocol (http:// or https://)
-        - Warns if it starts with 'www.'
-        - Warns about unusual characters (only letters, numbers, dots, and dashes are allowed)
-        - Warns if the domain does not contain at least one dot (.)
-
-    Returns:
-      string[]: An array of warning messages (empty if input is clean)
 ====================================================================================================== */
 
   checkDomainOrId(input) {
@@ -269,7 +192,7 @@ throwIfNotStrOrId(input, reason) {
 
 
   /* ===================================================================================================
-    throws a custom ERROR if axios request fails.
+    Throws  if axios request fails.
     Determines whether an error originated from your own validation code or from the API request.
     Useful for debugging and crafting more helpful error messages.
 ====================================================================================================== */

@@ -82,7 +82,7 @@ export default {
     let maxCommentIdTracker = lastCommentId;
     const newComments = [];
 
-    for (const comment of comments.reverse()) {
+    for (const comment of comments) {
       if (comment.ID > lastCommentId) {
         newComments.push(comment);
         if (comment.ID > maxCommentIdTracker) {
@@ -91,7 +91,7 @@ export default {
       }
     }
 
-    for (const comment of newComments) {
+    for (const comment of newComments.reverse()) {
       this.$emit(comment, {
         id: comment.ID,
         summary: comment.author?.name || "Anonymous Comment",

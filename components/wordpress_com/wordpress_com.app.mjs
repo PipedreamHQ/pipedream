@@ -19,7 +19,7 @@ export default {
       return axios($, {
           url,
           headers : {
-            "Authorization":  `Bearer v6Dp%5xWzh(rsgW9PR&xY4C#Ibs&Jo3W12nv@6Te3cZOrI5XACdoate$DQ#pIyYP`, //${this.$auth.oauth_access_token} TEST
+            "Authorization":  `Bearer ${this.$auth.oauth_access_token}`,
             "Content-Type": (contentType) ? contentType : "application/json",
           },
           ...opts,
