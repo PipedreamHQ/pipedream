@@ -1,11 +1,11 @@
-import wordpress from "../wordpress_com.app.mjs";
+import wordpress from "../../wordpress_com.app.mjs";
 
 export default {
 
   key: "wordpress_com-delete-post",
   name: "Delete Post",
   description: "Deletes a post",
-  version: "0.0.1",
+  version: "0.0.4",
   type: "action",
   props: {
     wordpress,

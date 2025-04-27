@@ -1,10 +1,10 @@
-import wordpress from "../wordpress_com.app.mjs";
+import wordpress from "../../wordpress_com.app.mjs";
 
 export default {
   key: "wordpress_com-new-follower",
   name: "New Follower",
   description: "Emit new event for each new follower that subscribes to the site.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     wordpress,

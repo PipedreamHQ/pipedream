@@ -1,10 +1,10 @@
-import wordpress from "../wordpress_com.app.mjs";
+import wordpress from "../../wordpress_com.app.mjs";
 
 export default {
   key: "wordpress_com-create-post",
   name: "Create New Post",
   description: "Creates a new post on a WordPress.com site.",
-  version: "0.0.1",
+  version: "0.0.5",
   type: "action",
   props: {
     wordpress,
@@ -34,6 +34,7 @@ export default {
         "pending",
       ],
       default: "draft",
+      optional: true,
     },
     type: {
       type: "string",
@@ -50,6 +51,7 @@ export default {
         },
       ],
       default: "post",
+      optional: true,
     },
   },
 

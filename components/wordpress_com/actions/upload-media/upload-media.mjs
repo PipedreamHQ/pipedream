@@ -1,12 +1,12 @@
-import { prepareMediaUpload } from "../common/utils.mjs";
-import wordpress from "../wordpress_com.app.mjs";
+import { prepareMediaUpload } from "../../common/utils.mjs";
+import wordpress from "../../wordpress_com.app.mjs";
 
 export default {
 
   key: "wordpress_com-upload-media",
   name: "Upload Media",
   description: "Uploads a media file from a URL to the specified WordPress.com site.",
-  version: "0.0.1",
+  version: "0.0.4",
   type: "action",
 
   props: {
@@ -36,7 +36,6 @@ export default {
     description: {
       type: "string",
       label: "Description",
-      descripion: "Optional description text to provide more details about the uploaded media.",
       optional: true,
     },
   },
@@ -60,15 +59,9 @@ export default {
     // If not form data
     if (wordpress.isFormData(media)) {
 
-      console.log("Media was received as multipart/form-data");
-      warnings.push("Media was received as multipart/form-data");
-
       form = media;
 
     } else {
-
-      warnings.push("Media was received as URL");
-      warnings.push(...wordpress.checkIfUrlValid(media));
 
       form = await prepareMediaUpload(media, fields, $);
     }
