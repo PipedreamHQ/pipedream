@@ -8,7 +8,7 @@ export default {
     return typeof input === "number";
   },
 
-  isEmptySting(input) {
+  isEmptyString(input) {
     if (this.isString(input)) {
       if (input.trim() === "") return true;
     };
@@ -86,7 +86,7 @@ export default {
 ================================================================================================ */
   checkIfUrlValid(input) {
 
-    // Warnin accumulator
+    // Warning accumulator
     let warnings = [];
 
     if (!this.isString(input)) {
@@ -94,7 +94,7 @@ export default {
 
     };
 
-    if (this.isEmptySting(input)) {
+    if (this.isEmptyString(input)) {
       warnings.push("URL is empty string");
       return warnings;
     };
