@@ -91,7 +91,7 @@ export default {
 
     } catch (error) {
       
-      wordpress.onAxiosCatch("Failed to upload media", error, warnings); 
+      wordpress.throwCustomError("Failed to upload media", error, warnings); 
 
     };
   },

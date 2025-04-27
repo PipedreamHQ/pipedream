@@ -38,7 +38,7 @@ export default {
     try {
       response = await wordpress.deleteWordpressPost({$, site, postId});
     } catch (error) {
-      wordpress.onAxiosCatch("Could not delete post", error, warnings); 
+      wordpress.throwCustomError("Could not delete post", error, warnings); 
     };
     
     $.export("$summary", `Post ID = ${response?.ID} successfully deleted.` + "\n- "  + warnings.join("\n- "));

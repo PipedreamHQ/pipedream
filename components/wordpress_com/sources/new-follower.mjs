@@ -36,12 +36,12 @@ export default {
       });
 
     } catch (error) {
-      wordpress.onAxiosCatch("Failed to fetch followers from WordPress:", error, warnings);
+      wordpress.throwCustomError("Failed to fetch followers from WordPress:", error, warnings);
     }
 
     const followers = response.subscribers || [];
 
-    const lastFollowerId = await db.get("lastFollowerId");
+    const lastFollowerId = Number(await db.get("lastFollowerId"));
   
     // First run: Initialize cursor
     if (!lastFollowerId) {
@@ -64,9 +64,9 @@ export default {
     const newFollowers = [];
 
     for (const follower of followers) {
-    if (follower.ID > lastFollowerId) {
+    if (Number(follower.ID) > lastFollowerId) {
         newFollowers.push(follower);
-        if (follower.ID > maxFollowerIdTracker) {
+        if (Number(follower.ID) > maxFollowerIdTracker) {
         maxFollowerIdTracker = follower.ID;
         }
     }

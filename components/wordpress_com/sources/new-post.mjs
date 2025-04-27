@@ -59,11 +59,11 @@ export default {
       });
 
     } catch (error) {
-      wordpress.onAxiosCatch("Failed to fetch posts from WordPress:", error, warnings); 
+      wordpress.throwCustomError("Failed to fetch posts from WordPress:", error, warnings); 
     }
 
     const posts = (type === "attachment") ? (response.media || []) : (response.posts || []);
-    const lastPostId = await db.get("lastPostId");
+    const lastPostId = Number(await db.get("lastPostId"));
     
 
     // First run: Initialize cursor
@@ -88,9 +88,9 @@ export default {
     const newPosts = [];
 
     for (const post of posts) { 
-      if (post.ID > lastPostId) {
+      if (Number(post.ID) > lastPostId) {
         newPosts.push(post);
-        if (post.ID > maxPostIdTracker) {
+        if (Number(post.ID) > maxPostIdTracker) {
           maxPostIdTracker = post.ID;
         }
       }

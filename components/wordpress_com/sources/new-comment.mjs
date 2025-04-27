@@ -56,11 +56,11 @@ export default {
       });
 
     } catch (error) {
-      wordpress.onAxiosCatch("Failed to fetch comments from WordPress:", error, warnings);
+      wordpress.throwCustomError("Failed to fetch comments from WordPress:", error, warnings);
     }
 
     const comments = response.comments || [];
-    const lastCommentId = await db.get("lastCommentId");
+    const lastCommentId = Number(await db.get("lastCommentId"));
 
     // First run: Initialize cursor
     if (!lastCommentId) {
@@ -83,9 +83,9 @@ export default {
     const newComments = [];
 
     for (const comment of comments) {
-      if (comment.ID > lastCommentId) {
+      if (Number(comment.ID) > lastCommentId) {
         newComments.push(comment);
-        if (comment.ID > maxCommentIdTracker) {
+        if (Number(comment.ID) > maxCommentIdTracker) {
           maxCommentIdTracker = comment.ID;
         }
       }

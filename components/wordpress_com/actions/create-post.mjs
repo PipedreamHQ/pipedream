@@ -72,7 +72,7 @@ export default {
         });
 
       } catch (error) {
-        wordpress.onAxiosCatch("Could not create post", error, warnings); 
+        wordpress.throwCustomError("Could not create post", error, warnings); 
       };
       
       $.export("$summary", `Post successfully created. ID = ${response?.ID}` + "\n- "  + warnings.join("\n- "));
