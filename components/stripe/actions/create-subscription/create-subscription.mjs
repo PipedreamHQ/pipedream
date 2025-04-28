@@ -1,11 +1,12 @@
 import pick from "lodash.pick";
 import stripe from "../../stripe.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "stripe-create-subscription",
   name: "Create Subscription",
   type: "action",
-  version: "0.1.1",
+  version: "0.1.2",
   description: "Create a subscription. [See docs here](https://stripe.com/docs/api/subscriptions/create)",
   props: {
     stripe,
@@ -89,6 +90,14 @@ export default {
         "metadata",
       ],
     },
+    advanced: {
+      label: "Advanced Options",
+      description: "Add any additional parameters that you require here",
+      propDefinition: [
+        stripe,
+        "metadata",
+      ],
+    },
   },
   async run({ $ }) {
     const items = typeof this.items === "string"
@@ -108,6 +117,7 @@ export default {
       items: items.map((item) => ({
         price: item,
       })),
+      ...utils.parseJson(this.advanced),
     });
 
     $.export("$summary", `Successfully created a new subscription with id ${resp.id}`);

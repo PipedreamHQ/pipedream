@@ -1,4 +1,4 @@
-import stripe from "stripe";
+import Stripe from "stripe";
 
 const createOptionsMethod = (collectionOrFn, keysOrFn) => async function ({
   prevContext, ...opts
@@ -539,18 +539,6 @@ export default {
       label: "Quantity",
       optional: true,
     },
-    /* eslint-enable pipedream/props-description */
-    usage_record_action: {
-      type: "string",
-      label: "Action",
-      description: "Add the quantity to the usage at the specified timestamp, or overwrite the usage quantity at that timestamp. If the subscription has billing thresholds, increment is the only allowed value.",
-      options: [
-        "increment",
-        "set",
-      ],
-      default: "increment",
-      optional: true,
-    },
     /* eslint-disable pipedream/props-description */
     invoice_status: {
       type: "string",
@@ -651,13 +639,73 @@ export default {
       description: "Same as **Unit Amount**, but accepts a decimal value in cents with at most 12 decimal places. Only one of **Unit Amount** and **Unit Amount Decimal** can be set.",
       optional: true,
     },
+    createdGt: {
+      type: "string",
+      label: "Created (greater than)",
+      description: "Only return transactions that were created after this date (exclusive). In ISO 8601 format. Eg. `2023-01-01T00:00:00Z`",
+      optional: true,
+    },
+    createdGte: {
+      type: "string",
+      label: "Created (greater than or equal to)",
+      description: "Only return transactions that were created after this date (inclusive). In ISO 8601 format. Eg. `2023-01-01T00:00:00Z`",
+      optional: true,
+    },
+    createdLt: {
+      type: "string",
+      label: "Created (less than)",
+      description: "Only return transactions that were created before this date (exclusive). In ISO 8601 format. Eg. `2023-01-01T00:00:00Z`",
+      optional: true,
+    },
+    createdLte: {
+      type: "string",
+      label: "Created (less than or equal to)",
+      description: "Only return transactions that were created before this date (inclusive). In ISO 8601 format. Eg. `2023-01-01T00:00:00Z`",
+      optional: true,
+    },
+    arrivalDateGt: {
+      type: "string",
+      label: "Arrival Date (greater than)",
+      description: "Only return transactions that were created after this date (exclusive). In ISO 8601 format. Eg. `2023-01-01T00:00:00Z`",
+      optional: true,
+    },
+    arrivalDateGte: {
+      type: "string",
+      label: "Arrival Date (greater than or equal to)",
+      description: "Only return transactions that were created after this date (inclusive). In ISO 8601 format. Eg. `2023-01-01T00:00:00Z`",
+      optional: true,
+    },
+    arrivalDateLt: {
+      type: "string",
+      label: "Arrival Date (less than)",
+      description: "Only return transactions that were created before this date (exclusive). In ISO 8601 format. Eg. `2023-01-01T00:00:00Z`",
+      optional: true,
+    },
+    arrivalDateLte: {
+      type: "string",
+      label: "Arrival Date (less than or equal to)",
+      description: "Only return transactions that were created before this date (inclusive). In ISO 8601 format. Eg. `2023-01-01T00:00:00Z`",
+      optional: true,
+    },
+    endingBefore: {
+      type: "string",
+      label: "Ending Before",
+      description: "A cursor for use in pagination. **Ending Before** is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with `obj_bar`, your subsequent call can include `ending_before=obj_bar` in order to fetch the previous page of the list.",
+      optional: true,
+    },
+    startingAfter: {
+      type: "string",
+      label: "Starting After",
+      description: "A cursor for use in pagination. **Starting After** is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include `starting_after=obj_foo` in order to fetch the next page of the list.",
+      optional: true,
+    },
   },
   methods: {
     _apiKey() {
       return this.$auth.api_key;
     },
-    sdk(apiVersion = "2020-03-02") {
-      return stripe(this._apiKey(), {
+    sdk(apiVersion = "2025-03-31.basil") {
+      return new Stripe(this._apiKey(), {
         apiVersion,
         maxNetworkRetries: 2,
       });
