@@ -17,6 +17,9 @@ export default {
     getSummary(item) {
       return `New Role Created: ${item.name}`;
     },
+    sortItems(items) {
+      return items.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+    },
   },
   sampleEmit,
 };

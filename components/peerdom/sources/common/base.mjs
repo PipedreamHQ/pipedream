@@ -19,14 +19,17 @@ export default {
     _setLastId(lastId) {
       this.db.set("lastId", lastId);
     },
+    sortItems(items) {
+      return items;
+    },
     async emitEvent(maxResults = false) {
       const lastId = this._getLastId();
       const fn = this.getFunction();
 
-      const response = await fn();
+      const response = this.sortItems(await fn());
 
       let responseArray = [];
-      for (const item of response) {
+      for (const item of response.reverse()) {
         if (item.id == lastId) break;
         responseArray.push(item);
       }

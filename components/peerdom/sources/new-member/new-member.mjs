@@ -15,7 +15,7 @@ export default {
       return this.peerdom.listPeers;
     },
     getSummary(item) {
-      return `New Member: ${item.firstName} ${item.lastName}`;
+      return `New Member: ${item.firstName} ${item.lastName || ""}`;
     },
   },
   sampleEmit,
