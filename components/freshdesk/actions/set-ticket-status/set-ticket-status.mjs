@@ -3,8 +3,8 @@ import freshdesk from "../../freshdesk.app.mjs";
 export default {
   key: "freshdesk-set-ticket-status",
   name: "Set Ticket Status",
-  description: "Update the status of a ticket in Freshdesk",
-  version: "0.0.3",
+  description: "Update the status of a ticket in Freshdesk  [See the documentation](https://developers.freshdesk.com/api/#update_ticket).",
+  version: "0.0.8",
   type: "action",
   props: {
     freshdesk,
@@ -22,6 +22,9 @@ export default {
     },
   },
   async run({ $ }) {
+
+    const ticketName = await this.freshdesk.getTicketName(this.ticketId);
+
     const response = await this.freshdesk._makeRequest({
       $,
       method: "PUT",
@@ -30,7 +33,21 @@ export default {
         status: this.ticketStatus,
       },
     });
-    $.export("$summary", `Ticket ${this.ticketId} status updated to ${this.ticketStatus}`);
+
+    const statusLabels = {
+      2: "Open",
+      3: "Pending",
+      4: "Resolved",
+      5: "Closed",
+    };
+
+    const statusLabel = statusLabels[this.ticketStatus] || this.ticketStatus;
+
+    $.export(
+      "$summary",
+      `Ticket "${ticketName}" (ID: ${this.ticketId}) status updated to "${statusLabel}".`,
+    );
+
     return response;
   },
 };

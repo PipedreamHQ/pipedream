@@ -19,6 +19,7 @@ export default {
         }));
       },
     },
+
     ticketId: {
       type: "integer",
       label: "Ticket ID",
@@ -37,6 +38,48 @@ export default {
         }));
       },
     },
+    agentId: {
+      type: "integer",
+      label: "Agent",
+      description: "Select an agent to assign the ticket to",
+      async options({ page = 0 }) {
+        const response = await this._makeRequest({
+          method: "GET",
+          url: "/agents",
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return response.map((agent) => ({
+          label: agent.contact?.name
+            ? `${agent.contact.name} (${agent.contact.email || "No email"})`
+            : `Agent ${agent.id}`,
+          value: agent.id,
+        }));
+      },
+    },
+    groupId: {
+      type: "integer",
+      label: "Group",
+      description: "Select a group to assign the ticket to.",
+      async options({ page = 0 }) {
+        const groups = await this._makeRequest({
+          method: "GET",
+          url: "/groups",
+          params: {
+            page: page + 1,
+            per_page: 100,
+          },
+        });
+
+        return groups.map((group) => ({
+          label: group.name || `Group ${group.id}`,
+          value: group.id,
+        }));
+      },
+    },
+
     ticketStatus: {
       type: "integer",
       label: "Status",
@@ -206,6 +249,22 @@ export default {
         url: "/tickets",
         ...args,
       });
+    },
+    async getTicketName(ticketId) {
+      const ticket = await this.getTicket({
+        ticketId,
+      });
+      return ticket.subject;
+    },
+    parseIfJSONString(input) {
+      if (typeof input === "string") {
+        try {
+          return JSON.parse(input);
+        } catch (error) {
+          return input;
+        }
+      }
+      return input;
     },
   },
 };

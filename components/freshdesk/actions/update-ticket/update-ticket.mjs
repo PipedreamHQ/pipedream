@@ -4,8 +4,8 @@ import { removeNullEntries } from "../../common/utils.mjs";
 export default {
   key: "freshdesk-update-ticket",
   name: "Update a Ticket",
-  description: "Update status, priority, subject, description, agent, group, etc. [See docs](https://developers.freshdesk.com/api/#update_a_ticket)",
-  version: "0.0.12",
+  description: "Update status, priority, subject, description, agent, group, etc.  [See the documentation](https://developers.freshdesk.com/api/#update_ticket).",
+  version: "0.0.17",
   type: "action",
   props: {
     freshdesk,
@@ -15,14 +15,14 @@ export default {
         "ticketId",
       ],
     },
-    ticketStatus: {
+    status: {
       propDefinition: [
         freshdesk,
         "ticketStatus",
       ],
       optional: true,
     },
-    ticketPriority: {
+    priority: {
       propDefinition: [
         freshdesk,
         "ticketPriority",
@@ -42,16 +42,16 @@ export default {
       optional: true,
     },
     group_id: {
-      type: "integer",
-      label: "Group ID",
-      description: "ID of the group to assign this ticket to",
-      optional: true,
+      propDefinition: [
+        freshdesk,
+        "groupId",
+      ],
     },
     responder_id: {
-      type: "integer",
-      label: "Agent ID",
-      description: "ID of the agent to assign this ticket to",
-      optional: true,
+      propDefinition: [
+        freshdesk,
+        "agentId",
+      ],
     },
     email: {
       type: "string",
@@ -95,36 +95,18 @@ export default {
     const {
       freshdesk,
       ticketId,
-      ticketStatus,
-      ticketPriority,
-      subject,
-      description,
-      type,
-      group_id,
-      responder_id,
-      email,
-      phone,
-      name,
-      custom_fields,
+      ...fields
     } = this;
 
-    const data = removeNullEntries({
-      status: ticketStatus,
-      priority: ticketPriority,
-      subject,
-      description,
-      type,
-      group_id,
-      responder_id,
-      email,
-      phone,
-      name,
-      custom_fields,
-    });
+    const data = removeNullEntries(fields);
+
+    const ticketName = await freshdesk.getTicketName(ticketId);
 
     if (!Object.keys(data).length) {
       throw new Error("Please provide at least one field to update.");
     }
+
+    if (data.custom_fields) freshdesk.parseIfJSONString(data.custom_fields);
 
     const response = await freshdesk._makeRequest({
       $,
@@ -133,7 +115,7 @@ export default {
       data,
     });
 
-    $.export("$summary", `Ticket ${ticketId} updated successfully`);
+    $.export("$summary", `Ticket "${ticketName}" (ID: ${this.ticketId}) updated successfully`);
     return response;
   },
 };
