@@ -14526,7 +14526,14 @@ importers:
 
   components/xeggex: {}
 
-  components/xendit: {}
+  components/xendit:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      uuid:
+        specifier: ^11.1.0
+        version: 11.1.0
 
   components/xero_accounting_api:
     dependencies:

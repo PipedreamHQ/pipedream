@@ -357,6 +357,16 @@ export default withNextra({
         permanent: true,
       },
       {
+        source: "/components/typescript/",
+        destination: "/components/contributing/typescript/",
+        permanent: true,
+      },
+      {
+        source: "/github-sync/",
+        destination: "/workflows/git/",
+        permanent: true,
+      },
+      {
         source: "/workspaces/okta/",
         destination: "/workflows/workspaces/sso/okta/",
         permanent: true,
