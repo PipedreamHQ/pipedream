@@ -216,7 +216,7 @@ export default {
       return {
         "Content-Type": "application/json",
         "Cache-Control": "no-cache",
-        "X-Api-Key": this.$auth.api_key, // ✅ this is correct
+        "X-Api-Key": this.$auth.api_key,
         ...headers,
       };
     },
