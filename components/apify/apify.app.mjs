@@ -29,7 +29,7 @@ export default {
     actorId: {
       type: "string",
       label: "Actor ID",
-      description: "The ID of the actor to run.",
+      description: "Actor ID or a tilde-separated owner's username and Actor name",
       async options({ page }) {
         const { data: { items } } = await this.listActors({
           params: {
@@ -105,6 +105,23 @@ export default {
         })) || [];
       },
     },
+    buildId: {
+      type: "string",
+      label: "Build",
+      description: "Specifies the Actor build to run. It can be either a build tag or build number.",
+      async options({
+        page, actorId,
+      }) {
+        const { data: { items } } = await this.listBuilds({
+          actorId,
+          params: {
+            offset: LIMIT * page,
+            limit: LIMIT,
+          },
+        });
+        return items?.map(({ id }) => id) || [];
+      },
+    },
     clean: {
       type: "boolean",
       label: "Clean",
@@ -174,6 +191,15 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
+        path: `/acts/${actorId}/run-sync`,
+        ...opts,
+      });
+    },
+    runActorAsynchronously({
+      actorId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
         path: `/acts/${actorId}/runs`,
         ...opts,
       });
@@ -207,7 +233,7 @@ export default {
         ...opts,
       });
     },
-    listBuilds(actorId) {
+    listBuilds({ actorId }) {
       return this._makeRequest({
         path: `/acts/${actorId}/builds`,
       });
