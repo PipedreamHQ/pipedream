@@ -2,6 +2,12 @@
 
 # Changelog
 
+## [1.5.5] - 2025-04-25
+
+### Changed
+
+- Types and documentation around `configureComponent` `prevContext` and `context`.
+
 ## [1.5.4] - 2025-04-25
 
 ### Added
