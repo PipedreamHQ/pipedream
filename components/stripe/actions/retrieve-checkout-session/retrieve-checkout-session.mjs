@@ -4,7 +4,7 @@ export default {
   key: "stripe-retrieve-checkout-session",
   name: "Retrieve a Checkout Session",
   type: "action",
-  version: "0.1.1",
+  version: "0.1.2",
   description: "A Checkout Session represents your customer's session as they pay for one-time " +
     "purchases or subscriptions through Stripe Checkout. [See the " +
     "docs](https://stripe.com/docs/api/checkout/sessions/retrieve) for more information",

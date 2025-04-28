@@ -1,11 +1,11 @@
-import pick from "lodash.pick";
 import app from "../../stripe.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "stripe-list-balance-history",
   name: "List Balance History",
   type: "action",
-  version: "0.1.1",
+  version: "0.1.6",
   description: "Returns the last 100 transactions that have contributed to the Stripe account " +
     "balance (e.g., charges, transfers, and so forth). The transactions are returned in " +
     "sorted order, with the most recent transactions appearing first. [See the " +
@@ -22,6 +22,9 @@ export default {
       propDefinition: [
         app,
         "currency",
+        () => ({
+          country: "US",
+        }),
       ],
     },
     type: {
@@ -36,15 +39,78 @@ export default {
         "limit",
       ],
     },
+    createdGt: {
+      propDefinition: [
+        app,
+        "createdGt",
+      ],
+    },
+    createdGte: {
+      propDefinition: [
+        app,
+        "createdGte",
+      ],
+    },
+    createdLt: {
+      propDefinition: [
+        app,
+        "createdLt",
+      ],
+    },
+    createdLte: {
+      propDefinition: [
+        app,
+        "createdLte",
+      ],
+    },
+    endingBefore: {
+      propDefinition: [
+        app,
+        "endingBefore",
+      ],
+    },
+    startingAfter: {
+      propDefinition: [
+        app,
+        "startingAfter",
+      ],
+    },
   },
   async run({ $ }) {
-    const params = pick(this, [
-      "payout",
-      "type",
-    ]);
-    const resp = await this.app.sdk().balanceTransactions.list(params)
+    const {
+      app,
+      payout,
+      type,
+      currency,
+      limit,
+      createdGt,
+      createdGte,
+      createdLt,
+      createdLte,
+      endingBefore,
+      startingAfter,
+    } = this;
+
+    const resp = await app.sdk().balanceTransactions.list({
+      payout,
+      type,
+      currency,
+      ending_before: endingBefore,
+      starting_after: startingAfter,
+      ...(createdGt || createdGte || createdLt || createdLte
+        ? {
+          created: {
+            gt: utils.fromDateToInteger(createdGt),
+            gte: utils.fromDateToInteger(createdGte),
+            lt: utils.fromDateToInteger(createdLt),
+            lte: utils.fromDateToInteger(createdLte),
+          },
+        }
+        : {}
+      ),
+    })
       .autoPagingToArray({
-        limit: this.limit,
+        limit,
       });
     $.export("$summary", "Successfully fetched balance transactions");
     return resp;
