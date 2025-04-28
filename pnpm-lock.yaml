@@ -1486,8 +1486,7 @@ importers:
 
   components/bigpicture_io: {}
 
-  components/bika_ai:
-    specifiers: {}
+  components/bika_ai: {}
 
   components/bilflo:
     dependencies:
@@ -6021,6 +6020,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+      md5:
+        specifier: ^2.3.0
+        version: 2.3.0
 
   components/highrise:
     dependencies:
