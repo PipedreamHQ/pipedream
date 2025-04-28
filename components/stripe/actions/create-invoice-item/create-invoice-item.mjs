@@ -1,11 +1,12 @@
 import pick from "lodash.pick";
 import app from "../../stripe.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "stripe-create-invoice-item",
   name: "Create Invoice Line Item",
   type: "action",
-  version: "0.1.1",
+  version: "0.1.2",
   description: "Add a line item to an invoice. [See the " +
     "docs](https://stripe.com/docs/api/invoiceitems/create) for more information",
   props: {
@@ -84,10 +85,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const resp = await this.app.sdk().invoiceItems.create({
+    const {
+      app,
+      price,
+      advanced,
+    } = this;
+    const resp = await app.sdk().invoiceItems.create({
       ...pick(this, [
         "customer",
-        "price",
         "subscription",
         "invoice",
         "amount",
@@ -96,7 +101,15 @@ export default {
         "description",
         "metadata",
       ]),
-      ...this.advanced,
+      ...(price
+        ? {
+          pricing: {
+            price,
+          },
+        }
+        : {}
+      ),
+      ...utils.parseJson(advanced),
     });
 
     $.export("$summary", "Successfully added new invoice item");

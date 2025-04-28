@@ -1,11 +1,12 @@
 import pick from "lodash.pick";
 import app from "../../stripe.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "stripe-create-customer",
   name: "Create a Customer",
   type: "action",
-  version: "0.1.1",
+  version: "0.1.2",
   description: "Create a customer. [See the docs](https://stripe.com/docs/api/customers/create) " +
     "for more information",
   props: {
@@ -105,7 +106,7 @@ export default {
     const resp = await this.app.sdk().customers.create({
       ...params,
       address,
-      ...this.advanced,
+      ...utils.parseJson(this.advanced),
     });
     $.export("$summary", `Successfully created a new customer, "${resp.id}"`);
     return resp;

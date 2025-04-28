@@ -1,11 +1,12 @@
 import pick from "lodash.pick";
 import app from "../../stripe.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "stripe-update-invoice",
   name: "Update Invoice",
   type: "action",
-  version: "0.1.1",
+  version: "0.1.2",
   description: "Update an invoice. [See the docs](https://stripe.com/docs/api/invoices/update) " +
     "for more information",
   props: {
@@ -77,7 +78,7 @@ export default {
         "default_payment_method",
         "metadata",
       ]),
-      ...this.advanced,
+      ...utils.parseJson(this.advanced),
     });
     $.export("$summary", `Successfully updated the invoice, "${resp.number || resp.id}"`);
     return resp;
