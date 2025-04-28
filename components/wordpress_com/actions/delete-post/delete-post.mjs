@@ -1,28 +1,31 @@
 import wordpress from "../../wordpress_com.app.mjs";
 
 export default {
-
   key: "wordpress_com-delete-post",
   name: "Delete Post",
-  description: "Deletes a post",
-  version: "0.0.4",
+  description: "Deletes a post. [See the documentation](https://developer.wordpress.com/docs/api/1.1/post/sites/%24site/posts/%24post_ID/delete/)",
+  version: "0.0.1",
   type: "action",
   props: {
     wordpress,
     site: {
-      label: "Domain or ID",
-      type: "string",
-      description: "Enter a site ID or domain (e.g. testsit38.wordpress.com).",
+      propDefinition: [
+        wordpress,
+        "siteId",
+      ],
     },
     postId: {
-      type: "integer",
-      label: "Post ID",
-      description: "The ID of the post you want to delete.",
+      propDefinition: [
+        wordpress,
+        "postId",
+        (c) => ({
+          site: c.site,
+        }),
+      ],
+      description: "The ID of the post you want to delete",
     },
   },
-
   async run({ $ }) {
-
     const warnings = [];
 
     const {

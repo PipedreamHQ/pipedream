@@ -4,15 +4,17 @@ export default {
   key: "wordpress_com-new-post",
   name: "New Post",
   description: "Emit new event for each new post published since the last run. If no new posts, emit nothing.",
-  version: "0.0.5",
+  version: "0.0.1",
   type: "source",
+  dedupe: "unique",
   props: {
     wordpress,
     db: "$.service.db",
     site: {
-      type: "string",
-      label: "Site ID or domain",
-      description: "Enter a site ID or domain (e.g. testsit38.wordpress.com). Do not include 'https://' or 'www'.",
+      propDefinition: [
+        wordpress,
+        "siteId",
+      ],
     },
     type: {
       type: "string",
@@ -44,9 +46,7 @@ export default {
       max: 100,
     },
   },
-
   async run({ $ }) {
-
     const warnings = [];
 
     const {
@@ -108,13 +108,11 @@ export default {
     }
 
     for (const post of newPosts.reverse()) {
-
       this.$emit(post, {
         id: post.ID,
         summary: post.title,
         ts: post.date && +new Date(post.date),
       });
-
     }
 
     // Update last seen post ID

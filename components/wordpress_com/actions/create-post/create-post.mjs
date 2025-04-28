@@ -3,30 +3,31 @@ import wordpress from "../../wordpress_com.app.mjs";
 export default {
   key: "wordpress_com-create-post",
   name: "Create New Post",
-  description: "Creates a new post on a WordPress.com site.",
-  version: "0.0.5",
+  description: "Creates a new post on a WordPress.com site. [See the documentation](https://developer.wordpress.com/docs/api/1.1/post/sites/%24site/posts/new/)",
+  version: "0.0.1",
   type: "action",
   props: {
     wordpress,
     site: {
-      type: "string",
-      label: "Site ID or domain",
-      description: "Enter a site ID or domain (e.g. testsit38.wordpress.com). Do not include 'https://' or 'www'.",
+      propDefinition: [
+        wordpress,
+        "siteId",
+      ],
     },
     title: {
       type: "string",
       label: "Post Title",
-      description: "The title of the post.",
+      description: "The title of the post",
     },
     content: {
       type: "string",
       label: "Post Content",
-      description: "The content of the post (HTML or text).",
+      description: "The content of the post (HTML or text)",
     },
     status: {
       type: "string",
       label: "Status",
-      description: "The status of the post.",
+      description: "The status of the post",
       options: [
         "publish",
         "draft",
@@ -54,9 +55,7 @@ export default {
       optional: true,
     },
   },
-
   async run({ $ }) {
-
     const warnings = [];
 
     const {
@@ -65,26 +64,23 @@ export default {
       ...fields
     } =  this;
 
-    warnings.push(...wordpress.checkDomainOrId(site)); // TEST
+    warnings.push(...wordpress.checkDomainOrId(site));
 
     let response;
 
     try {
-      response = await wordpress.createWordpressPost({ //TEST
-
+      response = await wordpress.createWordpressPost({
         $,
         site,
         data: {
           ...fields,
         },
       });
-
     } catch (error) {
       wordpress.throwCustomError("Could not create post", error, warnings);
     };
 
     $.export("$summary", `Post successfully created. ID = ${response?.ID}` + "\n- "  + warnings.join("\n- "));
   },
-
 };
 

@@ -4,18 +4,19 @@ export default {
   key: "wordpress_com-new-follower",
   name: "New Follower",
   description: "Emit new event for each new follower that subscribes to the site.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "source",
+  dedupe: "unique",
   props: {
     wordpress,
     db: "$.service.db",
     site: {
-      type: "string",
-      label: "Site ID or domain",
-      description: "Enter a site ID or domain (e.g. testsit38.wordpress.com). Do not include 'https://' or 'www'.",
+      propDefinition: [
+        wordpress,
+        "siteId",
+      ],
     },
   },
-
   async run({ $ }) {
     const warnings = [];
 

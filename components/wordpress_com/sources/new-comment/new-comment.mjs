@@ -4,36 +4,40 @@ export default {
   key: "wordpress_com-new-comment",
   name: "New Comment",
   description: "Emit new event for each new comment added since the last run. If no new comments, emit nothing.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "source",
+  dedupe: "unique",
   props: {
     wordpress,
     db: "$.service.db",
     site: {
-      type: "string",
-      label: "Site ID or domain",
-      description: "Enter a site ID or domain (e.g. testsit38.wordpress.com). Do not include 'https://' or 'www'.",
+      propDefinition: [
+        wordpress,
+        "siteId",
+      ],
     },
     postId: {
-      type: "integer",
-      label: "Post ID",
+      propDefinition: [
+        wordpress,
+        "postId",
+        (c) => ({
+          site: c.site,
+        }),
+      ],
       description: "Enter a specific post ID to fetch comments for only that post. Leave empty to fetch all comments.",
       optional: true,
     },
     number: {
       type: "integer",
       label: "Maximum Comments to Fetch",
-      description: "The number of most recent comments to fetch each time the source runs.",
+      description: "The number of most recent comments to fetch each time the source runs",
       default: 10,
       optional: true,
       min: 1,
       max: 100,
     },
-
   },
-
   async run({ $ }) {
-
     const warnings = [];
 
     const {

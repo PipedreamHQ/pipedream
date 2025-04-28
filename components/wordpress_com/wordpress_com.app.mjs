@@ -4,20 +4,58 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "wordpress_com",
-  propDefinitions: {},
+  propDefinitions: {
+    siteId: {
+      type: "string",
+      label: "Site ID or Domain",
+      description: "Enter a site ID or domain (e.g. testsit38.wordpress.com). Do not include 'https://' or 'www'.",
+      async options() {
+        const { sites } = await this.listSites();
+        return sites?.map(({
+          ID: value, URL: label,
+        }) => ({
+          label,
+          value,
+        })) || [];
+      },
+    },
+    postId: {
+      type: "string",
+      label: "Post ID",
+      description: "The ID of the post",
+      async options({
+        site, page,
+      }) {
+        const { posts } = await this.getWordpressPosts({
+          site,
+          params: {
+            page: page + 1,
+            order: "DESC",
+            order_by: "date",
+          },
+        });
+        return posts?.map(({
+          ID: value, title: label,
+        }) => ({
+          label,
+          value,
+        })) || [];
+      },
+    },
+  },
   methods: {
-
     ...methods,
-    // this.$auth contains connected account data
+    _baseUrl() {
+      return "https://public-api.wordpress.com/rest/v1.1";
+    },
     _makeRequest({
       $ = this,
-      url,
+      path,
       contentType,
       ...opts
     }) {
-
       return axios($, {
-        url,
+        url: `${this._baseUrl()}${path}`,
         headers: {
           "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
           "Content-Type": (contentType)
@@ -27,19 +65,16 @@ export default {
         ...opts,
       });
     },
-
     createWordpressPost({
       site,
       ...opts
     }) {
-
       return this._makeRequest({
         method: "POST",
-        url: `https://public-api.wordpress.com/rest/v1.1/sites/${site}/posts/new`,
+        path: `/sites/${site}/posts/new`,
         ...opts,
       });
     },
-
     uploadWordpressMedia({
       site,
       contentType,
@@ -47,36 +82,33 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        url: `https://public-api.wordpress.com/rest/v1.1/sites/${site}/media/new`,
+        path: `/sites/${site}/media/new`,
         contentType,
         ...opts,
       });
     },
-
     deleteWordpressPost({
       site,
       postId,
     }) {
-
       return this._makeRequest({
         method: "POST", // use POST instead of DELETE. Wordpress does not allow DELETE methods on free accounts.
-        url: `https://public-api.wordpress.com/rest/v1.1/sites/${site}/posts/${postId}/delete`,
+        path: `/sites/${site}/posts/${postId}/delete`,
       });
     },
-
     getWordpressPosts({
       site,
       number,
       type,
       ...opts
     }) {
-      const url = (type === "attachment")
-        ? `https://public-api.wordpress.com/rest/v1.1/sites/${site}/media/`
-        : `https://public-api.wordpress.com/rest/v1.1/sites/${site}/posts/`;
+      const path = (type === "attachment")
+        ? `/sites/${site}/media/`
+        : `/sites/${site}/posts/`;
 
       return this._makeRequest({
-        method: "GET", // use POST instead of DELETE. Wordpress does not allow DELETE methods on free accounts.
-        url,
+        method: "GET",
+        path,
         params: {
           order_by: "date",
           order: "DESC",
@@ -86,20 +118,19 @@ export default {
         ...opts,
       });
     },
-
     getWordpressComments({
       site,
       postId,
       number,
       ...opts
     }) {
-      const url = postId
-        ? `https://public-api.wordpress.com/rest/v1.1/sites/${site}/posts/${postId}/replies/`
-        : `https://public-api.wordpress.com/rest/v1.1/sites/${site}/comments/`;
+      const path = postId
+        ? `/sites/${site}/posts/${postId}/replies/`
+        : `/sites/${site}/comments/`;
 
       return this._makeRequest({
         method: "GET",
-        url,
+        path,
         params: {
           order_by: "date",
           order: "DESC",
@@ -108,18 +139,21 @@ export default {
         ...opts,
       });
     },
-
     getWordpressFollowers({
       site,
       ...opts
     }) {
       return this._makeRequest({
         method: "GET",
-        url: `https://public-api.wordpress.com/rest/v1.1/sites/${site}/followers/`,
-
+        path: `/sites/${site}/followers/`,
         ...opts,
       });
     },
-
+    listSites(opts = {}) {
+      return this._makeRequest({
+        path: "/me/sites",
+        ...opts,
+      });
+    },
   },
 };

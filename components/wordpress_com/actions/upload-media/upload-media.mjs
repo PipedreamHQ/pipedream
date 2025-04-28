@@ -2,19 +2,18 @@ import { prepareMediaUpload } from "../../common/utils.mjs";
 import wordpress from "../../wordpress_com.app.mjs";
 
 export default {
-
   key: "wordpress_com-upload-media",
   name: "Upload Media",
   description: "Uploads a media file from a URL to the specified WordPress.com site.",
-  version: "0.0.4",
+  version: "0.0.1",
   type: "action",
-
   props: {
     wordpress,
     site: {
-      type: "string",
-      label: "Site ID or domain",
-      description: "Enter a site ID or domain (e.g. testsit38.wordpress.com).",
+      propDefinition: [
+        wordpress,
+        "siteId",
+      ],
     },
     media: {
       type: "any",
@@ -24,24 +23,23 @@ export default {
     title: {
       type: "string",
       label: "Title",
-      description: "Title of the media.",
+      description: "Title of the media",
       optional: true,
     },
     caption: {
       type: "string",
       label: "Caption",
-      description: "Optional caption text to associate with the uploaded media.",
+      description: "Optional caption text to associate with the uploaded media",
       optional: true,
     },
     description: {
       type: "string",
       label: "Description",
+      description: "A description of the uploaded media",
       optional: true,
     },
   },
-
   async run({ $ }) {
-
     const warnings = [];
 
     const
@@ -58,18 +56,15 @@ export default {
 
     // If not form data
     if (wordpress.isFormData(media)) {
-
       form = media;
 
     } else {
-
       form = await prepareMediaUpload(media, fields, $);
     }
 
     let response;
 
     try {
-
       response = await wordpress.uploadWordpressMedia({
         $,
         contentType: form.getHeaders()["content-type"],
@@ -85,9 +80,7 @@ export default {
       return response;
 
     } catch (error) {
-
       wordpress.throwCustomError("Failed to upload media", error, warnings);
-
     };
   },
 };
