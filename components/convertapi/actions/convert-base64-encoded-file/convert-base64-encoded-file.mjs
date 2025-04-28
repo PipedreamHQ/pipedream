@@ -1,11 +1,12 @@
+import FormData from "form-data";
+import { saveFile } from "../../common/utils.mjs";
 import convertapi from "../../convertapi.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "convertapi-convert-base64-encoded-file",
   name: "Convert Base64 Encoded File",
   description: "This action converts a base64-string-encoded file into the user-specified format. [See the documentation](https://v2.convertapi.com/info/openapi)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     convertapi,
@@ -15,31 +16,61 @@ export default {
         "base64String",
       ],
     },
-    format: {
+    filename: {
+      type: "string",
+      label: "Filename",
+      description: "Converted output file name without extension. The extension will be added automatically.",
+    },
+    formatFrom: {
       propDefinition: [
         convertapi,
-        "format",
+        "formatFrom",
       ],
-      optional: true,
+      reloadProps: true,
     },
   },
+  async additionalProps() {
+    const props = {};
+    if (this.formatFrom) {
+      const { paths } = await this.convertapi.getAllowedFormats({
+        formatFrom: this.formatFrom,
+      });
+
+      const str = `/convert/${this.formatFrom}/to/`;
+
+      const allowedFormats = Object.keys(paths).filter((format) => {
+        if (format.startsWith(str)) {
+          return true;
+        }
+      })
+        .map((format) => format.slice(str.length));
+
+      props.formatTo = {
+        type: "string",
+        label: "Format To",
+        description: "The format to convert the file to.",
+        options: allowedFormats,
+      };
+    }
+    return props;
+  },
   async run({ $ }) {
-    const response = await this.convertapi.convertBase64ToFormat({
-      base64String: this.base64String,
-      format: this.format,
+    const buffer = Buffer.from(this.base64String, "base64");
+    const data = new FormData();
+    data.append("File", buffer, `${this.filename}.${this.formatFrom}`);
+
+    const { Files } = await this.convertapi.convertFileToFormat({
+      $,
+      data,
+      maxBodyLength: Infinity,
+      headers: data.getHeaders(),
+      formatFrom: this.formatFrom,
+      formatTo: this.formatTo,
     });
 
-    const files = response.Files || [];
-    for (const file of files) {
-      const filePath = `/tmp/${file.FileName}`;
-      await axios($, {
-        method: "GET",
-        url: file.Url,
-        responseType: "arraybuffer",
-      }).then((buffer) => require("fs").promises.writeFile(filePath, buffer));
-    }
+    await saveFile(Files);
 
-    $.export("$summary", `Successfully converted base64 encoded file to ${this.format || "default format"}`);
-    return response;
+    $.export("$summary", `Successfully converted base64 encoded file to ${this.formatTo} and saved in /tmp directory as **${Files[0].FileName}**.`);
+    return;
   },
 };
