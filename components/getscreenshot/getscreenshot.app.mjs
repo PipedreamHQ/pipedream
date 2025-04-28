@@ -22,13 +22,13 @@ export default {
     },
     async getScreenshot(args) {
       return this._makeRequest({
-        path: "/get-screenshot",
+        url: "/get-screenshot",
         ...args,
       });
     },
     async getApiUsage(args) {
       return this._makeRequest({
-        path: "/usage",
+        url: "/usage",
         ...args,
       });
     },
