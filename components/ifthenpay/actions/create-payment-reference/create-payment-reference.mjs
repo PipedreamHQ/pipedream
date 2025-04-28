@@ -103,15 +103,7 @@ export default {
   },
   async additionalProps(props) {
     const isMb = this.paymentMethod === "Multibanco";
-
-    props.mbKey.default = isMb
-      ? this.ifthenpay.$auth.mb_key
-      : null;
     props.mbKey.hidden = !isMb;
-
-    props.mbWayKey.default = !isMb
-      ? this.ifthenpay.$auth.mbway_key
-      : null;
     props.mbWayKey.hidden = isMb;
     props.mobileNumber.hidden = isMb;
     props.url.hidden = isMb;
