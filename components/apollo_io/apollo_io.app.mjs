@@ -216,12 +216,12 @@ export default {
       return {
         "Content-Type": "application/json",
         "Cache-Control": "no-cache",
+        "X-Api-Key": this.$auth.api_key,
         ...headers,
       };
     },
     getParams(params) {
       return {
-        api_key: this.$auth.api_key,
         ...params,
       };
     },

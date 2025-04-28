@@ -5,7 +5,7 @@ export default {
   key: "stripe-create-customer",
   name: "Create a Customer",
   type: "action",
-  version: "0.1.0",
+  version: "0.1.1",
   description: "Create a customer. [See the docs](https://stripe.com/docs/api/customers/create) " +
     "for more information",
   props: {

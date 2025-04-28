@@ -4,7 +4,7 @@ export default {
   name: "Retrieve Product",
   description: "Retrieve a product by ID. [See the docs](https://stripe.com/docs/api/products/retrieve)",
   key: "stripe-retrieve-product",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     app,

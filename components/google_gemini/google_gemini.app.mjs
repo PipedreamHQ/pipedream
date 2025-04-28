@@ -10,25 +10,10 @@ export default {
       label: "Prompt Text",
       description: "The text to use as the prompt for content generation",
     },
-    mimeType: {
-      type: "string",
-      label: "MIME Type",
-      description: "The MIME type of the images",
-      options: [
-        {
-          label: "PNG",
-          value: "image/png",
-        },
-        {
-          label: "JPEG",
-          value: "image/jpeg",
-        },
-      ],
-    },
-    imagePaths: {
+    mediaPaths: {
       type: "string[]",
-      label: "Image File Paths",
-      description: "The local file paths of the images to use in the content generation. The path to the image file saved to the `/tmp` directory (e.g. `/tmp/example.pdf`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      label: "Media File Paths",
+      description: "The local file paths of the images/audios/videos to use in the content generation. The path to the media file saved to the `/tmp` directory (e.g. `/tmp/example.pdf`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
     },
     model: {
       type: "string",
@@ -115,6 +100,17 @@ export default {
         : `models/${model}`;
       return this.post({
         path: `/${pathPrefix}:${constants.MODEL_METHODS.GENERATE_CONTENT}`,
+        ...args,
+      });
+    },
+    embedContent({
+      model, ...args
+    } = {}) {
+      const pathPrefix = model.startsWith("models/")
+        ? model
+        : `models/${model}`;
+      return this.post({
+        path: `/${pathPrefix}:${constants.MODEL_METHODS.EMBED_CONTENT}`,
         ...args,
       });
     },

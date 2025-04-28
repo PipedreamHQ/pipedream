@@ -6,7 +6,7 @@ import elevenlabs from "../../elevenlabs.app.mjs";
 export default {
   key: "elevenlabs-text-to-speech",
   name: "Text To Speech",
-  version: "0.0.3",
+  version: "0.0.4",
   description: "Retrieve an audio file. [See the documentation](https://docs.elevenlabs.io/api-reference/text-to-speech)",
   type: "action",
   props: {

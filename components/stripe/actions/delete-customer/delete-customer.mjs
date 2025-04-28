@@ -4,7 +4,7 @@ export default {
   key: "stripe-delete-customer",
   name: "Delete a Customer",
   type: "action",
-  version: "0.1.0",
+  version: "0.1.1",
   description: "Delete a customer. [See the docs](https://stripe.com/docs/api/customers/delete) " +
     "for more information",
   props: {
