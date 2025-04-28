@@ -1,11 +1,12 @@
 import pick from "lodash.pick";
 import app from "../../stripe.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "stripe-confirm-payment-intent",
   name: "Confirm a Payment Intent",
   type: "action",
-  version: "0.1.1",
+  version: "0.1.2",
   description: "Confirm that your customer intends to pay with current or provided payment " +
     "method. Upon confirmation, Stripe will attempt to initiate a payment. [See the " +
     "docs](https://stripe.com/docs/api/payment_intents/confirm) for more information",
@@ -65,7 +66,7 @@ export default {
     ]);
     const resp = await this.app.sdk().paymentIntents.confirm(this.id, {
       ...params,
-      ...this.advanced,
+      ...utils.parseJson(this.advanced),
     });
     $.export("$summary", "Successfully confirmed the payment intent");
     return resp;

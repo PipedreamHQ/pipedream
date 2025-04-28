@@ -1,11 +1,12 @@
 import pick from "lodash.pick";
 import app from "../../stripe.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "stripe-create-invoice",
   name: "Create Invoice",
   type: "action",
-  version: "0.1.1",
+  version: "0.1.2",
   description: "Create an invoice. [See the docs](https://stripe.com/docs/api/invoices/create) " +
     "for more information",
   props: {
@@ -92,7 +93,7 @@ export default {
         "default_payment_method",
         "metadata",
       ]),
-      ...this.advanced,
+      ...utils.parseJson(this.advanced),
     });
 
     $.export("$summary", "Successfully created a new invoice");
