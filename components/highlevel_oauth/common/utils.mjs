@@ -7,6 +7,9 @@ function optionalParseAsJSON(value) {
 }
 
 export function parseObjectEntries(value) {
+  if (!value) {
+    return undefined;
+  }
   const obj = typeof value === "string"
     ? JSON.parse(value)
     : value;

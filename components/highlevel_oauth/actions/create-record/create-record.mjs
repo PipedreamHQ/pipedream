@@ -1,11 +1,12 @@
 import common from "../../common/base.mjs";
+import { parseObjectEntries } from "../../common/utils.mjs";
 
 export default {
   ...common,
   key: "highlevel_oauth-create-record",
   name: "Create Record",
   description: "Creates a custom object record. [See the documentation](https://highlevel.stoplight.io/docs/integrations/47e05e18c5d41-create-record)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
@@ -14,7 +15,6 @@ export default {
         common.props.app,
         "schemaKey",
       ],
-      reloadProps: true,
     },
     ownerId: {
       propDefinition: [
@@ -22,7 +22,7 @@ export default {
         "userId",
       ],
       label: "Owner ID",
-      description: "The ID of a user representing the owner of the record",
+      description: "The ID of a user representing the owner of the record. Only supported for custom objects.",
       optional: true,
     },
     followerIds: {
@@ -32,22 +32,15 @@ export default {
       ],
       type: "string[]",
       label: "Follower IDs",
-      description: "An array of user IDs representing followers of the record",
+      description: "An array of user IDs representing followers of the record. Only supported for custom objects",
       optional: true,
     },
-  },
-  async additionalProps() {
-    const props = {};
-    /*   if (!this.schemaKey) {
-      return props;
-    }
-    const { fields } = await this.app.getObject({
-      schmeaKey: this.schemaKey,
-    });
-    for (const field of fields) {
-
-    } */
-    return props;
+    properties: {
+      propDefinition: [
+        common.props.app,
+        "properties",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.app.createRecord({
@@ -59,7 +52,7 @@ export default {
           this.ownerId,
         ],
         followers: this.followerIds,
-        properties: {},
+        properties: parseObjectEntries(this.properties),
       },
     });
     $.export("$summary", `Successfully created record with ID: ${response.record.id}`);

@@ -70,7 +70,7 @@ export default {
       label: "User ID",
       description: "The ID of a user",
       async options() {
-        const { users } = await this.listNotes({
+        const { users } = await this.listUsers({
           params: {
             locationId: this.getLocationId(),
           },
@@ -86,7 +86,7 @@ export default {
     schemaKey: {
       type: "string",
       label: "Object Schema Key",
-      description: "Key used to refer the custom / standard Object internally (lowercase + underscore_separated)",
+      description: "Key used to refer the custom / standard Object internally. For custom objects, the key must include the “custom_objects.” prefix, while standard objects use their respective object keys. This information is available on the Custom Objects Details page under Settings.",
       async options() {
         const { objects } = await this.listObjects({
           params: {
@@ -100,6 +100,29 @@ export default {
           value,
         })) || [];
       },
+    },
+    recordId: {
+      type: "string",
+      label: "Record ID",
+      description: "The ID of the record to be updated. Available on the Record details page under the 3 dots or in the url",
+      async options({
+        schemaKey, page,
+      }) {
+        const { customObjectRecords } = await this.searchRecords({
+          schemaKey,
+          params: {
+            page: page + 1,
+            pageLimit: 20,
+          },
+        });
+        return customObjectRecords?.map(({ id }) => id) || [];
+      },
+    },
+    properties: {
+      type: "object",
+      label: "Properties",
+      description: "Properties of the record as key/value pairs. Example: `{\"customer_number\":1424,\"ticket_name\":\"Customer not able login\",\"phone_number\":\"+917000000000\"}`",
+      optional: true,
     },
   },
   methods: {
@@ -153,6 +176,15 @@ export default {
         ...args,
       });
     },
+    searchRecords({
+      schemaKey, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        url: `/objects/${schemaKey}/records/search`,
+        ...args,
+      });
+    },
     listCampaigns(args = {}) {
       return this._makeRequest({
         url: "/campaigns/",
@@ -183,13 +215,13 @@ export default {
     },
     listObjects(args = {}) {
       return this._makeRequest({
-        url: "/objects",
+        url: "/objects/",
         ...args,
       });
     },
     listUsers(args = {}) {
       return this._makeRequest({
-        url: "/users",
+        url: "/users/",
         ...args,
       });
     },
