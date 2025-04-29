@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ditlead",
+  "version": "0.0.1",
+  "description": "Pipedream DitLead Components",
+  "main": "ditlead.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ditlead"
+  ],
+  "homepage": "https://pipedream.com/apps/ditlead",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
