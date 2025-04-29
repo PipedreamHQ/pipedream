@@ -5,7 +5,7 @@ export default {
   key: "stripe-create-refund",
   name: "Create a Refund",
   type: "action",
-  version: "0.1.0",
+  version: "0.1.1",
   description: "Creating a new refund will refund a charge that has previously been created but " +
     "not yet refunded. Funds will be refunded to the credit or debit card that was originally " +
     "charged. You can optionally refund only part of a charge. You can do so multiple times, " +

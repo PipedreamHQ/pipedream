@@ -6,15 +6,17 @@ export default {
   ...common,
   key: "youtube_analytics_api-get-video-metrics",
   name: "Get Video Metrics",
-  description: "Retrieve detailed analytics for a specific video. [See the documentation](https://developers.google.com/youtube/analytics/reference/reports/query)",
-  version: "0.0.1",
+  description:
+    "Retrieve detailed analytics for a specific video. [See the documentation](https://developers.google.com/youtube/analytics/reference/reports/query)",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
     videoId: {
       type: "string",
       label: "Video ID",
-      description: "The ID of the video for which you want to retrieve metrics. Eg. `pd1FJh59zxQ`.",
+      description:
+        "The ID of the video for which you want to retrieve metrics. Eg. `pd1FJh59zxQ`.",
     },
     metrics: propsFragments.metrics,
   },

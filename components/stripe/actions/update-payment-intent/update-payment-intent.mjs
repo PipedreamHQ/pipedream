@@ -6,7 +6,7 @@ export default {
   key: "stripe-update-payment-intent",
   name: "Update a Payment Intent",
   type: "action",
-  version: "0.1.0",
+  version: "0.1.1",
   description: "Update a [payment intent](https://stripe.com/docs/payments/payment-intents). [See" +
     " the docs](https://stripe.com/docs/api/payment_intents/update) for more information",
   props: {

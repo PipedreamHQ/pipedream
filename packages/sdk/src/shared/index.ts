@@ -129,6 +129,8 @@ export type PropOption = {
   value: string;
 };
 
+type ConfigureComponentContext = Record<string, any>
+
 /**
  * The response received after configuring a component's prop.
  */
@@ -160,6 +162,12 @@ export type ConfigureComponentResponse = {
    * A list of errors that occurred during the configuration process.
    */
   errors: string[];
+
+  /**
+   * The context object resolved in the options execution (useful for pagination, etc.).
+   * See {@link ConfigureComponentOpts.prevContext}.
+   */
+  context?: ConfigureComponentContext
 };
 
 /**
@@ -412,11 +420,10 @@ export type ConfigureComponentOpts = ExternalUserId & {
   page?: number;
 
   /**
-   * A string representing the context for the previous options
-   * execution. Use with APIs that accept a token representing the last
-   * record for pagination.
+   * The context object from the previous options execution (useful for pagination, etc.).
+   * See {@link ConfigureComponentResponse.context}.
    */
-  prevContext?: never;
+  prevContext?: ConfigureComponentContext;
 };
 
 /**

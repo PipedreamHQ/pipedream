@@ -1,5 +1,5 @@
 export default {
-  "apps": "Integrated Apps",
+  "index": "Integrated Apps",
   "connected-accounts": "Connected Accounts",
   "oauth-clients": "OAuth Clients",
   "external-auth": {

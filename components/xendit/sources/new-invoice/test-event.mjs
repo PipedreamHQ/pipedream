@@ -1,0 +1,45 @@
+export default {
+  "id": "5c65be6880a55b02867b2b6f",
+  "external_id": "627",
+  "user_id": "5bbe23e1c901a730130f5b15",
+  "status": "EXPIRED",
+  "merchant_name": "Your Business Name",
+  "merchant_profile_picture_url": "https://xnd-companies.s3.amazonaws.com/prod/1545257692599_408.jpg",
+  "amount": 838838,
+  "payer_email": "alfina@xendit.co",
+  "description": "Trip to Bali",
+  "expiry_date": "2020-02-24T23:48:36.697Z",
+  "invoice_url": "https://invoice-staging.xendit.co/web/invoices/5c65be6880a55b02867b2b6f",
+  "available_banks": [
+      {
+          "bank_code": "MANDIRI",
+          "collection_type": "POOL",
+          "bank_account_number": "8860838034047",
+          "transfer_amount": 838838,
+          "bank_branch": "Virtual Account",
+          "account_holder_name": "YOUR BUSINESS NAME",
+      },
+      {
+          "bank_code": "BRI",
+          "collection_type": "POOL",
+          "bank_account_number": "2621545817176",
+          "transfer_amount": 838838,
+          "bank_branch": "Virtual Account",
+          "account_holder_name": "YOUR BUSINESS NAME",
+      },
+      {
+          "bank_code": "BNI",
+          "collection_type": "POOL",
+          "bank_account_number": "880845676187",
+          "transfer_amount": 838838,
+          "bank_branch": "Virtual Account",
+          "account_holder_name": "YOUR BUSINESS NAME",
+      }
+  ],
+  "available_ewallets": [],
+  "available_paylaters": [],
+  "should_exclude_credit_card": false,
+  "should_send_email": false,
+  "created": "2020-01-14T23:48:56.907Z",
+  "updated": "2020-01-24T23:49:03.296Z"
+}

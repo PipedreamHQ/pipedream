@@ -4,7 +4,7 @@ export default {
   key: "stripe-retrieve-refund",
   name: "Retrieve a Refund",
   type: "action",
-  version: "0.1.0",
+  version: "0.1.1",
   description: "Retrieves the details of an existing refund. [See the " +
     "docs](https://stripe.com/docs/api/refunds/retrieve) for more information",
   props: {

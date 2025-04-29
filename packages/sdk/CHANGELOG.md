@@ -2,6 +2,19 @@
 
 # Changelog
 
+## [1.5.5] - 2025-04-28
+
+### Changed
+
+- Types and documentation around `configureComponent` `prevContext` and `context`.
+
+## [1.5.4] - 2025-04-25
+
+### Added
+
+- Changed server-side authorized requests to refresh its auth token if it expires
+  within 1 second.
+
 ## [1.5.3] - 2025-04-18
 
 ### Added

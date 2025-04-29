@@ -17,6 +17,21 @@ export default withNextra({
       },
     ],
   },
+  // Add custom headers for better cross-origin support
+  async headers() {
+    return [
+      {
+        // Apply to all routes serving the Connect demo pages
+        source: "/connect/:path*",
+        headers: [
+          {
+            key: "Cross-Origin-Opener-Policy",
+            value: "same-origin-allow-popups",
+          },
+        ],
+      },
+    ];
+  },
   async redirects() {
     return [
       {
@@ -37,16 +52,6 @@ export default withNextra({
       {
         source: "/integrations/",
         destination: "/integrations/apps/",
-        permanent: true,
-      },
-      {
-        source: "/apps/",
-        destination: "/integrations/apps/",
-        permanent: true,
-      },
-      {
-        source: "/apps/app-partners/",
-        destination: "/integrations/app-partners/",
         permanent: true,
       },
       {
@@ -170,11 +175,6 @@ export default withNextra({
         permanent: true,
       },
       {
-        source: "/projects/",
-        destination: "/workflows/projects/",
-        permanent: true,
-      },
-      {
         source: "/projects/git/",
         destination: "/workflows/git/",
         permanent: true,
@@ -187,11 +187,6 @@ export default withNextra({
       {
         source: "/projects/file-stores/:path*/",
         destination: "/workflows/data-management/file-stores/:path*/",
-        permanent: true,
-      },
-      {
-        source: "/projects/:path*/",
-        destination: "/workflows/projects/:path*/",
         permanent: true,
       },
       {
@@ -362,8 +357,13 @@ export default withNextra({
         permanent: true,
       },
       {
-        source: "/workspaces/",
-        destination: "/workflows/workspaces/",
+        source: "/components/typescript/",
+        destination: "/components/contributing/typescript/",
+        permanent: true,
+      },
+      {
+        source: "/github-sync/",
+        destination: "/workflows/git/",
         permanent: true,
       },
       {
@@ -379,11 +379,6 @@ export default withNextra({
       {
         source: "/workspaces/saml/",
         destination: "/workflows/workspaces/sso/saml/",
-        permanent: true,
-      },
-      {
-        source: "/workspaces/:path*/",
-        destination: "/workflows/workspaces/:path*/",
         permanent: true,
       },
       {
@@ -507,13 +502,13 @@ export default withNextra({
         permanent: true,
       },
       {
-        source: "/workflows/projects/:path*/",
-        destination: "/projects/:path*/",
+        source: "/workflows/projects/",
+        destination: "/projects/",
         permanent: true,
       },
       {
-        source: "/workflows/projects/",
-        destination: "/projects/",
+        source: "/workflows/projects/:path*/",
+        destination: "/projects/:path*/",
         permanent: true,
       },
       {
@@ -549,6 +544,22 @@ export default withNextra({
       {
         source: "/subprocessors",
         destination: "/hidden/subprocessors",
+      },
+      {
+        source: "/api-demo-connect/token",
+        destination: "/api/demo-connect/token",
+      },
+      {
+        source: "/api-demo-connect/token/",
+        destination: "/api/demo-connect/token",
+      },
+      {
+        source: "/api-demo-connect/accounts/:id",
+        destination: "/api/demo-connect/accounts/:id",
+      },
+      {
+        source: "/api-demo-connect/accounts/:id/",
+        destination: "/api/demo-connect/accounts/:id",
       },
     ];
   },
