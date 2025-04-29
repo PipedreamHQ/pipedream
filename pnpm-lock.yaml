@@ -13491,7 +13491,14 @@ importers:
 
   components/tutor_lms: {}
 
-  components/tuya: {}
+  components/tuya:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      '@tuya/tuya-connector-nodejs':
+        specifier: ^2.1.2
+        version: 2.1.2
 
   components/twelve_data: {}
 
@@ -19799,6 +19806,9 @@ packages:
 
   '@tsconfig/node14@1.0.3':
     resolution: {integrity: sha512-ysT8mhdixWK6Hw3i1V2AeRqZ5WfXg1G43mqoYlM2nc6388Fq5jcXyr5mRsqViLx/GJYdoL0bfXD8nmF+Zn/Iow==}
+
+  '@tuya/tuya-connector-nodejs@2.1.2':
+    resolution: {integrity: sha512-8tM7QlOF1QQrT3iQgcHp4JDNRUdOyi06h8F5ZL7antQZYP67TRQ2/puisoo2uhdXo+n+GT0B605pWaDqr9nPrA==}
 
   '@types/acorn@4.0.6':
     resolution: {integrity: sha512-veQTnWP+1D/xbxVrPC3zHnCZRjSrKfhbMUlEA43iMZLu7EsnTtkJklIuwrCPbOi8YkvDQAiW05VQQFvvz9oieQ==}
@@ -36372,6 +36382,13 @@ snapshots:
       - supports-color
 
   '@tsconfig/node14@1.0.3': {}
+
+  '@tuya/tuya-connector-nodejs@2.1.2':
+    dependencies:
+      axios: 0.21.4
+      qs: 6.13.1
+    transitivePeerDependencies:
+      - debug
 
   '@types/acorn@4.0.6':
     dependencies:
