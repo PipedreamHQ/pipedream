@@ -4,18 +4,6 @@ export default {
   type: "app",
   app: "notiff_io",
   propDefinitions: {
-    idNotificationSource: {
-      type: "string",
-      label: "Notification Source ID",
-      description: "The unique identifier for the notification source.",
-      async options() {
-        const sources = await this.listNotificationSources();
-        return sources.map((source) => ({
-          label: source.title,
-          value: source.id,
-        }));
-      },
-    },
     title: {
       type: "string",
       label: "Title",
@@ -33,44 +21,27 @@ export default {
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
       return "https://notiff.io/api/1.1/wf";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          "Authorization": `Bearer ${this.$auth.api_key}`,
-          ...headers,
-        },
-      });
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
     },
-    async listNotificationSources(opts = {}) {
-      return this._makeRequest({
-        path: "/list_notification_sources",
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
+      return axios($, {
+        url: this._baseUrl() + path,
+        headers: this._headers(),
         ...opts,
       });
     },
-    async sendNotification({
-      idNotificationSource, title, description, url,
-    }, opts = {}) {
+    createNotification(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/create_notification",
-        data: {
-          id_notification_source: idNotificationSource,
-          title,
-          description,
-          url,
-        },
         ...opts,
       });
     },
