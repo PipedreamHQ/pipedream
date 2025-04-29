@@ -6313,7 +6313,11 @@ importers:
 
   components/if_else: {}
 
-  components/ifthenpay: {}
+  components/ifthenpay:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/ifttt:
     dependencies:
