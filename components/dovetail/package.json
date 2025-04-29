@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/dovetail",
+  "version": "0.0.1",
+  "description": "Pipedream Dovetail Components",
+  "main": "dovetail.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dovetail"
+  ],
+  "homepage": "https://pipedream.com/apps/dovetail",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

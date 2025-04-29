@@ -3,7 +3,7 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Chat",
-  version: "0.0.8",
+  version: "0.0.10",
   key: "anthropic-chat",
   description: "The Chat API. [See the documentation](https://docs.anthropic.com/claude/reference/messages_post)",
   type: "action",
@@ -11,7 +11,7 @@ export default {
     anthropic,
     model: {
       label: "Model",
-      description: "Select the model to use for your query. Defaults to the `claude-3-opus-20240229` model, which Anthropic describes as the \"Most powerful model for highly complex tasks\".",
+      description: "Select the model to use for your query. Defaults to the `claude-3-7-sonnet-20250219` model, which is Anthropic's latest Claude model.",
       type: "string",
       options: constants.MESSAGE_MODELS,
       default: constants.MESSAGE_MODELS[0],

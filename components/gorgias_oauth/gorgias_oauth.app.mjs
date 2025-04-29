@@ -169,6 +169,37 @@ export default {
       label: "Subject",
       description: "The subject of the ticket",
     },
+    tagId: {
+      type: "string",
+      label: "Tag ID",
+      description: "The tag id.",
+      optional: true,
+      async options({ prevContext: { cursor } }) {
+        if (cursor === null) {
+          return [];
+        }
+        const {
+          meta: { next_cursor: nextCursor },
+          data: tags,
+        } = await this.listTags({
+          params: {
+            cursor,
+          },
+        });
+        const options = tags.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+        return {
+          options,
+          context: {
+            cursor: nextCursor,
+          },
+        };
+      },
+    },
   },
   methods: {
     _defaultConfig({
@@ -298,6 +329,14 @@ export default {
         path: `customers/${id}`,
       });
     },
+    async retrieveUser({
+      $, id,
+    }) {
+      return this._makeRequest({
+        $,
+        path: `users/${id}`,
+      });
+    },
     async listCustomers({
       $, params,
     }) {
@@ -353,6 +392,21 @@ export default {
     listTeams(opts = {}) {
       return this._makeRequest({
         path: "/teams",
+        ...opts,
+      });
+    },
+    listTags(opts = {}) {
+      return this._makeRequest({
+        path: "/tags",
+        ...opts,
+      });
+    },
+    createMessage({
+      ticketId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/tickets/${ticketId}/messages`,
         ...opts,
       });
     },

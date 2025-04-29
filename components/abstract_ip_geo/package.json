@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/abstract_ip_geo",
+  "version": "0.6.0",
+  "description": "Pipedream abstract_ip_geo Components",
+  "main": "abstract_ip_geo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "abstract_ip_geo"
+  ],
+  "homepage": "https://pipedream.com/apps/abstract_ip_geo",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

@@ -9,12 +9,12 @@ export default {
     ...base.props,
     board: {
       propDefinition: [
-        base.props.trello,
+        base.props.app,
         "board",
       ],
     },
     onlyEventsRelatedWithAuthenticatedUser: {
-      label: "Only Events Related With Me",
+      label: "Only Events Related To Me",
       description: "Only will emit events from the cards related with the authenticated user",
       type: "boolean",
       default: false,
@@ -32,17 +32,24 @@ export default {
         return false;
       }
 
-      const member = await this.trello.getMember("me");
+      if (this.lists?.length) {
+        const list = await this.app.getCardList({
+          cardId: result.idCard,
+        });
+        if (!this.lists.includes(list.id)) {
+          return false;
+        }
+      }
 
-      if (
+      const member = await this.app.getMember({
+        memberId: "me",
+      });
+
+      return !(
         this.onlyEventsRelatedWithAuthenticatedUser &&
         result?.idMembers?.length &&
         !result.idMembers.includes(member.id)
-      ) {
-        return false;
-      }
-
-      return true;
+      );
     },
   },
 };

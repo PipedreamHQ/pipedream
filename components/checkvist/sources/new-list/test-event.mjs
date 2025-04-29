@@ -1,0 +1,20 @@
+export default {
+  "id": 910780,
+  "name": "Introduction to Checkvist",
+  "updated_at": "2024/10/31 18:49:45 +0000",
+  "public": false,
+  "options": 2,
+  "created_at": "2024/10/31 18:49:45 +0000",
+  "markdown?": true,
+  "archived": false,
+  "read_only": false,
+  "user_count": 1,
+  "user_updated_at": "2024/10/31 18:49:45 +0000",
+  "related_task_ids": null,
+  "percent_completed": 0,
+  "task_count": 44,
+  "task_completed": 0,
+  "item_count": 68,
+  "tags": {},
+  "tags_as_text": ""
+}

@@ -290,6 +290,12 @@ export default {
         ...args,
       });
     },
+    listCallRecordings(args = {}) {
+      return this._makeRequest({
+        path: "/phone/recordings",
+        ...args,
+      });
+    },
     async *getResourcesStream({
       resourceFn,
       resourceFnArgs,

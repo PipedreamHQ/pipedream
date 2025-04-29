@@ -1,27 +1,22 @@
 import shopify from "../../shopify_developer_app.app.mjs";
-import { toSingleLineString } from "../../../shopify/actions/common/common.mjs";
-import common from "../../../shopify/actions/create-smart-collection/common.mjs";
+import common from "@pipedream/shopify/actions/create-smart-collection/create-smart-collection.mjs";
+
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
+const props = adjustPropDefinitions(others.props, shopify);
 
 export default {
-  ...common,
+  ...others,
   key: "shopify_developer_app-create-smart-collection",
-  name: "Create Smart Collection",
-  description: toSingleLineString(`
-    Creates a smart collection.
-    You can fill in any number of rules by selecting more than one option in each prop.
-    [See documentation](https://shopify.dev/api/admin-rest/2021-10/resources/smartcollection#post-smart-collections)
-  `),
-  version: "0.0.3",
-  type: "action",
+  version: "0.0.6",
+  name,
+  description,
+  type,
   props: {
     shopify,
-    title: {
-      propDefinition: [
-        shopify,
-        "title",
-      ],
-      description: "Title of the smart collection",
-    },
-    ...common.props,
+    ...props,
   },
 };

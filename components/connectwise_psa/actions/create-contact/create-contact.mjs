@@ -1,10 +1,11 @@
+import { parseObjectEntries } from "../../common/utils.mjs";
 import connectwise from "../../connectwise_psa.app.mjs";
 
 export default {
   key: "connectwise_psa-create-contact",
   name: "Create Contact",
   description: "Creates a new contact in Connectwise. [See the documentation](https://developer.connectwise.com/Products/ConnectWise_PSA/REST#/Contacts/postCompanyContacts)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     connectwise,
@@ -91,6 +92,18 @@ export default {
         "country",
       ],
     },
+    isDefault: {
+      type: "boolean",
+      label: "Primary Contact",
+      description: "Whether the contact is the primary (default) contact for the company",
+      optional: true,
+    },
+    additionalOptions: {
+      type: "object",
+      label: "Additional Options",
+      description: "Additional parameters to send in the request. [See the documentation](https://developer.connectwise.com/Products/ConnectWise_PSA/REST#/Contacts/postCompanyContacts) for available parameters. Values will be parsed as JSON where applicable.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const communicationItems = [];
@@ -145,6 +158,8 @@ export default {
             id: this.department,
           }
           : undefined,
+        defaultFlag: this.isDefault,
+        ...(this.additionalOptions && parseObjectEntries(this.additionalOptions)),
       },
     });
     $.export("$summary", `Successfully created contact with ID: ${response.id}`);

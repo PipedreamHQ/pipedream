@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/minerstat",
+  "version": "0.0.1",
+  "description": "Pipedream Minerstat Components",
+  "main": "minerstat.app.mjs",
+  "keywords": [
+    "pipedream",
+    "minerstat"
+  ],
+  "homepage": "https://pipedream.com/apps/minerstat",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

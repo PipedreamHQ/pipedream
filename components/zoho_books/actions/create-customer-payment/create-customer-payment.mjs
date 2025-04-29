@@ -1,131 +1,137 @@
 // legacy_hash_id: a_XziR2J
-import { axios } from "@pipedream/platform";
+import { PAYMENT_MODE_OPTIONS } from "../../common/constants.mjs";
+import { parseObject } from "../../common/utils.mjs";
+import zohoBooks from "../../zoho_books.app.mjs";
 
 export default {
   key: "zoho_books-create-customer-payment",
   name: "Create Customer Payment",
-  description: "Creates a new payment.",
-  version: "0.2.1",
+  description: "Creates a new payment. [See the documentation](https://www.zoho.com/books/api/v3/customer-payments/#create-a-payment)",
+  version: "0.3.0",
   type: "action",
   props: {
-    zoho_books: {
-      type: "app",
-      app: "zoho_books",
-    },
-    organization_id: {
-      type: "string",
-      description: "In Zoho Books, your business is termed as an organization. If you have multiple businesses, you simply set each of those up as an individual organization. Each organization is an independent Zoho Books Organization with it's own organization ID, base currency, time zone, language, contacts, reports, etc.\n\nThe parameter `organization_id` should be sent in with every API request to identify the organization.\n\nThe `organization_id` can be obtained from the GET `/organizations` API's JSON response. Alternatively, it can be obtained from the **Manage Organizations** page in the admin console.",
-    },
-    customer_id: {
-      type: "string",
-      description: "Customer ID of the customer involved in the payment.",
-    },
-    payment_mode: {
-      type: "string",
-      description: "Mode through which payment is made. This can be `check`, `cash`, `creditcard`, `banktransfer`, `bankremittance`, `autotransaction` or `others`. Max-length [100]",
-      options: [
-        "check",
-        "cash",
-        "creditcard",
-        "banktransfer",
-        "bankremittance",
-        "autotransaction",
-        "others",
+    zohoBooks,
+    customerId: {
+      propDefinition: [
+        zohoBooks,
+        "customerId",
       ],
     },
-    invoices: {
-      type: "any",
-      description: "List of invoices associated with the payment. Each invoice object contains `invoice_id`, `invoice_number`, `date`, `invoice_amount`, `amount_applied` and `balance_amount`.",
+    paymentMode: {
+      type: "string",
+      label: "Payment Mode",
+      description: "Mode through which payment is made.",
+      options: PAYMENT_MODE_OPTIONS,
     },
     amount: {
       type: "string",
+      label: "Amount",
       description: "Amount paid in the respective payment.",
     },
     date: {
       type: "string",
+      label: "Date",
       description: "Date on which payment is made. Format [yyyy-mm-dd]",
     },
-    reference_number: {
+    referenceNumber: {
       type: "string",
+      label: "Reference Number",
       description: "Reference number generated for the payment. A string of your choice can also be used as the reference number. Max-length [100]",
       optional: true,
     },
     description: {
       type: "string",
+      label: "Description",
       description: "Description about the payment.",
       optional: true,
     },
-    exchange_rate: {
+    invoices: {
+      type: "string[]",
+      label: "Invoices",
+      description: "List of invoice objects associated with the payment. Each invoice object contains `invoice_id`, `invoice_number`, `date`, `invoice_amount`, `amount_applied` and `balance_amount`. **Example: {\"invoice_id\": \"90300000079426\", \"amount_applied\": 450}**",
+    },
+    exchangeRate: {
       type: "string",
+      label: "Exchange Rate",
       description: "Exchange rate for the currency used in the invoices and customer's currency. The payment amount would be the multiplicative product of the original amount and the exchange rate. Default is 1.",
       optional: true,
     },
-    bank_charges: {
+    bankCharges: {
       type: "string",
+      label: "Bank Charges",
       description: "Denotes any additional bank charges.",
       optional: true,
     },
-    custom_fields: {
-      type: "any",
-      description: "Additional fields for the payments.",
+    customFields: {
+      propDefinition: [
+        zohoBooks,
+        "customFields",
+      ],
+      description: "A list of Additional field objects for the payments. **Example: {\"label\": \"label\", \"value\": 129890}**",
       optional: true,
     },
-    invoice_id: {
-      type: "string",
-      description: "ID of the invoice to get payments of.",
-      optional: true,
+    invoiceId: {
+      propDefinition: [
+        zohoBooks,
+        "invoiceId",
+        ({ customerId }) => ({
+          customerId,
+        }),
+      ],
     },
-    amount_applied: {
+    amountApplied: {
       type: "string",
+      label: "Amount Applied",
       description: "Amount paid for the invoice.",
       optional: true,
     },
-    tax_amount_withheld: {
+    taxAmountWithheld: {
       type: "string",
+      label: "Tax Amount Withheld",
       description: "Amount withheld for tax.",
       optional: true,
     },
-    account_id: {
-      type: "string",
-      description: "ID of the cash/bank account the payment has to be deposited.",
+    accountId: {
+      propDefinition: [
+        zohoBooks,
+        "accountId",
+      ],
       optional: true,
     },
-    contact_persons: {
-      type: "string",
-      description: "IDs of the contact personsthe thank you mail has to be triggered.",
+    contactPersons: {
+      propDefinition: [
+        zohoBooks,
+        "contactPersons",
+        ({ customerId }) => ({
+          customerId,
+        }),
+      ],
       optional: true,
     },
   },
   async run({ $ }) {
-  //See the API docs: https://www.zoho.com/books/api/v3/#Customer-Payments_Create_a_payment
-
-    if (!this.organization_id || !this.customer_id || !this.payment_mode || !this.invoices || !this.amount || !this.date) {
-      throw new Error("Must provide organization_id, customer_id, payment_mode, invoices, amount, and date parameters.");
-    }
-
-    return await axios($, {
-      method: "post",
-      url: `https://books.${this.zoho_books.$auth.base_api_uri}/api/v3/customerpayments?organization_id=${this.organization_id}`,
-      headers: {
-        Authorization: `Zoho-oauthtoken ${this.zoho_books.$auth.oauth_access_token}`,
-      },
+    const response = await this.zohoBooks.createCustomerPayment({
+      $,
       data: {
-        customer_id: this.customer_id,
-        payment_mode: this.payment_mode,
+        customer_id: this.customerId,
+        payment_mode: this.paymentMode,
         amount: this.amount,
         date: this.date,
-        reference_number: this.reference_number,
+        reference_number: this.referenceNumber,
         description: this.description,
-        invoices: this.invoices,
-        exchange_rate: this.exchange_rate,
-        bank_charges: this.bank_charges,
-        custom_fields: this.custom_fields,
-        invoice_id: this.invoice_id,
-        amount_applied: this.amount_applied,
-        tax_amount_withheld: this.tax_amount_withheld,
-        account_id: this.account_id,
-        contact_persons: this.contact_persons,
+        invoices: parseObject(this.invoices),
+        exchange_rate: this.exchangeRate && parseFloat(this.exchangeRate),
+        bank_charges: this.bankCharges && parseFloat(this.bankCharges),
+        custom_fields: parseObject(this.customFields),
+        invoice_id: this.invoiceId,
+        amount_applied: this.amountApplied && parseFloat(this.amountApplied),
+        tax_amount_withheld: this.taxAmountWithheld && parseFloat(this.taxAmountWithheld),
+        account_id: this.accountId,
+        contact_persons: parseObject(this.contactPersons),
       },
     });
+
+    $.export("$summary", `Customer payment successfully created with Id: ${response.payment.payment_id}`);
+    return response;
   },
 };

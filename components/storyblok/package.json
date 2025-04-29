@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/storyblok",
+  "version": "0.6.0",
+  "description": "Pipedream storyblok Components",
+  "main": "storyblok.app.mjs",
+  "keywords": [
+    "pipedream",
+    "storyblok"
+  ],
+  "homepage": "https://pipedream.com/apps/storyblok",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

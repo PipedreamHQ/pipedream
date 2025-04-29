@@ -30,5 +30,5 @@ export default {
   }),
   key: "slack_bot-list-members-in-channel",
   description: "Retrieve members of a channel (Bot). [See the documentation](https://api.slack.com/methods/conversations.members)",
-  version: "0.0.3",
+  version: "0.0.4",
 };

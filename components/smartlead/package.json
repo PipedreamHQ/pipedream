@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/smartlead",
+  "version": "0.0.1",
+  "description": "Pipedream Smartlead Components",
+  "main": "smartlead.app.mjs",
+  "keywords": [
+    "pipedream",
+    "smartlead"
+  ],
+  "homepage": "https://pipedream.com/apps/smartlead",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

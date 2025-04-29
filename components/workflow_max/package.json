@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/workflow_max",
+  "version": "0.0.1",
+  "description": "Pipedream Workflow Max Components",
+  "main": "workflow_max.app.mjs",
+  "keywords": [
+    "pipedream",
+    "workflow_max"
+  ],
+  "homepage": "https://pipedream.com/apps/workflow_max",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

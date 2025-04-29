@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/savvy_folders",
+  "version": "0.0.1",
+  "description": "Pipedream Savvy Folders Components",
+  "main": "savvy_folders.app.mjs",
+  "keywords": [
+    "pipedream",
+    "savvy_folders"
+  ],
+  "homepage": "https://pipedream.com/apps/savvy_folders",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -10,8 +10,10 @@ export default {
       label: "Project",
       description: "Filter deployments from the given projectId",
       optional: true,
-      async options() {
-        const projects = await this.listProjects();
+      async options({ teamId }) {
+        const projects = await this.listProjects({
+          teamId,
+        });
         return projects?.map((project) => ({
           label: project.name,
           value: project.id,
@@ -22,12 +24,15 @@ export default {
       type: "string",
       label: "Deployment",
       description: "Select the deployment to cancel",
-      async options({ state }) {
-        const params = state
-          ? {
-            state,
-          }
-          : {};
+      async options({
+        teamId, state,
+      }) {
+        const params = {
+          teamId,
+        };
+        if (state) {
+          params.state = state;
+        }
         const deployments = await this.listDeployments(params);
         return deployments?.map((deployment) => ({
           label: deployment.name,
@@ -39,7 +44,6 @@ export default {
       type: "string",
       label: "Team",
       description: "The Team identifier or slug to perform the request on behalf of",
-      optional: true,
       async options() {
         try {
           const teams = await this.listTeams();
@@ -111,10 +115,17 @@ export default {
       }
       return allResults;
     },
-    async listProjects(max, $) {
+    async getProject(projectId, $) {
+      const config = {
+        endpoint: `v9/projects/${projectId}`,
+      };
+      return this.makeRequest(config, $);
+    },
+    async listProjects(params, max, $) {
       const config = {
         method: "GET",
-        endpoint: "v8/projects",
+        endpoint: "v9/projects",
+        params,
       };
       return this.paginate("projects", config, max, $);
     },

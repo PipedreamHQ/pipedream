@@ -1,110 +1,147 @@
-// legacy_hash_id: a_1WiqM5
-import { axios } from "@pipedream/platform";
+import app from "../../trello.app.mjs";
 
 export default {
   key: "trello-search-checklists",
-  name: "Find Checklist",
-  description: "Find a checklist on a particular board or card by name.",
-  version: "0.1.3",
+  name: "Search Checklists",
+  description: "Find a checklist on a particular board or card by name. [See the documentation here](https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-id-checklists-get) and [here](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-checklists-get).",
+  version: "0.2.1",
   type: "action",
   props: {
-    trello: {
-      type: "app",
-      app: "trello",
-    },
+    app,
     type: {
       type: "string",
+      label: "Type",
       description: "Whether to search boards or cards for the checklist.",
       options: [
         "board",
         "card",
       ],
+      reloadProps: true,
     },
-    id: {
+    boardId: {
+      propDefinition: [
+        app,
+        "board",
+      ],
+      hidden: true,
+    },
+    cardId: {
+      propDefinition: [
+        app,
+        "cards",
+        (c) => ({
+          board: c.boardId,
+        }),
+      ],
       type: "string",
-      description: "The ID of the board or card.",
+      label: "Card ID",
+      description: "The ID of the card",
+      hidden: true,
     },
     query: {
       type: "string",
-      description: "The query to search for.",
+      label: "Query",
+      description: "The query to search for",
     },
     checkItems: {
       type: "string",
-      description: "all or none",
+      label: "Check Items",
+      description: "Whether to display checklist items in the result. Select `all` or `none`.",
       optional: true,
       options: [
         "all",
         "none",
       ],
+      reloadProps: true,
+      hidden: true,
     },
-    checkItem_fields: {
-      type: "string",
+    checkItemFields: {
+      type: "string[]",
       label: "CheckItem Fields",
-      description: "all or a comma-separated list of: name, nameData, pos, state, type",
-      optional: true,
-    },
-    filter: {
-      type: "string",
-      description: "all or none",
-      optional: true,
+      description: "Fields to include in the results. `all` or a list of: `name`, `nameData`, `pos`, `state`, `type`",
       options: [
         "all",
-        "none",
+        "name",
+        "nameData",
+        "pos",
+        "state",
+        "type",
       ],
+      optional: true,
+      hidden: true,
     },
     fields: {
-      type: "string",
-      description: "all or a comma-separated list of: idBoard, idCard, name, pos",
+      type: "string[]",
+      label: "Fields",
+      description: "Fields to include in the results. `all` or a list of: `idBoard`, `idCard`, `name`, `pos`. Eg: `idBoard,idCard,name,pos`. Eg: `all`.",
+      options: [
+        "all",
+        "idBoard",
+        "idCard",
+        "name",
+        "pos",
+      ],
       optional: true,
+      hidden: true,
     },
   },
+  additionalProps(props) {
+    const isCardSearch = this.type === "card";
+    props.boardId.hidden = false;
+    props.cardId.hidden = !isCardSearch;
+    props.checkItems.hidden = !isCardSearch;
+    props.checkItemFields.hidden = !isCardSearch;
+    props.fields.hidden = !isCardSearch;
+
+    props.checkItemFields.hidden = !(this.checkItems === "all");
+
+    return {};
+  },
   async run({ $ }) {
-    let type = this.type;
-    let id = this.id;
-    let query = this.query;
-    const trelloParams = [
-      "checkItems",
-      "checkItem_fields",
-      "filter",
-      "fields",
-    ];
-    let p = this;
+    const {
+      app,
+      type,
+      boardId,
+      cardId,
+      query,
+      checkItems,
+      checkItemFields,
+      fields,
+    } = this;
+
     let checklists = null;
     let matches = [];
 
-    const queryString = trelloParams.filter((param) => p[param]).map((param) => `${param}=${p[param]}`)
-      .join("&");
-
-    if (type == "board") {
-      checklists = await axios($, {
-        url: `https://api.trello.com/1/boards/${id}/checklists?${queryString}`,
-        method: "GET",
-      }, {
-        token: {
-          key: this.trello.$auth.oauth_access_token,
-          secret: this.trello.$auth.oauth_refresh_token,
-        },
-        oauthSignerUri: this.trello.$auth.oauth_signer_uri,
+    if (type === "board") {
+      checklists = await app.listBoardChecklists({
+        $,
+        boardId,
       });
-    } else if (type == "card") {
-      checklists = await axios($, {
-        url: `https://api.trello.com/1/cards/${id}/checklists?${queryString}`,
-        method: "GET",
-      }, {
-        token: {
-          key: this.trello.$auth.oauth_access_token,
-          secret: this.trello.$auth.oauth_refresh_token,
+
+    } else if (type === "card") {
+      checklists = await app.listCardChecklists({
+        $,
+        cardId,
+        params: {
+          checkItems,
+          checkItem_fields: checkItemFields?.length && checkItemFields.join(),
+          fields: fields?.length && fields.join(),
         },
-        oauthSignerUri: this.trello.$auth.oauth_signer_uri,
       });
     }
+
     if (checklists) {
-      checklists.forEach(function(checklist) {
-        if (checklist.name.includes(query))
+      checklists.forEach((checklist) => {
+        if (checklist.name?.toLowerCase().includes(query.toLowerCase()))
           matches.push(checklist);
       });
     }
 
+    if (matches?.length) {
+      $.export("$summary", `Found ${matches.length} matching checklist${matches.length === 1
+        ? ""
+        : "s"}`);
+    }
     return matches;
   },
 };

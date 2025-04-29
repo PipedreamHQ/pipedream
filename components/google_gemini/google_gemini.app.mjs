@@ -10,31 +10,20 @@ export default {
       label: "Prompt Text",
       description: "The text to use as the prompt for content generation",
     },
-    mimeType: {
-      type: "string",
-      label: "MIME Type",
-      description: "The MIME type of the images",
-      options: [
-        {
-          label: "PNG",
-          value: "image/png",
-        },
-        {
-          label: "JPEG",
-          value: "image/jpeg",
-        },
-      ],
-    },
-    imagePaths: {
+    mediaPaths: {
       type: "string[]",
-      label: "Image File Paths",
-      description: "The local file paths of the images to use in the content generation. The path to the image file saved to the `/tmp` directory (e.g. `/tmp/example.pdf`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      label: "Media File Paths",
+      description: "The local file paths of the images/audios/videos to use in the content generation. The path to the media file saved to the `/tmp` directory (e.g. `/tmp/example.pdf`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
     },
     model: {
       type: "string",
       label: "Model",
       description: "The model to use for content generation",
-      async options({ prevContext: { pageToken } }) {
+      reloadProps: true,
+      async options({
+        prevContext: { pageToken },
+        filter = (model) => model,
+      }) {
         if (pageToken === null) {
           return [];
         }
@@ -46,13 +35,16 @@ export default {
             pageToken,
           },
         });
-        const options = models.map(({
-          name: value,
-          displayName: label,
-        }) => ({
-          label,
-          value,
-        }));
+
+        const options = models
+          .filter(filter)
+          .map(({
+            name: value,
+            displayName: label,
+          }) => ({
+            label,
+            value,
+          }));
 
         return {
           options,
@@ -61,6 +53,14 @@ export default {
           },
         };
       },
+    },
+    responseFormat: {
+      type: "boolean",
+      label: "JSON Output",
+      description: "Enable to receive responses in structured JSON format instead of plain text. Useful for automated processing, data extraction, or when you need to parse the response programmatically. You can optionally define a specific schema for the response structure.",
+      optional: true,
+      default: false,
+      reloadProps: true,
     },
   },
   methods: {
@@ -99,13 +99,32 @@ export default {
         ? model
         : `models/${model}`;
       return this.post({
-        path: `/${pathPrefix}:generateContent`,
+        path: `/${pathPrefix}:${constants.MODEL_METHODS.GENERATE_CONTENT}`,
+        ...args,
+      });
+    },
+    embedContent({
+      model, ...args
+    } = {}) {
+      const pathPrefix = model.startsWith("models/")
+        ? model
+        : `models/${model}`;
+      return this.post({
+        path: `/${pathPrefix}:${constants.MODEL_METHODS.EMBED_CONTENT}`,
         ...args,
       });
     },
     listModels(args = {}) {
       return this.makeRequest({
         path: "/models",
+        ...args,
+      });
+    },
+    getModel({
+      model, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/${model}`,
         ...args,
       });
     },

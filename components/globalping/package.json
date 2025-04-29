@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/globalping",
+  "version": "0.0.1",
+  "description": "Pipedream Globalping Components",
+  "main": "globalping.app.mjs",
+  "keywords": [
+    "pipedream",
+    "globalping"
+  ],
+  "homepage": "https://pipedream.com/apps/globalping",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

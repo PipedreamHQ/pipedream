@@ -1,40 +1,43 @@
 import common from "../common/common-board-based.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "trello-new-member-on-card",
   name: "New Member on Card (Instant)",
   description: "Emit new event for each member that join in a card.",
-  version: "0.0.15",
+  version: "0.1.1",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
-    async getSampleEvents() {
-      const cards = await this.trello.getMemberCards("me");
-      return {
-        sampleEvents: cards,
-        sortField: "dateLastActivity",
-      };
+    getSampleEvents() {
+      return this.app.getMemberCards({
+        userId: "me",
+      });
     },
-    isCorrectEventType(event) {
-      const eventType = event.body?.action?.type;
-      return eventType === "addMemberToCard";
+    getSortField() {
+      return "dateLastActivity";
     },
-    async getResult(event) {
-      const cardId = event.body?.action?.data?.card?.id;
-      return this.trello.getCard(cardId);
+    isCorrectEventType({ type }) {
+      return type === "addMemberToCard";
+    },
+    getResult({ data }) {
+      return this.app.getCard({
+        cardId: data?.card?.id,
+      });
     },
     generateMeta({
-      id, name: summary, dateLastActivity,
+      id, name, dateLastActivity,
     }) {
       return {
-        id: this.onlyEventsRelatedWithAuthenticatedUser ?
-          id :
-          `${id}${dateLastActivity}`,
-        summary,
+        id: this.onlyEventsRelatedWithAuthenticatedUser
+          ? id
+          : `${id}${dateLastActivity}`,
+        summary: name || id,
         ts: Date.now(),
       };
     },
   },
+  sampleEmit,
 };

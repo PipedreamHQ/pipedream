@@ -5,7 +5,7 @@ import zohoSubscriptions from "../../zoho_subscriptions.app.mjs";
 export default {
   key: "zoho_subscriptions-subscription-created",
   name: "New Subscription Created",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Emit new event when a new subscription is created.",
   type: "source",
   dedupe: "unique",

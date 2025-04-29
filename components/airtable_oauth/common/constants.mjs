@@ -32,8 +32,8 @@ const FieldType = {
   EXTERNAL_SYNC_SOURCE: "externalSyncSource",
   LAST_MODIFIED_BY: "lastModifiedBy",
   LAST_MODIFIED_TIME: "lastModifiedTime",
-  URL: "url",
   // string
+  URL: "url",
   SINGLE_COLLABORATOR: "singleCollaborator",
   DATE: "date",
   DATE_TIME: "dateTime",

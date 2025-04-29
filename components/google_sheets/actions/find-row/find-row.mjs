@@ -7,7 +7,7 @@ export default {
   key: "google_sheets-find-row",
   name: "Find Row",
   description: "Find one or more rows by a column and value. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/get)",
-  version: "0.2.7",
+  version: "0.2.11",
   type: "action",
   props: {
     googleSheets,
@@ -34,8 +34,6 @@ export default {
           sheetId: c.sheetId,
         }),
       ],
-      type: "string",
-      label: "Worksheet Id",
     },
     column: {
       propDefinition: [
@@ -64,6 +62,10 @@ export default {
       range: `${worksheet?.properties?.title}!${this.column}:${this.column}`,
     })).data.values;
 
+    if (!colValues?.length) {
+      return [];
+    }
+
     const rows = [];
     const result = colValues.reduce((values, value, index) => {
       if (value == this.value) {
@@ -74,7 +76,7 @@ export default {
         });
       }
       return rows;
-    });
+    }, []);
 
     if (!this.exportRow) {
       return result;

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ramp_sandbox",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Ramp (Sandbox) Components",
   "main": "ramp_sandbox.app.mjs",
   "keywords": [
@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@pipedream/platform": "^3.0.0",
+    "@pipedream/ramp": "^0.1.2",
     "uuid": "^10.0.0"
   }
 }

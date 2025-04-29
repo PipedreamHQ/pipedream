@@ -1,12 +1,13 @@
+import { ConfigurationError } from "@pipedream/platform";
 import constants from "../../common/constants.mjs";
-import utils from "../../common/utils.mjs";
+import { parseObject } from "../../common/utils.mjs";
 import pipedriveApp from "../../pipedrive.app.mjs";
 
 export default {
   key: "pipedrive-add-activity",
   name: "Add Activity",
   description: "Adds a new activity. Includes `more_activities_scheduled_in_context` property in response's `additional_data` which indicates whether there are more undone activities scheduled with the same deal, person or organization (depending on the supplied data). See the Pipedrive API docs for Activities [here](https://developers.pipedrive.com/docs/api/v1/#!/Activities). For info on [adding an activity in Pipedrive](https://developers.pipedrive.com/docs/api/v1/Activities#addActivity)",
-  version: "0.1.5",
+  version: "0.1.7",
   type: "action",
   props: {
     pipedriveApp,
@@ -14,22 +15,6 @@ export default {
       type: "string",
       label: "Subject",
       description: "Subject of the activity",
-    },
-    done: {
-      type: "string",
-      label: "Done",
-      description: "Whether the activity is done or not. 0 = Not done, 1 = Done",
-      optional: true,
-      options: [
-        {
-          label: "Not done",
-          value: "0",
-        },
-        {
-          label: "Done",
-          value: "1",
-        },
-      ],
     },
     type: {
       type: "string",
@@ -44,6 +29,39 @@ export default {
           value,
         }));
       },
+    },
+    ownerId: {
+      propDefinition: [
+        pipedriveApp,
+        "userId",
+      ],
+      description: "ID of the user whom the activity will be assigned to. If omitted, the activity will be assigned to the authorized user.",
+    },
+    dealId: {
+      propDefinition: [
+        pipedriveApp,
+        "dealId",
+      ],
+    },
+    leadId: {
+      propDefinition: [
+        pipedriveApp,
+        "leadId",
+      ],
+    },
+    orgId: {
+      propDefinition: [
+        pipedriveApp,
+        "organizationId",
+      ],
+      description: "ID of the organization this activity will be associated with",
+    },
+    projectId: {
+      propDefinition: [
+        pipedriveApp,
+        "projectId",
+      ],
+      description: "ID of the project this activity will be associated with",
     },
     dueDate: {
       type: "string",
@@ -63,54 +81,63 @@ export default {
       description: "Duration of the activity. Format: `HH:MM`",
       optional: true,
     },
-    userId: {
-      propDefinition: [
-        pipedriveApp,
-        "userId",
-      ],
-      description: "ID of the user whom the activity will be assigned to. If omitted, the activity will be assigned to the authorized user.",
+    busy: {
+      type: "boolean",
+      label: "Busy",
+      description: "Set the activity as 'Busy' or 'Free'. If the flag is set to true, your customers will not be able to book that time slot through any Scheduler links",
+      optional: true,
     },
-    dealId: {
-      propDefinition: [
-        pipedriveApp,
-        "dealId",
-      ],
+    done: {
+      type: "boolean",
+      label: "Done",
+      description: "Whether the activity is done or not.",
+      optional: true,
     },
-    personId: {
-      propDefinition: [
-        pipedriveApp,
-        "personId",
-      ],
-      description: "ID of the person this activity will be associated with",
+    location: {
+      type: "object",
+      label: "Location",
+      description: "The address of the activity. Pipedrive will automatically check if the location matches a geo-location on Google maps.",
+      optional: true,
     },
     participants: {
       type: "string[]",
       label: "Participants",
-      description: "List of multiple persons (participants) this activity will be associated with. If omitted, single participant from `person_id` field is used. It requires a structure as follows: `[{\"person_id\":1,\"primary_flag\":true}]`",
+      description: "List of multiple persons (participants) this activity will be associated with. If omitted, single participant from `person_id` field is used. It requires a structure as follows: `[{\"person_id\":1,\"primary\":true}]`",
       optional: true,
       propDefinition: [
         pipedriveApp,
         "personId",
       ],
     },
-    organizationId: {
-      propDefinition: [
-        pipedriveApp,
-        "organizationId",
-      ],
-      description: "ID of the organization this activity will be associated with",
-    },
-    note: {
-      type: "string",
-      label: "Note",
-      description: "Note of the activity (HTML format)",
+    attendees: {
+      type: "string[]",
+      label: "Attendees",
+      description: "Attendees of the activity. This can be either your existing Pipedrive contacts or an external email address. It requires a structure as follows: `[{\"email\":\"mail@example.org\"}]`",
       optional: true,
-    },
-    location: {
-      type: "string",
-      label: "Location",
-      description: "The address of the activity. Pipedrive will automatically check if the location matches a geo-location on Google maps.",
-      optional: true,
+      async options({ prevContext }) {
+        if (prevContext?.cursor === false) {
+          return [];
+        }
+        const {
+          data: persons,
+          additional_data: additionalData,
+        } = await this.pipedriveApp.getPersons({
+          cursor: prevContext.cursor,
+          limit: constants.DEFAULT_PAGE_LIMIT,
+        });
+
+        return {
+          options: persons?.flatMap(({
+            name, emails,
+          }) => emails?.map(({ value }) => ({
+            label: name,
+            value,
+          })).filter((option) => option?.value)),
+          context: {
+            cursor: additionalData.next_cursor,
+          },
+        };
+      },
     },
     publicDescription: {
       type: "string",
@@ -118,106 +145,57 @@ export default {
       description: "Additional details about the activity that will be synced to your external calendar. Unlike the note added to the activity, the description will be publicly visible to any guests added to the activity.",
       optional: true,
     },
-    busyFlag: {
-      type: "boolean",
-      label: "Busy Flag",
-      description: "Set the activity as 'Busy' or 'Free'. If the flag is set to true, your customers will not be able to book that time slot through any Scheduler links",
+    note: {
+      type: "string",
+      label: "Note",
+      description: "Note of the activity (HTML format)",
       optional: true,
-    },
-    attendees: {
-      type: "string[]",
-      label: "Attendees",
-      description: "Attendees of the activity. This can be either your existing Pipedrive contacts or an external email address. It requires a structure as follows: `[{\"email_address\":\"mail@example.org\"}]` or `[{\"person_id\":1, \"email_address\":\"mail@example.org\"}]`",
-      optional: true,
-      async options({ prevContext }) {
-        const {
-          moreItemsInCollection,
-          start,
-        } = prevContext;
-
-        if (moreItemsInCollection === false) {
-          return [];
-        }
-
-        const {
-          data: persons,
-          additional_data: additionalData,
-        } = await this.pipedriveApp.getPersons({
-          start,
-          limit: constants.DEFAULT_PAGE_LIMIT,
-        });
-
-        const options =
-          persons?.flatMap(({
-            name, email,
-          }) => email?.map(({ value }) => ({
-            label: name,
-            value,
-          })).filter((option) => option?.value));
-
-        return {
-          options,
-          context: {
-            moreItemsInCollection: additionalData.pagination.more_items_in_collection,
-            start: additionalData.pagination.next_start,
-          },
-        };
-      },
     },
   },
   async run({ $ }) {
     const {
-      subject,
-      type,
+      pipedriveApp,
       dueDate,
       dueTime,
-      duration,
-      userId,
+      ownerId,
       dealId,
-      personId,
-      organizationId,
-      note,
+      leadId,
+      orgId,
+      projectId,
       location,
+      participants,
+      attendees,
       publicDescription,
-      busyFlag,
+      ...data
     } = this;
-
-    const participants = utils.parseOrUndefined(this.participants);
-    const attendees = utils.parseOrUndefined(this.attendees);
-    const done = utils.parseOrUndefined(this.done);
 
     try {
       const resp =
-        await this.pipedriveApp.addActivity({
-          subject,
-          done,
-          type,
+        await pipedriveApp.addActivity({
           due_date: dueDate,
           due_time: dueTime,
-          duration,
-          user_id: userId,
+          owner_id: ownerId,
           deal_id: dealId,
-          person_id: personId,
-          participants: participants?.map((value, idx) => ({
+          lead_id: leadId,
+          participants: parseObject(participants)?.map((value, idx) => ({
             person_id: value,
-            primary_flag: !idx,
+            primary: !idx,
           })),
-          org_id: organizationId,
-          note,
-          location,
+          org_id: orgId,
+          project_id: projectId,
+          location: parseObject(location),
           public_description: publicDescription,
-          busy_flag: busyFlag,
-          attendees: attendees?.map((value) => ({
-            email_address: value,
+          attendees: parseObject(attendees)?.map((value) => ({
+            email: value,
           })),
+          ...data,
         });
 
       $.export("$summary", "Successfully added activity");
 
       return resp;
-    } catch (error) {
-      console.error(error.context?.body || error);
-      throw error.context?.body?.error || "Failed to add activity";
+    } catch ({ error }) {
+      throw new ConfigurationError(error);
     }
   },
 };

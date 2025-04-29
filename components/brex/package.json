@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/brex",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Brex Components",
-  "main": "brex.app.js",
+  "main": "brex.app.mjs",
   "keywords": [
     "pipedream",
     "brex"

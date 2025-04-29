@@ -7,7 +7,7 @@ export default {
   name: "Send Message",
   description: "Send an SMS text with optional media files. [See the documentation](https://www.twilio.com/docs/sms/api/message-resource#create-a-message-resource)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     twilio,
     from: {

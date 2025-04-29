@@ -1,4 +1,4 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
@@ -16,11 +16,7 @@ export default {
     if (!this.handle) {
       return props;
     }
-    const channelParams = {
-      part: "id",
-      forHandle: this.handle,
-    };
-    const channels = (await this.youtubeDataApi.getChannels(channelParams)).data;
+    const channels = await this.getChannels();
     if (!channels.items) {
       props.alert = {
         type: "alert",
@@ -35,16 +31,11 @@ export default {
     ...common.hooks,
     async deploy() {
       const channelIds = await this.getChannelIds();
-
-      const params = {
+      const lastPublished = await this.loopThroughChannels(channelIds, {
         ...this._getBaseParams(),
         maxResults: 10,
-      };
-
-      const lastPublished = await this.loopThroughChannels(channelIds, params);
-
-      if (lastPublished) this._setPublishedAfter(lastPublished);
-      else this._setPublishedAfter(new Date());
+      });
+      this._setPublishedAfter(lastPublished || new Date());
     },
   },
   methods: {
@@ -54,18 +45,19 @@ export default {
         channelId,
       };
     },
-    async getChannelIds() {
-      const channelParams = {
+    async getChannels() {
+      const { data } = await this.youtubeDataApi.getChannels({
         part: "id",
         forHandle: this.handle,
-      };
-      const channels = (await this.youtubeDataApi.getChannels(channelParams)).data;
+      });
+      return data;
+    },
+    async getChannelIds() {
+      const channels = await this.getChannels();
       if (!channels.items) {
         throw new Error(`A channel for handle "${this.handle}" was not found`);
       }
-      const channelIds = channels.items.map((channel) => {
-        return channel.id;
-      });
+      const channelIds = channels.items.map(({ id }) => id);
       return channelIds;
     },
     async loopThroughChannels(channelIds, baseParams) {

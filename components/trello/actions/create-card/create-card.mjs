@@ -1,23 +1,26 @@
-import common from "../common.mjs";
+import app from "../../trello.app.mjs";
+import fs from "fs";
+import FormData from "form-data";
+import { ConfigurationError } from "@pipedream/platform";
+import constants from "../../common/constants.mjs";
 
 export default {
-  ...common,
   key: "trello-create-card",
   name: "Create Card",
-  description: "Creates a new card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-post)",
-  version: "0.0.3",
+  description: "Creates a new card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-post).",
+  version: "0.1.1",
   type: "action",
   props: {
-    ...common.props,
+    app,
     board: {
       propDefinition: [
-        common.props.trello,
+        app,
         "board",
       ],
     },
     name: {
       propDefinition: [
-        common.props.trello,
+        app,
         "name",
       ],
       description: "The name of the card.",
@@ -25,31 +28,32 @@ export default {
     },
     desc: {
       propDefinition: [
-        common.props.trello,
+        app,
         "desc",
       ],
     },
     pos: {
       propDefinition: [
-        common.props.trello,
+        app,
         "pos",
       ],
+      description: "The position of the new card. `top`, `bottom`, or a positive float",
     },
     due: {
       propDefinition: [
-        common.props.trello,
+        app,
         "due",
       ],
     },
     dueComplete: {
       propDefinition: [
-        common.props.trello,
+        app,
         "dueComplete",
       ],
     },
     idList: {
       propDefinition: [
-        common.props.trello,
+        app,
         "lists",
         (c) => ({
           board: c.board,
@@ -62,7 +66,7 @@ export default {
     },
     idMembers: {
       propDefinition: [
-        common.props.trello,
+        app,
         "member",
         (c) => ({
           board: c.board,
@@ -75,7 +79,7 @@ export default {
     },
     idLabels: {
       propDefinition: [
-        common.props.trello,
+        app,
         "label",
         (c) => ({
           board: c.board,
@@ -86,28 +90,38 @@ export default {
       description: "Array of labelIDs to add to the card",
       optional: true,
     },
-    urlSource: {
+    fileType: {
       propDefinition: [
-        common.props.trello,
-        "url",
+        app,
+        "fileType",
       ],
       optional: true,
+      reloadProps: true,
     },
-    fileSource: {
-      type: "string",
-      label: "File Attachment Contents",
-      description: "Value must be in binary format",
-      optional: true,
+    urlSource: {
+      propDefinition: [
+        app,
+        "url",
+      ],
+      hidden: true,
+    },
+    file: {
+      propDefinition: [
+        app,
+        "file",
+      ],
+      hidden: true,
     },
     mimeType: {
       propDefinition: [
-        common.props.trello,
+        app,
         "mimeType",
       ],
+      hidden: true,
     },
     idCardSource: {
       propDefinition: [
-        common.props.trello,
+        app,
         "cards",
         (c) => ({
           board: c.board,
@@ -115,45 +129,38 @@ export default {
       ],
       type: "string",
       label: "Copy Card",
-      description: "Specify an existing card to copy contents from",
+      description: "Specify an existing card to copy contents from. Keep in mind that if you copy a card, the **File Attachment Path**, **File Attachment URL** and **File Attachment Type** fields will be ignored.",
+      reloadProps: true,
     },
     keepFromSource: {
       type: "string[]",
       label: "Copy From Source",
       description: "Specify which properties to copy from the source card",
-      options: [
-        "all",
-        "attachments",
-        "checklists",
-        "comments",
-        "due",
-        "labels",
-        "members",
-        "stickers",
-      ],
+      options: constants.CARD_KEEP_FROM_SOURCE_PROPERTIES,
       optional: true,
+      hidden: true,
     },
     address: {
       propDefinition: [
-        common.props.trello,
+        app,
         "address",
       ],
     },
     locationName: {
       propDefinition: [
-        common.props.trello,
+        app,
         "locationName",
       ],
     },
     coordinates: {
       propDefinition: [
-        common.props.trello,
+        app,
         "coordinates",
       ],
     },
     customFieldIds: {
       propDefinition: [
-        common.props.trello,
+        app,
         "customFieldIds",
         (c) => ({
           boardId: c.board,
@@ -162,13 +169,24 @@ export default {
       reloadProps: true,
     },
   },
-  async additionalProps() {
+  async additionalProps(existingProps) {
     const props = {};
+
+    const attachmentIsPath = this.fileType === "path";
+    const attachmentIsUrl = this.fileType === "url";
+    existingProps.file.hidden = !attachmentIsPath;
+    existingProps.mimeType.hidden = !attachmentIsPath;
+    existingProps.urlSource.hidden = !attachmentIsUrl;
+
+    existingProps.keepFromSource.hidden = !this.idCardSource;
+
     if (!this.customFieldIds?.length) {
       return props;
     }
     for (const customFieldId of this.customFieldIds) {
-      const customField = await this.trello.getCustomField(customFieldId);
+      const customField = await this.app.getCustomField({
+        customFieldId,
+      });
       props[customFieldId] = {
         type: "string",
         label: `Value for Custom Field - ${customField.name}`,
@@ -183,11 +201,13 @@ export default {
     return props;
   },
   methods: {
-    ...common.methods,
     async getCustomFieldItems($) {
       const customFieldItems = [];
       for (const customFieldId of this.customFieldIds) {
-        const customField = await this.trello.getCustomField(customFieldId, $);
+        const customField = await this.app.getCustomField({
+          $,
+          customFieldId,
+        });
         const customFieldItem = {
           idCustomField: customFieldId,
         };
@@ -218,8 +238,8 @@ export default {
       idMembers,
       idLabels,
       urlSource,
-      fileSource,
       mimeType,
+      file,
       idCardSource,
       keepFromSource,
       address,
@@ -227,7 +247,9 @@ export default {
       coordinates,
       customFieldIds,
     } = this;
-    const res = await this.trello.createCard({
+
+    let response;
+    const params = {
       name,
       desc,
       pos,
@@ -236,25 +258,52 @@ export default {
       idList,
       idMembers,
       idLabels,
-      urlSource,
-      fileSource,
       mimeType,
       idCardSource,
       keepFromSource: keepFromSource?.join(","),
       address,
       locationName,
       coordinates,
-    }, $);
+    };
+
+    if (file && !file?.startsWith("/tmp")) {
+      throw new ConfigurationError("The file path must be in the `/tmp` directory");
+    }
+
+    if (file) {
+      const form = new FormData();
+      form.append("fileSource", fs.createReadStream(file));
+
+      response = await this.app.createCard({
+        $,
+        params,
+        headers: form.getHeaders(),
+        data: form,
+      });
+    } else {
+      response = await this.app.createCard({
+        $,
+        params: {
+          ...params,
+          urlSource,
+        },
+      });
+    }
 
     if (customFieldIds) {
       const customFieldItems = await this.getCustomFieldItems($);
-      const customFields = await this.trello.updateCustomFields(res.id, {
-        customFieldItems,
-      }, $);
-      res.customFields = customFields;
+      const customFields = await this.app.updateCustomFields({
+        $,
+        cardId: response.id,
+        data: {
+          customFieldItems,
+        },
+      });
+      response.customFields = customFields;
     }
 
-    $.export("$summary", `Successfully created card ${res.id}`);
-    return res;
+    $.export("$summary", `Successfully created card \`${response.id}\`.`);
+
+    return response;
   },
 };

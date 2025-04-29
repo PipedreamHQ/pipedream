@@ -3,24 +3,25 @@ import calCom from "../../cal_com.app.mjs";
 export default {
   key: "cal_com-delete-booking",
   name: "Delete Booking",
-  description: "Delete an existing booking by its ID. [See the docs here](https://developer.cal.com/api/api-reference/bookings)",
-  version: "0.0.1",
+  description: "Delete an existing booking by its ID. [See the documentation](https://developer.cal.com/api/api-reference/bookings)",
+  version: "0.0.2",
   type: "action",
   props: {
     calCom,
-    booking: {
+    bookingId: {
       propDefinition: [
         calCom,
-        "booking",
+        "bookingId",
         () => ({
           filterCancelled: true,
         }),
       ],
+      description: "The identifier of the booking to delete",
     },
   },
   async run({ $ }) {
-    const response = await this.calCom.deleteBooking(this.booking, $);
-    $.export("$summary", `Successfully deleted booking with ID ${this.booking}`);
+    const response = await this.calCom.deleteBooking(this.bookingId, $);
+    $.export("$summary", `Successfully deleted booking with ID ${this.bookingId}`);
     return response;
   },
 };

@@ -1,23 +1,22 @@
-import common from "../common.mjs";
+import app from "../../trello.app.mjs";
 
 export default {
-  ...common,
   key: "trello-add-existing-label-to-card",
   name: "Add Existing Label to Card",
-  description: "Adds an existing label to the specified card. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idlabels-post)",
-  version: "0.0.3",
+  description: "Adds an existing label to the specified card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idlabels-post).",
+  version: "0.1.1",
   type: "action",
   props: {
-    ...common.props,
+    app,
     board: {
       propDefinition: [
-        common.props.trello,
+        app,
         "board",
       ],
     },
-    idCard: {
+    cardId: {
       propDefinition: [
-        common.props.trello,
+        app,
         "cards",
         (c) => ({
           board: c.board,
@@ -28,21 +27,27 @@ export default {
       description: "The ID of the Card to add the Label to",
       optional: false,
     },
-    idLabel: {
+    value: {
       propDefinition: [
-        common.props.trello,
+        app,
         "label",
         (c) => ({
           board: c.board,
+          card: c.cardId,
+          excludeCardLabels: true,
         }),
       ],
     },
   },
   async run({ $ }) {
-    const res = await this.trello.addExistingLabelToCard(this.idCard, {
-      value: this.idLabel,
-    }, $);
-    $.export("$summary", `Successfully added label ${this.idLabel} to card ${this.idCard}`);
+    const res = await this.app.addExistingLabelToCard({
+      $,
+      cardId: this.cardId,
+      params: {
+        value: this.value,
+      },
+    });
+    $.export("$summary", `Successfully added label and returned \`${res.length}\` labels added.`);
     return res;
   },
 };

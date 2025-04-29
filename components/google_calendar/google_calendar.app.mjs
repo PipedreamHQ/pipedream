@@ -296,6 +296,27 @@ export default {
         auth,
       });
     },
+    retryWithExponentialBackoff(func, maxAttempts = 3, baseDelayS = 2) {
+      let attempt = 0;
+
+      const execute = async () => {
+        try {
+          return await func();
+        } catch (error) {
+          if (attempt >= maxAttempts) {
+            throw error;
+          }
+
+          const delayMs = Math.pow(baseDelayS, attempt) * 1000;
+          await new Promise((resolve) => setTimeout(resolve, delayMs));
+
+          attempt++;
+          return execute();
+        }
+      };
+
+      return execute();
+    },
     async requestHandler({
       api, method, args = {},
     }) {
@@ -305,7 +326,8 @@ export default {
       } = args;
       try {
         const calendar = this.client();
-        const response = await calendar[api][method](otherArgs);
+        const fn = () => calendar[api][method](otherArgs);
+        const response = await this.retryWithExponentialBackoff(fn);
         return returnOnlyData
           ? response.data
           : response;
@@ -454,6 +476,9 @@ export default {
         args,
       });
     },
+    // Used to get the nextSyncToken. Since we don't need
+    // to actually retrieve any events, we set "updatedMin"
+    // to the current timestamp
     async fullSync(calendarId) {
       let nextSyncToken = null;
       let nextPageToken = null;
@@ -462,6 +487,8 @@ export default {
           await this.listEvents({
             calendarId,
             pageToken: nextPageToken,
+            orderBy: "updated",
+            updatedMin: new Date().toISOString(),
           });
         nextPageToken = syncResp?.nextPageToken;
         nextSyncToken = syncResp?.nextSyncToken;

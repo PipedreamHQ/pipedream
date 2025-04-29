@@ -4,7 +4,7 @@ export default {
   key: "parsehub-get-data-run",
   name: "Get Data for a Run",
   description: "Returns the data extracted by a specified run. [See the documentation](https://www.parsehub.com/docs/ref/api/v2/#get-data-for-a-run)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

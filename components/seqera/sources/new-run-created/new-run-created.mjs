@@ -5,7 +5,7 @@ export default {
   key: "seqera-new-run-created",
   name: "New Run Created",
   description: "Emit new event when a new run is created in Seqera. [See the documentation](https://docs.seqera.io/platform/23.3.0/api/overview)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -18,22 +18,31 @@ export default {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
+    workspaceId: {
+      propDefinition: [
+        app,
+        "workspaceId",
+      ],
+      optional: false,
+    },
   },
   methods: {
     getResourceName() {
-      return "runs";
+      return "workflows";
     },
     getResourcesFn() {
-      return this.app.listRuns;
+      return this.app.listWorkflows;
     },
     getResourcesFnArgs() {
-      return;
-    },
-    generateMeta(resource) {
       return {
-        id: resource.run_id,
-        summary: `New Run: ${resource.run_id}`,
-        ts: Date.now(),
+        workspaceId: this.workspaceId,
+      };
+    },
+    generateMeta({ workflow }) {
+      return {
+        id: workflow.id,
+        summary: `New Run: ${workflow.id}`,
+        ts: Date.parse(workflow.dateCreated),
       };
     },
     processResource(resource) {

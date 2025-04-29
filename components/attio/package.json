@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/attio",
+  "version": "0.2.0",
+  "description": "Pipedream Attio Components",
+  "main": "attio.app.mjs",
+  "keywords": [
+    "pipedream",
+    "attio"
+  ],
+  "homepage": "https://pipedream.com/apps/attio",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

@@ -44,17 +44,39 @@ export default {
           decodedContent: Buffer.from(firstPart.body.data, "base64").toString(),
         };
     },
+    parseEmail(emailStr) {
+      if (!emailStr) {
+        return undefined;
+      }
+
+      const regex = /^(.*)<(.+)>$/;
+      const match = emailStr.match(regex);
+
+      if (match) {
+        return {
+          name: match[1].trim(),
+          email: match[2].trim(),
+        };
+      }
+      return {
+        name: null,
+        email: emailStr.trim(),
+      };
+    },
+    getHeaderValue(headers, key) {
+      return headers.find(({ name }) => name.toLowerCase() === key)?.value;
+    },
     processEmail(msg) {
       // Process and structure the email data
       const headers = msg.payload.headers;
       return {
         "id": msg.id,
         "threadId": msg.threadId,
-        "subject": headers.find((h) => h.name.toLowerCase() === "subject")?.value,
-        "from": headers.find((h) => h.name.toLowerCase() === "from")?.value,
-        "to": headers.find((h) => h.name.toLowerCase() === "to")?.value,
-        "reply-to": headers.find((h) => h.name.toLowerCase() === "reply-to")?.value,
-        "date": headers.find((h) => h.name.toLowerCase() === "date")?.value,
+        "subject": this.getHeaderValue(headers, "subject"),
+        "from": this.parseEmail(this.getHeaderValue(headers, "from")),
+        "to": this.parseEmail(this.getHeaderValue(headers, "to")),
+        "reply-to": this.parseEmail(this.getHeaderValue(headers, "reply-to")),
+        "date": this.getHeaderValue(headers, "date"),
         "snippet": msg.snippet,
       };
     },

@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/google_maps_platform",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream Google Maps Platform (Places API) Components",
-  "main": "dist/app/google_maps_platform.app.mjs",
+  "main": "google_maps_platform.app.mjs",
   "keywords": [
     "pipedream",
     "google_maps_platform"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/google_maps_platform",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
   }
 }

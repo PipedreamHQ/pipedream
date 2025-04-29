@@ -4,9 +4,9 @@ import monday from "../../monday.app.mjs";
 export default {
   key: "monday-create-update",
   name: "Create an Update",
-  description: "Creates a new update. [See the documentation](https://api.developer.monday.com/docs/updates-queries#create-an-update)",
+  description: "Creates a new update. [See the documentation](https://developer.monday.com/api-reference/reference/updates#create-an-update)",
   type: "action",
-  version: "0.0.9",
+  version: "0.0.11",
   props: {
     monday,
     updateBody: {
@@ -33,7 +33,7 @@ export default {
     },
     parentId: {
       label: "Parent Update ID",
-      description: "The parent post identifier",
+      description: "Select a parent update or provide an update ID",
       propDefinition: [
         monday,
         "updateId",

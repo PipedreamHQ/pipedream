@@ -1,13 +1,13 @@
 import canva from "../../canva_enterprise.app.mjs";
-import common from "../../../canva/actions/create-design/create-design.mjs";
-import constants from "../../../canva/common/constants.mjs";
+import common from "@pipedream/canva/actions/create-design/create-design.mjs";
+import constants from "@pipedream/canva/common/constants.mjs";
 
 export default {
   ...common,
   key: "canva_enterprise-create-design",
   name: "Create Design",
   description: "Creates a new Canva design. [See the documentation](https://www.canva.dev/docs/connect/api-reference/designs/create-design/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     canva,

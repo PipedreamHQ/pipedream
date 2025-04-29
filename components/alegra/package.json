@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/alegra",
+  "version": "0.1.0",
+  "description": "Pipedream Alegra Components",
+  "main": "alegra.app.mjs",
+  "keywords": [
+    "pipedream",
+    "alegra"
+  ],
+  "homepage": "https://pipedream.com/apps/alegra",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

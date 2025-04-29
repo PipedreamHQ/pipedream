@@ -1,11 +1,13 @@
+import { ConfigurationError } from "@pipedream/platform";
 import constants from "../../common/constants.mjs";
+import { parseObject } from "../../common/utils.mjs";
 import pipedriveApp from "../../pipedrive.app.mjs";
 
 export default {
   key: "pipedrive-search-persons",
   name: "Search persons",
   description: "Searches all Persons by `name`, `email`, `phone`, `notes` and/or custom fields. This endpoint is a wrapper of `/v1/itemSearch` with a narrower OAuth scope. Found Persons can be filtered by Organization ID. See the Pipedrive API docs [here](https://developers.pipedrive.com/docs/api/v1/Persons#searchPersons)",
-  version: "0.1.5",
+  version: "0.1.7",
   type: "action",
   props: {
     pipedriveApp,
@@ -15,9 +17,9 @@ export default {
       description: "The search term to look for. Minimum 2 characters (or 1 if using exact_match).",
     },
     fields: {
-      type: "string",
+      type: "string[]",
       label: "Search fields",
-      description: "A comma-separated string array. The fields to perform the search from. Defaults to all of them.",
+      description: "An array containing fields to perform the search from. Defaults to all of them.",
       optional: true,
       options: constants.FIELD_OPTIONS,
     },
@@ -42,48 +44,37 @@ export default {
       options: constants.INCLUDE_FIELDS_OPTIONS,
     },
     start: {
-      propDefinition: [
-        pipedriveApp,
-        "start",
-      ],
+      type: "integer",
+      label: "Pagination start",
+      description: "Pagination start. Note that the pagination is based on main results and does not include related items when using `search_for_related_items` parameter.",
+      optional: true,
     },
     limit: {
-      propDefinition: [
-        pipedriveApp,
-        "limit",
-      ],
+      type: "integer",
+      label: "Limit",
+      description: "Items shown per page.",
+      optional: true,
     },
   },
   async run({ $ }) {
-    const {
-      term,
-      fields,
-      exactMatch,
-      organizationId,
-      includeFields,
-      start,
-      limit,
-    } = this;
-
     try {
       const resp =
         await this.pipedriveApp.searchPersons({
-          term,
-          fields,
-          exact_match: exactMatch,
-          org_id: organizationId,
-          include_fields: includeFields,
-          start,
-          limit,
+          term: this.term,
+          fields: parseObject(this.fields),
+          exact_match: this.exactMatch,
+          org_id: this.organizationId,
+          include_fields: this.includeFields,
+          start: this.start,
+          limit: this.limit,
         });
 
       $.export("$summary", `Successfully found ${resp.data?.items.length || 0} persons`);
 
       return resp;
 
-    } catch (error) {
-      console.error(error.context?.body || error);
-      throw error.context?.body?.error || "Failed to search persons";
+    } catch ({ error }) {
+      throw new ConfigurationError(error);
     }
   },
 };

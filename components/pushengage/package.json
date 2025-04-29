@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/pushengage",
+  "version": "0.0.1",
+  "description": "Pipedream PushEngage Components",
+  "main": "pushengage.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pushengage"
+  ],
+  "homepage": "https://pipedream.com/apps/pushengage",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

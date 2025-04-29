@@ -4,15 +4,13 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "freshdesk-new-ticket",
-  name: "New Ticket",
-  description: "Emit new notifications when a new ticket is created",
-  version: "0.0.2",
+  name: "New Ticket Created",
+  description: "Emit new event when a ticket is created. [See the documentation](https://developers.freshdesk.com/api/#filter_tickets)",
+  version: "0.0.4",
   type: "source",
   props: {
     freshdesk,
     timer: {
-      label: "Polling interval",
-      description: "Pipedream will poll Harvest API on this schedule",
       type: "$.interface.timer",
       default: {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
@@ -28,7 +26,10 @@ export default {
       lastDateChecked = new Date().toISOString();
       this.freshdesk.setLastDateChecked(this.db, lastDateChecked);
     }
-    const formatedDate = lastDateChecked.substr(0, (lastDateChecked + "T").indexOf("T"));
+    const formatedDate = lastDateChecked.substr(
+      0,
+      (lastDateChecked + "T").indexOf("T"),
+    );
     const tickets = await this.freshdesk.filterTickets({
       query: `"created_at:>'${formatedDate}'"`,
       page: 1,
@@ -36,16 +37,16 @@ export default {
     for await (const ticket of tickets) {
       data.push(ticket);
     }
-    data && data.reverse().forEach((ticket) => {
-      this.freshdesk.setLastDateChecked(this.db, ticket.created_at);
-      if (moment(ticket.created_at).isAfter(lastDateChecked)) {
-        this.$emit(ticket,
-          {
+    data &&
+      data.reverse().forEach((ticket) => {
+        this.freshdesk.setLastDateChecked(this.db, ticket.created_at);
+        if (moment(ticket.created_at).isAfter(lastDateChecked)) {
+          this.$emit(ticket, {
             id: ticket.id,
-            summary: `Ticket number: ${ticket.id}`,
+            summary: `New Ticket (ID: ${ticket.id})`,
             ts: Date.parse(ticket.created_at),
           });
-      }
-    });
+        }
+      });
   },
 };

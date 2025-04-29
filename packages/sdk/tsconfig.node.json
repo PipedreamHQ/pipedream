@@ -1,21 +1,31 @@
 {
-    "compilerOptions": {
-      "module": "NodeNext",
-      "target": "ES6",
-      "lib": ["ES6"],
-      "declaration": true,
-      "outDir": "dist/server",
-      "strict": true,
-      "esModuleInterop": true,
-      "forceConsistentCasingInFileNames": true,
-      "moduleResolution": "NodeNext",
-      "skipLibCheck": true,
-      "types": ["node"]
-    },
-    "include": [
-      "src/server/**/*"
+  "compilerOptions": {
+    "module": "NodeNext",
+    "target": "es2017",
+    "lib": [
+      "es2017"
     ],
-    "exclude": [
-      "node_modules"
+    "declaration": true,
+    "outDir": "dist/server",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "moduleResolution": "NodeNext",
+    "noImplicitAny": true,
+    "types": [
+      "node",
+      "jest"
     ]
+  },
+  "include": [
+    "src/server/**/*"
+  ],
+  "exclude": [
+    "**/*.test.ts",
+    "node_modules"
+  ]
 }

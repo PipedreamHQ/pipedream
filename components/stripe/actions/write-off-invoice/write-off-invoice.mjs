@@ -4,7 +4,7 @@ export default {
   key: "stripe-write-off-invoice",
   name: "Write Off Invoice",
   type: "action",
-  version: "0.1.0",
+  version: "0.1.1",
   description: "Mark an invoice as uncollectible. [See the " +
     "docs](https://stripe.com/docs/api/invoices/mark_uncollectible) for more information",
   props: {

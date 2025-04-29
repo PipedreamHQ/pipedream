@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/cloudflare_browser_rendering",
+  "version": "0.1.0",
+  "description": "Pipedream Cloudflare Browser Rendering Components",
+  "main": "cloudflare_browser_rendering.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cloudflare_browser_rendering"
+  ],
+  "homepage": "https://pipedream.com/apps/cloudflare_browser_rendering",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

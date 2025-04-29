@@ -1,12 +1,10 @@
 import shopify from "../../shopify.app.mjs";
-import common from "./common.mjs";
 
 export default {
-  ...common,
   key: "shopify-add-product-to-custom-collection",
-  name: "Add Products to Custom Collections",
-  description: "Adds a product or products to a custom collection or collections. [See the documentation](https://shopify.dev/docs/api/admin-rest/2023-01/resources/collect#post-collects)",
-  version: "0.0.6",
+  name: "Add Products to Custom Collection",
+  description: "Adds a product or products to a custom collection. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/collectionAddProductsV2)",
+  version: "0.0.7",
   type: "action",
   props: {
     shopify,
@@ -18,15 +16,23 @@ export default {
       type: "string[]",
       label: "Product IDs",
     },
-    collectionIds: {
+    collectionId: {
       propDefinition: [
         shopify,
         "collectionId",
       ],
-      type: "string[]",
-      label: "Collection IDs",
-      description: "IDs of the collections that the product will be added to",
       optional: false,
     },
+  },
+  async run({ $ }) {
+    const response = await this.shopify.addProductsToCollection({
+      id: this.collectionId,
+      productIds: this.productIds,
+    });
+    if (response.collectionAddProductsV2.userErrors.length > 0) {
+      throw new Error(response.collectionAddProductsV2.userErrors[0].message);
+    }
+    $.export("$summary", `Added product(s) \`${this.productIds}\` to collection \`${this.collectionId}\``);
+    return response;
   },
 };

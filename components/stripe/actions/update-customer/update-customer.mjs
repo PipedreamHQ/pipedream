@@ -5,7 +5,7 @@ export default {
   key: "stripe-update-customer",
   name: "Update a Customer",
   type: "action",
-  version: "0.1.0",
+  version: "0.1.1",
   description: "Update a customer. [See the docs](https://stripe.com/docs/api/customers/update) " +
     "for more information",
   props: {

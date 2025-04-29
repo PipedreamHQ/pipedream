@@ -2,6 +2,7 @@ import {
   MAX_RETRIES,
   INITIAL_BACKOFF_MILLISECONDS,
 } from "./constants.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export const parseOne = (obj) => {
   let parsed;
@@ -25,5 +26,21 @@ export async function retryWithExponentialBackoff(
       return retryWithExponentialBackoff(requestFn, retries - 1, backoff * 2);
     }
     throw error;
+  }
+}
+
+export function parseLineItems(arr) {
+  if (!arr) {
+    return undefined;
+  }
+  try {
+    if (typeof arr === "string") {
+      return JSON.parse(arr);
+    }
+    return arr.map((lineItem) => typeof lineItem === "string"
+      ? JSON.parse(lineItem)
+      : lineItem);
+  } catch (error) {
+    throw new ConfigurationError(`We got an error trying to parse the LineItems. Error: ${error}`);
   }
 }

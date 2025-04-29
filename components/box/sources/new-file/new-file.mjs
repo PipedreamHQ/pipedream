@@ -4,7 +4,7 @@ export default {
   key: "box-new-file",
   name: "New File Event",
   description: "Emit new event when a new file uploaded on a target. [See the documentation](https://developer.box.com/reference/post-webhooks)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   ...common,

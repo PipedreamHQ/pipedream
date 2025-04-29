@@ -4,7 +4,7 @@ export default {
   key: "unthread-update-customer",
   name: "Update Customer",
   description: "Update a Customer. [See the documentation](https://docs.unthread.io/api-introduction/using-api#update-customer)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

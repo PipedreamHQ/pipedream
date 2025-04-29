@@ -1,4 +1,4 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
@@ -11,7 +11,7 @@ export default {
     playlistId: {
       type: "string",
       label: "Playlist ID",
-      description: "The ID of the playlist to search for new videos in.",
+      description: "The ID of the playlist to search for new videos in. E.g. `PLJswo-CV0rmm19_Xi5_NlGJzRbnyp43c_`. When viewing the playlist in a browser, the playlistId is the part of the URL that comes after \"list=\"",
     },
   },
   methods: {

@@ -1,15 +1,22 @@
 import shopify from "../../shopify_developer_app.app.mjs";
-import common from "../../../shopify/actions/add-tags/common.mjs";
+import common from "@pipedream/shopify/actions/add-tags/add-tags.mjs";
+
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
+const props = adjustPropDefinitions(others.props, shopify);
 
 export default {
-  ...common,
-  name: "Add Tags",
-  version: "0.0.3",
+  ...others,
   key: "shopify_developer_app-add-tags",
-  description: "Add tags. [See the documentation](https://shopify.dev/api/admin-graphql/2022-07/mutations/tagsadd)",
-  type: "action",
+  version: "0.0.6",
+  name,
+  description,
+  type,
   props: {
     shopify,
-    ...common.props,
+    ...props,
   },
 };

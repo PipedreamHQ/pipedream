@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/eventzilla",
+  "version": "0.6.0",
+  "description": "Pipedream eventzilla Components",
+  "main": "eventzilla.app.mjs",
+  "keywords": [
+    "pipedream",
+    "eventzilla"
+  ],
+  "homepage": "https://pipedream.com/apps/eventzilla",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

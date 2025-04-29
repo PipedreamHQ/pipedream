@@ -1,5 +1,6 @@
 import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
+import utils from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -10,7 +11,7 @@ export default {
       label: "Account ID",
       description: "Identifier of the account for this contact",
       async options({ page }) {
-        const { accounts } = await this.listAccounts({
+        const { accounts } = await this.searchAccounts({
           params: {
             page: page + 1,
           },
@@ -28,7 +29,7 @@ export default {
       label: "Contact ID",
       description: "Identifier of the contact to update",
       async options({ page }) {
-        const { contacts } = await this.listContacts({
+        const { contacts } = await this.searchContacts({
           params: {
             page: page + 1,
           },
@@ -173,8 +174,12 @@ export default {
     labelNames: {
       type: "string[]",
       label: "Label Names",
-      description: "A list of names to tag this newly created contact. If the name does not exist, Apollo will automatically create it",
+      description: "A list of names to tag this contact. You can select the labels from the list or create new ones using a custom expression, i.e., `[\"label1\", \"label2\"]`",
       optional: true,
+      async options() {
+        const response = await this.listLabels();
+        return response.map(({ name }) => name) || [];
+      },
     },
     address: {
       type: "string",
@@ -211,12 +216,12 @@ export default {
       return {
         "Content-Type": "application/json",
         "Cache-Control": "no-cache",
+        "X-Api-Key": this.$auth.api_key,
         ...headers,
       };
     },
     getParams(params) {
       return {
-        api_key: this.$auth.api_key,
         ...params,
       };
     },
@@ -239,15 +244,15 @@ export default {
         ...args,
       });
     },
-    listAccounts(args = {}) {
+    put(args = {}) {
       return this.makeRequest({
-        path: "/accounts/search",
+        method: "put",
         ...args,
       });
     },
-    listContacts(args = {}) {
+    patch(args = {}) {
       return this.makeRequest({
-        path: "/contacts/search",
+        method: "patch",
         ...args,
       });
     },
@@ -264,7 +269,7 @@ export default {
       });
     },
     listSequences(args = {}) {
-      return this.makeRequest({
+      return this.post({
         path: "/emailer_campaigns/search",
         ...args,
       });
@@ -294,8 +299,7 @@ export default {
       });
     },
     createContact(args = {}) {
-      return this.makeRequest({
-        method: "POST",
+      return this.post({
         path: "/contacts",
         ...args,
       });
@@ -303,29 +307,25 @@ export default {
     updateContact({
       contactId, ...args
     }) {
-      return this.makeRequest({
-        method: "PUT",
+      return this.put({
         path: `/contacts/${contactId}`,
         ...args,
       });
     },
     updateContactStage(args = {}) {
-      return this.makeRequest({
-        method: "POST",
+      return this.post({
         path: "/contacts/update_stages",
         ...args,
       });
     },
     createAccount(args = {}) {
-      return this.makeRequest({
-        method: "POST",
+      return this.post({
         path: "/accounts",
         ...args,
       });
     },
     createOpportunity(args = {}) {
-      return this.makeRequest({
-        method: "POST",
+      return this.post({
         path: "/opportunities",
         ...args,
       });
@@ -333,8 +333,7 @@ export default {
     updateOpportunity({
       opportunityId, ...args
     }) {
-      return this.makeRequest({
-        method: "PATCH",
+      return this.patch({
         path: `/opportunities/${opportunityId}`,
         ...args,
       });
@@ -350,15 +349,13 @@ export default {
     updateAccount({
       accountId, ...args
     }) {
-      return this.makeRequest({
-        method: "PUT",
+      return this.put({
         path: `/accounts/${accountId}`,
         ...args,
       });
     },
     updateAccountStage(args = {}) {
-      return this.makeRequest({
-        method: "POST",
+      return this.post({
         path: "/accounts/bulk_update",
         ...args,
       });
@@ -366,25 +363,30 @@ export default {
     addContactsToSequence({
       sequenceId, ...args
     }) {
-      return this.makeRequest({
-        method: "POST",
+      return this.post({
         path: `/emailer_campaigns/${sequenceId}/add_contact_ids`,
         ...args,
       });
     },
     searchAccounts(args = {}) {
-      return this.makeRequest({
+      return this.post({
         path: "/accounts/search",
         ...args,
       });
     },
     searchContacts(args = {}) {
-      return this.makeRequest({
+      return this.post({
         path: "/contacts/search",
         ...args,
       });
     },
-    async *getResourcesStream({
+    listLabels(args = {}) {
+      return this.makeRequest({
+        path: "/labels",
+        ...args,
+      });
+    },
+    async *getIterations({
       resourceFn,
       resourceFnArgs,
       resourceName,
@@ -399,6 +401,7 @@ export default {
             ...resourceFnArgs,
             params: {
               ...resourceFnArgs.params,
+              per_page: constants.DEFAULT_LIMIT,
               page,
             },
           });
@@ -419,8 +422,16 @@ export default {
           }
         }
 
+        if (nextResources.length < constants.DEFAULT_LIMIT) {
+          console.log("No next page");
+          return;
+        }
+
         page += 1;
       }
+    },
+    paginate(args = {}) {
+      return utils.iterate(this.getIterations(args));
     },
   },
 };

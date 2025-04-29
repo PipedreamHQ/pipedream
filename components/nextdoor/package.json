@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/nextdoor",
+  "version": "0.0.1",
+  "description": "Pipedream Nextdoor Ads Components",
+  "main": "nextdoor.app.mjs",
+  "keywords": [
+    "pipedream",
+    "nextdoor"
+  ],
+  "homepage": "https://pipedream.com/apps/nextdoor",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

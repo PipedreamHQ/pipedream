@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/invoice_ninja",
+  "version": "0.6.0",
+  "description": "Pipedream invoice_ninja Components",
+  "main": "invoice_ninja.app.mjs",
+  "keywords": [
+    "pipedream",
+    "invoice_ninja"
+  ],
+  "homepage": "https://pipedream.com/apps/invoice_ninja",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

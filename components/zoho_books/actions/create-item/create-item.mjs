@@ -1,183 +1,178 @@
 // legacy_hash_id: a_Xzi1qo
-import { axios } from "@pipedream/platform";
+import {
+  ITEM_TYPE_OPTIONS, PRODUCT_TYPE_OPTIONS,
+} from "../../common/constants.mjs";
+import { parseObject } from "../../common/utils.mjs";
+import zohoBooks from "../../zoho_books.app.mjs";
 
 export default {
   key: "zoho_books-create-item",
   name: "Create Item",
-  description: "Creates a new item.",
-  version: "0.2.1",
+  description: "Creates a new item. [See the documentation](https://www.zoho.com/books/api/v3/items/#create-an-item)",
+  version: "0.3.0",
   type: "action",
   props: {
-    zoho_books: {
-      type: "app",
-      app: "zoho_books",
-    },
-    organization_id: {
-      type: "string",
-      description: "In Zoho Books, your business is termed as an organization. If you have multiple businesses, you simply set each of those up as an individual organization. Each organization is an independent Zoho Books Organization with it's own organization ID, base currency, time zone, language, contacts, reports, etc.\n\nThe parameter `organization_id` should be sent in with every API request to identify the organization.\n\nThe `organization_id` can be obtained from the GET `/organizations` API's JSON response. Alternatively, it can be obtained from the **Manage Organizations** page in the admin console.",
-    },
+    zohoBooks,
     name: {
       type: "string",
+      label: "Name",
       description: "Name of the item. Max-length [100]",
     },
     rate: {
       type: "string",
+      label: "Rate",
       description: "Price of the item.",
     },
     description: {
       type: "string",
+      label: "Description",
       description: "Description for the item. Max-length [2000]",
       optional: true,
     },
-    tax_id: {
-      type: "string",
+    taxId: {
+      propDefinition: [
+        zohoBooks,
+        "taxId",
+      ],
       description: "ID of the tax to be associated to the item.",
       optional: true,
     },
-    tax_percentage: {
+    taxPercentage: {
       type: "string",
+      label: "Tax Percentage",
       description: "Percent of the tax.",
       optional: true,
     },
     sku: {
       type: "string",
+      label: "SKU",
       description: "SKU value of item,should be unique throughout the product",
       optional: true,
     },
-    product_type: {
+    productType: {
       type: "string",
-      description: "Specify the type of an item. Allowed values: `goods` or `service` or `digital_service`.",
+      label: "Product Type",
+      description: "Specify the type of an item.",
       optional: true,
-      options: [
-        "goods",
-        "service",
-        "digital_service",
-      ],
+      options: PRODUCT_TYPE_OPTIONS,
     },
-    hsn_or_sac: {
+    hsnOrSac: {
       type: "string",
+      label: "HSN Or SAC",
       description: "HSN Code.",
       optional: true,
     },
-    is_taxable: {
+    isTaxable: {
       type: "boolean",
+      label: "Is Taxable",
       description: "Boolean to track the taxability of the item.",
       optional: true,
     },
-    tax_exemption_id: {
+    taxExemptionId: {
       type: "string",
+      label: "Tax Exemption Id",
       description: "ID of the tax exemption. Mandatory, if is_taxable is false.",
       optional: true,
     },
-    account_id: {
-      type: "string",
+    accountId: {
+      propDefinition: [
+        zohoBooks,
+        "accountId",
+      ],
       description: "ID of the account to which the item has to be associated with.",
       optional: true,
     },
-    avatax_tax_code: {
+    itemType: {
       type: "string",
-      description: "A tax code is a unique label used to group Items (products, services, or charges) together. Max-length [25]",
+      label: "Item Type",
+      description: "Type of the item. Default value will be sales.",
       optional: true,
+      options: ITEM_TYPE_OPTIONS,
     },
-    avatax_use_code: {
+    purchaseDescription: {
       type: "string",
-      description: "Used to group like customers for exemption purposes. It is a custom value that links customers to a tax rule. Select from Avalara [standard codes][1] or enter a custom code. Max-length [25]",
-      optional: true,
-    },
-    item_type: {
-      type: "string",
-      description: "Type of the item. Allowed values: `sales`,`purchases`,`sales_and_purchases` and `inventory`. Default value will be sales.",
-      optional: true,
-      options: [
-        "sales",
-        "purchases",
-        "sales_and_purchases",
-        "inventory",
-      ],
-    },
-    purchase_description: {
-      type: "string",
+      label: "Purchase Description",
       description: "Purchase description for the item.",
       optional: true,
     },
-    purchase_rate: {
+    purchaseRate: {
       type: "string",
+      label: "Purchase Rate",
       description: "Purchase price of the item.",
       optional: true,
     },
-    purchase_account_id: {
+    purchaseAccountId: {
       type: "string",
+      label: "Purchase Account Id",
       description: "ID of the COGS account to which the item has to be associated with. Mandatory, if item_type is purchase / sales and purchase / inventory.",
       optional: true,
     },
-    inventory_account_id: {
+    inventoryAccountId: {
       type: "string",
+      label: "Inventory Account Id",
       description: "ID of the stock account to which the item has to be associated with. Mandatory, if item_type is inventory.",
       optional: true,
     },
-    vendor_id: {
+    vendorId: {
       type: "string",
+      label: "Vendor Id",
       description: "Preferred vendor ID.",
       optional: true,
     },
-    reorder_level: {
+    reorderLevel: {
       type: "string",
+      label: "Reorder Level",
       description: "Reorder level of the item.",
       optional: true,
     },
-    initial_stock: {
+    initialStock: {
       type: "string",
+      label: "Initial Stock",
       description: "Opening stock of the item.",
       optional: true,
     },
-    initial_stock_rate: {
+    initialStockRate: {
       type: "string",
+      label: "Initial Stock Rate",
       description: "Unit price of the opening stock.",
       optional: true,
     },
-    item_tax_preferences: {
-      type: "any",
+    itemTaxPreferences: {
+      type: "string[]",
+      label: "Item Tax Preferences",
+      description: "A list of item tax objects. **Format: {\"tax_id\":\"12312312031200\",\"tax_specification\":\"intra\"}**",
       optional: true,
     },
   },
   async run({ $ }) {
-  //See the API docs: https://www.zoho.com/books/api/v3/#Items_Create_an_Item
-
-    if (!this.organization_id || !this.name || !this.rate) {
-      throw new Error("Must provide organization_id, name, and rate parameters.");
-    }
-
-    return await axios($, {
-      method: "post",
-      url: `https://books.${this.zoho_books.$auth.base_api_uri}/api/v3/items?organization_id=${this.organization_id}`,
-      headers: {
-        Authorization: `Zoho-oauthtoken ${this.zoho_books.$auth.oauth_access_token}`,
-      },
+    const response = await this.zohoBooks.createItem({
+      $,
       data: {
         name: this.name,
-        rate: this.rate,
+        rate: this.rate && parseFloat(this.rate),
         description: this.description,
-        tax_id: this.tax_id,
-        tax_percentage: this.tax_percentage,
+        tax_id: this.taxId,
+        tax_percentage: this.taxPercentage,
         sku: this.sku,
-        product_type: this.product_type,
-        hsn_or_sac: this.hsn_or_sac,
-        is_taxable: this.is_taxable,
-        tax_exemption_id: this.tax_exemption_id,
-        account_id: this.account_id,
-        avatax_tax_code: this.avatax_tax_code,
-        avatax_use_code: this.avatax_use_code,
-        item_type: this.item_type,
-        purchase_description: this.purchase_description,
-        purchase_rate: this.purchase_rate,
-        purchase_account_id: this.purchase_account_id,
-        inventory_account_id: this.inventory_account_id,
-        vendor_id: this.vendor_id,
-        reorder_level: this.reorder_level,
-        initial_stock: this.initial_stock,
-        initial_stock_rate: this.initial_stock_rate,
-        item_tax_preferences: this.item_tax_preferences,
+        product_type: this.productType,
+        hsn_or_sac: this.hsnOrSac,
+        is_taxable: this.isTaxable,
+        tax_exemption_id: this.taxExemptionId,
+        account_id: this.accountId,
+        item_type: this.itemType,
+        purchase_description: this.purchaseDescription,
+        purchase_rate: this.purchaseRate,
+        purchase_account_id: this.purchaseAccountId,
+        inventory_account_id: this.inventoryAccountId,
+        vendor_id: this.vendorId,
+        reorder_level: this.reorderLevel,
+        initial_stock: this.initialStock,
+        initial_stock_rate: this.initialStockRate,
+        item_tax_preferences: parseObject(this.itemTaxPreferences),
       },
     });
+
+    $.export("$summary", `Item successfully created with Id: ${response.item.item_id}`);
+    return response;
   },
 };

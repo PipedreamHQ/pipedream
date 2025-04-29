@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/mailtrap",
+  "version": "0.0.1",
+  "description": "Pipedream Mailtrap Components",
+  "main": "mailtrap.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mailtrap"
+  ],
+  "homepage": "https://pipedream.com/apps/mailtrap",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

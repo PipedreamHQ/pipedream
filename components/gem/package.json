@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/gem",
+  "version": "0.1.0",
+  "description": "Pipedream Gem Components",
+  "main": "gem.app.mjs",
+  "keywords": [
+    "pipedream",
+    "gem"
+  ],
+  "homepage": "https://pipedream.com/apps/gem",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

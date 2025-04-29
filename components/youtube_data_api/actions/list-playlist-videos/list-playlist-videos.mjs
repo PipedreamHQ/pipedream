@@ -3,8 +3,8 @@ import youtubeDataApi from "../../youtube_data_api.app.mjs";
 export default {
   key: "youtube_data_api-list-playlist-videos",
   name: "List Playlist Videos",
-  description: "List videos in a playlist. [See the docs](https://developers.google.com/youtube/v3/docs/playlistItems/list) for more information",
-  version: "0.0.1",
+  description: "List videos in a playlist. [See the documentation](https://developers.google.com/youtube/v3/docs/playlistItems/list) for more information",
+  version: "0.0.2",
   type: "action",
   props: {
     youtubeDataApi,
@@ -13,18 +13,13 @@ export default {
         youtubeDataApi,
         "userOwnedPlaylist",
       ],
-      description: "Select a **Playlist** or provide a custom *Playlist ID*.",
+      description: "Select a **Playlist** or provide a custom *Playlist ID*. E.g. `PLJswo-CV0rmlwxKysf33cUnyBp8JztH0k`",
     },
     maxResults: {
       propDefinition: [
         youtubeDataApi,
         "maxResults",
       ],
-      description: "The maximum number of results to return.",
-      min: 1,
-      max: 50,
-      default: 5,
-      optional: true,
     },
   },
   async run({ $ }) {

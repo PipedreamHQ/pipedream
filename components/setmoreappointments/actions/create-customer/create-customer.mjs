@@ -4,7 +4,7 @@ export default {
   key: "setmoreappointments-create-customer",
   name: "Create Customer",
   description: "Create a new customer in Setmore Appointments. [See the documentation](https://setmore.docs.apiary.io/#introduction/customers/create-a-customer)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     setmore,

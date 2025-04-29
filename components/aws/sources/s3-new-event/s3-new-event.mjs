@@ -6,7 +6,7 @@ export default {
   key: "aws-s3-new-event",
   name: "New S3 Event",
   description: "Emit new S3 events for a given bucket",
-  version: "0.1.2",
+  version: "0.1.3",
   dedupe: "unique",
   props: {
     ...base.props,

@@ -47,7 +47,7 @@ export default {
 
       return {
         id,
-        summary: `${summary}: ${title} - ${id}`,
+        summary: `${summary}: ${title || id}`,
         ts,
       };
     },

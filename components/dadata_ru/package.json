@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/dadata_ru",
+  "version": "0.6.0",
+  "description": "Pipedream dadata_ru Components",
+  "main": "dadata_ru.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dadata_ru"
+  ],
+  "homepage": "https://pipedream.com/apps/dadata_ru",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

@@ -42,7 +42,10 @@ function buildVariables(endCursor, args) {
   const issueLabels = args.filter.issueLabels
     ? `, labels: { name: { in: ${JSON.stringify(args.filter.issueLabels)} } }`
     : "";
-  let filter = `${title}${teamId}${projectId}${team}${project}${state}${assigneeId}${issueLabels}`;
+  const createdAt = args.filter.createdAt
+    ? `, createdAt: { gte: "${args.filter.createdAt.gte}" }`
+    : "";
+  let filter = `${title}${teamId}${projectId}${team}${project}${state}${assigneeId}${issueLabels}${createdAt}`;
   if (filter[0] === ",") {
     filter = filter.substring(2, filter.length);
   }
@@ -56,7 +59,17 @@ function buildVariables(endCursor, args) {
   const after = endCursor
     ? `, after: "${endCursor}"`
     : "";
-  return strToObj(`{ filter: { ${filter} }, first: ${constants.DEFAULT_LIMIT}${orderBy}${includeArchived}${after} }`);
+  // Determine the appropriate limit:
+  // 1. Use custom limit if provided
+  // 2. Use a smaller default limit when no query is provided to avoid returning too many results
+  // 3. Otherwise use the standard default limit
+  const limit = args.limit
+    ? args.limit
+    : (args.filter.query
+      ? constants.DEFAULT_LIMIT
+      : constants.DEFAULT_NO_QUERY_LIMIT);
+
+  return strToObj(`{ filter: { ${filter} }, first: ${limit}${orderBy}${includeArchived}${after} }`);
 }
 
 export default {

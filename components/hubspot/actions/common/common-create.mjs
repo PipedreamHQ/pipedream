@@ -1,7 +1,7 @@
-import hubspot from "../../hubspot.app.mjs";
 import {
   OBJECT_TYPE, HUBSPOT_OWNER,
 } from "../../common/constants.mjs";
+import appProp from "./common-app-prop.mjs";
 
 /**
  * Returns an options method for a CRM object type, intended to be used in
@@ -43,7 +43,7 @@ function getOptionsMethod(objectTypeName) {
 
 export default {
   props: {
-    hubspot,
+    ...appProp.props,
   },
   methods: {
     getObjectType() {
@@ -70,7 +70,7 @@ export default {
         ? options
         : undefined;
     },
-    makePropDefinition(property, requiredProperties) {
+    async makePropDefinition(property, requiredProperties) {
       let type = "string";
       let options = this.makeLabelValueOptions(property);
 
@@ -83,6 +83,24 @@ export default {
         property.description += ". Enter date in ISO-8601 format. Example: `2024-06-25T15:43:49.214Z`";
       }
 
+      const objectType = this.hubspot.getObjectTypeName(this.getObjectType());
+      let reloadProps;
+      if (property.name === "hs_pipeline") {
+        options = await this.hubspot.getPipelinesOptions(objectType);
+        reloadProps = true;
+      }
+      if (property.name === "hs_pipeline_stage") {
+        options = await this.hubspot.getPipelineStagesOptions(objectType, this.hs_pipeline);
+      }
+      if (property.name === "hs_all_assigned_business_unit_ids") {
+        try {
+          options = await this.hubspot.getBusinessUnitOptions();
+        } catch {
+          console.log("Could not load business units");
+        }
+        property.description += " For use with the Business Units Add-On.";
+      }
+
       return {
         type,
         name: property.name,
@@ -90,25 +108,55 @@ export default {
         description: property.description,
         optional: !requiredProperties.includes(property.name),
         options,
+        reloadProps,
       };
     },
   },
-  async additionalProps() {
+  async additionalProps(existingProps) {
     const objectType = this.getObjectType();
-    const schema = await this.hubspot.getSchema({
-      objectType,
-    });
-    const { results: properties } = await this.hubspot.getProperties({
-      objectType,
-    });
-    return properties
-      .filter(this.isRelevantProperty)
-      .map((property) => this.makePropDefinition(property, schema.requiredProperties))
-      .reduce((props, {
-        name, ...definition
-      }) => {
-        props[name] = definition;
-        return props;
-      }, {});
+    try {
+      const schema = await this.hubspot.getSchema({
+        objectType,
+      });
+      const { results: properties } = await this.hubspot.getProperties({
+        objectType,
+      });
+      const relevantProperties = properties.filter(this.isRelevantProperty);
+
+      const propDefinitions = [];
+      if (this.propertyGroups && !relevantProperties?.length) {
+        propDefinitions.push({
+          type: "alert",
+          alertType: "info",
+          name: "infoAlert",
+          content: `No writable properties found for Property Group(s): ${this.propertyGroups.join(", ")}`,
+        });
+      }
+
+      for (const property of relevantProperties) {
+        propDefinitions.push(await this.makePropDefinition(property, schema.requiredProperties));
+      }
+
+      if (existingProps.objectProperties) {
+        existingProps.objectProperties.hidden = true;
+        existingProps.objectProperties.optional = true;
+      }
+      if (existingProps.propertyGroups) {
+        existingProps.propertyGroups.hidden = false;
+      }
+
+      return propDefinitions
+        .reduce((props, {
+          name, ...definition
+        }) => {
+          props[name] = definition;
+          return props;
+        }, {});
+    } catch {
+      if (existingProps.propertyGroups) {
+        existingProps.propertyGroups.optional = true;
+      }
+      return {};
+    }
   },
 };

@@ -17,6 +17,12 @@ export default {
         "baseId",
       ],
     },
+    filterByFormula: {
+      propDefinition: [
+        airtable,
+        "filterByFormula",
+      ],
+    },
   },
   hooks: {
     activate() {
@@ -41,6 +47,21 @@ export default {
         : Date.now();
       const formattedTimestamp = new Date(timestampMillis).toISOString();
       this._setLastTimestamp(formattedTimestamp);
+    },
+    getListRecordsParams({
+      formula, ...params
+    } = {}) {
+      let filterByFormula = formula;
+
+      if (this.filterByFormula) {
+        filterByFormula = `AND(${formula}, ${this.filterByFormula})`;
+      }
+
+      return {
+        filterByFormula,
+        returnFieldsByFieldId: this.returnFieldsByFieldId || false,
+        ...params,
+      };
     },
   },
 };

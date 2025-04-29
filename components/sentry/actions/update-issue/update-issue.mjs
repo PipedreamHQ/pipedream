@@ -3,7 +3,7 @@ import options from  "../../options.mjs";
 
 export default {
   key: "sentry-update-issue",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   name: "Update Issue.",
   description: "Updates an individual issue's attributes. Only the attributes submitted are modified.[See the docs here](https://docs.sentry.io/api/events/update-an-issue/)",

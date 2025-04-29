@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/wafrow",
+  "version": "0.0.1",
+  "description": "Pipedream Wafrow Components",
+  "main": "wafrow.app.mjs",
+  "keywords": [
+    "pipedream",
+    "wafrow"
+  ],
+  "homepage": "https://pipedream.com/apps/wafrow",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

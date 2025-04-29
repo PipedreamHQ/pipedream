@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/mailsoftly",
+  "version": "0.0.1",
+  "description": "Pipedream Mailsoftly Components",
+  "main": "mailsoftly.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mailsoftly"
+  ],
+  "homepage": "https://pipedream.com/apps/mailsoftly",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

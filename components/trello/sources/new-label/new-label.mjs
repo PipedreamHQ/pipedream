@@ -1,29 +1,31 @@
 import common from "../common/common-board-based.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "trello-new-label",
-  name: "New Label (Instant)",
+  name: "New Label Created (Instant)",
   description: "Emit new event for each new label added to a board.",
-  version: "0.0.14",
+  version: "0.1.1",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
-    async getSampleEvents() {
-      const labels = await this.trello.findLabel(this.board);
-      return {
-        sampleEvents: labels,
-        sortField: "id",
-      };
+    getSampleEvents() {
+      return this.app.findLabel({
+        boardId: this.board,
+      });
     },
-    isCorrectEventType(event) {
-      const eventType = event.body?.action?.type;
-      return eventType === "createLabel";
+    getSortField() {
+      return "id";
     },
-    async getResult(event) {
-      const labelId = event.body?.action?.data?.label?.id;
-      return this.trello.getLabel(labelId);
+    isCorrectEventType({ type }) {
+      return type === "createLabel";
+    },
+    getResult({ data }) {
+      return this.app.getLabel({
+        labelId: data?.label?.id,
+      });
     },
     generateMeta({
       id, name, color: summary,
@@ -38,4 +40,5 @@ export default {
       };
     },
   },
+  sampleEmit,
 };

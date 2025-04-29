@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/influxdb_cloud",
+  "version": "0.6.0",
+  "description": "Pipedream influxdb_cloud Components",
+  "main": "influxdb_cloud.app.mjs",
+  "keywords": [
+    "pipedream",
+    "influxdb_cloud"
+  ],
+  "homepage": "https://pipedream.com/apps/influxdb_cloud",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

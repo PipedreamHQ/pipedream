@@ -47,6 +47,18 @@ export default {
         });
       }
     },
+    getFieldDate() {
+      return "CreateTime";
+    },
+    getQuery() {
+      throw new Error("getQuery is not implemented");
+    },
+    getFieldList() {
+      throw new Error("getFieldList is not implemented");
+    },
+    getSummary() {
+      throw new Error("getSummary is not implemented");
+    },
   },
   hooks: {
     async deploy() {

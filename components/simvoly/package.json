@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/simvoly",
+  "version": "0.6.0",
+  "description": "Pipedream simvoly Components",
+  "main": "simvoly.app.mjs",
+  "keywords": [
+    "pipedream",
+    "simvoly"
+  ],
+  "homepage": "https://pipedream.com/apps/simvoly",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

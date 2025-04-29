@@ -6,7 +6,7 @@ export default {
   key: "stripe-create-usage-record",
   name: "Create a Usage Record",
   type: "action",
-  version: "0.1.0",
+  version: "0.1.1",
   description: "With metered billing, you charge your customers based on their consumption of " +
     "your service during the billing cycle, instead of explicitly setting quantities. Use this " +
     " action to create a usage record for metered billing. [See the " +

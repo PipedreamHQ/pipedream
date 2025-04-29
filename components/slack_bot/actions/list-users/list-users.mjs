@@ -11,5 +11,5 @@ export default {
   }),
   key: "slack_bot-list-users",
   description: "Return a list of all users in a workspace (Bot). [See the documentation](https://api.slack.com/methods/users.list)",
-  version: "0.0.3",
+  version: "0.0.4",
 };

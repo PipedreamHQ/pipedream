@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/quipu",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Quipu Components",
-  "main": "quipu.app.js",
+  "main": "quipu.app.mjs",
   "keywords": [
     "pipedream",
     "quipu"

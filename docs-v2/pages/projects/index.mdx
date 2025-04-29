@@ -60,7 +60,7 @@ To import a workflow from the general **Workflows** area of your dashboard into 
 2. Select one or more workflows you'd like to import into a project
 3. Click *Move* in the top right and select a project to move them to
 
-![Moving a workflow to a project in the Workflows area of the dashboard](./images/import-workflows-into-projects.png)
+![Moving a workflow to a project in the Workflows area of the dashboard](/images/projects/import-workflows-into-projects.png)
 
 ### Moving workflows between projects
 
@@ -75,100 +75,6 @@ At this time it's not possible to move workflows out of GitHub Synchronized Proj
 
 </Callout>
 
-## Access Controls
+## Finding your project's ID
 
-The [projects list view](https://pipedream.com/projects) contains **Owner** and **Access** columns.
-
-**Owner** indicates who within the workspace owns each project. This is typically the person who created the project.
-
-![Project Listing (Owner)](./images/project-listing-owner.png)
-
-<Callout type="warning">
-  Projects created before February 2024 don't automatically have owners, which
-  has no functional impact.
-</Callout>
-
-**Access** indicates which workspace members have access to each project, and this can be displayed as "me", "Workspace", or "N members".
-
-![Project Listing (Access)](./images/project-listing-access.png)
-
-### Permissions
-
-Workspace owners and admins are able to perform all actions in projects, whereas workspace members are restricted from performing certain actions in projects.
-
-| Operation                                                    | Project creator | Workspace members |
-| ------------------------------------------------------------ | :-------------: | :---------------: |
-| View in [projects listing](https://pipedream.com/projects)   |       ✅        |        ✅         |
-| View in [Event History](https://pipedream.com/event-history) |       ✅        |        ✅         |
-| View in global search                                        |       ✅        |        ✅         |
-| Manage project workflows                                     |       ✅        |        ✅         |
-| Manage project files                                         |       ✅        |        ✅         |
-| Manage project variables                                     |       ✅        |        ✅         |
-| Manage member access                                         |       ✅        |        ❌         |
-| Manage GitHub Sync settings                                  |       ✅        |        ❌         |
-| Delete project                                               |       ✅        |        ❌         |
-
-<Callout type="info">
-  **Workspace admins and owners have the same permissions as project creators
-  for all projects in the workspace.**
-</Callout>
-
-### Managing access
-
-<Callout type="info">
-  By default, all projects are accessible to all workspace members. Workspaces
-  on the [Business plan](https://pipedream.com/pricing) can restrict access for
-  individual projects to specific workspace members.
-</Callout>
-
-You can easily modify the access rules for a project directly from the [project list view](https://pipedream.com/projects), either by clicking the access badge in the project row (fig 1) or clicking the 3 dots to open the action menu, then selecting **Manage Access** (fig 2).
-
-Via the access badge (fig 1):
-
-![Click the access badge to manage access](./images/access-badge-click.png)
-
-Via the action menu (fig 2):
-
-![Click manage access from the action menu](./images/manage-access-overflow-menu.png)
-
-From here, a slideout drawer reveals the access management configuration:
-
-![Manage access slideout workspace access](./images/slideout-workspace-share.png)
-
-Toggle the **Restrict access to this project** switch to manage access:
-
-![Manage access slideout restricted](./images/slideout-restricted.png)
-
-Select specific members of the workspace to grant access:
-
-![Manage access slideout showing member dropdown](./images/slideout-member-dropdown.png)
-
-You can always see who has access and remove access if necessary:
-
-![Manage access showing members with access](./images/slideout-member-list.png)
-
-## Project variables and secrets
-
-Environment variables defined at the global workspace level are accessible to all workspace members and workflows within the workspace. To restrict access to sensitive variables or secrets, define them at the project-level and [configure access controls for the project](/projects/#managing-access).
-
-[See here](/environment-variables) for info on creating, managing, and using environment variables and secrets.
-
-<Callout type="info">
-  **Project variables override workspace variables**. When the same variable is
-  defined at both the workspace and project levels (for example,
-  `process.env.BASE_DOMAIN`), the **project** variable takes precedence.
-</Callout>
-
-## Frequently Asked Questions
-
-### Can sources and connected accounts be organized into projects as well?
-
-At this time no, but that is on our roadmap. Projects will eventually contain all the resources needed for a complete system of workflows to work together.
-
-### Can projects be synchronized to a Github repository?
-
-Yes, [please read here](/projects/git/) for more information on the Github synchronization feature for projects.
-
-### Can I configure which members in my workspace have access to individual projects?
-
-Yes! Learn about managing access [here](/projects/#managing-access).
+Visit your project's **Settings** and copy the project ID.

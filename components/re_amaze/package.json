@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/re_amaze",
+  "version": "0.6.0",
+  "description": "Pipedream re_amaze Components",
+  "main": "re_amaze.app.mjs",
+  "keywords": [
+    "pipedream",
+    "re_amaze"
+  ],
+  "homepage": "https://pipedream.com/apps/re_amaze",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

@@ -2,7 +2,7 @@ import Callout from '@/components/Callout'
 
 # Single Sign-On Overview
 
-Pipedream supports Single Sign-On (SSO) with [Okta](./okta), [Google](./google), or [any provider](./saml) that supports SAML or Google OAuth, which allows IT and workspace administrators easier controls to manage access and security.
+Pipedream supports Single Sign-On (SSO) with [Okta](./sso/okta/), [Google](./sso/google/), or [any provider](./sso/saml/) that supports SAML or Google OAuth, which allows IT and workspace administrators easier controls to manage access and security.
 
 Using SSO with your Identity Provider (IdP) centralizes user login management and provides a single point of control for IT teams and employees.
 
@@ -21,7 +21,7 @@ The below content is for workspace admins and owners. Only workspace admins and 
 
 In order to configure SAML SSO for your workspace, you first need to verify ownership of the email domain. If configuring Google OAuth (not SAML), you can skip this section.
 
-[Refer to the guide here](./domain-verification) to verify your email domain.
+[Refer to the guide here](/workspaces/domain-verification/) to verify your email domain.
 
 ## Setting up SSO
 
@@ -31,7 +31,7 @@ Navigate to the [Authentication section](https://pipedream.com/settings/domains)
 
 1. First, make sure you've verified the domain(s) you intend to use for SSO ([see above](#verifying-your-email-domain))
 2. Click the **Enable SSO** toggle and select **SAML**
-3. If setting up SAML SSO, you'll need to enter a metadata URL, which contains all the necessary configuration for Pipedream. Refer to the provider-specific docs for the detailed walk-through ([Okta](./okta), [Google Workspace](./google), [any other SAML provider](./saml)).
+3. If setting up SAML SSO, you'll need to enter a metadata URL, which contains all the necessary configuration for Pipedream. Refer to the provider-specific docs for the detailed walk-through ([Okta](./sso/okta/), [Google Workspace](./sso/google/), [any other SAML provider](./sso/saml/)).
 4. Click **Save**
 
 ### Google OAuth

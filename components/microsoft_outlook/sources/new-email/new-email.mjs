@@ -1,58 +1,78 @@
-import common from "../common.mjs";
+import common from "../common/common-new-email.mjs";
+import md5 from "md5";
 import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "microsoft_outlook-new-email",
   name: "New Email Event (Instant)",
-  description: "Emit new event when an email received",
-  version: "0.0.9",
+  description: "Emit new event when an email is received in specified folders.",
+  version: "0.0.17",
   type: "source",
-  hooks: {
-    ...common.hooks,
-    async activate() {
-      await this.activate({
-        changeType: "created",
-        resource: "/me/mailfolders('inbox')/messages",
-      });
-    },
-    async deactivate() {
-      await this.deactivate();
-    },
-  },
+  dedupe: "unique",
   methods: {
     ...common.methods,
     async getSampleEvents({ pageSize }) {
-      return this.microsoftOutlook.listMessages({
-        params: {
-          $top: pageSize,
-          $orderby: "createdDateTime desc",
-        },
-      });
+      const folders = this.folderIds?.length
+        ? this.folderIds.map((id) => `/me/mailFolders/${id}/messages`)
+        : [
+          "/me/messages",
+        ];
+
+      const results = [];
+      for (const folder of folders) {
+        const { value: messages } = await this.microsoftOutlook.listMessages({
+          resource: folder,
+          params: {
+            $top: pageSize,
+            $orderby: "createdDateTime desc",
+          },
+        });
+        results.push(...messages);
+      }
+      return results;
     },
     emitEvent(item) {
-      this.$emit({
-        email: item,
-      }, this.generateMeta(item));
+      if (this.isRelevant(item)) {
+        this.$emit(
+          {
+            email: item,
+          },
+          this.generateMeta(item),
+        );
+      }
     },
     generateMeta(item) {
       return {
-        id: item.id,
+        id: md5(item.id), // id > 64 characters, so dedupe on hash of id
         summary: `New email (ID:${item.id})`,
         ts: Date.parse(item.createdDateTime),
       };
     },
   },
   async run(event) {
-    await this.run({
-      event,
-      emitFn: async ({ resourceId } = {}) => {
-        const item = await this.microsoftOutlook.getMessage({
-          messageId: resourceId,
-        });
-        this.emitEvent(item);
-      },
-    });
+    const folders = this.folderIds?.length
+      ? this.folderIds.map((id) => `/me/mailFolders/${id}/messages`)
+      : [
+        "/me/messages",
+      ];
+
+    for (const folder of folders) {
+      await this.run({
+        event,
+        emitFn: async ({ resourceId } = {}) => {
+          try {
+            const item = await this.microsoftOutlook.getMessage({
+              resource: folder,
+              messageId: resourceId,
+            });
+            this.emitEvent(item);
+          } catch {
+            console.log(`Could not fetch message with ID: ${resourceId}`);
+          }
+        },
+      });
+    }
   },
   sampleEmit,
 };

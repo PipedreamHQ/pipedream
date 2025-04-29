@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sftp",
-  "version": "0.3.8",
+  "version": "0.4.1",
   "description": "Pipedream SFTP Components",
   "main": "sftp.app.mjs",
   "keywords": [
@@ -10,8 +10,8 @@
   "homepage": "https://pipedream.com/apps/sftp",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^1.2.0",
-    "ssh2-sftp-client": "^8.1.0"
+    "@pipedream/platform": "^3.0.3",
+    "ssh2-sftp-client": "^11.0.0"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {

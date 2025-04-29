@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/auth0_management_api",
+  "version": "0.6.0",
+  "description": "Pipedream auth0_management_api Components",
+  "main": "auth0_management_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "auth0_management_api"
+  ],
+  "homepage": "https://pipedream.com/apps/auth0_management_api",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

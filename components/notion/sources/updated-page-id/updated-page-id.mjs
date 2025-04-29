@@ -5,13 +5,18 @@ import constants from "../common/constants.mjs";
 export default {
   ...base,
   key: "notion-updated-page-id",
-  name: "Updated Page ID", /* eslint-disable-line pipedream/source-name */
-  description: "Emit new event when a selected page is updated",
-  version: "0.0.5",
+  name: "Page Updated", /* eslint-disable-line pipedream/source-name */
+  description: "Emit new event when a selected page is updated. [See the documentation](https://developers.notion.com/reference/page)",
+  version: "0.0.8",
   type: "source",
   dedupe: "unique",
   props: {
     ...base.props,
+    infoLabel: {
+      type: "alert",
+      alertType: "info",
+      content: "Ensure the selected page is shared with your Pipedream integration to receive events.",
+    },
     pageId: {
       propDefinition: [
         notion,

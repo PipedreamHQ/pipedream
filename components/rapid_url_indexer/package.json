@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/rapid_url_indexer",
+  "version": "0.1.0",
+  "description": "Pipedream Rapid URL Indexer Components",
+  "main": "rapid_url_indexer.app.mjs",
+  "keywords": [
+    "pipedream",
+    "rapid_url_indexer"
+  ],
+  "homepage": "https://pipedream.com/apps/rapid_url_indexer",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

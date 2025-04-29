@@ -1,23 +1,21 @@
 import Callout from '@/components/Callout'
 import { Tabs } from 'nextra/components'
 
-# Connect API & SDK Reference
+# Connect API & SDK reference
 
 Pipedream provides a TypeScript SDK and a REST API to interact with the Connect service. You'll find examples using the SDK and the REST API in multiple languages below.
 
-<Callout type="warning">
-Note that both the Base URL and authentication method for the Connect REST API are different from the rest of Pipedream's REST API.
-</Callout>
+## REST API base URL
 
-## REST API Base URL
+Pipedream Connect resources are scoped to [projects](/projects/), so you'll need to pass [the project's ID](/projects/#finding-your-projects-id) as a part of the base URL:
 
 ```
-https://api.pipedream.com/v1/connect
+https://api.pipedream.com/v1/connect/{project_id}
 ```
 
 ## Installing the TypeScript SDK
 
-Pipedream's SDK will work in any browser or server that can run JavaScript. 
+Pipedream's SDK will work in any browser or server that can run JavaScript.
 
 ### npm
 
@@ -38,55 +36,57 @@ You can also load the client-side SDK via `<script>` tag. You can run the latest
 or a specific version:
 
 ```html
-<script src="https://unpkg.com/@pipedream/sdk@0.0.13/dist/browser/index.js"></script>
+<script src="https://unpkg.com/@pipedream/sdk@1.0.6/dist/browser/index.js"></script>
 ```
 
 ## Authentication
 
-### TypeScript SDK (Server)
+See the [REST API Authentication docs](/rest-api/auth/).
+
+### TypeScript SDK (server)
 
 Most of your interactions with the Connect API will happen on the server, to protect API requests and user credentials. You'll use the SDK in [your frontend](#typescript-sdk-browser) to let users connect accounts. Once connected, you'll use the SDK on the server to retrieve credentials, invoke workflows on their behalf, and more.
 
-Find your [project keys](/connect/quickstart#get-your-project-keys) and instantiate the SDK client:
+[Create a Pipedream OAuth client](/rest-api/auth/#oauth) and instantiate the SDK with your client ID and secret:
 
 ```typescript
-import { createClient } from "@pipedream/sdk";
+import { createBackendClient } from "@pipedream/sdk/server";
 
 // These secrets should be saved securely and passed to your environment
-const pd = createClient({
-  publicKey: "YOUR_PUBLIC_KEY",
-  secretKey: "YOUR_SECRET_KEY",
+const pd = createBackendClient({
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  }
 });
 
 // The `pd` client provides methods to interact with the Connect API — see below
 ```
 
-### TypeScript SDK (Browser)
+### TypeScript SDK (browser)
 
 You'll primarily use the browser SDK to let your users securely connect apps from your frontend. Here, you
 
 1. [Create a short-lived token on your server](#create-a-new-token)
 2. Initiate auth with that token to securely connect an account for a specific user
 
-Here's a Next.js example [from our quickstart](/connect/quickstart):
+Here's a Next.js example [from our quickstart](/connect/managed-auth/quickstart/):
 
 ```typescript
-// Note that we import the browser-specific SDK client here
-import { createClient } from "@pipedream/sdk/browser"
+import { createFrontendClient } from "@pipedream/sdk/browser"
 // Example from our Next.js app
 import { serverConnectTokenCreate } from "./server"
- 
+
 const { token, expires_at } = await serverConnectTokenCreate({
-  app_slug: appSlug,  // The app's name slug — see the quickstart
-  oauth_app_id: oauthAppId,  // The OAuth app ID, if you're connecting an OAuth app — keep this in config / a DB, pass here
-  external_id: externalUserId  // The end user's ID in your system
+  external_user_id: externalUserId  // The end user's ID in your system
 });
 
 export default function Home() {
-  const pd = createClient({})
+  const pd = createFrontendClient()
   function connectAccount() {
     pd.connectAccount({
-      app: appSlug,
+      app: appSlug, // Pass the app name slug of the app you want to integrate
+      oauthAppId: appId, // For OAuth apps, pass the OAuth app ID; omit this param to use Pipedream's OAuth client or for key-based apps
       token, // The token you received from your server above
       onSuccess: ({ id: accountId }) => {
         console.log(`Account successfully connected: ${accountId}`)
@@ -96,494 +96,287 @@ export default function Home() {
 
   return (
     <main>
-      <button style={{ all: "revert" }} onClick={connectAccount}>Connect your account</button>
+      <button onClick={connectAccount}>Connect your account</button>
     </main>
   )
 }
 ```
 
-### REST API
+## Environment
 
-You authenticate to the Connect API using **Basic Auth**. Send your project public key as the username and the project secret key as the password. When you make API requests, pass an
-`Authorization` header of the following format:
+Some API endpoints accept an [environment](/connect/environments/) parameter. This lets you specify the environment (`production` or `development`) where resources will live in your project.
 
-```shell
-Authorization: Basic base_64(public_key:secret_key)
+Always set the environment when you create the SDK client:
+
+```typescript
+import { createBackendClient } from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "your-oauth-client-id",
+    clientSecret: "your-oauth-client-secret",
+  }
+});
 ```
 
-Clients like `cURL` will often make this easy. For example, here's how you list all accounts on a project:
+or pass the `X-PD-Environment` header in HTTP requests:
 
-```shell
-curl 'https://api.pipedream.com/v1/connect/accounts' -u public_key:secret_key
+```bash
+curl -X POST https://api.pipedream.com/v1/connect/{project_id}/tokens \
+  -H "Content-Type: application/json" \
+  -H "X-PD-Environment: development" \
+  -H "Authorization: Bearer {access_token}" \
+  -d '{
+    "external_user_id": "your-external-user-id"
+  }'
 ```
 
 ## External users
 
-When you use the Connect API, you'll pass an `external_id` parameter when initiating account connections and retrieving credentials. This is your user's ID, in your system — whatever you use to uniquely identify them. 
+When you use the Connect API, you'll pass an `external_user_id` parameter when initiating account connections and retrieving credentials. This is your user's ID, in your system — whatever you use to uniquely identify them.
 
 Pipedream associates this ID with user accounts, so you can retrieve credentials for a specific user, and invoke workflows on their behalf.
 
-External IDs are limited to 250 characters.
+External User IDs are limited to 250 characters.
 
 ## Rate limits
 
+### Pipedream rate limits
+
 | API Endpoint               | Rate Limit                                           |
 |----------------------------|------------------------------------------------------|
-| `POST /tokens`   | 100 requests per minute per `external_id`            |
-| `GET */accounts/*`| The sum of requests across all `*/accounts/*` endpoints must not exceed 100 requests per minute. This includes requests to `/accounts`, `/apps/:app_id/accounts`, `/accounts/:account_id`, and more — any request for account metadata and credentials is counted towards this total. |
+| `POST /tokens`   | 100 requests per minute per `external_user_id`            |
+| `GET /accounts`| 100 requests per minute per project <br /><br />The sum of requests across all `*/accounts/*` endpoints must not exceed 100 requests per minute. This includes requests to,<br />• `/accounts`<br />• `/apps/:app_id/accounts`<br />• `/accounts/:account_id` |
+| `/proxy` | 100 requests per minute per project |
 
 If you need higher rate limits, please [reach out](https://pipedream.com/support).
 
+### Developer rate limits
+
+- You can optionally set rate limits for your users to control their usage of the Connect API from within your application, to prevent runaway use or abuse.
+- Specify a time window in seconds and how many requests to allow in that window. The API will give you a `rate_limit_token` that you'll need to include in future `/connect/` requests:
+
+```
+POST /rate_limits
+```
+
+**Body parameters**
+
+`window_size_seconds` **integer**
+
+Define the size of the time window in seconds.
+
+---
+
+`requests_per_window` **integer**
+
+Define the number of requests you want to allow per time window.
+
+**Example request**
+
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# Define the rate limit parameters
+
+curl -X POST https://api.pipedream.com/v1/connect/rate_limits \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer {access_token}" \
+  -d '{
+    "window_size_seconds": 10,
+    "requests_per_window": 1000
+  }'
+```
+
+**Example response**
+```json
+{
+  "token": "CiKpqRdTmNwLfhzSvYxBjAkMnVbXuQrWeZyHgPtJsDcEvFpLnE"
+}
+```
+
+**Example usage**
+
+```bash
+# The response will include a rate limit token.
+# Pass it as a header in your downstream requests to the Connect API.
+# Below is an example request that runs the "List Commits" action for the Gitlab app.
+
+curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/actions/run" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -H "x-pd-rate-limit: {rate_limit_token}" \ # Pass the rate limit token in the header
+  -d '{
+    "external_user_id": "jverce",
+    "id": "gitlab-list-commits",
+    "configured_props": {
+      "gitlab": {
+        "authProvisionId": "apn_kVh9AoD"
+      },
+      "projectId": 45672541,
+      "refName": "main"
+    }
+  }'
+```
+
 ## API Reference
+
+### Invoke workflows
+
+You can use the SDK to [invoke workflows on behalf of any end user](/connect/workflows/). **Write one workflow, run it for all of your users**.
 
 ### Tokens
 
-Your app will initiate the account connection flow for your end users in your frontend. But you can't expose your project keys in the client, since they'd be accessible to anyone. Instead, on your server, **you exchange your project keys for a short-lived token that allows a specific user to connect a specific app**, and return that token to your frontend.
+Your app will initiate the account connection flow for your end users in your frontend. To securely scope connection to a specific end user, on your server, **you retrieve a short-lived token for that user**, and return that token to your frontend.
+
+See [the Connect tokens docs](/connect/tokens/) for more information.
 
 #### Create a new token
 
 ```
-POST /tokens
-``` 
+POST /{project_id}/tokens
+```
 
-##### Parameters
+##### Path parameters
 
-- `app_slug` - [The app's name slug](/quickstart#find-your-apps-name-slug)
-- `oauth_app_id` - [The OAuth app ID](/quickstart#creating-a-custom-oauth-client), if you're connecting an OAuth app — keep this in config / a DB, pass here
-- `external_id` - [The external user ID](#external-users) in your system
+`project_id` **string**
+
+[The project's ID](/projects/#finding-your-projects-id)
+
+##### Body parameters
+
+`external_user_id` **string**
+
+The ID of your end user. Use whatever ID uniquely identifies the user in your system.
+
+---
+
+`allowed_origins` **string array**
+
+When using the Connect API to make requests from a client environment like a browser, you must specify the allowed origins for the token. Otherwise, this field is optional. This is a list of URLs that are allowed to make requests with the token. For example:
+
+```json
+{
+  "allowed_origins": ["http://localhost:3000", "https://example.com"]
+}
+```
+---
+
+`success_redirect_uri` **string** (_optional_)
+
+When using [Connect Link](/connect/connect-link/), you can optionally redirect your end user to the `success_redirect_uri` on successful completion of the auth flow.
+
+---
+
+`error_redirect_uri` **string** (_optional_)
+
+When using [Connect Link](/connect/connect-link/), you can optionally redirect your end user to the `error_redirect_uri` on any errors in the auth flow. This lets you handle errors in whatever way you want in your own app.
+
+---
+
+`webhook_uri` **string** (_optional_)
+
+Pipedream will send events on successful auth, or any errors, to this URL via webhook. [See the webhooks docs](/connect/webhooks/) for more information.
 
 ##### Examples
 
-To create a short-lived token via TypeScript / JavaScript SDK, you'll need to create a Pipedream API client and call the `connectTokenCreate` method. In our example app, this code is in `app/server.ts`. 
+To create a short-lived token via TypeScript / JavaScript SDK, you'll need to create a Pipedream API client and call the `createConnectToken` method. In our example app, this code is in `app/server.ts`.
 
 In other languages, you'll need to make an HTTP POST request to the `/tokens` endpoint to create a token, then return the token to your frontend. Click into other tabs to see examples in additional languages.
 
-<Tabs items={['TypeScript (Next.js)', 'Node.js', 'Python' , 'Java', 'C#', 'Go', 'PHP', 'Ruby']}>
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
 <Tabs.Tab>
 ```typescript
-"use server";
-
 import {
-  createClient,
-  type ConnectAPIResponse, 
-  type ConnectTokenCreateOpts, 
+  createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type ConnectAPIResponse,
+  type ConnectTokenCreateOpts,
   type ConnectTokenResponse,
-} from "@pipedream/sdk";
+} from "@pipedream/sdk/server";
 
-const pd = createClient({
-  publicKey: process.env.PIPEDREAM_PROJECT_PUBLIC_KEY,
-  secretKey: process.env.PIPEDREAM_PROJECT_SECRET_KEY,
-});
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
 
-export async function serverConnectTokenCreate(opts: ConnectTokenCreateOpts): Promise<ConnectAPIResponse<ConnectTokenResponse>> {
-  return pd.connectTokenCreate(opts);
-}
+const requestOpts: ConnectTokenCreateOpts = {
+  // The end user's ID in your system
+  external_user_id: "{your_external_user_id}",
+  // The allowed origins for the token (required for client-side requests)
+  allowed_origins: ["http://localhost:3000", "https://example.com"],
+};
+const response: ConnectTokenResponse = await pd.createConnectToken(requestOpts);
 
-const { token, expires_at } = await serverConnectTokenCreate({
-  app_slug: appSlug,  // The app's name slug
-  oauth_app_id: oauthAppId,  // The OAuth app ID, if you're connecting an OAuth app — keep this in config / a DB, pass here
-  external_id: externalUserId  // The end user's ID in your system
-});
+const {
+  token,            // The token you'll pass to the frontend
+  expires_at,       // The token's expiration date
+  connect_link_url, // The URL to redirect the user to for the Connect Link flow
+}: {
+  token: string,
+  expires_at: string,
+  connect_link_url: string,
+} = response;
 ```
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-const fetch = require('node-fetch');
+import { createBackendClient } from "@pipedream/sdk/server";
 
-class Client {
-  constructor(opts) {
-    this.secretKey = opts.secretKey;
-    this.publicKey = opts.publicKey;
-
-    const apiHost = 'api.pipedream.com';
-    this.baseURL = `https://${apiHost}`;
-  }
-
-  _authorizationHeader() {
-    const encoded = Buffer.from(`${this.publicKey}:${this.secretKey}`).toString('base64');
-    return `Basic ${encoded}`;
-  }
-
-  async connectTokenCreate(opts) {
-    const auth = this._authorizationHeader();
-    const response = await fetch(`${this.baseURL}/v1/connect/tokens`, {
-      method: 'POST',
-      headers: {
-        'Authorization': auth,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(opts),
-    });
-
-    return response.json();
-  }
-}
-
-const client = new Client({
-  publicKey: 'YOUR_PUBLIC_KEY',
-  secretKey: 'YOUR_SECRET_KEY',
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
 });
 
-const connectTokenOpts = {
-  app_slug: "YOUR_APP_SLUG",  // The app's name slug
-  oauth_app_id: "o_abc123",  // The OAuth app ID, if you're connecting an OAuth app — keep this in config / a DB, pass here
-  external_id: "USER_ID"  // The end user's ID in your system
-}
-
-// Expose this code as an API endpoint in your server to fetch the token from the frontend
-client.connectTokenCreate(connectTokenOpts)
-  .then(response => {
-    // return the token to the frontend
-  })
-  .catch(error => {
-    // handle errors
-  });
+const { token, expires_at } = await pd.createConnectToken({
+  external_user_id: "{your_external_user_id}", // The end user's ID in your system
+  allowed_origins: ["http://localhost:3000", "https://example.com"], // The allowed origins for the token (required for client-side requests)
+});
 ```
 </Tabs.Tab>
 <Tabs.Tab>
-```python
-import base64
-import json
-import requests
-
-class Client:
-    def __init__(self, opts):
-        self.secret_key = opts['secret_key']
-        self.public_key = opts['public_key']
-
-        api_host = 'api.pipedream.com'
-        self.base_url = f"https://{api_host}"
-
-    def _authorization_header(self):
-        encoded = base64.b64encode(f"{self.public_key}:{self.secret_key}".encode()).decode()
-        return f"Basic {encoded}"
-
-    def connect_token_create(self, opts):
-        auth = self._authorization_header()
-        response = requests.post(
-            f"{self.base_url}/v1/connect/tokens",
-            headers={
-                "Authorization": auth,
-                "Content-Type": "application/json",
-            },
-            data=json.dumps(opts)
-        )
-        return response.json()
-
-# Usage example
-client = Client({
-    'public_key': 'YOUR_PUBLIC_KEY',
-    'secret_key': 'YOUR_SECRET_KEY',
-})
-
-connect_token_opts = {
-    'app_slug': "YOUR_APP_SLUG",
-    'oauth_app_id': "o_abc123",
-    'external_id': "USER_ID"
-}
-
-# Expose this code as an API endpoint in your server to fetch the token from the frontend
-response = client.connect_token_create(connect_token_opts)
-
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```java
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Base64;
-import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
-
-public class Client {
-    private String secretKey;
-    private String publicKey;
-    private String baseURL;
-
-    public Client(String secretKey, String publicKey) {
-        this.publicKey = publicKey;
-        this.secretKey = secretKey;
-
-        String apiHost = "api.pipedream.com";
-        this.baseURL = "https://" + apiHost;
-    }
-
-    private String authorizationHeader() {
-        String encoded = Base64.getEncoder().encodeToString((publicKey + ":" + secretKey).getBytes(StandardCharsets.UTF_8));
-        return "Basic " + encoded;
-    }
-
-    public String connectTokenCreate(String appSlug, String oauthClientId, String externalId) throws Exception {
-        String auth = authorizationHeader();
-        URL url = new URL(baseURL + "/v1/connect/tokens");
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("Authorization", auth);
-        conn.setRequestProperty("Content-Type", "application/json");
-        conn.setDoOutput(true);
-
-        String jsonInputString = String.format("{\"app_slug\":\"%s\",\"oauth_app_id\":\"%s\",\"external_id\":\"%s\"}", appSlug, oauthClientId, externalId);
-
-        try (OutputStream os = conn.getOutputStream()) {
-            byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
-            os.write(input, 0, input.length);
-        }
-
-        return new String(conn.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-    }
-
-    public static void main(String[] args) throws Exception {
-        Client client = new Client("YOUR_SECRET_KEY", "YOUR_PUBLIC_KEY");
-
-        // Expose this code as an API endpoint in your server to fetch the token from the frontend
-        String response = client.connectTokenCreate("YOUR_APP_SLUG", "o_abc123", "USER_ID");
-    }
-}
-
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```csharp
-using System;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-
-public class Client {
-    private string secretKey;
-    private string publicKey;
-    private string baseURL;
-
-    public Client(string secretKey, string publicKey) {
-        this.publicKey = publicKey;
-        this.secretKey = secretKey;
-
-        string apiHost = "api.pipedream.com";
-        this.baseURL = $"https://{apiHost}";
-    }
-
-    private string AuthorizationHeader() {
-        string encoded = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{publicKey}:{secretKey}"));
-        return $"Basic {encoded}";
-    }
-
-    public async Task<string> ConnectTokenCreate(string appSlug, string oauthClientId, string externalId) {
-        string auth = AuthorizationHeader();
-        using (HttpClient client = new HttpClient()) {
-            client.DefaultRequestHeaders.Add("Authorization", auth);
-            client.DefaultRequestHeaders.Add("Content-Type", "application/json");
-
-            var content = new StringContent($"{{\"app_slug\":\"{appSlug}\",\"oauth_app_id\":\"{oauthClientId}\",\"external_id\":\"{externalId}\"}}", Encoding.UTF8, "application/json");
-            var response = await client.PostAsync($"{baseURL}/v1/connect/tokens", content);
-
-            return await response.Content.ReadAsStringAsync();
-        }
-    }
-
-    public static async Task Main(string[] args) {
-        var client = new Client("YOUR_SECRET_KEY", "YOUR_PUBLIC_KEY");
-
-        // Expose this code as an API endpoint in your server to fetch the token from the frontend
-        string response = await client.ConnectTokenCreate("YOUR_APP_SLUG", "o_abc123", "USER_ID");
-    }
-}
-
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```go
-package main
-
-import (
-	"bytes"
-	"encoding/base64"
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
-	"net/http"
-)
-
-type Client struct {
-	SecretKey string
-	PublicKey string
-	BaseURL   string
-}
-
-func NewClient(secretKey, publicKey string) *Client {
-	apiHost := "api.pipedream.com"
-	baseURL := fmt.Sprintf("https://%s", apiHost)
-
-	return &Client{
-		PublicKey: publicKey,
-		SecretKey: secretKey,
-	}
-}
-
-func (c *Client) authorizationHeader() string {
-	encoded := base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", c.PublicKey, c.SecretKey)))
-	return fmt.Sprintf("Basic %s", encoded)
-}
-
-func (c *Client) ConnectTokenCreate(appSlug, oauthClientId, externalId string) (map[string]interface{}, error) {
-	auth := c.authorizationHeader()
-	url := fmt.Sprintf("%s/v1/connect/tokens", c.BaseURL)
-
-	opts := map[string]string{
-		"app_slug":       appSlug,
-		"oauth_app_id": oauthClientId,
-		"external_id":    externalId,
-	}
-
-	jsonData, err := json.Marshal(opts)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Set("Authorization", auth)
-	req.Header.Set("Content-Type", "application/json")
-
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-
-	body, _ := ioutil.ReadAll(resp.Body)
-
-	var result map[string]interface{}
-	json.Unmarshal(body, &result)
-	return result, nil
-}
-
-func main() {
-	client := NewClient("YOUR_SECRET_KEY", "YOUR_PUBLIC_KEY")
-
-  // Expose this code as an API endpoint in your server to fetch the token from the frontend
-	response, err := client.ConnectTokenCreate("YOUR_APP_SLUG", "o_abc123", "USER_ID")
-	if err != nil {
-		fmt.Println("Error:", err)
-		return
-	}
-}
-
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```php
-<?php
-
-class Client {
-    private $secretKey;
-    private $publicKey;
-    private $baseURL;
-
-    public function __construct($secretKey, $publicKey) {
-        $this->publicKey = $publicKey;
-        $this->secretKey = $secretKey;
-
-        $apiHost = 'api.pipedream.com';
-        $this->baseURL = "https://$apiHost";
-    }
-
-    private function authorizationHeader() {
-        $encoded = base64_encode("$this->publicKey:$this->secretKey");
-        return "Basic $encoded";
-    }
-
-    public function connectTokenCreate($appSlug, $oauthClientId, $externalId) {
-        $auth = $this->authorizationHeader();
-        $url = "$this->baseURL/v1/connect/tokens";
-
-        $data = json_encode([
-            'app_slug' => $appSlug,
-            'oauth_app_id' => $oauthClientId,
-            'external_id' => $externalId
-        ]);
-
-        $options = [
-            'http' => [
-                'header' => [
-                    "Authorization: $auth",
-                    "Content-Type: application/json",
-                ],
-                'method' => 'POST',
-                'content' => $data,
-            ],
-        ];
-
-        $context = stream_context_create($options);
-        $result = file_get_contents($url, false, $context);
-
-        return json_decode($result, true);
-    }
-}
-
-// Usage example
-$client = new Client('YOUR_SECRET_KEY', 'YOUR_PUBLIC_KEY');
-
-$connectTokenOpts = [
-    'app_slug' => "YOUR_APP_SLUG",
-    'oauth_app_id' => "o_abc123",
-    'external_id' => "USER_ID"
-];
-
-// Expose this code as an API endpoint in your server to fetch the token from the frontend
-$response = $client->connectTokenCreate($connectTokenOpts['app_slug'], $connectTokenOpts['oauth_app_id'], $connectTokenOpts['external_id']);
-?>
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```ruby
-require 'base64'
-require 'json'
-require 'net/http'
-require 'uri'
-
-class Client
-  def initialize(secret_key, public_key)
-    @public_key = public_key
-    @secret_key = secret_key
-
-    api_host = 'api.pipedream.com'
-    @base_url = "https://#{api_host}"
-  end
-
-  def authorization_header
-    encoded = Base64.strict_encode64("#{@public_key}:#{@secret_key}")
-    "Basic #{encoded}"
-  end
-
-  def connect_token_create(app_slug, oauth_app_id, external_id)
-    uri = URI("#{@base_url}/v1/connect/tokens")
-    req = Net::HTTP::Post.new(uri)
-    req['Authorization'] = authorization_header
-    req['Content-Type'] = 'application/json'
-    req.body = { app_slug: app_slug, oauth_app_id: oauth_app_id, external_id: external_id }.to_json
-
-    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
-      http.request(req)
-    end
-
-    JSON.parse(res.body)
-  end
-end
-
-client = Client.new('YOUR_SECRET_KEY', 'YOUR_PUBLIC_KEY')
-
-connect_token_opts = {
-  app_slug: "YOUR_APP_SLUG",
-  oauth_app_id: "o_abc123",
-  external_id: "USER_ID"
-}
-
-# Expose this code as an API endpoint in your server to fetch the token from the frontend
-response = client.connect_token_create(connect_token_opts[:app_slug], connect_token_opts[:oauth_app_id], connect_token_opts[:external_id])
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+
+curl -X POST https://api.pipedream.com/v1/connect/{project_id}/tokens \
+  -H "Content-Type: application/json" \
+  -H "X-PD-Environment: development" \
+  -H "Authorization: Bearer {access_token}" \
+  -d '{
+    "external_user_id": "{your_external_user_id}",
+    "allowed_origins": [
+      "http://localhost:3000",
+      "https://example.com"
+    ],
+  }'
 ```
 </Tabs.Tab>
 </Tabs>
@@ -592,418 +385,152 @@ response = client.connect_token_create(connect_token_opts[:app_slug], connect_to
 
 #### List all accounts
 
-List all connected accounts for all end users within your project
+List all connected accounts for all end users within a project.
+
+```
+GET /{project_id}/accounts/
+```
+
+##### Path parameters
+
+`project_id` **string**
+
+[The project's ID](/projects/#finding-your-projects-id)
+
+##### Query parameters
+
+`app` **string** (_optional_)
+
+The ID or name slug the app you'd like to retrieve. For example, Slack's unique app ID is `app_OkrhR1`, and its name slug is `slack`.
+
+You can find the app's ID in the response from the [List apps](/rest-api/#list-apps) endpoint, and the name slug under the **Authentication** section of any [app page](https://pipedream.com/apps).
+
+---
+
+`oauth_app_id` **string** (_optional_)
+
+The ID of the [OAuth app](/connect/managed-auth/quickstart/#create-a-pipedream-oauth-client) you'd like to retrieve accounts for.
+
+---
+
+`external_user_id` **string** (_optional_)
+
+[The external user ID](/connect/api/#external-users) in your system that you want to retrieve accounts for.
+
+---
+
+`include_credentials` **boolean** (_optional_)
+
+Pass `include_credentials=true` as a query-string parameter to include the account credentials in the response.
 
 <Callout type="warning">
-This endpoint is not currently paginated, so we'll attempt to return all connected accounts for all users within your project. We intend to add pagination soon.
+Never return user credentials to the client
 </Callout>
 
-```
-GET /accounts/
-```
-
-##### Parameters
-
-- `include_credentials` — _Optional_. Pass `include_credentials=1` as a query-string parameter to include the account credentials in the response
+<Callout type="info">
+To retrieve the credentials for any account in `production` for OAuth apps (Slack, Google Sheets, etc), the connected account must be using [your own OAuth client](/connect/managed-auth/oauth-clients/#using-a-custom-oauth-client). You can only retrieve end user credentials for accounts that are using Pipedream's OAuth clients in `development`. [Learn more here](/connect/managed-auth/oauth-clients/#using-pipedream-oauth).
+</Callout>
 
 ##### Examples
 
-<Tabs items={['TypeScript (Next.js)', 'Node.js', 'Python' , 'Java', 'C#', 'Go', 'PHP', 'Ruby']}>
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
 <Tabs.Tab>
 ```typescript
 import {
-  createClient,
-} from "@pipedream/sdk";
+  createBackendClient,
+  type Account,
+  type BackendClientOpts,
+  type BackendClient,
+  type GetAccountOpts,
+  type GetAccountsResponse,
+} from "@pipedream/sdk/server";
 
-const pd = createClient({
-  publicKey: "YOUR_PUBLIC_KEY",
-  secretKey: "YOUR_SECRET_KEY",
-});
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
 
-export async function getAccounts(include_credentials: number = 0) {
-  const accounts = await pd.getAccounts({
-    include_credentials, // set to 1 to include credentials
-  });
+const requestOpts: GetAccountOpts = {
+  app: "github", // optional, filter by app
+  external_user_id: "user-abc-123", // optional, filter by external user ID
+  include_credentials: true, // optional, set to true to include credentials
+};
+const response: GetAccountsResponse = await pd.getAccounts(requestOpts);
 
-  // Parse and return the data you need. These may contain credentials, 
-  // which you should never return to the client
-  return accounts;
-}
-
+// These may contain credentials, which you should never return to the client
+const {
+  data
+}: {
+  data: Account[]
+} = response;
 ```
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-const fetch = require('node-fetch');
+import { createBackendClient } from "@pipedream/sdk/server";
 
-class Client {
-  constructor({ publicKey, secretKey }) {
-    this.publicKey = publicKey;
-    this.secretKey = secretKey;
-    this.baseURL = 'https://api.pipedream.com/v1';
-  }
-
-  _authorizationHeader() {
-    const encoded = Buffer.from(`${this.publicKey}:${this.secretKey}`).toString('base64');
-    return `Basic ${encoded}`;
-  }
-
-  async getAccounts() {
-    const auth = this._authorizationHeader();
-    const url = `${this.baseURL}/connect/accounts?include_credentials=1`;
-
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Authorization': auth,
-        'Content-Type': 'application/json',
-      },
-    });
-
-    const data = await response.json();
-
-    if (!data?.accounts?.length) {
-      return null;
-    }
-
-    // Parse and return data.accounts. Ensure to handle sensitive data appropriately.
-    return data.accounts;
-  }
-}
-
-// Usage example
-const client = new Client({
-  publicKey: 'YOUR_PUBLIC_KEY',
-  secretKey: 'YOUR_SECRET_KEY',
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
 });
 
-client.getAccounts()
-  .then(accounts => {
-    console.log(accounts);
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
+const accounts = await pd.getAccounts({
+  app: "github", // optional, filter by app
+  external_user_id: "user-abc-123", // optional, filter by external user ID
+  include_credentials: true, // optional, set to true to include credentials
+});
+
+// Parse and return the data you need. These may contain credentials,
+// which you should never return to the client
 ```
 </Tabs.Tab>
 <Tabs.Tab>
-```python
-import base64
-import requests
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
 
-class Client:
-    def __init__(self, public_key, secret_key):
-        self.public_key = public_key
-        self.secret_key = secret_key
-        self.base_url = "https://api.pipedream.com/v1"
+# The response will include an access_token. Use it in the Authorization header below.
 
-    def _authorization_header(self):
-        encoded = base64.b64encode(f"{self.public_key}:{self.secret_key}".encode()).decode()
-        return f"Basic {encoded}"
+curl -X GET \
+  -G \
+  "https://api.pipedream.com/v1/connect/{project_id}/accounts" \
+  -H "Authorization: Bearer {access_token}" \
+  -d "app=github" \ # optional, filter by app
+  -d "external_user_id=user-abc-123" \ # optional, filter by external user ID
+  -d "include_credentials=true" # optional, include credentials
 
-    def get_accounts(self):
-        auth = self._authorization_header()
-        url = f"{self.base_url}/connect/accounts?include_credentials=1"
-        response = requests.get(url, headers={"Authorization": auth})
-        data = response.json()
-        
-        if not data.get('accounts'):
-            return None
 
-        # Parse and return data['accounts']. Ensure to handle sensitive data appropriately.
-        return data['accounts']
-
-# Usage example
-client = Client('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY')
-accounts = client.get_accounts()
-print(accounts)
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```java
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Base64;
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
-import java.nio.charset.StandardCharsets;
-
-public class Client {
-    private String publicKey;
-    private String secretKey;
-    private String baseURL;
-
-    public Client(String publicKey, String secretKey) {
-        this.publicKey = publicKey;
-        this.secretKey = secretKey;
-        this.baseURL = "https://api.pipedream.com/v1";
-    }
-
-    private String authorizationHeader() {
-        String encoded = Base64.getEncoder().encodeToString((publicKey + ":" + secretKey).getBytes(StandardCharsets.UTF_8));
-        return "Basic " + encoded;
-    }
-
-    public String getAccounts() throws Exception {
-        String auth = authorizationHeader();
-        URL url = new URL(baseURL + "/connect/accounts?include_credentials=1");
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Authorization", auth);
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        String inputLine;
-        StringBuilder content = new StringBuilder();
-        while ((inputLine = in.readLine()) != null) {
-            content.append(inputLine);
-        }
-        in.close();
-
-        String response = content.toString();
-
-        // Parse response and return accounts data. Ensure to handle sensitive data appropriately.
-        if (!response.contains("accounts")) {
-            return null;
-        }
-
-        return response;  // Modify to parse and handle accounts as needed.
-    }
-
-    public static void main(String[] args) throws Exception {
-        Client client = new Client("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY");
-        String response = client.getAccounts();
-        System.out.println(response);
-    }
-}
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```csharp
-using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
-
-public class Client {
-    private string publicKey;
-    private string secretKey;
-    private string baseURL;
-
-    public Client(string publicKey, string secretKey) {
-        this.publicKey = publicKey;
-        this.secretKey = secretKey;
-        this.baseURL = "https://api.pipedream.com/v1";
-    }
-
-    private string AuthorizationHeader() {
-        string encoded = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{publicKey}:{secretKey}"));
-        return $"Basic {encoded}";
-    }
-
-    public async Task<string> GetAccounts() {
-        string auth = AuthorizationHeader();
-        using (HttpClient client = new HttpClient()) {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", auth);
-            HttpResponseMessage response = await client.GetAsync($"{baseURL}/connect/accounts?include_credentials=1");
-
-            string result = await response.Content.ReadAsStringAsync();
-
-            // Parse and return accounts data. Ensure to handle sensitive data appropriately.
-            if (!result.Contains("accounts")) {
-                return null;
-            }
-
-            return result;  // Modify to parse and handle accounts as needed.
-        }
-    }
-
-    public static async Task Main(string[] args) {
-        var client = new Client("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY");
-        string accounts = await client.GetAccounts();
-        Console.WriteLine(accounts);
-    }
-}
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```go
-package main
-
-import (
-	"encoding/base64"
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
-	"net/http"
-)
-
-type Client struct {
-	PublicKey string
-	SecretKey string
-	BaseURL   string
-}
-
-func NewClient(publicKey, secretKey string) *Client {
-	return &Client{
-		PublicKey: publicKey,
-		SecretKey: secretKey,
-		BaseURL:   "https://api.pipedream.com/v1",
-	}
-}
-
-func (c *Client) authorizationHeader() string {
-	encoded := base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", c.PublicKey, c.SecretKey)))
-	return fmt.Sprintf("Basic %s", encoded)
-}
-
-func (c *Client) GetAccounts() (map[string]interface{}, error) {
-	url := fmt.Sprintf("%s/connect/accounts?include_credentials=1", c.BaseURL)
-	req, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Set("Authorization", c.authorizationHeader())
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	var result map[string]interface{}
-	err = json.Unmarshal(body, &result)
-	if err != nil {
-		return nil, err
-	}
-
-	if accounts, exists := result["accounts"]; exists {
-		return accounts.([]interface{}), nil
-	}
-
-	return nil, nil
-}
-
-func main() {
-	client := NewClient("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY")
-
-	accounts, err := client.GetAccounts()
-	if err != nil {
-		fmt.Println("Error:", err)
-		return
-	}
-
-	fmt.Println(accounts)
-}
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```php
-<?php
-
-class Client {
-    private $publicKey;
-    private $secretKey;
-    private $baseURL;
-
-    public function __construct($publicKey, $secretKey) {
-        $this->publicKey = $publicKey;
-        $this->secretKey = $secretKey;
-        $this->baseURL = "https://api.pipedream.com/v1";
-    }
-
-    private function authorizationHeader() {
-        return "Basic " . base64_encode("$this->publicKey:$this->secretKey");
-    }
-
-    public function getAccounts() {
-        $url = "$this->baseURL/connect/accounts?include_credentials=1";
-        $opts = [
-            'http' => [
-                'header' => "Authorization: " . $this->authorizationHeader(),
-                'method' => 'GET',
-            ],
-        ];
-
-        $context = stream_context_create($opts);
-        $result = file_get_contents($url, false, $context);
-
-        if ($result === FALSE) {
-            return null;
-        }
-
-        $data = json_decode($result, true);
-
-        if (empty($data['accounts'])) {
-            return null;
-        }
-
-        return $data['accounts'];  // Modify to parse and handle accounts as needed.
-    }
-}
-
-// Usage example
-$client = new Client('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY');
-$accounts = $client->getAccounts();
-print_r($accounts);
-?>
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```ruby
-require 'base64'
-require 'json'
-require 'net/http'
-require 'uri'
-
-class Client
-  def initialize(public_key, secret_key)
-    @public_key = public_key
-    @secret_key = secret_key
-    @base_url = "https://api.pipedream.com/v1"
-  end
-
-  def authorization_header
-    encoded = Base64.strict_encode64("#{@public_key}:#{@secret_key}")
-    "Basic #{encoded}"
-  end
-
-  def get_accounts
-    uri = URI("#{@base_url}/connect/accounts?include_credentials=1")
-    req = Net::HTTP::Get.new(uri)
-    req['Authorization'] = authorization_header
-
-    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
-      http.request(req)
-    end
-
-    data = JSON.parse(res.body)
-
-    # Parse and return accounts data. Ensure to handle sensitive data appropriately.
-    return nil if data['accounts'].nil? || data['accounts'].empty?
-
-    data['accounts']
-  end
-end
-
-# Usage example
-client = Client.new('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY')
-accounts = client.get_accounts
-puts accounts.inspect
+# Parse and return the data you need. These may contain credentials,
+# which you should never return to the client
 ```
 </Tabs.Tab>
 </Tabs>
 
-##### Example response
+##### Example response (without credentials)
 
 ```json
 {
+ "page_info": {
+    "total_count": 5,
+    "count": 5,
+    "start_cursor": "YXBuX0JtaEJKSm0",
+    "end_cursor": "YXBuX1YxaE1lTE0",
+  },
   "data": {
     "accounts": [
       {
@@ -1076,434 +603,51 @@ puts accounts.inspect
 }
 ```
 
-#### List all accounts for an app
-
-```
-GET /apps/:app_id/accounts
-``` 
-##### Parameters
-
-- `app_id` — the `oauth_app_id` for [OAuth apps](/connect/quickstart#creating-a-custom-oauth-client) or [name slug](/connect/quickstart/#find-your-apps-name-slug) for key-based apps
-- `include_credentials` — _Optional_. Pass `include_credentials=1` as a query-string parameter to include the account credentials in the response
-
-##### Examples
-
-<Tabs items={['TypeScript (Next.js)', 'Node.js', 'Python' , 'Java', 'C#', 'Go', 'PHP', 'Ruby']}>
-<Tabs.Tab>
-```typescript
-import {
-  createClient,
-} from "@pipedream/sdk";
-
-const pd = createClient({
-  publicKey: "YOUR_PUBLIC_KEY",
-  secretKey: "YOUR_SECRET_KEY",
-});
-
-export async function getAccountsByApp(appId: string, include_credentials: number = 0) {
-  const accounts = await pd.getAccountsByApp(appId, {
-    include_credentials, // set to 1 to include credentials
-  });
-
-  // Parse and return the data you need. These may contain credentials, 
-  // which you should never return to the client
-  return accounts;
-}
-
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```javascript
-const fetch = require('node-fetch');
-
-class Client {
-  constructor({ publicKey, secretKey }) {
-    this.publicKey = publicKey;
-    this.secretKey = secretKey;
-    this.baseURL = 'https://api.pipedream.com/v1';
-  }
-
-  _authorizationHeader() {
-    const encoded = Buffer.from(`${this.publicKey}:${this.secretKey}`).toString('base64');
-    return `Basic ${encoded}`;
-  }
-
-  async getAccountsByApp(appId) {
-    const auth = this._authorizationHeader();
-    const url = `${this.baseURL}/connect/accounts/app/${appId}?include_credentials=1`;
-
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Authorization': auth,
-        'Content-Type': 'application/json',
-      },
-    });
-
-    const data = await response.json();
-
-    if (!data?.accounts?.length) {
-      return null;
-    }
-
-    // Parse and return data.accounts. Ensure to handle sensitive data appropriately.
-    return data.accounts;
-  }
-}
-
-// Usage example
-const client = new Client({
-  publicKey: 'YOUR_PUBLIC_KEY',
-  secretKey: 'YOUR_SECRET_KEY',
-});
-
-client.getAccountsByApp('APP_ID')
-  .then(accounts => {
-    console.log(accounts);
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```python
-import base64
-import requests
-
-class Client:
-    def __init__(self, public_key, secret_key):
-        self.public_key = public_key
-        self.secret_key = secret_key
-        self.base_url = "https://api.pipedream.com/v1"
-
-    def _authorization_header(self):
-        encoded = base64.b64encode(f"{self.public_key}:{self.secret_key}".encode()).decode()
-        return f"Basic {encoded}"
-
-    def get_accounts_by_app(self, app_id):
-        auth = self._authorization_header()
-        url = f"{self.base_url}/connect/accounts/app/{app_id}?include_credentials=1"
-        response = requests.get(url, headers={"Authorization": auth})
-        data = response.json()
-        
-        if not data.get('accounts'):
-            return None
-
-        # Parse and return data['accounts']. Ensure to handle sensitive data appropriately.
-        return data['accounts']
-
-# Usage example
-client = Client('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY')
-accounts = client.get_accounts_by_app('APP_ID')
-print(accounts)
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```java
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Base64;
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
-import java.nio.charset.StandardCharsets;
-
-public class Client {
-    private String publicKey;
-    private String secretKey;
-    private String baseURL;
-
-    public Client(String publicKey, String secretKey) {
-        this.publicKey = publicKey;
-        this.secretKey = secretKey;
-        this.baseURL = "https://api.pipedream.com/v1";
-    }
-
-    private String authorizationHeader() {
-        String encoded = Base64.getEncoder().encodeToString((publicKey + ":" + secretKey).getBytes(StandardCharsets.UTF_8));
-        return "Basic " + encoded;
-    }
-
-    public String getAccountsByApp(String appId) throws Exception {
-        String auth = authorizationHeader();
-        URL url = new URL(baseURL + "/connect/accounts/app/" + appId + "?include_credentials=1");
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Authorization", auth);
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        String inputLine;
-        StringBuilder content = new StringBuilder();
-        while ((inputLine = in.readLine()) != null) {
-            content.append(inputLine);
-        }
-        in.close();
-
-        String response = content.toString();
-
-        // Parse response and return accounts data. Ensure to handle sensitive data appropriately.
-        if (!response.contains("accounts")) {
-            return null;
-        }
-
-        return response;  // Modify to parse and handle accounts as needed.
-    }
-
-    public static void main(String[] args) throws Exception {
-        Client client = new Client("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY");
-        String accounts = client.getAccountsByApp("APP_ID");
-        System.out.println(accounts);
-    }
-}
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```csharp
-using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
-
-public class Client {
-    private string publicKey;
-    private string secretKey;
-    private string baseURL;
-
-    public Client(string publicKey, string secretKey) {
-        this.publicKey = publicKey;
-        this.secretKey = secretKey;
-        this.baseURL = "https://api.pipedream.com/v1";
-    }
-
-    private string AuthorizationHeader() {
-        string encoded = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{publicKey}:{secretKey}"));
-        return $"Basic {encoded}";
-    }
-
-    public async Task<string> GetAccountsByApp(string appId) {
-        string auth = AuthorizationHeader();
-        using (HttpClient client = new HttpClient()) {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", auth);
-            HttpResponseMessage response = await client.GetAsync($"{baseURL}/connect/accounts/app/{appId}?include_credentials=1");
-
-            string result = await response.Content.ReadAsStringAsync();
-
-            // Parse and return accounts data. Ensure to handle sensitive data appropriately.
-            if (!result.Contains("accounts")) {
-                return null;
-            }
-
-            return result;  // Modify to parse and handle accounts as needed.
-        }
-    }
-
-    public static async Task Main(string[] args) {
-        var client = new Client("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY");
-        string accounts = await client.GetAccountsByApp("APP_ID");
-        Console.WriteLine(accounts);
-    }
-}
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```go
-package main
-
-import (
-	"encoding/base64"
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
-	"net/http"
-)
-
-type Client struct {
-	PublicKey string
-	SecretKey string
-	BaseURL   string
-}
-
-func NewClient(publicKey, secretKey string) *Client {
-	return &Client{
-		PublicKey: publicKey,
-		SecretKey: secretKey,
-		BaseURL:   "https://api.pipedream.com/v1",
-	}
-}
-
-func (c *Client) authorizationHeader() string {
-	encoded := base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", c.PublicKey, c.SecretKey)))
-	return fmt.Sprintf("Basic %s", encoded)
-}
-
-func (c *Client) GetAccountsByApp(appId string) (map[string]interface{}, error) {
-	url := fmt.Sprintf("%s/connect/accounts/app/%s?include_credentials=1", c.BaseURL, appId)
-	req, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Set("Authorization", c.authorizationHeader())
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	var result map[string]interface{}
-	err = json.Unmarshal(body, &result)
-	if err != nil {
-		return nil, err
-	}
-
-	if accounts, exists := result["accounts"]; exists {
-		return accounts.([]interface{}), nil
-	}
-
-	return nil, nil
-}
-
-func main() {
-	client := NewClient("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY")
-
-	accounts, err := client.GetAccountsByApp("APP_ID")
-	if err != nil {
-		fmt.Println("Error:", err)
-		return
-	}
-
-	fmt.Println(accounts)
-}
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```php
-<?php
-
-class Client {
-    private $publicKey;
-    private $secretKey;
-    private $baseURL;
-
-    public function __construct($publicKey, $secretKey) {
-        $this->publicKey = $publicKey;
-        $this->secretKey = $secretKey;
-        $this->baseURL = "https://api.pipedream.com/v1";
-    }
-
-    private function authorizationHeader() {
-        return "Basic " . base64_encode("$this->publicKey:$this->secretKey");
-    }
-
-    public function getAccountsByApp($appId) {
-        $url = "$this->baseURL/connect/accounts/app/$appId?include_credentials=1";
-        $opts = [
-            'http' => [
-                'header' => "Authorization: " . $this->authorizationHeader(),
-                'method' => 'GET',
-            ],
-        ];
-
-        $context = stream_context_create($opts);
-        $result = file_get_contents($url, false, $context);
-
-        if ($result === FALSE) {
-            return null;
-        }
-
-        $data = json_decode($result, true);
-
-        if (empty($data['accounts'])) {
-            return null;
-        }
-
-        return $data['accounts'];  // Modify to parse and handle accounts as needed.
-    }
-}
-
-// Usage example
-$client = new Client('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY');
-$accounts = $client->getAccountsByApp('APP_ID');
-print_r($accounts);
-?>
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```ruby
-require 'base64'
-require 'json'
-require 'net/http'
-require 'uri'
-
-class Client
-  def initialize(public_key, secret_key)
-    @public_key = public_key
-    @secret_key = secret_key
-    @base_url = "https://api.pipedream.com/v1"
-  end
-
-  def authorization_header
-    encoded = Base64.strict_encode64("#{@public_key}:#{@secret_key}")
-    "Basic #{encoded}"
-  end
-
-  def get_accounts_by_app(app_id)
-    uri = URI("#{@base_url}/connect/accounts/app/#{app_id}?include_credentials=1")
-    req = Net::HTTP::Get.new(uri)
-    req['Authorization'] = authorization_header
-
-    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
-      http.request(req)
-    end
-
-    data = JSON.parse(res.body)
-
-    # Parse and return accounts data. Ensure to handle sensitive data appropriately.
-    return nil if data['accounts'].nil? || data['accounts'].empty?
-
-    data['accounts']
-  end
-end
-
-# Usage example
-client = Client.new('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY')
-accounts = client.get_accounts_by_app('APP_ID')
-puts accounts.inspect
-```
-</Tabs.Tab>
-</Tabs>
-
-##### Example response
+##### Example response (with credentials)
 
 ```json
-[
-  {
-    "id": "apn_WYhMlrz",
-    "name": null,
-    "external_id": "user-abc-123",
-    "healthy": true,
-    "dead": false,
-    "app": {
-      "id": "oa_aw4ib2",
-      "name_slug": "airtable_oauth",
-      "name": "Airtable",
-      "auth_type": "oauth",
-      "description": "Airtable is a low-code platform to build next-gen apps. Move beyond rigid tools, operationalize your critical data, and reimagine workflows with AI.",
-      "img_src": "https://assets.pipedream.net/s.v0/app_XBxhAl/logo/orig",
-      "custom_fields_json": "[]",
-      "categories": ["Productivity"]
-    },
-    "created_at": "2024-08-01T04:04:03.000Z",
-    "updated_at": "2024-08-01T04:04:03.000Z"
+{
+ "page_info": {
+    "total_count": 1,
+    "count": 1,
+    "start_cursor": "YXBuX0JtaEJKSm0",
+    "end_cursor": "YXBuX1YxaE1lTE0",
+  },
+  "data": {
+    "accounts":[
+      {
+        "id": "apn_MGhvgnX",
+        "name": "gcostanza",
+        "external_id": "user-abc-123",
+        "healthy": true,
+        "dead": null,
+        "app": {
+          "id": "oa_aPXiQd",
+          "name_slug": "github",
+          "name": "GitHub",
+          "auth_type": "oauth",
+          "description": "Where the world builds software. Millions of developers and companies build, ship, and maintain their software on GitHub—the largest and most advanced development platform in the world.",
+          "img_src": "https://assets.pipedream.net/s.v0/app_OrZhaO/logo/orig",
+          "custom_fields_json": "[]",
+          "categories": [
+            "Developer Tools"
+          ]
+        },
+        "created_at": "2024-12-03T04:26:38.000Z",
+        "updated_at": "2024-12-11T17:59:28.000Z",
+        "credentials": {
+          "oauth_client_id": "xyz789...",
+          "oauth_access_token": "xxx_abc123...",
+          "oauth_uid": "123456789"
+        },
+        "expires_at": null,
+        "error": null,
+        "last_refreshed_at": "2024-12-11T17:59:28.000Z",
+        "next_refresh_at": "2024-12-11T18:56:28.000Z"
+      }
+    ]
   }
-]
+}
 ```
 
 #### Retrieve account details by ID
@@ -1511,403 +655,112 @@ puts accounts.inspect
 Retrieve the account details for a specific account based on the account ID
 
 ```
-GET /accounts/:account_id
+GET /{project_id}/accounts/{account_id}
 ```
+
+##### Path parameters
+
+`project_id` **string**
+
+[The project's ID](/projects/#finding-your-projects-id)
+
+---
+
+`account_id` **string**
+
+The ID of the account you want to retrieve
 
 ##### Parameters
 
-- `account_id` — the ID of the account you want to retrieve
-- `include_credentials` — _Optional_. Pass `include_credentials=1` as a query-string parameter to include the account credentials in the response
+`include_credentials` **boolean** (_optional_)
+
+Pass `include_credentials=true` as a query-string parameter to include the account credentials in the response.
+
+<Callout type="warning">
+Never return user credentials to the client
+</Callout>
+
+<Callout type="info">
+To retrieve the credentials for any account in `production` for OAuth apps (Slack, Google Sheets, etc), the connected account must be using [your own OAuth client](/connect/managed-auth/oauth-clients/#using-a-custom-oauth-client). You can only retrieve end user credentials for accounts that are using Pipedream's OAuth clients in `development`. [Learn more here](/connect/managed-auth/oauth-clients/#using-pipedream-oauth).
+</Callout>
 
 ##### Examples
 
-<Tabs items={['TypeScript (Next.js)', 'Node.js', 'Python' , 'Java', 'C#', 'Go', 'PHP', 'Ruby']}>
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
 <Tabs.Tab>
 ```typescript
 import {
-  createClient,
-} from "@pipedream/sdk";
+  createBackendClient,
+  type Account,
+  type BackendClient,
+  type BackendClientOpts,
+  type GetAccountOpts,
+} from "@pipedream/sdk/server";
 
-const pd = createClient({
-  publicKey: "YOUR_PUBLIC_KEY",
-  secretKey: "YOUR_SECRET_KEY",
-});
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
 
-export async function getAccount(accountId: string, include_credentials: number = 0) {
-  const account = await pd.getAccount(accountId, {
-    include_credentials, // set to 1 to include credentials
-  });
-
-  // Parse and return the data you need. These may contain credentials, 
-  // which you should never return to the client
-  return account;
-}
+const accountId: string = "{account_id}"; // Replace with your account ID
+const requestOpts: GetAccountOpts = {
+  include_credentials: true, // optional, set to true to include credentials
+};
+// These may contain credentials, which you should never return to the client.
+const account: Account = await pd.getAccountById(accountId, requestOpts);
 ```
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-const fetch = require('node-fetch');
+import { createBackendClient } from "@pipedream/sdk/server";
 
-class Client {
-  constructor({ publicKey, secretKey }) {
-    this.publicKey = publicKey;
-    this.secretKey = secretKey;
-    this.baseURL = 'https://api.pipedream.com/v1';
-  }
-
-  _authorizationHeader() {
-    const encoded = Buffer.from(`${this.publicKey}:${this.secretKey}`).toString('base64');
-    return `Basic ${encoded}`;
-  }
-
-  async getAccount(accountId) {
-    const auth = this._authorizationHeader();
-    const url = `${this.baseURL}/connect/accounts/${accountId}?include_credentials=1`;
-
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Authorization': auth,
-        'Content-Type': 'application/json',
-      },
-    });
-
-    const data = await response.json();
-
-    if (!data?.id) {
-      return null;
-    }
-
-    // Parse and return data.account. Ensure to handle sensitive data appropriately.
-    return data;
-  }
-}
-
-// Usage example
-const client = new Client({
-  publicKey: 'YOUR_PUBLIC_KEY',
-  secretKey: 'YOUR_SECRET_KEY',
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
 });
 
-client.getAccount('ACCOUNT_ID')
-  .then(account => {
-    console.log(account);
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
+const accountId = "{account_id}"; // Replace with your account ID
+
+const account = await pd.getAccountById(accountId, {
+  include_credentials: true, // optional, set to true to include credentials
+});
+
+// Parse and return the data you need. These may contain credentials,
+// which you should never return to the client
 ```
 </Tabs.Tab>
 <Tabs.Tab>
-```python
-import base64
-import requests
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
 
-class Client:
-    def __init__(self, public_key, secret_key):
-        self.public_key = public_key
-        self.secret_key = secret_key
-        self.base_url = "https://api.pipedream.com/v1"
+# The response will include an access_token. Use it in the Authorization header below.
 
-    def _authorization_header(self):
-        encoded = base64.b64encode(f"{self.public_key}:{self.secret_key}".encode()).decode()
-        return f"Basic {encoded}"
+curl -X GET \
+  -G \
+  "https://api.pipedream.com/v1/connect/{project_id}/accounts/{account_id}" \
+  -H "Authorization: Bearer {access_token}" \
+  -d "app=github" \ # optional, filter by app
+  -d "external_user_id=user-abc-123" \ # optional, filter by external user ID
+  -d "include_credentials=true" # optional, include credentials
 
-    def get_account(self, account_id):
-        auth = self._authorization_header()
-        url = f"{self.base_url}/connect/accounts/{account_id}?include_credentials=1"
-        response = requests.get(url, headers={"Authorization": auth})
-        data = response.json()
-        
-        if not data.get('id'):
-            return None
-
-        # Parse and return data. Ensure to handle sensitive data appropriately.
-        return data
-
-# Usage example
-client = Client('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY')
-account = client.get_account('ACCOUNT_ID')
-print(account)
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```java
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Base64;
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
-import java.nio.charset.StandardCharsets;
-
-public class Client {
-    private String publicKey;
-    private String secretKey;
-    private String baseURL;
-
-    public Client(String publicKey, String secretKey) {
-        this.publicKey = publicKey;
-        this.secretKey = secretKey;
-        this.baseURL = "https://api.pipedream.com/v1";
-    }
-
-    private String authorizationHeader() {
-        String encoded = Base64.getEncoder().encodeToString((publicKey + ":" + secretKey).getBytes(StandardCharsets.UTF_8));
-        return "Basic " + encoded;
-    }
-
-    public String getAccount(String accountId) throws Exception {
-        String auth = authorizationHeader();
-        URL url = new URL(baseURL + "/connect/accounts/" + accountId + "?include_credentials=1");
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Authorization", auth);
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        String inputLine;
-        StringBuilder content = new StringBuilder();
-        while ((inputLine = in.readLine()) != null) {
-            content.append(inputLine);
-        }
-        in.close();
-
-        String response = content.toString();
-
-        // Parse response and return account data. Ensure to handle sensitive data appropriately.
-        if (!response.contains("id")) {
-            return null;
-        }
-
-        return response;  // Modify to parse and handle account as needed.
-    }
-
-    public static void main(String[] args) throws Exception {
-        Client client = new Client("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY");
-        String account = client.getAccount("ACCOUNT_ID");
-        System.out.println(account);
-    }
-}
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```csharp
-using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
-
-public class Client {
-    private string publicKey;
-    private string secretKey;
-    private string baseURL;
-
-    public Client(string publicKey, string secretKey) {
-        this.publicKey = publicKey;
-        this.secretKey = secretKey;
-        this.baseURL = "https://api.pipedream.com/v1";
-    }
-
-    private string AuthorizationHeader() {
-        string encoded = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{publicKey}:{secretKey}"));
-        return $"Basic {encoded}";
-    }
-
-    public async Task<string> GetAccount(string accountId) {
-        string auth = AuthorizationHeader();
-        using (HttpClient client = new HttpClient()) {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", auth);
-            HttpResponseMessage response = await client.GetAsync($"{baseURL}/connect/accounts/{accountId}?include_credentials=1");
-
-            string result = await response.Content.ReadAsStringAsync();
-
-            // Parse and return account data. Ensure to handle sensitive data appropriately.
-            if (!result.Contains("id")) {
-                return null;
-            }
-
-            return result;  // Modify to parse and handle account as needed.
-        }
-    }
-
-    public static async Task Main(string[] args) {
-        var client = new Client("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY");
-        string account = await client.GetAccount("ACCOUNT_ID");
-        Console.WriteLine(account);
-    }
-}
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```go
-package main
-
-import (
-	"encoding/base64"
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
-	"net/http"
-)
-
-type Client struct {
-	PublicKey string
-	SecretKey string
-	BaseURL   string
-}
-
-func NewClient(publicKey, secretKey string) *Client {
-	return &Client{
-		PublicKey: publicKey,
-		SecretKey: secretKey,
-		BaseURL:   "https://api.pipedream.com/v1",
-	}
-}
-
-func (c *Client) authorizationHeader() string {
-	encoded := base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", c.PublicKey, c.SecretKey)))
-	return fmt.Sprintf("Basic %s", encoded)
-}
-
-func (c *Client) GetAccount(accountId string) (map[string]interface{}, error) {
-	url := fmt.Sprintf("%s/connect/accounts/%s?include_credentials=1", c.BaseURL, accountId)
-	req, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Set("Authorization", c.authorizationHeader())
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	var result map[string]interface{}
-	err = json.Unmarshal(body, &result)
-	if err != nil {
-		return nil, err
-	}
-
-	if id, exists := result["id"]; exists {
-		return id.(map[string]interface{}), nil
-	}
-
-	return nil, nil
-}
-
-func main() {
-	client := NewClient("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY")
-
-	account, err := client.GetAccount("ACCOUNT_ID")
-	if err != nil {
-		fmt.Println("Error:", err)
-		return
-	}
-
-	fmt.Println(account)
-}
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```php
-<?php
-
-class Client {
-    private $publicKey;
-    private $secretKey;
-    private $baseURL;
-
-    public function __construct($publicKey, $secretKey) {
-        $this->publicKey = $publicKey;
-        $this->secretKey = $secretKey;
-        $this->baseURL = "https://api.pipedream.com/v1";
-    }
-
-    private function authorizationHeader() {
-        return "Basic " . base64_encode("$this->publicKey:$this->secretKey");
-    }
-
-    public function getAccount($accountId) {
-        $url = "$this->baseURL/connect/accounts/$accountId?include_credentials=1";
-        $opts = [
-            'http' => [
-                'header' => "Authorization: " . $this->authorizationHeader(),
-                'method' => 'GET',
-            ],
-        ];
-
-        $context = stream_context_create($opts);
-        $result = file_get_contents($url, false, $context);
-
-        if ($result === FALSE) {
-            return null;
-        }
-
-        $data = json_decode($result, true);
-
-        if (empty($data['id'])) {
-            return null;
-        }
-
-        return $data;  // Modify to parse and handle account as needed.
-    }
-}
-
-// Usage example
-$client = new Client('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY');
-$account = $client->getAccount('ACCOUNT_ID');
-print_r($account);
-?>
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```ruby
-require 'base64'
-require 'json'
-require 'net/http'
-require 'uri'
-
-class Client
-  def initialize(public_key, secret_key)
-    @public_key = public_key
-    @secret_key = secret_key
-    @base_url = "https://api.pipedream.com/v1"
-  end
-
-  def authorization_header
-    encoded = Base64.strict_encode64("#{@public_key}:#{@secret_key}")
-    "Basic #{encoded}"
-  end
-
-  def get_account(account_id)
-    uri = URI("#{@base_url}/connect/accounts/#{account_id}?include_credentials=1")
-    req = Net::HTTP::Get.new(uri)
-    req['Authorization'] = authorization_header
-
-    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
-      http.request(req)
-    end
-
-    data = JSON.parse(res.body)
-
-    # Parse and return account data. Ensure to handle sensitive data appropriately.
-    return nil if data['id'].nil?
-
-    data
-  end
-end
-
-# Usage example
-client = Client.new('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY')
-account = client.get_account('ACCOUNT_ID')
-puts account.inspect
+# Parse and return the data you need. These may contain credentials,
+# which you should never return to the client
 ```
 </Tabs.Tab>
 </Tabs>
@@ -1938,7 +791,7 @@ puts account.inspect
 }
 ```
 
-##### Example Response (with `include_credentials=1`)
+##### Example response (with `include_credentials=true`)
 
 ```json
 {
@@ -1962,7 +815,7 @@ puts account.inspect
     },
     "expires_at": "2024-08-01T05:04:03.000Z",
     "project_id": 279440,
-    "user_id": "danny",
+    "user_id": "gcostanza",
     "error": null,
     "last_refreshed_at": null,
     "next_refresh_at": "2024-08-01T04:17:33.000Z"
@@ -1970,875 +823,85 @@ puts account.inspect
 }
 ```
 
-#### Retrieve accounts for an external user
-
-Retrieve the account details for a specific account based on the external user ID
-
-```
-GET /users/:external_id/accounts
-```
-
-##### Parameters
-
-- `external_id` — [The external user ID](#external-users) in your system
-- `include_credentials` — _Optional_. Pass `?include_credentials=1` as a query-string parameter to include the account credentials in the response
-
-##### Examples
-
-<Tabs items={['TypeScript (Next.js)', 'Node.js', 'Python' , 'Java', 'C#', 'Go', 'PHP', 'Ruby']}>
-<Tabs.Tab>
-```typescript
-import {
-  createClient,
-} from "@pipedream/sdk";
-
-const pd = createClient({
-  publicKey: PIPEDREAM_PROJECT_PUBLIC_KEY,
-  secretKey: PIPEDREAM_PROJECT_SECRET_KEY,
-});
-
-export async function getUserAccounts(externalId: string, include_credentials: number = 0) {
-  await pd.getAccountsByExternalId(externalId, {
-    include_credentials, // set to 1 to include credentials
-  })
-
-  // Parse and return the data you need. These may contain credentials, 
-  // which you should never return to the client
-}
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```javascript
-const fetch = require('node-fetch');
-
-class Client {
-  constructor({ publicKey, secretKey }) {
-    this.publicKey = publicKey;
-    this.secretKey = secretKey;
-    this.baseURL = 'https://api.pipedream.com';
-  }
-
-  _authorizationHeader() {
-    const encoded = Buffer.from(`${this.publicKey}:${this.secretKey}`).toString('base64');
-    return `Basic ${encoded}`;
-  }
-
-  async getUserAccounts(externalId) {
-    const auth = this._authorizationHeader();
-    const url = `${this.baseURL}/v1/connect/users/${externalId}/accounts`;
-
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Authorization': auth,
-        'Content-Type': 'application/json',
-      },
-    });
-
-    const data = await response.json();
-
-    if (!data?.accounts?.length) {
-      return null;
-    }
-
-    // Parse and return data.accounts. Ensure to handle sensitive data appropriately.
-    return data.accounts;
-  }
-}
-
-// Usage example
-const client = new Client({
-  publicKey: 'YOUR_PUBLIC_KEY',
-  secretKey: 'YOUR_SECRET_KEY',
-});
-
-client.getUserAccounts('USER_ID')
-  .then(response => {
-    // handle response
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```python
-import base64
-import requests
-
-class Client:
-    def __init__(self, public_key, secret_key):
-        self.public_key = public_key
-        self.secret_key = secret_key
-        self.base_url = "https://api.pipedream.com"
-
-    def _authorization_header(self):
-        encoded = base64.b64encode(f"{self.public_key}:{self.secret_key}".encode()).decode()
-        return f"Basic {encoded}"
-
-    def get_user_accounts(self, external_id):
-        auth = self._authorization_header()
-        url = f"{self.base_url}/v1/connect/users/{external_id}/accounts"
-        response = requests.get(url, headers={"Authorization": auth})
-        data = response.json()
-        
-        if not data.get('accounts'):
-            return None
-
-        # Parse and return data['accounts']. Ensure to handle sensitive data appropriately.
-        return data['accounts']
-
-# Usage example
-client = Client('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY')
-response = client.get_user_accounts('USER_ID')
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```java
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Base64;
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
-import java.nio.charset.StandardCharsets;
-
-public class Client {
-    private String publicKey;
-    private String secretKey;
-    private String baseURL;
-
-    public Client(String publicKey, String secretKey) {
-        this.publicKey = publicKey;
-        this.secretKey = secretKey;
-        this.baseURL = "https://api.pipedream.com";
-    }
-
-    private String authorizationHeader() {
-        String encoded = Base64.getEncoder().encodeToString((publicKey + ":" + secretKey).getBytes(StandardCharsets.UTF_8));
-        return "Basic " + encoded;
-    }
-
-    public String getUserAccounts(String externalId) throws Exception {
-        String auth = authorizationHeader();
-        URL url = new URL(baseURL + "/v1/connect/users/" + externalId + "/accounts");
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Authorization", auth);
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        String inputLine;
-        StringBuilder content = new StringBuilder();
-        while ((inputLine = in.readLine()) != null) {
-            content.append(inputLine);
-        }
-        in.close();
-
-        String response = content.toString();
-
-        // Parse response and return accounts data. Ensure to handle sensitive data appropriately.
-        if (!response.contains("accounts")) {
-            return null;
-        }
-
-        return response;  // Modify to parse and handle accounts as needed.
-    }
-
-    public static void main(String[] args) throws Exception {
-        Client client = new Client("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY");
-        String response = client.getUserAccounts("USER_ID");
-    }
-}
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```csharp
-using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
-
-public class Client {
-    private string publicKey;
-    private string secretKey;
-    private string baseURL;
-
-    public Client(string publicKey, string secretKey) {
-        this.publicKey = publicKey;
-        this.secretKey = secretKey;
-        this.baseURL = "https://api.pipedream.com";
-    }
-
-    private string AuthorizationHeader() {
-        string encoded = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{publicKey}:{secretKey}"));
-        return $"Basic {encoded}";
-    }
-
-    public async Task<string> GetUserAccounts(string externalId) {
-        string auth = AuthorizationHeader();
-        using (HttpClient client = new HttpClient()) {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", auth);
-            HttpResponseMessage response = await client.GetAsync($"{baseURL}/v1/connect/users/{externalId}/accounts");
-
-            string result = await response.Content.ReadAsStringAsync();
-
-            // Parse and return accounts data. Ensure to handle sensitive data appropriately.
-            if (!result.Contains("accounts")) {
-                return null;
-            }
-
-            return result;  // Modify to parse and handle accounts as needed.
-        }
-    }
-
-    public static async Task Main(string[] args) {
-        var client = new Client("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY");
-        string response = await client.GetUserAccounts("USER_ID");
-    }
-}
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```go
-package main
-
-import (
-	"encoding/base64"
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
-	"net/http"
-)
-
-type Client struct {
-	PublicKey string
-	SecretKey string
-	BaseURL   string
-}
-
-func NewClient(publicKey, secretKey string) *Client {
-	return &Client{
-		PublicKey: publicKey,
-		SecretKey: secretKey,
-		BaseURL:   "https://api.pipedream.com",
-	}
-}
-
-func (c *Client) authorizationHeader() string {
-	encoded := base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", c.PublicKey, c.SecretKey)))
-	return fmt.Sprintf("Basic %s", encoded)
-}
-
-func (c *Client) GetUserAccounts(externalId string) (map[string]interface{}, error) {
-	url := fmt.Sprintf("%s/v1/connect/users/%s/accounts", c.BaseURL, externalId)
-	req, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Set("Authorization", c.authorizationHeader())
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-
-	var result map[string]interface{}
-	err = json.Unmarshal(body, &result)
-	if err != nil {
-		return nil, err
-	}
-
-	if accounts, exists := result["accounts"]; exists {
-		return accounts.([]interface{}), nil
-	}
-
-	return nil, nil
-}
-
-func main() {
-	client := NewClient("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY")
-
-	accounts, err := client.GetUserAccounts("USER_ID")
-	if err != nil {
-		fmt.Println("Error:", err)
-		return
-	}
-}
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```php
-<?php
-
-class Client {
-    private $publicKey;
-    private $secretKey;
-    private $baseURL;
-
-    public function __construct($publicKey, $secretKey) {
-        $this->publicKey = $publicKey;
-        $this->secretKey = $secretKey;
-        $this->baseURL = "https://api.pipedream.com";
-    }
-
-    private function authorizationHeader() {
-        return "Basic " . base64_encode("$this->publicKey:$this->secretKey");
-    }
-
-    public function getUserAccounts($externalId) {
-        $url = "$this->baseURL/v1/connect/users/$externalId/accounts";
-        $opts = [
-            'http' => [
-                'header' => "Authorization: " . $this->authorizationHeader(),
-                'method' => 'GET',
-            ],
-        ];
-
-        $context = stream_context_create($opts);
-        $result = file_get_contents($url, false, $context);
-
-        if ($result === FALSE) {
-            return null;
-        }
-
-        $data = json_decode($result, true);
-
-        if (empty($data['accounts'])) {
-            return null;
-        }
-
-        return $data['accounts'];  // Modify to parse and handle accounts as needed.
-    }
-}
-
-// Usage example
-$client = new Client('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY');
-$response = $client->getUserAccounts('USER_ID');
-?>
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```ruby
-require 'base64'
-require 'json'
-require 'net/http'
-require 'uri'
-
-class Client
-  def initialize(public_key, secret_key)
-    @public_key = public_key
-    @secret_key = secret_key
-    @base_url = "https://api.pipedream.com"
-  end
-
-  def authorization_header
-    encoded = Base64.strict_encode64("#{@public_key}:#{@secret_key}")
-    "Basic #{encoded}"
-  end
-
-  def get_user_accounts(external_id)
-    uri = URI("#{@base_url}/v1/connect/users/#{external_id}/accounts")
-    req = Net::HTTP::Get.new(uri)
-    req['Authorization'] = authorization_header
-
-    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
-      http.request(req)
-    end
-
-    data = JSON.parse(res.body)
-
-    # Parse and return accounts data. Ensure to handle sensitive data appropriately.
-    return nil if data['accounts'].nil? || data['accounts'].empty?
-
-    data['accounts']
-  end
-end
-
-# Usage example
-client = Client.new('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY')
-response = client.get_user_accounts('USER_ID')
-```
-</Tabs.Tab>
-</Tabs>
-
-##### Example response (without account credentials)
-
-```json
-[
-  {
-    "id": "apn_WYhM5ov",
-    "name": null,
-    "external_id": "user-abc-123",
-    "healthy": true,
-    "dead": false,
-    "app": {
-      "id": "oa_aw4ib2",
-      "name_slug": "airtable_oauth",
-      "name": "Airtable",
-      "auth_type": "oauth",
-      "description": "Airtable is a low-code platform to build next-gen apps. Move beyond rigid tools, operationalize your critical data, and reimagine workflows with AI.",
-      "img_src": "https://assets.pipedream.net/s.v0/app_XBxhAl/logo/orig",
-      "custom_fields_json": "[]",
-      "categories": [
-        "Productivity"
-      ]
-    },
-    "created_at": "2024-08-06T21:51:30.000Z",
-    "updated_at": "2024-08-06T21:51:30.000Z",
-    "expires_at": "2024-08-06T22:51:30.000Z",
-    "error": null,
-    "last_refreshed_at": null,
-    "next_refresh_at": "2024-08-06T22:04:41.000Z"
-  },
-  {
-    "id": "apn_KAh7JwW",
-    "name": null,
-    "external_id": "user-abc-123",
-    "healthy": true,
-    "dead": false,
-    "app": {
-      "id": "oa_aPXiQd",
-      "name_slug": "github",
-      "name": "GitHub",
-      "auth_type": "oauth",
-      "description": "Where the world builds software. Millions of developers and companies build, ship, and maintain their software on GitHub—the largest and most advanced development platform in the world.",
-      "img_src": "https://assets.pipedream.net/s.v0/app_OrZhaO/logo/orig",
-      "custom_fields_json": "[]",
-      "categories": [
-        "Developer Tools"
-      ]
-    },
-    "created_at": "2024-08-06T21:53:05.000Z",
-    "updated_at": "2024-08-06T21:53:05.000Z",
-    "expires_at": null,
-    "error": null,
-    "last_refreshed_at": null,
-    "next_refresh_at": "2024-08-06T22:50:01.000Z"
-  }
-]
-```
-
-##### Example Response (with `include_credentials=1`)
-
-```json
-[
-  {
-    "id": "apn_WYhM5ov",
-    "name": null,
-    "external_id": "user-abc-123",
-    "healthy": true,
-    "dead": false,
-    "app": {
-      "id": "oa_aw4ib2",
-      "name_slug": "airtable_oauth",
-      "name": "Airtable",
-      "auth_type": "oauth",
-      "description": "Airtable is a low-code platform to build next-gen apps. Move beyond rigid tools, operationalize your critical data, and reimagine workflows with AI.",
-      "img_src": "https://assets.pipedream.net/s.v0/app_XBxhAl/logo/orig",
-      "custom_fields_json": "[]",
-      "categories": [
-        "Productivity"
-      ]
-    },
-    "created_at": "2024-08-06T21:51:30.000Z",
-    "updated_at": "2024-08-06T21:51:30.000Z",
-    "credentials": {
-      "oauth_client_id": "dd7a26ca-ba11-4f80-8667-xxxxxxxx",
-      "oauth_access_token": "oaaLa2Ob1umiregWa.v1.xxxxxxxx.xxxxxxxx",
-      "oauth_refresh_token": "oaaLa2Ob1umiregWa.v1.refresh.xxxxxxxx",
-      "oauth_uid": "usrnbIhrxxxxxxxx"
-    },
-    "expires_at": "2024-08-06T22:51:30.000Z",
-    "error": null,
-    "last_refreshed_at": null,
-    "next_refresh_at": "2024-08-06T22:04:41.000Z"
-  },
-  {
-    "id": "apn_KAh7JwW",
-    "name": null,
-    "external_id": "user-abc-123",
-    "healthy": true,
-    "dead": false,
-    "app": {
-      "id": "oa_aPXiQd",
-      "name_slug": "github",
-      "name": "GitHub",
-      "auth_type": "oauth",
-      "description": "Where the world builds software. Millions of developers and companies build, ship, and maintain their software on GitHub—the largest and most advanced development platform in the world.",
-      "img_src": "https://assets.pipedream.net/s.v0/app_OrZhaO/logo/orig",
-      "custom_fields_json": "[]",
-      "categories": [
-        "Developer Tools"
-      ]
-    },
-    "created_at": "2024-08-06T21:53:05.000Z",
-    "updated_at": "2024-08-06T21:53:05.000Z",
-    "credentials": {
-      "oauth_client_id": "57dc28xxxxxxxxxxxxx",
-      "oauth_access_token": "gho_xxxxxxxxxxxxxxxxxx",
-      "oauth_uid": "104484339"
-    },
-    "expires_at": null,
-    "error": null,
-    "last_refreshed_at": null,
-    "next_refresh_at": "2024-08-06T22:50:01.000Z"
-  }
-]
-```
-
 #### Delete connected account
 
-Delete a specific connected account for an end user
+Delete a specific connected account for an end user, and any deployed triggers.
 
-```shell
-DELETE /v1/connect/accounts/:account_id
+```
+DELETE /{project_id}/accounts/{account_id}
 ```
 
-##### Parameters
+##### Path parameters
 
-- `account_id` is the ID of the account you want to retrieve
+`project_id` **string**
+
+[The project's ID](/projects/#finding-your-projects-id)
+
+---
+
+`account_id` **string**
 
 ##### Examples
 
-<Tabs items={['TypeScript (Next.js)', 'Node.js', 'Python' , 'Java', 'C#', 'Go', 'PHP', 'Ruby']}>
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
 <Tabs.Tab>
 ```typescript
 import {
-  createClient,
-} from "@pipedream/sdk";
+  createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+} from "@pipedream/sdk/server";
 
-const pd = createClient({
-  publicKey: "YOUR_PUBLIC_KEY",
-  secretKey: "YOUR_SECRET_KEY",
-});
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
 
-export async function deleteAccount(accountId: string) {
-  await pd.deleteAccount(accountId);
+const accountId: string = "{account_id}"; // Replace with your account ID
+await pd.deleteAccount(accountId);
 
-  // You can return a message or handle any post-deletion logic here.
-}
-
+// You can return a message or handle any post-deletion logic here.
 ```
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-const fetch = require('node-fetch');
+import { createBackendClient } from "@pipedream/sdk/server";
 
-class Client {
-  constructor({ publicKey, secretKey }) {
-    this.publicKey = publicKey;
-    this.secretKey = secretKey;
-    this.baseURL = 'https://api.pipedream.com/v1';
-  }
-
-  _authorizationHeader() {
-    const encoded = Buffer.from(`${this.publicKey}:${this.secretKey}`).toString('base64');
-    return `Basic ${encoded}`;
-  }
-
-  async deleteAccount(accountId) {
-    const auth = this._authorizationHeader();
-    const url = `${this.baseURL}/connect/accounts/${accountId}`;
-
-    const response = await fetch(url, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': auth,
-      },
-    });
-
-    if (response.status === 204) {
-      console.log("Account deleted successfully.");
-    } else {
-      console.log("Failed to delete account.");
-    }
-  }
-}
-
-// Usage example
-const client = new Client({
-  publicKey: 'YOUR_PUBLIC_KEY',
-  secretKey: 'YOUR_SECRET_KEY',
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
 });
 
-client.deleteAccount('ACCOUNT_ID')
-  .catch(error => {
-    console.error('Error:', error);
-  });
+const accountId = "{account_id}"; // Replace with your account ID
+await pd.deleteAccount(accountId);
+
+// You can return a message or handle any post-deletion logic here.
 ```
 </Tabs.Tab>
 <Tabs.Tab>
-```python
-import base64
-import requests
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
 
-class Client:
-    def __init__(self, public_key, secret_key):
-        self.public_key = public_key
-        self.secret_key = secret_key
-        self.base_url = "https://api.pipedream.com/v1"
+# The response will include an access_token. Use it in the Authorization header below.
 
-    def _authorization_header(self):
-        encoded = base64.b64encode(f"{self.public_key}:{self.secret_key}".encode()).decode()
-        return f"Basic {encoded}"
-
-    def delete_account(self, account_id):
-        auth = self._authorization_header()
-        url = f"{self.base_url}/connect/accounts/{account_id}"
-        response = requests.delete(url, headers={"Authorization": auth})
-        
-        if response.status_code == 204:
-            print("Account deleted successfully.")
-        else:
-            print("Failed to delete account.")
-
-# Usage example
-client = Client('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY')
-client.delete_account('ACCOUNT_ID')
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```java
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Base64;
-import java.nio.charset.StandardCharsets;
-
-public class Client {
-    private String publicKey;
-    private String secretKey;
-    private String baseURL;
-
-    public Client(String publicKey, String secretKey) {
-        this.publicKey = publicKey;
-        this.secretKey = secretKey;
-        this.baseURL = "https://api.pipedream.com/v1";
-    }
-
-    private String authorizationHeader() {
-        String encoded = Base64.getEncoder().encodeToString((publicKey + ":" + secretKey).getBytes(StandardCharsets.UTF_8));
-        return "Basic " + encoded;
-    }
-
-    public void deleteAccount(String accountId) throws Exception {
-        String auth = authorizationHeader();
-        URL url = new URL(baseURL + "/connect/accounts/" + accountId);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("DELETE");
-        conn.setRequestProperty("Authorization", auth);
-
-        int responseCode = conn.getResponseCode();
-        if (responseCode == 204) {
-            System.out.println("Account deleted successfully.");
-        } else {
-            System.out.println("Failed to delete account. Response code: " + responseCode);
-        }
-    }
-
-    public static void main(String[] args) throws Exception {
-        Client client = new Client("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY");
-        client.deleteAccount("ACCOUNT_ID");
-    }
-}
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```csharp
-using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-
-public class Client {
-    private string publicKey;
-    private string secretKey;
-    private string baseURL;
-
-    public Client(string publicKey, string secretKey) {
-        this.publicKey = publicKey;
-        this.secretKey = secretKey;
-        this.baseURL = "https://api.pipedream.com/v1";
-    }
-
-    private string AuthorizationHeader() {
-        string encoded = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes($"{publicKey}:{secretKey}"));
-        return $"Basic {encoded}";
-    }
-
-    public async Task DeleteAccount(string accountId) {
-        string auth = AuthorizationHeader();
-        using (HttpClient client = new HttpClient()) {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", auth);
-            HttpResponseMessage response = await client.DeleteAsync($"{baseURL}/connect/accounts/{accountId}");
-
-            if (response.StatusCode == System.Net.HttpStatusCode.NoContent) {
-                Console.WriteLine("Account deleted successfully.");
-            } else {
-                Console.WriteLine("Failed to delete account.");
-            }
-        }
-    }
-
-    public static async Task Main(string[] args) {
-        var client = new Client("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY");
-        await client.DeleteAccount("ACCOUNT_ID");
-    }
-}
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```go
-package main
-
-import (
-	"encoding/base64"
-	"fmt"
-	"net/http"
-)
-
-type Client struct {
-	PublicKey string
-	SecretKey string
-	BaseURL   string
-}
-
-func NewClient(publicKey, secretKey string) *Client {
-	return &Client{
-		PublicKey: publicKey,
-		SecretKey: secretKey,
-		BaseURL:   "https://api.pipedream.com/v1",
-	}
-}
-
-func (c *Client) authorizationHeader() string {
-	encoded := base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", c.PublicKey, c.SecretKey)))
-	return fmt.Sprintf("Basic %s", encoded)
-}
-
-func (c *Client) DeleteAccount(accountId string) error {
-	url := fmt.Sprintf("%s/connect/accounts/%s", c.BaseURL, accountId)
-	req, err := http.NewRequest("DELETE", url, nil)
-	if err != nil {
-		return err
-	}
-
-	req.Header.Set("Authorization", c.authorizationHeader())
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		return err
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode == http.StatusNoContent {
-		fmt.Println("Account deleted successfully.")
-	} else {
-		fmt.Printf("Failed to delete account. Status code: %d\n", resp.StatusCode)
-	}
-
-	return nil
-}
-
-func main() {
-	client := NewClient("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY")
-
-	err := client.DeleteAccount("ACCOUNT_ID")
-	if err != nil {
-		fmt.Println("Error:", err)
-	}
-}
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```php
-<?php
-
-class Client {
-    private $publicKey;
-    private $secretKey;
-    private $baseURL;
-
-    public function __construct($publicKey, $secretKey) {
-        $this->publicKey = $publicKey;
-        $this->secretKey = $secretKey;
-        $this->baseURL = "https://api.pipedream.com/v1";
-    }
-
-    private function authorizationHeader() {
-        return "Basic " . base64_encode("$this->publicKey:$this->secretKey");
-    }
-
-    public function deleteAccount($accountId) {
-        $url = "$this->baseURL/connect/accounts/$accountId";
-        $opts = [
-            'http' => [
-                'header' => "Authorization: " . $this->authorizationHeader(),
-                'method' => 'DELETE',
-            ],
-        ];
-
-        $context = stream_context_create($opts);
-        $result = file_get_contents($url, false, $context);
-
-        if ($http_response_header[0] == 'HTTP/1.1 204 No Content') {
-            echo "Account deleted successfully.";
-        } else {
-            echo "Failed to delete account.";
-        }
-    }
-}
-
-// Usage example
-$client = new Client('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY');
-$client->deleteAccount('ACCOUNT_ID');
-?>
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```ruby
-require 'base64'
-require 'net/http'
-require 'uri'
-
-class Client
-  def initialize(public_key, secret_key)
-    @public_key = public_key
-    @secret_key = secret_key
-    @base_url = "https://api.pipedream.com/v1"
-  end
-
-  def authorization_header
-    encoded = Base64.strict_encode64("#{@public_key}:#{@secret_key}")
-    "Basic #{encoded}"
-  end
-
-  def delete_account(account_id)
-    uri = URI("#{@base_url}/connect/accounts/#{account_id}")
-    req = Net::HTTP::Delete.new(uri)
-    req['Authorization'] = authorization_header
-
-    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
-      http.request(req)
-    end
-
-    if res.code.to_i == 204
-      puts "Account deleted successfully."
-    else
-      puts "Failed to delete account. Status code: #{res.code}"
-    end
-  end
-end
-
-# Usage example
-client = Client.new('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY')
-client.delete_account('ACCOUNT_ID')
+curl -X DELETE "https://api.pipedream.com/v1/connect/{project_id}/accounts/{account_id}" \
+  -H "Authorization: Bearer {access_token}"
 ```
 </Tabs.Tab>
 </Tabs>
@@ -2851,347 +914,83 @@ Pipedream returns a `204 No Content` response on successful account deletion
 
 Delete all connected accounts for a specific app
 
-```shell
-DELETE /apps/:app_id/accounts
+```
+DELETE /{project_id}/apps/{app_id}/accounts
 ```
 
-##### Parameters
+##### Path parameters
 
-- `app_id` can be `oauth_app_id` for [OAuth apps](/connect/quickstart#creating-a-custom-oauth-client) or [name slug](/connect/quickstart/#find-your-apps-name-slug) for key-based apps
+`project_id` **string**
+
+[The project's ID](/projects/#finding-your-projects-id)
+
+---
+
+`app_id` **string**
+
+The app ID for which you want to delete all connected accounts. `app_id` can be `oauth_app_id` for [OAuth apps](/connect/managed-auth/quickstart/#create-a-pipedream-oauth-client) or name slug for key-based apps, which you can find under the **Authentication** section of any [app page](https://pipedream.com/apps)
 
 ##### Examples
 
-<Tabs items={['TypeScript (Next.js)', 'Node.js', 'Python' , 'Java', 'C#', 'Go', 'PHP', 'Ruby']}>
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
 <Tabs.Tab>
 ```typescript
 import {
-  createClient,
-} from "@pipedream/sdk";
+  createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+} from "@pipedream/sdk/server";
 
-const pd = createClient({
-  publicKey: "YOUR_PUBLIC_KEY",
-  secretKey: "YOUR_SECRET_KEY",
-});
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
 
-export async function deleteAccountsByApp(appId: string) {
-  await pd.deleteAccountsByApp(appId);
+const appId: string = "{app_id}"; // Replace with the app ID
+await pd.deleteAccountsByApp(appId);
 
-  // You can return a message or handle any post-deletion logic here.
-}
+// You can return a message or handle any post-deletion logic here.
 ```
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-const fetch = require('node-fetch');
+import { createBackendClient } from "@pipedream/sdk/server";
 
-class Client {
-  constructor({ publicKey, secretKey }) {
-    this.publicKey = publicKey;
-    this.secretKey = secretKey;
-    this.baseURL = 'https://api.pipedream.com/v1';
-  }
-
-  _authorizationHeader() {
-    const encoded = Buffer.from(`${this.publicKey}:${this.secretKey}`).toString('base64');
-    return `Basic ${encoded}`;
-  }
-
-  async deleteAccountsByApp(appId) {
-    const auth = this._authorizationHeader();
-    const url = `${this.baseURL}/connect/accounts/app/${appId}`;
-
-    const response = await fetch(url, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': auth,
-      },
-    });
-
-    if (response.status === 204) {
-      console.log("Accounts deleted successfully.");
-    } else {
-      console.log("Failed to delete accounts.");
-    }
-  }
-}
-
-// Usage example
-const client = new Client({
-  publicKey: 'YOUR_PUBLIC_KEY',
-  secretKey: 'YOUR_SECRET_KEY',
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
 });
 
-client.deleteAccountsByApp('APP_ID')
-  .catch(error => {
-    console.error('Error:', error);
-  });
+const appId = "{app_id}"; // Replace with the app ID
+await pd.deleteAccountsByApp(appId);
+
+// You can return a message or handle any post-deletion logic here.
 ```
 </Tabs.Tab>
 <Tabs.Tab>
-```python
-import base64
-import requests
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
 
-class Client:
-    def __init__(self, public_key, secret_key):
-        self.public_key = public_key
-        self.secret_key = secret_key
-        self.base_url = "https://api.pipedream.com/v1"
+# The response will include an access_token. Use it in the Authorization header below.
 
-    def _authorization_header(self):
-        encoded = base64.b64encode(f"{self.public_key}:{self.secret_key}".encode()).decode()
-        return f"Basic {encoded}"
-
-    def delete_accounts_by_app(self, app_id):
-        auth = self._authorization_header()
-        url = f"{self.base_url}/connect/accounts/app/{app_id}"
-        response = requests.delete(url, headers={"Authorization": auth})
-        
-        if response.status_code == 204:
-            print("Accounts deleted successfully.")
-        else:
-            print("Failed to delete accounts.")
-
-# Usage example
-client = Client('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY')
-client.delete_accounts_by_app('APP_ID')
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```java
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Base64;
-import java.nio.charset.StandardCharsets;
-
-public class Client {
-    private String publicKey;
-    private String secretKey;
-    private String baseURL;
-
-    public Client(String publicKey, String secretKey) {
-        this.publicKey = publicKey;
-        this.secretKey = secretKey;
-        this.baseURL = "https://api.pipedream.com/v1";
-    }
-
-    private String authorizationHeader() {
-        String encoded = Base64.getEncoder().encodeToString((publicKey + ":" + secretKey).getBytes(StandardCharsets.UTF_8));
-        return "Basic " + encoded;
-    }
-
-    public void deleteAccountsByApp(String appId) throws Exception {
-        String auth = authorizationHeader();
-        URL url = new URL(baseURL + "/connect/accounts/app/" + appId);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("DELETE");
-        conn.setRequestProperty("Authorization", auth);
-
-        int responseCode = conn.getResponseCode();
-        if (responseCode == 204) {
-            System.out.println("Accounts deleted successfully.");
-        } else {
-            System.out.println("Failed to delete accounts. Response code: " + responseCode);
-        }
-    }
-
-    public static void main(String[] args) throws Exception {
-        Client client = new Client("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY");
-        client.deleteAccountsByApp("APP_ID");
-    }
-}
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```csharp
-using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-
-public class Client {
-    private string publicKey;
-    private string secretKey;
-    private string baseURL;
-
-    public Client(string publicKey, string secretKey) {
-        this.publicKey = publicKey;
-        this.secretKey = secretKey;
-        this.baseURL = "https://api.pipedream.com/v1";
-    }
-
-    private string AuthorizationHeader() {
-        string encoded = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes($"{publicKey}:{secretKey}"));
-        return $"Basic {encoded}";
-    }
-
-    public async Task DeleteAccountsByApp(string appId) {
-        string auth = AuthorizationHeader();
-        using (HttpClient client = new HttpClient()) {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", auth);
-            HttpResponseMessage response = await client.DeleteAsync($"{baseURL}/connect/accounts/app/{appId}");
-
-            if (response.StatusCode == System.Net.HttpStatusCode.NoContent) {
-                Console.WriteLine("Accounts deleted successfully.");
-            } else {
-                Console.WriteLine("Failed to delete accounts.");
-            }
-        }
-    }
-
-    public static async Task Main(string[] args) {
-        var client = new Client("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY");
-        await client.DeleteAccountsByApp("APP_ID");
-    }
-}
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```go
-package main
-
-import (
-	"encoding/base64"
-	"fmt"
-	"net/http"
-)
-
-type Client struct {
-	PublicKey string
-	SecretKey string
-	BaseURL   string
-}
-
-func NewClient(publicKey, secretKey string) *Client {
-	return &Client{
-		PublicKey: publicKey,
-		SecretKey: secretKey,
-		BaseURL:   "https://api.pipedream.com/v1",
-	}
-}
-
-func (c *Client) authorizationHeader() string {
-	encoded := base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", c.PublicKey, c.SecretKey)))
-	return fmt.Sprintf("Basic %s", encoded)
-}
-
-func (c *Client) DeleteAccountsByApp(appId string) error {
-	url := fmt.Sprintf("%s/connect/accounts/app/%s", c.BaseURL, appId)
-	req, err := http.NewRequest("DELETE", url, nil)
-	if err != nil {
-		return err
-	}
-
-	req.Header.Set("Authorization", c.authorizationHeader())
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		return err
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode == http.StatusNoContent {
-		fmt.Println("Accounts deleted successfully.")
-	} else {
-		fmt.Printf("Failed to delete accounts. Status code: %d\n", resp.StatusCode)
-	}
-
-	return nil
-}
-
-func main() {
-	client := NewClient("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY")
-
-	err := client.DeleteAccountsByApp("APP_ID")
-	if err != nil {
-		fmt.Println("Error:", err)
-	}
-}
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```php
-<?php
-
-class Client {
-    private $publicKey;
-    private $secretKey;
-    private $baseURL;
-
-    public function __construct($publicKey, $secretKey) {
-        $this->publicKey = $publicKey;
-        $this->secretKey = $secretKey;
-        $this->baseURL = "https://api.pipedream.com/v1";
-    }
-
-    private function authorizationHeader() {
-        return "Basic " . base64_encode("$this->publicKey:$this->secretKey");
-    }
-
-    public function deleteAccountsByApp($appId) {
-        $url = "$this->baseURL/connect/accounts/app/$appId";
-        $opts = [
-            'http' => [
-                'header' => "Authorization: " . $this->authorizationHeader(),
-                'method' => 'DELETE',
-            ],
-        ];
-
-        $context = stream_context_create($opts);
-        $result = file_get_contents($url, false, $context);
-
-        if ($http_response_header[0] == 'HTTP/1.1 204 No Content') {
-            echo "Accounts deleted successfully.";
-        } else {
-            echo "Failed to delete accounts.";
-        }
-    }
-}
-
-// Usage example
-$client = new Client('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY');
-$client->deleteAccountsByApp('APP_ID');
-?>
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```ruby
-require 'base64'
-require 'net/http'
-require 'uri'
-
-class Client
-  def initialize(public_key, secret_key)
-    @public_key = public_key
-    @secret_key = secret_key
-    @base_url = "https://api.pipedream.com/v1"
-  end
-
-  def authorization_header
-    encoded = Base64.strict_encode64("#{@public_key}:#{@secret_key}")
-    "Basic #{encoded}"
-  end
-
-  def delete_accounts_by_app(app_id)
-    uri = URI("#{@base_url}/connect/accounts/app/#{app_id}")
-    req = Net::HTTP::Delete.new(uri)
-    req['Authorization'] = authorization_header
-
-    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
-      http.request(req)
-    end
-
-    if res.code.to_i == 204
-      puts "Accounts deleted successfully."
-    else
-      puts "Failed to delete accounts. Status code: #{res.code}"
-    end
-  end
-end
-
-# Usage example
-client = Client.new('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY')
-client.delete_accounts_by_app('APP_ID')
+curl -X DELETE "https://api.pipedream.com/v1/connect/{project_id}/accounts/{account_id}" \
+  -H "Authorization: Bearer {access_token}"
 ```
 </Tabs.Tab>
 </Tabs>
@@ -3202,350 +1001,85 @@ Pipedream returns a `204 No Content` response on successful account deletion
 
 #### Delete an end user
 
-Delete an end user and all their connected accounts
+Delete an end user, all their connected accounts, and any deployed triggers.
 
-```shell
-DELETE /users/:external_id
+```
+DELETE /{project_id}/users/{external_user_id}
 ```
 
-##### Parameters
+##### Path parameters
 
-- `external_id` — [The external user ID](#external-users) in your system
+`project_id` **string**
+
+[The project's ID](/projects/#finding-your-projects-id)
+
+---
+
+`external_user_id` **string**
+
+[The external user ID](#external-users) in your system
 
 ##### Examples
 
-<Tabs items={['TypeScript (Next.js)', 'Node.js', 'Python' , 'Java', 'C#', 'Go', 'PHP', 'Ruby']}>
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
 <Tabs.Tab>
 ```typescript
 import {
-  createClient,
-} from "@pipedream/sdk";
+  createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+} from "@pipedream/sdk/server";
 
-const pd = createClient({
-  publicKey: "YOUR_PUBLIC_KEY",
-  secretKey: "YOUR_SECRET_KEY",
-});
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
 
-export async function deleteExternalUser(externalId: string) {
-  await pd.deleteExternalUser(externalId);
+const externalId: string = "{external_user_id}"; // Replace with your external user ID
+await pd.deleteExternalUser(externalId);
 
-  console.log("All accounts associated with the external ID have been deleted.");
-}
-
+// You can return a message or handle any post-deletion logic here.
 ```
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
-const fetch = require('node-fetch');
+import { createBackendClient } from "@pipedream/sdk/server";
 
-class Client {
-  constructor({ publicKey, secretKey }) {
-    this.publicKey = publicKey;
-    this.secretKey = secretKey;
-    this.baseURL = 'https://api.pipedream.com/v1';
-  }
-
-  _authorizationHeader() {
-    const encoded = Buffer.from(`${this.publicKey}:${this.secretKey}`).toString('base64');
-    return `Basic ${encoded}`;
-  }
-
-  async deleteExternalUser(externalId) {
-    const auth = this._authorizationHeader();
-    const url = `${this.baseURL}/users/${externalId}`;
-
-    const response = await fetch(url, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': auth,
-      },
-    });
-
-    if (response.status === 204) {
-      console.log("All accounts associated with the external ID have been deleted.");
-    } else {
-      console.log("Failed to delete accounts.");
-    }
-  }
-}
-
-// Usage example
-const client = new Client({
-  publicKey: 'YOUR_PUBLIC_KEY',
-  secretKey: 'YOUR_SECRET_KEY',
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
 });
 
-client.deleteExternalUser('EXTERNAL_ID')
-  .catch(error => {
-    console.error('Error:', error);
-  });
+const externalId = "{external_user_id}"; // Replace with your external user ID
+await pd.deleteExternalUser(externalId);
+
+// You can return a message or handle any post-deletion logic here.
 ```
 </Tabs.Tab>
 <Tabs.Tab>
-```python
-import base64
-import requests
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
 
-class Client:
-    def __init__(self, public_key, secret_key):
-        self.public_key = public_key
-        self.secret_key = secret_key
-        self.base_url = "https://api.pipedream.com/v1"
+# The response will include an access_token. Use it in the Authorization header below.
 
-    def _authorization_header(self):
-        encoded = base64.b64encode(f"{self.public_key}:{self.secret_key}".encode()).decode()
-        return f"Basic {encoded}"
-
-    def delete_external_user(self, external_id):
-        auth = self._authorization_header()
-        url = f"{self.base_url}/users/{external_id}"
-        response = requests.delete(url, headers={"Authorization": auth})
-        
-        if response.status_code == 204:
-            print("All accounts associated with the external ID have been deleted.")
-        else:
-            print("Failed to delete accounts.")
-
-# Usage example
-client = Client('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY')
-client.delete_external_user('EXTERNAL_ID')
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```java
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Base64;
-import java.nio.charset.StandardCharsets;
-
-public class Client {
-    private String publicKey;
-    private String secretKey;
-    private String baseURL;
-
-    public Client(String publicKey, String secretKey) {
-        this.publicKey = publicKey;
-        this.secretKey = secretKey;
-        this.baseURL = "https://api.pipedream.com/v1";
-    }
-
-    private String authorizationHeader() {
-        String encoded = Base64.getEncoder().encodeToString((publicKey + ":" + secretKey).getBytes(StandardCharsets.UTF_8));
-        return "Basic " + encoded;
-    }
-
-    public void deleteExternalUser(String externalId) throws Exception {
-        String auth = authorizationHeader();
-        URL url = new URL(baseURL + "/users/" + externalId);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("DELETE");
-        conn.setRequestProperty("Authorization", auth);
-
-        int responseCode = conn.getResponseCode();
-        if (responseCode == 204) {
-            System.out.println("All accounts associated with the external ID have been deleted.");
-        } else {
-            System.out.println("Failed to delete accounts. Response code: " + responseCode);
-        }
-    }
-
-    public static void main(String[] args) throws Exception {
-        Client client = new Client("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY");
-        client.deleteExternalUser("EXTERNAL_ID");
-    }
-}
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```csharp
-using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
-
-public class Client {
-    private string publicKey;
-    private string secretKey;
-    private string baseURL;
-
-    public Client(string publicKey, string secretKey) {
-        this.publicKey = publicKey;
-        this.secretKey = secretKey;
-        this.baseURL = "https://api.pipedream.com/v1";
-    }
-
-    private string AuthorizationHeader() {
-        string encoded = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes($"{publicKey}:{secretKey}"));
-        return $"Basic {encoded}";
-    }
-
-    public async Task DeleteExternalUser(string externalId) {
-        string auth = AuthorizationHeader();
-        using (HttpClient client = new HttpClient()) {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", auth);
-            HttpResponseMessage response = await client.DeleteAsync($"{baseURL}/users/{externalId}");
-
-            if (response.StatusCode == System.Net.HttpStatusCode.NoContent) {
-                Console.WriteLine("All accounts associated with the external ID have been deleted.");
-            } else {
-                Console.WriteLine("Failed to delete accounts.");
-            }
-        }
-    }
-
-    public static async Task Main(string[] args) {
-        var client = new Client("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY");
-        await client.DeleteExternalUser("EXTERNAL_ID");
-    }
-}
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```go
-package main
-
-import (
-	"encoding/base64"
-	"fmt"
-	"net/http"
-)
-
-type Client struct {
-	PublicKey string
-	SecretKey string
-	BaseURL   string
-}
-
-func NewClient(publicKey, secretKey string) *Client {
-	return &Client{
-		PublicKey: publicKey,
-		SecretKey: secretKey,
-		BaseURL:   "https://api.pipedream.com/v1",
-	}
-}
-
-func (c *Client) authorizationHeader() string {
-	encoded := base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s:%s", c.PublicKey, c.SecretKey)))
-	return fmt.Sprintf("Basic %s", encoded)
-}
-
-func (c *Client) DeleteExternalUser(externalId string) error {
-	url := fmt.Sprintf("%s/users/%s", c.BaseURL, externalId)
-	req, err := http.NewRequest("DELETE", url, nil)
-	if err != nil {
-		return err
-	}
-
-	req.Header.Set("Authorization", c.authorizationHeader())
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		return err
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode == http.StatusNoContent {
-		fmt.Println("All accounts associated with the external ID have been deleted.")
-	} else {
-		fmt.Printf("Failed to delete accounts. Status code: %d\n", resp.StatusCode)
-	}
-
-	return nil
-}
-
-func main() {
-	client := NewClient("YOUR_PUBLIC_KEY", "YOUR_SECRET_KEY")
-
-	err := client.DeleteExternalUser("EXTERNAL_ID")
-	if err != nil {
-		fmt.Println("Error:", err)
-	}
-}
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```php
-<?php
-
-class Client {
-    private $publicKey;
-    private $secretKey;
-    private $baseURL;
-
-    public function __construct($publicKey, $secretKey) {
-        $this->publicKey = $publicKey;
-        $this->secretKey = $secretKey;
-        $this->baseURL = "https://api.pipedream.com/v1";
-    }
-
-    private function authorizationHeader() {
-        return "Basic " . base64_encode("$this->publicKey:$this->secretKey");
-    }
-
-    public function deleteExternalUser($externalId) {
-        $url = "$this->baseURL/users/$externalId";
-        $opts = [
-            'http' => [
-                'header' => "Authorization: " . $this->authorizationHeader(),
-                'method' => 'DELETE',
-            ],
-        ];
-
-        $context = stream_context_create($opts);
-        $result = file_get_contents($url, false, $context);
-
-        if ($http_response_header[0] == 'HTTP/1.1 204 No Content') {
-            echo "All accounts associated with the external ID have been deleted.";
-        } else {
-            echo "Failed to delete accounts.";
-        }
-    }
-}
-
-// Usage example
-$client = new Client('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY');
-$client->deleteExternalUser('EXTERNAL_ID');
-?>
-```
-</Tabs.Tab>
-<Tabs.Tab>
-```ruby
-require 'base64'
-require 'net/http'
-require 'uri'
-
-class Client
-  def initialize(public_key, secret_key)
-    @public_key = public_key
-    @secret_key = secret_key
-    @base_url = "https://api.pipedream.com/v1"
-  end
-
-  def authorization_header
-    encoded = Base64.strict_encode64("#{@public_key}:#{@secret_key}")
-    "Basic #{encoded}"
-  end
-
-  def delete_external_user(external_id)
-    uri = URI("#{@base_url}/users/#{external_id}")
-    req = Net::HTTP::Delete.new(uri)
-    req['Authorization'] = authorization_header
-
-    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
-      http.request(req)
-    end
-
-    if res.code.to_i == 204
-      puts "All accounts associated with the external ID have been deleted."
-    else
-      puts "Failed to delete accounts. Status code: #{res.code}"
-    end
-  end
-end
-
-# Usage example
-client = Client.new('YOUR_PUBLIC_KEY', 'YOUR_SECRET_KEY')
-client.delete_external_user('EXTERNAL_ID')
+curl -X DELETE "https://api.pipedream.com/v1/connect/{project_id}/users/{external_user_id}" \
+  -H "Authorization: Bearer {access_token}"
 ```
 </Tabs.Tab>
 </Tabs>
@@ -3553,3 +1087,2433 @@ client.delete_external_user('EXTERNAL_ID')
 ##### Response
 
 Pipedream returns a `204 No Content` response on successful account deletion
+
+
+### Components
+
+#### List components
+
+List all the components in the Pipedream registry.
+
+```
+GET /{component_type}
+```
+
+##### Path parameters
+
+`component_type` **string**
+
+Either `triggers`, `actions`, or `components`.
+
+##### Query parameters
+
+`app` **string** (_optional_)
+
+The ID or name slug the app you'd like to retrieve. For example, Slack's unique
+app ID is `app_OkrhR1`, and its name slug is `slack`.
+
+You can find the app's ID in the response from the [List
+apps](/rest-api/#list-apps) endpoint, and the name slug under the
+**Authentication** section of any [app page](https://pipedream.com/apps).
+
+---
+
+`q` **string** (_optional_)
+
+A search query to filter the components by key (see the [component structure
+table](/components/contributing/api/#component-structure)).
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type GetComponentsOpts,
+  type GetComponentsResponse,
+  type V1Component,
+} from "@pipedream/sdk/server";
+
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
+
+// Retrieve components containing the word "issue" in their name, belonging to
+// the Gitlab app
+const requestOpts: GetComponentsOpts = {
+  app: "gitlab",
+  q: "issue",
+};
+const response: GetComponentsResponse = await pd.getComponents(requestOpts);
+
+const {
+  data  // The list of components for the Gitlab app and query `q`
+}: {
+  data: Omit<V1Component, "configurable_props">[];
+} = response;
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import { createBackendClient } from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Retrieve components containing the word "issue" in their name, belonging to
+// the Gitlab app
+const { data: components } = await pd.getComponents({
+  app: "gitlab",
+  q: "issue",
+});
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will fetch the first 3 components for the Gitlab app that contain
+# the word "issue" in their name
+curl -X GET "https://api.pipedream.com/v1/connect/{your_project_id}/components?app=gitlab&limit=3&q=issue" \
+  -H "Authorization: Bearer {access_token}"
+```
+</Tabs.Tab>
+</Tabs>
+
+
+##### Example response
+```json
+{
+  "page_info": {
+    "total_count": 5,
+    "count": 3,
+    "start_cursor": "c2NfM3ZpanpRcg",
+    "end_cursor": "c2NfQjVpTkJBcA"
+  },
+  "data": [
+    {
+      "name": "New Issue (Instant)",
+      "version": "0.1.2",
+      "key": "gitlab-new-issue"
+    },
+    {
+      "name": "Update Issue",
+      "version": "0.0.2",
+      "key": "gitlab-update-issue"
+    },
+    {
+      "name": "Search Issues",
+      "version": "0.0.3",
+      "key": "gitlab-search-issues"
+    }
+  ]
+}
+```
+
+
+#### Retrieve a component
+
+Retrieve a specific component from the Pipedream registry.
+
+```
+GET /{component_type}/{component_key}
+```
+
+##### Path parameters
+
+`component_type` **string**
+
+Either `triggers`, `actions`, or `components`.
+
+---
+
+`component_key` **string**
+
+The key that identifies the component (see the [component structure
+table](/components/contributing/api/#component-structure)).
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type GetComponentOpts,
+  type GetComponentResponse,
+  type V1Component,
+} from "@pipedream/sdk/server";
+
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
+
+// Retrieve the "New Issue (Instant)" component for the Gitlab app
+const requestOpts: GetComponentOpts = {
+  key: "gitlab-new-issue",
+};
+const response: GetComponentResponse = await pd.getComponent(requestOpts);
+
+const {
+  data  // The "New Issue (Instant)" component for the Gitlab app
+}: {
+  data: V1Component;
+} = response;
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import { createBackendClient } from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Retrieve the "New Issue (Instant)" component for the Gitlab app
+const { data: component } = await pd.getComponent({
+  key: "gitlab-new-issue",
+});
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will fetch the "New Issue (Instant)" component for the Gitlab app.
+curl -X GET "https://api.pipedream.com/v1/connect/{your_project_id}/components/gitlab-new-issue" \
+  -H "Authorization: Bearer {access_token}"
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "data": {
+    "name": "New Issue (Instant)",
+    "version": "0.1.2",
+    "key": "gitlab-new-issue",
+    "configurable_props": [
+      {
+        "name": "gitlab",
+        "type": "app",
+        "app": "gitlab"
+      },
+      {
+        "name": "db",
+        "type": "$.service.db"
+      },
+      {
+        "name": "http",
+        "type": "$.interface.http",
+        "customResponse": true
+      },
+      {
+        "name": "projectId",
+        "type": "integer",
+        "label": "Project ID",
+        "description": "The project ID, as displayed in the main project page",
+        "remoteOptions": true
+      }
+    ]
+  }
+}
+```
+
+
+
+
+#### Configure a component
+
+Configure the a component's prop, based on the current component's
+configuration. This endpoint will use the component's configuration to retrieve
+the list of options that can be used to configure the prop indicated in the
+request.
+
+```text
+GET /{component_type}/configure
+```
+
+##### Path parameters
+
+`component_type` **string**
+
+Either `triggers`, `actions`, or `components`.
+
+##### Body parameters
+
+`configured_props` **object**
+
+The props that have already been configured for the component. This is a
+JSON-serializable object with the prop names as keys and the configured values
+as values.
+
+---
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system that you
+want to retrieve accounts for.
+
+---
+
+`id` **string**
+
+The key that identifies the component (see the [component structure
+table](/components/contributing/api/#component-structure)).
+
+---
+
+`prop_name` **string**
+
+The name of the component's prop to configure.
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type ConfigureComponentOpts,
+  type ConfigureComponentResponse,
+  type PropOption,
+} from "@pipedream/sdk/server";
+
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
+
+// Retrieve the configuration options for the "projectId" prop of the "List
+// Commits" component for the Gitlab app.
+const requestOpts: ConfigureComponentOpts = {
+  componentId: {
+    key: "gitlab-list-commits",
+  },
+  configuredProps: {
+    gitlab: {
+      authProvisionId: "apn_kVh9AoD",
+    },
+  },
+  externalUserId: "jverce",
+  propName: "projectId",
+};
+const response: ConfigureComponentResponse = await pd.configureComponent(requestOpts);
+
+const {
+  options,        // The list of options for the "projectId" prop
+  stringOptions,  // The list of string options for the "projectId" prop
+  errors,         // Any errors that occurred during the configuration
+}: {
+  options: PropOption[];
+  stringOptions: string[];
+  errors: string[];
+} = response;
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import { createBackendClient } from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Retrieve the configuration options for the "projectId" prop of the "List
+// Commits" component for the Gitlab app.
+const { options } = await pd.configureComponent({
+  componentId: {
+    key: "gitlab-list-commits",
+  },
+  configuredProps: {
+    gitlab: {
+      authProvisionId: "apn_kVh9AoD",
+    },
+  },
+  externalUserId: "jverce",
+  propName: "projectId",
+});
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will fetch the configuration options for the "projectId" prop of
+# the "List Commits" component for the Gitlab app.
+
+echo '{
+  "external_user_id": "jverce",
+  "id": "gitlab-list-commits",
+  "prop_name": "projectId",
+  "configured_props": {
+    "gitlab": {
+      "authProvisionId": "apn_kVh9AoD"
+    }
+  }
+}' > data.json
+
+curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/components/configure" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -d @data.json
+```
+</Tabs.Tab>
+
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "observations": [],
+  "context": null,
+  "options": [
+    {
+      "label": "jverce/foo-massive-10231-1",
+      "value": 45672541
+    },
+    {
+      "label": "jverce/foo-massive-10231",
+      "value": 45672514
+    },
+    {
+      "label": "jverce/foo-massive-14999-2",
+      "value": 45672407
+    },
+    {
+      "label": "jverce/foo-massive-14999-1",
+      "value": 45672382
+    },
+    {
+      "label": "jverce/foo-massive-14999",
+      "value": 45672215
+    },
+    {
+      "label": "jverce/gitlab-development-kit",
+      "value": 21220953
+    },
+    {
+      "label": "jverce/gitlab",
+      "value": 21208123
+    }
+  ],
+  "errors": [],
+  "timings": {
+    "api_to_sidekiq": 1734043172355.1042,
+    "sidekiq_received": 1734043172357.867,
+    "sidekiq_to_lambda": 1734043172363.6812,
+    "sidekiq_done": 1734043173461.6406,
+    "lambda_configure_prop_called": 1734043172462,
+    "lambda_done": 1734043173455
+  },
+  "stringOptions": null
+}
+```
+
+#### Reload a component's props (i.e. configure dynamic props)
+
+Reload the component's props after configuring a dynamic prop, based on the
+current component's configuration. This endpoint will use the component's
+configuration to retrieve a new list of props depending on the value of the
+props that were configured so far. See the [Dynamic
+Props](/connect/components/#configure-dynamic-props-optional) section for more information.
+
+```text
+POST /{component_type}/props
+```
+
+##### Path parameters
+
+`component_type` **string**
+
+Either `triggers`, `actions`, or `components`.
+
+##### Body parameters
+
+`configured_props` **object**
+
+The props that have already been configured for the component. This is a
+JSON-serializable object with the prop names as keys and the configured values
+as values.
+
+---
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system that you
+want to retrieve accounts for.
+
+---
+
+`id` **string**
+
+The key that identifies the component (see the [component structure
+table](/components/contributing/api/#component-structure)).
+
+---
+
+`dynamic_props_id` **string** (_optional_)
+
+The ID of the last prop reconfiguration (or none when reconfiguring the props
+for the first time).
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type ConfigurableProps,
+  type ReloadComponentPropsOpts,
+  type ReloadComponentPropsResponse,
+} from "@pipedream/sdk/server";
+
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
+
+// Retrieve the configuration options for the "Add Single Row" component for
+// the Google Sheets app. Note that the `sheetId` prop is a dynamic prop.
+const requestOpts: ReloadComponentPropsOpts = {
+  componentId: {
+    key: "google_sheets-add-single-row",
+  },
+  configuredProps: {
+    googleSheets: {
+      authProvisionId: "apn_V1hMoE7",
+    },
+    sheetId: "1BfWjFF2dTW_YDiLISj5N9nKCUErShgugPS434liyytg",
+  },
+  externalUserId: "jay",
+};
+const response: ReloadComponentPropsResponse = await pd.reloadComponentProps(requestOpts);
+
+const {
+  configurableProps,  // The new set of props
+  id: dynamicPropsId, // The ID of the last prop reconfiguration
+}: {
+  configurableProps: ConfigurableProps,
+  id: string,
+} = response.dynamicProps;
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import { createBackendClient } from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Retrieve the configuration options for the "Add Single Row" component for
+// the Google Sheets app. Note that the `sheetId` prop is a dynamic prop.
+const { dynamicProps } = await pd.reloadComponentProps({
+  componentId: {
+    key: "google_sheets-add-single-row",
+  },
+  configuredProps: {
+    googleSheets: {
+      authProvisionId: "apn_V1hMoE7",
+    },
+    sheetId: "1BfWjFF2dTW_YDiLISj5N9nKCUErShgugPS434liyytg",
+  },
+  externalUserId: "jay",
+});
+
+const {
+  configurableProps,  // The new set of props
+  id: dynamicPropsId, // The ID of the last prop reconfiguration
+} = dynamicProps;
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will fetch the new set of props for the "Add Single Row" component
+# for the Google Sheets app. Note that the `sheetId` prop is a dynamic prop.
+
+echo '{
+  "external_user_id": "jay",
+  "id": "google_sheets-add-single-row",
+  "configured_props": {
+    "googleSheets": {
+      "authProvisionId": "apn_V1hMoE7"
+    },
+    "sheetId": "1BfWjFF2dTW_YDiLISj5N9nKCUErShgugPS434liyytg"
+  }
+}' > data.json
+
+curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/components/props" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -d @data.json
+```
+</Tabs.Tab>
+
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "observations": [],
+  "errors": [],
+  "dynamicProps": {
+    "id": "dyp_6xUyVgQ",
+    "configurableProps": [
+      {
+        "name": "googleSheets",
+        "type": "app",
+        "app": "google_sheets"
+      },
+      {
+        "name": "drive",
+        "type": "string",
+        "label": "Drive",
+        "description": "Defaults to `My Drive`. To select a [Shared Drive](https://support.google.com/a/users/answer/9310351) instead, select it from this list.",
+        "optional": true,
+        "default": "My Drive",
+        "remoteOptions": true
+      },
+      {
+        "name": "sheetId",
+        "type": "string",
+        "label": "Spreadsheet",
+        "description": "The Spreadsheet ID",
+        "useQuery": true,
+        "remoteOptions": true,
+        "reloadProps": true
+      },
+      {
+        "name": "worksheetId",
+        "type": "string[]",
+        "label": "Worksheet(s)",
+        "description": "Select a worksheet or enter a custom expression. When referencing a spreadsheet dynamically, you must provide a custom expression for the worksheet.",
+        "remoteOptions": true,
+        "reloadProps": true
+      },
+      {
+        "name": "hasHeaders",
+        "type": "boolean",
+        "label": "Does the first row of the sheet have headers?",
+        "description": "If the first row of your document has headers, we'll retrieve them to make it easy to enter the value for each column. Note: When using a dynamic reference for the worksheet ID (e.g. `{{steps.foo.$return_value}}`), this setting is ignored.",
+        "reloadProps": true
+      },
+      {
+        "name": "myColumnData",
+        "type": "string[]",
+        "label": "Values",
+        "description": "Provide a value for each cell of the row. Google Sheets accepts strings, numbers and boolean values for each cell. To set a cell to an empty value, pass an empty string."
+      }
+    ]
+  }
+}
+```
+
+#### Invoke an action
+
+Invoke an action component for a Pipedream Connect user in a project.
+
+```text
+POST /actions/run
+```
+
+##### Body parameters
+
+`id` **string**
+
+The key that identifies the action component (see the [component structure
+table](/components/contributing/api/#component-structure)).
+
+---
+
+`configured_props` **object**
+
+The props that have already been configured for the component. This is a
+JSON-serializable object with the prop names as keys and the configured values
+as values.
+
+---
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system on behalf of
+which you want to execute the action.
+
+---
+
+`dynamic_props_id` **string** (_optional_)
+
+The ID of the last prop reconfiguration (if applicable).
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type RunActionOpts,
+  type RunActionResponse,
+} from "@pipedream/sdk/server";
+
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
+
+// Run the "List Commits" action for the Gitlab app
+const requestOpts: RunActionOpts = {
+  actionId: {
+    key: "gitlab-list-commits",
+  },
+  configuredProps: {
+    gitlab: {
+      authProvisionId: "apn_kVh9AoD",
+    },
+    projectId: 45672541,
+    refName: "main"
+  },
+  externalUserId: "jverce",
+};
+const response: RunActionResponse = await pd.runAction(requestOpts);
+
+const {
+  exports,  // The named exports produced by the action
+  os,       // The observations produced by the action
+  ret,      // The value returned by the action
+}: {
+  exports: unknown,
+  os: unknown[],
+  ret: unknown,
+} = response;
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import { createBackendClient } from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Run the "List Commits" action for the Gitlab app
+const {
+  exports,  // The named exports produced by the action
+  os,       // The observations produced by the action
+  ret,      // The value returned by the action
+} = await pd.runAction({
+  actionId: {
+    key: "gitlab-list-commits",
+  },
+  configuredProps: {
+    gitlab: {
+      authProvisionId: "apn_kVh9AoD",
+    },
+    projectId: 45672541,
+    refName: "main"
+  },
+  externalUserId: "jverce",
+});
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will run the "List Commits" action for the Gitlab app.
+
+echo '{
+  "external_user_id": "jverce",
+  "id": "gitlab-list-commits",
+  "configured_props": {
+    "gitlab": {
+      "authProvisionId": "apn_kVh9AoD"
+    },
+    "projectId": 45672541,
+    "refName": "main"
+  }
+}' > data.json
+
+curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/actions/run" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -d @data.json
+```
+</Tabs.Tab>
+
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "exports": {
+    "$summary": "Retrieved 1 commit"
+  },
+  "os": [],
+  "ret": [
+    {
+      "id": "387262aea5d4a6920ac76c1e202bc9fd0841fea5",
+      "short_id": "387262ae",
+      "created_at": "2023-05-03T03:03:25.000+00:00",
+      "parent_ids": [],
+      "title": "Initial commit",
+      "message": "Initial commit",
+      "author_name": "Jay Vercellone",
+      "author_email": "nope@pipedream.com",
+      "authored_date": "2023-05-03T03:03:25.000+00:00",
+      "committer_name": "Jay Vercellone",
+      "committer_email": "nope@pipedream.com",
+      "committed_date": "2023-05-03T03:03:25.000+00:00",
+      "trailers": {},
+      "extended_trailers": {},
+      "web_url": "https://gitlab.com/jverce/foo-massive-10231-1/-/commit/387262aea5d4a6920ac76c1e202bc9fd0841fea5"
+    }
+  ]
+}
+```
+
+#### Deploy a trigger
+
+<Callout type="info">
+See [here](/connect/components/#deploying-triggers) for more info on supported trigger types with example payloads
+</Callout>
+
+Deploy a trigger component that will emit events to a webhook or workflow for a Pipedream Connect user.
+
+```text
+POST /triggers/deploy
+```
+
+##### Body parameters
+
+`id` **string**
+
+The key that identifies the action component (see the [component structure
+table](/components/contributing/api/#component-structure)).
+
+---
+
+`configured_props` **object**
+
+The props that have already been configured for the component. This is a
+JSON-serializable object with the prop names as keys and the configured values
+as values.
+
+---
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system on behalf of
+which you want to execute the action.
+
+---
+
+`webhook_url` **string** (_optional_)
+
+The URL to which the trigger will send events.
+
+---
+
+`workflow_id` **string** (_optional_)
+
+The Pipedream workflow ID to which you want to emit events (ex, `p_1234567`).
+
+<Callout type="warning">
+The workflow must be in the same Pipedream project as the trigger.
+</Callout>
+
+---
+
+`dynamic_props_id` **string** (_optional_)
+
+The ID of the last prop reconfiguration (if applicable).
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type DeployTriggerOpts,
+  type DeployTriggerResponse,
+} from "@pipedream/sdk/server";
+
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
+
+// Deploy the "New Issue (Instant)" trigger for the Gitlab app
+const requestOpts: DeployTriggerOpts = {
+  triggerId: {
+    key: "gitlab-new-issue",
+  },
+  configuredProps: {
+    gitlab: {
+      authProvisionId: "apn_kVh9AoD",
+    },
+    projectId: 45672541,
+  },
+  externalUserId: "jverce",
+  webhookUrl: "https://events.example.com/gitlab-new-issue",
+};
+const response: DeployTriggerResponse = await pd.deployTrigger(requestOpts);
+
+const {
+  id: triggerId,      // The unique ID of the deployed trigger
+  name: triggerName,  // The name of the deployed trigger
+  owner_id: userId,   // The unique ID in Pipedream of your user
+}: {
+  id: string,
+  name: string,
+  owner_id: string,
+} = response.data;
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import { createBackendClient } from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Deploy the "New Issue (Instant)" trigger for the Gitlab app
+const { data: deployedTrigger } = await pd.deployTrigger({
+  triggerId: {
+    key: "gitlab-new-issue",
+  },
+  configuredProps: {
+    gitlab: {
+      authProvisionId: "apn_kVh9AoD",
+    },
+    projectId: 45672541,
+  },
+  externalUserId: "jverce",
+  webhookUrl: "https://events.example.com/gitlab-new-issue",
+});
+
+const {
+  id: triggerId,      // The unique ID of the deployed trigger
+  name: triggerName,  // The name of the deployed trigger
+  owner_id: userId,   // The unique ID in Pipedream of your user
+} = deployedTrigger;
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will deploy the "New Issue (Instant)" trigger for the Gitlab app.
+
+echo '{
+  "external_user_id": "jverce",
+  "id": "gitlab-new-issue",
+  "configured_props": {
+    "gitlab": {
+      "authProvisionId": "apn_kVh9AoD"
+    },
+    "projectId": 45672541,
+  },
+  "webhook_url": "https://events.example.com/gitlab-new-issue"
+}' > data.json
+
+curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/triggers/deploy" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -d @data.json
+```
+</Tabs.Tab>
+
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "data": {
+    "id": "dc_dAuGmW7",
+    "owner_id": "exu_oedidz",
+    "component_id": "sc_3vijzQr",
+    "configurable_props": [
+      {
+        "name": "gitlab",
+        "type": "app",
+        "app": "gitlab"
+      },
+      {
+        "name": "db",
+        "type": "$.service.db"
+      },
+      {
+        "name": "http",
+        "type": "$.interface.http",
+        "customResponse": true
+      },
+      {
+        "name": "projectId",
+        "type": "integer",
+        "label": "Project ID",
+        "description": "The project ID, as displayed in the main project page",
+        "remoteOptions": true
+      }
+    ],
+    "configured_props": {
+      "gitlab": {
+        "authProvisionId": "apn_kVh9AoD"
+      },
+      "db": {
+        "type": "$.service.db"
+      },
+      "http": {
+        "endpoint_url": "https://xxxxxxxxxx.m.pipedream.net"
+      },
+      "projectId": 45672541
+    },
+    "active": true,
+    "created_at": 1734028283,
+    "updated_at": 1734028283,
+    "name": "My first project - exu_oedidz",
+    "name_slug": "my-first-project---exu-oedidz-2"
+  }
+}
+```
+
+#### List deployed triggers
+
+List all of the deployed triggers for a given user.
+
+```text
+GET /deployed-triggers/{emitter_type}
+```
+
+##### Path parameters
+
+`emitter_type` **string** (optional)
+
+Specify the type of emitter to retrieve deployed triggers from one of these options:
+- `source`: default if no other `emitter_type` is specified, includes any app-based event source
+- `http`: native HTTP webhook trigger
+- `timer`: native schedule trigger
+- `email`: native email trigger
+
+[See here](/connect/components/#deploying-triggers) for more info on source types.
+
+##### Query parameters
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system on behalf of
+which you want to deploy the trigger.
+
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type GetTriggersOpts,
+  type GetTriggersResponse,
+  type V1DeployedComponent,
+} from "@pipedream/sdk/server";
+
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
+
+// List all deployed triggers for the specified user
+const requestOpts: GetTriggersOpts = {
+  externalUserId: "jverce",
+};
+const response: GetTriggersResponse = await pd.getTriggers(requestOpts);
+
+const {
+  data: triggers,  // The list of deployed triggers
+}: {
+  data: V1DeployedComponent[],
+} = response;
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// List all deployed triggers for the specified user
+const { data: triggers } = await pd.getTriggers({
+  externalUserId: "jverce"
+});
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will list all deployed triggers for the specified user.
+
+curl -X GET \
+  -G \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -H "x-pd-environment: development" \
+  -d "external_user_id={external_user_id}"
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "page_info": {
+    "total_count": 2,
+    "count": 2,
+    "start_cursor": "ZGNfZ3p1bUsyZQ",
+    "end_cursor": "ZGNfdjN1QllYZw"
+  },
+  "data": [
+    {
+      "id": "dc_gzumK2e",
+      "owner_id": "exu_2LniLm",
+      "component_id": "sc_r1ixBpL",
+      "configurable_props": [
+        {
+          "name": "googleDrive",
+          "type": "app",
+          "app": "google_drive"
+        },
+        {
+          "name": "db",
+          "type": "$.service.db"
+        },
+        {
+          "name": "http",
+          "type": "$.interface.http"
+        },
+        {
+          "name": "drive",
+          "type": "string",
+          "label": "Drive",
+          "description": "Defaults to My Drive. To select a [Shared Drive](https://support.google.com/a/users/answer/9310351) instead, select it from this list.",
+          "optional": false,
+          "default": "My Drive",
+          "remoteOptions": true
+        },
+        {
+          "name": "timer",
+          "label": "Push notification renewal schedule",
+          "description": "The Google Drive API requires occasional renewal of push notification subscriptions. **This runs in the background, so you should not need to modify this schedule**.",
+          "type": "$.interface.timer",
+          "static": {
+            "intervalSeconds": 82080
+          }
+        },
+        {
+          "name": "folders",
+          "type": "string[]",
+          "label": "Folders",
+          "description": "(Optional) The folders you want to watch. Leave blank to watch for any new file in the Drive.",
+          "optional": true,
+          "default": [],
+          "remoteOptions": true
+        }
+      ],
+      "configured_props": {
+        "googleDrive": {
+          "authProvisionId": "apn_V1hMeLM"
+        },
+        "db": {
+          "type": "$.service.db"
+        },
+        "http": {
+          "endpoint_url": "https://xxxxxxxxxx.m.pipedream.net"
+        },
+        "drive": "My Drive",
+        "timer": {
+          "cron": null,
+          "interval_seconds": 82080
+        }
+      },
+      "active": true,
+      "created_at": 1733512889,
+      "updated_at": 1733512889,
+      "name": "Danny Connect - exu_2LniLm",
+      "name_slug": "danny-connect---exu-2-lni-lm-3"
+    },
+    {
+      "id": "dc_K0u2OEQ",
+      "owner_id": "exu_2LniLm",
+      "component_id": "sc_ogiRveN",
+      "configurable_props": [
+        {
+          "name": "app",
+          "type": "app",
+          "app": "basecamp"
+        },
+        {
+          "name": "db",
+          "type": "$.service.db"
+        },
+        {
+          "name": "accountId",
+          "type": "string",
+          "label": "Account Id",
+          "description": "The ID of the account.",
+          "remoteOptions": true
+        },
+        {
+          "name": "projectId",
+          "type": "string",
+          "label": "Project Id",
+          "description": "The ID of the project.",
+          "remoteOptions": true
+        },
+        {
+          "name": "http",
+          "type": "$.interface.http"
+        }
+      ],
+      "configured_props": {
+        "app": {
+          "authProvisionId": "apn_EOh4dP0"
+        },
+        "db": {
+          "type": "$.service.db"
+        },
+        "accountId": {
+          "__lv": {
+            "label": "Pipedream",
+            "value": 5871996
+          }
+        },
+        "projectId": {
+          "__lv": {
+            "label": "Getting Started",
+            "value": 39996142
+          }
+        },
+        "http": {
+          "endpoint_url": "https://xxxxxxxxxx.m.pipedream.net"
+        }
+      },
+      "active": true,
+      "created_at": 1733198039,
+      "updated_at": 1733198039,
+      "name": "Danny Connect - exu_2LniLm",
+      "name_slug": "danny-connect---exu-2-lni-lm-1"
+    }
+  ]
+}
+```
+
+#### Retrieve a deployed trigger
+
+Retrieve a single deployed trigger for a given user.
+
+```text
+GET /deployed-triggers/{deployed_trigger_id}/
+```
+
+##### Path parameters
+
+`deployed_trigger_id` **string**
+
+The deployed trigger ID for the trigger you'd like to retrieve (ex, `dc_xxxxxxx`, `hi_xxxxxxx`, `ti_xxxxxxx`, or `ei_xxxxxxx`).
+
+##### Query parameters
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system on behalf of
+which you want to deploy the trigger.
+
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type GetTriggerOpts,
+  type GetTriggerResponse,
+  type V1DeployedComponent,
+} from "@pipedream/sdk/server";
+
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
+
+// Retrieve the deployed trigger for the specified user
+const requestOpts: GetTriggerOpts = {
+  id: "dc_gzumK2e",
+  externalUserId: "jverce",
+};
+const response: GetTriggerResponse = await pd.getTrigger(requestOpts);
+
+const {
+  data: trigger,  // The deployed trigger
+}: {
+  data: V1DeployedComponent,
+} = response;
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Retrieve the deployed trigger for the specified user
+const { data: trigger } = await pd.getTrigger({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce"
+});
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will list all deployed triggers for the specified user.
+
+curl -X GET \
+  -G \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{deployed_trigger_id}/" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -H "x-pd-environment: development" \
+  -d "external_user_id={external_user_id}"
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "id": "dc_gzumK2e",
+  "owner_id": "exu_2LniLm",
+  "component_id": "sc_r1ixBpL",
+  "configurable_props": [
+    {
+      "name": "googleDrive",
+      "type": "app",
+      "app": "google_drive"
+    },
+    {
+      "name": "db",
+      "type": "$.service.db"
+    },
+    {
+      "name": "http",
+      "type": "$.interface.http"
+    },
+    {
+      "name": "drive",
+      "type": "string",
+      "label": "Drive",
+      "description": "Defaults to My Drive. To select a [Shared Drive](https://support.google.com/a/users/answer/9310351) instead, select it from this list.",
+      "optional": false,
+      "default": "My Drive",
+      "remoteOptions": true
+    },
+    {
+      "name": "timer",
+      "label": "Push notification renewal schedule",
+      "description": "The Google Drive API requires occasional renewal of push notification subscriptions. **This runs in the background, so you should not need to modify this schedule**.",
+      "type": "$.interface.timer",
+      "static": {
+        "intervalSeconds": 82080
+      }
+    },
+    {
+      "name": "folders",
+      "type": "string[]",
+      "label": "Folders",
+      "description": "(Optional) The folders you want to watch. Leave blank to watch for any new file in the Drive.",
+      "optional": true,
+      "default": [],
+      "remoteOptions": true
+    }
+  ],
+  "configured_props": {
+    "googleDrive": {
+      "authProvisionId": "apn_V1hMeLM"
+    },
+    "db": {
+      "type": "$.service.db"
+    },
+    "http": {
+      "endpoint_url": "https://xxxxxxxxxx.m.pipedream.net"
+    },
+    "drive": "My Drive",
+    "timer": {
+      "cron": null,
+      "interval_seconds": 82080
+    }
+  },
+  "active": true,
+  "created_at": 1733512889,
+  "updated_at": 1733512889,
+  "name": "Danny Connect - exu_2LniLm",
+  "name_slug": "danny-connect---exu-2-lni-lm-3"
+}
+```
+
+#### Delete a deployed trigger
+
+Delete deployed trigger for a given user.
+
+```text
+DELETE /deployed-triggers/{deployed_trigger_id}/
+```
+
+##### Path parameters
+
+`deployed_trigger_id` **string**
+
+The deployed trigger ID for the trigger you'd like to retrieve (ex, `dc_xxxxxxx`, `hi_xxxxxxx`, `ti_xxxxxxx`, or `ei_xxxxxxx`).
+
+##### Query parameters
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system on behalf of
+which you want to deploy the trigger.
+
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type DeleteTriggerOpts,
+} from "@pipedream/sdk/server";
+
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
+
+// Delete the deployed trigger for the specified user.
+const requestOpts: DeleteTriggerOpts = {
+  id: "dc_gzumK2e",
+  externalUserId: "jverce",
+};
+
+// The method doesn't return any data.
+await pd.deleteTrigger(requestOpts);
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Delete the deployed trigger for the specified user. The method doesn't return
+// any data.
+await pd.deleteTrigger({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce"
+});
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will list all deployed triggers for the specified user.
+
+curl -X DELETE \
+  -G \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{deployed_trigger_id}/" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -H "x-pd-environment: development" \
+  -d "external_user_id={external_user_id}"
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Response
+
+Pipedream returns a `204 No Content` response on successful deletion
+
+
+#### Retrieve the events emitted by a deployed trigger
+
+Retrieve a list of the last events that a deployed trigger emitted.
+
+```text
+GET /deployed-triggers/{deployed_trigger_id}/events/
+```
+
+##### Path parameters
+
+`deployed_trigger_id` **string**
+
+The deployed trigger ID for the trigger you'd like to retrieve (ex, `dc_xxxxxxx`, `hi_xxxxxxx`, `ti_xxxxxxx`, or `ei_xxxxxxx`).
+
+##### Query parameters
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system on behalf of
+which you want to deploy the trigger.
+
+`n` **number** (_optional_)
+
+The number of events to retrieve. Defaults to 10, and it's capped at 100.
+
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type GetTriggerEventsOpts,
+  type GetTriggerEventsResponse,
+  type V1EmittedEvent,
+} from "@pipedream/sdk/server";
+
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
+
+// List the last 10 events emitted by the deployed trigger of the specified user
+const requestOpts: GetTriggerEventsOpts = {
+  id: "dc_gzumK2e",
+  externalUserId: "jverce",
+};
+const response: GetTriggerEventsResponse = await pd.getTriggerEvents(requestOpts);
+
+const {
+  data: events,  // The list of events emitted by the trigger
+}: {
+  data: V1EmittedEvent[],
+} = response;
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// List the last 10 events emitted by the deployed trigger of the specified user
+const { data: events } = await pd.getTriggerEvents({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce"
+});
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will list all events emitted by the specified deployed trigger.
+
+curl -X GET \
+  -G \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{deployed_trigger_id}/events" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -H "x-pd-environment: development" \
+  -d "external_user_id={external_user_id}"
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "data": [
+    {
+      "e": {
+        "method": "PUT",
+        "path": "/",
+        "query": {},
+        "client_ip": "127.0.0.1",
+        "url": "http://6c367a3dcffce4d01a7b691e906f8982.m.d.pipedream.net/",
+        "headers": {
+          "host": "6c367a3dcffce4d01a7b691e906f8982.m.d.pipedream.net",
+          "connection": "close",
+          "user-agent": "curl/8.7.1",
+          "accept": "*/*"
+        }
+      },
+      "k": "emit",
+      "ts": 1737155977519,
+      "id": "1737155977519-0"
+    },
+    {
+      "e": {
+        "method": "PUT",
+        "path": "/",
+        "query": {},
+        "client_ip": "127.0.0.1",
+        "url": "http://6c367a3dcffce4d01a7b691e906f8982.m.d.pipedream.net/",
+        "headers": {
+          "host": "6c367a3dcffce4d01a7b691e906f8982.m.d.pipedream.net",
+          "connection": "close",
+          "user-agent": "curl/8.7.1",
+          "accept": "*/*"
+        }
+      },
+      "k": "emit",
+      "ts": 1737062972013,
+      "id": "1737062972013-0"
+    },
+    {
+      "e": {
+        "method": "POST",
+        "path": "/",
+        "query": {},
+        "client_ip": "127.0.0.1",
+        "url": "http://6c367a3dcffce4d01a7b691e906f8982.m.d.pipedream.net/",
+        "headers": {
+          "host": "6c367a3dcffce4d01a7b691e906f8982.m.d.pipedream.net",
+          "connection": "close",
+          "user-agent": "curl/8.7.1",
+          "accept": "*/*"
+        }
+      },
+      "k": "emit",
+      "ts": 1737047546217,
+      "id": "1737047546217-0"
+    },
+    {
+      "e": {
+        "method": "GET",
+        "path": "/",
+        "query": {},
+        "client_ip": "127.0.0.1",
+        "url": "http://6c367a3dcffce4d01a7b691e906f8982.m.d.pipedream.net/",
+        "headers": {
+          "host": "6c367a3dcffce4d01a7b691e906f8982.m.d.pipedream.net",
+          "connection": "close",
+          "user-agent": "curl/8.7.1",
+          "accept": "*/*"
+        }
+      },
+      "k": "emit",
+      "ts": 1736985883016,
+      "id": "1736985883016-0"
+    }
+  ]
+}
+```
+
+#### Retrieve the webhooks listening to a deployed trigger
+
+Retrieve the list of webhook URLs listening to a deployed trigger.
+
+```text
+GET /deployed-triggers/{deployed_trigger_id}/webhooks/
+```
+
+##### Path parameters
+
+`deployed_trigger_id` **string**
+
+The deployed trigger ID for the trigger you'd like to retrieve (ex, `dc_xxxxxxx`, `hi_xxxxxxx`, `ti_xxxxxxx`, or `ei_xxxxxxx`).
+
+##### Query parameters
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system on behalf of
+which you want to deploy the trigger.
+
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type GetTriggerWebhooksOpts,
+  type GetTriggerWebhooksResponse,
+} from "@pipedream/sdk/server";
+
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
+
+// Retrieve the list of webhook URLs listening to the deployed trigger for the
+// specified user
+const requestOpts: GetTriggerWebhooksOpts = {
+  id: "dc_gzumK2e",
+  externalUserId: "jverce",
+};
+const response: GetTriggerWebhooksResponse = await pd.getTriggerWebhooks(requestOpts);
+
+const {
+  webhook_urls: urls,  // The list of webhook URLs listening to the deployed trigger
+}: {
+  webhook_urls: string[],
+} = response;
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Retrieve the list of webhook URLs listening to the deployed trigger for the
+// specified user
+const { webhook_urls: urls } = await pd.getTriggerWebhooks({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce"
+});
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will list all webhook URLs listening to the specified deployed trigger.
+
+curl -X GET \
+  -G \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{deployed_trigger_id}/webhooks/" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -H "x-pd-environment: development" \
+  -d "external_user_id={external_user_id}"
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "webhook_urls": [
+    "https://events.example.com/gitlab-new-issue",
+  ]
+}
+```
+
+#### Update the webhooks listening to a deployed trigger
+
+Update the list of webhook URLs that will listen to a deployed trigger.
+
+```text
+PUT /deployed-triggers/{deployed_trigger_id}/webhooks/
+```
+
+##### Path parameters
+
+`deployed_trigger_id` **string**
+
+The deployed trigger ID for the trigger you'd like to retrieve (ex, `dc_xxxxxxx`, `hi_xxxxxxx`, `ti_xxxxxxx`, or `ei_xxxxxxx`).
+
+##### Query parameters
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system on behalf of
+which you want to deploy the trigger.
+
+##### Body parameters
+
+`webhook_urls` **string[]**
+
+The list of webhook URLs that will listen to the deployed trigger.
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type UpdateTriggerWebhooksOpts,
+  type UpdateTriggerWebhooksResponse,
+} from "@pipedream/sdk/server";
+
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
+
+// The new list of webhook URLs that will listen to the deployed trigger
+const webhookUrls: string[] = [
+  "https://events.example.com/gitlab-new-issue",
+];
+
+const requestOpts: UpdateTriggerWebhooksOpts = {
+  id: "dc_gzumK2e",
+  externalUserId: "jverce",
+  webhookUrls,
+};
+
+// Update the list of webhook URLs listening to the deployed trigger
+const response: UpdateTriggerWebhooksResponse = await pd.updateTriggerWebhooks(requestOpts);
+
+// `webhookUrls` will match `confirmedUrls` if the update was successful
+const {
+  webhook_urls: confirmedUrls,
+}: {
+  webhook_urls: string[],
+} = response;
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// The new list of webhook URLs that will listen to the deployed trigger
+const webhookUrls = [
+  "https://events.example.com/gitlab-new-issue",
+];
+
+// Update the list of webhook URLs listening to the deployed trigger
+const { webhook_urls: confirmedUrls } = await pd.updateTriggerWebhooks({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce",
+  webhookUrls,
+});
+
+// `webhookUrls` will match `confirmedUrls` if the update was successful
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will update the list of webhook URLs listening to the specified deployed trigger.
+
+curl -X PUT \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{deployed_trigger_id}/webhooks/" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -H "x-pd-environment: development" \
+  -d '{"external_user_id": "{external_user_id}", "webhook_urls": ["https://events.example.com/gitlab-new-issue"]}'
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "webhook_urls": [
+    "https://events.example.com/gitlab-new-issue",
+  ]
+}
+```
+
+#### Retrieve the workflows listening to a deployed trigger
+
+Retrieve the list of workflow IDs listening to a deployed trigger.
+
+```text
+GET /deployed-triggers/{deployed_trigger_id}/workflows/
+```
+
+##### Path parameters
+
+`deployed_trigger_id` **string**
+
+The deployed trigger ID for the trigger you'd like to retrieve (ex, `dc_xxxxxxx`, `hi_xxxxxxx`, `ti_xxxxxxx`, or `ei_xxxxxxx`).
+
+##### Query parameters
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system on behalf of
+which you want to deploy the trigger.
+
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type GetTriggerWorkflowsOpts,
+  type GetTriggerWorkflowsResponse,
+} from "@pipedream/sdk/server";
+
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
+
+// Retrieve the list of workflow IDs listening to the deployed trigger for the
+// specified user
+const requestOpts: GetTriggerWorkflowsOpts = {
+  id: "dc_gzumK2e",
+  externalUserId: "jverce",
+};
+const response: GetTriggerWorkflowsResponse = await pd.getTriggerWorkflows(requestOpts);
+
+const {
+  workflow_ids: ids,  // The list of workflow IDs listening to the deployed trigger
+}: {
+  workflow_ids: string[],
+} = response;
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Retrieve the list of workflow IDs listening to the deployed trigger for the
+// specified user
+const { workflow_ids: ids } = await pd.getTriggerWorkflows({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce"
+});
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will list all workflow IDs listening to the specified deployed trigger.
+
+curl -X GET \
+  -G \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{deployed_trigger_id}/workflows/" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -H "x-pd-environment: development" \
+  -d "external_user_id={external_user_id}"
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "workflow_ids": [
+    "p_ERRCzw",
+    "p_2LniLm",
+  ]
+}
+```
+
+#### Update the workflows listening to a deployed trigger
+
+Update the list of workflows that will listen to a deployed trigger.
+
+```text
+PUT /deployed-triggers/{deployed_trigger_id}/workflows/
+```
+
+##### Path parameters
+
+`deployed_trigger_id` **string**
+
+The deployed trigger ID for the trigger you'd like to retrieve (ex, `dc_xxxxxxx`, `hi_xxxxxxx`, `ti_xxxxxxx`, or `ei_xxxxxxx`).
+
+##### Query parameters
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system on behalf of
+which you want to deploy the trigger.
+
+##### Body parameters
+
+`workflow_ids` **string[]**
+
+The list of workflow IDs that will listen to the deployed trigger.
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type UpdateTriggerWorkflowsOpts,
+  type UpdateTriggerWorkflowsResponse,
+} from "@pipedream/sdk/server";
+
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}",
+};
+const pd: BackendClient = createBackendClient(clientOpts);
+
+// The new list of workflow IDs that will listen to the deployed trigger
+const workflowIds: string[] = [
+  "p_ERRCzw",
+  "p_2LniLm",
+];
+const requestOpts: UpdateTriggerWorkflowsOpts = {
+  id: "dc_gzumK2e",
+  externalUserId: "jverce",
+  workflowIds,
+};
+
+// Update the list of workflows listening to the deployed trigger
+const response: UpdateTriggerWorkflowsResponse = await pd.updateTriggerWorkflows(requestOpts);
+
+// `workflowIds` will match `confirmedIds` if the update was successful
+const {
+  workflow_ids: confirmedIds,
+}: {
+  workflow_ids: string[],
+} = response;
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// The new list of workflow IDs that will listen to the deployed trigger
+const workflowIds = [
+  "p_ERRCzw",
+  "p_2LniLm",
+];
+
+// Update the list of workflows listening to the deployed trigger
+const { workflow_ids: confirmedIds } = await pd.updateTriggerWorkflows({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce",
+  workflowIds,
+});
+
+// `workflowIds` will match `confirmedIds` if the update was successful
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will update the list of webhook URLs listening to the specified deployed trigger.
+
+curl -X PUT \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{deployed_trigger_id}/webhooks/" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -H "x-pd-environment: development" \
+  -d '{"external_user_id": "{external_user_id}", "workflow_ids": ["p_ERRCzw", "p_2LniLm"]}'
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "workflow_ids": [
+    "p_ERRCzw",
+    "p_2LniLm",
+  ]
+}
+```

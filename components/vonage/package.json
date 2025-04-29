@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/vonage",
+  "version": "0.0.1",
+  "description": "Pipedream Vonage Components",
+  "main": "vonage.app.mjs",
+  "keywords": [
+    "pipedream",
+    "vonage"
+  ],
+  "homepage": "https://pipedream.com/apps/vonage",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

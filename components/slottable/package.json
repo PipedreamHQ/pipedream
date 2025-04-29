@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/slottable",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Slottable Components",
   "main": "slottable.app.mjs",
   "keywords": [

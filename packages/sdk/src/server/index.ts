@@ -2,45 +2,58 @@
 // Pipedream project's public and secret keys and access customer credentials.
 // See the browser/ directory for the browser client.
 
+import * as oauth from "oauth4webapi";
 import {
-  AccessToken,
-  ClientCredentials,
-} from "simple-oauth2";
+  Account, BaseClient, type AppInfo, type ConnectTokenResponse, type RequestOptions,
+} from "../shared/index.js";
+export * from "../shared/index.js";
+
+/**
+ * OAuth credentials for your Pipedream account, containing client ID and
+ * secret.
+ */
+export type OAuthCredentials = {
+  clientId: string;
+  clientSecret: string;
+};
+
+/**
+ * The environment in which the server client is running.
+ */
+export type ProjectEnvironment = "development" | "production";
 
 /**
  * Options for creating a server-side client.
  * This is used to configure the ServerClient instance.
  */
-export type CreateServerClientOpts = {
+export type BackendClientOpts = {
   /**
-   * The environment in which the server is running (e.g., "production", "development").
+   * The environment in which the server client is running (e.g., "production",
+   * "development").
    */
-  environment?: string;
+  environment?: ProjectEnvironment;
 
   /**
-   * The public API key for accessing the service. This key is required.
+   * The credentials to use for authentication against the Pipedream API.
    */
-  publicKey: string;
+  credentials: OAuthCredentials;
 
   /**
-   * The secret API key for accessing the service. This key is required.
+   * The base project ID tied to relevant API requests
    */
-  secretKey: string;
+  projectId: string;
 
   /**
-   * The client ID of your workspace's OAuth application.
-   */
-  oauthClientId?: string;
-
-  /**
-   * The client secret of your workspace's OAuth application.
-   */
-  oauthClientSecret?: string;
-
-  /**
-   * The API host URL. Used by Pipedream employees. Defaults to "api.pipedream.com" if not provided.
+   * The API host URL. Used by Pipedream employees. Defaults to
+   * "api.pipedream.com" if not provided.
    */
   apiHost?: string;
+
+  /**
+   * Base domain for workflows. Used for custom domains:
+   * https://pipedream.com/docs/workflows/domains
+   */
+  workflowDomain?: string;
 };
 
 /**
@@ -48,35 +61,34 @@ export type CreateServerClientOpts = {
  */
 export type ConnectTokenCreateOpts = {
   /**
-   * https://pipedream.com/docs/connect/quickstart#find-your-apps-name-slug
-   */
-  app_slug: string;
-
-  /**
-   * Pass for OAuth apps. See https://pipedream.com/docs/connect/quickstart#creating-a-custom-oauth-client
-   */
-  oauth_app_id?: string;
-
-  /**
-   * An external user ID associated with the token.
+   * The ID of the user in your system.
    */
   external_user_id: string;
-};
-
-export type AppInfo = {
-  /**
-   * ID of the app. Only applies for Oauth apps.
-   */
-  id?: string;
 
   /**
-   * https://pipedream.com/docs/connect/quickstart#find-your-apps-name-slug
+   * The optional url to redirect the user to upon successful connection.
    */
-  name_slug: string;
+  success_redirect_uri?: string;
+
+  /**
+   * The optional url to redirect the user to upon failed connection.
+   */
+  error_redirect_uri?: string;
+
+  /**
+   * An optional webhook uri that Pipedream can invoke on success or failure of
+   * connection requests.
+   */
+  webhook_uri?: string;
+
+  /**
+   * Specify which origins can use the token to call the Pipedream API.
+   */
+  allowed_origins?: string[];
 };
 
 /**
- * Response received after requesting project info.
+ * Response received after requesting a project's info.
  */
 export type ProjectInfoResponse = {
   /**
@@ -86,426 +98,228 @@ export type ProjectInfoResponse = {
 };
 
 /**
- * Response received after creating a connect token.
+ * Parameters for the retrieval of an account from the Connect API
  */
-export type ConnectTokenResponse = {
+export type GetAccountByIdOpts = {
   /**
-   * The generated token.
+   * Whether to retrieve the account's credentials or not.
    */
-  token: string;
-
-  /**
-   * The expiration time of the token in ISO 8601 format.
-   */
-  expires_at: string;
+  include_credentials?: boolean;
 };
 
 /**
- * Parameters for the Connect API.
+ * Options used to determine the external user and account to be used in Connect Proxy API
  */
-export type ConnectParams = {
+export type ProxyApiOpts  = {
   /**
-   * Whether to include credentials in the request (1 to include, 0 to exclude).
+   * Search parameters to be added to the proxy request.  external_user_id and account_id are required.
    */
-  include_credentials?: number;
+  searchParams: Record<string, string>;
 };
 
 /**
- * The authentication type for the app.
+ * fetch-like options for the Target of the Connect Proxy Api Request
  */
-export type AuthType = "oauth" | "keys" | "none";
-
-/**
- * Response object for Pipedream app metadata
- */
-export type AppResponse = {
+export type ProxyTargetApiOpts = {
   /**
-   * The unique ID of the app.
+   * http method for the request
    */
-  id: string;
-
+  method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   /**
-   * https://pipedream.com/docs/connect/quickstart#find-your-apps-name-slug
-   */
-  name_slug: string;
-
-  /**
-   * The human-readable name of the app.
-   */
-  name: string;
-
-  /**
-   * The authentication type used by the app.
-   */
-  auth_type: AuthType;
-
-  /**
-   * The URL to the app's logo.
-   */
-  img_src: string;
-
-  /**
-   * A JSON string representing the custom fields for the app.
-   */
-  custom_fields_json: string;
-
-  /**
-   * Categories associated with the app.
-   */
-  categories: string[];
-};
-
-/**
- * Options for creating a connected account.
- */
-export type CreateAccountOpts = {
-  /**
-   * https://pipedream.com/docs/connect/quickstart#find-your-apps-name-slug
-   */
-  app_slug: string;
-
-  /**
-   * The connect token used to authenticate the account creation.
-   */
-  connect_token: string;
-
-  /**
-   * A JSON string representing a map of custom fields for the account.
-   */
-  cfmap_json: string;
-
-  /**
-   * The name of the account.
-   */
-  name?: string;
-};
-
-/**
- * End user account data, returned from the API.
- */
-export type Account = {
-  /**
-   * The unique ID of the account.
-   */
-  id: string;
-
-  /**
-   * The name of the account.
-   */
-  name: string;
-
-  /**
-   * The external ID associated with the account.
-   */
-  external_id: string;
-
-  /**
-   * Indicates if the account is healthy. Pipedream will periodically retry token refresh and test requests for unhealthy accounts.
-   */
-  healthy: boolean;
-
-  /**
-   * Indicates if the account is no longer active.
-   */
-  dead: boolean;
-
-  /**
-   * The app associated with the account.
-   */
-  app: AppResponse;
-
-  /**
-   * The date and time the account was created, an ISO 8601 formatted string.
-   */
-  created_at: string;
-
-  /**
-   * The date and time the account was last updated, an ISO 8601 formatted string.
-   */
-  updated_at: string;
-
-  /**
-   * The credentials associated with the account, if `include_credentials` was true.
-   */
-  credentials?: Record<string, string>;
-};
-
-/**
- * Error response returned by the API in case of an error.
- */
-export type ErrorResponse = {
-  /**
-   * The error message returned by the API.
-   */
-  error: string;
-};
-
-/**
- * A generic API response that can either be a success or an error.
- */
-export type ConnectAPIResponse<T> = T | ErrorResponse;
-
-/**
- * Options for making a request to the Pipedream API.
- */
-interface RequestOptions extends Omit<RequestInit, "headers"> {
-  /**
-   * Query parameters to include in the request URL.
-   */
-  params?: Record<string, string | boolean | number>;
-
-  /**
-   * Headers to include in the request.
+   * http headers for the request
    */
   headers?: Record<string, string>;
-
   /**
-   * The URL to make the request to.
+   * http body for the request
    */
-  baseURL?: string;
-}
+  body?: string;
+};
 
 /**
- * Creates a new instance of `ServerClient` with the provided options.
+ * object that contains the url and options for the target of the Connect Proxy Api Request
+ */
+export type ProxyTargetApiRequest = {
+  /**
+   * URL for the target of the request.  Search parameters must be included here.
+   */
+  url: string;
+  /**
+   * fetch-like options for the target of the Connect Proxy Request
+   */
+  options: ProxyTargetApiOpts;
+};
+
+/**
+ * The parsed response body from a proxied API request.
+ *
+ * If the response has a Content-Type of application/json, the body will be parsed
+ * and returned as an object. Otherwise the type will be a string.
+ */
+export type ProxyResponse = Record<string, unknown> | string;
+
+/**
+ * Creates a new instance of BackendClient with the provided options.
  *
  * @example
+ *
  * ```typescript
- * const client = createClient({
- *   publicKey: "your-public-key",
- *   secretKey: "your-secret-key",
- * });
+      const serverClient = createBackendClient({
+        environment: "development",
+        projectId: "<project id>",
+        credentials: {
+          clientId: "<client id>",
+          clientSecret: "<client secret>",
+        },
+      })
  * ```
+ *
  * @param opts - The options for creating the server client.
- * @returns A new instance of `ServerClient`.
+ * @returns A new instance of ServerClient.
  */
-export function createClient(opts: CreateServerClientOpts) {
-  return new ServerClient(opts);
+export function createBackendClient(opts: BackendClientOpts) {
+  return new BackendClient(opts);
 }
 
 /**
  * A client for interacting with the Pipedream Connect API on the server-side.
  */
-class ServerClient {
-  environment?: string;
-  secretKey: string;
-  publicKey: string;
-  oauthClient?: ClientCredentials;
-  oauthToken?: AccessToken;
-  baseURL: string;
+export class BackendClient extends BaseClient {
+  private oauthClient: {
+    client: oauth.Client
+    clientAuth: oauth.ClientAuth
+    as: oauth.AuthorizationServer
+  };
+  private oauthAccessToken?: {
+    token: string
+    expiresAt: number
+  };
+  protected override projectId: string = "";
 
   /**
-   * Constructs a new `ServerClient` instance.
+   * Constructs a new ServerClient instance.
    *
    * @param opts - The options for configuring the server client.
+   * @param oauthClient - An optional OAuth client to use for authentication in tests
    */
-  constructor(opts: CreateServerClientOpts) {
-    this.environment = opts.environment;
-    this.secretKey = opts.secretKey;
-    this.publicKey = opts.publicKey;
+  constructor(opts: BackendClientOpts) {
+    super(opts);
 
-    const { apiHost = "api.pipedream.com" } = opts;
-    this.baseURL = `https://${apiHost}/v1`;
-
-    this._configureOauthClient(opts, this.baseURL);
+    this.ensureValidEnvironment(opts.environment);
+    this.projectId = opts.projectId;
+    this.oauthClient = this.newOauthClient(opts.credentials, this.apiHost);
   }
 
-  private _configureOauthClient(
+  private ensureValidEnvironment(environment?: string) {
+    if (!environment || ![
+      "development",
+      "production",
+    ].includes(environment)) {
+      throw new Error(
+        "Project environment is required. Supported environments are development and production.",
+      );
+    }
+  }
+
+  private newOauthClient(
     {
-      oauthClientId: id,
-      oauthClientSecret: secret,
-    }: CreateServerClientOpts,
+      clientId, clientSecret,
+    }: OAuthCredentials,
     tokenHost: string,
   ) {
-    if (!id || !secret) {
-      return;
+    if (!clientId || !clientSecret) {
+      throw new Error("OAuth client ID and secret are required");
     }
-
-    this.oauthClient = new ClientCredentials({
-      client: {
-        id,
-        secret,
-      },
-      auth: {
-        tokenHost,
-        tokenPath: "/v1/oauth/token",
-      },
-    });
+    const client: oauth.Client = {
+      client_id: clientId,
+    }
+    const clientAuth = oauth.ClientSecretPost(clientSecret)
+    const as: oauth.AuthorizationServer = {
+      issuer: tokenHost,
+      token_endpoint: `https://${tokenHost}/v1/oauth/token`,
+    }
+    return {
+      client,
+      clientAuth,
+      as,
+    }
   }
 
-  /**
-   * Generates an Authorization header for Connect using the public and secret
-   * keys of the target project.
-   *
-   * @returns The authorization header as a string.
-   */
-  private _connectAuthorizationHeader(): string {
-    const encoded = Buffer.from(`${this.publicKey}:${this.secretKey}`).toString("base64");
-    return `Basic ${encoded}`;
+  protected authHeaders(): string | Promise<string> {
+    return this.oauthAuthorizationHeader();
   }
 
-  async _oauthAuthorizationHeader(): Promise<string> {
-    if (!this.oauthClient) {
-      throw new Error("OAuth client not configured");
-    }
-
-    if (!this.oauthToken || this.oauthToken.expired()) {
-      this.oauthToken = await this.oauthClient.getToken({});
-    }
-
-    return `Bearer ${this.oauthToken.token.access_token}`;
-  }
-
-  /**
-   * Makes an HTTP request
-   *
-   * @template T - The expected response type.
-   * @param path - The API endpoint path.
-   * @param opts - The options for the request.
-   * @returns A promise resolving to the API response.
-   * @throws Will throw an error if the response status is not OK.
-   */
-  async _makeRequest<T>(
-    path: string,
-    opts: RequestOptions = {},
-  ): Promise<T> {
+  private async ensureValidOauthAccessToken(): Promise<string> {
     const {
-      params,
-      headers: customHeaders,
-      body,
-      method = "GET",
-      baseURL = this.baseURL,
-      ...fetchOpts
-    } = opts;
-    const url = new URL(`${baseURL}${path}`);
+      client,
+      clientAuth,
+      as,
+    } = this.oauthClient
 
-    if (params) {
-      Object.entries(params).forEach(([
-        key,
-        value,
-      ]) => {
-        if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
-          url.searchParams.append(key, value.toString());
-        }
-      });
+    let attempts = 0;
+    const maxAttempts = 2;
+
+    while (!this.oauthAccessToken || this.oauthAccessToken.expiresAt - Date.now() < 1000) {
+      if (attempts > maxAttempts) {
+        throw new Error("ran out of attempts trying to retrieve oauth access token");
+      }
+      if (attempts > 0) {
+        // Wait for a short duration before retrying to avoid rapid retries
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
+
+      const parameters = new URLSearchParams();
+      try {
+        const response = await oauth.clientCredentialsGrantRequest(as, client, clientAuth, parameters);
+        const oauthTokenResponse = await oauth.processClientCredentialsResponse(as, client, response);
+        this.oauthAccessToken = {
+          token: oauthTokenResponse.access_token,
+          expiresAt: Date.now() + (oauthTokenResponse.expires_in || 0) * 1000,
+        };
+      } catch {
+        // pass
+      }
+
+      attempts++;
     }
 
-    const headers = {
-      "Content-Type": "application/json",
-      ...customHeaders,
-    };
+    return this.oauthAccessToken.token;
+  }
 
-    const requestOptions: RequestInit = {
-      method,
-      headers,
-      ...fetchOpts,
-    };
-
-    if ([
-      "POST",
-      "PUT",
-      "PATCH",
-    ].includes(method.toUpperCase()) && body) {
-      requestOptions.body = body;
+  private async oauthAuthorizationHeader(): Promise<string> {
+    if (!this.oauthClient) {
+      throw new Error("OAuth client not configured")
     }
 
-    const response: Response = await fetch(url.toString(), requestOptions);
+    const accessToken = await this.ensureValidOauthAccessToken();
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const result = await response.json() as unknown as T;
-    return result;
+    return `Bearer ${accessToken}`;
   }
 
   /**
-   * Makes a request to the Pipedream API.
-   *
-   * @template T - The expected response type.
-   * @param path - The API endpoint path.
-   * @param opts - The options for the request.
-   * @returns A promise resolving to the API response.
-   * @throws Will throw an error if the response status is not OK.
-   */
-  async _makeApiRequest<T>(
-    path: string,
-    opts: RequestOptions = {},
-  ): Promise<T> {
-    const headers = {
-      ...opts.headers ?? {},
-      "Authorization": await this._oauthAuthorizationHeader(),
-    };
-    return this._makeRequest<T>(path, {
-      headers,
-      ...opts,
-    });
-  }
-
-  /**
-   * Makes a request to the Connect API.
-   *
-   * @template T - The expected response type.
-   * @param path - The API endpoint path.
-   * @param opts - The options for the request.
-   * @returns A promise resolving to the API response.
-   * @throws Will throw an error if the response status is not OK.
-   */
-  async _makeConnectRequest<T>(
-    path: string,
-    opts: RequestOptions = {},
-  ): Promise<T> {
-    const headers = {
-      ...opts.headers ?? {},
-      "Authorization": this._connectAuthorizationHeader(),
-    };
-    return this._makeRequest<T>(`/connect${path}`, {
-      headers,
-      ...opts,
-    });
-  }
-
-  /**
-   * Creates a new connect token.
+   * Creates a new Pipedream Connect token. See
+   * https://pipedream.com/docs/connect/quickstart#connect-to-the-pipedream-api-from-your-server-and-create-a-token
    *
    * @param opts - The options for creating the connect token.
    * @returns A promise resolving to the connect token response.
    *
    * @example
+   *
    * ```typescript
    * const tokenResponse = await client.connectTokenCreate({
-   *   app_slug: "your-app-slug",
-   *   external_user_id: "external-user-id",
-   * });
+   *   external_user_id: "external-user-id", });
    * console.log(tokenResponse.token);
    * ```
    */
-  async connectTokenCreate(opts: ConnectTokenCreateOpts): Promise<ConnectTokenResponse> {
+  public createConnectToken(
+    opts: ConnectTokenCreateOpts,
+  ): Promise<ConnectTokenResponse> {
     const body = {
-      // Named external_id in the API, but from the developer's perspective, it's the user's ID
-      external_id: opts.external_user_id,
       ...opts,
+      external_id: opts.external_user_id,
     };
-    return this._makeConnectRequest<ConnectTokenResponse>("/tokens", {
+    return this.makeConnectRequest("/tokens", {
       method: "POST",
-      body: JSON.stringify(body),
-    });
-  }
-
-  /**
-   * Retrieves a list of accounts.
-   *
-   * @param params - The query parameters for retrieving accounts.
-   * @returns A promise resolving to a list of accounts.
-   *
-   * @example
-   * ```typescript
-   * const accounts = await client.getAccounts({ include_credentials: 1 });
-   * console.log(accounts);
-   * ```
-   */
-  async getAccounts(params: ConnectParams = {}): Promise<Account[]> {
-    return this._makeConnectRequest<Account[]>("/accounts", {
-      params,
+      body,
     });
   }
 
@@ -513,55 +327,29 @@ class ServerClient {
    * Retrieves a specific account by ID.
    *
    * @param accountId - The ID of the account to retrieve.
-   * @param params - The query parameters for retrieving the account.
+   * @param params - Additional options for the request.
    * @returns A promise resolving to the account.
    *
    * @example
    * ```typescript
-   * const account = await client.getAccount("account-id");
+   * const account = await client.getAccountById("account-id");
+   * console.log(account);
+   * ```
+   *
+   * @example
+   * ```typescript
+   * const account = await client.getAccountById("account-id", {
+   *   include_credentials: true,
+   * });
    * console.log(account);
    * ```
    */
-  async getAccount(accountId: string, params: ConnectParams = {}): Promise<Account> {
-    return this._makeConnectRequest<Account>(`/accounts/${accountId}`, {
-      params,
-    });
-  }
-
-  /**
-   * Retrieves accounts associated with a specific app.
-   *
-   * @param appId - The ID of the app.
-   * @param params - The query parameters for retrieving accounts.
-   * @returns A promise resolving to a list of accounts.
-   *
-   * @example
-   * ```typescript
-   * const accounts = await client.getAccountsByApp("app-id");
-   * console.log(accounts);
-   * ```
-   */
-  async getAccountsByApp(appId: string, params: ConnectParams = {}): Promise<Account[]> {
-    return this._makeConnectRequest<Account[]>(`/accounts/app/${appId}`, {
-      params,
-    });
-  }
-
-  /**
-   * Retrieves accounts associated with a specific external ID.
-   *
-   * @param externalId - The external ID associated with the accounts.
-   * @param params - The query parameters for retrieving accounts.
-   * @returns A promise resolving to a list of accounts.
-   *
-   * @example
-   * ```typescript
-   * const accounts = await client.getAccountsByExternalId("external-id");
-   * console.log(accounts);
-   * ```
-   */
-  async getAccountsByExternalId(externalId: string, params: ConnectParams = {}): Promise<Account[]> {
-    return this._makeConnectRequest<Account[]>(`/accounts/external_id/${externalId}`, {
+  public getAccountById(
+    accountId: string,
+    params: GetAccountByIdOpts = {},
+  ): Promise<Account> {
+    return this.makeConnectRequest(`/accounts/${accountId}`, {
+      method: "GET",
       params,
     });
   }
@@ -578,8 +366,8 @@ class ServerClient {
    * console.log("Account deleted");
    * ```
    */
-  async deleteAccount(accountId: string): Promise<void> {
-    await this._makeConnectRequest(`/accounts/${accountId}`, {
+  public deleteAccount(accountId: string): Promise<void> {
+    return this.makeConnectRequest(`/accounts/${accountId}`, {
       method: "DELETE",
     });
   }
@@ -596,8 +384,8 @@ class ServerClient {
    * console.log("All accounts deleted");
    * ```
    */
-  async deleteAccountsByApp(appId: string): Promise<void> {
-    await this._makeConnectRequest(`/accounts/app/${appId}`, {
+  public deleteAccountsByApp(appId: string): Promise<void> {
+    return this.makeConnectRequest(`/accounts/app/${appId}`, {
       method: "DELETE",
     });
   }
@@ -614,62 +402,56 @@ class ServerClient {
    * console.log("All accounts deleted");
    * ```
    */
-  async deleteExternalUser(externalId: string): Promise<void> {
-    await this._makeConnectRequest(`/users/${externalId}`, {
+  public deleteExternalUser(externalId: string): Promise<void> {
+    return this.makeConnectRequest(`/users/${externalId}`, {
       method: "DELETE",
     });
   }
 
-  async getProjectInfo(): Promise<ProjectInfoResponse> {
-    return this._makeConnectRequest<ProjectInfoResponse>("/projects/info", {
+  /**
+   * Retrieves the project's information, such as the list of apps linked to it.
+   *
+   * @returns A promise resolving to the project info response.
+   *
+   * @example
+   * ```typescript
+   * const projectInfo = await client.getProjectInfo();
+   * console.log(projectInfo);
+   * ```
+   */
+  public getProjectInfo(): Promise<ProjectInfoResponse> {
+    return this.makeConnectRequest("/projects/info", {
       method: "GET",
     });
   }
 
   /**
-   * Invokes a workflow using the URL of its HTTP interface(s), by sending an
-   * HTTP POST request with the provided body.
+   * Makes a proxy request to the target app API with the specified query parameters and options.
    *
-   * @param url - The URL of the workflow's HTTP interface.
-   * @param opts - The options for the request.
-   * @param opts.body - The body of the request. It must be a JSON-serializable
-   * value (e.g. an object, `null`, a string, etc.).
-   * @param opts.headers - The headers to include in the request. Note that the
-   * `Authorization` header will always be set with an OAuth access token
-   * retrieved by the client.
-   *
-   * @returns A promise resolving to the response from the workflow.
-   *
-   * @example
-   * ```typescript
-   * const response: JSON = await client.invokeWorkflow(
-   *   "https://eoy64t2rbte1u2p.m.pipedream.net",
-   *   {
-   *     body: {
-   *       foo: 123,
-   *       bar: "abc",
-   *       baz: null,
-   *     },
-   *     headers: {
-   *       "Accept": "application/json",
-   *     },
-   *   },
-   * );
+   * @returns A promise resolving to the response from the downstream service
    */
-  async invokeWorkflow(url: string, opts: RequestOptions = {}): Promise<unknown> {
-    const {
-      body = null,
-      headers = {},
-    } = opts;
+  public makeProxyRequest(proxyOptions: ProxyApiOpts, targetRequest: ProxyTargetApiRequest): Promise<ProxyResponse> {
+    const url64 = btoa(targetRequest.url).replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/, "");
 
-    return this._makeRequest("", {
-      baseURL: url,
-      method: "POST",
-      headers: {
-        ...headers,
-        "Authorization": await this._oauthAuthorizationHeader(),
-      },
-      body: JSON.stringify(body),
-    });
+    const headers = targetRequest.options.headers || {};
+
+    const newHeaders = Object.keys(headers).reduce<{ [key: string]: string }>((acc, key) => {
+      acc[`x-pd-proxy-${key}`] = headers[key];
+      return acc;
+    }, {});
+
+    const newOpts: RequestOptions = {
+      method: targetRequest.options.method,
+      headers: newHeaders,
+      params: proxyOptions.searchParams,
+    }
+
+    if (targetRequest.options.body) {
+      newOpts.body = targetRequest.options.body
+    }
+
+    return this.makeConnectRequest(`/proxy/${url64}`, newOpts);
   }
 }

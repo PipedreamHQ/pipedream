@@ -3,8 +3,8 @@ import microsoftExcel from "../../microsoft_excel.app.mjs";
 
 export default {
   key: "microsoft_excel-add-a-worksheet-tablerow",
-  name: "Add A Worksheet Tablerow",
-  version: "0.0.2",
+  name: "Add a Worksheet Tablerow",
+  version: "0.0.5",
   description: "Adds rows to the end of specific table. [See the documentation](https://learn.microsoft.com/en-us/graph/api/tablerowcollection-add?view=graph-rest-1.0&tabs=http)",
   type: "action",
   props: {
@@ -15,23 +15,31 @@ export default {
         "folderId",
       ],
     },
-    itemId: {
+    sheetId: {
       propDefinition: [
         microsoftExcel,
-        "itemId",
+        "sheetId",
         ({ folderId }) => ({
           folderId,
         }),
       ],
+      reloadProps: true,
     },
     tableId: {
       propDefinition: [
         microsoftExcel,
         "tableId",
-        ({ itemId }) => ({
-          itemId,
+        ({ sheetId }) => ({
+          sheetId,
         }),
       ],
+      hidden: true,
+    },
+    tableName: {
+      type: "string",
+      label: "Table Name",
+      description: "This is set in the **Table Design** tab of the ribbon.",
+      hidden: true,
     },
     values: {
       propDefinition: [
@@ -40,18 +48,34 @@ export default {
       ],
     },
   },
+  async additionalProps(props) {
+    if (this.sheetId) {
+      try {
+        await this.microsoftExcel.listTables({
+          sheetId: this.sheetId,
+        });
+      } catch {
+        props.tableName.hidden = false;
+        return {};
+      }
+      props.tableId.hidden = false;
+      return {};
+    }
+  },
   async run({ $ }) {
     const {
       microsoftExcel,
-      itemId,
+      sheetId,
       tableId,
+      tableName,
       values,
     } = this;
 
-    const response = await microsoftExcel.addRow({
+    const response = await microsoftExcel.addTableRow({
       $,
-      itemId,
+      sheetId,
       tableId,
+      tableName,
       data: {
         values: parseObject(values),
       },

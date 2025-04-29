@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/helpspot",
+  "version": "0.1.0",
+  "description": "Pipedream HelpSpot Components",
+  "main": "helpspot.app.mjs",
+  "keywords": [
+    "pipedream",
+    "helpspot"
+  ],
+  "homepage": "https://pipedream.com/apps/helpspot",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}
+

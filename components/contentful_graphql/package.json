@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/contentful_graphql",
+  "version": "0.6.0",
+  "description": "Pipedream contentful_graphql Components",
+  "main": "contentful_graphql.app.mjs",
+  "keywords": [
+    "pipedream",
+    "contentful_graphql"
+  ],
+  "homepage": "https://pipedream.com/apps/contentful_graphql",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

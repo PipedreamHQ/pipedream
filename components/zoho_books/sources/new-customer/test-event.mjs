@@ -1,0 +1,20 @@
+export default {
+  "contact_id": 460000000026049,
+  "contact_name": "Bowman and Co",
+  "company_name": "Bowman and Co",
+  "contact_type": "customer",
+  "status": "active",
+  "payment_terms": 15,
+  "payment_terms_label": "Net 15",
+  "currency_id": 460000000000097,
+  "currency_code": "USD",
+  "outstanding_receivable_amount": 250,
+  "unused_credits_receivable_amount": 1369.66,
+  "first_name": "Will",
+  "last_name": "Smith",
+  "email": "willsmith@bowmanfurniture.com",
+  "phone": "+1-925-921-9201",
+  "mobile": "+1-4054439562",
+  "created_time": "2013-08-05T12:06:10+0530",
+  "last_modified_time": "2013-10-07T18:24:51+0530"
+}

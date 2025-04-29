@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/loggly_send_data",
+  "version": "0.6.0",
+  "description": "Pipedream loggly_send_data Components",
+  "main": "loggly_send_data.app.mjs",
+  "keywords": [
+    "pipedream",
+    "loggly_send_data"
+  ],
+  "homepage": "https://pipedream.com/apps/loggly_send_data",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

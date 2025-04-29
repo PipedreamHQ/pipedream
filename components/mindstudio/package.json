@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/mindstudio",
+  "version": "0.0.1",
+  "description": "Pipedream MindStudio Components",
+  "main": "mindstudio.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mindstudio"
+  ],
+  "homepage": "https://pipedream.com/apps/mindstudio",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

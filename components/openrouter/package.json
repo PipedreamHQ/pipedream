@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/openrouter",
+  "version": "0.1.0",
+  "description": "Pipedream OpenRouter Components",
+  "main": "openrouter.app.mjs",
+  "keywords": [
+    "pipedream",
+    "openrouter"
+  ],
+  "homepage": "https://pipedream.com/apps/openrouter",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

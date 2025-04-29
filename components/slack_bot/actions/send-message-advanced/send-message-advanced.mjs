@@ -14,5 +14,5 @@ export default {
   }),
   key: "slack_bot-send-message-advanced",
   description: "Customize advanced setttings and send a message to a channel, group or user (Bot). See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.0.4",
+  version: "0.0.5",
 };

@@ -6,8 +6,8 @@ export default {
   ...base,
   key: "notion-create-page",
   name: "Create Page",
-  description: "Creates a page from a parent page. The only valid property is *title*. [See the documentation](https://developers.notion.com/reference/post-page)",
-  version: "0.2.11",
+  description: "Create a page from a parent page. [See the documentation](https://developers.notion.com/reference/post-page)",
+  version: "0.2.16",
   type: "action",
   props: {
     notion,
@@ -17,7 +17,7 @@ export default {
         "pageId",
       ],
       label: "Parent Page ID",
-      description: "The identifier for a Notion parent page",
+      description: "Select a parent page or provide a page ID",
       reloadProps: true,
     },
     title: {
@@ -33,10 +33,10 @@ export default {
       ],
     },
     pageContent: {
-      type: "string",
-      label: "Page Content",
-      description: "Content of the page. You can use Markdown syntax [See docs](https://www.notion.so/help/writing-and-editing-basics#markdown-&-shortcuts)",
-      optional: true,
+      propDefinition: [
+        notion,
+        "pageContent",
+      ],
     },
   },
   async additionalProps() {

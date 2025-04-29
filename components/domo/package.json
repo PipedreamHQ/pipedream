@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/domo",
+  "version": "0.0.1",
+  "description": "Pipedream Domo Components",
+  "main": "domo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "domo"
+  ],
+  "homepage": "https://pipedream.com/apps/domo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

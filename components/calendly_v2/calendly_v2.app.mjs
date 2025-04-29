@@ -241,7 +241,9 @@ export default {
     async listEvents(params, uuid, $) {
       const user = uuid
         ? this._buildUserUri(uuid)
-        : await this.defaultUser($);
+        : !params?.organization
+          ? await this.defaultUser($)
+          : undefined;
 
       const opts = {
         path: "/scheduled_events",
@@ -252,6 +254,20 @@ export default {
       };
 
       return this._makeRequest(opts, $);
+    },
+    async listUserAvailabilitySchedules(uuid, $) {
+      const user = this._buildUserUri(uuid);
+      const opts = {
+        path: "/user_availability_schedules",
+        params: {
+          user,
+        },
+      };
+
+      return axios(
+        $ ?? this,
+        this._makeRequestOpts(opts),
+      );
     },
     async getEvent(uuid, $) {
       const opts = {

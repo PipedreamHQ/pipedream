@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/contentful",
+  "version": "0.6.0",
+  "description": "Pipedream contentful Components",
+  "main": "contentful.app.mjs",
+  "keywords": [
+    "pipedream",
+    "contentful"
+  ],
+  "homepage": "https://pipedream.com/apps/contentful",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

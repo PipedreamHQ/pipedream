@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/vectorshift",
+  "version": "0.1.0",
+  "description": "Pipedream VectorShift Components",
+  "main": "vectorshift.app.mjs",
+  "keywords": [
+    "pipedream",
+    "vectorshift"
+  ],
+  "homepage": "https://pipedream.com/apps/vectorshift",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3",
+    "fs": "^0.0.1-security"
+  }
+}

@@ -5,7 +5,7 @@ export default {
   key: "asana-create-task",
   name: "Create Task",
   description: "Creates a new task. [See the documentation](https://developers.asana.com/docs/create-a-task)",
-  version: "0.3.6",
+  version: "0.4.1",
   type: "action",
   props: {
     ...common.props,
@@ -18,6 +18,9 @@ export default {
       propDefinition: [
         asana,
         "tags",
+        ({ workspace }) => ({
+          workspace,
+        }),
       ],
       optional: true,
     },
@@ -29,6 +32,9 @@ export default {
       propDefinition: [
         asana,
         "users",
+        ({ workspace }) => ({
+          workspace,
+        }),
       ],
     },
     assignee_section: {
@@ -70,6 +76,9 @@ export default {
       propDefinition: [
         asana,
         "users",
+        ({ workspace }) => ({
+          workspace,
+        }),
       ],
     },
     html_notes: {

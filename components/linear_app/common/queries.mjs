@@ -48,13 +48,59 @@ export default {
     ${fragments.comment}
   `,
   listProjects: `
-    query ListProjects {
-      projects {
+    query ListProjects(
+      $filter: ProjectFilter,
+      $before: String,
+      $after: String,
+      $first: Int,
+      $last: Int,
+      $orderBy: PaginationOrderBy
+    ) {
+      projects(
+        filter: $filter,
+        before: $before,
+        after: $after,
+        first: $first,
+        last: $last,
+        orderBy: $orderBy
+      ) {
+        pageInfo {
+          ...PageInfo
+        }
         nodes {
-          id
-          name
+          ...Project
         }
       }
     }
+    ${fragments.project}
+    ${fragments.pageInfo}
+  `,
+  listProjectUpdates: `
+    query ListProjectUpdates(
+      $filter: ProjectUpdateFilter,
+      $before: String,
+      $after: String,
+      $first: Int,
+      $last: Int,
+      $orderBy: PaginationOrderBy
+    ) {
+      projectUpdates(
+        filter: $filter,
+        before: $before,
+        after: $after,
+        first: $first,
+        last: $last,
+        orderBy: $orderBy
+      ) {
+        pageInfo {
+          ...PageInfo
+        }
+        nodes {
+          ...ProjectUpdate
+        }
+      }
+    }
+    ${fragments.projectUpdate}
+    ${fragments.pageInfo}
   `,
 };

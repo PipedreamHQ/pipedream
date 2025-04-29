@@ -1,4 +1,3 @@
-import moment from "moment";
 import nocodb from "../../nocodb.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
@@ -46,59 +45,53 @@ export default {
     _setLastTime(lastTime) {
       this.db.set("lastTime", lastTime);
     },
-    async processEvent({
-      params, lastTime,
-    }) {
+    getParams(timeField) {
+      return {
+        sort: `-${timeField}`,
+      };
+    },
+    async getRows(records, timeField, lastTime) {
+      const rows = [];
+      for await (const row of records) {
+        if (!lastTime || Date.parse(row[timeField]) >= Date.parse(lastTime)) {
+          rows.push(row);
+        } else {
+          break;
+        }
+      }
+      return rows.reverse();
+    },
+    async processEvent(max) {
       const timeField = this.getTimeField();
+      const lastTime = this._getLastTime();
 
       const records = this.nocodb.paginate({
         fn: this.nocodb.listTableRow,
         args: {
           tableId: this.tableId.value,
-          params,
+          params: this.getParams(timeField),
         },
+        max,
       });
 
-      for await (const record of records) {
-        if (moment(record[timeField]).isAfter(lastTime)) this._setLastTime(record[timeField]);
-        this.$emit(record, this.getDataToEmit(record));
+      const rows = await this.getRows(records, timeField, lastTime);
+
+      if (!rows.length) {
+        return;
       }
+
+      this._setLastTime(rows[rows.length - 1][timeField]);
+
+      rows.forEach((row) => this.$emit(row, this.getDataToEmit(row)));
     },
   },
   hooks: {
-    async activate() {
-      const timeField = this.getTimeField();
-      const lastTime = this._getLastTime();
-      const { list } = await this.nocodb.listTableRow({
-        tableId: this.tableId.value,
-        params: {
-          sort: `-${timeField}`,
-        },
-      });
-
-      list.reverse();
-
-      for (const row of list) {
-        if (!lastTime || moment(lastTime).isAfter(row[timeField])) {
-          this._setLastTime(row[timeField]);
-        }
-        this.$emit(row, this.getDataToEmit(row));
-      }
+    async deploy() {
+      await this.processEvent(25);
     },
   },
   async run() {
-    const timeField = this.getTimeField();
-    const lastTime = this._getLastTime();
-    const params = {
-      sort: timeField,
-    };
-    // moment is necessary because nocodb query doesn't filter equal datetime in 'greater than'
-    if (lastTime) params.where = `(${timeField},gte,${moment(lastTime).add(1, "ms")
-      .toISOString()})`;
-    return this.processEvent({
-      params,
-      lastTime,
-    });
+    await this.processEvent();
   },
 };
 

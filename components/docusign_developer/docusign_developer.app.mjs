@@ -1,4 +1,4 @@
-import common from "../docusign/common.mjs";
+import common from "@pipedream/docusign/common.mjs";
 
 export default {
   ...common,

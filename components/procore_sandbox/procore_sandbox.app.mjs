@@ -1,11 +1,13 @@
+import procore from "../procore/procore.app.mjs";
+import constants from "../procore/common/constants.mjs";
+
 export default {
-  type: "app",
+  ...procore,
   app: "procore_sandbox",
-  propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    ...procore.methods,
+    getEnvironment() {
+      return constants.ENVIRONMENT.SANDBOX;
     },
   },
 };

@@ -1,10 +1,11 @@
 import fs from "fs";
-import got from "got@12.4.1";
+import got from "got";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   async run({ $ }) {
-    if (!this.fileUrl && !this.filePath) {
-      throw new Error("This action requires either File URL or File Path. Please enter one or the other above.");
+    if ((!this.fileUrl && !this.filePath) || (this.fileUrl && this.filePath)) {
+      throw new ConfigurationError("This action requires either `File URL` or `File Path`. Please enter one or the other above.");
     }
 
     const body = this.fileUrl

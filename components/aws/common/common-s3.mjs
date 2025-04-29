@@ -4,11 +4,11 @@ import {
   CreateBucketCommand,
   ListBucketsCommand,
   GetObjectCommand,
-  PutObjectCommand,
   PutBucketPolicyCommand,
   GetBucketNotificationConfigurationCommand,
   PutBucketNotificationConfigurationCommand,
 } from "@aws-sdk/client-s3";
+import { Upload } from "@aws-sdk/lib-storage";
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -81,7 +81,11 @@ export default {
       return this._clientS3().send(new GetObjectCommand(params));
     },
     async uploadFile(params) {
-      return this._clientS3().send(new PutObjectCommand(params));
+      const parallelUploads3 = new Upload({
+        client: await this._clientS3(),
+        params,
+      });
+      await parallelUploads3.done();
     },
     async streamFile(fileUrl) {
       return axios(this, {

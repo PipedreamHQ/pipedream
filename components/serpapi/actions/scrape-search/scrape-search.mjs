@@ -4,7 +4,7 @@ export default {
   key: "serpapi-scrape-search",
   name: "Scrape Search",
   description: "Scrape the results from a search engine via SerpApi service. [See the documentation](https://serpapi.com/search-api)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     app,
@@ -40,9 +40,11 @@ export default {
         engine: this.engine,
       },
       data: {
-        q: this.q.join(","),
+        q: this.q,
         device: this.device,
-        no_cache: this.noCache,
+        no_cache: Boolean(this.noCache) === true
+          ? "true"
+          : "false",
       },
     });
 

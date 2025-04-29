@@ -349,6 +349,11 @@ export default {
       value: "opened",
     },
   ],
+  PULL_REQUEST_REVIEW_STATES: [
+    "approved",
+    "changes_requested",
+    "commented",
+  ],
 };
 
 export const SAMPLE_GITHUB_HEADERS = {

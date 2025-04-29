@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/amazon_selling_partner",
+  "version": "0.0.1",
+  "description": "Pipedream Amazon Selling Partner Components",
+  "main": "amazon_selling_partner.app.mjs",
+  "keywords": [
+    "pipedream",
+    "amazon_selling_partner"
+  ],
+  "homepage": "https://pipedream.com/apps/amazon_selling_partner",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

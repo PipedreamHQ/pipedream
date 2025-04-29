@@ -6,7 +6,7 @@ export default {
   key: "zoho_campaigns-new-campaign",
   name: "New Campaign",
   description: "Emit new event when a new campaign is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   methods: {
     ...common.methods,
     _emitEvent(campaign) {

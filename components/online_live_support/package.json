@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/online_live_support",
+  "version": "0.6.0",
+  "description": "Pipedream online_live_support Components",
+  "main": "online_live_support.app.mjs",
+  "keywords": [
+    "pipedream",
+    "online_live_support"
+  ],
+  "homepage": "https://pipedream.com/apps/online_live_support",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

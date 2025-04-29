@@ -3,9 +3,9 @@ import common from "../common/webhook.mjs";
 export default {
   ...common,
   key: "basecamp-new-to-do-item-status",
-  name: "New To-Do Item Status (Instant)",
-  description: "Emit new event when a to-do item status changes. [See the docs here](https://github.com/basecamp/bc3-api/blob/master/sections/webhooks.md#create-a-webhook)",
-  version: "0.0.7",
+  name: "To-Do Item Completed Or Uncompleted (Instant)",
+  description: "Emit new event when a to-do item's status changes. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/webhooks.md#webhooks)",
+  version: "0.0.8",
   dedupe: "unique",
   type: "source",
   methods: {

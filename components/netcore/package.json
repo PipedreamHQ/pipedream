@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/netcore",
+  "version": "0.0.1",
+  "description": "Pipedream Netcore Cloud Components",
+  "main": "netcore.app.mjs",
+  "keywords": [
+    "pipedream",
+    "netcore"
+  ],
+  "homepage": "https://pipedream.com/apps/netcore",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/switch",
+  "version": "0.0.1",
+  "description": "Pipedream Switch Components",
+  "main": "switch.app.mjs",
+  "keywords": [
+    "pipedream",
+    "switch"
+  ],
+  "homepage": "https://pipedream.com/apps/switch",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

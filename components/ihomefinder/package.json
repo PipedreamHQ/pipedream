@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ihomefinder",
+  "version": "0.0.1",
+  "description": "Pipedream iHomefinder Components",
+  "main": "ihomefinder.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ihomefinder"
+  ],
+  "homepage": "https://pipedream.com/apps/ihomefinder",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

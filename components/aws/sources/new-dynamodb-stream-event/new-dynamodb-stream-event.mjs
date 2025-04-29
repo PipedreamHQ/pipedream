@@ -6,7 +6,7 @@ export default {
   name: "New DynamoDB Stream Event",
   description: "Emit new event when a DynamoDB stream receives new events. [See the docs here](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_streams_GetRecords.html)",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -36,54 +36,105 @@ export default {
   },
   hooks: {
     async deploy() {
-      const { StreamDescription: streamDescription } = await this.listShards({
-        StreamArn: this.stream,
+      const {
+        stream,
+        _getShardIterators,
+        _setShardIterators,
+        listShards,
+        getShardIterator,
+      } = this;
+
+      const shardIterators = _getShardIterators();
+
+      const { StreamDescription: streamDescription } = await listShards({
+        StreamArn: stream,
+        Limit: 100,
       });
-      const shardId = streamDescription.Shards[streamDescription.Shards.length - 1].ShardId;
-      const { ShardIterator: shardIterator } = await this.getShardIterator({
-        ShardId: shardId,
-        StreamArn: this.stream,
-        ShardIteratorType: "LATEST",
-      });
-      this._setShardIterator(shardIterator);
+
+      if (streamDescription?.Shards?.length === 0) {
+        throw new Error("No shards found in stream");
+      }
+
+      const activeShards =
+        streamDescription.Shards
+          .filter((shard) => !shard.SequenceNumberRange.EndingSequenceNumber);
+
+      if (activeShards.length === 0) {
+        throw new Error("No active shards found");
+      }
+
+      const shardIds = activeShards.map(({ ShardId }) => ShardId);
+
+      for (const shardId of shardIds) {
+        const { ShardIterator: shardIterator } = await getShardIterator({
+          ShardId: shardId,
+          StreamArn: stream,
+          ShardIteratorType: "LATEST",
+        });
+        shardIterators[shardId] = shardIterator;
+      }
+
+      _setShardIterators(shardIterators);
     },
   },
   methods: {
     ...common.methods,
-    _getShardIterator() {
-      return this.db.get("shardIterator");
+    _getShardIterators() {
+      return this.db.get("shardIterators") || {};
     },
-    _setShardIterator(shardIterator) {
-      this.db.set("shardIterator", shardIterator);
+    _setShardIterators(value) {
+      this.db.set("shardIterators", value);
     },
     generateMeta({
       eventID, eventName, dynamodb,
     }) {
       return {
         id: eventID,
-        summary: `New ${eventName} event`,
+        summary: `New Event: ${eventName}`,
         ts: Date.parse(dynamodb.ApproximateCreationDateTime),
       };
     },
   },
   async run() {
-    if (!(await this.isStreamEnabled(this.stream))) {
+    const {
+      stream,
+      isStreamEnabled,
+      _getShardIterators,
+      _setShardIterators,
+      getRecords,
+      generateMeta,
+    } = this;
+
+    if (!(await isStreamEnabled(stream))) {
       throw new Error("Stream is no longer enabled.");
     }
 
-    const shardIterator = this._getShardIterator();
+    const shardIterators = _getShardIterators();
 
-    const {
-      Records: records, NextShardIterator: nextShardIterator,
-    } = await this.getRecords({
-      ShardIterator: shardIterator,
-    });
+    for (const [
+      shardId,
+      shardIterator,
+    ] of Object.entries(shardIterators)) {
+      if (!shardIterator) {
+        continue;
+      }
 
-    for (const record of records) {
-      const meta = this.generateMeta(record);
-      this.$emit(record, meta);
+      const {
+        Records: records,
+        NextShardIterator: nextShardIterator,
+      } = await getRecords({
+        ShardIterator: shardIterator,
+        Limit: 100,
+      });
+
+      for (const record of records) {
+        const meta = generateMeta(record);
+        this.$emit(record, meta);
+      }
+
+      shardIterators[shardId] = nextShardIterator;
     }
 
-    this._setShardIterator(nextShardIterator);
+    _setShardIterators(shardIterators);
   },
 };

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/owen_wilson",
+  "version": "0.6.0",
+  "description": "Pipedream owen_wilson Components",
+  "main": "owen_wilson.app.mjs",
+  "keywords": [
+    "pipedream",
+    "owen_wilson"
+  ],
+  "homepage": "https://pipedream.com/apps/owen_wilson",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

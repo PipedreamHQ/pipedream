@@ -3,9 +3,9 @@ import microsoftOutlook from "../../microsoft_outlook.app.mjs";
 export default {
   type: "action",
   key: "microsoft_outlook-find-contacts",
-  version: "0.0.7",
+  version: "0.0.13",
   name: "Find Contacts",
-  description: "Finds contacts with given search string",
+  description: "Finds contacts with the given search string. [See the documentation](https://docs.microsoft.com/en-us/graph/api/user-list-contacts)",
   props: {
     microsoftOutlook,
     searchString: {
@@ -13,21 +13,40 @@ export default {
       description: "Provide email address, given name, surname or display name (case sensitive)",
       type: "string",
     },
+    maxResults: {
+      propDefinition: [
+        microsoftOutlook,
+        "maxResults",
+      ],
+    },
   },
   async run({ $ }) {
-    const contactList = await this.microsoftOutlook.listContacts({
-      $,
+    const contacts = this.microsoftOutlook.paginate({
+      fn: this.microsoftOutlook.listContacts,
+      args: {
+        $,
+      },
     });
-    const relatedContacts = contactList.value.filter((c) => {
-      return c.displayName.includes(this.searchString) ||
-        c.givenName.includes(this.searchString) ||
-        c.surname.includes(this.searchString) ||
-        c.emailAddresses.find((e) =>
-          e.address == this.searchString ||
-          e.name.includes(this.searchString));
-    });
+
+    const relatedContacts = [];
+    for await (const contact of contacts) {
+      if (
+        contact?.displayName?.includes(this.searchString) ||
+        contact?.givenName?.includes(this.searchString) ||
+        contact?.surname?.includes(this.searchString) ||
+        contact?.emailAddresses?.find(
+          (e) => e?.address == this.searchString || e?.name?.includes(this.searchString),
+        )
+      ) {
+        relatedContacts.push(contact);
+        if (this.maxResults && relatedContacts.length >= this.maxResults) {
+          break;
+        }
+      }
+    }
+
     // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `${relatedContacts.length} contact${relatedContacts.length != 1 ? "s" : ""} has been filtered.`);
+    $.export("$summary", `${relatedContacts.length} matching contact${relatedContacts.length != 1 ? "s" : ""} found`);
     return relatedContacts;
   },
 };

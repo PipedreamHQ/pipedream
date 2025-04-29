@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/pixelbin",
+  "version": "0.1.0",
+  "description": "Pipedream Pixelbin Components",
+  "main": "pixelbin.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pixelbin"
+  ],
+  "homepage": "https://pipedream.com/apps/pixelbin",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "3.0.3",
+    "form-data": "^4.0.0"
+  }
+}

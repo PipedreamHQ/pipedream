@@ -5,7 +5,7 @@ export default {
   key: "canva_enterprise-create-design-from-brand-template",
   name: "Create Design from Brand Template",
   description: "Creates an asynchronous job to autofill a design from a brand template with your input information. [See the documentation](https://www.canva.dev/docs/connect/api-reference/autofills/create-design-autofill-job/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     canva,

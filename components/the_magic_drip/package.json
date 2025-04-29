@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/the_magic_drip",
+  "version": "0.1.0",
+  "description": "Pipedream The Magic Drip Components",
+  "main": "the_magic_drip.app.mjs",
+  "keywords": [
+    "pipedream",
+    "the_magic_drip"
+  ],
+  "homepage": "https://pipedream.com/apps/the_magic_drip",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

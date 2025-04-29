@@ -1,8 +1,10 @@
-import { axios } from "@pipedream/platform";
-import get from "lodash/get.js";
-import retry from "async-retry";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import sendgrid from "@sendgrid/client";
-import { ConfigurationError } from "@pipedream/platform";
+import retry from "async-retry";
+import get from "lodash/get.js";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -15,9 +17,68 @@ export default {
       optional: true,
       async options() {
         const lists = await this.getAllContactLists();
+        console.log("lists: ", lists);
+
         return lists.map((list) => ({
           label: list.name,
           value: list.id,
+        }));
+      },
+    },
+    segmentIds: {
+      type: "string[]",
+      label: "Segment Ids",
+      description: "The recipient Segment IDs that will receive the Single Send.",
+      optional: true,
+      async options() {
+        const { results } = await this.getAllSegments();
+        return results.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    designId: {
+      type: "string",
+      label: "Design Id",
+      description: "A design id can be used in place of `HTML Content`, `Plain Content`, and/or `Subject`.",
+      async options() {
+        const { result } = await this.getAllDesigns();
+        return result.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    categoryIds: {
+      type: "string[]",
+      label: "Categories",
+      description: "The categories to associate with this Single Send.",
+      async options({ page }) {
+        const { categories } = await this.getAllCategories({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+        return categories.map((category) => category);
+      },
+    },
+    senderId: {
+      type: "string",
+      label: "Sender Id",
+      description: "The ID of the verified Sender.",
+      async options() {
+        const results = await this.getAllSenders();
+        return results.map(({
+          id: value, nickname: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -152,10 +213,11 @@ export default {
       label: "Content",
       description: "Content of the email in `text/html`",
     },
-    attachments: {
-      type: "string",
-      label: "Attachments",
-      description: "An array of objects where you can specify any attachments you want to include. The fields `content` and `filename` are required. `content` must be base64 encoded. Alternatively, provide a string that will `JSON.parse` to an array of attachments objects. Example: `[{content:\"aGV5\",type:\"text/plain\",filename:\"sample.txt\"}]`",
+    numberOfAttachments: {
+      type: "integer",
+      label: "Number Of Attachments",
+      description: "The number of attachments to be sent with the email.",
+      reloadProps: true,
       optional: true,
     },
     headers: {
@@ -179,7 +241,7 @@ export default {
     sendAt: {
       type: "integer",
       label: "Send At",
-      description: "A unix timestamp allowing you to specify when you want your email to be delivered. This may be overridden by the `send_at` parameter set at the personalizations level. Delivery cannot be scheduled more than 72 hours in advance. If you have the flexibility, it's better to schedule mail for off-peak times. Most emails are scheduled and sent at the top of the hour or half hour. Scheduling email to avoid peak times — for example, scheduling at 10:53 — can result in lower deferral rates due to the reduced traffic during off-peak times.",
+      description: "An ISO 8601 formatted date-time (YYYY-MM-DDTHH:MM:SSZ) allowing you to specify when you want your email to be delivered. This may be overridden by the `send_at` parameter set at the personalizations level. Delivery cannot be scheduled more than 72 hours in advance. If you have the flexibility, it's better to schedule mail for off-peak times. Most emails are scheduled and sent at the top of the hour or half hour. Scheduling email to avoid peak times — for example, scheduling at 10:53 — can result in lower deferral rates due to the reduced traffic during off-peak times.",
       optional: true,
     },
     asm: {
@@ -405,6 +467,44 @@ export default {
       const { data } = await this._makeClientRequest(config);
       return data;
     },
+    createSingleSend({
+      $, ...opts
+    }) {
+      const baseUrl = this._apiUrl();
+      return this._makeRequest({
+        method: "POST",
+        headers: this._makeRequestHeader(),
+        url: `${baseUrl}/marketing/singlesends`,
+        ...opts,
+      }, $);
+    },
+    getAllDesigns(opts = {}) {
+      const baseUrl = this._apiUrl();
+      return this._makeRequest({
+        headers: this._makeRequestHeader(),
+        url: `${baseUrl}/designs`,
+        ...opts,
+      });
+    },
+    getAllSenders(opts = {}) {
+      const baseUrl = this._apiUrl();
+      return this._makeRequest({
+        headers: this._makeRequestHeader(),
+        url: `${baseUrl}/senders`,
+        ...opts,
+      });
+    },
+    getAllCategories({
+      $, ...opts
+    }) {
+      const baseUrl = this._apiUrl();
+      return this._makeRequest({
+        headers: this._makeRequestHeader(),
+        url: `${baseUrl}/marketing/singlesends/categories`,
+        ...opts,
+      }, $);
+    },
+
     /**
      * Deletes all email addresses on on the associated account blocks list
      *
@@ -589,6 +689,14 @@ export default {
         url = data._metadata.next.replace("https://api.sendgrid.com", "");
       } while (contactLists.length < maxItems);
       return contactLists.slice(0, maxItems);
+    },
+    getAllSegments(opts = {}) {
+      const baseUrl = this._apiUrl();
+      return this._makeRequest({
+        headers: this._makeRequestHeader(),
+        url: `${baseUrl}/marketing/segments/2.0`,
+        ...opts,
+      });
     },
     /**
      * Lists all email addresses that are currently the associated account blocks list.

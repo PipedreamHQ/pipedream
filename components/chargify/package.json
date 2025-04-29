@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/chargify",
+  "version": "0.0.1",
+  "description": "Pipedream Chargify Components",
+  "main": "chargify.app.mjs",
+  "keywords": [
+    "pipedream",
+    "chargify"
+  ],
+  "homepage": "https://pipedream.com/apps/chargify",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

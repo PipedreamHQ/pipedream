@@ -1,16 +1,20 @@
 {
   "name": "@pipedream/signaturit",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Signaturit Components",
-  "main": "dist/app/signaturit.app.mjs",
+  "main": "signaturit.app.mjs",
   "keywords": [
     "pipedream",
     "signaturit"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/signaturit",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3",
+    "form-data": "^4.0.1",
+    "fs": "^0.0.1-security"
   }
 }

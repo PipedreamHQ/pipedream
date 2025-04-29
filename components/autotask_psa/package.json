@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/autotask_psa",
+  "version": "0.0.1",
+  "description": "Pipedream Autotask PSA Components",
+  "main": "autotask_psa.app.mjs",
+  "keywords": [
+    "pipedream",
+    "autotask_psa"
+  ],
+  "homepage": "https://pipedream.com/apps/autotask_psa",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

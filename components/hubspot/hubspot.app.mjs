@@ -13,6 +13,12 @@ import {
   DEFAULT_PRODUCT_PROPERTIES,
   DEFAULT_LINE_ITEM_PROPERTIES,
 } from "./common/constants.mjs";
+import Bottleneck from "bottleneck";
+const limiter = new Bottleneck({
+  minTime: 250, // 4 requests per second
+  maxConcurrent: 1,
+});
+const axiosRateLimiter = limiter.wrap(axios);
 
 export default {
   type: "app",
@@ -77,8 +83,19 @@ export default {
       type: "string",
       label: "Object Type",
       description: "Watch for new events concerning the object type specified.",
-      async options() {
-        return OBJECT_TYPES;
+      async options({ includeCustom = false }) {
+        const objectTypes = OBJECT_TYPES;
+        if (includeCustom) {
+          const { results } = await this.listSchemas();
+          const customObjects = results?.map(({
+            fullyQualifiedName: value, labels,
+          }) => ({
+            value,
+            label: labels.plural,
+          })) || [];
+          objectTypes.push(...customObjects);
+        }
+        return objectTypes;
       },
     },
     objectSchema: {
@@ -113,7 +130,7 @@ export default {
       description: "Watch for new events concerning the objects selected.",
       async options({
         objectType, ...opts
-      }) { console.log(opts);
+      }) {
         return objectType
           ? await this.createOptions(objectType, opts)
           : [];
@@ -401,6 +418,86 @@ export default {
         }));
       },
     },
+    leadId: {
+      type: "string",
+      label: "Lead ID",
+      description: "The identifier of the lead",
+      async options() {
+        const { results } = await this.listObjectsInPage("lead", undefined, {
+          properties: "hs_lead_name",
+        });
+        return results?.map(({
+          id: value, properties,
+        }) => ({
+          value,
+          label: properties?.hs_lead_name || value,
+        })) || [];
+      },
+    },
+    customObjectType: {
+      type: "string",
+      label: "Custom Object Type",
+      description: "The type of custom object to create",
+      async options() {
+        const { results } = await this.listSchemas();
+        return results?.map(({
+          name, fullyQualifiedName,
+        }) => ({
+          label: name,
+          value: fullyQualifiedName,
+        }) ) || [];
+      },
+    },
+    timeframe: {
+      type: "string",
+      label: "Time Frame",
+      description: "Filter meetings within a specific time frame",
+      optional: true,
+      reloadProps: true,
+      options: [
+        {
+          label: "Today",
+          value: "today",
+        },
+        {
+          label: "This Week",
+          value: "this_week",
+        },
+        {
+          label: "This Month",
+          value: "this_month",
+        },
+        {
+          label: "Last Month",
+          value: "last_month",
+        },
+        {
+          label: "Custom Range",
+          value: "custom",
+        },
+      ],
+    },
+    mostRecent: {
+      type: "boolean",
+      label: "Most Recent Only",
+      description: "Only return the most recent meeting",
+      optional: true,
+      default: false,
+    },
+    meetingId: {
+      type: "string",
+      label: "Meeting ID",
+      description: "The ID of the meeting to retrieve",
+      useQuery: true,
+      async options({ query }) {
+        const { results } = await this.searchMeetings({
+          data: {
+            query,
+          },
+        });
+        return results.map(({ id }) => id);
+      },
+    },
   },
   methods: {
     _getHeaders() {
@@ -409,15 +506,39 @@ export default {
         "Content-Type": "application/json",
       };
     },
+    // Recursively trim string values in accordance with Hubspot's validation rules
+    // https://developers.hubspot.com/changelog/breaking-change-enhanced-validations-for-non-string-properties-in-hubspots-crmobject-apis
+    trimStringValues(obj) {
+      if (typeof obj === "string") {
+        return obj.trim();
+      } else if (Array.isArray(obj)) {
+        return obj.map(this.trimStringValues);
+      } else if (obj !== null && typeof obj === "object") {
+        return Object.fromEntries(
+          Object.entries(obj).map(([
+            key,
+            value,
+          ]) => [
+            key,
+            this.trimStringValues(value),
+          ]),
+        );
+      }
+      return obj;
+    },
     makeRequest({
       $ = this,
       api,
       endpoint,
+      data,
+      params,
       ...otherOpts
     }) {
-      return axios($, {
+      return axiosRateLimiter($, {
         url: `${BASE_URL}${api}${endpoint}`,
         headers: this._getHeaders(),
+        data: data && this.trimStringValues(data),
+        params: params && this.trimStringValues(params),
         ...otherOpts,
       });
     },
@@ -544,6 +665,35 @@ export default {
         value: object.id,
       }));
     },
+    async getPipelinesOptions(objectType) {
+      const { results } = await this.getPipelines({
+        objectType,
+      });
+      return results?.map((pipeline) => ({
+        label: pipeline.label,
+        value: pipeline.id,
+      })) || [];
+    },
+    async getPipelineStagesOptions(objectType, pipelineId) {
+      if (!pipelineId) {
+        return [];
+      }
+      const { stages } = await this.getPipeline({
+        objectType,
+        pipelineId,
+      });
+      return stages?.map((stage) => ({
+        label: stage.label,
+        value: stage.id,
+      })) || [];
+    },
+    async getBusinessUnitOptions() {
+      const { results } = await this.getBusinessUnits();
+      return results?.map((unit) => ({
+        label: unit.name,
+        value: unit.id,
+      })) || [];
+    },
     searchCRM({
       object, ...opts
     }) {
@@ -609,6 +759,15 @@ export default {
       return this.makeRequest({
         api: API_PATH.EVENTS,
         endpoint: "/events",
+        ...opts,
+      });
+    },
+    getFormDefinition({
+      formId, ...opts
+    } = {}) {
+      return this.makeRequest({
+        api: API_PATH.MARKETINGV3,
+        endpoint: `/forms/${formId}`,
         ...opts,
       });
     },
@@ -715,6 +874,22 @@ export default {
       return this.makeRequest({
         api: API_PATH.EMAIL,
         endpoint: "/subscriptions/timeline",
+        ...opts,
+      });
+    },
+    getBusinessUnits(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.BUSINESS_UNITS,
+        endpoint: `/business-units/user/${this.$auth.oauth_uid}`,
+        ...opts,
+      });
+    },
+    getPipeline({
+      objectType, pipelineId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: `/pipelines/${objectType}/${pipelineId}`,
         ...opts,
       });
     },
@@ -899,6 +1074,70 @@ export default {
       return this.makeRequest({
         api: API_PATH.CRMV3,
         endpoint: `/objects/${objectType}/batch/read`,
+        method: "POST",
+        ...opts,
+      });
+    },
+    listNotes(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: "/objects/notes",
+        ...opts,
+      });
+    },
+    listTasks(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: "/objects/tasks",
+        ...opts,
+      });
+    },
+    getAssociations({
+      objectType, objectId, toObjectType, ...opts
+    } = {}) {
+      return this.makeRequest({
+        api: API_PATH.CRMV4,
+        endpoint: `/objects/${objectType}/${objectId}/associations/${toObjectType}`,
+        ...opts,
+      });
+    },
+    /**
+     * Get meeting by ID
+     * @param {string} meetingId - The ID of the meeting to retrieve
+     * @param {object} opts - Additional options to pass to the request
+     * @returns {Promise<object>} The meeting object
+     */
+    getMeeting({
+      meetingId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: `/objects/meetings/${meetingId}`,
+        ...opts,
+      });
+    },
+    /**
+     * Create a new meeting
+     * @param {object} opts - The meeting data and request options
+     * @returns {Promise<object>} The created meeting object
+     */
+    createMeeting(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: "/objects/meetings",
+        method: "POST",
+        ...opts,
+      });
+    },
+    /**
+     * Search meetings using a filter
+     * @param {object} opts - Search parameters and request options
+     * @returns {Promise<object>} Search results
+     */
+    searchMeetings(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: "/objects/meetings/search",
         method: "POST",
         ...opts,
       });

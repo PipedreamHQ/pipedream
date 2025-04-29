@@ -4,8 +4,8 @@ import _ from "lodash";
 export default {
   key: "wrike-new-task",
   name: "New Task",
-  description: "Create a Wrike task under a specified folder ID. [See the docs](https://developers.wrike.com/api/v4/tasks/#create-task)",
-  version: "0.3.0",
+  description: "Create a Wrike task under a specified folder ID. [See the documentation](https://developers.wrike.com/api/v4/tasks/#create-task)",
+  version: "0.3.1",
   type: "action",
   props: {
     wrike,

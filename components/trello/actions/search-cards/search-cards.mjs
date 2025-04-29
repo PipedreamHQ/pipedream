@@ -1,58 +1,63 @@
-import common from "../common.mjs";
+import app from "../../trello.app.mjs";
 
 export default {
-  ...common,
   key: "trello-search-cards",
   name: "Search Cards",
-  description: "Searches for cards matching the specified query. [See the docs here](https://developer.atlassian.com/cloud/trello/rest/api-group-search/#api-search-get)",
-  version: "0.1.4",
+  description: "Searches for cards matching the specified query. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-search/#api-search-get).",
+  version: "0.2.1",
   type: "action",
   props: {
-    ...common.props,
+    app,
     query: {
       propDefinition: [
-        common.props.trello,
+        app,
         "query",
       ],
     },
     idBoards: {
       propDefinition: [
-        common.props.trello,
+        app,
         "board",
       ],
       type: "string[]",
       label: "Boards",
       description: "The IDs of boards to search for cards in",
+      optional: true,
     },
     partial: {
       propDefinition: [
-        common.props.trello,
+        app,
         "partial",
       ],
+      optional: true,
     },
     cardFields: {
       propDefinition: [
-        common.props.trello,
+        app,
         "cardFields",
       ],
+      optional: true,
     },
     cardsLimit: {
       type: "integer",
       label: "Cards Limit",
       description: "The maximum number of cards to return.",
       default: 10,
+      optional: true,
     },
   },
   async run({ $ }) {
-    const opts = {
-      query: this.query,
-      idBoards: this.idBoards,
-      modelTypes: "cards",
-      card_fields: this.cardFields,
-      cards_limit: this.cardsLimit,
-      partial: this.partial,
-    };
-    const { cards } = await this.trello.searchCards(opts, $);
+    const { cards } = await this.app.search({
+      $,
+      params: {
+        query: this.query,
+        idBoards: this.idBoards,
+        modelTypes: "cards",
+        card_fields: this.cardFields,
+        cards_limit: this.cardsLimit,
+        partial: this.partial,
+      },
+    });
     $.export("$summary", `Successfully retrieved ${cards.length} card(s)`);
     return cards;
   },

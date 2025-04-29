@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/miestro",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Miestro Components",
-  "main": "miestro.app.js",
+  "main": "miestro.app.mjs",
   "keywords": [
     "pipedream",
     "miestro"

@@ -1,20 +1,21 @@
+import { ConfigurationError } from "@pipedream/platform";
 import pipedriveApp from "../../pipedrive.app.mjs";
 
 export default {
   key: "pipedrive-update-deal",
   name: "Update Deal",
   description: "Updates the properties of a deal. See the Pipedrive API docs for Deals [here](https://developers.pipedrive.com/docs/api/v1/Deals#updateDeal)",
-  version: "0.1.6",
+  version: "0.1.8",
   type: "action",
   props: {
     pipedriveApp,
     dealId: {
-      description: "ID of the deal",
-      optional: false,
       propDefinition: [
         pipedriveApp,
         "dealId",
       ],
+      optional: false,
+      description: "ID of the deal",
     },
     title: {
       propDefinition: [
@@ -23,19 +24,7 @@ export default {
       ],
       optional: true,
     },
-    value: {
-      propDefinition: [
-        pipedriveApp,
-        "dealValue",
-      ],
-    },
-    currency: {
-      propDefinition: [
-        pipedriveApp,
-        "dealCurrency",
-      ],
-    },
-    userId: {
+    ownerId: {
       propDefinition: [
         pipedriveApp,
         "userId",
@@ -47,16 +36,35 @@ export default {
         "personId",
       ],
     },
-    organizationId: {
+    orgId: {
       propDefinition: [
         pipedriveApp,
         "organizationId",
       ],
     },
+    pipelineId: {
+      propDefinition: [
+        pipedriveApp,
+        "pipelineId",
+      ],
+      optional: true,
+    },
     stageId: {
       propDefinition: [
         pipedriveApp,
         "stageId",
+      ],
+    },
+    value: {
+      propDefinition: [
+        pipedriveApp,
+        "dealValue",
+      ],
+    },
+    currency: {
+      propDefinition: [
+        pipedriveApp,
+        "dealCurrency",
       ],
     },
     status: {
@@ -85,45 +93,29 @@ export default {
     },
   },
   async run({ $ }) {
-    const {
-      dealId,
-      title,
-      value,
-      currency,
-      userId,
-      personId,
-      organizationId,
-      stageId,
-      status,
-      probability,
-      lostReason,
-      visibleTo,
-    } = this;
-
     try {
-      const resp =
-        await this.pipedriveApp.updateDeal({
-          dealId,
-          title,
-          value,
-          currency,
-          user_id: userId,
-          person_id: personId,
-          org_id: organizationId,
-          stage_id: stageId,
-          status,
-          probability,
-          lost_reason: lostReason,
-          visible_to: visibleTo,
-        });
+      const resp = await this.pipedriveApp.updateDeal({
+        dealId: this.dealId,
+        title: this.title,
+        owner_id: this.ownerId,
+        person_id: this.personId,
+        org_id: this.orgId,
+        pipeline_id: this.pipelineId,
+        stage_id: this.stageId,
+        value: this.value,
+        currency: this.currency,
+        status: this.status,
+        probability: this.probability,
+        lost_reason: this.lostReason,
+        visible_to: this.visibleTo,
+      });
 
       $.export("$summary", "Successfully updated deal");
 
       return resp;
 
-    } catch (error) {
-      console.error(error.context?.body || error);
-      throw error.context?.body?.error || "Failed to update deal";
+    } catch ({ error }) {
+      throw new ConfigurationError(error);
     }
   },
 };
