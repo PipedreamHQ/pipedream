@@ -4,7 +4,17 @@ import methods from "./common/methods.mjs";
 export default {
   type: "app",
   app: "google_search_console",
-  propDefinitions: {},
+  propDefinitions: {
+    siteUrl: {
+      type: "string",
+      label: "Site",
+      description: "Select a verified site from your Search Console",
+      async options({ prevContext }) {
+        const { nextPageToken } = prevContext || {};
+        return this.listSiteOptions(nextPageToken);
+      },
+    },
+  },
   methods: {
     ...methods,
     _makeRequest({
@@ -20,6 +30,35 @@ export default {
         },
         ...opts,
       });
+    },
+    async getSites(params = {}) {
+      return this._makeRequest({
+        method: "GET",
+        url: "https://searchconsole.googleapis.com/webmasters/v3/sites",
+        ...params,
+      });
+    },
+    async listSiteOptions(pageToken) {
+      const params = {};
+      if (pageToken) {
+        params.pageToken = pageToken;
+      }
+
+      const {
+        siteEntry = [], nextPageToken,
+      } = await this.getSites({
+        params,
+      });
+
+      return {
+        options: siteEntry.map((site) => ({
+          label: site.siteUrl,
+          value: site.siteUrl,
+        })),
+        context: {
+          nextPageToken,
+        },
+      };
     },
     getSitePerformanceData({
       url, ...opts

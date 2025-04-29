@@ -5,14 +5,16 @@ export default {
   name: "Retrieve Site Performance Data",
   description: "Fetches search analytics from Google Search Console for a verified site.",
   key: "google_search_console-retrieve-site-performance-data",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     googleSearchConsole,
     siteUrl: {
-      type: "string",
-      label: "Verified Site URL",
-      description: "Including https:// is strongly advised",
+      propDefinition: [
+        googleSearchConsole,
+        "siteUrl",
+      ],
+      description: "Select a verified site from your Google Search Console. For subdomains, select the domain property and use dimension filters.",
     },
     startDate: {
       type: "string",
@@ -22,13 +24,21 @@ export default {
     endDate: {
       type: "string",
       label: "End Date (YYYY-MM-DD)",
-      description: "Enddate of the range for which to retrieve site performance data",
+      description: "End date of the range for which to retrieve site performance data",
     },
     dimensions: {
       type: "string[]",
       label: "Dimensions",
       optional: true,
       description: "e.g. ['query', 'page', 'country', 'device']",
+      options: [
+        "country",
+        "device",
+        "page",
+        "query",
+        "searchAppearance",
+        "date",
+      ],
     },
     searchType: {
       type: "string",
@@ -68,11 +78,45 @@ export default {
       description: "Start row (for pagination)",
       optional: true,
     },
-    dimensionFilterGroups: {
-      type: "object",
-      label: "Dimension Filters",
+    subdomainFilter: {
+      type: "string",
+      label: "Subdomain Filter",
       optional: true,
-      description: "Follow Search Console API structure for filters",
+      description: "Filter results to a specific subdomain when using a domain property (e.g., `https://subdomain.example.com`). This will include all subpages of the subdomain.",
+    },
+    filterDimension: {
+      type: "string",
+      label: "Filter Dimension",
+      optional: true,
+      description: "Dimension to filter by (defaults to page when subdomain filter is used). Using 'page' will match the subdomain and all its subpages.",
+      options: [
+        "country",
+        "device",
+        "page",
+        "query",
+      ],
+      default: "page",
+    },
+    filterOperator: {
+      type: "string",
+      label: "Filter Operator",
+      optional: true,
+      description: "Operator to use for filtering (defaults to contains when subdomain filter is used)",
+      options: [
+        "contains",
+        "equals",
+        "notContains",
+        "notEquals",
+        "includingRegex",
+        "excludingRegex",
+      ],
+      default: "contains",
+    },
+    advancedDimensionFilters: {
+      type: "object",
+      label: "Advanced Dimension Filters",
+      optional: true,
+      description: "For advanced use cases: custom dimension filter groups following Search Console API structure.",
     },
     dataState: {
       type: "string",
@@ -90,7 +134,10 @@ export default {
     const {
       googleSearchConsole,
       siteUrl,
-      dimensionFilterGroups,
+      subdomainFilter,
+      filterDimension,
+      filterOperator,
+      advancedDimensionFilters,
       ...fields
     } = this;
 
@@ -102,6 +149,29 @@ export default {
       return acc;
     }, {});
 
+    // Build dimension filters based on user input
+    let dimensionFilterGroups;
+
+    if (subdomainFilter) {
+      // If user provided a subdomain filter, create the filter structure
+      dimensionFilterGroups = {
+        filterGroups: [
+          {
+            filters: [
+              {
+                dimension: filterDimension || "page",
+                operator: filterOperator || "contains",
+                expression: subdomainFilter,
+              },
+            ],
+          },
+        ],
+      };
+    } else if (advancedDimensionFilters) {
+      // If user provided advanced filters, use those
+      dimensionFilterGroups = googleSearchConsole.parseIfJsonString(advancedDimensionFilters);
+    }
+
     let response;
     try {
       response = await googleSearchConsole.getSitePerformanceData({
@@ -109,16 +179,26 @@ export default {
         url: siteUrl,
         data: {
           ...body,
-          dimensionFilterGroups: googleSearchConsole.parseIfJsonString(dimensionFilterGroups),
+          dimensionFilterGroups,
         },
       });
     } catch (error) {
       // Identify if the error was thrown by internal validation or by the API call
       const thrower = googleSearchConsole.checkWhoThrewError(error);
-      throw new Error(`Failed to fetch data ( ${thrower.whoThrew} error ) : ${error.message}. `);
-    };
 
-    $.export("$summary", ` Fetched ${response.rows?.length || 0} rows of data. `);
+      // Add more helpful error messages for common 403 errors
+      if (error.response?.status === 403) {
+        const message = "Access denied. If you're trying to access a subdomain, select the domain property (sc-domain:example.com) and use the subdomain filter to filter for your subdomain.";
+        throw new Error(`Failed to fetch data: ${message}`);
+      }
+
+      throw new Error(`Failed to fetch data (${thrower.whoThrew} error): ${error.message}`);
+    }
+
+    const rowCount = response.rows?.length || 0;
+    $.export("$summary", `Fetched ${rowCount} ${rowCount === 1
+      ? "row"
+      : "rows"} of data.`);
     return response;
   },
 };
