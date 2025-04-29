@@ -35,7 +35,7 @@ export default {
     },
     shardGroupDurationSeconds: {
       type: "integer",
-      label: "Shared Group Duration Seconds",
+      label: "Shard Group Duration Seconds",
       description: "The shard group duration. The duration or interval (in seconds) that each shard group covers.",
       optional: true,
     },
