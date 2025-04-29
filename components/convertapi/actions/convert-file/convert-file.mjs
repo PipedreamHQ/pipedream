@@ -67,9 +67,12 @@ export default {
       });
 
       await saveFile(Files);
+      const filename = Files[0].FileName;
 
-      $.export("$summary", `Successfully converted file to ${this.formatTo} format and saved in /tmp directory as **${Files[0].FileName}**.`);
-      return;
+      $.export("$summary", `Successfully converted file to ${this.formatTo} format and saved in /tmp directory as **${filename}**.`);
+      return {
+        filepath: `/tmp/${filename}`,
+      };
     } catch (error) {
       throw new Error(`Failed to convert file: ${error.message}`);
     }

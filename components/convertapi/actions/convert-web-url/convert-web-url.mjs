@@ -370,68 +370,76 @@ export default {
     return {};
   },
   async run({ $ }) {
-    const data = new FormData();
+    try {
+      const data = new FormData();
 
-    data.append("Url", this.url);
-    if (this.fileName) data.append("FileName", this.fileName);
-    if (this.timeout) data.append("Timeout", this.timeout);
-    if (this.conversionDelay) data.append("ConversionDelay", this.conversionDelay);
-    if (this.authUsername) data.append("AuthUsername", this.authUsername);
-    if (this.authPassword) data.append("AuthPassword", this.authPassword);
-    if (this.adBlock) data.append("AdBlock", this.adBlock);
-    if (this.cookieConsentBlock) data.append("CookieConsentBlock", this.cookieConsentBlock);
-    if (this.cookies) data.append("Cookies", this.cookies);
-    if (this.javaScript) data.append("JavaScript", this.javaScript);
-    if (this.waitElement) data.append("WaitElement", this.waitElement);
-    if (this.userJs) data.append("UserJs", this.userJs);
-    if (this.userCss) data.append("UserCss", this.userCss);
-    if (this.hideElements) data.append("HideElements", this.hideElements);
-    if (this.cssMediaType) data.append("CssMediaType", this.cssMediaType);
+      data.append("Url", this.url);
+      if (this.fileName) data.append("FileName", this.fileName);
+      if (this.timeout) data.append("Timeout", this.timeout);
+      if (this.conversionDelay) data.append("ConversionDelay", this.conversionDelay);
+      if (this.authUsername) data.append("AuthUsername", this.authUsername);
+      if (this.authPassword) data.append("AuthPassword", this.authPassword);
+      if (this.adBlock) data.append("AdBlock", `${this.adBlock}`);
+      if (this.cookieConsentBlock) data.append("CookieConsentBlock", `${this.cookieConsentBlock}`);
+      if (this.cookies) data.append("Cookies", this.cookies);
+      if (this.javaScript) data.append("JavaScript", `${this.javaScript}`);
+      if (this.waitElement) data.append("WaitElement", this.waitElement);
+      if (this.userJs) data.append("UserJs", this.userJs);
+      if (this.userCss) data.append("UserCss", this.userCss);
+      if (this.hideElements) data.append("HideElements", this.hideElements);
+      if (this.cssMediaType) data.append("CssMediaType", this.cssMediaType);
 
-    if (this.formatTo === "jpg") {
-      if (this.imageWidth) data.append("ImageWidth", this.imageWidth);
-      if (this.imageHeight) data.append("ImageHeight", this.imageHeight);
-      if (this.type) data.append("Type", this.type);
-      if (this.cropElement) data.append("CropElement", this.cropElement);
-      if (this.cropX) data.append("CropX", this.cropX);
-      if (this.cropY) data.append("CropY", this.cropY);
-      if (this.cropWidth) data.append("CropWidth", this.cropWidth);
-      if (this.cropHeight) data.append("CropHeight", this.cropHeight);
-      if (this.zoom) data.append("Zoom", this.zoom);
-    } else {
-      if (this.loadLazyContent) data.append("LoadLazyContent", this.loadLazyContent);
-      if (this.viewportWidth) data.append("ViewportWidth", this.viewportWidth);
-      if (this.viewportHeight) data.append("ViewportHeight", this.viewportHeight);
-      if (this.respectViewport) data.append("RespectViewport", this.respectViewport);
-      if (this.scale) data.append("Scale", this.scale);
-      if (this.pageOrientation) data.append("PageOrientation", this.pageOrientation);
-      if (this.pageSize) data.append("PageSize", this.pageSize);
-      if (this.pageWidth) data.append("PageWidth", this.pageWidth);
-      if (this.pageHeight) data.append("PageHeight", this.pageHeight);
-      if (this.marginTop) data.append("MarginTop", this.marginTop);
-      if (this.marginRight) data.append("MarginRight", this.marginRight);
-      if (this.marginBottom) data.append("MarginBottom", this.marginBottom);
-      if (this.marginLeft) data.append("MarginLeft", this.marginLeft);
-      if (this.pageRange) data.append("PageRange", this.pageRange);
-      if (this.background) data.append("Background", this.background);
-      if (this.fixedElements) data.append("FixedElements", this.fixedElements);
-      if (this.showElements) data.append("ShowElements", this.showElements);
-      if (this.avoidBreakElements) data.append("AvoidBreakElements", this.avoidBreakElements);
-      if (this.breakBeforeElements) data.append("BreakBeforeElements", this.breakBeforeElements);
-      if (this.breakAfterElements) data.append("BreakAfterElements", this.breakAfterElements);
-      if (this.compressPDF) data.append("CompressPDF", this.compressPDF);
+      if (this.formatTo === "jpg") {
+        if (this.imageWidth) data.append("ImageWidth", this.imageWidth);
+        if (this.imageHeight) data.append("ImageHeight", this.imageHeight);
+        if (this.type) data.append("Type", this.type);
+        if (this.cropElement) data.append("CropElement", this.cropElement);
+        if (this.cropX) data.append("CropX", this.cropX);
+        if (this.cropY) data.append("CropY", this.cropY);
+        if (this.cropWidth) data.append("CropWidth", this.cropWidth);
+        if (this.cropHeight) data.append("CropHeight", this.cropHeight);
+        if (this.zoom) data.append("Zoom", this.zoom);
+      } else {
+        if (this.loadLazyContent) data.append("LoadLazyContent", `${this.loadLazyContent}`);
+        if (this.viewportWidth) data.append("ViewportWidth", this.viewportWidth);
+        if (this.viewportHeight) data.append("ViewportHeight", this.viewportHeight);
+        if (this.respectViewport) data.append("RespectViewport", `${this.respectViewport}`);
+        if (this.scale) data.append("Scale", this.scale);
+        if (this.pageOrientation) data.append("PageOrientation", this.pageOrientation);
+        if (this.pageSize) data.append("PageSize", this.pageSize);
+        if (this.pageWidth) data.append("PageWidth", this.pageWidth);
+        if (this.pageHeight) data.append("PageHeight", this.pageHeight);
+        if (this.marginTop) data.append("MarginTop", this.marginTop);
+        if (this.marginRight) data.append("MarginRight", this.marginRight);
+        if (this.marginBottom) data.append("MarginBottom", this.marginBottom);
+        if (this.marginLeft) data.append("MarginLeft", this.marginLeft);
+        if (this.pageRange) data.append("PageRange", this.pageRange);
+        if (this.background) data.append("Background", `${this.background}`);
+        if (this.fixedElements) data.append("FixedElements", this.fixedElements);
+        if (this.showElements) data.append("ShowElements", this.showElements);
+        if (this.avoidBreakElements) data.append("AvoidBreakElements", this.avoidBreakElements);
+        if (this.breakBeforeElements) data.append("BreakBeforeElements", this.breakBeforeElements);
+        if (this.breakAfterElements) data.append("BreakAfterElements", this.breakAfterElements);
+        if (this.compressPDF) data.append("CompressPDF", `${this.compressPDF}`);
+      }
+
+      const { Files } = await this.convertapi.convertWebToFormat({
+        $,
+        formatTo: this.formatTo,
+        data,
+        headers: data.getHeaders(),
+        timeout: 2000 * this.timeout,
+      });
+
+      await saveFile(Files);
+      const filename = Files[0].FileName;
+
+      $.export("$summary", `Successfully converted URL to ${this.formatTo} and saved in /tmp directory as **${filename}**.`);
+      return {
+        filepath: `/tmp/${filename}`,
+      };
+    } catch (e) {
+      throw new Error(e);
     }
-
-    const { Files } = await this.convertapi.convertWebToFormat({
-      $,
-      formatTo: this.formatTo,
-      data,
-      headers: data.getHeaders(),
-    });
-
-    await saveFile(Files);
-
-    $.export("$summary", `Successfully converted URL to ${this.formatTo} and saved in /tmp directory as **${Files[0].FileName}**.`);
-    return;
   },
 };

@@ -69,8 +69,11 @@ export default {
     });
 
     await saveFile(Files);
+    const filename = Files[0].FileName;
 
-    $.export("$summary", `Successfully converted base64 encoded file to ${this.formatTo} and saved in /tmp directory as **${Files[0].FileName}**.`);
-    return;
+    $.export("$summary", `Successfully converted base64 encoded file to ${this.formatTo} and saved in /tmp directory as **${filename}**.`);
+    return {
+      filepath: `/tmp/${filename}`,
+    };
   },
 };
