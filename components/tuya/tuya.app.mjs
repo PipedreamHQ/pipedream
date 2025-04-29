@@ -120,10 +120,13 @@ export default {
         path: `/v1.0/devices/${deviceId}/functions`,
       });
     },
-    sendInstructionsToDevice({ deviceId }) {
+    sendInstructionsToDevice({
+      deviceId, data,
+    }) {
       return this._makeRequest({
         method: "POST",
         path: `/v1.0/devices/${deviceId}/commands`,
+        data,
       });
     },
   },
