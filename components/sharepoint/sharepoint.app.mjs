@@ -151,7 +151,7 @@ export default {
     fileId: {
       type: "string",
       label: "File ID",
-      description: "The file to download. You can either search for the file here, provide a custom *File ID*.",
+      description: "The file to download. You can either search for the file here or provide a custom *File ID*.",
       useQuery: true,
       async options({
         query, siteId, driveId,
