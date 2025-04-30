@@ -428,7 +428,7 @@ export default {
         formatTo: this.formatTo,
         data,
         headers: data.getHeaders(),
-        timeout: 2000 * this.timeout,
+        timeout: this.timeout ? 2000 * Number(this.timeout) : undefined,
       });
 
       await saveFile(Files);
