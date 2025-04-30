@@ -2709,6 +2709,151 @@ The deployed trigger ID for the trigger you'd like to retrieve (ex, `dc_xxxxxxx`
 [The external user ID](/connect/api/#external-users) in your system on behalf of
 which you want to deploy the trigger.
 
+#### Update a deployed trigger
+
+Update a deployed trigger for a given user.
+
+```text
+PUT /deployed-triggers/{deployed_trigger_id}
+```
+
+##### Path parameters
+
+`deployed_trigger_id` **string**
+
+The deployed trigger ID for the trigger you'd like to update (ex, `dc_xxxxxxx`).
+
+##### Query parameters
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system on behalf of
+which you want to update the trigger.
+
+##### Body parameters
+
+`active` **boolean** (_optional_)
+
+The state to which the trigger should be updated.
+
+`configured_props` **object** (_optional_)
+
+The new configuration props for the trigger.
+
+`name` **string** (_optional_)
+
+The new name of the trigger.
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+  GetTriggerResponse,
+  V1DeployedComponent,
+  type BackendClient,
+  type BackendClientOpts,
+  type UpdateTriggerOpts,
+} from "@pipedream/sdk/server";
+
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
+
+// Update the deployed trigger for the specified user
+const requestOpts: UpdateTriggerOpts = {
+  id: "dc_gzumK2e",
+  externalUserId: "jverce",
+  active: true,
+  name: "My Updated Trigger",
+  configuredProps: {
+    gitlab: {
+      authProvisionId: "apn_kVh9AoD",
+    },
+    projectId: 45672542,
+  },
+};
+const response: GetTriggerResponse = await pd.updateTrigger(requestOpts);
+
+const {
+  data: trigger,  // The updated deployed trigger
+}: {
+  data: V1DeployedComponent,
+} = response;
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Update the deployed trigger for the specified user
+const requestOpts = {
+  id: "dc_gzumK2e",
+  externalUserId: "jverce",
+  active: true,
+  name: "My Updated Trigger",
+  configuredProps: {
+    gitlab: {
+      authProvisionId: "apn_kVh9AoD",
+    },
+    projectId: 45672542,
+  },
+};
+const { data: deployedTrigger } = await pd.updateTrigger(requestOpts);
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+ 
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will update the deployed trigger for the specified user.
+
+curl -X PUT "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{deployed_trigger_id}/" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -H "x-pd-environment: development" \
+  -d '{
+    "external_user_id": "jverce",
+    "active": true,
+    "configured_props": {},
+    "name": "My Updated Trigger"
+  }'
+```
+</Tabs.Tab>
+
+</Tabs>
 
 ##### Examples
 
