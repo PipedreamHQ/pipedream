@@ -4,7 +4,7 @@ export default {
   key: "wordpress_com-new-post",
   name: "New Post",
   description: "Emit new event for each new post published since the last run. If no new posts, emit nothing.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {
@@ -52,32 +52,38 @@ export default {
     },
   },
   methods: {
-    getWordpressPosts($){
+    getWordpressPosts($) {
 
-      let response;
-        response = this.wordpress.getWordpressPosts({
-          $,
-          site:  this.site,
-          type: this.type,
-          number: this.number,
-        });
-  
-      return response;
-    }
+      return this.wordpress.getWordpressPosts({
+        $,
+        site: this.site,
+        type: this.type,
+        number: this.number,
+      });
+
+    },
   },
   hooks: {
     async activate() {
 
-      const {
+      const warnings = []
+;      const {
         wordpress,
         db,
         type,
+        site,
       } = this;
 
-      await this.db.set("lastCommentId", null);
+      warnings.push(...wordpress.checkDomainOrId(site));
 
-      const response = await this.getWordpressPosts(this.wordpress._mock$);      
-  
+      if (warnings.length > 0) {
+        console.log("Warnings:\n- " + warnings.join("\n- "));
+      }
+
+      await this.db.set("lastPostId", null); // reset
+
+      const response = await this.getWordpressPosts(this.wordpress._mock$);
+
       const posts = (type === "attachment")
         ? (response.media || [])
         : (response.posts || []);
@@ -98,16 +104,15 @@ export default {
 
     warnings.push(...wordpress.checkDomainOrId(site));
 
-    const response = await this.getWordpressPosts($);  
+    const response = await this.getWordpressPosts($);
 
     const posts = (type === "attachment")
       ? (response.media || [])
       : (response.posts || []);
     const lastPostId = Number(await db.get("lastPostId"));
 
-    // Initialize if not already set
-    if (!lastPostId) await initialize(posts, db, "lastPostId");
-      
+    if (!lastPostId) await wordpress.initialize(posts, db, "lastPostId");
+
     let maxPostIdTracker = lastPostId;
 
     const newPosts = [];

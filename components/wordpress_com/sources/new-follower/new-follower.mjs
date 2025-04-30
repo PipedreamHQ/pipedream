@@ -7,6 +7,16 @@ export default {
   version: "0.0.2",
   type: "source",
   dedupe: "unique",
+  methods: {
+    getWordpressFollowers($) {
+
+      return this.wordpress.getWordpressFollowers({
+        $,
+        site: this.site,
+      });
+
+    },
+  },
   props: {
     wordpress,
     db: "$.service.db",
@@ -22,6 +32,33 @@ export default {
       description: "How often to poll WordPress for new followers.",
     },
   },
+  hooks: {
+    async activate() {
+
+      const warnings = [];
+
+      const {
+        wordpress,
+        db,
+        site,
+      } = this;
+
+      warnings.push(...wordpress.checkDomainOrId(site));
+
+      if (warnings.length > 0) {
+        console.log("Warnings:\n- " + warnings.join("\n- "));
+      }
+
+      await this.db.set("lastFollowerId", null); //reset
+
+      const response = await this.getWordpressFollowers(this.wordpress._mock$);
+
+      const followers = response.subscribers || [];
+
+      await wordpress.initialize(followers, db, "lastFollowerId");
+    },
+  },
+
   async run({ $ }) {
     const warnings = [];
 
@@ -35,10 +72,7 @@ export default {
 
     let response;
     try {
-      response = await wordpress.getWordpressFollowers({
-        $,
-        site,
-      });
+      response = await this.getWordpressFollowers($);
 
     } catch (error) {
       wordpress.throwCustomError("Failed to fetch followers from WordPress:", error, warnings);
@@ -48,16 +82,7 @@ export default {
 
     const lastFollowerId = Number(await db.get("lastFollowerId"));
 
-    // First run: Initialize cursor
-    if (!lastFollowerId) {
-      if (!followers.length) {
-        console.log("No followers found on first run. Source initialized with no cursor.");
-        return;
-      }
-      await db.set("lastFollowerId", newest);
-      console.log(`Initialized lastFollowerId on first run with follower ID ${newest}.`);
-      return;
-    }
+    if (!lastFollowerId) await wordpress.initialize(followers, db, "lastPostId");
 
     let maxFollowerIdTracker = lastFollowerId;
     const newFollowers = [];

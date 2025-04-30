@@ -7,6 +7,16 @@ export default {
   version: "0.0.2",
   type: "source",
   dedupe: "unique",
+  methods: {
+    getWordpressComments($) {
+      return this.wordpress.getWordpressComments({
+        $,
+        site: this.site,
+        postId: this.postId,
+        number: this.number,
+      });
+    },
+  },
   props: {
     wordpress,
     db: "$.service.db",
@@ -44,11 +54,30 @@ export default {
   },
   hooks: {
     async activate() {
-      await this.db.set("lastCommentId", null);
-      await this.run({ $ : this.wordpress._mock$() });
+
+      const warnings = [];
+
+      const {
+        wordpress,
+        db,
+        site,
+      } = this;
+
+      warnings.push(...wordpress.checkDomainOrId(site));
+
+      if (warnings.length > 0) {
+        console.log("Warnings:\n- " + warnings.join("\n- "));
+      }
+
+      await this.db.set("lastCommentId", null); //reset
+
+      const response = await this.getWordpressComments(this.wordpress._mock$);
+
+      const comments = response.comments || [];
+
+      await wordpress.initialize(comments, db, "lastCommentId");
     },
   },
-
 
   async run({ $ }) {
     const warnings = [];
@@ -57,20 +86,14 @@ export default {
       wordpress,
       db,
       site,
-      postId,
-      number,
     } = this;
 
     warnings.push(...wordpress.checkDomainOrId(site));
 
     let response;
     try {
-      response = await wordpress.getWordpressComments({
-        $,
-        site,
-        postId,
-        number,
-      });
+
+      response = await this.getWordpressComments($);
 
     } catch (error) {
       wordpress.throwCustomError("Failed to fetch comments from WordPress:", error, warnings);
@@ -79,16 +102,7 @@ export default {
     const comments = response.comments || [];
     const lastCommentId = Number(await db.get("lastCommentId"));
 
-    // First run: Initialize cursor
-    if (!lastCommentId) {
-      if (!comments.length) {
-        console.log("No comments found on first run. Source initialized with no cursor.");
-        return;
-      }
-      await db.set("lastCommentId", newest);
-      console.log(`Initialized lastCommentId on first run with comment ID ${newest}.`);
-      return;
-    }
+    if (!lastCommentId)  await wordpress.initialize(comments, db, "lastCommentId");
 
     let maxCommentIdTracker = lastCommentId;
     const newComments = [];
