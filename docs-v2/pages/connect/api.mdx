@@ -2935,7 +2935,12 @@ curl -X PUT "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-tri
   -d '{
     "external_user_id": "jverce",
     "active": true,
-    "configured_props": {},
+    "configured_props": {
+      "gitlab": {
+        "authProvisionId": "apn_kVh9AoD"
+      },
+      "projectId": 45672542,
+    },
     "name": "My Updated Trigger"
   }'
 ```
