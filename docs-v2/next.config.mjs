@@ -70,11 +70,6 @@ export default withNextra({
         permanent: true,
       },
       {
-        source: "/apps/:path*/",
-        destination: "https://pipedream.com/apps/:path*/",
-        permanent: true,
-      },
-      {
         source: "/support/",
         destination: "https://pipedream.com/support/",
         permanent: true,
