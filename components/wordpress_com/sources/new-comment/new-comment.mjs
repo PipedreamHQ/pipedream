@@ -42,6 +42,14 @@ export default {
       description: "How often to poll WordPress for new comments.",
     },
   },
+  hooks: {
+    async activate() {
+      await this.db.set("lastCommentId", null);
+      await this.run({ $ : this.wordpress._mock$() });
+    },
+  },
+
+
   async run({ $ }) {
     const warnings = [];
 
@@ -77,12 +85,6 @@ export default {
         console.log("No comments found on first run. Source initialized with no cursor.");
         return;
       }
-
-      const newest = comments[0]?.ID;
-      if (!newest) {
-        throw new Error("Failed to initialize: The latest comment does not have a valid ID.");
-      }
-
       await db.set("lastCommentId", newest);
       console.log(`Initialized lastCommentId on first run with comment ID ${newest}.`);
       return;

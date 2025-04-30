@@ -51,6 +51,41 @@ export default {
       description: "How often to poll WordPress for new posts.",
     },
   },
+  methods: {
+    getWordpressPosts($){
+
+      let response;
+        response = this.wordpress.getWordpressPosts({
+          $,
+          site:  this.site,
+          type: this.type,
+          number: this.number,
+        });
+  
+      return response;
+    }
+  },
+  hooks: {
+    async activate() {
+
+      const {
+        wordpress,
+        db,
+        type,
+      } = this;
+
+      await this.db.set("lastCommentId", null);
+
+      const response = await this.getWordpressPosts(this.wordpress._mock$);      
+  
+      const posts = (type === "attachment")
+        ? (response.media || [])
+        : (response.posts || []);
+
+      await wordpress.initialize(posts, db, "lastPostId");
+    },
+  },
+
   async run({ $ }) {
     const warnings = [];
 
@@ -59,46 +94,20 @@ export default {
       db,
       site,
       type,
-      number,
     } = this;
 
     warnings.push(...wordpress.checkDomainOrId(site));
 
-    let response;
-    try {
-      response = await wordpress.getWordpressPosts({
-        $,
-        site,
-        type,
-        number,
-      });
-
-    } catch (error) {
-      wordpress.throwCustomError("Failed to fetch posts from WordPress:", error, warnings);
-    }
+    const response = await this.getWordpressPosts($);  
 
     const posts = (type === "attachment")
       ? (response.media || [])
       : (response.posts || []);
     const lastPostId = Number(await db.get("lastPostId"));
 
-    // First run: Initialize cursor
-    if (!lastPostId) {
-      if (!posts.length) {
-        console.log("No posts found on first run. Source initialized with no cursor.");
-        return;
-      }
-
-      const newest = posts[0]?.ID;
-      if (!newest) {
-        throw new Error("Failed to initialize: The latest post does not have a valid ID.");
-      }
-
-      await db.set("lastPostId", newest);
-      console.log(`Initialized lastPostId on first run with post ID ${newest}.`);
-      return;
-    }
-
+    // Initialize if not already set
+    if (!lastPostId) await initialize(posts, db, "lastPostId");
+      
     let maxPostIdTracker = lastPostId;
 
     const newPosts = [];

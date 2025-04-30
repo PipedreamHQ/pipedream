@@ -45,6 +45,13 @@ export default {
   },
   methods: {
     ...methods,
+    _mock$(){
+      return new Proxy({}, {
+        get() {
+          return (...args) => console.log(...args);
+        },
+      });
+    },
     _baseUrl() {
       return "https://public-api.wordpress.com/rest/v1.1";
     },
@@ -155,5 +162,16 @@ export default {
         ...opts,
       });
     },
+    async initialize(subject, db, dbName){
+      if (!subject.length) {
+        console.log("No ID found on first run. Source initialized with no cursor.");
+        return false;
+      }
+      const newest = subject[0]?.ID;
+
+      await db.set(dbName, newest);
+      console.log(`Initialized ${dbName} on first run with ID ${newest}.`);
+      return true ;
+    }
   },
 };

@@ -201,7 +201,7 @@ export default {
     Determines whether an error originated from your own validation code or from the API request.
     Useful for debugging and crafting more helpful error messages.
 =================================================================================================*/
-  throwCustomError(mainMessage, error, warnings) {
+  throwCustomError(mainMessage, error, warnings = []) {
 
     const thrower = error?.response?.status
       ? "API response"

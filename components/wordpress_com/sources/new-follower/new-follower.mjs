@@ -54,12 +54,6 @@ export default {
         console.log("No followers found on first run. Source initialized with no cursor.");
         return;
       }
-
-      const newest = followers[0]?.ID;
-      if (!newest) {
-        throw new Error("Failed to initialize: The latest follower does not have a valid ID.");
-      }
-
       await db.set("lastFollowerId", newest);
       console.log(`Initialized lastFollowerId on first run with follower ID ${newest}.`);
       return;
