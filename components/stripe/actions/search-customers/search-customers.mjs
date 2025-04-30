@@ -62,11 +62,15 @@ export default {
       }
 
       if (this.email) {
-        queryParts.push(`email="${this.email}"`);
+        // Escape quotes in the email value to prevent query syntax errors
+        const escapedEmail = this.email.replace(/"/g, "\\\"");
+        queryParts.push(`email="${escapedEmail}"`);
       }
 
       if (this.emailDomain) {
-        queryParts.push(`email~"${this.emailDomain}"`);
+        // Escape quotes in the domain value to prevent query syntax errors
+        const escapedDomain = this.emailDomain.replace(/"/g, "\\\"");
+        queryParts.push(`email~"${escapedDomain}"`);
       }
 
       const afterTimestamp = this.convertDateToTimestamp(this.createdAfter);
