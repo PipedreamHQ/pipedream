@@ -2709,6 +2709,93 @@ The deployed trigger ID for the trigger you'd like to retrieve (ex, `dc_xxxxxxx`
 [The external user ID](/connect/api/#external-users) in your system on behalf of
 which you want to deploy the trigger.
 
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+  type BackendClient,
+  type BackendClientOpts,
+  type DeleteTriggerOpts,
+} from "@pipedream/sdk/server";
+
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
+
+// Delete the deployed trigger for the specified user.
+const requestOpts: DeleteTriggerOpts = {
+  id: "dc_gzumK2e",
+  externalUserId: "jverce",
+};
+
+// The method doesn't return any data.
+await pd.deleteTrigger(requestOpts);
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Delete the deployed trigger for the specified user. The method doesn't return
+// any data.
+await pd.deleteTrigger({
+  id: "dc_gzumK2e",
+  externalUserId: "jverce"
+});
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will list all deployed triggers for the specified user.
+
+curl -X DELETE \
+  -G \
+  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{deployed_trigger_id}/" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -H "x-pd-environment: development" \
+  -d "external_user_id={external_user_id}"
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Response
+
+Pipedream returns a `204 No Content` response on successful deletion
+
 #### Update a deployed trigger
 
 Update a deployed trigger for a given user.
@@ -2852,96 +2939,59 @@ curl -X PUT "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-tri
   }'
 ```
 </Tabs.Tab>
-
 </Tabs>
 
-##### Examples
+##### Example response
 
-<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
-
-<Tabs.Tab>
-```typescript
-import {
-  createBackendClient,
-  type BackendClient,
-  type BackendClientOpts,
-  type DeleteTriggerOpts,
-} from "@pipedream/sdk/server";
-
-const clientOpts: BackendClientOpts = {
-  environment: "development", // change to production if running for a test production account, or in production
-  credentials: {
-    clientId: "{oauth_client_id}",
-    clientSecret: "{oauth_client_secret}",
-  },
-  projectId: "{your_project_id}"
-};
-const pd: BackendClient = createBackendClient(clientOpts);
-
-// Delete the deployed trigger for the specified user.
-const requestOpts: DeleteTriggerOpts = {
-  id: "dc_gzumK2e",
-  externalUserId: "jverce",
-};
-
-// The method doesn't return any data.
-await pd.deleteTrigger(requestOpts);
+```json
+{
+  "data": {
+    "id": "dc_dAuGmW7",
+    "owner_id": "exu_oedidz",
+    "component_id": "sc_3vijzQr",
+    "configurable_props": [
+      {
+        "name": "gitlab",
+        "type": "app",
+        "app": "gitlab"
+      },
+      {
+        "name": "db",
+        "type": "$.service.db"
+      },
+      {
+        "name": "http",
+        "type": "$.interface.http",
+        "customResponse": true
+      },
+      {
+        "name": "projectId",
+        "type": "integer",
+        "label": "Project ID",
+        "description": "The project ID, as displayed in the main project page",
+        "remoteOptions": true
+      }
+    ],
+    "configured_props": {
+      "gitlab": {
+        "authProvisionId": "apn_kVh9AoD"
+      },
+      "db": {
+        "type": "$.service.db"
+      },
+      "http": {
+        "endpoint_url": "https://xxxxxxxxxx.m.pipedream.net"
+      },
+      "projectId": 45672542
+    },
+    "active": true,
+    "created_at": 1734028283,
+    "updated_at": 1734038486,
+    "name": "My Updated Trigger",
+    "name_slug": "my-updated-trigger"
+  }
+}
 ```
-</Tabs.Tab>
-
-<Tabs.Tab>
-```javascript
-import {
-  createBackendClient,
-} from "@pipedream/sdk/server";
-
-const pd = createBackendClient({
-  environment: "development", // change to production if running for a test production account, or in production
-  credentials: {
-    clientId: "{oauth_client_id}",
-    clientSecret: "{oauth_client_secret}",
-  },
-  projectId: "{your_project_id}"
-});
-
-// Delete the deployed trigger for the specified user. The method doesn't return
-// any data.
-await pd.deleteTrigger({
-  id: "dc_gzumK2e",
-  externalUserId: "jverce"
-});
-```
-</Tabs.Tab>
-
-<Tabs.Tab>
-```bash
-# First, obtain an OAuth access token
-curl -X POST https://api.pipedream.com/v1/oauth/token \
-  -H "Content-Type: application/json" \
-  -d '{
-    "grant_type": "client_credentials",
-    "client_id": "{oauth_client_id}",
-    "client_secret": "{oauth_client_secret}"
-  }'
-
-# The response will include an access_token. Use it in the Authorization header below.
-# This request will list all deployed triggers for the specified user.
-
-curl -X DELETE \
-  -G \
-  "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{deployed_trigger_id}/" \
-  -H "Authorization: Bearer {access_token}" \
-  -H "Content-Type: application/json" \
-  -H "x-pd-environment: development" \
-  -d "external_user_id={external_user_id}"
-```
-</Tabs.Tab>
-</Tabs>
-
-##### Response
-
-Pipedream returns a `204 No Content` response on successful deletion
-
 
 #### Retrieve the events emitted by a deployed trigger
 
