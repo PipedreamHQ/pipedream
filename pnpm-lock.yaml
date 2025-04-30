@@ -3555,6 +3555,9 @@ importers:
 
   components/dispatch: {}
 
+  components/ditlead:
+    specifiers: {}
+
   components/dixa:
     dependencies:
       '@pipedream/platform':
@@ -5054,7 +5057,11 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
-  components/getscreenshot: {}
+  components/getscreenshot:
+    specifiers:
+      '@pipedream/platform': ^3.0.3
+    dependencies:
+      '@pipedream/platform': 3.0.3
 
   components/getswift: {}
 
@@ -7918,6 +7925,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/mergemole:
+    specifiers: {}
 
   components/message_bird:
     dependencies:
