@@ -11,6 +11,8 @@
 ### Changed
 
 - Corrected the return type of `updateTrigger`.
+- Changed the type of property values of `ConfigureComponentContext` from
+  explicit `any` to `unknown`.
 
 ## [1.5.5] - 2025-04-28
 
