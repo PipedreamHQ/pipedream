@@ -129,7 +129,7 @@ export type PropOption = {
   value: string;
 };
 
-type ConfigureComponentContext = Record<string, any>
+type ConfigureComponentContext = Record<string, unknown>
 
 /**
  * The response received after configuring a component's prop.
