@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/dappier",
+  "version": "0.0.1",
+  "description": "Pipedream Dappier Components",
+  "main": "dappier.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dappier"
+  ],
+  "homepage": "https://pipedream.com/apps/dappier",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

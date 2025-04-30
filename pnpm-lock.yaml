@@ -3176,6 +3176,9 @@ importers:
 
   components/danny_test_app: {}
 
+  components/dappier:
+    specifiers: {}
+
   components/darksky_api:
     dependencies:
       '@pipedream/platform':
