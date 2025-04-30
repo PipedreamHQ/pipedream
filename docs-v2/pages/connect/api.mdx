@@ -2709,6 +2709,7 @@ The deployed trigger ID for the trigger you'd like to retrieve (ex, `dc_xxxxxxx`
 [The external user ID](/connect/api/#external-users) in your system on behalf of
 which you want to deploy the trigger.
 
+
 ##### Examples
 
 <Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
@@ -2923,7 +2924,7 @@ curl -X POST https://api.pipedream.com/v1/oauth/token \
     "client_id": "{oauth_client_id}",
     "client_secret": "{oauth_client_secret}"
   }'
- 
+
 # The response will include an access_token. Use it in the Authorization header below.
 # This request will update the deployed trigger for the specified user.
 
