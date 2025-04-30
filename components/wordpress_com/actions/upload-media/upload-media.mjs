@@ -5,7 +5,7 @@ export default {
   key: "wordpress_com-upload-media",
   name: "Upload Media",
   description: "Uploads a media file from a URL to the specified WordPress.com site. [See the documentation](https://developer.wordpress.com/docs/api/1.1/post/sites/%24site/media/new/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     wordpress,
@@ -74,7 +74,9 @@ export default {
 
       const media = response.media[0];
 
-      $.export("$summary", `Media "${media.title}" uploaded successfully (ID: ${media.ID})` + "\n- " + warnings.join("\n- "));
+      `Media ID “${media.ID})” has been successfully uploaded`;
+      $.export("$summary", `Media ID “${media.ID})” has been successfully uploaded` +
+         "\n- " + warnings.join("\n- "));
 
       console.log(response);
       return response;

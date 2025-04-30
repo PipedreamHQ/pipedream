@@ -4,7 +4,7 @@ export default {
   key: "wordpress_com-new-post",
   name: "New Post",
   description: "Emit new event for each new post published since the last run. If no new posts, emit nothing.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -44,6 +44,11 @@ export default {
       optional: true,
       min: 1,
       max: 100,
+    },
+    timer: {
+      type: "$.interface.timer",
+      label: "Timer",
+      description: "How often to poll WordPress for new posts.",
     },
   },
   async run({ $ }) {

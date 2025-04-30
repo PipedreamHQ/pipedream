@@ -4,7 +4,7 @@ export default {
   key: "wordpress_com-new-comment",
   name: "New Comment",
   description: "Emit new event for each new comment added since the last run. If no new comments, emit nothing.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -35,6 +35,11 @@ export default {
       optional: true,
       min: 1,
       max: 100,
+    },
+    timer: {
+      type: "$.interface.timer",
+      label: "Timer",
+      description: "How often to poll WordPress for new comments.",
     },
   },
   async run({ $ }) {

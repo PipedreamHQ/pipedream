@@ -4,7 +4,7 @@ export default {
   key: "wordpress_com-new-follower",
   name: "New Follower",
   description: "Emit new event for each new follower that subscribes to the site.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -15,6 +15,11 @@ export default {
         wordpress,
         "siteId",
       ],
+    },
+    timer: {
+      type: "$.interface.timer",
+      label: "Timer",
+      description: "How often to poll WordPress for new followers.",
     },
   },
   async run({ $ }) {
