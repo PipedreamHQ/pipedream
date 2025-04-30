@@ -2932,7 +2932,17 @@ importers:
 
   components/conversion_tools: {}
 
-  components/convertapi: {}
+  components/convertapi:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      form-data:
+        specifier: ^4.0.2
+        version: 4.0.2
+      fs:
+        specifier: ^0.0.1-security
+        version: 0.0.1-security
 
   components/convertkit:
     dependencies:
@@ -33582,7 +33592,7 @@ snapshots:
       axios: 1.8.4(debug@3.2.7)
       body-parser: 1.20.3
       file-type: 16.5.4
-      form-data: 4.0.1
+      form-data: 4.0.2
     transitivePeerDependencies:
       - debug
       - supports-color
@@ -34207,7 +34217,7 @@ snapshots:
     dependencies:
       '@pipedream/platform': 1.6.6
       axios: 1.8.4(debug@3.2.7)
-      form-data: 4.0.1
+      form-data: 4.0.2
     transitivePeerDependencies:
       - debug
 
@@ -36708,7 +36718,7 @@ snapshots:
   '@types/node-fetch@2.6.12':
     dependencies:
       '@types/node': 20.17.6
-      form-data: 4.0.1
+      form-data: 4.0.2
 
   '@types/node@14.18.63': {}
 
@@ -37481,7 +37491,7 @@ snapshots:
   axios@0.27.2:
     dependencies:
       follow-redirects: 1.15.9(debug@3.2.7)
-      form-data: 4.0.1
+      form-data: 4.0.2
     transitivePeerDependencies:
       - debug
 
@@ -38220,7 +38230,7 @@ snapshots:
       '@aws-sdk/credential-providers': 3.696.0(@aws-sdk/client-sso-oidc@3.696.0(@aws-sdk/client-sts@3.696.0(aws-crt@1.25.0))(aws-crt@1.25.0))(aws-crt@1.25.0)
       '@aws-sdk/protocol-http': 3.374.0
       '@aws-sdk/signature-v4': 3.374.0
-      form-data: 4.0.1
+      form-data: 4.0.2
       form-data-encoder: 4.0.2
       formdata-node: 6.0.3
       js-base64: 3.7.2
@@ -42726,7 +42736,7 @@ snapshots:
     dependencies:
       axios: 1.8.4(debug@3.2.7)
       exponential-backoff: 3.1.1
-      form-data: 4.0.1
+      form-data: 4.0.2
     transitivePeerDependencies:
       - debug
 
