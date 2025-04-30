@@ -1,5 +1,9 @@
 import { axios } from "@pipedream/platform";
-import fs from "fs";
+import {
+  COLOR_OPTIONS,
+  ORIENTATION_OPTIONS,
+  SIZE_OPTIONS,
+} from "../../common/constants.mjs";
 
 export default {
   type: "app",
@@ -8,167 +12,60 @@ export default {
     searchQuery: {
       type: "string",
       label: "Search Query",
-      description: "A keyword or phrase to search for photos.",
+      description: "The search query. **Ocean**, **Tigers**, **Pears**, etc.",
     },
     orientation: {
       type: "string",
       label: "Orientation",
-      description: "Optional orientation filter for the search.",
+      description: "Desired photo orientation.",
       optional: true,
-      options: [
-        {
-          label: "Landscape",
-          value: "landscape",
-        },
-        {
-          label: "Portrait",
-          value: "portrait",
-        },
-        {
-          label: "Square",
-          value: "square",
-        },
-      ],
+      options: ORIENTATION_OPTIONS,
     },
     size: {
       type: "string",
       label: "Size",
-      description: "Optional size filter for the search.",
+      description: "Minimum photo size.",
       optional: true,
-      options: [
-        {
-          label: "Large",
-          value: "large",
-        },
-        {
-          label: "Medium",
-          value: "medium",
-        },
-        {
-          label: "Small",
-          value: "small",
-        },
-      ],
+      options: SIZE_OPTIONS,
     },
     color: {
       type: "string",
       label: "Color",
-      description: "Optional color filter for the search.",
+      description: "Desired photo color. You can set any color listed or any hexidecimal color code (eg. #ffffff)",
       optional: true,
-      options: [
-        {
-          label: "Red",
-          value: "red",
-        },
-        {
-          label: "Orange",
-          value: "orange",
-        },
-        {
-          label: "Yellow",
-          value: "yellow",
-        },
-        {
-          label: "Green",
-          value: "green",
-        },
-        {
-          label: "Turquoise",
-          value: "turquoise",
-        },
-        {
-          label: "Blue",
-          value: "blue",
-        },
-        {
-          label: "Violet",
-          value: "violet",
-        },
-        {
-          label: "Pink",
-          value: "pink",
-        },
-        {
-          label: "Brown",
-          value: "brown",
-        },
-        {
-          label: "Black",
-          value: "black",
-        },
-        {
-          label: "Gray",
-          value: "gray",
-        },
-        {
-          label: "White",
-          value: "white",
-        },
-      ],
+      options: COLOR_OPTIONS,
     },
     photoId: {
       type: "string",
       label: "Photo ID",
       description: "The ID of the photo to retrieve or download.",
     },
-    desiredSize: {
-      type: "string",
-      label: "Desired Size",
-      description: "Optional size for downloading the photo.",
-      optional: true,
-      options: [
-        {
-          label: "Original",
-          value: "original",
-        },
-        {
-          label: "Large",
-          value: "large",
-        },
-        {
-          label: "Medium",
-          value: "medium",
-        },
-        {
-          label: "Small",
-          value: "small",
-        },
-      ],
-    },
   },
   methods: {
     _baseUrl() {
       return "https://api.pexels.com/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
-        },
-      });
+    _headers() {
+      return {
+        "Authorization": `${this.$auth.api_key}`,
+      };
     },
-    async searchPhotos({
-      query, orientation, size, color, ...opts
-    } = {}) {
-      return this._makeRequest({
-        path: "/search",
-        params: {
-          query,
-          orientation,
-          size,
-          color,
-        },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
+      return axios($, {
+        url: this._baseUrl() + path,
+        headers: this._headers(),
         ...opts,
       });
     },
-    async getPhoto({
+    searchPhotos(opts = {}) {
+      return this._makeRequest({
+        path: "/search",
+        ...opts,
+      });
+    },
+    getPhoto({
       photoId, ...opts
     } = {}) {
       return this._makeRequest({
@@ -176,62 +73,36 @@ export default {
         ...opts,
       });
     },
-    async downloadPhoto({
-      photoId, desiredSize = "original", ...opts
-    } = {}) {
-      const photoDetails = await this.getPhoto({
-        photoId,
-      });
-      const downloadUrl = desiredSize === "original"
-        ? photoDetails.src.original
-        : photoDetails.src[desiredSize];
-      const response = await axios(this, {
-        method: "GET",
-        url: downloadUrl,
-        responseType: "stream",
-      });
-      const filePath = `/tmp/photo_${photoId}_${desiredSize}.jpg`;
-      await new Promise((resolve, reject) => {
-        const writer = fs.createWriteStream(filePath);
-        response.data.pipe(writer);
-        writer.on("finish", resolve);
-        writer.on("error", reject);
-      });
-      return filePath;
-    },
-    async getCuratedPhotos(opts = {}) {
+    getCuratedPhotos(opts = {}) {
       return this._makeRequest({
         path: "/curated",
         ...opts,
       });
     },
-    async emitNewPhotos({
-      searchQuery, orientation, color, ...opts
-    } = {}) {
-      const photos = await this.searchPhotos({
-        query: searchQuery,
-        orientation,
-        color,
-        ...opts,
-      });
-      for (const photo of photos) {
-        this.$emit(photo, {
-          summary: `New photo: ${photo.id}`,
-          id: photo.id,
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.page = ++page;
+        const { photos } = await fn({
+          params,
+          ...opts,
         });
-      }
+        for (const d of photos) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = photos.length;
+
+      } while (hasMore);
     },
-    async emitNewCuratedPhotos() {
-      const photos = await this.getCuratedPhotos();
-      for (const photo of photos) {
-        this.$emit(photo, {
-          summary: `New curated photo: ${photo.id}`,
-          id: photo.id,
-        });
-      }
-    },
-  },
-  async events({ $ }) {
-    await this.emitNewCuratedPhotos();
   },
 };

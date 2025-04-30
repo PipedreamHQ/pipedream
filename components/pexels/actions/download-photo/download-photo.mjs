@@ -1,6 +1,8 @@
-import pexels from "../../pexels.app.mjs";
 import { axios } from "@pipedream/platform";
 import fs from "fs";
+import stream from "stream";
+import { promisify } from "util";
+import pexels from "../../pexels.app.mjs";
 
 export default {
   key: "pexels-download-photo",
@@ -16,22 +18,44 @@ export default {
         "photoId",
       ],
     },
-    desiredSize: {
-      propDefinition: [
-        pexels,
-        "desiredSize",
-      ],
+    filePath: {
+      type: "string",
+      label: "File Path",
+      description: "The destination path in [`/tmp`](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory) for the downloaded the file (e.g., `/tmp/myFile.jpg`). Make sure to include the file extension.",
+    },
+  },
+  methods: {
+    getFileStream({
+      $, downloadUrl,
+    }) {
+      return axios($, {
+        url: downloadUrl,
+        responseType: "stream",
+      });
     },
   },
   async run({ $ }) {
-    const filePath = await this.pexels.downloadPhoto({
+    const response = await this.pexels.getPhoto({
+      $,
       photoId: this.photoId,
-      desiredSize: this.desiredSize,
     });
 
-    $.export("$summary", `Successfully downloaded photo with ID ${this.photoId} to ${filePath}`);
+    const fileStream = await this.getFileStream({
+      $,
+      downloadUrl: response.src.original,
+    });
+
+    const pipeline = promisify(stream.pipeline);
+    const resp = await pipeline(
+      fileStream,
+      fs.createWriteStream(this.filePath.includes("/tmp")
+        ? this.filePath
+        : `/tmp/${this.filePath}`),
+    );
+
+    $.export("$summary", `Successfully downloaded photo with ID ${this.photoId} to ${this.filePath}`);
     return {
-      filePath,
+      resp,
     };
   },
 };

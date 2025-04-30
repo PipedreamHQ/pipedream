@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Decoder.js",
-  "module": "../es6/Decoder.js",
-  "typings": "../lib/Decoder.d.ts",
-  "sideEffects": false
-}
