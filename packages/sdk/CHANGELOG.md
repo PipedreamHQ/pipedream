@@ -2,6 +2,16 @@
 
 # Changelog
 
+## [1.6.0] - 2025-04-30
+
+### Added
+
+- Added `configuredProps` argument to the `updateTrigger` method.
+
+### Changed
+
+- Corrected the return type of `updateTrigger`.
+
 ## [1.5.5] - 2025-04-28
 
 ### Changed
