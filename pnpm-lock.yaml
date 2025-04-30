@@ -11703,8 +11703,8 @@ importers:
   components/sharepoint:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/sharpspring:
     dependencies:
