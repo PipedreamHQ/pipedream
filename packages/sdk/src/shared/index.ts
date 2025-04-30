@@ -1562,7 +1562,7 @@ export abstract class BaseClient {
       name = null,
     } = opts;
 
-    return this.makeConnectRequest<V1DeployedComponent>(`/deployed-triggers/${id}`, {
+    return this.makeConnectRequest<GetTriggerResponse>(`/deployed-triggers/${id}`, {
       method: "PUT",
       params: {
         external_user_id: externalUserId,
