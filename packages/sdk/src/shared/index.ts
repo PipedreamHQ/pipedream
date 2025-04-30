@@ -801,6 +801,13 @@ export type UpdateTriggerOpts = {
   active?: boolean;
 
   /**
+   * The props that have already been configured for the trigger. This is a
+   * JSON-serializable object with the prop names as keys and the configured
+   * values as values.
+   */
+  configuredProps?: ConfiguredProps<ConfigurableProps>;
+
+  /**
    * The new name of the trigger.
    */
   name?: string;
@@ -1559,6 +1566,7 @@ export abstract class BaseClient {
       id,
       externalUserId,
       active = null,
+      configuredProps = null,
       name = null,
     } = opts;
 
@@ -1569,6 +1577,7 @@ export abstract class BaseClient {
       },
       body: {
         active,
+        configured_props: configuredProps,
         name,
       },
     });
