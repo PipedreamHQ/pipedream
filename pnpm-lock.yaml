@@ -8739,9 +8739,17 @@ importers:
         specifier: ^1.3.0
         version: 1.6.6
 
-  components/notiff: {}
+  components/notiff:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
-  components/notiff_io: {}
+  components/notiff_io:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/notion:
     dependencies:
