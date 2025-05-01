@@ -4,7 +4,7 @@ export default {
   key: "wordpress_com-new-follower",
   name: "New Follower",
   description: "Emit new event for each new follower that subscribes to the site.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -4,7 +4,7 @@ export default {
   key: "wordpress_com-new-comment",
   name: "New Comment",
   description: "Emit new event for each new comment added since the last run. If no new comments, emit nothing.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {
