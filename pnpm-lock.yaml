@@ -7940,7 +7940,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/mergemole: {}
+  components/mergemole:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/message_bird:
     dependencies:
