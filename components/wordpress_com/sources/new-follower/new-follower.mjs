@@ -51,7 +51,7 @@ export default {
 
       await this.db.set("lastFollowerId", null); //reset
 
-      const response = await this.getWordpressFollowers(this.wordpress._mock$);
+      const response = await this.getWordpressFollowers(this.wordpress._mock$());
 
       const followers = response.subscribers || [];
 
@@ -82,7 +82,7 @@ export default {
 
     const lastFollowerId = Number(await db.get("lastFollowerId"));
 
-    if (!lastFollowerId) await wordpress.initialize(followers, db, "lastPostId");
+    if (!lastFollowerId) await wordpress.initialize(followers, db, "lastFollowerId");
 
     let maxFollowerIdTracker = lastFollowerId;
     const newFollowers = [];

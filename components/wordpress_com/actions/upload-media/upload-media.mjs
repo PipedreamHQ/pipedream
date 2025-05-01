@@ -74,8 +74,8 @@ export default {
 
       const media = response.media[0];
 
-      `Media ID “${media.ID})” has been successfully uploaded`;
-      $.export("$summary", `Media ID “${media.ID})” has been successfully uploaded` +
+      `Media ID “${media.ID}” has been successfully uploaded`;
+      $.export("$summary", `Media ID “${media.ID}” has been successfully uploaded` +
          "\n- " + warnings.join("\n- "));
 
       console.log(response);

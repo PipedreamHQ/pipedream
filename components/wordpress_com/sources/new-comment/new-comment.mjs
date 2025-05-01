@@ -71,7 +71,7 @@ export default {
 
       await this.db.set("lastCommentId", null); //reset
 
-      const response = await this.getWordpressComments(this.wordpress._mock$);
+      const response = await this.getWordpressComments(this.wordpress._mock$());
 
       const comments = response.comments || [];
 

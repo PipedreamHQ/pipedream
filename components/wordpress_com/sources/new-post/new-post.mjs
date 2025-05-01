@@ -82,7 +82,7 @@ export default {
 
       await this.db.set("lastPostId", null); // reset
 
-      const response = await this.getWordpressPosts(this.wordpress._mock$);
+      const response = await this.getWordpressPosts(this.wordpress._mock$());
 
       const posts = (type === "attachment")
         ? (response.media || [])
