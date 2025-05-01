@@ -14334,6 +14334,9 @@ importers:
 
   components/wicked_reports: {}
 
+  components/widgetform:
+    specifiers: {}
+
   components/wildapricot:
     dependencies:
       '@pipedream/platform':
