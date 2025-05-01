@@ -4,7 +4,7 @@ export default {
   key: "wordpress_com-new-post",
   name: "New Post",
   description: "Emit new event for each new post published since the last run. If no new posts, emit nothing.",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   props: {

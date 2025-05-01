@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     ...methods,
-    _mock$(){
+    _mock$() {
       return new Proxy({}, {
         get() {
           return (...args) => console.log(...args);
@@ -162,7 +162,7 @@ export default {
         ...opts,
       });
     },
-    async initialize(subject, db, dbName){
+    async initialize(subject, db, dbName) {
       if (!subject.length) {
         console.log("No ID found on first run. Source initialized with no cursor.");
         return false;
@@ -172,6 +172,6 @@ export default {
       await db.set(dbName, newest);
       console.log(`Initialized ${dbName} on first run with ID ${newest}.`);
       return true ;
-    }
+    },
   },
 };
