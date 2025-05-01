@@ -3176,8 +3176,7 @@ importers:
 
   components/danny_test_app: {}
 
-  components/dappier:
-    specifiers: {}
+  components/dappier: {}
 
   components/darksky_api:
     dependencies:
