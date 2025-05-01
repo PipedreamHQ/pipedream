@@ -118,7 +118,7 @@ export default {
     signature: {
       type: "string",
       label: "Signature",
-      description: "An HTML signature composed in the Gmail Web UI that will be included in the message",
+      description: "An HTML signature composed in the Gmail Web UI that will be included in the message. Only works with the `HTML` body type.",
       optional: true,
       async options() {
         const { sendAs } = await this.listSignatures();
