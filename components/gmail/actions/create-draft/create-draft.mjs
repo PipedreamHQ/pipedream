@@ -73,6 +73,18 @@ export default {
         "mimeType",
       ],
     },
+    fromEmail: {
+      propDefinition: [
+        gmail,
+        "fromEmail",
+      ],
+    },
+    signature: {
+      propDefinition: [
+        gmail,
+        "signature",
+      ],
+    },
   },
   async run({ $ }) {
     this.attachmentFilenames = utils.parseArray(this.attachmentFilenames);

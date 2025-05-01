@@ -318,6 +318,10 @@ export default {
         }
       }
 
+      if (props.signature) {
+        props.body += props.signature;
+      }
+
       if (props.bodyType === constants.BODY_TYPES.HTML) {
         opts.html = props.body;
       } else {
