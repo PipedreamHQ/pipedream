@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/plainly",
+  "version": "0.0.1",
+  "description": "Pipedream Plainly Components",
+  "main": "plainly.app.mjs",
+  "keywords": [
+    "pipedream",
+    "plainly"
+  ],
+  "homepage": "https://pipedream.com/apps/plainly",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

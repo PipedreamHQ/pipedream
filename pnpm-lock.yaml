@@ -7939,7 +7939,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/mergemole: {}
+  components/mergemole:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/message_bird:
     dependencies:
@@ -8734,9 +8738,17 @@ importers:
         specifier: ^1.3.0
         version: 1.6.6
 
-  components/notiff: {}
+  components/notiff:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
-  components/notiff_io: {}
+  components/notiff_io:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/notion:
     dependencies:
@@ -9879,6 +9891,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.0
         version: 1.6.6
+
+  components/plainly:
+    specifiers: {}
 
   components/planday: {}
 
@@ -14317,6 +14332,9 @@ importers:
   components/whosonlocation: {}
 
   components/wicked_reports: {}
+
+  components/widgetform:
+    specifiers: {}
 
   components/wildapricot:
     dependencies:
