@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import CR from "@/components/CR";
 import RB2B from "@/components/RB2B";
 import Vector from "@/components/Vector";
+import VectorConnect from "@/components/VectorConnect";
 
 export default function MyApp({
   Component, pageProps,
@@ -20,7 +21,7 @@ export default function MyApp({
       <>
         <CR />
         <RB2B />
-        <Vector />
+        <VectorConnect />
       </>
     );
   }
