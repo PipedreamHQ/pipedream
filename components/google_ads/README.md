@@ -27,13 +27,13 @@ The component accepts a standard Google Ads API request object with the followin
 
 ```javascript
 const googleAdsReq = {
-  method: "get|post|put|delete",  // HTTP method
-  url: "/v16/...",                // Google Ads API endpoint path
+  method: "get|post|put|delete", // HTTP method
+  url: "/v16/...", // Google Ads API endpoint path
   headers: {
-    "Authorization": `Bearer ${this.googleAds.$auth.oauth_access_token}`
+    Authorization: `Bearer ${this.googleAds.$auth.oauth_access_token}`,
   },
-  data: {}                        // Optional request body for POST/PUT requests
-}
+  data: {}, // Optional request body for POST/PUT requests
+};
 ```
 
 To make different API calls while using the proxy:
@@ -50,12 +50,12 @@ const googleAdsReq = {
   method: "post",
   url: "/v16/customers/1234567890/googleAds:search",
   headers: {
-    "Authorization": `Bearer ${this.googleAds.$auth.oauth_access_token}`
+    Authorization: `Bearer ${this.googleAds.$auth.oauth_access_token}`,
   },
   data: {
-    query: "SELECT campaign.id, campaign.name FROM campaign"
-  }
-}
+    query: "SELECT campaign.id, campaign.name FROM campaign",
+  },
+};
 ```
 
-The proxy endpoint will remain the same: `https://eolid4dq1k0t9hi.m.pipedream.net`
+The proxy endpoint will remain the same: `https://googleads.m.pipedream.net`

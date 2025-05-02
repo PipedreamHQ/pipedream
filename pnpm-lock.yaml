@@ -7242,8 +7242,7 @@ importers:
 
   components/lettria: {}
 
-  components/letzai:
-    specifiers: {}
+  components/letzai: {}
 
   components/leverly: {}
 
@@ -7873,8 +7872,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/meetstream_ai:
-    specifiers: {}
+  components/meetstream_ai: {}
 
   components/meetup: {}
 
@@ -9898,8 +9896,7 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/plainly:
-    specifiers: {}
+  components/plainly: {}
 
   components/planday: {}
 
@@ -14339,8 +14336,7 @@ importers:
 
   components/wicked_reports: {}
 
-  components/widgetform:
-    specifiers: {}
+  components/widgetform: {}
 
   components/wildapricot:
     dependencies:
