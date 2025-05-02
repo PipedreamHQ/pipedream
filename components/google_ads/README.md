@@ -62,13 +62,13 @@ const googleAdsReq = {
 
 ## Using Google Ads with the Connect API Proxy
 
-To interface with Google Ads via the [Connect API Proxy](https://pipedream.com/docs/connect/api-proxy), you essentially need to nest the request like this:
+To interface with Google Ads via the [Connect API Proxy](https://pipedream.com/docs/connect/api-proxy), you need to nest the request like this:
 
 **Important notes:**
 
-- The upstream URL in this case is Pipedream's proxy service for Google Ads
-- Like in the [above examples](#customizing-api-requests-from-within-the-pipedream-workflow-builder), you'll define the Google Ads URL with the `url` param in the `body`
-- The `method` to the Connect Proxy should always be a `POST`, since it's actually targeting the Google Ads proxy (define the method for the Google Ads request in `options.body.method`)
+- The upstream URL in this case is Pipedream's proxy service for Google Ads: `https://googleads.m.pipedream.net`
+- Like in the above examples, you'll define the Google Ads URL with the `url` param in the `body`
+- The `method` to the Connect Proxy should always be a `POST`, since it's actually targeting the Google Ads proxy (you can define the method for the Google Ads request in `options.body.method`)
 
 ### Using the Pipedream SDK
 
@@ -108,7 +108,7 @@ const resp = await pd.makeProxyRequest(
 
 ### Using the Connect REST API
 
-- Remember to use the Base64 encoded Pipedream endpoint for Google Ads: https://googleads.m.pipedream.net
+- Remember to use the Base64 encoded Pipedream endpoint for Google Ads: `https://googleads.m.pipedream.net`
 
 ```bash
 curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/proxy/{url_safe_base64_encoded_url}?external_user_id={external_user_id}&account_id={apn_xxxxxxx}" \
