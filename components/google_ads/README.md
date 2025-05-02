@@ -108,21 +108,9 @@ const resp = await pd.makeProxyRequest(
 
 ### Using the Connect REST API
 
-```javascript
-# First, obtain an OAuth access token to authenticate to the Pipedream API
+- Remember to use the Base64 encoded Pipedream endpoint for Google Ads: https://googleads.m.pipedream.net
 
-curl -X POST https://api.pipedream.com/v1/oauth/token \
-  -H "Content-Type: application/json" \
-  -d '{
-    "grant_type": "client_credentials",
-    "client_id": "{your_oauth_client_id}",
-    "client_secret": "{your_oauth_client_secret}"
-  }'
-
-# The response will include an access_token. Use it in the Authorization header below.
-
-# Base64 encode the Pipedream endpoint for Google Ads: https://googleads.m.pipedream.net
-
+```bash
 curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/proxy/{url_safe_base64_encoded_url}?external_user_id={external_user_id}&account_id={apn_xxxxxxx}" \
   -H "Authorization: Bearer {access_token}" \
   -H "x-pd-environment: {development | production}" \
@@ -131,6 +119,4 @@ curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/proxy/{url_
     "method": "GET",
     # "data": {} # If you need to send a body with a POST request, define it here
   }'
-
-# Parse and return the data you need
 ```
