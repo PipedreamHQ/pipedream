@@ -20,6 +20,7 @@ export default function MyApp({
       <>
         <CR />
         <RB2B />
+        <Vector />
       </>
     );
   }
