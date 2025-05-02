@@ -108,7 +108,7 @@ const resp = await pd.makeProxyRequest(
 
 ### Using the Connect REST API
 
-```bash
+```javascript
 # First, obtain an OAuth access token to authenticate to the Pipedream API
 
 curl -X POST https://api.pipedream.com/v1/oauth/token \
