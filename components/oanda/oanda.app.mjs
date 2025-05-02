@@ -4,146 +4,52 @@ export default {
   type: "app",
   app: "oanda",
   propDefinitions: {
-    baseCurrency: {
-      type: "string",
-      label: "Base Currency",
-      description: "The base currency of the currency pair.",
+    isDemo: {
+      type: "boolean",
+      label: "Is Demo",
+      description: "Set to `true` if using a demo/practice account",
     },
-    quoteCurrency: {
+    accountId: {
       type: "string",
-      label: "Quote Currency",
-      description: "The quote currency of the currency pair.",
+      label: "Account ID",
+      description: "The identifier of an account",
+      async options({ isDemo }) {
+        const { accounts } = await this.listAccounts({
+          isDemo,
+        });
+        return accounts?.map(({ id }) => id) || [];
+      },
     },
-    changeThreshold: {
-      type: "number",
-      label: "Change Threshold",
-      description: "The threshold for significant change in forex rate to trigger the event.",
-    },
-    instrumentFilter: {
+    tradeId: {
       type: "string",
-      label: "Instrument Filter",
-      description: "Filter by instrument.",
-      optional: true,
-    },
-    tradeTypeFilter: {
-      type: "string",
-      label: "Trade Type Filter",
-      description: "Filter by trade type.",
-      optional: true,
-      options: [
-        {
-          label: "Buy",
-          value: "BUY",
-        },
-        {
-          label: "Sell",
-          value: "SELL",
-        },
-      ],
-    },
-    orderTypeFilter: {
-      type: "string",
-      label: "Order Type Filter",
-      description: "Filter by order type.",
-      optional: true,
-      options: [
-        {
-          label: "Market",
-          value: "MARKET",
-        },
-        {
-          label: "Limit",
-          value: "LIMIT",
-        },
-        {
-          label: "Stop",
-          value: "STOP",
-        },
-      ],
+      label: "Trade ID",
+      description: "The ID of the Trade to close when the price threshold is breached",
+      async options({
+        isDemo, accountId, prevContext,
+      }) {
+        const {
+          trades, lastTransactionID,
+        } = await this.listTrades({
+          isDemo,
+          accountId,
+          params: prevContext?.beforeID
+            ? {
+              beforeID: prevContext.beforeID,
+            }
+            : {},
+        });
+        return {
+          options: trades?.map(({ id }) => id),
+          context: {
+            beforeID: lastTransactionID,
+          },
+        };
+      },
     },
     instrument: {
       type: "string",
-      label: "Instrument",
-      description: "The financial instrument to be used.",
-    },
-    orderType: {
-      type: "string",
-      label: "Order Type",
-      description: "Type of the order.",
-      options: [
-        {
-          label: "Market",
-          value: "MARKET",
-        },
-        {
-          label: "Limit",
-          value: "LIMIT",
-        },
-        {
-          label: "Stop",
-          value: "STOP",
-        },
-      ],
-    },
-    units: {
-      type: "integer",
-      label: "Units",
-      description: "Number of units to trade.",
-    },
-    priceThreshold: {
-      type: "number",
-      label: "Price Threshold",
-      description: "Optional price threshold for the order.",
-      optional: true,
-    },
-    timeInForce: {
-      type: "string",
-      label: "Time In Force",
-      description: "Optional time in force for the order.",
-      optional: true,
-      options: [
-        {
-          label: "Good Till Cancelled (GTC)",
-          value: "GTC",
-        },
-        {
-          label: "Immediate Or Cancel (IOC)",
-          value: "IOC",
-        },
-        {
-          label: "Fill Or Kill (FOK)",
-          value: "FOK",
-        },
-      ],
-    },
-    granularity: {
-      type: "string",
-      label: "Granularity",
-      description: "The granularity of the historical price data.",
-      options: [
-        {
-          label: "Minute",
-          value: "M1",
-        },
-        {
-          label: "Hour",
-          value: "H1",
-        },
-        {
-          label: "Daily",
-          value: "D",
-        },
-      ],
-    },
-    startTime: {
-      type: "string",
-      label: "Start Time",
-      description: "The start time for historical price data (ISO 8601 format).",
-    },
-    endTime: {
-      type: "string",
-      label: "End Time",
-      description: "The end time for historical price data (ISO 8601 format).",
+      label: "Instrument Name",
+      description: "The instrument to filter the requested Trades by. E.g. `AUD_USD`",
     },
   },
   methods: {
@@ -166,100 +72,60 @@ export default {
         },
       });
     },
-    async listTrades(opts = {}) {
-      const {
-        instrumentFilter, tradeTypeFilter, ...otherOpts
-      } = opts;
-      const params = {};
-      if (tradeTypeFilter) {
-        params.type = tradeTypeFilter;
-      }
-      if (instrumentFilter) {
-        params.instrument = instrumentFilter;
-      }
+    listAccounts(opts = {}) {
       return this._makeRequest({
-        path: `/accounts/${this.$auth.account_id}/trades`,
-        params,
-        ...otherOpts,
+        path: "/accounts",
+        ...opts,
       });
     },
-    async createOrder(opts = {}) {
-      const {
-        instrument, orderType, units, priceThreshold, timeInForce, ...otherOpts
-      } = opts;
-      const data = {
-        order: {
-          type: orderType,
-          instrument: instrument,
-          units: units,
-          timeInForce: timeInForce || "FOK",
-        },
-      };
-      if (priceThreshold) {
-        data.order.price = priceThreshold;
-      }
+    listTrades({
+      accountId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/accounts/${accountId}/trades`,
+        ...opts,
+      });
+    },
+    listOpenTrades({
+      accountId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/accounts/${accountId}/openTrades`,
+        ...opts,
+      });
+    },
+    listOpenPositions({
+      accountId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/accounts/${accountId}/openPositions`,
+        ...opts,
+      });
+    },
+    listTransactions({
+      accountId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/accounts/${accountId}/transactions/idrange`,
+        ...opts,
+      });
+    },
+    getHistoricalPrices({
+      accountId, instrument, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/accounts/${accountId}/instruments/${instrument}/candles`,
+        ...opts,
+      });
+    },
+    createOrder({
+      accountId, ...opts
+    }) {
       return this._makeRequest({
         method: "POST",
-        path: `/accounts/${this.$auth.account_id}/orders`,
-        data,
-        ...otherOpts,
+        path: `/accounts/${accountId}/orders`,
+        ...opts,
       });
-    },
-    async getHistoricalPrices(opts = {}) {
-      const {
-        instrument, granularity, startTime, endTime, ...otherOpts
-      } = opts;
-      const params = {
-        granularity: granularity,
-        from: startTime,
-        to: endTime,
-      };
-      return this._makeRequest({
-        path: `/instruments/${instrument}/candles`,
-        params,
-        ...otherOpts,
-      });
-    },
-    async getOrderStatus(opts = {}) {
-      const {
-        orderTypeFilter, ...otherOpts
-      } = opts;
-      const params = {};
-      if (orderTypeFilter) {
-        params.type = orderTypeFilter;
-      }
-      return this._makeRequest({
-        path: `/accounts/${this.$auth.account_id}/orders`,
-        params,
-        ...otherOpts,
-      });
-    },
-    async getPricingData(opts = {}) {
-      const {
-        baseCurrency, quoteCurrency, ...otherOpts
-      } = opts;
-      const instrument = `${baseCurrency}_${quoteCurrency}`;
-      const params = {
-        instruments: instrument,
-      };
-      return this._makeRequest({
-        path: "/pricing",
-        params,
-        ...otherOpts,
-      });
-    },
-    async paginate(fn, ...opts) {
-      let results = [];
-      let response = await fn(...opts);
-      results = results.concat(response.trades || response.orders || []);
-      while (response.nextPage) {
-        response = await fn({
-          page: response.nextPage,
-          ...opts,
-        });
-        results = results.concat(response.trades || response.orders || []);
-      }
-      return results;
     },
   },
 };
