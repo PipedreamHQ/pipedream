@@ -117,6 +117,67 @@ export default {
         };
       },
     },
+    driveId: {
+      type: "string",
+      label: "Drive ID",
+      description: "Identifier of a drive within a site",
+      async options({
+        prevContext, siteId,
+      }) {
+        if (!siteId) {
+          return [];
+        }
+        const args = {
+          siteId,
+        };
+        if (prevContext?.nextLink) {
+          args.url = prevContext.nextLink;
+        }
+        const response = await this.listSiteDrives(args);
+        const options = response.value?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+        return {
+          options,
+          context: {
+            nextLink: response["@odata.nextLink"],
+          },
+        };
+      },
+    },
+    fileId: {
+      type: "string",
+      label: "File ID",
+      description: "The file to download. You can either search for the file here or provide a custom *File ID*.",
+      useQuery: true,
+      async options({
+        query, siteId, driveId,
+      }) {
+        const response = query
+          ? await this.searchDriveItems({
+            siteId,
+            query,
+            params: {
+              select: "folder,name,id",
+            },
+          })
+          : await this.listDriveItems({
+            siteId,
+            driveId,
+          });
+        const values = response.value.filter(({ folder }) => !folder);
+        return values
+          .map(({
+            name, id,
+          }) => ({
+            label: name,
+            value: id,
+          }));
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -165,6 +226,38 @@ export default {
     }) {
       return this._makeRequest({
         path: `/sites/${siteId}/lists/${listId}/items`,
+        ...args,
+      });
+    },
+    listSiteDrives({
+      siteId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/sites/${siteId}/drives`,
+        ...args,
+      });
+    },
+    listDriveItems({
+      siteId, driveId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/sites/${siteId}/drives/${driveId}/items/root/children`,
+        ...args,
+      });
+    },
+    searchDriveItems({
+      siteId, query, ...args
+    }) {
+      return this._makeRequest({
+        path: `/sites/${siteId}/drive/root/search(q='${query}')`,
+        ...args,
+      });
+    },
+    getFile({
+      siteId, fileId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/sites/${siteId}/drive/items/${fileId}/content`,
         ...args,
       });
     },
