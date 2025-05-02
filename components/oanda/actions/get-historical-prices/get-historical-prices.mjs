@@ -119,6 +119,9 @@ export default {
     } catch (error) {
       if (error?.message.includes("Maximum value for 'count' exceeded")) {
         throw new ConfigurationError("Maximum results exceeded. Update the time range or granularity to return fewer results.");
+      } else {
+        console.error("Error retrieving historical prices:", error);
+        throw error;
       }
     }
   },
