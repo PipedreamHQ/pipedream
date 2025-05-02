@@ -7,7 +7,7 @@ export default {
   key: "google_ads-new-campaign-created",
   name: "New Campaign Created",
   description: "Emit new event when a new campaign is created. [See the documentation](https://developers.google.com/google-ads/api/fields/v18/campaign)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   sampleEmit,
