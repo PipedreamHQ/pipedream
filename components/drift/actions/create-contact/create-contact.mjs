@@ -1,28 +1,11 @@
 import drift from "../../drift.app.mjs";
-import mockery$ from "../mockery-dollar.mjs";
 import { removeNullEntries } from "../../common/utils.mjs";
 
-const mockeryData = {
-  drift: drift,
-  email: "newlyyyy@mail.com",
-  name: "Boberto McTestface",
-  phone: "+1234567123",
-  customAttributes: {
-    job_title: "Software Engineer",
-    company: "OpenAI",
-    location: "San Francisco",
-  },
-};
-
-const testAction = {
-  mockery: {
-    drift,
-    ...mockeryData,
-  }, // TEST
+export default  {
   key: "drift-create-contact-test",
   name: "Create Contact",
   description: "Creates a contact in Drift. [See the docs](https://devdocs.drift.com/docs/creating-a-contact).",
-  version: "0.0.1",
+  version: "0.0.4",
   type: "action",
   props: {
     drift,
@@ -57,11 +40,11 @@ const testAction = {
 
     const {
       drift, email, name, phone,
-    } = this.mockery;
+    } = this;
 
-    warnings.push(...drift.methods.checkIfEmailValid(email));
+    warnings.push(...drift.checkIfEmailValid(email));
 
-    const customAttributes = drift.methods.parseIfJSONString(this.mockery.customAttributes);
+    const customAttributes = drift.parseIfJSONString(this.customAttributes);
 
     const attributes = removeNullEntries({
       email,
@@ -70,7 +53,7 @@ const testAction = {
       ...customAttributes,
     });
 
-    const existingContact = await drift.methods.getContactByEmail({
+    const existingContact = await drift.getContactByEmail({
       $,
       params: {
         email,
@@ -81,24 +64,22 @@ const testAction = {
       throw new Error (`Contact ${email} already exists`);
     };
 
-    const response = await drift.methods.createContact({
-      $,
-      data: {
-        attributes,
-      },
-    });
+    let response;
 
-    console.log(response.data.id);
+    try {
+      response = await drift.createContact({
+        $,
+        data: {
+          attributes,
+        },
+      });
+    } catch (error) {
+      drift.throwCustomError("Unable to create new contact", error, warnings);
+    }
 
-    $.export("$summary", `Contact ${email} created.` + "\n- "  + warnings.join("\n- "));
+    $.export("$summary", `Contact "${email}" created with ID "${response.data.id}".`
+        + "\n- "  + warnings.join("\n- "));
     return response;
   },
 };
 
-// TEST (FIX IN PRODUCTION)
-// await is just in case if node wants to finish its job before time =)
-async function runTest() {
-  await testAction.run(mockery$);
-}
-
-runTest();

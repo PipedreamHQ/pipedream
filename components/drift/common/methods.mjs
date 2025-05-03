@@ -164,42 +164,42 @@ export default {
 
   checkIfEmailValid(input) {
     const warnings = [];
-  
+
     if (!this.isString(input)) {
       warnings.push("Email is not a string.");
       return warnings;
     }
-  
+
     const trimmedInput = input.trim();
-  
+
     if (this.isEmptyString(trimmedInput)) {
       warnings.push("Email is an empty string.");
       return warnings;
     }
-  
+
     // Reject obvious invalid characters
     const suspiciousChars = /[\\[\]<>^`"(),;:]/g;
     if (suspiciousChars.test(trimmedInput)) {
       warnings.push(
         "Email contains suspicious or invalid characters. " +
-        this._reasonMsg(input)
+        this._reasonMsg(input),
       );
     }
-  
+
     // Contains space, tab, or newline
     if (/[ \t\n]/.test(trimmedInput)) {
       warnings.push(
         "Email contains spaces or newline characters. " +
-        this._reasonMsg(input)
+        this._reasonMsg(input),
       );
     }
-  
+
     // Rough structural check
     const basicPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
     if (!basicPattern.test(trimmedInput)) {
       warnings.push(
         "Email does not appear to be in a valid format (e.g., user@example.com). " +
-        this._reasonMsg(input)
+        this._reasonMsg(input),
       );
     }
     return warnings;
@@ -242,6 +242,33 @@ export default {
       warnings.push("Domain should contain at least one dot (e.g. example.com)." +
          this._reasonMsg(input));
     }
+
+    return warnings;
+  },
+
+  /* ===========================================================================================
+    Validates input as either:
+    - A numeric ID (integer, e.g., 123456 or "123456")
+    - A valid email address (e.g., "user@example.com")
+=============================================================================================== */
+
+  checkEmailOrId(input) {
+
+    const warnings = [];
+
+    const trimmed = this.trimIfString(input);
+
+    // If it's an ID like number or string (e.g 12345 or "12345");
+    // it's Valid. Return empty warnings array.
+    if (this.isIdNumber(Number(trimmed))) return warnings;
+
+    // If it's not a string.
+    if (!this.isString(trimmed)) {
+      warnings.push("Provided value is not an email or ID-like value (e.g., 1234 or '1234').");
+      return warnings;
+    }
+
+    warnings.push(...this.checkIfEmailValid(trimmed));
 
     return warnings;
   },

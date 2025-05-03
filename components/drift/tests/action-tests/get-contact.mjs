@@ -3,7 +3,7 @@ import mockery$ from "../mockery-dollar.mjs";
 
 const mockeryData = {
   drift: drift,
-  emailOrId: "25061622869",
+  emailOrId: "25062508963",
 };
 
 const testAction = {
@@ -36,20 +36,16 @@ const testAction = {
 
     warnings.push(...drift.methods.checkEmailOrId(emailOrId));
 
-    let contact = await drift.methods.getContactByEmailOrId($, emailOrId);
-    contact = contact.data[0] || contact.data;
+    const response = await drift.methods.getContactByEmailOrId($, emailOrId);
 
-    const contactId = contact.id;
-    const contactEmail = contact.email;
+    const contact = response.data[0] || response.data;
 
-    const response = await drift.methods.deleteContactById({
-      $,
-      contactId,
-    });
+    console.log(contact);
 
-    $.export("$summary", `Contact ${contactEmail} ID "${contactId}" deleted successfully.`);
+    $.export("$summary", `Contact ${contact.attributes.email} ID "${contact.id}"`
+      + " fetched successfully.");
 
-    return response;
+    return contact;
   },
 };
 
