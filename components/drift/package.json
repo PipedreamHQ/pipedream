@@ -13,6 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.0.0"
+    "@pipedream/platform": "^3.0.0",
+    "node-persist": "^4.0.4"
   }
 }

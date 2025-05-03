@@ -1,10 +1,11 @@
 import drift from "../../drift.app.mjs";
+import { removeNullEntries } from "../../common/utils.mjs";
 
 export default {
   key: "drift-update-contact",
   name: "Update Contact",
   description: "Updates a contact in Drift using ID or email. Only changed attributes will be updated. [See Drift API docs](https://devdocs.drift.com/docs/updating-a-contact)",
-  version: "0.0.2",
+  version: "0.0.5",
   type: "action",
   props: {
     drift,
@@ -15,8 +16,8 @@ export default {
     },
     email: {
       type: "string",
-      label: "New Email",
-      description: "The new email address to assign to this contact.",
+      label: "Email",
+      description: "The contact’s email address",
       optional: true,
     },
     name: {
@@ -41,77 +42,42 @@ export default {
 
   async run({ $ }) {
     const warnings = [];
-    const { drift } = this;
-    const emailOrId = drift.trimIfString(this.emailOrId);
-    warnings.push(...drift.checkEmailOrId(emailOrId));
+    const {
+      drift, name, email, phone,
+    } = this;
 
-    let contactId;
+    const customAttributes = drift.parseIfJSONString(this.customAttributes);
 
-    // Resolve contact by ID or email
-    if (drift.isIdNumber(Number(emailOrId))) {
-      contactId = Number(emailOrId);
-      try {
-        await drift.getContactById({
-          $,
-          contactId,
-        }); // validate
-      } catch (error) {
-        if (error.status === 404) {
-          throw new Error(`No contact found with ID: ${contactId}`);
-        } else {
-          throw error;
-        }
-      }
-    } else {
-      const response = await drift.getContactByEmail({
-        $,
-        params: {
-          email: emailOrId,
-        },
-      });
-      if (!response?.data?.length) {
-        throw new Error(`No contact found with email: ${emailOrId}` +
-          "\n- " + warnings.join("\n- "));
-      }
-      contactId = response.data[0].id;
-    }
-
-    // Safely merge attributes
-    const attributes = {
-      ...(this.email && {
-        email: this.email,
-      }),
-      ...(this.name && {
-        name: this.name,
-      }),
-      ...(this.phone && {
-        phone: this.phone,
-      }),
-      ...this.customAttributes,
-    };
-
-    // Remove conflicts where top-level fields exist in customAttributes
-    [
-      "email",
-      "name",
-      "phone",
-    ].forEach((key) => {
-      if (this.customAttributes?.[key]) {
-        warnings.push(`Warning: Custom attribute "${key}" is ignored because it’s already handled as a top-level prop.`);
-        delete attributes[key];
-      }
+    const attributes = removeNullEntries({
+      name,
+      phone,
+      email,
+      ...customAttributes,
     });
 
     if (!Object.keys(attributes).length) {
       throw new Error("No attributes provided to update.");
-    }
+    };
 
-    const response = await drift.updateContactById(contactId, {
+    const emailOrId = drift.trimIfString(this.emailOrId);
+
+    warnings.push(...drift.checkEmailOrId(emailOrId));
+    warnings.push(...drift.checkIfEmailValid(emailOrId));
+
+    let contact = await drift.getContactByEmailOrId($, emailOrId);
+
+    const contactId = contact.data[0]?.id || contact.data.id;
+
+    const response = await drift.updateContact({
       $,
-      attributes,
+      contactId,
+      data: {
+        attributes,
+      },
     });
 
     $.export("$summary", `Contact ID ${contactId} updated successfully.`);
     return response;
   },
 };
+

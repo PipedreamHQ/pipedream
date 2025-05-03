@@ -33,9 +33,18 @@ const testAction = {
       type: "string",
       label: "Post Type",
       options: [
-        { label: "Post", value: "post" },
-        { label: "Page", value: "page" },
-        { label: "Attachment", value: "attachment" },
+        {
+          label: "Post",
+          value: "post",
+        },
+        {
+          label: "Page",
+          value: "page",
+        },
+        {
+          label: "Attachment",
+          value: "attachment",
+        },
       ],
       default: "post",
     },
@@ -62,7 +71,7 @@ const testAction = {
       number,
     } = this.mockeryData; // TEST
 
-    warnings.push(...wordpress.methods.checkDomainOrId(site))
+    warnings.push(...wordpress.methods.checkDomainOrId(site));
 
     let response;
     try {
@@ -77,9 +86,10 @@ const testAction = {
       wordpress.methods.onAxiosCatch("Failed to fetch posts from WordPress:", error, warnings); // TEST
     }
 
-    const posts = (type === "attachment") ? (response.media || []) : (response.posts || []);
+    const posts = (type === "attachment")
+      ? (response.media || [])
+      : (response.posts || []);
     const lastPostId = await db.get("lastPostId");
-    
 
     // First run: Initialize cursor
     if (!lastPostId) {
@@ -103,7 +113,7 @@ const testAction = {
 
     const newPosts = [];
 
-    for (const post of posts) { 
+    for (const post of posts) {
       if (post.ID > lastPostId) {
         newPosts.push(post);
         if (post.ID > maxPostIdTracker) {
@@ -114,13 +124,13 @@ const testAction = {
 
     // Emit each new post separately
     for (const post of newPosts.reverse()) {
-      
+
       this.$emit(post, {
         id: post.ID,
         summary: post.title,
         ts: post.date && +new Date(post.date),
       });
-      
+
     }
 
     // Update last seen post ID

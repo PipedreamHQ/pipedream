@@ -1,11 +1,11 @@
 import drift from "../../drift.app.mjs";
 import { removeNullEntries } from "../../common/utils.mjs";
 
-export default  {
+export default {
   key: "drift-create-contact-test",
   name: "Create Contact",
   description: "Creates a contact in Drift. [See the docs](https://devdocs.drift.com/docs/creating-a-contact).",
-  version: "0.0.4",
+  version: "0.0.10",
   type: "action",
   props: {
     drift,
@@ -64,21 +64,16 @@ export default  {
       throw new Error (`Contact ${email} already exists`);
     };
 
-    let response;
+    const response = await drift.createContact({
+      $,
+      data: {
+        attributes,
+      },
+    });
 
-    try {
-      response = await drift.createContact({
-        $,
-        data: {
-          attributes,
-        },
-      });
-    } catch (error) {
-      drift.throwCustomError("Unable to create new contact", error, warnings);
-    }
+    console.log(response.data.id);
 
-    $.export("$summary", `Contact "${email}" created with ID "${response.data.id}".`
-        + "\n- "  + warnings.join("\n- "));
+    $.export("$summary", `Contact ${email} created.` + "\n- "  + warnings.join("\n- "));
     return response;
   },
 };

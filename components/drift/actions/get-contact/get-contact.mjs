@@ -1,10 +1,10 @@
 import drift from "../../drift.app.mjs";
 
-export default  {
-  key: "drift-get-contact-test",
-  name: "Delete Contact",
-  description: "Deletes a contact in Drift by ID or email. [See the docs](https://devdocs.drift.com/docs/retrieving-contact).",
-  version: "0.0.3",
+export default {
+  key: "drift-delete-contact-test",
+  name: "Get Contact",
+  description: "Retrieves a contact in Drift by ID or email. [See the docs](https://devdocs.drift.com/docs/retrieving-contact)",
+  version: "0.0.14",
   type: "action",
   props: {
     drift,
@@ -25,43 +25,9 @@ export default  {
 
     warnings.push(...drift.checkEmailOrId(emailOrId));
 
-    let contact;
+    const response = await drift.getContactByEmailOrId($, emailOrId);
 
-    if (drift.isIdNumber(Number(emailOrId))) {
-
-      const contactId = Number(emailOrId);
-
-      let response;
-      try {
-        response = await drift.getContactById({
-          $,
-          contactId,
-        });
-      } catch (error) {
-        if (error.status === 404) {
-          throw new Error(`No contact found with ID: ${contactId}`);
-        } else {
-          throw error;
-        };
-      }
-
-      contact = response.data;
-
-    } else {
-      const email = emailOrId;
-      const response = await drift.getContactByEmail({
-        $,
-        params: {
-          email,
-        },
-      });
-      if (!response?.data?.length) {
-        throw new Error(`No contact found with email: ${email}` +
-              "\n- "  + warnings.join("\n- "));
-      };
-
-      contact = response.data[0];
-    };
+    const contact = response.data[0] || response.data;
 
     console.log(contact);
 
@@ -71,4 +37,3 @@ export default  {
     return contact;
   },
 };
-
