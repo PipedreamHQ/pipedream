@@ -42,7 +42,7 @@ export default {
       params,
     });
 
-    $.export("$summary", `Successfully requested transaction export`);
+    $.export("$summary", "Successfully requested transaction export");
     return response;
-  }, 
+  },
 };
