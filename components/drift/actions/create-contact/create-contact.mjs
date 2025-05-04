@@ -2,10 +2,10 @@ import drift from "../../drift.app.mjs";
 import { removeNullEntries } from "../../common/utils.mjs";
 
 export default {
-  key: "drift-create-contact-test",
+  key: "drift-create-contact",
   name: "Create Contact",
   description: "Creates a contact in Drift. [See the docs](https://devdocs.drift.com/docs/creating-a-contact).",
-  version: "0.0.11",
+  version: "0.0.1",
   type: "action",
   props: {
     drift,
@@ -80,7 +80,7 @@ export default {
 
     console.log(response.data.id);
 
-    $.export("$summary", `Contact ${email} created.` + "\n- "  + warnings.join("\n- "));
+    $.export("$summary", `Contact ${email} created.` + warnings.join("\n- "));
     return response;
   },
 };

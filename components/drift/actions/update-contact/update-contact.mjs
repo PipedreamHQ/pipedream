@@ -5,7 +5,7 @@ export default {
   key: "drift-update-contact",
   name: "Update Contact",
   description: "Updates a contact in Drift using ID or email. Only changed attributes will be updated. [See Drift API docs](https://devdocs.drift.com/docs/updating-a-contact)",
-  version: "0.0.7",
+  version: "0.0.9",
   type: "action",
   props: {
     drift,
@@ -69,7 +69,7 @@ export default {
     const emailOrId = drift.trimIfString(this.emailOrId);
 
     warnings.push(...drift.checkEmailOrId(emailOrId));
-    warnings.push(...drift.checkIfEmailValid(emailOrId));
+    warnings.push(...drift.checkIfEmailValid(email));
 
     let contact = await drift.getContactByEmailOrId($, emailOrId);
 
@@ -83,7 +83,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Contact ID ${contactId} updated successfully.`);
+    $.export("$summary", `Contact ID ${contactId} updated successfully.` + warnings.join("\n- "));
     return response;
   },
 };

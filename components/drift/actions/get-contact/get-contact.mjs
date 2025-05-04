@@ -1,10 +1,10 @@
 import drift from "../../drift.app.mjs";
 
 export default {
-  key: "drift-delete-contact-test",
+  key: "drift-delete-contact",
   name: "Get Contact",
   description: "Retrieves a contact in Drift by ID or email. [See the docs](https://devdocs.drift.com/docs/retrieving-contact)",
-  version: "0.0.14",
+  version: "0.0.1",
   type: "action",
   props: {
     drift,
@@ -32,7 +32,7 @@ export default {
     console.log(contact);
 
     $.export("$summary", `Contact ${contact.attributes.email} ID "${contact.id}"`
-      + " fetched successfully.");
+      + " fetched successfully." +  warnings.join("\n- "));
 
     return contact;
   },

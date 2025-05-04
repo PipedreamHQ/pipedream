@@ -1,10 +1,10 @@
 import drift from "../../drift.app.mjs";
 
 export default {
-  key: "drift-delete-contact-test",
+  key: "drift-delete-contact",
   name: "Delete Contact",
   description: "Deletes a contact in Drift by ID or email. [See the docs](https://devdocs.drift.com/docs/removing-a-contact).",
-  version: "0.0.12",
+  version: "0.0.17",
   type: "action",
   props: {
     drift,
@@ -29,14 +29,15 @@ export default {
     contact = contact.data[0] || contact.data;
 
     const contactId = contact.id;
-    const contactEmail = contact.email;
+    const contactEmail = contact.attributes.email;
 
     const response = await drift.deleteContactById({
       $,
       contactId,
     });
 
-    $.export("$summary", `Contact ${contactEmail} ID "${contactId}" deleted successfully.`);
+    $.export("$summary", `Contact ${contactEmail} ID "${contactId}" deleted successfully.` +
+       warnings.join("\n- "));
 
     return response;
   },
