@@ -1,7 +1,7 @@
 import drift from "../../drift.app.mjs";
 
 export default {
-  key: "drift-delete-contact",
+  key: "drift-get-contact",
   name: "Get Contact",
   description: "Retrieves a contact in Drift by ID or email. [See the docs](https://devdocs.drift.com/docs/retrieving-contact)",
   version: "0.0.1",
@@ -29,7 +29,9 @@ export default {
 
     const contact = response.data[0] || response.data;
 
-    console.log(contact);
+    if (!contact) {
+      throw new Error("Failed to get contact");
+    };
 
     $.export("$summary", `Contact ${contact.attributes.email} ID "${contact.id}"`
       + " fetched successfully." +  warnings.join("\n- "));

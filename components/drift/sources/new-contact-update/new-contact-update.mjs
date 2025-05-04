@@ -1,7 +1,7 @@
 import drift from "../../drift.app.mjs";
 
 export default {
-  key: "drift-new-contact-update-test",
+  key: "drift-new-contact-update",
   name: "New Contact Update",
   description: "Emit new event when a contact is updated in Drift. [See the docs](https://devdocs.drift.com/docs/webhook-events-1).",
   version: "0.0.1",
@@ -25,7 +25,7 @@ export default {
       contactId,
     });
 
-    const email = result.data.attributes.email;
+    const email = result.data?.attributes?.email || "unknown";
 
     body.data.attributes =  result.data.attributes;
 

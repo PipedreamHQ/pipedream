@@ -50,7 +50,7 @@ export default {
       contactId,
     });
 
-    const email = result.data.attributes.email || "unknown";
+    const email = result.data?.attributes?.email || "unknown";
 
     if (this.emailOrId &&
             !(email === this.emailOrId || Number(contactId) === Number(this.emailOrId))) {
@@ -61,7 +61,7 @@ export default {
     body.data.attributes =  result.data.attributes;
 
     this.$emit(body, {
-      summary: `Contact "${email} " ID "${contactId || "unknown"}" updated`,
+      summary: `New message from contact "${email} " ID "${contactId || "unknown"}" updated`,
       id: body.data.endUserId,
       ts: body.timeStamp,
     });

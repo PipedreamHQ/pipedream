@@ -1,7 +1,7 @@
 import drift from "../../drift.app.mjs";
 
 export default {
-  key: "drift-new-lead-instance-test",
+  key: "drift-new-lead-instance",
   name: "New Lead",
   description: "Emit new event when a contact adds their email in chat.  [See the docs](https://devdocs.drift.com/docs/webhook-events-1).",
   version: "0.0.1",

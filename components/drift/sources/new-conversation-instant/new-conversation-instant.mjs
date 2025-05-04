@@ -1,9 +1,9 @@
 import drift from "../../drift.app.mjs";
 
 export default {
-  key: "drift-new-conversation-instant-test  [See the docs](https://devdocs.drift.com/docs/retrieve-a-conversation)",
+  key: "drift-new-conversation-instant",
   name: "New Conversation",
-  description: "Emit new when a new conversation is started in Drift.",
+  description: "Emit new when a new conversation is started in Drift. [See the docs](https://devdocs.drift.com/docs/retrieve-a-conversation)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

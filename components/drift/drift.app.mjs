@@ -30,7 +30,7 @@ export default {
         method,
         url: `${this._baseUrl()}${path}`,
         headers: {
-          "Authorization": `Bearer ${this.$auth?.oauth_access_token || "iHlC8LmFQiTH0DcWds7ETMRMmo3BvUyP"}`,
+          "Authorization": `Bearer ${this.$auth?.oauth_access_token}`,
           "Content-Type": contentType || "application/json",
         },
         ...opts,
@@ -42,7 +42,7 @@ export default {
         method: "GET",
         url,
         headers: {
-          "Authorization": `Bearer ${this.$auth?.oauth_access_token || "iHlC8LmFQiTH0DcWds7ETMRMmo3BvUyP"}`,
+          "Authorization": `Bearer ${this.$auth?.oauth_access_token}`,
         },
       });
     },
