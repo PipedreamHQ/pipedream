@@ -110,7 +110,7 @@ export default {
             throw new Error(`No contact found with ID: ${contactId}`);
           } else {
             throw error;
-          };
+          }
         }
 
       } else {

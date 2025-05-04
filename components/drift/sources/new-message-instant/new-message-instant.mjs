@@ -1,7 +1,7 @@
 import drift from "../../drift.app.mjs";
 
 export default {
-  key: "drift-new-message-instant-test",
+  key: "drift-new-message-instant",
   name: "New Message",
   description: "Emit new event when a new message is received in Drift.  [See the docs](https://devdocs.drift.com/docs/webhook-events-1).",
   version: "0.0.1",
