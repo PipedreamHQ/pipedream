@@ -43,6 +43,12 @@ const testAction = {
       description: "The contact's phone number",
       optional: true,
     },
+    source: {
+      type: "string",
+      label: "Lead Source",
+      description: "The value of the 'lead_create_source' custom attribute to match (case-sensitive).",
+      optional: true,
+    },
     customAttributes: {
       type: "object",
       label: "Custom Attributes",
@@ -56,7 +62,7 @@ const testAction = {
     const warnings = [];
 
     const {
-      drift, email, name, phone,
+      drift, email, name, phone, source,
     } = this.mockery;
 
     warnings.push(...drift.methods.checkIfEmailValid(email));
@@ -67,6 +73,7 @@ const testAction = {
       email,
       name,
       phone,
+      source,
       ...customAttributes,
     });
 

@@ -7,6 +7,13 @@ export default {
   propDefinitions: {},
   methods: {
     ...methods,
+    _mock$() {
+      return new Proxy({}, {
+        get() {
+          return (...args) => console.log(...args);
+        },
+      });
+    },
     _baseUrl() {
       return "https://driftapi.com";
     },
@@ -27,6 +34,16 @@ export default {
           "Content-Type": contentType || "application/json",
         },
         ...opts,
+      });
+    },
+
+    getNextPage($, url) {
+      return axios($, {
+        method: "GET",
+        url,
+        headers: {
+          "Authorization": `Bearer ${this.$auth?.oauth_access_token || "iHlC8LmFQiTH0DcWds7ETMRMmo3BvUyP"}`,
+        },
       });
     },
 
@@ -111,5 +128,13 @@ export default {
 
       return response;
     },
+
+    getNewestConversations(arr, lastKnown) {
+      const firtsNew = arr.indexOf(lastKnown);
+      if (firtsNew === -1) throw new Error("Id not found");
+      const newest = arr.slice(0, firtsNew);
+      return newest.reverse();
+    },
+
   },
 };

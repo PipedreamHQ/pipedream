@@ -5,7 +5,7 @@ export default {
   key: "drift-create-contact-test",
   name: "Create Contact",
   description: "Creates a contact in Drift. [See the docs](https://devdocs.drift.com/docs/creating-a-contact).",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "action",
   props: {
     drift,
@@ -26,6 +26,12 @@ export default {
       description: "The contact's phone number",
       optional: true,
     },
+    source: {
+      type: "string",
+      label: "Lead Source",
+      description: "The value of the 'lead_create_source' custom attribute to match (case-sensitive).",
+      optional: true,
+    },
     customAttributes: {
       type: "object",
       label: "Custom Attributes",
@@ -39,7 +45,7 @@ export default {
     const warnings = [];
 
     const {
-      drift, email, name, phone,
+      drift, email, name, phone, source,
     } = this;
 
     warnings.push(...drift.checkIfEmailValid(email));
@@ -50,6 +56,7 @@ export default {
       email,
       name,
       phone,
+      source,
       ...customAttributes,
     });
 

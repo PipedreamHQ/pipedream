@@ -1,9 +1,9 @@
 import drift from "../../drift.app.mjs";
 
 export default {
-  key: "drift-new-conversation-instant",
+  key: "drift-new-conversation-instant-test",
   name: "New Conversation",
-  description: "Emits an event every time a new conversation is started in Drift.",
+  description: "Emit new when a new conversation is started in Drift.",
   version: "0.0.2",
   type: "source",
   dedupe: "unique",
@@ -13,44 +13,97 @@ export default {
     timer: {
       type: "$.interface.timer",
       label: "Polling Interval",
-      description: "How often to poll Drift for new conversations.",
+      description: "How often to poll Drift for new conversations. [See the docs](https://devdocs.drift.com/docs/retrieve-a-conversation)",
     },
-    limit: {
-      type: "integer",
-      label: "Maximum Conversations to Fetch",
-      description: "The number of most recent conversations to retrieve each time the source runs.",
-      default: 50,
-      optional: true,
-      min: 1,
-      max: 500,
+  },
+  hooks: {
+    async activate() {
+
+      const {
+        drift,
+        db,
+      } = this;
+
+      await db.set("lastConversation", null); //reset
+
+      const result = await drift._makeRequest({
+        path: "/conversations/list?limit=100&statusId=1",
+      });
+
+      if (!result.data.length) {
+        console.log("No conversations found.");
+        return;
+      };
+
+      await db.set("lastConversation", result.data[0].id);
+      console.log(`Initialized with ID ${result.data[0].id}.`);
+
+      console.log("here");
+
     },
   },
 
   async run({ $ }) {
-    const lastTimestamp = this.db.get("lastCreatedAt") || 0;
+    const {
+      db, drift,
+    } = this;
 
-    const res = await this.drift._makeRequest({
+    const conversations = [];
+
+    const result = await drift._makeRequest({
       $,
-      path: `/conversations?limit=${this.limit}&sort=createdAt`,
+      path: "/conversations/list?limit=100&statusId=1",
     });
 
-    const conversations = res?.data || [];
+    if (!result.data.length) {
+      console.log("No conversations found.");
+      return;
+    };
 
-    for (const conversation of conversations) {
-      const createdAt = conversation.createdAt || 0;
+    const lastConversation = await db.get("lastConversation");
 
-      if (createdAt > lastTimestamp) {
-        this.$emit(conversation, {
-          id: conversation.id,
-          summary: `New conversation with ID ${conversation.id}`,
-          ts: createdAt,
-        });
-      }
-    }
+    if (!lastConversation) {
+      await db.set("lastConversation", result.data[0].id);
+      console.log(`Initialized with ID ${result.data[0].id}.`);
+      return;
+    };
 
-    const newest = conversations.reduce((max, c) =>
-      Math.max(max, c.createdAt || 0), lastTimestamp);
+    let isEnough = result.data.some((obj) => obj.id === lastConversation);
 
-    this.db.set("lastCreatedAt", newest);
+    conversations.push(...result.data);
+
+    let nextUrl = result.links?.next;
+
+    while (!isEnough && nextUrl) {
+      const next = await drift.getNextPage($, nextUrl);
+      isEnough = next.data.some((obj) => obj.id === lastConversation);
+      conversations.push(...next.data);
+      nextUrl = next.links?.next;
+    };
+
+    conversations.sort((a, b) => a.id - b.id);
+
+    const lastConvIndex = conversations.findIndex((obj) => obj.id === lastConversation);
+
+    if (lastConvIndex === -1) {
+      throw new Error ("lastConversation not found in fetched data. Skipping emit.");
+    };
+
+    if (lastConvIndex + 1 === conversations.length) {
+      console.log("No new conversations found");
+    };
+
+    for (let i = lastConvIndex + 1; i < conversations.length; i++) {
+
+      this.$emit(conversations[i], {
+        id: conversations[i].id,
+        summary: `New conversation with ID ${conversations[i].contactId}`,
+        ts: conversations[i].createdAt,
+      });
+
+    };
+
+    const lastConvId = conversations[conversations.length - 1].id;
+    await db.set("lastConversation", lastConvId);
   },
 };

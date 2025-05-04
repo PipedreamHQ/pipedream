@@ -4,7 +4,7 @@ import mockery$ from "../mockery-dollar.mjs"; // For local mock $ object
 
 // TEST (FIX IN PRODUCTION) - your mockery input
 const mockeryData = {
-  limit: 50,
+  limit: 2,
   db,
 };
 
@@ -29,69 +29,99 @@ const testAction = {
       label: "Polling Interval",
       description: "How often to poll Drift for new conversations.",
     },
-    limit: {
-      type: "integer",
-      label: "Maximum Conversations to Fetch",
-      description: "The number of most recent conversations to retrieve each time the source runs.",
-      default: 50,
-      optional: true,
-      min: 1,
-      max: 500,
+  },
+  hooks: {
+    async activate() {
+
+      const {
+        drift,
+        db,
+      } = this.mockery;
+
+      await db.set("lastConversation", null); //reset
+
+      const result = await drift.methods._makeRequest({
+        $: drift.methods._mock$(),
+        path: "/conversations/list?limit=100&statusId=1",
+      });
+
+      if (!result.data.length) {
+        console.log("No conversations found.");
+        return;
+      };
+
+      await db.set("lastConversation", result.data[0].id);
+      console.log(`Initialized with ID ${result.data[0].id}.`);
+
+      console.log("here");
+
     },
   },
 
   async run({ $ }) {
     const {
-      db, drift, limit,
+      db, drift,
     } = this.mockery;
 
-    const res = await drift.methods._makeRequest({
+    const conversations = [];
+
+    const result = await drift.methods._makeRequest({
       $,
-      path: `/conversations?limit=${limit}`,
+      path: "/conversations/list?limit=100&statusId=1",
     });
 
-    const conversations = res?.data || [];
-
-    if (!conversations.length) {
+    if (!result.data.length) {
       console.log("No conversations found.");
       return;
-    }
+    };
 
-    const lastCreatedAt = await db.get("lastCreatedAt");
+    const lastConversation = await db.get("lastConversation");
 
-    if (!lastCreatedAt) {
-      // First-time run — initialize DB with latest timestamp, skip emits
-      const newest = Math.max(...conversations.map((c) => c.createdAt || 0));
-      await db.set("lastCreatedAt", newest);
-      console.log(`Initialized lastCreatedAt with ${newest}`);
+    if (!lastConversation) {
+      await db.set("lastConversation", result.data[0].id);
+      console.log(`Initialized with ID ${result.data[0].id}.`);
       return;
-    }
+    };
 
-    // Emit conversations newer than lastCreatedAt
-    for (const conversation of conversations) {
-      const createdAt = conversation.createdAt || 0;
-      if (createdAt > lastCreatedAt) {
-        this.$emit(conversation, {
-          id: conversation.id,
-          summary: `New conversation with ID ${conversation.id}`,
-          ts: createdAt,
-        });
-      }
-    }
+    let isEnough = result.data.some((obj) => obj.id === lastConversation);
 
-    // Update DB with newest timestamp
-    const newest = conversations.reduce(
-      (max, c) => Math.max(max, c.createdAt || 0),
-      lastCreatedAt,
-    );
+    conversations.push(...result.data);
 
-    await db.set("lastCreatedAt", newest);
+    let nextUrl = result.links?.next;
+
+    while (!isEnough && nextUrl) {
+      const next = await drift.methods.getNextPage($, nextUrl);
+      isEnough = next.data.some((obj) => obj.id === lastConversation);
+      conversations.push(...next.data);
+      nextUrl = next.links?.next;
+    };
+
+    conversations.sort((a, b) => a.id - b.id);
+
+    const lastConvIndex = conversations.findIndex((obj) => obj.id === lastConversation);
+
+    if (lastConvIndex === -1) {
+      throw new Error ("lastConversation not found in fetched data. Skipping emit.");
+    };
+
+    for (let i = lastConvIndex + 1; i < conversations.length; i++) {
+
+      this.$emit(conversations[i], {
+        id: conversations[i].id,
+        summary: `New conversation with ID ${conversations[i].contactId}`,
+        ts: conversations[i].createdAt,
+      });
+
+    };
+
+    const lastConvId = conversations[conversations.length - 1].id;
+    await db.set("lastConversation", lastConvId);
   },
-
 };
 
 // TEST (FIX IN PRODUCTION)
 async function runTest() {
+  await testAction.hooks.activate.call(testAction);
   await testAction.run(mockery$);
 }
 runTest();

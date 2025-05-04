@@ -1,23 +1,22 @@
-
 import mockery$ from "../mockery-dollar.mjs";
 import wordpress from "../../wordpress_com.app.mjs";
-
-
 
 // TEST (FIX IN PRODUCTION) Remove completely
 const mockeryData = {
   site: "testsit38.wordpress.com",
-  title : "New Post",
-  content : "<div> HELLO WORLD </div>",
-  status : "publish",
+  title: "New Post",
+  content: "<div> HELLO WORLD </div>",
+  status: "publish",
   type: "post", // <-- ADD THIS
 };
-
 
 //TEST (FIX IN PRODUCTION). Replace to export default.
 const testAction = {
 
-  mockery: {wordpress, ...mockeryData}, // TEST
+  mockery: {
+    wordpress,
+    ...mockeryData,
+  }, // TEST
   key: "worpress_com-create-post",
   name: "Create New Post",
   description: "Retrieves the authenticated user's account information.",
@@ -28,7 +27,7 @@ const testAction = {
     site: {
       type: "string",
       label: "Site ID or domain",
-      description: "Enter a site ID or domain (e.g. testsit38.wordpress.com). Do not include 'https://' or 'www'."
+      description: "Enter a site ID or domain (e.g. testsit38.wordpress.com). Do not include 'https://' or 'www'.",
     },
     title: {
       type: "string",
@@ -57,13 +56,19 @@ const testAction = {
       label: "Post Type",
       description: "The type of the post (post or page). For attachments, use the 'Upload Media' action.",
       options: [
-        { label: "Post", value: "post" },
-        { label: "Page", value: "page" },
+        {
+          label: "Post",
+          value: "post",
+        },
+        {
+          label: "Page",
+          value: "page",
+        },
       ],
       default: "post",
-    }
+    },
   },
- 
+
   async run({ $ }) {
 
     const warnings = [];
@@ -78,23 +83,23 @@ const testAction = {
 
     let response;
 
-      try {
-        response = await wordpress.methods.createWordpressPost({ //TEST
-          
-          $,
-          site,
-          data : {
-            ...fields
-          }
-        });
+    try {
+      response = await wordpress.methods.createWordpressPost({ //TEST
 
-      } catch (error) {
-        wordpress.methods.onAxiosCatch("Could not create post", error, warnings); // TEST
-      };
-      
-      $.export("$summary", `Post successfully created. ID = ${response?.ID}` + "\n- "  + warnings.join("\n- "));
+        $,
+        site,
+        data: {
+          ...fields,
+        },
+      });
+
+    } catch (error) {
+      wordpress.methods.onAxiosCatch("Could not create post", error, warnings); // TEST
+    };
+
+    $.export("$summary", `Post successfully created. ID = ${response?.ID}` + "\n- "  + warnings.join("\n- "));
   },
-   
+
 };
 
 //TEST (FIX IN PRODUCTION)

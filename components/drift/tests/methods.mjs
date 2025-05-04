@@ -164,42 +164,42 @@ export default {
 
   checkIfEmailValid(input) {
     const warnings = [];
-  
+
     if (!this.isString(input)) {
       warnings.push("Email is not a string.");
       return warnings;
     }
-  
+
     const trimmedInput = input.trim();
-  
+
     if (this.isEmptyString(trimmedInput)) {
       warnings.push("Email is an empty string.");
       return warnings;
     }
-  
+
     // Reject obvious invalid characters
     const suspiciousChars = /[\\[\]<>^`"(),;:]/g;
     if (suspiciousChars.test(trimmedInput)) {
       warnings.push(
         "Email contains suspicious or invalid characters. " +
-        this._reasonMsg(input)
+        this._reasonMsg(input),
       );
     }
-  
+
     // Contains space, tab, or newline
     if (/[ \t\n]/.test(trimmedInput)) {
       warnings.push(
         "Email contains spaces or newline characters. " +
-        this._reasonMsg(input)
+        this._reasonMsg(input),
       );
     }
-  
+
     // Rough structural check
     const basicPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
     if (!basicPattern.test(trimmedInput)) {
       warnings.push(
         "Email does not appear to be in a valid format (e.g., user@example.com). " +
-        this._reasonMsg(input)
+        this._reasonMsg(input),
       );
     }
     return warnings;

@@ -5,7 +5,7 @@ export default {
   key: "drift-update-contact",
   name: "Update Contact",
   description: "Updates a contact in Drift using ID or email. Only changed attributes will be updated. [See Drift API docs](https://devdocs.drift.com/docs/updating-a-contact)",
-  version: "0.0.5",
+  version: "0.0.7",
   type: "action",
   props: {
     drift,
@@ -32,6 +32,12 @@ export default {
       description: "The contact’s phone number.",
       optional: true,
     },
+    source: {
+      type: "string",
+      label: "Lead Source",
+      description: "The value of the 'lead_create_source' custom attribute to match (case-sensitive).",
+      optional: true,
+    },
     customAttributes: {
       type: "object",
       label: "Custom Attributes",
@@ -43,7 +49,7 @@ export default {
   async run({ $ }) {
     const warnings = [];
     const {
-      drift, name, email, phone,
+      drift, name, email, phone, source,
     } = this;
 
     const customAttributes = drift.parseIfJSONString(this.customAttributes);
@@ -52,6 +58,7 @@ export default {
       name,
       phone,
       email,
+      source,
       ...customAttributes,
     });
 

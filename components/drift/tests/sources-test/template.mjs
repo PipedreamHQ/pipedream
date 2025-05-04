@@ -1,154 +1,127 @@
-import wordpress from "../../wordpress_com.app.mjs";
+import drift from "../../drift.app.mjs";
 import db from "../dev-db.mjs"; // For testing locally
 import mockery$ from "../mockery-dollar.mjs"; // For local mock $ object
 
 // TEST (FIX IN PRODUCTION) - your mockery input
 const mockeryData = {
-  wordpress,
-  site: "testsit38.wordpress.com",
-  type: "page",
-  number: 2,
+  limit: 2,
   db,
 };
 
-// TEST (FIX IN PRODUCTION) - local runner
 const testAction = {
-  mockeryData,
-  $emit: (a, meta) => console.log("EMIT:", a, meta), // Show emitted event and metadata
 
-  key: "wordpress_com-new-post",
-  name: "New Post",
-  description: "Emit a separate event for each new post published since the last run. If no new posts, emit nothing.",
-  version: "0.0.4",
+  mockery: {
+    drift,
+    ...mockeryData,
+  }, // TEST
+  $emit: (a, meta) => console.log("EMIT:", a, meta), // Show emitted event and metadata
+  key: "drift-new-conversation-instant",
+  name: "New Conversation",
+  description: "Emits an event every time a new conversation is started in Drift.",
+  version: "0.0.2",
   type: "source",
+  dedupe: "unique",
   props: {
-    wordpress,
+    drift,
     db: "$.service.db",
-    site: {
-      type: "string",
-      label: "Site ID or domain",
-      description: "Enter a site ID or domain (e.g. testsit38.wordpress.com). Do not include 'https://' or 'www'.",
+    timer: {
+      type: "$.interface.timer",
+      label: "Polling Interval",
+      description: "How often to poll Drift for new conversations.",
     },
-    type: {
-      type: "string",
-      label: "Post Type",
-      options: [
-        {
-          label: "Post",
-          value: "post",
-        },
-        {
-          label: "Page",
-          value: "page",
-        },
-        {
-          label: "Attachment",
-          value: "attachment",
-        },
-      ],
-      default: "post",
-    },
-    number: {
-      type: "integer",
-      label: "Maximum Posts to Fetch",
-      description: "The amount of most recent posts to fetch each time the source runs.",
-      default: 10,
-      optional: true,
-      min: 1,
-      max: 100,
+  },
+  hooks: {
+    async activate() {
+
+      const {
+        drift,
+        db,
+      } = this.mockery;
+
+      await db.set("lastConversation", null); //reset
+
+      const result = await drift.methods._makeRequest({
+        $: drift.methods._mock$(),
+        path: "/conversations/list?limit=100&statusId=1",
+      });
+
+      if (!result.data.length) {
+        console.log("No conversations found.");
+        return;
+      };
+
+      await db.set("lastConversation", result.data[0].id);
+      console.log(`Initialized with ID ${result.data[0].id}.`);
+
+      console.log("here");
+
     },
   },
 
   async run({ $ }) {
-
-    const warnings = [];
-
     const {
-      wordpress,
-      db,
-      site,
-      type,
-      number,
-    } = this.mockeryData; // TEST
+      db, drift,
+    } = this.mockery;
 
-    warnings.push(...wordpress.methods.checkDomainOrId(site));
+    const conversations = [];
 
-    let response;
-    try {
-      response = await wordpress.methods.getWordpressPosts({ // TEST
-        $,
-        site,
-        type,
-        number,
-      });
+    const result = await drift.methods._makeRequest({
+      $,
+      path: "/conversations/list?limit=100&statusId=1",
+    });
 
-    } catch (error) {
-      wordpress.methods.onAxiosCatch("Failed to fetch posts from WordPress:", error, warnings); // TEST
-    }
-
-    const posts = (type === "attachment")
-      ? (response.media || [])
-      : (response.posts || []);
-    const lastPostId = await db.get("lastPostId");
-
-    // First run: Initialize cursor
-    if (!lastPostId) {
-      if (!posts.length) {
-        console.log("No posts found on first run. Source initialized with no cursor.");
-        return;
-      }
-
-      const newest = posts[0]?.ID;
-      if (!newest) {
-        throw new Error("Failed to initialize: The latest post does not have a valid ID.");
-      }
-
-      await db.set("lastPostId", newest);
-      console.log(`Initialized lastPostId on first run with post ID ${newest}.`);
+    if (!result.data.length) {
+      console.log("No conversations found.");
       return;
-    }
+    };
 
-    // Process posts newer than last run
-    let maxPostIdTracker = lastPostId;
+    const lastConversation = await db.get("lastConversation");
 
-    const newPosts = [];
+    if (!lastConversation) {
+      await db.set("lastConversation", result.data[0].id);
+      console.log(`Initialized with ID ${result.data[0].id}.`);
+      return;
+    };
 
-    for (const post of posts) {
-      if (post.ID > lastPostId) {
-        newPosts.push(post);
-        if (post.ID > maxPostIdTracker) {
-          maxPostIdTracker = post.ID;
-        }
-      }
-    }
+    let isEnough = result.data.some((obj) => obj.id === lastConversation);
 
-    // Emit each new post separately
-    for (const post of newPosts.reverse()) {
+    conversations.push(...result.data);
 
-      this.$emit(post, {
-        id: post.ID,
-        summary: post.title,
-        ts: post.date && +new Date(post.date),
+    let nextUrl = result.links?.next;
+
+    while (!isEnough && nextUrl) {
+      const next = await drift.methods.getNextPage($, nextUrl);
+      isEnough = next.data.some((obj) => obj.id === lastConversation);
+      conversations.push(...next.data);
+      nextUrl = next.links?.next;
+    };
+
+    conversations.sort((a, b) => a.id - b.id);
+
+    const lastConvIndex = conversations.findIndex((obj) => obj.id === lastConversation);
+
+    if (lastConvIndex === -1) {
+      throw new Error ("lastConversation not found in fetched data. Skipping emit.");
+    };
+
+    for (let i = lastConvIndex + 1; i < conversations.length; i++) {
+
+      this.$emit(conversations[i], {
+        id: conversations[i].id,
+        summary: `New conversation with ID ${conversations[i].contactId}`,
+        ts: conversations[i].createdAt,
       });
 
-    }
-
-    // Update last seen post ID
-    if (newPosts.length > 0) {
-      await db.set("lastPostId", maxPostIdTracker);
-      console.log(`Checked for new posts. Emitted ${newPosts.length} post(s).`);
-    } else {
-      console.log("No new posts found.");
-    }
-
-    if (warnings.length > 0) {
-      console.log("Warnings:\n- " + warnings.join("\n- "));
     };
+
+    const lastConvId = conversations[conversations.length - 1].id;
+    await db.set("lastConversation", lastConvId);
   },
 };
 
 // TEST (FIX IN PRODUCTION)
 async function runTest() {
+  await testAction.hooks.activate.call(testAction);
   await testAction.run(mockery$);
 }
 runTest();

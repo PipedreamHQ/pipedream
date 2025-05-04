@@ -48,6 +48,12 @@ const testAction = {
       description: "The contact’s phone number.",
       optional: true,
     },
+    source: {
+      type: "string",
+      label: "Lead Source",
+      description: "The value of the 'lead_create_source' custom attribute to match (case-sensitive).",
+      optional: true,
+    },
     customAttributes: {
       type: "object",
       label: "Custom Attributes",
@@ -59,7 +65,7 @@ const testAction = {
   async run({ $ }) {
     const warnings = [];
     const {
-      drift, name, phone,
+      drift, name, phone, source,
     } = this.mockery;
 
     const customAttributes = drift.methods.parseIfJSONString(this.mockery.customAttributes);
@@ -67,6 +73,7 @@ const testAction = {
     const attributes = removeNullEntries({
       name,
       phone,
+      source,
       ...customAttributes,
     });
 
