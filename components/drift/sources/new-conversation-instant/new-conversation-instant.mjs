@@ -1,10 +1,10 @@
 import drift from "../../drift.app.mjs";
 
 export default {
-  key: "drift-new-conversation-instant-test",
+  key: "drift-new-conversation-instant-test  [See the docs](https://devdocs.drift.com/docs/retrieve-a-conversation)",
   name: "New Conversation",
   description: "Emit new when a new conversation is started in Drift.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
@@ -13,7 +13,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       label: "Polling Interval",
-      description: "How often to poll Drift for new conversations. [See the docs](https://devdocs.drift.com/docs/retrieve-a-conversation)",
+      description: "How often to poll Drift for new conversations.",
     },
   },
   hooks: {
