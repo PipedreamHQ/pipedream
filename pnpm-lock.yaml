@@ -9221,8 +9221,7 @@ importers:
 
   components/osu: {}
 
-  components/oto:
-    specifiers: {}
+  components/oto: {}
 
   components/otter_waiver:
     dependencies:
@@ -10075,8 +10074,8 @@ importers:
   components/posthog:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.4
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/postman:
     dependencies:
@@ -13062,11 +13061,9 @@ importers:
 
   components/test_apps_for_checking_something_001: {}
 
-  components/test_apps_for_checking_something_005:
-    specifiers: {}
+  components/test_apps_for_checking_something_005: {}
 
-  components/test_apps_for_checking_something_006:
-    specifiers: {}
+  components/test_apps_for_checking_something_006: {}
 
   components/test_apps_for_switching_appslug_009: {}
 
@@ -13440,8 +13437,7 @@ importers:
 
   components/translate_com: {}
 
-  components/transloadit:
-    specifiers: {}
+  components/transloadit: {}
 
   components/travis_ci:
     dependencies:
