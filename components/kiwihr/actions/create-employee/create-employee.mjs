@@ -174,7 +174,7 @@ export default {
       if (addressPostalCode) address.postalCode = addressPostalCode;
       if (addressCountry) address.country = addressCountry;
 
-      if (Object.keys(address)) {
+      if (Object.keys(address).length > 0) {
         user.address = address;
       }
 
