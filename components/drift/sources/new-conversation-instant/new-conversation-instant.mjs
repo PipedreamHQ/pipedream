@@ -1,4 +1,5 @@
 import drift from "../../drift.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "drift-new-conversation-instant",
@@ -14,6 +15,9 @@ export default {
       type: "$.interface.timer",
       label: "Polling Interval",
       description: "How often to poll Drift for new conversations.",
+      default: {
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+      },
     },
   },
   hooks: {
@@ -37,8 +41,6 @@ export default {
 
       await db.set("lastConversation", result.data[0].id);
       console.log(`Initialized with ID ${result.data[0].id}.`);
-
-      console.log("here");
 
     },
   },

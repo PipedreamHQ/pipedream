@@ -17,13 +17,9 @@ export default {
 
   async run({ $ }) {
 
-    const warnings = [];
-
-    const { drift } = this;
-
-    const emailOrId = drift.trimIfString(this.emailOrId);
-
-    warnings.push(...drift.checkEmailOrId(emailOrId));
+    const {
+      drift, emailOrId,
+    } = this;
 
     const response = await drift.getContactByEmailOrId($, emailOrId);
 
@@ -34,7 +30,7 @@ export default {
     };
 
     $.export("$summary", `Contact ${contact.attributes.email} ID "${contact.id}"`
-      + " fetched successfully." +  warnings.join("\n- "));
+      + " has been fetched successfully.");
 
     return contact;
   },

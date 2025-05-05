@@ -27,11 +27,6 @@ export default {
     const { body } = event;
     const { drift } = this;
 
-    const warnings = [];
-
-    if (this.emailOrId) warnings.push(...drift.checkEmailOrId(this.emailOrId));
-    if (warnings.length > 0) console.log(warnings.join("\n- "));
-
     if (body?.type !== "new_message") {
       console.log("Ignored non-new_message event:", body?.type);
       return;
@@ -61,7 +56,7 @@ export default {
     body.data.attributes =  result.data.attributes;
 
     this.$emit(body, {
-      summary: `New message from contact "${email} " ID "${contactId || "unknown"}" updated`,
+      summary: `New message from contact "${email} " ID "${contactId || "unknown"}"`,
       id: body.data.endUserId,
       ts: body.timeStamp,
     });

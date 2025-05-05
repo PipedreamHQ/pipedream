@@ -1,19 +1,10 @@
 import { axios } from "@pipedream/platform";
-import methods from "./common/methods.mjs";
 
 export default {
   type: "app",
   app: "drift",
   propDefinitions: {},
   methods: {
-    ...methods,
-    _mock$() {
-      return new Proxy({}, {
-        get() {
-          return (...args) => console.log(...args);
-        },
-      });
-    },
     _baseUrl() {
       return "https://driftapi.com";
     },
@@ -135,6 +126,21 @@ export default {
       const newest = arr.slice(0, firtsNew);
       return newest.reverse();
     },
+    parseIfJSONString(input) {
 
+      if (typeof input === "string") {
+        try {
+          return JSON.parse(input);
+        } catch (error) {
+          // Parsing failed — return original input
+          return input;
+        }
+      }
+
+      return input;
+    },
+    isIdNumber(input) {
+      return Number.isInteger(input) && input > 0;
+    },
   },
 };

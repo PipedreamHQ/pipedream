@@ -42,13 +42,9 @@ export default {
 
   async run({ $ }) {
 
-    const warnings = [];
-
     const {
       drift, email, name, phone, source,
     } = this;
-
-    warnings.push(...drift.checkIfEmailValid(email));
 
     const customAttributes = drift.parseIfJSONString(this.customAttributes);
 
@@ -80,7 +76,7 @@ export default {
 
     console.log(response.data.id);
 
-    $.export("$summary", `Contact ${email} created.` + warnings.join("\n- "));
+    $.export("$summary", `Contact "${email}" has been created successfully.`);
     return response;
   },
 };

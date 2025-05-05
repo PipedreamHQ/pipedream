@@ -4,7 +4,7 @@ export default {
   key: "drift-delete-contact",
   name: "Delete Contact",
   description: "Deletes a contact in Drift by ID or email. [See the docs](https://devdocs.drift.com/docs/removing-a-contact).",
-  version: "0.0.17",
+  version: "0.0.1",
   type: "action",
   props: {
     drift,
@@ -17,13 +17,9 @@ export default {
 
   async run({ $ }) {
 
-    const warnings = [];
-
-    const { drift } = this;
-
-    const emailOrId = drift.trimIfString(this.emailOrId);
-
-    warnings.push(...drift.checkEmailOrId(emailOrId));
+    const {
+      drift, emailOrId,
+    } = this;
 
     let contact = await drift.getContactByEmailOrId($, emailOrId);
     contact = contact.data[0] || contact.data;
@@ -36,8 +32,8 @@ export default {
       contactId,
     });
 
-    $.export("$summary", `Contact ${contactEmail} ID "${contactId}" deleted successfully.` +
-       warnings.join("\n- "));
+    $.export("$summary", `Contact "${contactEmail}" ID "${contactId}" 
+      has been deleted successfully.`);
 
     return response;
   },

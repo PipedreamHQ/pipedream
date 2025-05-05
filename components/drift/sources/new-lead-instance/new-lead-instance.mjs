@@ -30,7 +30,7 @@ export default {
     body.data.attributes =  result.data.attributes; //inject more data
 
     this.$emit(body, {
-      summary: `Contact "${email}" ID "${contactId}" updated`,
+      summary: `Contact "${email}" ID "${contactId}"`,
       id: body.data.endUserId,
       ts: body.timeStamp,
     });

@@ -29,10 +29,6 @@ export default {
 
     body.data.attributes =  result.data.attributes;
 
-    console.log(body);
-
-    console.log("Contact updated webhook payload:", body);
-
     this.$emit(body, {
       summary: `Contact "${email}" ID "${contactId}" updated`,
       id: body.data.endUserId,
