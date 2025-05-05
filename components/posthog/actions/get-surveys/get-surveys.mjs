@@ -48,7 +48,7 @@ export default {
         max: this.maxResults,
       },
     });
-    $.export("$summary", `Successfully retrieved ${surveys.length} survey${surveys.length === "1"
+    $.export("$summary", `Successfully retrieved ${surveys.length} survey${surveys.length === 1
       ? ""
       : "s"}`);
     return surveys;

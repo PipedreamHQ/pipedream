@@ -55,7 +55,7 @@ export default {
         max: this.maxResults,
       },
     });
-    $.export("$summary", `Successfully retrieved ${persons.length} person${persons.length === "1"
+    $.export("$summary", `Successfully retrieved ${persons.length} person${persons.length === 1
       ? ""
       : "s"}`);
     return persons;

@@ -39,7 +39,7 @@ export default {
         max: this.maxResults,
       },
     });
-    $.export("$summary", `Successfully retrieved ${cohorts.length} cohort${cohorts.length === "1"
+    $.export("$summary", `Successfully retrieved ${cohorts.length} cohort${cohorts.length === 1
       ? ""
       : "s"}`);
     return cohorts;
