@@ -3,7 +3,7 @@ import {
   COLOR_OPTIONS,
   ORIENTATION_OPTIONS,
   SIZE_OPTIONS,
-} from "../../common/constants.mjs";
+} from "./common/constants.mjs";
 
 export default {
   type: "app",
