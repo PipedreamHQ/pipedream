@@ -1019,7 +1019,7 @@ curl -X POST https://api.pipedream.com/v1/connect/{project_id}/components/trigge
 
 If you encounter an error like `Cannot read properties of undefined (reading 'oauth_access_token')`, it's likely related to an incorrect reference to the app prop in your configured_props payload.
 
-For example, using `google_sheets` instead of `googleSheets`, or `stripe` instead of `app`. Always use the exact app prop name that's returned in the component definition.
+For example, using `google_sheets` instead of `googleSheets`, or `stripe` instead of `app`. Always use the exact app prop name as returned by the component definition.
 
 The app prop name can be found in the component's definition under `configurable_props`:
 
@@ -1060,22 +1060,13 @@ For example, after receiving the dynamic props ID from the reload props call, in
 
 ```javascript
 // First, reload props for a component with dynamic props
-const { dynamicProps } = await pd.reloadProps({
-  externalUserId: "abc-123",
-  id: "google_sheets-add-single-row",
-  configuredProps: {
-    googleSheets: {
-      authProvisionId: account.id,
-    },
-    sheetId: "1BfWjFF2dTW_YDiLISj5N9nKCUErShgugPS434liyytg"
-  }
-});
+const { dynamicProps } = await pd.reloadProps({ … });
 
 // Then use the dynamicProps.id when running the action
 const resp = await pd.runAction({
   externalUserId: "abc-123",
   id: "google_sheets-add-single-row",
-  dynamicPropsId: dynamicProps.id, // Include this to avoid errors
+  dynamicPropsId: dynamicProps.id, // Must include this 
   configuredProps: {
     googleSheets: {
       authProvisionId: account.id,
@@ -1094,6 +1085,7 @@ Remember to maintain this ID in your application state while the user is configu
 If a deployed trigger isn't emitting events as expected, you can examine the source logs to get a better sense of what's happening. 
 
 Use the following URL to access logs and view emitted events:
+
 ```
 https://pipedream.com/sources/{dcid}
 ```
