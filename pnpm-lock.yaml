@@ -9221,6 +9221,9 @@ importers:
 
   components/osu: {}
 
+  components/oto:
+    specifiers: {}
+
   components/otter_waiver:
     dependencies:
       '@pipedream/platform':
@@ -13059,6 +13062,12 @@ importers:
 
   components/test_apps_for_checking_something_001: {}
 
+  components/test_apps_for_checking_something_005:
+    specifiers: {}
+
+  components/test_apps_for_checking_something_006:
+    specifiers: {}
+
   components/test_apps_for_switching_appslug_009: {}
 
   components/testmo:
@@ -13430,6 +13439,9 @@ importers:
         version: 4.0.1
 
   components/translate_com: {}
+
+  components/transloadit:
+    specifiers: {}
 
   components/travis_ci:
     dependencies:
