@@ -8,10 +8,10 @@ export default {
   type: "action",
   props: {
     app,
-    page: {
+    pageNum: {
       propDefinition: [
         app,
-        "page",
+        "pageNum",
       ],
     },
     pageSize: {
@@ -25,7 +25,7 @@ export default {
     const response = await this.app.getContacts({
       $,
       params: {
-        page: this.page,
+        page: this.pageNum,
         pageSize: this.pageSize,
       },
     });
