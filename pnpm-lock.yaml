@@ -9221,8 +9221,7 @@ importers:
 
   components/osu: {}
 
-  components/oto:
-    specifiers: {}
+  components/oto: {}
 
   components/otter_waiver:
     dependencies:
@@ -13062,11 +13061,9 @@ importers:
 
   components/test_apps_for_checking_something_001: {}
 
-  components/test_apps_for_checking_something_005:
-    specifiers: {}
+  components/test_apps_for_checking_something_005: {}
 
-  components/test_apps_for_checking_something_006:
-    specifiers: {}
+  components/test_apps_for_checking_something_006: {}
 
   components/test_apps_for_switching_appslug_009: {}
 
@@ -13440,8 +13437,7 @@ importers:
 
   components/translate_com: {}
 
-  components/transloadit:
-    specifiers: {}
+  components/transloadit: {}
 
   components/travis_ci:
     dependencies:
@@ -14348,7 +14344,11 @@ importers:
 
   components/wicked_reports: {}
 
-  components/widgetform: {}
+  components/widgetform:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/wildapricot:
     dependencies:
