@@ -100,7 +100,10 @@ export default {
       key,
       value,
     ] of Object.entries(fields)) {
-      data.append(key, value);
+      const v = Array.isArray(value)
+        ? value.join(",")
+        : value;
+      data.append(key, v);
     }
 
     const response = await createTranscription({
