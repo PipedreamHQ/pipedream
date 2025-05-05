@@ -9221,6 +9221,9 @@ importers:
 
   components/osu: {}
 
+  components/oto:
+    specifiers: {}
+
   components/otter_waiver:
     dependencies:
       '@pipedream/platform':
