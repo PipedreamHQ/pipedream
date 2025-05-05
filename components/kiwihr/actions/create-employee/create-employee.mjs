@@ -1,63 +1,192 @@
+import { ConfigurationError } from "@pipedream/platform";
+import { parseError } from "../../common/utils.mjs";
 import kiwihr from "../../kiwihr.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "kiwihr-create-employee",
   name: "Create Employee",
   description: "Add a new employee to kiwiHR. [See the documentation](https://api.kiwihr.com/api/docs/mutation.doc.html)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     kiwihr,
-    employeeName: {
-      type: "string",
-      label: "Employee Name",
-      description: "Name of the employee to add.",
-    },
-    email: {
-      type: "string",
-      label: "Email",
-      description: "Email of the employee to add.",
-    },
-    startDate: {
-      type: "string",
-      label: "Start Date",
-      description: "Start date of the employee to add. Format: YYYY-MM-DD",
-    },
-    department: {
+    firstName: {
       propDefinition: [
         kiwihr,
-        "department",
+        "firstName",
+      ],
+    },
+    lastName: {
+      propDefinition: [
+        kiwihr,
+        "lastName",
+      ],
+    },
+    email: {
+      propDefinition: [
+        kiwihr,
+        "email",
+      ],
+    },
+    workPhones: {
+      propDefinition: [
+        kiwihr,
+        "workPhones",
       ],
       optional: true,
     },
-    jobTitle: {
-      type: "string",
-      label: "Job Title",
-      description: "Job title of the employee. Optional.",
-      optional: true,
-    },
-    location: {
+    employmentStartDate: {
       propDefinition: [
         kiwihr,
-        "location",
+        "employmentStartDate",
+      ],
+      optional: true,
+    },
+    aboutMe: {
+      propDefinition: [
+        kiwihr,
+        "aboutMe",
+      ],
+      optional: true,
+    },
+    gender: {
+      propDefinition: [
+        kiwihr,
+        "gender",
+      ],
+      optional: true,
+    },
+    managerId: {
+      propDefinition: [
+        kiwihr,
+        "managerId",
+      ],
+      optional: true,
+    },
+    nationality: {
+      propDefinition: [
+        kiwihr,
+        "nationality",
+      ],
+      optional: true,
+    },
+    teamIds: {
+      propDefinition: [
+        kiwihr,
+        "teamIds",
+      ],
+      optional: true,
+    },
+    positionId: {
+      propDefinition: [
+        kiwihr,
+        "positionId",
+      ],
+      optional: true,
+    },
+    locationId: {
+      propDefinition: [
+        kiwihr,
+        "locationId",
+      ],
+      optional: true,
+    },
+    birthDate: {
+      propDefinition: [
+        kiwihr,
+        "birthDate",
+      ],
+      optional: true,
+    },
+    personalPhone: {
+      propDefinition: [
+        kiwihr,
+        "personalPhone",
+      ],
+      optional: true,
+    },
+    personalEmail: {
+      propDefinition: [
+        kiwihr,
+        "personalEmail",
+      ],
+      optional: true,
+    },
+    addressStreet: {
+      propDefinition: [
+        kiwihr,
+        "addressStreet",
+      ],
+      optional: true,
+    },
+    addressCity: {
+      propDefinition: [
+        kiwihr,
+        "addressCity",
+      ],
+      optional: true,
+    },
+    addressState: {
+      propDefinition: [
+        kiwihr,
+        "addressState",
+      ],
+      optional: true,
+    },
+    addressPostalCode: {
+      propDefinition: [
+        kiwihr,
+        "addressPostalCode",
+      ],
+      optional: true,
+    },
+    addressCountry: {
+      propDefinition: [
+        kiwihr,
+        "addressCountry",
+      ],
+      optional: true,
+    },
+    pronouns: {
+      propDefinition: [
+        kiwihr,
+        "pronouns",
       ],
       optional: true,
     },
   },
   async run({ $ }) {
-    const data = {
-      employeeName: this.employeeName,
-      email: this.email,
-      startDate: this.startDate,
-      department: this.department,
-      jobTitle: this.jobTitle,
-      location: this.location,
-    };
+    try {
+      const {
+        kiwihr,
+        addressStreet,
+        addressCity,
+        addressState,
+        addressPostalCode,
+        addressCountry,
+        ...user
+      } = this;
 
-    const response = await this.kiwihr.createEmployee(data);
+      const address = {};
+      if (addressStreet) address.street = addressStreet;
+      if (addressCity) address.city = addressCity;
+      if (addressState) address.state = addressState;
+      if (addressPostalCode) address.postalCode = addressPostalCode;
+      if (addressCountry) address.country = addressCountry;
 
-    $.export("$summary", `Successfully created employee ${this.employeeName}`);
-    return response;
+      if (Object.keys(address)) {
+        user.address = address;
+      }
+
+      const response = await kiwihr.createEmployee({
+        user,
+      });
+
+      $.export("$summary", `Successfully created employee ${this.firstName} ${this.lastName}`);
+      return response;
+    } catch ({ response }) {
+      const error = parseError(response);
+      throw new ConfigurationError(error);
+    }
   },
 };

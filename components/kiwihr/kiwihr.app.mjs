@@ -1,244 +1,282 @@
-import { axios } from "@pipedream/platform";
+import { GraphQLClient } from "graphql-request";
+import {
+  GENDER_OPTIONS, LIMIT,
+} from "./common/constants.mjs";
+import mutations from "./common/mutations.mjs";
+import queries from "./common/queries.mjs";
 
 export default {
   type: "app",
   app: "kiwihr",
   propDefinitions: {
-    department: {
+    firstName: {
       type: "string",
-      label: "Department",
-      description: "ID of the department to filter employees. Optional.",
-      optional: true,
-      async options() {
-        const items = await this.getDepartments();
-        return items.map((e) => ({
-          value: e.id,
-          label: e.name,
-        }));
-      },
+      label: "First Name",
+      description: "The first name of the employee",
     },
-    location: {
+    lastName: {
       type: "string",
-      label: "Location",
-      description: "ID of the location to filter employees. Optional.",
-      optional: true,
-      async options() {
-        const items = await this.getLocations();
-        return items.map((e) => ({
-          value: e.id,
-          label: e.name,
-        }));
-      },
-    },
-    leaveType: {
-      type: "string",
-      label: "Leave Type",
-      description: "Type of leave to filter requests. Optional.",
-      optional: true,
-      async options() {
-        const items = await this.getLeaveTypes();
-        return items.map((e) => ({
-          value: e.id,
-          label: e.name,
-        }));
-      },
-    },
-    requestStatus: {
-      type: "string",
-      label: "Request Status",
-      description: "Status of the leave request to filter.",
-      optional: true,
-      async options() {
-        return [
-          {
-            label: "Pending",
-            value: "pending",
-          },
-          {
-            label: "Approved",
-            value: "approved",
-          },
-          {
-            label: "Rejected",
-            value: "rejected",
-          },
-        ];
-      },
-    },
-    employeeId: {
-      type: "string",
-      label: "Employee ID",
-      description: "ID of the employee to watch for updates.",
-    },
-    employeeName: {
-      type: "string",
-      label: "Employee Name",
-      description: "Name of the employee to add.",
+      label: "Last Name",
+      description: "The last name of the employee",
     },
     email: {
       type: "string",
       label: "Email",
-      description: "Email of the employee to add.",
+      description: "The email of the employee",
     },
-    startDate: {
-      type: "string",
-      label: "Start Date",
-      description: "Start date of the employee to add.",
+    workPhones: {
+      type: "string[]",
+      label: "Work Phones",
+      description: "A list of employee's work phone numbers",
     },
-    jobTitle: {
+    employmentStartDate: {
       type: "string",
-      label: "Job Title",
-      description: "Job title of the employee. Optional.",
-      optional: true,
+      label: "Employment Start Date",
+      description: "User's work started date. **Format YYYY-MM-DD**",
     },
-    supervisor: {
+    aboutMe: {
       type: "string",
-      label: "Supervisor",
-      description: "ID of the supervisor for the employee. Optional.",
-      optional: true,
-      async options() {
-        const items = await this.getEmployees();
-        return items.map((e) => ({
-          value: e.id,
-          label: `${e.firstName} ${e.lastName}`,
+      label: "About Me",
+      description: "Short info about the user",
+    },
+    gender: {
+      type: "string",
+      label: "Gender",
+      description: "The gender of the employee",
+      options: GENDER_OPTIONS,
+    },
+    managerId: {
+      type: "string",
+      label: "Manager ID",
+      description: "ID of the user's manager",
+      async options({ page }) {
+        const { availableManagers: { items } } = await this.listManagers({
+          sort: [
+            {
+              "field": "firstName",
+              "direction": "asc",
+            },
+          ],
+          limit: LIMIT,
+          offset: LIMIT * page,
+        });
+
+        return items.map(({
+          id: value, firstName, lastName, email,
+        }) => ({
+          label: `${firstName} ${lastName} (${email})`,
+          value,
         }));
       },
     },
-    leaveRequestId: {
+    nationality: {
       type: "string",
-      label: "Leave Request ID",
-      description: "ID of the leave request to approve.",
+      label: "Nationality",
+      description: "2-digit Employee's nationality in [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)",
     },
-    approvalDate: {
-      type: "string",
-      label: "Approval Date",
-      description: "Date of approval for the leave request. Optional.",
-      optional: true,
+    teamIds: {
+      type: "string[]",
+      label: "Team IDs",
+      description: "List of IDs of teams user belongs to",
+      async options({ page }) {
+        const { teams: { items } } = await this.listTeams({
+          limit: LIMIT,
+          offset: LIMIT * page,
+        });
+
+        return items.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    message: {
+    positionId: {
       type: "string",
-      label: "Message",
-      description: "Approval message. Optional.",
-      optional: true,
+      label: "Position ID",
+      description: "Employee's prosition ID",
+      async options({ page }) {
+        const { positions: { items } } = await this.listPositions({
+          limit: LIMIT,
+          offset: LIMIT * page,
+        });
+
+        return items.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    locationId: {
+      type: "string",
+      label: "Location ID",
+      description: "Employee's location ID",
+      async options({ page }) {
+        const { locations: { items } } = await this.listLocations({
+          limit: LIMIT,
+          offset: LIMIT * page,
+        });
+
+        return items.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    birthDate: {
+      type: "string",
+      label: "Birth Date",
+      description: "Employee's date of birth",
+    },
+    personalPhone: {
+      type: "string",
+      label: "Personal Phone",
+      description: "Employee's personal phone number",
+    },
+    personalEmail: {
+      type: "string",
+      label: "Personal Email",
+      description: "Employee's personal email address",
+    },
+    addressStreet: {
+      type: "string",
+      label: "Street",
+      description: "The employee's street address",
+    },
+    addressCity: {
+      type: "string",
+      label: "City",
+      description: "The employee's city address",
+    },
+    addressState: {
+      type: "string",
+      label: "State",
+      description: "The employee's state address",
+    },
+    addressPostalCode: {
+      type: "string",
+      label: "Postal Code",
+      description: "The employee's postal code address",
+    },
+    addressCountry: {
+      type: "string",
+      label: "Country",
+      description: "The employee's country address",
+    },
+    pronouns: {
+      type: "string",
+      label: "pronouns",
+      description: "The employee's pronouns",
+    },
+    employeeId: {
+      type: "string",
+      label: "Employee ID",
+      description: "ID of the employee you want to update",
+      async options({ page }) {
+        const { users: { items } } = await this.listUsers({
+          limit: LIMIT,
+          offset: LIMIT * page,
+        });
+
+        return items.map(({
+          id: value, firstName, lastName, email,
+        }) => ({
+          label: `${firstName} ${lastName} (${email})`,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.kiwihr.com/api";
+      return `${this.$auth.api_url}/api/graphql`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "X-Api-Key": this.$auth.api_key,
-        },
-      });
+    _headers() {
+      return {
+        "X-Api-Key": `${this.$auth.api_key}`,
+      };
     },
-    async getDepartments(opts = {}) {
+    getClient() {
+      const url = this._baseUrl();
+      const options = {
+        headers: this._headers(),
+      };
+      return new GraphQLClient(url, options);
+    },
+    _makeRequest({
+      query, variables,
+    } = {}) {
+      return this.getClient().request(query, variables);
+    },
+    createEmployee(variables) {
       return this._makeRequest({
-        path: "/departments",
-        ...opts,
+        query: mutations.createEmployee,
+        variables,
       });
     },
-    async getLocations(opts = {}) {
+    updateEmployee(variables) {
       return this._makeRequest({
-        path: "/locations",
-        ...opts,
+        query: mutations.updateEmployee,
+        variables,
       });
     },
-    async getLeaveTypes(opts = {}) {
+    listUsers(variables) {
       return this._makeRequest({
-        path: "/leave/types",
-        ...opts,
+        query: queries.listUsers,
+        variables,
       });
     },
-    async getEmployees(opts = {}) {
+    listManagers(variables) {
       return this._makeRequest({
-        path: "/employees",
-        ...opts,
+        query: queries.listManagers,
+        variables,
       });
     },
-    async createEmployee(data) {
+    listTeams(variables) {
       return this._makeRequest({
-        method: "POST",
-        path: "/employees",
-        data,
+        query: queries.listTeams,
+        variables,
       });
     },
-    async updateEmployee({
-      employeeId, ...data
+    listPositions(variables) {
+      return this._makeRequest({
+        query: queries.listPositions,
+        variables,
+      });
+    },
+    listLocations(variables) {
+      return this._makeRequest({
+        query: queries.listLocations,
+        variables,
+      });
+    },
+    async *paginate({
+      fn, variables = {}, fieldName, maxResults = null,
     }) {
-      return this._makeRequest({
-        method: "PUT",
-        path: `/employees/${employeeId}`,
-        data,
-      });
-    },
-    async approveLeaveRequest({
-      leaveRequestId, approvalDate, message,
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/leave/requests/${leaveRequestId}/approve`,
-        data: {
-          approvalDate,
-          message,
-        },
-      });
-    },
-    async addEmployee({
-      employeeName, email, startDate, department, jobTitle, location,
-    }) {
-      return this.createEmployee({
-        employeeName,
-        email,
-        startDate,
-        department,
-        jobTitle,
-        location,
-      });
-    },
-    async onEmployeeAdded({
-      department, location,
-    }) {
-      const employees = await this.getEmployees({
-        params: {
-          department,
-          location,
-        },
-      });
-      // Handle new employee event
-    },
-    async onLeaveRequestCreated({
-      leaveType, requestStatus,
-    }) {
-      const requests = await this._makeRequest({
-        path: "/leave/requests",
-        method: "GET",
-        params: {
-          leaveType,
-          requestStatus,
-        },
-      });
-      // Handle leave request event
-    },
-    async onEmployeeUpdated({
-      employeeId, jobTitle, department,
-    }) {
-      const employee = await this.getEmployees({
-        params: {
-          employeeId,
-          jobTitle,
-          department,
-        },
-      });
-      // Handle employee updated event
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        variables.limit = LIMIT;
+        variables.offset = LIMIT * page++;
+        const data = await fn(variables);
+        for (const d of data[fieldName].items) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = data[fieldName].items.length;
+
+      } while (hasMore);
     },
   },
 };
