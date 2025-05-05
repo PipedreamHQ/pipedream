@@ -3176,8 +3176,7 @@ importers:
 
   components/danny_test_app: {}
 
-  components/dappier:
-    specifiers: {}
+  components/dappier: {}
 
   components/darksky_api:
     dependencies:
@@ -6924,7 +6923,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/kiwihr: {}
+  components/kiwihr:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/kizeo_forms:
     dependencies:
