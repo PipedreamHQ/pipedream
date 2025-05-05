@@ -1,13 +1,17 @@
-FROM node:22.14.0-alpine3.21
+FROM node:18.20-alpine3.20 AS base
+RUN apk add --no-cache bash
+RUN npm install -g pnpm@8.6.11
 
-WORKDIR /app
+WORKDIR /mcp-server
+
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --production --frozen-lockfile
+
 COPY . .
 
-# Install dependencies and build
-RUN npm ci && npm run build
-
 ENV PORT=3010
+ENV NODE_ENV=production
+
 EXPOSE 3010
 
-# Command to run the SSE server
-CMD ["npm", "run", "start:sse:prod"]
+CMD ["pnpm", "run", "prod:sse"]
