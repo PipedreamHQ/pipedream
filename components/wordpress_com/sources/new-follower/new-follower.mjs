@@ -1,10 +1,11 @@
 import wordpress from "../../wordpress_com.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "wordpress_com-new-follower",
   name: "New Follower",
   description: "Emit new event for each new follower that subscribes to the site.",
-  version: "0.0.4",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -30,28 +31,22 @@ export default {
       type: "$.interface.timer",
       label: "Timer",
       description: "How often to poll WordPress for new followers.",
+      default: {
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+      },
     },
   },
   hooks: {
     async activate() {
 
-      const warnings = [];
-
       const {
         wordpress,
         db,
-        site,
       } = this;
-
-      warnings.push(...wordpress.checkDomainOrId(site));
-
-      if (warnings.length > 0) {
-        console.log("Warnings:\n- " + warnings.join("\n- "));
-      }
 
       await this.db.set("lastFollowerId", null); //reset
 
-      const response = await this.getWordpressFollowers(this.wordpress._mock$());
+      const response = await this.getWordpressFollowers();
 
       const followers = response.subscribers || [];
 
@@ -60,23 +55,12 @@ export default {
   },
 
   async run({ $ }) {
-    const warnings = [];
-
     const {
       wordpress,
       db,
-      site,
     } = this;
 
-    warnings.push(...wordpress.checkDomainOrId(site));
-
-    let response;
-    try {
-      response = await this.getWordpressFollowers($);
-
-    } catch (error) {
-      wordpress.throwCustomError("Failed to fetch followers from WordPress:", error, warnings);
-    }
+    const response = await this.getWordpressFollowers($);
 
     const followers = response.subscribers || [];
 
@@ -110,10 +94,6 @@ export default {
       console.log(`Checked for new followers. Emitted ${newFollowers.length} follower(s).`);
     } else {
       console.log("No new followers found.");
-    }
-
-    if (warnings.length > 0) {
-      console.log("Warnings:\n- " + warnings.join("\n- "));
     }
   },
 };

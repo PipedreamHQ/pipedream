@@ -4,7 +4,7 @@ export default {
   key: "wordpress_com-create-post",
   name: "Create New Post",
   description: "Creates a new post on a WordPress.com site. [See the documentation](https://developer.wordpress.com/docs/api/1.1/post/sites/%24site/posts/new/)",
-  version: "0.0.10",
+  version: "0.0.2",
   type: "action",
   props: {
     wordpress,
@@ -56,7 +56,6 @@ export default {
     },
   },
   async run({ $ }) {
-    const warnings = [];
 
     const {
       site,
@@ -64,25 +63,18 @@ export default {
       ...fields
     } =  this;
 
-    warnings.push(...wordpress.checkDomainOrId(site));
-
-    let response;
-
-    try {
-      response = await wordpress.createWordpressPost({
-        $,
-        site,
-        data: {
-          ...fields,
-        },
-      });
-    } catch (error) {
-      wordpress.throwCustomError("Could not create post", error, warnings);
-    };
+    const response = await wordpress.createWordpressPost({
+      $,
+      site,
+      data: {
+        ...fields,
+      },
+    });
 
     $.export("$summary",
-      `Post “${this.title}” is successfully created with ID “${response?.ID}”` +
-       "\n- "  + warnings.join("\n- "));
+      `Post “${this.title}” is successfully created with ID “${response?.ID}”`);
+
+    return response;
   },
 };
 

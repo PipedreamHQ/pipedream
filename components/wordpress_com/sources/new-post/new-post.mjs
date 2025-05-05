@@ -1,10 +1,11 @@
 import wordpress from "../../wordpress_com.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "wordpress_com-new-post",
   name: "New Post",
   description: "Emit new event for each new post published since the last run. If no new posts, emit nothing.",
-  version: "0.0.5",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -49,6 +50,9 @@ export default {
       type: "$.interface.timer",
       label: "Timer",
       description: "How often to poll WordPress for new posts.",
+      default: {
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+      },
     },
   },
   methods: {
@@ -66,23 +70,15 @@ export default {
   hooks: {
     async activate() {
 
-      const warnings = []
-;      const {
+      const {
         wordpress,
         db,
         type,
-        site,
       } = this;
-
-      warnings.push(...wordpress.checkDomainOrId(site));
-
-      if (warnings.length > 0) {
-        console.log("Warnings:\n- " + warnings.join("\n- "));
-      }
 
       await this.db.set("lastPostId", null); // reset
 
-      const response = await this.getWordpressPosts(this.wordpress._mock$());
+      const response = await this.getWordpressPosts();
 
       const posts = (type === "attachment")
         ? (response.media || [])
@@ -93,16 +89,11 @@ export default {
   },
 
   async run({ $ }) {
-    const warnings = [];
-
     const {
       wordpress,
       db,
-      site,
       type,
     } = this;
-
-    warnings.push(...wordpress.checkDomainOrId(site));
 
     const response = await this.getWordpressPosts($);
 
@@ -141,9 +132,5 @@ export default {
     } else {
       console.log("No new posts found.");
     }
-
-    if (warnings.length > 0) {
-      console.log("Warnings:\n- " + warnings.join("\n- "));
-    };
   },
 };

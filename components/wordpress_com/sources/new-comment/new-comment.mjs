@@ -1,10 +1,11 @@
 import wordpress from "../../wordpress_com.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "wordpress_com-new-comment",
   name: "New Comment",
   description: "Emit new event for each new comment added since the last run. If no new comments, emit nothing.",
-  version: "0.0.4",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -50,28 +51,22 @@ export default {
       type: "$.interface.timer",
       label: "Timer",
       description: "How often to poll WordPress for new comments.",
+      default: {
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+      },
     },
   },
   hooks: {
     async activate() {
 
-      const warnings = [];
-
       const {
         wordpress,
         db,
-        site,
       } = this;
-
-      warnings.push(...wordpress.checkDomainOrId(site));
-
-      if (warnings.length > 0) {
-        console.log("Warnings:\n- " + warnings.join("\n- "));
-      }
 
       await this.db.set("lastCommentId", null); //reset
 
-      const response = await this.getWordpressComments(this.wordpress._mock$());
+      const response = await this.getWordpressComments();
 
       const comments = response.comments || [];
 
@@ -80,24 +75,15 @@ export default {
   },
 
   async run({ $ }) {
-    const warnings = [];
 
     const {
       wordpress,
       db,
-      site,
     } = this;
 
-    warnings.push(...wordpress.checkDomainOrId(site));
-
-    let response;
-    try {
-
-      response = await this.getWordpressComments($);
-
-    } catch (error) {
-      wordpress.throwCustomError("Failed to fetch comments from WordPress:", error, warnings);
-    }
+    const response = await this.getWordpressComments({
+      $,
+    });
 
     const comments = response.comments || [];
     const lastCommentId = Number(await db.get("lastCommentId"));
@@ -131,10 +117,6 @@ export default {
     } else {
       console.log("No new comments found.");
     }
-
-    if (warnings.length > 0) {
-      console.log("Warnings:\n- " + warnings.join("\n- "));
-    };
   },
 };
 

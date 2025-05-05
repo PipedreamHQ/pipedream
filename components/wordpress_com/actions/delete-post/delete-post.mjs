@@ -4,7 +4,7 @@ export default {
   key: "wordpress_com-delete-post",
   name: "Delete Post",
   description: "Deletes a post. [See the documentation](https://developer.wordpress.com/docs/api/1.1/post/sites/%24site/posts/%24post_ID/delete/)",
-  version: "0.0.3",
+  version: "0.0.2",
   type: "action",
   props: {
     wordpress,
@@ -26,7 +26,6 @@ export default {
     },
   },
   async run({ $ }) {
-    const warnings = [];
 
     const {
       site,
@@ -34,22 +33,15 @@ export default {
       postId,
     } =  this;
 
-    warnings.push(...wordpress.checkDomainOrId(site));
+    const response = await wordpress.deleteWordpressPost({
+      $,
+      site,
+      postId,
+    });
 
-    let response;
+    $.export("$summary", `Post ID “${response?.ID}” has been successfully deleted`);
 
-    try {
-      response = await wordpress.deleteWordpressPost({
-        $,
-        site,
-        postId,
-      });
-    } catch (error) {
-      wordpress.throwCustomError("Could not delete post", error, warnings);
-    };
-
-    $.export("$summary", `Post ID “${response?.ID}” has been successfully deleted` +
-       "\n- "  + warnings.join("\n- "));
+    return response;
   },
 };
 

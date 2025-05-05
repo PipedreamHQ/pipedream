@@ -1,4 +1,3 @@
-import methods from "./common/methods.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -44,14 +43,6 @@ export default {
     },
   },
   methods: {
-    ...methods,
-    _mock$() {
-      return new Proxy({}, {
-        get() {
-          return (...args) => console.log(...args);
-        },
-      });
-    },
     _baseUrl() {
       return "https://public-api.wordpress.com/rest/v1.1";
     },
@@ -161,6 +152,14 @@ export default {
         path: "/me/sites",
         ...opts,
       });
+    },
+    isFormData(input) {
+      return (
+        typeof input === "object" &&
+      input !== null &&
+      typeof input.getHeaders === "function" &&
+      typeof input.append === "function"
+      );
     },
     async initialize(subject, db, dbName) {
       if (!subject.length) {

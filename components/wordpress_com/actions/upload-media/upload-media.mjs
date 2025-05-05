@@ -5,7 +5,7 @@ export default {
   key: "wordpress_com-upload-media",
   name: "Upload Media",
   description: "Uploads a media file from a URL to the specified WordPress.com site. [See the documentation](https://developer.wordpress.com/docs/api/1.1/post/sites/%24site/media/new/)",
-  version: "0.0.3",
+  version: "0.0.2",
   type: "action",
   props: {
     wordpress,
@@ -40,7 +40,6 @@ export default {
     },
   },
   async run({ $ }) {
-    const warnings = [];
 
     const
       {
@@ -49,8 +48,6 @@ export default {
         media,
         ...fields
       } = this;
-
-    warnings.push(...wordpress.checkDomainOrId(site));
 
     let form;
 
@@ -62,28 +59,16 @@ export default {
       form = await prepareMediaUpload(media, fields, $);
     }
 
-    let response;
+    const response = await wordpress.uploadWordpressMedia({
+      $,
+      contentType: form.getHeaders()["content-type"],
+      site,
+      data: form,
+    });
 
-    try {
-      response = await wordpress.uploadWordpressMedia({
-        $,
-        contentType: form.getHeaders()["content-type"],
-        site,
-        data: form,
-      });
+    $.export("$summary", `Media ID “${response.media[0].ID}” has been successfully uploaded`);
 
-      const media = response.media[0];
-
-      `Media ID “${media.ID}” has been successfully uploaded`;
-      $.export("$summary", `Media ID “${media.ID}” has been successfully uploaded` +
-         "\n- " + warnings.join("\n- "));
-
-      console.log(response);
-      return response;
-
-    } catch (error) {
-      wordpress.throwCustomError("Failed to upload media", error, warnings);
-    };
+    return response;
   },
 };
 
