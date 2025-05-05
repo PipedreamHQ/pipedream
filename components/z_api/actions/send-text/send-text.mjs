@@ -29,7 +29,7 @@ export default {
         message: this.message,
       },
     });
-    $.export("$summary", "Successfully sent text to" + this.phone);
+    $.export("$summary", "Successfully sent text to " + this.phone);
     return response;
   },
 };
