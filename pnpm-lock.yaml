@@ -13437,6 +13437,9 @@ importers:
 
   components/translate_com: {}
 
+  components/transloadit:
+    specifiers: {}
+
   components/travis_ci:
     dependencies:
       '@pipedream/platform':
