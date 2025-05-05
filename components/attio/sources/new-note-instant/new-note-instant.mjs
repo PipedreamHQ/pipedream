@@ -6,13 +6,18 @@ export default {
   key: "attio-new-note-instant",
   name: "New Note (Instant)",
   description: "Emit new event when a new note is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
-    getEventType() {
-      return "note.created";
+    getSubscriptions() {
+      return [
+        {
+          event_type: "note.created",
+          filter: null,
+        },
+      ];
     },
     generateMeta(note) {
       return {

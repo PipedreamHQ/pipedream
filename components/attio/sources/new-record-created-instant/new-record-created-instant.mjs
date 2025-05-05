@@ -6,7 +6,7 @@ export default {
   key: "attio-new-record-created-instant",
   name: "New Record Created (Instant)",
   description: "Emit new event when new record, such as person, company or deal gets created",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {
@@ -20,19 +20,21 @@ export default {
   },
   methods: {
     ...common.methods,
-    getEventType() {
-      return "record.created";
-    },
-    getFilter() {
-      return {
-        "$and": [
-          {
-            field: "id.object_id",
-            operator: "equals",
-            value: this.objectId,
+    getSubscriptions() {
+      return [
+        {
+          event_type: "record.created",
+          filter: {
+            "$and": [
+              {
+                field: "id.object_id",
+                operator: "equals",
+                value: this.objectId,
+              },
+            ],
           },
-        ],
-      };
+        },
+      ];
     },
     generateMeta(record) {
       return {
