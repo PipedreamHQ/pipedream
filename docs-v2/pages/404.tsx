@@ -15,9 +15,11 @@ export default function Custom404() {
     const redirectTimeout = setTimeout(() => {
       router.replace("/")
     }, 100)
-    
+
     return () => clearTimeout(redirectTimeout)
-  }, [router])
+  }, [
+    router,
+  ])
 
   return (
     <div style={{
