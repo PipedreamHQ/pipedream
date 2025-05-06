@@ -1032,6 +1032,10 @@ This prop type is used by these database actions:
 - `azure_sql-execute-raw-query`
 - `turso-execute-query`
 
+<Callout type="warning">
+The `sql` prop is only supported in the Pipedream server SDK and REST API, and is not currently supported in `connect-react`.
+</Callout>
+
 #### Configuration
 
 When configuring these actions, you'll need to provide:
@@ -1042,7 +1046,7 @@ When configuring these actions, you'll need to provide:
 ```javascript
 const configuredProps = {
   postgresql: {
-    authProvisionId: "apn_xxxxxxx""
+    authProvisionId: "apn_xxxxxxx"
   },
   sql: {
     auth: {
@@ -1061,11 +1065,12 @@ You can use prepared statements by including placeholders in your query and prov
 - **PostgreSQL** uses `$1`, `$2`, `$3`, etc. for numbered parameters
 - **Snowflake**, **MySQL, Azure SQL, Microsoft SQL Server, and Turso** use `?` for positional parameters
 
-**PostgreSQL Example:**
+<Tabs items={['PostgreSQL example', 'MySQL example']}>
+<Tabs.Tab>
 ```javascript
 const configuredProps = {
   postgresql: {
-    authProvisionId: process.env.ACCOUNT_ID
+    authProvisionId: "apn_xxxxxxx"
   },
   sql: {
     auth: {
@@ -1076,12 +1081,12 @@ const configuredProps = {
   }
 }
 ```
-
-**MySQL Example:**
+</Tabs.Tab>
+<Tabs.Tab>
 ```javascript
 const configuredProps = {
   mysql: {
-    authProvisionId: process.env.ACCOUNT_ID
+    authProvisionId: "apn_xxxxxxx"
   },
   sql: {
     auth: {
@@ -1092,6 +1097,9 @@ const configuredProps = {
   }
 }
 ```
+</Tabs.Tab>
+</Tabs>
+
 
 <Callout type="info">
 Using prepared statements helps prevent SQL injection attacks by separating the SQL command structure from the data values being used, and is strongly recommended.
@@ -1161,39 +1169,6 @@ The response includes a `context.dbInfo` object containing detailed schema infor
           },
           "created_at": {
             "tableName": "products",
-            "columnName": "created_at",
-            "isNullable": "YES",
-            "dataType": "timestamp with time zone",
-            "columnDefault": "CURRENT_TIMESTAMP"
-          }
-        }
-      },
-      "orders": {
-        "metadata": {},
-        "schema": {
-          "id": {
-            "tableName": "orders",
-            "columnName": "id",
-            "isNullable": "NO",
-            "dataType": "integer",
-            "columnDefault": "nextval('orders_id_seq'::regclass)"
-          },
-          "user_id": {
-            "tableName": "orders",
-            "columnName": "user_id",
-            "isNullable": "NO",
-            "dataType": "integer",
-            "columnDefault": null
-          },
-          "total": {
-            "tableName": "orders",
-            "columnName": "total",
-            "isNullable": "NO",
-            "dataType": "numeric",
-            "columnDefault": null
-          },
-          "created_at": {
-            "tableName": "orders",
             "columnName": "created_at",
             "isNullable": "YES",
             "dataType": "timestamp with time zone",
