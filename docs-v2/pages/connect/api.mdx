@@ -385,7 +385,7 @@ curl -X POST https://api.pipedream.com/v1/connect/{project_id}/tokens \
 
 #### List All Accounts
 
-List all connected accounts for all end users within a project.
+List all connected accounts for all externalusers within a project.
 
 ```
 GET /{project_id}/accounts/
@@ -825,7 +825,7 @@ curl -X GET \
 
 #### Delete Connected Account
 
-Delete a specific connected account for an end user, and any deployed triggers.
+Delete a specific connected account for an external user, and any deployed triggers.
 
 ```
 DELETE /{project_id}/accounts/{account_id}
@@ -999,9 +999,9 @@ curl -X DELETE "https://api.pipedream.com/v1/connect/{project_id}/accounts/{acco
 
 Pipedream returns a `204 No Content` response on successful account deletion
 
-#### Delete end user
+#### Delete External User
 
-Delete an end user, all their connected accounts, and any deployed triggers.
+Delete an external user, all their connected accounts, and any deployed triggers.
 
 ```
 DELETE /{project_id}/users/{external_user_id}
