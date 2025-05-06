@@ -11182,6 +11182,8 @@ importers:
 
   components/ryver: {}
 
+  components/sage_intacct: {}
+
   components/sailpoint: {}
 
   components/sailpoint_personal_token: {}

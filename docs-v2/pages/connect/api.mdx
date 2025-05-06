@@ -383,9 +383,9 @@ curl -X POST https://api.pipedream.com/v1/connect/{project_id}/tokens \
 
 ### Accounts
 
-#### List all accounts
+#### List All Accounts
 
-List all connected accounts for all end users within a project.
+List all connected accounts for all externalusers within a project.
 
 ```
 GET /{project_id}/accounts/
@@ -650,7 +650,7 @@ curl -X GET \
 }
 ```
 
-#### Retrieve account details by ID
+#### Retrieve Account Details by ID
 
 Retrieve the account details for a specific account based on the account ID
 
@@ -823,9 +823,9 @@ curl -X GET \
 }
 ```
 
-#### Delete connected account
+#### Delete Connected Account
 
-Delete a specific connected account for an end user, and any deployed triggers.
+Delete a specific connected account for an external user, and any deployed triggers.
 
 ```
 DELETE /{project_id}/accounts/{account_id}
@@ -910,7 +910,7 @@ curl -X DELETE "https://api.pipedream.com/v1/connect/{project_id}/accounts/{acco
 
 Pipedream returns a `204 No Content` response on successful account deletion
 
-#### Delete all connected accounts for an app
+#### Delete All Connected Accounts for an App
 
 Delete all connected accounts for a specific app
 
@@ -999,9 +999,9 @@ curl -X DELETE "https://api.pipedream.com/v1/connect/{project_id}/accounts/{acco
 
 Pipedream returns a `204 No Content` response on successful account deletion
 
-#### Delete end user
+#### Delete External User
 
-Delete an end user, all their connected accounts, and any deployed triggers.
+Delete an external user, all their connected accounts, and any deployed triggers.
 
 ```
 DELETE /{project_id}/users/{external_user_id}
@@ -1091,7 +1091,7 @@ Pipedream returns a `204 No Content` response on successful account deletion
 
 ### Components
 
-#### List components
+#### List Components
 
 List all the components in the Pipedream registry.
 
@@ -1239,7 +1239,7 @@ curl -X GET "https://api.pipedream.com/v1/connect/{your_project_id}/components?a
 ```
 
 
-#### Retrieve a component
+#### Retrieve Component
 
 Retrieve a specific component from the Pipedream registry.
 
@@ -1378,7 +1378,7 @@ curl -X GET "https://api.pipedream.com/v1/connect/{your_project_id}/components/g
 
 
 
-#### Configure a component
+#### Configure Component
 
 Configure the a component's prop, based on the current component's
 configuration. This endpoint will use the component's configuration to retrieve
@@ -1592,7 +1592,7 @@ curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/components/
 }
 ```
 
-#### Reload a component's props (i.e. configure dynamic props)
+#### Reload Component Props
 
 Reload the component's props after configuring a dynamic prop, based on the
 current component's configuration. This endpoint will use the component's
@@ -1820,7 +1820,7 @@ curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/components/
 }
 ```
 
-#### Invoke an action
+#### Invoke Action
 
 Invoke an action component for a Pipedream Connect user in a project.
 
@@ -2009,7 +2009,7 @@ curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/actions/run
 }
 ```
 
-#### Deploy a trigger
+#### Deploy Trigger
 
 <Callout type="info">
 See [here](/connect/components/#deploying-triggers) for more info on supported trigger types with example payloads
@@ -2242,7 +2242,7 @@ curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/triggers/de
 }
 ```
 
-#### List deployed triggers
+#### List Deployed Triggers
 
 List all of the deployed triggers for a given user.
 
@@ -2503,7 +2503,7 @@ curl -X GET \
 }
 ```
 
-#### Retrieve a deployed trigger
+#### Retrieve Deployed Trigger
 
 Retrieve a single deployed trigger for a given user.
 
@@ -2688,7 +2688,7 @@ curl -X GET \
 }
 ```
 
-#### Delete deployed trigger
+#### Delete Deployed Trigger
 
 Delete deployed trigger for a given user.
 
@@ -2797,8 +2797,7 @@ curl -X DELETE \
 
 Pipedream returns a `204 No Content` response on successful deletion
 
-
-#### Retrieve events emitted by deployed trigger
+#### Retrieve Events Emitted by Deployed Trigger
 
 Retrieve a list of the last events that a deployed trigger emitted.
 
@@ -2995,7 +2994,7 @@ curl -X GET \
 }
 ```
 
-#### Retrieve webhooks listening to deployed trigger
+#### Retrieve Webhooks Listening to Deployed Trigger
 
 Retrieve the list of webhook URLs listening to a deployed trigger.
 
@@ -3116,7 +3115,7 @@ curl -X GET \
 }
 ```
 
-#### Update webhooks listening to deployed trigger
+#### Update Webhooks Listening to Deployed Trigger
 
 Update the list of webhook URLs that will listen to a deployed trigger.
 
@@ -3255,7 +3254,7 @@ curl -X PUT \
 }
 ```
 
-#### Retrieve workflows listening to deployed trigger
+#### Retrieve Workflows Listening to Deployed Trigger
 
 Retrieve the list of workflow IDs listening to a deployed trigger.
 
@@ -3377,7 +3376,7 @@ curl -X GET \
 }
 ```
 
-#### Update workflows listening to deployed trigger
+#### Update Workflows Listening to Deployed Trigger
 
 Update the list of workflows that will listen to a deployed trigger.
 
