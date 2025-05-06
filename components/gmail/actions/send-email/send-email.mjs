@@ -117,7 +117,7 @@ export default {
     }
     const opts = await this.gmail.getOptionsToSendEmail($, this);
     const response = await this.gmail.sendEmail(opts);
-    $.export("$summary", `Successfully sent email to ${opts.to}`);
+    $.export("$summary", "Successfully sent the email");
     return response;
   },
 };
