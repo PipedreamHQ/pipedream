@@ -6,3 +6,4 @@ packages:
   - 'packages/**'
   - 'docs-v2/**'
   - 'scripts/**'
+  - 'modelcontextprotocol/**'
