@@ -14751,7 +14751,11 @@ importers:
 
   components/yumpu: {}
 
-  components/z_api: {}
+  components/z_api:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/zagomail: {}
 
