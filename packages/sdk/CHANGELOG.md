@@ -2,6 +2,18 @@
 
 # Changelog
 
+## [1.6.0] - 2025-04-30
+
+### Added
+
+- Added `configuredProps` argument to the `updateTrigger` method.
+
+### Changed
+
+- Corrected the return type of `updateTrigger`.
+- Changed the type of property values of `ConfigureComponentContext` from
+  explicit `any` to `unknown`.
+
 ## [1.5.5] - 2025-04-28
 
 ### Changed

@@ -9,7 +9,7 @@ export default {
   key: "google_gemini-generate-content-from-text-and-image",
   name: "Generate Content from Text and Image",
   description: "Generates content from both text and image input using the Gemini API. [See the documentation](https://ai.google.dev/tutorials/rest_quickstart#text-and-image_input)",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
     ...common.props,

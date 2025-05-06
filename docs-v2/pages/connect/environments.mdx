@@ -6,7 +6,7 @@ import Image from 'next/image'
 Pipedream Connect projects support two environments: `development` and `production`. Connected accounts and credentials stored in `development` remain separate from `production`.
 
 <Callout type="info">
-You can use all of the Connect features in `development` mode **on any plan**. **[Get in touch with our Sales team](https://pipedream.com/pricing?plan=Enterprise)** when you're ready to ship to production.
+You can use all of the Connect features in `development` mode **on any plan**. **[Visit the pricing page](https://pipedream.com/pricing?plan=Connect)** to select the right plan when you're ready to ship to production.
 </Callout>
 
 ## Development mode
@@ -27,7 +27,7 @@ The `development` environment is not intended for production use with your custo
 
 ## How to specify the environment
 
-You specify the environment when [creating a new Connect token](/connect/api/#create-a-new-token) with the Pipedream SDK or API. When users successfully connect their account, Pipedream saves the account credentials (API key, access token, etc.) for that `external_user_id` in the specified environment.
+You specify the environment when [creating a new Connect token](/connect/api/#create-token) with the Pipedream SDK or API. When users successfully connect their account, Pipedream saves the account credentials (API key, access token, etc.) for that `external_user_id` in the specified environment.
 
 Always set the environment when you create the SDK client:
 
@@ -59,7 +59,7 @@ curl -X POST https://api.pipedream.com/v1/connect/{project_id}/tokens \
 
 When you're ready to ship to production:
 
-1. Contact the [Pipedream Sales team](https://pipedream.com/pricing?plan=Enterprise) to enable production access
+1. Visit the [pricing page](https://pipedream.com/pricing?plan=Connect) to enable production access
 2. Update your environment to `production` in your SDK client configuration and / or API calls
 
 <Callout type="info">

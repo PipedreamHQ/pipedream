@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/letzai",
+  "version": "0.0.1",
+  "description": "Pipedream LetzAI Components",
+  "main": "letzai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "letzai"
+  ],
+  "homepage": "https://pipedream.com/apps/letzai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

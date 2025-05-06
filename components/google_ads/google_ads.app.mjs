@@ -94,7 +94,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://eolid4dq1k0t9hi.m.pipedream.net";
+      return "https://googleads.m.pipedream.net";
     },
     _headers(accountId) {
       return {

@@ -1,22 +1,22 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js"
-import { registerComponentTools } from "../lib/registerComponentTools.js"
+import { registerComponentTools } from "./lib/registerComponentTools"
 
 export const serverFactory = async ({
   app,
-  externalUserId,
+  uuid,
 }: {
   app: string
-  externalUserId: string
+  uuid: string
 }) => {
   const server = new McpServer({
-    name: "pipedream-connect",
+    name: "pd-connect",
     version: "1.0.0",
   })
 
   await registerComponentTools({
     server,
     app,
-    externalUserId,
+    uuid,
   })
 
   return server

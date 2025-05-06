@@ -92,6 +92,11 @@ export default {
       baseId,
       tableId,
       recordId,
+      // Added 2025-04-22: Ensure returnFieldsByFieldId is passed to the API.
+      // Previously, this option was defined in the action but not forwarded to the API call.
+      opts: {
+        returnFieldsByFieldId: ctx.returnFieldsByFieldId,
+      },
     });
 
     $.export("$summary", `Fetched record "${recordId}" from ${ctx.baseId?.label || baseId}: [${ctx.tableId?.label || tableId}](https://airtable.com/${baseId}/${tableId})`);

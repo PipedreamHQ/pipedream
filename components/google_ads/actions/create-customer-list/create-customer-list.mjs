@@ -15,7 +15,7 @@ export default {
   key: "google_ads-create-customer-list",
   name: "Create Customer List",
   description: "Create a new customer list in Google Ads. [See the documentation](https://developers.google.com/google-ads/api/rest/reference/rest/v18/UserList)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,

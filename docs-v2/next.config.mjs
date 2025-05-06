@@ -35,6 +35,11 @@ export default withNextra({
   async redirects() {
     return [
       {
+        source: "/apps/apps/",
+        destination: "/apps/",
+        permanent: true,
+      },
+      {
         source: "/v3/",
         destination: "/",
         permanent: true,
@@ -67,11 +72,6 @@ export default withNextra({
       {
         source: "/apps/all-apps/",
         destination: "https://pipedream.com/apps/",
-        permanent: true,
-      },
-      {
-        source: "/apps/:path*/",
-        destination: "https://pipedream.com/apps/:path*/",
         permanent: true,
       },
       {
@@ -482,6 +482,11 @@ export default withNextra({
         permanent: true,
       },
       {
+        source: "/integrations/",
+        destination: "/apps/",
+        permanent: true,
+      },
+      {
         source: "/integrations/:path*/",
         destination: "/apps/:path*/",
         permanent: true,
@@ -560,6 +565,10 @@ export default withNextra({
       {
         source: "/api-demo-connect/accounts/:id/",
         destination: "/api/demo-connect/accounts/:id",
+      },
+      {
+        source: "/workflows/errors/",
+        destination: "/workflows/building-workflows/errors/",
       },
     ];
   },
