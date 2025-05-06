@@ -4,7 +4,7 @@ export default {
   key: "vercel_token_auth-cancel-deployment",
   name: "Cancel Deployment",
   description: "Cancel a deployment which is currently building. [See the documentation](https://vercel.com/docs/rest-api/endpoints/deployments#cancel-a-deployment)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     vercelTokenAuth,
