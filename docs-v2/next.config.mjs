@@ -35,6 +35,11 @@ export default withNextra({
   async redirects() {
     return [
       {
+        source: "/apps/apps/",
+        destination: "/apps/",
+        permanent: true,
+      },
+      {
         source: "/v3/",
         destination: "/",
         permanent: true,
@@ -474,6 +479,11 @@ export default withNextra({
       {
         source: "/integrations/connected-accounts/oauth-clients/",
         destination: "/integrations/oauth-clients/",
+        permanent: true,
+      },
+      {
+        source: "/integrations/",
+        destination: "/apps/",
         permanent: true,
       },
       {
