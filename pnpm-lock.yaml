@@ -8831,8 +8831,11 @@ importers:
   components/oanda:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
+        specifier: ^3.0.3
         version: 3.0.3
+      md5:
+        specifier: ^2.3.0
+        version: 2.3.0
 
   components/oauth_app_demo: {}
 
