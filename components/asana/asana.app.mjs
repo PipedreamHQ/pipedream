@@ -225,7 +225,7 @@ export default {
       description: "List of task fields that will emit events when updated. This field uses the field code.",
       type: "string[]",
       async options({ project }) {
-        const tasks = await this.getTasks({
+        const { data: tasks } = await this.getTasks({
           params: {
             project,
             limit: 1,
@@ -234,7 +234,9 @@ export default {
         if (!tasks || tasks.length === 0) {
           return [];
         }
-        const task = await this.getTask(tasks[0].gid);
+        const { data: task } = await this.getTask({
+          taskId: tasks[0].gid,
+        });
         return Object.keys(task);
       },
     },

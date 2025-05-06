@@ -6,7 +6,7 @@ export default {
   key: "attio-list-entry-updated-instant",
   name: "List Entry Updated (Instant)",
   description: "Emit new event when an existing list entry is updated (i.e. when a list attribute is changed for a specific list entry, e.g. when setting \"Owner\")",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -20,19 +20,21 @@ export default {
   },
   methods: {
     ...common.methods,
-    getEventType() {
-      return "list-entry.updated";
-    },
-    getFilter() {
-      return {
-        "$and": [
-          {
-            field: "id.list_id",
-            operator: "equals",
-            value: this.listId,
+    getSubscriptions() {
+      return [
+        {
+          event_type: "list-entry.updated",
+          filter: {
+            "$and": [
+              {
+                field: "id.list_id",
+                operator: "equals",
+                value: this.listId,
+              },
+            ],
           },
-        ],
-      };
+        },
+      ];
     },
     generateMeta(entry) {
       const ts = Date.now();

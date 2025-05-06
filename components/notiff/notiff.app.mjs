@@ -1,11 +1,15 @@
+import notiffIo from "../notiff_io/notiff_io.app.mjs";
+
 export default {
+  ...notiffIo,
   type: "app",
   app: "notiff",
-  propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    ...notiffIo.methods,
+    _headers() {
+      return {
+        "Content-Type": "application/json",
+      };
     },
   },
 };

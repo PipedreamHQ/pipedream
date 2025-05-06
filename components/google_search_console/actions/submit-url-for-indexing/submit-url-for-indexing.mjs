@@ -1,80 +1,81 @@
-/**
- * Submits a URL to the Google Indexing API to notify that content was updated.
- * Uses `URL_UPDATED` type. Full docs in README.md
- */
-
-import { axios } from "@pipedream/platform";
-import gsConsole from "../../google_search_console.app.mjs";
+import googleSearchConsole from "../../google_search_console.app.mjs";
 import { trimIfString } from "../../common/utils.mjs";
 
 export default {
-
   name: "Submit URL for Indexing",
   description: "Sends a URL update notification to the Google Indexing API",
   key: "google_search_console-submit-url-for-indexing",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
-    gsConsole,
+    googleSearchConsole,
     siteUrl: {
       type: "string",
       label: "URL for indexing",
-      description: "URL to be submitted for indexing",
+      description: "URL to be submitted for indexing (must be a canonical URL that's verified in Google Search Console)",
+    },
+    notificationType: {
+      type: "string",
+      label: "Notification Type",
+      description: "Type of notification to send to Google",
+      options: [
+        {
+          label: "URL Updated (content has been updated)",
+          value: "URL_UPDATED",
+        },
+        {
+          label: "URL Deleted (page no longer exists)",
+          value: "URL_DELETED",
+        },
+      ],
+      default: "URL_UPDATED",
     },
   },
-
-  //=================== RUN ==============================
-  //======================================================
-
   async run({ $ }) {
+    const {
+      siteUrl, notificationType,
+    } = this;
+    const trimmedUrl = trimIfString(siteUrl);
 
-    this.siteUrl = trimIfString(this.siteUrl);
+    const warnings = [];
 
-    // Accumulator for non-blocking warnings
-    let warnings = [];
+    const urlCheck = this.googleSearchConsole.checkIfUrlValid(trimmedUrl);
+    if (urlCheck.warnings) {
+      warnings.push(...urlCheck.warnings);
+    }
 
-    /*
-      Validate the submitted site URL.
-      - May throw if invalid
-      - May return warnings for issues like suspicious characters
-    */
-    const urlCheck = this.gsConsole.checkIfUrlValid(this.siteUrl);
-
-    if (urlCheck.warnings) warnings.push(...urlCheck.warnings);
-
-    // Prepare the API response object
     let response;
-
     try {
-      // Submit the URL to the Google Indexing API
-      response = await axios($, {
-        method: "POST",
-        url: "https://indexing.googleapis.com/v3/urlNotifications:publish",
-        headers: {
-          "Authorization": `Bearer ${this.gsConsole.$auth.oauth_access_token}`,
-          "Content-Type": "application/json",
-        },
+      response = await this.googleSearchConsole.submitUrlForIndexing({
+        $,
         data: {
-          url: this.siteUrl,
-          type: "URL_UPDATED", // Notifies Google that the content at this URL has been updated
+          url: trimmedUrl,
+          type: notificationType,
         },
       });
     } catch (error) {
-      /*
-        Determine whether the error originated from:
-        - Internal validation logic
-        - The external API call
+      const thrower = this.googleSearchConsole.checkWhoThrewError(error);
 
-        Helps distinguish between coding issues vs API issues.
-      */
-      const thrower = gsConsole.methods.checkWhoThrewError(error);
+      // Add more helpful error messages for common errors
+      if (error.response?.status === 403) {
+        throw new Error("Access denied. Make sure the URL belongs to a property you have access to in Google Search Console.");
+      }
 
-      throw new Error(`Failed to fetch data ( ${thrower.whoThrew} error ) : ${error.message}. ` + warnings.join("\n- "));
+      if (error.response?.status === 400) {
+        throw new Error("Invalid request. Ensure the URL is canonical and belongs to a verified property.");
+      }
 
-    };
+      throw new Error(`Failed to submit URL (${thrower.whoThrew} error): ${error.message}`);
+    }
+
+    // Format warnings string if any warnings exist
+    const warningsString = warnings.length > 0
+      ? `\n- ${warnings.join("\n- ")}`
+      : "";
+
     // Output a summary message and any accumulated warnings
-    $.export("$summary", ` URL submitted to Google: ${this.siteUrl}`  + warnings.join("\n- "));
-    // Return the raw API response
+    $.export("$summary", `URL submitted to Google: ${trimmedUrl}${warningsString}`);
+
     return response;
   },
 };

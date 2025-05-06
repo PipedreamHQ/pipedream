@@ -35,6 +35,11 @@ export default withNextra({
   async redirects() {
     return [
       {
+        source: "/apps/apps/",
+        destination: "/apps/",
+        permanent: true,
+      },
+      {
         source: "/v3/",
         destination: "/",
         permanent: true,
@@ -55,16 +60,6 @@ export default withNextra({
         permanent: true,
       },
       {
-        source: "/apps/",
-        destination: "/integrations/apps/",
-        permanent: true,
-      },
-      {
-        source: "/apps/app-partners/",
-        destination: "/integrations/app-partners/",
-        permanent: true,
-      },
-      {
         source: "/apps/guide/requesting-additional-oauth-scopes/",
         destination: "/integrations/oauth-clients/",
         permanent: true,
@@ -77,11 +72,6 @@ export default withNextra({
       {
         source: "/apps/all-apps/",
         destination: "https://pipedream.com/apps/",
-        permanent: true,
-      },
-      {
-        source: "/apps/:path*/",
-        destination: "https://pipedream.com/apps/:path*/",
         permanent: true,
       },
       {
@@ -185,11 +175,6 @@ export default withNextra({
         permanent: true,
       },
       {
-        source: "/projects/",
-        destination: "/workflows/projects/",
-        permanent: true,
-      },
-      {
         source: "/projects/git/",
         destination: "/workflows/git/",
         permanent: true,
@@ -202,11 +187,6 @@ export default withNextra({
       {
         source: "/projects/file-stores/:path*/",
         destination: "/workflows/data-management/file-stores/:path*/",
-        permanent: true,
-      },
-      {
-        source: "/projects/:path*/",
-        destination: "/workflows/projects/:path*/",
         permanent: true,
       },
       {
@@ -377,8 +357,13 @@ export default withNextra({
         permanent: true,
       },
       {
-        source: "/workspaces/",
-        destination: "/workflows/workspaces/",
+        source: "/components/typescript/",
+        destination: "/components/contributing/typescript/",
+        permanent: true,
+      },
+      {
+        source: "/github-sync/",
+        destination: "/workflows/git/",
         permanent: true,
       },
       {
@@ -394,11 +379,6 @@ export default withNextra({
       {
         source: "/workspaces/saml/",
         destination: "/workflows/workspaces/sso/saml/",
-        permanent: true,
-      },
-      {
-        source: "/workspaces/:path*/",
-        destination: "/workflows/workspaces/:path*/",
         permanent: true,
       },
       {
@@ -502,6 +482,11 @@ export default withNextra({
         permanent: true,
       },
       {
+        source: "/integrations/",
+        destination: "/apps/",
+        permanent: true,
+      },
+      {
         source: "/integrations/:path*/",
         destination: "/apps/:path*/",
         permanent: true,
@@ -522,13 +507,13 @@ export default withNextra({
         permanent: true,
       },
       {
-        source: "/workflows/projects/:path*/",
-        destination: "/projects/:path*/",
+        source: "/workflows/projects/",
+        destination: "/projects/",
         permanent: true,
       },
       {
-        source: "/workflows/projects/",
-        destination: "/projects/",
+        source: "/workflows/projects/:path*/",
+        destination: "/projects/:path*/",
         permanent: true,
       },
       {
@@ -580,6 +565,10 @@ export default withNextra({
       {
         source: "/api-demo-connect/accounts/:id/",
         destination: "/api/demo-connect/accounts/:id",
+      },
+      {
+        source: "/workflows/errors/",
+        destination: "/workflows/building-workflows/errors/",
       },
     ];
   },

@@ -1,10 +1,125 @@
 import { axios } from "@pipedream/platform";
-const DEFAULT_LIMIT = 20;
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "attio",
   propDefinitions: {
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "The person's first name.",
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "The person's last name.",
+    },
+    emailAddress: {
+      type: "string",
+      label: "Email",
+      description: "The contact's email address.",
+      optional: true,
+    },
+    description: {
+      type: "string",
+      label: "Description",
+      description: "A description of the person.",
+      optional: true,
+    },
+    jobTitle: {
+      type: "string",
+      label: "Job Title",
+      description: "The person's job title.",
+      optional: true,
+    },
+    phoneNumber: {
+      type: "string",
+      label: "Phone Number",
+      description: "The person's phone number which is either a) prefixed with a country code (e.g. `+44....`) or b) a local number, where **Phone Number - Country Code** is specified in addition.",
+      optional: true,
+    },
+    phoneNumberCountryCode: {
+      type: "string",
+      label: "Phone Number - Country Code",
+      description: "The country code for the phone number.",
+      optional: true,
+    },
+    linkedin: {
+      type: "string",
+      label: "LinkedIn",
+      description: "The person's LinkedIn profile URL.",
+      optional: true,
+    },
+    twitter: {
+      type: "string",
+      label: "Twitter",
+      description: "The person's Twitter handle.",
+      optional: true,
+    },
+    facebook: {
+      type: "string",
+      label: "Facebook",
+      description: "The person's Facebook profile URL.",
+      optional: true,
+    },
+    instagram: {
+      type: "string",
+      label: "Instagram",
+      description: "The person's Instagram profile URL.",
+      optional: true,
+    },
+    recordId: {
+      type: "string",
+      label: "Record ID",
+      description: "Identifier of a record",
+      async options({
+        page,
+        targetObject = constants.TARGET_OBJECT.COMPANIES,
+        sorts = [
+          {
+            direction: "desc",
+            attribute: "created_at",
+            field: "value",
+          },
+        ],
+        mapper = ({
+          id: { record_id: value },
+          values: { name },
+        }) => ({
+          value,
+          label: name[0]?.value || name[0]?.full_name,
+        }),
+      }) {
+        const { data } = await this.listRecords({
+          targetObject,
+          data: {
+            limit: constants.DEFAULT_LIMIT,
+            offset: page * constants.DEFAULT_LIMIT,
+            sorts,
+          },
+        });
+        return data?.map(mapper);
+      },
+    },
+    workspaceMemberId: {
+      type: "string",
+      label: "Workspace Member ID",
+      description: "The identifier of a workspace member",
+      async options({
+        mapper = ({
+          id: { workspace_member_id: value },
+          first_name: firstName,
+          last_name: lastName,
+        }) => ({
+          value,
+          label: `${firstName || ""} ${lastName || ""}`.trim(),
+        }),
+      }) {
+        const { data } = await this.listWorkspaceMembers();
+        return data?.map(mapper) || [];
+      },
+    },
     listId: {
       type: "string",
       label: "List ID",
@@ -12,9 +127,9 @@ export default {
       async options() {
         const { data } = await this.listLists();
         return data?.map(({
-          id, name: label,
+          id: { list_id: value }, name: label,
         }) => ({
-          value: id.list_id,
+          value,
           label,
         })) || [];
       },
@@ -29,55 +144,33 @@ export default {
         const { data } = await this.listEntries({
           listId,
           params: {
-            limit: DEFAULT_LIMIT,
-            offset: page * DEFAULT_LIMIT,
+            limit: constants.DEFAULT_LIMIT,
+            offset: page * constants.DEFAULT_LIMIT,
           },
         });
-        return data?.map(({ id }) => id.entry_id) || [];
+        return data?.map(({ id: { entry_id: value } }) => value) || [];
       },
     },
     objectId: {
       type: "string",
       label: "Object ID",
       description: "The identifier of an object",
-      async options() {
-        const { data } = await this.listObjects();
-        return data?.map(({
-          id, singular_noun: label,
-        }) => ({
-          value: id.object_id,
-          label,
-        })) || [];
-      },
-    },
-    recordId: {
-      type: "string",
-      label: "Record ID",
-      description: "Identifier of a record",
       async options({
-        objectId, page,
-      }) {
-        const { data } = await this.listRecords({
-          objectId,
-          params: {
-            limit: DEFAULT_LIMIT,
-            offset: page * DEFAULT_LIMIT,
-          },
-        });
-        return data?.map(({
-          id, values,
+        filter = () => true,
+        mapper = ({
+          id: { object_id: value }, singular_noun: label,
         }) => ({
-          value: id.record_id,
-          label: (values?.name?.length && (values.name[0].value || values.name[0].full_name))
-            ?? (values?.domains?.length && values.domains[0].domain)
-            ?? (values?.email_addresses?.length && values.email_addresses[0].email_address)
-            ?? values?.id?.record_id,
-        })) || [];
+          value,
+          label,
+        }),
+      }) {
+        const { data } = await this.listObjects();
+        return data?.filter(filter)?.map(mapper) || [];
       },
     },
-    attributeId: {
+    matchingAttribute: {
       type: "string",
-      label: "Attribute ID",
+      label: "Matching Attribute",
       description: "The ID or slug of the attribute to use to check if a record already exists. The attribute must be unique.",
       async options({
         objectId, page,
@@ -85,115 +178,128 @@ export default {
         const { data } = await this.listAttributes({
           objectId,
           params: {
-            limit: DEFAULT_LIMIT,
-            offset: page * DEFAULT_LIMIT,
+            limit: constants.DEFAULT_LIMIT,
+            offset: page * constants.DEFAULT_LIMIT,
           },
         });
         return data
-          ?.filter((attribute) => attribute.is_unique)
+          ?.filter((attribute) => attribute.is_unique && attribute.api_slug !== "record_id")
           ?.map(({
-            id, title: label,
+            api_slug: value, title: label,
           }) => ({
-            value: id.attribute_id,
+            value,
             label,
           })) || [];
       },
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://api.attio.com/v2";
+    getUrl(path) {
+      return `${constants.BASE_URL}${constants.VERSION_PATH}${path}`;
+    },
+    getHeaders(headers) {
+      return {
+        ...headers,
+        "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+      };
     },
     _makeRequest({
-      $ = this,
-      path,
-      ...opts
+      $ = this, path, headers, ...args
     }) {
       return axios($, {
-        url: `${this._baseUrl()}${path}`,
-        headers: {
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
-        ...opts,
+        ...args,
+        url: this.getUrl(path),
+        headers: this.getHeaders(headers),
       });
     },
-    createWebhook(opts = {}) {
+    post(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/webhooks",
-        ...opts,
+        ...args,
       });
     },
-    deleteWebhook({
-      hookId, ...opts
-    }) {
+    patch(args = {}) {
+      return this._makeRequest({
+        method: "PATCH",
+        ...args,
+      });
+    },
+    put(args = {}) {
+      return this._makeRequest({
+        method: "PUT",
+        ...args,
+      });
+    },
+    delete(args = {}) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/webhooks/${hookId}`,
-        ...opts,
+        ...args,
       });
     },
-    listLists(opts = {}) {
+    listWorkspaceMembers(args = {}) {
       return this._makeRequest({
-        path: "/lists",
-        ...opts,
-      });
-    },
-    listEntries({
-      listId, ...opts
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/lists/${listId}/entries/query`,
-        ...opts,
-      });
-    },
-    listObjects(opts = {}) {
-      return this._makeRequest({
-        path: "/objects",
-        ...opts,
+        path: "/workspace_members",
+        ...args,
       });
     },
     listRecords({
-      objectId, ...opts
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/objects/${objectId}/records/query`,
-        ...opts,
+      targetObject, ...args
+    } = {}) {
+      return this.post({
+        path: `/objects/${targetObject}/records/query`,
+        ...args,
       });
     },
-    listAttributes({
-      objectId, ...opts
-    }) {
-      return this._makeRequest({
-        path: `/objects/${objectId}/attributes`,
-        ...opts,
+    createRecord({
+      targetObject, ...args
+    } = {}) {
+      return this.post({
+        path: `/objects/${targetObject}/records`,
+        ...args,
       });
     },
-    createNote(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/notes",
-        ...opts,
+    updateRecord({
+      targetObject, recordId, ...args
+    } = {}) {
+      return this.patch({
+        path: `/objects/${targetObject}/records/${recordId}`,
+        ...args,
       });
     },
     upsertRecord({
       objectId, ...opts
     }) {
-      return this._makeRequest({
-        method: "PUT",
+      return this.put({
         path: `/objects/${objectId}/records`,
         ...opts,
       });
     },
-    deleteListEntry({
-      listId, entryId, ...opts
-    }) {
+    listAttributes({
+      objectId, ...args
+    } = {}) {
       return this._makeRequest({
-        method: "DELETE",
-        path: `/lists/${listId}/entries/${entryId}`,
-        ...opts,
+        path: `/objects/${objectId}/attributes`,
+        ...args,
+      });
+    },
+    listLists(args = {}) {
+      return this._makeRequest({
+        path: "/lists",
+        ...args,
+      });
+    },
+    listEntries({
+      listId, ...args
+    } = {}) {
+      return this.post({
+        path: `/lists/${listId}/entries/query`,
+        ...args,
+      });
+    },
+    listObjects(args = {}) {
+      return this._makeRequest({
+        path: "/objects",
+        ...args,
       });
     },
   },

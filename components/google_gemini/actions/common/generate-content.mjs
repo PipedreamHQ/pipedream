@@ -56,11 +56,11 @@ export default {
         }
       }
 
-      if (Array.isArray(history) && !history?.length) {
+      if (!history || (Array.isArray(history) && !history.length)) {
         return [];
       }
 
-      return history.map((itemStr) => {
+      return history?.map((itemStr) => {
         let item = itemStr;
         if (typeof item === "string") {
           try {

@@ -258,10 +258,16 @@ You can also reference an object exported by a previous step, e.g. \`{{steps.foo
         : axios($, config);
     },
     getRecord({
-      baseId, tableId, recordId,
+      baseId,
+      tableId,
+      recordId,
+      opts = {},
     }) {
-      const base = this.base(baseId);
-      return base(tableId).find(recordId);
+      return this._makeRequest({
+        method: "GET",
+        path: `/${baseId}/${tableId}/${recordId}`,
+        params: opts,
+      });
     },
     listBases(args = {}) {
       return this._makeRequest({

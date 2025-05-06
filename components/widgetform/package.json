@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/widgetform",
+  "version": "0.0.1",
+  "description": "Pipedream Widgetform Components",
+  "main": "widgetform.app.mjs",
+  "keywords": [
+    "pipedream",
+    "widgetform"
+  ],
+  "homepage": "https://pipedream.com/apps/widgetform",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

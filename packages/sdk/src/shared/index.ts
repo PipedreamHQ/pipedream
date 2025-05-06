@@ -129,6 +129,8 @@ export type PropOption = {
   value: string;
 };
 
+type ConfigureComponentContext = Record<string, unknown>
+
 /**
  * The response received after configuring a component's prop.
  */
@@ -160,6 +162,12 @@ export type ConfigureComponentResponse = {
    * A list of errors that occurred during the configuration process.
    */
   errors: string[];
+
+  /**
+   * The context object resolved in the options execution (useful for pagination, etc.).
+   * See {@link ConfigureComponentOpts.prevContext}.
+   */
+  context?: ConfigureComponentContext
 };
 
 /**
@@ -412,11 +420,10 @@ export type ConfigureComponentOpts = ExternalUserId & {
   page?: number;
 
   /**
-   * A string representing the context for the previous options
-   * execution. Use with APIs that accept a token representing the last
-   * record for pagination.
+   * The context object from the previous options execution (useful for pagination, etc.).
+   * See {@link ConfigureComponentResponse.context}.
    */
-  prevContext?: never;
+  prevContext?: ConfigureComponentContext;
 };
 
 /**
@@ -792,6 +799,13 @@ export type UpdateTriggerOpts = {
    * The state to which the trigger should be updated.
    */
   active?: boolean;
+
+  /**
+   * The props that have already been configured for the trigger. This is a
+   * JSON-serializable object with the prop names as keys and the configured
+   * values as values.
+   */
+  configuredProps?: ConfiguredProps<ConfigurableProps>;
 
   /**
    * The new name of the trigger.
@@ -1552,16 +1566,18 @@ export abstract class BaseClient {
       id,
       externalUserId,
       active = null,
+      configuredProps = null,
       name = null,
     } = opts;
 
-    return this.makeConnectRequest<V1DeployedComponent>(`/deployed-triggers/${id}`, {
+    return this.makeConnectRequest<GetTriggerResponse>(`/deployed-triggers/${id}`, {
       method: "PUT",
       params: {
         external_user_id: externalUserId,
       },
       body: {
         active,
+        configured_props: configuredProps,
         name,
       },
     });

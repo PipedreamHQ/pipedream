@@ -14,7 +14,7 @@ export default {
       auth: {
         app: "postgresql",
       },
-      label: "PostreSQL Query",
+      label: "PostgreSQL Query",
     },
   },
   async run({ $ }) {
