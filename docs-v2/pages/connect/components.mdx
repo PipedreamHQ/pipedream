@@ -1013,6 +1013,199 @@ curl -X POST https://api.pipedream.com/v1/connect/{project_id}/components/trigge
 }
 ```
 
+## Special Prop Types
+
+### SQL Prop
+
+The `sql` prop is a specialized prop type used for interacting with SQL databases. It enables developers to build applications that can:
+
+- Execute custom SQL queries
+- Introspect database schemas
+- Support prepared statements
+
+This prop type is used by these database actions:
+
+- `postgresql-execute-custom-query`
+- `snowflake-execute-sql-query`
+- `mysql-execute-raw-query`
+- `microsoft_sql_server-execute-raw-query`
+- `azure_sql-execute-raw-query`
+- `turso-execute-query`
+
+#### Configuration
+
+When configuring these actions, you'll need to provide:
+
+1. Database app type and auth (e.g., `postgresql` in this example)
+2. A `sql` prop with the following structure:
+
+```javascript
+const configuredProps = {
+  postgresql: {
+    authProvisionId: "apn_xxxxxxx""
+  },
+  sql: {
+    auth: {
+      app: "postgresql"  // Database type -- must match the app prop name 
+    },
+    query: "select * from products limit 1",
+    params: []  // Optional array of parameters for prepared statements
+  }
+}
+```
+
+#### Using prepared statements
+
+You can use prepared statements by including placeholders in your query and providing the parameter values in the `params` array. Different database systems use different placeholder syntax:
+
+- **PostgreSQL** uses `$1`, `$2`, `$3`, etc. for numbered parameters
+- **Snowflake**, **MySQL, Azure SQL, Microsoft SQL Server, and Turso** use `?` for positional parameters
+
+**PostgreSQL Example:**
+```javascript
+const configuredProps = {
+  postgresql: {
+    authProvisionId: process.env.ACCOUNT_ID
+  },
+  sql: {
+    auth: {
+      app: "postgresql" 
+    },
+    query: "select * from products where name = $1 and price > $2 limit 1",
+    params: ["foo", 10.99]  // Values to replace $1 and $2 placeholders
+  }
+}
+```
+
+**MySQL Example:**
+```javascript
+const configuredProps = {
+  mysql: {
+    authProvisionId: process.env.ACCOUNT_ID
+  },
+  sql: {
+    auth: {
+      app: "mysql" 
+    },
+    query: "select * from products where name = ? and price > ? limit 1",
+    params: ["foo", 10.99]  // Values to replace the ? placeholders
+  }
+}
+```
+
+<Callout type="info">
+Using prepared statements helps prevent SQL injection attacks by separating the SQL command structure from the data values being used, and is strongly recommended.
+</Callout>
+
+#### Retrieving database schema information
+
+By retrieving the database schema, developers can:
+
+- Provide database structure to AI agents for accurate SQL generation
+- Build native SQL editors with autocomplete for tables and columns
+- Validate queries against the actual database schema before execution
+
+You can call `configureComponent` on the `sql` prop to retrieve database schema information:
+
+```javascript
+const resp = await pd.configureComponent({
+  externalUserId: externalUserId,
+  propName: "sql",
+  componentId: {
+    key: "postgresql-execute-custom-query",
+  },
+  configuredProps: {
+    postgresql: {
+      authProvisionId: accountId
+    },
+  },
+});
+```
+
+The response includes a `context.dbInfo` object containing detailed schema information for all tables in the database:
+
+```json
+{
+  "context": {
+    "dbInfo": {
+      "products": {
+        "metadata": {},
+        "schema": {
+          "id": {
+            "tableName": "products",
+            "columnName": "id",
+            "isNullable": "NO",
+            "dataType": "integer",
+            "columnDefault": "nextval('products_id_seq'::regclass)"
+          },
+          "name": {
+            "tableName": "products",
+            "columnName": "name",
+            "isNullable": "NO",
+            "dataType": "character varying",
+            "columnDefault": null
+          },
+          "description": {
+            "tableName": "products",
+            "columnName": "description",
+            "isNullable": "YES",
+            "dataType": "text",
+            "columnDefault": null
+          },
+          "price": {
+            "tableName": "products",
+            "columnName": "price",
+            "isNullable": "NO",
+            "dataType": "numeric",
+            "columnDefault": null
+          },
+          "created_at": {
+            "tableName": "products",
+            "columnName": "created_at",
+            "isNullable": "YES",
+            "dataType": "timestamp with time zone",
+            "columnDefault": "CURRENT_TIMESTAMP"
+          }
+        }
+      },
+      "orders": {
+        "metadata": {},
+        "schema": {
+          "id": {
+            "tableName": "orders",
+            "columnName": "id",
+            "isNullable": "NO",
+            "dataType": "integer",
+            "columnDefault": "nextval('orders_id_seq'::regclass)"
+          },
+          "user_id": {
+            "tableName": "orders",
+            "columnName": "user_id",
+            "isNullable": "NO",
+            "dataType": "integer",
+            "columnDefault": null
+          },
+          "total": {
+            "tableName": "orders",
+            "columnName": "total",
+            "isNullable": "NO",
+            "dataType": "numeric",
+            "columnDefault": null
+          },
+          "created_at": {
+            "tableName": "orders",
+            "columnName": "created_at",
+            "isNullable": "YES",
+            "dataType": "timestamp with time zone",
+            "columnDefault": "CURRENT_TIMESTAMP"
+          }
+        }
+      }
+    }
+  }
+}
+```
+
 ## Troubleshooting
 
 ### Referencing the app prop in configured props payload
@@ -1103,3 +1296,4 @@ The sources UI contains three tabs:
 <Callout type="info">
 This UI view is currently in beta and has some limitations. Some UI elements may appear unpolished, and the configuration tab has limited functionality.
 </Callout>
+
