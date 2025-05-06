@@ -95,7 +95,7 @@ export default {
     positionId: {
       type: "string",
       label: "Position ID",
-      description: "Employee's prosition ID",
+      description: "Employee's position ID",
       async options({ page }) {
         const { positions: { items } } = await this.listPositions({
           limit: LIMIT,
