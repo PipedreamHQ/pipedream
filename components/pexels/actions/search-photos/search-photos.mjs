@@ -33,13 +33,13 @@ export default {
       ],
     },
     page: {
-      type: "Integer",
+      type: "integer",
       label: "Page",
       description: "The page number you are requesting",
       optional: true,
     },
     perPage: {
-      type: "Integer",
+      type: "integer",
       label: "Per Page",
       description: "The number of results you are requesting per page",
       max: 80,
