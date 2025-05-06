@@ -7898,6 +7898,9 @@ importers:
 
   components/mem: {}
 
+  components/membado:
+    specifiers: {}
+
   components/memberful:
     dependencies:
       crypto:
