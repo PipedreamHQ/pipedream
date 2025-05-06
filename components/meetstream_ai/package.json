@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/meetstream_ai",
+  "version": "0.0.1",
+  "description": "Pipedream Meetstream AI Components",
+  "main": "meetstream_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "meetstream_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/meetstream_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

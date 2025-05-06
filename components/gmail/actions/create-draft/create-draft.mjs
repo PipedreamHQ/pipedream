@@ -6,7 +6,7 @@ export default {
   key: "gmail-create-draft",
   name: "Create Draft",
   description: "Create a draft from your Google Workspace email account. [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.drafts/create)",
-  version: "0.0.5",
+  version: "0.1.0",
   type: "action",
   props: {
     gmail,
@@ -71,6 +71,18 @@ export default {
       propDefinition: [
         gmail,
         "mimeType",
+      ],
+    },
+    fromEmail: {
+      propDefinition: [
+        gmail,
+        "fromEmail",
+      ],
+    },
+    signature: {
+      propDefinition: [
+        gmail,
+        "signature",
       ],
     },
   },
