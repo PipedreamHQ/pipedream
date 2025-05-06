@@ -2932,7 +2932,17 @@ importers:
 
   components/conversion_tools: {}
 
-  components/convertapi: {}
+  components/convertapi:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      form-data:
+        specifier: ^4.0.2
+        version: 4.0.2
+      fs:
+        specifier: ^0.0.1-security
+        version: 0.0.1-security
 
   components/convertkit:
     dependencies:
@@ -3165,6 +3175,8 @@ importers:
         version: 3.0.3
 
   components/danny_test_app: {}
+
+  components/dappier: {}
 
   components/darksky_api:
     dependencies:
@@ -4084,6 +4096,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.3.0
         version: 1.6.6
+
+  components/emailverify_io: {}
 
   components/emelia: {}
 
@@ -7228,6 +7242,8 @@ importers:
 
   components/lettria: {}
 
+  components/letzai: {}
+
   components/leverly: {}
 
   components/levity: {}
@@ -7856,6 +7872,8 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/meetstream_ai: {}
+
   components/meetup: {}
 
   components/megaventory:
@@ -7925,7 +7943,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/mergemole: {}
+  components/mergemole:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/message_bird:
     dependencies:
@@ -8720,9 +8742,17 @@ importers:
         specifier: ^1.3.0
         version: 1.6.6
 
-  components/notiff: {}
+  components/notiff:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
-  components/notiff_io: {}
+  components/notiff_io:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/notion:
     dependencies:
@@ -9190,6 +9220,8 @@ importers:
   components/ory: {}
 
   components/osu: {}
+
+  components/oto: {}
 
   components/otter_waiver:
     dependencies:
@@ -9865,6 +9897,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.0
         version: 1.6.6
+
+  components/plainly: {}
 
   components/planday: {}
 
@@ -11711,8 +11745,8 @@ importers:
   components/sharepoint:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/sharpspring:
     dependencies:
@@ -12783,6 +12817,8 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
+  components/swarmnode: {}
+
   components/swell:
     dependencies:
       '@pipedream/platform':
@@ -13024,6 +13060,10 @@ importers:
   components/test_app_for_oauth_bug: {}
 
   components/test_apps_for_checking_something_001: {}
+
+  components/test_apps_for_checking_something_005: {}
+
+  components/test_apps_for_checking_something_006: {}
 
   components/test_apps_for_switching_appslug_009: {}
 
@@ -13396,6 +13436,8 @@ importers:
         version: 4.0.1
 
   components/translate_com: {}
+
+  components/transloadit: {}
 
   components/travis_ci:
     dependencies:
@@ -14302,6 +14344,8 @@ importers:
 
   components/wicked_reports: {}
 
+  components/widgetform: {}
+
   components/wildapricot:
     dependencies:
       '@pipedream/platform':
@@ -14707,7 +14751,11 @@ importers:
 
   components/yumpu: {}
 
-  components/z_api: {}
+  components/z_api:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/zagomail: {}
 
@@ -33576,7 +33624,7 @@ snapshots:
       axios: 1.8.4(debug@3.2.7)
       body-parser: 1.20.3
       file-type: 16.5.4
-      form-data: 4.0.1
+      form-data: 4.0.2
     transitivePeerDependencies:
       - debug
       - supports-color
@@ -34201,7 +34249,7 @@ snapshots:
     dependencies:
       '@pipedream/platform': 1.6.6
       axios: 1.8.4(debug@3.2.7)
-      form-data: 4.0.1
+      form-data: 4.0.2
     transitivePeerDependencies:
       - debug
 
@@ -36704,7 +36752,7 @@ snapshots:
   '@types/node-fetch@2.6.12':
     dependencies:
       '@types/node': 20.17.6
-      form-data: 4.0.1
+      form-data: 4.0.2
 
   '@types/node@14.18.63': {}
 
@@ -37477,7 +37525,7 @@ snapshots:
   axios@0.27.2:
     dependencies:
       follow-redirects: 1.15.9(debug@3.2.7)
-      form-data: 4.0.1
+      form-data: 4.0.2
     transitivePeerDependencies:
       - debug
 
@@ -38216,7 +38264,7 @@ snapshots:
       '@aws-sdk/credential-providers': 3.696.0(@aws-sdk/client-sso-oidc@3.696.0(@aws-sdk/client-sts@3.696.0(aws-crt@1.25.0))(aws-crt@1.25.0))(aws-crt@1.25.0)
       '@aws-sdk/protocol-http': 3.374.0
       '@aws-sdk/signature-v4': 3.374.0
-      form-data: 4.0.1
+      form-data: 4.0.2
       form-data-encoder: 4.0.2
       formdata-node: 6.0.3
       js-base64: 3.7.2
@@ -42722,7 +42770,7 @@ snapshots:
     dependencies:
       axios: 1.8.4(debug@3.2.7)
       exponential-backoff: 3.1.1
-      form-data: 4.0.1
+      form-data: 4.0.2
     transitivePeerDependencies:
       - debug
 

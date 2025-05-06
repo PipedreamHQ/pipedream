@@ -265,9 +265,13 @@ You have two options for triggering workflows that run on behalf of your end use
 
 The most common way to trigger workflows is via HTTP webhook. We strongly recommend [creating a Pipedream OAuth client](/rest-api/auth#creating-an-oauth-client) and authenticating inbound requests to your workflows.
 
+<Callout type="info">
+This section refers to authenticating requests to the Pipedream API. For info on how managed auth works for your end users, refer to the [managed auth quickstart](/connect/managed-auth/quickstart).
+</Callout>
+
 To get started, you'll need:
 
-- [OAuth client ID and secret](/rest-api/auth#creating-an-oauth-client) (optional but recommended)
+- [OAuth client ID and secret](/rest-api/auth#creating-an-oauth-client) for authenticating with the Pipedream API
 - Your [project ID](/projects/#finding-your-projects-id)
 - Your workflow's HTTP endpoint URL
 - The [external user ID](/connect/api/#external-users) of your end user
@@ -362,6 +366,18 @@ You can [programmatically deploy triggers via the API](/connect/api/#deploy-a-tr
 
 See the [API documentation](/connect/api/#deploy-a-trigger) for detailed examples of deploying and managing triggers.
 
+## OAuth client requirements
+
+<Callout type="info">
+When using OAuth apps (like Google Drive, Slack, Notion, etc.) with your end users, you **must use your own custom OAuth clients**.
+</Callout>
+
+1. Register your own OAuth application with each third-party service (Google Drive, Slack, etc.)
+2. [Add your OAuth client credentials to Pipedream](/apps/oauth-clients#configuring-custom-oauth-clients)
+3. Make sure to include your `oauthAppId` when connecting accounts for your end users
+
+For detailed instructions, see the [OAuth Clients documentation](/connect/managed-auth/oauth-clients#using-a-custom-oauth-client).
+
 ## Troubleshooting
 
 For help debugging issues with your workflow, you can return verbose error messages to the caller by configuring the HTTP trigger to **Return a custom response from your workflow**.
@@ -385,8 +401,8 @@ curl -X POST https://{your-endpoint-url} \
 Pipedream Connect Error: Required account for hubspot not found for external user ID abc-123 in development
 ```
 
-
 ### Common errors
+
 #### No external user ID passed, but one or more steps require it
 - One or more steps in the workflow are configured to **Use end user's auth via Connect**, but no external user ID was passed when invoking the workflow.
 - [Refer to the docs](#invoke-the-workflow) to make sure you're passing external user ID correctly when invoking the workflow.
@@ -400,8 +416,8 @@ Pipedream Connect Error: Required account for hubspot not found for external use
 - You can check which connected accounts are available for that user [in the UI](/connect/managed-auth/users/) or [via the API](/connect/api/#accounts).
 
 #### Running workflows for your users in production requires a higher tier plan
-- Anyone is able to run workflows for your end users in `development`. The Business plan is required to run on behalf of `production` users.
-- Schedule a call with our sales team and learn more about pricing [here](https://pipedream.com/pricing?plan=Enterprise).
+- Anyone is able to run workflows for your end users in `development`.
+- Visit the [pricing page](https://pipedream.com/pricing?plan=Connect) for the latest info on using Connect in production.
 
 ## Known limitations
 

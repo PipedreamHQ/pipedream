@@ -7,7 +7,7 @@ export default {
   type: "source",
   name: "New Completed Task (Instant)",
   description: "Emit new event for each task completed in a project.",
-  version: "0.1.8",
+  version: "0.1.9",
   dedupe: "unique",
   props: {
     ...common.props,

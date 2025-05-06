@@ -32,6 +32,14 @@ export default {
     getExtraData() {
       return {};
     },
+    getMetadata(body) {
+      const ts = Date.parse(new Date());
+      return {
+        id: `${body.id}-${ts}`,
+        summary: this.getSummary(body),
+        ts: ts,
+      };
+    },
   },
   hooks: {
     async activate() {
@@ -70,12 +78,7 @@ export default {
       }
     }
 
-    const ts = Date.parse(new Date());
-    this.$emit(body, {
-      id: body.id,
-      summary: this.getSummary(body),
-      ts: ts,
-    });
+    this.$emit(body, this.getMetadata(body));
 
     return this.http.respond({
       status: 200,
