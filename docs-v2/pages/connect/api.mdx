@@ -67,7 +67,7 @@ const pd = createBackendClient({
 
 You'll primarily use the browser SDK to let your users securely connect apps from your frontend. Here, you
 
-1. [Create a short-lived token on your server](#create-a-new-token)
+1. [Create a short-lived token on your server](#create-token)
 2. Initiate auth with that token to securely connect an account for a specific user
 
 Here's a Next.js example [from our quickstart](/connect/managed-auth/quickstart/):
@@ -240,7 +240,7 @@ Your app will initiate the account connection flow for your end users in your fr
 
 See [the Connect tokens docs](/connect/tokens/) for more information.
 
-#### Create a new token
+#### Create token
 
 ```
 POST /{project_id}/tokens
@@ -999,7 +999,7 @@ curl -X DELETE "https://api.pipedream.com/v1/connect/{project_id}/accounts/{acco
 
 Pipedream returns a `204 No Content` response on successful account deletion
 
-#### Delete an end user
+#### Delete end user
 
 Delete an end user, all their connected accounts, and any deployed triggers.
 
@@ -2688,7 +2688,7 @@ curl -X GET \
 }
 ```
 
-#### Delete a deployed trigger
+#### Delete deployed trigger
 
 Delete deployed trigger for a given user.
 
@@ -2798,7 +2798,7 @@ curl -X DELETE \
 Pipedream returns a `204 No Content` response on successful deletion
 
 
-#### Retrieve the events emitted by a deployed trigger
+#### Retrieve events emitted by deployed trigger
 
 Retrieve a list of the last events that a deployed trigger emitted.
 
@@ -2995,7 +2995,7 @@ curl -X GET \
 }
 ```
 
-#### Retrieve the webhooks listening to a deployed trigger
+#### Retrieve webhooks listening to deployed trigger
 
 Retrieve the list of webhook URLs listening to a deployed trigger.
 
@@ -3116,7 +3116,7 @@ curl -X GET \
 }
 ```
 
-#### Update the webhooks listening to a deployed trigger
+#### Update webhooks listening to deployed trigger
 
 Update the list of webhook URLs that will listen to a deployed trigger.
 
@@ -3255,7 +3255,7 @@ curl -X PUT \
 }
 ```
 
-#### Retrieve the workflows listening to a deployed trigger
+#### Retrieve workflows listening to deployed trigger
 
 Retrieve the list of workflow IDs listening to a deployed trigger.
 
@@ -3377,7 +3377,7 @@ curl -X GET \
 }
 ```
 
-#### Update the workflows listening to a deployed trigger
+#### Update workflows listening to deployed trigger
 
 Update the list of workflows that will listen to a deployed trigger.
 

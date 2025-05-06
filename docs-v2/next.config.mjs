@@ -556,6 +556,10 @@ export default withNextra({
         source: "/api-demo-connect/accounts/:id/",
         destination: "/api/demo-connect/accounts/:id",
       },
+      {
+        source: "/workflows/errors/",
+        destination: "/workflows/building-workflows/errors/",
+      },
     ];
   },
   env: {
