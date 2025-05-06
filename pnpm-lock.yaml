@@ -11182,8 +11182,7 @@ importers:
 
   components/ryver: {}
 
-  components/sage_intacct:
-    specifiers: {}
+  components/sage_intacct: {}
 
   components/sailpoint: {}
 
