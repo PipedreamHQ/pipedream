@@ -8831,8 +8831,11 @@ importers:
   components/oanda:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
+        specifier: ^3.0.3
         version: 3.0.3
+      md5:
+        specifier: ^2.3.0
+        version: 2.3.0
 
   components/oauth_app_demo: {}
 
@@ -11181,6 +11184,8 @@ importers:
   components/rytr: {}
 
   components/ryver: {}
+
+  components/sage_intacct: {}
 
   components/sailpoint: {}
 
@@ -14751,7 +14756,11 @@ importers:
 
   components/yumpu: {}
 
-  components/z_api: {}
+  components/z_api:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/zagomail: {}
 

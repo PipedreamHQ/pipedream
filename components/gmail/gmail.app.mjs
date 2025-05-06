@@ -303,6 +303,35 @@ export default {
           opts.inReplyTo = inReplyTo;
           opts.references = inReplyTo;
           opts.threadId = repliedMessage.threadId;
+          if (props.replyAll) {
+            const from = repliedMessage.payload.headers.find(({ name }) => name.toLowerCase() === "from");
+            const to = repliedMessage.payload.headers.find(({ name }) => name.toLowerCase() === "to");
+            const cc = repliedMessage.payload.headers.find(({ name }) => name.toLowerCase() === "cc");
+            const bcc = repliedMessage.payload.headers.find(({ name }) => name.toLowerCase() === "bcc");
+            opts.to = from.value.split(",");
+            opts.to.push(...to.value.split(","));
+
+            // Filter out the current user's email address
+            const currentUserEmail = email.toLowerCase().trim();
+            opts.to = opts.to.filter((addr) => {
+              // Extract email from possible format like "Name <email@example.com>"
+              const match = addr.match(/<(.+?)>/) || [
+                null,
+                addr.trim(),
+              ];
+              return match[1].toLowerCase() !== currentUserEmail;
+            });
+
+            opts.to = [
+              ...new Set(opts.to),
+            ];
+            if (cc) {
+              opts.cc = cc.value;
+            }
+            if (bcc) {
+              opts.bcc = bcc.value;
+            }
+          }
         } catch (err) {
           opts.threadId = props.inReplyTo;
         }
