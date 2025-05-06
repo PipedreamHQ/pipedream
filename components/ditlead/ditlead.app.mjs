@@ -31,5 +31,11 @@ export default {
         ...args,
       });
     },
+    listCampaigns(args) {
+      return this._makeRequest({
+        url: "/campaign",
+        ...args,
+      });
+    },
   },
 };
