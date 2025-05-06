@@ -213,6 +213,9 @@ export default {
      * JSON-serializable object.
      */
     async getSchema() {
+      const filter = this.$auth.pd_schema_explorer_retrieve_all ?
+        "NOT IN ('pg_catalog', 'information_schema')" :
+        "= 'public'";
       const text = `
         SELECT table_name AS "tableName",
           column_name AS "columnName",
@@ -220,7 +223,7 @@ export default {
           data_type AS "dataType",
           column_default AS "columnDefault"
         FROM information_schema.columns
-        WHERE table_schema NOT IN ('pg_catalog', 'information_schema')
+        WHERE table_schema ${filter}
         ORDER BY table_name,
           ordinal_position
       `;
