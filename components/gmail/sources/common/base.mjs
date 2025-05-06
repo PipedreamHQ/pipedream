@@ -75,6 +75,8 @@ export default {
         "subject": this.getHeaderValue(headers, "subject"),
         "from": this.parseEmail(this.getHeaderValue(headers, "from")),
         "to": this.parseEmail(this.getHeaderValue(headers, "to")),
+        "cc": this.parseEmail(this.getHeaderValue(headers, "cc")),
+        "bcc": this.parseEmail(this.getHeaderValue(headers, "bcc")),
         "reply-to": this.parseEmail(this.getHeaderValue(headers, "reply-to")),
         "date": this.getHeaderValue(headers, "date"),
         "snippet": msg.snippet,
