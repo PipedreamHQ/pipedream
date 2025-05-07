@@ -10,23 +10,34 @@ export default {
     list: {
       type: "string",
       label: "List",
-      description: "The list which will be affected.",
+      description: "The list which will be affected",
       withLabel: true,
-      async options() {
-        const { body: { data } } = await this.getLists();
+      async options({ prevContext }) {
+        const {
+          body: {
+            data, links,
+          },
+        } = await this.getLists({
+          pageCursor: prevContext?.nextCursor,
+        });
 
-        return data.map(({
-          id: value, attributes: { name: label },
-        }) => ({
-          label,
-          value,
-        }));
+        return {
+          options: data.map(({
+            id: value, attributes: { name: label },
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            nextCursor: this.getCursorFromNextLink(links?.next),
+          },
+        };
       },
     },
     profileIds: {
       type: "string[]",
-      label: "Profile Ids",
-      description: "An array with profile Ids.",
+      label: "Profile IDs",
+      description: "An array of profile IDs",
       withLabel: true,
       async options({ prevContext }) {
         const {
@@ -34,7 +45,7 @@ export default {
             data, links,
           },
         } = await this.listProfiles({
-          "page[cursor]": prevContext.nextCursor,
+          pageCursor: prevContext?.nextCursor,
         });
 
         return {
@@ -45,7 +56,7 @@ export default {
             value,
           })),
           context: {
-            nextCursor: links.next,
+            nextCursor: this.getCursorFromNextLink(links?.next),
           },
         };
       },
@@ -53,7 +64,7 @@ export default {
     listName: {
       type: "string",
       label: "List Name",
-      description: "The name of the new list.",
+      description: "The name of the new list",
     },
   },
   methods: {
@@ -64,9 +75,9 @@ export default {
       this.sdk();
       return Lists.createList(data);
     },
-    getLists() {
+    getLists(opts = {}) {
       this.sdk();
-      return Lists.getLists();
+      return Lists.getLists(opts);
     },
     subscribeProfiles({
       listId, ...opts
@@ -77,6 +88,32 @@ export default {
     listProfiles(opts = {}) {
       this.sdk();
       return Profiles.getProfiles(opts);
+    },
+    getCursorFromNextLink(url) {
+      if (!url) {
+        return;
+      }
+      return (new URL(url)).searchParams.get("page[cursor]");
+    },
+    async *paginate({
+      fn, opts = {}, max,
+    }) {
+      let hasMore, count = 0;
+      do {
+        const {
+          body: {
+            data, links,
+          },
+        } = await fn(opts);
+        for (const item of data) {
+          yield item;
+          if (max && ++count >= max) {
+            return;
+          }
+        }
+        opts.pageCursor = this.getCursorFromNextLink(links?.next);
+        hasMore = links?.next;
+      } while (hasMore);
     },
   },
 };

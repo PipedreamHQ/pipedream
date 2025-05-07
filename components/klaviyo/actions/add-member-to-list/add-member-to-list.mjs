@@ -4,8 +4,8 @@ import klaviyo from "../../klaviyo.app.mjs";
 export default {
   key: "klaviyo-add-member-to-list",
   name: "Add Member To List",
-  description: "Add member to a specific list. [See the docs here](https://developers.klaviyo.com/en/v1-2/reference/add-members)",
-  version: "1.0.0",
+  description: "Add member to a specific list. [See the documentation](https://developers.klaviyo.com/en/reference/add_profiles_to_list)",
+  version: "1.0.1",
   type: "action",
   props: {
     klaviyo,
@@ -31,7 +31,7 @@ export default {
       })),
     });
 
-    $.export("$summary", `${this.profileId} successfully added to "${this.list.label}"!`);
+    $.export("$summary", `Member(s) successfully added to "${this.list.label}"!`);
     return response.data;
   },
 };
