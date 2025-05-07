@@ -2112,8 +2112,7 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/catch_all_verifier:
-    specifiers: {}
+  components/catch_all_verifier: {}
 
   components/cats:
     dependencies:
@@ -9920,8 +9919,7 @@ importers:
 
   components/planning_center: {}
 
-  components/planpoint:
-    specifiers: {}
+  components/planpoint: {}
 
   components/planso_forms: {}
 
