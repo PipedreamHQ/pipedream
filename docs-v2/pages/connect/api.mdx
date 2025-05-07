@@ -2805,6 +2805,10 @@ Update a deployed trigger for a given user.
 PUT /deployed-triggers/{deployed_trigger_id}/
 ```
 
+<Callout type="warning">
+Configured props you define when updating a deployed trigger will **overwrite** previously configured props.
+</Callout>
+
 ##### Path parameters
 
 `deployed_trigger_id` **string**
