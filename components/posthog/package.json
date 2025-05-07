@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/posthog",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream PostHog Components",
   "main": "posthog.app.mjs",
   "keywords": [
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.6.4"
+    "@pipedream/platform": "^3.0.3"
   }
 }
