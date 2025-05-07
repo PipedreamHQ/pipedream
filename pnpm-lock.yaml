@@ -9621,8 +9621,11 @@ importers:
   components/pexels:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
+        specifier: ^3.0.3
         version: 3.0.3
+      stream:
+        specifier: ^0.0.3
+        version: 0.0.3
 
   components/phantombuster:
     dependencies:
