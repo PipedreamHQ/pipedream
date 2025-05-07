@@ -14,6 +14,7 @@ export default {
       return this.wordpress.getWordpressFollowers({
         $,
         site: this.site,
+        type: this.type,
       });
 
     },
@@ -26,6 +27,22 @@ export default {
         wordpress,
         "siteId",
       ],
+    },
+    type: {
+      type: "string",
+      label: "Follower Type",
+      description: "Select the type of followers to fetch: those who clicked Subscribe or those manually added in the dashboard.",
+      options: [
+        {
+          label: "WordPress.com Followers",
+          value: "wpcom",
+        },
+        {
+          label: "Email-only Followers",
+          value: "email",
+        },
+      ],
+      default: "wpcom",
     },
     timer: {
       type: "$.interface.timer",

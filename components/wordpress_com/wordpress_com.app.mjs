@@ -139,11 +139,12 @@ export default {
     },
     getWordpressFollowers({
       site,
+      type,
       ...opts
     }) {
       return this._makeRequest({
         method: "GET",
-        path: `/sites/${site}/followers/`,
+        path: `/sites/${site}/stats/followers?type=${type}`,
         ...opts,
       });
     },
