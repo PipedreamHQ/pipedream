@@ -1,11 +1,11 @@
+import { parseObject } from "../../common/utils.mjs";
 import letzai from "../../letzai.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "letzai-create-image-edit",
   name: "Create Image Edit",
-  description: "Creates an image edit task that modifies an existing image using inpainting or outpainting in LetzAI. [See the documentation](https://letz.ai/docs/api)",
-  version: "0.0.{{ts}}",
+  description: "Creates an image edit task that modifies an existing image using inpainting or outpainting in LetzAI. [See the documentation](https://api.letz.ai/doc#/image-edit/image_edit_create)",
+  version: "0.0.1",
   type: "action",
   props: {
     letzai,
@@ -14,6 +14,7 @@ export default {
         letzai,
         "mode",
       ],
+      reloadProps: true,
     },
     originalImageCompletionId: {
       propDefinition: [
@@ -79,22 +80,27 @@ export default {
       optional: true,
     },
   },
+  async additionalProps(props) {
+    if (this.mode === "in") {
+      props.mask.optional = false;
+    }
+    return {};
+  },
   async run({ $ }) {
-    const data = {
-      mode: this.mode,
-      original_image_completion_id: this.originalImageCompletionId,
-      image_url: this.imageUrl,
-      prompt: this.prompt,
-      mask: this.mask,
-      width: this.width,
-      height: this.height,
-      image_completions_count: this.imageCompletionsCount,
-      settings: this.settings,
-      webhook_url: this.webhookUrl,
-    };
+    const {
+      letzai,
+      settings,
+      ...data
+    } = this;
 
-    const response = await this.letzai.createImageEditTask(data);
-    $.export("$summary", `Image edit task created successfully with ID: ${response.id}`);
+    const response = await letzai.createImageEditTask({
+      $,
+      data: {
+        ...data,
+        settings: settings && parseObject(settings),
+      },
+    });
+    $.export("$summary", `Image edit task created successfully with request ID: ${response.id}`);
     return response;
   },
 };

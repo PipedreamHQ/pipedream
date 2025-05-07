@@ -1,14 +1,18 @@
 import letzai from "../../letzai.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "letzai-create-new-image",
   name: "Create New Image",
-  description: "Creates a new image generation task from a text prompt in LetzAI. [See the documentation](https://letz.ai/docs/api#createImages)",
-  version: "0.0.{{ts}}",
+  description: "Creates a new image generation task from a text prompt in LetzAI. [See the documentation](https://api.letz.ai/doc#/images/images_create)",
+  version: "0.0.1",
   type: "action",
   props: {
     letzai,
+    info: {
+      type: "alert",
+      alertType: "info",
+      content: "**Note:** You can monitor the generation status using the Action \"Get Image Information\".",
+    },
     prompt: {
       propDefinition: [
         letzai,
@@ -20,57 +24,61 @@ export default {
         letzai,
         "width",
       ],
+      optional: true,
     },
     height: {
       propDefinition: [
         letzai,
         "height",
       ],
+      optional: true,
     },
     quality: {
       propDefinition: [
         letzai,
         "quality",
       ],
+      optional: true,
     },
     creativity: {
       propDefinition: [
         letzai,
         "creativity",
       ],
+      optional: true,
     },
     hasWatermark: {
       propDefinition: [
         letzai,
         "hasWatermark",
       ],
+      optional: true,
     },
     systemVersion: {
       propDefinition: [
         letzai,
         "systemVersion",
       ],
+      optional: true,
     },
     mode: {
       propDefinition: [
         letzai,
         "generationMode",
       ],
+      optional: true,
     },
   },
   async run({ $ }) {
-    const data = {
-      prompt: this.prompt,
-      width: this.width,
-      height: this.height,
-      quality: this.quality,
-      creativity: this.creativity,
-      hasWatermark: this.hasWatermark,
-      systemVersion: this.systemVersion,
-      mode: this.mode,
-    };
+    const {
+      letzai,
+      ...data
+    } = this;
 
-    const response = await this.letzai.createImageGenerationTask(data);
+    const response = await letzai.createImage({
+      $,
+      data,
+    });
     $.export("$summary", `Created image with ID: ${response.id}`);
     return response;
   },

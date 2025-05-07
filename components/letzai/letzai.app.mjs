@@ -1,4 +1,10 @@
 import { axios } from "@pipedream/platform";
+import {
+  GENERATION_MODE_OPTIONS,
+  LIMIT,
+  MODE_OPTIONS,
+  SYSTEM_VERSION_OPTIONS,
+} from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -17,186 +23,169 @@ export default {
     mode: {
       type: "string",
       label: "Mode",
-      description: "The Editing Mode. Can be 'in' for Inpainting or 'out' for Outpainting",
-      options: [
-        {
-          label: "Inpainting",
-          value: "in",
-        },
-        {
-          label: "Outpainting",
-          value: "out",
-        },
-      ],
+      description: "The Editing Mode. Can be 'in' for Inpainting (modify within image) or 'out' for Outpainting (extend image)",
+      options: MODE_OPTIONS,
     },
     width: {
       type: "integer",
       label: "Width",
       description: "The width of the image",
-      optional: true,
-      min: 520,
+      min: 480,
       max: 2160,
     },
     height: {
       type: "integer",
       label: "Height",
       description: "The height of the image",
-      optional: true,
-      min: 520,
+      min: 480,
       max: 2160,
     },
     quality: {
       type: "integer",
       label: "Quality",
       description: "Defines how many steps the generation should take",
-      optional: true,
       min: 1,
-      max: 5,
+      max: 6,
     },
     creativity: {
       type: "integer",
       label: "Creativity",
       description: "Defines how strictly the prompt should be respected",
-      optional: true,
       min: 1,
-      max: 5,
+      max: 6,
     },
     hasWatermark: {
       type: "boolean",
       label: "Has Watermark",
       description: "Defines whether to set a watermark or not",
-      optional: true,
     },
     systemVersion: {
       type: "integer",
       label: "System Version",
       description: "Use LetzAI V2, or V3 (newest)",
-      optional: true,
-      options: [
-        {
-          label: "Version 2",
-          value: 2,
-        },
-        {
-          label: "Version 3",
-          value: 3,
-        },
-      ],
+      options: SYSTEM_VERSION_OPTIONS,
     },
     generationMode: {
       type: "string",
       label: "Generation Mode",
       description: "Select one of the different modes that offer different generation settings",
-      optional: true,
-      options: [
-        {
-          label: "Default",
-          value: "default",
-        },
-        {
-          label: "Sigma",
-          value: "sigma",
-        },
-        {
-          label: "Turbo",
-          value: "turbo",
-        },
-      ],
+      options: GENERATION_MODE_OPTIONS,
     },
     originalImageCompletionId: {
       type: "string",
       label: "Original Image Completion ID",
       description: "The ID of the original image completion used for editing",
-      optional: true,
     },
     imageUrl: {
       type: "string",
       label: "Image URL",
       description: "The URL to the image you want to edit",
-      optional: true,
     },
     promptEdit: {
       type: "string",
-      label: "Prompt for Edits",
-      description: "Your prompt for image edits",
-      optional: true,
+      label: "Prompt",
+      description: "Text description of the desired modifications",
     },
     mask: {
       type: "string",
       label: "Mask",
-      description: "Base64 encoded mask image",
-      optional: true,
+      description: "Base64 encoded image mask (required for inpainting)",
     },
     imageCompletionsCount: {
       type: "integer",
       label: "Image Completions Count",
-      description: "Amount of images to generate",
-      optional: true,
+      description: "Number of variations to generate",
       min: 1,
-      max: 3,
+      max: 5,
     },
     settings: {
       type: "object",
       label: "Settings",
       description: "Required for Outpainting. Format: {'panControls': {'up': false, 'right': false, 'down': false, 'left': false}, 'zoomSize': 1.5}",
-      optional: true,
     },
     webhookUrl: {
       type: "string",
       label: "Webhook URL",
-      description: "Webhook URL to be notified of updates",
-      optional: true,
+      description: "Optional URL to receive a POST notification when upscale is complete",
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.letz.ai";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async emitImageCreatedEvent() {
-      // Placeholder for emitting new image created event
-    },
-    async emitImageEditCreatedEvent() {
-      // Placeholder for emitting new image edit created event
-    },
-    async createImageGenerationTask(data = {}) {
+    createImage(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/images",
-        data,
+        ...opts,
       });
     },
-    async retrieveImageInfo(imageId) {
+    retrieveImageInfo({
+      imageId, ...opts
+    }) {
       return this._makeRequest({
         path: `/images/${imageId}`,
+        ...opts,
       });
     },
-    async createImageEditTask(data = {}) {
-      const {
-        mode, ...otherData
-      } = data;
+    listImages(opts = {}) {
+      return this._makeRequest({
+        path: "/images",
+        ...opts,
+      });
+    },
+    listImageEdits(opts = {}) {
+      return this._makeRequest({
+        path: "/image-edits",
+        ...opts,
+      });
+    },
+    createImageEditTask(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/image-edits",
-        data: {
-          ...otherData,
-          mode,
-        },
+        ...opts,
       });
     },
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.page = ++page;
+        params.limit = LIMIT;
+        const data = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of data) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = data.length;
+
+      } while (hasMore);
+    },
   },
-  version: "0.0.{{ts}}",
 };
