@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import { parseObject } from "../../common/utils.mjs";
 import letzai from "../../letzai.app.mjs";
 
@@ -87,6 +88,10 @@ export default {
     return {};
   },
   async run({ $ }) {
+    if (!this.originalImageCompletionId && !this.imageUrl) {
+      throw new ConfigurationError("Please provide either an original image completion ID or an image URL.");
+    }
+
     const {
       letzai,
       settings,

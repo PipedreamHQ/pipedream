@@ -7242,7 +7242,11 @@ importers:
 
   components/lettria: {}
 
-  components/letzai: {}
+  components/letzai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/leverly: {}
 
