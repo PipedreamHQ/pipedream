@@ -9916,6 +9916,9 @@ importers:
 
   components/planning_center: {}
 
+  components/planpoint:
+    specifiers: {}
+
   components/planso_forms: {}
 
   components/planview_leankit:
