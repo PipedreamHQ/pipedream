@@ -33,7 +33,7 @@ export default {
         const { items } = await this.listAssemblies({
           params: {
             page: page * LIMIT,
-            pageSize: LIMIT,
+            pagesize: LIMIT,
           },
         });
 
