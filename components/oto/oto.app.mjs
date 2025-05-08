@@ -15,6 +15,21 @@ export default {
         return clientStores?.map(({ storeName }) => storeName) || [];
       },
     },
+    brandId: {
+      type: "string",
+      label: "Brand ID",
+      description: "The brand ID of the product",
+      optional: true,
+      async options() {
+        const { clientStores } = await this.listBrands();
+        return clientStores?.map(({
+          ID: value, storeName: label,
+        }) => ({
+          label,
+          value,
+        })) || [];
+      },
+    },
     status: {
       type: "string",
       label: "Status",

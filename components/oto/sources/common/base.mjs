@@ -39,7 +39,7 @@ export default {
       throw new Error("getWebhookType is not implemented");
     },
     generateMeta() {
-      return {};
+      throw new Error ("generateMeta is not implemented");
     },
   },
   async run(event) {
@@ -47,6 +47,7 @@ export default {
     if (!body) {
       return;
     }
-    console.log(body);
+    const meta = this.generateMeta(body);
+    this.$emit(body, meta);
   },
 };

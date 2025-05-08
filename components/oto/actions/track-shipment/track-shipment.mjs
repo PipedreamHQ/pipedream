@@ -4,7 +4,7 @@ export default {
   key: "oto-track-shipment",
   name: "Track Shipment",
   description: "track a shipment by providing the tracking number and delivery company name. [See the documentation](https://apis.tryoto.com/#3b8d84ec-7769-41d4-adf2-6d2d8c1189a4)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     oto,
