@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/highlevel_oauth",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Pipedream HighLevel (OAuth) Components",
   "main": "highlevel_oauth.app.mjs",
   "keywords": [
@@ -13,6 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.0.3"
+    "@pipedream/platform": "^3.0.3",
+    "md5": "^2.3.0"
   }
 }
