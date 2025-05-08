@@ -13,7 +13,7 @@ export default {
         const { items } = await this.listTemplates({
           params: {
             page: page * LIMIT,
-            pageSize: LIMIT,
+            pagesize: LIMIT,
           },
         });
 
