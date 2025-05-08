@@ -32,13 +32,13 @@ export default {
       optional: true,
     },
     liveAudioRequired: {
-      type: "object",
+      type: "string",
       label: "Live Audio Websocket URL",
       description: "Specify websocket_url for live audio streaming",
       optional: true,
     },
     liveTranscriptionRequired: {
-      type: "object",
+      type: "string",
       label: "Live Transcription Webhook URL",
       description: "Specify webhook_url for live transcription",
       optional: true,
@@ -46,7 +46,7 @@ export default {
     deepgramApiKey: {
       type: "string",
       label: "Deepgram API Key",
-      description: "This key is required if you user **Google Meet** link and **Live Transcription Webhook URL** is specified",
+      description: "This key is required if you use a **Google Meet** link and **Live Transcription Webhook URL** is specified",
       optional: true,
     },
   },
