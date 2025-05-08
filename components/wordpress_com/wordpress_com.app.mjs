@@ -1,4 +1,3 @@
-import methods from "./common/methods.mjs";
 import { axios } from "@pipedream/platform";
 
 export default {
@@ -44,7 +43,6 @@ export default {
     },
   },
   methods: {
-    ...methods,
     _baseUrl() {
       return "https://public-api.wordpress.com/rest/v1.1";
     },
@@ -141,11 +139,12 @@ export default {
     },
     getWordpressFollowers({
       site,
+      type,
       ...opts
     }) {
       return this._makeRequest({
         method: "GET",
-        path: `/sites/${site}/followers/`,
+        path: `/sites/${site}/stats/followers?type=${type}`,
         ...opts,
       });
     },
@@ -154,6 +153,25 @@ export default {
         path: "/me/sites",
         ...opts,
       });
+    },
+    isFormData(input) {
+      return (
+        typeof input === "object" &&
+      input !== null &&
+      typeof input.getHeaders === "function" &&
+      typeof input.append === "function"
+      );
+    },
+    async initialize(subject, db, dbName) {
+      if (!subject.length) {
+        console.log("No ID found on first run. Source initialized with no cursor.");
+        return false;
+      }
+      const newest = subject[0]?.ID;
+
+      await db.set(dbName, newest);
+      console.log(`Initialized ${dbName} on first run with ID ${newest}.`);
+      return true ;
     },
   },
 };
