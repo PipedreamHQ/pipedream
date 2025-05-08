@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/klaviyo",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Klaviyo Components",
   "main": "klaviyo.app.mjs",
   "keywords": [
@@ -14,6 +14,6 @@
   },
   "dependencies": {
     "@babel/core": "^7.0.0-0",
-    "klaviyo-api": "^11.0.0"
+    "klaviyo-api": "^18.0.0"
   }
 }

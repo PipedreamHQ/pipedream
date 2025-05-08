@@ -6943,8 +6943,8 @@ importers:
         specifier: ^7.0.0-0
         version: 7.26.0
       klaviyo-api:
-        specifier: ^11.0.0
-        version: 11.0.0
+        specifier: ^18.0.0
+        version: 18.0.0
 
   components/klaxoon:
     dependencies:
@@ -15320,14 +15320,6 @@ importers:
         specifier: ^6.0.0
         version: 6.2.0
 
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
-
   packages/browsers:
     dependencies:
       '@sparticuz/chromium':
@@ -23190,9 +23182,6 @@ packages:
     resolution: {integrity: sha512-2Zks0hf1VLFYI1kbh0I5jP3KHHyCHpkfyHBzsSXRFgl/Bg9mWYfMW8oD+PdMPlEwy5HNsR9JutYy6pMeOh61nw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
-  exponential-backoff@3.1.1:
-    resolution: {integrity: sha512-dX7e/LHVJ6W3DE1MHWi9S1EYzDESENfLrYohG2G++ovZrYOkm4Knwa0mc1cn84xJOR4KEU0WSchhLbd0UklbHw==}
-
   express-rate-limit@7.5.0:
     resolution: {integrity: sha512-eB5zbQh5h+VenMPM3fh+nw1YExi5nMr6HUCR62ELSP11huvxm/Uir1H1QEyTkk5QX6A58pX6NmaTMceKZ0Eodg==}
     engines: {node: '>= 16'}
@@ -25216,8 +25205,8 @@ packages:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
     engines: {node: '>=0.10.0'}
 
-  klaviyo-api@11.0.0:
-    resolution: {integrity: sha512-lzWNSZO962HECjCWKAylCwdvyClpilUBPJAW7J1Zk9H1qvbVvg/UaLow7iOORw6EzXsPa8YL8xNE4OTKGn1tjQ==}
+  klaviyo-api@18.0.0:
+    resolution: {integrity: sha512-EtiqQwKVi7LzmrNXfTWelTIG4SYPnrILzGNOa9PUAuLFM5LhRGZkfR4tzfFI8FJLTwOcBdpvLRkNZdkaJAcRLg==}
 
   klaw@3.0.0:
     resolution: {integrity: sha512-0Fo5oir+O9jnXu5EefYbVK+mHMBeEVEy2cmctR1O1NECcCkPRreJKrS6Qt/j3KC2C148Dfo9i3pCmCMsdqGr0g==}
@@ -40967,8 +40956,6 @@ snapshots:
       jest-message-util: 29.7.0
       jest-util: 29.7.0
 
-  exponential-backoff@3.1.1: {}
-
   express-rate-limit@7.5.0(express@5.1.0):
     dependencies:
       express: 5.1.0
@@ -43795,10 +43782,9 @@ snapshots:
 
   kind-of@6.0.3: {}
 
-  klaviyo-api@11.0.0:
+  klaviyo-api@18.0.0:
     dependencies:
       axios: 1.8.4(debug@3.2.7)
-      exponential-backoff: 3.1.1
       form-data: 4.0.2
     transitivePeerDependencies:
       - debug
