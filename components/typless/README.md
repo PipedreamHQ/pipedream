@@ -1,11 +1,11 @@
 # Overview
 
-The Typless API offers a streamlined solution for extracting data from documents using machine learning. With its capability, you can automate the process of pulling out specific information from various document types, such as invoices, receipts, or identity documents, turning unstructured data into structured and actionable data points.
+The Typless API is designed to automate the extraction of data from various types of documents, such as invoices, receipts, or forms, with high accuracy. By leveraging optical character recognition (OCR) and machine learning, Typless can significantly streamline processes that traditionally require manual data entry. With Pipedream, you can integrate Typless into workflows that trigger actions in other apps based on the extracted data, enhancing automation and efficiency across various business functions.
 
 # Example Use Cases
 
-- **Automated Invoice Processing**: Streamline your accounts payable by setting up a workflow that triggers when an invoice is received via email. Pipedream can capture the email, leverage the Typless API to extract invoice data, and then populate this data into an accounting software like QuickBooks, effectively cutting down manual data entry.
+- **Automated Invoice Processing**: Connect Typless to the Stripe API on Pipedream to automate invoice processing. When Typless extracts payment details and amounts from scanned invoice images, these data can trigger a workflow to create and send payment requests via Stripe, streamlining accounts receivable operations.
 
-- **Expense Management Automation**: Build a system where employees forward their receipts to a dedicated email address. Pipedream processes the incoming email, the Typless API extracts purchase details from the receipts, and then the data is inserted into an expense tracking tool like Expensify or a custom database, simplifying expense reporting.
+- **Expense Reporting Automation**: Use Typless with Google Sheets on Pipedream for automated expense reporting. Extract expense details from receipts and automatically populate a Google Sheet. This data can then be used to update expense reports, helping to manage budgets and financial reporting without manual data entry.
 
-- **Identity Verification Workflow**: Enhance your user onboarding process with an identity check. When a user uploads an ID document, Pipedream can catch the upload event, use Typless API to extract the user's details, and then feed this information into a background check service or your internal user management system to confirm identity, ensuring compliance and security.
+- **Customer Onboarding Documents**: Combine Typless with the Salesforce API on Pipedream to enhance customer onboarding processes. Automatically extract customer information from onboarding documents and use it to create or update customer profiles in Salesforce, ensuring accurate data entry and saving time during the onboarding process.

@@ -1,11 +1,11 @@
 # Overview
 
-Api2pdf is a powerful API service that enables the conversion of HTML, URLs, and office documents to PDF, as well as merging of PDFs. It's an ideal tool for automating document workflows, creating on-the-fly reporting, or generating invoices without the need for an extensive backend infrastructure. On Pipedream, you can harness Api2pdf to build automated, serverless workflows that respond to events across various apps to create, modify, and distribute PDFs seamlessly.
+Api2pdf is a robust API for PDF generation, enabling the conversion of HTML, URLs, and office documents to PDFs, as well as merging multiple PDFs into one. Leveraging this API on Pipedream allows developers to automate document processing workflows, enhancing productivity and efficiency in tasks that require reliable PDF manipulation, such as generating reports, invoices, or contracts from various data sources.
 
 # Example Use Cases
 
-- **Generate Invoices from New Orders**: Trigger a workflow when a new order is placed in an e-commerce platform like Shopify. Use Api2pdf to convert the order details from HTML or a predefined template into a PDF invoice, then email it directly to the customer or save it to cloud storage like Google Drive for record-keeping.
+- **Automated Invoice Generation**: Integrate Api2pdf with Stripe or PayPal on Pipedream to automatically generate PDF invoices whenever a new transaction is recorded. This workflow can be set to email the invoice directly to the customer, ensuring timely and professional follow-up.
 
-- **Create PDF Reports from Spreadsheet Data**: Set up a Pipedream scheduled task to periodically pull data from a Google Sheets spreadsheet. Format the data into an HTML template and use Api2pdf to convert it into a polished PDF report. Automate the distribution of this report by emailing it to stakeholders or uploading it to a Slack channel for team review.
+- **Report Generation from Data Sources**: Combine Api2pdf with SQL database triggers in Pipedream. Automatically generate and send daily, weekly, or monthly reports by converting data query results into formatted PDFs. This is particularly useful for financial, sales, or performance reporting.
 
-- **Merge PDFs for Contract Assembly**: Whenever contract components are updated in a document management system like Dropbox, trigger a workflow to fetch the relevant PDF files. Use Api2pdf to merge these files into a single contract document and then upload the finalized contract back to Dropbox, or send it for signing via an app like DocuSign.
+- **Contract Creation from Template**: Use Api2pdf with Google Sheets or Google Docs on Pipedream to auto-fill contract templates with data from a sheet or form submission. Once populated, convert the document to a PDF and send it for e-signing to parties involved, streamlining the contract generation process.
