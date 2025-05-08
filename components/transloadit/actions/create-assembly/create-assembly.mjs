@@ -49,10 +49,10 @@ export default {
   },
   async run({ $ }) {
     if (!this.allowStepsOverride && this.templateId && this.steps) {
-      throw new Error("Either 'templateId' or 'steps' must be provided, not both.");
+      throw new ConfigurationError("Either 'templateId' or 'steps' must be provided, not both.");
     }
     if (!this.templateId && !this.steps) {
-      throw new Error("Either 'templateId' or 'steps' must be provided.");
+      throw new ConfigurationError("Either 'templateId' or 'steps' must be provided.");
     }
 
     try {
@@ -60,7 +60,6 @@ export default {
         params: {
           template_id: this.templateId,
           steps: parseObject(this.steps),
-          fields: this.fields,
           notify_url: this.notifyUrl,
           allow_steps_override: this.allowStepsOverride,
           quiet: this.quiet,
