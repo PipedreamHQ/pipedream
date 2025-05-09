@@ -138,22 +138,21 @@ export default {
       async options({
         page, projectId,
       }) {
-        const { items } = await this.listMilestones({
+        const { items } = await this.listTaskGroups({
           params: {
             limit: LIMIT,
             offset: LIMIT * page,
             project_id: projectId,
+            archived: false,
           },
         });
 
-        return items
-          .filter(({ task_group }) => task_group )
-          .map(({
-            task_group: value, name: label,
-          }) => ({
-            label,
-            value,
-          }));
+        return items?.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        })) || [];
       },
     },
   },
@@ -226,6 +225,12 @@ export default {
     listMilestones(opts = {}) {
       return this._makeRequest({
         path: "/milestones",
+        ...opts,
+      });
+    },
+    listTaskGroups(opts = {}) {
+      return this._makeRequest({
+        path: "/taskgroups",
         ...opts,
       });
     },
