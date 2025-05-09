@@ -1,11 +1,12 @@
 import pick from "lodash.pick";
 import app from "../../stripe.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "stripe-update-invoice-item",
   name: "Update Invoice Line Item",
   type: "action",
-  version: "0.1.1",
+  version: "0.1.2",
   description: "Update an invoice line item. [See the " +
     "docs](https://stripe.com/docs/api/invoiceitems/update) for more information",
   props: {
@@ -98,7 +99,7 @@ export default {
         "description",
         "metadata",
       ]),
-      ...this.advanced,
+      ...utils.parseJson(this.advanced),
     });
     $.export("$summary", `Successfully updated the invoice item, "${resp.description || resp.id}"`);
     return resp;

@@ -1,11 +1,12 @@
 import pick from "lodash.pick";
 import app from "../../stripe.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "stripe-update-customer",
   name: "Update a Customer",
   type: "action",
-  version: "0.1.1",
+  version: "0.1.2",
   description: "Update a customer. [See the docs](https://stripe.com/docs/api/customers/update) " +
     "for more information",
   props: {
@@ -112,7 +113,7 @@ export default {
     const resp = await this.app.sdk().customers.update(this.customer, {
       ...params,
       address,
-      ...this.advanced,
+      ...utils.parseJson(this.advanced),
     });
     $.export("$summary", `Successfully updated the customer, "${resp.id}"`);
     return resp;

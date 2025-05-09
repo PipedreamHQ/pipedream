@@ -5,7 +5,7 @@ export default {
   key: "stripe-new-failed-payment",
   name: "New Failed Payment",
   type: "source",
-  version: "0.1.2",
+  version: "0.1.3",
   description: "Emit new event for each new failed payment",
   methods: {
     ...common.methods,
