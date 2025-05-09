@@ -54,9 +54,13 @@ export default {
       orders.push(order);
     }
 
-    $.export("$summary", `Successfully retrieved ${orders.length} order${orders.length === 1
-      ? ""
-      : "s"}`);
+    if (orders[0].items?.length) {
+      $.export("$summary", `Successfully retrieved ${orders.length} order${orders.length === 1
+        ? ""
+        : "s"}`);
+    } else {
+      $.export("$summary", "No orders found");
+    }
     return orders;
   },
 };

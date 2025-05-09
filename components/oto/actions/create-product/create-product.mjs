@@ -1,5 +1,5 @@
 import oto from "../../oto.app.mjs";
-import utils from "../../common/utils.mjs";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "oto-create-product",
@@ -28,7 +28,6 @@ export default {
       type: "string",
       label: "Tax Amount",
       description: "Tax Amount of the product",
-      optional: true,
     },
     brandId: {
       propDefinition: [
@@ -78,12 +77,6 @@ export default {
       description: "Origin of the product",
       optional: true,
     },
-    bundleItems: {
-      type: "boolean",
-      label: "Bundle Items",
-      description: "It can be true/ false",
-      optional: true,
-    },
     customAttributes: {
       type: "object",
       label: "Custom Attributes",
@@ -107,11 +100,12 @@ export default {
         category: this.category,
         hsCode: this.hsCode,
         itemOrigin: this.itemOrigin,
-        bundleItems: this.bundleItems,
-        customAttributes: utils.parseObject(this.customAttributes),
+        customAttributes: parseObject(this.customAttributes),
       },
     });
-    $.export("$summary", `Successfully created product with ID: ${response.productId}`);
+    if (response.productId) {
+      $.export("$summary", `Successfully created product with ID: ${response.productId}`);
+    }
     return response;
   },
 };

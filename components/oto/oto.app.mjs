@@ -30,6 +30,19 @@ export default {
         })) || [];
       },
     },
+    orderId: {
+      type: "string",
+      label: "Order ID",
+      description: "The ID of an order",
+      async options({ page }) {
+        const { orders } = await this.listOrders({
+          params: {
+            page,
+          },
+        });
+        return orders?.map(({ orderId }) => orderId ) || [];
+      },
+    },
     status: {
       type: "string",
       label: "Status",
@@ -67,6 +80,12 @@ export default {
         ...opts,
       });
     },
+    getOrderDetails(opts = {}) {
+      return this._makeRequest({
+        path: "/orderDetails",
+        ...opts,
+      });
+    },
     listOrders(opts = {}) {
       return this._makeRequest({
         path: "/orders",
@@ -83,13 +102,6 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "/createProduct",
-        ...opts,
-      });
-    },
-    trackShipment(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/trackShipment",
         ...opts,
       });
     },
