@@ -59,8 +59,6 @@ const STATUSES = [
   "confirmedReturn",
   "approved",
   "rejected",
-  "reverseShipmentCanceled",
-  "reverseConfirmReturn",
   "returnReverseComment",
 ];
 

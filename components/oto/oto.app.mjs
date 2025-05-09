@@ -119,14 +119,14 @@ export default {
       let total, count = 0;
       do {
         const response = await fn(args);
-        const items = response[resourceKey];
+        const items = response[resourceKey] ?? [];
         for (const item of items) {
           yield item;
           if (max && ++count >= max) {
             return;
           }
         }
-        total = items?.length;
+        total = items.length;
         args.params.page++;
       } while (total === args.params.perPage);
     },
