@@ -5893,7 +5893,14 @@ importers:
 
   components/hasura: {}
 
-  components/hathr_ai: {}
+  components/hathr_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      mime-types:
+        specifier: ^3.0.1
+        version: 3.0.1
 
   components/have_i_been_pwned: {}
 
