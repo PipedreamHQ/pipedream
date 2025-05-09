@@ -4,7 +4,7 @@ export default {
   key: "github-search-issues-and-pull-requests",
   name: "Search Issues and Pull Requests",
   description: "Find issues and pull requests by state and keyword. [See the documentation](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests)",
-  version: "0.2.2",
+  version: "0.2.3",
   type: "action",
   props: {
     github,
@@ -24,7 +24,7 @@ This will return issues in the repository [octocat/Hello-World](https://github.c
       label: "Maximum Results",
       description: "The maximum amount of items to retrieve",
       type: "integer",
-      default: 100,
+      default: 5,
     },
   },
   async run({ $ }) {
