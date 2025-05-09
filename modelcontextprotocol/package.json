@@ -1,6 +1,4 @@
 {
-  "name": "@pipedream/mcp",
-  "version": "0.0.2",
   "description": "Pipedream stdio and HTTP MCP servers",
   "scripts": {
     "dev:stdio": "bun --watch src/stdio.ts",
