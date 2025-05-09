@@ -1,5 +1,7 @@
 import common from "../common/common.mjs";
-import { DEFAULT_LIMIT } from "../../common/constants.mjs";
+import {
+  DEFAULT_LIMIT, DEFAULT_DEAL_PROPERTIES, API_PATH,
+} from "../../common/constants.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
@@ -79,6 +81,7 @@ export default {
               direction: "DESCENDING",
             },
           ],
+          properties: DEFAULT_DEAL_PROPERTIES,
         },
         object: "deals",
       };
@@ -97,6 +100,9 @@ export default {
         for (const deal of results.results) {
           const ts = await this.getTs(deal);
           if (this.isRelevant(ts, after)) {
+            if (deal.properties.hubspot_owner_id) {
+              deal.properties.owner = await this.getOwner(deal.properties.hubspot_owner_id);
+            }
             this.emitEvent(deal, ts);
             if (ts > maxTs) {
               maxTs = ts;
@@ -111,6 +117,12 @@ export default {
         const params = this.getStageParams(stage);
         await this.processDeals(params, after);
       }
+    },
+    getOwner(ownerId) {
+      return this.hubspot.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: `/owners/${ownerId}`,
+      });
     },
   },
   sampleEmit,

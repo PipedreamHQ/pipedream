@@ -617,7 +617,8 @@ export default {
         }
       }
 
-      return issues;
+      // Slice the array to ensure exactly maxResults items are returned
+      return issues.slice(0, maxResults);
     },
     async getRepositoryPullRequests({
       repoFullname, ...args
