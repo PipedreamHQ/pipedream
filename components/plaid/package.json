@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/plaid",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Pipedream plaid Components",
   "main": "plaid.app.mjs",
   "keywords": [
@@ -13,6 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.0.0"
+    "@pipedream/platform": "^3.0.3",
+    "plaid": "^33.0.0"
   }
 }
