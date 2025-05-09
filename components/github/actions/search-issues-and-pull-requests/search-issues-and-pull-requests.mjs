@@ -4,7 +4,7 @@ export default {
   key: "github-search-issues-and-pull-requests",
   name: "Search Issues and Pull Requests",
   description: "Find issues and pull requests by state and keyword. [See the documentation](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests)",
-  version: "0.2.3",
+  version: "0.2.4",
   type: "action",
   props: {
     github,
@@ -19,6 +19,7 @@ This will return issues in the repository [octocat/Hello-World](https://github.c
       label: "Query",
       description: "The query contains one or more search keywords and qualifiers. [See the documentation](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests) for more information and examples",
       type: "string",
+      default: "repo:pipedreamhq/pipedream is:pr is:open sort:updated-desc",
     },
     maxResults: {
       label: "Maximum Results",
