@@ -82,7 +82,7 @@ export default {
     objectType: {
       type: "string",
       label: "Object Type",
-      description: "Watch for new events concerning the object type specified.",
+      description: "Watch for new events concerning the object type specified. For custom objects, this is the object's `fullyQualifiedName`, `objectTypeId`, or the short-hand custom object type name (aka `p_{object_name}`)",
       async options({ includeCustom = false }) {
         const objectTypes = OBJECT_TYPES;
         if (includeCustom) {
@@ -101,7 +101,7 @@ export default {
     objectSchema: {
       type: "string",
       label: "Object Schema",
-      description: "Watch for new events of objects with the specified custom schema.",
+      description: "Watch for new events of objects with the specified custom schema. This is the `objectTypeId` of an object.",
       async options() {
         const { results } = await this.listSchemas();
         return results?.map(({
@@ -437,7 +437,7 @@ export default {
     customObjectType: {
       type: "string",
       label: "Custom Object Type",
-      description: "The type of custom object to create",
+      description: "The type of custom object to create. This is the object's `fullyQualifiedName`, `objectTypeId`, or the short-hand custom object type name (aka `p_{object_name}`)",
       async options() {
         const { results } = await this.listSchemas();
         return results?.map(({
