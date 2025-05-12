@@ -5815,7 +5815,11 @@ importers:
 
   components/gupshup: {}
 
-  components/guru: {}
+  components/guru:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/h_supertools_analytics_tool:
     dependencies:
