@@ -155,6 +155,28 @@ export default {
         })) || [];
       },
     },
+    labelIds: {
+      type: "string[]",
+      label: "Label IDs",
+      description: "An array of unique identifiers for the labels",
+      optional: true,
+      async options({ page }) {
+        const { items } = await this.listLabels({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+            type: "others",
+          },
+        });
+
+        return items.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -237,6 +259,12 @@ export default {
     listTemplates(opts = {}) {
       return this._makeRequest({
         path: "/templates",
+        ...opts,
+      });
+    },
+    listLabels(opts = {}) {
+      return this._makeRequest({
+        path: "/labels",
         ...opts,
       });
     },

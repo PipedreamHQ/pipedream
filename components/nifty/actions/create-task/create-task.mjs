@@ -1,4 +1,5 @@
 import nifty from "../../nifty.app.mjs";
+import { parseObjectEntries } from "../../common/utils.mjs";
 
 export default {
   key: "nifty-create-task",
@@ -32,12 +33,6 @@ export default {
       type: "string",
       label: "Description",
       description: "A description of the task",
-      optional: true,
-    },
-    order: {
-      type: "integer",
-      label: "Order",
-      description: "The order of the task",
       optional: true,
     },
     parentTaskId: {
@@ -83,10 +78,16 @@ export default {
       description: "An array of assignee IDs to assign to the task",
       optional: true,
     },
-    labels: {
-      type: "string[]",
-      label: "Labels",
-      description: "An array of labels to add to the task",
+    labelIds: {
+      propDefinition: [
+        nifty,
+        "labelIds",
+      ],
+    },
+    additionalFields: {
+      type: "object",
+      label: "Additional Fields",
+      description: "Additional fields to add to the task. [See the documentation](https://developers.niftypm.com/operation/operation-taskapicontroller_createtask)",
       optional: true,
     },
   },
@@ -97,13 +98,13 @@ export default {
         task_group_id: this.taskGroupId,
         name: this.name,
         description: this.description,
-        order: this.order,
         task_id: this.parentTaskId,
         milestone_id: this.milestoneId,
         due_date: this.dueDate,
         start_date: this.startDate,
         assignee_ids: this.assigneeIds,
-        labels: this.labels,
+        labels: this.labelIds,
+        ...parseObjectEntries(this.additionalFields),
       },
     });
     $.export("$summary", `Successfully created task with ID: ${response.id}`);
