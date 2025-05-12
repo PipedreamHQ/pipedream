@@ -42,7 +42,7 @@ export default {
     id: {
       propDefinition: [
         app,
-        "invoice_item",
+        "invoiceItem",
         ({ invoice }) => ({
           invoice,
         }),

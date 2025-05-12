@@ -1,4 +1,3 @@
-import pick from "lodash.pick";
 import app from "../../stripe.app.mjs";
 
 export default {
@@ -16,22 +15,27 @@ export default {
     id: {
       propDefinition: [
         app,
-        "payment_intent",
+        "paymentIntent",
       ],
       optional: false,
     },
-    cancellation_reason: {
+    cancellationReason: {
       propDefinition: [
         app,
-        "payment_intent_cancellation_reason",
+        "paymentIntentCancellationReason",
       ],
     },
   },
   async run({ $ }) {
-    const params = pick(this, [
-      "cancellation_reason",
-    ]);
-    const resp = await this.app.sdk().paymentIntents.cancel(this.id, params);
+    const {
+      app,
+      id,
+      cancellationReason,
+    } = this;
+
+    const resp = await app.sdk().paymentIntents.cancel(id, {
+      cancellation_reason: cancellationReason,
+    });
     $.export("$summary", "Successfully cancelled payment intent");
     return resp;
   },

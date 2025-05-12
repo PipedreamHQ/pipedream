@@ -1,6 +1,5 @@
-import pickBy from "lodash.pickby";
-import pick from "lodash.pick";
 import app from "../../stripe.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "stripe-update-payment-intent",
@@ -14,7 +13,7 @@ export default {
     id: {
       propDefinition: [
         app,
-        "payment_intent",
+        "paymentIntent",
       ],
       optional: false,
     },
@@ -40,16 +39,16 @@ export default {
       ],
       default: "", // currency cannot be used when modifying a PaymentIntent that was created by an invoice
     },
-    payment_method_types: {
+    customer: {
       propDefinition: [
         app,
-        "payment_method_types",
+        "customer",
       ],
     },
-    statement_descriptor: {
+    description: {
       propDefinition: [
         app,
-        "statement_descriptor",
+        "description",
       ],
     },
     metadata: {
@@ -58,42 +57,183 @@ export default {
         "metadata",
       ],
     },
-    advanced: {
+    paymentMethod: {
       propDefinition: [
         app,
-        "metadata",
+        "paymentMethod",
+        ({ customer }) => ({
+          customer,
+        }),
       ],
-      label: "Advanced Options",
-      description: "Specify less-common options that you require. See [Update a PaymentIntent]" +
-        "(https://stripe.com/docs/api/payment_intents/update) for a list of supported options.",
+    },
+    receiptEmail: {
+      type: "string",
+      label: "Receipt Email",
+      description: "Email address that the receipt for the resulting payment will be sent to. If receipt_email is specified for a payment in live mode, a receipt will be sent regardless of your email settings.",
+    },
+    setupFutureUsage: {
+      propDefinition: [
+        app,
+        "setupFutureUsage",
+      ],
+    },
+    shippingAddressCity: {
+      label: "Shipping - Address - City",
+      propDefinition: [
+        app,
+        "addressCity",
+      ],
+    },
+    shippingAddressCountry: {
+      label: "Shipping - Address - Country",
+      propDefinition: [
+        app,
+        "addressCountry",
+      ],
+    },
+    shippingAddressLine1: {
+      label: "Shipping - Address - Line 1",
+      propDefinition: [
+        app,
+        "addressLine1",
+      ],
+    },
+    shippingAddressLine2: {
+      label: "Shipping - Address - Line 2",
+      propDefinition: [
+        app,
+        "addressLine2",
+      ],
+    },
+    shippingAddressPostalCode: {
+      label: "Shipping - Address - Postal Code",
+      propDefinition: [
+        app,
+        "addressPostalCode",
+      ],
+    },
+    shippingAddressState: {
+      label: "Shipping - Address - State",
+      propDefinition: [
+        app,
+        "addressState",
+      ],
+    },
+    shippingName: {
+      propDefinition: [
+        app,
+        "shippingName",
+      ],
+    },
+    shippingCarrier: {
+      propDefinition: [
+        app,
+        "shippingCarrier",
+      ],
+    },
+    shippingPhone: {
+      propDefinition: [
+        app,
+        "shippingPhone",
+      ],
+    },
+    shippingTrackingNumber: {
+      propDefinition: [
+        app,
+        "shippingTrackingNumber",
+      ],
+    },
+    statementDescriptor: {
+      propDefinition: [
+        app,
+        "statementDescriptor",
+      ],
+    },
+    statementDescriptorSuffix: {
+      propDefinition: [
+        app,
+        "statementDescriptorSuffix",
+      ],
+    },
+    paymentMethodTypes: {
+      propDefinition: [
+        app,
+        "paymentMethodTypes",
+      ],
     },
   },
   async run({ $ }) {
-    const params = {
-      ...pick(this, [
-        "amount",
-        "payment_method_types",
-        "metadata",
-      ]),
-      // Include these props only if truthy since they're required in payment intent
-      ...pickBy(pick(this, [
-        "currency",
-        "statement_descriptor",
-      ])),
-    };
-    const advanced = this.advanced;
+    const {
+      app,
+      id,
+      amount,
+      currency,
+      customer,
+      description,
+      metadata,
+      paymentMethod,
+      receiptEmail,
+      setupFutureUsage,
+      shippingAddressCity,
+      shippingAddressCountry,
+      shippingAddressLine1,
+      shippingAddressLine2,
+      shippingAddressPostalCode,
+      shippingAddressState,
+      shippingName,
+      shippingCarrier,
+      shippingPhone,
+      shippingTrackingNumber,
+      statementDescriptor,
+      statementDescriptorSuffix,
+      paymentMethodTypes,
+    } = this;
 
-    // Don't fail if the statement descriptor was too long
-    if (params.statement_descriptor) {
-      params.statement_descriptor = String(params.statement_descriptor).slice(0, 21);
-    }
-    if (advanced?.statement_descriptor_suffix) {
-      advanced.statement_descriptor_suffix = String(advanced.statement_descriptor_suffix)
-        .slice(0, 21);
-    }
-    const resp = await this.app.sdk().paymentIntents.update(this.id, {
-      ...params,
-      ...advanced,
+    const resp = await app.sdk().paymentIntents.update(id, {
+      amount,
+      currency,
+      payment_method_types: paymentMethodTypes,
+      metadata: utils.parseJson(metadata),
+      customer,
+      description,
+      payment_method: paymentMethod,
+      receipt_email: receiptEmail,
+      setup_future_usage: setupFutureUsage,
+      ...(
+        shippingAddressCity
+        || shippingAddressCountry
+        || shippingAddressLine1
+        || shippingAddressLine2
+        || shippingAddressPostalCode
+        || shippingAddressState
+        || shippingName
+        || shippingCarrier
+        || shippingPhone
+        || shippingTrackingNumber
+          ? {
+            shipping: {
+              address: {
+                city: shippingAddressCity,
+                country: shippingAddressCountry,
+                line1: shippingAddressLine1,
+                line2: shippingAddressLine2,
+                postal_code: shippingAddressPostalCode,
+                state: shippingAddressState,
+              },
+              name: shippingName,
+              carrier: shippingCarrier,
+              phone: shippingPhone,
+              tracking_number: shippingTrackingNumber,
+            },
+          }
+          : {}
+      ),
+      ...(statementDescriptor && {
+        statement_descriptor: statementDescriptor?.slice(0, 21) || undefined,
+      }),
+      ...(statementDescriptorSuffix && {
+        statement_descriptor_suffix: statementDescriptorSuffix?.slice(0, 21) || undefined,
+      }),
     });
     $.export("$summary", `Successfully updated the payment intent, "${resp.description || resp.id}"`);
     return resp;

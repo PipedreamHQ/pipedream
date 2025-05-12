@@ -29,15 +29,23 @@ export default {
       ],
     },
     status: {
-      propDefinition: [
-        app,
-        "invoice_status",
+      type: "string",
+      label: "Status",
+      description: "Only return invoices that are in the given status otherwise all invoices are returned.",
+      options: [
+        "draft",
+        "open",
+        "paid",
+        "uncollectible",
+        "void",
       ],
+      optional: true,
     },
-    collection_method: {
+    collectionMethod: {
+      description: "The collection method of the invoice to retrieve.",
       propDefinition: [
         app,
-        "invoice_collection_method",
+        "collectionMethod",
       ],
     },
     limit: {

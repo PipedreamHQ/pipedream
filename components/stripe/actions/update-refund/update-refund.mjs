@@ -10,23 +10,29 @@ export default {
   props: {
     app,
     id: {
-      "propDefinition": [
+      propDefinition: [
         app,
         "refund",
       ],
-      "optional": false,
+      optional: false,
     },
     metadata: {
-      "propDefinition": [
+      propDefinition: [
         app,
         "metadata",
       ],
-      "optional": false,
+      optional: false,
     },
   },
   async run({ $ }) {
-    const resp = await this.app.sdk().refunds.update(this.id, {
-      metadata: this.metadata,
+    const {
+      app,
+      id,
+      metadata,
+    } = this;
+
+    const resp = await app.sdk().refunds.update(id, {
+      metadata,
     });
     $.export("$summary", `Successfully updated the refund, "${resp.id}"`);
     return resp;

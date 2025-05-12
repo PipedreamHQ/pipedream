@@ -1,4 +1,3 @@
-import pick from "lodash.pick";
 import app from "../../stripe.app.mjs";
 
 export default {
@@ -20,10 +19,10 @@ export default {
         "charge",
       ],
     },
-    payment_intent: {
+    paymentIntent: {
       propDefinition: [
         app,
-        "payment_intent",
+        "paymentIntent",
       ],
     },
     amount: {
@@ -33,22 +32,27 @@ export default {
       ],
     },
     reason: {
-      propDefinition: [
-        app,
-        "refund_reason",
+      type: "string",
+      label: "Reason",
+      description: "String indicating the reason for the refund. If set, possible values are duplicate, fraudulent, and requested_by_customer. If you believe the charge to be fraudulent, specifying fraudulent as the reason will add the associated card and email to your [block lists](https://docs.stripe.com/radar/lists), and will also help us improve our fraud detection algorithms.",
+      options: [
+        "duplicate",
+        "fraudulent",
+        "requested_by_customer",
       ],
+      optional: true,
     },
-    refund_application_fee: {
-      propDefinition: [
-        app,
-        "refund_application_fee",
-      ],
+    refundApplicationFee: {
+      type: "boolean",
+      label: "Refund Application Fee",
+      description: "Whether the application fee should be refunded when refunding this charge. If a full charge refund is given, the full application fee will be refunded. Otherwise, the application fee will be refunded in an amount proportional to the amount of the charge refunded. Note that an application fee can be refunded only by the application that created the charge.",
+      optional: true,
     },
-    reverse_transfer: {
-      propDefinition: [
-        app,
-        "reverse_transfer",
-      ],
+    reverseTransfer: {
+      type: "boolean",
+      label: "Refund Application Fee",
+      description: "Whether the transfer should be reversed when refunding this charge. The transfer will be reversed proportionally to the amount being refunded (either the entire or partial amount). Note that a transfer can be reversed only by the application that created the charge.",
+      optional: true,
     },
     metadata: {
       propDefinition: [
@@ -58,16 +62,26 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = pick(this, [
-      "charge",
-      "payment_intent",
-      "amount",
-      "reason",
-      "refund_application_fee",
-      "reverse_transfer",
-      "metadata",
-    ]);
-    const resp = await this.app.sdk().refunds.create(data);
+    const {
+      app,
+      charge,
+      paymentIntent,
+      amount,
+      reason,
+      refundApplicationFee,
+      reverseTransfer,
+      metadata,
+    } = this;
+
+    const resp = await app.sdk().refunds.create({
+      charge,
+      payment_intent: paymentIntent,
+      amount,
+      reason,
+      refund_application_fee: refundApplicationFee,
+      reverse_transfer: reverseTransfer,
+      metadata,
+    });
     $.export("$summary", `Successfully created a refund for ${resp.amount} of the smallest currency unit of ${resp.currency}`);
     return resp;
   },

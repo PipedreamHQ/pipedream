@@ -8,14 +8,14 @@ export default {
   type: "action",
   props: {
     app,
-    product_id: {
+    productId: {
       type: "string",
       label: "Product ID",
       description: "A Stripe Product ID. [See the docs](https://stripe.com/docs/api/products/object#product_object-id)",
     },
   },
   async run ({ $ }) {
-    const resp = await this.app.sdk().products.retrieve(this.product_id);
+    const resp = await this.app.sdk().products.retrieve(this.productId);
     $.export("$summary", `Successfully retrieved the line item product, "${resp.name || resp.id}"`);
     return resp;
   },

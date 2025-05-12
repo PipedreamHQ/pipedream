@@ -4,7 +4,7 @@ export default {
   key: "stripe-search-customers",
   name: "Search Customers",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Search customers by various attributes like email domain, created date, etc. [See the docs](https://stripe.com/docs/api/customers/search) for more information",
   props: {
     app,
@@ -15,10 +15,11 @@ export default {
       optional: true,
     },
     email: {
-      type: "string",
-      label: "Email",
       description: "Search by customer email address (e.g.,`user@example.com`)",
-      optional: true,
+      propDefinition: [
+        app,
+        "email",
+      ],
     },
     emailDomain: {
       type: "string",
@@ -49,11 +50,12 @@ export default {
   },
   methods: {
     convertDateToTimestamp(dateStr) {
-      if (!dateStr) return null;
+      if (!dateStr) {
+        return null;
+      }
       const date = new Date(`${dateStr}T00:00:00Z`);
       return Math.floor(date.getTime() / 1000);
     },
-
     buildSearchQuery() {
       const queryParts = [];
 
@@ -87,16 +89,22 @@ export default {
     },
   },
   async run({ $ }) {
-    const query = this.buildSearchQuery();
+    const {
+      buildSearchQuery,
+      app,
+      limit,
+    } = this;
+
+    const query = buildSearchQuery();
 
     if (!query) {
       throw new Error("Please provide at least one search parameter");
     }
 
     // Use a specific API version for search functionality
-    const results = await this.app.sdk("2023-10-16").customers.search({
+    const results = await app.sdk().customers.search({
       query,
-      limit: this.limit,
+      limit,
     });
 
     const resultCount = results.data.length;

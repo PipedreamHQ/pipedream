@@ -1,4 +1,3 @@
-import pick from "lodash.pick";
 import app from "../../stripe.app.mjs";
 import utils from "../../common/utils.mjs";
 
@@ -44,7 +43,7 @@ export default {
     id: {
       propDefinition: [
         app,
-        "invoice_item",
+        "invoiceItem",
         ({ invoice }) => ({
           invoice,
         }),
@@ -81,25 +80,24 @@ export default {
         "metadata",
       ],
     },
-    advanced: {
-      propDefinition: [
-        app,
-        "metadata",
-      ],
-      label: "Advanced Options",
-      description: "Add any additional parameters that you require here.",
-    },
   },
   async run({ $ }) {
-    const resp = await this.app.sdk().invoiceItems.update(this.id, {
-      ...pick(this, [
-        "amount",
-        "currency",
-        "quantity",
-        "description",
-        "metadata",
-      ]),
-      ...utils.parseJson(this.advanced),
+    const {
+      app,
+      id,
+      amount,
+      currency,
+      quantity,
+      description,
+      metadata,
+    } = this;
+
+    const resp = await app.sdk().invoiceItems.update(id, {
+      amount,
+      currency,
+      quantity,
+      description,
+      metadata: utils.parseJson(metadata),
     });
     $.export("$summary", `Successfully updated the invoice item, "${resp.description || resp.id}"`);
     return resp;

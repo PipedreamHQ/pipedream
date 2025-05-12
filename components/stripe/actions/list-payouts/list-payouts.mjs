@@ -11,10 +11,16 @@ export default {
   props: {
     app,
     status: {
-      propDefinition: [
-        app,
-        "payout_status",
+      type: "string",
+      label: "Payout Status",
+      description: "The status of the payouts to be returned. If not specified, all payouts will be returned.",
+      options: [
+        "pending",
+        "paid",
+        "failed",
+        "canceled",
       ],
+      optional: true,
     },
     limit: {
       propDefinition: [

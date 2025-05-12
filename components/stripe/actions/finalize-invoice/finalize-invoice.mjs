@@ -1,4 +1,3 @@
-import pick from "lodash.pick";
 import app from "../../stripe.app.mjs";
 
 export default {
@@ -17,17 +16,27 @@ export default {
       ],
       optional: false,
     },
-    auto_advance: {
+    autoAdvance: {
       propDefinition: [
         app,
-        "invoice_auto_advance",
+        "autoAdvance",
       ],
     },
   },
   async run({ $ }) {
-    const resp = await this.app.sdk().invoices.finalizeInvoice(this.id, pick(this, [
-      "auto_advance",
-    ]));
+    const {
+      app,
+      id,
+      autoAdvance,
+    } = this;
+
+    const resp = await app.sdk().invoices.finalizeInvoice(id, {
+      ...(autoAdvance
+        ? {
+          auto_advance: autoAdvance,
+        }
+        : {}),
+    });
     $.export("$summary", `Successfully finalized the invoice, "${resp.id}"`);
     return resp;
   },

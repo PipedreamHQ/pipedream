@@ -1,4 +1,3 @@
-import pick from "lodash.pick";
 import app from "../../stripe.app.mjs";
 
 export default {
@@ -12,18 +11,18 @@ export default {
   props: {
     app,
     amount: {
-      "propDefinition": [
+      optional: false,
+      propDefinition: [
         app,
         "amount",
       ],
-      "optional": false,
     },
     currency: {
-      "propDefinition": [
+      optional: false,
+      propDefinition: [
         app,
         "currency",
       ],
-      "optional": false,
     },
     description: {
       propDefinition: [
@@ -31,23 +30,33 @@ export default {
         "description",
       ],
     },
-    statement_descriptor: {
+    statementDescriptor: {
       propDefinition: [
         app,
-        "statement_descriptor",
+        "statementDescriptor",
       ],
     },
     method: {
-      propDefinition: [
-        app,
-        "payout_method",
+      type: "string",
+      label: "Method",
+      description: "`instant` is only supported for payouts to debit cards",
+      default: "standard",
+      options: [
+        "standard",
+        "instant",
       ],
+      optional: true,
     },
-    source_type: {
-      propDefinition: [
-        app,
-        "payout_source_type",
+    sourceType: {
+      type: "string",
+      label: "Source Type",
+      description: "The balance type of your Stripe balance to draw this payout from",
+      options: [
+        "bank_account",
+        "card",
+        "fpx",
       ],
+      optional: true,
     },
     metadata: {
       propDefinition: [
@@ -57,16 +66,26 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = pick(this, [
-      "amount",
-      "currency",
-      "description",
-      "statement_descriptor",
-      "method",
-      "source_type",
-      "metadata",
-    ]);
-    const resp = await this.app.sdk().payouts.create(data);
+    const {
+      app,
+      amount,
+      currency,
+      description,
+      statementDescriptor,
+      method,
+      sourceType,
+      metadata,
+    } = this;
+
+    const resp = await app.sdk().payouts.create({
+      amount,
+      currency,
+      description,
+      statement_descriptor: statementDescriptor,
+      method,
+      source_type: sourceType,
+      metadata,
+    });
     $.export("$summary", `Successfully created a new payout for ${resp.amount} of the smallest unit of currency of ${resp.currency}`);
     return resp;
   },

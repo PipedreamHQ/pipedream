@@ -13,13 +13,17 @@ export default {
     id: {
       propDefinition: [
         app,
-        "checkout_session",
+        "checkoutSession",
       ],
       optional: false,
     },
   },
   async run({ $ }) {
-    const resp = await this.app.sdk().checkout.sessions.retrieve(this.id);
+    const {
+      app,
+      id,
+    } = this;
+    const resp = await app.sdk().checkout.sessions.retrieve(id);
     $.export("$summary", `Successfully retrieved the checkout session, "${resp.id}"`);
     return resp;
   },

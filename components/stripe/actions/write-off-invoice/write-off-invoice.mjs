@@ -18,7 +18,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const resp = await this.app.sdk().invoices.markUncollectible(this.id);
+    const {
+      app,
+      id,
+    } = this;
+
+    const resp = await app.sdk().invoices.markUncollectible(id);
     $.export("$summary", `Successfully marked off the invoice, "${resp.number || resp.id}"`);
     return resp;
   },

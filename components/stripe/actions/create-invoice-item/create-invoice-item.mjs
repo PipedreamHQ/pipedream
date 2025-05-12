@@ -1,6 +1,4 @@
-import pick from "lodash.pick";
 import app from "../../stripe.app.mjs";
-import utils from "../../common/utils.mjs";
 
 export default {
   key: "stripe-create-invoice-item",
@@ -18,7 +16,31 @@ export default {
       ],
       optional: false,
     },
-    price: {
+    amount: {
+      propDefinition: [
+        app,
+        "amount",
+      ],
+    },
+    currency: {
+      propDefinition: [
+        app,
+        "currency",
+      ],
+    },
+    description: {
+      propDefinition: [
+        app,
+        "description",
+      ],
+    },
+    metadata: {
+      propDefinition: [
+        app,
+        "metadata",
+      ],
+    },
+    pricingPrice: {
       propDefinition: [
         app,
         "price",
@@ -45,71 +67,43 @@ export default {
         }),
       ],
     },
-    amount: {
-      propDefinition: [
-        app,
-        "amount",
-      ],
-    },
-    currency: {
-      propDefinition: [
-        app,
-        "currency",
-      ],
-    },
     quantity: {
       propDefinition: [
         app,
         "quantity",
       ],
     },
-    description: {
-      propDefinition: [
-        app,
-        "description",
-      ],
-    },
-    metadata: {
-      propDefinition: [
-        app,
-        "metadata",
-      ],
-    },
-    advanced: {
-      propDefinition: [
-        app,
-        "metadata",
-      ],
-      label: "Advanced Options",
-      description: "Add any additional parameters that you require here",
-    },
   },
   async run({ $ }) {
     const {
       app,
-      price,
-      advanced,
+      customer,
+      amount,
+      currency,
+      description,
+      metadata,
+      pricingPrice,
+      subscription,
+      invoice,
+      quantity,
     } = this;
     const resp = await app.sdk().invoiceItems.create({
-      ...pick(this, [
-        "customer",
-        "subscription",
-        "invoice",
-        "amount",
-        "currency",
-        "quantity",
-        "description",
-        "metadata",
-      ]),
-      ...(price
+      customer,
+      amount,
+      currency,
+      description,
+      metadata,
+      subscription,
+      invoice,
+      quantity,
+      ...(pricingPrice
         ? {
           pricing: {
-            price,
+            price: pricingPrice,
           },
         }
         : {}
       ),
-      ...utils.parseJson(advanced),
     });
 
     $.export("$summary", "Successfully added new invoice item");

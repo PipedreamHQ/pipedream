@@ -1,6 +1,4 @@
-import pick from "lodash.pick";
 import app from "../../stripe.app.mjs";
-import utils from "../../common/utils.mjs";
 
 export default {
   key: "stripe-list-payment-intents",
@@ -19,16 +17,6 @@ export default {
         "customer",
       ],
     },
-    advanced: {
-      propDefinition: [
-        app,
-        "metadata",
-      ],
-      label: "Advanced Options",
-      description: "Specify less-common options that you require. See [List all " +
-        "PaymentIntents](https://stripe.com/docs/api/payment_intents/list) for a list of " +
-        "supported options.",
-    },
     limit: {
       propDefinition: [
         app,
@@ -37,15 +25,17 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = {
-      ...pick(this, [
-        "customer",
-      ]),
-      ...utils.parseJson(this.advanced),
-    };
-    const resp = await this.app.sdk().paymentIntents.list(params)
+    const {
+      app,
+      customer,
+      limit,
+    } = this;
+
+    const resp = await app.sdk().paymentIntents.list({
+      customer,
+    })
       .autoPagingToArray({
-        limit: this.limit,
+        limit,
       });
     $.export("$summary", "Successfully fetched payment intents");
     return resp;

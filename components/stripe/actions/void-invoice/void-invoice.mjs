@@ -18,7 +18,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const resp = await this.app.sdk().invoices.voidInvoice(this.id);
+    const {
+      app,
+      id,
+    } = this;
+
+    const resp = await app.sdk().invoices.voidInvoice(id);
     $.export("$summary", `Successfully voided the invoice, "${resp.number || resp.id}"`);
     return resp;
   },

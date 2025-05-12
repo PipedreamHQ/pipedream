@@ -1,4 +1,3 @@
-import pick from "lodash.pick";
 import app from "../../stripe.app.mjs";
 
 export default {
@@ -16,10 +15,10 @@ export default {
         "charge",
       ],
     },
-    payment_intent: {
+    paymentIntent: {
       propDefinition: [
         app,
-        "payment_intent",
+        "paymentIntent",
       ],
     },
     limit: {
@@ -30,13 +29,19 @@ export default {
     },
   },
   async run({ $ }) {
-    const params = pick(this, [
-      "charge",
-      "payment_intent",
-    ]);
-    const resp = await this.app.sdk().refunds.list(params)
+    const {
+      app,
+      charge,
+      paymentIntent,
+      limit,
+    } = this;
+
+    const resp = await app.sdk().refunds.list({
+      charge,
+      payment_intent: paymentIntent,
+    })
       .autoPagingToArray({
-        limit: this.limit,
+        limit,
       });
 
     // eslint-disable-next-line multiline-ternary

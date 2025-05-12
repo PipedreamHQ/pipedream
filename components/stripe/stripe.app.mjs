@@ -1,4 +1,5 @@
 import Stripe from "stripe";
+import constants from "./common/constants.mjs";
 
 const createOptionsMethod = (collectionOrFn, keysOrFn) => async function ({
   prevContext, ...opts
@@ -67,7 +68,7 @@ export default {
       }),
       optional: true,
     },
-    payment_method: {
+    paymentMethod: {
       type: "string",
       label: "Payment Method",
       description: "Example: `pm_card_visa`",
@@ -154,7 +155,7 @@ export default {
       ),
       optional: true,
     },
-    invoice_item: {
+    invoiceItem: {
       type: "string",
       label: "Invoice Item ID",
       description: "Example: `ii_0JMBoYGHO3mdGsgAgSUuIOan`",
@@ -203,36 +204,13 @@ export default {
       ),
       optional: true,
     },
-    subscription_item: {
-      type: "string",
-      label: "Subscription Item ID",
-      description: "Example: `si_K0CCMs2vNHPxV2`",
-      options: createOptionsMethod(
-        function ({
-          prevContext: { startingAfter }, subscription,
-        }) {
-          if (!subscription) {
-            return [];
-          }
-          return this.sdk().subscriptionItems.list({
-            starting_after: startingAfter,
-            subscription: subscription,
-          });
-        },
-        [
-          "id",
-          "id",
-        ],
-      ),
-      optional: true,
-    },
-    checkout_session: {
+    checkoutSession: {
       type: "string",
       label: "Checkout Session ID",
       description: "Example: `cs_test_9eWaeld2XfS9lsUjtzPQxPH0GcG30XfkDCAf3WgQ4OhmvdA7dwGcmZYR`",
       optional: true,
     },
-    payment_intent: {
+    paymentIntent: {
       type: "string",
       label: "Payment Intent ID",
       description: "Example: `pi_0FhyHzGHO3mdGsgAJNHu7VeJ`",
@@ -311,14 +289,14 @@ export default {
       default: "usd",
       optional: true,
     },
-    payment_intent_client_secret: {
+    paymentIntentClientSecret: {
       type: "string",
       label: "Client Secret",
       description: "Example: `pi_0FhyHzGHO3mdGsgAJNHu7VeJ`",
       secret: true,
       optional: true,
     },
-    payment_intent_cancellation_reason: {
+    paymentIntentCancellationReason: {
       type: "string",
       label: "Cancellation Reason",
       description: "Indicate why the payment was cancelled",
@@ -336,7 +314,7 @@ export default {
       description: "Amount. Use the smallest currency unit (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency). The minimum amount is $0.50 US or equivalent in charge currency. The amount value supports up to eight digits (e.g., a value of 99999999 for a USD charge of $999,999.99).",
       optional: true,
     },
-    payment_method_types: {
+    paymentMethodTypes: {
       type: "string[]",
       label: "Payment Method Types",
       description: "Payment method types that may be used",
@@ -357,71 +335,49 @@ export default {
       ],
       optional: true,
     },
-    statement_descriptor: {
+    statementDescriptor: {
       type: "string",
       label: "Statement Descriptor",
-      description: "For non-card charges, you can use this value as the complete description that appears on your customers' statements. Must contain at least one letter, maximum 22 characters.",
+      description: "Text that appears on the customer's statement as the statement descriptor for a non-card charge. This value overrides the account's default statement descriptor. For information about requirements, including the 22-character limit, see the Statement Descriptor docs.",
+      optional: true,
+    },
+    statementDescriptorSuffix: {
+      type: "string",
+      label: "Statement Descriptor Suffix",
+      description: "Provides information about a card charge. Concatenated to the account's [statement descriptor prefix](https://docs.stripe.com/get-started/account/statement-descriptors#static) to form the complete statement descriptor that appears on the customer's statement.",
       optional: true,
     },
     metadata: {
       type: "object",
       label: "Metadata",
-      description: "Associate other information that's meaningful to you with Stripe activity. Metadata will not be shown to customers or affect whether or not a payment is accepted.",
+      description: "Set of [key-value pairs](https://docs.stripe.com/api/metadata) that you can attach to an object. This can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to metadata.",
       optional: true,
     },
-    /* eslint-disable pipedream/props-description */
     name: {
       type: "string",
       label: "Name",
+      description: "The resouce name",
       optional: true,
     },
     email: {
       type: "string",
       label: "Email",
+      description: "Customer's email address. It's displayed alongside the customer in your dashboard and can be useful for searching and tracking. This may be up to 512 characters.",
       optional: true,
     },
     phone: {
       type: "string",
       label: "Phone",
+      description: "The customer's phone number. This field is required when creating a new customer. If you do not provide a phone number, the customer will be created with the phone number of the connected account.",
       optional: true,
     },
     description: {
       type: "string",
       label: "Description",
+      description: "An arbitrary string that you can attach to a the object eg. customer, invoice, etc.",
       optional: true,
     },
-    /* eslint-enable pipedream/props-description */
-    address1: {
-      type: "string",
-      label: "Address Line 1",
-      description: "Street, PO Box, or company name",
-      optional: true,
-    },
-    address2: {
-      type: "string",
-      label: "Address Line 2",
-      description: "Apartment, suite, unit, or building",
-      optional: true,
-    },
-    city: {
-      type: "string",
-      label: "City",
-      description: "City, district, suburb, town, or village",
-      optional: true,
-    },
-    state: {
-      type: "string",
-      label: "State",
-      description: "State, county, province, or region",
-      optional: true,
-    },
-    postal_code: {
-      type: "string",
-      label: "Postal Code",
-      description: "ZIP or postal code",
-      optional: true,
-    },
-    setup_future_usage: {
+    setupFutureUsage: {
       type: "string",
       label: "Setup Future Usage",
       description: "Indicate if you intend to use the specified payment method for a future payment. If you intend to only reuse the payment method when your customer is present in your checkout flow, choose `on_session`; otherwise, choose `off_session`.",
@@ -431,150 +387,33 @@ export default {
       ],
       optional: true,
     },
-    refund_reason: {
-      type: "string",
-      label: "Reason",
-      description: "If you believe the charge to be fraudulent, specifying fraudulent as the reason will add the associated card and email to your block lists, and will also help Stripe improve its fraud detection algorithms.",
-      options: [
-        "duplicate",
-        "fraudulent",
-        "requested_by_customer",
-      ],
-      optional: true,
-    },
-    refund_application_fee: {
-      type: "boolean",
-      label: "Refund Application Fee",
-      description: "Whether the application fee should be refunded when refunding this charge. If a full charge refund is given, the full application fee will be refunded. Otherwise, the application fee will be refunded in an amount proportional to the amount of the charge refunded. Note that an application fee can be refunded only by the application that created the charge.",
-      optional: true,
-    },
-    reverse_transfer: {
-      type: "boolean",
-      label: "Refund Application Fee",
-      description: "Whether the transfer should be reversed when refunding this charge. The transfer will be reversed proportionally to the amount being refunded (either the entire or partial amount). Note that a transfer can be reversed only by the application that created the charge.",
-      optional: true,
-    },
-    /* eslint-disable pipedream/props-description */
-    payout_status: {
-      type: "string",
-      label: "Payout Status",
-      options: [
-        "pending",
-        "paid",
-        "failed",
-        "canceled",
-      ],
-      optional: true,
-    },
-    /* eslint-enable pipedream/props-description */
-    payout_method: {
-      type: "string",
-      label: "Payout Method",
-      description: "`instant` is only supported for payouts to debit cards",
-      default: "standard",
-      options: [
-        "standard",
-        "instant",
-      ],
-      optional: true,
-    },
-    payout_source_type: {
-      type: "string",
-      label: "Payout Source Type",
-      description: "The balance type of your Stripe balance to draw this payout from",
-      options: [
-        "bank_account",
-        "card",
-        "fpx",
-      ],
-      optional: true,
-    },
-    /* eslint-disable pipedream/props-description */
-    balance_transaction_type: {
-      type: "string",
-      label: "Transaction Type",
-      options: [
-        "adjustment",
-        "advance",
-        "advance_funding",
-        "anticipation_repayment",
-        "application_fee",
-        "application_fee_refund",
-        "charge",
-        "connect_collection_transfer",
-        "contribution",
-        "issuing_authorization_hold",
-        "issuing_authorization_release",
-        "issuing_dispute",
-        "issuing_transaction",
-        "payment",
-        "payment_failure_refund",
-        "payment_refund",
-        "payout",
-        "payout_cancel",
-        "payout_failure",
-        "refund",
-        "refund_failure",
-        "reserve_transaction",
-        "reserved_funds",
-        "stripe_fee",
-        "stripe_fx_fee",
-        "tax_fee",
-        "topup",
-        "topup_reversal",
-        "transfer",
-        "transfer_cancel",
-        "transfer_failure",
-        "transfer_refund",
-      ],
-      optional: true,
-    },
-    timestamp: {
-      type: "integer",
-      label: "Timestamp",
-      optional: true,
-    },
     quantity: {
       type: "integer",
       label: "Quantity",
+      description: "Non-negative integer. The quantity of units for the invoice item.",
       optional: true,
     },
-    /* eslint-disable pipedream/props-description */
-    invoice_status: {
-      type: "string",
-      label: "Status",
-      options: [
-        "draft",
-        "open",
-        "paid",
-        "uncollectible",
-        "void",
-      ],
-      optional: true,
-    },
-    /* eslint-enable pipedream/props-description */
-    invoice_auto_advance: {
+    autoAdvance: {
       type: "boolean",
-      label: "Auto Collect",
-      description: "Attempt to automatically collect the invoice. When disabled, the invoice's state will not automatically advance without an explicit action.",
+      label: "Auto Advance",
+      description: "Controls whether Stripe performs [automatic collection](https://docs.stripe.com/invoicing/integration/automatic-advancement-collection) of the invoice. If false, the invoice's state doesn't automatically advance without an explicit action.",
       optional: true,
       default: false,
     },
-    /* eslint-disable pipedream/props-description */
-    invoice_collection_method: {
+    collectionMethod: {
       type: "string",
       label: "Collection Method",
+      description: "Either `charge_automatically`, or `send_invoice`. When charging automatically, Stripe will attempt to pay this invoice using the default source attached to the customer. When sending an invoice, Stripe will email this invoice to the customer with payment instructions. Defaults to charge_automatically.",
       options: [
         "charge_automatically",
         "send_invoice",
       ],
       optional: true,
     },
-    /* eslint-enable pipedream/props-description */
-    invoice_days_until_due: {
+    daysUntilDue: {
       type: "integer",
-      label: "Payment Terms",
-      description: "The number of days until the invoice is due (valid when collection method is `send_invoice`)",
+      label: "Days Until Due",
+      description: "The number of days from when the invoice is created until it is due.",
       optional: true,
     },
     active: {
@@ -641,49 +480,49 @@ export default {
     },
     createdGt: {
       type: "string",
-      label: "Created (greater than)",
+      label: "Created (Greater Than)",
       description: "Only return transactions that were created after this date (exclusive). In ISO 8601 format. Eg. `2023-01-01T00:00:00Z`",
       optional: true,
     },
     createdGte: {
       type: "string",
-      label: "Created (greater than or equal to)",
+      label: "Created (Greater Than Or Equal To)",
       description: "Only return transactions that were created after this date (inclusive). In ISO 8601 format. Eg. `2023-01-01T00:00:00Z`",
       optional: true,
     },
     createdLt: {
       type: "string",
-      label: "Created (less than)",
+      label: "Created (Less Than)",
       description: "Only return transactions that were created before this date (exclusive). In ISO 8601 format. Eg. `2023-01-01T00:00:00Z`",
       optional: true,
     },
     createdLte: {
       type: "string",
-      label: "Created (less than or equal to)",
+      label: "Created (Less Than Or Equal To)",
       description: "Only return transactions that were created before this date (inclusive). In ISO 8601 format. Eg. `2023-01-01T00:00:00Z`",
       optional: true,
     },
     arrivalDateGt: {
       type: "string",
-      label: "Arrival Date (greater than)",
+      label: "Arrival Date (Greater Than)",
       description: "Only return transactions that were created after this date (exclusive). In ISO 8601 format. Eg. `2023-01-01T00:00:00Z`",
       optional: true,
     },
     arrivalDateGte: {
       type: "string",
-      label: "Arrival Date (greater than or equal to)",
+      label: "Arrival Date (Greater Than Or Equal To)",
       description: "Only return transactions that were created after this date (inclusive). In ISO 8601 format. Eg. `2023-01-01T00:00:00Z`",
       optional: true,
     },
     arrivalDateLt: {
       type: "string",
-      label: "Arrival Date (less than)",
+      label: "Arrival Date (Less Than)",
       description: "Only return transactions that were created before this date (exclusive). In ISO 8601 format. Eg. `2023-01-01T00:00:00Z`",
       optional: true,
     },
     arrivalDateLte: {
       type: "string",
-      label: "Arrival Date (less than or equal to)",
+      label: "Arrival Date (Less Than Or Equal To)",
       description: "Only return transactions that were created before this date (inclusive). In ISO 8601 format. Eg. `2023-01-01T00:00:00Z`",
       optional: true,
     },
@@ -699,12 +538,72 @@ export default {
       description: "A cursor for use in pagination. **Starting After** is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include `starting_after=obj_foo` in order to fetch the next page of the list.",
       optional: true,
     },
+    addressCity: {
+      type: "string",
+      label: "Address - City",
+      description: "City, district, suburb, town, or village.",
+      optional: true,
+    },
+    addressCountry: {
+      type: "string",
+      label: "Address - Country",
+      description: "Two-letter country code (ISO 3166-1 alpha-2).",
+      optional: true,
+    },
+    addressLine1: {
+      type: "string",
+      label: "Address - Line 1",
+      description: "Address line 1 (e.g., street, PO Box, or company name).",
+      optional: true,
+    },
+    addressLine2: {
+      type: "string",
+      label: "Shipping - Address - Line 2",
+      description: "Address line 2 (e.g., apartment, suite, unit, or building).",
+      optional: true,
+    },
+    addressPostalCode: {
+      type: "string",
+      label: "Address - Postal Code",
+      description: "ZIP or postal code.",
+      optional: true,
+    },
+    addressState: {
+      type: "string",
+      label: "Shipping - Address - State",
+      description: "State, county, province, or region.",
+      optional: true,
+    },
+    shippingName: {
+      type: "string",
+      label: "Shipping - Name",
+      description: "Recipient name.",
+      optional: true,
+    },
+    shippingCarrier: {
+      type: "string",
+      label: "Shipping - Carrier",
+      description: "The delivery service that shipped a physical product, such as Fedex, UPS, USPS, etc.",
+      optional: true,
+    },
+    shippingPhone: {
+      type: "string",
+      label: "Shipping - Phone",
+      description: "Recipient phone (including extension).",
+      optional: true,
+    },
+    shippingTrackingNumber: {
+      type: "string",
+      label: "Shipping - Tracking Number",
+      description: "The tracking number for a physical product, obtained from the delivery service. If multiple tracking numbers were generated for this purchase, please separate them with commas.",
+      optional: true,
+    },
   },
   methods: {
     _apiKey() {
       return this.$auth.api_key;
     },
-    sdk(apiVersion = "2025-03-31.basil") {
+    sdk(apiVersion = constants.API_VERSION) {
       return new Stripe(this._apiKey(), {
         apiVersion,
         maxNetworkRetries: 2,

@@ -8,12 +8,12 @@ export default {
   type: "action",
   props: {
     app,
-    checkout_session_id: {
+    checkoutSessionId: {
       type: "string",
       label: "Checkout Session ID",
       description: "The ID of a Stripe Checkout Session. [See the docs](https://stripe.com/docs/api/checkout/sessions/object#checkout_session_object-id)",
     },
-    line_items_limit: {
+    limit: {
       type: "integer",
       label: "Number of Line Items",
       description: "The number of line items to retrieve (min: 1, max: 100)",
@@ -23,8 +23,14 @@ export default {
     },
   },
   async run ({ $ }) {
-    const resp = await this.app.sdk().checkout.sessions.listLineItems(this.checkout_session_id, {
-      limit: this.line_items_limit,
+    const {
+      app,
+      checkoutSessionId,
+      limit,
+    } = this;
+
+    const resp = await app.sdk().checkout.sessions.listLineItems(checkoutSessionId, {
+      limit,
     });
     $.export("$summary", `Successfully retrieved ${resp.data.length} checkout session line items`);
     return resp;

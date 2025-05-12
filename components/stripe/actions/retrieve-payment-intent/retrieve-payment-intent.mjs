@@ -11,16 +11,21 @@ export default {
     "information",
   props: {
     app,
-    client_secret: {
+    clientSecret: {
       propDefinition: [
         app,
-        "payment_intent_client_secret",
+        "paymentIntentClientSecret",
       ],
       optional: false,
     },
   },
   async run({ $ }) {
-    const resp = await this.app.sdk().paymentIntents.retrieve(this.client_secret);
+    const {
+      app,
+      clientSecret,
+    } =  this;
+
+    const resp = await app.sdk().paymentIntents.retrieve(clientSecret);
     $.export("$summary", `Successfully retrieved the payment intent, "${resp.description || resp.id}"`);
     return resp;
   },

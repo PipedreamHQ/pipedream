@@ -19,15 +19,22 @@ export default {
   },
   async run({ $ }) {
     const {
+      app,
+      id,
+    } = this;
+
+    const {
       status,
       subscription,
-    } = await this.app.sdk().invoices.retrieve(this.id);
+    } = await app.sdk().invoices.retrieve(id);
+
     if (status === "draft" && !subscription) {
-      const resp = await this.app.sdk().invoices.del(this.id);
+      const resp = await app.sdk().invoices.del(id);
       $.export("$summary", `Successfully deleted the draft invoice, "${resp.id}"`);
       return resp;
     }
-    const resp = await this.app.sdk().invoices.voidInvoice(this.id);
+
+    const resp = await app.sdk().invoices.voidInvoice(id);
     $.export("$summary", `Successfully voided the invoice, "${resp.id}"`);
     return resp;
   },
