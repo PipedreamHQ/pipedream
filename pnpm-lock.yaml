@@ -12886,8 +12886,7 @@ importers:
 
   components/systeme_io: {}
 
-  components/szybkisms:
-    specifiers: {}
+  components/szybkisms: {}
 
   components/t2m_url_shortener: {}
 
