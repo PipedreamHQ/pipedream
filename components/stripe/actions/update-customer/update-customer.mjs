@@ -1,14 +1,12 @@
-import pick from "lodash.pick";
-import app from "../../stripe.app.mjs";
 import utils from "../../common/utils.mjs";
+import app from "../../stripe.app.mjs";
 
 export default {
   key: "stripe-update-customer",
   name: "Update a Customer",
   type: "action",
   version: "0.1.2",
-  description: "Update a customer. [See the docs](https://stripe.com/docs/api/customers/update) " +
-    "for more information",
+  description: "Update a customer. [See the documentation](https://stripe.com/docs/api/customers/update).",
   props: {
     app,
     customer: {
@@ -19,6 +17,7 @@ export default {
       optional: false,
     },
     name: {
+      description: "The customer's full name or business name.",
       propDefinition: [
         app,
         "name",
@@ -42,40 +41,40 @@ export default {
         "description",
       ],
     },
-    line1: {
+    addressCity: {
       propDefinition: [
         app,
-        "address1",
+        "addressCity",
       ],
     },
-    line2: {
+    addressCountry: {
       propDefinition: [
         app,
-        "address2",
+        "addressCountry",
       ],
     },
-    city: {
+    addressLine1: {
       propDefinition: [
         app,
-        "city",
+        "addressLine1",
       ],
     },
-    state: {
+    addressLine2: {
       propDefinition: [
         app,
-        "state",
+        "addressLine2",
       ],
     },
-    postal_code: {
+    addressPostalCode: {
       propDefinition: [
         app,
-        "postal_code",
+        "addressPostalCode",
       ],
     },
-    country: {
+    addressState: {
       propDefinition: [
         app,
-        "country",
+        "addressState",
       ],
     },
     metadata: {
@@ -84,38 +83,60 @@ export default {
         "metadata",
       ],
     },
-    advanced: {
-      propDefinition: [
-        app,
-        "metadata",
-      ],
-      label: "Advanced Options",
-      description: "Specify less-common options that you require. See [Create a Customer]" +
-        "(https://stripe.com/docs/api/customers/create) for a list of supported options.",
+  },
+  methods: {
+    getOtherParams() {
+      const {
+        addressCity,
+        addressCountry,
+        addressLine1,
+        addressLine2,
+        addressPostalCode,
+        addressState,
+      } = this;
+
+      const hasAddressData = addressCity
+        || addressCountry
+        || addressLine1
+        || addressLine2
+        || addressPostalCode
+        || addressState;
+
+      return {
+        ...(hasAddressData && {
+          address: {
+            city: addressCity,
+            country: addressCountry,
+            line1: addressLine1,
+            line2: addressLine2,
+            postal_code: addressPostalCode,
+            state: addressState,
+          },
+        }),
+      };
     },
   },
   async run({ $ }) {
-    const params = pick(this, [
-      "name",
-      "email",
-      "phone",
-      "description",
-      "metadata",
-    ]);
-    const address = pick(this, [
-      "line1",
-      "line2",
-      "city",
-      "state",
-      "postal_code",
-      "country",
-    ]);
-    const resp = await this.app.sdk().customers.update(this.customer, {
-      ...params,
-      address,
-      ...utils.parseJson(this.advanced),
+    const {
+      app,
+      customer,
+      name,
+      email,
+      phone,
+      description,
+      metadata,
+      getOtherParams,
+    } = this;
+
+    const resp = await app.sdk().customers.update(customer, {
+      name,
+      email,
+      phone,
+      description,
+      metadata: utils.parseJson(metadata),
+      ...getOtherParams(),
     });
-    $.export("$summary", `Successfully updated the customer, "${resp.id}"`);
+    $.export("$summary", `Successfully updated the customer, \`${resp.id}\`.`);
     return resp;
   },
 };

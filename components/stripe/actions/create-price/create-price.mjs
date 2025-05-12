@@ -128,7 +128,7 @@ export default {
       }),
     });
 
-    $.export("$summary", `Successfully created a new price with ID \`${response.id}\``);
+    $.export("$summary", `Successfully created a new price with ID \`${response.id}\`.`);
     return response;
   },
 };

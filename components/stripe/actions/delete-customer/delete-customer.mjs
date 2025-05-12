@@ -5,8 +5,7 @@ export default {
   name: "Delete a Customer",
   type: "action",
   version: "0.1.2",
-  description: "Delete a customer. [See the docs](https://stripe.com/docs/api/customers/delete) " +
-    "for more information",
+  description: "Delete a customer. [See the documentation](https://stripe.com/docs/api/customers/delete).",
   props: {
     app,
     customer: {
@@ -19,7 +18,7 @@ export default {
   },
   async run({ $ }) {
     const resp = await this.app.sdk().customers.del(this.customer);
-    $.export("$summary", `Successfully deleted the customer, "${resp.id}"`);
+    $.export("$summary", `Successfully deleted the customer with ID \`${resp.id}\`.`);
     return resp;
   },
 };

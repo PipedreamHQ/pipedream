@@ -5,9 +5,15 @@ export default {
   name: "Create Billing Meter",
   type: "action",
   version: "0.0.1",
-  description: "Meters specify how to aggregate meter events over a billing period. Meter events represent all actions that customers take in your system (for example, API requests). Meters attach to prices and form the basis of what's billed. [See the documentation](https://docs.stripe.com/api/billing/meter/create).",
+  description: "Creates a billing meter. [See the documentation](https://docs.stripe.com/api/billing/meter/create).",
   props: {
     app,
+    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: "Meters specify how to aggregate meter events over a billing period. Meter events represent all actions that customers take in your system (for example, API requests). Meters attach to prices and form the basis of what's billed. [See the documentation](https://docs.stripe.com/api/billing/meter/create).",
+    },
     defaultAggregationFormula: {
       type: "string",
       label: "Default Aggregation Formula",

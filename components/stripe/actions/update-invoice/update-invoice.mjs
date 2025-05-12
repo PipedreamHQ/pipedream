@@ -1,4 +1,3 @@
-import pick from "lodash.pick";
 import app from "../../stripe.app.mjs";
 import utils from "../../common/utils.mjs";
 
@@ -7,8 +6,7 @@ export default {
   name: "Update Invoice",
   type: "action",
   version: "0.1.2",
-  description: "Update an invoice. [See the docs](https://stripe.com/docs/api/invoices/update) " +
-    "for more information",
+  description: "Update an invoice. [See the documentation](https://stripe.com/docs/api/invoices/update).",
   props: {
     app,
     id: {
@@ -24,29 +22,42 @@ export default {
         "description",
       ],
     },
-    auto_advance: {
+    autoAdvance: {
       propDefinition: [
         app,
-        "invoice_auto_advance",
+        "autoAdvance",
       ],
     },
-    collection_method: {
+    collectionMethod: {
+      description: "Either charge_automatically or send_invoice. This field can be updated only on draft invoices.",
       propDefinition: [
         app,
-        "invoice_collection_method",
-      ],
-      description: "When charging automatically, Stripe will attempt to pay this invoice using the default source attached to the customer. When sending an invoice, Stripe will email this invoice to the customer with payment instructions.",
-    },
-    days_until_due: {
-      propDefinition: [
-        app,
-        "invoice_days_until_due",
+        "collectionMethod",
       ],
     },
-    default_payment_method: {
+    daysUntilDue: {
+      description: "The number of days from which the invoice is created until it is due. Only valid for invoices where `collection_method=send_invoice`. This field can only be updated on draft invoices.",
       propDefinition: [
         app,
-        "payment_method",
+        "daysUntilDue",
+      ],
+    },
+    paymentMethodType: {
+      type: "string",
+      label: "Payment Method Type",
+      description: "The type of payment method to create",
+      propDefinition: [
+        app,
+        "paymentMethodTypes",
+      ],
+    },
+    defaultPaymentMethod: {
+      propDefinition: [
+        app,
+        "paymentMethod",
+        ({ paymentMethodType }) => ({
+          type: paymentMethodType,
+        }),
       ],
       label: "Default Payment Method",
       description: "Must belong to the customer associated with the invoice. If not set, " +
@@ -59,28 +70,28 @@ export default {
         "metadata",
       ],
     },
-    advanced: {
-      propDefinition: [
-        app,
-        "metadata",
-      ],
-      label: "Advanced Options",
-      description: "Add any additional parameters that you require here.",
-    },
   },
   async run({ $ }) {
-    const resp = await this.app.sdk().invoices.update(this.id, {
-      ...pick(this, [
-        "description",
-        "auto_advance",
-        "collection_method",
-        "days_until_due",
-        "default_payment_method",
-        "metadata",
-      ]),
-      ...utils.parseJson(this.advanced),
+    const {
+      app,
+      id,
+      description,
+      autoAdvance,
+      collectionMethod,
+      daysUntilDue,
+      defaultPaymentMethod,
+      metadata,
+    } = this;
+
+    const resp = await app.sdk().invoices.update(id, {
+      description,
+      auto_advance: autoAdvance,
+      collection_method: collectionMethod,
+      days_until_due: daysUntilDue,
+      default_payment_method: defaultPaymentMethod,
+      metadata: utils.parseJson(metadata),
     });
-    $.export("$summary", `Successfully updated the invoice, "${resp.number || resp.id}"`);
+    $.export("$summary", `Successfully updated the invoice, \`${resp.number || resp.id}\`.`);
     return resp;
   },
 };

@@ -6,15 +6,20 @@ export default {
   name: "List Payouts",
   type: "action",
   version: "0.1.2",
-  description: "Find or list payouts. [See the docs](https://stripe.com/docs/api/payouts/list) " +
-    "for more information",
+  description: "Find or list payouts. [See the documentation](https://stripe.com/docs/api/payouts/list).",
   props: {
     app,
     status: {
-      propDefinition: [
-        app,
-        "payout_status",
+      type: "string",
+      label: "Payout Status",
+      description: "The status of the payouts to be returned. If not specified, all payouts will be returned.",
+      options: [
+        "pending",
+        "paid",
+        "failed",
+        "canceled",
       ],
+      optional: true,
     },
     limit: {
       propDefinition: [
@@ -89,22 +94,58 @@ export default {
       ],
     },
   },
+  methods: {
+    getOtherParams() {
+      const {
+        createdGt,
+        createdGte,
+        createdLt,
+        createdLte,
+        arrivalDateGt,
+        arrivalDateGte,
+        arrivalDateLt,
+        arrivalDateLte,
+      } = this;
+
+      const hasCreatedFilters = createdGt
+        || createdGte
+        || createdLt
+        || createdLte;
+
+      const hasArrivalDateFilters = arrivalDateGt
+        || arrivalDateGte
+        || arrivalDateLt
+        || arrivalDateLte;
+
+      return {
+        ...(hasCreatedFilters && {
+          created: {
+            gt: utils.fromDateToInteger(createdGt),
+            gte: utils.fromDateToInteger(createdGte),
+            lt: utils.fromDateToInteger(createdLt),
+            lte: utils.fromDateToInteger(createdLte),
+          },
+        }),
+        ...(hasArrivalDateFilters && {
+          arrival_date: {
+            gt: utils.fromDateToInteger(arrivalDateGt),
+            gte: utils.fromDateToInteger(arrivalDateGte),
+            lt: utils.fromDateToInteger(arrivalDateLt),
+            lte: utils.fromDateToInteger(arrivalDateLte),
+          },
+        }),
+      };
+    },
+  },
   async run({ $ }) {
     const {
       app,
       limit,
       status,
-      createdGt,
-      createdGte,
-      createdLt,
-      createdLte,
-      arrivalDateGt,
-      arrivalDateGte,
-      arrivalDateLt,
-      arrivalDateLte,
       destination,
       endingBefore,
       startingAfter,
+      getOtherParams,
     } = this;
 
     const resp = await app.sdk().payouts.list({
@@ -113,28 +154,7 @@ export default {
       destination,
       ending_before: endingBefore,
       starting_after: startingAfter,
-      ...(createdGt || createdGte || createdLt || createdLte
-        ? {
-          created: {
-            gt: utils.fromDateToInteger(createdGt),
-            gte: utils.fromDateToInteger(createdGte),
-            lt: utils.fromDateToInteger(createdLt),
-            lte: utils.fromDateToInteger(createdLte),
-          },
-        }
-        : {}
-      ),
-      ...(arrivalDateGt || arrivalDateGte || arrivalDateLt || arrivalDateLte
-        ? {
-          arrival_date: {
-            gt: utils.fromDateToInteger(arrivalDateGt),
-            gte: utils.fromDateToInteger(arrivalDateGte),
-            lt: utils.fromDateToInteger(arrivalDateLt),
-            lte: utils.fromDateToInteger(arrivalDateLte),
-          },
-        }
-        : {}
-      ),
+      ...getOtherParams(),
     })
       .autoPagingToArray({
         limit,
