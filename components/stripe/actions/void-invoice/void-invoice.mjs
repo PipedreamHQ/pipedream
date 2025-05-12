@@ -5,8 +5,7 @@ export default {
   name: "Void Invoice",
   type: "action",
   version: "0.1.2",
-  description: "Void an invoice. [See the docs](https://stripe.com/docs/api/invoices/void) for " +
-    "more information",
+  description: "Void an invoice. [See the documentation](https://stripe.com/docs/api/invoices/void).",
   props: {
     app,
     id: {
@@ -18,8 +17,13 @@ export default {
     },
   },
   async run({ $ }) {
-    const resp = await this.app.sdk().invoices.voidInvoice(this.id);
-    $.export("$summary", `Successfully voided the invoice, "${resp.number || resp.id}"`);
+    const {
+      app,
+      id,
+    } = this;
+
+    const resp = await app.sdk().invoices.voidInvoice(id);
+    $.export("$summary", `Successfully voided the invoice, \`${resp.number || resp.id}\`.`);
     return resp;
   },
 };

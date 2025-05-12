@@ -5,9 +5,7 @@ export default {
   name: "Retrieve the Current Balance",
   type: "action",
   version: "0.1.2",
-  description: "Retrieves the current account balance, based on the authentication that was used " +
-    "to make the request. [See the docs](https://stripe.com/docs/api/balance/balance_retrieve) " +
-    "for more information",
+  description: "Retrieves the current account balance, based on the authentication that was used to make the request. [See the documentation](https://stripe.com/docs/api/balance/balance_retrieve).",
   props: {
     app,
   },

@@ -6,8 +6,7 @@ export default {
   name: "List Invoices",
   type: "action",
   version: "0.1.2",
-  description: "Find or list invoices. [See the docs](https://stripe.com/docs/api/invoices/list) " +
-    "for more information",
+  description: "Find or list invoices. [See the documentation](https://stripe.com/docs/api/invoices/list).",
   props: {
     app,
     customer: {
@@ -29,15 +28,23 @@ export default {
       ],
     },
     status: {
-      propDefinition: [
-        app,
-        "invoice_status",
+      type: "string",
+      label: "Status",
+      description: "If set, only returns invoices that are in the given status. Otherwise, all invoices are returned.",
+      options: [
+        "draft",
+        "open",
+        "paid",
+        "uncollectible",
+        "void",
       ],
+      optional: true,
     },
-    collection_method: {
+    collectionMethod: {
+      description: "The collection method of the invoice to retrieve.",
       propDefinition: [
         app,
-        "invoice_collection_method",
+        "collectionMethod",
       ],
     },
     limit: {

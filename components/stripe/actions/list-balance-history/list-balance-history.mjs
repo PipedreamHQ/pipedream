@@ -5,13 +5,16 @@ export default {
   key: "stripe-list-balance-history",
   name: "List Balance History",
   type: "action",
-  version: "0.1.6",
-  description: "Returns the last 100 transactions that have contributed to the Stripe account " +
-    "balance (e.g., charges, transfers, and so forth). The transactions are returned in " +
-    "sorted order, with the most recent transactions appearing first. [See the " +
-    "docs](https://stripe.com/docs/api/balance_transactions/list) for more information",
+  version: "0.1.2",
+  description: "List all balance transactions. [See the documentation](https://stripe.com/docs/api/balance_transactions/list).",
   props: {
     app,
+    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: "Returns the last 100 transactions that have contributed to the Stripe account balance (e.g., charges, transfers, and so forth). The transactions are returned in sorted order, with the most recent transactions appearing first. [See the documentation](https://stripe.com/docs/api/balance_transactions/list).",
+    },
     payout: {
       propDefinition: [
         app,
@@ -28,10 +31,44 @@ export default {
       ],
     },
     type: {
-      propDefinition: [
-        app,
-        "balance_transaction_type",
+      type: "string",
+      label: "Transaction Type",
+      description: "The type of transaction to return. If not specified, all transactions will be returned.",
+      options: [
+        "adjustment",
+        "advance",
+        "advance_funding",
+        "anticipation_repayment",
+        "application_fee",
+        "application_fee_refund",
+        "charge",
+        "connect_collection_transfer",
+        "contribution",
+        "issuing_authorization_hold",
+        "issuing_authorization_release",
+        "issuing_dispute",
+        "issuing_transaction",
+        "payment",
+        "payment_failure_refund",
+        "payment_refund",
+        "payout",
+        "payout_cancel",
+        "payout_failure",
+        "refund",
+        "refund_failure",
+        "reserve_transaction",
+        "reserved_funds",
+        "stripe_fee",
+        "stripe_fx_fee",
+        "tax_fee",
+        "topup",
+        "topup_reversal",
+        "transfer",
+        "transfer_cancel",
+        "transfer_failure",
+        "transfer_refund",
       ],
+      optional: true,
     },
     limit: {
       propDefinition: [

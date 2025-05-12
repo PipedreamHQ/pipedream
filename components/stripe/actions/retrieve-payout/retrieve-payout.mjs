@@ -5,8 +5,7 @@ export default {
   name: "Retrieve a Payout",
   type: "action",
   version: "0.1.2",
-  description: "Retrieves the details of an existing payout. [See the " +
-    "docs](https://stripe.com/docs/api/payouts/retrieve) for more information",
+  description: "Retrieves the details of an existing payout. [See the documentation](https://stripe.com/docs/api/payouts/retrieve).",
   props: {
     app,
     id: {
@@ -19,7 +18,7 @@ export default {
   },
   async run({ $ }) {
     const resp = await this.app.sdk().payouts.retrieve(this.id);
-    $.export("$summary", `Successfully retrieved the payout, "${resp.description || resp.id}"`);
+    $.export("$summary", `Successfully retrieved the payout, \`${resp.description || resp.id}\`.`);
     return resp;
   },
 };

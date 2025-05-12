@@ -5,8 +5,7 @@ export default {
   name: "Retrieve a Customer",
   type: "action",
   version: "0.1.2",
-  description: "Retrieves the details of an existing customer. [See the " +
-    "docs](https://stripe.com/docs/api/customers/retrieve) for more information",
+  description: "Retrieves the details of an existing customer. [See the documentation](https://stripe.com/docs/api/customers/retrieve).",
   props: {
     app,
     id: {
@@ -19,7 +18,7 @@ export default {
   },
   async run({ $ }) {
     const resp = await this.app.sdk().customers.retrieve(this.id);
-    $.export("$summary", `Successfully retrieved the customer, "${resp.id}"`);
+    $.export("$summary", `Successfully retrieved the customer with ID \`${resp.id}\`.`);
     return resp;
   },
 };
