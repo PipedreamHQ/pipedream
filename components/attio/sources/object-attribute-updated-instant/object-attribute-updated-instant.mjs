@@ -6,13 +6,18 @@ export default {
   key: "attio-object-attribute-updated-instant",
   name: "Object Attribute Updated (Instant)",
   description: "Emit new event when an object attribute is updated (e.g. when renaming the \"Rating\" attribute to \"Score\" on the company object)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
-    getEventType() {
-      return "object-attribute.updated";
+    getSubscriptions() {
+      return [
+        {
+          event_type: "object-attribute.updated",
+          filter: null,
+        },
+      ];
     },
     generateMeta(attribute) {
       const ts = Date.now();

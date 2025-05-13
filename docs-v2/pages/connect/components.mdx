@@ -821,7 +821,7 @@ These are 2 categories of triggers you can deploy on behalf of your end users:
 - [Native triggers](#native-triggers)
 
 <Callout type="info">
-Refer to the [full Connect API reference](/connect/api/#deploy-a-trigger) to list, retrieve, delete, and manage triggers for your user.
+Refer to the [full Connect API reference](/connect/api/#deploy-trigger) to list, retrieve, delete, and manage triggers for your user.
 </Callout>
 
 ### App-based event sources
@@ -833,7 +833,7 @@ Refer to the [full Connect API reference](/connect/api/#deploy-a-trigger) to lis
 - Many event sources attempt to retrieve a small set of historical events on deploy to provide visibility into the event shape for end users and developers
 - Exposing real test events make it easier to consume the event in downstream systems without requiring users to trigger real events ([more info](/components/contributing/guidelines/#surfacing-test-events))
 - However, this results in emitting those events to the listening webhook immediately, which may not always be ideal, depending on your use case
-- If you'd like to avoid emitting historical events, you can deploy a trigger without defining a `webhook_url`, then [update the listening webhooks for the deployed trigger](/connect/api/#update-the-webhooks-listening-to-a-deployed-trigger) after roughly a minute
+- If you'd like to avoid emitting historical events, you can deploy a trigger without defining a `webhook_url`, then [update the listening webhooks for the deployed trigger](/connect/api/#update-webhooks-listening-to-deployed-trigger) after roughly a minute
 
 
 ### Native triggers
@@ -1012,3 +1012,263 @@ curl -X POST https://api.pipedream.com/v1/connect/{project_id}/components/trigge
   "updated_at": 1744499847
 }
 ```
+
+## Special Prop Types
+
+### SQL Prop
+
+The `sql` prop is a specialized prop type used for interacting with SQL databases. It enables developers to build applications that can:
+
+- Execute custom SQL queries
+- Introspect database schemas
+- Support prepared statements
+
+This prop type is used by these database actions:
+
+- `postgresql-execute-custom-query`
+- `snowflake-execute-sql-query`
+- `mysql-execute-raw-query`
+- `microsoft_sql_server-execute-raw-query`
+- `azure_sql-execute-raw-query`
+- `turso-execute-query`
+
+<Callout type="warning">
+The `sql` prop is only supported in the Pipedream server SDK and REST API, and is not currently supported in `connect-react`.
+</Callout>
+
+#### Configuration
+
+When configuring these actions, you'll need to provide:
+
+1. Database app type and auth (e.g., `postgresql` in this example)
+2. A `sql` prop with the following structure:
+
+```javascript
+const configuredProps = {
+  postgresql: {
+    authProvisionId: "apn_xxxxxxx"
+  },
+  sql: {
+    auth: {
+      app: "postgresql"  // Database type -- must match the app prop name 
+    },
+    query: "select * from products limit 1",
+    params: []  // Optional array of parameters for prepared statements
+  }
+}
+```
+
+#### Using prepared statements
+
+You can use prepared statements by including placeholders in your query and providing the parameter values in the `params` array. Different database systems use different placeholder syntax:
+
+- **PostgreSQL** uses `$1`, `$2`, `$3`, etc. for numbered parameters
+- **Snowflake**, **MySQL, Azure SQL, Microsoft SQL Server, and Turso** use `?` for positional parameters
+
+<Tabs items={['PostgreSQL example', 'MySQL example']}>
+<Tabs.Tab>
+```javascript
+const configuredProps = {
+  postgresql: {
+    authProvisionId: "apn_xxxxxxx"
+  },
+  sql: {
+    auth: {
+      app: "postgresql" 
+    },
+    query: "select * from products where name = $1 and price > $2 limit 1",
+    params: ["foo", 10.99]  // Values to replace $1 and $2 placeholders
+  }
+}
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```javascript
+const configuredProps = {
+  mysql: {
+    authProvisionId: "apn_xxxxxxx"
+  },
+  sql: {
+    auth: {
+      app: "mysql" 
+    },
+    query: "select * from products where name = ? and price > ? limit 1",
+    params: ["foo", 10.99]  // Values to replace the ? placeholders
+  }
+}
+```
+</Tabs.Tab>
+</Tabs>
+
+
+<Callout type="info">
+Using prepared statements helps prevent SQL injection attacks by separating the SQL command structure from the data values being used, and is strongly recommended.
+</Callout>
+
+#### Retrieving database schema information
+
+By retrieving the database schema, developers can:
+
+- Provide database structure to AI agents for accurate SQL generation
+- Build native SQL editors with autocomplete for tables and columns
+- Validate queries against the actual database schema before execution
+
+You can call `configureComponent` on the `sql` prop to retrieve database schema information:
+
+```javascript
+const resp = await pd.configureComponent({
+  externalUserId: externalUserId,
+  propName: "sql",
+  componentId: {
+    key: "postgresql-execute-custom-query",
+  },
+  configuredProps: {
+    postgresql: {
+      authProvisionId: accountId
+    },
+  },
+});
+```
+
+The response includes a `context.dbInfo` object containing detailed schema information for all tables in the database:
+
+```json
+{
+  "context": {
+    "dbInfo": {
+      "products": {
+        "metadata": {},
+        "schema": {
+          "id": {
+            "tableName": "products",
+            "columnName": "id",
+            "isNullable": "NO",
+            "dataType": "integer",
+            "columnDefault": "nextval('products_id_seq'::regclass)"
+          },
+          "name": {
+            "tableName": "products",
+            "columnName": "name",
+            "isNullable": "NO",
+            "dataType": "character varying",
+            "columnDefault": null
+          },
+          "description": {
+            "tableName": "products",
+            "columnName": "description",
+            "isNullable": "YES",
+            "dataType": "text",
+            "columnDefault": null
+          },
+          "price": {
+            "tableName": "products",
+            "columnName": "price",
+            "isNullable": "NO",
+            "dataType": "numeric",
+            "columnDefault": null
+          },
+          "created_at": {
+            "tableName": "products",
+            "columnName": "created_at",
+            "isNullable": "YES",
+            "dataType": "timestamp with time zone",
+            "columnDefault": "CURRENT_TIMESTAMP"
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+## Troubleshooting
+
+### Referencing the app prop in configured props payload
+
+If you encounter an error like `Cannot read properties of undefined (reading 'oauth_access_token')`, it's likely related to an incorrect reference to the app prop in your configured_props payload.
+
+For example, using `google_sheets` instead of `googleSheets`, or `stripe` instead of `app`. Always use the exact app prop name as returned by the component definition.
+
+The app prop name can be found in the component's definition under `configurable_props`:
+
+```json
+"configurable_props": [
+  {
+    "name": "googleSheets", // Use this exact name in your payload
+    "type": "app",
+    "app": "google_sheets"
+  },
+  ...
+]
+```
+
+### Passing dynamic props ID
+
+When working with components that use dynamic props, you must track and pass the `dynamicPropsId` in your API calls. After calling the API to reload props as described in the [Configure dynamic props](#configure-dynamic-props) section, you'll receive a response containing a `dynamicProps.id` value that looks like `dyp_6xUyVgQ`.
+
+This ID must be included in subsequent API calls to `runAction` or `deployTrigger`. Failing to include it can result in errors like:
+
+```json
+{
+  "name": "Error",
+  "message": "undefined is not an array or an array-like"
+}
+```
+
+or
+
+```json
+{
+  "title": "TypeError",
+  "detail": "Cannot read properties of undefined (reading 'endpoint')"
+}
+```
+
+For example, after receiving the dynamic props ID from the reload props call, include it in your action execution:
+
+```javascript
+// First, reload props for a component with dynamic props
+const { dynamicProps } = await pd.reloadProps({ … });
+
+// Then use the dynamicProps.id when running the action
+const resp = await pd.runAction({
+  externalUserId: "abc-123",
+  id: "google_sheets-add-single-row",
+  dynamicPropsId: dynamicProps.id, // Must include this 
+  configuredProps: {
+    googleSheets: {
+      authProvisionId: account.id,
+    },
+    sheetId: "1BfWjFF2dTW_YDiLISj5N9nKCUErShgugPS434liyytg",
+    worksheetId: "Sheet1",
+    // ... other configured props
+  }
+});
+```
+
+Remember to maintain this ID in your application state while the user is configuring the component, and include it in all subsequent API calls related to that particular configuration.
+
+### Checking source logs for deployed triggers
+
+If a deployed trigger isn't emitting events as expected, you can examine the source logs to get a better sense of what's happening. 
+
+Use the following URL to access logs and view emitted events:
+
+```
+https://pipedream.com/sources/{dcid}
+```
+
+Replace `{dcid}` with your deployed component ID (e.g., `dc_dAuGmW7`).
+
+The sources UI contains three tabs:
+
+- **Events**: Lists emitted events from the deployed trigger that will be sent to the subscribed webhook or workflow. This helps you verify that events are being properly processed and understand their structure.
+
+- **Logs**: Displays execution history for the trigger. For polling sources, this shows each time the trigger checks for updates. For webhook-based instant sources, it shows each time the source receives an event from the upstream API. This tab is especially useful for troubleshooting when events aren't being emitted as expected.
+
+- **Configuration**: Provides a read-only view of the deployed source's code and configuration. While you can't modify settings for deployed triggers that belong to external users here, this tab offers insight into how the trigger is configured.
+
+<Callout type="info">
+This UI view is currently in beta and has some limitations. Some UI elements may appear unpolished, and the configuration tab has limited functionality.
+</Callout>
+

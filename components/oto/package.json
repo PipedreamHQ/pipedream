@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/oto",
+  "version": "0.0.1",
+  "description": "Pipedream OTO Components",
+  "main": "oto.app.mjs",
+  "keywords": [
+    "pipedream",
+    "oto"
+  ],
+  "homepage": "https://pipedream.com/apps/oto",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
