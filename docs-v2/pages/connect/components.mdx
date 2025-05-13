@@ -305,6 +305,10 @@ steps, focused on getting the right input parameters (aka
 Configuring each prop for a component often involves an API call to retrieve the possible values,
 unless the values that a prop can take are static or free-form. The endpoint is accessible at:
 
+```
+POST /v1/connect/{project_id}/components/configure
+```
+
 Typically, the options for a prop are linked to a specific user's account. Each
 of these props implements an `options` method that retrieves the necessary
 options from the third-party API, formats them, and sends them back in the
@@ -1119,9 +1123,7 @@ You can call `configureComponent` on the `sql` prop to retrieve database schema 
 const resp = await pd.configureComponent({
   externalUserId: externalUserId,
   propName: "sql",
-  componentId: {
-    key: "postgresql-execute-custom-query",
-  },
+  id: "postgresql-execute-custom-query",
   configuredProps: {
     postgresql: {
       authProvisionId: accountId
@@ -1234,7 +1236,7 @@ const { dynamicProps } = await pd.reloadProps({ … });
 const resp = await pd.runAction({
   externalUserId: "abc-123",
   id: "google_sheets-add-single-row",
-  dynamicPropsId: dynamicProps.id, // Must include this 
+  dynamicPropsId: dynamicProps.id, // Must include this
   configuredProps: {
     googleSheets: {
       authProvisionId: account.id,
