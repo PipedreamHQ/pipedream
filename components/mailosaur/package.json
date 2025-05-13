@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/mailosaur",
+  "version": "0.0.1",
+  "description": "Pipedream Mailosaur Components",
+  "main": "mailosaur.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mailosaur"
+  ],
+  "homepage": "https://pipedream.com/apps/mailosaur",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
