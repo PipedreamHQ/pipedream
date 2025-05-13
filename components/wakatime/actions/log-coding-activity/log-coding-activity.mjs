@@ -56,6 +56,7 @@ export default {
         wakatime,
         "project",
       ],
+      optional: true,
     },
     projectRootCount: {
       type: "integer",
@@ -70,10 +71,10 @@ export default {
       optional: true,
     },
     language: {
-      type: "string",
-      label: "Language",
-      description: "Programming language",
-      optional: true,
+      propDefinition: [
+        wakatime,
+        "language",
+      ],
     },
     dependencies: {
       type: "string",

@@ -16,15 +16,24 @@ export default {
     },
   },
   async run({ $ }) {
-    const { data } = await this.wakatime.listProjects({
-      $,
-      params: {
-        q: this.q,
+    const results = this.wakatime.paginate({
+      fn: this.wakatime.listProjects,
+      args: {
+        $,
+        params: {
+          q: this.q,
+        },
       },
     });
-    $.export("$summary", `Successfully retrieved ${data.length} project${data.length === 1
+
+    const projects = [];
+    for await (const project of results) {
+      projects.push(project);
+    }
+
+    $.export("$summary", `Successfully retrieved ${projects.length} project${projects.length === 1
       ? ""
       : "s"}`);
-    return data;
+    return projects;
   },
 };
