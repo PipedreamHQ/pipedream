@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/mailrelay",
+  "version": "0.0.1",
+  "description": "Pipedream Mailrelay Components",
+  "main": "mailrelay.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mailrelay"
+  ],
+  "homepage": "https://pipedream.com/apps/mailrelay",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
