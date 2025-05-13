@@ -12886,8 +12886,7 @@ importers:
 
   components/systeme_io: {}
 
-  components/szybkisms:
-    specifiers: {}
+  components/szybkisms: {}
 
   components/t2m_url_shortener: {}
 
@@ -15347,6 +15346,14 @@ importers:
       dotenv:
         specifier: ^6.0.0
         version: 6.2.0
+
+  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
+
+  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
+
+  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
+
+  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
 
   packages/browsers:
     dependencies:
