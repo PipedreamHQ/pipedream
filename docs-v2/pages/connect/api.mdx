@@ -1287,7 +1287,10 @@ const clientOpts: BackendClientOpts = {
 const pd: BackendClient = createBackendClient(clientOpts);
 
 // Retrieve the "New Issue (Instant)" component for the Gitlab app
-const response: GetComponentResponse = await pd.getComponent("gitlab-new-issue");
+const requestOpts: GetComponentOpts = {
+  key: "gitlab-new-issue",
+};
+const response: GetComponentResponse = await pd.getComponent(requestOpts);
 
 const {
   data  // The "New Issue (Instant)" component for the Gitlab app
@@ -1311,7 +1314,7 @@ const pd = createBackendClient({
 });
 
 // Retrieve the "New Issue (Instant)" component for the Gitlab app
-const { data: component } = await pd.getComponent("gitlab-new-issue");
+const { data: component } = await pd.getComponent({ key: "gitlab-new-issue" });
 
 // Parse and return the data you need
 ```

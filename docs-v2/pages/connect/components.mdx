@@ -231,7 +231,7 @@ Commits** action for Gitlab:
 <Tabs items={['Node.js', 'HTTP (cURL)']}>
 <Tabs.Tab>
 ```javascript
-const component = await pd.getComponent("gitlab-list-commits");
+const component = await pd.getComponent({ key: "gitlab-list-commits" });
 
 // Parse and return the data you need
 ```
