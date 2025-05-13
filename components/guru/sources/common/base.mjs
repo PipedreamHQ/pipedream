@@ -3,10 +3,7 @@ import guru from "../../guru.app.mjs";
 export default {
   props: {
     guru,
-    http: {
-      type: "$.interface.http",
-      customResponse: true,
-    },
+    http: "$.interface.http",
     db: "$.service.db",
   },
   methods: {
