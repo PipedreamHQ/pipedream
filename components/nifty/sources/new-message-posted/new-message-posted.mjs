@@ -6,7 +6,7 @@ export default {
   key: "nifty-new-message-posted",
   name: "New Message Posted",
   description: "Emit new event when a new message is posted in a team's discussion.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

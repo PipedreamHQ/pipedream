@@ -3569,7 +3569,11 @@ importers:
 
   components/dispatch: {}
 
-  components/ditlead: {}
+  components/ditlead:
+    dependencies:
+      '@pipedream/platform':
+        specifier: 3.0.3
+        version: 3.0.3
 
   components/dixa:
     dependencies:
@@ -5815,7 +5819,11 @@ importers:
 
   components/gupshup: {}
 
-  components/guru: {}
+  components/guru:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/h_supertools_analytics_tool:
     dependencies:
@@ -8666,8 +8674,8 @@ importers:
   components/nifty:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/niftyimages:
     dependencies:
@@ -9247,7 +9255,11 @@ importers:
 
   components/osu: {}
 
-  components/oto: {}
+  components/oto:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/otter_waiver:
     dependencies:
@@ -9939,7 +9951,11 @@ importers:
 
   components/planly: {}
 
-  components/planning_center: {}
+  components/planning_center:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/planpoint: {}
 
