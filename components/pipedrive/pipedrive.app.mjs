@@ -20,6 +20,23 @@ export default {
         }));
       },
     },
+    activityFilterId: {
+      type: "integer",
+      label: "Activity Filter ID",
+      description: "ID of the filter for activities to be used for filtering the activities.",
+      optional: true,
+      async options() {
+        const { data: filters } = await this.getFilters({
+        type: constants.FILTER_TYPE.ACTIVITY,
+        });
+       return filters.map(({
+          id, name,
+        }) => ({
+        label: name,
+        value: id,
+        }));
+      },
+    },
     personId: {
       type: "integer",
       label: "Person ID",
@@ -151,6 +168,21 @@ export default {
         };
       },
     },
+    pipelineId: {
+      type: "integer",
+      label: "Pipeline ID",
+      description: "ID of the pipeline this deal will be placed in (note that you can't supply the ID of the pipeline as this will be assigned automatically based on `stage_id`). If omitted, the deal will be placed in the first stage of the default pipeline. Get the `stage_id` from [here](https://developers.pipedrive.com/docs/api/v1/#!/Stages/get_stages).",
+      optional: true,
+      async options() {
+        const { data: stages } = await this.getPipelines();
+        return stages.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
+    },
     status: {
       type: "string",
       label: "Status",
@@ -278,6 +310,66 @@ export default {
         };
       },
     },
+    orgCustomFieldKey: {
+      type: "string",
+      label: "Custom Field Key",
+      description: "Key of the custom field for organization in Pipedrive",
+      optional: true,
+      async options() {
+        const { data: stages } = await this.getOrganizationFields();
+        return stages.map(({
+          key, name,
+        }) => ({
+          label: name,
+          value: key,
+        }));
+      },
+    },
+    personCustomFieldKey: {
+      type: "string",
+      label: "Custom Field Key",
+      description: "Key of the custom field for person in Pipedrive",
+      optional: true,
+      async options() {
+        const { data: stages } = await this.getPersonFields();
+        return stages.map(({
+          key, name,
+        }) => ({
+          label: name,
+          value: key,
+        }));
+      },
+    },
+    dealCustomFieldKey: {
+      type: "string",
+      label: "Anility Id Field Key",
+      description: "Key of the custom field for deal in Pipedrive",
+      optional: true,
+      async options() {
+        const { data: stages } = await this.getDealFields();
+        return stages.map(({
+          key, name,
+        }) => ({
+          label: name,
+          value: key,
+        }));
+      },
+    },
+    dealCustomFieldId: {
+      type: "string",
+      label: "Anility Id Field Id for deals",
+      description: "Id of the custom field for deal in Pipedrive",
+      optional: true,
+      async options() {
+        const { data: stages } = await this.getDealFields();
+        return stages.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: `${id}`,
+        }));
+      },
+    },
   },
   methods: {
     api(model, version = "v1") {
@@ -377,6 +469,116 @@ export default {
         id: dealId,
         UpdateDealRequest: opts,
       });
+    },
+    async getFilters(opts) {
+      const [
+        className,
+      ] = constants.API.FILTERS;
+      return this.api(className).getFilters(opts);
+    },
+    getOrganizationFields(opts = {}) {
+      const [
+        className,
+      ] = constants.API.ORGANIZATION_FIELDS;
+      return this.api(className).getOrganizationFields(opts);
+    },
+    getPersonFields(opts = {}) {
+      const [
+        className,
+      ] = constants.API.PERSON_FIELDS;
+      return this.api(className).getPersonFields(opts);
+    },
+    getDealFields(opts = {}) {
+      const [
+        className,
+      ] = constants.API.DEAL_FIELDS;
+      return this.api(className).getDealFields(opts);
+    },
+    updateOrganization(opts = {}) {
+      const {
+        organizationId,
+        ...otherOpts
+      } = opts;
+      const [
+        className,
+        updateProperty,
+      ] = constants.API.ORGANIZATIONS;
+      return this.api(className)
+        .updateOrganization(organizationId, this.buildOpts(updateProperty, otherOpts));
+    },
+    searchOrganization(opts = {}) {
+      const {
+        term,
+        ...otherOpts
+      } = opts;
+      const [
+        className,
+      ] = constants.API.ORGANIZATIONS;
+      return this.api(className).searchOrganization(term, otherOpts);
+    },
+    searchDeals(opts = {}) {
+      const {
+        term,
+        ...otherOpts
+      } = opts;
+      const [
+        className,
+      ] = constants.API.DEALS;
+      return this.api(className).searchDeals(term, otherOpts);
+    },
+    getActivities(opts = {}) {
+      const [
+        className,
+      ] = constants.API.ACTIVITIES;
+      return this.api(className).getActivities(opts);
+    },
+    getActivityFields(opts = {}) {
+      const [
+        className,
+      ] = constants.API.ACTIVITY_FIELDS;
+      return this.api(className).getActivityFields(opts);
+    },
+    getPerson(id) {
+      const [
+        className,
+      ] = constants.API.PERSONS;
+      return this.api(className).getPerson(id);
+    },
+    getMailThreads(folder, opt = {}) {
+      const [
+        className,
+      ] = constants.API.MAILBOX;
+      return this.api(className).getMailThreads(folder, opt);
+    },
+    getPersonFields(opts = {}) {
+      const [
+        className,
+      ] = constants.API.PERSON_FIELDS;
+      return this.api(className).getPersonFields(opts);
+    },
+    async getUser(id) {
+      const [
+        className,
+      ] = constants.API.USERS;
+      return this.api(className).getUser(id);
+    },
+    async getFilters(opts) {
+      const [
+        className,
+      ] = constants.API.FILTERS;
+      return this.api(className).getFilters(opts);
+    },
+    async getFilter(filterId) {
+      const [
+        className,
+      ] = constants.API.FILTERS;
+      return this.api(className).getFilter(filterId);
+    },
+    getPipelines(opts) {
+      const [
+        className,
+      ] = constants.API.PIPELINES;
+      return this.api(className).getPipelines(opts);
     },
   },
 };
