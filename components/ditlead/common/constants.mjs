@@ -1,0 +1,18 @@
+export const WEBHOOK_EVENT_TYPES = [
+  "email.bounced",
+  "email.opened",
+  "contact.replied",
+  "contact.created",
+  "contact.contacted",
+  "contact.started_campaign",
+  "contact.restarted_campaign",
+  "contact.completed_campaign",
+  "contact.unsubscribed",
+  "campaign.scheduled",
+  "campaign.started",
+  "campaign.paused",
+  "campaign.restarted",
+  "campaign.completed",
+  "campaign.limit",
+  "campaign.errored",
+];
