@@ -6,7 +6,7 @@ export default {
   key: "wakatime-new-commit-created",
   name: "New Commit Created",
   description: "Emit new event when a new commit is created in WakaTime. [See the documentation](https://wakatime.com/developers#commits)",
-  version: "0.0.1}",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {

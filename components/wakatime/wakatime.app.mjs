@@ -102,7 +102,9 @@ export default {
       let count = 0;
       do {
         const response = await fn(args);
-        const items = response[resourceKey];
+        const items = resourceKey
+          ? response[resourceKey]
+          : response.data;
         if (!items?.length) {
           return;
         }
