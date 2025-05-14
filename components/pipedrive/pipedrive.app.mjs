@@ -226,36 +226,6 @@ export default {
         };
       },
     },
-    pipelineId: {
-      type: "string",
-      label: "Pipeline ID",
-      description: "ID of the pipeline this activity will be associated with",
-      optional: true,
-      async options({ prevContext }) {
-        if (prevContext?.cursor === false) {
-          return [];
-        }
-        const {
-          data: pipelines,
-          additional_data: additionalData,
-        } = await this.getPipelines({
-          cursor: prevContext.cursor,
-          limit: constants.DEFAULT_PAGE_LIMIT,
-        });
-
-        return {
-          options: pipelines?.map(({
-            id, title,
-          }) => ({
-            label: title,
-            value: id,
-          })),
-          context: {
-            cursor: additionalData.next_cursor,
-          },
-        };
-      },
-    },
     leadId: {
       type: "string",
       label: "Lead ID",
@@ -428,7 +398,7 @@ export default {
       });
     },
     addNote(opts = {}) {
-      const noteApi = this.api("NotesApi");
+      const noteApi = this.api("NotesApi"); //TODO: verify why some methods does not have v2
       return noteApi.addNote({
         AddNoteRequest: opts,
       });
@@ -476,31 +446,31 @@ export default {
         UpdateDealRequest: opts,
       });
     },
-    async getFilters(opts) {
+    async getFilters(opts) { // TODO: find the v2 api
       const [
         className,
       ] = constants.API.FILTERS;
       return this.api(className).getFilters(opts);
     },
-    getOrganizationFields(opts = {}) {
+    getOrganizationFields(opts = {}) { // TODO: find the v2 api
       const [
         className,
       ] = constants.API.ORGANIZATION_FIELDS;
       return this.api(className).getOrganizationFields(opts);
     },
-    getPersonFields(opts = {}) {
+    getPersonFields(opts = {}) { // TODO: find the v2 api. This is currently used in update-watchers
       const [
         className,
       ] = constants.API.PERSON_FIELDS;
       return this.api(className).getPersonFields(opts);
     },
-    getDealFields(opts = {}) {
+    getDealFields(opts = {}) { // TODO: find the v2 api. This is currently used in add-deal-if-missing
       const [
         className,
       ] = constants.API.DEAL_FIELDS;
       return this.api(className).getDealFields(opts);
     },
-    updateOrganization(opts = {}) {
+    updateOrganization(opts = {}) { 
       const {
         organizationId,
         ...otherOpts
