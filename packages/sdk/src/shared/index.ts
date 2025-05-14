@@ -129,7 +129,7 @@ export type PropOption = {
   value: string;
 };
 
-type ConfigureComponentContext = Record<string, any>
+type ConfigureComponentContext = Record<string, unknown>
 
 /**
  * The response received after configuring a component's prop.
@@ -799,6 +799,13 @@ export type UpdateTriggerOpts = {
    * The state to which the trigger should be updated.
    */
   active?: boolean;
+
+  /**
+   * The props that have already been configured for the trigger. This is a
+   * JSON-serializable object with the prop names as keys and the configured
+   * values as values.
+   */
+  configuredProps?: ConfiguredProps<ConfigurableProps>;
 
   /**
    * The new name of the trigger.
@@ -1559,16 +1566,18 @@ export abstract class BaseClient {
       id,
       externalUserId,
       active = null,
+      configuredProps = null,
       name = null,
     } = opts;
 
-    return this.makeConnectRequest<V1DeployedComponent>(`/deployed-triggers/${id}`, {
+    return this.makeConnectRequest<GetTriggerResponse>(`/deployed-triggers/${id}`, {
       method: "PUT",
       params: {
         external_user_id: externalUserId,
       },
       body: {
         active,
+        configured_props: configuredProps,
         name,
       },
     });

@@ -8,16 +8,11 @@ export default {
   },
   hooks: {
     async activate() {
-      const { data: { id: { webhook_id: hookId } } } = await this.attio.createWebhook({
+      const { data: { id: { webhook_id: hookId } } } = await this.createWebhook({
         data: {
           data: {
             target_url: this.http.endpoint,
-            subscriptions: [
-              {
-                event_type: this.getEventType(),
-                filter: this.getFilter(),
-              },
-            ],
+            subscriptions: this.getSubscriptions(),
           },
         },
       });
@@ -26,7 +21,7 @@ export default {
     async deactivate() {
       const hookId = this._getHookId();
       if (hookId) {
-        await this.attio.deleteWebhook({
+        await this.deleteWebhook({
           hookId,
         });
       }
@@ -39,14 +34,25 @@ export default {
     _setHookId(hookId) {
       this.db.set("hookId", hookId);
     },
-    getFilter() {
-      return null;
-    },
-    getEventType() {
-      throw new Error("getEventType is not implemented");
+    getSubscriptions() {
+      throw new Error("getSubscriptions is not implemented");
     },
     generateMeta() {
       throw new Error("generateMeta is not implemented");
+    },
+    createWebhook(args = {}) {
+      return this.attio.post({
+        path: "/webhooks",
+        ...args,
+      });
+    },
+    deleteWebhook({
+      hookId, ...opts
+    }) {
+      return this.attio.delete({
+        path: `/webhooks/${hookId}`,
+        ...opts,
+      });
     },
   },
   async run(event) {

@@ -8,7 +8,7 @@ export default {
   key: "google_ads-send-offline-conversion",
   name: "Send Offline Conversion",
   description: "Send an event from to Google Ads to track offline conversions. [See the documentation](https://developers.google.com/google-ads/api/rest/reference/rest/v18/ConversionAction)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,

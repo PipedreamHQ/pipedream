@@ -5,7 +5,7 @@ export default {
   key: "gmail-archive-email",
   name: "Archive Email",
   description: "Archive an email message. [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/modify)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     gmail,

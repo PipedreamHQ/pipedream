@@ -6,7 +6,7 @@ export default {
   key: "nifty-new-task-created",
   name: "New Task Created",
   description: "Emit new event when a task is created in a project.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -1,10 +1,11 @@
 import wordpress from "../../wordpress_com.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "wordpress_com-new-post",
   name: "New Post",
   description: "Emit new event for each new post published since the last run. If no new posts, emit nothing.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -45,54 +46,63 @@ export default {
       min: 1,
       max: 100,
     },
+    timer: {
+      type: "$.interface.timer",
+      label: "Timer",
+      description: "How often to poll WordPress for new posts.",
+      default: {
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+      },
+    },
   },
-  async run({ $ }) {
-    const warnings = [];
+  methods: {
+    getWordpressPosts($) {
 
+      return this.wordpress.getWordpressPosts({
+        $,
+        site: this.site,
+        type: this.type,
+        number: this.number,
+      });
+
+    },
+  },
+  hooks: {
+    async activate() {
+
+      const {
+        wordpress,
+        db,
+        type,
+      } = this;
+
+      await this.db.set("lastPostId", null); // reset
+
+      const response = await this.getWordpressPosts();
+
+      const posts = (type === "attachment")
+        ? (response.media || [])
+        : (response.posts || []);
+
+      await wordpress.initialize(posts, db, "lastPostId");
+    },
+  },
+
+  async run({ $ }) {
     const {
       wordpress,
       db,
-      site,
       type,
-      number,
     } = this;
 
-    warnings.push(...wordpress.checkDomainOrId(site));
-
-    let response;
-    try {
-      response = await wordpress.getWordpressPosts({
-        $,
-        site,
-        type,
-        number,
-      });
-
-    } catch (error) {
-      wordpress.throwCustomError("Failed to fetch posts from WordPress:", error, warnings);
-    }
+    const response = await this.getWordpressPosts($);
 
     const posts = (type === "attachment")
       ? (response.media || [])
       : (response.posts || []);
     const lastPostId = Number(await db.get("lastPostId"));
 
-    // First run: Initialize cursor
-    if (!lastPostId) {
-      if (!posts.length) {
-        console.log("No posts found on first run. Source initialized with no cursor.");
-        return;
-      }
-
-      const newest = posts[0]?.ID;
-      if (!newest) {
-        throw new Error("Failed to initialize: The latest post does not have a valid ID.");
-      }
-
-      await db.set("lastPostId", newest);
-      console.log(`Initialized lastPostId on first run with post ID ${newest}.`);
-      return;
-    }
+    if (!lastPostId) await wordpress.initialize(posts, db, "lastPostId");
 
     let maxPostIdTracker = lastPostId;
 
@@ -122,9 +132,5 @@ export default {
     } else {
       console.log("No new posts found.");
     }
-
-    if (warnings.length > 0) {
-      console.log("Warnings:\n- " + warnings.join("\n- "));
-    };
   },
 };

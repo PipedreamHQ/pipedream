@@ -4,7 +4,7 @@ export default {
   key: "attio-create-note",
   name: "Create Note",
   description: "Creates a new note for a given record. The note will be linked to the specified record. [See the documentation](https://developers.attio.com/reference/post_v2-notes)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     attio,
@@ -12,16 +12,25 @@ export default {
       propDefinition: [
         attio,
         "objectId",
+        () => ({
+          mapper: ({
+            api_slug: value,
+            singular_noun: label,
+          }) => ({
+            value,
+            label,
+          }),
+        }),
       ],
-      label: "Parent Object ID",
-      description: "The ID of the parent object the note belongs to",
+      label: "Parent Object",
+      description: "The parent object the note belongs to",
     },
     parentRecordId: {
       propDefinition: [
         attio,
         "recordId",
-        (c) => ({
-          objectId: c.parentObject,
+        ({ parentObject }) => ({
+          targetObject: parentObject,
         }),
       ],
       label: "Parent Record ID",
@@ -38,8 +47,16 @@ export default {
       description: "The content of the note",
     },
   },
+  methods: {
+    createNote(args = {}) {
+      return this.attio.post({
+        path: "/notes",
+        ...args,
+      });
+    },
+  },
   async run({ $ }) {
-    const response = await this.attio.createNote({
+    const response = await this.createNote({
       $,
       data: {
         data: {
@@ -51,7 +68,7 @@ export default {
         },
       },
     });
-    $.export("$summary", `Successfully created note with ID: ${response.data.id.note_id}`);
+    $.export("$summary", `Successfully created note with ID \`${response.data.id.note_id}\`.`);
     return response;
   },
 };

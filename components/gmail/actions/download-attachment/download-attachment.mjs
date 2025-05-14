@@ -7,7 +7,7 @@ export default {
   key: "gmail-download-attachment",
   name: "Download Attachment",
   description: "Download an attachment by attachmentId to the /tmp directory. [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages.attachments/get)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     gmail,

@@ -6,7 +6,7 @@ export default {
   key: "attio-list-entry-deleted-instant",
   name: "List Entry Deleted (Instant)",
   description: "Emit new event when a list entry is deleted (i.e. when a record is removed from a list).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -20,19 +20,21 @@ export default {
   },
   methods: {
     ...common.methods,
-    getEventType() {
-      return "list-entry.deleted";
-    },
-    getFilter() {
-      return {
-        "$and": [
-          {
-            field: "id.list_id",
-            operator: "equals",
-            value: this.listId,
+    getSubscriptions() {
+      return [
+        {
+          event_type: "list-entry.deleted",
+          filter: {
+            "$and": [
+              {
+                field: "id.list_id",
+                operator: "equals",
+                value: this.listId,
+              },
+            ],
           },
-        ],
-      };
+        },
+      ];
     },
     generateMeta(entry) {
       return {

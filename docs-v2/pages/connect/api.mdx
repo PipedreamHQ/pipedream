@@ -67,7 +67,7 @@ const pd = createBackendClient({
 
 You'll primarily use the browser SDK to let your users securely connect apps from your frontend. Here, you
 
-1. [Create a short-lived token on your server](#create-a-new-token)
+1. [Create a short-lived token on your server](#create-token)
 2. Initiate auth with that token to securely connect an account for a specific user
 
 Here's a Next.js example [from our quickstart](/connect/managed-auth/quickstart/):
@@ -146,8 +146,9 @@ External User IDs are limited to 250 characters.
 
 | API Endpoint               | Rate Limit                                           |
 |----------------------------|------------------------------------------------------|
-| `POST /tokens`   | 100 requests per minute per `external_user_id`            |
+| `POST /token`   | 100 requests per minute per `external_user_id`            |
 | `GET /accounts`| 100 requests per minute per project <br /><br />The sum of requests across all `*/accounts/*` endpoints must not exceed 100 requests per minute. This includes requests to,<br />• `/accounts`<br />• `/apps/:app_id/accounts`<br />• `/accounts/:account_id` |
+| `/components`| 300 requests per minute per project <br /><br />The sum of requests across all `/components/*` endpoints must not exceed 300 requests per minute. This includes requests to,<br />• `/components`<br />• `/actions`<br />• `/triggers` |
 | `/proxy` | 100 requests per minute per project |
 
 If you need higher rate limits, please [reach out](https://pipedream.com/support).
@@ -240,7 +241,7 @@ Your app will initiate the account connection flow for your end users in your fr
 
 See [the Connect tokens docs](/connect/tokens/) for more information.
 
-#### Create a new token
+#### Create token
 
 ```
 POST /{project_id}/tokens
@@ -383,9 +384,9 @@ curl -X POST https://api.pipedream.com/v1/connect/{project_id}/tokens \
 
 ### Accounts
 
-#### List all accounts
+#### List All Accounts
 
-List all connected accounts for all end users within a project.
+List all connected accounts for all externalusers within a project.
 
 ```
 GET /{project_id}/accounts/
@@ -650,7 +651,7 @@ curl -X GET \
 }
 ```
 
-#### Retrieve account details by ID
+#### Retrieve Account Details by ID
 
 Retrieve the account details for a specific account based on the account ID
 
@@ -823,9 +824,9 @@ curl -X GET \
 }
 ```
 
-#### Delete connected account
+#### Delete Connected Account
 
-Delete a specific connected account for an end user, and any deployed triggers.
+Delete a specific connected account for an external user, and any deployed triggers.
 
 ```
 DELETE /{project_id}/accounts/{account_id}
@@ -910,7 +911,7 @@ curl -X DELETE "https://api.pipedream.com/v1/connect/{project_id}/accounts/{acco
 
 Pipedream returns a `204 No Content` response on successful account deletion
 
-#### Delete all connected accounts for an app
+#### Delete All Connected Accounts for an App
 
 Delete all connected accounts for a specific app
 
@@ -999,9 +1000,9 @@ curl -X DELETE "https://api.pipedream.com/v1/connect/{project_id}/accounts/{acco
 
 Pipedream returns a `204 No Content` response on successful account deletion
 
-#### Delete an end user
+#### Delete External User
 
-Delete an end user, all their connected accounts, and any deployed triggers.
+Delete an external user, all their connected accounts, and any deployed triggers.
 
 ```
 DELETE /{project_id}/users/{external_user_id}
@@ -1091,7 +1092,7 @@ Pipedream returns a `204 No Content` response on successful account deletion
 
 ### Components
 
-#### List components
+#### List Components
 
 List all the components in the Pipedream registry.
 
@@ -1239,7 +1240,7 @@ curl -X GET "https://api.pipedream.com/v1/connect/{your_project_id}/components?a
 ```
 
 
-#### Retrieve a component
+#### Retrieve Component
 
 Retrieve a specific component from the Pipedream registry.
 
@@ -1313,9 +1314,7 @@ const pd = createBackendClient({
 });
 
 // Retrieve the "New Issue (Instant)" component for the Gitlab app
-const { data: component } = await pd.getComponent({
-  key: "gitlab-new-issue",
-});
+const { data: component } = await pd.getComponent({ key: "gitlab-new-issue" });
 
 // Parse and return the data you need
 ```
@@ -1378,7 +1377,7 @@ curl -X GET "https://api.pipedream.com/v1/connect/{your_project_id}/components/g
 
 
 
-#### Configure a component
+#### Configure Component
 
 Configure the a component's prop, based on the current component's
 configuration. This endpoint will use the component's configuration to retrieve
@@ -1451,9 +1450,7 @@ const pd: BackendClient = createBackendClient(clientOpts);
 // Retrieve the configuration options for the "projectId" prop of the "List
 // Commits" component for the Gitlab app.
 const requestOpts: ConfigureComponentOpts = {
-  componentId: {
-    key: "gitlab-list-commits",
-  },
+  id: "gitlab-list-commits",
   configuredProps: {
     gitlab: {
       authProvisionId: "apn_kVh9AoD",
@@ -1492,9 +1489,7 @@ const pd = createBackendClient({
 // Retrieve the configuration options for the "projectId" prop of the "List
 // Commits" component for the Gitlab app.
 const { options } = await pd.configureComponent({
-  componentId: {
-    key: "gitlab-list-commits",
-  },
+  id: "gitlab-list-commits",
   configuredProps: {
     gitlab: {
       authProvisionId: "apn_kVh9AoD",
@@ -1592,7 +1587,7 @@ curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/components/
 }
 ```
 
-#### Reload a component's props (i.e. configure dynamic props)
+#### Reload Component Props
 
 Reload the component's props after configuring a dynamic prop, based on the
 current component's configuration. This endpoint will use the component's
@@ -1667,9 +1662,7 @@ const pd: BackendClient = createBackendClient(clientOpts);
 // Retrieve the configuration options for the "Add Single Row" component for
 // the Google Sheets app. Note that the `sheetId` prop is a dynamic prop.
 const requestOpts: ReloadComponentPropsOpts = {
-  componentId: {
-    key: "google_sheets-add-single-row",
-  },
+  id: "google_sheets-add-single-row",
   configuredProps: {
     googleSheets: {
       authProvisionId: "apn_V1hMoE7",
@@ -1706,9 +1699,7 @@ const pd = createBackendClient({
 // Retrieve the configuration options for the "Add Single Row" component for
 // the Google Sheets app. Note that the `sheetId` prop is a dynamic prop.
 const { dynamicProps } = await pd.reloadComponentProps({
-  componentId: {
-    key: "google_sheets-add-single-row",
-  },
+  id: "google_sheets-add-single-row",
   configuredProps: {
     googleSheets: {
       authProvisionId: "apn_V1hMoE7",
@@ -1820,7 +1811,7 @@ curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/components/
 }
 ```
 
-#### Invoke an action
+#### Invoke Action
 
 Invoke an action component for a Pipedream Connect user in a project.
 
@@ -1882,9 +1873,7 @@ const pd: BackendClient = createBackendClient(clientOpts);
 
 // Run the "List Commits" action for the Gitlab app
 const requestOpts: RunActionOpts = {
-  actionId: {
-    key: "gitlab-list-commits",
-  },
+  id: "gitlab-list-commits",
   configuredProps: {
     gitlab: {
       authProvisionId: "apn_kVh9AoD",
@@ -1927,9 +1916,7 @@ const {
   os,       // The observations produced by the action
   ret,      // The value returned by the action
 } = await pd.runAction({
-  actionId: {
-    key: "gitlab-list-commits",
-  },
+  id: "gitlab-list-commits",
   configuredProps: {
     gitlab: {
       authProvisionId: "apn_kVh9AoD",
@@ -2009,7 +1996,7 @@ curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/actions/run
 }
 ```
 
-#### Deploy a trigger
+#### Deploy Trigger
 
 <Callout type="info">
 See [here](/connect/components/#deploying-triggers) for more info on supported trigger types with example payloads
@@ -2091,9 +2078,7 @@ const pd: BackendClient = createBackendClient(clientOpts);
 
 // Deploy the "New Issue (Instant)" trigger for the Gitlab app
 const requestOpts: DeployTriggerOpts = {
-  triggerId: {
-    key: "gitlab-new-issue",
-  },
+  id: "gitlab-new-issue",
   configuredProps: {
     gitlab: {
       authProvisionId: "apn_kVh9AoD",
@@ -2132,9 +2117,7 @@ const pd = createBackendClient({
 
 // Deploy the "New Issue (Instant)" trigger for the Gitlab app
 const { data: deployedTrigger } = await pd.deployTrigger({
-  triggerId: {
-    key: "gitlab-new-issue",
-  },
+  id: "gitlab-new-issue",
   configuredProps: {
     gitlab: {
       authProvisionId: "apn_kVh9AoD",
@@ -2242,7 +2225,7 @@ curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/triggers/de
 }
 ```
 
-#### List deployed triggers
+#### List Deployed Triggers
 
 List all of the deployed triggers for a given user.
 
@@ -2503,7 +2486,7 @@ curl -X GET \
 }
 ```
 
-#### Retrieve a deployed trigger
+#### Retrieve Deployed Trigger
 
 Retrieve a single deployed trigger for a given user.
 
@@ -2688,7 +2671,7 @@ curl -X GET \
 }
 ```
 
-#### Delete a deployed trigger
+#### Delete Deployed Trigger
 
 Delete deployed trigger for a given user.
 
@@ -2797,8 +2780,213 @@ curl -X DELETE \
 
 Pipedream returns a `204 No Content` response on successful deletion
 
+#### Update Deployed Trigger
 
-#### Retrieve the events emitted by a deployed trigger
+Update a deployed trigger for a given user.
+
+```text
+PUT /deployed-triggers/{deployed_trigger_id}/
+```
+
+<Callout type="warning">
+Configured props you define when updating a deployed trigger will **overwrite** previously configured props.
+</Callout>
+
+##### Path parameters
+
+`deployed_trigger_id` **string**
+
+The deployed trigger ID for the trigger you'd like to update (ex, `dc_xxxxxxx`).
+
+##### Query parameters
+
+`external_user_id` **string**
+
+[The external user ID](/connect/api/#external-users) in your system on behalf of
+which you want to update the trigger.
+
+##### Body parameters
+
+`active` **boolean** (_optional_)
+
+The state to which the trigger should be updated.
+
+`configured_props` **object** (_optional_)
+
+The new configuration props for the trigger.
+
+`name` **string** (_optional_)
+
+The new name of the trigger.
+
+##### Examples
+
+<Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
+
+<Tabs.Tab>
+```typescript
+import {
+  createBackendClient,
+  type GetTriggerResponse,
+  type V1DeployedComponent,
+  type BackendClient,
+  type BackendClientOpts,
+  type UpdateTriggerOpts,
+} from "@pipedream/sdk/server";
+
+const clientOpts: BackendClientOpts = {
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+};
+const pd: BackendClient = createBackendClient(clientOpts);
+
+// Update the deployed trigger for the specified user
+const requestOpts: UpdateTriggerOpts = {
+  id: "dc_gzumK2e",
+  externalUserId: "jverce",
+  active: true,
+  name: "My Updated Trigger",
+  configuredProps: {
+    gitlab: {
+      authProvisionId: "apn_kVh9AoD",
+    },
+    projectId: 45672542,
+  },
+};
+const response: GetTriggerResponse = await pd.updateTrigger(requestOpts);
+
+const {
+  data: trigger,  // The updated deployed trigger
+}: {
+  data: V1DeployedComponent,
+} = response;
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```javascript
+import {
+  createBackendClient,
+} from "@pipedream/sdk/server";
+
+const pd = createBackendClient({
+  environment: "development", // change to production if running for a test production account, or in production
+  credentials: {
+    clientId: "{oauth_client_id}",
+    clientSecret: "{oauth_client_secret}",
+  },
+  projectId: "{your_project_id}"
+});
+
+// Update the deployed trigger for the specified user
+const requestOpts = {
+  id: "dc_gzumK2e",
+  externalUserId: "jverce",
+  active: true,
+  name: "My Updated Trigger",
+  configuredProps: {
+    gitlab: {
+      authProvisionId: "apn_kVh9AoD",
+    },
+    projectId: 45672542,
+  },
+};
+const { data: deployedTrigger } = await pd.updateTrigger(requestOpts);
+
+// Parse and return the data you need
+```
+</Tabs.Tab>
+
+<Tabs.Tab>
+```bash
+# First, obtain an OAuth access token
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "{oauth_client_id}",
+    "client_secret": "{oauth_client_secret}"
+  }'
+
+# The response will include an access_token. Use it in the Authorization header below.
+# This request will update the deployed trigger for the specified user.
+
+curl -X PUT "https://api.pipedream.com/v1/connect/{your_project_id}/deployed-triggers/{deployed_trigger_id}/" \
+  -H "Authorization: Bearer {access_token}" \
+  -H "Content-Type: application/json" \
+  -H "x-pd-environment: development" \
+  -d '{
+    "external_user_id": "jverce",
+    "active": true,
+    "configured_props": {
+      "gitlab": {
+        "authProvisionId": "apn_kVh9AoD"
+      },
+      "projectId": 45672542,
+    },
+    "name": "My Updated Trigger"
+  }'
+```
+</Tabs.Tab>
+</Tabs>
+
+##### Example response
+
+```json
+{
+  "data": {
+    "id": "dc_dAuGmW7",
+    "owner_id": "exu_oedidz",
+    "component_id": "sc_3vijzQr",
+    "configurable_props": [
+      {
+        "name": "gitlab",
+        "type": "app",
+        "app": "gitlab"
+      },
+      {
+        "name": "db",
+        "type": "$.service.db"
+      },
+      {
+        "name": "http",
+        "type": "$.interface.http",
+        "customResponse": true
+      },
+      {
+        "name": "projectId",
+        "type": "integer",
+        "label": "Project ID",
+        "description": "The project ID, as displayed in the main project page",
+        "remoteOptions": true
+      }
+    ],
+    "configured_props": {
+      "gitlab": {
+        "authProvisionId": "apn_kVh9AoD"
+      },
+      "db": {
+        "type": "$.service.db"
+      },
+      "http": {
+        "endpoint_url": "https://xxxxxxxxxx.m.pipedream.net"
+      },
+      "projectId": 45672542
+    },
+    "active": true,
+    "created_at": 1734028283,
+    "updated_at": 1734038486,
+    "name": "My Updated Trigger",
+    "name_slug": "my-updated-trigger"
+  }
+}
+```
+
+#### Retrieve Events Emitted by Deployed Trigger
 
 Retrieve a list of the last events that a deployed trigger emitted.
 
@@ -2995,7 +3183,7 @@ curl -X GET \
 }
 ```
 
-#### Retrieve the webhooks listening to a deployed trigger
+#### Retrieve Webhooks Listening to Deployed Trigger
 
 Retrieve the list of webhook URLs listening to a deployed trigger.
 
@@ -3116,7 +3304,7 @@ curl -X GET \
 }
 ```
 
-#### Update the webhooks listening to a deployed trigger
+#### Update Webhooks Listening to Deployed Trigger
 
 Update the list of webhook URLs that will listen to a deployed trigger.
 
@@ -3255,7 +3443,7 @@ curl -X PUT \
 }
 ```
 
-#### Retrieve the workflows listening to a deployed trigger
+#### Retrieve Workflows Listening to Deployed Trigger
 
 Retrieve the list of workflow IDs listening to a deployed trigger.
 
@@ -3377,7 +3565,7 @@ curl -X GET \
 }
 ```
 
-#### Update the workflows listening to a deployed trigger
+#### Update Workflows Listening to Deployed Trigger
 
 Update the list of workflows that will listen to a deployed trigger.
 

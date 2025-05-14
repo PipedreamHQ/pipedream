@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/szybkisms",
+  "version": "0.0.1",
+  "description": "Pipedream SzybkiSMS Components",
+  "main": "szybkisms.app.mjs",
+  "keywords": [
+    "pipedream",
+    "szybkisms"
+  ],
+  "homepage": "https://pipedream.com/apps/szybkisms",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
