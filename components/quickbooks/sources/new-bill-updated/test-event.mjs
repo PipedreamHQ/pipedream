@@ -2,10 +2,10 @@
 
 export default {
   "Id": "123456",
-  "SyncToken": "1", // Incrémenté car c'est une mise à jour
+  "SyncToken": "1", // Incremented because this is an update
   "MetaData": {
     "CreateTime": "2023-04-15T10:30:00Z",
-    "LastUpdatedTime": "2023-04-16T14:45:00Z" // Date de mise à jour différente
+    "LastUpdatedTime": "2023-04-16T14:45:00Z" // Different update date
   },
   "VendorRef": {
     "value": "56789",
@@ -21,9 +21,9 @@ export default {
     "name": "Canadian Dollar"
   },
   "PrivateNote": "Monthly office supplies - Updated with additional items",
-  "TotalAmt": 425.25, // Montant modifié
+  "TotalAmt": 425.25, // Modified amount
   "DueDate": "2023-05-15",
-  "sparse": true, // Indique que c'est une mise à jour
+  "sparse": true, // Indicates this is an update
   "Line": [
     {
       "Id": "1",
@@ -56,7 +56,7 @@ export default {
       }
     },
     {
-      "Id": "3", // Nouvelle ligne ajoutée
+      "Id": "3", // New line added
       "LineNum": 3,
       "Description": "USB Cables",
       "Amount": 74.50,
