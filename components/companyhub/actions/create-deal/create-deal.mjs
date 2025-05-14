@@ -65,7 +65,7 @@ export default {
       },
     });
     if (response.Success) {
-      $.export("$summary", `Successfully created company with ID: ${response.Id}`);
+      $.export("$summary", `Successfully created deal with ID: ${response.Id}`);
     }
     return response;
   },
