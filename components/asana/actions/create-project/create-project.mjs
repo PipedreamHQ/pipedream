@@ -40,7 +40,7 @@ export default {
       ],
       type: "string",
       label: "Team",
-      description: "The team that this project is shared with. If the workspace for your project is an organization, you must also supply a team to share the project with",
+      description: "The team that this project is shared with. If the workspace for your project is an organization, you must supply a team to share the project with",
       optional: true,
     },
     color: {
