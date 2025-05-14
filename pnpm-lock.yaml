@@ -11535,6 +11535,9 @@ importers:
 
   components/sellsy: {}
 
+  components/selzy:
+    specifiers: {}
+
   components/semaphore: {}
 
   components/semgrep:
