@@ -507,14 +507,8 @@ export default {
         .updateOrganization(organizationId, this.buildOpts(updateProperty, otherOpts));
     },
     searchOrganization(opts = {}) {
-      const {
-        term,
-        ...otherOpts
-      } = opts;
-      const [
-        className,
-      ] = constants.API.ORGANIZATIONS;
-      return this.api(className).searchOrganization(term, otherOpts);
+    const organizationApi = this.api("OrganizationsApi", "v2");
+      return organizationApi.searchOrganization(opts);
     },
     searchDeals(opts = {}) {
       const {
