@@ -4,7 +4,7 @@ export default {
   key: "fiable-pipedrive-add-organization-if-missing",
   name: "Add Organization (Fiable)",
   description: "Adds a new organization. See the Pipedrive API docs for Organizations [here](https://developers.pipedrive.com/docs/api/v1/Organizations#addOrganization)",
-  version: "0.0.13",
+  version: "0.0.14",
   type: "action",
   props: {
     pipedriveApp,
@@ -78,7 +78,6 @@ export default {
         term: anilityIdFieldValue,
         fields: "custom_fields",
         exact_match: true,
-        start: 0,
         limit: 1,
       });
       if (searchResp.data.items.length === 0) {

@@ -190,6 +190,12 @@ export default {
       optional: true,
       options: constants.STATUS_OPTIONS,
     },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Items shown per page.",
+      optional: true,
+    },
     dealId: {
       type: "string",
       label: "Deal ID",
