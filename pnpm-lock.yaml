@@ -14859,8 +14859,8 @@ importers:
   components/zendesk:
     dependencies:
       '@pipedream/platform':
-        specifier: ^0.9.0
-        version: 0.9.0
+        specifier: ^3.0.3
+        version: 3.0.3
       crypto:
         specifier: ^1.0.1
         version: 1.0.1
