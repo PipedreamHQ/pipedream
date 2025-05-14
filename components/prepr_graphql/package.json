@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/prepr_graphql",
+  "version": "0.0.1",
+  "description": "Pipedream Prepr (GraphQL) Components",
+  "main": "prepr_graphql.app.mjs",
+  "keywords": [
+    "pipedream",
+    "prepr_graphql"
+  ],
+  "homepage": "https://pipedream.com/apps/prepr_graphql",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
