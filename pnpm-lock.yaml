@@ -12134,7 +12134,11 @@ importers:
 
   components/slack_demo_app_1: {}
 
-  components/slicktext: {}
+  components/slicktext:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/slite:
     dependencies:
