@@ -5,7 +5,7 @@ export default {
   key: "asana-create-subtask",
   name: "Create Subtask",
   description: "Creates a new subtask and adds it to the parent task. [See the documentation](https://developers.asana.com/docs/create-a-subtask)",
-  version: "0.4.2",
+  version: "0.4.3",
   type: "action",
   props: {
     ...common.props,
