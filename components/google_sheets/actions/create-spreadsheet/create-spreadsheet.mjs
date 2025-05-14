@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-create-spreadsheet",
   name: "Create Spreadsheet",
   description: "Create a blank spreadsheet or duplicate an existing spreadsheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/create)",
-  version: "0.1.9",
+  version: "0.1.10",
   type: "action",
   props: {
     googleSheets,
@@ -19,6 +19,17 @@ export default {
       type: "string",
       label: "Title",
       description: "The title of the new spreadsheet",
+    },
+    folderId: {
+      propDefinition: [
+        googleSheets,
+        "folderId",
+        (c) => ({
+          drive: c.drive,
+        }),
+      ],
+      description: "The folder you want to save the file to",
+      optional: true,
     },
     sheetId: {
       propDefinition: [
@@ -36,6 +47,7 @@ export default {
     const {
       googleSheets,
       sheetId,
+      folderId,
       title,
       drive,
     } = this;
@@ -60,12 +72,12 @@ export default {
       },
     });
 
-    if (isMyDrive(drive)) {
+    if (!folderId && isMyDrive(drive)) {
       return response;
     }
 
     const spreadsheet = await updateFile(response.spreadsheetId, {
-      addParents: drive,
+      addParents: folderId || drive,
     });
 
     return getSpreadsheet(spreadsheet.id);
