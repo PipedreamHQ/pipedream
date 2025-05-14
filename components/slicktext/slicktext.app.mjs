@@ -1,4 +1,7 @@
 import { axios } from "@pipedream/platform";
+import {
+  LIMIT, OPT_IN_STATUS_OPTIONS, TIMEZONE_OPTIONS,
+} from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -8,124 +11,177 @@ export default {
       type: "string",
       label: "Contact ID",
       description: "The ID of the contact to be updated",
-    },
-    contactNumber: {
-      type: "string",
-      label: "Contact Number",
-      description: "The phone number of the contact. Must be at least 10 digits.",
-    },
-    messageContent: {
-      type: "string",
-      label: "Message Content",
-      description: "The body of the text message you want to send.",
-    },
-    textwordId: {
-      type: "string",
-      label: "Textword ID",
-      description: "The ID of the textword",
-      async options() {
-        const response = await this._makeRequest({
-          path: "/textwords",
+      async options({ page }) {
+        const { data } = await this.listContacts({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
         });
-        return response.textwords.map((textword) => ({
-          label: textword.word,
-          value: textword.id,
+
+        return data.map(({
+          contact_id: value, first_name: fName, last_name: lName, email,
+        }) => ({
+          label: `${fName} ${lName} (${email})`,
+          value,
         }));
       },
     },
-    name: {
-      type: "string",
-      label: "Name",
-      description: "The name of the contact",
-      optional: true,
+    listIds: {
+      type: "string[]",
+      label: "List IDs",
+      description: "A list of **List IDs** that represent the list(s) the contact will be added to",
+      async options({ page }) {
+        const { data } = await this.listLists({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+
+        return data.map(({
+          contact_list_id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    emailAddress: {
+    mobileNumber: {
+      type: "string",
+      label: "Mobile Number",
+      description: "The US phone number of the contact. Must be at least 10 digits. It will be normalized to digits-only, preceded by a +",
+    },
+    firstName: {
+      type: "string",
+      label: "First Name",
+      description: "The first name of contact",
+    },
+    lastName: {
+      type: "string",
+      label: "Last Name",
+      description: "The last name of contact",
+    },
+    email: {
       type: "string",
       label: "Email Address",
       description: "The email address of the contact",
-      optional: true,
+    },
+    birthdate: {
+      type: "string",
+      label: "Birthdate",
+      description: "The birthday of the contact formatted as: YYYY-MM-DD",
+    },
+    address: {
+      type: "string",
+      label: "Address",
+      description: "The street address of the contact",
     },
     city: {
       type: "string",
       label: "City",
       description: "The city of the contact",
-      optional: true,
     },
     state: {
       type: "string",
       label: "State",
       description: "The state of the contact",
-      optional: true,
     },
-    zipCode: {
+    zip: {
       type: "string",
       label: "Zip Code",
       description: "The zip code of the contact",
-      optional: true,
     },
     country: {
       type: "string",
       label: "Country",
       description: "The country of the contact",
-      optional: true,
+    },
+    timezone: {
+      type: "string",
+      label: "Timezone",
+      description: "The time zone of contact",
+      options: TIMEZONE_OPTIONS,
+    },
+    language: {
+      type: "string",
+      label: "Language",
+      description: "The primary language of contact (“en”)",
+    },
+    optInStatus: {
+      type: "string",
+      label: "Opt-in Status",
+      description: "The opt-in status of contact (Default is not subscribed)",
+      options: OPT_IN_STATUS_OPTIONS,
+    },
+    forceDoubleOptIn: {
+      type: "boolean",
+      label: "Force Double Opt-in",
+      description: "Set to “true” to force the user to agree to subscribing via double opt-in message",
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.slicktext.com/v1";
+      return "https://dev.slicktext.com/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "POST",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        authorization: `Bearer ${this.$auth.private_api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.api_key}`,
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async updateContact(opts = {}) {
+    async getBrandId() {
+      const response = await this._makeRequest({
+        path: "/brands",
+      });
+      return response.brand_id;
+    },
+    async listContacts(opts = {}) {
+      const brandId = await this.getBrandId();
       return this._makeRequest({
-        path: "/contacts",
-        data: {
-          action: "EDIT",
-          contactId: opts.contactId,
-          name: opts.name,
-          emailAddress: opts.emailAddress,
-          city: opts.city,
-          state: opts.state,
-          zipCode: opts.zipCode,
-          country: opts.country,
-        },
+        path: `/brands/${brandId}/contacts`,
+        ...opts,
       });
     },
-    async sendMessage(opts = {}) {
+    async listLists(opts = {}) {
+      const brandId = await this.getBrandId();
       return this._makeRequest({
-        path: "/messages",
-        data: {
-          action: "SEND",
-          contactNumber: opts.contactNumber,
-          messageContent: opts.messageContent,
-          textwordId: opts.textwordId,
-        },
+        path: `/brands/${brandId}/lists`,
+        ...opts,
       });
     },
-    async addContact(opts = {}) {
+    async createContact(opts =  {}) {
+      const brandId = await this.getBrandId();
       return this._makeRequest({
-        path: "/contacts",
-        data: {
-          action: "DOUBLEOPTIN",
-          contactNumber: opts.contactNumber,
-        },
+        method: "POST",
+        path: `/brands/${brandId}/contacts`,
+        ...opts,
+      });
+    },
+    async updateContact({
+      contactId, ...opts
+    }) {
+      const brandId = await this.getBrandId();
+      return this._makeRequest({
+        method: "PUT",
+        path: `/brands/${brandId}/contacts/${contactId}`,
+        ...opts,
+      });
+    },
+    async addContactToLists(opts = {}) {
+      const brandId = await this.getBrandId();
+      return this._makeRequest({
+        method: "POST",
+        path: `/brands/${brandId}/lists/contacts`,
+        ...opts,
       });
     },
   },

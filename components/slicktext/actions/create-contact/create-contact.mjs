@@ -3,42 +3,39 @@ import slicktext from "../../slicktext.app.mjs";
 import { commonProps } from "../common/base.mjs";
 
 export default {
-  key: "slicktext-edit-contact",
-  name: "Edit Contact",
-  description: "Updates personal details of an existing contact. [See the documentation](https://api.slicktext.com/docs/v1/contacts#6)",
+  key: "slicktext-create-contact",
+  name: "Create Contact",
+  description: "Add a new contact to your messaging list. [See the documentation](https://api.slicktext.com/docs/v1/contacts)",
   version: "0.0.1",
   type: "action",
   props: {
     slicktext,
-    contactId: {
-      propDefinition: [
-        slicktext,
-        "contactId",
-      ],
-    },
     mobileNumber: {
       propDefinition: [
         slicktext,
         "mobileNumber",
       ],
-      optional: true,
     },
     ...commonProps,
+    forceDoubleOptIn: {
+      propDefinition: [
+        slicktext,
+        "forceDoubleOptIn",
+      ],
+      optional: true,
+    },
   },
   async run({ $ }) {
     const {
       slicktext,
-      contactId,
       ...data
     } = this;
 
-    const response = await slicktext.updateContact({
+    const response = await slicktext.createContact({
       $,
-      contactId,
       data: objectCamelToSnakeCase(data),
     });
-
-    $.export("$summary", `Successfully updated contact with ID: ${this.contactId}`);
+    $.export("$summary", `Successfully initiated opt-in for contact with number: ${this.contactNumber}`);
     return response;
   },
 };
