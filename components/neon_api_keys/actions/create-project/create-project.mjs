@@ -5,7 +5,7 @@ export default {
   name: "Create Project",
   version: "0.0.1",
   key: "neon_api_keys-create-project",
-  description: "Creates a project. [See the documentation](https://api-docs.neon.tech/reference/createproject)",
+  description: "Creates a project. [See docs here](https://api-docs.neon.tech/reference/createproject)",
   type: "action",
   props: {
     app,
