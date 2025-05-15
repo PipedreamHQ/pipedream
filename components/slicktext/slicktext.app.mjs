@@ -126,7 +126,7 @@ export default {
     },
     _headers() {
       return {
-        authorization: `Bearer ${this.$auth.private_api_key}`,
+        authorization: `Bearer ${this.$auth.public_api_key}`,
       };
     },
     _makeRequest({
