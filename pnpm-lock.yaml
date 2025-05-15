@@ -11428,6 +11428,9 @@ importers:
 
   components/scrapein_: {}
 
+  components/scrapeless:
+    specifiers: {}
+
   components/scrapeninja:
     dependencies:
       '@pipedream/platform':
@@ -14257,7 +14260,11 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/wakatime: {}
+  components/wakatime:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/wappalyzer:
     dependencies:
