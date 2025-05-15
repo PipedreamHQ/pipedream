@@ -197,7 +197,7 @@ export default {
       optional: true,
     },
     dealId: {
-      type: "string",
+      type: "integer",
       label: "Deal ID",
       description: "ID of the deal this activity will be associated with",
       optional: true,
@@ -434,7 +434,7 @@ export default {
       });
     },
     searchPersons(opts = {}) {
-      const personsApi = this.api("PersonsApi");
+      const personsApi = this.api("PersonsApi", v2);
       return personsApi.searchPersons(opts);
     },
     updateDeal({
