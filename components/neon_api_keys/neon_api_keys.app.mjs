@@ -52,6 +52,35 @@ export default {
   },
   methods: {
     ...postgresql.methods,
+    _hasDbCredentials() {
+      return this.$auth.host
+        && this.$auth.port
+        && this.$auth.user
+        && this.$auth.password
+        && this.$auth.database;
+    },
+    getClientConfiguration() {
+      if (!this._hasDbCredentials()) {
+        throw new Error("No database credentials found");
+      }
+
+      const {
+        host,
+        port,
+        user,
+        password,
+        database,
+      } = this.$auth;
+
+      return {
+        host,
+        port,
+        user,
+        password,
+        database,
+        ssl: this._getSslConfig(),
+      };
+    },
     _apiKey() {
       return this.$auth.api_key;
     },
