@@ -434,7 +434,7 @@ export default {
       });
     },
     searchPersons(opts = {}) {
-      const personsApi = this.api("PersonsApi", v2);
+      const personsApi = this.api("PersonsApi");
       return personsApi.searchPersons(opts);
     },
     updateDeal({
