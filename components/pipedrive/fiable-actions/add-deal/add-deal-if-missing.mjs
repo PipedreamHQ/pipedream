@@ -4,7 +4,7 @@ export default {
   key: "fiable-pipedrive-add-deal",
   name: "Add Deal (Fiable)",
   description: "Adds a new deal if missing. See the Pipedrive API docs for Deals [here](https://developers.pipedrive.com/docs/api/v1/Deals#addDeal)",
-  version: "0.0.14",
+  version: "0.0.22",
   type: "action",
   props: {
     pipedriveApp,
@@ -101,24 +101,24 @@ export default {
     anilityCustomerIdFieldKey: {
       propDefinition: [
         pipedriveApp,
-        "dealCustomFieldKey",
+        "orgCustomFieldKey",
       ],
       description: "Customer Id custom field in Pipedrive",
     },
     anilityCustomerIdFieldValue: {
-      type: "string",
+      type: "integer",
       label: "CustomerId field key",
-      description: "Pipedrive organization id  (value) for customer",
+      description: "Pipedrive organization id (value) for customer",
     },
     anilityOrderByIdFieldKey: {
       propDefinition: [
         pipedriveApp,
-        "dealCustomFieldKey",
+        "personCustomFieldKey",
       ],
       description: "Order By Id custom field in Pipedrive",
     },
     anilityOrderByIdFieldValue: {
-      type: "string",
+      type: "integer",
       label: "Order By Id field key",
       description: "Pipedrive person id (value) who ordered the assessment",
     },
@@ -181,15 +181,18 @@ export default {
     } = this;
 
     const { data: stages } = await this.pipedriveApp.getDealFields();
-    var option = stages.find((stage) => stage.key === "label")
+    var labelOption = stages.find((stage) => stage.key === "label")
       .options.find((option) => option.label.toLowerCase() === label.toLowerCase());
 
     var labelValue = {};
-    if (option) {
+    if (labelOption) {
       labelValue["label_ids"] = [
-        option.id,
+        labelOption.id,
       ];
     }
+
+    var labelOption = stages.find((stage) => stage.key === anilityDelayRequestFieldKey)
+      .options.find((option) => option.label.toLowerCase() === anilityDelayRequestFieldValue.toLowerCase());
 
     try {
       const searchResp = await this.pipedriveApp.searchDeals({

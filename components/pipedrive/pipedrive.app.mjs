@@ -288,7 +288,7 @@ export default {
     },
     orgCustomFieldKey: {
       type: "string",
-      label: "Custom Field Key",
+      label: "Organization Custom Field Key",
       description: "Key of the custom field for organization in Pipedrive",
       optional: true,
       async options() {
@@ -303,7 +303,7 @@ export default {
     },
     personCustomFieldKey: {
       type: "string",
-      label: "Custom Field Key",
+      label: "Person Custom Field Key",
       description: "Key of the custom field for person in Pipedrive",
       optional: true,
       async options() {
