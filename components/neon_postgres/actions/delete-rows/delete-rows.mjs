@@ -1,9 +1,9 @@
-import neon from "../../neon_api_keys.app.mjs";
+import neon from "../../neon_postgres.app.mjs";
 
 export default {
-  name: "Find Row",
-  key: "neon_api_keys-find-row",
-  description: "Finds a row in a table via a lookup column. [See the documentation](https://node-postgres.com/features/queries)",
+  name: "Delete Row(s)",
+  key: "neon_api_keys-delete-rows",
+  description: "Deletes a row or rows from a table. [See the documentation](https://node-postgres.com/features/queries)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -33,7 +33,7 @@ export default {
         }),
       ],
       label: "Lookup Column",
-      description: "Find row by searching for a value in this column. Returns first row found",
+      description: "Find row(s) by searching for a value in this column",
     },
     value: {
       propDefinition: [
@@ -49,25 +49,23 @@ export default {
   },
   async run({ $ }) {
     const {
-      schema,
       table,
+      schema,
       column,
       value,
     } = this;
+
     try {
-      const res = await this.neon.findRowByValue(
+      const rows = await this.neon.deleteRows(
         schema,
         table,
         column,
         value,
       );
-      const summary = res
-        ? "Row found"
-        : "Row not found";
-      $.export("$summary", summary);
-      return res;
+      $.export("$summary", `Deleted ${rows.length} rows from ${table}`);
+      return rows;
     } catch (error) {
-      let errorMsg = "Row not retrieved due to an error. ";
+      let errorMsg = "Row not deleted due to an error. ";
       errorMsg += `${error}`.includes("SSL verification failed")
         ? "This could be because SSL verification failed. To resolve this, reconnect your account and set SSL Verification Mode: Skip Verification, and try again."
         : `${error}`;

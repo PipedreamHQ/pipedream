@@ -1,9 +1,9 @@
-import neon from "../../neon_api_keys.app.mjs";
+import neon from "../../neon_postgres.app.mjs";
 
 export default {
-  name: "Find Row",
-  key: "neon_api_keys-find-row",
-  description: "Finds a row in a table via a lookup column. [See the documentation](https://node-postgres.com/features/queries)",
+  name: "Update Row",
+  key: "neon_api_keys-update-row",
+  description: "Updates an existing row. [See the documentation](https://node-postgres.com/features/queries)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -33,7 +33,7 @@ export default {
         }),
       ],
       label: "Lookup Column",
-      description: "Find row by searching for a value in this column. Returns first row found",
+      description: "Find row to update by searching for a value in this column. Returns first row found",
     },
     value: {
       propDefinition: [
@@ -46,6 +46,12 @@ export default {
         }),
       ],
     },
+    rowValues: {
+      propDefinition: [
+        neon,
+        "rowValues",
+      ],
+    },
   },
   async run({ $ }) {
     const {
@@ -53,21 +59,23 @@ export default {
       table,
       column,
       value,
+      rowValues,
     } = this;
     try {
-      const res = await this.neon.findRowByValue(
+      const res = await this.neon.updateRow(
         schema,
         table,
         column,
         value,
+        rowValues,
       );
       const summary = res
-        ? "Row found"
+        ? "Row updated"
         : "Row not found";
       $.export("$summary", summary);
       return res;
     } catch (error) {
-      let errorMsg = "Row not retrieved due to an error. ";
+      let errorMsg = "Row not updated due to an error. ";
       errorMsg += `${error}`.includes("SSL verification failed")
         ? "This could be because SSL verification failed. To resolve this, reconnect your account and set SSL Verification Mode: Skip Verification, and try again."
         : `${error}`;

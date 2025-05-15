@@ -1,11 +1,30 @@
+import postgresql from "@pipedream/postgresql";
+
 export default {
   type: "app",
   app: "neon_postgres",
-  propDefinitions: {},
+  propDefinitions: {
+    ...postgresql.propDefinitions,
+  },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    ...postgresql.methods,
+    getClientConfiguration() {
+      const {
+        host,
+        port,
+        user,
+        password,
+        database,
+      } = this.$auth;
+
+      return {
+        host,
+        port,
+        user,
+        password,
+        database,
+        ssl: this._getSslConfig(),
+      };
     },
   },
 };
