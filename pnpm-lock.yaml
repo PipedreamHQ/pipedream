@@ -7758,13 +7758,11 @@ importers:
 
   components/mailninja: {}
 
-  components/mailosaur:
-    specifiers: {}
+  components/mailosaur: {}
 
   components/mailrefine: {}
 
-  components/mailrelay:
-    specifiers: {}
+  components/mailrelay: {}
 
   components/mails_so:
     dependencies:
@@ -10173,8 +10171,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/prepr_graphql:
-    specifiers: {}
+  components/prepr_graphql: {}
 
   components/prerender:
     dependencies:
@@ -11547,8 +11544,7 @@ importers:
 
   components/sellsy: {}
 
-  components/selzy:
-    specifiers: {}
+  components/selzy: {}
 
   components/semaphore: {}
 
