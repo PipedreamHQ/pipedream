@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New or Updated Row",
-  key: "neon_api_keys-new-or-updated-row",
+  key: "neon_postgres-new-or-updated-row",
   description: "Emit new event when a row is added or modified. [See the documentation](https://node-postgres.com/features/queries)",
   version: "0.0.1",
   type: "source",

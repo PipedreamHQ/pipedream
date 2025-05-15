@@ -2,7 +2,7 @@ import neon from "../../neon_postgres.app.mjs";
 
 export default {
   name: "Update Row",
-  key: "neon_api_keys-update-row",
+  key: "neon_postgres-update-row",
   description: "Updates an existing row. [See the documentation](https://node-postgres.com/features/queries)",
   version: "0.0.1",
   type: "action",

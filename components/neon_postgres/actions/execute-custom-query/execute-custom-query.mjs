@@ -1,7 +1,7 @@
 import neon from "../../neon_postgres.app.mjs";
 
 export default {
-  key: "neon_api_keys-execute-custom-query",
+  key: "neon_postgres-execute-custom-query",
   name: "Execute SQL Query",
   description: "Execute a custom PostgreSQL query. See [our docs](https://pipedream.com/docs/databases/working-with-sql) to learn more about working with SQL in Pipedream.",
   version: "0.0.1",

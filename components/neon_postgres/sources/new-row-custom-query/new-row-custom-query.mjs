@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Row Custom Query",
-  key: "neon_api_keys-new-row-custom-query",
+  key: "neon_postgres-new-row-custom-query",
   description: "Emit new event when new rows are returned from a custom query that you provide. [See the documentation](https://node-postgres.com/features/queries)",
   version: "0.0.1",
   type: "source",

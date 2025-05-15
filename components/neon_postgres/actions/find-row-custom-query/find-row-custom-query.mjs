@@ -2,7 +2,7 @@ import neon from "../../neon_postgres.app.mjs";
 
 export default {
   name: "Find Row With Custom Query",
-  key: "neon_api_keys-find-row-custom-query",
+  key: "neon_postgres-find-row-custom-query",
   description: "Finds a row in a table via a custom query. [See the documentation](https://node-postgres.com/features/queries)",
   version: "0.0.1",
   type: "action",

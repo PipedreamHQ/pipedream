@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   ...common,
   name: "New Table",
-  key: "neon_api_keys-new-table",
+  key: "neon_postgres-new-table",
   description: "Emit new event when a new table is added to the database. [See the documentation](https://node-postgres.com/features/queries)",
   version: "0.0.1",
   type: "source",

@@ -2,7 +2,7 @@ import neon from "../../neon_postgres.app.mjs";
 
 export default {
   name: "Delete Row(s)",
-  key: "neon_api_keys-delete-rows",
+  key: "neon_postgres-delete-rows",
   description: "Deletes a row or rows from a table. [See the documentation](https://node-postgres.com/features/queries)",
   version: "0.0.1",
   type: "action",

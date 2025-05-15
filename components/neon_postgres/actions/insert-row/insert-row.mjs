@@ -2,7 +2,7 @@ import neon from "../../neon_postgres.app.mjs";
 
 export default {
   name: "Insert Row",
-  key: "neon_api_keys-insert-row",
+  key: "neon_postgres-insert-row",
   description: "Adds a new row. [See the documentation](https://node-postgres.com/features/queries)",
   version: "0.0.1",
   type: "action",

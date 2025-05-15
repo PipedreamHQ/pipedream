@@ -2,7 +2,7 @@ import neon from "../../neon_postgres.app.mjs";
 
 export default {
   name: "Find Row",
-  key: "neon_api_keys-find-row",
+  key: "neon_postgres-find-row",
   description: "Finds a row in a table via a lookup column. [See the documentation](https://node-postgres.com/features/queries)",
   version: "0.0.1",
   type: "action",
