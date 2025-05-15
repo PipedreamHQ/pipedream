@@ -1,9 +1,11 @@
 import { axios } from "@pipedream/platform";
+import postgresql from "@pipedream/postgresql";
 
 export default {
   type: "app",
   app: "neon_api_keys",
   propDefinitions: {
+    ...postgresql.propDefinitions,
     projectId: {
       type: "string",
       label: "Project ID",
@@ -49,6 +51,7 @@ export default {
     },
   },
   methods: {
+    ...postgresql.methods,
     _apiKey() {
       return this.$auth.api_key;
     },

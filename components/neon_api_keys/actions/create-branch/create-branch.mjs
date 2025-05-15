@@ -2,9 +2,9 @@ import app from "../../neon_api_keys.app.mjs";
 
 export default {
   name: "Create Branch",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "neon_api_keys-create-branch",
-  description: "Creates a branch in the project. [See docs here](https://api-docs.neon.tech/reference/createprojectbranch)",
+  description: "Creates a branch in the project. [See the documentation](https://api-docs.neon.tech/reference/createprojectbranch)",
   type: "action",
   props: {
     app,

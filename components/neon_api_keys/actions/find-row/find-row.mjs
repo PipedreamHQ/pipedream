@@ -1,0 +1,103 @@
+import neon from "../../neon_api_keys.app.mjs";
+
+export default {
+  name: "Find Row",
+  key: "neon_api_keys-find-row",
+  description: "Finds a row in a table via a lookup column. [See the documentation](https://node-postgres.com/features/queries)",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    neon,
+    schema: {
+      propDefinition: [
+        neon,
+        "schema",
+        (c) => ({
+          connectionUriArgs: {
+            projectId: c.projectId,
+            params: {
+              branchId: c.branchId,
+              databaseName: c.databaseName,
+              roleName: c.roleName,
+            },
+          },
+        }),
+      ],
+    },
+    table: {
+      propDefinition: [
+        neon,
+        "table",
+        (c) => ({
+          schema: c.schema,
+          connectionUriArgs: {
+            projectId: c.projectId,
+            params: {
+              branchId: c.branchId,
+              databaseName: c.databaseName,
+              roleName: c.roleName,
+            },
+          },
+        }),
+      ],
+    },
+    column: {
+      propDefinition: [
+        neon,
+        "column",
+        (c) => ({
+          table: c.table,
+          schema: c.schema,
+          connectionUriArgs: {
+            projectId: c.projectId,
+            params: {
+              branchId: c.branchId,
+              databaseName: c.databaseName,
+              roleName: c.roleName,
+            },
+          },
+        }),
+      ],
+      label: "Lookup Column",
+      description: "Find row by searching for a value in this column. Returns first row found",
+    },
+    value: {
+      propDefinition: [
+        neon,
+        "value",
+        (c) => ({
+          table: c.table,
+          column: c.column,
+          schema: c.schema,
+        }),
+      ],
+    },
+  },
+  async run({ $ }) {
+    const {
+      schema,
+      table,
+      column,
+      value,
+    } = this;
+    try {
+      const res = await this.neon.findRowByValue(
+        schema,
+        table,
+        column,
+        value,
+      );
+      const summary = res
+        ? "Row found"
+        : "Row not found";
+      $.export("$summary", summary);
+      return res;
+    } catch (error) {
+      let errorMsg = "Row not retrieved due to an error. ";
+      errorMsg += `${error}`.includes("SSL verification failed")
+        ? "This could be because SSL verification failed. To resolve this, reconnect your account and set SSL Verification Mode: Skip Verification, and try again."
+        : `${error}`;
+      throw new Error(errorMsg);
+    }
+  },
+};

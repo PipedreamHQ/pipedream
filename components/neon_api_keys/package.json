@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/neon_api_keys",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Neon  (API Keys) Components",
   "main": "neon_api_keys.app.mjs",
   "keywords": [
@@ -13,6 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.5.1"
+    "@pipedream/platform": "^3.0.3",
+    "@pipedream/postgresql": "^2.2.3"
   }
 }
