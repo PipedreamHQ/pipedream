@@ -11428,8 +11428,7 @@ importers:
 
   components/scrapein_: {}
 
-  components/scrapeless:
-    specifiers: {}
+  components/scrapeless: {}
 
   components/scrapeninja:
     dependencies:
