@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import mailosaur from "../../mailosaur.app.mjs";
 
 export default {
@@ -15,65 +16,56 @@ export default {
       ],
     },
     to: {
-      propDefinition: [
-        mailosaur,
-        "to",
-      ],
-    },
-    subject: {
-      propDefinition: [
-        mailosaur,
-        "subject",
-      ],
+      type: "string",
+      label: "To",
+      description: "The verified external email address to which the email should be sent.",
     },
     from: {
-      propDefinition: [
-        mailosaur,
-        "from",
-      ],
+      type: "string",
+      label: "From",
+      description: "Optionally overrides of the message's `from` address. This **must** be an address ending with `YOUR_SERVER.mailosaur.net`, such as `my-emails @a1bcdef2.mailosaur.net`.",
       optional: true,
     },
+    subject: {
+      type: "string",
+      label: "Subject",
+      description: "The subject line for an email.",
+    },
     html: {
-      propDefinition: [
-        mailosaur,
-        "html",
-      ],
+      type: "object",
+      label: "HTML",
+      description: "An object with HTML properties. Please [see the documentation](https://mailosaur.com/docs/api#send-an-email) for more details.",
       optional: true,
     },
     text: {
-      propDefinition: [
-        mailosaur,
-        "text",
-      ],
+      type: "object",
+      label: "Text",
+      description: "An object with Plain text properties. Please [see the documentation](https://mailosaur.com/docs/api#send-an-email) for more details.",
       optional: true,
     },
     send: {
-      propDefinition: [
-        mailosaur,
-        "send",
-      ],
-      optional: true,
-    },
-    attachments: {
-      propDefinition: [
-        mailosaur,
-        "attachments",
-      ],
-      optional: true,
+      type: "boolean",
+      label: "Send",
+      description: "If `false`, the email will be created in your server, but will not be sent.",
     },
   },
   async run({ $ }) {
-    const response = await this.mailosaur.sendEmail({
-      serverId: this.serverId,
-      to: this.to,
-      subject: this.subject,
-      from: this.from,
-      html: this.html,
-      text: this.text,
-      send: this.send,
-      attachments: this.attachments
-        ? this.attachments.map(JSON.parse)
-        : undefined,
+    if ((!!this.send) && (!this.html && !this.text)) {
+      throw new ConfigurationError("Please provide either HTML or plain text content.");
+    }
+
+    const {
+      mailosaur,
+      serverId,
+      ...data
+    } = this;
+
+    const response = await mailosaur.sendEmail({
+      $,
+      params: {
+        server: serverId,
+      },
+      data,
     });
 
     $.export("$summary", `Email sent successfully to ${this.to}`);

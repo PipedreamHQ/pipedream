@@ -1,5 +1,4 @@
 import mailosaur from "../../mailosaur.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "mailosaur-delete-email",
@@ -9,20 +8,29 @@ export default {
   type: "action",
   props: {
     mailosaur,
+    serverId: {
+      propDefinition: [
+        mailosaur,
+        "serverId",
+      ],
+    },
     emailId: {
       propDefinition: [
         mailosaur,
         "emailId",
+        ({ serverId }) => ({
+          serverId,
+        }),
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.mailosaur.deleteEmail({
+    await this.mailosaur.deleteEmail({
+      $,
       emailId: this.emailId,
     });
     $.export("$summary", `Successfully deleted email with ID ${this.emailId}`);
     return {
-      success: true,
       emailId: this.emailId,
     };
   },

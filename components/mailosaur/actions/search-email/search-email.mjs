@@ -1,11 +1,10 @@
 import mailosaur from "../../mailosaur.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "mailosaur-search-email",
   name: "Search Email",
   description: "Search for received emails in a server matching specified criteria. [See the documentation](https://mailosaur.com/docs/api/#search-for-messages)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     mailosaur,
@@ -16,31 +15,29 @@ export default {
       ],
     },
     receiveAfter: {
-      propDefinition: [
-        mailosaur,
-        "receiveAfter",
-      ],
+      type: "string",
+      label: "Receive After",
+      description:
+            "Limits results to only messages received after this date/time.",
       optional: true,
     },
     page: {
-      propDefinition: [
-        mailosaur,
-        "page",
-      ],
+      type: "integer",
+      label: "Page",
+      description: "Used in conjunction with `itemsPerPage` to support pagination.",
       optional: true,
     },
     itemsPerPage: {
-      propDefinition: [
-        mailosaur,
-        "itemsPerPage",
-      ],
+      type: "integer",
+      label: "Items Per Page",
+      description:
+            "A limit on the number of results to be returned per page. Can be set between 1 and 1000 items, default is 50.",
       optional: true,
     },
     dir: {
-      propDefinition: [
-        mailosaur,
-        "dir",
-      ],
+      type: "string",
+      label: "Direction",
+      description: "Optionally limits results based on the direction (`Sent` or `Received`).",
       optional: true,
     },
     sentFrom: {
@@ -81,16 +78,21 @@ export default {
   },
   async run({ $ }) {
     const response = await this.mailosaur.searchMessages({
-      serverId: this.serverId,
-      receiveAfter: this.receiveAfter,
-      page: this.page,
-      itemsPerPage: this.itemsPerPage,
-      dir: this.dir,
-      sentFrom: this.sentFrom,
-      sentTo: this.sentTo,
-      subject: this.subject,
-      body: this.body,
-      match: this.match,
+      $,
+      params: {
+        server: this.serverId,
+        receiveAfter: this.receiveAfter,
+        page: this.page,
+        itemsPerPage: this.itemsPerPage,
+        dir: this.dir,
+      },
+      data: {
+        sentFrom: this.sentFrom,
+        sentTo: this.sentTo,
+        subject: this.subject,
+        body: this.body,
+        match: this.match,
+      },
     });
 
     $.export("$summary", `Successfully retrieved ${response.items.length} email(s) from server.`);
