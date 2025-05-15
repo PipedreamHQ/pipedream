@@ -11428,6 +11428,9 @@ importers:
 
   components/scrapein_: {}
 
+  components/scrapeless:
+    specifiers: {}
+
   components/scrapeninja:
     dependencies:
       '@pipedream/platform':
