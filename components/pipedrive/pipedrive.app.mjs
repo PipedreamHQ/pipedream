@@ -446,12 +446,6 @@ export default {
         UpdateDealRequest: opts,
       });
     },
-    async getFilters(opts) { // TODO: find the v2 api
-      const [
-        className,
-      ] = constants.API.FILTERS;
-      return this.api(className).getFilters(opts);
-    },
     getOrganizationFields(opts = {}) { // TODO: find the v2 api
       const [
         className,
