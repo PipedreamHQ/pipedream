@@ -18,16 +18,6 @@ export default {
         "workspaces",
       ],
     },
-    name: {
-      label: "Name",
-      description: "Name of the project. This is generally a short sentence fragment that fits on a line in the UI for maximum readability. However, it can be longer.",
-      type: "string",
-    },
-    notes: {
-      label: "Notes",
-      description: "Free-form textual information associated with the project (ie., its description).",
-      type: "string",
-    },
     team: {
       propDefinition: [
         asana,
@@ -41,7 +31,16 @@ export default {
       type: "string",
       label: "Team",
       description: "The team that this project is shared with. If the workspace for your project is an organization, you must supply a team to share the project with",
-      optional: true,
+    },
+    name: {
+      label: "Name",
+      description: "Name of the project. This is generally a short sentence fragment that fits on a line in the UI for maximum readability. However, it can be longer.",
+      type: "string",
+    },
+    notes: {
+      label: "Notes",
+      description: "Free-form textual information associated with the project (ie., its description).",
+      type: "string",
     },
     color: {
       label: "Color",
