@@ -8563,6 +8563,9 @@ importers:
         specifier: ^2.2.3
         version: 2.2.3
 
+  components/neon_postgres:
+    specifiers: {}
+
   components/nerv: {}
 
   components/netatmo: {}
@@ -11426,6 +11429,9 @@ importers:
         version: 3.0.3
 
   components/scrapein_: {}
+
+  components/scrapeless:
+    specifiers: {}
 
   components/scrapeninja:
     dependencies:
