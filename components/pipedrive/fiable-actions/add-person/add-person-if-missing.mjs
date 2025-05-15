@@ -4,7 +4,7 @@ export default {
   key: "fiable-pipedrive-add-person",
   name: "Add Person (Fiable)",
   description: "Adds a new person if missing. See the Pipedrive API docs for People [here](https://developers.pipedrive.com/docs/api/v1/Persons#addPerson)",
-  version: "0.0.5",
+  version: "0.0.10",
   type: "action",
   props: {
     pipedriveApp,
@@ -29,13 +29,13 @@ export default {
       description: "ID of the organization this person will belong to.",
     },
     email: {
-      type: "any",
+      type: "string",
       label: "Email",
       description: "Email addresses (one or more) associated with the person, presented in the same manner as received by GET request of a person.",
       optional: true,
     },
     phone: {
-      type: "any",
+      type: "string",
       label: "Phone",
       description: "Phone numbers (one or more) associated with the person, presented in the same manner as received by GET request of a person.",
       optional: true,
@@ -102,20 +102,26 @@ export default {
         fields: "custom_fields",
         exact_match: true,
         org_id: organizationId,
-        start: 0,
         limit: 1,
       });
 
       if (searchResp.data.items.length === 0) {
         var customFieldValue = {};
         customFieldValue[anilityIdFieldKey] = anilityIdFieldValue;
+
+        var contactDetails = {};
+        if (email) {
+          contactDetails["emails"] = [{value: email, primary: true, label: ""}];
+        }
+        if (phone) {
+          contactDetails["phones"] = [{value: phone, primary: true, label: ""}];
+        }      
         const resp =
           await this.pipedriveApp.addPerson({
             name,
             owner_id: ownerId,
             org_id: organizationId,
-            email,
-            phone,
+            ...contactDetails,
             visible_to: visibleTo,
             add_time: addTime,
             "custom_fields": {

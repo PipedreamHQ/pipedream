@@ -4,7 +4,7 @@ export default {
   key: "fiable-pipedrive-update-deal-watchers",
   name: "Update Deal Watchers (Fiable)",
   description: "Updates the watchers properties of a deal. See the Pipedrive API docs for Deals [here](https://developers.pipedrive.com/docs/api/v1/Deals#updateDeal)",
-  version: "0.0.32",
+  version: "0.0.34",
   type: "action",
   props: {
     pipedriveApp,
@@ -68,16 +68,22 @@ export default {
         fields: "custom_fields",
         exact_match: true,
         org_id: organizationId,
-        start: 0,
         limit: 1,
       });
+
       if (searchResp.data.items.length === 0) {
         const customFieldValue = {};
         customFieldValue[anilityIdFieldKey] = anilityIdFieldValue;
+
+        var contactDetails = {};
+        if (email) {
+          contactDetails["emails"] = [{value: email, primary: true, label: ""}];
+        }
+        
         const resp = await this.pipedriveApp.addPerson({
           name,
           org_id: organizationId,
-          emails,
+          ...contactDetails,
           "custom_fields": {
             ...customFieldValue,
           },
