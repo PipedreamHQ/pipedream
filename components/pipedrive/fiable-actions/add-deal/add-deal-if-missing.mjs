@@ -4,7 +4,7 @@ export default {
   key: "fiable-pipedrive-add-deal",
   name: "Add Deal (Fiable)",
   description: "Adds a new deal if missing. See the Pipedrive API docs for Deals [here](https://developers.pipedrive.com/docs/api/v1/Deals#addDeal)",
-  version: "0.0.22",
+  version: "0.0.23",
   type: "action",
   props: {
     pipedriveApp,
@@ -199,7 +199,6 @@ export default {
         term: anilityIdFieldValue,
         fields: "custom_fields",
         exact_match: true,
-        start: 0,
         limit: 1,
       });
       if (searchResp.data.items.length === 0) {
