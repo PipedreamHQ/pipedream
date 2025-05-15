@@ -1,7 +1,7 @@
 {
   "name": "@pipedream/wit_ai",
-  "version": "0.6.0",
-  "description": "Pipedream wit_ai Components",
+  "version": "0.7.0",
+  "description": "Pipedream Wit AI Components",
   "main": "wit_ai.app.mjs",
   "keywords": [
     "pipedream",
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.0.0"
+    "@pipedream/platform": "^3.0.3"
   }
 }
