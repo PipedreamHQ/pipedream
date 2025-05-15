@@ -2143,8 +2143,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/cerebras:
-    specifiers: {}
+  components/cerebras: {}
 
   components/certifier:
     dependencies:
@@ -7758,13 +7757,11 @@ importers:
 
   components/mailninja: {}
 
-  components/mailosaur:
-    specifiers: {}
+  components/mailosaur: {}
 
   components/mailrefine: {}
 
-  components/mailrelay:
-    specifiers: {}
+  components/mailrelay: {}
 
   components/mails_so:
     dependencies:
@@ -8560,8 +8557,11 @@ importers:
   components/neon_api_keys:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
+      '@pipedream/postgresql':
+        specifier: ^2.2.3
+        version: 2.2.3
 
   components/nerv: {}
 
@@ -10173,8 +10173,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/prepr_graphql:
-    specifiers: {}
+  components/prepr_graphql: {}
 
   components/prerender:
     dependencies:
@@ -11544,8 +11543,7 @@ importers:
 
   components/sellsy: {}
 
-  components/selzy:
-    specifiers: {}
+  components/selzy: {}
 
   components/semaphore: {}
 
@@ -18420,6 +18418,9 @@ packages:
 
   '@pipedream/platform@3.0.3':
     resolution: {integrity: sha512-7elalas41lnT8i6EAFkqB7fT/+hkLGEQ1njS6A7CVguTrEswaIYk/seKmkfkRY7+O6qncgnXswYIKCBML9Co7w==}
+
+  '@pipedream/postgresql@2.2.3':
+    resolution: {integrity: sha512-Co9r4UKvvimEPo9T4v+EfVn/Sqqw8+X7PtvsAF7tydq7CHpkmOT9eYAiD0Kuybg5WbuWuqDaXHHmhVtsAxgpBw==}
 
   '@pipedream/quickbooks@0.5.1':
     resolution: {integrity: sha512-APqan523zeCY/JVBk6PhoRE5intfoBsK8LTj9xZSOlah0E9/zcVHaGJ9vQhaVjFLuPC9YYt3BemQpsjGFcU0fQ==}
@@ -35220,6 +35221,15 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+  '@pipedream/postgresql@2.2.3':
+    dependencies:
+      '@pipedream/platform': 2.0.0
+      pg: 8.13.1
+      pg-format: 1.0.4
+    transitivePeerDependencies:
+      - debug
+      - pg-native
+
   '@pipedream/quickbooks@0.5.1':
     dependencies:
       '@pipedream/platform': 3.0.3
@@ -35641,6 +35651,8 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
+    transitivePeerDependencies:
+      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
