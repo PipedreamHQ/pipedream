@@ -35,7 +35,7 @@ export default {
       $,
       data: objectCamelToSnakeCase(data),
     });
-    $.export("$summary", `Successfully initiated opt-in for contact with number: ${this.contactNumber}`);
+    $.export("$summary", `Successfully initiated opt-in for contact with number: ${this.mobileNumber}`);
     return response;
   },
 };
