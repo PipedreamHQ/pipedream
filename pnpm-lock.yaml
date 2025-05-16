@@ -10876,6 +10876,9 @@ importers:
 
   components/renderform: {}
 
+  components/rendi:
+    specifiers: {}
+
   components/rentcast:
     dependencies:
       '@pipedream/platform':
