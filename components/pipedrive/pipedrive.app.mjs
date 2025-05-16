@@ -398,7 +398,7 @@ export default {
       });
     },
     addNote(opts = {}) {
-      const noteApi = this.api("NotesApi"); //TODO: verify why some methods does not have v2
+      const noteApi = this.api("NotesApi");
       return noteApi.addNote({
         AddNoteRequest: opts,
       });
@@ -446,19 +446,19 @@ export default {
         UpdateDealRequest: opts,
       });
     },
-    getOrganizationFields(opts = {}) { // TODO: find the v2 api
+    getOrganizationFields(opts = {}) { // TODO: migrate to v2. see: https://devcommunity.pipedrive.com/t/any-news-about-v2-fields-endpoints-such-as-dealfields-or-organizationfields/19366/2
       const [
         className,
       ] = constants.API.ORGANIZATION_FIELDS;
       return this.api(className).getOrganizationFields(opts);
     },
-    getPersonFields(opts = {}) { // TODO: find the v2 api. This is currently used in update-watchers
+    getPersonFields(opts = {}) {  // TODO: migrate to v2.
       const [
         className,
       ] = constants.API.PERSON_FIELDS;
       return this.api(className).getPersonFields(opts);
     },
-    getDealFields(opts = {}) { // TODO: find the v2 api. This is currently used in add-deal-if-missing
+    getDealFields(opts = {}) { // TODO: migrate to v2.
       const [
         className,
       ] = constants.API.DEAL_FIELDS;

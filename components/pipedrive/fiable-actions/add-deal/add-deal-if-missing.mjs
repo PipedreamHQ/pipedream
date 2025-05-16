@@ -1,10 +1,14 @@
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc.js'
 import pipedriveApp from "../../pipedrive.app.mjs";
+
+dayjs.extend(utc)
 
 export default {
   key: "fiable-pipedrive-add-deal",
   name: "Add Deal (Fiable)",
   description: "Adds a new deal if missing. See the Pipedrive API docs for Deals [here](https://developers.pipedrive.com/docs/api/v1/Deals#addDeal)",
-  version: "0.0.23",
+  version: "0.0.28",
   type: "action",
   props: {
     pipedriveApp,
@@ -191,8 +195,10 @@ export default {
       ];
     }
 
-    var labelOption = stages.find((stage) => stage.key === anilityDelayRequestFieldKey)
+    var delayRequestOption = stages.find((stage) => stage.key === anilityDelayRequestFieldKey)
       .options.find((option) => option.label.toLowerCase() === anilityDelayRequestFieldValue.toLowerCase());
+
+    const utcAddTime = dayjs(addTime).utc().format("YYYY-MM-DDTHH:mm:ss[Z]")
 
     try {
       const searchResp = await this.pipedriveApp.searchDeals({
@@ -206,7 +212,7 @@ export default {
         customFieldValue[anilityIdFieldKey] = anilityIdFieldValue;
         customFieldValue[anilityCustomerIdFieldKey] = anilityCustomerIdFieldValue;
         customFieldValue[anilityOrderByIdFieldKey] = anilityOrderByIdFieldValue;
-        customFieldValue[anilityDelayRequestFieldKey] = anilityDelayRequestFieldValue;
+        customFieldValue[anilityDelayRequestFieldKey] = delayRequestOption.id;
         customFieldValue[anilityExpiryDateFieldKey] = anilityExpiryDateFieldValue;
         const resp = await this.pipedriveApp.addDeal({
           title,
@@ -220,7 +226,7 @@ export default {
           probability,
           lost_reason: lostReason,
           visible_to: visibleTo,
-          add_time: addTime,
+          add_time: utcAddTime,
           pipeline_id: pipelineId,
           "custom_fields": {
             ...customFieldValue,

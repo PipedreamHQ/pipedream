@@ -5,7 +5,7 @@ export default {
   key: "fiable-pipedrive-search-deals",
   name: "Search Deals (Fiable)",
   description: "Searches all deals by custom field. This endpoint is a wrapper of `/v1/itemSearch` with a narrower OAuth scope. Found organizations can be filtered by Organization ID. See the Pipedrive API docs [here](https://developers.pipedrive.com/docs/api/v1/Deals#searchDeals)",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "action",
   props: {
     pipedriveApp,
