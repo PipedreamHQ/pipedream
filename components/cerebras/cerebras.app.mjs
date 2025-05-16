@@ -29,7 +29,7 @@ export default {
     stop: {
       type: "string",
       label: "Stop",
-      description: "Up to 4 sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence",
+      description: "Up to 4 sequences, separated by commas, where the API will stop generating further tokens. The returned text will not contain the stop sequence",
       optional: true,
     },
     temperature: {

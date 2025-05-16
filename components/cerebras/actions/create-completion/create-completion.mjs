@@ -1,5 +1,6 @@
 import cerebras from "../../cerebras.app.mjs";
 import { parseObject } from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   name: "Create Completion",
@@ -98,6 +99,10 @@ export default {
       echo,
       user,
     } = this;
+
+    if (returnRawTokens && echo) {
+      throw new ConfigurationError("The 'echo' option is incompatible with 'returnRawTokens=true'. Please disable one of these options.");
+    }
 
     const response = await this.cerebras.completion({
       $,
