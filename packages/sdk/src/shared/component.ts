@@ -95,14 +95,6 @@ export type ConfigurablePropStringArray = BaseConfigurableProp & {
   default?: string[];
   options?: StringPropOption[];
 };
-export type ConfigurablePropNumber = BaseConfigurableProp & {
-  type: "number";
-  min?: number;
-  max?: number;
-} & Defaultable<number>;
-export type ConfigurablePropNumberArray = BaseConfigurableProp & {
-  type: "number[]";
-} & Defaultable<number>;
 export type ConfigurablePropIntegerArray = BaseConfigurableProp & {
   type: "integer[]";
 } & Defaultable<number>;
@@ -148,8 +140,6 @@ export type ConfigurableProp =
   | ConfigurablePropBooleanArray
   | ConfigurablePropInteger
   | ConfigurablePropIntegerArray
-  | ConfigurablePropNumber
-  | ConfigurablePropNumberArray
   | ConfigurablePropObject
   | ConfigurablePropString
   | ConfigurablePropStringArray
@@ -184,23 +174,19 @@ export type PropValue<T extends ConfigurableProp["type"]> = T extends "alert"
                   ? string
                   : T extends "string[]"
                     ? string[]
-                    : T extends "number"
-                      ? number
-                      : T extends "number[]"
-                        ? number[]
-                        : T extends "$.discord.channel"
-                          ? string
-                          : T extends "$.discord.channel[]"
-                            ? string[]
-                            : T extends
-                                  | "$.interface.http"
-                                  | "$.interface.timer"
-                                  | "$.service.db"
-                                  | "datastore"
-                                  | "http_request"
-                                  | "sql"
-                              ? unknown
-                              : never;
+                    : T extends "$.discord.channel"
+                      ? string
+                      : T extends "$.discord.channel[]"
+                        ? string[]
+                        : T extends
+                              | "$.interface.http"
+                              | "$.interface.timer"
+                              | "$.service.db"
+                              | "datastore"
+                              | "http_request"
+                              | "sql"
+                          ? unknown
+                          : never;
 
 export type ConfiguredProps<T extends ConfigurableProps> = {
   [K in T[number] as K["name"]]?: PropValue<K["type"]>;
