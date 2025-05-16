@@ -1,0 +1,33 @@
+{
+  "name": "@pipedream/ai",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "Pipedream AI",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "package.json"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@pipedream/sdk": "workspace:^",
+    "zod": "^3.24.4",
+    "zod-to-json-schema": "^3.24.5"
+  },
+  "devDependencies": {
+    "bun": "^1.2.13",
+    "openai": "^4.77.0"
+  }
+}

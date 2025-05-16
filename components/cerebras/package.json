@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/cerebras",
+  "version": "0.0.1",
+  "description": "Pipedream Cerebras Components",
+  "main": "cerebras.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cerebras"
+  ],
+  "homepage": "https://pipedream.com/apps/cerebras",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

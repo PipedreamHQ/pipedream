@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/neon_postgres",
+  "version": "0.0.1",
+  "description": "Pipedream Neon Postgres Components",
+  "main": "neon_postgres.app.mjs",
+  "keywords": [
+    "pipedream",
+    "neon_postgres"
+  ],
+  "homepage": "https://pipedream.com/apps/neon_postgres",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
