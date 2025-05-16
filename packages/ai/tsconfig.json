@@ -12,6 +12,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true
   },
+  "tsc-alias": {
+    "verbose": true,
+    "resolveFullPaths": true
+  },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }
