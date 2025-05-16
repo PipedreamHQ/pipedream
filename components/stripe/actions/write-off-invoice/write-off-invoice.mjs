@@ -4,7 +4,7 @@ export default {
   key: "stripe-write-off-invoice",
   name: "Write Off Invoice",
   type: "action",
-  version: "0.1.1",
+  version: "0.1.2",
   description: "Mark an invoice as uncollectible. [See the " +
     "docs](https://stripe.com/docs/api/invoices/mark_uncollectible) for more information",
   props: {
@@ -18,7 +18,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const resp = await this.app.sdk().invoices.markUncollectible(this.id);
+    const {
+      app,
+      id,
+    } = this;
+
+    const resp = await app.sdk().invoices.markUncollectible(id);
     $.export("$summary", `Successfully marked off the invoice, "${resp.number || resp.id}"`);
     return resp;
   },

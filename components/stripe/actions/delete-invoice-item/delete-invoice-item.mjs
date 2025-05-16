@@ -4,7 +4,7 @@ export default {
   key: "stripe-delete-invoice-item",
   name: "Delete Invoice Line Item",
   type: "action",
-  version: "0.1.1",
+  version: "0.1.2",
   description: "Delete a line item from an invoice. [See the " +
     "docs](https://stripe.com/docs/api/invoiceitems/delete) for more information",
   props: {
@@ -19,7 +19,7 @@ export default {
     id: {
       propDefinition: [
         app,
-        "invoice_item",
+        "invoiceItem",
         ({ invoice }) => ({
           invoice,
         }),

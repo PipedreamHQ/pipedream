@@ -1,11 +1,10 @@
-import pick from "lodash.pick";
 import app from "../../stripe.app.mjs";
 
 export default {
   key: "stripe-cancel-payment-intent",
   name: "Cancel a Payment Intent",
   type: "action",
-  version: "0.1.1",
+  version: "0.1.2",
   description: "Cancel a [payment intent](https://stripe.com/docs/payments/payment-intents). " +
     "Once canceled, no additional charges will be made by the payment intent and any operations " +
     "on the payment intent will fail with an error. For payment intents with status=" +
@@ -16,22 +15,27 @@ export default {
     id: {
       propDefinition: [
         app,
-        "payment_intent",
+        "paymentIntent",
       ],
       optional: false,
     },
-    cancellation_reason: {
+    cancellationReason: {
       propDefinition: [
         app,
-        "payment_intent_cancellation_reason",
+        "paymentIntentCancellationReason",
       ],
     },
   },
   async run({ $ }) {
-    const params = pick(this, [
-      "cancellation_reason",
-    ]);
-    const resp = await this.app.sdk().paymentIntents.cancel(this.id, params);
+    const {
+      app,
+      id,
+      cancellationReason,
+    } = this;
+
+    const resp = await app.sdk().paymentIntents.cancel(id, {
+      cancellation_reason: cancellationReason,
+    });
     $.export("$summary", "Successfully cancelled payment intent");
     return resp;
   },
