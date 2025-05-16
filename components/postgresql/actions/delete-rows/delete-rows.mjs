@@ -4,7 +4,7 @@ export default {
   name: "Delete Row(s)",
   key: "postgresql-delete-rows",
   description: "Deletes a row or rows from a table. [See the documentation](https://node-postgres.com/features/queries)",
-  version: "2.0.7",
+  version: "2.0.8",
   type: "action",
   props: {
     postgresql,
@@ -55,21 +55,16 @@ export default {
       value,
     } = this;
 
-    try {
-      const rows = await this.postgresql.deleteRows(
-        schema,
-        table,
-        column,
-        value,
-      );
-      $.export("$summary", `Deleted ${rows.length} rows from ${table}`);
-      return rows;
-    } catch (error) {
-      let errorMsg = "Row not deleted due to an error. ";
-      errorMsg += `${error}`.includes("SSL verification failed")
-        ? "This could be because SSL verification failed. To resolve this, reconnect your account and set SSL Verification Mode: Skip Verification, and try again."
-        : `${error}`;
-      throw new Error(errorMsg);
-    }
+    const errorMsg = "Row not deleted due to an error. ";
+
+    const rows = await this.postgresql.deleteRows(
+      schema,
+      table,
+      column,
+      value,
+      errorMsg,
+    );
+    $.export("$summary", `Deleted ${rows.length} rows from ${table}`);
+    return rows;
   },
 };

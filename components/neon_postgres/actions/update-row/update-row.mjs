@@ -1,4 +1,5 @@
 import neon from "../../neon_postgres.app.mjs";
+import { parseRowValues } from "../../common/utils.mjs";
 
 export default {
   name: "Update Row",
@@ -51,6 +52,7 @@ export default {
         neon,
         "rowValues",
       ],
+      description: "JSON representation of your new table row values. For example: `{ \"product_name\": \"Laptop Pro 15\", \"price\": 1200.50, \"stock_quantity\": 50 }`",
     },
   },
   async run({ $ }) {
@@ -61,25 +63,22 @@ export default {
       value,
       rowValues,
     } = this;
-    try {
-      const res = await this.neon.updateRow(
-        schema,
-        table,
-        column,
-        value,
-        rowValues,
-      );
-      const summary = res
-        ? "Row updated"
-        : "Row not found";
-      $.export("$summary", summary);
-      return res;
-    } catch (error) {
-      let errorMsg = "Row not updated due to an error. ";
-      errorMsg += `${error}`.includes("SSL verification failed")
-        ? "This could be because SSL verification failed. To resolve this, reconnect your account and set SSL Verification Mode: Skip Verification, and try again."
-        : `${error}`;
-      throw new Error(errorMsg);
-    }
+
+    const parsedRowValues = parseRowValues(rowValues);
+    const errorMsg = "Row not updated due to an error. ";
+
+    const res = await this.neon.updateRow(
+      schema,
+      table,
+      column,
+      value,
+      parsedRowValues,
+      errorMsg,
+    );
+    const summary = res
+      ? "Row updated"
+      : "Row not found";
+    $.export("$summary", summary);
+    return res;
   },
 };

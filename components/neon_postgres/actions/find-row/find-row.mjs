@@ -54,24 +54,20 @@ export default {
       column,
       value,
     } = this;
-    try {
-      const res = await this.neon.findRowByValue(
-        schema,
-        table,
-        column,
-        value,
-      );
-      const summary = res
-        ? "Row found"
-        : "Row not found";
-      $.export("$summary", summary);
-      return res;
-    } catch (error) {
-      let errorMsg = "Row not retrieved due to an error. ";
-      errorMsg += `${error}`.includes("SSL verification failed")
-        ? "This could be because SSL verification failed. To resolve this, reconnect your account and set SSL Verification Mode: Skip Verification, and try again."
-        : `${error}`;
-      throw new Error(errorMsg);
-    }
+
+    const errorMsg = "Row not found due to an error. ";
+
+    const res = await this.neon.findRowByValue(
+      schema,
+      table,
+      column,
+      value,
+      errorMsg,
+    );
+    const summary = res
+      ? "Row found"
+      : "Row not found";
+    $.export("$summary", summary);
+    return res;
   },
 };

@@ -42,19 +42,12 @@ export default {
       throw new Error("Need be a `SELECT` statement query. Read more about [SELECT queries here](https://www.w3schools.com/sql/sql_select.asp)");
     }
 
-    try {
-      const res = await this.neon.executeQuery({
-        text: query,
-        values,
-      });
-      $.export("$summary", "Successfully executed query");
-      return res;
-    } catch (error) {
-      let errorMsg = "Query not executed due to an error. ";
-      errorMsg += `${error}`.includes("SSL verification failed")
-        ? "This could be because SSL verification failed. To resolve this, reconnect your account and set SSL Verification Mode: Skip Verification, and try again."
-        : `${error}`;
-      throw new Error(errorMsg);
-    }
+    const res = await this.neon.executeQuery({
+      text: query,
+      values,
+      errorMsg: "Query not executed due to an error. ",
+    });
+    $.export("$summary", "Successfully executed query");
+    return res;
   },
 };
