@@ -208,7 +208,6 @@ export type ConfiguredProps<T extends ConfigurableProps> = {
 
 // as returned by API (configurable_props_json from `afterSave`)
 export type V1Component<T extends ConfigurableProps = ConfigurableProps> = {
-  // eslint-disable-line @typescript-eslint/no-explicit-any
   name: string;
   key: string;
   version: string;
@@ -220,7 +219,6 @@ export type V1Component<T extends ConfigurableProps = ConfigurableProps> = {
 export type V1DeployedComponent<
   T extends ConfigurableProps = ConfigurableProps,
 > = {
-  // eslint-disable-line @typescript-eslint/no-explicit-any
   id: string;
   owner_id: string;
   component_id: string;
