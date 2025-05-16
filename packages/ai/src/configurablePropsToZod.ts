@@ -57,10 +57,6 @@ export const configurablePropsToZod = (
       schema[cp.name] = z.object({}).passthrough();
     } else if (cp.type === "any") {
       schema[cp.name] = z.any();
-    } else if (cp.type === "number") {
-      schema[cp.name] = z.number();
-    } else if (cp.type === "number[]") {
-      schema[cp.name] = z.array(z.number());
     } else if (cp.type === "integer") {
       schema[cp.name] = z.number().int();
     } else if (cp.type === "integer[]") {
