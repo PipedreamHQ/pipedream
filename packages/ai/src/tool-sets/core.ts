@@ -1,14 +1,16 @@
 import { z } from "zod";
 import { configurablePropsToZod } from "../configurablePropsToZod";
 import { pd } from "../lib/pd-client";
-import { Account, V1Component } from "@pipedream/sdk";
+import {
+  Account, V1Component,
+} from "@pipedream/sdk";
 import { componentAppKey } from "../lib/componentAppKey";
 
 type Tool = {
   name: string;
   description?: string;
   schema: z.ZodObject<z.ZodRawShape>;
-  execute: (args: any) => Promise<any>;
+  execute: (args: Record<string, unknown>) => Promise<unknown>;
 };
 
 export class CoreTools {
@@ -41,7 +43,7 @@ export class CoreTools {
     return this.tools.find((tool) => tool.name === name);
   }
 
-  async executeTool(component: V1Component, args: any) {
+  async executeTool(component: V1Component, args: Record<string, unknown>) {
     const appKey = componentAppKey(component.configurable_props);
 
     if (!appKey) {
