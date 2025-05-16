@@ -54,8 +54,11 @@ type BaseConfigurableProp = {
   withLabel?: boolean;
 };
 
-// XXX fix duplicating mapping to value type here and with PropValue
-type Defaultable<T> = { default?: T; options?: T[]; };
+type Defaultable<T> = { default?: T; options?: T[] };
+
+// Define a type for string-based property options
+export type StringPropOptionObject = { label?: string; value: string };
+export type StringPropOption = string | StringPropOptionObject;
 
 export type ConfigurablePropAlert = BaseConfigurableProp & {
   type: "alert";
@@ -69,7 +72,9 @@ export type ConfigurablePropApp = BaseConfigurableProp & {
   type: "app";
   app: string;
 };
-export type ConfigurablePropBoolean = BaseConfigurableProp & { type: "boolean"; };
+export type ConfigurablePropBoolean = BaseConfigurableProp & {
+  type: "boolean";
+} & Defaultable<boolean>;
 export type ConfigurablePropInteger = BaseConfigurableProp & {
   type: "integer";
   min?: number;
@@ -81,54 +86,129 @@ export type ConfigurablePropObject = BaseConfigurableProp & {
 export type ConfigurablePropString = BaseConfigurableProp & {
   type: "string";
   secret?: boolean;
-} & Defaultable<string>;
+  default?: string;
+  options?: StringPropOption[];
+};
 export type ConfigurablePropStringArray = BaseConfigurableProp & {
   type: "string[]";
   secret?: boolean; // TODO is this supported
-} & Defaultable<string[]>; // TODO
-// | { type: "$.interface.http" } // source only
-// | { type: "$.interface.timer" } // source only
-// | { type: "$.service.db" }
-// | { type: "data_store" }
-// | { type: "http_request" }
-// | { type: "sql" } -- not in component api docs!
+  default?: string[];
+  options?: StringPropOption[];
+};
+export type ConfigurablePropNumber = BaseConfigurableProp & {
+  type: "number";
+  min?: number;
+  max?: number;
+} & Defaultable<number>;
+export type ConfigurablePropNumberArray = BaseConfigurableProp & {
+  type: "number[]";
+} & Defaultable<number>;
+export type ConfigurablePropIntegerArray = BaseConfigurableProp & {
+  type: "integer[]";
+} & Defaultable<number>;
+export type ConfigurablePropBooleanArray = BaseConfigurableProp & {
+  type: "boolean[]";
+} & Defaultable<boolean>;
+export type ConfigurablePropDiscordChannel = BaseConfigurableProp & {
+  type: "$.discord.channel";
+  [key: string]: unknown;
+} & Defaultable<string>;
+export type ConfigurablePropDiscordChannelArray = BaseConfigurableProp & {
+  type: "$.discord.channel[]";
+  [key: string]: unknown;
+} & Defaultable<string>;
+
+export type ConfigurablePropInterfaceHttp = BaseConfigurableProp & {
+  type: "$.interface.http";
+  [key: string]: unknown;
+};
+export type ConfigurablePropInterfaceTimer = BaseConfigurableProp & {
+  type: "$.interface.timer";
+  [key: string]: unknown;
+};
+export type ConfigurablePropServiceDb = BaseConfigurableProp & {
+  type: "$.service.db";
+  [key: string]: unknown;
+};
+export type ConfigurablePropDataStore = BaseConfigurableProp & {
+  type: "datastore";
+  [key: string]: unknown;
+};
+export type ConfigurablePropHttpRequest = BaseConfigurableProp & {
+  type: "http_request";
+  [key: string]: unknown;
+};
+export type ConfigurablePropSql = BaseConfigurableProp & { type: "sql" };
+
 export type ConfigurableProp =
   | ConfigurablePropAlert
   | ConfigurablePropAny
   | ConfigurablePropApp
   | ConfigurablePropBoolean
+  | ConfigurablePropBooleanArray
   | ConfigurablePropInteger
+  | ConfigurablePropIntegerArray
+  | ConfigurablePropNumber
+  | ConfigurablePropNumberArray
   | ConfigurablePropObject
   | ConfigurablePropString
   | ConfigurablePropStringArray
-  | (BaseConfigurableProp & { type: "$.discord.channel"; });
+  | ConfigurablePropDiscordChannel
+  | ConfigurablePropDiscordChannelArray
+  | ConfigurablePropInterfaceHttp
+  | ConfigurablePropInterfaceTimer
+  | ConfigurablePropServiceDb
+  | ConfigurablePropDataStore
+  | ConfigurablePropHttpRequest
+  | ConfigurablePropSql;
 
 export type ConfigurableProps = Readonly<ConfigurableProp[]>;
 
 export type PropValue<T extends ConfigurableProp["type"]> = T extends "alert"
   ? never
   : T extends "any"
-  ? any // eslint-disable-line @typescript-eslint/no-explicit-any
-  : T extends "app"
-  ? { authProvisionId: string; }
-  : T extends "boolean"
-  ? boolean
-  : T extends "integer"
-  ? number
-  : T extends "object"
-  ? object
-  : T extends "string"
-  ? string
-  : T extends "string[]"
-  ? string[] // XXX support arrays differently?
-  : never;
+    ? any // eslint-disable-line @typescript-eslint/no-explicit-any
+    : T extends "app"
+      ? { authProvisionId: string }
+      : T extends "boolean"
+        ? boolean
+        : T extends "boolean[]"
+          ? boolean[]
+          : T extends "integer"
+            ? number
+            : T extends "integer[]"
+              ? number[]
+              : T extends "object"
+                ? object
+                : T extends "string"
+                  ? string
+                  : T extends "string[]"
+                    ? string[]
+                    : T extends "number"
+                      ? number
+                      : T extends "number[]"
+                        ? number[]
+                        : T extends "$.discord.channel"
+                          ? string
+                          : T extends "$.discord.channel[]"
+                            ? string[]
+                            : T extends
+                                  | "$.interface.http"
+                                  | "$.interface.timer"
+                                  | "$.service.db"
+                                  | "datastore"
+                                  | "http_request"
+                                  | "sql"
+                              ? unknown
+                              : never;
 
 export type ConfiguredProps<T extends ConfigurableProps> = {
-  [K in T[number] as K["name"]]?: PropValue<K["type"]>
+  [K in T[number] as K["name"]]?: PropValue<K["type"]>;
 };
 
 // as returned by API (configurable_props_json from `afterSave`)
-export type V1Component<T extends ConfigurableProps = any> = { // eslint-disable-line @typescript-eslint/no-explicit-any
+export type V1Component<T extends ConfigurableProps = ConfigurableProps> = {
+  // eslint-disable-line @typescript-eslint/no-explicit-any
   name: string;
   key: string;
   version: string;
@@ -137,7 +217,10 @@ export type V1Component<T extends ConfigurableProps = any> = { // eslint-disable
   component_type?: string;
 };
 
-export type V1DeployedComponent<T extends ConfigurableProps = any> = { // eslint-disable-line @typescript-eslint/no-explicit-any
+export type V1DeployedComponent<
+  T extends ConfigurableProps = ConfigurableProps,
+> = {
+  // eslint-disable-line @typescript-eslint/no-explicit-any
   id: string;
   owner_id: string;
   component_id: string;
@@ -171,4 +254,4 @@ export type V1EmittedEvent = {
    * The event's unique ID.
    */
   id: string;
-}
+};
