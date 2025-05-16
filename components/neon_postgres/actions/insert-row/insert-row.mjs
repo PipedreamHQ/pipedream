@@ -1,23 +1,23 @@
-import postgresql from "../../postgresql.app.mjs";
+import neon from "../../neon_postgres.app.mjs";
 import { parseRowValues } from "../../common/utils.mjs";
 
 export default {
   name: "Insert Row",
-  key: "postgresql-insert-row",
+  key: "neon_postgres-insert-row",
   description: "Adds a new row. [See the documentation](https://node-postgres.com/features/queries)",
-  version: "2.0.8",
+  version: "0.0.1",
   type: "action",
   props: {
-    postgresql,
+    neon,
     schema: {
       propDefinition: [
-        postgresql,
+        neon,
         "schema",
       ],
     },
     table: {
       propDefinition: [
-        postgresql,
+        neon,
         "table",
         (c) => ({
           schema: c.schema,
@@ -26,7 +26,7 @@ export default {
     },
     rowValues: {
       propDefinition: [
-        postgresql,
+        neon,
         "rowValues",
       ],
       description: "JSON representation of your table rows. Accept a single row (JSON Object) or multiple rows (JSON array). For example: `{ \"product_id\": 1, \"product_name\": \"Laptop Pro 15\", \"price\": 1200.50, \"stock_quantity\": 50, \"created_at\": \"2023-10-26T10:00:00Z\" }`",
@@ -51,7 +51,7 @@ export default {
     for (const row of parsedRowValuesArray) {
       const columns = Object.keys(row);
       const values = Object.values(row);
-      const res = await this.postgresql.insertRow(
+      const res = await this.neon.insertRow(
         schema,
         table,
         columns,

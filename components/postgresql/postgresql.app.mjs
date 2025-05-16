@@ -194,12 +194,17 @@ export default {
      * @returns {object[]} - The rows returned by the DB as a result of the
      * query.
      */
-    async executeQuery(query) {
+    async executeQuery(query, errorMsg = "") {
       const client = await this._getClient();
 
       try {
         const { rows } = await client.query(query);
         return rows;
+      } catch (error) {
+        errorMsg += `${error}`.includes("SSL verification failed")
+          ? "This could be because SSL verification failed. To resolve this, reconnect your account and set SSL Verification Mode: Skip Verification, and try again."
+          : `${error}`;
+        throw new Error(errorMsg);
       } finally {
         await this._endClient(client);
       }
@@ -323,12 +328,13 @@ export default {
      * @param {string} value - A column value to search for
      * @returns A single database row
      */
-    async findRowByValue(schema, table, column, value) {
+    async findRowByValue(schema, table, column, value, errorMsg) {
       const rows = await this.executeQuery({
         text: format("SELECT * FROM %I.%I WHERE %I = $1", schema, table, column),
         values: [
           value,
         ],
+        errorMsg,
       });
       return rows[0];
     },
@@ -338,12 +344,13 @@ export default {
      * @param {string} column - Column used to find the row(s) to delete
      * @param {string} value - A column value. Used to find the row(s) to delete
      */
-    async deleteRows(schema, table, column, value) {
+    async deleteRows(schema, table, column, value, errorMsg) {
       return this.executeQuery({
         text: format("DELETE FROM %I.%I WHERE %I = $1 RETURNING *", schema, table, column),
         values: [
           value,
         ],
+        errorMsg,
       });
     },
     /**
@@ -353,7 +360,7 @@ export default {
      * @param {array} values - Array of values corresponding to the column names provided
      * @returns The newly created row
      */
-    async insertRow(schema, table, columns, values) {
+    async insertRow(schema, table, columns, values, errorMsg) {
       const placeholders = this.getPlaceholders({
         values,
       });
@@ -364,6 +371,7 @@ export default {
             RETURNING *
         `, schema, table),
         values,
+        errorMsg,
       });
     },
     getPlaceholders({
@@ -381,7 +389,7 @@ export default {
      *  and values representing new column values
      * @returns The newly updated row
      */
-    async updateRow(schema, table, lookupColumn, lookupValue, rowValues) {
+    async updateRow(schema, table, lookupColumn, lookupValue, rowValues, errorMsg) {
       const columnsPlaceholders = this._getColumnsPlaceholders({
         rowValues,
         fromIndex: 2,
@@ -399,8 +407,34 @@ export default {
           lookupValue,
           ...Object.values(rowValues),
         ],
+        errorMsg,
       });
       return response[0];
+    },
+    upsertRow({
+      schema, table, columns, values, conflictTarget = "id", errorMsg,
+    } = {}) {
+      const placeholders = this.getPlaceholders({
+        values,
+      });
+
+      const updates = columns
+        .filter((column) => column !== conflictTarget)
+        .map((column) => `${column}=EXCLUDED.${column}`);
+
+      const query = `
+        INSERT INTO ${schema}.${table} (${columns})
+          VALUES (${placeholders})
+          ON CONFLICT (${conflictTarget})
+          DO UPDATE SET ${updates}
+          RETURNING *
+      `;
+
+      return this.executeQuery({
+        text: format(query, schema, table),
+        values,
+        errorMsg,
+      });
     },
     _getColumnsPlaceholders({
       rowValues = {},

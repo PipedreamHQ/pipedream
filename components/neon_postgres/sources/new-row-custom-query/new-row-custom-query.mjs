@@ -1,11 +1,11 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   name: "New Row Custom Query",
-  key: "postgresql-new-row-custom-query",
+  key: "neon_postgres-new-row-custom-query",
   description: "Emit new event when new rows are returned from a custom query that you provide. [See the documentation](https://node-postgres.com/features/queries)",
-  version: "2.0.8",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {

@@ -1,11 +1,11 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   name: "New Column",
-  key: "postgresql-new-column",
+  key: "neon_postgres-new-column",
   description: "Emit new event when a new column is added to a table. [See the documentation](https://node-postgres.com/features/queries)",
-  version: "2.0.8",
+  version: "0.0.1",
   type: "source",
   props: {
     ...common.props,
