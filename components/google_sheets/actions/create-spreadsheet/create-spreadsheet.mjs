@@ -43,7 +43,7 @@ export default {
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       googleSheets,
       sheetId,
@@ -60,26 +60,32 @@ export default {
       isMyDrive,
     } = googleSheets;
 
+    let response;
     if (sheetId) {
-      return copySpreadsheet(sheetId, title);
+      response = await copySpreadsheet(sheetId, title);
+    } else {
+      response = await createSpreadsheet({
+        resource: {
+          properties: {
+            title,
+          },
+        },
+      });
     }
 
-    const response = await createSpreadsheet({
-      resource: {
-        properties: {
-          title,
-        },
-      },
-    });
+    const spreadsheetId = response?.spreadsheetId || response?.id;
+    const summary = `Successfully created spreadsheet with ID: ${spreadsheetId}`;
 
     if (!folderId && isMyDrive(drive)) {
+      $.export("$summary", summary);
       return response;
     }
 
-    const spreadsheet = await updateFile(response.spreadsheetId, {
+    const spreadsheet = await updateFile(spreadsheetId, {
       addParents: folderId || drive,
     });
 
+    $.export("$summary", summary);
     return getSpreadsheet(spreadsheet.id);
   },
 };
