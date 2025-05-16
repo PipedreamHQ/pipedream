@@ -15418,6 +15418,9 @@ importers:
       openai:
         specifier: ^4.77.0
         version: 4.97.0(ws@8.18.0)(zod@3.24.4)
+      tsc-alias:
+        specifier: ^1.8.16
+        version: 1.8.16
 
   packages/browsers:
     dependencies:
@@ -23926,6 +23929,9 @@ packages:
     resolution: {integrity: sha512-g0QYk1dZBxGwk+Ngc+ltRH2IBp2f7zBkBMBJZCDerh6EhlhSR6+9irMCuT/09zD6qkarHUSn529sK/yL4S27mg==}
     engines: {node: '>= 0.4'}
 
+  get-tsconfig@4.10.0:
+    resolution: {integrity: sha512-kGzZ3LWWQcGIAmg6iWvXn0ei6WDtV26wzHRMwDSzmAbcXrTEXxHy6IehI6/4eT6VRKyMP1eF1VqwrVUmE/LR7A==}
+
   get-tsconfig@4.8.1:
     resolution: {integrity: sha512-k9PN+cFBmaLWtVz29SkUoqU5O0slLuHJXt/2P+tMVFT+phsSGXGkp9t3rQIqdz0e+06EHNGs3oM6ZX1s2zHxRg==}
 
@@ -26420,6 +26426,10 @@ packages:
     resolution: {integrity: sha512-at/ZndSy3xEGJ8i0ygALh8ru9qy7gWW1cmkaqBN29JmMlIvM//MEO9y1sk/avxuwnPcfhkejkLsuPxH81BrkSg==}
     engines: {node: '>=0.8.0'}
 
+  mylas@2.1.13:
+    resolution: {integrity: sha512-+MrqnJRtxdF+xngFfUUkIMQrUUL0KsxbADUkn23Z/4ibGg192Q+z+CQyiYwvWTsYjJygmMR8+w3ZDa98Zh6ESg==}
+    engines: {node: '>=12.0.0'}
+
   mysql2-promise@0.1.4:
     resolution: {integrity: sha512-/h8ubU/36aIPpbfB6CENw9ZdbzIhZMZOIbstJUHVKp4J9JBRSLScrYImVx+3yZilgag732UhpQMMK5+ktdhLCw==}
     engines: {node: '>=0.10.0'}
@@ -27330,6 +27340,10 @@ packages:
   please-upgrade-node@3.2.0:
     resolution: {integrity: sha512-gQR3WpIgNIKwBMVLkpMUeR3e1/E1y42bqDQZfql+kDeXd8COYfM8PQA4X6y7a8u9Ua9FHmsrrmirW2vHs45hWg==}
 
+  plimit-lit@1.6.1:
+    resolution: {integrity: sha512-B7+VDyb8Tl6oMJT9oSO2CW8XC/T4UcJGrwOVoNGwOQsQYhlpfajmrMj5xeejqaASq3V/EqThyOeATEOMuSEXiA==}
+    engines: {node: '>=12'}
+
   plivo@4.69.2:
     resolution: {integrity: sha512-5AkMFV7s+oANgLgsxCxdI/SlFu9cf8TmDNFOpPnBULhH61GH9w73hdvLUJw982pGpXnBojcXWnuXAoZLXb0ddw==}
 
@@ -27686,6 +27700,10 @@ packages:
 
   querystringify@2.2.0:
     resolution: {integrity: sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ==}
+
+  queue-lit@1.5.2:
+    resolution: {integrity: sha512-tLc36IOPeMAubu8BkW8YDBV+WyIgKlYU7zUNs0J5Vk9skSZ4JfGlPOqplP0aHdfv7HL0B2Pg6nwiq60Qc6M2Hw==}
+    engines: {node: '>=12'}
 
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
@@ -29243,6 +29261,11 @@ packages:
         optional: true
       esbuild:
         optional: true
+
+  tsc-alias@1.8.16:
+    resolution: {integrity: sha512-QjCyu55NFyRSBAl6+MTFwplpFcnm2Pq01rR/uxfqJoLMm6X3O14KEGtaSDZpJYaE1bJBGDjD0eSuiIWPe2T58g==}
+    engines: {node: '>=16.20.2'}
+    hasBin: true
 
   tsc-esm-fix@2.20.27:
     resolution: {integrity: sha512-bfoSY29XN4yRvXgfxc4rtKQPe9Xx02BahWSZ3D4GgBXIWSE+TJ/BXGSrpUIBkrsKIUQv2zA3qiwJVFnUV59Xdw==}
@@ -41968,6 +41991,10 @@ snapshots:
       es-errors: 1.3.0
       get-intrinsic: 1.3.0
 
+  get-tsconfig@4.10.0:
+    dependencies:
+      resolve-pkg-maps: 1.0.0
+
   get-tsconfig@4.8.1:
     dependencies:
       resolve-pkg-maps: 1.0.0
@@ -45532,6 +45559,8 @@ snapshots:
       rimraf: 2.4.5
     optional: true
 
+  mylas@2.1.13: {}
+
   mysql2-promise@0.1.4:
     dependencies:
       mysql2: 0.15.8
@@ -46653,6 +46682,10 @@ snapshots:
     dependencies:
       semver-compare: 1.0.0
 
+  plimit-lit@1.6.1:
+    dependencies:
+      queue-lit: 1.5.2
+
   plivo@4.69.2:
     dependencies:
       '@types/node': 14.18.63
@@ -47237,6 +47270,8 @@ snapshots:
   querystring@0.2.1: {}
 
   querystringify@2.2.0: {}
+
+  queue-lit@1.5.2: {}
 
   queue-microtask@1.2.3: {}
 
@@ -49467,6 +49502,16 @@ snapshots:
       '@jest/transform': 29.7.0
       '@jest/types': 29.6.3
       babel-jest: 29.7.0(@babel/core@8.0.0-alpha.13)
+
+  tsc-alias@1.8.16:
+    dependencies:
+      chokidar: 3.6.0
+      commander: 9.5.0
+      get-tsconfig: 4.10.0
+      globby: 11.1.0
+      mylas: 2.1.13
+      normalize-path: 3.0.0
+      plimit-lit: 1.6.1
 
   tsc-esm-fix@2.20.27:
     dependencies:

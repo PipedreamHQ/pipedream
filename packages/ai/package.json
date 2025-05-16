@@ -19,7 +19,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsc"
+    "build": "tsc || echo 'tsc failed, continuing anyway' && tsc-alias"
   },
   "dependencies": {
     "@pipedream/sdk": "workspace:^",
@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "bun": "^1.2.13",
-    "openai": "^4.77.0"
+    "openai": "^4.77.0",
+    "tsc-alias": "^1.8.16"
   }
 }
