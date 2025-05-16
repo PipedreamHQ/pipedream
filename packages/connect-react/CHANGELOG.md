@@ -2,6 +2,10 @@
 
 # Changelog
 
+# [1.0.3] - 2025-05-16
+
+- Improved `ConfigurableProp` type
+
 # [1.0.2] - 2025-04-24
 
 - Updating README to remove note about this package being in early preview
