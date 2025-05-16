@@ -11,7 +11,9 @@ import { OpenAI } from "openai"
 
 const openai = new OpenAI()
 
+// Replace with a unique identifier for your user
 const userId = <add user id here>
+
 const openAiTools = new OpenAiTools(userId)
 const tools = await openAiTools.getTools({
   app: "slack",
