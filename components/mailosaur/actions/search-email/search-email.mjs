@@ -1,3 +1,4 @@
+import { MATCH_OPTIONS } from "../../common/constants.mjs";
 import mailosaur from "../../mailosaur.app.mjs";
 
 export default {
@@ -55,24 +56,20 @@ export default {
     subject: {
       type: "string",
       label: "Subject",
-      description: "The value to seek within the target email’s subject line.",
+      description: "The value to seek within the target email's subject line.",
       optional: true,
     },
     body: {
       type: "string",
       label: "Body",
-      description: "The value to seek within the target message’s HTML or text body.",
+      description: "The value to seek within the target message's HTML or text body.",
       optional: true,
     },
     match: {
       type: "string",
       label: "Match",
       description: "If set to `ALL` (default), only results matching all criteria will be returned. If set to `ANY`, results matching any criteria will be returned.",
-      options: [
-        "ALL",
-        "ANY",
-      ],
-      default: "ALL",
+      options: MATCH_OPTIONS,
       optional: true,
     },
   },

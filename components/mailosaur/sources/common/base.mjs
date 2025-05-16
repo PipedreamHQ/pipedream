@@ -33,8 +33,8 @@ export default {
 
       const response = this.mailosaur.paginate({
         fn: this.getFunction(),
-        receivedAfter: lastDate,
         params: {
+          receivedAfter: lastDate,
           server: this.serverId,
         },
         data: this.getData(),
