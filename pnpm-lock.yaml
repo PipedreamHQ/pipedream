@@ -2143,8 +2143,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/cerebras:
-    specifiers: {}
+  components/cerebras: {}
 
   components/certifier:
     dependencies:
@@ -8561,8 +8560,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/neon_postgres:
-    specifiers: {}
+  components/neon_postgres: {}
 
   components/nerv: {}
 
@@ -9598,8 +9596,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/pdforge:
-    specifiers: {}
+  components/pdforge: {}
 
   components/peach:
     dependencies:
@@ -10876,8 +10873,7 @@ importers:
 
   components/renderform: {}
 
-  components/rendi:
-    specifiers: {}
+  components/rendi: {}
 
   components/rentcast:
     dependencies:
@@ -11434,8 +11430,7 @@ importers:
 
   components/scrapein_: {}
 
-  components/scrapeless:
-    specifiers: {}
+  components/scrapeless: {}
 
   components/scrapeninja:
     dependencies:
@@ -15397,6 +15392,25 @@ importers:
         specifier: ^6.0.0
         version: 6.2.0
 
+  packages/ai:
+    dependencies:
+      '@pipedream/sdk':
+        specifier: workspace:^
+        version: link:../sdk
+      zod:
+        specifier: ^3.24.4
+        version: 3.24.4
+      zod-to-json-schema:
+        specifier: ^3.24.5
+        version: 3.24.5(zod@3.24.4)
+    devDependencies:
+      bun:
+        specifier: ^1.2.13
+        version: 1.2.13
+      openai:
+        specifier: ^4.77.0
+        version: 4.97.0(ws@8.18.0)(zod@3.24.4)
+
   packages/browsers:
     dependencies:
       '@sparticuz/chromium':
@@ -18350,6 +18364,61 @@ packages:
   '@opentelemetry/semantic-conventions@1.3.1':
     resolution: {integrity: sha512-wU5J8rUoo32oSef/rFpOT1HIjLjAv3qIDHkw1QIhODV3OpAVHi5oVzlouozg9obUmZKtbZ0qUe/m7FP0y0yBzA==}
     engines: {node: '>=8.12.0'}
+
+  '@oven/bun-darwin-aarch64@1.2.13':
+    resolution: {integrity: sha512-AOU4O9jxRp2TXeqoEfOjEaUNZb3+SUPBN8TIEnUjpnyLWPoYJGCeNdQuCDcUkmF3MJEmEuJdyF1IeOITozpC6A==}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@oven/bun-darwin-x64-baseline@1.2.13':
+    resolution: {integrity: sha512-bZpIUOvx9np07AmH5MVXGYHWZ40m2vCpNV74fma6sCzBlssJclS2V3BZgO+lLvtUKSqnW3HAyJBGsRF34wPbNw==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@oven/bun-darwin-x64@1.2.13':
+    resolution: {integrity: sha512-kJ2iOvxY8uz5/nu+8zIjKf4LmRIHBH9pJJM2q+tA47U04Tod6k6rtntDOI8SdmRe2M5c87RfbadWdxhpYHFIWQ==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@oven/bun-linux-aarch64-musl@1.2.13':
+    resolution: {integrity: sha512-P56m718KXeyu4Vq5fsESFktfu+0Us1jhu/ZzgHYFRYJcm/hjs6AUA/RJtUAifFy5PNAM5IJdrYl3xPsE8Wa+pg==}
+    cpu: [aarch64]
+    os: [linux]
+
+  '@oven/bun-linux-aarch64@1.2.13':
+    resolution: {integrity: sha512-hocSJmblX4CCjP1HpaM64I65erB+CONUCCwKzGGOfLGLobVi+vn/G56UaYWsje1y/Z7WlVaUSgKYVWl7EJ6T9g==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@oven/bun-linux-x64-baseline@1.2.13':
+    resolution: {integrity: sha512-9n1ai2ejEpxEMqpbHQMWFyvacq3MYsB7gh5mxRlFwhNFPCWu/Sv6gyrO+q2vkOYgcEIGhJb6dqJ6L9vBNaL61A==}
+    cpu: [x64]
+    os: [linux]
+
+  '@oven/bun-linux-x64-musl-baseline@1.2.13':
+    resolution: {integrity: sha512-VI8hVdfqk0QmbAbyrsIdo2O95n3fkbt72E0h3Wu69cHD1iKJqRXG28R8QoHdehoLSJnKVzRTwsUzHp764nefWQ==}
+    cpu: [x64]
+    os: [linux]
+
+  '@oven/bun-linux-x64-musl@1.2.13':
+    resolution: {integrity: sha512-w5Ob+GM3Ww4yRA6f1N845o6wEvuwHSmipFUGaRaVp4UELrFnIV9G3pmrlBbYHFnWhk13o8Q7H1/4ZphOkCRJmQ==}
+    cpu: [x64]
+    os: [linux]
+
+  '@oven/bun-linux-x64@1.2.13':
+    resolution: {integrity: sha512-pf8+Kn2GLrFKLcb8JSLM6Z147Af6L9GQODpnOHM4gvXQv6E/GwQg47/o+7f1XCfzib3fdzOTJlDPvvO1rnXOTA==}
+    cpu: [x64]
+    os: [linux]
+
+  '@oven/bun-windows-x64-baseline@1.2.13':
+    resolution: {integrity: sha512-Aiezu99fOUJJpzGuylOJryd6w9Syg2TBigHeXV2+RJsouBzvAnIEYIBA94ZspRq1ulD26Wmkk8Ae+jZ4edk9GA==}
+    cpu: [x64]
+    os: [win32]
+
+  '@oven/bun-windows-x64@1.2.13':
+    resolution: {integrity: sha512-sArgbRmT7V3mUdNFaAdUcuJsuS+oeMDZLPWFSg0gtQZpRrURs9nPzEnZMmVCFo4+kPF9Tb5ujQT9uDySh6/qVg==}
+    cpu: [x64]
+    os: [win32]
 
   '@pdfless/pdfless-js@1.0.510':
     resolution: {integrity: sha512-RmbzdGQcWy/OSuPF/eaT0wQsi9ELu465/r/8DsgajbHumStHrkzRqsm330g1PgBgQipZMi9ZTTHfP4i/Sbs+pw==}
@@ -21414,6 +21483,12 @@ packages:
 
   builtins@1.0.3:
     resolution: {integrity: sha512-uYBjakWipfaO/bXI7E8rq6kpwHRZK5cNYrUv2OzZSI/FvmdMyXJ2tG9dKcjEC5YHmHpUAwsargWIZNWdxb/bnQ==}
+
+  bun@1.2.13:
+    resolution: {integrity: sha512-EhP1MhFbicqtaRSFCbEZdkcFco8Ov47cNJcB9QmKS8U4cojKHfLU+dQR14lCvLYmtBvGgwv/Lp+9SSver2OPzQ==}
+    cpu: [arm64, x64, aarch64]
+    os: [darwin, linux, win32]
+    hasBin: true
 
   bundle-require@5.1.0:
     resolution: {integrity: sha512-3WrrOuZiyaaZPWiEt4G3+IffISVC9HYlWueJEBWED4ZH4aIAC2PnkdnuRrR94M+w6yGWn4AglWtJtBI8YqvgoA==}
@@ -34977,6 +35052,39 @@ snapshots:
 
   '@opentelemetry/semantic-conventions@1.3.1': {}
 
+  '@oven/bun-darwin-aarch64@1.2.13':
+    optional: true
+
+  '@oven/bun-darwin-x64-baseline@1.2.13':
+    optional: true
+
+  '@oven/bun-darwin-x64@1.2.13':
+    optional: true
+
+  '@oven/bun-linux-aarch64-musl@1.2.13':
+    optional: true
+
+  '@oven/bun-linux-aarch64@1.2.13':
+    optional: true
+
+  '@oven/bun-linux-x64-baseline@1.2.13':
+    optional: true
+
+  '@oven/bun-linux-x64-musl-baseline@1.2.13':
+    optional: true
+
+  '@oven/bun-linux-x64-musl@1.2.13':
+    optional: true
+
+  '@oven/bun-linux-x64@1.2.13':
+    optional: true
+
+  '@oven/bun-windows-x64-baseline@1.2.13':
+    optional: true
+
+  '@oven/bun-windows-x64@1.2.13':
+    optional: true
+
   '@pdfless/pdfless-js@1.0.510':
     dependencies:
       '@microsoft/kiota-abstractions': 1.0.0-preview.77
@@ -35649,6 +35757,8 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
+    transitivePeerDependencies:
+      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
@@ -38869,6 +38979,20 @@ snapshots:
   builtin-modules@1.1.1: {}
 
   builtins@1.0.3: {}
+
+  bun@1.2.13:
+    optionalDependencies:
+      '@oven/bun-darwin-aarch64': 1.2.13
+      '@oven/bun-darwin-x64': 1.2.13
+      '@oven/bun-darwin-x64-baseline': 1.2.13
+      '@oven/bun-linux-aarch64': 1.2.13
+      '@oven/bun-linux-aarch64-musl': 1.2.13
+      '@oven/bun-linux-x64': 1.2.13
+      '@oven/bun-linux-x64-baseline': 1.2.13
+      '@oven/bun-linux-x64-musl': 1.2.13
+      '@oven/bun-linux-x64-musl-baseline': 1.2.13
+      '@oven/bun-windows-x64': 1.2.13
+      '@oven/bun-windows-x64-baseline': 1.2.13
 
   bundle-require@5.1.0(esbuild@0.24.2):
     dependencies:
