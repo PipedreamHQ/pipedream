@@ -1,6 +1,5 @@
 export default {
   "index": "What is Pipedream?",
-  "quickstart": "Quickstart",
   "workspaces": "Workspaces",
   "projects": "Projects",
   "connect": "Connect",

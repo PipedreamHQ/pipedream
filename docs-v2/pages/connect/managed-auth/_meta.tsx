@@ -4,6 +4,7 @@ export default {
   "tokens": "Connect Tokens",
   "connect-link": "Connect Link",
   "oauth-clients": "OAuth Clients",
+  "environments": "Environments",
   "webhooks": "Webhooks",
-  "customization": "Customizing the Auth Flow",
+  "customization": "Project Configuration",
 } as const

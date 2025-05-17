@@ -91,7 +91,12 @@ export default withNextra({
       },
       {
         source: "/quickstart/run-workflow-on-a-schedule/",
-        destination: "/quickstart/",
+        destination: "/workflows/quickstart/",
+        permanent: true,
+      },
+      {
+        source: "/quickstart/",
+        destination: "/workflows/quickstart/",
         permanent: true,
       },
       {
@@ -474,6 +479,11 @@ export default withNextra({
       {
         source: "/connect/webhooks/",
         destination: "/connect/managed-auth/webhooks/",
+        permanent: true,
+      },
+      {
+        source: "/connect/environments/",
+        destination: "/connect/managed-auth/environments/",
         permanent: true,
       },
       {
