@@ -1,0 +1,52 @@
+import { Tabs } from 'nextra/components'
+
+# Using Pipedream MCP with OpenAI
+
+Add {process.env.PUBLIC_APPS}+ APIs and 10,000+ tools to OpenAI using Pipedream MCP with the [OpenAI Responses API](https://platform.openai.com/docs/guides/tools?api-mode=responses).
+
+MCP makes it easy to extend the capabilties of your app or agent, and Pipedream offers drop-in support with OpenAI.
+
+<Tabs items={['JavaScript', 'Python', 'cURL']}>
+<Tabs.Tab>
+```javascript
+const configuredProps = {
+  postgresql: {
+    authProvisionId: "apn_xxxxxxx"
+  },
+  sql: {
+    auth: {
+      app: "postgresql" 
+    },
+    query: "select * from products where name = $1 and price > $2 limit 1",
+    params: ["foo", 10.99]  // Values to replace $1 and $2 placeholders
+  }
+}
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```python
+from openai import OpenAI
+client = OpenAI()
+
+response = client.responses.create(
+    model="gpt-4.1",
+    tools=[{"type": "web_search_preview"}],
+    input="What was a positive news story from today?"
+)
+
+print(response.output_text)
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```bash
+curl "https://api.openai.com/v1/responses" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer $OPENAI_API_KEY" \
+    -d '{
+        "model": "gpt-4.1",
+        "tools": [{"type": "web_search_preview"}],
+        "input": "what was a positive news story from today?"
+    }'
+```
+</Tabs.Tab>
+</Tabs>
