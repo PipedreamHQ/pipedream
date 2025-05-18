@@ -1,10 +1,14 @@
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc.js'
 import pipedriveApp from "../../pipedrive.app.mjs";
+
+dayjs.extend(utc)
 
 export default {
   key: "fiable-pipedrive-add-organization-if-missing",
   name: "Add Organization (Fiable)",
   description: "Adds a new organization. See the Pipedrive API docs for Organizations [here](https://developers.pipedrive.com/docs/api/v1/Organizations#addOrganization)",
-  version: "0.0.14",
+  version: "0.0.15",
   type: "action",
   props: {
     pipedriveApp,
@@ -81,13 +85,14 @@ export default {
         limit: 1,
       });
       if (searchResp.data.items.length === 0) {
+        const utcAddTime = dayjs(addTime).utc().format("YYYY-MM-DDTHH:mm:ss[Z]")
         var customFieldValue = {};
         customFieldValue[anilityIdFieldKey] = anilityIdFieldValue;
         const resp = await this.pipedriveApp.addOrganization({
           name,
           owner_id: ownerId,
           visible_to: visibleTo,
-          add_time: addTime,
+          add_time: utcAddTime,
           "custom_fields":{
             ...customFieldValue
           },

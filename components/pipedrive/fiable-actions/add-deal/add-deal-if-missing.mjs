@@ -198,8 +198,6 @@ export default {
     var delayRequestOption = stages.find((stage) => stage.key === anilityDelayRequestFieldKey)
       .options.find((option) => option.label.toLowerCase() === anilityDelayRequestFieldValue.toLowerCase());
 
-    const utcAddTime = dayjs(addTime).utc().format("YYYY-MM-DDTHH:mm:ss[Z]")
-
     try {
       const searchResp = await this.pipedriveApp.searchDeals({
         term: anilityIdFieldValue,
@@ -208,6 +206,7 @@ export default {
         limit: 1,
       });
       if (searchResp.data.items.length === 0) {
+        const utcAddTime = dayjs(addTime).utc().format("YYYY-MM-DDTHH:mm:ss[Z]")
         var customFieldValue = {};
         customFieldValue[anilityIdFieldKey] = anilityIdFieldValue;
         customFieldValue[anilityCustomerIdFieldKey] = anilityCustomerIdFieldValue;

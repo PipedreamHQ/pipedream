@@ -1,10 +1,14 @@
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc.js'
 import pipedriveApp from "../../pipedrive.app.mjs";
+
+dayjs.extend(utc)
 
 export default {
   key: "fiable-pipedrive-add-person",
   name: "Add Person (Fiable)",
   description: "Adds a new person if missing. See the Pipedrive API docs for People [here](https://developers.pipedrive.com/docs/api/v1/Persons#addPerson)",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "action",
   props: {
     pipedriveApp,
@@ -106,6 +110,7 @@ export default {
       });
 
       if (searchResp.data.items.length === 0) {
+        const utcAddTime = dayjs(addTime).utc().format("YYYY-MM-DDTHH:mm:ss[Z]")
         var customFieldValue = {};
         customFieldValue[anilityIdFieldKey] = anilityIdFieldValue;
 
@@ -123,7 +128,7 @@ export default {
             org_id: organizationId,
             ...contactDetails,
             visible_to: visibleTo,
-            add_time: addTime,
+            add_time: utcAddTime,
             "custom_fields": {
               ...customFieldValue,
             },
