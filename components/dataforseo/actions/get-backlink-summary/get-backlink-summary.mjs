@@ -1,11 +1,12 @@
 import dataforseo from "../../dataforseo.app.mjs";
+import { parseObjectEntries } from "../../common/utils.mjs";
 
 export default {
   key: "dataforseo-get-backlink-summary",
   name: "Get Backlink Summary",
   description:
-    "Get an overview of backlinks data available for a given domain, subdomain, or webpage. [See the documentation](https://docs.dataforseo.com/v3/business_data/business_listings/search/live/?bash)",
-  version: "0.0.2",
+    "Get an overview of backlinks data available for a given domain, subdomain, or webpage. [See the documentation](https://docs.dataforseo.com/v3/backlinks/summary/live/?bash)",
+  version: "0.0.1",
   type: "action",
   methods: {
     getBacklinkSummary(args = {}) {
@@ -45,15 +46,6 @@ export default {
         "Indicates if internal backlinks from subdomains to the target will be excluded from the results. Default is `true`",
       optional: true,
     },
-    internalListLimit: {
-      type: "integer",
-      label: "Internal List Limit",
-      description:
-        "Maximum number of elements within internal arrays. [See the documentation](https://docs.dataforseo.com/v3/backlinks/summary/live/?bash#internal_list_limit) for more information",
-      default: 10,
-      max: 1000,
-      optional: true,
-    },
     backlinksStatusType: {
       type: "string",
       label: "Include Indirect Links",
@@ -78,30 +70,29 @@ export default {
       default: "live",
     },
     backlinksFilters: {
-      type: "string[]",
-      label: "Backlinks Filters",
-      description:
-        "You can use this field to filter the initial backlinks that will be included in the dataset for aggregated metrics for your target. [See the documentation](https://docs.dataforseo.com/v3/backlinks/summary/live/?bash#backlinks_filters) for more information. Example: `[\"dofollow\", \"=\", true]`",
-      optional: true,
+      propDefinition: [
+        dataforseo,
+        "backlinksFilters",
+      ],
     },
     rankScale: {
-      type: "string",
-      label: "Rank Scale",
-      description:
-        "Whether rank values are presented on a 0-100 or 0-1000 scale",
-      optional: true,
-      options: [
-        "one_hundred",
-        "one_thousand",
+      propDefinition: [
+        dataforseo,
+        "rankScale",
       ],
-      default: "one_thousand",
     },
     tag: {
-      type: "string",
-      label: "Tag",
-      description:
-        "You can use this parameter to identify the task and match it with the result.",
-      optional: true,
+      propDefinition: [
+        dataforseo,
+        "tag",
+      ],
+    },
+    additionalOptions: {
+      propDefinition: [
+        dataforseo,
+        "additionalOptions",
+      ],
+      description: "Additional parameters to send in the request. [See the documentation](https://docs.dataforseo.com/v3/backlinks/summary/live/?bash) for all available parameters. Values will be parsed as JSON where applicable.",
     },
   },
   async run({ $ }) {
@@ -113,11 +104,11 @@ export default {
           include_subdomains: this.includeSubdomains,
           include_indirect_links: this.includeIndirectLinks,
           exclude_internal_backlinks: this.excludeInternalBacklinks,
-          internal_list_limit: this.internalListLimit,
           backlinks_status_type: this.backlinksStatusType,
           backlinks_filters: this.backlinksFilters,
           rank_scale: this.rankScale,
           tag: this.tag,
+          ...parseObjectEntries(this.additionalOptions),
         },
       ],
     });

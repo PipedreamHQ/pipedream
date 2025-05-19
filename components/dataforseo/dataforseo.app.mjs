@@ -92,6 +92,38 @@ export default {
       label: "Keywords",
       description: "Target Keywords. The maximum number of keywords is 1000",
     },
+    backlinksFilters: {
+      type: "string[]",
+      label: "Backlinks Filters",
+      description:
+        "You can use this field to filter the initial backlinks that will be included in the dataset for aggregated metrics for your target. [See the documentation](https://docs.dataforseo.com/v3/backlinks/filters/?bash) for more information. Example: `[\"dofollow\", \"=\", true]`",
+      optional: true,
+    },
+    rankScale: {
+      type: "string",
+      label: "Rank Scale",
+      description:
+        "Whether rank values are presented on a 0-100 or 0-1000 scale",
+      optional: true,
+      options: [
+        "one_hundred",
+        "one_thousand",
+      ],
+      default: "one_thousand",
+    },
+    tag: {
+      type: "string",
+      label: "Tag",
+      description:
+        "You can use this parameter to identify the task and match it with the result.",
+      optional: true,
+    },
+    additionalOptions: {
+      type: "object",
+      label: "Additional Options",
+      description: "Additional parameters to send in the request. [See the documentation](https://developers.ringcentral.com/api-reference/External-Contacts/createContact) for all available parameters. Values will be parsed as JSON where applicable.",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
