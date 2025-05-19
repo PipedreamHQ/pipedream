@@ -1,5 +1,8 @@
-import OpenAI from "openai/index.mjs";
-import { ChatCompletionTool } from "openai/resources/chat/completions";
+import { type OpenAI } from "openai";
+import {
+  type ChatCompletionTool,
+  type ChatCompletionToolMessageParam,
+} from "openai/resources/chat/completions";
 import { zodToJsonSchema } from "zod-to-json-schema";
 import { CoreTools } from "./core";
 
@@ -26,7 +29,9 @@ export class OpenAiTools {
     });
   }
 
-  async handleCompletion(completion: OpenAI.Chat.Completions.ChatCompletion) {
+  async handleCompletion(
+    completion: OpenAI.Chat.Completions.ChatCompletion,
+  ): Promise<ChatCompletionToolMessageParam[] | undefined> {
     const toolCalls = completion.choices[0].message.tool_calls;
     if (!toolCalls) {
       return;
@@ -43,7 +48,12 @@ export class OpenAiTools {
         const parsedArgs = tool.schema.parse(args);
 
         const result = await tool.execute(parsedArgs);
-        return result;
+        const toolResult: ChatCompletionToolMessageParam = {
+          role: "tool",
+          tool_call_id: toolCall.id,
+          content: JSON.stringify(result, null, 2),
+        };
+        return toolResult;
       }),
     );
     return results;
