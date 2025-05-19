@@ -5,7 +5,7 @@ export default {
   key: "dataforseo-get-backlinks",
   name: "Get Backlinks",
   description:
-    "Get a list of backlinks and relevant data for a given domain, subdomain, or webpage. [See the documentation](https://docs.dataforseo.com/v3/backlinks/backlinks/live/?bash)",
+    "Get a list of backlinks and relevant data for a given domain, subdomain, or webpage. [See the documentation](https://docs.dataforseo.com/v3/backlinks/backlinks/live/)",
   version: "0.0.1",
   type: "action",
   methods: {
@@ -73,7 +73,7 @@ export default {
         dataforseo,
         "additionalOptions",
       ],
-      description: "Additional parameters to send in the request. [See the documentation](https://docs.dataforseo.com/v3/backlinks/backlinks/live/?bash) for all available parameters. Values will be parsed as JSON where applicable.",
+      description: "Additional parameters to send in the request. [See the documentation](https://docs.dataforseo.com/v3/backlinks/backlinks/live/) for all available parameters. Values will be parsed as JSON where applicable.",
     },
   },
   async run({ $ }) {

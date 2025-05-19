@@ -96,7 +96,7 @@ export default {
       type: "string[]",
       label: "Backlinks Filters",
       description:
-        "You can use this field to filter the initial backlinks that will be included in the dataset for aggregated metrics for your target. [See the documentation](https://docs.dataforseo.com/v3/backlinks/filters/?bash) for more information. Example: `[\"dofollow\", \"=\", true]`",
+        "You can use this field to filter the initial backlinks that will be included in the dataset for aggregated metrics for your target. [See the documentation](https://docs.dataforseo.com/v3/backlinks/filters/) for more information. Example: `[\"dofollow\", \"=\", true]`",
       optional: true,
     },
     rankScale: {

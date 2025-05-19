@@ -5,7 +5,7 @@ export default {
   key: "dataforseo-get-backlink-summary",
   name: "Get Backlink Summary",
   description:
-    "Get an overview of backlinks data available for a given domain, subdomain, or webpage. [See the documentation](https://docs.dataforseo.com/v3/backlinks/summary/live/?bash)",
+    "Get an overview of backlinks data available for a given domain, subdomain, or webpage. [See the documentation](https://docs.dataforseo.com/v3/backlinks/summary/live/)",
   version: "0.0.1",
   type: "action",
   methods: {
@@ -92,7 +92,7 @@ export default {
         dataforseo,
         "additionalOptions",
       ],
-      description: "Additional parameters to send in the request. [See the documentation](https://docs.dataforseo.com/v3/backlinks/summary/live/?bash) for all available parameters. Values will be parsed as JSON where applicable.",
+      description: "Additional parameters to send in the request. [See the documentation](https://docs.dataforseo.com/v3/backlinks/summary/live/) for all available parameters. Values will be parsed as JSON where applicable.",
     },
   },
   async run({ $ }) {
