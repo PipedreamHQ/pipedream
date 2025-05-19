@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import { MATCH_OPTIONS } from "../../common/constants.mjs";
 import common from "../common/base.mjs";
 import sampleEmit from "./test-event.mjs";
@@ -41,19 +42,26 @@ export default {
       label: "Match",
       description: "If set to `ALL` (default), then only results that match all specified criteria will be returned. If set to `ANY`, results that match any of the specified criteria will be returned.",
       options: MATCH_OPTIONS,
-      optional: true,
     },
   },
   methods: {
     ...common.methods,
-    getData() {
+    getOtherOpts() {
       return {
-        sentFrom: this.sentFrom,
-        sentTo: this.sentTo,
-        subject: this.subject,
-        body: this.body,
-        match: this.match,
+        data: {
+          sentFrom: this.sentFrom,
+          sentTo: this.sentTo,
+          subject: this.subject,
+          body: this.body,
+          match: this.match,
+        },
       };
+    },
+    dataValidation() {
+      if (!this.sentFrom && !this.sentTo && !this.subject && !this.body) {
+        throw new ConfigurationError("Please provide at least one search criteria.");
+      }
+      return true;
     },
     getFunction() {
       return this.mailosaur.searchMessages;

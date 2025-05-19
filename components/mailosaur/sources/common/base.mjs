@@ -28,16 +28,23 @@ export default {
     getData() {
       return {};
     },
+    dataValidation() {
+      return true;
+    },
+    getOtherOpts() {
+      return {};
+    },
     async emitEvent(maxResults = false) {
       const lastDate = this._getLastDate();
 
+      const otherOpts = this.getOtherOpts();
       const response = this.mailosaur.paginate({
         fn: this.getFunction(),
         params: {
           receivedAfter: lastDate,
           server: this.serverId,
         },
-        data: this.getData(),
+        ...otherOpts,
       });
 
       let responseArray = [];
@@ -68,6 +75,7 @@ export default {
     },
   },
   async run() {
+    await this.dataValidation();
     await this.emitEvent();
   },
 };
