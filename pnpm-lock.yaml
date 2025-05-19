@@ -8568,6 +8568,9 @@ importers:
       '@pipedream/postgresql':
         specifier: ^2.2.3
         version: 2.2.3
+      pg-format:
+        specifier: ^1.0.4
+        version: 1.0.4
 
   components/nerv: {}
 
