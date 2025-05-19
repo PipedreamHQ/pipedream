@@ -1,16 +1,16 @@
 import dataforseo from "../../dataforseo.app.mjs";
 
 export default {
-  key: "dataforseo-get-bulk-ranks",
-  name: "Get Bulk Ranks",
+  key: "dataforseo-get-bulk-spam-score",
+  name: "Get Bulk Spam Score",
   description:
-    "Get rank scores of specified domains, subdomains, and pages. [See the documentation](https://docs.dataforseo.com/v3/backlinks/bulk_ranks/live/)",
+    "Get spam scores of the specified domains, subdomains, and pages. [See the documentation](https://docs.dataforseo.com/v3/backlinks/bulk_spam_score/live/)",
   version: "0.0.1",
   type: "action",
   methods: {
-    getBacklinksBulkRanks(args = {}) {
+    getBulkSpamScore(args = {}) {
       return this._makeRequest({
-        path: "/backlinks/bulk_ranks/live",
+        path: "/backlinks/bulk_spam_score/live",
         method: "post",
         ...args,
       });
@@ -24,12 +24,6 @@ export default {
         "targets",
       ],
     },
-    rankScale: {
-      propDefinition: [
-        dataforseo,
-        "rankScale",
-      ],
-    },
     tag: {
       propDefinition: [
         dataforseo,
@@ -38,17 +32,16 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.getBacklinksBulkRanks({
+    const response = await this.getBulkSpamScore({
       $,
       data: [
         {
           targets: this.targets,
-          rank_scale: this.rankScale,
           tag: this.tag,
         },
       ],
     });
-    $.export("$summary", "Successfully retrieved bulk ranks");
+    $.export("$summary", "Successfully retrieved bulk spam score");
     return response;
   },
 };

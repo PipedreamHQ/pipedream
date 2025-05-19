@@ -168,6 +168,11 @@ export default {
       description: "Additional parameters to send in the request. [See the documentation](https://developers.ringcentral.com/api-reference/External-Contacts/createContact) for all available parameters. Values will be parsed as JSON where applicable.",
       optional: true,
     },
+    targets: {
+      type: "string[]",
+      label: "Targets",
+      description: "Up to 1000 domains, subdomains or webpages to get data for. A domain or a subdomain should be specified without `https://` and `www`. A page should be specified with absolute URL (including `http://` or `https://`",
+    },
   },
   methods: {
     _baseUrl() {

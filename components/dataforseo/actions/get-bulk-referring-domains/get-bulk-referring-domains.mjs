@@ -1,16 +1,16 @@
 import dataforseo from "../../dataforseo.app.mjs";
 
 export default {
-  key: "dataforseo-get-bulk-ranks",
-  name: "Get Bulk Ranks",
+  key: "dataforseo-get-bulk-referring-domains",
+  name: "Get Bulk Referring Domains",
   description:
-    "Get rank scores of specified domains, subdomains, and pages. [See the documentation](https://docs.dataforseo.com/v3/backlinks/bulk_ranks/live/)",
+    "Get the number of referring domains pointing to the specified domains, subdomains, and pages. [See the documentation](https://docs.dataforseo.com/v3/backlinks/bulk_referring_domains/live/)",
   version: "0.0.1",
   type: "action",
   methods: {
-    getBacklinksBulkRanks(args = {}) {
+    getBulkReferringDomains(args = {}) {
       return this._makeRequest({
-        path: "/backlinks/bulk_ranks/live",
+        path: "/backlinks/bulk_referring_domains/live",
         method: "post",
         ...args,
       });
@@ -24,12 +24,6 @@ export default {
         "targets",
       ],
     },
-    rankScale: {
-      propDefinition: [
-        dataforseo,
-        "rankScale",
-      ],
-    },
     tag: {
       propDefinition: [
         dataforseo,
@@ -38,17 +32,16 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.getBacklinksBulkRanks({
+    const response = await this.getBulkReferringDomains({
       $,
       data: [
         {
           targets: this.targets,
-          rank_scale: this.rankScale,
           tag: this.tag,
         },
       ],
     });
-    $.export("$summary", "Successfully retrieved bulk ranks");
+    $.export("$summary", "Successfully retrieved bulk referring domains");
     return response;
   },
 };

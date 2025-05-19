@@ -19,9 +19,10 @@ export default {
   props: {
     dataforseo,
     targets: {
-      type: "string[]",
-      label: "Targets",
-      description: "Up to 1000 domains, subdomains or webpages to get number of backlinks for. A domain or a subdomain should be specified without `https://` and `www`. A page should be specified with absolute URL (including `http://` or `https://`",
+      propDefinition: [
+        dataforseo,
+        "targets",
+      ],
     },
     tag: {
       propDefinition: [
