@@ -1,7 +1,7 @@
 export default {
   "index": "Overview",
   "developers": "Developers",
-  "users": "Users",
+  "users": "Consumers",
   "openai": {
     title: "OpenAI",
     display: "hidden",

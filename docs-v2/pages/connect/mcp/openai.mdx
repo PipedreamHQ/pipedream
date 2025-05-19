@@ -1,28 +1,80 @@
-import { Tabs } from 'nextra/components'
+import { Callout, Tabs } from 'nextra/components'
 
 # Using Pipedream MCP with OpenAI
 
-Add {process.env.PUBLIC_APPS}+ APIs and 10,000+ tools to OpenAI using Pipedream MCP with the [OpenAI Responses API](https://platform.openai.com/docs/guides/tools?api-mode=responses).
+Access {process.env.PUBLIC_APPS}+ APIs and 10,000+ tools in OpenAI using Pipedream MCP with the [OpenAI Responses API](https://platform.openai.com/docs/guides/tools?api-mode=responses). MCP makes it easy to extend the capabilties of your app or agent, and Pipedream offers drop-in support with OpenAI.
 
-MCP makes it easy to extend the capabilties of your app or agent, and Pipedream offers drop-in support with OpenAI.
+<Callout type="info">
+Pipedream MCP includes built-in user authentication for [every integrated API](https://pipedream.com/apps/), which means you don't need to build any authorization flows or think about token storage or refresh.
+</Callout>
 
-<Tabs items={['JavaScript', 'Python', 'cURL']}>
-<Tabs.Tab>
-```javascript
-const configuredProps = {
-  postgresql: {
-    authProvisionId: "apn_xxxxxxx"
-  },
-  sql: {
-    auth: {
-      app: "postgresql" 
-    },
-    query: "select * from products where name = $1 and price > $2 limit 1",
-    params: ["foo", 10.99]  // Values to replace $1 and $2 placeholders
-  }
-}
+## Getting Started
+To use Pipedream MCP with your own users, you need the following:
+
+1. A [Pipedream account](https://pipedream.com/auth/signup)
+2. A [Pipedream project](/projects/#creating-projects). Accounts connected via MCP will be stored here.
+3. [Pipedream OAuth credentials](/rest-api/auth/#oauth)
+
+<Callout type="info">
+These are requiremnents for you, the developer. Your users do **not** need to sign up for Pipedream in order to connect their accounts in your app or agent.
+</Callout>
+
+#### Set up environment variables
+
+Set the following environment variables (learn more about environments in Pipedream Connect [here](/connect/managed-auth/environments/)):
+
+```bash
+PIPEDREAM_CLIENT_ID=your_client_id
+PIPEDREAM_CLIENT_SECRET=your_client_secret
+PIPEDREAM_PROJECT_ID=your_project_id
+PIPEDREAM_PROJECT_ENVIRONMENT=development
 ```
-</Tabs.Tab>
+
+### Examples
+
+{/* <Tabs items={['JavaScript', 'Python', 'cURL']}>
+<Tabs.Tab> */}
+```javascript
+import OpenAI from "openai";
+import { createBackendClient } from "@pipedream/sdk/server";
+
+const externalUserId = "abc-123" // Unique ID in your system to identify the user
+
+// Initialize the Pipedream SDK
+const pd = createBackendClient({
+  credentials: {
+    clientId: PIPEDREAM_CLIENT_ID,
+    clientSecret: PIPEDREAM_CLIENT_SECRET,
+  },
+  environment: PIPEDREAM_ENVIRONMENT,
+  projectId: PIPEDREAM_PROJECT_ID,
+});
+
+const { token } = await pd.createConnectToken({
+  external_user_id: externalUserId,
+})
+
+const client = new OpenAI();
+
+const response = await client.responses.create({
+  model: "gpt-4.1",
+  tools: [
+    {
+      "type": "mcp",
+      "server_label": "Notion",
+      "server_url": `https://mcp.pipedream.net/${externalUserId}/notion`,
+      "headers": {
+        "Authorization": `Bearer ${token}`
+      }
+      "require_approval": "never"
+    },
+  ],
+  input: "Summarize my most recently created Notion doc for me and help draft an email to our customers"
+})
+
+console.log(response);
+```
+{/* </Tabs.Tab>
 <Tabs.Tab>
 ```python
 from openai import OpenAI
@@ -49,4 +101,14 @@ curl "https://api.openai.com/v1/responses" \
     }'
 ```
 </Tabs.Tab>
-</Tabs>
+</Tabs> */}
+
+
+## Account Connection
+
+One of the core features of Pipedream Connect and MCP is the ability for your users to easily connect their accounts without having to build any of the authorization flow or handle token storage, etc.
+
+You can handle account connections in a couple different ways in your app:
+
+1. Add the [frontend Pipedream SDK](/connect/managed-auth/quickstart/#use-the-pipedream-sdk-in-your-frontend) to your app, let users connect their account directly in your UI.
+2. Return a [Connect Link URL](/connect/managed-auth/quickstart/#or-use-connect-link) to your users from the LLM response.
