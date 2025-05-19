@@ -6,9 +6,9 @@ import {
 import selzy from "../../selzy.app.mjs";
 
 export default {
-  key: "selzy-create-email-campaign",
-  name: "Create Email Campaign",
-  description: "Creates a new email campaign. [See the documentation](https://selzy.com/en/support/api/messages/createcampaign/)",
+  key: "selzy-create-campaign",
+  name: "Create Campaign",
+  description: "Creates a new campaign. [See the documentation](https://selzy.com/en/support/api/messages/createcampaign/)",
   version: "0.0.1",
   type: "action",
   props: {
