@@ -87,12 +87,12 @@ export default {
       }
       if (response?.status === "SUCCESS" && this.downloadFilesToTmp) {
         response.tmpFiles = [];
-        for (const value of Object.values(response.output_files)) { console.log(value);
+        for (const value of Object.values(response.output_files)) {
           const resp = await axios($, {
             url: value.storage_url,
             responseType: "arraybuffer",
           });
-          const filename = value.storage_url.split("/").pop(); console.log(filename);
+          const filename = value.storage_url.split("/").pop();
           const rawcontent = resp.toString("base64");
           const buffer = Buffer.from(rawcontent, "base64");
           const downloadedFilepath = `/tmp/${filename}`;
@@ -107,8 +107,8 @@ export default {
     }
 
     $.export("$summary", `FFmpeg command ${this.waitForCompletion
-      ? "submitted"
-      : "submitted and completed"} successfully`);
+      ? "submitted and completed"
+      : "submitted"} successfully`);
     return response;
   },
 };
