@@ -481,7 +481,7 @@ export default {
       return organizationApi.searchOrganization(opts);
     },
     searchDeals(opts = {}) {
-       const organizationApi = this.api("DealsApi", "v2");
+      const organizationApi = this.api("DealsApi", "v2");
       return organizationApi.searchDeals(opts);
     },
     getActivities(opts = {}) {
@@ -497,10 +497,8 @@ export default {
       return this.api(className).getActivityFields(opts);
     },
     getPerson(id) {
-      const [
-        className,
-      ] = constants.API.PERSONS;
-      return this.api(className).getPerson(id);
+      const personApi = this.api("PersonsApi", "v2");
+      return personApi.getPerson(id);
     },
     getMailThreads(folder, opt = {}) {
       const [
