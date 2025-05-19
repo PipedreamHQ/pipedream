@@ -91,7 +91,7 @@ export default {
         },
       ],
     });
-    $.export("$summary", "Successfully retrieved backlink summary");
+    $.export("$summary", "Successfully retrieved backlinks data");
     return response;
   },
 };
