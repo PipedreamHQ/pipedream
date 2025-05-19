@@ -2,16 +2,16 @@ import { parseObjectEntries } from "../../common/utils.mjs";
 import dataforseo from "../../dataforseo.app.mjs";
 
 export default {
-  key: "dataforseo-search-business-listings",
-  name: "Search Business Listings",
+  key: "dataforseo-get-categories-aggregation",
+  name: "Get Categories Aggregation",
   description:
-    "Get information about business entities listed on Google Maps. [See the documentation](https://docs.dataforseo.com/v3/business_data/business_listings/search/live/)",
+    "Get information about groups of related categories and the number of entities in each category. [See the documentation](https://docs.dataforseo.com/v3/business_data/business_listings/categories_aggregation/live/)",
   version: "0.0.1",
   type: "action",
   methods: {
-    searchBusinessListings(args = {}) {
+    getCategoriesAggregation(args = {}) {
       return this._makeRequest({
-        path: "/business_data/business_listings/search/live",
+        path: "/business_data/business_listings/categories_aggregation/live",
         method: "post",
         ...args,
       });
@@ -56,11 +56,11 @@ export default {
         "additionalOptions",
       ],
       description:
-        "Additional parameters to send in the request. [See the documentation](https://docs.dataforseo.com/v3/business_data/business_listings/search/live/) for all available parameters. Values will be parsed as JSON where applicable.",
+        "Additional parameters to send in the request. [See the documentation](https://docs.dataforseo.com/v3/business_data/business_listings/categories_aggregation/live/) for all available parameters. Values will be parsed as JSON where applicable.",
     },
   },
   async run({ $ }) {
-    const response = await this.getBacklinksHistory({
+    const response = await this.getCategoriesAggregation({
       $,
       data: [
         {
@@ -73,7 +73,7 @@ export default {
         },
       ],
     });
-    $.export("$summary", "Successfully retrieved business listings");
+    $.export("$summary", "Successfully retrieved categories aggregation");
     return response;
   },
 };
