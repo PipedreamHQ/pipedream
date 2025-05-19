@@ -25,6 +25,7 @@ export default {
       label: "Location Coordinate",
       description:
         "The location to search, in the format `latitude,longitude,radius` where radius is specified in kilometers. Example: `53.476225,-2.243572,200`",
+
     },
     targetType: {
       type: "string",
