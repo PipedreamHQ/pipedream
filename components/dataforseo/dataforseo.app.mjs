@@ -118,6 +118,50 @@ export default {
         "You can use this parameter to identify the task and match it with the result.",
       optional: true,
     },
+    includeSubdomains: {
+      type: "boolean",
+      label: "Include Subdomains",
+      description:
+        "Whether the subdomains of the `target` will be included in the search. Default is `true`",
+      optional: true,
+    },
+    includeIndirectLinks: {
+      type: "boolean",
+      label: "Include Indirect Links",
+      description:
+        "Whether indirect links to the target will be included in the results. Default is `true`",
+      optional: true,
+    },
+    excludeInternalBacklinks: {
+      type: "boolean",
+      label: "Exclude Internal Backlinks",
+      description:
+        "Indicates if internal backlinks from subdomains to the target will be excluded from the results. Default is `true`",
+      optional: true,
+    },
+    backlinksStatusType: {
+      type: "string",
+      label: "Backlinks Status Type",
+      description:
+        "You can use this field to choose what backlinks will be returned and used for aggregated metrics for your target",
+      optional: true,
+      options: [
+        {
+          value: "all",
+          label: "All backlinks will be returned and counted",
+        },
+        {
+          value: "live",
+          label:
+            "Backlinks found during the last check will be returned and counted",
+        },
+        {
+          value: "lost",
+          label: "Lost backlinks will be returned and counted",
+        },
+      ],
+      default: "live",
+    },
     additionalOptions: {
       type: "object",
       label: "Additional Options",
