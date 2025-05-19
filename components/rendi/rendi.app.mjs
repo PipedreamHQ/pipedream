@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "scrapeless",
+  app: "rendi",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
