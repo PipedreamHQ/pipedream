@@ -56,7 +56,7 @@ export default {
       }
 
       const numberOfValues = this.query?.match(/\$/g)?.length || 0;
-      if (this.values.length !== numberOfValues) {
+      if (this.values && this.values.length !== numberOfValues) {
         throw new Error("The number of values provided does not match the number of values in the query.");
       }
 
