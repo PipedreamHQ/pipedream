@@ -1,50 +1,62 @@
+import { ACTOR_OPTIONS } from "../../common/constants.mjs";
+import { parseObject } from "../../common/utils.mjs";
 import scrapeless from "../../scrapeless.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "scrapeless-submit-scrape-job",
   name: "Submit Scrape Job",
   description: "Submit a new web scraping job with specified target URL and extraction rules. [See the documentation](https://apidocs.scrapeless.com/api-11949852)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     scrapeless,
-    targetUrl: {
-      propDefinition: [
-        scrapeless,
-        "targetUrl",
-      ],
+    actor: {
+      type: "string",
+      label: "Actor",
+      description: "The actor to use for the scrape job. This can be a specific user or a system account.",
+      options: ACTOR_OPTIONS,
     },
-    selectors: {
-      propDefinition: [
-        scrapeless,
-        "selectors",
-      ],
+    inputUrl: {
+      type: "string",
+      label: "Input URL",
+      description: "Target URL to scrape. This is the URL of the web page you want to extract data from.",
+      optional: true,
     },
     proxyCountry: {
       type: "string",
       label: "Proxy Country",
-      description: "The country to route the request through",
-      default: "US",
+      description: "The country to route the request through. This can help in bypassing geo-restrictions.",
       optional: true,
     },
-    asyncMode: {
-      type: "boolean",
-      label: "Async Mode",
-      description: "If true, the task will be executed asynchronously. If false, the task will be executed synchronously.",
-      default: true,
+    additionalInput: {
+      type: "object",
+      label: "Additional Input",
+      description: "Additional input parameters if you need to pass a specific configuration based on the actor. [See the documentation](https://apidocs.scrapeless.com/) for further details.",
       optional: true,
     },
   },
   async run({ $ }) {
+    const data = {
+      actor: this.actor,
+      input: parseObject(this.additionalInput),
+      async: true,
+    };
+
+    if (this.inputUrl) {
+      data.input.url = this.inputUrl;
+    }
+    if (this.proxyCountry) {
+      data.proxy = {
+        country: this.proxyCountry,
+      };
+    }
+
     const response = await this.scrapeless.submitScrapeJob({
-      targetUrl: this.targetUrl,
-      selectors: this.selectors,
-      proxyCountry: this.proxyCountry,
-      async: this.asyncMode,
+      $,
+      data,
     });
 
-    $.export("$summary", `Successfully submitted scrape job with ID: ${response.jobId}`);
+    $.export("$summary", `Successfully submitted scrape job with ID: ${response.taskId}`);
     return response;
   },
 };
