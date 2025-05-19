@@ -36,6 +36,12 @@ export default {
       label: "Target",
       description: "The domain name or the url of the target website or page",
     },
+    backlinksTarget: {
+      type: "string",
+      label: "Target",
+      description:
+        "Domain, subdomain or webpage to get data for. A domain or a subdomain should be specified without `https://` and `www`. A page should be specified with absolute URL (including `http://` or `https://`",
+    },
     categories: {
       type: "string[]",
       label: "Categories",

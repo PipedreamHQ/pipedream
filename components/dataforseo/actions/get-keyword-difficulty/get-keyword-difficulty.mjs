@@ -1,34 +1,34 @@
-import app from "../../dataforseo.app.mjs";
+import dataforseo from "../../dataforseo.app.mjs";
 
 export default {
   key: "dataforseo-get-keyword-difficulty",
   name: "Get Keyword Difficulty",
   description: "Get Keyword Difficulty. [See the documentation](https://docs.dataforseo.com/v3/dataforseo_labs/google/bulk_keyword_difficulty/live/?bash)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
-    app,
+    dataforseo,
     languageCode: {
       propDefinition: [
-        app,
+        dataforseo,
         "languageCode",
       ],
     },
     locationCode: {
       propDefinition: [
-        app,
+        dataforseo,
         "locationCode",
       ],
     },
     keywords: {
       propDefinition: [
-        app,
+        dataforseo,
         "keywords",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.app.getKeywordDifficulty({
+    const response = await this.dataforseo.getKeywordDifficulty({
       $,
       data: [
         {

@@ -1,11 +1,11 @@
-import app from "../../dataforseo.app.mjs";
+import dataforseo from "../../dataforseo.app.mjs";
 
 export default {
   key: "dataforseo-get-backlink-summary",
   name: "Get Backlink Summary",
   description:
     "Get an overview of backlinks data available for a given domain, subdomain, or webpage. [See the documentation](https://docs.dataforseo.com/v3/business_data/business_listings/search/live/?bash)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   methods: {
     getBacklinkSummary(args = {}) {
@@ -17,7 +17,7 @@ export default {
     },
   },
   props: {
-    app,
+    dataforseo,
     target: {
       type: "string",
       label: "Target",
