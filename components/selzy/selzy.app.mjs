@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -7,15 +8,82 @@ export default {
     listId: {
       type: "string",
       label: "List ID",
-      description: "Select or enter the List ID to monitor or target",
+      description: "Code of the list on which the mailing will be sent.",
       async options() {
-        const lists = await this.getLists();
-        return lists.map((list) => ({
-          label: list.name,
-          value: list.id,
+        const { result } = await this.listLists();
+
+        return result.map(({
+          id: value, title: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
+    templateId: {
+      type: "string",
+      label: "Template Id",
+      description: "ID of the user letter template created before, on the basis of which a letter can be created. If you have transferred this parameter, you may skip the mandatory **Subject**, **Body**, as well as **Text Body** and **Lang** parameters. These values will be taken from the corresponding parameters of the template the id of which was specified. If any of the above parameters is still transferred, the system will ignore the parameter that is taken from the template parameters, and the parameter explicitly transferred in this method will be used.",
+      async options({ page }) {
+        const { result } = await this.listTemplates({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+            type: "user",
+          },
+        });
+
+        return result.map(({
+          id: value, title: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    systemTemplateId: {
+      type: "string",
+      label: "System Template Id",
+      description: "ID of the system letter template created before, on the basis of which a letter can be created. If you have transferred this parameter, you may skip the mandatory **Subject**, **Body**, as well as **Text Body** and **Lang** parameters. These values will be taken from the corresponding parameters of the template the id of which was specified. If any of the above parameters is still transferred, the system will ignore the parameter that is taken from the template parameters, and the parameter explicitly transferred in this method will be used. If none of the **Template Id** or **System Template Id** parameters is specified, templates will not be used to create the letter.",
+      async options({ page }) {
+        const { result } = await this.listTemplates({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+            type: "system",
+          },
+        });
+
+        return result.map(({
+          id: value, title: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    messageId: {
+      type: "string",
+      label: "Message Id",
+      description: "Code of the message to be sent.",
+      async options({ page }) {
+        const { result } = await this.listTemplates({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+            type: "system",
+          },
+        });
+
+        return result.map(({
+          id: value, title: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+
     campaignId: {
       type: "string",
       label: "Campaign ID",
@@ -28,26 +96,6 @@ export default {
         }));
       },
     },
-    senderEmail: {
-      type: "string",
-      label: "Sender Email",
-      description: "The sender's email address",
-    },
-    senderName: {
-      type: "string",
-      label: "Sender Name",
-      description: "The sender's name",
-    },
-    subject: {
-      type: "string",
-      label: "Subject",
-      description: "The subject of the email",
-    },
-    body: {
-      type: "string",
-      label: "Body",
-      description: "The HTML body of the email",
-    },
     messageContent: {
       type: "string",
       label: "Message Content",
@@ -58,72 +106,93 @@ export default {
     _baseUrl() {
       return "https://api.selzy.com/en/api";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
+    _params(params = {}) {
+      return {
+        api_key: `${this.$auth.api_key}`,
+        format: "json",
+        ...params,
+      };
+    },
+    _makeRequest({
+      $ = this, path, params, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
-        url: `${this._baseUrl()}${path}`,
-        headers: {
-          ...headers,
-          api_key: this.$auth.api_key,
-        },
-      });
-    },
-    async getLists(opts = {}) {
-      return this._makeRequest({
-        path: "/lists",
+        url: this._baseUrl() + path,
+        params: this._params(params),
         ...opts,
       });
     },
-    async getCampaigns(opts = {}) {
+    listLists(opts = {}) {
       return this._makeRequest({
-        path: "/campaigns",
+        path: "/getLists",
         ...opts,
       });
     },
-    async createEmailMessage(opts = {}) {
+    listTemplates(opts = {}) {
+      return this._makeRequest({
+        path: "/listTemplates",
+        ...opts,
+      });
+    },
+    getCampaigns(opts = {}) {
+      return this._makeRequest({
+        path: "/getCampaigns",
+        ...opts,
+      });
+    },
+    createEmailMessage(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/createEmailMessage",
-        data: {
-          sender_name: this.senderName,
-          sender_email: this.senderEmail,
-          subject: this.subject,
-          body: this.body,
-          list_id: this.listId,
-          ...opts,
-        },
+        ...opts,
       });
     },
-    async createCampaign(opts = {}) {
+    createCampaign(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/createCampaign",
-        data: {
-          subject: this.subject,
-          sender_name: this.senderName,
-          sender_email: this.senderEmail,
-          message_content: this.messageContent,
-          list_id: this.listId,
-          ...opts,
-        },
+        ...opts,
       });
     },
-    async subscribeToNewContact(listId) {
-      // Logic for webhook or polling to emit new event on new contact subscription
+    createWebhook(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/setHook",
+        ...opts,
+      });
     },
-    async subscribeToNewCampaign() {
-      // Logic for webhook or polling to emit new event when a new campaign is created
+    deleteWebhook(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/removeHook",
+        ...opts,
+      });
     },
-    async subscribeToCampaignStatusChange(campaignId) {
-      // Logic for webhook or polling to emit new event on campaign status change
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.limit = LIMIT;
+        params.offset = LIMIT * page++;
+        const { result } = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of result) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = result.length;
+
+      } while (hasMore);
     },
   },
 };
