@@ -9,7 +9,7 @@ export default {
   type: "action",
   methods: {
     getBulkSpamScore(args = {}) {
-      return this._makeRequest({
+      return this.dataforseo._makeRequest({
         path: "/backlinks/bulk_spam_score/live",
         method: "post",
         ...args,

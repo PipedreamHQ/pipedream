@@ -10,7 +10,7 @@ export default {
   type: "action",
   methods: {
     parsePageContent(args = {}) {
-      return this._makeRequest({
+      return this.dataforseo._makeRequest({
         path: "/on_page/content_parsing/live",
         method: "post",
         ...args,

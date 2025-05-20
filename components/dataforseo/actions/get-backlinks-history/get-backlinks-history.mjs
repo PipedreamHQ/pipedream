@@ -9,7 +9,7 @@ export default {
   type: "action",
   methods: {
     getBacklinksHistory(args = {}) {
-      return this._makeRequest({
+      return this.dataforseo._makeRequest({
         path: "/backlinks/history/live",
         method: "post",
         ...args,

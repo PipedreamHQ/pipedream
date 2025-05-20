@@ -10,7 +10,7 @@ export default {
   type: "action",
   methods: {
     getBacklinksSummary(args = {}) {
-      return this._makeRequest({
+      return this.dataforseo._makeRequest({
         path: "/backlinks/summary/live",
         method: "post",
         ...args,

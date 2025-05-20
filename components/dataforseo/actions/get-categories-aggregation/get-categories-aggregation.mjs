@@ -10,7 +10,7 @@ export default {
   type: "action",
   methods: {
     getCategoriesAggregation(args = {}) {
-      return this._makeRequest({
+      return this.dataforseo._makeRequest({
         path: "/business_data/business_listings/categories_aggregation/live",
         method: "post",
         ...args,

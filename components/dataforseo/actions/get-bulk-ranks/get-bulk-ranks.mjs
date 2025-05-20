@@ -9,7 +9,7 @@ export default {
   type: "action",
   methods: {
     getBacklinksBulkRanks(args = {}) {
-      return this._makeRequest({
+      return this.dataforseo._makeRequest({
         path: "/backlinks/bulk_ranks/live",
         method: "post",
         ...args,

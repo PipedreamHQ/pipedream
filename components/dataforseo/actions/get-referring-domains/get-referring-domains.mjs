@@ -10,7 +10,7 @@ export default {
   type: "action",
   methods: {
     getReferringDomains(args = {}) {
-      return this._makeRequest({
+      return this.dataforseo._makeRequest({
         path: "/backlinks/referring_domains/live",
         method: "post",
         ...args,

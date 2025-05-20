@@ -10,7 +10,7 @@ export default {
   type: "action",
   methods: {
     getDomainPagesSummary(args = {}) {
-      return this._makeRequest({
+      return this.dataforseo._makeRequest({
         path: "/backlinks/domain_pages_summary/live",
         method: "post",
         ...args,

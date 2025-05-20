@@ -9,7 +9,7 @@ export default {
   type: "action",
   methods: {
     getBulkReferringDomains(args = {}) {
-      return this._makeRequest({
+      return this.dataforseo._makeRequest({
         path: "/backlinks/bulk_referring_domains/live",
         method: "post",
         ...args,

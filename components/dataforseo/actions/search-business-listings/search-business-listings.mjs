@@ -10,7 +10,7 @@ export default {
   type: "action",
   methods: {
     searchBusinessListings(args = {}) {
-      return this._makeRequest({
+      return this.dataforseo._makeRequest({
         path: "/business_data/business_listings/search/live",
         method: "post",
         ...args,
