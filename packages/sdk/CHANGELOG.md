@@ -2,6 +2,12 @@
 
 # Changelog
 
+## [1.6.2] - 2025-05-20a
+
+### Added
+
+- Added ability to create a `BackendClient` with just an `AccessToken`
+
 ## [1.6.1] - 2025-05-20
 
 ### Added

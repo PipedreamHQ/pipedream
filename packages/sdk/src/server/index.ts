@@ -36,7 +36,9 @@ export type BackendClientOpts = {
   /**
    * The credentials to use for authentication against the Pipedream API.
    */
-  credentials: OAuthCredentials;
+  credentials: OAuthCredentials | {
+    accessToken: string;
+  };
 
   /**
    * The base project ID tied to relevant API requests
@@ -188,12 +190,13 @@ export class BackendClient extends BaseClient {
     client: oauth.Client
     clientAuth: oauth.ClientAuth
     as: oauth.AuthorizationServer
-  };
+  } | undefined;
   private oauthAccessToken?: {
     token: string
     expiresAt: number
   };
   protected override projectId: string = "";
+  private staticAccessToken?: string;
 
   /**
    * Constructs a new ServerClient instance.
@@ -206,7 +209,11 @@ export class BackendClient extends BaseClient {
 
     this.ensureValidEnvironment(opts.environment);
     this.projectId = opts.projectId;
-    this.oauthClient = this.newOauthClient(opts.credentials, this.apiHost);
+    if ("accessToken" in opts.credentials) {
+      this.staticAccessToken = opts.credentials.accessToken;
+    } else {
+      this.oauthClient = this.newOauthClient(opts.credentials, this.apiHost);
+    }
   }
 
   private ensureValidEnvironment(environment?: string) {
@@ -245,10 +252,16 @@ export class BackendClient extends BaseClient {
   }
 
   protected authHeaders(): string | Promise<string> {
+    if (this.staticAccessToken) {
+      return `Bearer ${this.staticAccessToken}`;
+    }
     return this.oauthAuthorizationHeader();
   }
 
   private async ensureValidOauthAccessToken(): Promise<string> {
+    if (!this.oauthClient) {
+      throw new Error("OAuth client not configured")
+    }
     const {
       client,
       clientAuth,
@@ -286,10 +299,6 @@ export class BackendClient extends BaseClient {
   }
 
   private async oauthAuthorizationHeader(): Promise<string> {
-    if (!this.oauthClient) {
-      throw new Error("OAuth client not configured")
-    }
-
     const accessToken = await this.ensureValidOauthAccessToken();
 
     return `Bearer ${accessToken}`;
