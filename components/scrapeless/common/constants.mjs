@@ -29,7 +29,7 @@ export const ACTOR_OPTIONS = [
   },
   {
     label: "Airline Iberia",
-    value: "scraper.ibeira",
+    value: "scraper.iberia",
   },
   {
     label: "Airline Expedia",

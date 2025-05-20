@@ -15,12 +15,20 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.scrapeless.getScrapeResult({
-      $,
-      scrapeJobId: this.scrapeJobId,
-    });
+    try {
+      const response = await this.scrapeless.getScrapeResult({
+        $,
+        scrapeJobId: this.scrapeJobId,
+      });
 
-    $.export("$summary", `Successfully retrieved scrape results for job ID ${this.scrapeJobId}`);
-    return response;
+      $.export("$summary", `Successfully retrieved scrape results for job ID ${this.scrapeJobId}`);
+      return response;
+    } catch ({ response }) {
+      $.export("$summary", `Successfully retrieved scrape result with error for job ID ${this.scrapeJobId}`);
+      return {
+        success: false,
+        ...response.data,
+      };
+    }
   },
 };
