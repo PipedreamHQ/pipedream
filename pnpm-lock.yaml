@@ -7116,8 +7116,7 @@ importers:
 
   components/lambdatest: {}
 
-  components/lamini:
-    specifiers: {}
+  components/lamini: {}
 
   components/langbase:
     dependencies:
