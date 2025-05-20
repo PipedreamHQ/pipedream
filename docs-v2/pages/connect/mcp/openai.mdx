@@ -2,10 +2,10 @@ import { Callout, Tabs } from 'nextra/components'
 
 # Using Pipedream MCP with OpenAI
 
-Access {process.env.PUBLIC_APPS}+ APIs and 10,000+ tools in OpenAI using Pipedream MCP with the [OpenAI Responses API](https://platform.openai.com/docs/guides/tools?api-mode=responses). MCP makes it easy to extend the capabilties of your app or agent, and Pipedream offers drop-in support with OpenAI.
+Access {process.env.PUBLIC_APPS}+ APIs and 10,000+ tools in OpenAI using Pipedream MCP with the [OpenAI Responses API](https://platform.openai.com/docs/guides/tools?api-mode=responses). MCP makes it easy to extend the capabilties of any LLM or agent, and Pipedream offers drop-in support for OpenAI.
 
 <Callout type="info">
-Pipedream MCP includes built-in user authentication for [every integrated API](https://pipedream.com/apps/), which means you don't need to build any authorization flows or think about token storage or refresh.
+Pipedream MCP includes built-in user authentication for [every integrated API](https://pipedream.com/apps/), which means you don't need to build any authorization flows or think about token storage or refresh. [Learn more here](#account-connection).
 </Callout>
 
 ## Getting Started
@@ -27,13 +27,13 @@ Set the following environment variables (learn more about environments in Pipedr
 PIPEDREAM_CLIENT_ID=your_client_id
 PIPEDREAM_CLIENT_SECRET=your_client_secret
 PIPEDREAM_PROJECT_ID=your_project_id
-PIPEDREAM_PROJECT_ENVIRONMENT=development
+PIPEDREAM_ENVIRONMENT=development
 ```
 
 ### Examples
 
-{/* <Tabs items={['JavaScript', 'Python', 'cURL']}>
-<Tabs.Tab> */}
+<Tabs items={['JavaScript', 'cURL']}>
+<Tabs.Tab> 
 ```javascript
 import OpenAI from "openai";
 import { createBackendClient } from "@pipedream/sdk/server";
@@ -65,7 +65,7 @@ const response = await client.responses.create({
       "server_url": `https://mcp.pipedream.net/${externalUserId}/notion`,
       "headers": {
         "Authorization": `Bearer ${token}`
-      }
+      },
       "require_approval": "never"
     },
   ],
@@ -74,41 +74,75 @@ const response = await client.responses.create({
 
 console.log(response);
 ```
-{/* </Tabs.Tab>
-<Tabs.Tab>
-```python
-from openai import OpenAI
-client = OpenAI()
-
-response = client.responses.create(
-    model="gpt-4.1",
-    tools=[{"type": "web_search_preview"}],
-    input="What was a positive news story from today?"
-)
-
-print(response.output_text)
-```
 </Tabs.Tab>
 <Tabs.Tab>
 ```bash
-curl "https://api.openai.com/v1/responses" \
-    -H "Content-Type: application/json" \
-    -H "Authorization: Bearer $OPENAI_API_KEY" \
-    -d '{
-        "model": "gpt-4.1",
-        "tools": [{"type": "web_search_preview"}],
-        "input": "what was a positive news story from today?"
-    }'
+# Step 1: Authenticate to the Pipedream API
+curl -X POST https://api.pipedream.com/v1/oauth/token \
+  -H "Content-Type: application/json" \
+  -d '{
+    "grant_type": "client_credentials",
+    "client_id": "$PIPEDREAM_CLIENT_ID",
+    "client_secret": "$PIPEDREAM_CLIENT_SECRET"
+  }'
+
+# Store the access_token from the response
+
+# Step 2: Get a short-lived Connect Token
+curl -X POST https://api.pipedream.com/v1/connect/$PIPEDREAM_PROJECT_ID/tokens \
+  -H "Content-Type: application/json" \
+  -H "X-PD-Environment: $PIPEDREAM_ENVIRONMENT" \
+  -H "Authorization: Bearer $ACCESS_TOKEN" \
+  -d '{
+    "external_user_id": "abc-123"
+  }'
+
+# Store the token from the response
+
+# Step 3: Call OpenAI with the MCP Server 
+curl -X POST https://api.openai.com/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $OPENAI_API_KEY" \
+  -d '{
+    "model": "gpt-4.1",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Summarize my most recently created Notion doc for me and help draft an email to our customers"
+      }
+    ],
+    "tools": [
+      {
+        "type": "mcp",
+        "server_label": "Notion",
+        "server_url": "https://mcp.pipedream.net/abc-123/notion",
+        "headers": {
+          "Authorization": "Bearer $CONNECT_TOKEN"
+        },
+        "require_approval": "never"
+      }
+    ]
+  }'
 ```
 </Tabs.Tab>
-</Tabs> */}
+</Tabs> 
 
 
 ## Account Connection
 
-One of the core features of Pipedream Connect and MCP is the ability for your users to easily connect their accounts without having to build any of the authorization flow or handle token storage, etc.
+One of the core features of Pipedream Connect and our MCP product is the ability for your users to easily connect their accounts without having to build any of the authorization flow or handle token storage, etc.
 
-You can handle account connections in a couple different ways in your app:
+You can handle account connections in one of two ways in your app:
 
-1. Add the [frontend Pipedream SDK](/connect/managed-auth/quickstart/#use-the-pipedream-sdk-in-your-frontend) to your app, let users connect their account directly in your UI.
-2. Return a [Connect Link URL](/connect/managed-auth/quickstart/#or-use-connect-link) to your users from the LLM response.
+### Add a button in your UI
+- Use Pipedream's [frontend SDK](/connect/managed-auth/quickstart/#use-the-pipedream-sdk-in-your-frontend) to let users connect their account directly in your UI
+- You can see an example of this when you connect any account in [mcp.pipedream.com](https://mcp.pipedream.com)
+
+### Return a link
+- Use [Connect Link ](/connect/managed-auth/quickstart/#or-use-connect-link) to let your users open a Pipedream hosted page to connect their account
+- There isn't any implementation required for this option since it's already handled in Pipedream's MCP server
+- If a user doesn't have a connected account that's required for a given tool call, we'll return a URL in the tool call response. For example:
+
+```
+https://pipedream.com/_static/connect.html?token=ctok_xxxxxxx&connectLink=true&app=notion
+```
