@@ -7116,6 +7116,9 @@ importers:
 
   components/lambdatest: {}
 
+  components/lamini:
+    specifiers: {}
+
   components/langbase:
     dependencies:
       '@pipedream/platform':
