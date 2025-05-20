@@ -1,0 +1,74 @@
+import { Steps } from 'nextra/components'
+
+# Deploy Pipedream MCP to your agent
+Deploy Pipedream's MCP servers to your application or agent and make authenticated request on behalf of your customers. Refer to our reference implementation [here](https://github.com/PipedreamHQ/pipedream/blob/master/modelcontextprotocol/README.md).
+
+## Quickstart
+
+<Steps>
+
+#### Prerequisites
+
+To run your own MCP server, you'll need:
+
+1. A [Pipedream account](https://pipedream.com/auth/signup)
+2. A [Pipedream project](/projects/#creating-projects). Accounts connected via MCP will be stored here.
+3. [Pipedream OAuth credentials](/rest-api/auth/#oauth)
+
+#### Set up environment variables
+
+Set the following environment variables:
+
+```bash
+PIPEDREAM_CLIENT_ID=your_client_id
+PIPEDREAM_CLIENT_SECRET=your_client_secret
+PIPEDREAM_PROJECT_ID=your_project_id
+PIPEDREAM_ENVIRONMENT=development
+```
+
+#### Run the MCP server
+
+Pipedream's MCP servers can run in two modes:
+
+##### Stdio (for local testing)
+
+```bash
+npx @pipedream/mcp stdio --app slack --external-user-id user123
+```
+
+##### SSE (for hosting)
+
+```bash
+npx @pipedream/mcp sse
+```
+
+This exposes routes at:
+- `GET /:external_user_id/:app` - App-specific SSE connection endpoint
+- `POST /:external_user_id/:app/messages` - App-specific message handler
+
+Where:
+- `:external_user_id` is your user's unique identifier in your system
+- `:app` is the app slug (e.g., "slack", "github")
+
+#### Customize for your needs
+
+You can host and customize the MCP server for your specific requirements:
+
+```bash
+# Clone the repo
+git clone https://github.com/PipedreamHQ/pipedream
+cd pipedream/modelcontextprotocol
+
+# Install dependencies
+npm install
+
+# Build
+npm run build
+
+# Run the SSE server
+npm run start:sse:prod
+```
+
+See the [MCP server README](https://github.com/PipedreamHQ/pipedream/blob/master/modelcontextprotocol/README.md) for detailed instructions on customization options.
+
+</Steps>

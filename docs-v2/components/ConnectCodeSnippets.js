@@ -13,7 +13,7 @@ export function getServerCodeSnippet(externalUserId) {
  
 // This code runs on your server
 const pd = createBackendClient({
-  environment: "development", 
+  environment: "production",
   credentials: {
     clientId: process.env.PIPEDREAM_CLIENT_ID,
     clientSecret: process.env.PIPEDREAM_CLIENT_SECRET,

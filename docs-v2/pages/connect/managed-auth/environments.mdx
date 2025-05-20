@@ -3,22 +3,22 @@ import Image from 'next/image'
 
 # Environments
 
-Pipedream Connect projects support two environments: `development` and `production`. Connected accounts and credentials stored in `development` remain separate from `production`.
+Pipedream Connect projects support two environments: `development` and `production`. Connected accounts and credentials stored in one environment remain separate from the other.
 
 <Callout type="info">
-You can use all of the Connect features in `development` mode **on any plan**. **[Visit the pricing page](https://pipedream.com/pricing?plan=Connect)** to select the right plan when you're ready to ship to production.
+You can use all of the Connect features in `development` mode **on any plan**. **[Visit the pricing page](https://pipedream.com/pricing?plan=Connect)** to select the right plan when you're ready to ship your app to production.
 </Callout>
 
 ## Development mode
 
-Development mode provides access to all Connect features while you're building and testing your integration. It has the following constraints:
+Development mode provides access to all Connect features while you're building and testing your integration with the following constraints:
 
 - **Maximum of 10 external users**: The development environment is limited to 10 unique external user IDs. If you exceed this limit, you'll need to [delete some existing users](/connect/managed-auth/users/#deleting-users) before adding new ones.
 - **Must be signed in to pipedream.com**: When connecting an account in development mode, you must be signed in to pipedream.com in the same browser where you're connecting your account.
 - **Personal testing only**: Development mode is intended for your own accounts during testing and development, not for your real end users.
 
 <Callout type="warning">
-The `development` environment is not intended for production use with your customers. When you're ready to launch, you should transition to the `production` environment.
+The `development` environment is not intended for production use with your customers. When you're ready to launch, you should transition to `production`.
 </Callout>
 
 <br />
@@ -39,7 +39,8 @@ const pd = createBackendClient({
   credentials: {
     clientId: "your-oauth-client-id",
     clientSecret: "your-oauth-client-secret",
-  }
+  },
+  projectId: "proj_xxxxxxx"
 });
 ```
 
