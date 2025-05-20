@@ -199,6 +199,15 @@ export class BrowserClient extends BaseClient {
   }
 
   /**
+   * Retrieves the raw token string.
+   *
+   * @return {string} The raw token value.
+   */
+  public rawToken(): string | undefined {
+    return this._token;
+  }
+
+  /**
    * Initiates the process of connecting an account.
    *
    * @param opts - The options for starting the connection process.

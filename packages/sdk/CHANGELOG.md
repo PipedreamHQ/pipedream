@@ -2,6 +2,16 @@
 
 # Changelog
 
+## [1.6.1] - 2025-05-20
+
+### Added
+
+- Added `rawToken` getter to `BrowserClient`
+
+### Changed
+
+- changed `GetComponentsResponse` type to include `configurable_props`
+
 ## [1.6.0] - 2025-04-30
 
 ### Added
