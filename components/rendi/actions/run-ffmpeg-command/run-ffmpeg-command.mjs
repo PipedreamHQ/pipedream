@@ -68,8 +68,8 @@ export default {
     let response = await this.rendi.runFfmpegCommand({
       $,
       data: {
-        input_files: this.inputFiles,
-        output_files: this.outputFiles,
+        input_files: inputFiles,
+        output_files: outputFiles,
         ffmpeg_command: this.command,
         max_command_run_seconds: this.maxCommandRunSeconds,
       },
@@ -93,16 +93,18 @@ export default {
             responseType: "arraybuffer",
           });
           const filename = value.storage_url.split("/").pop();
-          const rawcontent = resp.toString("base64");
-          const buffer = Buffer.from(rawcontent, "base64");
           const downloadedFilepath = `/tmp/${filename}`;
-          fs.writeFileSync(downloadedFilepath, buffer);
+          fs.writeFileSync(downloadedFilepath, resp);
 
           response.tmpFiles.push({
             filename,
             downloadedFilepath,
           });
         }
+      }
+
+      if (response?.error_message) {
+        throw new ConfigurationError(response.error_message);
       }
     }
 
