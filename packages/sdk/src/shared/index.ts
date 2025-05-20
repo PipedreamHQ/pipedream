@@ -528,7 +528,7 @@ export type AppRequestResponse = GetAppResponse;
  * The response received when retrieving a list of components.
  */
 export type GetComponentsResponse = {
-  data: Omit<V1Component, "configurable_props">[];
+  data: V1Component[];
 };
 
 /**
