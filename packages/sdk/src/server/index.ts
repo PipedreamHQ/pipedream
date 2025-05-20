@@ -251,6 +251,13 @@ export class BackendClient extends BaseClient {
     }
   }
 
+  public rawAccessToken(): string | Promise<string> {
+    if (this.staticAccessToken) {
+      return this.staticAccessToken;
+    }
+    return this.ensureValidOauthAccessToken();
+  }
+
   protected authHeaders(): string | Promise<string> {
     if (this.staticAccessToken) {
       return `Bearer ${this.staticAccessToken}`;

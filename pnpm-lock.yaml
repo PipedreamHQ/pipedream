@@ -8669,8 +8669,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/nextlead:
-    specifiers: {}
+  components/nextlead: {}
 
   components/nexudus: {}
 
@@ -13980,8 +13979,7 @@ importers:
 
   components/usps: {}
 
-  components/utopian_labs:
-    specifiers: {}
+  components/utopian_labs: {}
 
   components/utradea: {}
 

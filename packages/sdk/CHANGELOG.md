@@ -2,6 +2,12 @@
 
 # Changelog
 
+## [1.6.3] - 2025-05-20b
+
+### Added
+
+- Added `rawAccessToken` getter to `BackendClient`
+
 ## [1.6.2] - 2025-05-20a
 
 ### Added
