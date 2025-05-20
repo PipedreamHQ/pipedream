@@ -167,7 +167,7 @@ export default {
     additionalOptions: {
       type: "object",
       label: "Additional Options",
-      description: "Additional parameters to send in the request. [See the documentation](https://developers.ringcentral.com/api-reference/External-Contacts/createContact) for all available parameters. Values will be parsed as JSON where applicable.",
+      description: "Additional parameters to send in the request. See the documentation for all available parameters. Values will be parsed as JSON where applicable.",
       optional: true,
     },
     targets: {

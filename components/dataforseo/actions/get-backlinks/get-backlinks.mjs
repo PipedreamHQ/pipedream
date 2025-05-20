@@ -77,7 +77,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.getBacklinkSummary({
+    const response = await this.getBacklinks({
       $,
       data: [
         {
