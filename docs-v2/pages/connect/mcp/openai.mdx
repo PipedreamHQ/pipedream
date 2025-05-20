@@ -2,10 +2,10 @@ import { Callout, Tabs, Steps } from 'nextra/components'
 
 # Using Pipedream MCP with OpenAI
 
-Access {process.env.PUBLIC_APPS}+ APIs and 10,000+ tools in the OpenAI using Pipedream Connect. MCP makes it easy to extend the capabilties of any LLM or agent, and Pipedream offers drop-in support for [calling tools in OpenAI](https://platform.openai.com/docs/guides/tools?api-mode=responses) .
+Access {process.env.PUBLIC_APPS}+ APIs and 10,000+ tools in OpenAI using Pipedream Connect. MCP makes it easy to extend the capabilities of any LLM or agent, and Pipedream offers drop-in support for [calling tools in OpenAI](https://platform.openai.com/docs/guides/tools?api-mode=responses) .
 
 <Callout type="info">
-Pipedream Connect includes built-in user authentication for [every MCP server](https://mcp.pipedream.com), which means you don't need to build any authorization flows or deal with token storage and refresh. [Learn more below](#account-connection).
+Pipedream Connect includes built-in user authentication for [every MCP server](https://mcp.pipedream.com), which means you don't need to build any authorization flows or deal with token storage and refresh in order to make authenticated requests on behalf of your users. [Learn more below](#account-connection).
 </Callout>
 
 ### Getting started
@@ -27,11 +27,11 @@ These are requirements for you, the developer. Your users do **not** need to sig
 Now set the following environment variables (learn more about environments in Pipedream Connect [here](/connect/managed-auth/environments/)):
 
 ```bash
+OPENAI_API_KEY=your_openai_api_key
 PIPEDREAM_CLIENT_ID=your_client_id
 PIPEDREAM_CLIENT_SECRET=your_client_secret
 PIPEDREAM_PROJECT_ID=your_project_id
 PIPEDREAM_ENVIRONMENT=development
-OPENAI_API_KEY=your_openai_api_key
 ```
 
 ### Discover available MCP servers
@@ -61,11 +61,10 @@ const slackApps = await pd.getApps({ q: "slack" });
 
 ### Generate a model response in OpenAI with Pipedream MCP
 
-Below is an example showing how to:
+Below is an end to end example showing how to:
 1. Initialize the Pipedream SDK
-2. Identify the right MCP server based on the user's query
-3. Get an access token for authorization to Pipedream MCP
-4. Send a prompt to OpenAI with the MCP server as a tool call
+2. Find the relevant MCP server
+3. Send a prompt to OpenAI with the MCP server as a tool call
 
 <Tabs items={['Node.js', 'cURL']}>
 <Tabs.Tab> 
