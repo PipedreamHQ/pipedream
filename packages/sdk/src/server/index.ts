@@ -251,6 +251,19 @@ export class BackendClient extends BaseClient {
     }
   }
 
+  /**
+   * Returns the raw access token string or a promise resolving to it.
+   * This can be used when you need the token directly without Authorization header formatting.
+   *
+   * @returns A string or promise resolving to the access token.
+   */
+  public rawAccessToken(): string | Promise<string> {
+    if (this.staticAccessToken) {
+      return this.staticAccessToken;
+    }
+    return this.ensureValidOauthAccessToken();
+  }
+
   protected authHeaders(): string | Promise<string> {
     if (this.staticAccessToken) {
       return `Bearer ${this.staticAccessToken}`;
