@@ -421,6 +421,12 @@ export default {
       description: "Suffix of the name. For example, `Jr`. The `DisplayName` attribute or at least one of `Title`, `GivenName`, `MiddleName`, `FamilyName`, or `Suffix` attributes is required for object create.",
       optional: true,
     },
+    primaryEmailAddr: {
+      label: "Email",
+      type: "string",
+      description: "Primary email address of the person or organization.",
+      optional: true,
+    },
     accountingMethod: {
       type: "string",
       label: "Accounting Method",
