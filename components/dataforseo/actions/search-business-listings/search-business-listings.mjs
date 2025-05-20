@@ -60,7 +60,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.getBacklinksHistory({
+    const response = await this.searchBusinessListings({
       $,
       data: [
         {
