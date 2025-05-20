@@ -1,11 +1,11 @@
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   name: "New Row",
-  key: "postgresql-new-row",
+  key: "neon_postgres-new-row",
   description: "Emit new event when a new row is added to a table. [See the documentation](https://node-postgres.com/features/queries)",
-  version: "3.0.8",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {

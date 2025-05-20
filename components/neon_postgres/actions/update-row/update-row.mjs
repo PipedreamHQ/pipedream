@@ -1,23 +1,23 @@
-import postgresql from "../../postgresql.app.mjs";
+import neon from "../../neon_postgres.app.mjs";
 import { parseRowValues } from "../../common/utils.mjs";
 
 export default {
   name: "Update Row",
-  key: "postgresql-update-row",
+  key: "neon_postgres-update-row",
   description: "Updates an existing row. [See the documentation](https://node-postgres.com/features/queries)",
-  version: "2.0.8",
+  version: "0.0.1",
   type: "action",
   props: {
-    postgresql,
+    neon,
     schema: {
       propDefinition: [
-        postgresql,
+        neon,
         "schema",
       ],
     },
     table: {
       propDefinition: [
-        postgresql,
+        neon,
         "table",
         (c) => ({
           schema: c.schema,
@@ -26,7 +26,7 @@ export default {
     },
     column: {
       propDefinition: [
-        postgresql,
+        neon,
         "column",
         (c) => ({
           table: c.table,
@@ -38,7 +38,7 @@ export default {
     },
     value: {
       propDefinition: [
-        postgresql,
+        neon,
         "value",
         (c) => ({
           table: c.table,
@@ -49,7 +49,7 @@ export default {
     },
     rowValues: {
       propDefinition: [
-        postgresql,
+        neon,
         "rowValues",
       ],
       description: "JSON representation of your new table row values. For example: `{ \"product_name\": \"Laptop Pro 15\", \"price\": 1200.50, \"stock_quantity\": 50 }`",
@@ -67,7 +67,7 @@ export default {
     const parsedRowValues = parseRowValues(rowValues);
     const errorMsg = "Row not updated due to an error. ";
 
-    const res = await this.postgresql.updateRow(
+    const res = await this.neon.updateRow(
       schema,
       table,
       column,

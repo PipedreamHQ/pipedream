@@ -1,22 +1,22 @@
-import postgresql from "../../postgresql.app.mjs";
+import neon from "../../neon_postgres.app.mjs";
 
 export default {
-  name: "Delete Row(s)",
-  key: "postgresql-delete-rows",
-  description: "Deletes a row or rows from a table. [See the documentation](https://node-postgres.com/features/queries)",
-  version: "2.0.8",
+  name: "Find Row",
+  key: "neon_postgres-find-row",
+  description: "Finds a row in a table via a lookup column. [See the documentation](https://node-postgres.com/features/queries)",
+  version: "0.0.1",
   type: "action",
   props: {
-    postgresql,
+    neon,
     schema: {
       propDefinition: [
-        postgresql,
+        neon,
         "schema",
       ],
     },
     table: {
       propDefinition: [
-        postgresql,
+        neon,
         "table",
         (c) => ({
           schema: c.schema,
@@ -25,7 +25,7 @@ export default {
     },
     column: {
       propDefinition: [
-        postgresql,
+        neon,
         "column",
         (c) => ({
           table: c.table,
@@ -33,11 +33,11 @@ export default {
         }),
       ],
       label: "Lookup Column",
-      description: "Find row(s) by searching for a value in this column",
+      description: "Find row by searching for a value in this column. Returns first row found",
     },
     value: {
       propDefinition: [
-        postgresql,
+        neon,
         "value",
         (c) => ({
           table: c.table,
@@ -49,22 +49,25 @@ export default {
   },
   async run({ $ }) {
     const {
-      table,
       schema,
+      table,
       column,
       value,
     } = this;
 
-    const errorMsg = "Row not deleted due to an error. ";
+    const errorMsg = "Row not found due to an error. ";
 
-    const rows = await this.postgresql.deleteRows(
+    const res = await this.neon.findRowByValue(
       schema,
       table,
       column,
       value,
       errorMsg,
     );
-    $.export("$summary", `Deleted ${rows.length} rows from ${table}`);
-    return rows;
+    const summary = res
+      ? "Row found"
+      : "Row not found";
+    $.export("$summary", summary);
+    return res;
   },
 };

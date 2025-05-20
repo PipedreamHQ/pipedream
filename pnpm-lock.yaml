@@ -8572,7 +8572,17 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/neon_postgres: {}
+  components/neon_postgres:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      '@pipedream/postgresql':
+        specifier: ^2.2.3
+        version: 2.2.3
+      pg-format:
+        specifier: ^1.0.4
+        version: 1.0.4
 
   components/nerv: {}
 
@@ -18523,6 +18533,9 @@ packages:
 
   '@pipedream/platform@3.0.3':
     resolution: {integrity: sha512-7elalas41lnT8i6EAFkqB7fT/+hkLGEQ1njS6A7CVguTrEswaIYk/seKmkfkRY7+O6qncgnXswYIKCBML9Co7w==}
+
+  '@pipedream/postgresql@2.2.3':
+    resolution: {integrity: sha512-Co9r4UKvvimEPo9T4v+EfVn/Sqqw8+X7PtvsAF7tydq7CHpkmOT9eYAiD0Kuybg5WbuWuqDaXHHmhVtsAxgpBw==}
 
   '@pipedream/quickbooks@0.5.1':
     resolution: {integrity: sha512-APqan523zeCY/JVBk6PhoRE5intfoBsK8LTj9xZSOlah0E9/zcVHaGJ9vQhaVjFLuPC9YYt3BemQpsjGFcU0fQ==}
@@ -35361,6 +35374,15 @@ snapshots:
       querystring: 0.2.1
     transitivePeerDependencies:
       - debug
+
+  '@pipedream/postgresql@2.2.3':
+    dependencies:
+      '@pipedream/platform': 2.0.0
+      pg: 8.13.1
+      pg-format: 1.0.4
+    transitivePeerDependencies:
+      - debug
+      - pg-native
 
   '@pipedream/quickbooks@0.5.1':
     dependencies:
