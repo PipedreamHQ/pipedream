@@ -13,7 +13,7 @@ export default {
     ...common.methods,
     getEventTypes() {
       return {
-        	"endpoint-moved-in": true,
+        "endpoint-moved-in": true,
       };
     },
     generateMeta(item) {
