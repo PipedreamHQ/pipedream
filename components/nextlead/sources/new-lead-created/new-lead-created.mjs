@@ -14,7 +14,7 @@ export default {
       return {
         id: lead.id,
         summary: "New Lead Created",
-        ts: Date.parse(lead.created_at),
+        ts: Date.now(),
       };
     },
   },

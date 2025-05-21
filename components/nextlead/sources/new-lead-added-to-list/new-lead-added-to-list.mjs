@@ -14,7 +14,7 @@ export default {
       return {
         id: lead.id,
         summary: "Lead Added to List",
-        ts: Date.parse(lead.created_at),
+        ts: Date.parse(lead.result.created_at),
       };
     },
   },

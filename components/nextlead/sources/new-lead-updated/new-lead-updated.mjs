@@ -14,7 +14,7 @@ export default {
       return {
         id: lead.id,
         summary: "Lead Updated",
-        ts: Date.parse(lead.updated_at),
+        ts: Date.now(),
       };
     },
   },
