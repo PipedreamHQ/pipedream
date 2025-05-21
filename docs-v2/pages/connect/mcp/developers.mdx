@@ -197,7 +197,7 @@ const pd = createBackendClient({
 
 // Retrieve your developer access token via the Pipedream SDK
 const accessToken = await pd.rawAccessToken();
-const serverUrl = process.env.MCP_SERVER_URL || "https://remote.mcp.pipedream.net";
+const serverUrl = MCP_SERVER_URL || `https://remote.mcp.pipedream.net/${externalUserId}/${appSlug}`;
 
 const transport = new StreamableHTTPClientTransport(new URL(serverUrl), {
   requestInit: {
