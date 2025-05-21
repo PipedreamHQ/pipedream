@@ -13989,6 +13989,9 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
+  components/uspacy:
+    specifiers: {}
+
   components/usps: {}
 
   components/utopian_labs: {}
