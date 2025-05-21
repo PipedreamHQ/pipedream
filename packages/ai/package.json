@@ -4,11 +4,14 @@
   "version": "0.0.4",
   "description": "Pipedream AI",
   "main": "./dist/index.js",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.js"
     }
   },
   "engines": {
@@ -24,7 +27,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsc --noCheck",
+    "build": "rm -rf dist && tsup --config tsup.config.js",
     "prepublish": "npm run build"
   },
   "files": [
