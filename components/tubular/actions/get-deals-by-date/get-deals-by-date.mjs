@@ -29,7 +29,7 @@ export default {
         }
       }
     }`;
-    const response = await this.app.getDealsByDate({
+    const response = await this.app.post({
       $,
       data: {
         query,

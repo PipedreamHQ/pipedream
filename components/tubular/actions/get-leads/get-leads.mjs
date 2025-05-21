@@ -8,7 +8,6 @@ export default {
   type: "action",
   props: {
     app,
-
   },
   async run({ $ }) {
     const query = `{
@@ -25,7 +24,7 @@ export default {
         }
       }
     }`;
-    const response = await this.app.getLeads({
+    const response = await this.app.post({
       $,
       data: {
         query,

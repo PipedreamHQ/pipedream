@@ -44,19 +44,7 @@ export default {
         },
       });
     },
-    async createLead(args = {}) {
-      return this._makeRequest({
-        method: "POST",
-        ...args,
-      });
-    },
-    async getDealsByDate(args = {}) {
-      return this._makeRequest({
-        method: "POST",
-        ...args,
-      });
-    },
-    async getLeads(args = {}) {
+    async post(args = {}) {
       return this._makeRequest({
         method: "POST",
         ...args,

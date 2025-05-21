@@ -49,7 +49,7 @@ export default {
       }
     `;
 
-    const response = await this.app.createLead({
+    const response = await this.app.post({
       $,
       data: {
         query,
