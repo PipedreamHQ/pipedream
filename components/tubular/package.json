@@ -2,7 +2,7 @@
   "name": "@pipedream/tubular",
   "version": "0.1.0",
   "description": "Pipedream Tubular Components",
-  "main": "app/tubular.app.mjs",
+  "main": "tubular.app.mjs",
   "keywords": [
     "pipedream",
     "tubular"
