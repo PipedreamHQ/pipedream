@@ -6,7 +6,7 @@ Add Pipedream's MCP server to your application or agent to make tool calls on be
 
 ## Overview
 
-Pipedream's MCP server code is [publicly available in GitHub](https://github.com/PipedreamHQ/pipedream/blob/master/modelcontextprotocol/README.md), and you have two options for using Pipedream's MCP server in your app:
+Pipedream's MCP server code is [publicly available on GitHub](https://github.com/PipedreamHQ/pipedream/blob/master/modelcontextprotocol/README.md), and you have two options for using Pipedream's MCP server in your app:
 
 1. [Use Pipedream's remote MCP server](#use-pipedreams-remote-mcp-server)
 2. [Self-host Pipedream's MCP server](#self-host-pipedreams-mcp-server)
@@ -25,25 +25,6 @@ The MCP server accepts two route params:
 
 - The app's "name slug" (the unique identifier for the app)
 - [See below](#discover-available-mcp-servers) for discovering available apps
-
-### Account connections
-
-One of the core features of Pipedream Connect and our MCP product is the ability for your users to easily connect their accounts without having to build any of the authorization flow or handle token storage.
-
-You can handle account connections in one of two ways in your app:
-
-### Add a button in your UI
-- Use Pipedream's [frontend SDK](/connect/managed-auth/quickstart/#use-the-pipedream-sdk-in-your-frontend) to let users connect their account directly in your UI
-- You can see an example of this when you connect any account in [mcp.pipedream.com](https://mcp.pipedream.com)
-
-### Return a link
-- Use [Connect Link ](/connect/managed-auth/quickstart/#or-use-connect-link) to let your users open a Pipedream hosted page to connect their account
-- There is no implementation required for this option since it's already handled in Pipedream's MCP server
-- If a user doesn't have a connected account that's required for a given tool call, we'll return a URL in the tool call response. For example:
-
-```
-https://pipedream.com/_static/connect.html?token=ctok_xxxxxxx&connectLink=true&app={appSlug}
-```
 
 ## Getting started
 
@@ -64,6 +45,31 @@ PIPEDREAM_CLIENT_ID=your_client_id
 PIPEDREAM_CLIENT_SECRET=your_client_secret
 PIPEDREAM_PROJECT_ID=your_project_id # proj_xxxxxxx
 PIPEDREAM_ENVIRONMENT=development # development | production
+```
+
+### Authentication
+
+#### Developer authentication
+
+Your application authenticates with Pipedream using client credential OAuth. [See below](#api-authentication) for details.
+
+#### User account connections
+
+One of the core features of Pipedream Connect and our MCP product is the ability for your users to easily connect their accounts without having to build any of the authorization flow or handle token storage.
+
+You can handle account connections in one of two ways in your app:
+
+##### Add a button in your UI
+- Use Pipedream's [frontend SDK](/connect/managed-auth/quickstart/#use-the-pipedream-sdk-in-your-frontend) to let users connect their account directly in your UI
+- You can see an example of this when you connect any account in [mcp.pipedream.com](https://mcp.pipedream.com)
+
+##### Return a link
+- Use [Connect Link ](/connect/managed-auth/quickstart/#or-use-connect-link) to let your users open a Pipedream hosted page to connect their account
+- There is no implementation required for this option since it's already handled in Pipedream's MCP server
+- If a user doesn't have a connected account that's required for a given tool call, we'll return a URL in the tool call response. For example:
+
+```
+https://pipedream.com/_static/connect.html?token=ctok_xxxxxxx&connectLink=true&app={appSlug}
 ```
 
 ### Discover available MCP servers
@@ -103,7 +109,7 @@ Pipedream MCP server supports both SSE and streamable HTTP transport types, with
 https://mcp.pipedream.net
 ```
 
-#### Authentication
+#### API Authentication
 
 To authenticate requests to Pipedream's MCP server, you need to include an access token with every HTTP request. Here's how to get it:
 
