@@ -6230,8 +6230,7 @@ importers:
 
   components/hub_planner: {}
 
-  components/hubflo:
-    specifiers: {}
+  components/hubflo: {}
 
   components/hubspot:
     dependencies:
@@ -7186,8 +7185,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/lead_identity_check:
-    specifiers: {}
+  components/lead_identity_check: {}
 
   components/leadboxer: {}
 
@@ -7642,8 +7640,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/magileads:
-    specifiers: {}
+  components/magileads: {}
 
   components/magnetic:
     dependencies:
@@ -7721,8 +7718,7 @@ importers:
         specifier: ^4.6.0
         version: 4.6.0
 
-  components/maileroo:
-    specifiers: {}
+  components/maileroo: {}
 
   components/mailersend:
     dependencies:
@@ -8462,8 +8458,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/murf:
-    specifiers: {}
+  components/murf: {}
 
   components/murlist: {}
 
@@ -10466,8 +10461,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/pushinator:
-    specifiers: {}
+  components/pushinator: {}
 
   components/pushover:
     dependencies:
@@ -14007,8 +14001,7 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
-  components/uspacy:
-    specifiers: {}
+  components/uspacy: {}
 
   components/usps: {}
 
@@ -14057,8 +14050,7 @@ importers:
         specifier: ^0.0.1-security
         version: 0.0.1-security
 
-  components/veedea:
-    specifiers: {}
+  components/veedea: {}
 
   components/vend:
     dependencies:
