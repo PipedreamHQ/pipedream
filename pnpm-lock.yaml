@@ -7116,8 +7116,7 @@ importers:
 
   components/lambdatest: {}
 
-  components/lamini:
-    specifiers: {}
+  components/lamini: {}
 
   components/langbase:
     dependencies:
@@ -15424,6 +15423,14 @@ importers:
       dotenv:
         specifier: ^6.0.0
         version: 6.2.0
+
+  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
+
+  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
+
+  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
+
+  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
 
   packages/ai:
     dependencies:
