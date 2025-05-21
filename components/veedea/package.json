@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/veedea",
+  "version": "0.0.1",
+  "description": "Pipedream Veedea Components",
+  "main": "veedea.app.mjs",
+  "keywords": [
+    "pipedream",
+    "veedea"
+  ],
+  "homepage": "https://pipedream.com/apps/veedea",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
