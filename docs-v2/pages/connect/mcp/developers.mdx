@@ -83,7 +83,7 @@ Pipedream provides [{process.env.PUBLIC_APPS}+ APIs as MCP servers](https://mcp.
 ```javascript
 import { createBackendClient } from "@pipedream/sdk/server";
 
-// Initialize the Pipedream client with the SDK
+// Initialize the Pipedream SDK client
 const pd = createBackendClient({
   environment: PIPEDREAM_ENVIRONMENT,
   credentials: {
@@ -105,7 +105,7 @@ const apps = await pd.getApps();
 ```javascript
 import { createBackendClient } from "@pipedream/sdk/server";
 
-// Initialize the Pipedream client with the SDK
+// Initialize the Pipedream SDK client
 const pd = createBackendClient({
   environment: PIPEDREAM_ENVIRONMENT,
   credentials: {
@@ -148,7 +148,7 @@ To authenticate requests to Pipedream's MCP server, you need to include an acces
 ```javascript
 import { createBackendClient } from "@pipedream/sdk/server";
 
-// Initialize the Pipedream client with the SDK
+// Initialize the Pipedream SDK client
 const pd = createBackendClient({
   environment: PIPEDREAM_ENVIRONMENT,
   credentials: {
@@ -182,21 +182,32 @@ curl -s -X POST https://api.pipedream.com/v1/oauth/token \
 Include these headers in every HTTP request:
 
 ```javascript
-import { StreamableHTTPClientTransport } from
-  "@modelcontextprotocol/sdk/client/streamableHttp.js"
+import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js"
+import { createBackendClient } from "@pipedream/sdk/server";
 
-const transport = new StreamableHTTPClientTransport(
-  new URL(this.serverUrl),
-  {
-    requestInit: {
-      headers: {
-        "Authorization": `Bearer ${PIPEDREAM_ACCESS_TOKEN}`,
-        "x-pd-project-id": PIPEDREAM_PROJECT_ID, // proj_xxxxxxx
-        "x-pd-environment": PIPEDREAM_ENVIRONMENT // development | production
-      }
-    } as RequestInit,
-  }
-);
+// Initialize the Pipedream SDK client
+const pd = createBackendClient({
+  environment: PIPEDREAM_ENVIRONMENT,
+  credentials: {
+    clientId: PIPEDREAM_CLIENT_ID,
+    clientSecret: PIPEDREAM_CLIENT_SECRET,
+  },
+  projectId: PIPEDREAM_PROJECT_ID
+});
+
+// Retrieve your developer access token via the Pipedream SDK
+const accessToken = await pd.rawAccessToken();
+const serverUrl = process.env.MCP_SERVER_URL || "https://remote.mcp.pipedream.net";
+
+const transport = new StreamableHTTPClientTransport(new URL(serverUrl), {
+  requestInit: {
+    headers: {
+      "Authorization": `Bearer ${accessToken}`,
+      "x-pd-project-id": PIPEDREAM_PROJECT_ID, // proj_xxxxxxx
+      "x-pd-environment": PIPEDREAM_ENVIRONMENT // development | production
+    }
+  } as RequestInit,
+});
 ```
 
 ### Self-host Pipedream's MCP server
