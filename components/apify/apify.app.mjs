@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { ApifyClient } from "apify-client";
 import { LIMIT } from "./common/constants.mjs";
 
 export default {
@@ -49,7 +50,7 @@ export default {
     userActorId: {
       type: "string",
       label: "Actor ID",
-      description: "The ID of the actor to monitor.",
+      description: "The ID of the Actor to monitor.",
       async options({ page }) {
         const { data: { items } } = await this.listUserActors({
           params: {
@@ -155,6 +156,19 @@ export default {
     },
   },
   methods: {
+    // TODO: Replace all axios calls with ApifyClient, it has a lot of useful methods and features like exponential backoff calls
+    _apifyClient() {
+      return new ApifyClient({
+        token: this.$auth.api_token,
+        requestInterceptors: [(config) => ({
+          ...config,
+          headers: {
+            ...config.headers,
+            "x-apify-integration-platform": "pipedream",
+          },
+        })],
+      });
+    },
     _baseUrl() {
       return "https://api.apify.com/v2";
     },
@@ -162,6 +176,7 @@ export default {
       return {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${this.$auth.api_token}`,
+        "x-apify-integration-platform": "pipedream",
       };
     },
     _makeRequest({

@@ -1,3 +1,4 @@
+import { WEBHOOK_EVENT_TYPES } from '@apify/consts';
 import apify from "../../apify.app.mjs";
 
 export default {
@@ -15,10 +16,10 @@ export default {
         data: {
           requestUrl: this.http.endpoint,
           eventTypes: [
-            "ACTOR.RUN.SUCCEEDED",
-            "ACTOR.RUN.FAILED",
-            "ACTOR.RUN.TIMED_OUT",
-            "ACTOR.RUN.ABORTED",
+            WEBHOOK_EVENT_TYPES.ACTOR_RUN_SUCCEEDED,
+            WEBHOOK_EVENT_TYPES.ACTOR_RUN_FAILED,
+            WEBHOOK_EVENT_TYPES.ACTOR_RUN_TIMED_OUT,
+            WEBHOOK_EVENT_TYPES.ACTOR_RUN_ABORTED,
           ],
           condition: this.getCondition(),
         },
@@ -36,7 +37,7 @@ export default {
     });
 
     this.$emit(body, {
-      summary: body.eventType === "TEST"
+      summary: body.eventType === WEBHOOK_EVENT_TYPES.TEST
         ? "Webhook test has successfully triggered!"
         : this.getSummary(body),
       id: body.eventData.actorRunId || `${body.userId}-${body.createAt}`,
