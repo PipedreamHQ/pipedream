@@ -1224,11 +1224,7 @@ importers:
 
   components/aylien_news_api: {}
 
-  components/ayrshare:
-    dependencies:
-      '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+  components/ayrshare: {}
 
   components/azure_ai_vision:
     dependencies:
@@ -13656,7 +13652,11 @@ importers:
 
   components/trustpilot: {}
 
-  components/tubular: {}
+  components/tubular:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/tuesday: {}
 
