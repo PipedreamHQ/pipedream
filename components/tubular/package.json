@@ -2,12 +2,11 @@
   "name": "@pipedream/tubular",
   "version": "0.1.0",
   "description": "Pipedream Tubular Components",
-  "main": "dist/app/tubular.app.mjs",
+  "main": "app/tubular.app.mjs",
   "keywords": [
     "pipedream",
     "tubular"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/tubular",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
