@@ -1,7 +1,7 @@
 {
   "name": "@pipedream/ai",
   "type": "module",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream AI",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
