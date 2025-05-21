@@ -82,7 +82,7 @@ const response = await client.responses.create({
     {
       type: 'mcp',
       server_label: 'Notion',
-      server_url: `https://mcp.pipedream.net/${externalUserId}/${appSlug}`,
+      server_url: `https://remote.mcp.pipedream.net/${externalUserId}/${appSlug}`,
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "x-pd-project-id": PIPEDREAM_PROJECT_ID,
@@ -129,7 +129,7 @@ curl -X POST https://api.openai.com/v1/chat/completions \
       {
         "type": "mcp",
         "server_label": "Notion",
-        "server_url": "https://mcp.pipedream.net/abc-123/'$APP_SLUG'",
+        "server_url": "https://remote.mcp.pipedream.net/abc-123/'$APP_SLUG'",
         "headers": {
           "Authorization": "Bearer '"$ACCESS_TOKEN"'",
           "x-pd-project-id": "$PIPEDREAM_PROJECT_ID",
