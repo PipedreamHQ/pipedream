@@ -182,7 +182,7 @@ curl -s -X POST https://api.pipedream.com/v1/oauth/token \
 Include these headers in every HTTP request:
 
 ```javascript
-import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js"
+import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
 import { createBackendClient } from "@pipedream/sdk/server";
 
 // Initialize the Pipedream SDK client
@@ -206,7 +206,7 @@ const transport = new StreamableHTTPClientTransport(new URL(serverUrl), {
       "x-pd-project-id": PIPEDREAM_PROJECT_ID, // proj_xxxxxxx
       "x-pd-environment": PIPEDREAM_ENVIRONMENT // development | production
     }
-  } as RequestInit,
+  }
 });
 ```
 
