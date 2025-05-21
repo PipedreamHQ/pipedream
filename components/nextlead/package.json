@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/nextlead",
+  "version": "0.0.1",
+  "description": "Pipedream Nextlead Components",
+  "main": "nextlead.app.mjs",
+  "keywords": [
+    "pipedream",
+    "nextlead"
+  ],
+  "homepage": "https://pipedream.com/apps/nextlead",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

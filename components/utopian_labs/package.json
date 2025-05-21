@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/utopian_labs",
+  "version": "0.0.1",
+  "description": "Pipedream Utopian Labs Components",
+  "main": "utopian_labs.app.mjs",
+  "keywords": [
+    "pipedream",
+    "utopian_labs"
+  ],
+  "homepage": "https://pipedream.com/apps/utopian_labs",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

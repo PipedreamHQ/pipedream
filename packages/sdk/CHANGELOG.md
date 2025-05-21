@@ -2,6 +2,28 @@
 
 # Changelog
 
+## [1.6.3] - 2025-05-20b
+
+### Added
+
+- Added `rawAccessToken` getter to `BackendClient`
+
+## [1.6.2] - 2025-05-20a
+
+### Added
+
+- Added ability to create a `BackendClient` with just an `AccessToken`
+
+## [1.6.1] - 2025-05-20
+
+### Added
+
+- Added `rawToken` getter to `BrowserClient`
+
+### Changed
+
+- changed `GetComponentsResponse` type to include `configurable_props`
+
 ## [1.6.0] - 2025-04-30
 
 ### Added

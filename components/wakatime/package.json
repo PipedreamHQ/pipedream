@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/wakatime",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Pipedream WakaTime Components",
-  "main": "dist/app/wakatime.app.mjs",
+  "main": "wakatime.app.mjs",
   "keywords": [
     "pipedream",
     "wakatime"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/wakatime",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
   }
 }
