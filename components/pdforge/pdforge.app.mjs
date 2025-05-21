@@ -4,108 +4,68 @@ export default {
   type: "app",
   app: "pdforge",
   propDefinitions: {
-    templateId: {
-      type: "string",
-      label: "Template ID",
-      description: "The ID of the template from which to generate the document",
-    },
-    data: {
-      type: "object",
-      label: "Data",
-      description: "The object containing the variables for your PDF template",
-      optional: true,
-    },
-    convertToImage: {
-      type: "boolean",
-      label: "Convert to Image",
-      description: "Whether to convert the PDF to a PNG image",
-      optional: true,
-      default: false,
-    },
     s3bucket: {
       type: "string",
       label: "S3 Bucket",
       description: "The ID of the active S3 connection to store the generated file on",
-      optional: true,
     },
     s3key: {
       type: "string",
       label: "S3 Key",
       description: "The path and filename without extension for saving the file in the S3 bucket",
-      optional: true,
+      secret: true,
+    },
+    fileName: {
+      type: "string",
+      label: "File Name",
+      description: "The filename without extension for saving the file in the `/tmp` direcrtory",
     },
     webhook: {
       type: "string",
       label: "Webhook URL",
       description: "The URL of your webhook endpoint",
-      optional: true,
-    },
-    html: {
-      type: "string",
-      label: "HTML",
-      description: "The HTML content you want to render as PDF",
-    },
-    pdfParams: {
-      type: "object",
-      label: "PDF Parameters",
-      description: "PDF parameters to customize the output",
-      optional: true,
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://api.pdforge.com/v1";
+    _baseUrl(baseUrl) {
+      return baseUrl || "https://api.pdforge.com/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "POST", path, headers, ...otherOpts
-      } = opts;
+    _headers(removeHeader = false) {
+      return removeHeader
+        ? {}
+        : {
+          Authorization: `Bearer ${this.$auth.api_key}`,
+        };
+    },
+    _makeRequest({
+      $ = this, baseUrl, removeHeader, path = "", ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.apiToken}`,
-        },
+        url: this._baseUrl(baseUrl) + path,
+        headers: this._headers(removeHeader),
+        ...opts,
       });
     },
-    async generateDocumentFromTemplate(opts = {}) {
-      const {
-        templateId, data, convertToImage, s3bucket, s3key, webhook,
-      } = opts;
-      const path = webhook
-        ? "/pdf/async"
-        : "/pdf/sync";
+    generateDocumentFromTemplate({
+      asyncMode, ...opts
+    }) {
       return this._makeRequest({
-        path,
-        data: {
-          templateId,
-          data,
-          convertToImage,
-          s3_bucket: s3bucket,
-          s3_key: s3key,
-          webhook,
-        },
+        method: "POST",
+        path: `/pdf/${asyncMode
+          ? "async"
+          : "sync"}`,
+        ...opts,
       });
     },
-    async generatePDFfromHTML(opts = {}) {
-      const {
-        html, pdfParams, convertToImage, s3bucket, s3key, webhook,
-      } = opts;
-      const path = webhook
-        ? "/html-to-pdf/async"
-        : "/html-to-pdf/sync";
+    generatePDFfromHTML({
+      asyncMode, ...opts
+    }) {
       return this._makeRequest({
-        path,
-        data: {
-          html,
-          pdfParams,
-          convertToImage,
-          s3_bucket: s3bucket,
-          s3_key: s3key,
-          webhook,
-        },
+        method: "POST",
+        path: `/html-to-pdf/${asyncMode
+          ? "async"
+          : "sync"}`,
+        ...opts,
       });
     },
   },

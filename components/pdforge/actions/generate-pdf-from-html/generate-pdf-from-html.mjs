@@ -1,71 +1,41 @@
-import pdforge from "../../pdforge.app.mjs";
-import { axios } from "@pipedream/platform";
+import { parseObject } from "../../common/utils.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "pdforge-generate-pdf-from-html",
   name: "Generate PDF from HTML",
-  description: "Generate a PDF document from HTML content. [See the documentation](https://docs.pdforge.com)",
-  version: "0.0.{{ts}}",
+  description: "Generate a PDF document from HTML content. [See the documentation](https://docs.pdforge.com/html-to-pdf-conversion/synchronous-request)",
+  version: "0.0.1",
   type: "action",
   props: {
-    pdforge,
+    ...common.props,
     html: {
-      propDefinition: [
-        pdforge,
-        "html",
-      ],
+      type: "string",
+      label: "HTML",
+      description: "The HTML content you want to render",
     },
     pdfParams: {
-      propDefinition: [
-        pdforge,
-        "pdfParams",
-      ],
-      optional: true,
-    },
-    convertToImage: {
-      propDefinition: [
-        pdforge,
-        "convertToImage",
-      ],
-      optional: true,
-    },
-    s3bucket: {
-      propDefinition: [
-        pdforge,
-        "s3bucket",
-      ],
-      optional: true,
-    },
-    s3key: {
-      propDefinition: [
-        pdforge,
-        "s3key",
-      ],
-      optional: true,
-    },
-    webhook: {
-      propDefinition: [
-        pdforge,
-        "webhook",
-      ],
+      type: "object",
+      label: "PDF Params",
+      description: "The object containing the parameters for your PDF. [See all the options here](https://docs.pdforge.com/options/pdf-params).",
       optional: true,
     },
   },
-  async run({ $ }) {
-    const response = await this.pdforge.generatePDFfromHTML({
-      html: this.html,
-      pdfParams: this.pdfParams,
-      convertToImage: this.convertToImage,
-      s3bucket: this.s3bucket,
-      s3key: this.s3key,
-      webhook: this.webhook,
-    });
-
-    const summary = this.webhook
-      ? `PDF generation initiated with request ID: ${response.requestId}.`
-      : `PDF generated successfully. Download it using signed URL: ${response.signedUrl}.`;
-
-    $.export("$summary", summary);
-    return response;
+  methods: {
+    getAdditionalData() {
+      return {
+        html: this.html,
+        pdfParams: parseObject(this.pdfParams),
+      };
+    },
+    getFunction() {
+      return this.pdforge.generatePDFfromHTML;
+    },
+    getSummary({ convertToImage }) {
+      return `${convertToImage
+        ? "PNG"
+        : "PDF"} successfully generated from provided HTML content.`;
+    },
   },
 };

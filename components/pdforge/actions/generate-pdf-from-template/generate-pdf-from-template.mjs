@@ -1,72 +1,40 @@
-import pdforge from "../../pdforge.app.mjs";
-import { axios } from "@pipedream/platform";
+import { parseObject } from "../../common/utils.mjs";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   key: "pdforge-generate-pdf-from-template",
   name: "Generate PDF from Template",
   description: "Generate a document from a selected template. [See the documentation](https://docs.pdforge.com/pdfs-from-templates/synchronous-request)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
-    pdforge,
+    ...common.props,
     templateId: {
-      propDefinition: [
-        pdforge,
-        "templateId",
-      ],
+      type: "string",
+      label: "Template ID",
+      description: "The ID of the template from which to generate the document",
     },
     data: {
-      propDefinition: [
-        pdforge,
-        "data",
-      ],
-      optional: true,
-    },
-    convertToImage: {
-      propDefinition: [
-        pdforge,
-        "convertToImage",
-      ],
-      optional: true,
-    },
-    s3bucket: {
-      propDefinition: [
-        pdforge,
-        "s3bucket",
-      ],
-      optional: true,
-    },
-    s3key: {
-      propDefinition: [
-        pdforge,
-        "s3key",
-      ],
-      optional: true,
-    },
-    webhook: {
-      propDefinition: [
-        pdforge,
-        "webhook",
-      ],
-      optional: true,
+      type: "object",
+      label: "Data",
+      description: "The object containing the variables for your PDF template",
     },
   },
-  async run({ $ }) {
-    const response = await this.pdforge.generateDocumentFromTemplate({
-      templateId: this.templateId,
-      data: this.data,
-      convertToImage: this.convertToImage,
-      s3bucket: this.s3bucket,
-      s3key: this.s3key,
-      webhook: this.webhook,
-    });
-
-    if (this.webhook) {
-      $.export("$summary", "Asynchronous request initiated. Await the webhook callback for completion.");
-    } else {
-      $.export("$summary", `PDF generated successfully from template ID: ${this.templateId}`);
-    }
-
-    return response;
+  methods: {
+    getAdditionalData() {
+      return {
+        templateId: this.templateId,
+        data: parseObject(this.data),
+      };
+    },
+    getFunction() {
+      return this.pdforge.generateDocumentFromTemplate;
+    },
+    getSummary({ convertToImage }) {
+      return `${convertToImage
+        ? "PNG"
+        : "PDF"} generated successfully from template ID: ${this.templateId}`;
+    },
   },
 };
