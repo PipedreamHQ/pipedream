@@ -182,19 +182,29 @@ curl -s -X POST https://api.pipedream.com/v1/oauth/token \
 Include these headers in every HTTP request:
 
 ```javascript
-{
-  Authorization: `Bearer ${PIPEDREAM_ACCESS_TOKEN}`,
-  "x-pd-project-id": PIPEDREAM_PROJECT_ID, // proj_xxxxxxx
-  "x-pd-environment": PIPEDREAM_ENVIRONMENT // development | production
-}
+import { StreamableHTTPClientTransport } from
+  "@modelcontextprotocol/sdk/client/streamableHttp.js"
+
+const transport = new StreamableHTTPClientTransport(
+  new URL(this.serverUrl),
+  {
+    requestInit: {
+      headers: {
+        "Authorization": `Bearer ${PIPEDREAM_ACCESS_TOKEN}`,
+        "x-pd-project-id": PIPEDREAM_PROJECT_ID, // proj_xxxxxxx
+        "x-pd-environment": PIPEDREAM_ENVIRONMENT // development | production
+      }
+    } as RequestInit,
+  }
+);
 ```
 
 ### Self-host Pipedream's MCP server
 
 Hosting the MCP server locally or in your app will expose these routes:
 
-- `GET /:external_user_id/:app` - App-specific connection endpoint
-- `POST /:external_user_id/:app/messages` - App-specific message handler
+- `GET /:external_user_id/:app`: app-specific connection endpoint
+- `POST /:external_user_id/:app/messages`: app-specific message handler
 
 #### Using the `Dockerfile`
 
