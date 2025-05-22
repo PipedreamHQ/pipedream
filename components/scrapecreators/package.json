@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/scrapecreators",
+  "version": "0.0.1",
+  "description": "Pipedream ScrapeCreators Components",
+  "main": "scrapecreators.app.mjs",
+  "keywords": [
+    "pipedream",
+    "scrapecreators"
+  ],
+  "homepage": "https://pipedream.com/apps/scrapecreators",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

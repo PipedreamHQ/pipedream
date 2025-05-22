@@ -1832,7 +1832,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/browserbase: {}
+  components/browserbase:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/browserhub:
     dependencies:
@@ -2142,6 +2146,12 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+
+  components/cerebras:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/certifier:
     dependencies:
@@ -6031,6 +6041,8 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/heyreach: {}
+
   components/heysummit:
     dependencies:
       '@pipedream/platform':
@@ -6219,6 +6231,8 @@ importers:
   components/httpsms: {}
 
   components/hub_planner: {}
+
+  components/hubflo: {}
 
   components/hubspot:
     dependencies:
@@ -7106,6 +7120,8 @@ importers:
 
   components/lambdatest: {}
 
+  components/lamini: {}
+
   components/langbase:
     dependencies:
       '@pipedream/platform':
@@ -7170,6 +7186,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/lead_identity_check: {}
 
   components/leadboxer: {}
 
@@ -7624,6 +7642,8 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/magileads: {}
+
   components/magnetic:
     dependencies:
       '@pipedream/platform':
@@ -7700,6 +7720,8 @@ importers:
         specifier: ^4.6.0
         version: 4.6.0
 
+  components/maileroo: {}
+
   components/mailersend:
     dependencies:
       crypto:
@@ -7755,7 +7777,11 @@ importers:
 
   components/mailninja: {}
 
-  components/mailosaur: {}
+  components/mailosaur:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/mailrefine: {}
 
@@ -8434,6 +8460,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/murf: {}
+
   components/murlist: {}
 
   components/musicbrainz: {}
@@ -8538,6 +8566,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/neetoform: {}
+
   components/neetoinvoice:
     dependencies:
       '@pipedream/platform':
@@ -8557,6 +8587,18 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+
+  components/neon_postgres:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      '@pipedream/postgresql':
+        specifier: ^2.2.3
+        version: 2.2.3
+      pg-format:
+        specifier: ^1.0.4
+        version: 1.0.4
 
   components/nerv: {}
 
@@ -8652,6 +8694,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+
+  components/nextlead: {}
 
   components/nexudus: {}
 
@@ -9592,6 +9636,18 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/pdforge:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      stream:
+        specifier: ^0.0.3
+        version: 0.0.3
+      util:
+        specifier: ^0.12.5
+        version: 0.12.5
+
   components/peach:
     dependencies:
       '@pipedream/platform':
@@ -10419,6 +10475,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/pushinator: {}
+
   components/pushover:
     dependencies:
       '@pipedream/platform':
@@ -10866,6 +10924,12 @@ importers:
   components/render: {}
 
   components/renderform: {}
+
+  components/rendi:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/rentcast:
     dependencies:
@@ -11418,6 +11482,8 @@ importers:
         specifier: ^1.4.1
         version: 1.6.6
 
+  components/scrapecreators: {}
+
   components/scrapegraphai:
     dependencies:
       '@pipedream/platform':
@@ -11425,6 +11491,8 @@ importers:
         version: 3.0.3
 
   components/scrapein_: {}
+
+  components/scrapeless: {}
 
   components/scrapeninja:
     dependencies:
@@ -12176,7 +12244,11 @@ importers:
 
   components/slack_demo_app_1: {}
 
-  components/slicktext: {}
+  components/slicktext:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/slite:
     dependencies:
@@ -13604,7 +13676,11 @@ importers:
 
   components/trustpilot: {}
 
-  components/tubular: {}
+  components/tubular:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/tuesday: {}
 
@@ -13953,7 +14029,11 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
+  components/uspacy: {}
+
   components/usps: {}
+
+  components/utopian_labs: {}
 
   components/utradea: {}
 
@@ -13997,6 +14077,8 @@ importers:
       fs:
         specifier: ^0.0.1-security
         version: 0.0.1-security
+
+  components/veedea: {}
 
   components/vend:
     dependencies:
@@ -14255,7 +14337,11 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/wakatime: {}
+  components/wakatime:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/wappalyzer:
     dependencies:
@@ -14480,7 +14566,7 @@ importers:
   components/wit_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
+        specifier: ^3.0.3
         version: 3.0.3
 
   components/withings:
@@ -15382,6 +15468,31 @@ importers:
         specifier: ^6.0.0
         version: 6.2.0
 
+  packages/ai:
+    dependencies:
+      '@pipedream/sdk':
+        specifier: workspace:^
+        version: link:../sdk
+      openai:
+        specifier: ^4.77.0
+        version: 4.97.0(ws@8.18.0)(zod@3.24.4)
+      zod:
+        specifier: ^3.24.4
+        version: 3.24.4
+      zod-to-json-schema:
+        specifier: ^3.24.5
+        version: 3.24.5(zod@3.24.4)
+    devDependencies:
+      bun:
+        specifier: ^1.2.13
+        version: 1.2.13
+      tsup:
+        specifier: ^8.3.6
+        version: 8.3.6(@microsoft/api-extractor@7.47.12(@types/node@22.15.9))(jiti@1.21.6)(postcss@8.4.49)(tsx@4.19.4)(typescript@5.6.3)(yaml@2.6.1)
+      typescript:
+        specifier: ^5.6
+        version: 5.6.3
+
   packages/browsers:
     dependencies:
       '@sparticuz/chromium':
@@ -15509,7 +15620,7 @@ importers:
         version: 3.1.7
       ts-jest:
         specifier: ^29.2.5
-        version: 29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(esbuild@0.24.2)(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0))(typescript@5.7.2)
+        version: 29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0))(typescript@5.7.2)
       tsup:
         specifier: ^8.3.6
         version: 8.3.6(@microsoft/api-extractor@7.47.12(@types/node@20.17.30))(jiti@1.21.6)(postcss@8.4.49)(tsx@4.19.4)(typescript@5.7.2)(yaml@2.6.1)
@@ -18336,6 +18447,61 @@ packages:
     resolution: {integrity: sha512-wU5J8rUoo32oSef/rFpOT1HIjLjAv3qIDHkw1QIhODV3OpAVHi5oVzlouozg9obUmZKtbZ0qUe/m7FP0y0yBzA==}
     engines: {node: '>=8.12.0'}
 
+  '@oven/bun-darwin-aarch64@1.2.13':
+    resolution: {integrity: sha512-AOU4O9jxRp2TXeqoEfOjEaUNZb3+SUPBN8TIEnUjpnyLWPoYJGCeNdQuCDcUkmF3MJEmEuJdyF1IeOITozpC6A==}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@oven/bun-darwin-x64-baseline@1.2.13':
+    resolution: {integrity: sha512-bZpIUOvx9np07AmH5MVXGYHWZ40m2vCpNV74fma6sCzBlssJclS2V3BZgO+lLvtUKSqnW3HAyJBGsRF34wPbNw==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@oven/bun-darwin-x64@1.2.13':
+    resolution: {integrity: sha512-kJ2iOvxY8uz5/nu+8zIjKf4LmRIHBH9pJJM2q+tA47U04Tod6k6rtntDOI8SdmRe2M5c87RfbadWdxhpYHFIWQ==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@oven/bun-linux-aarch64-musl@1.2.13':
+    resolution: {integrity: sha512-P56m718KXeyu4Vq5fsESFktfu+0Us1jhu/ZzgHYFRYJcm/hjs6AUA/RJtUAifFy5PNAM5IJdrYl3xPsE8Wa+pg==}
+    cpu: [aarch64]
+    os: [linux]
+
+  '@oven/bun-linux-aarch64@1.2.13':
+    resolution: {integrity: sha512-hocSJmblX4CCjP1HpaM64I65erB+CONUCCwKzGGOfLGLobVi+vn/G56UaYWsje1y/Z7WlVaUSgKYVWl7EJ6T9g==}
+    cpu: [arm64]
+    os: [linux]
+
+  '@oven/bun-linux-x64-baseline@1.2.13':
+    resolution: {integrity: sha512-9n1ai2ejEpxEMqpbHQMWFyvacq3MYsB7gh5mxRlFwhNFPCWu/Sv6gyrO+q2vkOYgcEIGhJb6dqJ6L9vBNaL61A==}
+    cpu: [x64]
+    os: [linux]
+
+  '@oven/bun-linux-x64-musl-baseline@1.2.13':
+    resolution: {integrity: sha512-VI8hVdfqk0QmbAbyrsIdo2O95n3fkbt72E0h3Wu69cHD1iKJqRXG28R8QoHdehoLSJnKVzRTwsUzHp764nefWQ==}
+    cpu: [x64]
+    os: [linux]
+
+  '@oven/bun-linux-x64-musl@1.2.13':
+    resolution: {integrity: sha512-w5Ob+GM3Ww4yRA6f1N845o6wEvuwHSmipFUGaRaVp4UELrFnIV9G3pmrlBbYHFnWhk13o8Q7H1/4ZphOkCRJmQ==}
+    cpu: [x64]
+    os: [linux]
+
+  '@oven/bun-linux-x64@1.2.13':
+    resolution: {integrity: sha512-pf8+Kn2GLrFKLcb8JSLM6Z147Af6L9GQODpnOHM4gvXQv6E/GwQg47/o+7f1XCfzib3fdzOTJlDPvvO1rnXOTA==}
+    cpu: [x64]
+    os: [linux]
+
+  '@oven/bun-windows-x64-baseline@1.2.13':
+    resolution: {integrity: sha512-Aiezu99fOUJJpzGuylOJryd6w9Syg2TBigHeXV2+RJsouBzvAnIEYIBA94ZspRq1ulD26Wmkk8Ae+jZ4edk9GA==}
+    cpu: [x64]
+    os: [win32]
+
+  '@oven/bun-windows-x64@1.2.13':
+    resolution: {integrity: sha512-sArgbRmT7V3mUdNFaAdUcuJsuS+oeMDZLPWFSg0gtQZpRrURs9nPzEnZMmVCFo4+kPF9Tb5ujQT9uDySh6/qVg==}
+    cpu: [x64]
+    os: [win32]
+
   '@pdfless/pdfless-js@1.0.510':
     resolution: {integrity: sha512-RmbzdGQcWy/OSuPF/eaT0wQsi9ELu465/r/8DsgajbHumStHrkzRqsm330g1PgBgQipZMi9ZTTHfP4i/Sbs+pw==}
 
@@ -18413,6 +18579,9 @@ packages:
 
   '@pipedream/platform@3.0.3':
     resolution: {integrity: sha512-7elalas41lnT8i6EAFkqB7fT/+hkLGEQ1njS6A7CVguTrEswaIYk/seKmkfkRY7+O6qncgnXswYIKCBML9Co7w==}
+
+  '@pipedream/postgresql@2.2.3':
+    resolution: {integrity: sha512-Co9r4UKvvimEPo9T4v+EfVn/Sqqw8+X7PtvsAF7tydq7CHpkmOT9eYAiD0Kuybg5WbuWuqDaXHHmhVtsAxgpBw==}
 
   '@pipedream/quickbooks@0.5.1':
     resolution: {integrity: sha512-APqan523zeCY/JVBk6PhoRE5intfoBsK8LTj9xZSOlah0E9/zcVHaGJ9vQhaVjFLuPC9YYt3BemQpsjGFcU0fQ==}
@@ -21399,6 +21568,12 @@ packages:
 
   builtins@1.0.3:
     resolution: {integrity: sha512-uYBjakWipfaO/bXI7E8rq6kpwHRZK5cNYrUv2OzZSI/FvmdMyXJ2tG9dKcjEC5YHmHpUAwsargWIZNWdxb/bnQ==}
+
+  bun@1.2.13:
+    resolution: {integrity: sha512-EhP1MhFbicqtaRSFCbEZdkcFco8Ov47cNJcB9QmKS8U4cojKHfLU+dQR14lCvLYmtBvGgwv/Lp+9SSver2OPzQ==}
+    cpu: [arm64, x64, aarch64]
+    os: [darwin, linux, win32]
+    hasBin: true
 
   bundle-require@5.1.0:
     resolution: {integrity: sha512-3WrrOuZiyaaZPWiEt4G3+IffISVC9HYlWueJEBWED4ZH4aIAC2PnkdnuRrR94M+w6yGWn4AglWtJtBI8YqvgoA==}
@@ -34962,6 +35137,39 @@ snapshots:
 
   '@opentelemetry/semantic-conventions@1.3.1': {}
 
+  '@oven/bun-darwin-aarch64@1.2.13':
+    optional: true
+
+  '@oven/bun-darwin-x64-baseline@1.2.13':
+    optional: true
+
+  '@oven/bun-darwin-x64@1.2.13':
+    optional: true
+
+  '@oven/bun-linux-aarch64-musl@1.2.13':
+    optional: true
+
+  '@oven/bun-linux-aarch64@1.2.13':
+    optional: true
+
+  '@oven/bun-linux-x64-baseline@1.2.13':
+    optional: true
+
+  '@oven/bun-linux-x64-musl-baseline@1.2.13':
+    optional: true
+
+  '@oven/bun-linux-x64-musl@1.2.13':
+    optional: true
+
+  '@oven/bun-linux-x64@1.2.13':
+    optional: true
+
+  '@oven/bun-windows-x64-baseline@1.2.13':
+    optional: true
+
+  '@oven/bun-windows-x64@1.2.13':
+    optional: true
+
   '@pdfless/pdfless-js@1.0.510':
     dependencies:
       '@microsoft/kiota-abstractions': 1.0.0-preview.77
@@ -35212,6 +35420,15 @@ snapshots:
       querystring: 0.2.1
     transitivePeerDependencies:
       - debug
+
+  '@pipedream/postgresql@2.2.3':
+    dependencies:
+      '@pipedream/platform': 2.0.0
+      pg: 8.13.1
+      pg-format: 1.0.4
+    transitivePeerDependencies:
+      - debug
+      - pg-native
 
   '@pipedream/quickbooks@0.5.1':
     dependencies:
@@ -38856,6 +39073,20 @@ snapshots:
   builtin-modules@1.1.1: {}
 
   builtins@1.0.3: {}
+
+  bun@1.2.13:
+    optionalDependencies:
+      '@oven/bun-darwin-aarch64': 1.2.13
+      '@oven/bun-darwin-x64': 1.2.13
+      '@oven/bun-darwin-x64-baseline': 1.2.13
+      '@oven/bun-linux-aarch64': 1.2.13
+      '@oven/bun-linux-aarch64-musl': 1.2.13
+      '@oven/bun-linux-x64': 1.2.13
+      '@oven/bun-linux-x64-baseline': 1.2.13
+      '@oven/bun-linux-x64-musl': 1.2.13
+      '@oven/bun-linux-x64-musl-baseline': 1.2.13
+      '@oven/bun-windows-x64': 1.2.13
+      '@oven/bun-windows-x64-baseline': 1.2.13
 
   bundle-require@5.1.0(esbuild@0.24.2):
     dependencies:
@@ -49284,7 +49515,7 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(esbuild@0.24.2)(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0))(typescript@5.7.2):
+  ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0))(typescript@5.7.2):
     dependencies:
       bs-logger: 0.2.6
       ejs: 3.1.10
@@ -49302,7 +49533,6 @@ snapshots:
       '@jest/transform': 29.7.0
       '@jest/types': 29.6.3
       babel-jest: 29.7.0(@babel/core@7.26.0)
-      esbuild: 0.24.2
 
   ts-jest@29.2.5(@babel/core@8.0.0-alpha.13)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@8.0.0-alpha.13))(jest@29.7.0(@types/node@20.17.6)(babel-plugin-macros@3.1.0))(typescript@5.6.3):
     dependencies:
@@ -49391,6 +49621,34 @@ snapshots:
       '@microsoft/api-extractor': 7.47.12(@types/node@20.17.30)
       postcss: 8.4.49
       typescript: 5.7.2
+    transitivePeerDependencies:
+      - jiti
+      - supports-color
+      - tsx
+      - yaml
+
+  tsup@8.3.6(@microsoft/api-extractor@7.47.12(@types/node@22.15.9))(jiti@1.21.6)(postcss@8.4.49)(tsx@4.19.4)(typescript@5.6.3)(yaml@2.6.1):
+    dependencies:
+      bundle-require: 5.1.0(esbuild@0.24.2)
+      cac: 6.7.14
+      chokidar: 4.0.3
+      consola: 3.4.0
+      debug: 4.3.7(supports-color@9.4.0)
+      esbuild: 0.24.2
+      joycon: 3.1.1
+      picocolors: 1.1.1
+      postcss-load-config: 6.0.1(jiti@1.21.6)(postcss@8.4.49)(tsx@4.19.4)(yaml@2.6.1)
+      resolve-from: 5.0.0
+      rollup: 4.27.3
+      source-map: 0.8.0-beta.0
+      sucrase: 3.35.0
+      tinyexec: 0.3.1
+      tinyglobby: 0.2.10
+      tree-kill: 1.2.2
+    optionalDependencies:
+      '@microsoft/api-extractor': 7.47.12(@types/node@22.15.9)
+      postcss: 8.4.49
+      typescript: 5.6.3
     transitivePeerDependencies:
       - jiti
       - supports-color
