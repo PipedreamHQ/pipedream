@@ -3,7 +3,13 @@ import { UtopianLabs } from "utopianlabs";
 export default {
   type: "app",
   app: "utopian_labs",
-  propDefinitions: {},
+  propDefinitions: {
+    agent: {
+      type: "string",
+      label: "Agent",
+      description: "The agent to run",
+    },
+  },
   methods: {
     _client() {
       return new UtopianLabs({

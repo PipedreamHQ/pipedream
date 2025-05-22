@@ -11,7 +11,7 @@ export default {
     runId: {
       type: "string",
       label: "Run ID",
-      description: "The ID of the run you want to retrieve the status for.",
+      description: "The ID of the run you want to retrieve the status for",
     },
   },
   async run({ $ }) {
