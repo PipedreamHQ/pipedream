@@ -6,7 +6,7 @@ export default {
   key: "mongodb-new-document",
   name: "New Document",
   description: "Emit new an event when a new document is added to a collection",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "source",
   dedupe: "unique",
   props: {
@@ -48,10 +48,14 @@ export default {
       this.db.set("lastTs", lastTs);
     },
     getTs(doc) {
+      const tsValue = doc[this.timestampField];
+      if (typeof tsValue === "string") {
+        return new Date(tsValue).getTime();
+      }
       try {
-        return JSON.parse(doc[this.timestampField]);
+        return JSON.parse(tsValue);
       } catch {
-        return doc[this.timestampField];
+        return tsValue;
       }
     },
     convertToTimestamp(timestampStr) {
