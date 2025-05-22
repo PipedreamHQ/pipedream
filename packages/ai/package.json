@@ -1,6 +1,5 @@
 {
   "name": "@pipedream/ai",
-  "private": true,
   "type": "module",
   "version": "0.0.5",
   "description": "Pipedream AI",
@@ -29,7 +28,7 @@
   },
   "scripts": {
     "build": "rm -rf dist && tsup --config tsup.config.js",
-    "prepare": "pnpm run build"
+    "prepublishOnly": "pnpm run build"
   },
   "files": [
     "dist"
