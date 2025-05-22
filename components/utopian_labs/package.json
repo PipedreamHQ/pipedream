@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.0.3"
+    "utopianlabs": "^0.1.11"
   }
 }
