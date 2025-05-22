@@ -5,9 +5,17 @@ export default {
   app: "utopian_labs",
   propDefinitions: {},
   methods: {
-    _getClient() {
+    _client() {
       return new UtopianLabs({
         apiKey: this.$auth.api_key,
+      });
+    },
+    initiateRun(args) {
+      return this._client().agents.runs.create(args);
+    },
+    getRunStatus(run) {
+      return this._client().agents.runs.get({
+        run,
       });
     },
   },
