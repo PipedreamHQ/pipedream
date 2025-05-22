@@ -208,7 +208,7 @@ curl https://api.pipedream.com/v1/oauth/token \
   -d '{ 
     "grant_type": "client_credentials",
     "client_id": "<PIPEDREAM_CLIENT_ID>",
-    "client_secret": "<PIPEDREAM_CLIENT_ID>"
+    "client_secret": "<PIPEDREAM_CLIENT_SECRET>"
   }'
 ```
 </Tabs.Tab>
@@ -221,4 +221,4 @@ curl https://api.pipedream.com/v1/oauth/token \
 - The server URL that's defined in OpenAI's playground uses two static fields. In practice, you'll define those dynamically in your app:
   - `external_user_id`: `demo-openai-user-123`
   - `app_slug`: `google_calendar`
-- You'll also define the `PIPEDREAM_PROJECT_ID` and `PIPEDREAM_ENVIRONMENT` in you environment once, then use the Pipedream SDK or REST API to get a fresh access token.
+- You'll also define the `PIPEDREAM_PROJECT_ID` and `PIPEDREAM_ENVIRONMENT` in your environment once, then use the Pipedream SDK or REST API to get a fresh access token.
