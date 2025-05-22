@@ -151,7 +151,7 @@ OpenAI provides an API playground for developers to test prompts and tool callin
 
 1. Navigate to [OpenAI's playground](https://platform.openai.com/playground/prompts?models=gpt-4.1) and sign in with your OpenAI account
 2. Click the **Create** button in the **Tools** section, then select **Pipedream**
-3. You'll need to these inputs to get set up:
+3. You'll need these inputs to get set up:
 
 - [Pipedream project ID](#copy-your-project-id)
 - [Pipedream environment](#define-the-environment)
@@ -160,7 +160,7 @@ OpenAI provides an API playground for developers to test prompts and tool callin
 <Steps>
 
 ### Copy your project ID
-  
+
 1. Open an existing Pipedream project or create a new one at [pipedream.com/projects](https://pipedream.com/projects)
 2. Click the **Settings** tab, then copy your **Project ID**
 
@@ -175,7 +175,7 @@ OpenAI provides an API playground for developers to test prompts and tool callin
 
 1. Visit the [API settings](https://pipedream.com/settings/api) for your workspace
 2. Click the **New OAuth Client** button and give it a name
-4. Copy the client ID and secret
+3. Copy the client ID and secret
 
 **Next, get an access token:**
 
@@ -207,8 +207,8 @@ curl https://api.pipedream.com/v1/oauth/token \
   -H 'Content-Type: application/json' \
   -d '{ 
     "grant_type": "client_credentials",
-    "client_id": "<client_id>",
-    "client_secret": "<client secret>"
+    "client_id": "<PIPEDREAM_CLIENT_ID>",
+    "client_secret": "<PIPEDREAM_CLIENT_ID>"
   }'
 ```
 </Tabs.Tab>
@@ -221,4 +221,4 @@ curl https://api.pipedream.com/v1/oauth/token \
 - The server URL that's defined in OpenAI's playground uses two static fields. In practice, you'll define those dynamically in your app:
   - `external_user_id`: `demo-openai-user-123`
   - `app_slug`: `google_calendar`
-- You'll also define the `project_id` and `pipedream_environment` in you env once, then use the Pipedream SDK or REST API to get a fresh access token.
+- You'll also define the `PIPEDREAM_PROJECT_ID` and `PIPEDREAM_ENVIRONMENT` in you environment once, then use the Pipedream SDK or REST API to get a fresh access token.
