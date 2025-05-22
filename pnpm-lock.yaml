@@ -1542,7 +1542,11 @@ importers:
 
   components/bitbucket_data_center: {}
 
-  components/bitdefender_gravityzone: {}
+  components/bitdefender_gravityzone:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/bitly:
     dependencies:
