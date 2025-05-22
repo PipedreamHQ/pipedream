@@ -143,3 +143,82 @@ curl -X POST https://api.openai.com/v1/chat/completions \
 </Tabs.Tab>
 </Tabs>
 </Steps>
+
+## Testing in OpenAI's API Playground
+
+OpenAI provides an API playground for developers to test prompts and tool calling:
+[https://platform.openai.com/playground/prompts](https://platform.openai.com/playground/prompts?models=gpt-4.1)
+
+1. Navigate to [OpenAI's playground](https://platform.openai.com/playground/prompts?models=gpt-4.1) and sign in with your OpenAI account
+2. Click the **Create** button in the **Tools** section, then select **Pipedream**
+3. You'll need these inputs to get set up:
+
+- [Pipedream project ID](#copy-your-project-id)
+- [Pipedream environment](#define-the-environment)
+- [Developer access token](#generate-an-access-token)
+
+<Steps>
+
+### Copy your project ID
+
+1. Open an existing Pipedream project or create a new one at [pipedream.com/projects](https://pipedream.com/projects)
+2. Click the **Settings** tab, then copy your **Project ID**
+
+### Define the environment
+
+- Since you're testing for yourself, you should use `development`
+- Use `production` when you're ready to ship your app to users
+
+### Generate an access token
+
+**First, create an OAuth client in Pipedream:**
+
+1. Visit the [API settings](https://pipedream.com/settings/api) for your workspace
+2. Click the **New OAuth Client** button and give it a name
+3. Copy the client ID and secret
+
+**Next, get an access token:**
+
+In the client credentials model, as a developer, you exchange your OAuth client ID and secret for a short-lived access token to make API requests.
+
+<Tabs items={['Node.js', 'cURL']}>
+<Tabs.Tab> 
+```javascript
+import { createBackendClient } from "@pipedream/sdk/server";
+
+// Initialize the Pipedream SDK client
+const pd = createBackendClient({
+  environment: PIPEDREAM_ENVIRONMENT,
+  credentials: {
+    clientId: PIPEDREAM_CLIENT_ID,
+    clientSecret: PIPEDREAM_CLIENT_SECRET,
+  },
+  projectId: PIPEDREAM_PROJECT_ID
+});
+
+const accessToken = await pd.rawAccessToken();
+
+console.log(accessToken);
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```bash
+curl https://api.pipedream.com/v1/oauth/token \
+  -H 'Content-Type: application/json' \
+  -d '{ 
+    "grant_type": "client_credentials",
+    "client_id": "<PIPEDREAM_CLIENT_ID>",
+    "client_secret": "<PIPEDREAM_CLIENT_SECRET>"
+  }'
+```
+</Tabs.Tab>
+</Tabs>
+
+</Steps>
+
+### Playground limitations
+
+- The server URL that's defined in OpenAI's playground uses two static fields. In practice, you'll define those dynamically in your app:
+  - `external_user_id`: `demo-openai-user-123`
+  - `app_slug`: `google_calendar`
+- You'll also define the `PIPEDREAM_PROJECT_ID` and `PIPEDREAM_ENVIRONMENT` in your environment once, then use the Pipedream SDK or REST API to get a fresh access token.
