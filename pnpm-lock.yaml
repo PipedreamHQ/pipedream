@@ -9636,7 +9636,17 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/pdforge: {}
+  components/pdforge:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      stream:
+        specifier: ^0.0.3
+        version: 0.0.3
+      util:
+        specifier: ^0.12.5
+        version: 0.12.5
 
   components/peach:
     dependencies:
@@ -15453,14 +15463,6 @@ importers:
       dotenv:
         specifier: ^6.0.0
         version: 6.2.0
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
 
   packages/ai:
     dependencies:
