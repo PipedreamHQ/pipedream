@@ -66,7 +66,7 @@ export default {
       context: this.context,
       ...parseObjectEntries(this.additionalOptions),
     });
-    $.export("$summary", `Successfully initiated run (ID: ${response.runId}`);
+    $.export("$summary", `Successfully initiated run (ID: ${response.id}`);
     return response;
   },
 };
