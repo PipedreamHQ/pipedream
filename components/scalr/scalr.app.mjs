@@ -8,8 +8,12 @@ export default {
       type: "string",
       label: "Account ID",
       description: "The ID of the account you wish to use.",
-      async options() {
-        const { data: accounts } = await this.getAccounts();
+      async options({ page }) {
+        const { data: accounts } = await this.getAccounts({
+          params: {
+            "page[number]": page + 1,
+          },
+        });
         return accounts.map((account) => ({
           label: account.attributes.name,
           value: account.id,
@@ -51,21 +55,9 @@ export default {
         method: "delete",
       });
     },
-    async getWebhooks(args = {}) {
-      return this._makeRequest({
-        path: "/integrations/webhooks",
-        ...args,
-      });
-    },
     async getAccounts(args = {}) {
       return this._makeRequest({
         path: "/accounts",
-        ...args,
-      });
-    },
-    async getEvents(args = {}) {
-      return this._makeRequest({
-        path: "/event-definitions",
         ...args,
       });
     },

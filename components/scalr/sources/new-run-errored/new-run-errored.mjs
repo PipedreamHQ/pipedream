@@ -5,7 +5,7 @@ export default {
   name: "New Run Errored (Instant)",
   version: "0.0.1",
   key: "scalr-new-run-errored",
-  description: "Emit new event when a new run encountered an error.",
+  description: "Emit new event when a new run encountered an error. [See the documentation](https://docs.scalr.io/reference/create_webhook_integration)",
   type: "source",
   dedupe: "unique",
   hooks: {

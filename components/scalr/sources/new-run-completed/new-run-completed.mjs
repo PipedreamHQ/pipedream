@@ -5,7 +5,7 @@ export default {
   name: "New Run Completed (Instant)",
   version: "0.0.1",
   key: "scalr-new-run-completed",
-  description: "Emit new event on each new completed run.",
+  description: "Emit new event on each new completed run. [See the documentation](https://docs.scalr.io/reference/create_webhook_integration)",
   type: "source",
   dedupe: "unique",
   hooks: {
