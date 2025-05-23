@@ -4,7 +4,7 @@ export default {
   key: "stripe-create-price",
   name: "Create Price",
   description: "Creates a new price for an existing product. The price can be recurring or one-time. [See the documentation](https://stripe.com/docs/api/prices/create)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     app,
@@ -128,7 +128,7 @@ export default {
       }),
     });
 
-    $.export("$summary", `Successfully created a new price with ID \`${response.id}\``);
+    $.export("$summary", `Successfully created a new price with ID \`${response.id}\`.`);
     return response;
   },
 };

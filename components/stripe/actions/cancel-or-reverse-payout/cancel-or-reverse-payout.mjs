@@ -2,15 +2,18 @@ import app from "../../stripe.app.mjs";
 
 export default {
   key: "stripe-cancel-or-reverse-payout",
-  name: "Cancel Or Reverse a Payout",
+  name: "Cancel Or Reverse A Payout",
   type: "action",
-  version: "0.1.1",
-  description: "Cancel or reverse a [payout](https://stripe.com/docs/payouts). " +
-    "A payout can be canceled only if it has not yet been paid out. A payout can be reversed " +
-    "only if it has already been paid out. Funds will be refunded to your available balance. [See" +
-    " the docs](https://stripe.com/docs/api/payouts/cancel) for more information",
+  version: "0.1.2",
+  description: "Cancel a pending payout or reverse a paid payout. [See the documentation here](https://docs.stripe.com/api/payouts/cancel) and [here](https://docs.stripe.com/api/payouts/reverse)",
   props: {
     app,
+    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: "A payout can be canceled only if it has not yet been paid out. A payout can be reversed only if it has already been paid out. Funds will be refunded to your available balance. [See the documentation](https://stripe.com/docs/api/payouts/cancel).",
+    },
     id: {
       propDefinition: [
         app,
