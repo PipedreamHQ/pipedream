@@ -32,3 +32,11 @@ export function parseStringAsJSON(value) {
     throw new ConfigurationError(`Error parsing JSON string: ${err}`);
   }
 }
+
+export function parseArrayAsJSON(value) {
+  try {
+    return value.map((item) => JSON.parse(item));
+  } catch (err) {
+    throw new ConfigurationError(`Error parsing JSON string in array: ${err}`);
+  }
+}
