@@ -1,52 +1,52 @@
-import app from "../../dataforseo.app.mjs";
+import dataforseo from "../../dataforseo.app.mjs";
 
 export default {
   key: "dataforseo-get-business-listings",
   name: "Get Business Listings",
   description: "Get Business Listings. [See the documentation](https://docs.dataforseo.com/v3/business_data/business_listings/search/live/?bash)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
-    app,
+    dataforseo,
     locationCoordinate: {
       propDefinition: [
-        app,
+        dataforseo,
         "locationCoordinate",
       ],
     },
     categories: {
       propDefinition: [
-        app,
+        dataforseo,
         "categories",
       ],
     },
     title: {
       propDefinition: [
-        app,
+        dataforseo,
         "title",
       ],
     },
     description: {
       propDefinition: [
-        app,
+        dataforseo,
         "description",
       ],
     },
     isClaimed: {
       propDefinition: [
-        app,
+        dataforseo,
         "isClaimed",
       ],
     },
     limit: {
       propDefinition: [
-        app,
+        dataforseo,
         "limit",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.app.getBusinessListings({
+    const response = await this.dataforseo.getBusinessListings({
       $,
       data: [
         {

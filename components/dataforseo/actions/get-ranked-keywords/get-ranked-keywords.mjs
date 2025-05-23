@@ -1,34 +1,34 @@
-import app from "../../dataforseo.app.mjs";
+import dataforseo from "../../dataforseo.app.mjs";
 
 export default {
   key: "dataforseo-get-ranked-keywords",
   name: "Get Ranked Keywords",
   description: "Description for get-ranked-keywords. [See the documentation](https://docs.dataforseo.com/v3/keywords_data/google_ads/keywords_for_site/task_post/?bash)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
-    app,
+    dataforseo,
     locationCode: {
       propDefinition: [
-        app,
+        dataforseo,
         "locationCode",
       ],
     },
     targetType: {
       propDefinition: [
-        app,
+        dataforseo,
         "targetType",
       ],
     },
     target: {
       propDefinition: [
-        app,
+        dataforseo,
         "target",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.app.getRankedKeywords({
+    const response = await this.dataforseo.getRankedKeywords({
       $,
       data: [
         {
