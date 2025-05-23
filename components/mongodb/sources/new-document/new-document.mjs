@@ -95,10 +95,10 @@ export default {
         },
       };
       const documents = await collection.find(query).sort(sort)
-        .toArray(); console.log(documents);
+        .toArray();
       const docs = [];
       for (const doc of documents) {
-        const ts = this.getTs(doc); console.log(ts);
+        const ts = this.getTs(doc);
         if (!(ts > lastTs) || (max && count >= max)) {
           break;
         }
