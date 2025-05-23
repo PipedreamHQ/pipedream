@@ -6041,8 +6041,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/heyreach:
-    specifiers: {}
+  components/heyreach: {}
 
   components/heysummit:
     dependencies:
@@ -8567,8 +8566,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/neetoform:
-    specifiers: {}
+  components/neetoform: {}
 
   components/neetoinvoice:
     dependencies:
@@ -8763,7 +8761,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/ninjaone: {}
+  components/ninjaone:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/ninox:
     dependencies:
@@ -15602,7 +15604,7 @@ importers:
         version: 3.1.7
       ts-jest:
         specifier: ^29.2.5
-        version: 29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0))(typescript@5.7.2)
+        version: 29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(esbuild@0.24.2)(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0))(typescript@5.7.2)
       tsup:
         specifier: ^8.3.6
         version: 8.3.6(@microsoft/api-extractor@7.47.12(@types/node@20.17.30))(jiti@1.21.6)(postcss@8.4.49)(tsx@4.19.4)(typescript@5.7.2)(yaml@2.6.1)
@@ -35833,6 +35835,8 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
+    transitivePeerDependencies:
+      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
@@ -49495,7 +49499,7 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0))(typescript@5.7.2):
+  ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(esbuild@0.24.2)(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0))(typescript@5.7.2):
     dependencies:
       bs-logger: 0.2.6
       ejs: 3.1.10
@@ -49513,6 +49517,7 @@ snapshots:
       '@jest/transform': 29.7.0
       '@jest/types': 29.6.3
       babel-jest: 29.7.0(@babel/core@7.26.0)
+      esbuild: 0.24.2
 
   ts-jest@29.2.5(@babel/core@8.0.0-alpha.13)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@8.0.0-alpha.13))(jest@29.7.0(@types/node@20.17.6)(babel-plugin-macros@3.1.0))(typescript@5.6.3):
     dependencies:
