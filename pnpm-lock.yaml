@@ -1542,7 +1542,11 @@ importers:
 
   components/bitbucket_data_center: {}
 
-  components/bitdefender_gravityzone: {}
+  components/bitdefender_gravityzone:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/bitly:
     dependencies:
@@ -1832,7 +1836,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/browserbase: {}
+  components/browserbase:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/browserhub:
     dependencies:
@@ -6037,6 +6045,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/heylibby:
+    specifiers: {}
+
+  components/heyreach: {}
+
   components/heysummit:
     dependencies:
       '@pipedream/platform':
@@ -6225,6 +6238,8 @@ importers:
   components/httpsms: {}
 
   components/hub_planner: {}
+
+  components/hubflo: {}
 
   components/hubspot:
     dependencies:
@@ -7112,6 +7127,8 @@ importers:
 
   components/lambdatest: {}
 
+  components/lamini: {}
+
   components/langbase:
     dependencies:
       '@pipedream/platform':
@@ -7176,6 +7193,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/lead_identity_check: {}
 
   components/leadboxer: {}
 
@@ -7630,6 +7649,8 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/magileads: {}
+
   components/magnetic:
     dependencies:
       '@pipedream/platform':
@@ -7706,6 +7727,8 @@ importers:
         specifier: ^4.6.0
         version: 4.6.0
 
+  components/maileroo: {}
+
   components/mailersend:
     dependencies:
       crypto:
@@ -7761,7 +7784,11 @@ importers:
 
   components/mailninja: {}
 
-  components/mailosaur: {}
+  components/mailosaur:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/mailrefine: {}
 
@@ -8440,6 +8467,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/murf: {}
+
   components/murlist: {}
 
   components/musicbrainz: {}
@@ -8544,6 +8573,14 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/neetocal:
+    specifiers: {}
+
+  components/neetodesk:
+    specifiers: {}
+
+  components/neetoform: {}
+
   components/neetoinvoice:
     dependencies:
       '@pipedream/platform':
@@ -8564,7 +8601,17 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/neon_postgres: {}
+  components/neon_postgres:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      '@pipedream/postgresql':
+        specifier: ^2.2.3
+        version: 2.2.3
+      pg-format:
+        specifier: ^1.0.4
+        version: 1.0.4
 
   components/nerv: {}
 
@@ -8660,6 +8707,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+
+  components/nextlead: {}
 
   components/nexudus: {}
 
@@ -9600,7 +9649,17 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/pdforge: {}
+  components/pdforge:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      stream:
+        specifier: ^0.0.3
+        version: 0.0.3
+      util:
+        specifier: ^0.12.5
+        version: 0.12.5
 
   components/peach:
     dependencies:
@@ -10429,6 +10488,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/pushinator: {}
+
   components/pushover:
     dependencies:
       '@pipedream/platform':
@@ -10877,7 +10938,11 @@ importers:
 
   components/renderform: {}
 
-  components/rendi: {}
+  components/rendi:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/rentcast:
     dependencies:
@@ -11391,7 +11456,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/scalr: {}
+  components/scalr:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/schedule:
     dependencies:
@@ -11425,6 +11494,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.4.1
         version: 1.6.6
+
+  components/scrapecreators: {}
 
   components/scrapegraphai:
     dependencies:
@@ -13618,7 +13689,11 @@ importers:
 
   components/trustpilot: {}
 
-  components/tubular: {}
+  components/tubular:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/tuesday: {}
 
@@ -13967,7 +14042,11 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
+  components/uspacy: {}
+
   components/usps: {}
+
+  components/utopian_labs: {}
 
   components/utradea: {}
 
@@ -14011,6 +14090,8 @@ importers:
       fs:
         specifier: ^0.0.1-security
         version: 0.0.1-security
+
+  components/veedea: {}
 
   components/vend:
     dependencies:
@@ -14498,7 +14579,7 @@ importers:
   components/wit_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
+        specifier: ^3.0.3
         version: 3.0.3
 
   components/withings:
@@ -18511,6 +18592,9 @@ packages:
 
   '@pipedream/platform@3.0.3':
     resolution: {integrity: sha512-7elalas41lnT8i6EAFkqB7fT/+hkLGEQ1njS6A7CVguTrEswaIYk/seKmkfkRY7+O6qncgnXswYIKCBML9Co7w==}
+
+  '@pipedream/postgresql@2.2.3':
+    resolution: {integrity: sha512-Co9r4UKvvimEPo9T4v+EfVn/Sqqw8+X7PtvsAF7tydq7CHpkmOT9eYAiD0Kuybg5WbuWuqDaXHHmhVtsAxgpBw==}
 
   '@pipedream/quickbooks@0.5.1':
     resolution: {integrity: sha512-APqan523zeCY/JVBk6PhoRE5intfoBsK8LTj9xZSOlah0E9/zcVHaGJ9vQhaVjFLuPC9YYt3BemQpsjGFcU0fQ==}
@@ -35349,6 +35433,15 @@ snapshots:
       querystring: 0.2.1
     transitivePeerDependencies:
       - debug
+
+  '@pipedream/postgresql@2.2.3':
+    dependencies:
+      '@pipedream/platform': 2.0.0
+      pg: 8.13.1
+      pg-format: 1.0.4
+    transitivePeerDependencies:
+      - debug
+      - pg-native
 
   '@pipedream/quickbooks@0.5.1':
     dependencies:

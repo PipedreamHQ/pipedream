@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-create-spreadsheet",
   name: "Create Spreadsheet",
   description: "Create a blank spreadsheet or duplicate an existing spreadsheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/create)",
-  version: "0.1.9",
+  version: "0.1.10",
   type: "action",
   props: {
     googleSheets,
@@ -20,6 +20,17 @@ export default {
       label: "Title",
       description: "The title of the new spreadsheet",
     },
+    folderId: {
+      propDefinition: [
+        googleSheets,
+        "folderId",
+        (c) => ({
+          drive: c.drive,
+        }),
+      ],
+      description: "The folder you want to save the file to",
+      optional: true,
+    },
     sheetId: {
       propDefinition: [
         googleSheets,
@@ -32,10 +43,11 @@ export default {
       optional: true,
     },
   },
-  async run() {
+  async run({ $ }) {
     const {
       googleSheets,
       sheetId,
+      folderId,
       title,
       drive,
     } = this;
@@ -48,26 +60,32 @@ export default {
       isMyDrive,
     } = googleSheets;
 
+    let response;
     if (sheetId) {
-      return copySpreadsheet(sheetId, title);
+      response = await copySpreadsheet(sheetId, title);
+    } else {
+      response = await createSpreadsheet({
+        resource: {
+          properties: {
+            title,
+          },
+        },
+      });
     }
 
-    const response = await createSpreadsheet({
-      resource: {
-        properties: {
-          title,
-        },
-      },
-    });
+    const spreadsheetId = response?.spreadsheetId || response?.id;
+    const summary = `Successfully created spreadsheet with ID: ${spreadsheetId}`;
 
-    if (isMyDrive(drive)) {
+    if (!folderId && isMyDrive(drive)) {
+      $.export("$summary", summary);
       return response;
     }
 
-    const spreadsheet = await updateFile(response.spreadsheetId, {
-      addParents: drive,
+    const spreadsheet = await updateFile(spreadsheetId, {
+      addParents: folderId || drive,
     });
 
+    $.export("$summary", summary);
     return getSpreadsheet(spreadsheet.id);
   },
 };

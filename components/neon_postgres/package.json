@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/neon_postgres",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "Pipedream Neon Postgres Components",
   "main": "neon_postgres.app.mjs",
   "keywords": [
@@ -11,5 +11,10 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3",
+    "@pipedream/postgresql": "^2.2.3",
+    "pg-format": "^1.0.4"
   }
 }
