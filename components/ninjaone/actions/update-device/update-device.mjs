@@ -1,11 +1,10 @@
 import ninjaone from "../../ninjaone.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "ninjaone-update-device",
   name: "Update Device",
   description: "Update details for a specific device in NinjaOne. [See the documentation](https://app.ninjarmm.com/apidocs/?links.active=core)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     ninjaone,
@@ -14,20 +13,60 @@ export default {
         ninjaone,
         "deviceId",
       ],
+      description: "The Id of the device to update ",
     },
-    deviceAttributes: {
+    displayName: {
+      type: "string",
+      label: "Display Name",
+      description: "The name of the device",
+      optional: true,
+    },
+    nodeRoleId: {
       propDefinition: [
         ninjaone,
-        "deviceAttributes",
+        "nodeRoleId",
       ],
-      type: "string",
-      label: "Device Attributes",
-      description: "JSON string of attributes to update on the device",
+      optional: true,
+    },
+    policyId: {
+      propDefinition: [
+        ninjaone,
+        "policyId",
+      ],
+      optional: true,
+    },
+    organizationId: {
+      propDefinition: [
+        ninjaone,
+        "organizationId",
+      ],
+      optional: true,
+    },
+    locationId: {
+      propDefinition: [
+        ninjaone,
+        "locationId",
+        ({ organizationId }) => ({
+          organizationId,
+        }),
+      ],
+      optional: true,
     },
   },
   async run({ $ }) {
-    const response = await this.ninjaone.updateDevice(this.deviceId, this.deviceAttributes);
-    $.export("$summary", `Successfully updated device with ID ${this.deviceId}`);
+    const {
+      ninjaone,
+      deviceId,
+      ...data
+    } = this;
+
+    const response = await ninjaone.updateDevice({
+      $,
+      deviceId,
+      data,
+    });
+
+    $.export("$summary", `Successfully updated device with ID ${deviceId}`);
     return response;
   },
 };

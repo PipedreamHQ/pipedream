@@ -1,239 +1,338 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "ninjaone",
   propDefinitions: {
-    ticketPriority: {
+    clientId: {
       type: "string",
-      label: "Ticket Priority",
-      description: "Filter support tickets by priority",
+      label: "Client Id",
+      description: "The Id of the client related to the ticket",
+      async options({ prevContext }) {
+        const data = await this.listOrganizations({
+          params: {
+            pageSize: LIMIT,
+            after: prevContext.lastId,
+          },
+        });
+
+        return {
+          options: data.map(({
+            id: value, name: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            lastId: data[data.length - 1]?.id,
+          },
+        };
+      },
+    },
+    ticketFormId: {
+      type: "string",
+      label: "Ticket Form ID",
+      description: "The ID of the ticket form to the ticket",
       async options() {
-        const priorities = await this.getTicketPriorities();
-        return priorities.map((priority) => ({
-          label: priority.name,
-          value: priority.id,
+        const data = await this.listTicketForms();
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
-    ticketStatus: {
+    locationId: {
       type: "string",
-      label: "Ticket Status",
-      description: "Filter support tickets by status",
-      async options() {
-        const statuses = await this.getTicketStatuses();
-        return statuses.map((status) => ({
-          label: status.name,
-          value: status.id,
-        }));
+      label: "Location ID",
+      description: "The ID of the location to the ticket",
+      async options({
+        prevContext, organizationId,
+      }) {
+        const data = await this.listLocations({
+          organizationId,
+          params: {
+            pageSize: LIMIT,
+            after: prevContext.lastId,
+          },
+        });
+
+        return {
+          options: data.map(({
+            id: value, name: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            lastId: data[data.length - 1]?.id,
+          },
+        };
       },
-    },
-    deviceGroup: {
-      type: "string",
-      label: "Device Group",
-      description: "Specify the device group to monitor",
-      async options() {
-        const groups = await this.getDeviceGroups();
-        return groups.map((group) => ({
-          label: group.name,
-          value: group.id,
-        }));
-      },
-    },
-    deviceType: {
-      type: "string",
-      label: "Device Type",
-      description: "Specify the device type to monitor",
-      async options() {
-        const types = await this.getDeviceTypes();
-        return types.map((type) => ({
-          label: type.name,
-          value: type.id,
-        }));
-      },
-    },
-    sessionType: {
-      type: "string",
-      label: "Session Type",
-      description: "Filter remote access sessions by type",
-      optional: true,
-      async options() {
-        const types = await this.getSessionTypes();
-        return types.map((type) => ({
-          label: type.name,
-          value: type.id,
-        }));
-      },
-    },
-    technician: {
-      type: "string",
-      label: "Technician",
-      description: "Filter remote access sessions by technician",
-      optional: true,
-      async options() {
-        const technicians = await this.getTechnicians();
-        return technicians.map((tech) => ({
-          label: tech.name,
-          value: tech.id,
-        }));
-      },
-    },
-    title: {
-      type: "string",
-      label: "Title",
-      description: "Title of the support ticket",
-    },
-    description: {
-      type: "string",
-      label: "Description",
-      description: "Description of the support ticket",
-    },
-    priority: {
-      type: "string",
-      label: "Priority",
-      description: "Priority level of the support ticket",
-    },
-    assignedTechnician: {
-      type: "string",
-      label: "Assigned Technician",
-      description: "Technician to assign the ticket to",
-      optional: true,
-    },
-    dueDate: {
-      type: "string",
-      label: "Due Date",
-      description: "Due date for the support ticket",
-      optional: true,
     },
     deviceId: {
       type: "string",
       label: "Device ID",
-      description: "Identifier of the device to update",
+      description: "The Id of the device to the ticket",
+      async options({
+        prevContext, organizationId,
+      }) {
+        const data = await this.listDevices({
+          organizationId,
+          params: {
+            pageSize: LIMIT,
+            after: prevContext.lastId,
+          },
+        });
+
+        return {
+          options: data.map(({
+            id: value, systemName: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            lastId: data[data.length - 1]?.id,
+          },
+        };
+      },
     },
-    deviceAttributes: {
+    tags: {
       type: "string[]",
-      label: "Device Attributes",
-      description: "Attributes to update on the device",
+      label: "Tags",
+      description: "A list of tags related to ticket.",
+      async options({ prevContext }) {
+        const { tags } = await this.listTags({
+          params: {
+            pageSize: LIMIT,
+            after: prevContext.lastId,
+          },
+        });
+
+        return tags.map(({ name }) => name);
+      },
+    },
+    status: {
+      type: "string",
+      label: "Status",
+      description: "The status of the ticket",
+      async options() {
+        const data = await this.listStatuses();
+
+        return data.map(({
+          statusId: value, displayName: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    assignedAppUserId: {
+      type: "string",
+      label: "Assigned App User ID",
+      description: "User ID that will be assigned to the ticket",
+      async options() {
+        const data = await this.listUsers({
+          params: {
+            userType: "TECHNICIAN",
+          },
+        });
+
+        return data.map(({
+          id: value, firstName, lastName, email,
+        }) => ({
+          label: `${firstName} ${lastName} - ${email}`,
+          value,
+        }));
+      },
+    },
+    nodeRoleId: {
+      type: "string",
+      label: "Node Role Id",
+      description: "The id of the device role",
+      async options() {
+        const data = await this.listRoles();
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    policyId: {
+      type: "string",
+      label: "Policy Id",
+      description: "The id of the policiy override",
+      async options() {
+        const data = await this.listPolicies();
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    organizationId: {
+      type: "string",
+      label: "Organization Id",
+      description: "The id of the organization",
+      async options({ prevContext }) {
+        const data = await this.listOrganizations({
+          params: {
+            pageSize: LIMIT,
+            after: prevContext.lastId,
+          },
+        });
+
+        return {
+          options: data.map(({
+            id: value, name: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            lastId: data[data.length - 1]?.id,
+          },
+        };
+      },
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.ninjaone.com/v2";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
-      });
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
     },
-    async getTicketPriorities() {
-      return this._makeRequest({
-        path: "/ticketing/ticket-priorities",
-      });
-    },
-    async getTicketStatuses() {
-      return this._makeRequest({
-        path: "/ticketing/ticket-statuses",
-      });
-    },
-    async getDeviceGroups() {
-      return this._makeRequest({
-        path: "/device-groups",
-      });
-    },
-    async getDeviceTypes() {
-      return this._makeRequest({
-        path: "/device-types",
-      });
-    },
-    async getSessionTypes() {
-      return this._makeRequest({
-        path: "/session-types",
-      });
-    },
-    async getTechnicians() {
-      return this._makeRequest({
-        path: "/technicians",
-      });
-    },
-    async createSupportTicket({
-      title, description, priority, assignedTechnician, dueDate,
+    _makeRequest({
+      $ = this, path, ...opts
     }) {
+      return axios($, {
+        url: this._baseUrl() + path,
+        headers: this._headers(),
+        ...opts,
+      });
+    },
+    createSupportTicket(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/ticketing/ticket",
-        data: {
-          title,
-          description,
-          priority,
-          assignedTechnician,
-          dueDate,
-        },
+        ...opts,
       });
     },
-    async updateDevice(deviceId, deviceAttributes) {
+    listOrganizations(opts = {}) {
+      return this._makeRequest({
+        path: "/organizations",
+        ...opts,
+      });
+    },
+    listTicketForms(opts = {}) {
+      return this._makeRequest({
+        path: "/ticketing/ticket-form",
+        ...opts,
+      });
+    },
+    listLocations({
+      organizationId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `organization/${organizationId}/locations`,
+        ...opts,
+      });
+    },
+    listDevices({
+      organizationId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `organization/${organizationId}/devices`,
+        ...opts,
+      });
+    },
+    listTags(opts = {}) {
+      return this._makeRequest({
+        path: "/tag",
+        ...opts,
+      });
+    },
+    listStatuses(opts = {}) {
+      return this._makeRequest({
+        path: "/ticketing/statuses",
+        ...opts,
+      });
+    },
+    listUsers(opts = {}) {
+      return this._makeRequest({
+        path: "/users",
+        ...opts,
+      });
+    },
+    listRoles(opts = {}) {
+      return this._makeRequest({
+        path: "/roles",
+        ...opts,
+      });
+    },
+    listPolicies(opts = {}) {
+      return this._makeRequest({
+        path: "/policies",
+        ...opts,
+      });
+    },
+    listActivities(opts = {}) {
+      return this._makeRequest({
+        path: "/activities",
+        ...opts,
+      });
+    },
+    updateDevice({
+      deviceId, ...opts
+    }) {
       return this._makeRequest({
         method: "PATCH",
         path: `/device/${deviceId}`,
-        data: JSON.parse(deviceAttributes),
+        ...opts,
       });
     },
-    async emitNewSupportTicket({
-      ticketPriority, ticketStatus,
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
     }) {
-      const response = await this._makeRequest({
-        path: "/ticketing/ticket",
-        params: {
-          priority: ticketPriority,
-          status: ticketStatus,
-        },
-      });
-      response.forEach((ticket) => this.$emit(ticket, {
-        id: ticket.id,
-        summary: `New ticket: ${ticket.title}`,
-        ts: new Date().getTime(),
-      }));
-    },
-    async emitDeviceOnline({
-      deviceGroup, deviceType,
-    }) {
-      const response = await this._makeRequest({
-        path: "/devices",
-        params: {
-          group: deviceGroup,
-          type: deviceType,
-        },
-      });
-      response.forEach((device) => this.$emit(device, {
-        id: device.id,
-        summary: `Device online: ${device.name}`,
-        ts: new Date().getTime(),
-      }));
-    },
-    async emitRemoteAccessSession({
-      sessionType, technician,
-    }) {
-      const response = await this._makeRequest({
-        path: "/device/{id}/activities",
-        params: {
-          sessionType,
-          technician,
-        },
-      });
-      response.forEach((session) => this.$emit(session, {
-        id: session.id,
-        summary: `Remote session initiated by ${session.technician}`,
-        ts: new Date().getTime(),
-      }));
+      let hasMore = false;
+      let count = 0;
+      let lastId = 0;
+      const newerThan = params.newerThan;
+
+      do {
+        if (lastId) {
+          params.olderThan = lastId;
+          if (params.newerThan) delete params.newerThan;
+        }
+
+        const { activities } = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of activities) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = activities.length && (lastId && (lastId > newerThan));
+
+      } while (hasMore);
     },
   },
-  version: `0.0.${Date.now()}`,
 };
