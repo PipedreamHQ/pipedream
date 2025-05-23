@@ -11,13 +11,18 @@ export default {
       description: "The ID of the LLM model to use for completions.",
       async options() {
         const { data } = await this.listLlmModels();
-
-        return data.map(({
-          id: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
+        const uniqueModels = new Map();
+        data.forEach(({ id, name }) => {
+          if (!uniqueModels.has(id)) {
+            uniqueModels.set(id, name);
+          }
+        });
+        return Array.from(uniqueModels.entries())
+          .map(([value, label]) => ({
+            label,
+            value,
+          }))
+          .sort((a, b) => a.label.localeCompare(b.label));
       },
     },
     imageModelId: {
@@ -26,13 +31,18 @@ export default {
       description: "The ID of the image model to use for completions.",
       async options() {
         const { data } = await this.listImageModels();
-
-        return data.map(({
-          id: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
+        const uniqueModels = new Map();
+        data.forEach(({ id, name }) => {
+          if (!uniqueModels.has(id)) {
+            uniqueModels.set(id, name);
+          }
+        });
+        return Array.from(uniqueModels.entries())
+          .map(([value, label]) => ({
+            label,
+            value,
+          }))
+          .sort((a, b) => a.label.localeCompare(b.label));
       },
     },
     ttsModelId: {
@@ -41,13 +51,18 @@ export default {
       description: "The ID of the tts model to use for completions.",
       async options() {
         const { data } = await this.listTtsModels();
-
-        return data.map(({
-          id: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
+        const uniqueModels = new Map();
+        data.forEach(({ id, name }) => {
+          if (!uniqueModels.has(id)) {
+            uniqueModels.set(id, name);
+          }
+        });
+        return Array.from(uniqueModels.entries())
+          .map(([value, label]) => ({
+            label,
+            value,
+          }))
+          .sort((a, b) => a.label.localeCompare(b.label));
       },
     },
     maxTokens: {
@@ -111,27 +126,6 @@ export default {
       type: "string",
       label: "Input",
       description: "The text to generate audio for. The maximum length is 4096 characters.",
-    },
-    voice: {
-      type: "string",
-      label: "Voice",
-      description: "The voice to use when generating the audio.",
-      async options(opts) {
-        // Get the selected model from the component props
-        const model = opts.model || this.model;
-        if (!model) {
-          return [];
-        }
-        
-        const { data } = await this.listVoices({ model });
-
-        return data.map(({
-          voice_id: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
-      },
     },
     audioResponseFormat: {
       type: "string",
@@ -231,11 +225,6 @@ export default {
         path: "models?type=image",
       });
     },
-    listEmbeddingModels() {
-      return this._makeRequest({
-        path: "models?type=embedding",
-      });
-    },
     listTtsModels() {
       return this._makeRequest({
         path: "models?subtype=text-to-speech",
@@ -267,13 +256,6 @@ export default {
     createSpeech(args = {}) {
       return this._makeRequest({
         path: "audio/speech",
-        method: "POST",
-        ...args,
-      });
-    },
-    createEmbeddings(args = {}) {
-      return this._makeRequest({
-        path: "embeddings",
         method: "POST",
         ...args,
       });

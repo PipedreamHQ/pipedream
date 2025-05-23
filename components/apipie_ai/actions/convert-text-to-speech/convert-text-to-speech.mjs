@@ -14,17 +14,12 @@ export default {
         apipieAi,
         "ttsModelId",
       ],
+      reloadProps: true,
     },
     input: {
       propDefinition: [
         apipieAi,
         "input",
-      ],
-    },
-    voice: {
-      propDefinition: [
-        apipieAi,
-        "voice",
       ],
     },
     responseFormat: {
@@ -44,6 +39,30 @@ export default {
       label: "Output Filename",
       description: "The filename of the output audio file that will be written to the `/tmp` folder, e.g. `/tmp/myFile.mp3`",
     },
+  },
+  async additionalProps() {
+    const props = {};
+    if (this.model) {
+      const { data } = await this.apipieAi.listVoices({ model: this.model });
+      const uniqueVoices = new Map();
+      data.forEach(({ voice_id, name, description }) => {
+        if (!uniqueVoices.has(voice_id)) {
+          uniqueVoices.set(voice_id, { name, description });
+        }
+      });
+      props.voice = {
+        type: "string",
+        label: "Voice",
+        description: "The voice to use when generating the audio.",
+        options: Array.from(uniqueVoices.entries())
+          .map(([value, { name, description }]) => ({
+            label: description ? `${name} - ${description}` : name,
+            value,
+          }))
+          .sort((a, b) => a.label.localeCompare(b.label)),
+      };
+    }
+    return props;
   },
   async run({ $ }) {
     const response = await this.apipieAi.createSpeech({
