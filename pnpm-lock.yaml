@@ -7128,7 +7128,11 @@ importers:
 
   components/lambdatest: {}
 
-  components/lamini: {}
+  components/lamini:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/langbase:
     dependencies:
@@ -13227,11 +13231,9 @@ importers:
 
   components/test_apps_for_checking_something_006: {}
 
-  components/test_apps_for_checking_something_009:
-    specifiers: {}
+  components/test_apps_for_checking_something_009: {}
 
-  components/test_apps_for_checking_something_010:
-    specifiers: {}
+  components/test_apps_for_checking_something_010: {}
 
   components/test_apps_for_switching_appslug_009: {}
 
@@ -15489,14 +15491,6 @@ importers:
       dotenv:
         specifier: ^6.0.0
         version: 6.2.0
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
 
   packages/ai:
     dependencies:
@@ -35881,8 +35875,6 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
-    transitivePeerDependencies:
-      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
