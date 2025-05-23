@@ -250,7 +250,7 @@ export default {
         path: `models?${queryString}`,
       });
     },
-    sendChatCompetionRequest(opts = {}) {
+    sendChatCompletionRequest(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "chat/completions",
@@ -259,21 +259,21 @@ export default {
     },
     createImage(args = {}) {
       return this._makeRequest({
-        path: "/images/generations",
+        path: "images/generations",
         method: "POST",
         ...args,
       });
     },
     createSpeech(args = {}) {
       return this._makeRequest({
-        path: "/audio/speech",
+        path: "audio/speech",
         method: "POST",
         ...args,
       });
     },
     createEmbeddings(args = {}) {
       return this._makeRequest({
-        path: "/embeddings",
+        path: "embeddings",
         method: "POST",
         ...args,
       });

@@ -172,7 +172,7 @@ export default {
     const tools = this._buildTools();
     if (tools) data.tools = tools;
 
-    const response = await this.apipieAi.sendChatCompetionRequest({
+    const response = await this.apipieAi.sendChatCompletionRequest({
       $,
       data,
       timeout: 1000 * 60 * 5,
