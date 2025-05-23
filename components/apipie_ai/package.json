@@ -5,11 +5,15 @@
   "main": "apipie_ai.app.mjs",
   "keywords": [
     "pipedream",
-    "apipie_ai"
+    "apipie ai"
   ],
-  "homepage": "https://pipedream.com/apps/apipie_ai",
+  "homepage": "https://pipedream.com/apps/apipie-ai",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3",
+    "axios": "^1.6.2"
   }
 }
