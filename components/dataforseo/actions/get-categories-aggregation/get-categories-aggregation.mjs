@@ -22,7 +22,7 @@ export default {
     categories: {
       propDefinition: [
         dataforseo,
-        "businessCategories",
+        "categories",
       ],
     },
     description: {
