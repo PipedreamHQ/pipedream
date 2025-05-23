@@ -1542,7 +1542,11 @@ importers:
 
   components/bitbucket_data_center: {}
 
-  components/bitdefender_gravityzone: {}
+  components/bitdefender_gravityzone:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/bitly:
     dependencies:
@@ -6041,6 +6045,9 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/heylibby:
+    specifiers: {}
+
   components/heyreach: {}
 
   components/heysummit:
@@ -8566,6 +8573,12 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/neetocal:
+    specifiers: {}
+
+  components/neetodesk:
+    specifiers: {}
+
   components/neetoform: {}
 
   components/neetoinvoice:
@@ -9640,7 +9653,17 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/pdforge: {}
+  components/pdforge:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      stream:
+        specifier: ^0.0.3
+        version: 0.0.3
+      util:
+        specifier: ^0.12.5
+        version: 0.12.5
 
   components/peach:
     dependencies:
@@ -11437,7 +11460,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/scalr: {}
+  components/scalr:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/schedule:
     dependencies:
@@ -11471,6 +11498,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.4.1
         version: 1.6.6
+
+  components/scrapecreators: {}
 
   components/scrapegraphai:
     dependencies:
@@ -13664,7 +13693,11 @@ importers:
 
   components/trustpilot: {}
 
-  components/tubular: {}
+  components/tubular:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/tuesday: {}
 
@@ -15451,6 +15484,14 @@ importers:
       dotenv:
         specifier: ^6.0.0
         version: 6.2.0
+
+  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
+
+  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
+
+  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
+
+  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
 
   packages/ai:
     dependencies:

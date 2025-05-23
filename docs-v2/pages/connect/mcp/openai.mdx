@@ -2,7 +2,7 @@ import { Callout, Tabs, Steps } from 'nextra/components'
 
 # Using Pipedream MCP with OpenAI
 
-Access {process.env.PUBLIC_APPS}+ APIs and 10,000+ tools in OpenAI using Pipedream Connect. MCP makes it easy to extend the capabilities of any LLM or agent, and Pipedream offers drop-in support for [calling tools in OpenAI](https://platform.openai.com/docs/guides/tools?api-mode=responses) .
+Access {process.env.PUBLIC_APPS}+ APIs and 10,000+ tools in OpenAI using Pipedream Connect. MCP makes it easy to extend the capabilities of any LLM or agent, and Pipedream offers drop-in support for [calling tools in OpenAI](https://platform.openai.com/docs/guides/tools-remote-mcp).
 
 <Callout type="info">
 Pipedream Connect includes built-in user authentication for [every MCP server](https://mcp.pipedream.com), which means you don't need to build any authorization flows or deal with token storage and refresh in order to make authenticated requests on behalf of your users. [Learn more here](/connect/mcp/developers/#user-account-connections).
@@ -51,7 +51,7 @@ Below is an end to end example showing how to:
 import OpenAI from 'openai';
 import { createBackendClient } from "@pipedream/sdk/server";
 
-// Initialize the Pipedream client with the SDK
+// Initialize the Pipedream SDK client
 const pd = createBackendClient({
   environment: PIPEDREAM_ENVIRONMENT,
   credentials: {
@@ -82,7 +82,7 @@ const response = await client.responses.create({
     {
       type: 'mcp',
       server_label: 'Notion',
-      server_url: `https://mcp.pipedream.net/${externalUserId}/${appSlug}`,
+      server_url: `https://remote.mcp.pipedream.net/${externalUserId}/${appSlug}`,
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "x-pd-project-id": PIPEDREAM_PROJECT_ID,
@@ -129,7 +129,7 @@ curl -X POST https://api.openai.com/v1/chat/completions \
       {
         "type": "mcp",
         "server_label": "Notion",
-        "server_url": "https://mcp.pipedream.net/abc-123/'$APP_SLUG'",
+        "server_url": "https://remote.mcp.pipedream.net/abc-123/'$APP_SLUG'",
         "headers": {
           "Authorization": "Bearer '"$ACCESS_TOKEN"'",
           "x-pd-project-id": "$PIPEDREAM_PROJECT_ID",
@@ -143,3 +143,83 @@ curl -X POST https://api.openai.com/v1/chat/completions \
 </Tabs.Tab>
 </Tabs>
 </Steps>
+
+{/* ## Testing in OpenAI's API Playground
+
+OpenAI provides an API playground for developers to test prompts and tool calling:
+[https://platform.openai.com/playground/prompts](https://platform.openai.com/playground/prompts?models=gpt-4.1)
+
+1. Navigate to [OpenAI's playground](https://platform.openai.com/playground/prompts?models=gpt-4.1) and sign in with your OpenAI account
+2. Click the **Create** button in the **Tools** section, then select **Pipedream**
+3. You'll need these inputs to get set up:
+
+- [Pipedream project ID](#copy-your-project-id)
+- [Pipedream environment](#define-the-environment)
+- [Developer access token](#generate-an-access-token)
+
+<Steps>
+
+### Copy your project ID
+
+1. Open an existing Pipedream project or create a new one at [pipedream.com/projects](https://pipedream.com/projects)
+2. Click the **Settings** tab, then copy your **Project ID**
+
+### Define the environment
+
+- Since you're testing for yourself, you should use `development`
+- Use `production` when you're ready to ship your app to users
+
+### Generate an access token
+
+**First, create an OAuth client in Pipedream:**
+
+1. Visit the [API settings](https://pipedream.com/settings/api) for your workspace
+2. Click the **New OAuth Client** button and give it a name
+3. Copy the client ID and secret
+
+**Next, get an access token:**
+
+In the client credentials model, as a developer, you exchange your OAuth client ID and secret for a short-lived access token to make API requests.
+
+<Tabs items={['Node.js', 'cURL']}>
+<Tabs.Tab> 
+```javascript
+import { createBackendClient } from "@pipedream/sdk/server";
+
+// Initialize the Pipedream SDK client
+const pd = createBackendClient({
+  environment: PIPEDREAM_ENVIRONMENT,
+  credentials: {
+    clientId: PIPEDREAM_CLIENT_ID,
+    clientSecret: PIPEDREAM_CLIENT_SECRET,
+  },
+  projectId: PIPEDREAM_PROJECT_ID
+});
+
+const accessToken = await pd.rawAccessToken();
+
+console.log(accessToken);
+```
+</Tabs.Tab>
+<Tabs.Tab>
+```bash
+curl https://api.pipedream.com/v1/oauth/token \
+  -H 'Content-Type: application/json' \
+  -d '{ 
+    "grant_type": "client_credentials",
+    "client_id": "<PIPEDREAM_CLIENT_ID>",
+    "client_secret": "<PIPEDREAM_CLIENT_SECRET>"
+  }'
+```
+</Tabs.Tab>
+</Tabs>
+
+</Steps>
+
+### Playground limitations
+
+- The server URL that's defined in OpenAI's playground uses two static fields. In practice, you'll define those dynamically in your app:
+  - `external_user_id`: `demo-openai-user-123`
+  - `app_slug`: `google_calendar`
+- You'll also define the `PIPEDREAM_PROJECT_ID` and `PIPEDREAM_ENVIRONMENT` in your environment once, then use the Pipedream SDK or REST API to get a fresh access token.
+*/}
