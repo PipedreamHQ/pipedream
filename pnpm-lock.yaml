@@ -3995,7 +3995,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/easyship: {}
+  components/easyship:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/echtpost_postcards:
     dependencies:
@@ -6045,8 +6049,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/heylibby:
-    specifiers: {}
+  components/heylibby: {}
 
   components/heyreach: {}
 
@@ -8573,11 +8576,9 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/neetocal:
-    specifiers: {}
+  components/neetocal: {}
 
-  components/neetodesk:
-    specifiers: {}
+  components/neetodesk: {}
 
   components/neetoform: {}
 
