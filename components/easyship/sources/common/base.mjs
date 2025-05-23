@@ -50,14 +50,14 @@ export default {
     },
   },
   async run(event) {
+    this.http.respond({
+      status: 200,
+    });
+
     const { body } = event;
     if (!body) {
       return;
     }
-
-    this.http.respond({
-      status: 200,
-    });
 
     const meta = this.generateMeta(body);
     this.$emit(body, meta);

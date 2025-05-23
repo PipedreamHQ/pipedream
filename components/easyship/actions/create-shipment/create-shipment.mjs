@@ -8,7 +8,7 @@ export default {
   type: "action",
   props: {
     easyship,
-    originontactName: {
+    originContactName: {
       type: "string",
       label: "Origin Name",
       description: "The full name of a person at the origin address",
@@ -188,7 +188,7 @@ export default {
       $,
       data: {
         origin_address: {
-          contact_name: this.originontactName,
+          contact_name: this.originContactName,
           contact_email: this.originContactEmail,
           contact_phone: this.originContactPhone,
           company_name: this.originCompanyName,

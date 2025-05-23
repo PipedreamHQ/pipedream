@@ -102,7 +102,7 @@ export default {
         const items = response[resourceKey];
         for (const item of items) {
           yield item;
-          if (max && count >= max) {
+          if (max && ++count >= max) {
             return;
           }
         }
