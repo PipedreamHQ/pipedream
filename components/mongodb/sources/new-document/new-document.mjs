@@ -35,6 +35,7 @@ export default {
       type: "string",
       label: "Timestamp Field Type",
       description: "The type of the timestamp field",
+      default: "Timestamp",
       options: [
         "Timestamp",
         "Integer",
