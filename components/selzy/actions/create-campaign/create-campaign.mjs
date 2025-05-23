@@ -1,8 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
-import {
-  clearEmpty,
-  parseObject,
-} from "../../common/utils.mjs";
+import { clearEmpty } from "../../common/utils.mjs";
 import selzy from "../../selzy.app.mjs";
 
 export default {
@@ -35,12 +32,6 @@ export default {
       type: "boolean",
       label: "Track Links",
       description: "To track whether there are any click-throughs in email messages, the default value is `false` (do not track). If `true`, all external links will be replaced with special ones that allow you to track the fact of a click-through, and then forward the user to the desired page. The **Track Links** argument is ignored for SMS messages.",
-      optional: true,
-    },
-    contacts: {
-      type: "string[]",
-      label: "Contacts",
-      description: "Email addresses (or phone numbers for sms messages) to which sending of a message should be limited. If this argument is absent, sending will be made to all contacts on the list for which the message is made (possibly, taking into account segmentation by tags). If the contacts argument is present, only those contacts that are on the list will be taken into account, while the other will be ignored. If there are too many addresses (phone numbers) for sending in the contacts parameter, the **Contacts URL** parameter can be used instead. You can't set both parameters at the same time",
       optional: true,
     },
     contactsUrl: {
@@ -114,7 +105,6 @@ export default {
         start_time: this.startTime,
         track_read: this.trackRead && +this.trackRead,
         track_links: this.trackLinks && +this.trackLinks,
-        contacts: parseObject(this.contacts)?.join(","),
         contacts_url: this.contactsUrl,
         track_ga: this.trackGa && +this.trackGa,
         ga_medium: this.gaMedium,

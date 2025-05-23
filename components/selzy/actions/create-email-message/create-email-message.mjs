@@ -26,13 +26,12 @@ export default {
     subject: {
       type: "string",
       label: "Subject",
-      description: "String with the letter subject. It may include [substitution fields](https://selzy.com/en/support/letter/other-functions/personalization-tags/). The parameter is optional if **Template Id** is indicated.",
-      optional: true,
+      description: "String with the letter subject. It may include substitution fields. If you wish to use substitution fields, specify a string within a Pipedream Custom Expression and escape the curly brackets with a backslash. For example: {{ \"Welcome to Our Newsletter, \\{\\{Name\\}\\}!\" }}. The parameter is optional if Template Id is indicated.",
     },
     body: {
       type: "string",
       label: "Body",
-      description: "If you transfer the entire HTML text, test such letters additionally as headers outside the body may be modified. The parameter is optional if **Template Id** or **System Template Id** is indicated.",
+      description: "HTML body of the letter. It may include substitution fields. If you wish to use substitution fields, specify an HTML string within a Pipedream Custom Expression and escape the curly brackets with a backslash. For example: {{ \"<p>Hello \\{\\{Name\\}\\},</p><p>Here is your update.</p>\" }}.. The parameter is optional if **Template Id** or **System Template Id** is indicated.",
     },
     listId: {
       propDefinition: [
@@ -43,14 +42,13 @@ export default {
     textBody: {
       type: "string",
       label: "Text Body",
-      description: "Text version of the template. It is absent by default. If you do not provide the text version along with the HTML version, you are recommended to set the **Generate Text** parameter to 1 for automatic generation of the text part of the letter.",
+      description: "Text body of the letter. It may include substitution fields. If you wish to use substitution fields, specify a text string within a Pipedream Custom Expression and escape the curly brackets with a backslash. For example: {{ \"Hello \\{\\{Name\\}\\},\\nHere is your update.\" }}.",
       optional: true,
     },
     generateText: {
       type: "boolean",
       label: "Generate Text",
       description: "`True` means that the text part of the letter will be generated automatically based on the HTML part. If you do not provide the text version along with the HTML version, you are recommended to set the **Generate Text** parameter to `true` for automatic generation of the text part of the letter. If the text variant of the letter is provided using the **Text Body** parameter, the **Generate Text** parameter is ignored. Thus, if the **Generate Text** value has been set to `true`, the server's response will contain a warning.",
-      optional: true,
     },
     rawBody: {
       type: "string",

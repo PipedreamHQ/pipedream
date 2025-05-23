@@ -47,13 +47,15 @@ export default {
         responseArray.push(item);
       }
 
+      responseArray = responseArray.filter((item) => item.id > lastId);
+
       if (responseArray.length) {
-        responseArray = responseArray.filter((item) => item.id > lastId);
         responseArray = responseArray.reverse();
 
         if (maxResults && (responseArray.length > maxResults)) {
           responseArray.length = maxResults;
         }
+
         this._setLastId(responseArray[0].id);
         this._setLastDate(responseArray[0].start_time);
       }
