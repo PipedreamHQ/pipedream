@@ -4,9 +4,9 @@ import {
 import utopianLabs from "../../utopian_labs.app.mjs";
 
 export default {
-  key: "utopian_labs-initiate-research-run",
-  name: "Initiate Research Run",
-  description: "Initiate a research run of the R1 agent. [See the documentation](https://docs.utopianlabs.ai/research#initiate-a-research-run)",
+  key: "utopian_labs-initiate-qualification-run",
+  name: "Initiate Qualification Run",
+  description: "Initiate a qualification run of the R1-Qualification agent. [See the documentation](https://docs.utopianlabs.ai/qualification#initiate-a-qualification-run)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -18,12 +18,12 @@ export default {
       ],
       options: [
         {
-          label: "r1 - a more powerful agent that has access to a larger set of research sources",
-          value: "r1",
+          label: "r1-qualification - the default research agent, which has access to a larger set of research sources",
+          value: "r1-qualification",
         },
         {
-          label: "r1-light - a more affordable version of R1",
-          value: "r1-light",
+          label: "r1-qualification-light - the light research agent, more affordable",
+          value: "r1-qualification-light",
         },
       ],
     },
@@ -32,6 +32,7 @@ export default {
         utopianLabs,
         "lead",
       ],
+      description: "The lead to qualify. [See the documentation](https://docs.utopianlabs.ai/types#the-lead-type) for more information. Example: `{ \"company\": { \"website\": \"https://pipedream.com/\" } }`",
     },
     minResearchSteps: {
       propDefinition: [
@@ -56,6 +57,7 @@ export default {
         utopianLabs,
         "additionalOptions",
       ],
+      description: "Additional parameters to send in the request. [See the documentation](https://docs.utopianlabs.ai/qualification#initiate-a-qualification-run) for all available parameters. Values will be parsed as JSON where applicable.",
     },
   },
   async run({ $ }) {
