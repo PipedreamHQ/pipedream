@@ -14,11 +14,8 @@ export default {
     model: {
       propDefinition: [
         apipieAi,
-        "modelId",
-        { modelType: "llm" },
+        "chatCompletionModelId",
       ],
-      label: "LLM Model",
-      description: "The LLM model to use for completions.",
     },
     messages: {
       type: "string[]",

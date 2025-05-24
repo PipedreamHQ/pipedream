@@ -12,11 +12,8 @@ export default {
     model: {
       propDefinition: [
         apipieAi,
-        "modelId",
-        { modelType: "tts" },
+        "ttsModelId",
       ],
-      label: "TTS Model",
-      description: "The text-to-speech model to use.",
       reloadProps: true,
     },
     input: {

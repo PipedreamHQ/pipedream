@@ -5,54 +5,64 @@ export default {
   type: "app",
   app: "apipie_ai",
   propDefinitions: {
-    modelId: {
+    chatCompletionModelId: {
+      type: "string",
+      label: "Completions Model",
+      description: "The ID of the LLM model to use for completions.",
+      async options() {
+        const { data } = await this.listLlmModels();
+        const uniqueModels = new Map();
+        data.forEach(({ id, name }) => {
+          if (!uniqueModels.has(id)) {
+            uniqueModels.set(id, name);
+          }
+        });
+        return Array.from(uniqueModels.entries())
+          .map(([value, label]) => ({
+            label,
+            value,
+          }))
+          .sort((a, b) => a.label.localeCompare(b.label));
+      },
+    },
+    imageModelId: {
       type: "string",
       label: "Model",
-      description: "The ID of the model to use.",
-      async options(opts) {
-        const { modelType } = opts;
-        
-        // Determine which API call to make based on modelType
-        let data;
-        if (modelType === "llm") {
-          ({ data } = await this.listLlmModels());
-        } else if (modelType === "image") {
-          ({ data } = await this.listImageModels());
-        } else if (modelType === "tts") {
-          ({ data } = await this.listTtsModels());
-        } else {
-          return [];
-        }
-        
-        // Handle TTS models differently (they need route information)
-        if (modelType === "tts") {
-          const uniqueModels = new Map();
-          data.forEach(({ id, name, route }) => {
-            if (!uniqueModels.has(id)) {
-              uniqueModels.set(id, { name, route });
-            }
-          });
-          return Array.from(uniqueModels.entries())
-            .map(([id, { name, route }]) => ({
-              label: name,
-              value: JSON.stringify({ id, route }),
-            }))
-            .sort((a, b) => a.label.localeCompare(b.label));
-        } else {
-          // Handle LLM and image models (simple id/name mapping)
-          const uniqueModels = new Map();
-          data.forEach(({ id, name }) => {
-            if (!uniqueModels.has(id)) {
-              uniqueModels.set(id, name);
-            }
-          });
-          return Array.from(uniqueModels.entries())
-            .map(([value, label]) => ({
-              label,
-              value,
-            }))
-            .sort((a, b) => a.label.localeCompare(b.label));
-        }
+      description: "The ID of the image model to use for completions.",
+      async options() {
+        const { data } = await this.listImageModels();
+        const uniqueModels = new Map();
+        data.forEach(({ id, name }) => {
+          if (!uniqueModels.has(id)) {
+            uniqueModels.set(id, name);
+          }
+        });
+        return Array.from(uniqueModels.entries())
+          .map(([value, label]) => ({
+            label,
+            value,
+          }))
+          .sort((a, b) => a.label.localeCompare(b.label));
+      },
+    },
+    ttsModelId: {
+      type: "string",
+      label: "Model",
+      description: "The ID of the tts model to use for completions.",
+      async options() {
+        const { data } = await this.listTtsModels();
+        const uniqueModels = new Map();
+        data.forEach(({ id, name }) => {
+          if (!uniqueModels.has(id)) {
+            uniqueModels.set(id, name);
+          }
+        });
+        return Array.from(uniqueModels.entries())
+          .map(([value, label]) => ({
+            label,
+            value,
+          }))
+          .sort((a, b) => a.label.localeCompare(b.label));
       },
     },
     maxTokens: {

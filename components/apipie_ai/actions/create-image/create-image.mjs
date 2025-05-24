@@ -11,11 +11,8 @@ export default {
     model: {
       propDefinition: [
         apipieAi,
-        "modelId",
-        { modelType: "image" },
+        "imageModelId",
       ],
-      label: "Image Model",
-      description: "The image generation model to use.",
     },
     prompt: {
       propDefinition: [
