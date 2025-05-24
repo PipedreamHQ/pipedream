@@ -1,7 +1,7 @@
 import apipieAi from "../../apipie_ai.app.mjs";
 
 export default {
-  key: "apipie_ai-retrieve-available-tts-voices-models",
+  key: "apipie_ai-retrieve-available-tts-voices",
   name: "Retrieve Available TTS Voices",
   version: "0.0.1",
   description: "Returns a list of TTS Voices available through the API. [See the dashboard](https://apipie.ai/dashboard)",

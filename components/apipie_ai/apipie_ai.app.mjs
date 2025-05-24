@@ -5,64 +5,54 @@ export default {
   type: "app",
   app: "apipie_ai",
   propDefinitions: {
-    chatCompletionModelId: {
-      type: "string",
-      label: "Completions Model",
-      description: "The ID of the LLM model to use for completions.",
-      async options() {
-        const { data } = await this.listLlmModels();
-        const uniqueModels = new Map();
-        data.forEach(({ id, name }) => {
-          if (!uniqueModels.has(id)) {
-            uniqueModels.set(id, name);
-          }
-        });
-        return Array.from(uniqueModels.entries())
-          .map(([value, label]) => ({
-            label,
-            value,
-          }))
-          .sort((a, b) => a.label.localeCompare(b.label));
-      },
-    },
-    imageModelId: {
+    modelId: {
       type: "string",
       label: "Model",
-      description: "The ID of the image model to use for completions.",
-      async options() {
-        const { data } = await this.listImageModels();
-        const uniqueModels = new Map();
-        data.forEach(({ id, name }) => {
-          if (!uniqueModels.has(id)) {
-            uniqueModels.set(id, name);
-          }
-        });
-        return Array.from(uniqueModels.entries())
-          .map(([value, label]) => ({
-            label,
-            value,
-          }))
-          .sort((a, b) => a.label.localeCompare(b.label));
-      },
-    },
-    ttsModelId: {
-      type: "string",
-      label: "Model",
-      description: "The ID of the tts model to use for completions.",
-      async options() {
-        const { data } = await this.listTtsModels();
-        const uniqueModels = new Map();
-        data.forEach(({ id, name }) => {
-          if (!uniqueModels.has(id)) {
-            uniqueModels.set(id, name);
-          }
-        });
-        return Array.from(uniqueModels.entries())
-          .map(([value, label]) => ({
-            label,
-            value,
-          }))
-          .sort((a, b) => a.label.localeCompare(b.label));
+      description: "The ID of the model to use.",
+      async options(opts) {
+        const { modelType } = opts;
+        
+        // Determine which API call to make based on modelType
+        let data;
+        if (modelType === "llm") {
+          ({ data } = await this.listLlmModels());
+        } else if (modelType === "image") {
+          ({ data } = await this.listImageModels());
+        } else if (modelType === "tts") {
+          ({ data } = await this.listTtsModels());
+        } else {
+          return [];
+        }
+        
+        // Handle TTS models differently (they need route information)
+        if (modelType === "tts") {
+          const uniqueModels = new Map();
+          data.forEach(({ id, name, route }) => {
+            if (!uniqueModels.has(id)) {
+              uniqueModels.set(id, { name, route });
+            }
+          });
+          return Array.from(uniqueModels.entries())
+            .map(([id, { name, route }]) => ({
+              label: name,
+              value: JSON.stringify({ id, route }),
+            }))
+            .sort((a, b) => a.label.localeCompare(b.label));
+        } else {
+          // Handle LLM and image models (simple id/name mapping)
+          const uniqueModels = new Map();
+          data.forEach(({ id, name }) => {
+            if (!uniqueModels.has(id)) {
+              uniqueModels.set(id, name);
+            }
+          });
+          return Array.from(uniqueModels.entries())
+            .map(([value, label]) => ({
+              label,
+              value,
+            }))
+            .sort((a, b) => a.label.localeCompare(b.label));
+        }
       },
     },
     maxTokens: {
@@ -73,46 +63,56 @@ export default {
       optional: true,
     },
     temperature: {
-      type: "string",
+      type: "number",
       label: "Temperature",
       description: "Sampling temperature. **(range: [0, 2])**.",
+      min: 0,
+      max: 2,
       optional: true,
     },
     seed: {
-      type: "integer",
+      type: "number",
       label: "Seed",
       description: "Seed for deterministic outputs.",
       optional: true,
     },
     topP: {
-      type: "string",
+      type: "number",
       label: "Top P",
       description: "Top-p sampling value. **(range: (0, 1])**.",
+      min: 0,
+      max: 1.0,
       optional: true,
     },
     topK: {
-      type: "integer",
+      type: "number",
       label: "Top K",
       description: "Top-k sampling value. **(range: [1, Infinity))**.",
       min: 1,
       optional: true,
     },
     frequencyPenalty: {
-      type: "string",
+      type: "number",
       label: "Frequency Penalty",
       description: "Frequency penalty. **(range: [-2, 2])**.",
+      min: -2.0,
+      max: 2.0,
       optional: true,
     },
     presencePenalty: {
-      type: "string",
+      type: "number",
       label: "Presence Penalty",
       description: "Presence penalty. **(range: [-2, 2])**.",
+      min: -2.0,
+      max: 2.0,
       optional: true,
     },
     repetitionPenalty: {
-      type: "string",
+      type: "number",
       label: "Repetition Penalty",
       description: "Repetition penalty. **(range: (0, 2])**.",
+      min: -2.0,
+      max: 2.0,
       optional: true,
     },
     reasoningEffort: {
@@ -135,10 +135,12 @@ export default {
       optional: true,
     },
     speed: {
-      type: "string",
+      type: "number",
       label: "Speed",
       description: "The speed of the generated audio. Provide a value from 0.25 to 4.0.",
-      default: "1.0",
+      default: 1,
+      min: 0.25,
+      max: 4.0,
       optional: true,
     },
     toolOutputs: {
@@ -207,8 +209,9 @@ export default {
       };
     },
     _makeRequest({
-      $ = this, path, ...opts
+      $, path, ...opts
     }) {
+      $ = $ || this.$;
       return axios($, {
         url: `${this._apiUrl()}/${path}`,
         headers: this._getHeaders(),
@@ -230,13 +233,9 @@ export default {
         path: "models?subtype=text-to-speech",
       });
     },
-    listVoices(opts = {}) {
-      let queryString = "voices";
-      if (opts.model) {
-        queryString += `&model=${encodeURIComponent(opts.model)}`;
-      }
+    listVoices() {
       return this._makeRequest({
-        path: `models?${queryString}`,
+        path: "models?voices",
       });
     },
     sendChatCompletionRequest(opts = {}) {

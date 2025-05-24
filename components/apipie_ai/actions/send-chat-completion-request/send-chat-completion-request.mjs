@@ -14,8 +14,11 @@ export default {
     model: {
       propDefinition: [
         apipieAi,
-        "chatCompletionModelId",
+        "modelId",
+        { modelType: "llm" },
       ],
+      label: "LLM Model",
+      description: "The LLM model to use for completions.",
     },
     messages: {
       type: "string[]",
@@ -127,9 +130,7 @@ export default {
   },
   methods: {
     _buildTools() {
-      const tools = this.toolTypes?.filter((toolType) => toolType !== "function")?.map((toolType) => ({
-        type: toolType,
-      })) || [];
+      const tools = [];
       
       if (this.toolTypes?.includes("function")) {
         const numberOfFunctions = this.numberOfFunctions || 1;
@@ -159,13 +160,13 @@ export default {
 
     // Add optional parameters only if they exist
     if (this.maxTokens) data.max_tokens = this.maxTokens;
-    if (this.temperature) data.temperature = parseFloat(this.temperature);
+    if (this.temperature) data.temperature = this.temperature;
     if (this.seed) data.seed = this.seed;
-    if (this.topP) data.top_p = parseFloat(this.topP);
+    if (this.topP) data.top_p = this.topP;
     if (this.topK) data.top_k = this.topK;
-    if (this.frequencyPenalty) data.frequency_penalty = parseFloat(this.frequencyPenalty);
-    if (this.presencePenalty) data.presence_penalty = parseFloat(this.presencePenalty);
-    if (this.repetitionPenalty) data.repetition_penalty = parseFloat(this.repetitionPenalty);
+    if (this.frequencyPenalty) data.frequency_penalty = this.frequencyPenalty;
+    if (this.presencePenalty) data.presence_penalty = this.presencePenalty;
+    if (this.repetitionPenalty) data.repetition_penalty = this.repetitionPenalty;
     if (this.reasoningEffort) data.reasoning_effort = this.reasoningEffort;
 
     // Add tools if they exist

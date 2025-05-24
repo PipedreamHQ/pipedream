@@ -1,3 +1,8 @@
+/**
+* Safely parses JSON strings or arrays of JSON strings into JavaScript objects
+* @param {any} obj - Input that may be a JSON string, array of JSON strings, or any other value
+* @returns {any} - Parsed object(s) or the original input if parsing fails
+*/
 export const parseObject = (obj) => {
   if (!obj) return undefined;
 

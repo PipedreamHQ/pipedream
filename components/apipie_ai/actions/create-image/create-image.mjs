@@ -11,8 +11,11 @@ export default {
     model: {
       propDefinition: [
         apipieAi,
-        "imageModelId",
+        "modelId",
+        { modelType: "image" },
       ],
+      label: "Image Model",
+      description: "The image generation model to use.",
     },
     prompt: {
       propDefinition: [
@@ -58,9 +61,7 @@ export default {
         prompt: this.prompt,
         n: this.n,
         size: this.size,
-        response_format: this.responseFormat === "url"
-          ? this.responseFormat
-          : "b64_json",
+        ...(this.responseFormat && { response_format: this.responseFormat }),
         model: this.model,
         quality: this.quality,
         style: this.style,

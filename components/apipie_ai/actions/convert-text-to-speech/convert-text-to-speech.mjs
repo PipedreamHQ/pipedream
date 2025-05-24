@@ -12,8 +12,11 @@ export default {
     model: {
       propDefinition: [
         apipieAi,
-        "ttsModelId",
+        "modelId",
+        { modelType: "tts" },
       ],
+      label: "TTS Model",
+      description: "The text-to-speech model to use.",
       reloadProps: true,
     },
     input: {
@@ -43,20 +46,28 @@ export default {
   async additionalProps() {
     const props = {};
     if (this.model) {
-      const { data } = await this.apipieAi.listVoices({ model: this.model });
+      // Parse the model JSON to get id and route
+      const modelData = JSON.parse(this.model);
+      const { route } = modelData;
+      
+      // Get all voices and filter by the model route
+      const { data } = await this.apipieAi.listVoices();
+      const filteredVoices = data.filter(voice => voice.model === route);
+      
       const uniqueVoices = new Map();
-      data.forEach(({ voice_id, name, description }) => {
+      filteredVoices.forEach(({ voice_id, name }) => {
         if (!uniqueVoices.has(voice_id)) {
-          uniqueVoices.set(voice_id, { name, description });
+          uniqueVoices.set(voice_id, name);
         }
       });
+      
       props.voice = {
         type: "string",
         label: "Voice",
         description: "The voice to use when generating the audio.",
         options: Array.from(uniqueVoices.entries())
-          .map(([value, { name, description }]) => ({
-            label: description ? `${name} - ${description}` : name,
+          .map(([value, name]) => ({
+            label: name,
             value,
           }))
           .sort((a, b) => a.label.localeCompare(b.label)),
@@ -65,14 +76,18 @@ export default {
     return props;
   },
   async run({ $ }) {
+    // Parse the model JSON to get the actual model id for the API call
+    const modelData = JSON.parse(this.model);
+    const { id: modelId } = modelData;
+    
     const response = await this.apipieAi.createSpeech({
       $,
       data: {
-        model: this.model,
+        model: modelId,
         input: this.input,
         voice: this.voice,
         response_format: this.responseFormat,
-        speed: Number(this.speed),
+        speed: this.speed,
       },
       responseType: "arraybuffer",
     });

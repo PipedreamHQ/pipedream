@@ -3,7 +3,6 @@ const EFFORT_OPTIONS = [
   "medium",
   "low",
 ];
-
 const AUDIO_RESPONSE_FORMATS = [
   "mp3",
   "opus",
@@ -12,7 +11,6 @@ const AUDIO_RESPONSE_FORMATS = [
   "wav",
   "pcm",
 ];
-
 const IMAGE_RESPONSE_FORMATS = [
   {
     label: "URL",
@@ -23,8 +21,6 @@ const IMAGE_RESPONSE_FORMATS = [
     value: "b64_json",
   },
 ];
-
-
 const IMAGE_QUALITIES = [
   {
     label: "Standard",
@@ -35,7 +31,6 @@ const IMAGE_QUALITIES = [
     value: "hd",
   },
 ];
-
 const IMAGE_STYLES = [
   {
     label: "Natural",
@@ -46,7 +41,6 @@ const IMAGE_STYLES = [
     value: "vivid",
   },
 ];
-
 const IMAGE_SIZES = [
   "256x256",
   "512x512",
@@ -59,8 +53,6 @@ const TOOL_TYPES = [
   "file_search",
   "function",
 ];
-
-
 export default {
   EFFORT_OPTIONS,
   AUDIO_RESPONSE_FORMATS,
