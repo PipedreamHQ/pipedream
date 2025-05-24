@@ -3,7 +3,7 @@ import drift from "../../drift.app.mjs";
 export default {
   key: "drift-delete-contact",
   name: "Delete Contact",
-  description: "Deletes a contact in Drift by ID or email. [See the docs](https://devdocs.drift.com/docs/removing-a-contact).",
+  description: "Deletes a contact in Drift by ID or email. [See the documentation](https://devdocs.drift.com/docs/removing-a-contact).",
   version: "0.0.1",
   type: "action",
   props: {

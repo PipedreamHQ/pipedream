@@ -1,16 +1,16 @@
 import drift from "../../drift.app.mjs";
 
 export default {
-  key: "drift-new-message-instant",
+  key: "drift-new-message",
   name: "New Message",
-  description: "Emit new event when a new message is received in Drift.  [See the docs](https://devdocs.drift.com/docs/webhook-events-1).",
+  description: "Emit new event when a new message is received in Drift.  [See the documentation](https://devdocs.drift.com/docs/webhook-events-1).",
   version: "0.0.1",
   type: "source",
   props: {
     drift,
     http: "$.interface.http",
     conversationId: {
-      type: "integer",
+      type: "string",
       label: "Conversation ID",
       description: "The ID of the conversation to monitor. Emits events for all new messages if not provided.",
       optional: true,
@@ -45,7 +45,7 @@ export default {
       contactId,
     });
 
-    const email = result.data?.attributes?.email || "unknown";
+    const email = result.data?.attributes?.email || "an unregistered contact";
 
     if (this.emailOrId &&
             !(email === this.emailOrId || Number(contactId) === Number(this.emailOrId))) {
@@ -56,7 +56,7 @@ export default {
     body.data.attributes =  result.data.attributes;
 
     this.$emit(body, {
-      summary: `New message from contact "${email} " ID "${contactId || "unknown"}"`,
+      summary: `New message from "${email}" ID "${contactId || "unknown"}"`,
       id: body.data.endUserId,
       ts: body.timeStamp,
     });

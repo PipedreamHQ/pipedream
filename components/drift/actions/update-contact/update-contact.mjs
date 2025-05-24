@@ -4,7 +4,7 @@ import { removeNullEntries } from "../../common/utils.mjs";
 export default {
   key: "drift-update-contact",
   name: "Update Contact",
-  description: "Updates a contact in Drift using ID or email. Only changed attributes will be updated. [See Drift API docs](https://devdocs.drift.com/docs/updating-a-contact)",
+  description: "Updates a contact in Drift using ID or email. Only changed attributes will be updated. [See the documentation](https://devdocs.drift.com/docs/updating-a-contact)",
   version: "0.0.1",
   type: "action",
   props: {
