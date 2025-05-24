@@ -5445,6 +5445,9 @@ importers:
         specifier: ^8.3.2
         version: 8.3.2
 
+  components/google_cloud_document_ai:
+    specifiers: {}
+
   components/google_cloud_translate: {}
 
   components/google_cloud_vision_api:
