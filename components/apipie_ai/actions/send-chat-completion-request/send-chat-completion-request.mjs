@@ -178,7 +178,7 @@ export default {
       });
       if (response.error) {
         $.export("Error creating Chat Completion", response.error);
-        throw new ConfigurationError(e.message || "Failed to create Chat Completion");
+        throw new ConfigurationError(response.error.message || "Failed to create Chat Completion");
       }
 
       $.export("$summary", `A new chat completion request with Id: ${response.id} was successfully created!`);

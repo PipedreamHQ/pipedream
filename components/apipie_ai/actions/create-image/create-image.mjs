@@ -1,4 +1,5 @@
 import apipieAi from "../../apipie_ai.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   name: "Create Image",
@@ -67,7 +68,7 @@ export default {
       });
       if (response.error) {
         $.export("Error creating Image", response.error);
-        throw new ConfigurationError(e.message || "Failed to create Image");
+        throw new ConfigurationError(response.error.message || "Failed to create Image");
       }
       if (response.data.length) {
         $.export("$summary", `Successfully created ${response.data.length} image${response.data.length === 1

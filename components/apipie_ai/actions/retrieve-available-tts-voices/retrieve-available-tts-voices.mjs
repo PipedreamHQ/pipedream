@@ -1,4 +1,5 @@
 import apipieAi from "../../apipie_ai.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "apipie_ai-retrieve-available-tts-voices",

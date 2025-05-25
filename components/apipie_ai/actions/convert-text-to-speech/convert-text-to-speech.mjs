@@ -1,5 +1,6 @@
 import fs from "fs";
 import apipieAi from "../../apipie_ai.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "apipie_ai-convert-text-to-speech",
@@ -96,7 +97,7 @@ export default {
 
       if (response.error) {
         $.export("Error creating audio", response.error);
-        throw new ConfigurationError(e.message || "Failed to create audio");
+        throw new ConfigurationError(response.error.message || "Failed to create audio");
       }
       const outputFilePath = this.outputFile.includes("tmp/")
         ? this.outputFile

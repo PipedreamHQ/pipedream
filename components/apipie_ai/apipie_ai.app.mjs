@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { ConfigurationError } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -10,9 +11,8 @@ export default {
       label: "Completions Model",
       description: "The ID of the LLM model to use for completions.",
       async options() {
-        let data;
         try {
-          data = await this.listLlmModels();
+          const { data } = await this.listLlmModels();
           const uniqueModels = new Map();
           data.forEach(({ id, name }) => {
             if (!uniqueModels.has(id)) {
@@ -26,7 +26,7 @@ export default {
             }))
             .sort((a, b) => a.label.localeCompare(b.label));
         } catch (e) {
-          $.export("Error fetching Image Models", e);
+          $.export("Error fetching LLM Models", e);
           throw new ConfigurationError(e.message || "Failed to fetch LLM models");
         }
       },
@@ -52,7 +52,7 @@ export default {
             .sort((a, b) => a.label.localeCompare(b.label));
         } catch (e) {
           $.export("Error fetching Image Models", e);
-          throw new ConfigurationError(e.message || "Failed to fetch LLM models");
+          throw new ConfigurationError(e.message || "Failed to fetch Image models");
         }
       },
     },
