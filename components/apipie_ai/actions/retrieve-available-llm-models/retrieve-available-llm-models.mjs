@@ -10,11 +10,15 @@ export default {
     apipieAi,
   },
   async run({ $ }) {
-    const response = await this.apipieAi.listLlmModels({
-      $,
-    });
-
-    $.export("$summary", `Successfully retrieved ${response.data.length} available LLM model(s)!`);
-    return response;
+    try {
+      const response = await this.apipieAi.listLlmModels({
+        $,
+      });
+      $.export("$summary", `Successfully retrieved ${response.data.length} available LLM model(s)!`);
+      return response;
+    } catch (e) {
+      $.export("Error fetching LLM Models", e);
+      throw new ConfigurationError(e.message || "Failed to fetch LLM Models");
+    }
   },
 };

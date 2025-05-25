@@ -149,38 +149,43 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = {
-      model: this.model,
-      messages: parseObject(this.messages),
-      stream: false,
-    };
+    try {
+      const data = {
+        model: this.model,
+        messages: parseObject(this.messages),
+        stream: false,
+      };
 
-    // Add optional parameters only if they exist
-    if (this.maxTokens) data.max_tokens = this.maxTokens;
-    if (this.temperature) data.temperature = this.temperature;
-    if (this.seed) data.seed = this.seed;
-    if (this.topP) data.top_p = this.topP;
-    if (this.topK) data.top_k = this.topK;
-    if (this.frequencyPenalty) data.frequency_penalty = this.frequencyPenalty;
-    if (this.presencePenalty) data.presence_penalty = this.presencePenalty;
-    if (this.repetitionPenalty) data.repetition_penalty = this.repetitionPenalty;
-    if (this.reasoningEffort) data.reasoning_effort = this.reasoningEffort;
+      // Add optional parameters only if they exist
+      if (this.maxTokens) data.max_tokens = this.maxTokens;
+      if (this.temperature) data.temperature = this.temperature;
+      if (this.seed) data.seed = this.seed;
+      if (this.topP) data.top_p = this.topP;
+      if (this.topK) data.top_k = this.topK;
+      if (this.frequencyPenalty) data.frequency_penalty = this.frequencyPenalty;
+      if (this.presencePenalty) data.presence_penalty = this.presencePenalty;
+      if (this.repetitionPenalty) data.repetition_penalty = this.repetitionPenalty;
+      if (this.reasoningEffort) data.reasoning_effort = this.reasoningEffort;
 
-    // Add tools if they exist
-    const tools = this._buildTools();
-    if (tools) data.tools = tools;
+      // Add tools if they exist
+      const tools = this._buildTools();
+      if (tools) data.tools = tools;
 
-    const response = await this.apipieAi.sendChatCompletionRequest({
-      $,
-      data,
-      timeout: 1000 * 60 * 5,
-    });
+      const response = await this.apipieAi.sendChatCompletionRequest({
+        $,
+        data,
+        timeout: 1000 * 60 * 5,
+      });
+      if (response.error) {
+        $.export("Error creating Chat Completion", response.error);
+        throw new ConfigurationError(e.message || "Failed to create Chat Completion");
+      }
 
-    if (response.error) {
-      throw new ConfigurationError(response.error.message);
+      $.export("$summary", `A new chat completion request with Id: ${response.id} was successfully created!`);
+      return response;
+    } catch (e) {
+      $.export("Error creating Chat Completion", e);
+      throw new ConfigurationError(e);
     }
-
-    $.export("$summary", `A new chat completion request with Id: ${response.id} was successfully created!`);
-    return response;
   },
 };

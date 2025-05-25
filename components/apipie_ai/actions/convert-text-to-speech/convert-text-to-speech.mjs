@@ -41,8 +41,9 @@ export default {
     },
   },
   async additionalProps() {
-    const props = {};
-    if (this.model) {
+    try {
+      const props = {};
+      if (this.model) {
       // Parse the model JSON to get id and route
       const modelData = JSON.parse(this.model);
       const { route } = modelData;
@@ -69,36 +70,52 @@ export default {
           }))
           .sort((a, b) => a.label.localeCompare(b.label)),
       };
+      }
+      return props;
+    } catch (e) {
+      $.export("Error fetching voices", e);
+      throw new ConfigurationError(e.message || "Failed to fetch voices");
     }
-    return props;
   },
   async run({ $ }) {
     // Parse the model JSON to get the actual model id for the API call
-    const modelData = JSON.parse(this.model);
-    const { id: modelId } = modelData;
-    
-    const response = await this.apipieAi.createSpeech({
-      $,
-      data: {
-        model: modelId,
-        input: this.input,
-        voice: this.voice,
-        response_format: this.responseFormat,
-        speed: this.speed,
-      },
-      responseType: "arraybuffer",
-    });
+    try {
+      const modelData = JSON.parse(this.model);
+      const { id: modelId } = modelData;
+      const response = await this.apipieAi.createSpeech({
+        $,
+        data: {
+          model: modelId,
+          input: this.input,
+          voice: this.voice,
+          response_format: this.responseFormat,
+          speed: this.speed,
+        },
+        responseType: "arraybuffer",
+      });
 
-    const outputFilePath = this.outputFile.includes("tmp/")
-      ? this.outputFile
-      : `/tmp/${this.outputFile}`;
+      if (response.error) {
+        $.export("Error creating audio", response.error);
+        throw new ConfigurationError(e.message || "Failed to create audio");
+      }
+      const outputFilePath = this.outputFile.includes("tmp/")
+        ? this.outputFile
+        : `/tmp/${this.outputFile}`;
 
-    await fs.promises.writeFile(outputFilePath, Buffer.from(response));
-
-    $.export("$summary", "Generated audio successfully");
-    return {
-      outputFilePath,
-      response,
-    };
+      try {
+        await fs.promises.writeFile(outputFilePath, Buffer.from(response));
+      } catch (e) {
+        $.export("Error saving audio file", e);
+        throw new ConfigurationError(e.message || "Failed to save audio file");
+      }
+      $.export("$summary", "Generated audio successfully");
+      return {
+        outputFilePath,
+        response,
+      };
+    } catch (e) {
+      $.export("Error creating audio", e);
+      throw new ConfigurationError(e.message || "Failed to create audio");
+    }
   },
 };

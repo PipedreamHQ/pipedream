@@ -10,11 +10,15 @@ export default {
     apipieAi,
   },
   async run({ $ }) {
-    const response = await this.apipieAi.listImageModels({
-      $,
-    });
-
-    $.export("$summary", `Successfully retrieved ${response.data.length} available Image model(s)!`);
-    return response;
+    try {
+      const response = await this.apipieAi.listImageModels({
+        $,
+      });
+      $.export("$summary", `Successfully retrieved ${response.data.length} available Image model(s)!`);
+      return response;
+    } catch (e) {
+      $.export("Error fetching Image Models", e);
+      throw new ConfigurationError(e.message || "Failed to fetch Image Models");
+    }
   },
 };

@@ -52,25 +52,32 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.apipieAi.createImage({
-      $,
-      data: {
-        prompt: this.prompt,
-        n: this.n,
-        size: this.size,
-        ...(this.responseFormat && { response_format: this.responseFormat }),
-        model: this.model,
-        quality: this.quality,
-        style: this.style,
-      },
-    });
-
-    if (response.data.length) {
-      $.export("$summary", `Successfully created ${response.data.length} image${response.data.length === 1
-        ? ""
-        : "s"}`);
+    try {
+      const response = await this.apipieAi.createImage({
+        $,
+        data: {
+          prompt: this.prompt,
+          n: this.n,
+          size: this.size,
+          ...(this.responseFormat && { response_format: this.responseFormat }),
+          model: this.model,
+          quality: this.quality,
+          style: this.style,
+        },
+      });
+      if (response.error) {
+        $.export("Error creating Image", response.error);
+        throw new ConfigurationError(e.message || "Failed to create Image");
+      }
+      if (response.data.length) {
+        $.export("$summary", `Successfully created ${response.data.length} image${response.data.length === 1
+          ? ""
+          : "s"}`);
+      }
+      return response;
+    } catch (e) {
+      $.export("Error creating Image", e);
+      throw new ConfigurationError(e.message || "Failed to create Image");
     }
-
-    return response;
   },
 };

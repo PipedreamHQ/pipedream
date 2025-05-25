@@ -10,19 +10,25 @@ export default {
       label: "Completions Model",
       description: "The ID of the LLM model to use for completions.",
       async options() {
-        const { data } = await this.listLlmModels();
-        const uniqueModels = new Map();
-        data.forEach(({ id, name }) => {
-          if (!uniqueModels.has(id)) {
-            uniqueModels.set(id, name);
-          }
-        });
-        return Array.from(uniqueModels.entries())
-          .map(([value, label]) => ({
-            label,
-            value,
-          }))
-          .sort((a, b) => a.label.localeCompare(b.label));
+        let data;
+        try {
+          data = await this.listLlmModels();
+          const uniqueModels = new Map();
+          data.forEach(({ id, name }) => {
+            if (!uniqueModels.has(id)) {
+              uniqueModels.set(id, name);
+            }
+          });
+          return Array.from(uniqueModels.entries())
+            .map(([value, label]) => ({
+              label,
+              value,
+            }))
+            .sort((a, b) => a.label.localeCompare(b.label));
+        } catch (e) {
+          $.export("Error fetching Image Models", e);
+          throw new ConfigurationError(e.message || "Failed to fetch LLM models");
+        }
       },
     },
     imageModelId: {
@@ -30,19 +36,24 @@ export default {
       label: "Model",
       description: "The ID of the image model to use for completions.",
       async options() {
-        const { data } = await this.listImageModels();
-        const uniqueModels = new Map();
-        data.forEach(({ id, name }) => {
-          if (!uniqueModels.has(id)) {
-            uniqueModels.set(id, name);
-          }
-        });
-        return Array.from(uniqueModels.entries())
-          .map(([value, label]) => ({
-            label,
-            value,
-          }))
-          .sort((a, b) => a.label.localeCompare(b.label));
+        try {
+          const { data } = await this.listImageModels();
+          const uniqueModels = new Map();
+          data.forEach(({ id, name }) => {
+            if (!uniqueModels.has(id)) {
+              uniqueModels.set(id, name);
+            }
+          });
+          return Array.from(uniqueModels.entries())
+            .map(([value, label]) => ({
+              label,
+              value,
+            }))
+            .sort((a, b) => a.label.localeCompare(b.label));
+        } catch (e) {
+          $.export("Error fetching Image Models", e);
+          throw new ConfigurationError(e.message || "Failed to fetch LLM models");
+        }
       },
     },
     ttsModelId: {
@@ -50,19 +61,24 @@ export default {
       label: "Model",
       description: "The ID of the tts model to use for completions.",
       async options() {
-        const { data } = await this.listTtsModels();
-        const uniqueModels = new Map();
-        data.forEach(({ id, name }) => {
-          if (!uniqueModels.has(id)) {
-            uniqueModels.set(id, name);
-          }
-        });
-        return Array.from(uniqueModels.entries())
-          .map(([value, label]) => ({
-            label,
-            value,
-          }))
-          .sort((a, b) => a.label.localeCompare(b.label));
+        try {
+          const { data } = await this.listTtsModels();
+          const uniqueModels = new Map();
+          data.forEach(({ id, name }) => {
+            if (!uniqueModels.has(id)) {
+              uniqueModels.set(id, name);
+            }
+          });
+          return Array.from(uniqueModels.entries())
+            .map(([value, label]) => ({
+              label,
+              value,
+            }))
+            .sort((a, b) => a.label.localeCompare(b.label));
+        } catch (e) {
+          $.export("Error fetching TTS Models", e);
+          throw new ConfigurationError(e.message || "Failed to fetch TTS models");
+        }
       },
     },
     maxTokens: {

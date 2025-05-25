@@ -10,11 +10,15 @@ export default {
     apipieAi,
   },
   async run({ $ }) {
-    const response = await this.apipieAi.listVoices({
-      $,
-    });
-
-    $.export("$summary", `Successfully retrieved ${response.data.length} available TTS Voices!`);
-    return response;
+    try {
+      const response = await this.apipieAi.listVoices({
+        $,
+      });
+      $.export("$summary", `Successfully retrieved ${response.data.length} available TTS Voices!`);
+      return response;
+    } catch (e) {
+      $.export("Error fetching Voices", e);
+      throw new ConfigurationError(e.message || "Failed to fetch Voices");
+    }
   },
 };
