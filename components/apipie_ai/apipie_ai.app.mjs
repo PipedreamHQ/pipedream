@@ -169,11 +169,6 @@ export default {
       max: 4.0,
       optional: true,
     },
-    toolOutputs: {
-      type: "string[]",
-      label: "Tool Outputs",
-      description: "The outputs from the tool calls. Each object in the array should contain properties `tool_call_id` and `output`.",
-    },
     prompt: {
       label: "Prompt",
       description: "A text description of the desired image(s).",
