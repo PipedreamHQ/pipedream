@@ -4,16 +4,15 @@ export default {
   type: "app",
   app: "dust",
   propDefinitions: {
-    assistantId: {
+    agentId: {
       type: "string",
-      label: "Assistant ID",
-      description: "Select the name of your Assistant from the list. Your Dust Assistant must be a **Shared** or **Company** Assistant. Personal Assistants are not visible in this list.",
+      label: "Agent ID",
+      description:
+        "Select the name of your Agent from the list. Non **Published** agents are not visible in this list.",
       async options() {
-        const { agentConfigurations } = await this.listAssistants();
+        const { agentConfigurations } = await this.listAgents();
 
-        return agentConfigurations.map(({
-          description, name, sId: value,
-        }) => ({
+        return agentConfigurations.map(({ description, name, sId: value }) => ({
           label: `${name} - ${description}`,
           value,
         }));
@@ -26,9 +25,7 @@ export default {
       async options() {
         const { data_sources: ds } = await this.listDataSources();
 
-        return ds.map(({
-          description, name, dustAPIDataSourceId: value,
-        }) => ({
+        return ds.map(({ description, name, dustAPIDataSourceId: value }) => ({
           label: `${name} - ${description}`,
           value,
         }));
@@ -44,16 +41,14 @@ export default {
         Authorization: `Bearer ${this.$auth.api_key}`,
       };
     },
-    _makeRequest({
-      $ = this, path, ...opts
-    }) {
+    _makeRequest({ $ = this, path, ...opts }) {
       return axios($, {
         url: this._baseUrl() + path,
         headers: this._headers(),
         ...opts,
       });
     },
-    listAssistants(opts = {}) {
+    listAgents(opts = {}) {
       return this._makeRequest({
         path: "/assistant/agent_configurations",
         ...opts,
@@ -65,16 +60,14 @@ export default {
         ...opts,
       });
     },
-    sendMessageToAssistant(opts = {}) {
+    sendMessageToAgent(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/assistant/conversations",
         ...opts,
       });
     },
-    upsertDocument({
-      documentId, dataSourceId, ...opts
-    }) {
+    upsertDocument({ documentId, dataSourceId, ...opts }) {
       return this._makeRequest({
         method: "POST",
         path: `/data_sources/${dataSourceId}/documents/${documentId}`,
