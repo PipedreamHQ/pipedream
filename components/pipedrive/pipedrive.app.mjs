@@ -278,6 +278,22 @@ export default {
         };
       },
     },
+    leadLabelIds: {
+      type: "string[]",
+      label: "Lead Label IDs",
+      description: "The IDs of the lead labels to associate with the lead",
+      optional: true,
+      async options() {
+        const { data: leadLabels } = await this.getLeadLabels();
+
+        return leadLabels?.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
+    },
   },
   methods: {
     api(model, version = "v1") {
@@ -323,6 +339,10 @@ export default {
       const stagesApi = this.api("StagesApi", "v2");
       return stagesApi.getStages(opts);
     },
+    getLeadLabels(opts) {
+      const leadLabelsApi = this.api("LeadLabelsApi");
+      return leadLabelsApi.getLeadLabels(opts);
+    },
     addActivity(opts = {}) {
       const activityApi = this.api("ActivitiesApi", "v2");
       return activityApi.addActivity({
@@ -351,6 +371,12 @@ export default {
       const personsApi = this.api("PersonsApi", "v2");
       return personsApi.addPerson({
         AddPersonRequest: opts,
+      });
+    },
+    addLead(opts = {}) {
+      const leadApi = this.api("LeadsApi");
+      return leadApi.addLead({
+        AddLeadRequest: opts,
       });
     },
     addWebhook(opts = {}) {

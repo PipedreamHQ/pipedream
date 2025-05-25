@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/google_cloud_document_ai",
+  "version": "0.0.1",
+  "description": "Pipedream Google Cloud Document AI Components",
+  "main": "google_cloud_document_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_cloud_document_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/google_cloud_document_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
