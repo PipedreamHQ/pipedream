@@ -675,6 +675,8 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
+  components/all_voice_lab: {}
+
   components/allocadence:
     dependencies:
       '@pipedream/platform':
@@ -1712,7 +1714,7 @@ importers:
   components/botstar:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
+        specifier: ^3.0.3
         version: 3.0.3
 
   components/botx: {}
@@ -5443,6 +5445,9 @@ importers:
         specifier: ^8.3.2
         version: 8.3.2
 
+  components/google_cloud_document_ai:
+    specifiers: {}
+
   components/google_cloud_translate: {}
 
   components/google_cloud_vision_api:
@@ -6045,8 +6050,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/heylibby:
-    specifiers: {}
+  components/heylibby: {}
 
   components/heyreach: {}
 
@@ -8573,11 +8577,9 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/neetocal:
-    specifiers: {}
+  components/neetocal: {}
 
-  components/neetodesk:
-    specifiers: {}
+  components/neetodesk: {}
 
   components/neetoform: {}
 
@@ -11456,7 +11458,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/scalr: {}
+  components/scalr:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/schedule:
     dependencies:
@@ -11501,7 +11507,11 @@ importers:
 
   components/scrapein_: {}
 
-  components/scrapeless: {}
+  components/scrapeless:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/scrapeninja:
     dependencies:
@@ -13219,6 +13229,12 @@ importers:
   components/test_apps_for_checking_something_005: {}
 
   components/test_apps_for_checking_something_006: {}
+
+  components/test_apps_for_checking_something_009:
+    specifiers: {}
+
+  components/test_apps_for_checking_something_010:
+    specifiers: {}
 
   components/test_apps_for_switching_appslug_009: {}
 
