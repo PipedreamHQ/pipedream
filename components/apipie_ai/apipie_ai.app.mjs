@@ -121,7 +121,7 @@ export default {
       type: "number",
       label: "Repetition Penalty",
       description: "Repetition penalty. **(range: (0, 2])**.",
-      min: -2.0,
+      min: 0,
       max: 2.0,
       optional: true,
     },
