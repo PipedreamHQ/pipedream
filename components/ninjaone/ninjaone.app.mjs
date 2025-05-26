@@ -247,7 +247,7 @@ export default {
       organizationId, ...opts
     }) {
       return this._makeRequest({
-        path: `organization/${organizationId}/locations`,
+        path: `/organization/${organizationId}/locations`,
         ...opts,
       });
     },
@@ -255,7 +255,7 @@ export default {
       organizationId, ...opts
     }) {
       return this._makeRequest({
-        path: `organization/${organizationId}/devices`,
+        path: `/organization/${organizationId}/devices`,
         ...opts,
       });
     },
