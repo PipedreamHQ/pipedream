@@ -153,7 +153,7 @@ export default {
     nodeRoleId: {
       type: "string",
       label: "Node Role Id",
-      description: "The id of the device role",
+      description: "The ID of the device role",
       async options() {
         const data = await this.listRoles();
 
