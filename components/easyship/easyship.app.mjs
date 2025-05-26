@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://public-api.easyship.com/2023-01";
+      return "https://public-api.easyship.com/2024-09";
     },
     _makeRequest({
       $ = this, path, ...opts
@@ -30,6 +30,7 @@ export default {
         url: `${this._baseUrl()}${path}`,
         headers: {
           Authorization: `Bearer ${this.$auth.api_token}`,
+          Accept: "application/json",
         },
         ...opts,
       });
