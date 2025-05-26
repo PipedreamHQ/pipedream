@@ -5445,8 +5445,7 @@ importers:
         specifier: ^8.3.2
         version: 8.3.2
 
-  components/google_cloud_document_ai:
-    specifiers: {}
+  components/google_cloud_document_ai: {}
 
   components/google_cloud_translate: {}
 
@@ -13234,11 +13233,9 @@ importers:
 
   components/test_apps_for_checking_something_006: {}
 
-  components/test_apps_for_checking_something_009:
-    specifiers: {}
+  components/test_apps_for_checking_something_009: {}
 
-  components/test_apps_for_checking_something_010:
-    specifiers: {}
+  components/test_apps_for_checking_something_010: {}
 
   components/test_apps_for_switching_appslug_009: {}
 
