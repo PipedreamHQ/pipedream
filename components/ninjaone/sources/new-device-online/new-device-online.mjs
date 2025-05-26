@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "ninjaone-new-device-online",
   name: "New Device Online",
-  description: "Emit new event when a monitored device comes online. Users can specify a device group or type to monitor.",
+  description: "Emit new event when a monitored device comes online.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
