@@ -1186,8 +1186,8 @@ importers:
         specifier: ^0.3.6
         version: 0.3.13
       '@pipedream/platform':
-        specifier: ^1.6.3
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
       adm-zip:
         specifier: ^0.5.10
         version: 0.5.16
