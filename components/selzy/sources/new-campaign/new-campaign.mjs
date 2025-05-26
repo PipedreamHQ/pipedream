@@ -51,7 +51,7 @@ export default {
         this.$emit(item, {
           id: item.id,
           summary: `New campaign created: ${item.id}`,
-          ts: Date.parse(new Date()),
+          ts: Date.now(),
         });
       }
     },
