@@ -7,8 +7,8 @@ export default {
   propDefinitions: {
     clientId: {
       type: "string",
-      label: "Client Id",
-      description: "The Id of the client related to the ticket",
+      label: "Client ID",
+      description: "The ID of the client related to the ticket",
       async options({ prevContext }) {
         const data = await this.listOrganizations({
           params: {
