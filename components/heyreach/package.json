@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/heyreach",
+  "version": "0.0.1",
+  "description": "Pipedream HeyReach Components",
+  "main": "heyreach.app.mjs",
+  "keywords": [
+    "pipedream",
+    "heyreach"
+  ],
+  "homepage": "https://pipedream.com/apps/heyreach",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
