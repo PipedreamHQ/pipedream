@@ -28,8 +28,8 @@ export default {
     },
     generateMeta(transaction) {
       return {
-        id: transaction.id,
-        summary: `New transaction created: ${transaction.id}`,
+        id: transaction.transaction_id,
+        summary: `New transaction created: ${transaction.transaction_id}`,
         ts: Date.parse(transaction.date),
       };
     },
@@ -52,7 +52,7 @@ export default {
       for (const transaction of transactions) {
         this.$emit(transaction, this.generateMeta(transaction));
       }
-      this._setPaykey(results[results.length - 1].id);
+      this._setPaykey(results[results.length - 1].transaction_id);
     },
   },
   hooks: {
