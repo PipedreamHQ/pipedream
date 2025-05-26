@@ -76,7 +76,7 @@ export default {
     deviceId: {
       type: "string",
       label: "Device ID",
-      description: "The Id of the device to the ticket",
+      description: "The ID of the device to the ticket",
       async options({
         prevContext, organizationId,
       }) {
