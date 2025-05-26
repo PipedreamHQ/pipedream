@@ -13,7 +13,7 @@ export default {
         ninjaone,
         "deviceId",
       ],
-      description: "The Id of the device to update ",
+      description: "The ID of the device to update ",
     },
     displayName: {
       type: "string",
