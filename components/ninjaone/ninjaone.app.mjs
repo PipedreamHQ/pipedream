@@ -168,7 +168,7 @@ export default {
     policyId: {
       type: "string",
       label: "Policy Id",
-      description: "The id of the policiy override",
+      description: "The id of the policy override",
       async options() {
         const data = await this.listPolicies();
 
