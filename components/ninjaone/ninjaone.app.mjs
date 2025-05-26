@@ -182,8 +182,8 @@ export default {
     },
     organizationId: {
       type: "string",
-      label: "Organization Id",
-      description: "The id of the organization",
+      label: "Organization ID",
+      description: "The ID of the organization",
       async options({ prevContext }) {
         const data = await this.listOrganizations({
           params: {
