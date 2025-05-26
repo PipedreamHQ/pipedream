@@ -4,7 +4,7 @@ export default {
   key: "gmail-find-email",
   name: "Find Email",
   description: "Find an email using Google's Search Engine. [See the docs](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/list)",
-  version: "0.0.11",
+  version: "0.1.0",
   type: "action",
   props: {
     gmail,
@@ -13,6 +13,12 @@ export default {
         gmail,
         "q",
       ],
+    },
+    withPayload: {
+      type: "boolean",
+      label: "With Payload",
+      description: "Whether or not to return the full content of the email message. If set to `true`, the action will return the full content of the email message, including headers and body. `Setting to true may make the response size larger and slower`.",
+      default: false,
     },
     labels: {
       propDefinition: [
@@ -47,14 +53,21 @@ export default {
       maxResults: this.maxResults,
     });
     const messageIds = messages.map(({ id }) => id);
-    const messagesToEmit = await this.gmail.getMessages(messageIds);
+    let messagesToEmit = await this.gmail.getMessages(messageIds);
 
-    for await (const message of messagesToEmit) {
-      for (const part of message.payload?.parts || []) {
-        if (part.body.data) {
-          part.body.text = Buffer.from(part.body.data, "base64").toString("utf-8");
+    if (this.withPayload) {
+      for await (const message of messagesToEmit) {
+        for (const part of message.payload?.parts || []) {
+          if (part.body.data) {
+            part.body.text = Buffer.from(part.body.data, "base64").toString("utf-8");
+          }
         }
       }
+    } else {
+      messagesToEmit = messagesToEmit.map((message) => {
+        delete message.payload;
+        return message;
+      });
     }
 
     const suffix = messagesToEmit.length === 1

@@ -1,11 +1,11 @@
-import gmail from "../../gmail.app.mjs";
 import constants from "../../common/constants.mjs";
+import gmail from "../../gmail.app.mjs";
 
 export default {
   key: "gmail-archive-email",
   name: "Archive Email",
   description: "Archive an email message. [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/modify)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     gmail,
