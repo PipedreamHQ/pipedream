@@ -25,21 +25,11 @@ export default {
     _setLastId(lastId) {
       this.db.set("lastId", lastId);
     },
-    _getLastDate() {
-      return this.db.get("lastDate") || "1970-01-01 00:00:00";
-    },
-    _setLastDate(lastDate) {
-      this.db.set("lastDate", lastDate);
-    },
     async emitEvent(maxResults = false) {
       const lastId = this._getLastId();
-      const lastDate = this._getLastDate();
 
       const response = this.selzy.paginate({
         fn: this.selzy.getCampaigns,
-        params: {
-          from: lastDate,
-        },
       });
 
       let responseArray = [];
@@ -47,17 +37,14 @@ export default {
         responseArray.push(item);
       }
 
-      responseArray = responseArray.filter((item) => item.id > lastId);
+      responseArray = responseArray.filter((item) => item.id > lastId).sort((a, b) => b.id - a.id);
 
       if (responseArray.length) {
-        responseArray = responseArray.reverse();
-
         if (maxResults && (responseArray.length > maxResults)) {
           responseArray.length = maxResults;
         }
 
         this._setLastId(responseArray[0].id);
-        this._setLastDate(responseArray[0].start_time);
       }
 
       for (const item of responseArray.reverse()) {

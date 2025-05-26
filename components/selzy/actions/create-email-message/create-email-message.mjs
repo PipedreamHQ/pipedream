@@ -26,12 +26,12 @@ export default {
     subject: {
       type: "string",
       label: "Subject",
-      description: "String with the letter subject. It may include substitution fields. If you wish to use substitution fields, specify a string within a Pipedream Custom Expression and escape the curly brackets with a backslash. For example: {{ \"Welcome to Our Newsletter, \\{\\{Name\\}\\}!\" }}. The parameter is optional if Template Id is indicated.",
+      description: "String with the letter subject. It may include substitution fields. If you wish to use substitution fields, specify a string within a Pipedream Custom Expression and escape the curly brackets with a backslash. For example: `{{ \"Welcome to Our Newsletter, \\{\\{Name\\}\\}!\" }}`. The parameter is optional if Template Id is indicated.",
     },
     body: {
       type: "string",
       label: "Body",
-      description: "HTML body of the letter. It may include substitution fields. If you wish to use substitution fields, specify an HTML string within a Pipedream Custom Expression and escape the curly brackets with a backslash. For example: {{ \"<p>Hello \\{\\{Name\\}\\},</p><p>Here is your update.</p>\" }}.. The parameter is optional if **Template Id** or **System Template Id** is indicated.",
+      description: "HTML body of the letter. It may include substitution fields. If you wish to use substitution fields, specify an HTML string within a Pipedream Custom Expression and escape the curly brackets with a backslash. For example: `{{ \"<p>Hello \\{\\{Name\\}\\},</p><p>Here is your update.</p>\" }}`.",
     },
     listId: {
       propDefinition: [
@@ -42,7 +42,7 @@ export default {
     textBody: {
       type: "string",
       label: "Text Body",
-      description: "Text body of the letter. It may include substitution fields. If you wish to use substitution fields, specify a text string within a Pipedream Custom Expression and escape the curly brackets with a backslash. For example: {{ \"Hello \\{\\{Name\\}\\},\\nHere is your update.\" }}.",
+      description: "Text body of the letter. It may include substitution fields. If you wish to use substitution fields, specify a text string within a Pipedream Custom Expression and escape the curly brackets with a backslash. For example: `{{ \"Hello \\{\\{Name\\}\\},\\nHere is your update.\" }}`.",
       optional: true,
     },
     generateText: {
