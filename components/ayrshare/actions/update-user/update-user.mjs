@@ -19,6 +19,7 @@ export default {
         app,
         "title",
       ],
+      description: "Unique title of the profile that will be updated",
     },
     messagingActive: {
       propDefinition: [

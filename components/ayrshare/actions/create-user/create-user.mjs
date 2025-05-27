@@ -78,7 +78,7 @@ export default {
         tags: this.tags,
       },
     });
-    $.export("$summary", "Successfully created user with the profile Key:" + response.profileKey);
+    $.export("$summary", "Successfully created user with the profile Key: " + response.profileKey);
     return response;
   },
 };

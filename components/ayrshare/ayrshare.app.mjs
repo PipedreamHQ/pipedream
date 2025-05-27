@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -37,6 +38,7 @@ export default {
       type: "string[]",
       label: "Disable Social",
       description: "List of social platforms to disable for this profile",
+      options: constants.SOCIAL_NETWORKS,
       optional: true,
     },
     team: {
