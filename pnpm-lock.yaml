@@ -13021,8 +13021,7 @@ importers:
         specifier: ^1.1.0
         version: 1.6.6
 
-  components/syncmate_by_assitro:
-    specifiers: {}
+  components/syncmate_by_assitro: {}
 
   components/syncro: {}
 
@@ -15508,6 +15507,14 @@ importers:
       dotenv:
         specifier: ^6.0.0
         version: 6.2.0
+
+  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
+
+  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
+
+  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
+
+  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
 
   packages/ai:
     dependencies:
