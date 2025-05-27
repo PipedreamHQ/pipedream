@@ -5,7 +5,7 @@ export default {
   key: "stripe-create-subscription",
   name: "Create Subscription",
   type: "action",
-  version: "0.1.2",
+  version: "0.1.3",
   description: "Create a subscription. [See the documentation](https://stripe.com/docs/api/subscriptions/create).",
   props: {
     app,
@@ -48,7 +48,7 @@ export default {
       ],
     },
     collectionMethod: {
-      descriptions: "Either charge_automatically, or send_invoice. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as active. Defaults to charge_automatically.",
+      description: "Either charge_automatically, or send_invoice. When charging automatically, Stripe will attempt to pay this subscription at the end of the cycle using the default source attached to the customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as active. Defaults to charge_automatically.",
       propDefinition: [
         app,
         "collectionMethod",
