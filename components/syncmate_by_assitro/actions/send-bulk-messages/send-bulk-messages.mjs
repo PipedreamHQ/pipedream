@@ -1,49 +1,79 @@
+import fs from "fs";
+import { checkTmp } from "../../common/utils.mjs";
 import syncmateByAssitro from "../../syncmate_by_assitro.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "syncmate_by_assitro-send-bulk-messages",
   name: "Send Bulk Messages",
   description: "Send multiple WhatsApp messages in bulk. [See the documentation](https://assistro.co/user-guide/bulk-messaging-at-a-scheduled-time-using-syncmate-2/)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     syncmateByAssitro,
-    numberOfMessages: {
-      propDefinition: [
-        syncmateByAssitro,
-        "numberOfMessages",
-      ],
-    },
-    number: {
-      propDefinition: [
-        syncmateByAssitro,
-        "number",
-      ],
-    },
-    message: {
-      propDefinition: [
-        syncmateByAssitro,
-        "message",
-      ],
-    },
-    media: {
-      propDefinition: [
-        syncmateByAssitro,
-        "media",
-      ],
-      optional: true,
+    messagesNumber: {
+      type: "string",
+      label: "Messages Number",
+      description: "The quantity of messages you want to send.",
+      reloadProps: true,
     },
   },
+  async additionalProps() {
+    const props = {};
+    for (let i = 1; i <= this.messagesNumber; i++) {
+      props[`number${i}`] = {
+        type: "string",
+        label: `Number ${i}`,
+        description: "WhatsApp number with country code",
+      };
+      props[`message${i}`] = {
+        type: "string",
+        label: `Message ${i}`,
+        description: "The text message to be sent",
+      };
+      props[`media${i}`] = {
+        type: "string",
+        label: `Media ${i}`,
+        description: "Base64 encoded media files",
+        optional: true,
+      };
+      props[`fileName${i}`] = {
+        type: "string",
+        label: `File Name ${i}`,
+        description: "The name of the file.",
+        optional: true,
+      };
+    }
+
+    return props;
+  },
   async run({ $ }) {
+    const msgs = [];
+
+    for (let i = 1; i <= this.messagesNumber; i++) {
+      const file = fs.readFileSync(checkTmp(this[`media${i}`]), {
+        encoding: "base64",
+      });
+
+      msgs.push({
+        number: this[`number${i}`],
+        message: this[`message${i}`],
+        media: [
+          {
+            media_base64: file,
+            file_name: this[`fileName${i}`],
+          },
+        ],
+      });
+    }
+
     const response = await this.syncmateByAssitro.sendBulkMessages({
-      numberOfMessages: this.numberOfMessages,
-      number: this.number,
-      message: this.message,
-      media: this.media,
+      $,
+      data: {
+        msgs,
+      },
     });
 
-    $.export("$summary", `Successfully sent ${this.numberOfMessages} messages to ${this.number}`);
+    $.export("$summary", `Successfully sent ${this.messagesNumber} messages.`);
     return response;
   },
 };

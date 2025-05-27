@@ -4,33 +4,31 @@ import { checkTmp } from "../../common/utils.mjs";
 import syncmateByAssitro from "../../syncmate_by_assitro.app.mjs";
 
 export default {
-  key: "syncmate_by_assitro-send-message",
-  name: "Send WhatsApp Message",
-  description: "Send a single WhatsApp message using SyncMate by Assistro. [See the documentation](https://assistro.co/user-guide/connect-your-custom-app-with-syncmate/)",
-  version: "0.0.1",
-  type: "action",
   props: {
     syncmateByAssitro,
     number: {
-      type: "string",
-      label: "Number",
-      description: "WhatsApp number with country code",
+      propDefinition: [
+        syncmateByAssitro,
+        "number",
+      ],
     },
     message: {
-      type: "string",
-      label: "Message",
-      description: "The text message to be sent",
+      propDefinition: [
+        syncmateByAssitro,
+        "message",
+      ],
     },
     media: {
-      type: "string",
-      label: "Media",
-      description: "Base64 encoded media files",
-      optional: true,
+      propDefinition: [
+        syncmateByAssitro,
+        "media",
+      ],
     },
     fileName: {
-      type: "string",
-      label: "File Name",
-      description: "The name of the file.",
+      propDefinition: [
+        syncmateByAssitro,
+        "fileName",
+      ],
       optional: true,
     },
   },
