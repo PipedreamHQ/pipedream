@@ -1186,8 +1186,8 @@ importers:
         specifier: ^0.3.6
         version: 0.3.13
       '@pipedream/platform':
-        specifier: ^1.6.3
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
       adm-zip:
         specifier: ^0.5.10
         version: 0.5.16
@@ -6849,6 +6849,8 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/jvzoo: {}
+
   components/jw_player:
     dependencies:
       '@pipedream/platform':
@@ -7131,6 +7133,12 @@ importers:
   components/lambdatest: {}
 
   components/lamini: {}
+
+  components/landbot:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/langbase:
     dependencies:
@@ -8709,7 +8717,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/nextlead: {}
+  components/nextlead:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/nexudus: {}
 
@@ -11628,7 +11640,11 @@ importers:
 
   components/sellsy: {}
 
-  components/selzy: {}
+  components/selzy:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/semaphore: {}
 
@@ -13004,6 +13020,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.1.0
         version: 1.6.6
+
+  components/syncmate_by_assitro:
+    specifiers: {}
 
   components/syncro: {}
 
@@ -15489,14 +15508,6 @@ importers:
       dotenv:
         specifier: ^6.0.0
         version: 6.2.0
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
 
   packages/ai:
     dependencies:

@@ -297,6 +297,11 @@ export default withNextra({
         permanent: true,
       },
       {
+        source: "/workflows/settings/",
+        destination: "/workflows/building-workflows/settings/",
+        permanent: true,
+      },
+      {
         source: "/code/",
         destination: "/workflows/building-workflows/code/",
         permanent: true,
