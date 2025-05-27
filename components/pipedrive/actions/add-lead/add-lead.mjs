@@ -6,7 +6,7 @@ export default {
   key: "pipedrive-add-lead",
   name: "Add Lead",
   description: "Create a new lead in Pipedrive. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Leads#addLead)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     pipedrive,
@@ -84,6 +84,12 @@ export default {
       description: "A flag indicating whether the lead was seen by someone in the Pipedrive UI",
       optional: true,
     },
+    note: {
+      type: "string",
+      label: "Note",
+      description: "A note to add to the lead",
+      optional: true,
+    },
   },
   async run({ $ }) {
     if (!this.organizationId && !this.personId) {
@@ -101,6 +107,14 @@ export default {
       visible_to: this.visibleTo,
       was_seen: this.wasSeen,
     });
+
+    if (this.note) {
+      await this.pipedrive.addNote({
+        content: this.note,
+        lead_id: response.data?.id,
+      });
+    }
+
     $.export("$summary", `Successfully created lead: ${response.data?.title || response.data?.id}`);
     return response;
   },
