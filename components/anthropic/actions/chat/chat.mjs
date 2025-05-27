@@ -11,10 +11,10 @@ export default {
     anthropic,
     model: {
       label: "Model",
-      description: "Select the model to use for your query. Defaults to the `claude-3-7-sonnet-20250219` model, which is Anthropic's latest Claude model.",
+      description: "Select the model to use for your query. Defaults to the latest Claude model - [see the documentation](https://docs.anthropic.com/en/docs/about-claude/models/overview) for more information",
       type: "string",
       options: constants.MESSAGE_MODELS,
-      default: constants.MESSAGE_MODELS[0],
+      default: constants.MESSAGE_MODELS[0].value,
     },
     userMessage: {
       label: "User Message",
