@@ -675,6 +675,8 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
+  components/all_voice_lab: {}
+
   components/allocadence:
     dependencies:
       '@pipedream/platform':
@@ -1546,7 +1548,11 @@ importers:
 
   components/bitbucket_data_center: {}
 
-  components/bitdefender_gravityzone: {}
+  components/bitdefender_gravityzone:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/bitly:
     dependencies:
@@ -1712,7 +1718,7 @@ importers:
   components/botstar:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
+        specifier: ^3.0.3
         version: 3.0.3
 
   components/botx: {}
@@ -5443,6 +5449,8 @@ importers:
         specifier: ^8.3.2
         version: 8.3.2
 
+  components/google_cloud_document_ai: {}
+
   components/google_cloud_translate: {}
 
   components/google_cloud_vision_api:
@@ -6044,6 +6052,10 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+
+  components/heylibby: {}
+
+  components/heyreach: {}
 
   components/heysummit:
     dependencies:
@@ -8568,6 +8580,12 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/neetocal: {}
+
+  components/neetodesk: {}
+
+  components/neetoform: {}
+
   components/neetoinvoice:
     dependencies:
       '@pipedream/platform':
@@ -8695,7 +8713,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/nextlead: {}
+  components/nextlead:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/nexudus: {}
 
@@ -9636,7 +9658,17 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/pdforge: {}
+  components/pdforge:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      stream:
+        specifier: ^0.0.3
+        version: 0.0.3
+      util:
+        specifier: ^0.12.5
+        version: 0.12.5
 
   components/peach:
     dependencies:
@@ -10915,7 +10947,11 @@ importers:
 
   components/renderform: {}
 
-  components/rendi: {}
+  components/rendi:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/rentcast:
     dependencies:
@@ -11429,7 +11465,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/scalr: {}
+  components/scalr:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/schedule:
     dependencies:
@@ -11464,6 +11504,8 @@ importers:
         specifier: ^1.4.1
         version: 1.6.6
 
+  components/scrapecreators: {}
+
   components/scrapegraphai:
     dependencies:
       '@pipedream/platform':
@@ -11472,7 +11514,11 @@ importers:
 
   components/scrapein_: {}
 
-  components/scrapeless: {}
+  components/scrapeless:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/scrapeninja:
     dependencies:
@@ -12967,6 +13013,9 @@ importers:
         specifier: ^1.1.0
         version: 1.6.6
 
+  components/syncmate_by_assitro:
+    specifiers: {}
+
   components/syncro: {}
 
   components/synthflow: {}
@@ -13190,6 +13239,10 @@ importers:
   components/test_apps_for_checking_something_005: {}
 
   components/test_apps_for_checking_something_006: {}
+
+  components/test_apps_for_checking_something_009: {}
+
+  components/test_apps_for_checking_something_010: {}
 
   components/test_apps_for_switching_appslug_009: {}
 
@@ -13656,7 +13709,11 @@ importers:
 
   components/trustpilot: {}
 
-  components/tubular: {}
+  components/tubular:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/tuesday: {}
 
@@ -14542,7 +14599,7 @@ importers:
   components/wit_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
+        specifier: ^3.0.3
         version: 3.0.3
 
   components/withings:

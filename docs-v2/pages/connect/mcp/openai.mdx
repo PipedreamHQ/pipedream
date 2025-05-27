@@ -1,14 +1,48 @@
 import { Callout, Tabs, Steps } from 'nextra/components'
+import TemporaryTokenGenerator from '@/components/TemporaryTokenGenerator'
 
 # Using Pipedream MCP with OpenAI
 
-Access {process.env.PUBLIC_APPS}+ APIs and 10,000+ tools in OpenAI using Pipedream Connect. MCP makes it easy to extend the capabilities of any LLM or agent, and Pipedream offers drop-in support for [calling tools in OpenAI](https://platform.openai.com/docs/guides/tools?api-mode=responses) .
+Access {process.env.PUBLIC_APPS}+ APIs and 10,000+ tools in OpenAI using Pipedream Connect. MCP makes it easy to extend the capabilities of any LLM or agent, and Pipedream offers drop-in support for [calling tools in OpenAI](https://platform.openai.com/docs/guides/tools-remote-mcp).
 
 <Callout type="info">
 Pipedream Connect includes built-in user authentication for [every MCP server](https://mcp.pipedream.com), which means you don't need to build any authorization flows or deal with token storage and refresh in order to make authenticated requests on behalf of your users. [Learn more here](/connect/mcp/developers/#user-account-connections).
 </Callout>
 
-## Getting started
+## Testing in OpenAI's API Playground
+
+OpenAI provides an API playground for developers to test prompts and tool calling, which provides an easy way to test Pipedream MCP. Get started below.
+
+<Steps>
+
+#### Open the playground
+
+Navigate to [OpenAI's playground](https://platform.openai.com/playground/prompts?models=gpt-4.1) and sign in with your OpenAI account.
+
+#### Add Pipedream MCP
+
+Click the **Create** button in the **Tools** section, then select **Pipedream**.
+
+#### Enter your access token 
+
+<TemporaryTokenGenerator />
+
+#### Select an app
+
+- Select an app you want to use as an MCP server. For example, `notion`, `google_calendar`, `gmail`, or `slack`.
+- Check out all of the available apps here: [mcp.pipedream.com](https://mcp.pipedream.com).
+
+#### Click **Connect**
+
+Enter a prompt and start chatting!
+
+</Steps>
+
+<Callout type="info">
+Refer to the instructions below when you're ready to use Pipedream MCP in your app.
+</Callout>
+
+## Using Pipedream MCP in your app
 
 <Steps>
 
@@ -51,7 +85,7 @@ Below is an end to end example showing how to:
 import OpenAI from 'openai';
 import { createBackendClient } from "@pipedream/sdk/server";
 
-// Initialize the Pipedream client with the SDK
+// Initialize the Pipedream SDK client
 const pd = createBackendClient({
   environment: PIPEDREAM_ENVIRONMENT,
   credentials: {
@@ -64,7 +98,8 @@ const pd = createBackendClient({
 // Find the app to use for the MCP server
 // For this example, we'll use Notion
 const apps = await pd.getApps({ q: "notion" });
-const appSlug = apps.data[0].name_slug; // e.g., "notion"
+const appSlug = apps.data[0].name_slug; // e.g., "notion",
+const appLabel = apps.data[0].name; // e.g., "Notion"
 
 // Get access token for MCP server auth
 const accessToken = await pd.rawAccessToken();
@@ -81,12 +116,14 @@ const response = await client.responses.create({
   tools: [
     {
       type: 'mcp',
-      server_label: 'Notion',
-      server_url: `https://mcp.pipedream.net/${externalUserId}/${appSlug}`,
+      server_label: appLabel,
+      server_url: `https://remote.mcp.pipedream.net`,
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "x-pd-project-id": PIPEDREAM_PROJECT_ID,
-        "x-pd-environment": PIPEDREAM_ENVIRONMENT
+        "x-pd-environment": PIPEDREAM_ENVIRONMENT,
+        "x-pd-external-user-id": externalUserId,
+        "x-pd-app-slug": appSlug,
       },
       require_approval: 'never'
     }
@@ -129,11 +166,13 @@ curl -X POST https://api.openai.com/v1/chat/completions \
       {
         "type": "mcp",
         "server_label": "Notion",
-        "server_url": "https://mcp.pipedream.net/abc-123/'$APP_SLUG'",
+        "server_url": "https://remote.mcp.pipedream.net",
         "headers": {
           "Authorization": "Bearer '"$ACCESS_TOKEN"'",
-          "x-pd-project-id": "$PIPEDREAM_PROJECT_ID",
-          "x-pd-environment": "$PIPEDREAM_ENVIRONMENT"
+          "x-pd-project-id": "'"$PIPEDREAM_PROJECT_ID"'",
+          "x-pd-environment": "'"$PIPEDREAM_ENVIRONMENT"'",
+          "x-pd-external-user-id": "abc-123",
+          "x-pd-app-slug": "'"$APP_SLUG"'"
         },
         "require_approval": "never"
       }

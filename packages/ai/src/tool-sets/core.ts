@@ -27,7 +27,8 @@ export class CoreTools {
       q: options?.query,
     });
 
-    for (const component of components) {
+    for (const _component of components) {
+      const component = _component as V1Component; // This is the correct type. When the sdk is updated, this will be removed.
       this.tools.push({
         name: component.name.replace(/[^a-zA-Z0-9_-]/g, "_"),
         description: component.description,

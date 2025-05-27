@@ -47,6 +47,8 @@ PIPEDREAM_PROJECT_ID=your_project_id # proj_xxxxxxx
 PIPEDREAM_ENVIRONMENT=development # development | production
 ```
 
+Learn more about [environments in Pipedream Connect](/connect/managed-auth/environments).
+
 ### Authentication
 
 #### Developer authentication
@@ -79,6 +81,18 @@ Pipedream provides [{process.env.PUBLIC_APPS}+ APIs as MCP servers](https://mcp.
 <Tabs items={['List all apps', 'Search for a specific app']}>
 <Tabs.Tab>
 ```javascript
+import { createBackendClient } from "@pipedream/sdk/server";
+
+// Initialize the Pipedream SDK client
+const pd = createBackendClient({
+  environment: PIPEDREAM_ENVIRONMENT,
+  credentials: {
+    clientId: PIPEDREAM_CLIENT_ID,
+    clientSecret: PIPEDREAM_CLIENT_SECRET,
+  },
+  projectId: PIPEDREAM_PROJECT_ID
+});
+
 // Get all available apps (paginated)
 const apps = await pd.getApps();
 
@@ -89,6 +103,18 @@ const apps = await pd.getApps();
 </Tabs.Tab>
 <Tabs.Tab>
 ```javascript
+import { createBackendClient } from "@pipedream/sdk/server";
+
+// Initialize the Pipedream SDK client
+const pd = createBackendClient({
+  environment: PIPEDREAM_ENVIRONMENT,
+  credentials: {
+    clientId: PIPEDREAM_CLIENT_ID,
+    clientSecret: PIPEDREAM_CLIENT_SECRET,
+  },
+  projectId: PIPEDREAM_PROJECT_ID
+});
+
 // Search by app name
 const notionApps = await pd.getApps({ q: "notion" });
 const gmailApps = await pd.getApps({ q: "gmail" });
@@ -100,13 +126,17 @@ const slackApps = await pd.getApps({ q: "slack" });
 ### Use Pipedream's remote MCP server
 
 <Callout type="info">
-Pipedream MCP server supports both SSE and streamable HTTP transport types, with no configuration required by the developer or MCP client.
+The remote MCP server is in beta, and we're looking for feedback. During the beta, the API is subject to change.
 </Callout>
+
+#### Supported transport types
+
+The Pipedream MCP server supports both SSE and streamable HTTP transport types, with no configuration required by the developer or MCP client.
 
 #### Base URL
 
 ```
-https://mcp.pipedream.net
+https://remote.mcp.pipedream.net
 ```
 
 #### API Authentication
@@ -118,7 +148,7 @@ To authenticate requests to Pipedream's MCP server, you need to include an acces
 ```javascript
 import { createBackendClient } from "@pipedream/sdk/server";
 
-// Initialize the Pipedream client with the SDK
+// Initialize the Pipedream SDK client
 const pd = createBackendClient({
   environment: PIPEDREAM_ENVIRONMENT,
   credentials: {
@@ -152,51 +182,63 @@ curl -s -X POST https://api.pipedream.com/v1/oauth/token \
 Include these headers in every HTTP request:
 
 ```javascript
-{
-  Authorization: `Bearer ${PIPEDREAM_ACCESS_TOKEN}`,
-  "x-pd-project-id": PIPEDREAM_PROJECT_ID, // proj_xxxxxxx
-  "x-pd-environment": PIPEDREAM_ENVIRONMENT // development | production
-}
+import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
+import { createBackendClient } from "@pipedream/sdk/server";
+
+// Initialize the Pipedream SDK client
+const pd = createBackendClient({
+  environment: PIPEDREAM_ENVIRONMENT,
+  credentials: {
+    clientId: PIPEDREAM_CLIENT_ID,
+    clientSecret: PIPEDREAM_CLIENT_SECRET,
+  },
+  projectId: PIPEDREAM_PROJECT_ID
+});
+
+// Retrieve your developer access token via the Pipedream SDK
+const accessToken = await pd.rawAccessToken();
+const serverUrl = MCP_SERVER_URL || `https://remote.mcp.pipedream.net/${externalUserId}/${appSlug}`;
+
+const transport = new StreamableHTTPClientTransport(new URL(serverUrl), {
+  requestInit: {
+    headers: {
+      "Authorization": `Bearer ${accessToken}`,
+      "x-pd-project-id": PIPEDREAM_PROJECT_ID, // proj_xxxxxxx
+      "x-pd-environment": PIPEDREAM_ENVIRONMENT // development | production
+    }
+  }
+});
 ```
 
 ### Self-host Pipedream's MCP server
 
+Hosting the MCP server locally or in your app will expose these routes:
+
+- `GET /:external_user_id/:app`: app-specific connection endpoint
+- `POST /:external_user_id/:app/messages`: app-specific message handler
+
 #### Using the `Dockerfile`
 
-If you have Docker installed locally, you can build and run the container from the [reference implementation](https://github.com/PipedreamHQ/pipedream/blob/master/modelcontextprotocol/Dockerfile):
+You can build and run the container from the [reference implementation](https://github.com/PipedreamHQ/pipedream/blob/master/modelcontextprotocol/Dockerfile):
 
 ```console
 > docker build -t pipedream-connect .
 > docker run -d --name pd-mcp -p 3010:3010 --env-file .env pipedream-connect:latest
 ```
 
-This exposes a generic MCP server at [http://localhost:3010/:external_user_id/:app](http://localhost:3010/:external_user_id/:app).
-
-#### Start the server with Streamable HTTP Transport
-
-```bash
-pnpm dev:http
-```
-
-You can use the optional env var `PD_SDK_DEBUG` to print out all the requests and responses going to the Connect API:
-
-```bash
-PD_SDK_DEBUG=true pnpm dev:http
-```
-
-#### Start the server with SSE
+#### Running the server using npx
 
 ```bash
 npx @pipedream/mcp sse
 ```
 
-This exposes routes at:
-- `GET /:external_user_id/:app` - App-specific SSE connection endpoint
-- `POST /:external_user_id/:app/messages` - App-specific message handler
+<Callout type="warning">
+The current npx package only supports the `sse` transport type, `http` is coming soon.
+</Callout>
 
-#### Customize for your needs
+#### Running the server locally
 
-You can also host and customize the MCP server for your specific requirements:
+You can also run the server locally and even customize the MCP server for your specific requirements:
 
 ```bash
 # Clone the repo
@@ -204,18 +246,23 @@ git clone https://github.com/PipedreamHQ/pipedream
 cd pipedream/modelcontextprotocol
 
 # Install dependencies
-npm install
+pnpm install
 
-# Build
-npm run build
-
-# Run the SSE server
-npm run start:sse:prod
+# Start the server
+pnpm dev:http
 ```
 
 See the [MCP server README](https://github.com/PipedreamHQ/pipedream/blob/master/modelcontextprotocol/README.md) for detailed instructions on customization options.
 
-### Use the MCP inspector
+#### Debugging
+
+You can use the optional env var `PD_SDK_DEBUG` to print out all the requests and responses going to the Connect API:
+
+```bash
+PD_SDK_DEBUG=true pnpm dev:http
+```
+
+### Using the MCP inspector
 
 The [MCP inspector](https://modelcontextprotocol.io/docs/tools/inspector) can be helpful when debugging tool calls.
 
@@ -228,7 +275,7 @@ Enter the server URL:
 If using Pipedream's remote server:
 
 ```
-https://mcp.pipedream.net/{external_user_id}/{app_slug}
+https://remote.mcp.pipedream.net/{external_user_id}/{app_slug}
 ```
 
 If running locally:

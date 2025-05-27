@@ -6,7 +6,7 @@ export default {
   key: "mongodb-new-document",
   name: "New Document",
   description: "Emit new an event when a new document is added to a collection",
-  version: "0.0.9",
+  version: "0.0.11",
   type: "source",
   dedupe: "unique",
   props: {
@@ -29,7 +29,17 @@ export default {
     timestampField: {
       type: "string",
       label: "Timestamp Field",
-      description: "The key of a timestamp field, such as 'created_at' that is set to the current timestamp when a document is created. Must be of type Timestamp.",
+      description: "The key of a timestamp field, such as 'created_at' that is set to the current timestamp when a document is created.",
+    },
+    timestampFieldType: {
+      type: "string",
+      label: "Timestamp Field Type",
+      description: "The type of the timestamp field",
+      default: "Timestamp",
+      options: [
+        "Timestamp",
+        "Integer",
+      ],
     },
   },
   hooks: {
@@ -48,10 +58,17 @@ export default {
       this.db.set("lastTs", lastTs);
     },
     getTs(doc) {
+      const tsValue = doc[this.timestampField];
+      if (this.timestampFieldType === "Integer") {
+        return tsValue;
+      }
+      if (typeof tsValue === "string") {
+        return new Date(tsValue).getTime();
+      }
       try {
-        return JSON.parse(doc[this.timestampField]);
+        return JSON.parse(tsValue);
       } catch {
-        return doc[this.timestampField];
+        return tsValue;
       }
     },
     convertToTimestamp(timestampStr) {
@@ -73,7 +90,9 @@ export default {
       };
       const query = {
         [this.timestampField]: {
-          $gt: this.convertToTimestamp(lastTs),
+          $gt: this.timestampFieldType === "Integer"
+            ? lastTs
+            : this.convertToTimestamp(lastTs),
         },
       };
       const documents = await collection.find(query).sort(sort)
