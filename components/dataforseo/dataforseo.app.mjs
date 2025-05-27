@@ -23,7 +23,9 @@ export default {
     locationCoordinate: {
       type: "string",
       label: "Location Coordinate",
-      description: "The coordinate of the target location. It should be specified in the “latitude,longitude,radius” format, i.e.: `53.476225,-2.243572,200`",
+      description:
+        "The location to search, in the format `latitude,longitude,radius` where radius is specified in kilometers. Example: `53.476225,-2.243572,200`",
+
     },
     targetType: {
       type: "string",
@@ -35,6 +37,12 @@ export default {
       type: "string",
       label: "Target",
       description: "The domain name or the url of the target website or page",
+    },
+    backlinksTarget: {
+      type: "string",
+      label: "Target",
+      description:
+        "Domain, subdomain or webpage to get data for. A domain or a subdomain should be specified without `https://` and `www`. A page should be specified with absolute URL (including `http://` or `https://`",
     },
     categories: {
       type: "string[]",
@@ -85,6 +93,87 @@ export default {
       type: "string[]",
       label: "Keywords",
       description: "Target Keywords. The maximum number of keywords is 1000",
+    },
+    backlinksFilters: {
+      type: "string[]",
+      label: "Backlinks Filters",
+      description:
+        "You can use this field to filter the initial backlinks that will be included in the dataset for aggregated metrics for your target. [See the documentation](https://docs.dataforseo.com/v3/backlinks/filters/) for more information. Example: `[\"dofollow\", \"=\", true]`",
+      optional: true,
+    },
+    rankScale: {
+      type: "string",
+      label: "Rank Scale",
+      description:
+        "Whether rank values are presented on a 0-100 or 0-1000 scale",
+      optional: true,
+      options: [
+        "one_hundred",
+        "one_thousand",
+      ],
+      default: "one_thousand",
+    },
+    tag: {
+      type: "string",
+      label: "Tag",
+      description:
+        "You can use this parameter to identify the task and match it with the result.",
+      optional: true,
+    },
+    includeSubdomains: {
+      type: "boolean",
+      label: "Include Subdomains",
+      description:
+        "Whether the subdomains of the `target` will be included in the search. Default is `true`",
+      optional: true,
+    },
+    includeIndirectLinks: {
+      type: "boolean",
+      label: "Include Indirect Links",
+      description:
+        "Whether indirect links to the target will be included in the results. Default is `true`",
+      optional: true,
+    },
+    excludeInternalBacklinks: {
+      type: "boolean",
+      label: "Exclude Internal Backlinks",
+      description:
+        "Indicates if internal backlinks from subdomains to the target will be excluded from the results. Default is `true`",
+      optional: true,
+    },
+    backlinksStatusType: {
+      type: "string",
+      label: "Backlinks Status Type",
+      description:
+        "You can use this field to choose what backlinks will be returned and used for aggregated metrics for your target",
+      optional: true,
+      options: [
+        {
+          value: "all",
+          label: "All backlinks will be returned and counted",
+        },
+        {
+          value: "live",
+          label:
+            "Backlinks found during the last check will be returned and counted",
+        },
+        {
+          value: "lost",
+          label: "Lost backlinks will be returned and counted",
+        },
+      ],
+      default: "live",
+    },
+    additionalOptions: {
+      type: "object",
+      label: "Additional Options",
+      description: "Additional parameters to send in the request. See the documentation for all available parameters. Values will be parsed as JSON where applicable.",
+      optional: true,
+    },
+    targets: {
+      type: "string[]",
+      label: "Targets",
+      description: "Up to 1000 domains, subdomains or webpages to get data for. A domain or a subdomain should be specified without `https://` and `www`. A page should be specified with absolute URL (including `http://` or `https://`",
     },
   },
   methods: {
