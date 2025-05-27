@@ -5,7 +5,7 @@ export default {
   key: "stripe-create-subscription",
   name: "Create Subscription",
   type: "action",
-  version: "0.1.3",
+  version: "0.1.4",
   description: "Create a subscription. [See the documentation](https://stripe.com/docs/api/subscriptions/create).",
   props: {
     app,
@@ -106,6 +106,7 @@ export default {
       ],
     },
     automaticTaxLiabilityAccount: {
+      type: "string",
       label: "Automatic Tax - Liability - Account",
       description: "The connected account being referenced when **Automatic Tax - Liability - Type** is account.",
       optional: true,
