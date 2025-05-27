@@ -1,15 +1,15 @@
 export const LANGUAGE_CODE_OPTIONS = [
   {
     label: "English (United States)",
-    value: "en-us",
+    value: "en-US",
   },
   {
     label: "English (United Kingdom)",
-    value: "en-uk",
+    value: "en-UK",
   },
   {
     label: "English (Australia)",
-    value: "en-au",
+    value: "en-AU",
   },
   {
     label: "Dutch (Netherlands)",
