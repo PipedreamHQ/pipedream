@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/syncmate_by_assitro",
+  "version": "0.0.1",
+  "description": "Pipedream SyncMate by Assitro Components",
+  "main": "syncmate_by_assitro.app.mjs",
+  "keywords": [
+    "pipedream",
+    "syncmate_by_assitro"
+  ],
+  "homepage": "https://pipedream.com/apps/syncmate_by_assitro",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

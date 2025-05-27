@@ -13009,6 +13009,9 @@ importers:
         specifier: ^1.1.0
         version: 1.6.6
 
+  components/syncmate_by_assitro:
+    specifiers: {}
+
   components/syncro: {}
 
   components/synthflow: {}
