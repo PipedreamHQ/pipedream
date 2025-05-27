@@ -185,7 +185,7 @@ export default {
       return response;
     } catch (e) {
       $.export("Error creating Chat Completion", e);
-      throw new ConfigurationError(e);
+      throw new ConfigurationError(e.message || "Failed to create Chat Completion");
     }
   },
 };
