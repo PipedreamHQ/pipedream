@@ -13022,7 +13022,13 @@ importers:
         version: 1.6.6
 
   components/syncmate_by_assitro:
-    specifiers: {}
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      fs:
+        specifier: ^0.0.1-security
+        version: 0.0.1-security
 
   components/syncro: {}
 
