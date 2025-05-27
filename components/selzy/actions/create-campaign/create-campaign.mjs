@@ -103,8 +103,12 @@ export default {
       params: clearEmpty({
         message_id: this.messageId,
         start_time: this.startTime,
-        track_read: this.trackRead ? 1 : 0,
-        track_links: this.trackLinks ? 1 : 0,
+        track_read: this.trackRead
+          ? 1
+          : 0,
+        track_links: this.trackLinks
+          ? 1
+          : 0,
         contacts_url: this.contactsUrl,
         track_ga: this.trackGa && +this.trackGa,
         ga_medium: this.gaMedium,
