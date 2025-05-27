@@ -4,7 +4,7 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "close-custom-action",
   name: "Custom Action",
-  description: "Makes an aribitrary call to the Close API. [See the documentation](https://developer.close.com/) for all options.",
+  description: "Makes an arbitrary call to the Close API. [See the documentation](https://developer.close.com/) for all options.",
   version: "0.1.1",
   type: "action",
   props: {
