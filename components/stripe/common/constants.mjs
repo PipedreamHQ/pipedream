@@ -1,3 +1,5 @@
+const API_VERSION = "2025-03-31.basil";
+
 /**
  * @typedef {string} PriceType - a type of price as defined in the [Stripe API
  * docs]{@link https://stripe.com/docs/api/prices/object}
@@ -24,4 +26,5 @@ const STRIPE_PRICE_TYPE = {
 
 export default {
   STRIPE_PRICE_TYPE,
+  API_VERSION,
 };

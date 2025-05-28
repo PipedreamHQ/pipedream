@@ -5,7 +5,7 @@ export default {
   key: "stripe-new-subscription",
   name: "New Subscription",
   type: "source",
-  version: "0.1.2",
+  version: "0.1.3",
   description: "Emit new event for each new subscription",
   methods: {
     ...common.methods,

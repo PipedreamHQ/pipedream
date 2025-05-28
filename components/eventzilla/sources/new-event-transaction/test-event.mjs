@@ -1,0 +1,21 @@
+export default {
+    "refno": "20255486608-9518980",
+    "checkout_id": 2146370777,
+    "transaction_date": "2025-05-27T16:27:56",
+    "transaction_amount": 0,
+    "tickets_in_transaction": 1,
+    "event_date": "2025-05-29T14:00:00",
+    "transaction_status": "Confirmed",
+    "user_id": 2135013619,
+    "event_id": 486608,
+    "title": "event1",
+    "email": "",
+    "buyer_first_name": "Test",
+    "buyer_last_name": "User",
+    "promo_code": "",
+    "payment_type": "Free",
+    "comments": "",
+    "transaction_tax": 0,
+    "transaction_discount": 0,
+    "eventzilla_fee": 0
+  }
