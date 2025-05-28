@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-import { Analytics } from "@vercel/analytics/react";
+import { Analytics } from "@vercel/analytics/next";
 import { useRouter } from "next/router";
 
 import CR from "@/components/CR";
