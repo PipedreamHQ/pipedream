@@ -1,5 +1,8 @@
 import { axios } from "@pipedream/platform";
 
+const BASE_URL = "https://api.ip2location.io";
+const DOMAINS_URL = "https://domains.ip2whois.com/domains";
+
 export default {
   type: "app",
   app: "ip2location_io",
@@ -34,9 +37,35 @@ export default {
         ...args,
       });
     },
+    /**
+     * Lookup geolocation information for an IP address
+     * @param {Object} args - The arguments for the request
+     * @param {Object} [args.params] - The query parameters
+     * @param {string} [args.params.ip] - The IP address to lookup (IPv4 or IPv6)
+     * @param {string} [args.params.format] - Response format (json or xml)
+     * @param {string} [args.params.lang] - Translation information(ISO639-1) for
+     *                                       continent, country,
+     *                                       region and city name
+     * @returns {Promise<Object>} The hosted domain information
+     */
     lookupIpAddress(args = {}) {
       return this._makeRequest({
-        url: "https://api.ip2location.io",
+        url: BASE_URL,
+        ...args,
+      });
+    },
+    /**
+     * Lookup hosted domains for an IP address
+     * @param {Object} args - The arguments for the request
+     * @param {Object} [args.params] - The query parameters
+     * @param {string} [args.params.ip] - The IP address to lookup (IPv4 or IPv6)
+     * @param {string} [args.params.format] - Response format (json or xml)
+     * @param {number} [args.params.page] - Page number for pagination
+     * @returns {Promise<Object>} The hosted domain information
+     */
+    lookupHostedDomain(args = {}) {
+      return this._makeRequest({
+        url: DOMAINS_URL,
         ...args,
       });
     },
