@@ -19,7 +19,7 @@ export default {
     },
     contacts: {
       label: "Contacts",
-      description: "Please provide an object structure for each row like e.g.:, \n\
+      description: "Please provide an object structure for each row. e.g.:, \n\
         { \n\
           \"name\": \"Gob\",\n\
           \"title\": \"Sr. Vice President\",\n\
@@ -31,7 +31,7 @@ export default {
     },
     addresses: {
       label: "Addresses",
-      description: "Please provide an object structure for each row like e.g.:,\n\
+      description: "Please provide an object structure for each row. e.g.:,\n\
       {\n\
           \"label\": \"business\",\n\
           \"address_1\": \"747 Howard St\",\n\
@@ -46,7 +46,7 @@ export default {
     },
     moreFields: {
       label: "More Fields",
-      description: "Additional properties not listed as a prop",
+      description: "Additional properties not listed as props",
       type: "object",
       optional: true,
     },
@@ -104,7 +104,7 @@ export default {
     async createHook(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/webhook",
+        path: "/webhook/",
         ...args,
       });
     },
@@ -114,28 +114,28 @@ export default {
     } = {}) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/webhook/${hookId}`,
+        path: `/webhook/${hookId}/`,
         ...args,
       });
     },
     async listLeads(args = {}) {
       return this._makeRequest({
         method: "GET",
-        path: "/lead",
+        path: "/lead/",
         ...args,
       });
     },
     async listLeadStatus(args = {}) {
       return this._makeRequest({
         method: "GET",
-        path: "/status/lead",
+        path: "/status/lead/",
         ...args,
       });
     },
     async createLead(args = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/lead",
+        path: "/lead/",
         ...args,
       });
     },
@@ -145,7 +145,7 @@ export default {
     } = {}) {
       return this._makeRequest({
         method: "PUT",
-        path: `/lead/${leadId}`,
+        path: `/lead/${leadId}/`,
         ...args,
       });
     },

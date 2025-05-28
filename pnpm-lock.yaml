@@ -2578,8 +2578,8 @@ importers:
   components/close:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.4.0
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/cloud_convert:
     dependencies:
