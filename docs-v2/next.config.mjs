@@ -582,6 +582,14 @@ export default withNextra({
         destination: "/api/demo-connect/accounts/:id",
       },
       {
+        source: "/api-demo-connect/apps",
+        destination: "/api/demo-connect/apps",
+      },
+      {
+        source: "/api-demo-connect/apps/",
+        destination: "/api/demo-connect/apps",
+      },
+      {
         source: "/workflows/errors/",
         destination: "/workflows/building-workflows/errors/",
       },
