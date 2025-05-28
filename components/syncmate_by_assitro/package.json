@@ -13,7 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.0.3",
-    "fs": "^0.0.1-security"
+    "@pipedream/platform": "^3.0.3"
   }
 }

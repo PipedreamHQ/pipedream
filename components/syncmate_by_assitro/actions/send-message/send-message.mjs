@@ -24,7 +24,7 @@ export default {
     media: {
       type: "string",
       label: "Media",
-      description: "Base64 encoded media files",
+      description: "The the path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
       optional: true,
     },
     fileName: {
@@ -38,24 +38,31 @@ export default {
     if (this.media && !this.fileName) {
       throw new ConfigurationError("You must provide the file name.");
     }
-    const file = fs.readFileSync(checkTmp(this.media), {
-      encoding: "base64",
-    });
+
+    const msgs = [
+      {
+        number: this.number,
+        message: this.message,
+      },
+    ];
+
+    if (this.media) {
+      const file = fs.readFileSync(checkTmp(this.media), {
+        encoding: "base64",
+      });
+
+      msgs[0].media = [
+        {
+          media_base64: file,
+          file_name: this.fileName,
+        },
+      ];
+    }
+
     const response = await this.syncmateByAssitro.sendSingleMessage({
       $,
       data: {
-        msgs: [
-          {
-            number: this.number,
-            message: this.message,
-            media: [
-              {
-                media_base64: file,
-                file_name: this.fileName,
-              },
-            ],
-          },
-        ],
+        msgs,
       },
     });
 

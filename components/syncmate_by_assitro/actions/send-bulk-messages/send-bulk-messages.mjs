@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import fs from "fs";
 import { checkTmp } from "../../common/utils.mjs";
 import syncmateByAssitro from "../../syncmate_by_assitro.app.mjs";
@@ -11,7 +12,7 @@ export default {
   props: {
     syncmateByAssitro,
     messagesNumber: {
-      type: "string",
+      type: "integer",
       label: "Messages Number",
       description: "The quantity of messages you want to send.",
       reloadProps: true,
@@ -33,7 +34,7 @@ export default {
       props[`media${i}`] = {
         type: "string",
         label: `Media ${i}`,
-        description: "Base64 encoded media files",
+        description: "The the path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
         optional: true,
       };
       props[`fileName${i}`] = {
@@ -50,20 +51,27 @@ export default {
     const msgs = [];
 
     for (let i = 1; i <= this.messagesNumber; i++) {
-      const file = fs.readFileSync(checkTmp(this[`media${i}`]), {
-        encoding: "base64",
-      });
-
-      msgs.push({
+      if (this[`media${i}`] && !this[`fileName${i}`]) {
+        throw new ConfigurationError(`You must provide the File Name ${i}.`);
+      }
+      const data = {
         number: this[`number${i}`],
         message: this[`message${i}`],
-        media: [
+      };
+
+      if (this[`media${i}`]) {
+        const file = fs.readFileSync(checkTmp(this[`media${i}`]), {
+          encoding: "base64",
+        });
+        data.media = [
           {
             media_base64: file,
             file_name: this[`fileName${i}`],
           },
-        ],
-      });
+        ];
+      }
+
+      msgs.push(data);
     }
 
     const response = await this.syncmateByAssitro.sendBulkMessages({
