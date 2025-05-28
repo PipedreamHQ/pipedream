@@ -53,8 +53,8 @@ export default function TemporaryTokenGenerator() {
         {token && (
           <div className="mt-4">
             <div className="flex items-center gap-2">
-              <div className={styles.codeDisplay + " flex-1"}>
-                <code className={styles.codeText}>{token}</code>
+              <div className="flex bg-gray-100 dark:bg-gray-800 rounded pl-2 pr-4 py-2 border">
+                <div className={styles.codeText}>{token}</div>
               </div>
               <button
                 onClick={copyToClipboard}
