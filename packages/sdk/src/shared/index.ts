@@ -250,6 +250,10 @@ export type GetAppsOpts = RelationOpts & {
    * Filter by whether apps have triggers in the component registry.
    */
   hasTriggers?: boolean;
+  /**
+   * Search for apps that have private connect components published.
+   */
+  privateConnect?: boolean;
 };
 
 /**
@@ -449,6 +453,11 @@ export type GetComponentsOpts = RelationOpts & {
    * The type of component to filter (either "trigger" or "action").
    */
   componentType?: ComponentType;
+
+  /**
+   * Search for components that are within your private connect component registry.
+   */
+  privateConnect?: boolean;
 };
 
 /**
@@ -1155,6 +1164,11 @@ export abstract class BaseClient {
         ? "1"
         : "0";
     }
+    if (opts?.privateConnect != null) {
+      params.private_connect = opts.privateConnect
+        ? "1"
+        : "0";
+    }
 
     this.addRelationOpts(params, opts);
     return this.makeAuthorizedRequest<GetAppsResponse>(
@@ -1226,6 +1240,11 @@ export abstract class BaseClient {
       path = "/triggers";
     } else if (opts?.componentType === "action") {
       path = "/actions";
+    }
+    if (opts?.privateConnect != null) {
+      params.private_connect = opts.privateConnect
+        ? "1"
+        : "0";
     }
     // XXX Is V1Component the correct type for triggers and actions?
     return this.makeConnectRequest<GetComponentsResponse>(path, {
