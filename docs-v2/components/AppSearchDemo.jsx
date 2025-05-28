@@ -29,6 +29,29 @@ function useDebounce(value, delay) {
   return debouncedValue;
 }
 
+// Custom scrollbar styles
+const scrollbarStyles = `
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(156, 163, 175, 0.5);
+    border-radius: 3px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(156, 163, 175, 0.8);
+  }
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(75, 85, 99, 0.5);
+  }
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(75, 85, 99, 0.8);
+  }
+`;
+
 export default function AppSearchDemo() {
   const [
     searchQuery,
@@ -67,7 +90,7 @@ export default function AppSearchDemo() {
       // Convert spaces to underscores for name_slug searching
       const searchQuery = query.replace(/\s+/g, "_");
       const response = await fetch(
-        `/docs/api-demo-connect/apps?q=${encodeURIComponent(searchQuery)}&limit=5`,
+        `/docs/api-demo-connect/apps?q=${encodeURIComponent(searchQuery)}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -114,6 +137,7 @@ export default function AppSearchDemo() {
 
   return (
     <div className={styles.container}>
+      <style jsx>{scrollbarStyles}</style>
       <div className={styles.header}>Search for an app</div>
       <div className="p-4">
         <input
@@ -143,67 +167,81 @@ export default function AppSearchDemo() {
         )}
 
         {apps.length > 0 && !isLoading && (
-          <div className="mt-4 space-y-3">
-            {apps.map((app) => (
-              <div
-                key={app.id}
-                className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-gray-300 dark:hover:border-gray-600 transition-colors"
-              >
-                <div className="flex items-start gap-3">
-                  {app.icon && (
-                    <img
-                      src={app.icon}
-                      alt={app.name}
-                      className="w-10 h-10 rounded"
-                    />
-                  )}
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1 flex-nowrap">
-                      <p className="font-semibold text-base text-gray-800 dark:text-gray-200 flex-shrink-0 m-0">
-                        {app.name}
-                      </p>
-                      <code className="text-sm px-2 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded flex-shrink-0">
-                        {app.name_slug}
-                      </code>
-                      <button
-                        onClick={() => copyToClipboard(app.name_slug)}
-                        className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors flex-shrink-0"
-                        title={copiedSlug === app.name_slug
-                          ? "Copied!"
-                          : "Copy app name slug"}
-                      >
-                        {copiedSlug === app.name_slug
-                          ? (
-                            <svg className="w-4 h-4 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                            </svg>
-                          )
-                          : (
-                            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                            </svg>
-                          )}
-                      </button>
-                    </div>
-                    <p className={styles.text.muted + " line-clamp-2"}>
-                      {app.description}
-                    </p>
-                    {app.categories.length > 0 && (
-                      <div className="mt-2 flex flex-wrap gap-1">
-                        {app.categories.map((category) => (
-                          <span
-                            key={category}
-                            className="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded"
-                          >
-                            {category}
-                          </span>
-                        ))}
+          <div className="mt-4">
+            <div className="relative">
+              <div className="max-h-[500px] overflow-y-auto space-y-3 pr-2 custom-scrollbar">
+                {apps.map((app) => (
+                  <div
+                    key={app.id}
+                    className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-gray-300 dark:hover:border-gray-600 transition-colors"
+                  >
+                    <div className="flex items-start gap-3">
+                      {app.icon && (
+                        <img
+                          src={app.icon}
+                          alt={app.name}
+                          className="w-10 h-10 rounded"
+                        />
+                      )}
+                      <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-1 flex-wrap">
+                          <p className="font-semibold text-base text-gray-800 dark:text-gray-200 m-0">
+                            {app.name}
+                          </p>
+                          <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-800 rounded px-2 py-0.5">
+                            <div className={styles.codeText + " text-xs"}>
+                              {app.name_slug}
+                            </div>
+                            <button
+                              onClick={() => copyToClipboard(app.name_slug)}
+                              className="p-0.5 hover:bg-gray-200 dark:hover:bg-gray-700 rounded transition-colors ml-1"
+                              title={copiedSlug === app.name_slug
+                                ? "Copied!"
+                                : "Copy app name slug"}
+                            >
+                              {copiedSlug === app.name_slug
+                                ? (
+                                  <svg className="w-3.5 h-3.5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                  </svg>
+                                )
+                                : (
+                                  <svg className="w-3.5 h-3.5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                  </svg>
+                                )}
+                            </button>
+                          </div>
+                        </div>
+                        <p className={styles.text.muted + " line-clamp-2"}>
+                          {app.description}
+                        </p>
+                        {app.categories.length > 0 && (
+                          <div className="mt-2 flex flex-wrap gap-1">
+                            {app.categories.map((category) => (
+                              <span
+                                key={category}
+                                className="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 rounded"
+                              >
+                                {category}
+                              </span>
+                            ))}
+                          </div>
+                        )}
                       </div>
-                    )}
+                    </div>
                   </div>
-                </div>
+                ))}
               </div>
-            ))}
+              {apps.length > 5 && (
+                <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white dark:from-gray-900 to-transparent pointer-events-none"></div>
+              )}
+            </div>
+            {apps.length > 5 && (
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">
+                Scroll to see more
+              </p>
+            )}
           </div>
         )}
 
@@ -219,7 +257,7 @@ export default function AppSearchDemo() {
         )}
 
         <div className="mt-4">
-          <p className={styles.text.small}>
+          <p className={styles.text.muted}>
             Browse all available apps at{" "}
             <a
               href="https://mcp.pipedream.com"
