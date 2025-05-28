@@ -3,33 +3,21 @@ import app from "../../stripe.app.mjs";
 export default {
   key: "stripe-create-product",
   name: "Create Product",
-  description: "Creates a new product object in Stripe. [See the documentation](https://stripe.com/docs/api/products/create)",
-  version: "0.0.2",
+  description: "Creates a new product object in Stripe. [See the documentation](https://stripe.com/docs/api/products/create).",
+  version: "0.0.3",
   type: "action",
   props: {
     app,
     name: {
-      label: "Product Name",
+      description: "The product's name, meant to be displayable to the customer.",
       optional: false,
       propDefinition: [
         app,
         "name",
       ],
     },
-    defaultPriceDataUnitAmount: {
-      description: "A positive integer in cents (or `0` for a free price) representing how much to charge. One of **Unit Amount** or **Unit Amount Decimal** is required.",
-      propDefinition: [
-        app,
-        "unitAmount",
-      ],
-    },
-    defaultPriceDataUnitAmountDecimal: {
-      propDefinition: [
-        app,
-        "unitAmountDecimal",
-      ],
-    },
     active: {
+      description: "Whether the product is currently available for purchase. Defaults to true.",
       propDefinition: [
         app,
         "active",
@@ -47,7 +35,23 @@ export default {
         "country",
       ],
     },
+    defaultPriceDataUnitAmount: {
+      label: "Default Price Data - Unit Amount",
+      description: "A positive integer in cents (or `0` for a free price) representing how much to charge. One of **Unit Amount** or **Unit Amount Decimal** is required.",
+      propDefinition: [
+        app,
+        "unitAmount",
+      ],
+    },
+    defaultPriceDataUnitAmountDecimal: {
+      label: "Default Price Data - Unit Amount Decimal",
+      propDefinition: [
+        app,
+        "unitAmountDecimal",
+      ],
+    },
     defaultPriceDataCurrency: {
+      label: "Default Price Data - Currency",
       propDefinition: [
         app,
         "currency",
@@ -57,7 +61,7 @@ export default {
       ],
     },
     defaultPriceDataRecurringInterval: {
-      label: "Default Price Recurring Interval",
+      label: "Default Price Data - Recurring - Interval",
       optional: true,
       propDefinition: [
         app,
@@ -86,17 +90,26 @@ export default {
       name,
       active,
       unit_label: unitLabel,
-      default_price_data: {
-        currency: defaultPriceDataCurrency,
-        recurring: {
-          interval: defaultPriceDataRecurringInterval,
-        },
-        unit_amount: defaultPriceDataUnitAmount,
-        unit_amount_decimal: defaultPriceDataUnitAmountDecimal,
-      },
+      ...(
+        defaultPriceDataCurrency
+        || defaultPriceDataUnitAmount
+        || defaultPriceDataUnitAmountDecimal
+        || defaultPriceDataRecurringInterval
+          ? {
+            default_price_data: {
+              currency: defaultPriceDataCurrency,
+              recurring: {
+                interval: defaultPriceDataRecurringInterval,
+              },
+              unit_amount: defaultPriceDataUnitAmount,
+              unit_amount_decimal: defaultPriceDataUnitAmountDecimal,
+            },
+          }
+          : {}
+      ),
     });
 
-    $.export("$summary", `Successfully created a new product with ID ${response.id}`);
+    $.export("$summary", `Successfully created a new product with ID \`${response.id}\`.`);
 
     return response;
   },
