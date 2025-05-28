@@ -65,7 +65,7 @@ export default {
         profileKey: this.profileKey,
       },
     });
-    $.export("$summary", "Successfully sent the request to delete the user profile. Status: " + response.status);
+    $.export("$summary", "Successfully sent the request to update the user profile. Status: " + response.status);
     return response;
   },
 };
