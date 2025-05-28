@@ -16,6 +16,7 @@ const config: DocsThemeConfig = {
 
     return (
       <>
+        <title>{`${title} — Pipedream`}</title>
         <meta name="description" content="Workflow automation for developers" />
         {router && <link rel="canonical" href={`https://pipedream.com/docs${router.route === "/"
           ? ""
