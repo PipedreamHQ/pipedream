@@ -545,6 +545,11 @@ export default withNextra({
   },
   async rewrites() {
     return [
+      // Vercel Analytics rewrites for basePath support
+      {
+        source: "/_vercel/:path*",
+        destination: "https://va.vercel-scripts.com/_vercel/:path*",
+      },
       {
         source: "/shopify-faq-2023-10",
         destination: "/deprecated/shopify-faq-2023-10",
