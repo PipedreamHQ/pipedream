@@ -1,3 +1,4 @@
+import { convert } from "html-to-text";
 import gmail from "../../gmail.app.mjs";
 
 export default {
@@ -14,10 +15,10 @@ export default {
         "q",
       ],
     },
-    withPayload: {
+    withTextPayload: {
       type: "boolean",
-      label: "With Payload",
-      description: "Whether or not to return the full content of the email message. If set to `true`, the action will return the full content of the email message, including headers and body. `Setting to true may make the response size larger and slower`.",
+      label: "With Text Payload",
+      description: "Whether you want to convert the payload response into a single text field. **This reduces the size of the payload and makes it easier for LLM work with.**",
       default: false,
     },
     labels: {
@@ -55,19 +56,19 @@ export default {
     const messageIds = messages.map(({ id }) => id);
     let messagesToEmit = await this.gmail.getMessages(messageIds);
 
-    if (this.withPayload) {
-      for await (const message of messagesToEmit) {
-        for (const part of message.payload?.parts || []) {
-          if (part.body.data) {
-            part.body.text = Buffer.from(part.body.data, "base64").toString("utf-8");
-          }
+    for await (const message of messagesToEmit) {
+      let newPayload = "";
+      for (const part of message.payload?.parts || []) {
+        if (part.body.data) {
+          const payload = Buffer.from(part.body.data, "base64").toString("utf-8");
+          this.withTextPayload
+            ? newPayload += convert(payload)
+            : part.body.text = payload;
         }
       }
-    } else {
-      messagesToEmit = messagesToEmit.map((message) => {
-        delete message.payload;
-        return message;
-      });
+      if (this.withTextPayload) {
+        message.payload = newPayload;
+      }
     }
 
     const suffix = messagesToEmit.length === 1
