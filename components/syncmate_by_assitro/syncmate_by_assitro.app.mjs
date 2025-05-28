@@ -16,11 +16,6 @@ export default {
     _makeRequest({
       $ = this, path, ...opts
     }) {
-      console.log("config", {
-        url: this._baseUrl() + path,
-        headers: this._headers(),
-        ...opts,
-      });
       return axios($, {
         url: this._baseUrl() + path,
         headers: this._headers(),
