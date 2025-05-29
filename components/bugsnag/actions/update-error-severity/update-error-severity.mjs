@@ -36,7 +36,7 @@ export default {
     severity: {
       type: "string",
       label: "Severity",
-      description: "The Error's new severity. This will be reflected in the Error's overridden_severity property. This is only applicable if the override_severity option is provided.",
+      description: "The Error's new severity. This will be reflected in the Error's `overridden_severity` property.",
       options: constants.ERROR_SEVERITIES,
     },
   },
