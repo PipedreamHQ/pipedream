@@ -76,7 +76,7 @@ export default {
 
     checkWarnings(response);
 
-    $.export("$summary", `Successfully created contact with ID: ${response.messages[0].messageId}`);
+    $.export("$summary", `Successfully created message with ID: ${response.messages[0].messageId}`);
     return response.messages[0];
   },
 };
