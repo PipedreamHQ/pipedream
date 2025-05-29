@@ -115,7 +115,6 @@ export default {
         contact,
       },
     });
-    });
 
     checkWarnings(response);
 
