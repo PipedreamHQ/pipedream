@@ -17,8 +17,8 @@ export default {
     },
     withTextPayload: {
       type: "boolean",
-      label: "With Text Payload",
-      description: "Whether you want to convert the payload response into a single text field. **This reduces the size of the payload and makes it easier for LLM work with.**",
+      label: "Return payload as plaintext",
+      description: "Convert the payload response into a single text field. **This reduces the size of the payload and makes it easier for LLMs work with.**",
       default: false,
     },
     labels: {
