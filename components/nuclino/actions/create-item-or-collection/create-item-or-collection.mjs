@@ -68,7 +68,7 @@ export default {
         index: this.index,
       },
     });
-    $.export("$summary", `Successfully created ${this.object} with ID ${response.data.id}`);
+    $.export("$summary", `Successfully created ${this.object || "item"} with ID ${response.data.id}`);
     return response;
   },
 };

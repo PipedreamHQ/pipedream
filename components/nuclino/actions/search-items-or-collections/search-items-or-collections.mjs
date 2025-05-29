@@ -42,7 +42,7 @@ export default {
       items.push(item);
     }
 
-    $.export("$summary", `Found ${items.length} item${items.length === "1"
+    $.export("$summary", `Found ${items.length} item${items.length === 1
       ? ""
       : "s"} matching query`);
     return items;
