@@ -45,7 +45,7 @@ export default {
             value: id,
           })),
           context: {
-            cursor: additionalData.next_cursor,
+            cursor: additionalData.next_cursor || false,
           },
         };
       },
@@ -146,7 +146,7 @@ export default {
             value: id,
           })),
           context: {
-            cursor: additionalData.next_cursor,
+            cursor: additionalData.next_cursor || false,
           },
         };
       },
@@ -213,7 +213,7 @@ export default {
             value: id,
           })),
           context: {
-            cursor: additionalData.next_cursor,
+            cursor: additionalData.next_cursor || false,
           },
         };
       },
@@ -293,6 +293,18 @@ export default {
           value: id,
         }));
       },
+    },
+    emails: {
+      type: "string[]",
+      label: "Emails",
+      description: "Email addresses (one or more) associated with the person, presented in the same manner as received by GET request of a person. **Example: {\"value\":\"email1@email.com\", \"primary\":true, \"label\":\"work\"}**",
+      optional: true,
+    },
+    phones: {
+      type: "string[]",
+      label: "Phones",
+      description: "Phone numbers (one or more) associated with the person, presented in the same manner as received by GET request of a person. **Example: {\"value\":\"12345\", \"primary\":true, \"label\":\"work\"}**",
+      optional: true,
     },
   },
   methods: {
@@ -402,6 +414,15 @@ export default {
       return dealsApi.updateDeal({
         id: dealId,
         UpdateDealRequest: opts,
+      });
+    },
+    updatePerson({
+      personId, ...opts
+    }) {
+      const personsApi = this.api("PersonsApi", "v2");
+      return personsApi.updatePerson({
+        id: personId,
+        UpdatePersonRequest: opts,
       });
     },
   },

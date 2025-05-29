@@ -3,17 +3,26 @@ import { parseObject } from "../../common/utils.mjs";
 import pipedriveApp from "../../pipedrive.app.mjs";
 
 export default {
-  key: "pipedrive-add-person",
-  name: "Add Person",
-  description: "Adds a new person. See the Pipedrive API docs for People [here](https://developers.pipedrive.com/docs/api/v1/Persons#addPerson)",
-  version: "0.1.9",
+  key: "pipedrive-update-person",
+  name: "Update Person",
+  description: "Updates an existing person in Pipedrive. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Persons#updatePerson)",
+  version: "0.0.1",
   type: "action",
   props: {
     pipedriveApp,
+    personId: {
+      propDefinition: [
+        pipedriveApp,
+        "personId",
+      ],
+      description: "The ID of the person to update",
+      optional: false,
+    },
     name: {
       type: "string",
       label: "Name",
-      description: "Person name",
+      description: "New name of the person",
+      optional: true,
     },
     ownerId: {
       label: "Owner ID",
@@ -28,7 +37,7 @@ export default {
         pipedriveApp,
         "organizationId",
       ],
-      description: "ID of the organization this person will belong to.",
+      description: "ID of the organization this person will belong to",
     },
     emails: {
       propDefinition: [
@@ -53,16 +62,17 @@ export default {
   async run({ $ }) {
     try {
       const resp =
-        await this.pipedriveApp.addPerson({
-          name: this.name,
-          owner_id: this.ownerId,
-          org_id: this.organizationId,
-          emails: parseObject(this.emails),
-          phones: parseObject(this.phones),
-          visible_to: this.visibleTo,
-        });
+          await this.pipedriveApp.updatePerson({
+            personId: this.personId,
+            name: this.name,
+            owner_id: this.ownerId,
+            org_id: this.organizationId,
+            emails: parseObject(this.emails),
+            phones: parseObject(this.phones),
+            visible_to: this.visibleTo,
+          });
 
-      $.export("$summary", "Successfully added person");
+      $.export("$summary", `Successfully updated person with ID: ${this.personId}`);
 
       return resp;
 
