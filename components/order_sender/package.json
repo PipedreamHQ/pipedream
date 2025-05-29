@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/order_sender",
+  "version": "0.0.1",
+  "description": "Pipedream Order Sender Components",
+  "main": "order_sender.app.mjs",
+  "keywords": [
+    "pipedream",
+    "order_sender"
+  ],
+  "homepage": "https://pipedream.com/apps/order_sender",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
