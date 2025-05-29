@@ -7,7 +7,7 @@ export default {
   key: "lamini-upload-dataset",
   name: "Upload Dataset",
   description: "Upload a dataset to Lamini for training.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
@@ -19,12 +19,12 @@ export default {
     inputKey: {
       type: "string",
       label: "Input Key",
-      description: "Key of the JSON dictionary to use as the input. For CSV files, this should be a column header. Eg. `question`.",
+      description: "Key of the JSON dictionary to use as the input. Eg. `question`.",
     },
     outputKey: {
       type: "string",
       label: "Output Key",
-      description: "Key of the JSON dictionary to use as the output. For CSV files, this should be a column header. Eg. `answer`.",
+      description: "Key of the JSON dictionary to use as the output. Eg. `answer`.",
       optional: true,
     },
     isPublic: {

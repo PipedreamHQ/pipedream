@@ -8,7 +8,7 @@ export default {
   key: "lamini-get-job-status",
   name: "New Job Status",
   description: "Emit new events with the status of a training job. [See the documentation](https://docs.lamini.ai/api/).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   props: {
     app,
