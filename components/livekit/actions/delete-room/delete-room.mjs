@@ -4,7 +4,7 @@ export default {
   key: "livekit-delete-room",
   name: "Delete Room",
   description: "Delete a room in LiveKit. [See the documentation](https://docs.livekit.io/home/server/managing-rooms/#delete-a-room)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
