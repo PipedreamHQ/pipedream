@@ -17,7 +17,7 @@ export const styles = {
 
   // Code display
   codeDisplay: "p-3 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-md",
-  codeText: "text-sm break-all text-gray-800 dark:text-gray-200",
+  codeText: "text-sm break-all text-gray-800 dark:text-gray-200 font-mono",
 
   // Text styles
   text: {

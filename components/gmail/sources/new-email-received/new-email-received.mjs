@@ -1,12 +1,12 @@
-import gmail from "../../gmail.app.mjs";
-import common from "../common/polling-history.mjs";
+import { PubSub } from "@google-cloud/pubsub";
 import {
   axios,
-  DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
   ConfigurationError,
+  DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
 } from "@pipedream/platform";
-import { PubSub } from "@google-cloud/pubsub";
 import { v4 as uuidv4 } from "uuid";
+import gmail from "../../gmail.app.mjs";
+import common from "../common/polling-history.mjs";
 import verifyClient from "../common/verify-client-id.mjs";
 
 export default {
@@ -15,7 +15,7 @@ export default {
   name: "New Email Received",
   description: "Emit new event when a new email is received.",
   type: "source",
-  version: "0.2.4",
+  version: "0.2.5",
   dedupe: "unique",
   props: {
     gmail,

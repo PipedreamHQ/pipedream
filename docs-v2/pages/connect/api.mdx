@@ -1450,7 +1450,7 @@ const pd: BackendClient = createBackendClient(clientOpts);
 // Retrieve the configuration options for the "projectId" prop of the "List
 // Commits" component for the Gitlab app.
 const requestOpts: ConfigureComponentOpts = {
-  id: "gitlab-list-commits",
+  componentId: "gitlab-list-commits",
   configuredProps: {
     gitlab: {
       authProvisionId: "apn_kVh9AoD",
@@ -1489,7 +1489,7 @@ const pd = createBackendClient({
 // Retrieve the configuration options for the "projectId" prop of the "List
 // Commits" component for the Gitlab app.
 const { options } = await pd.configureComponent({
-  id: "gitlab-list-commits",
+  componentId: "gitlab-list-commits",
   configuredProps: {
     gitlab: {
       authProvisionId: "apn_kVh9AoD",
@@ -1662,7 +1662,7 @@ const pd: BackendClient = createBackendClient(clientOpts);
 // Retrieve the configuration options for the "Add Single Row" component for
 // the Google Sheets app. Note that the `sheetId` prop is a dynamic prop.
 const requestOpts: ReloadComponentPropsOpts = {
-  id: "google_sheets-add-single-row",
+  componentId: "google_sheets-add-single-row",
   configuredProps: {
     googleSheets: {
       authProvisionId: "apn_V1hMoE7",
@@ -1699,7 +1699,7 @@ const pd = createBackendClient({
 // Retrieve the configuration options for the "Add Single Row" component for
 // the Google Sheets app. Note that the `sheetId` prop is a dynamic prop.
 const { dynamicProps } = await pd.reloadComponentProps({
-  id: "google_sheets-add-single-row",
+  componentId: "google_sheets-add-single-row",
   configuredProps: {
     googleSheets: {
       authProvisionId: "apn_V1hMoE7",
@@ -1873,7 +1873,7 @@ const pd: BackendClient = createBackendClient(clientOpts);
 
 // Run the "List Commits" action for the Gitlab app
 const requestOpts: RunActionOpts = {
-  id: "gitlab-list-commits",
+  actionId: "gitlab-list-commits",
   configuredProps: {
     gitlab: {
       authProvisionId: "apn_kVh9AoD",
@@ -1916,7 +1916,7 @@ const {
   os,       // The observations produced by the action
   ret,      // The value returned by the action
 } = await pd.runAction({
-  id: "gitlab-list-commits",
+  actionId: "gitlab-list-commits",
   configuredProps: {
     gitlab: {
       authProvisionId: "apn_kVh9AoD",
@@ -2078,7 +2078,7 @@ const pd: BackendClient = createBackendClient(clientOpts);
 
 // Deploy the "New Issue (Instant)" trigger for the Gitlab app
 const requestOpts: DeployTriggerOpts = {
-  id: "gitlab-new-issue",
+  triggerId: "gitlab-new-issue",
   configuredProps: {
     gitlab: {
       authProvisionId: "apn_kVh9AoD",
@@ -2117,7 +2117,7 @@ const pd = createBackendClient({
 
 // Deploy the "New Issue (Instant)" trigger for the Gitlab app
 const { data: deployedTrigger } = await pd.deployTrigger({
-  id: "gitlab-new-issue",
+  triggerId: "gitlab-new-issue",
   configuredProps: {
     gitlab: {
       authProvisionId: "apn_kVh9AoD",

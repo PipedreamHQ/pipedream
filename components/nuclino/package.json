@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/nuclino",
+  "version": "0.0.1",
+  "description": "Pipedream Nuclino Components",
+  "main": "nuclino.app.mjs",
+  "keywords": [
+    "pipedream",
+    "nuclino"
+  ],
+  "homepage": "https://pipedream.com/apps/nuclino",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
