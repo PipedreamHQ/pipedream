@@ -98,12 +98,12 @@ export default {
   async run({ $ }) {
     const {
       icontact,
-      ...campaign
+      ...contact
     } = this;
 
     const { contacts } = await icontact.searchContact({
       params: {
-        email: campaign.email,
+        email: contact.email,
       },
     });
 
@@ -112,8 +112,9 @@ export default {
     const response = await icontact.createContact({
       $,
       data: {
-        campaign,
+        contact,
       },
+    });
     });
 
     checkWarnings(response);
