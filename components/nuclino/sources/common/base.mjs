@@ -19,6 +19,13 @@ export default {
         "workspaceId",
       ],
     },
+    object: {
+      propDefinition: [
+        nuclino,
+        "object",
+      ],
+      optional: true,
+    },
   },
   methods: {
     _getLastTs() {
@@ -49,7 +56,7 @@ export default {
       });
       for await (const item of results) {
         const ts = Date.parse(item[tsField]);
-        if (ts > lastTs) {
+        if (ts > lastTs && (!this.object || item.object === this.object)) {
           const meta = this.generateMeta(item);
           this.$emit(item, meta);
           maxTs = Math.max(maxTs, ts);
