@@ -6350,7 +6350,11 @@ importers:
 
   components/ical: {}
 
-  components/icontact: {}
+  components/icontact:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/icypeas:
     dependencies:
@@ -15520,14 +15524,6 @@ importers:
       dotenv:
         specifier: ^6.0.0
         version: 6.2.0
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
 
   packages/ai:
     dependencies:
@@ -35915,6 +35911,8 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
+    transitivePeerDependencies:
+      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
