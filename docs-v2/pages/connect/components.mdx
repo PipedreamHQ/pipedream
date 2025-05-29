@@ -335,7 +335,7 @@ as an example, to illustrate a call that retrieves the options for the
 ```javascript
 const { options } = await pd.configureComponent({
   externalUserId: "abc-123",
-  id: "gitlab-list-commits",
+  componentId: "gitlab-list-commits",
   propName: "projectId",
   configuredProps: {
     gitlab: {
@@ -605,7 +605,7 @@ to the following endpoint:
 ```javascript
 const resp = await pd.runAction({
   externalUserId: "abc-123",
-  id: "gitlab-list-commits",
+  actionId: "gitlab-list-commits",
   configuredProps: {
     gitlab: {
       authProvisionId: "apn_kVh9AoD",
@@ -713,7 +713,7 @@ Deploy a source for your users:
 ```javascript
 const { data: deployedTrigger } = await pd.deployTrigger({
   externalUserId: "abc-123",
-  id: "gitlab-new-issue",
+  triggerId: "gitlab-new-issue",
   configuredProps: {
     gitlab: {
       authProvisionId: "apn_kVh9AoD",
@@ -852,7 +852,7 @@ Generate a unique HTTP webhook URL for your end users to configure in any other 
 ```javascript
 const { data: deployedTrigger } = await pd.deployTrigger({
   externalUserId: "abc-123",
-  id: "http-new-requests",
+  triggerId: "http-new-requests",
   webhookUrl: "https://events.example.com/http-new-requests"
 });
 
@@ -917,7 +917,7 @@ When defining schedules, you can pass one of the following:
 ```javascript
 const { data: deployedTrigger } = await pd.deployTrigger({
   externalUserId: "abc-123",
-  id: "schedule-custom-interval",
+  triggerId: "schedule-custom-interval",
   configuredProps: {
     "cron": {
       "intervalSeconds": 900
@@ -977,7 +977,7 @@ Generate a unique email address for your customers to emit events to
 ```javascript
 const { data: deployedTrigger } = await pd.deployTrigger({
   externalUserId: "abc-123",
-  id: "email-new-email",
+  triggerId: "email-new-email",
   webhookUrl: "https://events.example.com/email-new-email"
 });
 
@@ -1123,7 +1123,7 @@ You can call `configureComponent` on the `sql` prop to retrieve database schema 
 const resp = await pd.configureComponent({
   externalUserId: externalUserId,
   propName: "sql",
-  id: "postgresql-execute-custom-query",
+  componentId: "postgresql-execute-custom-query",
   configuredProps: {
     postgresql: {
       authProvisionId: accountId
@@ -1235,7 +1235,7 @@ const { dynamicProps } = await pd.reloadProps({ … });
 // Then use the dynamicProps.id when running the action
 const resp = await pd.runAction({
   externalUserId: "abc-123",
-  id: "google_sheets-add-single-row",
+  actionId: "google_sheets-add-single-row",
   dynamicPropsId: dynamicProps.id, // Must include this
   configuredProps: {
     googleSheets: {
