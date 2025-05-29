@@ -3830,7 +3830,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/drimify: {}
+  components/drimify:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/drip:
     dependencies:
@@ -9325,8 +9329,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/order_sender:
-    specifiers: {}
+  components/order_sender: {}
 
   components/originality_ai:
     dependencies:
