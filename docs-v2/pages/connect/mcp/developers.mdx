@@ -11,6 +11,10 @@ Pipedream's MCP server code is [publicly available on GitHub](https://github.com
 1. [Use Pipedream's remote MCP server](#use-pipedreams-remote-mcp-server)
 2. [Self-host Pipedream's MCP server](#self-host-pipedreams-mcp-server)
 
+<Callout type="info">
+**Try out Pipedream MCP in our demo app: [chat.pipedream.com](https://chat.pipedream.com)**
+</Callout>
+
 ### Pipedream concepts to understand
 
 The MCP server accepts two route params:
@@ -18,19 +22,18 @@ The MCP server accepts two route params:
 **`external_user_id`**
 
 - This is your user’s ID, in your system: whatever you use to uniquely identify them
-- Any requests made to that route are coupled to that end user and uses the connected account tied to that user
-- [See here](/connect/api/#external-users) for more detail
+- Requests made for that user ID are coupled to that end user and their connected accounts ([learn more](/connect/api/#external-users))
 
 **`app`**
 
 - The app's "name slug" (the unique identifier for the app)
-- [See below](#discover-available-mcp-servers) for discovering available apps
+- [See below](#discover-available-mcp-servers) for learn how to discover available apps
 
 ## Getting started
 
 ### Prerequisites
 
-For either option, you'll need:
+To use either the remote or self-hosted MCP server, you'll need:
 
 1. A [Pipedream account](https://pipedream.com/auth/signup)
 2. A [Pipedream project](/projects/#creating-projects). Accounts connected via MCP will be stored here.
@@ -67,8 +70,8 @@ You can handle account connections in one of two ways in your app:
 
 ##### Return a link
 - Use [Connect Link ](/connect/managed-auth/quickstart/#or-use-connect-link) to let your users open a Pipedream hosted page to connect their account
-- There is no implementation required for this option since it's already handled in Pipedream's MCP server
-- If a user doesn't have a connected account that's required for a given tool call, we'll return a URL in the tool call response. For example:
+- There's no implementation required for this option since it's already handled by Pipedream's MCP server
+- If a user doesn't have a connected account that's required for a given tool call, the server will return a URL in the tool call response:
 
 ```
 https://pipedream.com/_static/connect.html?token=ctok_xxxxxxx&connectLink=true&app={appSlug}
@@ -131,7 +134,7 @@ The remote MCP server is in beta, and we're looking for feedback. During the bet
 
 #### Supported transport types
 
-The Pipedream MCP server supports both SSE and streamable HTTP transport types, with no configuration required by the developer or MCP client.
+The Pipedream MCP server supports both SSE and streamable HTTP transport types dynamically, with no configuration required by the developer or MCP client.
 
 #### Base URL
 
@@ -180,6 +183,16 @@ curl -s -X POST https://api.pipedream.com/v1/oauth/token \
 #### Required headers
 
 Include these headers in every HTTP request:
+
+```javascript
+{
+  "Authorization": `Bearer ${accessToken}`,
+  "x-pd-project-id": PIPEDREAM_PROJECT_ID, // proj_xxxxxxx
+  "x-pd-environment": PIPEDREAM_ENVIRONMENT // development | production
+}
+```
+
+Example request:
 
 ```javascript
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";

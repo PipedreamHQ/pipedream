@@ -63,6 +63,7 @@ async function appsHandler(req, res) {
       name_slug: app.name_slug,
       description: app.description,
       icon: app.img_src,
+      featured_weight: app.featured_weight,
       categories: app.categories || [],
     }));
 

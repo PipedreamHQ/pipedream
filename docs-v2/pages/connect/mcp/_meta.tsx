@@ -1,6 +1,6 @@
 export default {
   "index": "Overview",
   "developers": "Developers",
-  "users": "Consumers",
   "openai": "OpenAI",
+  "users": "Consumers",
 } as const
