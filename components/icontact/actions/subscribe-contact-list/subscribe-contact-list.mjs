@@ -1,18 +1,18 @@
+import { checkWarnings } from "../../common/utils.mjs";
 import icontact from "../../icontact.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "icontact-subscribe-contact-list",
   name: "Subscribe Contact to List",
-  description: "Adds a contact to a specific list within iContact. [See the documentation](https://help.icontact.com/customers/s/article/subscriptions-icontact-api)",
-  version: "0.0.{{ts}}",
+  description: "Adds a contact to a specific list within iContact. [See the documentation](https://help.icontact.com/customers/s/article/Subscriptions-iContact-API?r=153&ui-knowledge-components-aura-actions.KnowledgeArticleVersionCreateDraftFromOnlineAction.createDraftFromOnlineArticle=1)",
+  version: "0.0.1",
   type: "action",
   props: {
     icontact,
-    contactEmail: {
+    contactId: {
       propDefinition: [
         icontact,
-        "contactEmail",
+        "contactId",
       ],
     },
     listId: {
@@ -24,11 +24,18 @@ export default {
   },
   async run({ $ }) {
     const response = await this.icontact.subscribeContactToList({
-      contactEmail: this.contactEmail,
-      listId: this.listId,
+      data: {
+        subscription: {
+          contactId: this.contactId,
+          listId: this.listId,
+          status: "normal",
+        },
+      },
     });
 
-    $.export("$summary", `Successfully subscribed ${this.contactEmail} to list with ID ${this.listId}`);
-    return response;
+    checkWarnings(response);
+
+    $.export("$summary", `Successfully created subscription with ID: ${response.subscriptions[0].subscriptionId}`);
+    return response.subscriptions[0];
   },
 };

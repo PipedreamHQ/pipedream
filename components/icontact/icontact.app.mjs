@@ -4,164 +4,125 @@ export default {
   type: "app",
   app: "icontact",
   propDefinitions: {
-    contactEmail: {
+    campaignId: {
       type: "string",
-      label: "Contact Email",
-      description: "The email of the contact",
-    },
-    contactInfo: {
-      type: "object",
-      label: "Contact Information",
-      description: "Additional information for the contact",
+      label: "Campaign ID",
+      description: "The sender property from which the message will pull its sending information.",
+      async options() {
+        const { campaigns } = await this.listCampaigns();
+
+        return campaigns.map(({
+          campaignId: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
     contactId: {
       type: "string",
       label: "Contact ID",
-      description: "The ID of the contact",
+      description: "The contact that will be subscribed to the list.",
+      async options() {
+        const { contacts } = await this.listContacts();
+
+        return contacts.map(({
+          contactId: value, email: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
     listId: {
       type: "string",
       label: "List ID",
       description: "The ID of the list",
       async options() {
-        const lists = await this.getLists();
-        return lists.map((list) => ({
-          label: list.name,
-          value: list.id,
+        const { lists } = await this.listLists();
+
+        return lists.map(({
+          listId: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
-    },
-    senderEmail: {
-      type: "string",
-      label: "Sender Email",
-      description: "The email of the sender",
-    },
-    recipientEmail: {
-      type: "string",
-      label: "Recipient Email",
-      description: "The email of the recipient",
-    },
-    htmlContent: {
-      type: "string",
-      label: "HTML Content",
-      description: "The HTML content for the message",
-    },
-    subject: {
-      type: "string",
-      label: "Subject",
-      description: "The subject of the message",
-      optional: true,
-    },
-    firstName: {
-      type: "string",
-      label: "First Name",
-      description: "The contact's first name",
-      optional: true,
-    },
-    lastName: {
-      type: "string",
-      label: "Last Name",
-      description: "The contact's last name",
-      optional: true,
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.icontact.com/v2.0";
+      return `https://app.icontact.com/icp/a/${this.$auth.account_id}/c/${this.$auth.client_folder_id}`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers = {},
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "API-Version": "2.2",
+        "API-AppId": `${this.$auth.api_app_id}`,
+        "API-Username": `${this.$auth.api_username}`,
+        "API-Password": `${this.$auth.api_password}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${this.$auth.api_key}`,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async getLists(opts = {}) {
+    createContact(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/contacts",
+        ...opts,
+      });
+    },
+    createMessage(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/messages",
+        ...opts,
+      });
+    },
+    searchContact(opts = {}) {
+      return this._makeRequest({
+        path: "/contacts",
+        ...opts,
+      });
+    },
+    listCampaigns(opts = {}) {
+      return this._makeRequest({
+        path: "/campaigns",
+        ...opts,
+      });
+    },
+    listContacts(opts = {}) {
+      return this._makeRequest({
+        path: "/contacts",
+        ...opts,
+      });
+    },
+    listLists(opts = {}) {
       return this._makeRequest({
         path: "/lists",
         ...opts,
       });
     },
-    async createContact({
-      contactEmail, contactInfo, firstName, lastName, ...opts
-    }) {
+    createWebhook(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/contacts",
-        data: {
-          email: contactEmail,
-          firstName,
-          lastName,
-          ...contactInfo,
-        },
+        path: "/webhooks",
         ...opts,
       });
     },
-    async updateContact({
-      contactId, contactInfo, ...opts
-    }) {
+    deleteWebhook(webhookId) {
       return this._makeRequest({
-        method: "PUT",
-        path: `/contacts/${contactId}`,
-        data: contactInfo,
-        ...opts,
+        method: "DELETE",
+        path: `/webhooks/${webhookId}`,
       });
-    },
-    async subscribeContactToList({
-      contactEmail, listId, ...opts
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/lists/${listId}/contacts`,
-        data: {
-          email: contactEmail,
-        },
-        ...opts,
-      });
-    },
-    async createAndSendMessage({
-      recipientEmail,
-      senderEmail,
-      htmlContent,
-      subject,
-      ...opts
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/messages",
-        data: {
-          recipient: recipientEmail,
-          sender: senderEmail,
-          message: {
-            body: htmlContent,
-            subject,
-          },
-        },
-        ...opts,
-      });
-    },
-  },
-  hooks: {
-    async contactCreated() {
-      // Emit a new event when a contact is created.
-    },
-    async contactUpdated() {
-      // Emit a new event when a contact is updated.
-    },
-    async contactSubscribed() {
-      // Emit a new event when a contact is subscribed to a list.
     },
   },
 };
