@@ -1,12 +1,12 @@
-import gmail from "../../gmail.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import utils from "../../common/utils.mjs";
+import gmail from "../../gmail.app.mjs";
 
 export default {
   key: "gmail-send-email",
   name: "Send Email",
   description: "Send an email from your Google Workspace email account. [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/send)",
-  version: "0.1.9",
+  version: "0.1.10",
   type: "action",
   props: {
     gmail,

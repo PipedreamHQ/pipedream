@@ -108,7 +108,9 @@ export default function AppSearchDemo() {
         name: app.name,
         icon: app.icon,
       })));
-      setApps(data.apps);
+      // Sort apps by featured_weight in descending order
+      const sortedApps = [...data.apps].sort((a, b) => (b.featured_weight || 0) - (a.featured_weight || 0));
+      setApps(sortedApps);
     } catch (err) {
       console.error("Error searching apps:", err);
       setError("Failed to search apps. Please try again.");
@@ -180,7 +182,7 @@ export default function AppSearchDemo() {
                         <img
                           src={app.icon}
                           alt={app.name}
-                          className="w-10 h-10 rounded"
+                          className="w-10 h-10 rounded bg-white border border-gray-200 dark:border-gray-600 p-1"
                         />
                       )}
                       <div className="flex-1">

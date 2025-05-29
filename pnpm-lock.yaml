@@ -5274,8 +5274,8 @@ importers:
         specifier: ^105.0.0
         version: 105.0.0
       html-to-text:
-        specifier: ^8.2.1
-        version: 8.2.1
+        specifier: ^9.0.5
+        version: 9.0.5
       mime:
         specifier: ^3.0.0
         version: 3.0.0
@@ -8919,6 +8919,8 @@ importers:
       '@pipedream/platform':
         specifier: 3.0.3
         version: 3.0.3
+
+  components/nuclino: {}
 
   components/nudgify:
     dependencies:
@@ -15528,6 +15530,14 @@ importers:
       dotenv:
         specifier: ^6.0.0
         version: 6.2.0
+
+  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
+
+  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
+
+  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
+
+  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
 
   packages/ai:
     dependencies:
