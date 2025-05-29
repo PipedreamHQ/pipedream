@@ -5,69 +5,74 @@ export default {
   app: "drimify",
   propDefinitions: {
     applicationId: {
-      type: "string",
+      type: "string[]",
       label: "Application ID",
-      description: "The ID of the application",
-    },
-    timeFrame: {
-      type: "string",
-      label: "Time Frame",
-      description: "Optional time frame to specify data collection period (YYYY-MM-DDTHH:MM:SS)",
-      optional: true,
+      description: "A list of application's IDs",
+      async options() {
+        const data = await this.listApps();
+
+        return data.map(({
+          id: value, title: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
     _baseUrl() {
       return "https://endpoint.drimify.com/api";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.apiKey}`,
-        },
-      });
-    },
-    async listAppDataCollections({
-      applicationId, page = 1, createdSince,
-    } = {}) {
-      const params = {
-        app: applicationId,
-        page,
+    _headers() {
+      return {
+        "X-AUTH-TOKEN": `${this.$auth.api_key}`,
       };
-      if (createdSince) {
-        params.createdSince = createdSince;
-      }
-      return this._makeRequest({
-        path: "/appdatacollection",
-        params,
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
+      return axios($, {
+        url: this._baseUrl() + path,
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async paginate(fn, ...opts) {
-      const results = [];
-      let page = 1;
-      while (true) {
-        const response = await fn({
+    listApps() {
+      return this._makeRequest({
+        path: "/apps",
+      });
+    },
+    listAppDataCollections(opts = {}) {
+      return this._makeRequest({
+        path: "/app_data_collections",
+        ...opts,
+      });
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.page = ++page;
+        const data = await fn({
+          params,
           ...opts,
-          page,
         });
-        if (response.length === 0) break;
-        results.push(...response);
-        page++;
-      }
-      return results;
-    },
-    emitNewEvent(applicationId, timeFrame) {
-      console.log(`New event collected for application ID: ${applicationId}, within time frame: ${timeFrame}`);
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+        for (const d of data) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = data.length;
+
+      } while (hasMore);
     },
   },
 };

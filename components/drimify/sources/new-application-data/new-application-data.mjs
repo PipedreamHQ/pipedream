@@ -1,11 +1,11 @@
-import { axios } from "@pipedream/platform";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import drimify from "../../drimify.app.mjs";
 
 export default {
   key: "drimify-new-application-data",
   name: "New Application Data Collected",
-  description: "Emit new event when application data has been collected. [See the documentation](https://endpoint.drimify.com/api/docs?ui=re_doc)",
-  version: "0.0.{{ts}}",
+  description: "Emit new event when application data has been collected. [See the documentation](https://endpoint.drimify.com/api/docs?ui=re_doc#tag/AppDataCollection/operation/api_app_data_collections_get_collection)",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
@@ -14,7 +14,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 60 * 15,
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
     applicationId: {
@@ -23,66 +23,49 @@ export default {
         "applicationId",
       ],
     },
-    timeFrame: {
-      propDefinition: [
-        drimify,
-        "timeFrame",
-      ],
-      optional: true,
+  },
+  methods: {
+    _getLastDate() {
+      return this.db.get("lastDate") || "1970-01-01T00:00:00";
+    },
+    _setLastDate(lastDate) {
+      this.db.set("lastDate", lastDate);
+    },
+    async emitEvent(maxResults = false) {
+      const lastDate = this._getLastDate();
+
+      const response = this.drimify.paginate({
+        fn: this.drimify.listAppDataCollections,
+      });
+
+      let responseArray = [];
+      for await (const item of response) {
+        if (Date.parse(item.date) <= Date.parse(lastDate)) break;
+        responseArray.push(item);
+      }
+
+      if (responseArray.length) {
+        if (maxResults && (responseArray.length > maxResults)) {
+          responseArray.length = maxResults;
+        }
+        this._setLastDate(responseArray[0].date);
+      }
+
+      for (const item of responseArray.reverse()) {
+        this.$emit(item, {
+          id: item.idunic || item.id,
+          summary: `New Data Collected with ID: ${item.id}`,
+          ts: Date.parse(item.date),
+        });
+      }
     },
   },
   hooks: {
     async deploy() {
-      const applicationData = await this.drimify.paginate(this.drimify.listAppDataCollections, {
-        applicationId: this.applicationId,
-        createdSince: this.timeFrame || undefined,
-      });
-
-      for (const data of applicationData.slice(0, 50).reverse()) {
-        this.$emit(data, {
-          id: data.idunic,
-          summary: `New Data Collected: ${data.username || data.email || data.idunic}`,
-          ts: new Date(data.updatedAt).getTime(),
-        });
-      }
-
-      const lastTimestamp = applicationData[0]?.updatedAtTimestamp || 0;
-      this._setLastTimestamp(lastTimestamp);
-    },
-    async activate() {
-      // Implement if needed
-    },
-    async deactivate() {
-      // Implement if needed
-    },
-  },
-  methods: {
-    _getLastTimestamp() {
-      return this.db.get("lastTimestamp") || 0;
-    },
-    _setLastTimestamp(timestamp) {
-      this.db.set("lastTimestamp", timestamp);
+      await this.emitEvent(25);
     },
   },
   async run() {
-    const lastTimestamp = this._getLastTimestamp();
-    const applicationData = await this.drimify.paginate(this.drimify.listAppDataCollections, {
-      applicationId: this.applicationId,
-      createdSince: new Date(lastTimestamp * 1000).toISOString(),
-    });
-
-    for (const data of applicationData) {
-      if (Date.parse(data.updatedAt) > lastTimestamp) {
-        this.$emit(data, {
-          id: data.idunic,
-          summary: `New Data Collected: ${data.username || data.email || data.idunic}`,
-          ts: new Date(data.updatedAt).getTime(),
-        });
-      }
-    }
-
-    if (applicationData.length > 0) {
-      this._setLastTimestamp(applicationData[0].updatedAtTimestamp || 0);
-    }
+    await this.emitEvent();
   },
 };
