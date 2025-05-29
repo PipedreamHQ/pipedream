@@ -62,15 +62,15 @@ export default {
   async run({ $ }) {
     try {
       const resp =
-          await this.pipedriveApp.updatePerson({
-            personId: this.personId,
-            name: this.name,
-            owner_id: this.ownerId,
-            org_id: this.organizationId,
-            emails: parseObject(this.emails),
-            phones: parseObject(this.phones),
-            visible_to: this.visibleTo,
-          });
+        await this.pipedriveApp.updatePerson({
+          personId: this.personId,
+          name: this.name,
+          owner_id: this.ownerId,
+          org_id: this.organizationId,
+          emails: parseObject(this.emails),
+          phones: parseObject(this.phones),
+          visible_to: this.visibleTo,
+        });
 
       $.export("$summary", `Successfully updated person with ID: ${this.personId}`);
 
