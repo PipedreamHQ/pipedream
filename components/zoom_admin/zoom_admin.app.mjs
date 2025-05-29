@@ -392,4 +392,25 @@ export default {
       return data;
     },
   },
+  async listPastMeetingParticipants(meetingId, nextPageToken) {
+    const { data } = await this._makeRequest({
+      path: `/past_meetings/${meetingId}/participants`,
+      params: {
+        page_size: 100,
+        next_page_token: nextPageToken,
+      },
+    });
+    return data;
+  },
+  async listMeetingRecordings(meetingId, params, nextPageToken) {
+    const { data } = await this._makeRequest({
+      path: `/meetings/${meetingId}/recordings`,
+      params: {
+        page_size: 100,
+        next_page_token: nextPageToken,
+        ...params,
+      },
+    });
+    return data;
+  },
 };
