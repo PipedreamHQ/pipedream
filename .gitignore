@@ -20,3 +20,5 @@ components/**/package-lock.json
 /packages/sdk/examples/.next/
 
 **/.claude/settings.local.json
+
+.env
