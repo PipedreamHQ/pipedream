@@ -1,10 +1,11 @@
+import { convert } from "html-to-text";
 import gmail from "../../gmail.app.mjs";
 
 export default {
   key: "gmail-find-email",
   name: "Find Email",
   description: "Find an email using Google's Search Engine. [See the docs](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/list)",
-  version: "0.0.11",
+  version: "0.1.0",
   type: "action",
   props: {
     gmail,
@@ -13,6 +14,12 @@ export default {
         gmail,
         "q",
       ],
+    },
+    withTextPayload: {
+      type: "boolean",
+      label: "Return payload as plaintext",
+      description: "Convert the payload response into a single text field. **This reduces the size of the payload and makes it easier for LLMs work with.**",
+      default: false,
     },
     labels: {
       propDefinition: [
@@ -47,13 +54,20 @@ export default {
       maxResults: this.maxResults,
     });
     const messageIds = messages.map(({ id }) => id);
-    const messagesToEmit = await this.gmail.getMessages(messageIds);
+    let messagesToEmit = await this.gmail.getMessages(messageIds);
 
     for await (const message of messagesToEmit) {
+      let newPayload = "";
       for (const part of message.payload?.parts || []) {
         if (part.body.data) {
-          part.body.text = Buffer.from(part.body.data, "base64").toString("utf-8");
+          const payload = Buffer.from(part.body.data, "base64").toString("utf-8");
+          this.withTextPayload
+            ? newPayload += convert(payload)
+            : part.body.text = payload;
         }
+      }
+      if (this.withTextPayload) {
+        message.payload = newPayload;
       }
     }
 

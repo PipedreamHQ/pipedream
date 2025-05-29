@@ -5270,8 +5270,8 @@ importers:
         specifier: ^105.0.0
         version: 105.0.0
       html-to-text:
-        specifier: ^8.2.1
-        version: 8.2.1
+        specifier: ^9.0.5
+        version: 9.0.5
       mime:
         specifier: ^3.0.0
         version: 3.0.0
