@@ -158,7 +158,7 @@ The Pipedream MCP server passes the **`instruction`** to an LLM to handle the co
 - However, one downside is that you hand over some of the control and observability to Pipedream in this model.
 
 <Callout type="warning">
-While in Beta, Pipedream eats the costs of the LLM tokens in sub-agent mode. We'll likely charge for the LLM usage in the future.
+While in Beta, Pipedream eats the costs of the LLM tokens in sub-agent mode. We'll likely pass these costs on to the developer in the future.
 </Callout>
 
 <details>
@@ -343,7 +343,7 @@ const transport = new StreamableHTTPClientTransport(new URL(serverUrl), {
       "x-pd-project-id": PIPEDREAM_PROJECT_ID, // proj_xxxxxxx
       "x-pd-environment": PIPEDREAM_ENVIRONMENT, // development | production
       "x-pd-external-user-id": EXTERNAL_USER_ID, // the user's ID from your system
-      "x-pd-app-slug": APP_SLUG, // notion, linear, gmaii, etc
+      "x-pd-app-slug": APP_SLUG, // notion, linear, gmail, etc
     }
   }
 });
