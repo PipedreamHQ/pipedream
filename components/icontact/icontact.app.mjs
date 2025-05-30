@@ -87,6 +87,13 @@ export default {
         ...opts,
       });
     },
+    subscribeContactToList(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/subscriptions",
+        ...opts,
+      });
+    },
     searchContact(opts = {}) {
       return this._makeRequest({
         path: "/contacts",
