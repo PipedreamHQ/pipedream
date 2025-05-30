@@ -38,10 +38,10 @@ export default {
       type: "string",
       label: "Job ID",
       description: "The ID of the fine-tuning job to use.",
-      async options() {
+      async options({ filter = () => true }) {
         const jobs = await this.listTrainedJobs();
         return jobs
-          .filter(({ status }) => status === "COMPLETED")
+          .filter(filter)
           .map(({
             custom_model_name: label,
             job_id: value,

@@ -5,7 +5,7 @@ export default {
   key: "lamini-generate-completion",
   name: "Generate Completion",
   description: "Generate completions using a Lamini model. [See the documentation](https://docs.lamini.ai/api/).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

@@ -4,7 +4,7 @@ export default {
   key: "lamini-evaluate-job",
   name: "Evaluate Job",
   description: "Evaluate a fine-tuning job by job ID. [See the documentation](https://docs.lamini.ai/api/).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
@@ -12,6 +12,9 @@ export default {
       propDefinition: [
         app,
         "jobId",
+        () => ({
+          filter: ({ status }) => status === "COMPLETED",
+        }),
       ],
       description: "The ID of the fine-tuning job to evaluate.",
     },
