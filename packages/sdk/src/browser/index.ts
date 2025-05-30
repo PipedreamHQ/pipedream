@@ -255,7 +255,7 @@ export class BrowserClient extends BaseClient {
   public async connectAccount(opts: StartConnectOpts) {
     let connectionSuccessful = false;
     let connectionCompleted = false;
-    
+
     const onMessage = (e: MessageEvent) => {
       switch (e.data?.type) {
       case "success":
