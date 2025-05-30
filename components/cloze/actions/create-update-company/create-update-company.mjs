@@ -1,3 +1,6 @@
+/* eslint-disable pipedream/props-description */
+/* eslint-disable pipedream/props-label */
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../cloze.app.mjs";
 import utils from "../../common/utils.mjs";
 
@@ -5,10 +8,15 @@ export default {
   key: "cloze-create-update-company",
   name: "Create Or Update Company",
   description: "Create a new company or enhance an existing company within Cloze. Companies can be created with just a domain name or both a name and another unique identifier such as a phone number and email address. [See the documentation](https://api.cloze.com/api-docs/#!/Relations_-_Companies/post_v1_companies_create).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: "Companies can be created with just a domain name, or both a name and another unique identifier such as a phone number and email address.",
+    },
     name: {
       type: "string",
       label: "Company Name",
@@ -126,6 +134,10 @@ export default {
       assignTo,
       additionalData,
     } = this;
+
+    if (!name && !domains) {
+      throw new ConfigurationError("Either **Company Name** or **Domains** are required.");
+    }
 
     const response = await createCompany({
       $,
