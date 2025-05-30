@@ -7,7 +7,7 @@ export default {
   key: "google_drive-find-folder",
   name: "Find Folder",
   description: "Search for a specific folder by name. [See the documentation](https://developers.google.com/drive/api/v3/search-files) for more information",
-  version: "0.1.8",
+  version: "0.1.9",
   type: "action",
   props: {
     googleDrive,
@@ -34,16 +34,24 @@ export default {
     },
   },
   async run({ $ }) {
-    let q = `mimeType = '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}' and name contains '${this.nameSearchTerm}'`.trim();
+    const escapedSearchTerm = this.nameSearchTerm?.replace(/'/g, "\\'") || "";
+    let q = `mimeType = '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}' and name contains '${escapedSearchTerm}'`.trim();
     if (!this.includeTrashed) {
       q += " and trashed=false";
     }
     const opts = getListFilesOpts(this.drive, {
       q,
     });
-    const folders = (await this.googleDrive.listFilesInPage(null, opts)).files;
-    // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `Successfully found ${folders.length} folder${folders.length === 1 ? "" : "s"} containing the term, "${this.nameSearchTerm}"`);
-    return folders;
+
+    try {
+      const { files: folders } = await this.googleDrive.listFilesInPage(null, opts);
+      // eslint-disable-next-line multiline-ternary
+      $.export("$summary", `Successfully found ${folders.length} folder${folders.length === 1 ? "" : "s"} containing the term, "${this.nameSearchTerm}"`);
+      return folders;
+
+    } catch (error) {
+      console.log("Failed to find folders with query", error.response?.data?.error || error);
+      throw JSON.stringify(error.response?.data?.error, null, 2);
+    }
   },
 };
