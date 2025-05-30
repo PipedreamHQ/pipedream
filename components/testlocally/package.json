@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/testlocally",
+  "version": "0.0.1",
+  "description": "Pipedream TestLocally Components",
+  "main": "testlocally.app.mjs",
+  "keywords": [
+    "pipedream",
+    "testlocally"
+  ],
+  "homepage": "https://pipedream.com/apps/testlocally",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
