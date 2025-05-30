@@ -109,6 +109,17 @@ type StartConnectOpts = {
    * @param err - The error that occurred during the connection.
    */
   onError?: (err: ConnectError) => void;
+
+  /**
+   * Callback function to be called when the Connect iFrame is closed.
+   */
+  onClose?: () => void;
+
+  /**
+   * Callback function to be called when the user cancels/closes the Connect
+   * iFrame without successfully connecting an account.
+   */
+  onCancel?: () => void;
 };
 
 /**
@@ -223,13 +234,22 @@ export class BrowserClient extends BaseClient {
    *   onError: (err) => {
    *     console.error("Connection error:", err);
    *   },
+   *   onClose: () => {
+   *     console.log("Connect iFrame closed");
+   *   },
+   *   onCancel: () => {
+   *     console.log("User cancelled without connecting");
+   *   },
    * });
    * ```
    */
   public async connectAccount(opts: StartConnectOpts) {
+    let connectionSuccessful = false;
+    
     const onMessage = (e: MessageEvent) => {
       switch (e.data?.type) {
       case "success":
+        connectionSuccessful = true;
         opts.onSuccess?.({
           id: e.data?.authProvisionId,
         });
@@ -239,6 +259,11 @@ export class BrowserClient extends BaseClient {
         break;
       case "close":
         this.cleanup(onMessage);
+        opts.onClose?.();
+        // Call onCancel if the connection wasn't successful
+        if (!connectionSuccessful) {
+          opts.onCancel?.();
+        }
         break;
       default:
         break;

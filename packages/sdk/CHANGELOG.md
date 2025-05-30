@@ -2,6 +2,13 @@
 
 # Changelog
 
+## [1.6.4] - 2025-05-30
+
+### Added
+
+- Added `onClose` callback to `connectAccount` method that fires whenever the Connect iFrame is closed (success or cancel)
+- Added `onCancel` callback to `connectAccount` method that fires when the Connect iFrame is closed without successfully connecting
+
 ## [1.6.3] - 2025-05-20b
 
 ### Added
@@ -61,8 +68,8 @@
 
 ### Added
 
-- PD_SDK_DEBUG env var.  Set it to true to enable debugging of Pipedream Connect
-  API requests.  Simple sanitization is performed to prevent sensitive field leakage
+- PD_SDK_DEBUG env var. Set it to true to enable debugging of Pipedream Connect
+  API requests. Simple sanitization is performed to prevent sensitive field leakage
   but use caution.
 
 ## [1.5.1] - 2025-04-15
