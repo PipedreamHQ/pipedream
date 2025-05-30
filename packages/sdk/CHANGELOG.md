@@ -6,8 +6,8 @@
 
 ### Added
 
-- Added `onClose` callback to `connectAccount` method that fires whenever the Connect iFrame is closed (success or cancel)
-- Added `onCancel` callback to `connectAccount` method that fires when the Connect iFrame is closed without successfully connecting
+- Added `onClose` callback to `connectAccount` method that receives a
+  `ConnectStatus` object with `successful` and `completed` boolean properties
 
 ## [1.6.3] - 2025-05-20b
 

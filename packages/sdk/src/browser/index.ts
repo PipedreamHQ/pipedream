@@ -71,6 +71,20 @@ type ConnectResult = {
 };
 
 /**
+ * The status when the Connect dialog is closed.
+ */
+type ConnectStatus = {
+  /**
+   * Whether the connection was successful (account was connected).
+   */
+  successful: boolean;
+  /**
+   * Whether the connection process was completed (vs user closing early).
+   */
+  completed: boolean;
+};
+
+/**
  * Custom error class for handling connection errors.
  */
 class ConnectError extends Error {}
@@ -112,14 +126,10 @@ type StartConnectOpts = {
 
   /**
    * Callback function to be called when the Connect iFrame is closed.
+   *
+   * @param status - The status of the connection when closed.
    */
-  onClose?: () => void;
-
-  /**
-   * Callback function to be called when the user cancels/closes the Connect
-   * iFrame without successfully connecting an account.
-   */
-  onCancel?: () => void;
+  onClose?: (status: ConnectStatus) => void;
 };
 
 /**
@@ -234,36 +244,37 @@ export class BrowserClient extends BaseClient {
    *   onError: (err) => {
    *     console.error("Connection error:", err);
    *   },
-   *   onClose: () => {
-   *     console.log("Connect iFrame closed");
-   *   },
-   *   onCancel: () => {
-   *     console.log("User cancelled without connecting");
+   *   onClose: (status) => {
+   *     if (!status.successful) {
+   *       console.log("User closed without connecting");
+   *     }
    *   },
    * });
    * ```
    */
   public async connectAccount(opts: StartConnectOpts) {
     let connectionSuccessful = false;
+    let connectionCompleted = false;
     
     const onMessage = (e: MessageEvent) => {
       switch (e.data?.type) {
       case "success":
         connectionSuccessful = true;
+        connectionCompleted = true;
         opts.onSuccess?.({
           id: e.data?.authProvisionId,
         });
         break;
       case "error":
+        connectionCompleted = true;
         opts.onError?.(new ConnectError(e.data.error));
         break;
       case "close":
         this.cleanup(onMessage);
-        opts.onClose?.();
-        // Call onCancel if the connection wasn't successful
-        if (!connectionSuccessful) {
-          opts.onCancel?.();
-        }
+        opts.onClose?.({
+          successful: connectionSuccessful,
+          completed: connectionCompleted,
+        });
         break;
       default:
         break;
