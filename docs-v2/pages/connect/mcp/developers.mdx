@@ -150,7 +150,7 @@ Pipedream MCP supports two methods for interacting with tools:
 
 ##### Sub-agent mode
 
-When using Pipedream MCP with sub-agent mode enabled, all of the tools that you expose to your LLM take only a single input: **`instruction`**.
+When using Pipedream MCP in sub-agent mode, all tools you expose to your LLM take a single input: **`instruction`**.
 
 The Pipedream MCP server passes the **`instruction`** to an LLM to handle the configuration of the main tool using a set of agents with narrowly scoped sets of instructions and additional tools to aid in the configuration and execution of the top-level tool.
 
@@ -192,7 +192,7 @@ To handle all tool configuration and calling yourself, you should use `tools-onl
 
 ###### Configuring dynamic props
 
-- Tools that use [dynamic props](/connect/api/#reload-component-props) aren't able to be configured in one-shot since the full prop definition isn't known until certain inputs are defined.
+- Tools that use [dynamic props](/connect/api/#reload-component-props) can't be configured in one shot, as the full prop definition isn’t known until certain inputs are defined.
 - For example, the full set of props for `google_sheets-add-single-row` aren't known until you configure the `hasHeaders` prop. Once we know if there's a header row, we can retrieve the column names from the header row and make them available as props that can be configured.
 - As you call each tool, you should reload the available tools for the server, and we'll expose meta tools for configuration, such as `begin_configuration_google_sheets-add-single-row`, which causes the rest of the tools to be removed and only tools relevant to the configuration are exposed.
 
@@ -301,7 +301,7 @@ curl -s -X POST https://api.pipedream.com/v1/oauth/token \
 
 #### Params
 
-- Below are params that you should send with every HTTP request to Pipedram's MCP server.
+- Below are params that you should send with every HTTP request to Pipedream's MCP server.
 - To enable broad support for various MCP clients, you can pass these params via HTTP headers **or** as query params on the URL.
 
 <br />
