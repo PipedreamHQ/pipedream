@@ -1,8 +1,9 @@
 import {
   RoomServiceClient,
   IngressClient,
+  WebhookReceiver,
+  AccessToken,
 } from "livekit-server-sdk";
-import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -13,20 +14,33 @@ export default {
       label: "Room Name",
       description: "The name of the room",
       async options() {
-        const rooms = await this.listRooms();
-        return rooms.map(({ name }) => name);
+        try {
+          const rooms = await this.listRooms();
+          return rooms.map(({ name }) => name);
+        } catch (error) {
+          console.log("Error fetching rooms:", error);
+          return [];
+        }
+      },
+    },
+    identity: {
+      type: "string",
+      label: "Participant Identity",
+      description: "The identity of the participant to remove from the room",
+      async options({ room }) {
+        try {
+          const participants = await this.listParticipants(room);
+          return participants.map(({ identity }) => identity);
+        } catch (error) {
+          console.log("Error fetching participants:", error);
+          return [];
+        }
       },
     },
   },
   methods: {
     getHost() {
-      const { project_url: projectUrl } = this.$auth;
-
-      return projectUrl.startsWith(constants.HTTPS_PREFIX)
-        ? projectUrl
-        : projectUrl.startsWith(constants.HTTP_PREFIX)
-          ? projectUrl.replace(constants.HTTP_PREFIX, constants.HTTPS_PREFIX)
-          : `${constants.HTTPS_PREFIX}${projectUrl}`;
+      return this.$auth.project_url;
     },
     getKeys() {
       const {
@@ -44,6 +58,9 @@ export default {
     getIngressClient() {
       return new IngressClient(this.getHost(), ...this.getKeys());
     },
+    getWebhookReceiver() {
+      return new WebhookReceiver(...this.getKeys());
+    },
     createRoom(args) {
       return this.getRoomClient().createRoom(args);
     },
@@ -57,6 +74,31 @@ export default {
       inputType, ...args
     } = {}) {
       return this.getIngressClient().createIngress(inputType, args);
+    },
+    verifyWebhook(body, authHeader) {
+      const receiver = this.getWebhookReceiver();
+      return receiver.receive(body, authHeader);
+    },
+    removeParticipant(room, identity) {
+      return this.getRoomClient().removeParticipant(room, identity);
+    },
+    listParticipants(room) {
+      return this.getRoomClient().listParticipants(room);
+    },
+    async createAccessToken({
+      grant = {},
+      ...args
+    } = {}) {
+      const accessToken = new AccessToken(...this.getKeys(), args);
+
+      accessToken.addGrant(grant);
+
+      const token = await accessToken.toJwt();
+
+      return {
+        token,
+        host: this.getHost(),
+      };
     },
   },
 };
