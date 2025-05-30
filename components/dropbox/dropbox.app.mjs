@@ -1,12 +1,10 @@
-import dropbox from "dropbox";
+import { Dropbox } from "dropbox";
 import fetch from "isomorphic-fetch";
 import get from "lodash/get.js";
-import config from "./common/config.mjs";
-import isString from "lodash/isString.js";
 import isEmpty from "lodash/isEmpty.js";
 import isNil from "lodash/isNil.js";
-
-const Dropbox = dropbox.Dropbox;
+import isString from "lodash/isString.js";
+import config from "./common/config.mjs";
 
 export default {
   type: "app",
@@ -396,6 +394,14 @@ export default {
       try {
         const dpx = await this.sdk();
         return await dpx.filesUpload(args);
+      } catch (err) {
+        this.normalizeError(err);
+      }
+    },
+    async filesGetTemporaryLink(args) {
+      try {
+        const dpx = await this.sdk();
+        return await dpx.filesGetTemporaryLink(args);
       } catch (err) {
         this.normalizeError(err);
       }

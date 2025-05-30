@@ -1,14 +1,14 @@
-import dropbox from "../../dropbox.app.mjs";
-import consts from "../../common/consts.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 import fs from "fs";
 import got from "got";
-import { ConfigurationError } from "@pipedream/platform";
+import consts from "../../common/consts.mjs";
+import dropbox from "../../dropbox.app.mjs";
 
 export default {
   name: "Upload Multiple Files",
   description: "Uploads multiple file to a selected folder. [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
   key: "dropbox-upload-multiple-files",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     dropbox,
