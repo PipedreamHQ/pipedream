@@ -4,7 +4,7 @@ import sampleEmit from "./test-event.mjs";
 export default {
   ...common,
   key: "nuclino-new-item-or-collection-created",
-  name: "New Item or CollectionCreated",
+  name: "New Item or Collection Created",
   description: "Emit new event when a new item or collection is created in Nuclino.",
   version: "0.0.1",
   type: "source",
