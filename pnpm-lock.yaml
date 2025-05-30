@@ -3877,17 +3877,23 @@ importers:
         specifier: ^10.34.0
         version: 10.34.0(@types/node-fetch@2.6.12)
       got:
-        specifier: ^14.0.0
-        version: 14.4.4
+        specifier: ^13.0.0
+        version: 13.0.0
       isomorphic-fetch:
         specifier: ^3.0.0
         version: 3.0.0
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
+      stream:
+        specifier: ^0.0.3
+        version: 0.0.3
       tmp-promise:
         specifier: ^3.0.3
         version: 3.0.3
+      util:
+        specifier: ^0.12.5
+        version: 0.12.5
 
   components/dropcontact:
     dependencies:
@@ -15575,14 +15581,6 @@ importers:
         specifier: ^6.0.0
         version: 6.2.0
 
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
-
   packages/ai:
     dependencies:
       '@pipedream/sdk':
@@ -24312,10 +24310,6 @@ packages:
   got@13.0.0:
     resolution: {integrity: sha512-XfBk1CxOOScDcMr9O1yKkNaQyy865NbYs+F7dr4H0LZMVgCj2Le59k6PqbNHoL5ToeaEQUYh6c6yMfVcc6SJxA==}
     engines: {node: '>=16'}
-
-  got@14.4.4:
-    resolution: {integrity: sha512-tqiF7eSgTBwQkxb1LxsEpva8TaMYVisbhplrFVmw9GQE3855Z+MH/mnsXLLOkDxR6hZJRFMj5VTAZ8lmTF8ZOA==}
-    engines: {node: '>=20'}
 
   got@14.4.6:
     resolution: {integrity: sha512-rnhwfM/PhMNJ1i17k3DuDqgj0cKx3IHxBKVv/WX1uDKqrhi2Gv3l7rhPThR/Cc6uU++dD97W9c8Y0qyw9x0jag==}
@@ -42555,20 +42549,6 @@ snapshots:
       lowercase-keys: 3.0.0
       p-cancelable: 3.0.0
       responselike: 3.0.0
-
-  got@14.4.4:
-    dependencies:
-      '@sindresorhus/is': 7.0.1
-      '@szmarczak/http-timer': 5.0.1
-      cacheable-lookup: 7.0.0
-      cacheable-request: 12.0.1
-      decompress-response: 6.0.0
-      form-data-encoder: 4.0.2
-      http2-wrapper: 2.2.1
-      lowercase-keys: 3.0.0
-      p-cancelable: 4.0.1
-      responselike: 3.0.0
-      type-fest: 4.27.0
 
   got@14.4.6:
     dependencies:
