@@ -8,16 +8,7 @@ export default {
     userId: {
       type: "string",
       label: "User ID",
-      description: "The identifier of a user",
-      async options() {
-        const { result: { list } } = await this.listUsers();
-        return list?.map(({
-          user_id: value, user_name: label,
-        }) => ({
-          label,
-          value,
-        })) || [];
-      },
+      description: "The unique identifier of a user. E.g. `az1748632127862aWriL`",
     },
     homeId: {
       type: "string",
@@ -60,7 +51,7 @@ export default {
     instructionCode: {
       type: "string",
       label: "Instruction Code",
-      description: "The code of the command to use",
+      description: "The code of the command to use. E.g. `switch_1`",
       async options({ deviceId }) {
         const { result } = await this.listDeviceFunctions({
           deviceId,
@@ -96,9 +87,7 @@ export default {
         console.log(response);
         throw new ConfigurationError(`${response.msg}`);
       }
-    },
-    listUsers() {
-      return this._getClient().user.users({});
+      return response;
     },
     listHomes({ userId }) {
       return this._makeRequest({
