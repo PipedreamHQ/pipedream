@@ -126,6 +126,30 @@ const slackApps = await pd.getApps({ q: "slack" });
 </Tabs.Tab>
 </Tabs>
 
+### Supported Tool Modes
+
+Pipedream MCP supports two methods for interacting with tools:
+
+1. [Sub-agent](#sub-agent-mode) (default)
+2. [Tools only](#tools-only-mode)
+
+#### Sub-agent mode
+
+When using Pipedream MCP with sub-agent mode enabled (default confiuration), all of the tools that you expose to your LLM take only a single input: **`instructions`**.
+
+The Pipedream MCP server passes that **instructions** prompt to an LLM where we farm out the configuration of the main tool using a set of agents with narrowly scoped sets of instructions and additional tools to aid in the configuration and execution of the top-level tool.
+
+- The benefit with this approach is that sub-agent mode abstracts a lot of the complexity with handling things like [remote options](/connect/components/#configure-the-component) and [dynamic props](/connect/components/#configure-dynamic-props), especially for MCP clients that don't automatically [reload tools](https://modelcontextprotocol.io/docs/concepts/tools#tool-discovery-and-updates)
+- However, one downside is that you hand over some of the control and observability to Pipedream
+
+<Callout type="warning">
+While Pipedream currently eats the costs of the LLM tokens in sub-agent mode while in Beta, we'll likely charge for the LLM usage in the future.
+</Callout>
+
+#### Tools only mode
+
+One of the primary reasons for the sub-agent mode is to abstract the complexity of tool inputs that require complex configuration.
+
 ### Use Pipedream's remote MCP server
 
 <Callout type="info">
