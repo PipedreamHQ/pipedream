@@ -4,6 +4,10 @@ import { Callout, Steps, Tabs } from 'nextra/components'
 
 Add Pipedream's MCP server to your application or agent to make tool calls on behalf of your users to {process.env.PUBLIC_APPS}+ APIs and 10,000+ tools.
 
+<Callout type="info">
+Pipedream Connect includes built-in user authentication for [every MCP server](https://mcp.pipedream.com), which means you don't need to build any authorization flows or deal with token storage and refresh in order to make authenticated requests on behalf of your users. [Learn more here](/connect/mcp/developers/#user-account-connections).
+</Callout>
+
 ## Overview
 
 Pipedream's MCP server code is [publicly available on GitHub](https://github.com/PipedreamHQ/pipedream/blob/master/modelcontextprotocol/README.md), and you have two options for using Pipedream's MCP server in your app:
@@ -126,29 +130,6 @@ const slackApps = await pd.getApps({ q: "slack" });
 </Tabs.Tab>
 </Tabs>
 
-### Supported Tool Modes
-
-Pipedream MCP supports two methods for interacting with tools:
-
-1. [Sub-agent](#sub-agent-mode) (default)
-2. [Tools only](#tools-only-mode)
-
-#### Sub-agent mode
-
-When using Pipedream MCP with sub-agent mode enabled (default confiuration), all of the tools that you expose to your LLM take only a single input: **`instructions`**.
-
-The Pipedream MCP server passes that **instructions** prompt to an LLM where we farm out the configuration of the main tool using a set of agents with narrowly scoped sets of instructions and additional tools to aid in the configuration and execution of the top-level tool.
-
-- The benefit with this approach is that sub-agent mode abstracts a lot of the complexity with handling things like [remote options](/connect/components/#configure-the-component) and [dynamic props](/connect/components/#configure-dynamic-props), especially for MCP clients that don't automatically [reload tools](https://modelcontextprotocol.io/docs/concepts/tools#tool-discovery-and-updates).
-- However, one downside is that you hand over some of the control and observability to Pipedream in this model.
-
-<Callout type="warning">
-While Pipedream currently eats the costs of the LLM tokens in sub-agent mode while in Beta, we'll likely charge for the LLM usage in the future.
-</Callout>
-
-#### Tools only mode
-
-To handle all tool configuration and calling yourself, you should use `tools-only` mode.
 
 ### Use Pipedream's remote MCP server
 
@@ -159,6 +140,120 @@ The remote MCP server is in beta, and we're looking for feedback. During the bet
 #### Supported transport types
 
 The Pipedream MCP server supports both SSE and streamable HTTP transport types dynamically, with no configuration required by the developer or MCP client.
+
+#### Tool modes
+
+Pipedream MCP supports two methods for interacting with tools:
+
+1. [Sub-agent](#sub-agent-mode) (default)
+2. [Tools only](#tools-only-mode)
+
+##### Sub-agent mode
+
+When using Pipedream MCP with sub-agent mode enabled, all of the tools that you expose to your LLM take only a single input: **`instruction`**.
+
+The Pipedream MCP server passes the **`instruction`** to an LLM to handle the configuration of the main tool using a set of agents with narrowly scoped sets of instructions and additional tools to aid in the configuration and execution of the top-level tool.
+
+- The benefit with this approach is that sub-agent mode abstracts a lot of the complexity with handling things like [remote options](/connect/components/#configure-the-component) and [dynamic props](/connect/components/#configure-dynamic-props), especially for MCP clients that don't automatically [reload tools](https://modelcontextprotocol.io/docs/concepts/tools#tool-discovery-and-updates).
+- However, one downside is that you hand over some of the control and observability to Pipedream in this model.
+
+<Callout type="warning">
+While in Beta, Pipedream eats the costs of the LLM tokens in sub-agent mode. We'll likely charge for the LLM usage in the future.
+</Callout>
+
+<details>
+<summary>View the schema for the `google_sheets-add-single-row` tool in **sub-agent mode**</summary>
+
+```javascript
+{
+  "name": "GOOGLE_SHEETS-ADD-SINGLE-ROW",
+  "description": "Add a single row of data to Google Sheets. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append)",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "instruction": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "instruction"
+    ],
+    "additionalProperties": false,
+    "$schema": "http://json-schema.org/draft-07/schema#"
+  }
+}
+```
+
+</details>
+
+##### Tools-only mode
+
+To handle all tool configuration and calling yourself, you should use `tools-only` mode.
+
+###### Configuring dynamic props
+
+- Tools that use [dynamic props](/connect/api/#reload-component-props) aren't able to be configured in one-shot since the full prop definition isn't known until certain inputs are defined.
+- For example, the full set of props for `google_sheets-add-single-row` aren't known until you configure the `hasHeaders` prop. Once we know if there's a header row, we can retrieve the column names from the header row and make them available as props that can be configured.
+- As you call each tool, you should reload the available tools for the server, and we'll expose meta tools for configuration, such as `begin_configuration_google_sheets-add-single-row`, which causes the rest of the tools to be removed and only tools relevant to the configuration are exposed.
+
+{/* Need to add info for devs to step through async options */}
+{/* Need to add more detailed info for devs to step through dynamic props */}
+
+<details>
+<summary>View the schema for the `google_sheets-add-single-row` tool in **tools-only mode**</summary>
+
+```javascript
+{
+  "name": "google_sheets-add-single-row",
+  "description": "Add a single row of data to Google Sheets. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/append)",
+  "inputSchema": {
+    "type": "object",
+    "properties": {
+      "drive": {
+        "anyOf": [
+          {
+            "anyOf": [
+              {
+                "not": {}
+              },
+              {
+                "type": "string"
+              }
+            ]
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "description": "Defaults to `My Drive`. To select a [Shared Drive](https://support.google.com/a/users/answer/9310351) instead, select it from this list.\n\nYou can use the \"CONFIGURE_COMPONENT\" tool using these parameters to get the values. key: google_sheets-add-single-row, propName: drive"
+      },
+      "sheetId": {
+        "type": "string",
+        "description": "Select a spreadsheet or provide a spreadsheet ID\n\nYou can use the \"CONFIGURE_COMPONENT\" tool using these parameters to get the values. key: google_sheets-add-single-row, propName: sheetId"
+      },
+      "worksheetId": {
+        "type": "string",
+        "description": "Select a worksheet or enter a custom expression. When referencing a spreadsheet dynamically, you must provide a custom expression for the worksheet.\n\nYou can use the \"CONFIGURE_COMPONENT\" tool using these parameters to get the values. key: google_sheets-add-single-row, propName: worksheetId"
+      },
+      "hasHeaders": {
+        "type": "boolean",
+        "description": "If the first row of your document has headers, we'll retrieve them to make it easy to enter the value for each column. Note: When using a dynamic reference for the worksheet ID (e.g. `{{steps.foo.$return_value}}`), this setting is ignored."
+      }
+    },
+    "required": [
+      "sheetId",
+      "worksheetId",
+      "hasHeaders"
+    ],
+    "additionalProperties": false,
+    "$schema": "http://json-schema.org/draft-07/schema#"
+  }
+}
+```
+
+</details>
+
+{/* ![Tools-only mode](https://res.cloudinary.com/pipedreamin/image/upload/v1748583198/slack-mcp-tools-only_d1veqw.png) */}
 
 #### Base URL
 
@@ -204,19 +299,24 @@ curl -s -X POST https://api.pipedream.com/v1/oauth/token \
 </Tabs.Tab>
 </Tabs>
 
-#### Required headers
+#### Params
 
-Include these headers in every HTTP request:
+- Below are params that you should send with every HTTP request to Pipedram's MCP server.
+- To enable broad support for various MCP clients, you can pass these params via HTTP headers **or** as query params on the URL.
 
-```javascript
-{
-  "Authorization": `Bearer ${accessToken}`,
-  "x-pd-project-id": PIPEDREAM_PROJECT_ID, // proj_xxxxxxx
-  "x-pd-environment": PIPEDREAM_ENVIRONMENT // development | production
-}
-```
+<br />
 
-Example request:
+<div className="highlightHeaderRowTable">
+| Header | Query Param | Value | Required? |
+|--------|---------|------------------------------|--------|
+| `x-pd-project-id` | `projectId` | `proj_xxxxxxx` | Yes |
+| `x-pd-environment` | `environment` | `development`, `production` | Yes | 
+| `x-pd-external-user-id` | `externalUserId` | `<your-users-id>` | Yes |
+| `x-pd-app-slug` | `app` | `linear`, `notion`, etc | Yes |
+| `x-pd-tool-mode` | `toolMode` | `sub-agent`, `tools-only` | No <br /> Defaults to `sub-agent` |
+</div>
+
+#### Example request
 
 ```javascript
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
@@ -234,14 +334,16 @@ const pd = createBackendClient({
 
 // Retrieve your developer access token via the Pipedream SDK
 const accessToken = await pd.rawAccessToken();
-const serverUrl = MCP_SERVER_URL || `https://remote.mcp.pipedream.net/${externalUserId}/${appSlug}`;
+const serverUrl = MCP_SERVER_URL || `https://remote.mcp.pipedream.net`;
 
 const transport = new StreamableHTTPClientTransport(new URL(serverUrl), {
   requestInit: {
     headers: {
       "Authorization": `Bearer ${accessToken}`,
       "x-pd-project-id": PIPEDREAM_PROJECT_ID, // proj_xxxxxxx
-      "x-pd-environment": PIPEDREAM_ENVIRONMENT // development | production
+      "x-pd-environment": PIPEDREAM_ENVIRONMENT, // development | production
+      "x-pd-external-user-id": EXTERNAL_USER_ID, // the user's ID from your system
+      "x-pd-app-slug": APP_SLUG, // notion, linear, gmaii, etc
     }
   }
 });
