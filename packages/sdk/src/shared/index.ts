@@ -250,6 +250,27 @@ export type GetAppsOpts = RelationOpts & {
    * Filter by whether apps have triggers in the component registry.
    */
   hasTriggers?: boolean;
+  /**
+   * Search for apps that have private connect components published.
+   */
+  privateConnect?: boolean;
+};
+
+/**
+ * Parameters for the retrieval of a component from the Connect API
+ */
+export type GetComponentOpts2 = RelationOpts & {
+  /**
+   * The key that uniquely identifies the component.
+   *
+   * @example "gitlab-list-commits"
+   * @example "slack-send-message"
+   */
+  key: string;
+  /**
+   * Tells Pipedream API to retrieve a private connect enabled component.
+   */
+  privateConnect?: boolean;
 };
 
 /**
@@ -424,6 +445,11 @@ export type ConfigureComponentOpts = ExternalUserId & {
    * See {@link ConfigureComponentResponse.context}.
    */
   prevContext?: ConfigureComponentContext;
+
+  /**
+   * Specifies that the component being configured is a private connect enabled component.
+   */
+  privateConnect?: boolean;
 };
 
 /**
@@ -449,6 +475,11 @@ export type GetComponentsOpts = RelationOpts & {
    * The type of component to filter (either "trigger" or "action").
    */
   componentType?: ComponentType;
+
+  /**
+   * Search for components that are within your private connect component registry.
+   */
+  privateConnect?: boolean;
 };
 
 /**
@@ -567,6 +598,11 @@ export type RunActionOpts = ExternalUserId & {
    * The ID of the last prop reconfiguration (if any).
    */
   dynamicPropsId?: string;
+
+  /**
+   * Tells Pipedream API to run a private connect enabled component.
+   */
+  privateConnect?: boolean;
 };
 
 /**
@@ -1155,6 +1191,11 @@ export abstract class BaseClient {
         ? "1"
         : "0";
     }
+    if (opts?.privateConnect != null) {
+      params.private_connect = opts.privateConnect
+        ? "1"
+        : "0";
+    }
 
     this.addRelationOpts(params, opts);
     return this.makeAuthorizedRequest<GetAppsResponse>(
@@ -1227,6 +1268,11 @@ export abstract class BaseClient {
     } else if (opts?.componentType === "action") {
       path = "/actions";
     }
+    if (opts?.privateConnect != null) {
+      params.private_connect = opts.privateConnect
+        ? "1"
+        : "0";
+    }
     // XXX Is V1Component the correct type for triggers and actions?
     return this.makeConnectRequest<GetComponentsResponse>(path, {
       method: "GET",
@@ -1254,10 +1300,33 @@ export abstract class BaseClient {
    * ```
    */
   public getComponent(id: ComponentId) {
-    const { key } = id;
+    return this.getComponentWithOpts({ key: id.key })
+  }
+
+  /**
+   * Retrieves the metadata for a specific component.
+   *
+   * @param id - The identifier of the component.
+   * @returns A promise resolving to the component metadata.
+   *
+   * @example
+   * ```typescript
+   * const component = await client.getComponent("slack-send-message");
+   * console.log(component);
+   * ```
+   */
+  public getComponentWithOpts(opts: GetComponentOpts2) {
+    const { key, privateConnect } = opts;
+    const params: Record<string, string> = {};
+    if (privateConnect != null) {
+      params.private_connect = privateConnect
+        ? "1"
+        : "0";
+    }
     const path = `/components/${key}`;
     return this.makeConnectRequest<GetComponentResponse>(path, {
       method: "GET",
+      params,
     });
   }
 
@@ -1298,7 +1367,15 @@ export abstract class BaseClient {
       userId,
       externalUserId = userId,
       componentId,
+      privateConnect,
     } = opts;
+
+    const params: Record<string, string> = {};
+    if (privateConnect != null) {
+      params.private_connect = privateConnect
+        ? "1"
+        : "0";
+    }
 
     const id = typeof componentId === "object"
       ? componentId.key
@@ -1316,6 +1393,7 @@ export abstract class BaseClient {
     };
     return this.makeConnectRequest<ConfigureComponentResponse>("/components/configure", {
       method: "POST",
+      params,
       body,
     });
   }
@@ -1413,6 +1491,12 @@ export abstract class BaseClient {
    * ```
    */
   public runAction(opts: RunActionOpts) {
+    const params: Record<string, string> = {};
+    if (opts?.privateConnect != null) {
+      params.private_connect = opts.privateConnect
+        ? "1"
+        : "0";
+    }
     const {
       userId,
       externalUserId = userId,
@@ -1431,6 +1515,7 @@ export abstract class BaseClient {
     };
     return this.makeConnectRequest<RunActionResponse>("/actions/run", {
       method: "POST",
+      params,
       body,
     });
   }
