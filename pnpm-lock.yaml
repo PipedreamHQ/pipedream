@@ -13279,7 +13279,11 @@ importers:
 
   components/test_apps_for_switching_appslug_009: {}
 
-  components/testlocally: {}
+  components/testlocally:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/testmo:
     dependencies:
@@ -15542,14 +15546,6 @@ importers:
       dotenv:
         specifier: ^6.0.0
         version: 6.2.0
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
 
   packages/ai:
     dependencies:
