@@ -721,8 +721,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/alttextify:
-    specifiers: {}
+  components/alttextify: {}
 
   components/amara:
     dependencies:
@@ -2101,8 +2100,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/capgo:
-    specifiers: {}
+  components/capgo: {}
 
   components/capsule:
     dependencies:
@@ -2728,8 +2726,7 @@ importers:
         specifier: ^1.6.2
         version: 1.6.6
 
-  components/codeberg:
-    specifiers: {}
+  components/codeberg: {}
 
   components/codegpt: {}
 
@@ -9859,8 +9856,7 @@ importers:
         specifier: ^1.2.1
         version: 1.6.6
 
-  components/picqer:
-    specifiers: {}
+  components/picqer: {}
 
   components/pidj:
     dependencies:
@@ -11389,7 +11385,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/rumi_ai: {}
+  components/rumi_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/runpod: {}
 
@@ -14163,8 +14163,7 @@ importers:
 
   components/utradea: {}
 
-  components/v1ce:
-    specifiers: {}
+  components/v1ce: {}
 
   components/v7_darwin:
     dependencies:
@@ -14951,8 +14950,7 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
-  components/yay_com:
-    specifiers: {}
+  components/yay_com: {}
 
   components/yelp:
     dependencies:
