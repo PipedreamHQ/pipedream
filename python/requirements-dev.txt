@@ -1,0 +1,13 @@
+# Development dependencies for Pipedream Python SDK
+
+# Testing
+pytest>=6.0
+pytest-cov>=2.0
+
+# Code formatting and linting
+black>=21.0
+flake8>=3.8
+mypy>=0.910
+
+# Optional: for better HTTP requests (if users want to replace urllib)
+# requests>=2.25.0 
