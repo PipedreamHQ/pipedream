@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/adtraction",
+  "version": "0.0.1",
+  "description": "Pipedream Adtraction Components",
+  "main": "adtraction.app.mjs",
+  "keywords": [
+    "pipedream",
+    "adtraction"
+  ],
+  "homepage": "https://pipedream.com/apps/adtraction",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

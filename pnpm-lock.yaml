@@ -367,6 +367,9 @@ importers:
         specifier: ^1.2.1
         version: 1.6.6
 
+  components/adtraction:
+    specifiers: {}
+
   components/adversus:
     dependencies:
       '@pipedream/platform':
