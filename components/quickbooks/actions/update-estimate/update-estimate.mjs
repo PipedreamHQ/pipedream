@@ -149,6 +149,19 @@ export default {
     buildLineItems() {
       return buildSalesLineItems(this.numLineItems, this);
     },
+    // Helper function to conditionally add properties
+    addIfDefined(target, source, mappings) {
+      Object.entries(mappings).forEach(([sourceKey, targetConfig]) => {
+        const value = source[sourceKey];
+        if (value !== undefined && value !== null) {
+          if (typeof targetConfig === "string") {
+            target[targetConfig] = value;
+          } else if (typeof targetConfig === "object") {
+            target[targetConfig.key] = targetConfig.transform ? targetConfig.transform(value) : value;
+          }
+        }
+      });
+    },
   },
   async run({ $ }) {
     // Get the current estimate to obtain SyncToken
@@ -174,22 +187,25 @@ export default {
         ? parseLineItems(this.lineItems)
         : this.buildLineItems();
 
-      lines.forEach((line) => {
+      lines.forEach((line, index) => {
         if (line.DetailType !== "SalesItemLineDetail" && line.DetailType !== "GroupLineDetail" && line.DetailType !== "DescriptionOnly") {
-          throw new ConfigurationError("Line Item DetailType must be `SalesItemLineDetail`, `GroupLineDetail`, or `DescriptionOnly`");
+          throw new ConfigurationError(`Line Item at index ${index + 1} has invalid DetailType '${line.DetailType}'. Must be 'SalesItemLineDetail', 'GroupLineDetail', or 'DescriptionOnly'`);
         }
       });
 
       data.Line = lines;
     }
 
-    if (this.expirationDate) data.ExpirationDate = this.expirationDate;
-    if (this.acceptedBy) data.AcceptedBy = this.acceptedBy;
-    if (this.acceptedDate) data.AcceptedDate = this.acceptedDate;
-    if (this.docNumber) data.DocNumber = this.docNumber;
-    if (this.billAddr) data.BillAddr = this.billAddr;
-    if (this.shipAddr) data.ShipAddr = this.shipAddr;
-    if (this.privateNote) data.PrivateNote = this.privateNote;
+    // Add simple field mappings
+    this.addIfDefined(data, this, {
+      expirationDate: "ExpirationDate",
+      acceptedBy: "AcceptedBy",
+      acceptedDate: "AcceptedDate",
+      docNumber: "DocNumber",
+      billAddr: "BillAddr",
+      shipAddr: "ShipAddr",
+      privateNote: "PrivateNote",
+    });
 
     if (this.billEmail) {
       data.BillEmail = {
@@ -214,8 +230,10 @@ export default {
       data,
     });
 
-    if (response) {
+    if (response?.Estimate?.Id) {
       $.export("summary", `Successfully updated estimate with ID ${response.Estimate.Id}`);
+    } else {
+      throw new ConfigurationError("Failed to update estimate: Invalid response from QuickBooks API");
     }
 
     return response;

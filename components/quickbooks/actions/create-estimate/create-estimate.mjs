@@ -151,9 +151,9 @@ export default {
       ? parseLineItems(this.lineItems)
       : this.buildLineItems();
 
-    lines.forEach((line) => {
+    lines.forEach((line, index) => {
       if (line.DetailType !== "SalesItemLineDetail" && line.DetailType !== "GroupLineDetail" && line.DetailType !== "DescriptionOnly") {
-        throw new ConfigurationError("Line Item DetailType must be `SalesItemLineDetail`, `GroupLineDetail`, or `DescriptionOnly`");
+        throw new ConfigurationError(`Line Item at index ${index + 1} has invalid DetailType '${line.DetailType}'. Must be 'SalesItemLineDetail', 'GroupLineDetail', or 'DescriptionOnly'`);
       }
     });
 

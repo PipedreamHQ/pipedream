@@ -155,13 +155,41 @@ export default {
     buildLineItems() {
       return buildSalesLineItems(this.numLineItems, this);
     },
+    addIfDefined(target, source, mappings) {
+      Object.entries(mappings).forEach(([sourceKey, targetConfig]) => {
+        const value = source[sourceKey];
+        if (value !== undefined && value !== null) {
+          if (typeof targetConfig === "string") {
+            target[targetConfig] = value;
+          } else if (typeof targetConfig === "object") {
+            target[targetConfig.key] = targetConfig.transform ? targetConfig.transform(value) : value;
+          }
+        }
+      });
+    },
   },
   async run({ $ }) {
     // Get the current invoice to obtain SyncToken
-    const { Invoice: invoice } = await this.quickbooks.getInvoice({
+    const response = await this.quickbooks.getInvoice({
       $,
       invoiceId: this.invoiceId,
     });
+
+    // Validate that the invoice was found and is valid
+    if (!response || !response.Invoice) {
+      throw new ConfigurationError(`Invoice with ID '${this.invoiceId}' not found. Please verify the invoice ID is correct.`);
+    }
+
+    const invoice = response.Invoice;
+
+    // Validate that the invoice has required properties
+    if (!invoice.Id) {
+      throw new ConfigurationError(`Invalid invoice data received: missing Invoice ID`);
+    }
+
+    if (!invoice.SyncToken) {
+      throw new ConfigurationError(`Invalid invoice data received: missing SyncToken. This may indicate the invoice is in an invalid state.`);
+    }
 
     const data = {
       Id: this.invoiceId,
@@ -180,23 +208,30 @@ export default {
         ? parseLineItems(this.lineItems)
         : this.buildLineItems();
 
-      lines.forEach((line) => {
+      lines.forEach((line, index) => {
         if (line.DetailType !== "SalesItemLineDetail" && line.DetailType !== "GroupLineDetail" && line.DetailType !== "DescriptionOnly") {
-          throw new ConfigurationError("Line Item DetailType must be `SalesItemLineDetail`, `GroupLineDetail`, or `DescriptionOnly`");
+          throw new ConfigurationError(`Line Item at index ${index + 1} has invalid DetailType '${line.DetailType}'. Must be 'SalesItemLineDetail', 'GroupLineDetail', or 'DescriptionOnly'`);
         }
       });
 
       data.Line = lines;
     }
 
-    if (this.dueDate) data.DueDate = this.dueDate;
-    if (typeof this.allowOnlineCreditCardPayment === "boolean") data.AllowOnlineCreditCardPayment = this.allowOnlineCreditCardPayment;
-    if (typeof this.allowOnlineACHPayment === "boolean") data.AllowOnlineACHPayment = this.allowOnlineACHPayment;
-    if (this.docNumber) data.DocNumber = this.docNumber;
-    if (this.billAddr) data.BillAddr = this.billAddr;
-    if (this.shipAddr) data.ShipAddr = this.shipAddr;
-    if (this.trackingNum) data.TrackingNum = this.trackingNum;
-    if (this.privateNote) data.PrivateNote = this.privateNote;
+    this.addIfDefined(data, this, {
+      dueDate: "DueDate",
+      docNumber: "DocNumber",
+      billAddr: "BillAddr",
+      shipAddr: "ShipAddr",
+      trackingNum: "TrackingNum",
+      privateNote: "PrivateNote",
+    });
+
+    if (typeof this.allowOnlineCreditCardPayment === "boolean") {
+      data.AllowOnlineCreditCardPayment = this.allowOnlineCreditCardPayment;
+    }
+    if (typeof this.allowOnlineACHPayment === "boolean") {
+      data.AllowOnlineACHPayment = this.allowOnlineACHPayment;
+    }
 
     if (this.billEmail) {
       data.BillEmail = {
@@ -216,15 +251,17 @@ export default {
       };
     }
 
-    const response = await this.quickbooks.updateInvoice({
+    const updateResponse = await this.quickbooks.updateInvoice({
       $,
       data,
     });
 
-    if (response) {
-      $.export("summary", `Successfully updated invoice with ID ${response.Invoice.Id}`);
+    if (updateResponse?.Invoice?.Id) {
+      $.export("summary", `Successfully updated invoice with ID ${updateResponse.Invoice.Id}`);
+    } else {
+      throw new ConfigurationError("Failed to update invoice: Invalid response from QuickBooks API");
     }
 
-    return response;
+    return updateResponse;
   },
 }; 

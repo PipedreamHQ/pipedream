@@ -131,9 +131,9 @@ export default {
       throw new ConfigurationError("No valid line items were provided.");
     }
 
-    lines.forEach((line) => {
+    lines.forEach((line, index) => {
       if (line.DetailType !== "ItemBasedExpenseLineDetail" && line.DetailType !== "AccountBasedExpenseLineDetail") {
-        throw new ConfigurationError("Line Item DetailType must be `ItemBasedExpenseLineDetail` or `AccountBasedExpenseLineDetail`");
+        throw new ConfigurationError(`Line Item at index ${index + 1} has invalid DetailType '${line.DetailType}'. Must be 'ItemBasedExpenseLineDetail' or 'AccountBasedExpenseLineDetail'`);
       }
     });
 
