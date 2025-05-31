@@ -116,6 +116,40 @@ export default {
         });
       },
     },
+    estimateId: {
+      label: "Estimate ID",
+      type: "string",
+      description: "ID of the estimate to get details of",
+      async options({ page }) {
+        return this.getPropOptions({
+          page,
+          resource: "Estimate",
+          mapper: ({
+            Id: value, DocNumber: docNumber, CustomerRef: customerRef,
+          }) => ({
+            label: `(${docNumber}) ${customerRef.name}`,
+            value,
+          }),
+        });
+      },
+    },
+    vendor: {
+      label: "Vendor Reference",
+      type: "string",
+      description: "Reference to a vendor",
+      async options({ page }) {
+        return this.getPropOptions({
+          page,
+          resource: "Vendor",
+          mapper: ({
+            Id: id, DisplayName: label,
+          }) => ({
+            label,
+            value: id,
+          }),
+        });
+      },
+    },
     termIds: {
       type: "string[]",
       label: "Term IDs",
@@ -516,6 +550,76 @@ export default {
       return this._makeRequest({
         path: `company/${this._companyId()}/invoice`,
         method: "post",
+        ...opts,
+      });
+    },
+    sendInvoice({
+      invoiceId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/invoice/${invoiceId}/send`,
+        method: "post",
+        ...opts,
+      });
+    },
+    updateInvoice(opts = {}) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/invoice`,
+        method: "post",
+        params: {
+          operation: "update",
+        },
+        ...opts,
+      });
+    },
+    voidInvoice(opts = {}) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/invoice`,
+        method: "post",
+        params: {
+          operation: "void",
+        },
+        ...opts,
+      });
+    },
+    createPurchaseOrder(opts = {}) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/purchaseorder`,
+        method: "post",
+        ...opts,
+      });
+    },
+    createEstimate(opts = {}) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/estimate`,
+        method: "post",
+        ...opts,
+      });
+    },
+    sendEstimate({
+      estimateId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/estimate/${estimateId}/send`,
+        method: "post",
+        ...opts,
+      });
+    },
+    updateEstimate(opts = {}) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/estimate`,
+        method: "post",
+        params: {
+          operation: "update",
+        },
+        ...opts,
+      });
+    },
+    getEstimate({
+      estimateId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/estimate/${estimateId}`,
         ...opts,
       });
     },
