@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import quickbooks from "../../quickbooks.app.mjs";
 
 export default {
@@ -17,10 +18,19 @@ export default {
   },
   async run({ $ }) {
     // Get the current invoice to obtain SyncToken
-    const { Invoice: invoice } = await this.quickbooks.getInvoice({
+    const invoiceResponse = await this.quickbooks.getInvoice({
       $,
       invoiceId: this.invoiceId,
     });
+
+    if (!invoiceResponse?.Invoice) {
+      throw new ConfigurationError(`Invoice with ID ${this.invoiceId} not found or could not be retrieved.`);
+    }
+
+    const invoice = invoiceResponse.Invoice;
+    if (!invoice.SyncToken) {
+      throw new ConfigurationError(`Invoice ${this.invoiceId} is missing required SyncToken.`);
+    }
 
     const data = {
       Id: this.invoiceId,
@@ -33,7 +43,11 @@ export default {
     });
 
     if (response) {
-      $.export("summary", `Successfully voided invoice with ID ${response.Invoice.Id}`);
+      if (response.Invoice?.Id) {
+        $.export("summary", `Successfully voided invoice with ID ${response.Invoice.Id}`);
+      } else {
+        $.export("summary", `Invoice void operation completed for ID ${this.invoiceId}`);
+      }
     }
 
     return response;

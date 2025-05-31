@@ -1,6 +1,9 @@
 import { ConfigurationError } from "@pipedream/platform";
 import quickbooks from "../../quickbooks.app.mjs";
-import { parseLineItems } from "../../common/utils.mjs";
+import { 
+  parseLineItems,
+  buildSalesLineItems,
+} from "../../common/utils.mjs";
 
 export default {
   key: "quickbooks-create-estimate",
@@ -45,6 +48,7 @@ export default {
         quickbooks,
         "currency",
       ],
+      optional: true,
     },
     docNumber: {
       type: "string",
@@ -135,19 +139,7 @@ export default {
   },
   methods: {
     buildLineItems() {
-      const lineItems = [];
-      for (let i = 1; i <= this.numLineItems; i++) {
-        lineItems.push({
-          DetailType: "SalesItemLineDetail",
-          Amount: this[`amount_${i}`],
-          SalesItemLineDetail: {
-            ItemRef: {
-              value: this[`item_${i}`],
-            },
-          },
-        });
-      }
-      return lineItems;
+      return buildSalesLineItems(this.numLineItems, this);
     },
   },
   async run({ $ }) {

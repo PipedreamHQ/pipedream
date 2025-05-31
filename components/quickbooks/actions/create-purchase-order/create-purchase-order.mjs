@@ -1,6 +1,9 @@
 import { ConfigurationError } from "@pipedream/platform";
 import quickbooks from "../../quickbooks.app.mjs";
-import { parseLineItems } from "../../common/utils.mjs";
+import { 
+  parseLineItems,
+  buildPurchaseLineItems,
+} from "../../common/utils.mjs";
 
 export default {
   key: "quickbooks-create-purchase-order",
@@ -74,9 +77,18 @@ export default {
       return props;
     }
     for (let i = 1; i <= this.numLineItems; i++) {
+      props[`detailType_${i}`] = {
+        type: "string",
+        label: `Line ${i} - Detail Type`,
+        options: [
+          { label: "Item Based Expense", value: "ItemBasedExpenseLineDetail" },
+          { label: "Account Based Expense", value: "AccountBasedExpenseLineDetail" }
+        ],
+        default: "ItemBasedExpenseLineDetail",
+      };
       props[`item_${i}`] = {
         type: "string",
-        label: `Line ${i} - Item ID`,
+        label: `Line ${i} - Item/Account ID`,
         options: async ({ page }) => {
           return this.quickbooks.getPropOptions({
             page,
@@ -99,29 +111,25 @@ export default {
   },
   methods: {
     buildLineItems() {
-      const lineItems = [];
-      for (let i = 1; i <= this.numLineItems; i++) {
-        lineItems.push({
-          DetailType: "ItemBasedExpenseLineDetail",
-          Amount: this[`amount_${i}`],
-          ItemBasedExpenseLineDetail: {
-            ItemRef: {
-              value: this[`item_${i}`],
-            },
-          },
-        });
-      }
-      return lineItems;
+      return buildPurchaseLineItems(this.numLineItems, this);
     },
   },
   async run({ $ }) {
-    if ((!this.numLineItems && !this.lineItemsAsObjects) || !this.vendorRefValue) {
-      throw new ConfigurationError("Must provide lineItems and vendorRefValue parameters.");
+    if (!this.vendorRefValue) {
+      throw new ConfigurationError("Vendor is required to create a purchase order.");
+    }
+
+    if (!this.numLineItems && !this.lineItemsAsObjects) {
+      throw new ConfigurationError("At least one line item is required. Either specify the number of line items or provide line items as objects.");
     }
 
     const lines = this.lineItemsAsObjects
       ? parseLineItems(this.lineItems)
       : this.buildLineItems();
+
+    if (!lines || lines.length === 0) {
+      throw new ConfigurationError("No valid line items were provided.");
+    }
 
     lines.forEach((line) => {
       if (line.DetailType !== "ItemBasedExpenseLineDetail" && line.DetailType !== "AccountBasedExpenseLineDetail") {

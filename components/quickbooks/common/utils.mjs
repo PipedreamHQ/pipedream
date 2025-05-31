@@ -44,3 +44,36 @@ export function parseLineItems(arr) {
     throw new ConfigurationError(`We got an error trying to parse the LineItems. Error: ${error}`);
   }
 }
+
+export function buildSalesLineItems(numLineItems, context) {
+  const lineItems = [];
+  for (let i = 1; i <= numLineItems; i++) {
+    lineItems.push({
+      DetailType: "SalesItemLineDetail",
+      Amount: context[`amount_${i}`],
+      SalesItemLineDetail: {
+        ItemRef: {
+          value: context[`item_${i}`],
+        },
+      },
+    });
+  }
+  return lineItems;
+}
+
+export function buildPurchaseLineItems(numLineItems, context) {
+  const lineItems = [];
+  for (let i = 1; i <= numLineItems; i++) {
+    const detailType = context[`detailType_${i}`] || "ItemBasedExpenseLineDetail";
+    lineItems.push({
+      DetailType: detailType,
+      Amount: context[`amount_${i}`],
+      [detailType === "ItemBasedExpenseLineDetail" ? "ItemBasedExpenseLineDetail" : "AccountBasedExpenseLineDetail"]: {
+        [detailType === "ItemBasedExpenseLineDetail" ? "ItemRef" : "AccountRef"]: {
+          value: context[`item_${i}`],
+        },
+      },
+    });
+  }
+  return lineItems;
+}
