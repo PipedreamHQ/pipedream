@@ -3,7 +3,7 @@ import get from "lodash/get.js";
 import { paginate } from "../../common/pagination.mjs";
 
 export default {
-  name: "List past meeting participants",
+  name: "List Past Meeting Participants",
   description:
     "List all participants of a past meeting. [See the docs here](https://developers.zoom.us/docs/api/meetings/#tag/meetings/GET/past_meetings/{meetingId}/participants)",
   key: "zoom_admin-list-past-meeting-participants",
