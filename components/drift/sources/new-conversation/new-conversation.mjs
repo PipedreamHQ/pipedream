@@ -20,30 +20,6 @@ export default {
       },
     },
   },
-  hooks: {
-    async activate() {
-
-      const {
-        drift,
-        db,
-      } = this;
-
-      await db.set("lastConversation", null); //reset
-
-      const result = await drift._makeRequest({
-        path: "/conversations/list?limit=100&statusId=1",
-      });
-
-      if (!result.data.length) {
-        console.log("No conversations found.");
-        return;
-      };
-
-      await db.set("lastConversation", result.data[0].id);
-      console.log(`Initialized with ID ${result.data[0].id}.`);
-
-    },
-  },
 
   async run({ $ }) {
     const {
@@ -93,6 +69,7 @@ export default {
 
     if (lastConvIndex + 1 === conversations.length) {
       console.log("No new conversations found");
+      return;
     };
 
     for (let i = lastConvIndex + 1; i < conversations.length; i++) {

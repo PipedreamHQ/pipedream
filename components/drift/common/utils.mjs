@@ -22,6 +22,27 @@ const removeNullEntries = (obj) =>
       : acc;
   }, {});
 
+function doesContextMatch(inputContext, fetchedContext) {
+
+  if (typeof inputContext !== "object" || inputContext === null || Array.isArray(inputContext)) {
+    throw new Error ("Message context is not an object");
+  };
+
+  for (const key of Object.keys(inputContext)) {
+    if (!(key in fetchedContext)) {
+      console.log(`Invalid context field "${key}", emission skipped` );
+      return false;
+    }
+    if (fetchedContext[key] !== inputContext[key]) {
+      console.log(`Context values of "${key}" do not match, emission skipped` );
+      return false;
+    }
+  }
+  return true;
+};
+
 export {
   removeNullEntries,
+  doesContextMatch,
 };
+
