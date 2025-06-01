@@ -5,7 +5,7 @@ import { paginate } from "../../common/pagination.mjs";
 export default {
   name: "List Past Meeting Participants",
   description:
-    "List all participants of a past meeting. [See the docs here](https://developers.zoom.us/docs/api/meetings/#tag/meetings/GET/past_meetings/{meetingId}/participants)",
+    "List all participants of a past meeting. [See the documentation](https://developers.zoom.us/docs/api/meetings/#tag/meetings/GET/past_meetings/{meetingId}/participants)",
   key: "zoom_admin-list-past-meeting-participants",
   version: "0.0.1",
   type: "action",

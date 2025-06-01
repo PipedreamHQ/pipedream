@@ -4,7 +4,7 @@ import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   name: "Delete meeting",
-  description: "Delete a meeting. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingdelete)",
+  description: "Delete a meeting. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingdelete)",
   key: "zoom_admin-delete-meeting",
   version: "0.1.6",
   type: "action",

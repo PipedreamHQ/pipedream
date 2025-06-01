@@ -5,7 +5,7 @@ import zoomAdmin from "../../zoom_admin.app.mjs";
 export default {
   name: "Get meeting recordings",
   description:
-    "Get all recordings of a meeting. [See the docs here](https://developers.zoom.us/docs/api/meetings/#tag/cloud-recording/GET/meetings/{meetingId}/recordings)",
+    "Get all recordings of a meeting. [See the documentation](https://developers.zoom.us/docs/api/meetings/#tag/cloud-recording/GET/meetings/{meetingId}/recordings)",
   key: "zoom_admin-get-meeting-recordings",
   version: "0.0.1",
   type: "action",

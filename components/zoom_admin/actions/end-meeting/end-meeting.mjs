@@ -4,7 +4,7 @@ import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   name: "End meeting",
-  description: "End a meeting for a user. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingstatus)",
+  description: "End a meeting for a user. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingstatus)",
   key: "zoom_admin-end-meeting",
   version: "0.1.6",
   type: "action",

@@ -7,7 +7,7 @@ const { RECURRENCE_TYPE_OPTIONS } = consts;
 
 export default {
   name: "Create Webinar",
-  description: "Create a webinar for an user. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarcreate)",
+  description: "Create a webinar for an user. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarcreate)",
   key: "zoom_admin-create-webinar",
   version: "0.1.6",
   type: "action",

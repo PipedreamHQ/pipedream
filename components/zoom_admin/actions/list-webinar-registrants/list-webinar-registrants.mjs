@@ -4,7 +4,7 @@ import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   name: "List webinar registrants",
-  description: "List all users that have registered for a webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarregistrants)",
+  description: "List all users that have registered for a webinar. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarregistrants)",
   key: "zoom_admin-list-webinar-registrants",
   version: "0.2.4",
   type: "action",

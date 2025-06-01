@@ -3,7 +3,7 @@ import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   name: "List Webinars",
-  description: "List all webinars for a user. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinars)",
+  description: "List all webinars for a user. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinars)",
   key: "zoom_admin-list-webinars",
   version: "0.2.3",
   type: "action",
