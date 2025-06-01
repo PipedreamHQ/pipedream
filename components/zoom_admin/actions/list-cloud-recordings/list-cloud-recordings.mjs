@@ -4,9 +4,9 @@ import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   name: "List Cloud Recordings",
-  description: "Search cloud recordings from a meeting or webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/cloud-recording/recordingslist)",
+  description: "Search cloud recordings from a meeting or webinar. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/cloud-recording/recordingslist)",
   key: "zoom_admin-list-cloud-recordings",
-  version: "0.2.2",
+  version: "0.2.3",
   type: "action",
   props: {
     zoomAdmin,
