@@ -3,7 +3,7 @@ import drift from "../../drift.app.mjs";
 export default {
   key: "drift-get-contact",
   name: "Get Contact",
-  description: "Retrieves a contact in Drift by ID or email. [See the docs](https://devdocs.drift.com/docs/retrieving-contact)",
+  description: "Retrieves a contact in Drift by ID or email. [See the documentation](https://devdocs.drift.com/docs/retrieving-contact)",
   version: "0.0.1",
   type: "action",
   props: {

@@ -1,11 +1,33 @@
 import drift from "../../drift.app.mjs";
+import mockery$ from "../mockery-dollar.mjs";
 import { removeNullEntries } from "../../common/utils.mjs";
 
-export default {
+const mockeryData = {
+
+  drift: drift,
+  emailOrId: "25062508963",
+
+  name: "Boberto McTestface",
+  phone: "+aaaaaaaaaa",
+  customAttributes: {
+    job_title: "fgfffffff",
+    company: "ffffffffffffff",
+    location: "fffffffffaaaaaaaaa",
+    start_date: 111111241,
+    some_field: "new field",
+    email: "steve@gmail.com",
+  },
+};
+
+const testAction = {
+  mockery: {
+    drift,
+    ...mockeryData,
+  }, // TEST
   key: "drift-update-contact",
   name: "Update Contact",
-  description: "Updates a contact in Drift using ID or email. Only changed attributes will be updated. [See Drift API documentation](https://devdocs.drift.com/docs/updating-a-contact)",
-  version: "0.0.1",
+  description: "Updates a contact in Drift using ID or email. Only changed attributes will be updated. [See Drift API docs](https://devdocs.drift.com/docs/updating-a-contact)",
+  version: "0.0.2",
   type: "action",
   props: {
     drift,
@@ -13,12 +35,6 @@ export default {
       type: "string",
       label: "Email or ID",
       description: "The contact’s email address or numeric ID.",
-    },
-    email: {
-      type: "string",
-      label: "Email",
-      description: "The contact’s email address",
-      optional: true,
     },
     name: {
       type: "string",
@@ -47,16 +63,16 @@ export default {
   },
 
   async run({ $ }) {
+    const warnings = [];
     const {
-      drift, name, email, phone, source, emailOrId,
-    } = this;
+      drift, name, phone, source,
+    } = this.mockery;
 
-    const customAttributes = drift.parseIfJSONString(this.customAttributes);
+    const customAttributes = drift.methods.parseIfJSONString(this.mockery.customAttributes);
 
     const attributes = removeNullEntries({
       name,
       phone,
-      email,
       source,
       ...customAttributes,
     });
@@ -65,11 +81,15 @@ export default {
       throw new Error("No attributes provided to update.");
     };
 
-    let contact = await drift.getContactByEmailOrId($, emailOrId);
+    const emailOrId = drift.methods.trimIfString(this.mockery.emailOrId);
+
+    warnings.push(...drift.methods.checkEmailOrId(emailOrId));
+
+    let contact = await drift.methods.getContactByEmailOrId($, emailOrId);
 
     const contactId = contact.data[0]?.id || contact.data.id;
 
-    const response = await drift.updateContact({
+    const response = await drift.methods.updateContact({
       $,
       contactId,
       data: {
@@ -77,9 +97,16 @@ export default {
       },
     });
 
-    $.export("$summary", `Contact ID "${contactId}" has been updated successfully.`);
-
+    $.export("$summary", `Contact ID ${contactId} updated successfully.`);
     return response;
   },
 };
+
+// TEST (FIX IN PRODUCTION)
+// await is just in case if node wants to finish its job before time =)
+async function runTest() {
+  await testAction.run(mockery$);
+}
+
+runTest();
 

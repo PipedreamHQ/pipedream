@@ -2,9 +2,9 @@ import drift from "../../drift.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
-  key: "drift-new-conversation-instant",
+  key: "drift-new-conversation",
   name: "New Conversation",
-  description: "Emit new when a new conversation is started in Drift. [See the docs](https://devdocs.drift.com/docs/retrieve-a-conversation)",
+  description: "Emit new when a new conversation is started in Drift. [See the documentations](https://devdocs.drift.com/docs/retrieve-a-conversation)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

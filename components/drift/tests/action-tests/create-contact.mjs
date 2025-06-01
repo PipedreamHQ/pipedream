@@ -1,10 +1,27 @@
 import drift from "../../drift.app.mjs";
+import mockery$ from "../mockery-dollar.mjs";
 import { removeNullEntries } from "../../common/utils.mjs";
 
-export default {
-  key: "drift-create-contact",
+const mockeryData = {
+  drift: drift,
+  email: "newlyyyy@mail.com",
+  name: "Boberto McTestface",
+  phone: "+1234567123",
+  customAttributes: {
+    job_title: "Software Engineer",
+    company: "OpenAI",
+    location: "San Francisco",
+  },
+};
+
+const testAction = {
+  mockery: {
+    drift,
+    ...mockeryData,
+  }, // TEST
+  key: "drift-create-contact-test",
   name: "Create Contact",
-  description: "Creates a contact in Drift. [See the documentation](https://devdocs.drift.com/docs/creating-a-contact).",
+  description: "Creates a contact in Drift. [See the docs](https://devdocs.drift.com/docs/creating-a-contact).",
   version: "0.0.1",
   type: "action",
   props: {
@@ -42,11 +59,15 @@ export default {
 
   async run({ $ }) {
 
+    const warnings = [];
+
     const {
       drift, email, name, phone, source,
-    } = this;
+    } = this.mockery;
 
-    const customAttributes = drift.parseIfJSONString(this.customAttributes);
+    warnings.push(...drift.methods.checkIfEmailValid(email));
+
+    const customAttributes = drift.methods.parseIfJSONString(this.mockery.customAttributes);
 
     const attributes = removeNullEntries({
       email,
@@ -56,7 +77,7 @@ export default {
       ...customAttributes,
     });
 
-    const existingContact = await drift.getContactByEmail({
+    const existingContact = await drift.methods.getContactByEmail({
       $,
       params: {
         email,
@@ -67,7 +88,7 @@ export default {
       throw new Error (`Contact ${email} already exists`);
     };
 
-    const response = await drift.createContact({
+    const response = await drift.methods.createContact({
       $,
       data: {
         attributes,
@@ -76,8 +97,15 @@ export default {
 
     console.log(response.data.id);
 
-    $.export("$summary", `Contact "${email}" has been created successfully.`);
+    $.export("$summary", `Contact ${email} created.` + "\n- "  + warnings.join("\n- "));
     return response;
   },
 };
 
+// TEST (FIX IN PRODUCTION)
+// await is just in case if node wants to finish its job before time =)
+async function runTest() {
+  await testAction.run(mockery$);
+}
+
+runTest();
