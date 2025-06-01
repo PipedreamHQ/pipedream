@@ -126,6 +126,27 @@ export default {
       const newest = arr.slice(0, firtsNew);
       return newest.reverse();
     },
+    async getMessagesByConvId($, conversationId) {
+
+      const messages = [];
+      let next;
+
+      do {
+        const result = await this._makeRequest({
+          $,
+          path: `/conversations/${conversationId}/messages${next
+            ? `?next=${next}`
+            : ""}`,
+        });
+
+        messages.push(...result.data.messages);
+        next = result?.pagination?.next;
+
+      } while (next);
+
+      return messages;
+    },
+
     parseIfJSONString(input) {
 
       if (typeof input === "string") {
