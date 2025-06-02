@@ -3739,6 +3739,9 @@ importers:
 
   components/dokan: {}
 
+  components/dolibarr:
+    specifiers: {}
+
   components/domain_group:
     dependencies:
       '@pipedream/platform':
