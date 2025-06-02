@@ -1,11 +1,12 @@
+import { ConfigurationError } from "@pipedream/platform";
 import beekeeper from "../../beekeeper.app.mjs";
-import { axios } from "@pipedream/platform";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "beekeeper-send-message-group-chat",
   name: "Send Message to Group Chat",
   description: "Send a precomposed message to a defined group chat. [See the documentation](https://beekeeper.stoplight.io/docs/beekeeper-api/9075b32d36db4-send-a-message-to-a-group-chat)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     beekeeper,
@@ -45,35 +46,38 @@ export default {
       description: "Array of objects containing type and data fields for message addons.",
       optional: true,
     },
-    refersTo: {
-      type: "string",
-      label: "Refers To",
-      description: "Field used by message deletion event. Marks the ID of the message the deletion message refers to.",
-      optional: true,
-    },
     mentions: {
-      type: "string[]",
-      label: "Mentions",
-      description: "IDs of the users mentioned in the message body. Can also have value of 'all', which means all the chat members were mentioned.",
+      propDefinition: [
+        beekeeper,
+        "mentions",
+        ({ chatId }) => ({
+          chatId,
+        }),
+      ],
       optional: true,
     },
   },
   async run({ $ }) {
-    const data = {
-      body: this.body,
-      attachment: this.attachment,
-      event: {
-        type: this.eventType,
-      },
-      chat_state_addons: this.chatStateAddons?.map(JSON.parse),
-      message_addons: this.messageAddons?.map(JSON.parse),
-      refers_to: this.refersTo,
-      mentions: this.mentions,
-    };
-
+    if (!this.body && !this.event && !this.attachment && !this.chatStateAddons) {
+      throw new ConfigurationError("You must provide at least **Body**, **Event**, **Attachment** or **Chat State Addons**");
+    }
     const response = await this.beekeeper.sendMessage({
+      $,
       chatId: this.chatId,
-      ...data,
+      data: {
+        body: this.body,
+        attachment: parseObject(this.attachment),
+        ...this.eventType
+          ? {
+            event: {
+              type: this.eventType,
+            },
+          }
+          : {},
+        chat_state_addons: parseObject(this.chatStateAddons),
+        message_addons: parseObject(this.messageAddons),
+        mentions: parseObject(this.mentions),
+      },
     });
 
     $.export("$summary", `Message sent successfully to chat ID: ${this.chatId}`);

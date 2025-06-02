@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -9,10 +10,12 @@ export default {
       label: "Chat ID",
       description: "The ID of the chat to send a message",
       async options() {
-        const chats = await this.listChats();
-        return chats.map((chat) => ({
-          label: chat.name,
-          value: chat.id,
+        const { chats } = await this.listChats();
+        return chats.map(({
+          id: value, title: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -22,9 +25,11 @@ export default {
       description: "The ID of the stream to create a post",
       async options() {
         const streams = await this.listStreams();
-        return streams.map((stream) => ({
-          label: stream.name,
-          value: stream.id,
+        return streams.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -32,106 +37,129 @@ export default {
       type: "string",
       label: "User ID",
       description: "The user ID for profile details",
-      async options() {
-        const users = await this.listUsers();
-        return users.map((user) => ({
-          label: user.display_name,
-          value: user.id,
+      async options({ page }) {
+        const users = await this.listUsers({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+          },
+        });
+        return users.map(({
+          id: value, display_name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    mentions: {
+      type: "string[]",
+      label: "Mentions",
+      description: "IDs of the users mentioned in the message body. Can also have value of 'all', which means all the chat members were mentioned.",
+      async options({ chatId }) {
+        const members = await this.listChatMembers({
+          chatId,
+        });
+        return members.map(({
+          id: value, display_name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
   },
   methods: {
     _baseUrl() {
-      return "https://api.beekeeper.io";
+      return `https://${this.$auth.subdomain}.beekeeper.io/api/2`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        Authorization: `Token ${this.$auth.access_token}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.api_key}`,
-        },
-      });
-    },
-    async listChats(opts = {}) {
-      return this._makeRequest({
-        path: "/api/v1/chats",
+        headers: this._headers(),
         ...opts,
       });
     },
-    async listStreams(opts = {}) {
+    listChats(opts = {}) {
+      return this._makeRequest({
+        path: "/chats/groups",
+        ...opts,
+      });
+    },
+    listStreams(opts = {}) {
       return this._makeRequest({
         path: "/streams",
         ...opts,
       });
     },
-    async listUsers(opts = {}) {
+    listUsers(opts = {}) {
       return this._makeRequest({
         path: "/users",
         ...opts,
       });
     },
-    async createPost({
-      streamId, files, locked, title, media, labels, sticky, photos, reactionsDisabled, text, options, scheduledAt,
+    async listChatMembers({
+      chatId, ...opts
     }) {
-      const data = {
-        files,
-        locked,
-        title,
-        media,
-        labels,
-        sticky,
-        photos,
-        reactions_disabled: reactionsDisabled,
-        text,
-        options,
-        scheduled_at: scheduledAt,
-      };
-      return this._makeRequest({
-        method: "POST",
-        path: `/streams/${streamId}/posts`,
-        data,
+      const { members } = await this._makeRequest({
+        path: `/chats/groups/${chatId}/members`,
+        ...opts,
       });
-    },
-    async sendMessage({
-      chatId, body, attachment, eventType, chatStateAddons, messageAddons, refersTo, mentions,
-    }) {
-      const data = {
-        body,
-        attachment,
-        event: {
-          type: eventType,
+
+      return await this.listUserProfiles({
+        params: {
+          user_ids: members.map(({ user_id }) => user_id),
         },
-        chat_state_addons: chatStateAddons,
-        message_addons: messageAddons,
-        refers_to: refersTo,
-        mentions,
-      };
-      return this._makeRequest({
-        method: "POST",
-        path: `/api/2/chats/groups/${chatId}/messages`,
-        data,
       });
     },
-    async getUserProfile({
-      userId, includeActivities, includeTotals,
+    createPost(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/posts",
+        ...opts,
+      });
+    },
+    sendMessage({
+      chatId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/chats/groups/${chatId}/messages`,
+        ...opts,
+      });
+    },
+    listUserProfiles(opts = {}) {
+      return this._makeRequest({
+        path: "/profiles",
+        ...opts,
+      });
+    },
+    getUserProfile({
+      userId, ...opts
     }) {
       return this._makeRequest({
         path: `/profiles/${userId}`,
-        params: {
-          include_activities: includeActivities,
-          include_totals: includeTotals,
-        },
+        ...opts,
+      });
+    },
+    createWebhook(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/webhooks",
+        ...opts,
+      });
+    },
+    deleteWebhook(webhookId) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/webhooks/${webhookId}`,
       });
     },
   },
