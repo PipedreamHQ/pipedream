@@ -367,8 +367,7 @@ importers:
         specifier: ^1.2.1
         version: 1.6.6
 
-  components/adtraction:
-    specifiers: {}
+  components/adtraction: {}
 
   components/adversus:
     dependencies:
@@ -3739,8 +3738,7 @@ importers:
 
   components/dokan: {}
 
-  components/dolibarr:
-    specifiers: {}
+  components/dolibarr: {}
 
   components/domain_group:
     dependencies:
@@ -7373,8 +7371,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/limoexpress:
-    specifiers: {}
+  components/limoexpress: {}
 
   components/line:
     dependencies:
@@ -9884,8 +9881,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/pinghome:
-    specifiers: {}
+  components/pinghome: {}
 
   components/pingone: {}
 
@@ -10380,8 +10376,7 @@ importers:
 
   components/procore_sandbox: {}
 
-  components/prodatakey:
-    specifiers: {}
+  components/prodatakey: {}
 
   components/prodpad:
     dependencies:
@@ -15050,8 +15045,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/zenedu:
-    specifiers: {}
+  components/zenedu: {}
 
   components/zenkit:
     dependencies:

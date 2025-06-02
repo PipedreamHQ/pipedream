@@ -1,0 +1,49 @@
+import { v4 as uuid } from "uuid";
+
+export default {
+  props: {
+    salesloft: {
+      type: "app",
+      app: "salesloft",
+    },
+    db: "$.service.db",
+  },
+  methods: {
+    _getWebhookId() {
+      return this.db.get("webhookId");
+    },
+    _setWebhookId(webhookId) {
+      this.db.set("webhookId", webhookId);
+    },
+    generateMeta(data) {
+      const { id } = data;
+      return {
+        id: id || uuid(),
+        summary: this.getSummary(data),
+        ts: Date.now(),
+      };
+    },
+  },
+  hooks: {
+    async activate() {
+      const response = await this.salesloft.createWebhookSubscription({
+        data: {
+          callback_url: this.http.endpoint,
+          event_type: this.getEventType(),
+        },
+      });
+      this._setWebhookId(response.id);
+    },
+    async deactivate() {
+      const webhookId = this._getWebhookId();
+      if (webhookId) {
+        await this.salesloft.deleteWebhookSubscription(webhookId);
+      }
+    },
+  },
+  async run(event) {
+    const { body } = event;
+    const meta = this.generateMeta(body);
+    this.$emit(body, meta);
+  },
+};
