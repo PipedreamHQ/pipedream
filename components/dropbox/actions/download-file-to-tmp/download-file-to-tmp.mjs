@@ -45,10 +45,7 @@ export default {
         link, metadata,
       } = linkResponse.result;
 
-      // Use provided name or original name
-      const name = metadata.name;
-      const fileName = this.name || name;
-
+      const fileName = this.name || metadata.name;
       const cleanFileName = fileName.replace(/[?$#&{}[]<>\*!@:\+\\\/]/g, "");
 
       const tmpPath = checkTmp(cleanFileName);
