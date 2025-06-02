@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Map.js",
-  "module": "../es6/Map.js",
-  "typings": "../lib/Map.d.ts",
-  "sideEffects": false
-}

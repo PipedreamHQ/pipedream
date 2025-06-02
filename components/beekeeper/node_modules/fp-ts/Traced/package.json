@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Traced.js",
-  "module": "../es6/Traced.js",
-  "typings": "../lib/Traced.d.ts",
-  "sideEffects": false
-}

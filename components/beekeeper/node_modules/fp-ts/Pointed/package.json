@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Pointed.js",
-  "module": "../es6/Pointed.js",
-  "typings": "../lib/Pointed.d.ts",
-  "sideEffects": false
-}

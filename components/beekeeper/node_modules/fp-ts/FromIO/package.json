@@ -1,6 +1,0 @@
-{
-  "main": "../lib/FromIO.js",
-  "module": "../es6/FromIO.js",
-  "typings": "../lib/FromIO.d.ts",
-  "sideEffects": false
-}

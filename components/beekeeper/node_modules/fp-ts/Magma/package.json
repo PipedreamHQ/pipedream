@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Magma.js",
-  "module": "../es6/Magma.js",
-  "typings": "../lib/Magma.d.ts",
-  "sideEffects": false
-}

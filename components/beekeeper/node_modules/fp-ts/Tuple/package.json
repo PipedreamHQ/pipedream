@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Tuple.js",
-  "module": "../es6/Tuple.js",
-  "typings": "../lib/Tuple.d.ts",
-  "sideEffects": false
-}

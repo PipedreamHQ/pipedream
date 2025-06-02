@@ -1,6 +1,0 @@
-{
-  "main": "../lib/HKT.js",
-  "module": "../es6/HKT.js",
-  "typings": "../HKT.d.ts",
-  "sideEffects": false
-}

@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Compactable.js",
-  "module": "../es6/Compactable.js",
-  "typings": "../lib/Compactable.d.ts",
-  "sideEffects": false
-}

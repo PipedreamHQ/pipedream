@@ -1,6 +1,0 @@
-{
-  "main": "../lib/ReaderTask.js",
-  "module": "../es6/ReaderTask.js",
-  "typings": "../lib/ReaderTask.d.ts",
-  "sideEffects": false
-}

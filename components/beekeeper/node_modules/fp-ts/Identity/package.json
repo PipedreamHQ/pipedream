@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Identity.js",
-  "module": "../es6/Identity.js",
-  "typings": "../lib/Identity.d.ts",
-  "sideEffects": false
-}

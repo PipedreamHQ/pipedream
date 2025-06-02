@@ -1,6 +1,0 @@
-{
-  "main": "../lib/ReaderTaskEither.js",
-  "module": "../es6/ReaderTaskEither.js",
-  "typings": "../lib/ReaderTaskEither.d.ts",
-  "sideEffects": false
-}

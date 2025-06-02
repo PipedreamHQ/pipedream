@@ -1,6 +1,0 @@
-{
-  "main": "../lib/BoundedJoinSemilattice.js",
-  "module": "../es6/BoundedJoinSemilattice.js",
-  "typings": "../lib/BoundedJoinSemilattice.d.ts",
-  "sideEffects": false
-}

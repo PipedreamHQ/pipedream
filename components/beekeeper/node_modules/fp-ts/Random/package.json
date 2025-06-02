@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Random.js",
-  "module": "../es6/Random.js",
-  "typings": "../lib/Random.d.ts",
-  "sideEffects": false
-}

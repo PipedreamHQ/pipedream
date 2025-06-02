@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Monoid.js",
-  "module": "../es6/Monoid.js",
-  "typings": "../lib/Monoid.d.ts",
-  "sideEffects": false
-}

@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Codec.js",
-  "module": "../es6/Codec.js",
-  "typings": "../lib/Codec.d.ts",
-  "sideEffects": false
-}

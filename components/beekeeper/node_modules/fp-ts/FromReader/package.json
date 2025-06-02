@@ -1,6 +1,0 @@
-{
-  "main": "../lib/FromReader.js",
-  "module": "../es6/FromReader.js",
-  "typings": "../lib/FromReader.d.ts",
-  "sideEffects": false
-}

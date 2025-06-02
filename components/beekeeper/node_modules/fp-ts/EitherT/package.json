@@ -1,6 +1,0 @@
-{
-  "main": "../lib/EitherT.js",
-  "module": "../es6/EitherT.js",
-  "typings": "../lib/EitherT.d.ts",
-  "sideEffects": false
-}

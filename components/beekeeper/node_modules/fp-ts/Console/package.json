@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Console.js",
-  "module": "../es6/Console.js",
-  "typings": "../lib/Console.d.ts",
-  "sideEffects": false
-}

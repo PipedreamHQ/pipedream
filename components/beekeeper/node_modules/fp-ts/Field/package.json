@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Field.js",
-  "module": "../es6/Field.js",
-  "typings": "../lib/Field.d.ts",
-  "sideEffects": false
-}

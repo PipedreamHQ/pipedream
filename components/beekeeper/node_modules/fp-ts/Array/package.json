@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Array.js",
-  "module": "../es6/Array.js",
-  "typings": "../lib/Array.d.ts",
-  "sideEffects": false
-}

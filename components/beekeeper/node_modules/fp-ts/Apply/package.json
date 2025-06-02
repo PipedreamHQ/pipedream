@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Apply.js",
-  "module": "../es6/Apply.js",
-  "typings": "../lib/Apply.d.ts",
-  "sideEffects": false
-}

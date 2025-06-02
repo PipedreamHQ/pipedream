@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Alternative.js",
-  "module": "../es6/Alternative.js",
-  "typings": "../lib/Alternative.d.ts",
-  "sideEffects": false
-}

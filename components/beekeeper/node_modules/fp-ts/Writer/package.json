@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Writer.js",
-  "module": "../es6/Writer.js",
-  "typings": "../lib/Writer.d.ts",
-  "sideEffects": false
-}

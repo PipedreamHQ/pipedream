@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Strong.js",
-  "module": "../es6/Strong.js",
-  "typings": "../lib/Strong.d.ts",
-  "sideEffects": false
-}

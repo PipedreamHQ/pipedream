@@ -1,6 +1,0 @@
-{
-  "main": "../lib/BoundedDistributiveLattice.js",
-  "module": "../es6/BoundedDistributiveLattice.js",
-  "typings": "../lib/BoundedDistributiveLattice.d.ts",
-  "sideEffects": false
-}

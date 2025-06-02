@@ -1,6 +1,0 @@
-{
-  "main": "../lib/void.js",
-  "module": "../es6/void.js",
-  "typings": "../lib/void.d.ts",
-  "sideEffects": false
-}

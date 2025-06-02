@@ -1,6 +1,0 @@
-{
-  "main": "../lib/ReadonlyNonEmptyArray.js",
-  "module": "../es6/ReadonlyNonEmptyArray.js",
-  "typings": "../lib/ReadonlyNonEmptyArray.d.ts",
-  "sideEffects": false
-}

@@ -1,6 +1,0 @@
-{
-  "main": "../lib/FilterableWithIndex.js",
-  "module": "../es6/FilterableWithIndex.js",
-  "typings": "../lib/FilterableWithIndex.d.ts",
-  "sideEffects": false
-}

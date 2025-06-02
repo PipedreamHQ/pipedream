@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Chain.js",
-  "module": "../es6/Chain.js",
-  "typings": "../lib/Chain.d.ts",
-  "sideEffects": false
-}

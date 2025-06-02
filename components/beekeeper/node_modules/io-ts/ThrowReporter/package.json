@@ -1,6 +1,0 @@
-{
-  "main": "../lib/ThrowReporter.js",
-  "module": "../es6/ThrowReporter.js",
-  "typings": "../lib/ThrowReporter.d.ts",
-  "sideEffects": false
-}

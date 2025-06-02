@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Ordering.js",
-  "module": "../es6/Ordering.js",
-  "typings": "../lib/Ordering.d.ts",
-  "sideEffects": false
-}

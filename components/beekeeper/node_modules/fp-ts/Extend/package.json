@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Extend.js",
-  "module": "../es6/Extend.js",
-  "typings": "../lib/Extend.d.ts",
-  "sideEffects": false
-}

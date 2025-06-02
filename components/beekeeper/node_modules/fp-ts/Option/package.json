@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Option.js",
-  "module": "../es6/Option.js",
-  "typings": "../lib/Option.d.ts",
-  "sideEffects": false
-}

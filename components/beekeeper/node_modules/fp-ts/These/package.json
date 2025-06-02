@@ -1,6 +1,0 @@
-{
-  "main": "../lib/These.js",
-  "module": "../es6/These.js",
-  "typings": "../lib/These.d.ts",
-  "sideEffects": false
-}

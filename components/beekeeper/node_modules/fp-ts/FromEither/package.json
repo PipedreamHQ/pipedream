@@ -1,6 +1,0 @@
-{
-  "main": "../lib/FromEither.js",
-  "module": "../es6/FromEither.js",
-  "typings": "../lib/FromEither.d.ts",
-  "sideEffects": false
-}

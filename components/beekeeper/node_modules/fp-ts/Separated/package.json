@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Separated.js",
-  "module": "../es6/Separated.js",
-  "typings": "../lib/Separated.d.ts",
-  "sideEffects": false
-}

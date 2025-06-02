@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Set.js",
-  "module": "../es6/Set.js",
-  "typings": "../lib/Set.d.ts",
-  "sideEffects": false
-}

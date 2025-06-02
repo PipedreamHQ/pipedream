@@ -1,6 +1,0 @@
-{
-  "main": "../lib/ReadonlySet.js",
-  "module": "../es6/ReadonlySet.js",
-  "typings": "../lib/ReadonlySet.d.ts",
-  "sideEffects": false
-}

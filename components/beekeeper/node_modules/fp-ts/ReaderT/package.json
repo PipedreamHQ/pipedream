@@ -1,6 +1,0 @@
-{
-  "main": "../lib/ReaderT.js",
-  "module": "../es6/ReaderT.js",
-  "typings": "../lib/ReaderT.d.ts",
-  "sideEffects": false
-}

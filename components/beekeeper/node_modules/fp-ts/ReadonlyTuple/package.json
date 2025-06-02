@@ -1,6 +1,0 @@
-{
-  "main": "../lib/ReadonlyTuple.js",
-  "module": "../es6/ReadonlyTuple.js",
-  "typings": "../lib/ReadonlyTuple.d.ts",
-  "sideEffects": false
-}

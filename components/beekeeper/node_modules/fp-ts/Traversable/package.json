@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Traversable.js",
-  "module": "../es6/Traversable.js",
-  "typings": "../lib/Traversable.d.ts",
-  "sideEffects": false
-}

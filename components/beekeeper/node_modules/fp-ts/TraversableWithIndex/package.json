@@ -1,6 +1,0 @@
-{
-  "main": "../lib/TraversableWithIndex.js",
-  "module": "../es6/TraversableWithIndex.js",
-  "typings": "../lib/TraversableWithIndex.d.ts",
-  "sideEffects": false
-}

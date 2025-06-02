@@ -1,6 +1,0 @@
-{
-  "main": "../lib/HeytingAlgebra.js",
-  "module": "../es6/HeytingAlgebra.js",
-  "typings": "../lib/HeytingAlgebra.d.ts",
-  "sideEffects": false
-}

@@ -1,6 +1,0 @@
-{
-  "main": "../lib/IOEither.js",
-  "module": "../es6/IOEither.js",
-  "typings": "../lib/IOEither.d.ts",
-  "sideEffects": false
-}

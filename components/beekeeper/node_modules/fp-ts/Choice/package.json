@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Choice.js",
-  "module": "../es6/Choice.js",
-  "typings": "../lib/Choice.d.ts",
-  "sideEffects": false
-}

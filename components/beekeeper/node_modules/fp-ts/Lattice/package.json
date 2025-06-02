@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Lattice.js",
-  "module": "../es6/Lattice.js",
-  "typings": "../lib/Lattice.d.ts",
-  "sideEffects": false
-}

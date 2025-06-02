@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Tree.js",
-  "module": "../es6/Tree.js",
-  "typings": "../lib/Tree.d.ts",
-  "sideEffects": false
-}

@@ -1,6 +1,0 @@
-{
-  "main": "../lib/TaskThese.js",
-  "module": "../es6/TaskThese.js",
-  "typings": "../lib/TaskThese.d.ts",
-  "sideEffects": false
-}

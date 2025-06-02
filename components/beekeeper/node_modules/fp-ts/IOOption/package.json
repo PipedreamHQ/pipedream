@@ -1,6 +1,0 @@
-{
-  "main": "../lib/IOOption.js",
-  "module": "../es6/IOOption.js",
-  "typings": "../lib/IOOption.d.ts",
-  "sideEffects": false
-}

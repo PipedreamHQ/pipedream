@@ -1,6 +1,0 @@
-{
-  "main": "../lib/ReadonlyRecord.js",
-  "module": "../es6/ReadonlyRecord.js",
-  "typings": "../lib/ReadonlyRecord.d.ts",
-  "sideEffects": false
-}

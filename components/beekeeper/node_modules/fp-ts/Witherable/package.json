@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Witherable.js",
-  "module": "../es6/Witherable.js",
-  "typings": "../lib/Witherable.d.ts",
-  "sideEffects": false
-}

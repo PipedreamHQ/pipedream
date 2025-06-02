@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Semigroup.js",
-  "module": "../es6/Semigroup.js",
-  "typings": "../lib/Semigroup.d.ts",
-  "sideEffects": false
-}

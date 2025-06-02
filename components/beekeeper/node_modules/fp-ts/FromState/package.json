@@ -1,6 +1,0 @@
-{
-  "main": "../lib/FromState.js",
-  "module": "../es6/FromState.js",
-  "typings": "../lib/FromState.d.ts",
-  "sideEffects": false
-}

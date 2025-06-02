@@ -1,6 +1,0 @@
-{
-  "main": "../lib/ReadonlyMap.js",
-  "module": "../es6/ReadonlyMap.js",
-  "typings": "../lib/ReadonlyMap.d.ts",
-  "sideEffects": false
-}

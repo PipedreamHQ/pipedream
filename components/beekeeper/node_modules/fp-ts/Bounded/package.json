@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Bounded.js",
-  "module": "../es6/Bounded.js",
-  "typings": "../lib/Bounded.d.ts",
-  "sideEffects": false
-}

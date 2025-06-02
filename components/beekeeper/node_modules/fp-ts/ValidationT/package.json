@@ -1,6 +1,0 @@
-{
-  "main": "../lib/ValidationT.js",
-  "module": "../es6/ValidationT.js",
-  "typings": "../lib/ValidationT.d.ts",
-  "sideEffects": false
-}

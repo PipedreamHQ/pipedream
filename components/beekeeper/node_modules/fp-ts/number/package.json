@@ -1,6 +1,0 @@
-{
-  "main": "../lib/number.js",
-  "module": "../es6/number.js",
-  "typings": "../lib/number.d.ts",
-  "sideEffects": false
-}

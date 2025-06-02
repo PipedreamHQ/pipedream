@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Profunctor.js",
-  "module": "../es6/Profunctor.js",
-  "typings": "../lib/Profunctor.d.ts",
-  "sideEffects": false
-}

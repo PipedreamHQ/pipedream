@@ -1,6 +1,0 @@
-{
-  "main": "../lib/MonadTask.js",
-  "module": "../es6/MonadTask.js",
-  "typings": "../lib/MonadTask.d.ts",
-  "sideEffects": false
-}

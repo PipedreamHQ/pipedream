@@ -1,6 +1,0 @@
-{
-  "main": "../lib/Predicate.js",
-  "module": "../es6/Predicate.js",
-  "typings": "../lib/Predicate.d.ts",
-  "sideEffects": false
-}
