@@ -11424,7 +11424,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/salesloft: {}
+  components/salesloft:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.6.6
 
   components/salesmate:
     dependencies:
