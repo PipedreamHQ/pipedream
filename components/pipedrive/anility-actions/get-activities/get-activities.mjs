@@ -6,7 +6,7 @@ export default {
   name: "Get Activities (Anility)",
   description:
     "Activities are appointments/tasks/events on a calendar that can be associated with a deal, a lead, a person and an organization. Activities can be of different type (such as call, meeting, lunch or a custom type - see ActivityTypes object) and can be assigned to a particular user. Note that activities can also be created without a specific date/time. See the Pipedrive API docs [here](https://developers.pipedrive.com/docs/api/v1/Activities#getActivities)",
-  version: "0.0.28",
+  version: "0.0.30",
   type: "action",
   props: {
     pipedriveApp,

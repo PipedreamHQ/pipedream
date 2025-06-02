@@ -5,7 +5,7 @@ export default {
   key: "anility-pipedrive-search-organizations",
   name: "Search organizations (Anility)",
   description: "Searches all organizations by `address`, `email`, `phone`, `notes` and/or custom fields. This endpoint is a wrapper of `/v1/itemSearch` with a narrower OAuth scope. Found organizations can be filtered by Organization ID. See the Pipedrive API docs [here](https://developers.pipedrive.com/docs/api/v1/Organizations#searchOrganization)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     pipedriveApp,

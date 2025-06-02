@@ -5,7 +5,7 @@ export default {
   name: "Get Person (Anility)",
   description:
     "Returns the details of a person. Note that this also returns some additional fields which are not present when asking for all persons. Also note that custom fields appear as long hashes in the resulting data. These hashes can be mapped against the key value of personFields.",
-  version: "0.0.5",
+  version: "0.0.7",
   type: "action",
   props: {
     pipedriveApp,

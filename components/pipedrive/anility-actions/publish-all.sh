@@ -1,0 +1,13 @@
+pd publish ./get-activities/get-activities.mjs
+pd publish ./add-deal/add-deal-if-missing.mjs
+pd publish ./update-deal/update-watchers.mjs
+pd publish ./update-deal/update-deal.mjs
+pd publish ./get-mailthreads/get-mailthreads.mjs
+pd publish ./add-organization/add-organization.mjs
+pd publish ./add-organization/add-organization-if-missing.mjs
+pd publish ./search-organization/search-organization.mjs
+pd publish ./add-person/add-person-if-missing.mjs
+pd publish ./get-person/get-person.mjs
+pd publish ./search-deals/search-deals.mjs
+pd publish ./update-organization/update-organization.mjs
+pd publish ./get-user/get-user.mjs

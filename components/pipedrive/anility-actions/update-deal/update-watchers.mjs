@@ -4,7 +4,7 @@ export default {
   key: "anility-pipedrive-update-deal-watchers",
   name: "Update Deal Watchers (Anility)",
   description: "Updates the watchers properties of a deal. See the Pipedrive API docs for Deals [here](https://developers.pipedrive.com/docs/api/v1/Deals#updateDeal)",
-  version: "0.0.15",
+  version: "0.0.17",
   type: "action",
   props: {
     pipedriveApp,
