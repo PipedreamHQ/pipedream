@@ -4,7 +4,7 @@ export default {
   key: "anility-pipedrive-get-user",
   name: "Get User (Anility)",
   description: "Returns data about a specific user within the company.",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "action",
   props: {
     pipedriveApp,

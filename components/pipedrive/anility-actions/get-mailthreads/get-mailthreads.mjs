@@ -5,7 +5,7 @@ export default {
   name: "Get Mail Threads (Anility)",
   description:
     "Returns mail threads in a specified folder ordered by the most recent message within.",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "action",
   props: {
     pipedriveApp,

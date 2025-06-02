@@ -4,7 +4,7 @@ export default {
   key: "anility-pipedrive-update-organization",
   name: "Update Organization (Anility)",
   description: "Update existing organization. See the Pipedrive API docs for Organizations [here](https://developers.pipedrive.com/docs/api/v1/Organizations#addOrganization)",
-  version: "0.0.3",
+  version: "0.0.9",
   type: "action",
   props: {
     pipedriveApp,

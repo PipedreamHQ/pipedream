@@ -4,7 +4,7 @@ export default {
   key: "anility-pipedrive-add-person",
   name: "Add Person (Anility)",
   description: "Adds a new person if missing. See the Pipedrive API docs for People [here](https://developers.pipedrive.com/docs/api/v1/Persons#addPerson)",
-  version: "0.0.4",
+  version: "0.0.6",
   type: "action",
   props: {
     pipedriveApp,

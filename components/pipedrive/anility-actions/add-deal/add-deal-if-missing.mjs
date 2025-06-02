@@ -2,9 +2,9 @@ import pipedriveApp from "../../pipedrive.app.mjs";
 
 export default {
   key: "anility-pipedrive-add-deal",
-  name: "Add Deal (Anility)",
+  name: "Add Deal if missing (Anility)",
   description: "Adds a new deal if missing. See the Pipedrive API docs for Deals [here](https://developers.pipedrive.com/docs/api/v1/Deals#addDeal)",
-  version: "0.0.8",
+  version: "0.0.10",
   type: "action",
   props: {
     pipedriveApp,
@@ -181,10 +181,10 @@ export default {
     } = this;
 
     const { data: stages } = await this.pipedriveApp.getDealFields();
-    var option = stages.find((stage) => stage.key === "label")
+    const option = stages.find((stage) => stage.key === "label")
       .options.find((option) => option.label.toLowerCase() === label.toLowerCase());
 
-    var labelValue = {};
+    let labelValue = {};
     if (option) {
       labelValue["label"] = [
         option.id,
@@ -200,7 +200,7 @@ export default {
         limit: 1,
       });
       if (searchResp.data.items.length === 0) {
-        var customFieldValue = {};
+        let customFieldValue = {};
         customFieldValue[anilityIdFieldKey] = anilityIdFieldValue;
         customFieldValue[anilityCustomerIdFieldKey] = anilityCustomerIdFieldValue;
         customFieldValue[anilityOrderByIdFieldKey] = anilityOrderByIdFieldValue;
