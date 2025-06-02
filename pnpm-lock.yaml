@@ -15656,8 +15656,8 @@ importers:
         specifier: file:../..
         version: file:packages/connect-react(@types/react@18.3.12)(react-dom@19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106))(react@19.0.0-rc-66855b96-20241106)
       '@pipedream/sdk':
-        specifier: ^1.3.3
-        version: 1.3.3
+        specifier: file:../../../sdk
+        version: link:../../../sdk
       next:
         specifier: 15.0.3
         version: 15.0.3(@babel/core@8.0.0-alpha.13)(@opentelemetry/api@1.9.0)(babel-plugin-macros@3.1.0)(react-dom@19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106))(react@19.0.0-rc-66855b96-20241106)
@@ -18693,10 +18693,6 @@ packages:
 
   '@pipedream/ramp@0.1.2':
     resolution: {integrity: sha512-vYC5OPJo+kxhYYav5y0Mb7WihbLqNdoUO/CnOH1rHfKKNI4E23LLLLICn3VAl0gRc7xbWLHf4Nmcyjw7qf5k7Q==}
-
-  '@pipedream/sdk@1.3.3':
-    resolution: {integrity: sha512-sh0dZWdQlh7IprVs1Ka04+jMmpwTKf5SlyvaAJFmSbcvJ7So1fj/YLuU3BMXU91ehA1R6DGb66Yr+QzBsANcSA==}
-    engines: {node: '>=18.0.0'}
 
   '@pipedream/sdk@1.5.3':
     resolution: {integrity: sha512-shXEDK91RzaTAbFQCVLHCV+PuKjQaes9V1C8r1abV6hRCyAQcYnr5j6alJuKiozBnIh5BGA/OYh0JEYBWau7yA==}
@@ -35550,16 +35546,6 @@ snapshots:
       uuid: 10.0.0
     transitivePeerDependencies:
       - debug
-
-  '@pipedream/sdk@1.3.3':
-    dependencies:
-      '@rails/actioncable': 8.0.0
-      commander: 12.1.0
-      oauth4webapi: 3.1.4
-      ws: 8.18.0
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
 
   '@pipedream/sdk@1.5.3':
     dependencies:
