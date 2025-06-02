@@ -47,8 +47,7 @@ export default {
 
       // Use provided name or original name
       const name = metadata.name;
-      const extension = name.split(".").pop();
-      const fileName = this.name || `${name}.${extension}`;
+      const fileName = this.name || name;
 
       const cleanFileName = fileName.replace(/[?$#&{}[]<>\*!@:\+\\\/]/g, "");
 
