@@ -63,7 +63,7 @@ export default {
       optional: true,
     },
     options: {
-      type: "object",
+      type: "string[]",
       label: "Options",
       description: "List of poll options in a post. E.g. [\"This Friday\", \"Monday next week\"]",
       optional: true,

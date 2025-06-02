@@ -58,7 +58,7 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.body && !this.event && !this.attachment && !this.chatStateAddons) {
+    if (!this.body && !this.eventType && !this.attachment && !this.chatStateAddons) {
       throw new ConfigurationError("You must provide at least **Body**, **Event**, **Attachment** or **Chat State Addons**");
     }
     const response = await this.beekeeper.sendMessage({
@@ -67,13 +67,13 @@ export default {
       data: {
         body: this.body,
         attachment: parseObject(this.attachment),
-        ...this.eventType
+        ...(this.eventType
           ? {
             event: {
               type: this.eventType,
             },
           }
-          : {},
+          : {}),
         chat_state_addons: parseObject(this.chatStateAddons),
         message_addons: parseObject(this.messageAddons),
         mentions: parseObject(this.mentions),

@@ -60,12 +60,18 @@ export default {
         const members = await this.listChatMembers({
           chatId,
         });
-        return members.map(({
-          id: value, display_name: label,
-        }) => ({
-          label,
-          value,
-        }));
+        return [
+          {
+            label: "All Members",
+            value: "all",
+          },
+          ...members.map(({
+            id: value, display_name: label,
+          }) => ({
+            label,
+            value,
+          })),
+        ];
       },
     },
   },
