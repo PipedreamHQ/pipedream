@@ -1,0 +1,6 @@
+{
+  "main": "../lib/JoinSemilattice.js",
+  "module": "../es6/JoinSemilattice.js",
+  "typings": "../lib/JoinSemilattice.d.ts",
+  "sideEffects": false
+}

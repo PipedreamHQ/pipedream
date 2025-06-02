@@ -1,0 +1,6 @@
+{
+  "main": "../lib/FunctorWithIndex.js",
+  "module": "../es6/FunctorWithIndex.js",
+  "typings": "../lib/FunctorWithIndex.d.ts",
+  "sideEffects": false
+}

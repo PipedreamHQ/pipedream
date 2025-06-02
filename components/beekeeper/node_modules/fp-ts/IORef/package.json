@@ -1,0 +1,6 @@
+{
+  "main": "../lib/IORef.js",
+  "module": "../es6/IORef.js",
+  "typings": "../lib/IORef.d.ts",
+  "sideEffects": false
+}

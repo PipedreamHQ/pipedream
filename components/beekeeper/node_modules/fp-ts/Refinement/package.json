@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Refinement.js",
+  "module": "../es6/Refinement.js",
+  "typings": "../lib/Refinement.d.ts",
+  "sideEffects": false
+}

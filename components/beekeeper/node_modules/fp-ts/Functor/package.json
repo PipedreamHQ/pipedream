@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Functor.js",
+  "module": "../es6/Functor.js",
+  "typings": "../lib/Functor.d.ts",
+  "sideEffects": false
+}

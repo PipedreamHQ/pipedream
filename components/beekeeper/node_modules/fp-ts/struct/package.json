@@ -1,0 +1,6 @@
+{
+  "main": "../lib/struct.js",
+  "module": "../es6/struct.js",
+  "typings": "../lib/struct.d.ts",
+  "sideEffects": false
+}

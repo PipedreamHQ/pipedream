@@ -1,0 +1,6 @@
+{
+  "main": "../lib/ReaderEither.js",
+  "module": "../es6/ReaderEither.js",
+  "typings": "../lib/ReaderEither.d.ts",
+  "sideEffects": false
+}

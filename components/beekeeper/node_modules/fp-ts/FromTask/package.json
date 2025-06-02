@@ -1,0 +1,6 @@
+{
+  "main": "../lib/FromTask.js",
+  "module": "../es6/FromTask.js",
+  "typings": "../lib/FromTask.d.ts",
+  "sideEffects": false
+}

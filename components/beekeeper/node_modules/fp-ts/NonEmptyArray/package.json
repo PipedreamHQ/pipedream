@@ -1,0 +1,6 @@
+{
+  "main": "../lib/NonEmptyArray.js",
+  "module": "../es6/NonEmptyArray.js",
+  "typings": "../lib/NonEmptyArray.d.ts",
+  "sideEffects": false
+}

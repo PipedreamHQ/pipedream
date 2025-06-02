@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Record.js",
+  "module": "../es6/Record.js",
+  "typings": "../lib/Record.d.ts",
+  "sideEffects": false
+}

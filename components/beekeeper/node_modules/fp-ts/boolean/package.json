@@ -1,0 +1,6 @@
+{
+  "main": "../lib/boolean.js",
+  "module": "../es6/boolean.js",
+  "typings": "../lib/boolean.d.ts",
+  "sideEffects": false
+}

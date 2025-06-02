@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Reporter.js",
+  "module": "../es6/Reporter.js",
+  "typings": "../lib/Reporter.d.ts",
+  "sideEffects": false
+}

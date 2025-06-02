@@ -1,0 +1,6 @@
+{
+  "main": "../lib/pipeable.js",
+  "module": "../es6/pipeable.js",
+  "typings": "../lib/pipeable.d.ts",
+  "sideEffects": false
+}

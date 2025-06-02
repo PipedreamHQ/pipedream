@@ -1,0 +1,6 @@
+{
+  "main": "../lib/MeetSemilattice.js",
+  "module": "../es6/MeetSemilattice.js",
+  "typings": "../lib/MeetSemilattice.d.ts",
+  "sideEffects": false
+}

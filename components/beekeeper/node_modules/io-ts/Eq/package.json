@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Eq.js",
+  "module": "../es6/Eq.js",
+  "typings": "../lib/Eq.d.ts",
+  "sideEffects": false
+}

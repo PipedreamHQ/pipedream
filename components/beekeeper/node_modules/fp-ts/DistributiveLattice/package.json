@@ -1,0 +1,6 @@
+{
+  "main": "../lib/DistributiveLattice.js",
+  "module": "../es6/DistributiveLattice.js",
+  "typings": "../lib/DistributiveLattice.d.ts",
+  "sideEffects": false
+}

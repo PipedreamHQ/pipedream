@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Zero.js",
+  "module": "../es6/Zero.js",
+  "typings": "../lib/Zero.d.ts",
+  "sideEffects": false
+}

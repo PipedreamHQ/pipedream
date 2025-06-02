@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Unfoldable.js",
+  "module": "../es6/Unfoldable.js",
+  "typings": "../lib/Unfoldable.d.ts",
+  "sideEffects": false
+}

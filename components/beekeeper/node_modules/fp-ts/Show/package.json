@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Show.js",
+  "module": "../es6/Show.js",
+  "typings": "../lib/Show.d.ts",
+  "sideEffects": false
+}

@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Applicative.js",
+  "module": "../es6/Applicative.js",
+  "typings": "../lib/Applicative.d.ts",
+  "sideEffects": false
+}

@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Filterable.js",
+  "module": "../es6/Filterable.js",
+  "typings": "../lib/Filterable.d.ts",
+  "sideEffects": false
+}

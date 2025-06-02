@@ -1,0 +1,29 @@
+{
+  "name": "fp-ts",
+  "version": "2.16.10",
+  "description": "Functional programming in TypeScript",
+  "main": "./lib/index.js",
+  "module": "./es6/index.js",
+  "typings": "lib/index.d.ts",
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gcanti/fp-ts.git"
+  },
+  "author": "Giulio Canti <giulio.canti@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gcanti/fp-ts/issues"
+  },
+  "homepage": "https://github.com/gcanti/fp-ts",
+  "tags": [
+    "typescript",
+    "algebraic-data-types",
+    "functional-programming"
+  ],
+  "keywords": [
+    "typescript",
+    "algebraic-data-types",
+    "functional-programming"
+  ]
+}

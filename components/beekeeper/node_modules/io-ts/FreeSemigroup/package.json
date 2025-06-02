@@ -1,0 +1,6 @@
+{
+  "main": "../lib/FreeSemigroup.js",
+  "module": "../es6/FreeSemigroup.js",
+  "typings": "../lib/FreeSemigroup.d.ts",
+  "sideEffects": false
+}

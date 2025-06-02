@@ -1,0 +1,6 @@
+{
+  "main": "../lib/ReaderIO.js",
+  "module": "../es6/ReaderIO.js",
+  "typings": "../lib/ReaderIO.d.ts",
+  "sideEffects": false
+}

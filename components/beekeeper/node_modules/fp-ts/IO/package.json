@@ -1,0 +1,6 @@
+{
+  "main": "../lib/IO.js",
+  "module": "../es6/IO.js",
+  "typings": "../lib/IO.d.ts",
+  "sideEffects": false
+}

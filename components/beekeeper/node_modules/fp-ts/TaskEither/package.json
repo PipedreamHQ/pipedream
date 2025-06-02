@@ -1,0 +1,6 @@
+{
+  "main": "../lib/TaskEither.js",
+  "module": "../es6/TaskEither.js",
+  "typings": "../lib/TaskEither.d.ts",
+  "sideEffects": false
+}

@@ -1,0 +1,6 @@
+{
+  "main": "../lib/StateReaderTaskEither.js",
+  "module": "../es6/StateReaderTaskEither.js",
+  "typings": "../lib/StateReaderTaskEither.d.ts",
+  "sideEffects": false
+}

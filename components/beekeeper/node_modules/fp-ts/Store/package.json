@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Store.js",
+  "module": "../es6/Store.js",
+  "typings": "../lib/Store.d.ts",
+  "sideEffects": false
+}

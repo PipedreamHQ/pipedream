@@ -1,0 +1,6 @@
+{
+  "main": "../lib/ChainRec.js",
+  "module": "../es6/ChainRec.js",
+  "typings": "../lib/ChainRec.d.ts",
+  "sideEffects": false
+}

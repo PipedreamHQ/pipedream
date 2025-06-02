@@ -1,0 +1,6 @@
+{
+  "main": "../lib/BoundedLattice.js",
+  "module": "../es6/BoundedLattice.js",
+  "typings": "../lib/BoundedLattice.d.ts",
+  "sideEffects": false
+}

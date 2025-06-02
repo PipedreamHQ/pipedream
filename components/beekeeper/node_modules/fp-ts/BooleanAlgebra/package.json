@@ -1,0 +1,6 @@
+{
+  "main": "../lib/BooleanAlgebra.js",
+  "module": "../es6/BooleanAlgebra.js",
+  "typings": "../lib/BooleanAlgebra.d.ts",
+  "sideEffects": false
+}

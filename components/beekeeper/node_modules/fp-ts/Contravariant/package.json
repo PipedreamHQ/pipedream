@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Contravariant.js",
+  "module": "../es6/Contravariant.js",
+  "typings": "../lib/Contravariant.d.ts",
+  "sideEffects": false
+}

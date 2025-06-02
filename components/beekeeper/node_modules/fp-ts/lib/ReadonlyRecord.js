@@ -1,0 +1,1470 @@
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Compactable = exports.getFoldableWithIndex = exports.getFoldable = exports.FunctorWithIndex = exports.flap = exports.Functor = exports.URI = exports.separate = exports.compact = exports.partitionMap = exports.partition = exports.filterMap = exports.filter = exports._sequence = exports._traverse = exports._filterWithIndex = exports._filterMapWithIndex = exports._partitionWithIndex = exports._partitionMapWithIndex = exports._reduceRightWithIndex = exports._foldMapWithIndex = exports._reduceWithIndex = exports._partitionMap = exports._partition = exports._filterMap = exports._filter = exports._reduceRight = exports._foldMap = exports._reduce = exports._mapWithIndex = exports._map = exports.difference = exports.intersection = exports.union = exports.fromEntries = exports.toEntries = exports.wilt = exports.wither = exports.singleton = exports.empty = exports.modifyAt = exports.updateAt = exports.has = exports.upsertAt = exports.toReadonlyArray = exports.keys = exports.isEmpty = exports.size = exports.toRecord = exports.fromRecord = void 0;
+exports.readonlyRecord = exports.insertAt = exports.Witherable = exports.TraversableWithIndex = exports.Traversable = exports.FoldableWithIndex = exports.Foldable = exports.getDifferenceMagma = exports.getIntersectionSemigroup = exports.getUnionMonoid = exports.getUnionSemigroup = exports.getWitherable = exports.getTraversableWithIndex = exports.getTraversable = exports.FilterableWithIndex = exports.Filterable = void 0;
+exports.collect = collect;
+exports.toUnfoldable = toUnfoldable;
+exports.deleteAt = deleteAt;
+exports.pop = pop;
+exports.isSubrecord = isSubrecord;
+exports.lookup = lookup;
+exports.mapWithIndex = mapWithIndex;
+exports.map = map;
+exports.reduceWithIndex = reduceWithIndex;
+exports.foldMapWithIndex = foldMapWithIndex;
+exports.reduceRightWithIndex = reduceRightWithIndex;
+exports.traverseWithIndex = traverseWithIndex;
+exports.traverse = traverse;
+exports.sequence = sequence;
+exports.partitionMapWithIndex = partitionMapWithIndex;
+exports.partitionWithIndex = partitionWithIndex;
+exports.filterMapWithIndex = filterMapWithIndex;
+exports.filterWithIndex = filterWithIndex;
+exports.fromFoldable = fromFoldable;
+exports.fromFoldableMap = fromFoldableMap;
+exports.every = every;
+exports.some = some;
+exports.elem = elem;
+exports.reduce = reduce;
+exports.foldMap = foldMap;
+exports.reduceRight = reduceRight;
+exports.getShow = getShow;
+exports.getEq = getEq;
+exports.getMonoid = getMonoid;
+exports.hasOwnProperty = hasOwnProperty;
+var Eq_1 = require("./Eq");
+var function_1 = require("./function");
+var Functor_1 = require("./Functor");
+var _ = __importStar(require("./internal"));
+var Separated_1 = require("./Separated");
+var S = __importStar(require("./string"));
+var Witherable_1 = require("./Witherable");
+/**
+ * Builds a `ReadonlyRecord` by copying a `Record`.
+ *
+ * @example
+ * import { ReadonlyRecord, fromRecord } from "fp-ts/ReadonlyRecord"
+ *
+ * const x: Record<string, number> = { a: 1, b: 2 };
+ * const y: ReadonlyRecord<string, number> = fromRecord(x);
+ * assert.deepStrictEqual(x,y);
+ * // `y.a = 5` gives compiler error
+ *
+ * @category conversions
+ * @since 2.5.0
+ */
+var fromRecord = function (r) { return Object.assign({}, r); };
+exports.fromRecord = fromRecord;
+/**
+ * Builds a mutable `Record` from a `ReadonlyRecord`.
+ *
+ * @example
+ * import { ReadonlyRecord, toRecord } from "fp-ts/ReadonlyRecord"
+ *
+ * const x: ReadonlyRecord<string, number> = { a: 1, b: 2 };
+ * const y: Record<string, number> = toRecord(x);
+ * assert.deepStrictEqual(x,y);
+ * y.a = 5; // it's ok, y is mutable
+ *
+ * @category conversions
+ * @since 2.5.0
+ */
+var toRecord = function (r) { return Object.assign({}, r); };
+exports.toRecord = toRecord;
+/**
+ * Calculate the number of key/value pairs in a `ReadonlyRecord`,
+ *
+ * @example
+ * import { size } from "fp-ts/ReadonlyRecord";
+ *
+ * assert.deepStrictEqual(size({ a: true, b: 2, c: "three" }), 3);
+ *
+ * @since 2.5.0
+ */
+var size = function (r) { return Object.keys(r).length; };
+exports.size = size;
+/**
+ * Test whether a `ReadonlyRecord` is empty.
+ *
+ * @example
+ * import { isEmpty } from "fp-ts/ReadonlyRecord"
+ *
+ * assert.deepStrictEqual(isEmpty({}), true);
+ * assert.deepStrictEqual(isEmpty({ a: 3 }), false);
+ * @since 2.5.0
+ */
+var isEmpty = function (r) {
+    for (var k in r) {
+        if (_.has.call(r, k)) {
+            return false;
+        }
+    }
+    return true;
+};
+exports.isEmpty = isEmpty;
+var keys_ = function (O) {
+    return function (r) {
+        return Object.keys(r).sort(O.compare);
+    };
+};
+/**
+ * @since 2.5.0
+ */
+exports.keys = keys_(S.Ord);
+function collect(O) {
+    if (typeof O === 'function') {
+        return collect(S.Ord)(O);
+    }
+    var keysO = keys_(O);
+    return function (f) {
+        return function (r) {
+            var out = [];
+            for (var _i = 0, _a = keysO(r); _i < _a.length; _i++) {
+                var key = _a[_i];
+                out.push(f(key, r[key]));
+            }
+            return out;
+        };
+    };
+}
+/**
+ * Get a sorted `ReadonlyArray` of the key/value pairs contained in a `ReadonlyRecord`.
+ *
+ * @example
+ * import { toReadonlyArray } from 'fp-ts/ReadonlyRecord'
+ *
+ * const x = { c: 3, a: "foo", b: false };
+ * assert.deepStrictEqual(toReadonlyArray(x), [
+ *   ["a", "foo"],
+ *   ["b", false],
+ *   ["c", 3],
+ * ]);
+ *
+ * @category conversions
+ * @since 2.5.0
+ */
+exports.toReadonlyArray = 
+/*#__PURE__*/ collect(S.Ord)(function (k, a) { return [k, a]; });
+function toUnfoldable(U) {
+    return function (r) {
+        var sas = (0, exports.toReadonlyArray)(r);
+        var len = sas.length;
+        return U.unfold(0, function (b) { return (b < len ? _.some([sas[b], b + 1]) : _.none); });
+    };
+}
+/**
+ * Insert or replace a key/value pair in a `ReadonlyRecord`.
+ *
+ * @example
+ * import { upsertAt } from 'fp-ts/ReadonlyRecord'
+ *
+ * assert.deepStrictEqual(upsertAt("a", 5)({ a: 1, b: 2 }), { a: 5, b: 2 });
+ * assert.deepStrictEqual(upsertAt("c", 5)({ a: 1, b: 2 }), { a: 1, b: 2, c: 5 });
+ *
+ * @since 2.10.0
+ */
+var upsertAt = function (k, a) {
+    return function (r) {
+        if (_.has.call(r, k) && r[k] === a) {
+            return r;
+        }
+        var out = Object.assign({}, r);
+        out[k] = a;
+        return out;
+    };
+};
+exports.upsertAt = upsertAt;
+/**
+ * Test whether or not a key exists in a `ReadonlyRecord`.
+ *
+ * Note. This function is not pipeable because is a `Refinement`.
+ *
+ * @example
+ * import { has } from 'fp-ts/ReadonlyRecord'
+ *
+ * assert.deepStrictEqual(has("a", { a: 1, b: 2 }), true);
+ * assert.deepStrictEqual(has("c", { a: 1, b: 2 }), false);
+ *
+ * @since 2.10.0
+ */
+var has = function (k, r) { return _.has.call(r, k); };
+exports.has = has;
+function deleteAt(k) {
+    return function (r) {
+        if (!_.has.call(r, k)) {
+            return r;
+        }
+        var out = Object.assign({}, r);
+        delete out[k];
+        return out;
+    };
+}
+/**
+ * Replace a key/value pair in a `ReadonlyRecord`.
+ *
+ * @returns If the specified key exists it returns an `Option` containing a new `Record`
+ * with the entry updated, otherwise it returns `None`
+ *
+ * @example
+ * import { updateAt } from 'fp-ts/ReadonlyRecord'
+ * import { option } from 'fp-ts'
+ *
+ * assert.deepStrictEqual(updateAt("a", 3)({ a: 1, b: 2 }), option.some({ a: 3, b: 2 }));
+ * assert.deepStrictEqual(updateAt("c", 3)({ a: 1, b: 2 }), option.none);
+ *
+ * @since 2.5.0
+ */
+var updateAt = function (k, a) {
+    return function (r) {
+        if (!(0, exports.has)(k, r)) {
+            return _.none;
+        }
+        if (r[k] === a) {
+            return _.some(r);
+        }
+        var out = Object.assign({}, r);
+        out[k] = a;
+        return _.some(out);
+    };
+};
+exports.updateAt = updateAt;
+/**
+ * Applies a mapping function to one specific key/value pair in a `ReadonlyRecord`.
+ *
+ * @returns If the specified key exists it returns an `Option` containing a new `Record`
+ * with the entry updated, otherwise it returns `None`
+ *
+ * @example
+ * import { modifyAt } from 'fp-ts/ReadonlyRecord'
+ * import { option } from 'fp-ts'
+ *
+ * assert.deepStrictEqual(modifyAt("a", (x: number) => x * 3)({ a: 1, b: 2 }), option.some({ a: 3, b: 2 }));
+ * assert.deepStrictEqual(modifyAt("c", (x: number) => x * 3)({ a: 1, b: 2 }), option.none);
+ *
+ * @since 2.5.0
+ */
+var modifyAt = function (k, f) {
+    return function (r) {
+        if (!(0, exports.has)(k, r)) {
+            return _.none;
+        }
+        var next = f(r[k]);
+        if (next === r[k]) {
+            return _.some(r);
+        }
+        var out = Object.assign({}, r);
+        out[k] = next;
+        return _.some(out);
+    };
+};
+exports.modifyAt = modifyAt;
+function pop(k) {
+    var deleteAtk = deleteAt(k);
+    return function (r) {
+        var oa = lookup(k, r);
+        return _.isNone(oa) ? _.none : _.some([oa.value, deleteAtk(r)]);
+    };
+}
+function isSubrecord(E) {
+    return function (me, that) {
+        if (that === undefined) {
+            var isSubrecordE_1 = isSubrecord(E);
+            return function (that) { return isSubrecordE_1(that, me); };
+        }
+        for (var k in me) {
+            if (!_.has.call(that, k) || !E.equals(me[k], that[k])) {
+                return false;
+            }
+        }
+        return true;
+    };
+}
+function lookup(k, r) {
+    if (r === undefined) {
+        return function (r) { return lookup(k, r); };
+    }
+    return _.has.call(r, k) ? _.some(r[k]) : _.none;
+}
+/**
+ * @since 2.5.0
+ */
+exports.empty = {};
+function mapWithIndex(f) {
+    return function (r) {
+        var out = {};
+        for (var k in r) {
+            if (_.has.call(r, k)) {
+                out[k] = f(k, r[k]);
+            }
+        }
+        return out;
+    };
+}
+function map(f) {
+    return mapWithIndex(function (_, a) { return f(a); });
+}
+function reduceWithIndex() {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    if (args.length === 2) {
+        return reduceWithIndex(S.Ord).apply(void 0, args);
+    }
+    var keysO = keys_(args[0]);
+    return function (b, f) { return function (fa) {
+        var out = b;
+        var ks = keysO(fa);
+        var len = ks.length;
+        for (var i = 0; i < len; i++) {
+            var k = ks[i];
+            out = f(k, out, fa[k]);
+        }
+        return out;
+    }; };
+}
+function foldMapWithIndex(O) {
+    if ('compare' in O) {
+        var keysO_1 = keys_(O);
+        return function (M) {
+            return function (f) {
+                return function (fa) {
+                    var out = M.empty;
+                    var ks = keysO_1(fa);
+                    var len = ks.length;
+                    for (var i = 0; i < len; i++) {
+                        var k = ks[i];
+                        out = M.concat(out, f(k, fa[k]));
+                    }
+                    return out;
+                };
+            };
+        };
+    }
+    return foldMapWithIndex(S.Ord)(O);
+}
+function reduceRightWithIndex() {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    if (args.length === 2) {
+        return reduceRightWithIndex(S.Ord).apply(void 0, args);
+    }
+    var keysO = keys_(args[0]);
+    return function (b, f) { return function (fa) {
+        var out = b;
+        var ks = keysO(fa);
+        var len = ks.length;
+        for (var i = len - 1; i >= 0; i--) {
+            var k = ks[i];
+            out = f(k, fa[k], out);
+        }
+        return out;
+    }; };
+}
+/**
+ * Create a `ReadonlyRecord` with one key/value pair.
+ *
+ * @example
+ * import { singleton } from "fp-ts/ReadonlyRecord";
+ *
+ * assert.deepStrictEqual(singleton("a", 1), { a: 1 });
+ *
+ * @category constructors
+ * @since 2.5.0
+ */
+var singleton = function (k, a) {
+    var _a;
+    return (_a = {}, _a[k] = a, _a);
+};
+exports.singleton = singleton;
+function traverseWithIndex(F) {
+    var traverseWithIndexOF = _traverseWithIndex(S.Ord)(F);
+    return function (f) { return function (ta) { return traverseWithIndexOF(ta, f); }; };
+}
+function traverse(F) {
+    var traverseOF = (0, exports._traverse)(S.Ord)(F);
+    return function (f) { return function (ta) { return traverseOF(ta, f); }; };
+}
+function sequence(F) {
+    return (0, exports._sequence)(S.Ord)(F);
+}
+/**
+ * @category filtering
+ * @since 2.6.5
+ */
+var wither = function (F) {
+    var traverseF = traverse(F);
+    return function (f) { return function (fa) { return F.map((0, function_1.pipe)(fa, traverseF(f)), exports.compact); }; };
+};
+exports.wither = wither;
+/**
+ * @category filtering
+ * @since 2.6.5
+ */
+var wilt = function (F) {
+    var traverseF = traverse(F);
+    return function (f) { return function (fa) { return F.map((0, function_1.pipe)(fa, traverseF(f)), exports.separate); }; };
+};
+exports.wilt = wilt;
+function partitionMapWithIndex(f) {
+    return function (r) {
+        var left = {};
+        var right = {};
+        for (var k in r) {
+            if (_.has.call(r, k)) {
+                var e = f(k, r[k]);
+                switch (e._tag) {
+                    case 'Left':
+                        left[k] = e.left;
+                        break;
+                    case 'Right':
+                        right[k] = e.right;
+                        break;
+                }
+            }
+        }
+        return (0, Separated_1.separated)(left, right);
+    };
+}
+function partitionWithIndex(predicateWithIndex) {
+    return function (r) {
+        var left = {};
+        var right = {};
+        for (var k in r) {
+            if (_.has.call(r, k)) {
+                var a = r[k];
+                if (predicateWithIndex(k, a)) {
+                    right[k] = a;
+                }
+                else {
+                    left[k] = a;
+                }
+            }
+        }
+        return (0, Separated_1.separated)(left, right);
+    };
+}
+function filterMapWithIndex(f) {
+    return function (r) {
+        var out = {};
+        for (var k in r) {
+            if (_.has.call(r, k)) {
+                var ob = f(k, r[k]);
+                if (_.isSome(ob)) {
+                    out[k] = ob.value;
+                }
+            }
+        }
+        return out;
+    };
+}
+function filterWithIndex(predicateWithIndex) {
+    return function (fa) {
+        var out = {};
+        var changed = false;
+        for (var key in fa) {
+            if (_.has.call(fa, key)) {
+                var a = fa[key];
+                if (predicateWithIndex(key, a)) {
+                    out[key] = a;
+                }
+                else {
+                    changed = true;
+                }
+            }
+        }
+        return changed ? out : fa;
+    };
+}
+function fromFoldable(M, F) {
+    var fromFoldableMapM = fromFoldableMap(M, F);
+    return function (fka) { return fromFoldableMapM(fka, function_1.identity); };
+}
+function fromFoldableMap(M, F) {
+    return function (ta, f) {
+        return F.reduce(ta, {}, function (r, a) {
+            var _a = f(a), k = _a[0], b = _a[1];
+            r[k] = _.has.call(r, k) ? M.concat(r[k], b) : b;
+            return r;
+        });
+    };
+}
+/**
+ * Alias of [`toReadonlyArray`](#toreadonlyarray).
+ *
+ * @example
+ * import { toEntries } from 'fp-ts/ReadonlyRecord'
+ *
+ * assert.deepStrictEqual(toEntries({ b: 2, a: 1 }), [['a', 1], ['b', 2]])
+ *
+ * @category conversions
+ * @since 2.12.0
+ */
+exports.toEntries = exports.toReadonlyArray;
+/**
+ * Converts a `ReadonlyArray` of `[key, value]` tuples into a `ReadonlyRecord`.
+ *
+ * @example
+ * import { fromEntries } from 'fp-ts/ReadonlyRecord'
+ *
+ * assert.deepStrictEqual(fromEntries([['a', 1], ['b', 2], ['a', 3]]), { b: 2, a: 3 })
+ *
+ * @since 2.12.0
+ * @category conversions
+ */
+var fromEntries = function (fa) {
+    var out = {};
+    for (var _i = 0, fa_1 = fa; _i < fa_1.length; _i++) {
+        var a = fa_1[_i];
+        out[a[0]] = a[1];
+    }
+    return out;
+};
+exports.fromEntries = fromEntries;
+function every(predicate) {
+    return function (r) {
+        for (var k in r) {
+            if (!predicate(r[k])) {
+                return false;
+            }
+        }
+        return true;
+    };
+}
+/**
+ * Test if at least one value in a `ReadonlyRecord` satisfies the predicate.
+ *
+ * @example
+ * import { some } from "fp-ts/ReadonlyRecord"
+ *
+ * assert.deepStrictEqual(some((n: number) => n >= 0)({ a: 1, b: -2 }), true);
+ * assert.deepStrictEqual(some((n: number) => n >= 0)({ a: -1, b: -2 }), false);
+ *
+ * @since 2.5.0
+ */
+function some(predicate) {
+    return function (r) {
+        for (var k in r) {
+            if (predicate(r[k])) {
+                return true;
+            }
+        }
+        return false;
+    };
+}
+function elem(E) {
+    return function (a, fa) {
+        if (fa === undefined) {
+            var elemE_1 = elem(E);
+            return function (fa) { return elemE_1(a, fa); };
+        }
+        for (var k in fa) {
+            if (E.equals(fa[k], a)) {
+                return true;
+            }
+        }
+        return false;
+    };
+}
+/**
+ * Union of two `ReadonlyRecord`s.
+ * Takes two `ReadonlyRecord`s and produces a `ReadonlyRecord` combining all the
+ * entries of the two inputs.
+ * It uses the `concat` function of the provided `Magma` to
+ * combine the elements with the same key.
+ *
+ * @example
+ * import { union } from "fp-ts/ReadonlyRecord";
+ * import { Magma } from "fp-ts/Magma";
+ *
+ * const m1: Magma<number> = { concat: (x: number, y: number) => x + y };
+ * assert.deepStrictEqual(union(m1)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 4, b: 2, c: 3 });
+ * const m2: Magma<number> = { concat: (x: number) => x };
+ * assert.deepStrictEqual(union(m2)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 1, b: 2, c: 3 });
+ *
+ * @since 2.11.0
+ */
+var union = function (M) {
+    return function (second) {
+        return function (first) {
+            if ((0, exports.isEmpty)(first)) {
+                return second;
+            }
+            if ((0, exports.isEmpty)(second)) {
+                return first;
+            }
+            var out = {};
+            for (var k in first) {
+                if ((0, exports.has)(k, second)) {
+                    out[k] = M.concat(first[k], second[k]);
+                }
+                else {
+                    out[k] = first[k];
+                }
+            }
+            for (var k in second) {
+                if (!(0, exports.has)(k, out)) {
+                    out[k] = second[k];
+                }
+            }
+            return out;
+        };
+    };
+};
+exports.union = union;
+/**
+ * Intersection of two `ReadonlyRecord`s.
+ * Takes two `ReadonlyRecord`s and produces a `ReadonlyRecord` combining only the
+ * entries of the two inputswith the same key.
+ * It uses the `concat` function of the provided `Magma` to
+ * combine the elements.
+ *
+ * @example
+ * import { intersection } from "fp-ts/ReadonlyRecord";
+ * import { Magma } from "fp-ts/Magma";
+ *
+ * const m1: Magma<number> = { concat: (x: number, y: number) => x + y };
+ * assert.deepStrictEqual(intersection(m1)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 4});
+ * const m2: Magma<number> = { concat: (x: number) => x };
+ * assert.deepStrictEqual(intersection(m2)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 1});
+ *
+ * @since 2.11.0
+ */
+var intersection = function (M) {
+    return function (second) {
+        return function (first) {
+            if ((0, exports.isEmpty)(first) || (0, exports.isEmpty)(second)) {
+                return exports.empty;
+            }
+            var out = {};
+            for (var k in first) {
+                if ((0, exports.has)(k, second)) {
+                    out[k] = M.concat(first[k], second[k]);
+                }
+            }
+            return out;
+        };
+    };
+};
+exports.intersection = intersection;
+/**
+ * Difference between two `ReadonlyRecord`s.
+ * Takes two `ReadonlyRecord`s and produces a `ReadonlyRecord` composed by the
+ * entries of the two inputs, removing the entries with the same
+ * key in both inputs.
+ *
+ * @example
+ * import { difference } from "fp-ts/ReadonlyRecord";
+ *
+ * assert.deepStrictEqual(difference({ a: 1 })({ a: 1, b: 2 }), { b: 2 });
+ * assert.deepStrictEqual(difference({ a: 3 })({ a: 1, b: 2 }), { b: 2 });
+ * assert.deepStrictEqual(difference({ a: 3, c: 3 })({ a: 1, b: 2 }), { b: 2, c: 3 });
+ *
+ * @since 2.11.0
+ */
+var difference = function (second) {
+    return function (first) {
+        if ((0, exports.isEmpty)(first)) {
+            return second;
+        }
+        if ((0, exports.isEmpty)(second)) {
+            return first;
+        }
+        var out = {};
+        for (var k in first) {
+            if (!(0, exports.has)(k, second)) {
+                out[k] = first[k];
+            }
+        }
+        for (var k in second) {
+            if (!(0, exports.has)(k, first)) {
+                out[k] = second[k];
+            }
+        }
+        return out;
+    };
+};
+exports.difference = difference;
+/** @internal */
+var _map = function (fa, f) { return (0, function_1.pipe)(fa, map(f)); };
+exports._map = _map;
+/** @internal */
+/* istanbul ignore next */
+var _mapWithIndex = function (fa, f) { return (0, function_1.pipe)(fa, mapWithIndex(f)); };
+exports._mapWithIndex = _mapWithIndex;
+/** @internal */
+/* istanbul ignore next */
+var _reduce = function (O) {
+    var reduceO = reduce(O);
+    return function (fa, b, f) { return (0, function_1.pipe)(fa, reduceO(b, f)); };
+};
+exports._reduce = _reduce;
+/** @internal */
+var _foldMap = function (O) { return function (M) {
+    var foldMapM = foldMap(O)(M);
+    return function (fa, f) { return (0, function_1.pipe)(fa, foldMapM(f)); };
+}; };
+exports._foldMap = _foldMap;
+/** @internal */
+/* istanbul ignore next */
+var _reduceRight = function (O) {
+    var reduceRightO = reduceRight(O);
+    return function (fa, b, f) { return (0, function_1.pipe)(fa, reduceRightO(b, f)); };
+};
+exports._reduceRight = _reduceRight;
+/** @internal */
+/* istanbul ignore next */
+var _filter = function (fa, predicate) {
+    return (0, function_1.pipe)(fa, (0, exports.filter)(predicate));
+};
+exports._filter = _filter;
+/** @internal */
+/* istanbul ignore next */
+var _filterMap = function (fa, f) { return (0, function_1.pipe)(fa, (0, exports.filterMap)(f)); };
+exports._filterMap = _filterMap;
+/** @internal */
+/* istanbul ignore next */
+var _partition = function (fa, predicate) { return (0, function_1.pipe)(fa, (0, exports.partition)(predicate)); };
+exports._partition = _partition;
+/** @internal */
+/* istanbul ignore next */
+var _partitionMap = function (fa, f) { return (0, function_1.pipe)(fa, (0, exports.partitionMap)(f)); };
+exports._partitionMap = _partitionMap;
+/** @internal */
+/* istanbul ignore next */
+var _reduceWithIndex = function (O) {
+    var reduceWithIndexO = reduceWithIndex(O);
+    return function (fa, b, f) { return (0, function_1.pipe)(fa, reduceWithIndexO(b, f)); };
+};
+exports._reduceWithIndex = _reduceWithIndex;
+/** @internal */
+var _foldMapWithIndex = function (O) {
+    var foldMapWithIndexO = foldMapWithIndex(O);
+    return function (M) {
+        var foldMapWithIndexM = foldMapWithIndexO(M);
+        return function (fa, f) { return (0, function_1.pipe)(fa, foldMapWithIndexM(f)); };
+    };
+};
+exports._foldMapWithIndex = _foldMapWithIndex;
+/** @internal */
+/* istanbul ignore next */
+var _reduceRightWithIndex = function (O) {
+    var reduceRightWithIndexO = reduceRightWithIndex(O);
+    return function (fa, b, f) { return (0, function_1.pipe)(fa, reduceRightWithIndexO(b, f)); };
+};
+exports._reduceRightWithIndex = _reduceRightWithIndex;
+/** @internal */
+/* istanbul ignore next */
+var _partitionMapWithIndex = function (fa, f) { return (0, function_1.pipe)(fa, partitionMapWithIndex(f)); };
+exports._partitionMapWithIndex = _partitionMapWithIndex;
+/** @internal */
+/* istanbul ignore next */
+var _partitionWithIndex = function (fa, predicateWithIndex) {
+    return (0, function_1.pipe)(fa, partitionWithIndex(predicateWithIndex));
+};
+exports._partitionWithIndex = _partitionWithIndex;
+/** @internal */
+/* istanbul ignore next */
+var _filterMapWithIndex = function (fa, f) { return (0, function_1.pipe)(fa, filterMapWithIndex(f)); };
+exports._filterMapWithIndex = _filterMapWithIndex;
+/** @internal */
+/* istanbul ignore next */
+var _filterWithIndex = function (fa, predicateWithIndex) { return (0, function_1.pipe)(fa, filterWithIndex(predicateWithIndex)); };
+exports._filterWithIndex = _filterWithIndex;
+/** @internal */
+var _traverse = function (O) {
+    var traverseWithIndexO = _traverseWithIndex(O);
+    return function (F) {
+        var traverseWithIndexOF = traverseWithIndexO(F);
+        return function (ta, f) { return traverseWithIndexOF(ta, (0, function_1.flow)(function_1.SK, f)); };
+    };
+};
+exports._traverse = _traverse;
+/** @internal */
+var _sequence = function (O) {
+    var traverseO = (0, exports._traverse)(O);
+    return function (F) {
+        var traverseOF = traverseO(F);
+        return function (ta) { return traverseOF(ta, function_1.identity); };
+    };
+};
+exports._sequence = _sequence;
+var _traverseWithIndex = function (O) {
+    return function (F) {
+        var keysO = keys_(O);
+        return function (ta, f) {
+            var ks = keysO(ta);
+            if (ks.length === 0) {
+                return F.of(exports.empty);
+            }
+            var fr = F.of({});
+            var _loop_1 = function (key) {
+                fr = F.ap(F.map(fr, function (r) { return function (b) {
+                    var _a;
+                    return Object.assign({}, r, (_a = {}, _a[key] = b, _a));
+                }; }), f(key, ta[key]));
+            };
+            for (var _i = 0, ks_1 = ks; _i < ks_1.length; _i++) {
+                var key = ks_1[_i];
+                _loop_1(key);
+            }
+            return fr;
+        };
+    };
+};
+/**
+ * Given a `Predicate`, it produces a new `ReadonlyRecord` keeping only the entries with a
+ * value that satisfies the provided predicate.
+ *
+ * @example
+ * import { filter } from "fp-ts/ReadonlyRecord"
+ *
+ * assert.deepStrictEqual(filter((s: string) => s.length < 4)({ a: "foo", b: "bar", c: "verylong" }), {
+ *   a: "foo",
+ *   b: "bar",
+ * });
+ *
+ * @category filtering
+ * @since 2.5.0
+ */
+var filter = function (predicate) {
+    return filterWithIndex(function (_, a) { return predicate(a); });
+};
+exports.filter = filter;
+/**
+ * Maps a `ReadonlyRecord` with an iterating function that returns an `Option`
+ * and it keeps only the `Some` values discarding the `None`s.
+ *
+ * @example
+ * import { filterMap } from "fp-ts/ReadonlyRecord"
+ * import { option } from "fp-ts"
+ *
+ * const f = (s: string) => s.length < 4 ? option.some(`${s} is short`): option.none
+ * assert.deepStrictEqual(filterMap(f)({ a: "foo", b: "bar", c: "verylong" }), {
+ *   a: "foo is short",
+ *   b: "bar is short",
+ * });
+ *
+ * @category filtering
+ * @since 2.5.0
+ */
+var filterMap = function (f) { return filterMapWithIndex(function (_, a) { return f(a); }); };
+exports.filterMap = filterMap;
+/**
+ * Partition a `ReadonlyRecord` into two parts according to a `Predicate`.
+ *
+ * @example
+ * import { partition } from "fp-ts/ReadonlyRecord"
+ *
+ * assert.deepStrictEqual(partition((s: string) => s.length < 4)({ a: "foo", b: "bar", c: "verylong" }), {
+ *   left:{
+ *     c: "verylong"
+ *   },
+ *   right: {
+ *     a: "foo",
+ *     b: "bar",
+ *   },
+ * });
+ *
+ * @category filtering
+ * @since 2.5.0
+ */
+var partition = function (predicate) {
+    return partitionWithIndex(function (_, a) { return predicate(a); });
+};
+exports.partition = partition;
+/**
+ * Maps a `ReadonlyRecord` with a function returning an `Either` and
+ * partitions the resulting `ReadonlyRecord` into `Left`s and `Right`s.
+ *
+ * @example
+ * import { partitionMap } from "fp-ts/ReadonlyRecord"
+ * import { either } from "fp-ts"
+ *
+ * const f = (s: string) => (s.length < 4 ? either.right(`${s} is short`) : either.left(`${s} is not short`));
+ * assert.deepStrictEqual(partitionMap(f)({ a: "foo", b: "bar", c: "verylong" }), {
+ *   left: {
+ *     c: "verylong is not short",
+ *   },
+ *   right: {
+ *     a: "foo is short",
+ *     b: "bar is short",
+ *   },
+ * });
+ *
+ * @category filtering
+ * @since 2.5.0
+ */
+var partitionMap = function (f) {
+    return partitionMapWithIndex(function (_, a) { return f(a); });
+};
+exports.partitionMap = partitionMap;
+function reduce() {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    if (args.length === 1) {
+        var reduceWithIndexO_1 = reduceWithIndex(args[0]);
+        return function (b, f) { return reduceWithIndexO_1(b, function (_, b, a) { return f(b, a); }); };
+    }
+    return reduce(S.Ord).apply(void 0, args);
+}
+function foldMap(O) {
+    if ('compare' in O) {
+        var foldMapWithIndexO_1 = foldMapWithIndex(O);
+        return function (M) {
+            var foldMapWithIndexM = foldMapWithIndexO_1(M);
+            return function (f) { return foldMapWithIndexM(function (_, a) { return f(a); }); };
+        };
+    }
+    return foldMap(S.Ord)(O);
+}
+function reduceRight() {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    if (args.length === 1) {
+        var reduceRightWithIndexO_1 = reduceRightWithIndex(args[0]);
+        return function (b, f) { return reduceRightWithIndexO_1(b, function (_, b, a) { return f(b, a); }); };
+    }
+    return reduceRight(S.Ord).apply(void 0, args);
+}
+/**
+ * Compact a `ReadonlyRecord` of `Option`s discarding the `None` values and
+ * keeping the `Some` values.
+ *
+ * @example
+ * import { compact } from 'fp-ts/ReadonlyRecord'
+ * import { option } from 'fp-ts'
+ *
+ * assert.deepStrictEqual(compact({ a: option.some("foo"), b: option.none, c: option.some("bar") }), {
+ *   a: "foo",
+ *   c: "bar",
+ * });
+ *
+ * @category filtering
+ * @since 2.5.0
+ */
+var compact = function (r) {
+    var out = {};
+    for (var k in r) {
+        if (_.has.call(r, k)) {
+            var oa = r[k];
+            if (_.isSome(oa)) {
+                out[k] = oa.value;
+            }
+        }
+    }
+    return out;
+};
+exports.compact = compact;
+/**
+ * Separate a `ReadonlyRecord` of `Either`s into `Left`s and `Right`s.
+ *
+ * @example
+ * import { separate } from 'fp-ts/ReadonlyRecord'
+ * import { either } from 'fp-ts'
+ *
+ * assert.deepStrictEqual(
+ *   separate({ a: either.right("foo"), b: either.left("bar"), c: either.right("baz") }),
+ *   {
+ *     right: {
+ *       a: "foo",
+ *       c: "baz",
+ *     },
+ *     left: {
+ *       b: "bar",
+ *     },
+ *   }
+ * );
+ *
+ * @category filtering
+ * @since 2.5.0
+ */
+var separate = function (r) {
+    var left = {};
+    var right = {};
+    for (var k in r) {
+        if (_.has.call(r, k)) {
+            var e = r[k];
+            if (_.isLeft(e)) {
+                left[k] = e.left;
+            }
+            else {
+                right[k] = e.right;
+            }
+        }
+    }
+    return (0, Separated_1.separated)(left, right);
+};
+exports.separate = separate;
+/**
+ * @category type lambdas
+ * @since 2.5.0
+ */
+exports.URI = 'ReadonlyRecord';
+function getShow(O) {
+    if ('compare' in O) {
+        return function (S) { return ({
+            show: function (r) {
+                var elements = collect(O)(function (k, a) { return "".concat(JSON.stringify(k), ": ").concat(S.show(a)); })(r).join(', ');
+                return elements === '' ? '{}' : "{ ".concat(elements, " }");
+            }
+        }); };
+    }
+    return getShow(S.Ord)(O);
+}
+function getEq(E) {
+    var isSubrecordE = isSubrecord(E);
+    return (0, Eq_1.fromEquals)(function (x, y) { return isSubrecordE(x)(y) && isSubrecordE(y)(x); });
+}
+function getMonoid(S) {
+    return {
+        concat: function (first, second) {
+            if ((0, exports.isEmpty)(first)) {
+                return second;
+            }
+            if ((0, exports.isEmpty)(second)) {
+                return first;
+            }
+            var r = Object.assign({}, first);
+            for (var k in second) {
+                if (_.has.call(second, k)) {
+                    r[k] = _.has.call(first, k) ? S.concat(first[k], second[k]) : second[k];
+                }
+            }
+            return r;
+        },
+        empty: exports.empty
+    };
+}
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+exports.Functor = {
+    URI: exports.URI,
+    map: exports._map
+};
+/**
+ * Takes a value and a `ReadonlyRecord` of functions and returns a
+ * `ReadonlyRecord` by applying each function to the input value.
+ *
+ * @example
+ * import { flap } from "fp-ts/ReadonlyRecord"
+ *
+ * const fab = { x: (n: number) => `${n} times 2`, y: (n: number) => `${n * 2}` };
+ * assert.deepStrictEqual(flap(3)(fab), {
+ *   x: "3 times 2",
+ *   y: "6",
+ * });
+ *
+ * @category mapping
+ * @since 2.10.0
+ */
+exports.flap = (0, Functor_1.flap)(exports.Functor);
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+exports.FunctorWithIndex = {
+    URI: exports.URI,
+    map: exports._map,
+    mapWithIndex: exports._mapWithIndex
+};
+/**
+ * Produces a `Foldable` instance for a `ReadonlyRecord`, using the
+ * provided `Ord` to sort the `ReadonlyRecord`'s entries by key.
+ *
+ * @category folding
+ * @since 2.11.0
+ */
+var getFoldable = function (O) { return ({
+    URI: exports.URI,
+    reduce: (0, exports._reduce)(O),
+    foldMap: (0, exports._foldMap)(O),
+    reduceRight: (0, exports._reduceRight)(O)
+}); };
+exports.getFoldable = getFoldable;
+/**
+ * Produces a `FoldableWithIndex1` instance for a `ReadonlyRecord`, using the
+ * provided `Ord` to sort the `ReadonlyRecord`'s entries by key.
+ *
+ * @category folding
+ * @since 2.11.0
+ */
+var getFoldableWithIndex = function (O) { return ({
+    URI: exports.URI,
+    reduce: (0, exports._reduce)(O),
+    foldMap: (0, exports._foldMap)(O),
+    reduceRight: (0, exports._reduceRight)(O),
+    reduceWithIndex: (0, exports._reduceWithIndex)(O),
+    foldMapWithIndex: (0, exports._foldMapWithIndex)(O),
+    reduceRightWithIndex: (0, exports._reduceRightWithIndex)(O)
+}); };
+exports.getFoldableWithIndex = getFoldableWithIndex;
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+exports.Compactable = {
+    URI: exports.URI,
+    compact: exports.compact,
+    separate: exports.separate
+};
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+exports.Filterable = {
+    URI: exports.URI,
+    map: exports._map,
+    compact: exports.compact,
+    separate: exports.separate,
+    filter: exports._filter,
+    filterMap: exports._filterMap,
+    partition: exports._partition,
+    partitionMap: exports._partitionMap
+};
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+exports.FilterableWithIndex = {
+    URI: exports.URI,
+    map: exports._map,
+    mapWithIndex: exports._mapWithIndex,
+    compact: exports.compact,
+    separate: exports.separate,
+    filter: exports._filter,
+    filterMap: exports._filterMap,
+    partition: exports._partition,
+    partitionMap: exports._partitionMap,
+    filterMapWithIndex: exports._filterMapWithIndex,
+    filterWithIndex: exports._filterWithIndex,
+    partitionMapWithIndex: exports._partitionMapWithIndex,
+    partitionWithIndex: exports._partitionWithIndex
+};
+/**
+ * Produces a `Traversable` instance for a `ReadonlyRecord`, using the
+ * provided `Ord` to sort the `ReadonlyRecord`'s entries by key.
+ *
+ * @category traversing
+ * @since 2.11.0
+ */
+var getTraversable = function (O) { return ({
+    URI: exports.URI,
+    map: exports._map,
+    reduce: (0, exports._reduce)(O),
+    foldMap: (0, exports._foldMap)(O),
+    reduceRight: (0, exports._reduceRight)(O),
+    traverse: (0, exports._traverse)(O),
+    sequence: (0, exports._sequence)(O)
+}); };
+exports.getTraversable = getTraversable;
+/**
+ * Produces a `TraversableWithIndex` instance for a `ReadonlyRecord`, using the
+ * provided `Ord` to sort the `ReadonlyRecord`'s entries by key.
+ *
+ * @category traversing
+ * @since 2.11.0
+ */
+var getTraversableWithIndex = function (O) { return ({
+    URI: exports.URI,
+    map: exports._map,
+    mapWithIndex: exports._mapWithIndex,
+    reduce: (0, exports._reduce)(O),
+    foldMap: (0, exports._foldMap)(O),
+    reduceRight: (0, exports._reduceRight)(O),
+    reduceWithIndex: (0, exports._reduceWithIndex)(O),
+    foldMapWithIndex: (0, exports._foldMapWithIndex)(O),
+    reduceRightWithIndex: (0, exports._reduceRightWithIndex)(O),
+    traverse: (0, exports._traverse)(O),
+    sequence: (0, exports._sequence)(O),
+    traverseWithIndex: _traverseWithIndex(O)
+}); };
+exports.getTraversableWithIndex = getTraversableWithIndex;
+/**
+ * @category filtering
+ * @since 2.11.0
+ */
+var getWitherable = function (O) {
+    var T = (0, exports.getTraversable)(O);
+    return {
+        URI: exports.URI,
+        map: exports._map,
+        reduce: (0, exports._reduce)(O),
+        foldMap: (0, exports._foldMap)(O),
+        reduceRight: (0, exports._reduceRight)(O),
+        traverse: T.traverse,
+        sequence: T.sequence,
+        compact: exports.compact,
+        separate: exports.separate,
+        filter: exports._filter,
+        filterMap: exports._filterMap,
+        partition: exports._partition,
+        partitionMap: exports._partitionMap,
+        wither: (0, Witherable_1.witherDefault)(T, exports.Compactable),
+        wilt: (0, Witherable_1.wiltDefault)(T, exports.Compactable)
+    };
+};
+exports.getWitherable = getWitherable;
+/**
+ * Given a `Semigroup` in the base type, it produces a `Semigroup`
+ * in the `ReadonlyRecord` of the base type.
+ * The resulting `Semigroup` concatenates two `ReadonlyRecord`s by
+ * `union`.
+ *
+ * @example
+ * import { getUnionSemigroup, ReadonlyRecord } from "fp-ts/ReadonlyRecord"
+ * import { Semigroup } from "fp-ts/Semigroup"
+ *
+ * const sNumber: Semigroup<number> = { concat: (x, y) => x - y };
+ * const sReadonlyRecord: Semigroup<ReadonlyRecord<string, number>> = getUnionSemigroup(sNumber);
+ * assert.deepStrictEqual(sReadonlyRecord.concat({ a: 1, b: 2 }, { b: 3, c: 4 }), { a: 1, b: -1, c: 4 });
+ *
+ * @category instances
+ * @since 2.11.0
+ */
+var getUnionSemigroup = function (S) {
+    var unionS = (0, exports.union)(S);
+    return {
+        concat: function (first, second) { return unionS(second)(first); }
+    };
+};
+exports.getUnionSemigroup = getUnionSemigroup;
+/**
+ * Same as `getMonoid`.
+ * Returns a `Monoid` instance for `ReadonlyRecord`s given a `Semigroup`
+ * instance for the base type.
+ * The `Monoid` makes the union of two `ReadonlyRecord`s combining the
+ * entries that have the same key with the provided `Semigroup`.
+ *
+ * @example
+ * import { SemigroupSum } from 'fp-ts/number'
+ * import { getUnionMonoid } from 'fp-ts/ReadonlyRecord'
+ *
+ * const M = getUnionMonoid(SemigroupSum);
+ * assert.deepStrictEqual(M.concat({ foo: 123, bar: 234 }, { foo: 456, baz: 567 }), { foo: 579 , bar: 234, baz: 567 });
+ *
+ * @category instances
+ * @since 2.11.0
+ */
+var getUnionMonoid = function (S) { return ({
+    concat: (0, exports.getUnionSemigroup)(S).concat,
+    empty: exports.empty
+}); };
+exports.getUnionMonoid = getUnionMonoid;
+/**
+ * Given a `Semigroup` in the base type, it produces a `Semigroup`
+ * in the `ReadonlyRecord` of the base type.
+ * The resulting `Semigroup` concatenates two `ReadonlyRecord`s by
+ * `intersection`.
+ *
+ * @example
+ * import { getIntersectionSemigroup, ReadonlyRecord } from "fp-ts/ReadonlyRecord"
+ * import { Semigroup } from "fp-ts/Semigroup"
+ *
+ * const sNumber: Semigroup<number> = { concat: (x, y) => x - y };
+ * const sReadonlyRecord: Semigroup<ReadonlyRecord<string, number>> = getIntersectionSemigroup(sNumber);
+ * assert.deepStrictEqual(sReadonlyRecord.concat({ a: 1, b: 2 }, { b: 3, c: 4 }), { b: -1 });
+ *
+ * @category instances
+ * @since 2.11.0
+ */
+var getIntersectionSemigroup = function (S) {
+    var intersectionS = (0, exports.intersection)(S);
+    return {
+        concat: function (first, second) { return intersectionS(second)(first); }
+    };
+};
+exports.getIntersectionSemigroup = getIntersectionSemigroup;
+/**
+ * Produces a `Magma` with a `concat` function that combines
+ * two `ReadonlyRecord`s by making the `difference`.
+ *
+ * @example
+ * import { getDifferenceMagma, difference, ReadonlyRecord } from "fp-ts/ReadonlyRecord"
+ * import { Magma } from "fp-ts/Magma"
+ *
+ * const r1 = { a: 3, c: 3 };
+ * const r2 = { a: 1, b: 2 };
+ * const m: Magma<ReadonlyRecord<string, number>> = getDifferenceMagma<number>();
+ * assert.deepStrictEqual(m.concat(r1, r2), difference(r2)(r1));
+ * assert.deepStrictEqual(m.concat(r1, r2), { c: 3, b: 2 });
+ *
+ * @category instances
+ * @since 2.11.0
+ */
+var getDifferenceMagma = function () { return ({
+    concat: function (first, second) { return (0, exports.difference)(second)(first); }
+}); };
+exports.getDifferenceMagma = getDifferenceMagma;
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+/**
+ * Use `getFoldable` instead.
+ *
+ * @category zone of death
+ * @since 2.7.0
+ * @deprecated
+ */
+exports.Foldable = {
+    URI: exports.URI,
+    reduce: /*#__PURE__*/ (0, exports._reduce)(S.Ord),
+    foldMap: /*#__PURE__*/ (0, exports._foldMap)(S.Ord),
+    reduceRight: /*#__PURE__*/ (0, exports._reduceRight)(S.Ord)
+};
+/**
+ * Use `getFoldableWithIndex` instead.
+ *
+ * @category zone of death
+ * @since 2.7.0
+ * @deprecated
+ */
+exports.FoldableWithIndex = {
+    URI: exports.URI,
+    reduce: /*#__PURE__*/ (0, exports._reduce)(S.Ord),
+    foldMap: /*#__PURE__*/ (0, exports._foldMap)(S.Ord),
+    reduceRight: /*#__PURE__*/ (0, exports._reduceRight)(S.Ord),
+    reduceWithIndex: /*#__PURE__*/ (0, exports._reduceWithIndex)(S.Ord),
+    foldMapWithIndex: /*#__PURE__*/ (0, exports._foldMapWithIndex)(S.Ord),
+    reduceRightWithIndex: /*#__PURE__*/ (0, exports._reduceRightWithIndex)(S.Ord)
+};
+/**
+ * Use `getTraversable` instead.
+ *
+ * @category zone of death
+ * @since 2.7.0
+ * @deprecated
+ */
+exports.Traversable = {
+    URI: exports.URI,
+    map: exports._map,
+    reduce: /*#__PURE__*/ (0, exports._reduce)(S.Ord),
+    foldMap: /*#__PURE__*/ (0, exports._foldMap)(S.Ord),
+    reduceRight: /*#__PURE__*/ (0, exports._reduceRight)(S.Ord),
+    traverse: /*#__PURE__*/ (0, exports._traverse)(S.Ord),
+    sequence: sequence
+};
+/**
+ * Use `getTraversableWithIndex` instead.
+ *
+ * @category zone of death
+ * @since 2.7.0
+ * @deprecated
+ */
+exports.TraversableWithIndex = {
+    URI: exports.URI,
+    map: exports._map,
+    mapWithIndex: exports._mapWithIndex,
+    reduce: /*#__PURE__*/ (0, exports._reduce)(S.Ord),
+    foldMap: /*#__PURE__*/ (0, exports._foldMap)(S.Ord),
+    reduceRight: /*#__PURE__*/ (0, exports._reduceRight)(S.Ord),
+    reduceWithIndex: /*#__PURE__*/ (0, exports._reduceWithIndex)(S.Ord),
+    foldMapWithIndex: /*#__PURE__*/ (0, exports._foldMapWithIndex)(S.Ord),
+    reduceRightWithIndex: /*#__PURE__*/ (0, exports._reduceRightWithIndex)(S.Ord),
+    traverse: /*#__PURE__*/ (0, exports._traverse)(S.Ord),
+    sequence: sequence,
+    traverseWithIndex: /*#__PURE__*/ _traverseWithIndex(S.Ord)
+};
+var _wither = /*#__PURE__*/ (0, Witherable_1.witherDefault)(exports.Traversable, exports.Compactable);
+var _wilt = /*#__PURE__*/ (0, Witherable_1.wiltDefault)(exports.Traversable, exports.Compactable);
+/**
+ * Use `getWitherable` instead.
+ *
+ * @category zone of death
+ * @since 2.7.0
+ * @deprecated
+ */
+exports.Witherable = {
+    URI: exports.URI,
+    map: exports._map,
+    reduce: /*#__PURE__*/ (0, exports._reduce)(S.Ord),
+    foldMap: /*#__PURE__*/ (0, exports._foldMap)(S.Ord),
+    reduceRight: /*#__PURE__*/ (0, exports._reduceRight)(S.Ord),
+    traverse: /*#__PURE__*/ (0, exports._traverse)(S.Ord),
+    sequence: sequence,
+    compact: exports.compact,
+    separate: exports.separate,
+    filter: exports._filter,
+    filterMap: exports._filterMap,
+    partition: exports._partition,
+    partitionMap: exports._partitionMap,
+    wither: _wither,
+    wilt: _wilt
+};
+/**
+ * Use [`upsertAt`](#upsertat) instead.
+ *
+ * @category zone of death
+ * @since 2.5.0
+ * @deprecated
+ */
+exports.insertAt = exports.upsertAt;
+function hasOwnProperty(k, r) {
+    return _.has.call(r === undefined ? this : r, k);
+}
+/**
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `RR.Functor` instead of `RR.readonlyRecord`
+ * (where `RR` is from `import RR from 'fp-ts/ReadonlyRecord'`)
+ *
+ * @category zone of death
+ * @since 2.5.0
+ * @deprecated
+ */
+exports.readonlyRecord = {
+    URI: exports.URI,
+    map: exports._map,
+    reduce: /*#__PURE__*/ (0, exports._reduce)(S.Ord),
+    foldMap: /*#__PURE__*/ (0, exports._foldMap)(S.Ord),
+    reduceRight: /*#__PURE__*/ (0, exports._reduceRight)(S.Ord),
+    traverse: /*#__PURE__*/ (0, exports._traverse)(S.Ord),
+    sequence: sequence,
+    compact: exports.compact,
+    separate: exports.separate,
+    filter: exports._filter,
+    filterMap: exports._filterMap,
+    partition: exports._partition,
+    partitionMap: exports._partitionMap,
+    mapWithIndex: exports._mapWithIndex,
+    reduceWithIndex: /*#__PURE__*/ (0, exports._reduceWithIndex)(S.Ord),
+    foldMapWithIndex: /*#__PURE__*/ (0, exports._foldMapWithIndex)(S.Ord),
+    reduceRightWithIndex: /*#__PURE__*/ (0, exports._reduceRightWithIndex)(S.Ord),
+    filterMapWithIndex: exports._filterMapWithIndex,
+    filterWithIndex: exports._filterWithIndex,
+    partitionMapWithIndex: exports._partitionMapWithIndex,
+    partitionWithIndex: exports._partitionWithIndex,
+    traverseWithIndex: /*#__PURE__*/ _traverseWithIndex(S.Ord),
+    wither: _wither,
+    wilt: _wilt
+};

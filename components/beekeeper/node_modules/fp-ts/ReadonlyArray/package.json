@@ -1,0 +1,6 @@
+{
+  "main": "../lib/ReadonlyArray.js",
+  "module": "../es6/ReadonlyArray.js",
+  "typings": "../lib/ReadonlyArray.d.ts",
+  "sideEffects": false
+}

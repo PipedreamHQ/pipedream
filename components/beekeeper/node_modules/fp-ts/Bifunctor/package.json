@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Bifunctor.js",
+  "module": "../es6/Bifunctor.js",
+  "typings": "../lib/Bifunctor.d.ts",
+  "sideEffects": false
+}

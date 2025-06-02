@@ -1,0 +1,6 @@
+{
+  "main": "../lib/MonadIO.js",
+  "module": "../es6/MonadIO.js",
+  "typings": "../lib/MonadIO.d.ts",
+  "sideEffects": false
+}

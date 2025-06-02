@@ -1,0 +1,6 @@
+{
+  "main": "../lib/Ring.js",
+  "module": "../es6/Ring.js",
+  "typings": "../lib/Ring.d.ts",
+  "sideEffects": false
+}
