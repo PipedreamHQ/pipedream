@@ -1481,6 +1481,7 @@ export abstract class BaseClient {
       id,
       configured_props: opts.configuredProps,
       dynamic_props_id: opts.dynamicPropsId,
+      workflow_id: opts.workflowId,
       webhook_url: opts.webhookUrl,
     };
     return this.makeConnectRequest<DeployTriggerResponse>("/triggers/deploy", {
