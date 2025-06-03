@@ -258,6 +258,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/action1: {}
+
   components/action_builder: {}
 
   components/action_network: {}
@@ -367,8 +369,7 @@ importers:
         specifier: ^1.2.1
         version: 1.6.6
 
-  components/adtraction:
-    specifiers: {}
+  components/adtraction: {}
 
   components/adversus:
     dependencies:
@@ -1889,6 +1890,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/buddy: {}
 
   components/budgets_ai: {}
 
@@ -3739,8 +3742,7 @@ importers:
 
   components/dokan: {}
 
-  components/dolibarr:
-    specifiers: {}
+  components/dolibarr: {}
 
   components/domain_group:
     dependencies:
@@ -5847,6 +5849,8 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/guardrails: {}
+
   components/gumroad:
     dependencies:
       '@pipedream/platform':
@@ -6364,7 +6368,11 @@ importers:
 
   components/ical: {}
 
-  components/icontact: {}
+  components/icontact:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/icypeas:
     dependencies:
@@ -7373,8 +7381,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/limoexpress:
-    specifiers: {}
+  components/limoexpress: {}
 
   components/line:
     dependencies:
@@ -7575,6 +7582,8 @@ importers:
       object-hash:
         specifier: ^3.0.0
         version: 3.0.0
+
+  components/local_reviews: {}
 
   components/locate:
     dependencies:
@@ -8933,7 +8942,11 @@ importers:
         specifier: 3.0.3
         version: 3.0.3
 
-  components/nuclino: {}
+  components/nuclino:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/nudgify:
     dependencies:
@@ -9884,8 +9897,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/pinghome:
-    specifiers: {}
+  components/pinghome: {}
 
   components/pingone: {}
 
@@ -10380,8 +10392,7 @@ importers:
 
   components/procore_sandbox: {}
 
-  components/prodatakey:
-    specifiers: {}
+  components/prodatakey: {}
 
   components/prodpad:
     dependencies:
@@ -15054,8 +15065,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/zenedu:
-    specifiers: {}
+  components/zenedu: {}
 
   components/zenkit:
     dependencies:
@@ -15564,6 +15574,14 @@ importers:
       dotenv:
         specifier: ^6.0.0
         version: 6.2.0
+
+  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
+
+  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
+
+  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
+
+  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
 
   packages/ai:
     dependencies:

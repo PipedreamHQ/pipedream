@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/guardrails",
+  "version": "0.0.1",
+  "description": "Pipedream Guardrails Components",
+  "main": "guardrails.app.mjs",
+  "keywords": [
+    "pipedream",
+    "guardrails"
+  ],
+  "homepage": "https://pipedream.com/apps/guardrails",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
