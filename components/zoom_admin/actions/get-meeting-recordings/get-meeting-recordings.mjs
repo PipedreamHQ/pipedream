@@ -23,15 +23,30 @@ export default {
       description: "Whether to include the download access token in the response",
       optional: true,
     },
+    ttl: {
+      type: "integer",
+      label: "TTL (seconds)",
+      description: "Time to live (TTL) of the download_access_token in seconds. Range: 0-604800 (7 days). Only valid when Download Access Token is enabled.",
+      optional: true,
+      min: 0,
+      max: 604800,
+    },
   },
   async run({ $ }) {
+    const params = {};
+
+    if (this.downloadAccessToken) {
+      params.include_fields = "download_access_token";
+      if (this.ttl !== undefined) {
+        params.ttl = this.ttl;
+      }
+    }
+
     const res = await paginate(
       this.zoomAdmin.listMeetingRecordings,
-      "recordings",
+      "recording_files",
       get(this.meeting, "value", this.meeting),
-      {
-        download_access_token: this.downloadAccessToken,
-      },
+      params,
     );
 
     $.export("$summary", `"${get(this.meeting, "label", this.meeting)}" meeting recordings successfully fetched`);
