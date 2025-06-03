@@ -7586,6 +7586,9 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
 
+  components/local_reviews:
+    specifiers: {}
+
   components/locate:
     dependencies:
       '@pipedream/platform':

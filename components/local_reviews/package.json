@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/local_reviews",
+  "version": "0.0.1",
+  "description": "Pipedream Local Reviews Components",
+  "main": "local_reviews.app.mjs",
+  "keywords": [
+    "pipedream",
+    "local_reviews"
+  ],
+  "homepage": "https://pipedream.com/apps/local_reviews",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
