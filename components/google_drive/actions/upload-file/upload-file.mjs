@@ -91,7 +91,7 @@ export default {
     metadata: {
       type: "object",
       label: "Metadata",
-      description: "Additional metadata to supply in the upload. [See the documentation](https://developers.google.com/workspace/drive/api/reference/rest/v3/files) for information on availabl efields. Values will be parsed as JSON where applicable. Example: `{ \"description\": \"my file description\" }`",
+      description: "Additional metadata to supply in the upload. [See the documentation](https://developers.google.com/workspace/drive/api/reference/rest/v3/files) for information on available fields. Values will be parsed as JSON where applicable. Example: `{ \"description\": \"my file description\" }`",
       optional: true,
     },
   },
