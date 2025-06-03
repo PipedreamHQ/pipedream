@@ -5848,6 +5848,9 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/guardrails:
+    specifiers: {}
+
   components/gumroad:
     dependencies:
       '@pipedream/platform':
