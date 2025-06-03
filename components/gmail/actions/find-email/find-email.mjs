@@ -1,11 +1,16 @@
 import { convert } from "html-to-text";
 import gmail from "../../gmail.app.mjs";
+import {
+  decodeBase64Url,
+  extractTextFromParts,
+  attachTextToParts,
+} from "./utils.mjs";
 
 export default {
   key: "gmail-find-email",
   name: "Find Email",
   description: "Find an email using Google's Search Engine. [See the docs](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/list)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     gmail,
@@ -58,14 +63,31 @@ export default {
 
     for await (const message of messagesToEmit) {
       let newPayload = "";
-      for (const part of message.payload?.parts || []) {
-        if (part.body.data) {
-          const payload = Buffer.from(part.body.data, "base64").toString("utf-8");
-          this.withTextPayload
-            ? newPayload += convert(payload)
-            : part.body.text = payload;
+
+      const messageIdHeader = message.payload?.headers?.find(
+        (h) => h.name.toLowerCase() === "message-id",
+      );
+      if (messageIdHeader) {
+        message.message_id = messageIdHeader.value;
+      }
+
+      if (message.payload?.body?.data && !Array.isArray(message.payload.parts)) {
+        const decodedBody = decodeBase64Url(message.payload.body.data);
+        if (this.withTextPayload) {
+          newPayload += convert(decodedBody);
+        } else {
+          message.payload.body.text = decodedBody;
         }
       }
+
+      if (Array.isArray(message.payload?.parts)) {
+        if (this.withTextPayload) {
+          newPayload += extractTextFromParts(message.payload.parts);
+        } else {
+          attachTextToParts(message.payload.parts);
+        }
+      }
+
       if (this.withTextPayload) {
         message.payload = newPayload;
       }
