@@ -11,6 +11,14 @@ export {
 } from "./utils";
 
 export {
+  getFileStreamAndMetadata,
+  getFileStream,
+} from "./file-stream";
+export type {
+  FileMetadata,
+} from "./file-stream";
+
+export {
   ConfigurationError,
 } from "./errors";
 
