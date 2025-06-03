@@ -42,12 +42,7 @@ export default {
       }
     }
 
-    const res = await paginate(
-      this.zoomAdmin.listMeetingRecordings,
-      "recording_files",
-      get(this.meeting, "value", this.meeting),
-      params,
-    );
+    const res = await this.zoomAdmin.listMeetingRecordings(get(this.meeting, "value", this.meeting), params);
 
     $.export("$summary", `"${get(this.meeting, "label", this.meeting)}" meeting recordings successfully fetched`);
 
