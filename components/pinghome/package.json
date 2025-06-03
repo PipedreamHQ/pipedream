@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/pinghome",
+  "version": "0.0.1",
+  "description": "Pipedream Pinghome Components",
+  "main": "pinghome.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pinghome"
+  ],
+  "homepage": "https://pipedream.com/apps/pinghome",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

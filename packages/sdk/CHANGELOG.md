@@ -2,6 +2,19 @@
 
 # Changelog
 
+## [1.6.5] - 2025-06-02
+
+### Changed
+
+- Fix the `deployTrigger` method so that it sends the workflow ID to the API
+
+## [1.6.4] - 2025-05-30
+
+### Added
+
+- Added `onClose` callback to `connectAccount` method that receives a
+  `ConnectStatus` object with `successful` and `completed` boolean properties
+
 ## [1.6.3] - 2025-05-20b
 
 ### Added
@@ -61,8 +74,8 @@
 
 ### Added
 
-- PD_SDK_DEBUG env var.  Set it to true to enable debugging of Pipedream Connect
-  API requests.  Simple sanitization is performed to prevent sensitive field leakage
+- PD_SDK_DEBUG env var. Set it to true to enable debugging of Pipedream Connect
+  API requests. Simple sanitization is performed to prevent sensitive field leakage
   but use caution.
 
 ## [1.5.1] - 2025-04-15
