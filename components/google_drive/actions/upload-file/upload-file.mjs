@@ -3,6 +3,7 @@ import path from "path";
 import {
   getFileStream,
   omitEmptyStringValues,
+  parseObjectEntries,
 } from "../../common/utils.mjs";
 import { GOOGLE_DRIVE_UPLOAD_TYPE_MULTIPART } from "../../common/constants.mjs";
 import {
@@ -13,7 +14,7 @@ export default {
   key: "google_drive-upload-file",
   name: "Upload File",
   description: "Upload a file to Google Drive. [See the documentation](https://developers.google.com/drive/api/v3/manage-uploads) for more information",
-  version: "1.0.2",
+  version: "1.1.0",
   type: "action",
   additionalProps,
   props: {
@@ -84,7 +85,13 @@ export default {
         "fileId",
       ],
       label: "File to replace",
-      description: "Id of the file to replace. Leave it empty to upload a new file.",
+      description: "ID of the file to replace. Leave it empty to upload a new file.",
+      optional: true,
+    },
+    metadata: {
+      type: "object",
+      label: "Metadata",
+      description: "Additional metadata to supply in the upload. [See the documentation](https://developers.google.com/workspace/drive/api/reference/rest/v3/files) for information on availabl efields. Values will be parsed as JSON where applicable. Example: `{ \"description\": \"my file description\" }`",
       optional: true,
     },
   },
@@ -110,6 +117,8 @@ export default {
     });
     console.log(`Upload type: ${uploadType}.`);
 
+    const metadata = parseObjectEntries(this.metadata);
+
     let result = null;
     if (this.fileId) {
       await this.googleDrive.updateFileMedia(this.fileId, file, omitEmptyStringValues({
@@ -120,6 +129,7 @@ export default {
         name: filename,
         mimeType,
         uploadType,
+        requestBody: metadata,
       }));
       $.export("$summary", `Successfully updated file, "${result.name}"`);
     } else {
@@ -130,6 +140,7 @@ export default {
         parentId,
         driveId,
         uploadType,
+        requestBody: metadata,
       }));
       $.export("$summary", `Successfully uploaded a new file, "${result.name}"`);
     }
