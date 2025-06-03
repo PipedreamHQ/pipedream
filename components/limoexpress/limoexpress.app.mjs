@@ -9,10 +9,12 @@ export default {
       label: "Booking Type ID",
       description: "ID of the booking type.",
       async options() {
-        const types = await this.listBookingTypes();
-        return types.map((type) => ({
-          label: type.name,
-          value: type.id,
+        const { data } = await this.listBookingTypes();
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
@@ -21,126 +23,244 @@ export default {
       label: "Booking Status ID",
       description: "ID of the booking status.",
       async options() {
-        const statuses = await this.listBookingStatuses();
-        return statuses.map((status) => ({
-          label: status.name,
-          value: status.id,
+        const { data } = await this.listBookingStatuses();
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
-    bookingId: {
+    vehicleClassId: {
       type: "string",
-      label: "Booking ID",
-      description: "The ID of the booking.",
+      label: "Vehicle Class ID",
+      description: "ID of the vehicle class to be used for the booking.",
+      async options({ page }) {
+        const { data } = await this.listVehicleClasses({
+          params: {
+            page,
+          },
+        });
+        return data.map(({ name }) => name);
+      },
     },
-    driverId: {
+    vehicleId: {
       type: "string",
-      label: "Driver ID",
-      description: "The ID of the driver to assign to the booking.",
+      label: "Vehicle ID",
+      description: "ID of the vehicle to be used for the booking.",
+      async options({
+        page, vehicleClassId,
+      }) {
+        const { data } = await this.listVehicles({
+          params: {
+            page,
+            search_string: vehicleClassId,
+          },
+        });
+        return data.map(({
+          id: value, name, plate_number,
+        }) => ({
+          label: `${name} (${plate_number})`,
+          value,
+        }));
+      },
     },
-    fromLocation: {
+    currencyId: {
       type: "string",
-      label: "From Location",
-      description: "The pickup location.",
+      label: "Currency ID",
+      description: "ID of the currency to be used for the booking.",
+      async options() {
+        const { data } = await this.listCurrencies();
+        return data.map(({
+          id: value, code: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    pickupTime: {
+    paymentMethodId: {
       type: "string",
-      label: "Pickup Time",
-      description: "The time scheduled for pickup.",
+      label: "Payment Method ID",
+      description: "ID of the payment method for the booking.",
+      async options({ page }) {
+        const { data } = await this.listPaymentMethods({
+          params: {
+            page,
+          },
+        });
+        return data.filter(({ hidden }) => !hidden).map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    cancellationReason: {
+    clientId: {
       type: "string",
-      label: "Cancellation Reason",
-      description: "Reason for canceling the booking.",
-      optional: true,
+      label: "Client ID",
+      description: "ID of the client for the booking.",
+      async options({ page }) {
+        const { data } = await this.listClients({
+          params: {
+            page,
+          },
+        });
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
-    assignmentNotes: {
+    invoiceId: {
       type: "string",
-      label: "Assignment Notes",
-      description: "Additional notes for the driver assignment.",
-      optional: true,
+      label: "Invoice ID",
+      description: "The ID of the invoice.",
+      async options({ page }) {
+        const { data } = await this.listInvoices({
+          params: {
+            page,
+          },
+        });
+        return data.map(({
+          id: value, number: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
-      return "https://api.limoexpress.me/api/v1";
+      return "https://api.limoexpress.me/api/integration";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "Authorization": `Bearer ${this.$auth.api_key}`,
+        "Accept": "*/*",
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
-      });
-    },
-    async listBookingTypes(opts = {}) {
-      return this._makeRequest({
-        path: "/booking_types",
+        headers: this._headers(),
         ...opts,
       });
     },
-    async listBookingStatuses(opts = {}) {
+    listBookings(opts = {}) {
       return this._makeRequest({
-        path: "/booking_statuses",
-        ...opts,
-      });
-    },
-    async createBooking({
-      bookingTypeId, fromLocation, pickupTime, ...opts
-    }) {
-      return this._makeRequest({
-        method: "POST",
         path: "/bookings",
-        data: {
-          booking_type_id: bookingTypeId,
-          from_location: fromLocation,
-          pickup_time: pickupTime,
-        },
         ...opts,
       });
     },
-    async cancelBooking({
-      bookingId, cancellationReason, ...opts
+    listBookingTypes(opts = {}) {
+      return this._makeRequest({
+        path: "/booking-types",
+        ...opts,
+      });
+    },
+    listBookingStatuses(opts = {}) {
+      return this._makeRequest({
+        path: "/booking-statuses",
+        ...opts,
+      });
+    },
+    listVehicleClasses(opts = {}) {
+      return this._makeRequest({
+        path: "/vehicle-classes",
+        ...opts,
+      });
+    },
+    listVehicles(opts = {}) {
+      return this._makeRequest({
+        path: "/vehicles",
+        ...opts,
+      });
+    },
+    listCurrencies(opts = {}) {
+      return this._makeRequest({
+        path: "/currencies",
+        ...opts,
+      });
+    },
+    listPaymentMethods(opts = {}) {
+      return this._makeRequest({
+        path: "/payment-methods",
+        ...opts,
+      });
+    },
+    listClients(opts = {}) {
+      return this._makeRequest({
+        path: "/clients",
+        ...opts,
+      });
+    },
+    listInvoices(opts = {}) {
+      return this._makeRequest({
+        path: "/invoices",
+        ...opts,
+      });
+    },
+    createBooking(opts = {}) {
+      return this._makeRequest({
+        method: "PUT",
+        path: "/bookings",
+        ...opts,
+      });
+    },
+    createClient(opts = {}) {
+      return this._makeRequest({
+        method: "PUT",
+        path: "/clients",
+        ...opts,
+      });
+    },
+    markInvoiceAsPaid({
+      invoiceId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/bookings/${bookingId}/cancel`,
-        data: {
-          cancellation_reason: cancellationReason,
-        },
+        path: `/invoices/${invoiceId}/mark_as_paid`,
         ...opts,
       });
     },
-    async assignDriver({
-      bookingId, driverId, assignmentNotes, ...opts
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
     }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/bookings/${bookingId}/assign_driver`,
-        data: {
-          driver_id: driverId,
-          assignment_notes: assignmentNotes,
-        },
-        ...opts,
-      });
-    },
-    async emitNewBookingEvent() {
-      // Implementation for emitting new booking event
-    },
-    async emitCancelledBookingEvent() {
-      // Implementation for emitting canceled booking event
-    },
-    async emitDriverAssignedEvent() {
-      // Implementation for emitting driver assigned event
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.page = ++page;
+        params.per_page = 100;
+        const {
+          data,
+          meta: {
+            current_page, last_page,
+          },
+        } = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of data) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = !(current_page == last_page);
+
+      } while (hasMore);
     },
   },
 };
