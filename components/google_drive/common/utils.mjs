@@ -1,5 +1,7 @@
 import fs from "fs";
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import {
   MY_DRIVE_VALUE,
   LEGACY_MY_DRIVE_VALUE,
@@ -266,9 +268,16 @@ function optionalParseAsJSON(value) {
 }
 
 function parseObjectEntries(value = {}) {
-  const obj = typeof value === "string"
-    ? JSON.parse(value)
-    : value;
+  let obj;
+  if (typeof value === "string") {
+    try {
+      obj = JSON.parse(value);
+    } catch (e) {
+      throw new ConfigurationError(`Invalid JSON string provided: ${e.message}`);
+    }
+  } else {
+    obj = value;
+  }
   return Object.fromEntries(
     Object.entries(obj).map(([
       key,
