@@ -258,6 +258,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/action1: {}
+
   components/action_builder: {}
 
   components/action_network: {}
@@ -1888,6 +1890,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/buddy: {}
 
   components/budgets_ai: {}
 
@@ -5845,6 +5849,8 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/guardrails: {}
+
   components/gumroad:
     dependencies:
       '@pipedream/platform':
@@ -7576,6 +7582,8 @@ importers:
       object-hash:
         specifier: ^3.0.0
         version: 3.0.0
+
+  components/local_reviews: {}
 
   components/locate:
     dependencies:
@@ -15566,6 +15574,14 @@ importers:
       dotenv:
         specifier: ^6.0.0
         version: 6.2.0
+
+  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
+
+  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
+
+  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
+
+  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
 
   packages/ai:
     dependencies:
