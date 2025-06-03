@@ -167,6 +167,7 @@ export const sendTypeMap = {
 };
 
 // Event object that persists throughout worfklow with observability after each step.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export let $event: any;
 
 export const END_NEEDLE = "__pd_end";
@@ -215,6 +216,7 @@ export const $sendConfigRuntimeTypeChecker = (function () {
 
 export interface AxiosRequestConfig extends AxiosConfig {
   debug?: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   body?: any;
   returnFullResponse?: boolean;
 }
