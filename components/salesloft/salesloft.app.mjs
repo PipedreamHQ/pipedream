@@ -61,18 +61,19 @@ export default {
     _apiUrl() {
       return "https://api.salesloft.com/v2";
     },
-    _makeRequest({
+    async _makeRequest({
       $ = this,
       path,
       ...args
     }) {
-      return axios($, {
+      const response = await axios($, {
         url: `${this._apiUrl()}${path}`,
         headers: {
           Authorization: `Bearer ${this.$auth.api_key}`,
         },
         ...args,
       });
+      return response.data;
     },
     async createPerson(args = {}) {
       return this._makeRequest({

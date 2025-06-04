@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/salesloft",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Salesloft Components",
   "main": "salesloft.app.mjs",
   "keywords": [
@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/salesloft",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^1.5.1"
+    "@pipedream/platform": "^3.0.3"
   },
   "publishConfig": {
     "access": "public"

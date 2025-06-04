@@ -9,6 +9,11 @@ export default {
   type: "action",
   props: {
     salesloft,
+    info: {
+      type: "alert",
+      alertType: "info",
+      content: "Either `Email Address` or both `Phone` and `Last Name` must be provided.",
+    },
     email: {
       type: "string",
       label: "Email",
@@ -47,7 +52,6 @@ export default {
     },
   },
   async run({ $ }) {
-    // Either email_address or phone/last_name must be provided as a unique lookup
     if (!this.email && !(this.phone && this.lastName)) {
       throw new ConfigurationError("Either `Email Address` or both `Phone` and `Last Name` must be provided");
     }
@@ -64,7 +68,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully created person "${response.first_name || response.email_address || response.id}"`);
+    $.export("$summary", `Successfully created person (ID: ${response.id})`);
 
     return response;
   },
