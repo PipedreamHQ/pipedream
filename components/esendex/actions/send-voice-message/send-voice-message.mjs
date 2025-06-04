@@ -4,7 +4,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "esendex-send-voice-message",
   name: "Send Voice Message",
-  description: "Send a voice message to a recipient. [See the documentation[(https://developers.esendex.com/api-reference/#messagedispatcher)",
+  description: "Send a voice message to a recipient. [See the documentation](https://developers.esendex.com/api-reference/#messagedispatcher)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -69,7 +69,6 @@ export default {
             body: this.message,
             from: this.from,
             type: "Voice",
-            sendat: this.sendAt,
             characterset: this.characterSet,
             lang: this.lang,
             retries: this.retries,

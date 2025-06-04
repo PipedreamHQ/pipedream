@@ -7,7 +7,7 @@ import sampleEmit from "./test-event.mjs";
 export default {
   key: "esendex-new-message-received",
   name: "New Message Received",
-  description: "Emit new event when a new message is received. [See the documentation[(https://developers.esendex.com/api-reference/#messageheader)",
+  description: "Emit new event when a new message is received. [See the documentation](https://developers.esendex.com/api-reference/#messageheader)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

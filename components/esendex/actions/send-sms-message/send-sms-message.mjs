@@ -4,7 +4,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "esendex-send-sms-message",
   name: "Send SMS Message",
-  description: "Send an SMS message to a recipient. [See the documentation[(https://developers.esendex.com/api-reference/#messagedispatcher)",
+  description: "Send an SMS message to a recipient. [See the documentation](https://developers.esendex.com/api-reference/#messagedispatcher)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -63,7 +63,6 @@ export default {
             body: this.message,
             from: this.from,
             type: "SMS",
-            sendat: this.sendAt,
             characterset: this.characterSet,
             validity: this.validity,
           },
