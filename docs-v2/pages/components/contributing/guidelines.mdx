@@ -116,7 +116,8 @@ scoped components are easier for users to understand and use.
 Registry [components](/components/contributing/api/#component-structure) require a unique
 `key` and `version`, and a friendly `name` and `description`. Action components
 require a `type` field to be set to `action` (sources will require a type to be
-set in the future).
+set in the future). Action components require the description to include a link to the
+relevant documentation in the following format: \[See the documentation\](https://public-api.com)
 
 ```javascript
 export default {
@@ -160,6 +161,9 @@ to the registry, the version should be `0.0.1`. If the action was at version
 `0.1.0` and you've fixed a bug, change it to `0.1.1` when committing your final
 code.
 
+If you update a file, you must increment the versions of all components that
+import or are affected by the updated file.
+
 ### Folder Structure
 
 Registry components are organized by app in the `components` directory of the
@@ -168,26 +172,28 @@ Registry components are organized by app in the `components` directory of the
 ```text
 /components
  /[app-name-slug]
-  /[app-name-slug].app.js
+  /[app-name-slug].app.mjs
   /actions
    /[action-name-slug]
-    /[action-name-slug].js
+    /[action-name-slug].mjs
   /sources
    /[source-name-slug]
-    /[source-name-slug].js
+    /[source-name-slug].mjs
 ```
 
 - The name of each app folder corresponds with the name slug for each app
 - The app file should be in the root of the app folder (e.g.,
-  `/components/[app_slug]/[app_slug].app.js`)
+  `/components/[app_slug]/[app_slug].app.mjs`)
 - Components for each app are organized into `/sources` and `/actions`
   subfolders
 - Each component should be placed in its own subfolder (with the name of the
   folder and the name of the `js` file equivalent to the slugified component
   name). For example, the path for the "Search Mentions" source for Twitter is
-  `/components/twitter/sources/search-mentions/search-mentions.js`.
+  `/components/twitter/sources/search-mentions/search-mentions.mjs`.
 - Aside from `app_slug`, words in folder and file names are separated by dashes
   (-) (i.e., in kebab case)
+- Common files (e.g., `common.mjs`, `utils.mjs`) must be placed within a common
+  folder: `/common/common.mjs`.
 
 You can explore examples in the [components
 directory](https://github.com/PipedreamHQ/pipedream/tree/master/components).
@@ -329,7 +335,7 @@ If users are required to enter sensitive data, always use
 
 App files contain components that declare the app and include prop definitions
 and methods that may be reused across components. App files should adhere to the
-following naming convention: `[app_name_slug].app.js`. If an app file does not
+following naming convention: `[app_name_slug].app.mjs`. If an app file does not
 exist for your app, please [reach
 out](https://pipedream.com/community/c/dev/11).
 
@@ -402,18 +408,20 @@ with this approach is that it increases complexity for end-users who have the
 option of customizing the code for components within Pipedream. When using this
 approach, the general pattern is:
 
-- The `.app.js` module contains the logic related to making the actual API calls
+- The `.app.mjs` module contains the logic related to making the actual API calls
   (e.g. calling `axios.get`, encapsulate the API URL and token, etc).
-- The `common.js` module contains logic and structure that is not specific to
+- The `common.mjs` module contains logic and structure that is not specific to
   any single component. Its structure is equivalent to a component, except that
   it doesn't define attributes such as `version`, `dedupe`, `key`, `name`, etc
   (those are specific to each component). It defines the main logic/flow and
   relies on calling its methods (which might not be implemented by this
   component) to get any necessary data that it needs. In OOP terms, it would be
   the equivalent of a base abstract class.
-- The component module of each action would inherit/extend the `common.js`
+- The component module of each action would inherit/extend the `common.mjs`
   component by setting additional attributes (e.g. `name`, `description`, `key`,
   etc) and potentially redefining any inherited methods.
+- Common files (e.g., `common.mjs`, `utils.mjs`) must be placed within a common
+  folder: `/common/common.mjs`.
 
 See [Google
 Drive](https://github.com/PipedreamHQ/pipedream/tree/master/components/google_drive)
@@ -424,15 +432,13 @@ Please note that the name `common` is just a convention and depending on each
 case it might make sense to name any common module differently. For example, the
 [AWS
 sources](https://github.com/PipedreamHQ/pipedream/tree/master/components/aws)
-contains a `common` directory instead of a `common.js` file, and the directory
+contains a `common` directory instead of a `common.mjs` file, and the directory
 contains several modules that are shared between different event sources.
 
 ## Props
 
-As a general rule of thumb, we should strive to only incorporate the 3-4 most
-relevant options from a given API as props. This is not a hard limit, but the
-goal is to optimize for usability. We should aim to solve specific use cases as
-simply as possible.
+As a general rule of thumb, we should strive to incorporate all
+relevant options from a given API as props.
 
 ### Labels
 
@@ -445,7 +451,7 @@ but its label is set to “Search Term”.
 
 ### Descriptions
 
-Include a description for [props](/components/contributing/api/#user-input-props) if it helps
+Include a description for [props](/components/contributing/api/#user-input-props) to help
 the user understand what they need to do. Use Markdown as appropriate to improve
 the clarity of the description or instructions. When using Markdown:
 
@@ -780,6 +786,10 @@ Browsers can crash when users load large exports (many MBs of data). When you
 know the content being returned is likely to be large – e.g. files — don't
 export the full content. Consider writing the data to the `/tmp` directory and
 exporting a reference to the file.
+
+## Miscellaneous
+
+- Use camelCase for all props, method names, and variables.
 
 ## Database Components
 
