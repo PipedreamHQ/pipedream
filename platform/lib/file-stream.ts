@@ -1,11 +1,15 @@
 import { Readable } from "stream";
 import { ReadableStream } from "stream/web";
-import { createReadStream, createWriteStream, promises as fs } from "fs";
+import {
+  createReadStream, createWriteStream, promises as fs, Stats,
+} from "fs";
 import { tmpdir } from "os";
-import { join, basename } from "path";
+import {
+  join, basename,
+} from "path";
 import { pipeline } from "stream/promises";
 import { v4 as uuidv4 } from "uuid";
-import mime from "mime-types";
+import * as mime from "mime-types";
 
 export interface FileMetadata {
   size?: number;
@@ -62,7 +66,7 @@ async function safeStat(path: string): Promise<Stats> {
 }
 
 async function getLocalFileStreamAndMetadata(
-  filePath: string
+  filePath: string,
 ): Promise<{ stream: Readable; metadata: FileMetadata }> {
   const stats = await safeStat(filePath);
   const contentType = mime.lookup(filePath) || undefined;
@@ -70,10 +74,13 @@ async function getLocalFileStreamAndMetadata(
     size: stats.size,
     lastModified: stats.mtime,
     name: basename(filePath),
-    contentType
+    contentType,
   };
   const stream = createReadStream(filePath);
-  return { stream, metadata };
+  return {
+    stream,
+    metadata,
+  };
 }
 
 async function getRemoteFileStreamAndMetadata(url: string): Promise<{ stream: Readable; metadata: FileMetadata }> {
@@ -128,7 +135,7 @@ async function downloadToTemporaryFile(response: Response, baseMetadata: FileMet
     const stats = await fs.stat(tempFilePath);
     const metadata: FileMetadata = {
       ...baseMetadata,
-      size: stats.size
+      size: stats.size,
     };
     const stream = createReadStream(tempFilePath);
 
@@ -144,10 +151,15 @@ async function downloadToTemporaryFile(response: Response, baseMetadata: FileMet
     stream.on("end", cleanup);
     stream.on("error", cleanup);
 
-    return { stream, metadata };
+    return {
+      stream,
+      metadata,
+    };
   } catch (err) {
     // Cleanup on error
-    try { await fs.unlink(tempFilePath); } catch {}
+    try { await fs.unlink(tempFilePath); } catch {
+      // Ignore cleanup errors
+    }
     throw err;
   }
 }
