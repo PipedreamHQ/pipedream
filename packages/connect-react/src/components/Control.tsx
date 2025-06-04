@@ -6,8 +6,10 @@ import {
 } from "@pipedream/sdk";
 // import { ControlAny } from "./ControlAny"
 import { ControlApp } from "./ControlApp";
+import { ControlArray } from "./ControlArray";
 import { ControlBoolean } from "./ControlBoolean";
 import { ControlInput } from "./ControlInput";
+import { ControlObject } from "./ControlObject";
 import { ControlSelect } from "./ControlSelect";
 import { RemoteOptionsContainer } from "./RemoteOptionsContainer";
 
@@ -54,6 +56,11 @@ export function Control<T extends ConfigurableProps, U extends ConfigurableProp>
   }
 
   if (prop.type.endsWith("[]")) {
+    // If no options are defined, use individual inputs with "Add more" functionality
+    if (!("options" in prop) || !prop.options) {
+      return <ControlArray />;
+    }
+    // If options are defined, they would have been handled above in the options check
     return <ControlSelect isCreatable={true} options={[]} components={{
       IndicatorSeparator: () => null,
     }} />;
@@ -73,6 +80,8 @@ export function Control<T extends ConfigurableProps, U extends ConfigurableProp>
   case "integer":
     // XXX split into ControlString, ControlInteger, etc? but want to share autoComplet="off", etc functionality in base one
     return <ControlInput />;
+  case "object":
+    return <ControlObject />;
   default:
     // TODO "not supported prop type should bubble up"
     throw new Error("Unsupported property type: " + prop.type);
