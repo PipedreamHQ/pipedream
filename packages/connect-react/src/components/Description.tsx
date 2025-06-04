@@ -1,4 +1,6 @@
-import type { CSSProperties } from "react";
+import {
+  useState, type CSSProperties,
+} from "react";
 import Markdown from "react-markdown";
 import {
   ConfigurableProp, ConfigurableProps,
@@ -41,8 +43,42 @@ export function Description<T extends ConfigurableProps, U extends ConfigurableP
     return null;
   }
   return <div className={getClassNames("description", props)} style={getStyles("description", baseStyles, props)}> <Markdown components={{
-    a: ({ ...props }) => {
-      return <a {...props} target="_blank" rel="noopener noreferrer" />;
+    a: ({ ...linkProps }) => {
+      const [
+        isHovered,
+        setIsHovered,
+      ] = useState(false);
+
+      const linkStyles: CSSProperties = {
+        textDecoration: "underline",
+        textUnderlineOffset: "3px",
+        color: "inherit",
+        transition: "opacity 0.2s ease",
+        opacity: isHovered
+          ? 0.7
+          : 1,
+      };
+
+      return (
+        <span style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "2px",
+        }}>
+          <a
+            {...linkProps}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={linkStyles}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          />
+          <span style={{
+            fontSize: "0.7em",
+            opacity: 0.7,
+          }}>↗</span>
+        </span>
+      );
     },
   }}>
     {markdown}

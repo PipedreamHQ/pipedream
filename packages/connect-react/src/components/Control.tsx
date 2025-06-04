@@ -8,6 +8,7 @@ import {
 import { ControlApp } from "./ControlApp";
 import { ControlBoolean } from "./ControlBoolean";
 import { ControlInput } from "./ControlInput";
+import { ControlObject } from "./ControlObject";
 import { ControlSelect } from "./ControlSelect";
 import { RemoteOptionsContainer } from "./RemoteOptionsContainer";
 
@@ -73,6 +74,8 @@ export function Control<T extends ConfigurableProps, U extends ConfigurableProp>
   case "integer":
     // XXX split into ControlString, ControlInteger, etc? but want to share autoComplet="off", etc functionality in base one
     return <ControlInput />;
+  case "object":
+    return <ControlObject />;
   default:
     // TODO "not supported prop type should bubble up"
     throw new Error("Unsupported property type: " + prop.type);
