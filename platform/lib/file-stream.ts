@@ -1,12 +1,11 @@
 import { Readable } from "stream";
 import { ReadableStream } from "stream/web";
-import {
-  createReadStream, promises as fs,
-} from "fs";
+import { createReadStream, createWriteStream, promises as fs } from "fs";
 import { tmpdir } from "os";
-import { join } from "path";
-import { createWriteStream } from "fs";
+import { join, basename } from "path";
 import { pipeline } from "stream/promises";
+import { v4 as uuidv4 } from "uuid";
+import mime from "mime-types";
 
 export interface FileMetadata {
   size?: number;
@@ -23,13 +22,12 @@ export interface FileMetadata {
 export async function getFileStream(pathOrUrl: string): Promise<Readable> {
   if (isUrl(pathOrUrl)) {
     const response = await fetch(pathOrUrl);
-    if (!response.ok) {
+    if (!response.ok || !response.body) {
       throw new Error(`Failed to fetch ${pathOrUrl}: ${response.status} ${response.statusText}`);
     }
     return Readable.fromWeb(response.body as ReadableStream<Uint8Array>);
   } else {
-    // Check if file exists first (this will throw if file doesn't exist)
-    await fs.stat(pathOrUrl);
+    await safeStat(pathOrUrl);
     return createReadStream(pathOrUrl);
   }
 }
@@ -55,23 +53,32 @@ function isUrl(pathOrUrl: string): boolean {
   }
 }
 
-async function getLocalFileStreamAndMetadata(filePath: string): Promise<{ stream: Readable; metadata: FileMetadata }> {
-  const stats = await fs.stat(filePath);
+async function safeStat(path: string): Promise<Stats> {
+  try {
+    return await fs.stat(path);
+  } catch {
+    throw new Error(`File not found: ${path}`);
+  }
+}
+
+async function getLocalFileStreamAndMetadata(
+  filePath: string
+): Promise<{ stream: Readable; metadata: FileMetadata }> {
+  const stats = await safeStat(filePath);
+  const contentType = mime.lookup(filePath) || undefined;
   const metadata: FileMetadata = {
     size: stats.size,
     lastModified: stats.mtime,
-    name: filePath.split("/").pop() || filePath.split("\\").pop(),
+    name: basename(filePath),
+    contentType
   };
   const stream = createReadStream(filePath);
-  return {
-    stream,
-    metadata,
-  };
+  return { stream, metadata };
 }
 
 async function getRemoteFileStreamAndMetadata(url: string): Promise<{ stream: Readable; metadata: FileMetadata }> {
   const response = await fetch(url);
-  if (!response.ok) {
+  if (!response.ok || !response.body) {
     throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
 
@@ -111,38 +118,36 @@ async function getRemoteFileStreamAndMetadata(url: string): Promise<{ stream: Re
 
 async function downloadToTemporaryFile(response: Response, baseMetadata: FileMetadata): Promise<{ stream: Readable; metadata: FileMetadata }> {
   // Generate unique temporary file path
-  const tempFileName = `file-stream-${Date.now()}-${Math.random().toString(36)
-    .substring(2)}`;
+  const tempFileName = `file-stream-${uuidv4()}`;
   const tempFilePath = join(tmpdir(), tempFileName);
   // Download to temporary file
   const fileStream = createWriteStream(tempFilePath);
   const webStream = Readable.fromWeb(response.body as ReadableStream<Uint8Array>);
-  await pipeline(webStream, fileStream);
-  // Get file stats
-  const stats = await fs.stat(tempFilePath);
-  const metadata: FileMetadata = {
-    ...baseMetadata,
-    size: stats.size,
-  };
+  try {
+    await pipeline(webStream, fileStream);
+    const stats = await fs.stat(tempFilePath);
+    const metadata: FileMetadata = {
+      ...baseMetadata,
+      size: stats.size
+    };
+    const stream = createReadStream(tempFilePath);
 
-  // Create a readable stream that cleans up the temp file when done
-  const stream = createReadStream(tempFilePath);
+    const cleanup = async () => {
+      try {
+        await fs.unlink(tempFilePath);
+      } catch {
+        // Ignore cleanup errors
+      }
+    };
 
-  // Clean up temp file when stream is closed or ends
-  const cleanup = async () => {
-    try {
-      await fs.unlink(tempFilePath);
-    } catch {
-      // Ignore cleanup errors (file might already be deleted)
-    }
-  };
+    stream.on("close", cleanup);
+    stream.on("end", cleanup);
+    stream.on("error", cleanup);
 
-  stream.on("close", cleanup);
-  stream.on("end", cleanup);
-  stream.on("error", cleanup);
-
-  return {
-    stream,
-    metadata,
-  };
+    return { stream, metadata };
+  } catch (err) {
+    // Cleanup on error
+    try { await fs.unlink(tempFilePath); } catch {}
+    throw err;
+  }
 }
