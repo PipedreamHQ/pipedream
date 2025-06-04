@@ -10489,6 +10489,9 @@ importers:
 
   components/proprofs_quiz_maker: {}
 
+  components/prospeo:
+    specifiers: {}
+
   components/provesource: {}
 
   components/proworkflow:
