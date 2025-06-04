@@ -15765,9 +15765,15 @@ importers:
       io-ts:
         specifier: ^2.0.0
         version: 2.2.21(fp-ts@2.16.9)
+      mime-types:
+        specifier: ^3.0.1
+        version: 3.0.1
       querystring:
         specifier: ^0.2.1
         version: 0.2.1
+      uuid:
+        specifier: ^11.1.0
+        version: 11.1.0
     devDependencies:
       '@octokit/core':
         specifier: ^3.6.0
