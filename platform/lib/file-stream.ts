@@ -12,7 +12,7 @@ import { v4 as uuidv4 } from "uuid";
 import * as mime from "mime-types";
 
 export interface FileMetadata {
-  size?: number;
+  size: number;
   contentType?: string;
   lastModified?: Date;
   name?: string;
@@ -91,15 +91,15 @@ async function getRemoteFileStreamAndMetadata(url: string): Promise<{ stream: Re
 
   const headers = response.headers;
   const contentLength = headers.get("content-length");
-  const contentType = headers.get("content-type") || undefined;
   const lastModified = headers.get("last-modified")
     ? new Date(headers.get("last-modified")!)
     : undefined;
   const etag = headers.get("etag") || undefined;
   const urlObj = new URL(url);
-  const name = urlObj.pathname.split("/").pop() || undefined;
+  const name = basename(urlObj.pathname);
+  const contentType = headers.get("content-type") || mime.lookup(urlObj.pathname) || undefined;
 
-  const baseMetadata: FileMetadata = {
+  const baseMetadata = {
     contentType,
     lastModified,
     name,
@@ -123,7 +123,7 @@ async function getRemoteFileStreamAndMetadata(url: string): Promise<{ stream: Re
   return await downloadToTemporaryFile(response, baseMetadata);
 }
 
-async function downloadToTemporaryFile(response: Response, baseMetadata: FileMetadata): Promise<{ stream: Readable; metadata: FileMetadata }> {
+async function downloadToTemporaryFile(response: Response, baseMetadata: Partial<FileMetadata>): Promise<{ stream: Readable; metadata: FileMetadata }> {
   // Generate unique temporary file path
   const tempFileName = `file-stream-${uuidv4()}`;
   const tempFilePath = join(tmpdir(), tempFileName);

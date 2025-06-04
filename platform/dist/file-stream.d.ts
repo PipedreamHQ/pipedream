@@ -1,7 +1,7 @@
 /// <reference types="node" />
 import { Readable } from "stream";
 export interface FileMetadata {
-    size?: number;
+    size: number;
     contentType?: string;
     lastModified?: Date;
     name?: string;

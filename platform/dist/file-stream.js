@@ -78,13 +78,13 @@ async function getRemoteFileStreamAndMetadata(url) {
     }
     const headers = response.headers;
     const contentLength = headers.get("content-length");
-    const contentType = headers.get("content-type") || undefined;
     const lastModified = headers.get("last-modified")
         ? new Date(headers.get("last-modified"))
         : undefined;
     const etag = headers.get("etag") || undefined;
     const urlObj = new URL(url);
-    const name = urlObj.pathname.split("/").pop() || undefined;
+    const name = path_1.basename(urlObj.pathname);
+    const contentType = headers.get("content-type") || mime.lookup(urlObj.pathname) || undefined;
     const baseMetadata = {
         contentType,
         lastModified,
