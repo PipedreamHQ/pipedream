@@ -6,7 +6,7 @@
 
 - Adding support for 'object' prop types
 - Modifying string and string[] inputs to hide the dropdown in the case of no options
-- Hyperlinks in prop descriptions now open in a new tab
+- Added basic styling to hyperlinks in prop descriptions
 
 # [1.0.2] - 2025-04-24
 
