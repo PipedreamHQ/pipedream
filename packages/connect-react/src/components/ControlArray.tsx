@@ -1,8 +1,11 @@
 import {
-  useState, useEffect, type CSSProperties,
+  useState, useEffect,
 } from "react";
 import { useFormFieldContext } from "../hooks/form-field-context";
 import { useCustomize } from "../hooks/customization-context";
+import {
+  getInputStyles, getButtonStyles, getRemoveButtonStyles, getContainerStyles, getItemStyles,
+} from "../styles/control-styles";
 
 export function ControlArray() {
   const formFieldContextProps = useFormFieldContext();
@@ -52,7 +55,7 @@ export function ControlArray() {
       return;
     }
 
-    onChange(validValues as any);
+    onChange(validValues as string[]);
   };
 
   const handleValueChange = (index: number, newValue: string) => {
@@ -82,51 +85,11 @@ export function ControlArray() {
     updateArray(newValues);
   };
 
-  const containerStyles: CSSProperties = {
-    gridArea: "control",
-    display: "flex",
-    flexDirection: "column",
-    gap: "0.5rem",
-  };
-
-  const itemStyles: CSSProperties = {
-    display: "flex",
-    gap: "0.5rem",
-    alignItems: "center",
-  };
-
-  const inputStyles: CSSProperties = {
-    color: theme.colors.neutral60,
-    border: "1px solid",
-    borderColor: theme.colors.neutral20,
-    padding: 6,
-    borderRadius: theme.borderRadius,
-    boxShadow: theme.boxShadow.input,
-    flex: 1,
-  };
-
-  const buttonStyles: CSSProperties = {
-    color: theme.colors.neutral60,
-    display: "inline-flex",
-    alignItems: "center",
-    padding: `${theme.spacing.baseUnit}px ${theme.spacing.baseUnit * 1.5}px ${
-      theme.spacing.baseUnit
-    }px ${theme.spacing.baseUnit * 2.5}px`,
-    border: `1px solid ${theme.colors.neutral30}`,
-    borderRadius: theme.borderRadius,
-    cursor: "pointer",
-    fontSize: "0.8125rem",
-    fontWeight: 450,
-    gap: theme.spacing.baseUnit * 2,
-    textWrap: "nowrap",
-    backgroundColor: "white",
-  };
-
-  const removeButtonStyles: CSSProperties = {
-    ...buttonStyles,
-    flex: "0 0 auto",
-    padding: "6px 8px",
-  };
+  const containerStyles = getContainerStyles();
+  const itemStyles = getItemStyles();
+  const inputStyles = getInputStyles(theme);
+  const buttonStyles = getButtonStyles(theme);
+  const removeButtonStyles = getRemoveButtonStyles(theme);
 
   // Show "Add more" button if the last input has content or if there are multiple inputs
   const shouldShowAddMoreButton = values[values.length - 1]?.trim() || values.length > 1;

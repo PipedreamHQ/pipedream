@@ -1,8 +1,11 @@
 import {
-  useState, useEffect, type CSSProperties,
+  useState, useEffect,
 } from "react";
 import { useFormFieldContext } from "../hooks/form-field-context";
 import { useCustomize } from "../hooks/customization-context";
+import {
+  getInputStyles, getButtonStyles, getRemoveButtonStyles, getContainerStyles, getItemStyles,
+} from "../styles/control-styles";
 
 type KeyValuePair = {
   key: string;
@@ -19,7 +22,7 @@ export function ControlObject() {
   } = useCustomize();
 
   // Check if the value is a plain object (not Date, Function, etc.)
-  const isPlainObject = (obj: any): boolean => {
+  const isPlainObject = (obj: unknown): boolean => {
     if (obj === null || typeof obj !== "object") {
       return false;
     }
@@ -118,7 +121,7 @@ export function ControlObject() {
         : (() => {
           try {
             return JSON.stringify(v);
-          } catch (error) {
+          } catch {
             // Handle circular references or non-serializable values
             return String(v);
           }
@@ -147,7 +150,7 @@ export function ControlObject() {
     }
 
     // Convert to object
-    const obj: Record<string, any> = {};
+    const obj: Record<string, unknown> = {};
     validPairs.forEach((pair) => {
       if (pair.key.trim()) {
         // Try to parse the value as JSON, fallback to string
@@ -159,7 +162,7 @@ export function ControlObject() {
       }
     });
 
-    onChange(obj as any);
+    onChange(obj as Record<string, unknown>);
   };
 
   const handlePairChange = (index: number, field: "key" | "value", newValue: string) => {
@@ -198,51 +201,11 @@ export function ControlObject() {
     updateObject(newPairs);
   };
 
-  const containerStyles: CSSProperties = {
-    gridArea: "control",
-    display: "flex",
-    flexDirection: "column",
-    gap: "0.5rem",
-  };
-
-  const pairStyles: CSSProperties = {
-    display: "flex",
-    gap: "0.5rem",
-    alignItems: "center",
-  };
-
-  const inputStyles: CSSProperties = {
-    color: theme.colors.neutral60,
-    border: "1px solid",
-    borderColor: theme.colors.neutral20,
-    padding: 6,
-    borderRadius: theme.borderRadius,
-    boxShadow: theme.boxShadow.input,
-    flex: 1,
-  };
-
-  const buttonStyles: CSSProperties = {
-    color: theme.colors.neutral60,
-    display: "inline-flex",
-    alignItems: "center",
-    padding: `${theme.spacing.baseUnit}px ${theme.spacing.baseUnit * 1.5}px ${
-      theme.spacing.baseUnit
-    }px ${theme.spacing.baseUnit * 2.5}px`,
-    border: `1px solid ${theme.colors.neutral30}`,
-    borderRadius: theme.borderRadius,
-    cursor: "pointer",
-    fontSize: "0.8125rem",
-    fontWeight: 450,
-    gap: theme.spacing.baseUnit * 2,
-    textWrap: "nowrap",
-    backgroundColor: "white",
-  };
-
-  const removeButtonStyles: CSSProperties = {
-    ...buttonStyles,
-    flex: "0 0 auto",
-    padding: "6px 8px",
-  };
+  const containerStyles = getContainerStyles();
+  const pairStyles = getItemStyles(); // Reuse item styles for pairs
+  const inputStyles = getInputStyles(theme);
+  const buttonStyles = getButtonStyles(theme);
+  const removeButtonStyles = getRemoveButtonStyles(theme);
 
   return (
     <div {...getProps("controlObject", containerStyles, formFieldContextProps)}>
