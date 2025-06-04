@@ -1,5 +1,4 @@
 import get from "lodash/get.js";
-import { paginate } from "../../common/pagination.mjs";
 import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
