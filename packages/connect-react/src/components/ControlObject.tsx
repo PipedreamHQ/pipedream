@@ -12,7 +12,7 @@ type KeyValuePair = {
 export function ControlObject() {
   const formFieldContextProps = useFormFieldContext();
   const {
-    id, onChange, prop, value,
+    onChange, prop, value,
   } = formFieldContextProps;
   const {
     getProps, theme,
@@ -159,7 +159,7 @@ export function ControlObject() {
       }
     });
 
-    onChange(obj);
+    onChange(obj as any);
   };
 
   const handlePairChange = (index: number, field: "key" | "value", newValue: string) => {

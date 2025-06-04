@@ -7,7 +7,7 @@ import { useCustomize } from "../hooks/customization-context";
 export function ControlArray() {
   const formFieldContextProps = useFormFieldContext();
   const {
-    id, onChange, prop, value,
+    onChange, prop, value,
   } = formFieldContextProps;
   const {
     getProps, theme,
@@ -52,7 +52,7 @@ export function ControlArray() {
       return;
     }
 
-    onChange(validValues);
+    onChange(validValues as any);
   };
 
   const handleValueChange = (index: number, newValue: string) => {
