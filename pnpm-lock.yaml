@@ -9853,6 +9853,9 @@ importers:
         specifier: ^1.2.1
         version: 1.6.6
 
+  components/picqer:
+    specifiers: {}
+
   components/pidj:
     dependencies:
       '@pipedream/platform':
