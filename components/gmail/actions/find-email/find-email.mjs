@@ -1,10 +1,6 @@
 import { convert } from "html-to-text";
 import gmail from "../../gmail.app.mjs";
-import {
-  decodeBase64Url,
-  extractTextFromParts,
-  attachTextToParts,
-} from "./utils.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "gmail-find-email",
@@ -72,7 +68,7 @@ export default {
       }
 
       if (message.payload?.body?.data && !Array.isArray(message.payload.parts)) {
-        const decodedBody = decodeBase64Url(message.payload.body.data);
+        const decodedBody = utils.decodeBase64Url(message.payload.body.data);
         if (this.withTextPayload) {
           newPayload += convert(decodedBody);
         } else {
@@ -82,9 +78,9 @@ export default {
 
       if (Array.isArray(message.payload?.parts)) {
         if (this.withTextPayload) {
-          newPayload += extractTextFromParts(message.payload.parts);
+          newPayload += utils.extractTextFromParts(message.payload.parts);
         } else {
-          attachTextToParts(message.payload.parts);
+          utils.attachTextToParts(message.payload.parts);
         }
       }
 
