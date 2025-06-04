@@ -721,8 +721,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/alttextify:
-    specifiers: {}
+  components/alttextify: {}
 
   components/amara:
     dependencies:
@@ -2101,8 +2100,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/capgo:
-    specifiers: {}
+  components/capgo: {}
 
   components/capsule:
     dependencies:
@@ -2728,8 +2726,7 @@ importers:
         specifier: ^1.6.2
         version: 1.6.6
 
-  components/codeberg:
-    specifiers: {}
+  components/codeberg: {}
 
   components/codegpt: {}
 
@@ -9859,8 +9856,7 @@ importers:
         specifier: ^1.2.1
         version: 1.6.6
 
-  components/picqer:
-    specifiers: {}
+  components/picqer: {}
 
   components/pidj:
     dependencies:
@@ -14163,8 +14159,7 @@ importers:
 
   components/utradea: {}
 
-  components/v1ce:
-    specifiers: {}
+  components/v1ce: {}
 
   components/v7_darwin:
     dependencies:
@@ -14951,8 +14946,7 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
-  components/yay_com:
-    specifiers: {}
+  components/yay_com: {}
 
   components/yelp:
     dependencies:
@@ -15605,6 +15599,14 @@ importers:
       dotenv:
         specifier: ^6.0.0
         version: 6.2.0
+
+  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
+
+  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
+
+  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
+
+  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
 
   packages/ai:
     dependencies:
@@ -32662,7 +32664,7 @@ snapshots:
       '@babel/helper-validator-option': 8.0.0-alpha.13
       browserslist: 4.24.2
       lru-cache: 7.18.3
-      semver: 7.7.1
+      semver: 7.7.2
 
   '@babel/helper-create-class-features-plugin@7.25.9(@babel/core@7.26.0)':
     dependencies:
@@ -36002,6 +36004,8 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
+    transitivePeerDependencies:
+      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
@@ -43278,7 +43282,7 @@ snapshots:
 
   is-bun-module@1.2.1:
     dependencies:
-      semver: 7.7.1
+      semver: 7.7.2
 
   is-callable@1.2.7: {}
 
