@@ -15,16 +15,18 @@ export default {
       description: "The URL to test",
     },
     browser: {
-      type: "string",
-      label: "Browser",
+      propDefinition: [
+        testlocally,
+        "browser",
+      ],
       description: "The browser to use for the test",
-      optional: true,
     },
     viewport: {
-      type: "string",
-      label: "Viewport",
+      propDefinition: [
+        testlocally,
+        "viewport",
+      ],
       description: "The viewport to use for the test",
-      optional: true,
     },
     servers: {
       propDefinition: [
