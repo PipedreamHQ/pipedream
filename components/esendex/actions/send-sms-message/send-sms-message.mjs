@@ -5,7 +5,7 @@ export default {
   key: "esendex-send-sms-message",
   name: "Send SMS Message",
   description: "Send an SMS message to a recipient. [See the documentation[(https://developers.esendex.com/api-reference/#messagedispatcher)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     esendex,
@@ -70,7 +70,7 @@ export default {
         ],
       },
     });
-    $.export("$summary", `Successfully sent SMSmessage to ${this.to}`);
+    $.export("$summary", `Successfully sent SMS message to ${this.to}`);
     return response;
   },
 };
