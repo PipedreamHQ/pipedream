@@ -13,18 +13,22 @@ export default {
       label: "Content",
       description: "The content of the note",
     },
-    associatedWithId: {
-      type: "string",
-      label: "Associated With ID",
-      description: "The ID of the record this note is associated with (e.g., a person ID)",
-    },
     associatedWithType: {
       type: "string",
-      label: "Associated With Type",
+      label: "Associated Record Type",
       description: "The type of record this note is associated with",
       options: [
-        "Person",
-        "Account",
+        "person",
+        "account",
+      ],
+    },
+    associatedWithId: {
+      propDefinition: [
+        salesloft,
+        "recordId",
+        ({ associatedWithType }) => ({
+          recordType: associatedWithType,
+        }),
       ],
     },
     skipActivities: {

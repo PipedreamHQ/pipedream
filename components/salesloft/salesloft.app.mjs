@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -9,16 +11,48 @@ export default {
       label: "Person ID",
       description: "Select a person to add to the cadence or provide a person ID",
       async options({ page }) {
-        const { data } = await this.listPeople({
+        const people = await this.listPeople({
           params: {
             per_page: 100,
             page: page + 1,
           },
         });
-        return data?.map((person) => ({
+        return people?.map((person) => ({
           label: person.full_email_address ?? person.email_address ?? person.display_name,
           value: person.id,
         }));
+      },
+    },
+    recordId: {
+      type: "string",
+      label: "Associated Record ID",
+      description: "Select a record (a person or account) to associate this note with",
+      async options({
+        page, recordType,
+      }) {
+        if (recordType === "person") {
+          const people = await this.listPeople({
+            params: {
+              per_page: 100,
+              page: page + 1,
+            },
+          });
+          return people?.map((person) => ({
+            label: person.full_email_address ?? person.email_address ?? person.display_name,
+            value: person.id,
+          }));
+        } else if (recordType === "account") {
+          const accounts = await this.listAccounts({
+            params: {
+              per_page: 100,
+              page: page + 1,
+            },
+          });
+          return accounts?.map((account) => ({
+            label: account.name,
+            value: account.id,
+          }));
+        } else throw new ConfigurationError("Invalid record type, select either `person` or `account`");
       },
     },
     cadenceId: {
@@ -26,13 +60,14 @@ export default {
       label: "Cadence ID",
       description: "Select a cadence or provide a cadence ID",
       async options({ page }) {
-        const { data } = await this.listCadences({
+        const cadences = await this.listCadences({
           params: {
             per_page: 100,
             page: page + 1,
           },
         });
-        return data?.map((cadence) => ({
+        console.log(cadences);
+        return cadences?.map((cadence) => ({
           label: cadence.name,
           value: cadence.id,
         }));
@@ -44,13 +79,13 @@ export default {
       description: "Select a user who will own this cadence membership or provide a user ID. Defaults to the authenticated user if not provided.",
       optional: true,
       async options({ page }) {
-        const { data } = await this.listUsers({
+        const users = await this.listUsers({
           params: {
             per_page: 100,
             page: page + 1,
           },
         });
-        return data?.map((user) => ({
+        return users?.map((user) => ({
           label: user.name ?? user.email,
           value: user.id,
         }));
@@ -124,6 +159,12 @@ export default {
     async listUsers(args = {}) {
       return this._makeRequest({
         path: "/users",
+        ...args,
+      });
+    },
+    async listAccounts(args = {}) {
+      return this._makeRequest({
+        path: "/accounts",
         ...args,
       });
     },
