@@ -721,6 +721,9 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/alttextify:
+    specifiers: {}
+
   components/amara:
     dependencies:
       '@pipedream/platform':
