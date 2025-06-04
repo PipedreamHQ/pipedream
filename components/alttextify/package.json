@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/alttextify",
+  "version": "0.0.1",
+  "description": "Pipedream AltTextify Components",
+  "main": "alttextify.app.mjs",
+  "keywords": [
+    "pipedream",
+    "alttextify"
+  ],
+  "homepage": "https://pipedream.com/apps/alttextify",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

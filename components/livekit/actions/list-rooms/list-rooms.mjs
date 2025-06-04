@@ -4,7 +4,7 @@ export default {
   key: "livekit-list-rooms",
   name: "List Rooms",
   description: "List all rooms with LiveKit. [See the documentation](https://docs.livekit.io/home/server/managing-rooms/#list-rooms).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
