@@ -3,6 +3,8 @@ import axios, { transformConfigForOauth } from "./axios";
 import { AxiosRequestConfig as AxiosConfig } from "axios";
 export { axios, transformConfigForOauth, };
 export { cloneSafe, jsonStringifySafe, } from "./utils";
+export { getFileStreamAndMetadata, getFileStream, } from "./file-stream";
+export type { FileMetadata, } from "./file-stream";
 export { ConfigurationError, } from "./errors";
 export { default as sqlProp, } from "./sql-prop";
 export type { ColumnSchema, DbInfo, TableInfo, TableMetadata, TableSchema, } from "./sql-prop";
