@@ -5,6 +5,7 @@
 # [1.1.0] - 2025-06-04
 
 - Adding support for 'object' prop types
+- Modifying string and string[] inputs to hide the dropdown in the case of no options
 
 # [1.0.2] - 2025-04-24
 

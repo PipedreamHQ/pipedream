@@ -24,6 +24,7 @@ import type { FormFieldContext } from "./form-field-context";
 import { ComponentForm } from "../components/ComponentForm";
 import { ControlAny } from "../components/ControlAny";
 import { ControlApp } from "../components/ControlApp";
+import { ControlArray } from "../components/ControlArray";
 import { ControlBoolean } from "../components/ControlBoolean";
 import { ControlInput } from "../components/ControlInput";
 import { ControlObject } from "../components/ControlObject";
@@ -68,6 +69,7 @@ export type CustomizableProps = {
   connectButton: ComponentProps<typeof ControlApp> & FormFieldContext<ConfigurableProp>;
   controlAny: ComponentProps<typeof ControlAny> & FormFieldContext<ConfigurableProp>;
   controlApp: ComponentProps<typeof ControlApp> & FormFieldContext<ConfigurableProp>;
+  controlArray: ComponentProps<typeof ControlArray> & FormFieldContext<ConfigurableProp>;
   controlBoolean: ComponentProps<typeof ControlBoolean> & FormFieldContext<ConfigurableProp>;
   controlInput: ComponentProps<typeof ControlInput> & FormFieldContext<ConfigurableProp>;
   controlObject: ComponentProps<typeof ControlObject> & FormFieldContext<ConfigurableProp>;

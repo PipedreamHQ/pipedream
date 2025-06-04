@@ -6,6 +6,7 @@ import {
 } from "@pipedream/sdk";
 // import { ControlAny } from "./ControlAny"
 import { ControlApp } from "./ControlApp";
+import { ControlArray } from "./ControlArray";
 import { ControlBoolean } from "./ControlBoolean";
 import { ControlInput } from "./ControlInput";
 import { ControlObject } from "./ControlObject";
@@ -55,6 +56,11 @@ export function Control<T extends ConfigurableProps, U extends ConfigurableProp>
   }
 
   if (prop.type.endsWith("[]")) {
+    // If no options are defined, use individual inputs with "Add more" functionality
+    if (!("options" in prop) || !prop.options) {
+      return <ControlArray />;
+    }
+    // If options are defined, they would have been handled above in the options check
     return <ControlSelect isCreatable={true} options={[]} components={{
       IndicatorSeparator: () => null,
     }} />;
