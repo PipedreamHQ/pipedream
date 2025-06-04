@@ -4,11 +4,27 @@ import app from "../../new_relic.app.mjs";
 /**
  * Query logs from New Relic using NRQL, supporting pagination via nextCursor and robust error handling.
  */
+function sanitizeNrql(nrql) {
+    // Remove dangerous characters and trim whitespace
+    return nrql.replace(/[;`$\\]/g, "").trim();
+}
+
+function isValidNrql(nrql) {
+    // Basic validation: must start with SELECT, not empty, and not contain forbidden patterns
+    const forbidden = /[;`$\\]/;
+    return (
+        typeof nrql === "string" &&
+        nrql.trim().length > 0 &&
+        /^SELECT\s+/i.test(nrql.trim()) &&
+        !forbidden.test(nrql)
+    );
+}
+
 export default {
     name: "Query Logs",
     description: "Query logs from New Relic using NRQL. Supports pagination for large result sets and includes comprehensive error handling.",
     key: "new_relic-query-logs",
-    version: "0.0.3",
+    version: "0.0.5",
     type: "action",
     props: {
         app,
@@ -28,6 +44,11 @@ export default {
             if (!/^\d+$/.test(this.accountId)) {
                 throw new Error("Account ID must be a numeric string");
             }
+            // Validate and sanitize NRQL
+            if (!isValidNrql(this.nrql)) {
+                throw new Error("Invalid NRQL query. Must start with SELECT and not contain forbidden characters.");
+            }
+            const safeNrql = sanitizeNrql(this.nrql);
 
             const url = `https://api.newrelic.com/graphql`;
             const headers = this.app._getHeaders();
@@ -35,21 +56,28 @@ export default {
             let nextCursor = null;
 
             do {
-                const query = `{
-        actor {
-          account(id: ${this.accountId}) {
-            nrql(query: \"${this.nrql}\"${nextCursor ? `, nextCursor: \"${nextCursor}\"` : ""}) {
-              results
-              nextCursor
-            }
-          }
-        }
-      }`;
+                const query = `
+                    query($accountId: Int!, $nrql: String!, $nextCursor: String) {
+                        actor {
+                            account(id: $accountId) {
+                                nrql(query: $nrql, nextCursor: $nextCursor) {
+                                    results
+                                    nextCursor
+                                }
+                            }
+                        }
+                    }
+                `;
+                const variables = {
+                    accountId: parseInt(this.accountId, 10),
+                    nrql: safeNrql,
+                    nextCursor,
+                };
                 const response = await axios(this, {
                     method: "POST",
                     url,
                     headers,
-                    data: { query },
+                    data: { query, variables },
                 });
 
                 // Handle GraphQL errors
@@ -66,7 +94,7 @@ export default {
                 nextCursor = nrqlData.nextCursor;
             } while (nextCursor);
 
-            $.export("$summary", `Queried logs with NRQL: ${this.nrql}. Total results: ${allResults.length}`);
+            $.export("$summary", `Queried logs with NRQL: ${safeNrql}. Total results: ${allResults.length}`);
             return allResults;
         } catch (error) {
             throw new Error(`Failed to query New Relic logs: ${error.message}`);

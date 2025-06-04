@@ -24,3 +24,16 @@ To use the Query Logs action, provide:
 - **NRQL Query**: The NRQL query to run against your logs (e.g., `SELECT * FROM Log WHERE message LIKE '%timeout%' LIMIT 5`).
 
 The action will return the results of your query, which can be used in subsequent steps of your Pipedream workflow.
+
+## NRQL Query Limitations & Best Practices
+
+- **Query Time Limits**: NRQL queries have a maximum execution time (typically 60 seconds). Complex or unoptimized queries may time out. Break up large queries or use more specific filters to avoid timeouts.
+- **Result Size Limits**: The maximum number of results returned per query is limited (e.g., 1,000 records per page). Use pagination (handled automatically by this action) to retrieve large result sets.
+- **Data Retention**: Log data retention in New Relic depends on your account and plan. Queries outside the retention window will return no results.
+- **Query Optimization Tips**:
+  - Use `LIMIT` to restrict the number of results and improve performance.
+  - Filter with `WHERE` clauses to narrow down the dataset (e.g., by log level, service, or time).
+  - Use time windows (e.g., `SINCE 1 hour ago`) to avoid scanning unnecessary data.
+  - Avoid `SELECT *` in production workflows; select only the fields you need.
+  - Test your NRQL queries in the New Relic Query Builder before using them in automation.
+- **API Rate Limits**: Excessive querying may be subject to New Relic API rate limits. Monitor your usage and optimize queries to avoid hitting these limits.
