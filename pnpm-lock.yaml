@@ -2725,6 +2725,9 @@ importers:
         specifier: ^1.6.2
         version: 1.6.6
 
+  components/codeberg:
+    specifiers: {}
+
   components/codegpt: {}
 
   components/codemagic:
