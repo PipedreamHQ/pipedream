@@ -1,12 +1,11 @@
 import { v4 as uuid } from "uuid";
+import salesloft from "../../salesloft.app.mjs";
 
 export default {
   props: {
-    salesloft: {
-      type: "app",
-      app: "salesloft",
-    },
+    salesloft,
     db: "$.service.db",
+    http: "$.interface.http",
   },
   methods: {
     _getWebhookId() {
@@ -29,6 +28,7 @@ export default {
       const response = await this.salesloft.createWebhookSubscription({
         data: {
           callback_url: this.http.endpoint,
+          callback_token: `pd_${Date.now()}`,
           event_type: this.getEventType(),
         },
       });
@@ -43,7 +43,9 @@ export default {
   },
   async run(event) {
     const { body } = event;
-    const meta = this.generateMeta(body);
-    this.$emit(body, meta);
+    if (body.id) {
+      const meta = this.generateMeta(body);
+      this.$emit(body, meta);
+    }
   },
 };

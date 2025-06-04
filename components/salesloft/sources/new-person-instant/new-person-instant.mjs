@@ -14,7 +14,7 @@ export default {
       return "person_created";
     },
     getSummary(data) {
-      return `New person created: ${data.email_address || data.display_name || data.id}`;
+      return `New person created: ${data.display_name || data.email_address || data.id}`;
     },
   },
 };
