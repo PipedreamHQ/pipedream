@@ -147,9 +147,9 @@ async function downloadToTemporaryFile(response: Response, baseMetadata: Partial
       }
     };
 
-    stream.on("close", cleanup);
-    stream.on("end", cleanup);
-    stream.on("error", cleanup);
+    stream.once("close", cleanup);
+    stream.once("end", cleanup);
+    stream.once("error", cleanup);
 
     return {
       stream,

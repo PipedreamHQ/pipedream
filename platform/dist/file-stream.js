@@ -129,9 +129,9 @@ async function downloadToTemporaryFile(response, baseMetadata) {
                 // Ignore cleanup errors
             }
         };
-        stream.on("close", cleanup);
-        stream.on("end", cleanup);
-        stream.on("error", cleanup);
+        stream.once("close", cleanup);
+        stream.once("end", cleanup);
+        stream.once("error", cleanup);
         return {
             stream,
             metadata,
