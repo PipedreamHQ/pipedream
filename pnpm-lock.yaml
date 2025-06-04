@@ -2914,8 +2914,7 @@ importers:
         specifier: ^1.6.2
         version: 1.6.6
 
-  components/contactout:
-    specifiers: {}
+  components/contactout: {}
 
   components/contacts:
     dependencies:
@@ -10492,8 +10491,7 @@ importers:
 
   components/proprofs_quiz_maker: {}
 
-  components/prospeo:
-    specifiers: {}
+  components/prospeo: {}
 
   components/provesource: {}
 
