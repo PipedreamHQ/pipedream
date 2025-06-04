@@ -18,9 +18,34 @@ export function ControlObject() {
     getProps, theme,
   } = useCustomize();
 
+  // Check if the value is a plain object (not Date, Function, etc.)
+  const isPlainObject = (obj: any): boolean => {
+    if (obj === null || typeof obj !== "object") {
+      return false;
+    }
+
+    // Check for Date, Function, RegExp, and other built-in objects
+    if (obj instanceof Date || obj instanceof Function || obj instanceof RegExp) {
+      return false;
+    }
+
+    // Check if it's a plain object with Object.prototype or null prototype
+    const proto = Object.getPrototypeOf(obj);
+    return proto === Object.prototype || proto === null;
+  };
+
   // Initialize pairs from the current value
   const initializePairs = (): KeyValuePair[] => {
     if (!value || typeof value !== "object" || Array.isArray(value)) {
+      return [
+        {
+          key: "",
+          value: "",
+        },
+      ];
+    }
+
+    if (!isPlainObject(value)) {
       return [
         {
           key: "",
@@ -36,7 +61,14 @@ export function ControlObject() {
       key: k,
       value: typeof v === "string"
         ? v
-        : JSON.stringify(v),
+        : (() => {
+          try {
+            return JSON.stringify(v);
+          } catch (error) {
+            // Handle circular references or non-serializable values
+            return String(v);
+          }
+        })(),
     }));
 
     return pairs.length > 0
@@ -56,7 +88,51 @@ export function ControlObject() {
 
   // Update pairs when value changes externally
   useEffect(() => {
-    setPairs(initializePairs());
+    if (!value || typeof value !== "object" || Array.isArray(value)) {
+      setPairs([
+        {
+          key: "",
+          value: "",
+        },
+      ]);
+      return;
+    }
+
+    if (!isPlainObject(value)) {
+      setPairs([
+        {
+          key: "",
+          value: "",
+        },
+      ]);
+      return;
+    }
+
+    const newPairs = Object.entries(value).map(([
+      k,
+      v,
+    ]) => ({
+      key: k,
+      value: typeof v === "string"
+        ? v
+        : (() => {
+          try {
+            return JSON.stringify(v);
+          } catch (error) {
+            // Handle circular references or non-serializable values
+            return String(v);
+          }
+        })(),
+    }));
+
+    setPairs(newPairs.length > 0
+      ? newPairs
+      : [
+        {
+          key: "",
+          value: "",
+        },
+      ]);
   }, [
     value,
   ]);

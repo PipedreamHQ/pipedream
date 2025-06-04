@@ -1,4 +1,6 @@
-import { useState, useEffect, type CSSProperties } from "react";
+import {
+  useState, useEffect, type CSSProperties,
+} from "react";
 import { useFormFieldContext } from "../hooks/form-field-context";
 import { useCustomize } from "../hooks/customization-context";
 
@@ -14,24 +16,37 @@ export function ControlArray() {
   // Initialize values from the current value
   const initializeValues = (): string[] => {
     if (!value || !Array.isArray(value)) {
-      return [""];
+      return [
+        "",
+      ];
     }
-    
-    const stringValues = value.map(v => typeof v === "string" ? v : JSON.stringify(v));
-    return stringValues.length > 0 ? stringValues : [""];
+
+    const stringValues = value.map((v) => typeof v === "string"
+      ? v
+      : JSON.stringify(v));
+    return stringValues.length > 0
+      ? stringValues
+      : [
+        "",
+      ];
   };
 
-  const [values, setValues] = useState<string[]>(initializeValues);
+  const [
+    values,
+    setValues,
+  ] = useState<string[]>(initializeValues);
 
   // Update values when value changes externally
   useEffect(() => {
     setValues(initializeValues());
-  }, [value]);
+  }, [
+    value,
+  ]);
 
   const updateArray = (newValues: string[]) => {
     // Filter out empty values
-    const validValues = newValues.filter(v => v.trim() !== "");
-    
+    const validValues = newValues.filter((v) => v.trim() !== "");
+
     if (validValues.length === 0) {
       onChange(undefined);
       return;
@@ -41,20 +56,29 @@ export function ControlArray() {
   };
 
   const handleValueChange = (index: number, newValue: string) => {
-    const newValues = [...values];
+    const newValues = [
+      ...values,
+    ];
     newValues[index] = newValue;
     setValues(newValues);
     updateArray(newValues);
   };
 
   const addValue = () => {
-    const newValues = [...values, ""];
+    const newValues = [
+      ...values,
+      "",
+    ];
     setValues(newValues);
   };
 
   const removeValue = (index: number) => {
     const newValues = values.filter((_, i) => i !== index);
-    setValues(newValues.length > 0 ? newValues : [""]);
+    setValues(newValues.length > 0
+      ? newValues
+      : [
+        "",
+      ]);
     updateArray(newValues);
   };
 
@@ -104,6 +128,9 @@ export function ControlArray() {
     padding: "6px 8px",
   };
 
+  // Show "Add more" button if the last input has content or if there are multiple inputs
+  const shouldShowAddMoreButton = values[values.length - 1]?.trim() || values.length > 1;
+
   return (
     <div {...getProps("controlArray", containerStyles, formFieldContextProps)}>
       {values.map((value, index) => (
@@ -112,7 +139,7 @@ export function ControlArray() {
             type="text"
             value={value}
             onChange={(e) => handleValueChange(index, e.target.value)}
-placeholder=""
+            placeholder=""
             style={inputStyles}
             required={!prop.optional && index === 0}
           />
@@ -128,7 +155,7 @@ placeholder=""
           )}
         </div>
       ))}
-      {(values[values.length - 1]?.trim() || values.length > 1) && (
+      {shouldShowAddMoreButton && (
         <button
           type="button"
           onClick={addValue}
