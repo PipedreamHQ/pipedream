@@ -67,7 +67,7 @@ export function ControlObject() {
         : (() => {
           try {
             return JSON.stringify(v);
-          } catch (error) {
+          } catch {
             // Handle circular references or non-serializable values
             return String(v);
           }
