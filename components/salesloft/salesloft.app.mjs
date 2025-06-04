@@ -66,7 +66,6 @@ export default {
             page: page + 1,
           },
         });
-        console.log(cadences);
         return cadences?.map((cadence) => ({
           label: cadence.name,
           value: cadence.id,
