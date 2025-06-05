@@ -86,12 +86,14 @@ export type ConfigurablePropStringArray = BaseConfigurableProp & {
   type: "string[]";
   secret?: boolean; // TODO is this supported
 } & Defaultable<string[]>; // TODO
+export type ConfigurablePropSql = BaseConfigurableProp & {
+  type: "sql";
+} & Defaultable<string>;
 // | { type: "$.interface.http" } // source only
 // | { type: "$.interface.timer" } // source only
 // | { type: "$.service.db" }
 // | { type: "data_store" }
 // | { type: "http_request" }
-// | { type: "sql" } -- not in component api docs!
 export type ConfigurableProp =
   | ConfigurablePropAlert
   | ConfigurablePropAny
@@ -101,6 +103,7 @@ export type ConfigurableProp =
   | ConfigurablePropObject
   | ConfigurablePropString
   | ConfigurablePropStringArray
+  | ConfigurablePropSql
   | (BaseConfigurableProp & { type: "$.discord.channel"; });
 
 export type ConfigurableProps = Readonly<ConfigurableProp[]>;
@@ -121,6 +124,8 @@ export type PropValue<T extends ConfigurableProp["type"]> = T extends "alert"
   ? string
   : T extends "string[]"
   ? string[] // XXX support arrays differently?
+  : T extends "sql"
+  ? string
   : never;
 
 export type ConfiguredProps<T extends ConfigurableProps> = {
