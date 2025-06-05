@@ -4,12 +4,12 @@ import type { CSSProperties } from "react";
 import type { ConfigurablePropSql } from "@pipedream/sdk";
 
 // Type guard to check if value is a structured SQL object
-const isSqlStructuredValue = (value: unknown): value is { app: string; query: string; params: any[] } => {
+const isSqlStructuredValue = (value: unknown): value is { app: string; query: string; params: unknown[] } => {
   return (
     typeof value === "object" &&
     value !== null &&
     "query" in value &&
-    typeof (value as any).query === "string"
+    typeof (value as Record<string, unknown>).query === "string"
   );
 };
 
@@ -21,13 +21,13 @@ export function ControlSql() {
   const {
     getProps, theme,
   } = useCustomize();
-  
+
   // Cast prop to SQL prop type (this component is only used for SQL props)
   const sqlProp = prop as ConfigurablePropSql;
-  
+
   // Get the app name from the SQL prop's auth configuration
   const appName = sqlProp.auth?.app || "postgresql"; // Default to postgresql
-  
+
   // Extract the query string from the structured value or use empty string
   let queryValue = "";
   if (isSqlStructuredValue(value)) {
@@ -45,7 +45,7 @@ export function ControlSql() {
     };
     onChange(sqlObject);
   };
-  
+
   const baseStyles: CSSProperties = {
     color: theme.colors.neutral60,
     display: "block",

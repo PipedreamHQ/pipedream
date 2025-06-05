@@ -128,7 +128,7 @@ export type PropValue<T extends ConfigurableProp["type"]> = T extends "alert"
   : T extends "string[]"
   ? string[] // XXX support arrays differently?
   : T extends "sql"
-  ? { app: string; query: string; params: any[]; }
+  ? { app: string; query: string; params: unknown[]; }
   : never;
 
 export type ConfiguredProps<T extends ConfigurableProps> = {
