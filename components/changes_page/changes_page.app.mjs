@@ -72,6 +72,9 @@ export default {
         const response = await fn({
           params,
         });
+        if (!response || response.length === 0) {
+          break;
+        }
         for (const item of response) {
           yield item;
           if (max && ++count >= max) {

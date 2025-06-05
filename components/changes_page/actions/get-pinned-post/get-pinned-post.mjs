@@ -18,7 +18,7 @@ export default {
       $.export("$summary", "Successfully retrieved pinned post");
       return post;
     } catch (error) {
-      if (error.response.status === 404) {
+      if (error.response?.status === 404) {
         throw new ConfigurationError("No pinned post found");
       }
       throw error;
