@@ -11,6 +11,7 @@ import { ControlBoolean } from "./ControlBoolean";
 import { ControlInput } from "./ControlInput";
 import { ControlObject } from "./ControlObject";
 import { ControlSelect } from "./ControlSelect";
+import { ControlSql } from "./ControlSql";
 import { RemoteOptionsContainer } from "./RemoteOptionsContainer";
 
 export type ControlProps<T extends ConfigurableProps, U extends ConfigurableProp> = {
@@ -82,6 +83,8 @@ export function Control<T extends ConfigurableProps, U extends ConfigurableProp>
     return <ControlInput />;
   case "object":
     return <ControlObject />;
+  case "sql":
+    return <ControlSql />;
   default:
     // TODO "not supported prop type should bubble up"
     throw new Error("Unsupported property type: " + prop.type);
