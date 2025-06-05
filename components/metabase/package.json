@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/metabase",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream Metabase Components",
-  "main": "dist/app/metabase.app.mjs",
+  "main": "metabase.app.mjs",
   "keywords": [
     "pipedream",
     "metabase"
