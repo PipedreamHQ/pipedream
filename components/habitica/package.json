@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/habitica",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream Habitica Components",
-  "main": "dist/app/habitica.app.mjs",
+  "main": "habitica.app.mjs",
   "keywords": [
     "pipedream",
     "habitica"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/habitica",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
   }
 }
