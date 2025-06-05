@@ -1,0 +1,26 @@
+import app from "../../habitica.app.mjs";
+
+export default {
+  key: "habitica-get-challenge",
+  name: "Get Challenge",
+  description: "Description for get-challenge. [See the documentation](https://habitica.com/apidoc/#api-Challenge-GetChallenge)",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    app,
+    challengeId: {
+      propDefinition: [
+        app,
+        "challengeId",
+      ],
+    },
+  },
+  async run({ $ }) {
+    const response = await this.app.getChallenge({
+      $,
+      challengeId: this.challengeId,
+    });
+    $.export("$summary", "Successfully retrieved the challenge with ID: " + this.challengeId);
+    return response;
+  },
+};
