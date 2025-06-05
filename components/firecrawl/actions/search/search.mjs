@@ -93,6 +93,7 @@ export default {
   },
   async run({ $ }) {
     const results = await this.firecrawl.search({
+      $,
       data: {
         query: this.query,
         limit: this.maxResults,
