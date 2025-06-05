@@ -2,6 +2,12 @@
 
 # Changelog
 
+## [1.6.6] - 2025-06-05
+
+### Added
+
+- Added support for `sql` prop type for `connect-react` package
+
 ## [1.6.5] - 2025-06-02
 
 ### Changed
