@@ -88,6 +88,9 @@ export type ConfigurablePropStringArray = BaseConfigurableProp & {
 } & Defaultable<string[]>; // TODO
 export type ConfigurablePropSql = BaseConfigurableProp & {
   type: "sql";
+  auth: {
+    app: string;
+  };
 } & Defaultable<string>;
 // | { type: "$.interface.http" } // source only
 // | { type: "$.interface.timer" } // source only

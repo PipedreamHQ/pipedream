@@ -1,11 +1,20 @@
 import { useFormFieldContext } from "../hooks/form-field-context";
-import { useFormContext } from "../hooks/form-context";
 import { useCustomize } from "../hooks/customization-context";
 import type { CSSProperties } from "react";
+import type { ConfigurablePropSql } from "@pipedream/sdk";
+
+// Type guard to check if value is a structured SQL object
+const isSqlStructuredValue = (value: unknown): value is { app: string; query: string; params: any[] } => {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "query" in value &&
+    typeof (value as any).query === "string"
+  );
+};
 
 export function ControlSql() {
   const formFieldContext = useFormFieldContext();
-  const formContext = useFormContext();
   const {
     id, onChange, prop, value,
   } = formFieldContext;
@@ -13,16 +22,19 @@ export function ControlSql() {
     getProps, theme,
   } = useCustomize();
   
-  // Find the first app prop to determine which database app to use
-  const appProp = formContext.configurableProps.find((p: any) => p.type === "app");
-  const appName = appProp?.app || "postgresql"; // Default to postgresql
+  // Cast prop to SQL prop type (this component is only used for SQL props)
+  const sqlProp = prop as ConfigurablePropSql;
+  
+  // Get the app name from the SQL prop's auth configuration
+  const appName = sqlProp.auth?.app || "postgresql"; // Default to postgresql
   
   // Extract the query string from the structured value or use empty string
-  const queryValue = typeof value === "object" && value && "query" in value 
-    ? (value as any).query 
-    : typeof value === "string" 
-    ? value 
-    : "";
+  let queryValue = "";
+  if (isSqlStructuredValue(value)) {
+    queryValue = value.query;
+  } else if (typeof value === "string") {
+    queryValue = value;
+  }
 
   const handleChange = (queryText: string) => {
     // Transform the simple query string into the structured SQL object
