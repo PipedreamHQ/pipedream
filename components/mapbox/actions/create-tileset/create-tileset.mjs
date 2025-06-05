@@ -1,12 +1,12 @@
 import mapbox from "../../mapbox.app.mjs";
-import fs from "fs";
+import { getFileStream } from "@pipedream/platform";
 import FormData from "form-data";
 
 export default {
   key: "mapbox-create-tileset",
   name: "Create Tileset",
   description: "Uploads and creates a new tileset from a data source. [See the documentation](https://docs.mapbox.com/api/maps/mapbox-tiling-service/)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     mapbox,
@@ -22,8 +22,8 @@ export default {
     },
     filePath: {
       type: "string",
-      label: "File Path",
-      description: "The path to a tileset source file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
+      label: "File Path or URL",
+      description: "A tileset source file. Provide either the path to a file in the `/tmp` directory (e.g. `/tmp/myFile.ext`) or a file URL. [See the documentation on working with files](https://pipedream.com/docs/workflows/building-workflows/code/nodejs/working-with-files/)",
     },
     recipe: {
       type: "object",
@@ -51,7 +51,7 @@ export default {
     // Create Tileset Source
     try {
       const fileData = new FormData();
-      const content = fs.createReadStream(filePath);
+      const content = await getFileStream(filePath);
       fileData.append("file", content);
 
       await this.mapbox.createTilesetSource({

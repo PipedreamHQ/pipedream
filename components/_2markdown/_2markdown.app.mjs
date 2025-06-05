@@ -6,8 +6,8 @@ export default {
   propDefinitions: {
     filePath: {
       type: "string",
-      label: "File Path",
-      description: "The path to an HTML file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
+      label: "File Path or URL",
+      description: "An HTML file. Provide either the path to a file in the `/tmp` directory (e.g. `/tmp/myFile.ext`) or a file URL. [See the documentation on working with files](https://pipedream.com/docs/workflows/building-workflows/code/nodejs/working-with-files/)",
     },
   },
   methods: {
