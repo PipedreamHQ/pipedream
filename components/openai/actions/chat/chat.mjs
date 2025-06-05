@@ -161,7 +161,11 @@ export default {
 
     if (this.responseFormat === constants.CHAT_RESPONSE_FORMAT.JSON_SCHEMA.value) {
       for (const choice of response.choices) {
-        choice.message.content = JSON.parse(choice.message.content);
+        try {
+          choice.message.content = JSON.parse(choice.message.content);
+        } catch {
+          console.log(`Unable to parse JSON: ${choice.message.content}`);
+        }
       }
     }
 
