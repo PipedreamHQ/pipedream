@@ -38,6 +38,9 @@ export default {
     const lastTs = this._getLastTs();
     let maxTs = lastTs;
     const leads = await this.heylibby.listQualifiedLeads();
+    if (!leads?.length) {
+      return;
+    }
     for (const lead of leads) {
       const ts = Date.parse(lead.datetime);
       if (ts > lastTs) {
