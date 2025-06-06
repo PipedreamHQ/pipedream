@@ -497,7 +497,9 @@ export type ConnectTokenResponse = {
 /**
  * The response received when retrieving a list of accounts.
  */
-export type GetAccountsResponse = { data: Account[]; };
+export type GetAccountsResponse = PaginationResponse & {
+  data: Account[];
+};
 
 /**
  * @deprecated Use `GetAccountsResponse` instead.
@@ -527,7 +529,7 @@ export type AppRequestResponse = GetAppResponse;
 /**
  * The response received when retrieving a list of components.
  */
-export type GetComponentsResponse = {
+export type GetComponentsResponse = PaginationResponse & {
   data: V1Component[];
 };
 
