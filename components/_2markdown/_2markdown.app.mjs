@@ -7,7 +7,7 @@ export default {
     filePath: {
       type: "string",
       label: "File Path or URL",
-      description: "An HTML file. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+      description: "An HTML file. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.html`)",
     },
   },
   methods: {

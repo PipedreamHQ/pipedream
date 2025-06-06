@@ -15,7 +15,7 @@ export default {
         _2markdown,
         "filePath",
       ],
-      description: "A PDF file. Provide either the path to a file in the `/tmp` directory (e.g. `/tmp/myFile.pdf`) or a file URL. [See the documentation on working with files](https://pipedream.com/docs/workflows/building-workflows/code/nodejs/working-with-files/)",
+      description: "A PDF file. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.pdf`)",
     },
     waitForCompletion: {
       type: "boolean",
