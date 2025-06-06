@@ -2,6 +2,13 @@
 
 # Changelog
 
+## [1.6.7] - 2025-06-06
+
+### Added
+
+- Added `stashId` option to the `runAction` method, which allows files to be
+  persisted between action runs.
+
 ## [1.6.6] - 2025-06-05
 
 ### Added
