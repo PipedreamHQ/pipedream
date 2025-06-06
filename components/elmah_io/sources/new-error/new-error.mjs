@@ -6,9 +6,9 @@ const QUERY = "isNew:true AND (severity:Error OR severity:Fatal)";
 
 export default {
   name: "New Error",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "elmah_io-new-error",
-  description: "Emit new event on each new error",
+  description: "Emit new event on each new error. [See the documentation](https://api.elmah.io/swagger/index.html#/Messages/Messages_GetAll)",
   type: "source",
   dedupe: "unique",
   props: {
@@ -25,6 +25,11 @@ export default {
         elmah_io,
         "logId",
       ],
+    },
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: "Note: This source requires that your api key have the `logs_read` and `messages_read` permissions.",
     },
   },
   methods: {
