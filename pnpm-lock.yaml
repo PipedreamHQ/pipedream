@@ -6481,7 +6481,7 @@ importers:
   components/imagga:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
+        specifier: ^3.1.0
         version: 3.1.0
       form-data:
         specifier: ^4.0.0
@@ -8189,8 +8189,8 @@ importers:
         specifier: ^3.0.1
         version: 3.0.7
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       bottleneck:
         specifier: ^2.19.5
         version: 2.19.5
@@ -8318,8 +8318,8 @@ importers:
   components/mistral_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.2
         version: 4.0.2
@@ -9185,7 +9185,7 @@ importers:
   components/onlyoffice_docspace:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
+        specifier: ^3.1.0
         version: 3.1.0
       form-data:
         specifier: ^4.0.0

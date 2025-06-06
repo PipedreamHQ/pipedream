@@ -1,20 +1,19 @@
 import mistralAI from "../../mistral_ai.app.mjs";
-import { ConfigurationError } from "@pipedream/platform";
-import fs from "fs";
+import { getFileStream } from "@pipedream/platform";
 import FormData from "form-data";
 
 export default {
   key: "mistral_ai-upload-file",
   name: "Upload File",
   description: "Upload a file that can be used across various endpoints. [See the Documentation](https://docs.mistral.ai/api/#tag/files/operation/files_api_routes_upload_file)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     mistralAI,
     filePath: {
       type: "string",
-      label: "File Path",
-      description: "The path to a file in the `/tmp` directory. The size of individual files can be a maximum of 512 MB. The Fine-tuning API only supports .jsonl files. [See the Pipedream documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
+      label: "File Path or URL",
+      description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
     },
     purpose: {
       type: "string",
@@ -29,15 +28,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const filePath = this.filePath.startsWith("/tmp/")
-      ? this.filePath
-      : `/tmp/${this.filePath}`;
-
-    if (!fs.existsSync(filePath)) {
-      throw new ConfigurationError(`File \`${filePath}\` not found`);
-    }
-
-    const fileContent = fs.createReadStream(filePath);
+    const fileContent = await getFileStream(this.filePath);
     const form = new FormData();
     form.append("file", fileContent);
     if (this.purpose) {
