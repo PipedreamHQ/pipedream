@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/predictleads",
+  "version": "0.0.1",
+  "description": "Pipedream PredictLeads Components",
+  "main": "predictleads.app.mjs",
+  "keywords": [
+    "pipedream",
+    "predictleads"
+  ],
+  "homepage": "https://pipedream.com/apps/predictleads",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
