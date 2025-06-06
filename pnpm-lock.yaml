@@ -4584,6 +4584,9 @@ importers:
 
   components/finage: {}
 
+  components/finalscout:
+    specifiers: {}
+
   components/findymail:
     dependencies:
       '@pipedream/platform':
@@ -10320,6 +10323,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+
+  components/predictleads:
+    specifiers: {}
 
   components/prepr_graphql: {}
 
