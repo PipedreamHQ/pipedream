@@ -1,11 +1,9 @@
-import fs from "fs";
 import alttextify from "../../alttextify.app.mjs";
-import { checkTmp } from "../../common/utils.mjs";
 
 export default {
-  key: "alttextify-submit-image",
-  name: "Submit Image to Alttextify",
-  description: "Upload or submit an image to Alttextify for alt text generation. [See the documentation](https://apidoc.alttextify.net/#api-Image-UploadRawImage)",
+  key: "alttextify-submit-image-from-url",
+  name: "Submit Image from URL to Alttextify",
+  description: "Upload or submit an image URL to Alttextify for alt text generation. [See the documentation](https://apidoc.alttextify.net/#api-Image-UploadImageURL)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -23,8 +21,8 @@ export default {
     },
     image: {
       type: "string",
-      label: "Image Path",
-      description: "The path to the image file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
+      label: "Image URL",
+      description: "The URL of the image to upload.",
     },
     lang: {
       propDefinition: [
@@ -71,7 +69,7 @@ export default {
     ecommerceProductColor: {
       propDefinition: [
         alttextify,
-        "ecommerceProductColor",
+        "ecommerceProductSize",
       ],
     },
     ecommerceProductSize: {
@@ -82,14 +80,11 @@ export default {
     },
   },
   async run({ $ }) {
-    const imagePath = checkTmp(this.image);
-    const image = fs.readFileSync(imagePath, "base64");
-
-    const response = await this.alttextify.uploadImage({
+    const response = await this.alttextify.uploadImageFromUrl({
       $,
       data: {
         async: this.async,
-        image: `data:image/${imagePath.split(".")[1]};base64,${image}`,
+        image: this.image,
         lang: this.lang,
         maxChars: this.maxChars,
         assetId: this.assetId,

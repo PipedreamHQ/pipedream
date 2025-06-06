@@ -1,10 +1,11 @@
-import { axios } from "@pipedream/platform";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import alttextify from "../../alttextify.app.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "alttextify-new-alttext-generated",
   name: "New Alt Text Generated",
-  description: "Emits an event when new alt text is generated for an image. [See the documentation](https://apidoc.alttextify.net/)",
+  description: "Emit new event when new alt text is generated for an image. [See the documentation](https://apidoc.alttextify.net/#api-Image-GetImages)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -14,76 +15,53 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: 3600, // Poll every hour
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
-    },
-    imageSubmissionId: {
-      propDefinition: [
-        alttextify,
-        "imageSubmissionId",
-      ],
-      optional: true,
-    },
-    imageType: {
-      propDefinition: [
-        alttextify,
-        "imageType",
-      ],
-      optional: true,
     },
   },
   methods: {
-    _getLastProcessedDate() {
-      return this.db.get("lastProcessedDate") || new Date(0).toISOString();
+    _getLastDate() {
+      return this.db.get("lastDate") || 0;
     },
-    _setLastProcessedDate(date) {
-      this.db.set("lastProcessedDate", date);
+    _setLastDate(lastDate) {
+      this.db.set("lastDate", lastDate);
     },
-    async _getNewAltTexts() {
-      const lastProcessedDate = this._getLastProcessedDate();
-      const opts = {
-        params: {
-          after: lastProcessedDate,
-        },
-      };
-      if (this.imageSubmissionId) {
-        opts.params.imageSubmissionId = this.imageSubmissionId;
+    async emitEvent(maxResults = false) {
+      const lastDate = this._getLastDate();
+
+      const response = this.alttextify.paginate({
+        fn: this.alttextify.listAltTexts,
+      });
+
+      let responseArray = [];
+      for await (const item of response) {
+        if (Date.parse(item.created_at) <= lastDate) break;
+        responseArray.push(item);
       }
-      const altTexts = await this.alttextify.paginate(
-        (opts) => this.alttextify.retrieveAltTextByJobId(opts),
-        opts,
-      );
-      return altTexts;
+
+      if (responseArray.length) {
+        if (maxResults && (responseArray.length > maxResults)) {
+          responseArray.length = maxResults;
+        }
+        this._setLastDate(Date.parse(responseArray[0].created_at));
+      }
+
+      for (const item of responseArray.reverse()) {
+        this.$emit(item, {
+          id: item.asset_id,
+          summary: `New alt text generated for asset ${item.asset_id}`,
+          ts: Date.parse(item.created_at),
+        });
+      }
     },
   },
   hooks: {
     async deploy() {
-      const altTexts = await this._getNewAltTexts();
-      altTexts.slice(0, 50).forEach((altText) => {
-        this.$emit(altText, {
-          id: altText.asset_id,
-          summary: `New alt text generated for asset ${altText.asset_id}`,
-          ts: new Date(altText.created_at).getTime(),
-        });
-      });
-      if (altTexts.length) {
-        const lastProcessedAltText = altTexts[0];
-        this._setLastProcessedDate(lastProcessedAltText.created_at);
-      }
+      await this.emitEvent(25);
     },
   },
   async run() {
-    const altTexts = await this._getNewAltTexts();
-    altTexts.forEach((altText) => {
-      this.$emit(altText, {
-        id: altText.asset_id,
-        summary: `New alt text generated for asset ${altText.asset_id}`,
-        ts: new Date(altText.created_at).getTime(),
-      });
-    });
-    if (altTexts.length) {
-      const lastProcessedAltText = altTexts[0];
-      this._setLastProcessedDate(lastProcessedAltText.created_at);
-    }
+    await this.emitEvent();
   },
+  sampleEmit,
 };

@@ -4,110 +4,98 @@ export default {
   type: "app",
   app: "alttextify",
   propDefinitions: {
-    imageUrl: {
-      type: "string",
-      label: "Image URL",
-      description: "The URL of the image to process for alt text generation",
-    },
-    imageType: {
-      type: "string",
-      label: "Image Type",
-      description: "The type of the image (e.g., 'raw', 'url')",
-      options: [
-        "raw",
-        "url",
-      ],
-    },
-    jobId: {
-      type: "string",
-      label: "Job ID",
-      description: "The ID of the job for generating or retrieving alt text",
-    },
-    assetId: {
-      type: "string",
-      label: "Asset ID",
-      description: "The ID of the asset for retrieving or deleting alt text.",
+    async: {
+      type: "boolean",
+      label: "Async",
+      description: "whether to add the image in the background or immediately (synchronously). If async is set to true, the API response will always be successful with an empty response body.",
+      default: false,
     },
     lang: {
       type: "string",
       label: "Language",
-      description: "The language code for the generated alt text.",
+      description: "The language for the alt text. Supported language codes are accepted. If not provided, the account's default language is used.",
+      default: "en",
     },
     maxChars: {
       type: "integer",
       label: "Max Characters",
-      description: "The maximum length of the generated alt text.",
+      description: "Maximum length of the generated alt text.",
     },
-    asyncOption: {
-      type: "boolean",
-      label: "Async",
-      description: "Determine whether to process the image asynchronously.",
-      default: false,
-    },
-    imageSubmissionId: {
+    assetId: {
       type: "string",
-      label: "Image Submission ID",
-      description: "The ID of the image submission for monitoring events.",
+      label: "Asset ID",
+      description: "The unique identifier for the asset.",
+      optional: true,
+    },
+    keywords: {
+      type: "string[]",
+      label: "Keywords",
+      description: "List of keywords/phrases for SEO-optimized alt text. Only one or two will be used per alt text, but all are considered. Keywords must be in English, even for alt text in other languages.",
+      optional: true,
+    },
+    ecommerceRunOCR: {
+      type: "boolean",
+      label: "Ecommerce Run OCR",
+      description: "Flag to indicate if OCR should be run on the product.",
+    },
+    ecommerceProductName: {
+      type: "string",
+      label: "Ecommerce Product Name",
+      description: "The name of the product in the image.",
+      optional: true,
+    },
+    ecommerceProductBrand: {
+      type: "string",
+      label: "Ecommerce Product Brand",
+      description: "The brand of the product in the image.",
+      optional: true,
+    },
+    ecommerceProductColor: {
+      type: "string",
+      label: "Ecommerce Product Color",
+      description: "The color of the product in the image.",
+      optional: true,
+    },
+    ecommerceProductSize: {
+      type: "string",
+      label: "Ecommerce Product Size",
+      description: "The size of the product in the image.",
+      optional: true,
     },
   },
   methods: {
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
       return "https://api.alttextify.net/api/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        method = "GET",
-        path = "/",
-        headers,
-        ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "x-api-key": `${this.$auth.api_key}`,
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "Authorization": `Bearer ${this.$auth.api_key}`,
-          "Content-Type": "application/json",
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async uploadImageUrl({
-      imageUrl, imageType, lang, maxChars, asyncOption, ...opts
-    }) {
+    uploadImage(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: `/image/${imageType}`,
-        data: {
-          image: imageUrl,
-          lang,
-          max_chars: maxChars,
-          async: asyncOption,
-        },
+        path: "/image/raw",
         ...opts,
       });
     },
-    async retrieveAltTextByJobId({
-      jobId, ...opts
-    }) {
+    uploadImageFromUrl(opts = {}) {
       return this._makeRequest({
-        path: `/image/job/${jobId}`,
+        method: "POST",
+        path: "/image/url",
         ...opts,
       });
     },
-    async retrieveAltTextByAssetId({
-      assetId, ...opts
-    }) {
-      return this._makeRequest({
-        path: `/image/${assetId}`,
-        ...opts,
-      });
-    },
-    async deleteAltTextByAssetId({
+    deleteAltTextByAssetId({
       assetId, ...opts
     }) {
       return this._makeRequest({
@@ -116,31 +104,51 @@ export default {
         ...opts,
       });
     },
-    async paginate(fn, ...opts) {
-      let results = [];
-      let hasMore = true;
-      let page = 1;
+    retrieveAltTextByJobId({
+      jobId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/image/job/${jobId}`,
+        ...opts,
+      });
+    },
+    retrieveAltTextByAssetId({
+      assetId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/image/${assetId}`,
+        ...opts,
+      });
+    },
+    listAltTexts({ ...opts }) {
+      return this._makeRequest({
+        path: "/image",
+        ...opts,
+      });
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
 
-      while (hasMore) {
-        const response = await fn({
-          params: {
-            page,
-            ...opts,
-          },
+      do {
+        params.page = ++page;
+        const data = await fn({
+          params,
+          ...opts,
         });
-        results = results.concat(response);
-        hasMore = response.length > 0; // Assume if response has 0 items, it's the end
-        page++;
-      }
-      return results;
-    },
-    async emitNewAltTextGeneratedEvent(imageSubmissionId) {
-      // Example method to handle emitting events when new alt text is generated
-      // This method would be used in an event source component
-    },
-    async emitImageProcessingFailedEvent(imageSubmissionId) {
-      // Example method to handle emitting events when image processing fails
-      // This method would be used in an event source component
+        for (const d of data) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = data.length;
+      } while (hasMore);
     },
   },
 };
