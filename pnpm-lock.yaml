@@ -4584,6 +4584,9 @@ importers:
 
   components/finage: {}
 
+  components/finalscout:
+    specifiers: {}
+
   components/findymail:
     dependencies:
       '@pipedream/platform':
