@@ -159,7 +159,7 @@ export default {
             return;
           }
         }
-        total = results.total;
+        total = results?.length;
       } while (total === params.limit);
     },
   },

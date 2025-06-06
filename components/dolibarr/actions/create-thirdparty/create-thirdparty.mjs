@@ -26,22 +26,22 @@ export default {
       description: "The phone number of the third party",
       optional: true,
     },
-    steetAddress: {
+    streetAddress: {
       type: "string",
       label: "Street Address",
-      description: "The street address of the user",
+      description: "The street address of the third party",
       optional: true,
     },
     zip: {
       type: "string",
       label: "Zip",
-      description: "The zip code of the user",
+      description: "The zip code of the third party",
       optional: true,
     },
     town: {
       type: "string",
       label: "Town",
-      description: "The city or town of the user",
+      description: "The city or town of the third party",
       optional: true,
     },
     additionalProperties: {
@@ -58,13 +58,13 @@ export default {
         name: this.name,
         email: this.email,
         phone: this.phone,
-        address: this.steetAddress,
+        address: this.streetAddress,
         zip: this.zip,
         town: this.town,
         ...parseObject(this.additionalProperties),
       },
     });
-    $.export("$summary", `Successfully created third party ${response}`);
+    $.export("$summary", `Successfully created third party with ID${response}`);
     return response;
   },
 };

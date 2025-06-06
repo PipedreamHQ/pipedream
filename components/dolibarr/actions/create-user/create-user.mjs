@@ -54,7 +54,7 @@ export default {
       description: "Whether the user is an administrator",
       optional: true,
     },
-    steetAddress: {
+    streetAddress: {
       type: "string",
       label: "Street Address",
       description: "The street address of the user",
@@ -93,7 +93,7 @@ export default {
         admin: this.isAdmin
           ? 1
           : 0,
-        address: this.steetAddress,
+        address: this.streetAddress,
         zip: this.zip,
         town: this.town,
         ...parseObject(this.additionalProperties),
