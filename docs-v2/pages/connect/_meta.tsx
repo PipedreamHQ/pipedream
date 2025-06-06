@@ -2,7 +2,7 @@ export default {
   "index": "Overview",
   "use-cases": "Use cases",
   "managed-auth": "Managed auth",
-  "components": "Tool calling",
+  "components": "Tool Use",
   "mcp": "MCP",
   "api-proxy": "API proxy",
   "workflows": "Workflows",

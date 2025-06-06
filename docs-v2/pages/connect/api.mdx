@@ -225,7 +225,8 @@ curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/actions/run
       },
       "projectId": 45672541,
       "refName": "main"
-    }
+    },
+    "stash_id": ""
   }'
 ```
 
@@ -1847,6 +1848,20 @@ which you want to execute the action.
 
 The ID of the last prop reconfiguration (if applicable).
 
+---
+
+`stash_id` **string|boolean** (_optional_)
+
+When passed, this parameter enables [File Stash](/connect/components/files), which syncs files from the `/tmp` directory with a Pipedream File Store. This makes files accessible outside of the execution environment via presigned URLs.
+
+You can pass one of the following values:
+- An empty string (`""`) to generate a new stash ID
+- `"NEW"` to generate a new stash ID
+- `true` to generate a new stash ID
+- A previously created stash ID to reference existing files
+
+See the [File Stash docs](/connect/components/files) for more details.
+
 ##### Examples
 
 <Tabs items={['TypeScript', 'Node.js', 'HTTP (cURL)']}>
@@ -1882,6 +1897,7 @@ const requestOpts: RunActionOpts = {
     refName: "main"
   },
   externalUserId: "jverce",
+  stashId: "", // Optional: Pass an empty string to generate a new stash ID, "NEW", true, or a previously created stash ID
 };
 const response: RunActionResponse = await pd.runAction(requestOpts);
 
@@ -1925,6 +1941,7 @@ const {
     refName: "main"
   },
   externalUserId: "jverce",
+  stash_id: "", // Optional: Pass an empty string to generate a new stash ID, "NEW", true, or a previously created stash ID
 });
 
 // Parse and return the data you need
@@ -1950,11 +1967,12 @@ echo '{
   "id": "gitlab-list-commits",
   "configured_props": {
     "gitlab": {
-      "authProvisionId": "apn_kVh9AoD"
+      "auth_provision_id": "apn_kVh9AoD"
     },
-    "projectId": 45672541,
-    "refName": "main"
-  }
+    "project_id": 45672541,
+    "ref_name": "main"
+  },
+  "stash_id": ""
 }' > data.json
 
 curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/actions/run" \

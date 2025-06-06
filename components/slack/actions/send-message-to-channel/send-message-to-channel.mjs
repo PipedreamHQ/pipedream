@@ -3,10 +3,10 @@ import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
-  key: "slack-send-message-to-channel",
-  name: "Send Message to Channel",
+  key: "slack-send-message-to-channel-DANNY",
+  name: "DANNY Send Message to Channel",
   description: "Send a message to a public or private channel. [See the documentation](https://api.slack.com/methods/chat.postMessage)",
-  version: "0.0.4",
+  version: "0.0.{{ts}}",
   type: "action",
   props: {
     slack: common.props.slack,
