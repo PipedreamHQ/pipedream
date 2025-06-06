@@ -4,10 +4,10 @@ import base from "../common/base-page-builder.mjs";
 
 export default {
   ...base,
-  key: "DANNY-notion-create-page",
-  name: "DANNY Create Page",
+  key: "notion-create-page",
+  name: "Create Page",
   description: "Create a page from a parent page. [See the documentation](https://developers.notion.com/reference/post-page)",
-  version: "0.2.{{ts}}",
+  version: "0.2.16",
   type: "action",
   props: {
     notion,
