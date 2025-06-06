@@ -157,6 +157,11 @@ export type V1DeployedComponent<T extends ConfigurableProps = any> = { // eslint
   name: string;
   name_slug: string;
   callback_observations?: unknown;
+
+  /**
+   * The URL to the HTTP interface of this component, if it has one.
+   */
+  endpoint_url?: string;
 };
 
 export type V1EmittedEvent = {
