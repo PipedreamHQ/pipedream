@@ -258,6 +258,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/action1: {}
+
   components/action_builder: {}
 
   components/action_network: {}
@@ -366,6 +368,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.1
         version: 1.6.6
+
+  components/adtraction: {}
 
   components/adversus:
     dependencies:
@@ -716,6 +720,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+
+  components/alttextify: {}
 
   components/amara:
     dependencies:
@@ -1226,7 +1232,11 @@ importers:
 
   components/aylien_news_api: {}
 
-  components/ayrshare: {}
+  components/ayrshare:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/azure_ai_vision:
     dependencies:
@@ -1392,7 +1402,7 @@ importers:
   components/beekeeper:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
+        specifier: ^3.0.3
         version: 3.0.3
 
   components/benchmark_email:
@@ -1883,6 +1893,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/buddy: {}
+
   components/budgets_ai: {}
 
   components/bugbug:
@@ -1897,7 +1909,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/bugsnag: {}
+  components/bugsnag:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/buildchatbot: {}
 
@@ -2084,6 +2100,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/capgo: {}
+
   components/capsule:
     dependencies:
       '@pipedream/platform':
@@ -2187,7 +2205,11 @@ importers:
 
   components/changenow: {}
 
-  components/changes_page: {}
+  components/changes_page:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/channeladvisor:
     dependencies:
@@ -2708,6 +2730,8 @@ importers:
         specifier: ^1.6.2
         version: 1.6.6
 
+  components/codeberg: {}
+
   components/codegpt: {}
 
   components/codemagic:
@@ -2717,6 +2741,9 @@ importers:
         version: 1.6.6
 
   components/codeq_natural_language_processing_api: {}
+
+  components/codeqr:
+    specifiers: {}
 
   components/codereadr:
     dependencies:
@@ -2893,6 +2920,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.2
         version: 1.6.6
+
+  components/contactout: {}
 
   components/contacts:
     dependencies:
@@ -3728,6 +3757,8 @@ importers:
 
   components/dokan: {}
 
+  components/dolibarr: {}
+
   components/domain_group:
     dependencies:
       '@pipedream/platform':
@@ -3830,7 +3861,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/drimify: {}
+  components/drimify:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/drip:
     dependencies:
@@ -3861,17 +3896,23 @@ importers:
         specifier: ^10.34.0
         version: 10.34.0(@types/node-fetch@2.6.12)
       got:
-        specifier: ^14.0.0
-        version: 14.4.4
+        specifier: ^13.0.0
+        version: 13.0.0
       isomorphic-fetch:
         specifier: ^3.0.0
         version: 3.0.0
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
+      stream:
+        specifier: ^0.0.3
+        version: 0.0.3
       tmp-promise:
         specifier: ^3.0.3
         version: 3.0.3
+      util:
+        specifier: ^0.12.5
+        version: 0.12.5
 
   components/dropcontact:
     dependencies:
@@ -4211,7 +4252,14 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/esendex: {}
+  components/esendex:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      simple-xml2json:
+        specifier: ^1.2.3
+        version: 1.2.3
 
   components/esignatures_io:
     dependencies:
@@ -4547,6 +4595,9 @@ importers:
 
   components/finage: {}
 
+  components/finalscout:
+    specifiers: {}
+
   components/findymail:
     dependencies:
       '@pipedream/platform':
@@ -4594,8 +4645,8 @@ importers:
   components/firecrawl:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/firefish:
     dependencies:
@@ -5833,6 +5884,8 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/guardrails: {}
+
   components/gumroad:
     dependencies:
       '@pipedream/platform':
@@ -6350,7 +6403,11 @@ importers:
 
   components/ical: {}
 
-  components/icontact: {}
+  components/icontact:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/icypeas:
     dependencies:
@@ -7359,6 +7416,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/limoexpress: {}
+
   components/line:
     dependencies:
       '@line/bot-sdk':
@@ -7486,8 +7545,8 @@ importers:
   components/livekit:
     dependencies:
       livekit-server-sdk:
-        specifier: ^2.8.1
-        version: 2.8.1
+        specifier: ^2.13.0
+        version: 2.13.0
 
   components/livesession:
     dependencies:
@@ -7558,6 +7617,8 @@ importers:
       object-hash:
         specifier: ^3.0.0
         version: 3.0.0
+
+  components/local_reviews: {}
 
   components/locate:
     dependencies:
@@ -8916,7 +8977,11 @@ importers:
         specifier: 3.0.3
         version: 3.0.3
 
-  components/nuclino: {}
+  components/nuclino:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/nudgify:
     dependencies:
@@ -9324,6 +9389,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+
+  components/order_sender: {}
 
   components/originality_ai:
     dependencies:
@@ -9812,6 +9879,8 @@ importers:
         specifier: ^1.2.1
         version: 1.6.6
 
+  components/picqer: {}
+
   components/pidj:
     dependencies:
       '@pipedream/platform':
@@ -9864,6 +9933,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+
+  components/pinghome: {}
 
   components/pingone: {}
 
@@ -10264,6 +10335,9 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/predictleads:
+    specifiers: {}
+
   components/prepr_graphql: {}
 
   components/prerender:
@@ -10358,6 +10432,8 @@ importers:
 
   components/procore_sandbox: {}
 
+  components/prodatakey: {}
+
   components/prodpad:
     dependencies:
       '@pipedream/platform':
@@ -10438,6 +10514,8 @@ importers:
   components/proprofs_knowledge_base: {}
 
   components/proprofs_quiz_maker: {}
+
+  components/prospeo: {}
 
   components/provesource: {}
 
@@ -13033,7 +13111,11 @@ importers:
         specifier: ^1.1.0
         version: 1.6.6
 
-  components/syncmate_by_assitro: {}
+  components/syncmate_by_assitro:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/syncro: {}
 
@@ -13264,6 +13346,12 @@ importers:
   components/test_apps_for_checking_something_010: {}
 
   components/test_apps_for_switching_appslug_009: {}
+
+  components/testlocally:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/testmo:
     dependencies:
@@ -13758,7 +13846,14 @@ importers:
 
   components/tutor_lms: {}
 
-  components/tuya: {}
+  components/tuya:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      '@tuya/tuya-connector-nodejs':
+        specifier: ^2.1.2
+        version: 2.1.2
 
   components/twelve_data: {}
 
@@ -14095,6 +14190,8 @@ importers:
         version: 0.1.11
 
   components/utradea: {}
+
+  components/v1ce: {}
 
   components/v7_darwin:
     dependencies:
@@ -14525,7 +14622,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/whatconverts: {}
+  components/whatconverts:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/whatsable:
     dependencies:
@@ -14877,6 +14978,8 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
+  components/yay_com: {}
+
   components/yelp:
     dependencies:
       '@pipedream/platform':
@@ -15018,6 +15121,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+
+  components/zenedu: {}
 
   components/zenkit:
     dependencies:
@@ -15527,14 +15632,6 @@ importers:
         specifier: ^6.0.0
         version: 6.2.0
 
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
-
   packages/ai:
     dependencies:
       '@pipedream/sdk':
@@ -15555,7 +15652,7 @@ importers:
         version: 1.2.13
       tsup:
         specifier: ^8.3.6
-        version: 8.3.6(@microsoft/api-extractor@7.47.12(@types/node@22.15.9))(jiti@1.21.6)(postcss@8.4.49)(tsx@4.19.4)(typescript@5.6.3)(yaml@2.6.1)
+        version: 8.3.6(@microsoft/api-extractor@7.47.12(@types/node@22.15.21))(jiti@1.21.6)(postcss@8.4.49)(tsx@4.19.4)(typescript@5.6.3)(yaml@2.6.1)
       typescript:
         specifier: ^5.6
         version: 5.6.3
@@ -15607,10 +15704,10 @@ importers:
         version: 18.3.12
       vite:
         specifier: ^5.4.11
-        version: 5.4.11(@types/node@22.15.9)
+        version: 5.4.11(@types/node@22.15.21)
       vite-plugin-dts:
         specifier: ^4.3.0
-        version: 4.3.0(@types/node@22.15.9)(rollup@4.27.3)(typescript@5.7.2)(vite@5.4.11(@types/node@22.15.9))
+        version: 4.3.0(@types/node@22.15.21)(rollup@4.27.3)(typescript@5.7.2)(vite@5.4.11(@types/node@22.15.21))
 
   packages/connect-react/examples/nextjs:
     dependencies:
@@ -15712,9 +15809,15 @@ importers:
       io-ts:
         specifier: ^2.0.0
         version: 2.2.21(fp-ts@2.16.9)
+      mime-types:
+        specifier: ^3.0.1
+        version: 3.0.1
       querystring:
         specifier: ^0.2.1
         version: 0.2.1
+      uuid:
+        specifier: ^11.1.0
+        version: 11.1.0
     devDependencies:
       '@octokit/core':
         specifier: ^3.6.0
@@ -16942,11 +17045,11 @@ packages:
   '@braintree/sanitize-url@7.1.0':
     resolution: {integrity: sha512-o+UlMLt49RvtCASlOMW0AkHnabN9wR9rwCCherxO0yG4Npy34GkvrAqdXQvrhNs+jh+gkK8gB8Lf05qL/O7KWg==}
 
-  '@bufbuild/protobuf@1.10.0':
-    resolution: {integrity: sha512-QDdVFLoN93Zjg36NoQPZfsVH9tZew7wKDKyV5qRdj8ntT4wQCOradQjRaTdwMhWUYsgKsvCINKKm87FdEk96Ag==}
+  '@bufbuild/protobuf@1.10.1':
+    resolution: {integrity: sha512-wJ8ReQbHxsAfXhrf9ixl0aYbZorRuOWpBNzm8pL8ftmSxQx/wnJD5Eg861NwJU/czy2VXFIebCeZnZrI9rktIQ==}
 
-  '@bufbuild/protobuf@2.2.2':
-    resolution: {integrity: sha512-UNtPCbrwrenpmrXuRwn9jYpPoweNXj8X5sMvYgsqYyaH8jQ6LfUJSk3dJLnBK+6sfYPrF4iAIo5sd5HQ+tg75A==}
+  '@bufbuild/protobuf@2.5.0':
+    resolution: {integrity: sha512-nniMblXT+dNyubek2OLKAYJnG/in4tmfS2c5CDnIvqfF9kFlERSG3FCBvmdqerpkWuPv0qhdGKReQ2OqKPG20w==}
 
   '@chevrotain/cst-dts-gen@11.0.3':
     resolution: {integrity: sha512-BvIKpRLeS/8UbfxXxgC33xOumsacaeCKAjAeLyOn7Pcp95HiRbrpl14S+9vaZLolnbssPIUuiUd8IvgkRyt6NQ==}
@@ -18098,8 +18201,8 @@ packages:
     resolution: {integrity: sha512-Vn1qM+bP0lggPIPxHU7G2u0WrA/cGpvqjm9V0sNs+yazJDq7/9PLDnyUU+E97DneOPsekTA2H/Gw3CAfekpUlA==}
     engines: {node: '>=12.x', yarn: 1.x}
 
-  '@livekit/protocol@1.27.1':
-    resolution: {integrity: sha512-ISEp7uWdV82mtCR1eyHFTzdRZTVbe2+ZztjmjiMPzR/KPrI1Ma/u5kLh87NNuY3Rn8wv1VlEvGHHsFjQ+dKVUw==}
+  '@livekit/protocol@1.38.0':
+    resolution: {integrity: sha512-XX6ulvsE1XCN18LVf3ydHN7Ri1Z1M1P5dQdjnm5nVDsSqUL12Vbo/4RKcRlCEXAg2qB62mKjcaVLXVwkfXggkg==}
 
   '@lob/lob-typescript-sdk@1.3.5':
     resolution: {integrity: sha512-ZFzYksy/5SqYCoHRJnlpr1P89UHdFEhAdLJ/0aQlNeqfJC1R9pucQuR9YTWmdHhGaz7AORMMlFMojd+xz8m32w==}
@@ -18646,6 +18749,9 @@ packages:
 
   '@pipedream/platform@3.0.3':
     resolution: {integrity: sha512-7elalas41lnT8i6EAFkqB7fT/+hkLGEQ1njS6A7CVguTrEswaIYk/seKmkfkRY7+O6qncgnXswYIKCBML9Co7w==}
+
+  '@pipedream/platform@3.1.0':
+    resolution: {integrity: sha512-ELmV3fpd9PIUm74/RPaqmA7hJaY4ryIn6PCNT1NP/gnqMrkRNOAr+DTV4xPaJgPiRm74WC5HvrkC8YdRveXzZA==}
 
   '@pipedream/postgresql@2.2.3':
     resolution: {integrity: sha512-Co9r4UKvvimEPo9T4v+EfVn/Sqqw8+X7PtvsAF7tydq7CHpkmOT9eYAiD0Kuybg5WbuWuqDaXHHmhVtsAxgpBw==}
@@ -20436,6 +20542,9 @@ packages:
   '@tsconfig/node14@1.0.3':
     resolution: {integrity: sha512-ysT8mhdixWK6Hw3i1V2AeRqZ5WfXg1G43mqoYlM2nc6388Fq5jcXyr5mRsqViLx/GJYdoL0bfXD8nmF+Zn/Iow==}
 
+  '@tuya/tuya-connector-nodejs@2.1.2':
+    resolution: {integrity: sha512-8tM7QlOF1QQrT3iQgcHp4JDNRUdOyi06h8F5ZL7antQZYP67TRQ2/puisoo2uhdXo+n+GT0B605pWaDqr9nPrA==}
+
   '@types/acorn@4.0.6':
     resolution: {integrity: sha512-veQTnWP+1D/xbxVrPC3zHnCZRjSrKfhbMUlEA43iMZLu7EsnTtkJklIuwrCPbOi8YkvDQAiW05VQQFvvz9oieQ==}
 
@@ -20707,6 +20816,9 @@ packages:
   '@types/node@18.11.10':
     resolution: {integrity: sha512-juG3RWMBOqcOuXC643OAdSA525V44cVgGV6dUDuiFtss+8Fk5x1hI93Rsld43VeJVIeqlP9I7Fn9/qaVqoEAuQ==}
 
+  '@types/node@18.19.103':
+    resolution: {integrity: sha512-hHTHp+sEz6SxFsp+SA+Tqrua3AbmlAw+Y//aEwdHrdZkYVRWdvWD3y5uPZ0flYOkgskaFWqZ/YGFm3FaFQ0pRw==}
+
   '@types/node@18.19.64':
     resolution: {integrity: sha512-955mDqvO2vFf/oL7V3WiUtiz+BugyX8uVbaT2H8oj3+8dRyH2FLiNdowe7eNqRM7IOIZvzDH76EoAT+gwm6aIQ==}
 
@@ -20724,6 +20836,9 @@ packages:
 
   '@types/node@22.10.2':
     resolution: {integrity: sha512-Xxr6BBRCAOQixvonOye19wnzyDiUtTeqldOOmj3CkeblonbccA12PFwlufvRdrpjXxqnmUaeiU5EOA+7s5diUQ==}
+
+  '@types/node@22.15.21':
+    resolution: {integrity: sha512-EV/37Td6c+MgKAbkcLG6vqZ2zEYHD7bvSrzqqs2RIhbA6w3x+Dqz8MZM3sP6kGTeLrdoOgKZe+Xja7tUB2DNkQ==}
 
   '@types/node@22.15.9':
     resolution: {integrity: sha512-l6QaCgJSJQ0HngL1TjvEY2DlefKggyGeXP1KYvYLBX41ZDPM1FsgDMAr5c+T673NMy7VCptMOzXOuJqf5uB0bA==}
@@ -24265,10 +24380,6 @@ packages:
     resolution: {integrity: sha512-XfBk1CxOOScDcMr9O1yKkNaQyy865NbYs+F7dr4H0LZMVgCj2Le59k6PqbNHoL5ToeaEQUYh6c6yMfVcc6SJxA==}
     engines: {node: '>=16'}
 
-  got@14.4.4:
-    resolution: {integrity: sha512-tqiF7eSgTBwQkxb1LxsEpva8TaMYVisbhplrFVmw9GQE3855Z+MH/mnsXLLOkDxR6hZJRFMj5VTAZ8lmTF8ZOA==}
-    engines: {node: '>=20'}
-
   got@14.4.6:
     resolution: {integrity: sha512-rnhwfM/PhMNJ1i17k3DuDqgj0cKx3IHxBKVv/WX1uDKqrhi2Gv3l7rhPThR/Cc6uU++dD97W9c8Y0qyw9x0jag==}
     engines: {node: '>=20'}
@@ -25692,9 +25803,9 @@ packages:
     resolution: {integrity: sha512-iyAZCeyD+c1gPyE9qpFu8af0Y+MRtmKOncdGoA2S5EY8iFq99dmmvkNnHiWo+pj0s7yH7l3KPIgee77tKpXPWQ==}
     engines: {node: '>=18.0.0'}
 
-  livekit-server-sdk@2.8.1:
-    resolution: {integrity: sha512-l8egXU10jPuRJM2Df9Gk/KPEk6tBV0JEGG19cD5QeQtyIMgqULCCd/5yyG2FRvcWRf7pEyZZMXi63zDn7uaKHQ==}
-    engines: {node: '>=19'}
+  livekit-server-sdk@2.13.0:
+    resolution: {integrity: sha512-fQJI/zEJRPeXKdKMkEfJNYSSnvmuPQsk2Q+X6tPfUrJPy7fnyYPax/icf/CZ8EYZQBhFgSD7WaKOYGSSfGSyZw==}
+    engines: {node: '>=18'}
 
   load-module@4.2.1:
     resolution: {integrity: sha512-Sbfg6R4LjvyThJpqUoADHMjyoI2+cL4msbCQeZ9kkY/CqP/TT2938eftKm7x4I2gd4/A+DEe6nePkbfWYbXwSw==}
@@ -28467,6 +28578,11 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  semver@7.7.2:
+    resolution: {integrity: sha512-RF0Fw+rO5AMf9MAyaRXI4AV0Ulj5lMHqVxxdSgiVbixSCXoEmmX/jk0CuJw4+3SqroYO9VoUh+HcuJivvtJemA==}
+    engines: {node: '>=10'}
+    hasBin: true
+
   send@0.19.0:
     resolution: {integrity: sha512-dW41u5VfLXu8SJh5bwRmyYUbAoSB3c9uQh6L8h/KtsFREPWpbX1lrljJo186Jc4nmci/sGUZ9a0a0J2zgfq2hw==}
     engines: {node: '>= 0.8.0'}
@@ -28613,6 +28729,9 @@ packages:
   simple-update-notifier@2.0.0:
     resolution: {integrity: sha512-a2B9Y0KlNXl9u/vsW6sTIu9vGEpfKu2wRV6l1H3XEas/0gUIzGzBoP/IouTcUQbm9JWZLH3COxyn03TYlFax6w==}
     engines: {node: '>=10'}
+
+  simple-xml2json@1.2.3:
+    resolution: {integrity: sha512-R2qDtYMXCaaXq300+TKTtzJvryJ2BFmbP2VANnS6H7XzUgVbi9an7VnCVLvXMdEqyzAW6G4whZix7fOuUo54oQ==}
 
   sisteransi@1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
@@ -29062,22 +29181,22 @@ packages:
   superagent@3.8.1:
     resolution: {integrity: sha512-VMBFLYgFuRdfeNQSMLbxGSLfmXL/xc+OO+BZp41Za/NRDBet/BNbkRJrYzCUu0u4GU0i/ml2dtT8b9qgkw9z6Q==}
     engines: {node: '>= 4.0'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v7.0.2+ of superagent.  We have fixed numerous issues with streams, form-data, attach(), filesystem errors not bubbling up (ENOENT on attach()), and all tests are now passing.  See the releases tab for more information at <https://github.com/visionmedia/superagent/releases>.
 
   superagent@4.1.0:
     resolution: {integrity: sha512-FT3QLMasz0YyCd4uIi5HNe+3t/onxMyEho7C3PSqmti3Twgy2rXT4fmkTz6wRL6bTF4uzPcfkUCa8u4JWHw8Ag==}
     engines: {node: '>= 6.0'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v7.0.2+ of superagent.  We have fixed numerous issues with streams, form-data, attach(), filesystem errors not bubbling up (ENOENT on attach()), and all tests are now passing.  See the releases tab for more information at <https://github.com/visionmedia/superagent/releases>.
 
   superagent@5.3.1:
     resolution: {integrity: sha512-wjJ/MoTid2/RuGCOFtlacyGNxN9QLMgcpYLDQlWFIhhdJ93kNscFonGvrpAHSCVjRVj++DGCglocF7Aej1KHvQ==}
     engines: {node: '>= 7.0.0'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v7.0.2+ of superagent.  We have fixed numerous issues with streams, form-data, attach(), filesystem errors not bubbling up (ENOENT on attach()), and all tests are now passing.  See the releases tab for more information at <https://github.com/visionmedia/superagent/releases>.
 
   superagent@7.1.6:
     resolution: {integrity: sha512-gZkVCQR1gy/oUXr+kxJMLDjla434KmSOKbx5iGD30Ql+AkJQ/YlPKECJy2nhqOsHLjGHzoDTXNSjhnvWhzKk7g==}
     engines: {node: '>=6.4.0 <13 || >=14'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please downgrade to v7.1.5 if you need IE/ActiveXObject support OR upgrade to v8.0.0 as we no longer support IE and published an incorrect patch version (see https://github.com/visionmedia/superagent/issues/1731)
 
   supports-color@2.0.0:
     resolution: {integrity: sha512-KKNVtd6pCYgPIKU4cp2733HWYCpplQhddZLBUryaAHou723x+FRzQ5Df824Fj+IyyuiQTRoub4SnIFfIcrp70g==}
@@ -32581,7 +32700,7 @@ snapshots:
       '@babel/helper-validator-option': 8.0.0-alpha.13
       browserslist: 4.24.2
       lru-cache: 7.18.3
-      semver: 7.7.1
+      semver: 7.7.2
 
   '@babel/helper-create-class-features-plugin@7.25.9(@babel/core@7.26.0)':
     dependencies:
@@ -33409,9 +33528,9 @@ snapshots:
 
   '@braintree/sanitize-url@7.1.0': {}
 
-  '@bufbuild/protobuf@1.10.0': {}
+  '@bufbuild/protobuf@1.10.1': {}
 
-  '@bufbuild/protobuf@2.2.2': {}
+  '@bufbuild/protobuf@2.5.0': {}
 
   '@chevrotain/cst-dts-gen@11.0.3':
     dependencies:
@@ -33432,14 +33551,14 @@ snapshots:
 
   '@colors/colors@1.6.0': {}
 
-  '@connectrpc/connect-web@2.0.0-rc.3(@bufbuild/protobuf@2.2.2)(@connectrpc/connect@2.0.0-rc.3(@bufbuild/protobuf@2.2.2))':
+  '@connectrpc/connect-web@2.0.0-rc.3(@bufbuild/protobuf@2.5.0)(@connectrpc/connect@2.0.0-rc.3(@bufbuild/protobuf@2.5.0))':
     dependencies:
-      '@bufbuild/protobuf': 2.2.2
-      '@connectrpc/connect': 2.0.0-rc.3(@bufbuild/protobuf@2.2.2)
+      '@bufbuild/protobuf': 2.5.0
+      '@connectrpc/connect': 2.0.0-rc.3(@bufbuild/protobuf@2.5.0)
 
-  '@connectrpc/connect@2.0.0-rc.3(@bufbuild/protobuf@2.2.2)':
+  '@connectrpc/connect@2.0.0-rc.3(@bufbuild/protobuf@2.5.0)':
     dependencies:
-      '@bufbuild/protobuf': 2.2.2
+      '@bufbuild/protobuf': 2.5.0
 
   '@corex/deepmerge@4.0.43': {}
 
@@ -33496,14 +33615,14 @@ snapshots:
     dependencies:
       '@definitelytyped/typescript-versions': 0.1.8
       '@definitelytyped/utils': 0.1.8
-      semver: 7.7.1
+      semver: 7.7.2
 
   '@definitelytyped/typescript-versions@0.1.8': {}
 
   '@definitelytyped/utils@0.1.8':
     dependencies:
       '@qiwi/npm-registry-client': 8.9.1
-      '@types/node': 18.19.87
+      '@types/node': 18.19.103
       cachedir: 2.4.0
       charm: 1.0.2
       minimatch: 9.0.5
@@ -34699,9 +34818,9 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@livekit/protocol@1.27.1':
+  '@livekit/protocol@1.38.0':
     dependencies:
-      '@bufbuild/protobuf': 1.10.0
+      '@bufbuild/protobuf': 1.10.1
 
   '@lob/lob-typescript-sdk@1.3.5':
     dependencies:
@@ -34773,11 +34892,11 @@ snapshots:
       - '@types/node'
     optional: true
 
-  '@microsoft/api-extractor-model@7.29.9(@types/node@22.15.9)':
+  '@microsoft/api-extractor-model@7.29.9(@types/node@22.15.21)':
     dependencies:
       '@microsoft/tsdoc': 0.15.0
       '@microsoft/tsdoc-config': 0.17.0
-      '@rushstack/node-core-library': 5.10.0(@types/node@22.15.9)
+      '@rushstack/node-core-library': 5.10.0(@types/node@22.15.21)
     transitivePeerDependencies:
       - '@types/node'
 
@@ -34800,15 +34919,15 @@ snapshots:
       - '@types/node'
     optional: true
 
-  '@microsoft/api-extractor@7.47.12(@types/node@22.15.9)':
+  '@microsoft/api-extractor@7.47.12(@types/node@22.15.21)':
     dependencies:
-      '@microsoft/api-extractor-model': 7.29.9(@types/node@22.15.9)
+      '@microsoft/api-extractor-model': 7.29.9(@types/node@22.15.21)
       '@microsoft/tsdoc': 0.15.0
       '@microsoft/tsdoc-config': 0.17.0
-      '@rushstack/node-core-library': 5.10.0(@types/node@22.15.9)
+      '@rushstack/node-core-library': 5.10.0(@types/node@22.15.21)
       '@rushstack/rig-package': 0.5.3
-      '@rushstack/terminal': 0.14.3(@types/node@22.15.9)
-      '@rushstack/ts-command-line': 4.23.1(@types/node@22.15.9)
+      '@rushstack/terminal': 0.14.3(@types/node@22.15.21)
+      '@rushstack/ts-command-line': 4.23.1(@types/node@22.15.21)
       lodash: 4.17.21
       minimatch: 3.0.8
       resolve: 1.22.8
@@ -35307,7 +35426,7 @@ snapshots:
 
   '@pipedream/docusign@0.2.1':
     dependencies:
-      '@pipedream/platform': 3.0.3
+      '@pipedream/platform': 3.1.0
     transitivePeerDependencies:
       - debug
 
@@ -35357,7 +35476,7 @@ snapshots:
   '@pipedream/linear_app@0.7.1':
     dependencies:
       '@linear/sdk': 13.0.0
-      '@pipedream/platform': 3.0.3
+      '@pipedream/platform': 3.1.0
     transitivePeerDependencies:
       - debug
       - encoding
@@ -35372,7 +35491,7 @@ snapshots:
 
   '@pipedream/monday@0.7.0':
     dependencies:
-      '@pipedream/platform': 3.0.3
+      '@pipedream/platform': 3.1.0
       form-data: 4.0.2
       lodash.flatmap: 4.5.0
       lodash.map: 4.6.0
@@ -35385,7 +35504,7 @@ snapshots:
   '@pipedream/notion@0.6.2':
     dependencies:
       '@notionhq/client': 2.3.0
-      '@pipedream/platform': 3.0.3
+      '@pipedream/platform': 3.1.0
       '@tryfabric/martian': 1.2.4
       lodash-es: 4.17.21
       notion-to-md: 3.1.8
@@ -35491,6 +35610,17 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+  '@pipedream/platform@3.1.0':
+    dependencies:
+      axios: 1.9.0
+      fp-ts: 2.16.10
+      io-ts: 2.2.22(fp-ts@2.16.10)
+      mime-types: 3.0.1
+      querystring: 0.2.1
+      uuid: 11.1.0
+    transitivePeerDependencies:
+      - debug
+
   '@pipedream/postgresql@2.2.3':
     dependencies:
       '@pipedream/platform': 2.0.0
@@ -35502,13 +35632,13 @@ snapshots:
 
   '@pipedream/quickbooks@0.5.1':
     dependencies:
-      '@pipedream/platform': 3.0.3
+      '@pipedream/platform': 3.1.0
     transitivePeerDependencies:
       - debug
 
   '@pipedream/ramp@0.1.2':
     dependencies:
-      '@pipedream/platform': 3.0.3
+      '@pipedream/platform': 3.1.0
       uuid: 10.0.0
     transitivePeerDependencies:
       - debug
@@ -35545,14 +35675,14 @@ snapshots:
 
   '@pipedream/sftp@0.4.1':
     dependencies:
-      '@pipedream/platform': 3.0.3
+      '@pipedream/platform': 3.1.0
       ssh2-sftp-client: 11.0.0
     transitivePeerDependencies:
       - debug
 
   '@pipedream/shopify@0.7.0':
     dependencies:
-      '@pipedream/platform': 3.0.3
+      '@pipedream/platform': 3.1.0
       async-retry: 1.3.3
       bottleneck: 2.19.5
       form-data: 4.0.2
@@ -36460,7 +36590,7 @@ snapshots:
       request: 2.88.2
       retry: 0.12.0
       safe-buffer: 5.2.1
-      semver: 7.7.1
+      semver: 7.7.2
       slide: 1.1.6
       ssri: 8.0.1
     optionalDependencies:
@@ -36633,7 +36763,7 @@ snapshots:
       '@types/node': 20.17.30
     optional: true
 
-  '@rushstack/node-core-library@5.10.0(@types/node@22.15.9)':
+  '@rushstack/node-core-library@5.10.0(@types/node@22.15.21)':
     dependencies:
       ajv: 8.13.0
       ajv-draft-04: 1.0.0(ajv@8.13.0)
@@ -36644,7 +36774,7 @@ snapshots:
       resolve: 1.22.8
       semver: 7.5.4
     optionalDependencies:
-      '@types/node': 22.15.9
+      '@types/node': 22.15.21
 
   '@rushstack/rig-package@0.5.3':
     dependencies:
@@ -36659,12 +36789,12 @@ snapshots:
       '@types/node': 20.17.30
     optional: true
 
-  '@rushstack/terminal@0.14.3(@types/node@22.15.9)':
+  '@rushstack/terminal@0.14.3(@types/node@22.15.21)':
     dependencies:
-      '@rushstack/node-core-library': 5.10.0(@types/node@22.15.9)
+      '@rushstack/node-core-library': 5.10.0(@types/node@22.15.21)
       supports-color: 8.1.1
     optionalDependencies:
-      '@types/node': 22.15.9
+      '@types/node': 22.15.21
 
   '@rushstack/ts-command-line@4.23.1(@types/node@20.17.30)':
     dependencies:
@@ -36676,9 +36806,9 @@ snapshots:
       - '@types/node'
     optional: true
 
-  '@rushstack/ts-command-line@4.23.1(@types/node@22.15.9)':
+  '@rushstack/ts-command-line@4.23.1(@types/node@22.15.21)':
     dependencies:
-      '@rushstack/terminal': 0.14.3(@types/node@22.15.9)
+      '@rushstack/terminal': 0.14.3(@types/node@22.15.21)
       '@types/argparse': 1.0.38
       argparse: 1.0.10
       string-argv: 0.3.2
@@ -37607,6 +37737,13 @@ snapshots:
 
   '@tsconfig/node14@1.0.3': {}
 
+  '@tuya/tuya-connector-nodejs@2.1.2':
+    dependencies:
+      axios: 0.21.4
+      qs: 6.13.1
+    transitivePeerDependencies:
+      - debug
+
   '@types/acorn@4.0.6':
     dependencies:
       '@types/estree': 1.0.6
@@ -37943,6 +38080,10 @@ snapshots:
 
   '@types/node@18.11.10': {}
 
+  '@types/node@18.19.103':
+    dependencies:
+      undici-types: 5.26.5
+
   '@types/node@18.19.64':
     dependencies:
       undici-types: 5.26.5
@@ -37966,6 +38107,11 @@ snapshots:
   '@types/node@22.10.2':
     dependencies:
       undici-types: 6.20.0
+
+  '@types/node@22.15.21':
+    dependencies:
+      undici-types: 6.21.0
+    optional: true
 
   '@types/node@22.15.9':
     dependencies:
@@ -38150,7 +38296,7 @@ snapshots:
       glob: 7.2.3
       is-glob: 4.0.3
       lodash: 4.17.21
-      semver: 7.7.1
+      semver: 7.7.2
       tsutils: 3.21.0(typescript@3.9.10)
     optionalDependencies:
       typescript: 3.9.10
@@ -40576,9 +40722,9 @@ snapshots:
 
   e2b@1.0.5:
     dependencies:
-      '@bufbuild/protobuf': 2.2.2
-      '@connectrpc/connect': 2.0.0-rc.3(@bufbuild/protobuf@2.2.2)
-      '@connectrpc/connect-web': 2.0.0-rc.3(@bufbuild/protobuf@2.2.2)(@connectrpc/connect@2.0.0-rc.3(@bufbuild/protobuf@2.2.2))
+      '@bufbuild/protobuf': 2.5.0
+      '@connectrpc/connect': 2.0.0-rc.3(@bufbuild/protobuf@2.5.0)
+      '@connectrpc/connect-web': 2.0.0-rc.3(@bufbuild/protobuf@2.5.0)(@connectrpc/connect@2.0.0-rc.3(@bufbuild/protobuf@2.5.0))
       compare-versions: 6.1.1
       openapi-fetch: 0.9.8
       platform: 1.3.6
@@ -40948,7 +41094,7 @@ snapshots:
   eslint-compat-utils@0.5.1(eslint@8.57.1):
     dependencies:
       eslint: 8.57.1
-      semver: 7.7.1
+      semver: 7.7.2
 
   eslint-config-next@15.0.3(eslint@8.57.1)(typescript@5.6.3):
     dependencies:
@@ -42508,20 +42654,6 @@ snapshots:
       p-cancelable: 3.0.0
       responselike: 3.0.0
 
-  got@14.4.4:
-    dependencies:
-      '@sindresorhus/is': 7.0.1
-      '@szmarczak/http-timer': 5.0.1
-      cacheable-lookup: 7.0.0
-      cacheable-request: 12.0.1
-      decompress-response: 6.0.0
-      form-data-encoder: 4.0.2
-      http2-wrapper: 2.2.1
-      lowercase-keys: 3.0.0
-      p-cancelable: 4.0.1
-      responselike: 3.0.0
-      type-fest: 4.27.0
-
   got@14.4.6:
     dependencies:
       '@sindresorhus/is': 7.0.1
@@ -43197,7 +43329,7 @@ snapshots:
 
   is-bun-module@1.2.1:
     dependencies:
-      semver: 7.7.1
+      semver: 7.7.2
 
   is-callable@1.2.7: {}
 
@@ -43440,7 +43572,7 @@ snapshots:
       '@babel/parser': 7.26.2
       '@istanbuljs/schema': 0.1.3
       istanbul-lib-coverage: 3.2.2
-      semver: 7.7.1
+      semver: 7.7.2
     transitivePeerDependencies:
       - supports-color
 
@@ -44429,9 +44561,10 @@ snapshots:
       rfdc: 1.4.1
       wrap-ansi: 9.0.0
 
-  livekit-server-sdk@2.8.1:
+  livekit-server-sdk@2.13.0:
     dependencies:
-      '@livekit/protocol': 1.27.1
+      '@bufbuild/protobuf': 1.10.1
+      '@livekit/protocol': 1.38.0
       camelcase-keys: 9.1.3
       jose: 5.9.6
 
@@ -44719,7 +44852,7 @@ snapshots:
 
   make-dir@4.0.0:
     dependencies:
-      semver: 7.7.1
+      semver: 7.7.2
 
   make-error@1.3.6: {}
 
@@ -46060,7 +46193,7 @@ snapshots:
     dependencies:
       hosted-git-info: 4.1.0
       is-core-module: 2.16.1
-      semver: 7.7.1
+      semver: 7.7.2
       validate-npm-package-license: 3.0.4
 
   normalize-path@2.1.1:
@@ -46087,7 +46220,7 @@ snapshots:
   npm-package-arg@8.1.5:
     dependencies:
       hosted-git-info: 4.1.0
-      semver: 7.7.1
+      semver: 7.7.2
       validate-npm-package-name: 3.0.0
 
   npm-run-path@2.0.2:
@@ -48389,6 +48522,8 @@ snapshots:
 
   semver@7.7.1: {}
 
+  semver@7.7.2: {}
+
   send@0.19.0:
     dependencies:
       debug: 2.6.9
@@ -48622,6 +48757,8 @@ snapshots:
   simple-update-notifier@2.0.0:
     dependencies:
       semver: 7.7.1
+
+  simple-xml2json@1.2.3: {}
 
   sisteransi@1.0.5: {}
 
@@ -49697,7 +49834,7 @@ snapshots:
       - tsx
       - yaml
 
-  tsup@8.3.6(@microsoft/api-extractor@7.47.12(@types/node@22.15.9))(jiti@1.21.6)(postcss@8.4.49)(tsx@4.19.4)(typescript@5.6.3)(yaml@2.6.1):
+  tsup@8.3.6(@microsoft/api-extractor@7.47.12(@types/node@22.15.21))(jiti@1.21.6)(postcss@8.4.49)(tsx@4.19.4)(typescript@5.6.3)(yaml@2.6.1):
     dependencies:
       bundle-require: 5.1.0(esbuild@0.24.2)
       cac: 6.7.14
@@ -49716,7 +49853,7 @@ snapshots:
       tinyglobby: 0.2.10
       tree-kill: 1.2.2
     optionalDependencies:
-      '@microsoft/api-extractor': 7.47.12(@types/node@22.15.9)
+      '@microsoft/api-extractor': 7.47.12(@types/node@22.15.21)
       postcss: 8.4.49
       typescript: 5.6.3
     transitivePeerDependencies:
@@ -50298,9 +50435,9 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  vite-plugin-dts@4.3.0(@types/node@22.15.9)(rollup@4.27.3)(typescript@5.7.2)(vite@5.4.11(@types/node@22.15.9)):
+  vite-plugin-dts@4.3.0(@types/node@22.15.21)(rollup@4.27.3)(typescript@5.7.2)(vite@5.4.11(@types/node@22.15.21)):
     dependencies:
-      '@microsoft/api-extractor': 7.47.12(@types/node@22.15.9)
+      '@microsoft/api-extractor': 7.47.12(@types/node@22.15.21)
       '@rollup/pluginutils': 5.1.3(rollup@4.27.3)
       '@volar/typescript': 2.4.10
       '@vue/language-core': 2.1.6(typescript@5.7.2)
@@ -50311,19 +50448,19 @@ snapshots:
       magic-string: 0.30.13
       typescript: 5.7.2
     optionalDependencies:
-      vite: 5.4.11(@types/node@22.15.9)
+      vite: 5.4.11(@types/node@22.15.21)
     transitivePeerDependencies:
       - '@types/node'
       - rollup
       - supports-color
 
-  vite@5.4.11(@types/node@22.15.9):
+  vite@5.4.11(@types/node@22.15.21):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.4.49
       rollup: 4.27.3
     optionalDependencies:
-      '@types/node': 22.15.9
+      '@types/node': 22.15.21
       fsevents: 2.3.3
 
   vm2@3.9.19:

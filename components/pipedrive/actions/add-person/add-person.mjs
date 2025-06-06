@@ -6,7 +6,7 @@ export default {
   key: "pipedrive-add-person",
   name: "Add Person",
   description: "Adds a new person. See the Pipedrive API docs for People [here](https://developers.pipedrive.com/docs/api/v1/Persons#addPerson)",
-  version: "0.1.8",
+  version: "0.1.9",
   type: "action",
   props: {
     pipedriveApp,
@@ -31,16 +31,16 @@ export default {
       description: "ID of the organization this person will belong to.",
     },
     emails: {
-      type: "string[]",
-      label: "Emails",
-      description: "Email addresses (one or more) associated with the person, presented in the same manner as received by GET request of a person. **Example: {\"value\":\"email1@email.com\", \"primary\":true, \"label\":\"work\"}**",
-      optional: true,
+      propDefinition: [
+        pipedriveApp,
+        "emails",
+      ],
     },
     phones: {
-      type: "string[]",
-      label: "Phones",
-      description: "Phone numbers (one or more) associated with the person, presented in the same manner as received by GET request of a person. **Example: {\"value\":\"12345\", \"primary\":true, \"label\":\"work\"}**",
-      optional: true,
+      propDefinition: [
+        pipedriveApp,
+        "phones",
+      ],
     },
     visibleTo: {
       propDefinition: [

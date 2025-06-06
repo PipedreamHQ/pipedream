@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/zenedu",
+  "version": "0.0.1",
+  "description": "Pipedream Zenedu Components",
+  "main": "zenedu.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zenedu"
+  ],
+  "homepage": "https://pipedream.com/apps/zenedu",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/prodatakey",
+  "version": "0.0.1",
+  "description": "Pipedream ProdataKey Components",
+  "main": "prodatakey.app.mjs",
+  "keywords": [
+    "pipedream",
+    "prodatakey"
+  ],
+  "homepage": "https://pipedream.com/apps/prodatakey",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -2,6 +2,16 @@
 
 # Changelog
 
+# [1.2.0] - 2025-06-05
+
+- Adding basic support for 'sql' prop types
+
+# [1.1.0] - 2025-06-04
+
+- Adding support for 'object' prop types
+- Modifying string and string[] inputs to hide the dropdown in the case of no options
+- Added basic styling to hyperlinks in prop descriptions
+
 # [1.0.2] - 2025-04-24
 
 - Updating README to remove note about this package being in early preview
