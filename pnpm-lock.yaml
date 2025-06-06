@@ -4241,7 +4241,14 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/esendex: {}
+  components/esendex:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      simple-xml2json:
+        specifier: ^1.2.3
+        version: 1.2.3
 
   components/esignatures_io:
     dependencies:
@@ -13323,7 +13330,11 @@ importers:
 
   components/test_apps_for_switching_appslug_009: {}
 
-  components/testlocally: {}
+  components/testlocally:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/testmo:
     dependencies:
@@ -28706,6 +28717,9 @@ packages:
   simple-update-notifier@2.0.0:
     resolution: {integrity: sha512-a2B9Y0KlNXl9u/vsW6sTIu9vGEpfKu2wRV6l1H3XEas/0gUIzGzBoP/IouTcUQbm9JWZLH3COxyn03TYlFax6w==}
     engines: {node: '>=10'}
+
+  simple-xml2json@1.2.3:
+    resolution: {integrity: sha512-R2qDtYMXCaaXq300+TKTtzJvryJ2BFmbP2VANnS6H7XzUgVbi9an7VnCVLvXMdEqyzAW6G4whZix7fOuUo54oQ==}
 
   sisteransi@1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
@@ -48720,6 +48734,8 @@ snapshots:
   simple-update-notifier@2.0.0:
     dependencies:
       semver: 7.7.1
+
+  simple-xml2json@1.2.3: {}
 
   sisteransi@1.0.5: {}
 
