@@ -77,5 +77,12 @@ export default {
         ...opts,
       });
     },
+    search(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/search",
+        ...opts,
+      });
+    },
   },
 };
