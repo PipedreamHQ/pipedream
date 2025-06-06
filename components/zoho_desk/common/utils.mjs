@@ -1,4 +1,4 @@
-import { createReadStream } from "fs";
+import { getFileStream } from "@pipedream/platform";
 import FormData from "form-data";
 import retry from "async-retry";
 import constants from "./constants.mjs";
@@ -19,7 +19,7 @@ function buildFormData(formData, data, parentKey) {
       });
 
   } else if (data && constants.FILE_PROP_NAMES.some((prop) => parentKey.includes(prop))) {
-    formData.append(parentKey, createReadStream(data));
+    formData.append(parentKey, getFileStream(data));
 
   } else if (data) {
     formData.append(parentKey, (data).toString());

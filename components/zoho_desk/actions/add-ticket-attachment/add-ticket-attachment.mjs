@@ -6,7 +6,7 @@ export default {
   name: "Add Ticket Attachment",
   description: "Attaches a file to a ticket. [See the docs here](https://desk.zoho.com/DeskAPIDocument#TicketAttachments#TicketAttachments_CreateTicketattachment)",
   type: "action",
-  version: "0.0.2",
+  version: "0.1.0",
   props: {
     zohoDesk,
     orgId: {
@@ -32,8 +32,8 @@ export default {
     },
     file: {
       type: "string",
-      label: "File",
-      description: "File path of a file previously downloaded in Pipedream E.g. (`/tmp/my-file.txt`). [Download a file to the `/tmp` directory](https://pipedream.com/docs/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory)",
+      label: "File Path or URL",
+      description: "The file to attach. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
     },
   },
   async run({ $ }) {

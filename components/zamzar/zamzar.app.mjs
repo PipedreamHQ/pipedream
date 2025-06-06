@@ -8,8 +8,8 @@ export default {
   propDefinitions: {
     sourceFile: {
       type: "string",
-      label: "Source File",
-      description: "The path to the file saved to the `/tmp` directory (e.g. `/tmp/image.png`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      label: "Source File Path or URL",
+      description: "The file to convert. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
     },
     targetFormat: {
       type: "string",

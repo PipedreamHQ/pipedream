@@ -1,17 +1,14 @@
-import { createReadStream } from "fs";
+import { getFileStream } from "@pipedream/platform";
 import FormData from "form-data";
 import constants from "./constants.mjs";
 
-function buildFormData(formData, data, parentKey) {
+async function buildFormData(formData, data, parentKey) {
   if (data && typeof(data) === "object") {
-    Object.keys(data)
-      .forEach(async (key) => {
-        buildFormData(formData, data[key], parentKey && `${parentKey}[${key}]` || key);
-      });
-
+    for (const key of Object.keys(data)) {
+      await buildFormData(formData, data[key], parentKey && `${parentKey}[${key}]` || key);
+    }
   } else if (data && constants.FILE_PROP_NAMES.some((prop) => parentKey.includes(prop))) {
-    formData.append(parentKey, createReadStream(data));
-
+    formData.append(parentKey, await getFileStream(data));
   } else if (data) {
     formData.append(parentKey, (data).toString());
   }
