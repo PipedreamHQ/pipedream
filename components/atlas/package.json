@@ -1,0 +1,27 @@
+{
+  "name": "@pipedream/atlas",
+  "version": "0.0.1",
+  "description": "Pipedream ATLAS integration",
+  "main": "atlas.app.mjs",
+  "keywords": [
+    "pipedream",
+    "atlas",
+    "workland",
+    "jobs",
+    "recruitment",
+    "hr"
+  ],
+  "homepage": "https://import.af/",
+  "author": "L'importateur <z@import.af> (https://import.af/)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Import-AF/pipedream"
+  },
+  "license": "SEE LICENSE IN LICENSE",
+  "dependencies": {
+    "@pipedream/platform": "^1.6.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
