@@ -89,6 +89,7 @@ export default {
         limoexpress,
         "vehicleClassId",
       ],
+      withLabel: true,
       optional: true,
     },
     vehicleId: {
@@ -96,7 +97,7 @@ export default {
         limoexpress,
         "vehicleId",
         ({ vehicleClassId }) => ({
-          vehicleClassId,
+          vehicleClassId: vehicleClassId.label,
         }),
       ],
       optional: true,
@@ -258,7 +259,7 @@ export default {
           pickup_time: this.pickupTime,
           expected_drop_off_time: this.expectedDropOffTime,
           expected_comeback_time: this.expectedComebackTime,
-          vehicle_class_id: this.vehicleClassId,
+          vehicle_class_id: this.vehicleClassId.value,
           vehicle_id: this.vehicleId,
           price: this.price && parseFloat(this.price),
           price_type: this.priceType,

@@ -42,13 +42,18 @@ export default {
             page,
           },
         });
-        return data.map(({ name }) => name);
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
       },
     },
     vehicleId: {
       type: "string",
       label: "Vehicle ID",
-      description: "ID of the vehicle to be used for the booking.",
+      description: "ID of the vehicle to be used for the booking. **Vehicle class ID is required**.",
       async options({
         page, vehicleClassId,
       }) {
