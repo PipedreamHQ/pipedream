@@ -358,6 +358,16 @@ export default {
       });
       return data;
     },
+    async listUserCloudRecordings(userId, params) {
+      const { data } = await this._makeRequest({
+        path: `/users/${userId}/recordings`,
+        params: {
+          page_size: 100,
+          ...params,
+        },
+      });
+      return data;
+    },
     async listMeetingRegistrants(meetingId, params, nextPageToken) {
       const { data } = await this._makeRequest({
         path: `/meetings/${meetingId}/registrants`,
@@ -383,6 +393,17 @@ export default {
     async listWebinarRegistrants(webinarId, params, nextPageToken) {
       const { data } = await this._makeRequest({
         path: `/webinars/${webinarId}/registrants`,
+        params: {
+          page_size: 100,
+          next_page_token: nextPageToken,
+          ...params,
+        },
+      });
+      return data;
+    },
+    async listUsers(params, nextPageToken) {
+      const { data } = await this._makeRequest({
+        path: `/users`,
         params: {
           page_size: 100,
           next_page_token: nextPageToken,
