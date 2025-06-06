@@ -159,6 +159,7 @@ export default {
             return;
           }
         }
+        params.page++;
         total = results?.length;
       } while (total === params.limit);
     },
