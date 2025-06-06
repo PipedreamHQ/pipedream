@@ -33,7 +33,7 @@ export default {
     filename: {
       type: "string",
       label: "File Path or URL",
-      description: "The file to be uploaded. Provide either the path to a file in the `/tmp` directory (e.g. `/tmp/myFile.ext`) or a file URL. [See the documentation on working with files](https://pipedream.com/docs/workflows/building-workflows/code/nodejs/working-with-files/)",
+      description: "The file to be uploaded. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
     },
   },
   async run ({ $ }) {
