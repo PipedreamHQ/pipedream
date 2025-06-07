@@ -101,7 +101,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const [
     sdkErrors,
     setSdkErrors,
-  ] = useState<SdkError[]>([])
+  ] = useState<SdkError[]>([]);
 
   const [
     enabledOptionalProps,
@@ -200,10 +200,17 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       props = _configurableProps as unknown as T; // XXX
     }
     if (reloadPropIdx != null) {
-      props = props.slice(0, reloadPropIdx + 1) as unknown as T; // XXX
+      props = Array.isArray(props)
+        ? props.slice(0, reloadPropIdx + 1) as unknown as T // eslint-disable-line react/prop-types
+        : props; // XXX
     }
     return props;
-  }, [dynamicProps?.configurableProps, formProps.component.configurable_props, propNames, reloadPropIdx]);
+  }, [
+    dynamicProps?.configurableProps,
+    formProps.component.configurable_props,
+    propNames,
+    reloadPropIdx,
+  ]);
 
   // these validations are necessary because they might override PropInput for number case for instance
   // so can't rely on that base control form validation

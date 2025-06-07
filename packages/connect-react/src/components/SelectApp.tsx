@@ -21,18 +21,20 @@ export function SelectApp({
     q,
     setQ,
   ] = useState(""); // Debounced query value
-  
+
   const instanceId = useId();
-  
+
   // Debounce the search query
   useEffect(() => {
     const timer = setTimeout(() => {
       setQ(inputValue);
     }, 300); // 300ms delay
-    
+
     return () => clearTimeout(timer);
-  }, [inputValue]);
-  
+  }, [
+    inputValue,
+  ]);
+
   const {
     isLoading,
     // TODO error
@@ -45,8 +47,10 @@ export function SelectApp({
     SingleValue,
   } = components;
   // If we have a value prop but it's not in the search results, use the value prop directly
-  const selectedValue = apps?.find((o) => o.name_slug === value?.name_slug) || 
-    (value?.name_slug ? value as AppResponse : null);
+  const selectedValue = apps?.find((o) => o.name_slug === value?.name_slug)
+    || (value?.name_slug
+      ? value as AppResponse
+      : null);
   return (
     <Select
       instanceId={instanceId}

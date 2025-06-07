@@ -4,8 +4,8 @@
 
 # [1.2.1] - 2025-06-07
 
-- Fix SelectApp component to properly handle controlled values when not found in search results
-- Fix infinite re-render issue in ComponentFormContainer by memoizing configurableProps
+- Fixing the SelectApp component to properly handle controlled values when not found in search results
+- Fixing infinite re-render issue in ComponentFormContainer by memoizing configurableProps
 
 # [1.2.0] - 2025-06-05
 
