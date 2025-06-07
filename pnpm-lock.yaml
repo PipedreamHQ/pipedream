@@ -15633,14 +15633,6 @@ importers:
         specifier: ^6.0.0
         version: 6.2.0
 
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
-
   packages/ai:
     dependencies:
       '@pipedream/sdk':
@@ -44014,7 +44006,7 @@ snapshots:
       jest-util: 29.7.0
       natural-compare: 1.4.0
       pretty-format: 29.7.0
-      semver: 7.7.1
+      semver: 7.7.2
     transitivePeerDependencies:
       - supports-color
 
@@ -47175,7 +47167,7 @@ snapshots:
       jsdoc: 4.0.4
       minimist: 1.2.8
       protobufjs: 7.2.4
-      semver: 7.7.1
+      semver: 7.7.2
       tmp: 0.2.3
       uglify-js: 3.19.3
 
