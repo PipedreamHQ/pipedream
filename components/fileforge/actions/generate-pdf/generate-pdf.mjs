@@ -1,16 +1,13 @@
 import FormData from "form-data";
-import fs from "fs";
-import {
-  checkTmp,
-  parseObject,
-} from "../../common/utils.mjs";
+import { getFileStream } from "@pipedream/platform";
+import { parseObject } from "../../common/utils.mjs";
 import fileforge from "../../fileforge.app.mjs";
 
 export default {
   key: "fileforge-generate-pdf",
   name: "Generate PDF",
   description: "Generate a PDF from provided HTML. [See the documentation](https://docs.fileforge.com/api-reference/api-reference/pdf/generate)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     fileforge,
@@ -27,8 +24,8 @@ export default {
     },
     files: {
       type: "string[]",
-      label: "HTML Files",
-      description: "The HTML files to convert to PDF. Each file should be a valid path to an HTML file saved to the `/tmp` directory (e.g. `/tmp/image.png`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory)..",
+      label: "File Paths or URLs",
+      description: "The HTML files to convert to PDF. For each entry, provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.pdf`)",
     },
     test: {
       type: "boolean",
@@ -66,7 +63,7 @@ export default {
     const parsedFiles = parseObject(files);
 
     for (const file of parsedFiles) {
-      formData.append("files", fs.createReadStream(checkTmp(file)));
+      formData.append("files", await getFileStream(file));
     }
 
     formData.append("options", JSON.stringify({

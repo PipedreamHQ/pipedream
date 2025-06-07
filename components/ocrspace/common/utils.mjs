@@ -1,5 +1,4 @@
-import fs from "fs";
-import mime from "mime";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 
 export const isValidUrl = (urlString) => {
   var urlPattern = new RegExp("^(https?:\\/\\/)?" + // validate protocol
@@ -18,17 +17,12 @@ export const checkTmp = (filename) => {
   return filename;
 };
 
-export const getUrlOrFile = (url) => {
-  if (!isValidUrl(url)) {
-    const filePath = checkTmp(url);
-    const data = fs.readFileSync(filePath);
-    const mimeType = mime.getType(filePath);
-    const base64Image = Buffer.from(data, "binary").toString("base64");
-    return {
-      file: `data:${mimeType};base64,${base64Image}`,
-    };
-  }
+export const getUrlOrFile = async (url) => {
+  const {
+    stream, metadata: { contentType },
+  } = await getFileStreamAndMetadata(url);
+  const base64Image = Buffer.from(stream, "binary").toString("base64");
   return {
-    url,
+    file: `data:${contentType};base64,${base64Image}`,
   };
 };

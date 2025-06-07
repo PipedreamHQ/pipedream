@@ -13,8 +13,8 @@ export default {
     },
     file: {
       type: "string",
-      label: "File",
-      description: "The file to upload to Box, please provide a file from `/tmp`. To upload a file to `/tmp` folder, please follow the doc [here](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
+      label: "File Path or URL",
+      description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
     },
     createdAt: {
       type: "string",

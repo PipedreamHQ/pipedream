@@ -88,8 +88,8 @@ export default {
     },
     file: {
       type: "string",
-      label: "File",
-      description: "The file to upload from the `/tmp` folder. [See the docs here](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp) on how to upload a file to `/tmp`.",
+      label: "File Path or URL",
+      description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
     },
     name: {
       type: "string",

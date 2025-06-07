@@ -154,8 +154,8 @@ importers:
   components/_2markdown:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.1
         version: 4.0.1
@@ -609,8 +609,8 @@ importers:
   components/akeneo:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.3.0
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -1010,14 +1010,11 @@ importers:
   components/askyourpdf:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.2
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
-      fs:
-        specifier: ^0.0.1-security
-        version: 0.0.1-security
 
   components/assembla:
     dependencies:
@@ -1738,8 +1735,8 @@ importers:
   components/box:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -4562,8 +4559,8 @@ importers:
   components/fileforge:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.1
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -5540,8 +5537,8 @@ importers:
         specifier: ^2.3.0
         version: 2.4.0
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       cron-parser:
         specifier: ^4.9.0
         version: 4.9.0
@@ -6503,8 +6500,8 @@ importers:
   components/imagga:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -7577,11 +7574,8 @@ importers:
   components/llmwhisperer:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
-      fs:
-        specifier: ^0.0.1-security
-        version: 0.0.1-security
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/lmnt:
     dependencies:
@@ -7919,8 +7913,8 @@ importers:
   components/mapbox:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.1
         version: 4.0.1
@@ -8214,8 +8208,8 @@ importers:
         specifier: ^3.0.1
         version: 3.0.7
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       bottleneck:
         specifier: ^2.19.5
         version: 2.19.5
@@ -8343,8 +8337,8 @@ importers:
   components/mistral_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.2
         version: 4.0.2
@@ -8424,8 +8418,8 @@ importers:
   components/monday:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -9008,8 +9002,8 @@ importers:
   components/nyckel:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.2
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -9038,8 +9032,8 @@ importers:
   components/ocrspace:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       mime:
         specifier: ^4.0.6
         version: 4.0.6
@@ -9201,8 +9195,8 @@ importers:
   components/onlinecheckwriter:
     dependencies:
       '@pipedream/platform':
-        specifier: 3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -9210,8 +9204,8 @@ importers:
   components/onlyoffice_docspace:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -9233,8 +9227,8 @@ importers:
   components/openai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       '@pipedream/types':
         specifier: ^0.1.4
         version: 0.1.6
@@ -9515,8 +9509,8 @@ importers:
   components/pandadoc:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.0
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -9694,8 +9688,8 @@ importers:
   components/pdf4me:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/pdf_api_io: {}
 
@@ -12350,8 +12344,8 @@ importers:
   components/slack:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       '@slack/web-api':
         specifier: ^7.9.0
         version: 7.9.1
@@ -12817,12 +12811,12 @@ importers:
 
   components/stannp:
     dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
-      fs:
-        specifier: ^0.0.1-security
-        version: 0.0.1-security
       url-exist:
         specifier: ^3.0.1
         version: 3.0.1(web-streams-polyfill@3.3.3)
@@ -15099,14 +15093,11 @@ importers:
   components/zamzar:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.2
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
-      fs:
-        specifier: ^0.0.1-security
-        version: 0.0.1-security
 
   components/zendesk:
     dependencies:
@@ -15314,17 +15305,14 @@ importers:
   components/zoho_desk:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.2
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       async-retry:
         specifier: ^1.3.3
         version: 1.3.3
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
-      fs:
-        specifier: ^0.0.1-security
-        version: 0.0.1-security
 
   components/zoho_docs:
     dependencies:
@@ -15632,14 +15620,6 @@ importers:
       dotenv:
         specifier: ^6.0.0
         version: 6.2.0
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
 
   packages/ai:
     dependencies:
@@ -35416,7 +35396,7 @@ snapshots:
 
   '@pipedream/canva@0.2.3':
     dependencies:
-      '@pipedream/platform': 3.0.3
+      '@pipedream/platform': 3.1.0
     transitivePeerDependencies:
       - debug
 

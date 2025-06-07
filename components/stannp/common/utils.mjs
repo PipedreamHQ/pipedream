@@ -1,5 +1,5 @@
-import fs from "fs";
 import urlExists from "url-exist";
+import { getFileStream } from "@pipedream/platform";
 
 export const parseObject = (obj) => {
   if (Array.isArray(obj)) {
@@ -24,13 +24,6 @@ export const checkFile = async (url) => {
   if (await urlExists(url)) {
     return url;
   } else {
-    return fs.createReadStream(checkTmp(url));
+    return getFileStream(url);
   }
-};
-
-const checkTmp = (filename) => {
-  if (!filename.startsWith("/tmp")) {
-    return `/tmp/${filename}`;
-  }
-  return filename;
 };

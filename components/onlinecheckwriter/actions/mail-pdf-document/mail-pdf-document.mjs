@@ -1,13 +1,12 @@
-import fs from "fs";
 import FormData from "form-data";
-import { ConfigurationError } from "@pipedream/platform";
+import { getFileStream } from "@pipedream/platform";
 import app from "../../onlinecheckwriter.app.mjs";
 
 export default {
   key: "onlinecheckwriter-mail-pdf-document",
   name: "Mail PDF Document",
   description: "Mails a PDF document to a destination. [See the documentation](https://apiv3.onlinecheckwriter.com/#878daf05-e36e-44a2-bce8-15f24d72f82e).",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     app,
@@ -19,8 +18,8 @@ export default {
     },
     filePath: {
       type: "string",
-      label: "File Path",
-      description: "The path to the pdf file saved to the `/tmp` directory (e.g. `/tmp/example.pdf`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      label: "File Path or URL",
+      description: "The PDF file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.pdf`)",
     },
     shippingTypeId: {
       optional: false,
@@ -167,12 +166,8 @@ export default {
       destinationEmail,
     } = this;
 
-    if (!filePath?.startsWith("/tmp/")) {
-      throw new ConfigurationError("The file path must start with `/tmp/`.");
-    }
-
     const data = new FormData();
-    const file = fs.createReadStream(filePath);
+    const file = await getFileStream(filePath);
     data.append("document_details[file]", file);
     data.append("document_details[title]", documentTitle || "");
     data.append("shipping[shippingTypeId]", shippingTypeId || "");

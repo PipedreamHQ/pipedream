@@ -6,13 +6,13 @@ export default {
   name: "Add Document Via File Upload",
   description: "Add a document via file upload. [See the documentation](https://docs.askyourpdf.com/askyourpdf-docs/#2.-adding-document-via-file-upload)",
   type: "action",
-  version: "0.0.2",
+  version: "0.1.0",
   props: {
     app,
     file: {
       type: "string",
-      label: "File Path",
-      description: "File path of a file previously downloaded in Pipedream E.g. (`/tmp/my-file.txt`). [Download a file to the `/tmp` directory](https://pipedream.com/docs/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory)",
+      label: "File Path or URL",
+      description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
     },
   },
   methods: {
