@@ -322,7 +322,7 @@ The payload for the configuration API call must contain the following fields:
 4. `configured_props`: an object containing the props that have already been
     configured. The initial configuration call must contain the ID of the account
     (aka `authProvisionId`) that your user has connected to the target app (see
-    [this section](workflows#configure-accounts-to-use-your-end-users-auth) for
+    [this section](/connect/managed-auth/quickstart) for
     more details on how to create these accounts).
 
 We'll use the [**List Commits** component for
@@ -647,6 +647,7 @@ following fields:
    [`$.export` in a Node.js](/workflows/building-workflows/code/nodejs/#using-export) component.
 2. `os`: a list of observations produced by the action (e.g. logs, errors, etc).
 3. `ret`: the return value of the action, if any.
+4. When using [File Stash](/connect/components/files) to sync local files, the response will also include a `stash` property with file information.
 
 The following (abbreviated) example shows the output of running the action
 above:
@@ -1035,10 +1036,6 @@ This prop type is used by these database actions:
 - `microsoft_sql_server-execute-raw-query`
 - `azure_sql-execute-raw-query`
 - `turso-execute-query`
-
-<Callout type="warning">
-The `sql` prop is only supported in the Pipedream server SDK and REST API, and is not currently supported in `connect-react`.
-</Callout>
 
 #### Configuration
 
