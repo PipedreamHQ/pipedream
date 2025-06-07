@@ -98,7 +98,7 @@ curl -X POST https://api.pipedream.com/v1/connect/{project_id}/actions/run \
 
 ### Response
 
-The response includes a `stashId` and a `$filestash_uploads` export with information about the uploaded files:
+The response includes a `stashId` and a `$filestash_uploads` export with information about the files that were downloaded to `/tmp` and then synced to File Stash:
 
 ```json
 {
@@ -126,37 +126,58 @@ The response includes a `stashId` and a `$filestash_uploads` export with informa
 
 Each file in the `$filestash_uploads` array includes:
 
-- `localPath`: The path to the file in the `/tmp` directory
-- `s3Key`: The unique key for the file in the Pipedream File Store
+- `localPath`: The path to the file in the `/tmp` directory where it was downloaded or created
+- `s3Key`: The unique key for the file in the Pipedream File Store after being synced from `/tmp`
 - `get_url`: A presigned URL that allows downloading the file for 30 minutes
 
 ## Usage Examples
 
 ### Reusing a stash ID
 
-To add more files to an existing stash, provide the same `stash_id` in subsequent action runs:
+You can reuse a stash ID across multiple action runs to maintain a reference to previously downloaded files. This is particularly useful when you need to:
+
+- Process multiple files across different actions in a sequence
+- Keep a reference to files for later use in your app or agent
+- Build a collection of files over time
+- Ensure files downloaded in one action are accessible in subsequent actions
+
+To reuse a stash ID, simply pass the same `stashId` value to subsequent action runs:
 
 <Tabs items={['Node.js', 'HTTP (cURL)']}>
 <Tabs.Tab>
 ```javascript
-// First run generates a stash ID
-const firstRun = await pd.actionRun({
+// First action run - download a file from Google Drive
+const firstResponse = await pd.actionRun({
   externalUserId: "abc-123",
-  actionId: "download-file-1",
-  configuredProps: { /* ... */ },
-  stashId: "NEW"
+  actionId: "google_drive-download-file",
+  configuredProps: {
+    googleDrive: {
+      authProvisionId: "apn_gyhLaz3"
+    },
+    fileId: "1xyz123",
+    filePath: "/tmp/report1.pdf"
+  },
+  stashId: "" // Generate a new stash ID
 });
 
-// Save the stash ID
-const savedStashId = firstRun.stashId;
+const stashId = firstResponse.stashId;
 
-// Later, add more files to the same stash
-const secondRun = await pd.actionRun({
-  externalUserId: "abc-123",
-  actionId: "download-file-2",
-  configuredProps: { /* ... */ },
-  stashId: savedStashId // Reuse the existing stash ID
+// Second action run - use the same file in another action (e.g., upload to Dropbox)
+const secondResponse = await pd.actionRun({
+  externalUserId: "abc-123", 
+  actionId: "dropbox-upload-file",
+  configuredProps: {
+    dropbox: {
+      authProvisionId: "apn_mmhHPgj"
+    },
+    path: "/",
+    name: "uploaded-report.pdf",
+    filePath: "/tmp/report1.pdf" // Same file path as in the first action
+  },
+  stashId: stashId // Reuse the stash ID to maintain access to the file
 });
+
+// The file downloaded in the first action is available to the second action
 ```
 </Tabs.Tab>
 <Tabs.Tab>
@@ -167,12 +188,18 @@ curl -X POST https://api.pipedream.com/v1/connect/{project_id}/actions/run \
   -H "Authorization: Bearer {access_token}" \
   -d '{
     "external_user_id": "abc-123",
-    "id": "download-file-1",
-    "configured_props": { /* ... */ },
+    "id": "google_drive-download-file",
+    "configured_props": {
+      "googleDrive": {
+        "authProvisionId": "apn_gyhLaz3"
+      },
+      "fileId": "1W6ZssXLvVE-YN8rRbQlqggCpdIF-gdh1",
+      "filePath": "/tmp/myfile.txt"
+    },
     "stash_id": "NEW"
   }'
 
-# Get the stash_id from the response
+# Get the stash_id from the response (e.g., "abcd1234")
 
 # Second request using the same stash
 curl -X POST https://api.pipedream.com/v1/connect/{project_id}/actions/run \
@@ -180,13 +207,30 @@ curl -X POST https://api.pipedream.com/v1/connect/{project_id}/actions/run \
   -H "Authorization: Bearer {access_token}" \
   -d '{
     "external_user_id": "abc-123",
-    "id": "download-file-2",
-    "configured_props": { /* ... */ },
-    "stash_id": "d4ffb5b1081d3aacd2929f23f270237d"
+    "id": "dropbox-upload-file",
+    "configured_props": {
+      "dropbox": {
+        "authProvisionId": "apn_mmhHPgj"
+      },
+      "path": "/",
+      "name": "my-upload.txt",
+      "filePath": "/tmp/myfile.txt"
+    },
+    "stash_id": "abcd1234"
   }'
 ```
 </Tabs.Tab>
 </Tabs>
+
+### Common multi-action file workflows
+
+A typical workflow involving files across multiple actions might look like:
+
+1. Download a file from an external service to `/tmp`
+2. Process or transform the file
+3. Upload the file to another service
+
+For this to work reliably, you need to use the same `stashId` across all actions to ensure that files downloaded or created in one action remain accessible to subsequent actions, even though each action runs in its own isolated environment.
 
 ## File Storage Duration
 
