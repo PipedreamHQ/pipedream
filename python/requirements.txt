@@ -1,0 +1,6 @@
+# Pipedream Python SDK Requirements
+# This package uses only Python standard library modules
+# No external dependencies required for the core functionality
+
+# Development dependencies (optional)
+# Install with: pip install -r requirements-dev.txt 
