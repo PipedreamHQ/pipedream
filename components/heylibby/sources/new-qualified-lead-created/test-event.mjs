@@ -1,0 +1,21 @@
+export default {
+    "id": "f5652b14-80aa-4cfb-82e9-688d7d373209",
+    "summary": "Not enough information for a summary.",
+    "name": null,
+    "email": null,
+    "phone": "",
+    "streetAddress": null,
+    "city": null,
+    "state": null,
+    "zipCode": null,
+    "country": null,
+    "qualification": "qualified",
+    "nextStep": "Recommend follow-up email",
+    "status": "New",
+    "htmlChat": "<ul><li>assistant: Hi, I'm the AI assistant.</li></ul>",
+    "chat": "• assistant: Hi, I'm the AI assistant.\n",
+    "datetime": "2025-06-05T19:52:54.388Z",
+    "channel": "phone",
+    "leftVoicemail": false,
+    "sentLinks": null
+  }
