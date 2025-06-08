@@ -10512,7 +10512,11 @@ importers:
 
   components/proprofs_quiz_maker: {}
 
-  components/prospeo: {}
+  components/prospeo:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/provesource: {}
 
