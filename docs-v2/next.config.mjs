@@ -546,6 +546,10 @@ export default withNextra({
   async rewrites() {
     return [
       {
+        source: "/connect/demo/:path*",
+        destination: "https://pipedream-connect-demo.vercel.app/:path*",
+      },
+      {
         source: "/shopify-faq-2023-10",
         destination: "/deprecated/shopify-faq-2023-10",
       },
