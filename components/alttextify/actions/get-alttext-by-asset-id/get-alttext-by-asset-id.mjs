@@ -9,9 +9,10 @@ export default {
   props: {
     alttextify,
     assetId: {
-      type: "string",
-      label: "Asset ID",
-      description: "The ID of the asset for retrieving alt text.",
+      propDefinition: [
+        alttextify,
+        "assetId",
+      ],
     },
   },
   async run({ $ }) {

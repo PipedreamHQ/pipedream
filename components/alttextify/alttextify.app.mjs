@@ -4,63 +4,24 @@ export default {
   type: "app",
   app: "alttextify",
   propDefinitions: {
-    async: {
-      type: "boolean",
-      label: "Async",
-      description: "whether to add the image in the background or immediately (synchronously). If async is set to true, the API response will always be successful with an empty response body.",
-      default: false,
-    },
-    lang: {
-      type: "string",
-      label: "Language",
-      description: "The language for the alt text. Supported language codes are accepted. If not provided, the account's default language is used.",
-      default: "en",
-    },
-    maxChars: {
-      type: "integer",
-      label: "Max Characters",
-      description: "Maximum length of the generated alt text.",
-    },
     assetId: {
       type: "string",
       label: "Asset ID",
-      description: "The unique identifier for the asset.",
-      optional: true,
-    },
-    keywords: {
-      type: "string[]",
-      label: "Keywords",
-      description: "List of keywords/phrases for SEO-optimized alt text. Only one or two will be used per alt text, but all are considered. Keywords must be in English, even for alt text in other languages.",
-      optional: true,
-    },
-    ecommerceRunOCR: {
-      type: "boolean",
-      label: "Ecommerce Run OCR",
-      description: "Flag to indicate if OCR should be run on the product.",
-    },
-    ecommerceProductName: {
-      type: "string",
-      label: "Ecommerce Product Name",
-      description: "The name of the product in the image.",
-      optional: true,
-    },
-    ecommerceProductBrand: {
-      type: "string",
-      label: "Ecommerce Product Brand",
-      description: "The brand of the product in the image.",
-      optional: true,
-    },
-    ecommerceProductColor: {
-      type: "string",
-      label: "Ecommerce Product Color",
-      description: "The color of the product in the image.",
-      optional: true,
-    },
-    ecommerceProductSize: {
-      type: "string",
-      label: "Ecommerce Product Size",
-      description: "The size of the product in the image.",
-      optional: true,
+      description: "The ID of the asset for retrieving alt text.",
+      async options({ page }) {
+        const data = await this.listAltTexts({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return data.map(({
+          asset_id: value, alt_text: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {

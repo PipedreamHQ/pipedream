@@ -9,8 +9,10 @@ export default {
   props: {
     alttextify,
     assetId: {
-      type: "string",
-      label: "Asset ID",
+      propDefinition: [
+        alttextify,
+        "assetId",
+      ],
       description: "The ID of the asset for retrieving or deleting alt text.",
     },
   },

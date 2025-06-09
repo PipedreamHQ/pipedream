@@ -9,8 +9,10 @@ export default {
   props: {
     alttextify,
     jobId: {
-      type: "string",
-      label: "Job ID",
+      propDefinition: [
+        alttextify,
+        "assetId",
+      ],
       description: "The ID of the job for retrieving alt text.",
     },
   },
