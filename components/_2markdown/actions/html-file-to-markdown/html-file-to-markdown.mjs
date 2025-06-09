@@ -1,5 +1,5 @@
 import _2markdown from "../../_2markdown.app.mjs";
-import { getFileStream } from "@pipedream/platform";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import FormData from "form-data";
 
 export default {
@@ -20,7 +20,14 @@ export default {
   async run({ $ }) {
     const form = new FormData();
 
-    form.append("document", await getFileStream(this.filePath));
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(this.filePath);
+    form.append("document", stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
+    });
 
     const response = await this._2markdown.htmlFileToMarkdown({
       $,

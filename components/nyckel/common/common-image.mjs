@@ -1,6 +1,6 @@
 import nyckel from "../nyckel.app.mjs";
 import FormData from "form-data";
-import { getFileStream } from "@pipedream/platform";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 
 export default {
   props: {
@@ -13,22 +13,15 @@ export default {
   },
   methods: {
     async getImageData() {
-      const { imageOrUrl } = this;
-      const isUrl = imageOrUrl.startsWith("http");
-      if (isUrl) {
-        return {
-          data: {
-            data: imageOrUrl,
-          },
-          headers: {
-            "Content-Type": "application/json",
-          },
-        };
-      }
-
       const data = new FormData();
-      const stream = await getFileStream(imageOrUrl);
-      data.append("data", stream);
+      const {
+        stream, metadata,
+      } = await getFileStreamAndMetadata(this.imageOrUrl);
+      data.append("data", stream, {
+        contentType: metadata.contentType,
+        knownLength: metadata.size,
+        filename: metadata.name,
+      });
 
       return {
         data,

@@ -45,7 +45,7 @@ export default {
         password: "",
       };
     },
-    _makeRequest({
+    async _makeRequest({
       $ = this, path, headers, data: rawData, ...args
     } = {}) {
       const {
@@ -55,7 +55,7 @@ export default {
 
       const contentType = constants.CONTENT_TYPE_KEY_HEADER;
       const hasMultipartHeader = utils.hasMultipartHeader(headers);
-      const data = hasMultipartHeader && utils.getFormData(rawData) || rawData;
+      const data = hasMultipartHeader && await utils.getFormData(rawData) || rawData;
 
       const config = {
         ...args,

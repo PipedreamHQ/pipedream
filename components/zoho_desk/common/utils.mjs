@@ -1,4 +1,4 @@
-import { getFileStream } from "@pipedream/platform";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import FormData from "form-data";
 import retry from "async-retry";
 import constants from "./constants.mjs";
@@ -11,25 +11,29 @@ async function streamIterator(stream) {
   return resources;
 }
 
-function buildFormData(formData, data, parentKey) {
+async function buildFormData(formData, data, parentKey) {
   if (data && typeof(data) === "object") {
-    Object.keys(data)
-      .forEach(async (key) => {
-        buildFormData(formData, data[key], parentKey && `${parentKey}[${key}]` || key);
-      });
-
+    for (const key of Object.keys(data)) {
+      await buildFormData(formData, data[key], parentKey && `${parentKey}[${key}]` || key);
+    }
   } else if (data && constants.FILE_PROP_NAMES.some((prop) => parentKey.includes(prop))) {
-    formData.append(parentKey, getFileStream(data));
-
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(data);
+    formData.append(parentKey, stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
+    });
   } else if (data) {
     formData.append(parentKey, (data).toString());
   }
 }
 
-function getFormData(data) {
+async function getFormData(data) {
   try {
     const formData = new FormData();
-    buildFormData(formData, data);
+    await buildFormData(formData, data);
     return formData;
   } catch (error) {
     console.log("FormData Error", error);

@@ -1,5 +1,5 @@
 import mistralAI from "../../mistral_ai.app.mjs";
-import { getFileStream } from "@pipedream/platform";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import FormData from "form-data";
 
 export default {
@@ -28,9 +28,15 @@ export default {
     },
   },
   async run({ $ }) {
-    const fileContent = await getFileStream(this.filePath);
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(this.filePath);
     const form = new FormData();
-    form.append("file", fileContent);
+    form.append("file", stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
+    });
     if (this.purpose) {
       form.append("purpose", this.purpose);
     }

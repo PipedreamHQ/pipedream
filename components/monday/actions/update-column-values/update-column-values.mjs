@@ -1,6 +1,6 @@
 import common from "../common/column-values.mjs";
 import {
-  axios, getFileStream,
+  axios, getFileStreamAndMetadata,
 } from "@pipedream/platform";
 import FormData from "form-data";
 import { getColumnOptions } from "../../common/utils.mjs";
@@ -63,11 +63,17 @@ export default {
       $, itemId, column, filePath,
     }) {
       const query = `mutation ($file: File!) { add_file_to_column (file: $file, item_id: ${itemId}, column_id: "${column.id}") { id } }`;
-      const content = await getFileStream(filePath);
+      const {
+        stream, metadata,
+      } = await getFileStreamAndMetadata(filePath);
 
       const formData = new FormData();
       formData.append("query", query);
-      formData.append("variables[file]", content);
+      formData.append("variables[file]", stream, {
+        contentType: metadata.contentType,
+        knownLength: metadata.size,
+        filename: metadata.name,
+      });
 
       return axios($, {
         method: "POST",

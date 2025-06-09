@@ -1,5 +1,5 @@
 import mapbox from "../../mapbox.app.mjs";
-import { getFileStream } from "@pipedream/platform";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import FormData from "form-data";
 
 export default {
@@ -51,8 +51,14 @@ export default {
     // Create Tileset Source
     try {
       const fileData = new FormData();
-      const content = await getFileStream(filePath);
-      fileData.append("file", content);
+      const {
+        stream, metadata,
+      } = await getFileStreamAndMetadata(filePath);
+      fileData.append("file", stream, {
+        contentType: metadata.contentType,
+        knownLength: metadata.size,
+        filename: metadata.name,
+      });
 
       await this.mapbox.createTilesetSource({
         $,

@@ -2,7 +2,7 @@ import FormData from "form-data";
 import {
   TYPE_OPTIONS, WHAT_RECIPIENTS_OPTIONS,
 } from "../../common/constants.mjs";
-import { checkFile } from "../../common/utils.mjs";
+import { getFileData } from "../../common/utils.mjs";
 import stannp from "../../stannp.app.mjs";
 
 export default {
@@ -107,9 +107,24 @@ export default {
 
     const formData = new FormData();
 
-    if (file) formData.append("file", await checkFile(file));
-    if (front) formData.append("front", await checkFile(front));
-    if (back) formData.append("back", await checkFile(back));
+    if (file) {
+      const {
+        stream, metadata,
+      } = await getFileData(file);
+      formData.append("file", stream, metadata);
+    }
+    if (front) {
+      const {
+        stream, metadata,
+      } = await getFileData(front);
+      formData.append("front", stream, metadata);
+    }
+    if (back) {
+      const {
+        stream, metadata,
+      } = await getFileData(back);
+      formData.append("back", stream, metadata);
+    }
 
     if (templateId) formData.append("template_id", templateId);
     if (groupId) formData.append("group_id", groupId);

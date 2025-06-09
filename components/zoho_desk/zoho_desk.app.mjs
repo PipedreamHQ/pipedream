@@ -134,7 +134,7 @@ export default {
       const contentType = constants.CONTENT_TYPE_KEY_HEADER;
 
       const hasMultipartHeader = utils.hasMultipartHeader(preHeaders);
-      const data = hasMultipartHeader && utils.getFormData(preData) || preData;
+      const data = hasMultipartHeader && await utils.getFormData(preData) || preData;
 
       const currentHeaders = this.getHeaders(preHeaders);
       const headers = hasMultipartHeader

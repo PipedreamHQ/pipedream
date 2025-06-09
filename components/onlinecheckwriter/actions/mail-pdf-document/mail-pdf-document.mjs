@@ -1,5 +1,5 @@
 import FormData from "form-data";
-import { getFileStream } from "@pipedream/platform";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import app from "../../onlinecheckwriter.app.mjs";
 
 export default {
@@ -167,8 +167,14 @@ export default {
     } = this;
 
     const data = new FormData();
-    const file = await getFileStream(filePath);
-    data.append("document_details[file]", file);
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(filePath);
+    data.append("document_details[file]", stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
+    });
     data.append("document_details[title]", documentTitle || "");
     data.append("shipping[shippingTypeId]", shippingTypeId || "");
     data.append("destination[name]", destinationName || "");

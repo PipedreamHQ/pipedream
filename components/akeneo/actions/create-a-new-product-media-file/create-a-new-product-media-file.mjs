@@ -1,6 +1,6 @@
 import app from "../../akeneo.app.mjs";
 import {
-  ConfigurationError, getFileStream,
+  ConfigurationError, getFileStreamAndMetadata,
 } from "@pipedream/platform";
 import FormData from "form-data";
 
@@ -55,9 +55,14 @@ export default {
       data.append("product_model", JSON.stringify(payload));
     }
 
-    const fileStream = await getFileStream(this.filename);
-    const fileParts = this.filename.split("/");
-    data.append("file", fileStream, fileParts[fileParts.length - 1]);
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(this.filename);
+    data.append("file", stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
+    });
     const contentLength = data.getLengthSync();
     await this.app.createProductMediaFile({
       $,

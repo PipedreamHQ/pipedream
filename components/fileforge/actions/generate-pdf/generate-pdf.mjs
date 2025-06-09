@@ -1,5 +1,5 @@
 import FormData from "form-data";
-import { getFileStream } from "@pipedream/platform";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import { parseObject } from "../../common/utils.mjs";
 import fileforge from "../../fileforge.app.mjs";
 
@@ -63,7 +63,14 @@ export default {
     const parsedFiles = parseObject(files);
 
     for (const file of parsedFiles) {
-      formData.append("files", await getFileStream(file));
+      const {
+        stream, metadata,
+      } = await getFileStreamAndMetadata(file);
+      formData.append("files", stream, {
+        contentType: metadata.contentType,
+        knownLength: metadata.size,
+        filename: metadata.name,
+      });
     }
 
     formData.append("options", JSON.stringify({

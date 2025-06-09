@@ -1,5 +1,4 @@
-import urlExists from "url-exist";
-import { getFileStream } from "@pipedream/platform";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 
 export const parseObject = (obj) => {
   if (Array.isArray(obj)) {
@@ -20,10 +19,16 @@ export const parseObject = (obj) => {
   return obj;
 };
 
-export const checkFile = async (url) => {
-  if (await urlExists(url)) {
-    return url;
-  } else {
-    return getFileStream(url);
-  }
+export const getFileData = async (file) => {
+  const {
+    stream, metadata,
+  } = await getFileStreamAndMetadata(file);
+  return {
+    stream,
+    metadata: {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
+    },
+  };
 };
