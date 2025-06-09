@@ -3375,8 +3375,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/deepsouce:
-    specifiers: {}
+  components/deepsouce: {}
 
   components/defastra:
     dependencies:
