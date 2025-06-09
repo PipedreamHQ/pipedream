@@ -3,7 +3,7 @@ import app from "../../habitica.app.mjs";
 export default {
   key: "habitica-get-challenge",
   name: "Get Challenge",
-  description: "Description for get-challenge. [See the documentation](https://habitica.com/apidoc/#api-Challenge-GetChallenge)",
+  description: "Get data for the challenge with the specified ID. [See the documentation](https://habitica.com/apidoc/#api-Challenge-GetChallenge)",
   version: "0.0.1",
   type: "action",
   props: {

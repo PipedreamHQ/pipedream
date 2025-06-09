@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -7,7 +8,7 @@ export default {
     group: {
       type: "string",
       label: "Group",
-      description: "ID of the groups to which the challenge belongs",
+      description: "ID of the group to which the challenge belongs",
       async options({ type }) {
         const response = await this.getGroups({
           type,
@@ -52,13 +53,14 @@ export default {
     prize: {
       type: "string",
       label: "Prize",
-      description: "Number of gems offered as a prize to challenge winne",
+      description: "Number of gems offered as a prize to challenge winner",
       optional: true,
     },
     type: {
       type: "string",
       label: "Type",
       description: "Type of the group",
+      options: constants.GROUP_TYPES,
     },
     challengeId: {
       type: "string",
