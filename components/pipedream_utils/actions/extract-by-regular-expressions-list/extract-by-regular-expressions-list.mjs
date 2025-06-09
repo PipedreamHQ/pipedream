@@ -8,40 +8,57 @@ export default {
   type: "action",
   props: {
     pipedream_utils,
-    alert: {
-      type: "alert",
-      alertType: "info",
-      content: "Start by defining the keys you want to extract. Each key will have its own input and regex configuration.\nMake sure to Refresh the fields at the bottom after changing a configuration.",
-    },
-    keys: {
-      type: "string[]",
-      label: "Keys",
-      description: "The list of keys to use for the result map",
+    key_0: {
+      type: "string",
+      label: "Key",
+      description: "The key where the extraction result for a regex will be stored",
       reloadProps: true,
+    },
+    input_0: {
+      type: "string",
+      label: "Input",
+      description: "The text you would like to find a pattern from",
+    },
+    regex_0: {
+      type: "string",
+      label: "Regular Expression",
+      description: "[Regular expression](https://www.w3schools.com/js/js_regexp.asp)",
     },
   },
   additionalProps() {
     const props = {};
-    for (const key of this.keys) {
-      if (this.isKeyValid(key)) {
-        props[`${key}Input`] = {
-          type: "string",
-          label: `Input for: ${key}`,
-          description: `The text you would like to find a pattern from for **${key}**`,
-        };
-        props[`${key}RegExp`] = {
-          type: "string",
-          label: `Regular Expression for: ${key}`,
-          description: `[Regular expression](https://www.w3schools.com/js/js_regexp.asp) to use for **${key}**`,
-        };
-      }
+    let count = 1;
+
+    while (this[`key_${count}`]) {
+      props[`key_${count}`] = {
+        type: "string",
+        label: "Another Key",
+        description: "The key where the extraction result for a regex will be stored",
+      };
+      props[`input_${count}`] = {
+        type: "string",
+        label: "Input",
+        description: "The text you would like to find a pattern from",
+      };
+      props[`regex_${count}`] = {
+        type: "string",
+        label: "Regular Expression",
+        description: "[Regular expression](https://www.w3schools.com/js/js_regexp.asp)",
+      };
+      count++;
     }
+
+    props[`key_${count}`] = {
+      type: "string",
+      label: "Another Key",
+      description: "The key where the extraction result for a regex will be stored",
+      optional: true,
+      reloadProps: true,
+    };
+
     return props;
   },
   methods: {
-    isKeyValid(key) {
-      return key?.trim().length;
-    },
     getRegExp(regExpStr) {
       return regExpStr.startsWith("/")
         ? buildRegExp(regExpStr, [
@@ -60,16 +77,17 @@ export default {
     },
   },
   async run() {
+    let count = 0;
     const resultMap = {};
 
-    for (const key of this.keys) {
-      if (!this.isKeyValid(key)) continue;
-
-      const input = this[`${key}Input`];
-      const regExpStr = this[`${key}RegExp`];
+    while (this[`key_${count}`]) {
+      const input = this[`input_${count}`];
+      const regExpStr = this[`regex_${count}`];
 
       const result = this.getResults(input, regExpStr);
-      resultMap[key] = result;
+      resultMap[this[`key_${count}`]] = result;
+
+      count++;
     }
 
     return resultMap;
