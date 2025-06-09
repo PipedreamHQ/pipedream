@@ -1,5 +1,5 @@
 import {
-  createContext, useContext, useEffect, useId, useState, type ReactNode,
+  createContext, useContext, useEffect, useId, useMemo, useState, type ReactNode,
 } from "react";
 import isEqual from "lodash.isequal";
 import { useQuery } from "@tanstack/react-query";
@@ -101,7 +101,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const [
     sdkErrors,
     setSdkErrors,
-  ] = useState<SdkError[]>([])
+  ] = useState<SdkError[]>([]);
 
   const [
     enabledOptionalProps,
@@ -187,20 +187,30 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   ]);
 
   // XXX fix types of dynamicProps, props.component so this type decl not needed
-  let configurableProps: T = dynamicProps?.configurableProps || formProps.component.configurable_props || [];
-  if (propNames?.length) {
-    const _configurableProps = [];
-    for (const prop of configurableProps) {
-      // TODO decided propNames (and hideOptionalProps) should NOT filter dynamic props
-      if (propNames.findIndex((name) => prop.name === name) >= 0) {
-        _configurableProps.push(prop);
+  const configurableProps = useMemo<T>(() => {
+    let props: T = dynamicProps?.configurableProps || formProps.component.configurable_props || [];
+    if (propNames?.length) {
+      const _configurableProps = [];
+      for (const prop of props) {
+        // TODO decided propNames (and hideOptionalProps) should NOT filter dynamic props
+        if (propNames.findIndex((name) => prop.name === name) >= 0) {
+          _configurableProps.push(prop);
+        }
       }
+      props = _configurableProps as unknown as T; // XXX
     }
-    configurableProps = _configurableProps as unknown as T; // XXX
-  }
-  if (reloadPropIdx != null) {
-    configurableProps = configurableProps.slice(0, reloadPropIdx + 1) as unknown as T; // XXX
-  }
+    if (reloadPropIdx != null) {
+      props = Array.isArray(props)
+        ? props.slice(0, reloadPropIdx + 1) as unknown as T // eslint-disable-line react/prop-types
+        : props; // XXX
+    }
+    return props;
+  }, [
+    dynamicProps?.configurableProps,
+    formProps.component.configurable_props,
+    propNames,
+    reloadPropIdx,
+  ]);
 
   // these validations are necessary because they might override PropInput for number case for instance
   // so can't rely on that base control form validation
