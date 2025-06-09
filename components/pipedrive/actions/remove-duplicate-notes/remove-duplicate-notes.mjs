@@ -114,7 +114,7 @@ export default {
 
     if (this.keyword) {
       notes = notes.filter((note) =>
-        note.content.toLowerCase().includes(this.keyword.toLowerCase()));
+        note.content?.toLowerCase().includes(this.keyword.toLowerCase()));
     }
 
     let result = {

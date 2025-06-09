@@ -145,21 +145,21 @@ export default {
         sort: this.sortField
           ? `${this.sortField} ${this.sortDirection}`
           : undefined,
-        pinned_to_lead_flag: this.pinnedToLeadFlag
+        pinned_to_lead_flag: this.pinnedToLeadFlag === true
           ? 1
-          : 0,
-        pinned_to_deal_flag: this.pinnedToDealFlag
+          : undefined,
+        pinned_to_deal_flag: this.pinnedToDealFlag === true
           ? 1
-          : 0,
-        pinned_to_organization_flag: this.pinnedToOrganizationFlag
+          : undefined,
+        pinned_to_organization_flag: this.pinnedToOrganizationFlag === true
           ? 1
-          : 0,
-        pinned_to_person_flag: this.pinnedToPersonFlag
+          : undefined,
+        pinned_to_person_flag: this.pinnedToPersonFlag === true
           ? 1
-          : 0,
-        pinned_to_project_flag: this.pinnedToProjectFlag
+          : undefined,
+        pinned_to_project_flag: this.pinnedToProjectFlag === true
           ? 1
-          : 0,
+          : undefined,
         start_date: this.startDate,
         end_date: this.endDate,
       },
@@ -168,7 +168,7 @@ export default {
 
     if (this.searchTerm) {
       notes = notes.filter((note) =>
-        note.content.toLowerCase().includes(this.searchTerm.toLowerCase()));
+        note.content?.toLowerCase().includes(this.searchTerm.toLowerCase()));
     }
 
     $.export("$summary", `Successfully found ${notes.length} note${notes.length === 1

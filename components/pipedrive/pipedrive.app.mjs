@@ -443,7 +443,7 @@ export default {
         start: 0,
         limit: 100,
       };
-      let hasMore, count = 0;;
+      let hasMore, count = 0;
       do {
         const {
           data, additional_data: additionalData,
