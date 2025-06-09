@@ -56,7 +56,11 @@ export default {
 
     // Upload the file to the provided URL
     const formData = new FormData();
-    formData.append("file", stream);
+    formData.append("file", stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
+    });
     formData.append("filename", filename);
 
     await axios($, {

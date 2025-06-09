@@ -31,14 +31,14 @@ export default {
   methods: {
     async getFormData(file, fileName) {
       const {
-        stream, metadata: {
-          name, size,
-        },
+        stream, metadata,
       } = await getFileStreamAndMetadata(file);
       const data = new FormData();
-      data.append("name", fileName || name);
+      data.append("name", fileName || metadata.name);
       data.append("file", stream, {
-        knownLength: size,
+        contentType: metadata.contentType,
+        knownLength: metadata.size,
+        filename: metadata.name,
       });
       return data;
     },

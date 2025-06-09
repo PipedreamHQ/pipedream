@@ -70,7 +70,7 @@ export default {
         : this.fields;
     }
 
-    const data = this.getFormData(file);
+    const data = await this.getFormData(file);
     const contentType = `multipart/form-data; boundary=${data._boundary}`;
     data.append("data", JSON.stringify(json));
 
