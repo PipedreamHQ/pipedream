@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/rippling",
+  "version": "0.0.1",
+  "description": "Pipedream Rippling Components",
+  "main": "rippling.app.mjs",
+  "keywords": [
+    "pipedream",
+    "rippling"
+  ],
+  "homepage": "https://pipedream.com/apps/rippling",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
