@@ -4,77 +4,74 @@ export default {
   name: "Formatting - [Text] Extract by Regular Expressions List (Regex)",
   description: "Find matches for regular expressions. Returns all matched groups with start and end position.",
   key: "pipedream_utils-extract-by-regular-expressions-list",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     pipedream_utils,
-    input: {
-      type: "string",
-      label: "Input",
-      description: "Text you would like to find a pattern from",
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: "Start by defining the keys you want to extract. Each key will have its own input and regex configuration.\nMake sure to Refresh the fields at the bottom after changing a configuration.",
     },
-    regExpStrings: {
+    keys: {
       type: "string[]",
-      label: "Regular Expressions",
-      description: "An array of [regex strings](https://www.w3schools.com/js/js_regexp.asp) (e.g. `/foo/g`, `/bar/i`)",
+      label: "Keys",
+      description: "The list of keys to use for the result map",
+      reloadProps: true,
     },
+  },
+  additionalProps() {
+    const props = {};
+    for (const key of this.keys) {
+      if (this.isKeyValid(key)) {
+        props[`${key}Input`] = {
+          type: "string",
+          label: `Input for: ${key}`,
+          description: `The text you would like to find a pattern from for **${key}**`,
+        };
+        props[`${key}RegExp`] = {
+          type: "string",
+          label: `Regular Expression for: ${key}`,
+          description: `[Regular expression](https://www.w3schools.com/js/js_regexp.asp) to use for **${key}**`,
+        };
+      }
+    }
+    return props;
   },
   methods: {
-    getAllResults(input) {
-      const resultMap = {};
-      const resultList = [];
-
-      for (const rStr of this.regExpStrings) {
-        if (typeof rStr !== "string" || !rStr.length) {
-          // still push an empty array to preserve order
-          resultMap[rStr] = [];
-          resultList.push([]);
-          continue;
-        }
-
-        const re = rStr.startsWith("/")
-          ? buildRegExp(rStr, [
-            "g",
-          ])
-          : new RegExp(rStr, "g");
-
-        const matches = [
-          ...input.matchAll(re),
-        ].map((m) => ({
-          match: m[0],
-          groups: m.groups ?? {},
-          startPosition: m.index,
-          endPosition: m.index + m[0].length,
-        }));
-
-        resultMap[rStr] = matches;
-        resultList.push(matches);
-      }
-
-      return {
-        resultMap,
-        resultList,
-      };
+    isKeyValid(key) {
+      return key?.trim().length;
+    },
+    getRegExp(regExpStr) {
+      return regExpStr.startsWith("/")
+        ? buildRegExp(regExpStr, [
+          "g",
+        ])
+        : regExpStr;
+    },
+    getResults(input, regExpStr) {
+      return [
+        ...input.matchAll(this.getRegExp(regExpStr)),
+      ].map((match) => ({
+        match: match[0],
+        startPosition: match.index,
+        endPosition: match.index + match[0].length,
+      }));
     },
   },
-  async run({ $ }) {
-    const {
-      resultMap,
-      resultList,
-    } = this.getAllResults(this.input);
+  async run() {
+    const resultMap = {};
 
-    const totalMatches = resultList.reduce((sum, arr) => sum + arr.length, 0);
+    for (const key of this.keys) {
+      if (!this.isKeyValid(key)) continue;
 
-    $.export(
-      "$summary",
-      totalMatches
-        ? `Found ${totalMatches} matches across ${Object.keys(resultMap).length} patterns`
-        : "No matches found",
-    );
+      const input = this[`${key}Input`];
+      const regExpStr = this[`${key}RegExp`];
 
-    return {
-      map: resultMap,
-      list: resultList,
-    };
+      const result = this.getResults(input, regExpStr);
+      resultMap[key] = result;
+    }
+
+    return resultMap;
   },
 };
