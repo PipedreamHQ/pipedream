@@ -81,14 +81,15 @@ export default {
   methods: {
     async streamToBase64(stream) {
       return new Promise((resolve, reject) => {
-        let base64String = "";
+        const chunks = [];
 
         stream.on("data", (chunk) => {
-          base64String += Buffer.from(chunk).toString("base64");
+          chunks.push(chunk);
         });
 
         stream.on("end", () => {
-          resolve(base64String);
+          const buffer = Buffer.concat(chunks);
+          resolve(buffer.toString("base64"));
         });
 
         stream.on("error", (err) => {
