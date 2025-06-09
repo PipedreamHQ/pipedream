@@ -1,8 +1,8 @@
 import onedrive from "../../microsoft_onedrive.app.mjs";
 import {
-  ConfigurationError, getFileStream,
+  ConfigurationError,
+  getFileStreamAndMetadata,
 } from "@pipedream/platform";
-import { fileTypeFromStream } from "file-type";
 
 export default {
   name: "Upload File",
@@ -40,17 +40,10 @@ export default {
       throw new ConfigurationError("You must specify the **Upload Folder ID**.");
     }
 
-    let stream = await getFileStream(filePath);
-    let name = filename;
-
-    if (!filename.includes(".")) {
-      const fileTypeResult = await fileTypeFromStream(stream);
-      const extension = fileTypeResult?.ext || "";
-      name = `${filename}.${extension}`;
-
-      stream.destroy();
-      stream = await getFileStream(filePath);
-    }
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(filePath);
+    const name = filename || metadata.name;
 
     const response = await this.onedrive.uploadFile({
       uploadFolderId,
