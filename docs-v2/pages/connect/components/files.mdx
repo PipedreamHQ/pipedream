@@ -3,7 +3,7 @@ import Callout from '@/components/Callout';
 
 # Working with Files
 
-Pipedream provides a file storage system that allows you to store and retrieve files from tool executions via Connect. When a trigger or action downloads files to the `/tmp` directory in Pipedream's execution environment, you can sync these files with a Pipedream File Store, making them accessible outside of Pipedream.
+Pipedream provides a file storage system, File Stash, that allows you to store and retrieve files from tool executions via Connect. When a trigger or action downloads files to the `/tmp` directory in Pipedream's execution environment, you can sync these files with File Stash, making them accessible outside of Pipedream.
 
 ## File Stash
 
@@ -11,7 +11,7 @@ When you execute an action via Connect that downloads files to the `/tmp` direct
 
 ### How it works
 
-1. Files created in `/tmp` during execution are synced with a Pipedream File Store when you pass `stashId` in the action execution payload
+1. Files created in `/tmp` during execution are synced with File Stash when you pass `stashId` in the action execution payload
 2. Each file is assigned a presigned URL that remains valid for 30 minutes
 3. These URLs allow anyone with the link to download the file directly
 
@@ -127,7 +127,7 @@ The response includes a `stashId` and a `$filestash_uploads` export with informa
 Each file in the `$filestash_uploads` array includes:
 
 - `localPath`: The path to the file in the `/tmp` directory where it was downloaded or created
-- `s3Key`: The unique key for the file in the Pipedream File Store after being synced from `/tmp`
+- `s3Key`: The unique key for the file in the Pipedream File Stash after being synced from `/tmp`
 - `get_url`: A presigned URL that allows downloading the file for 30 minutes
 
 ## Usage Examples
@@ -234,4 +234,4 @@ For this to work reliably, you need to use the same `stashId` across all actions
 
 ## File Storage Duration
 
-Files in the File Stash are automatically deleted after 24 hours. The presigned URLs remain valid for 30 minutes from the time they are generated.
+Files in File Stash are automatically deleted after 24 hours. The presigned URLs remain valid for 30 minutes from the time they are generated.
