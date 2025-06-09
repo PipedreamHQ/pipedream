@@ -1,8 +1,9 @@
 import { ConfigurationError } from "@pipedream/platform";
 import quickbooks from "../../quickbooks.app.mjs";
-import { 
+import {
   parseLineItems,
   buildSalesLineItems,
+  parseObject,
 } from "../../common/utils.mjs";
 
 export default {
@@ -24,7 +25,6 @@ export default {
         quickbooks,
         "customer",
       ],
-      optional: true,
     },
     billEmail: {
       type: "string",
@@ -66,13 +66,13 @@ export default {
     billAddr: {
       type: "object",
       label: "Billing Address",
-      description: "Billing address details",
+      description: "Billing address details. Example: `{ \"Line1\": \"123 Elm St.\", \"City\": \"Springfield\", \"CountrySubDivisionCode\": \"IL\", \"PostalCode\": \"62701\" }`",
       optional: true,
     },
     shipAddr: {
       type: "object",
       label: "Shipping Address",
-      description: "Shipping address details",
+      description: "Shipping address details. Example: `{ \"Line1\": \"456 Oak St.\", \"City\": \"Springfield\", \"CountrySubDivisionCode\": \"IL\", \"PostalCode\": \"62701\" }`",
       optional: true,
     },
     trackingNum: {
@@ -156,13 +156,18 @@ export default {
       return buildSalesLineItems(this.numLineItems, this);
     },
     addIfDefined(target, source, mappings) {
-      Object.entries(mappings).forEach(([sourceKey, targetConfig]) => {
+      Object.entries(mappings).forEach(([
+        sourceKey,
+        targetConfig,
+      ]) => {
         const value = source[sourceKey];
         if (value !== undefined && value !== null) {
           if (typeof targetConfig === "string") {
             target[targetConfig] = value;
           } else if (typeof targetConfig === "object") {
-            target[targetConfig.key] = targetConfig.transform ? targetConfig.transform(value) : value;
+            target[targetConfig.key] = targetConfig.transform
+              ? targetConfig.transform(value)
+              : value;
           }
         }
       });
@@ -184,16 +189,18 @@ export default {
 
     // Validate that the invoice has required properties
     if (!invoice.Id) {
-      throw new ConfigurationError(`Invalid invoice data received: missing Invoice ID`);
+      throw new ConfigurationError("Invalid invoice data received: missing Invoice ID");
     }
 
     if (!invoice.SyncToken) {
-      throw new ConfigurationError(`Invalid invoice data received: missing SyncToken. This may indicate the invoice is in an invalid state.`);
+      throw new ConfigurationError("Invalid invoice data received: missing SyncToken. This may indicate the invoice is in an invalid state.");
     }
 
     const data = {
       Id: this.invoiceId,
       SyncToken: invoice.SyncToken,
+      BillAddr: parseObject(this.billAddr),
+      ShipAddr: parseObject(this.shipAddr),
     };
 
     // Only update fields that are provided
@@ -220,8 +227,6 @@ export default {
     this.addIfDefined(data, this, {
       dueDate: "DueDate",
       docNumber: "DocNumber",
-      billAddr: "BillAddr",
-      shipAddr: "ShipAddr",
       trackingNum: "TrackingNum",
       privateNote: "PrivateNote",
     });
@@ -257,11 +262,11 @@ export default {
     });
 
     if (updateResponse?.Invoice?.Id) {
-      $.export("summary", `Successfully updated invoice with ID ${updateResponse.Invoice.Id}`);
+      $.export("$summary", `Successfully updated invoice with ID ${updateResponse.Invoice.Id}`);
     } else {
       throw new ConfigurationError("Failed to update invoice: Invalid response from QuickBooks API");
     }
 
     return updateResponse;
   },
-}; 
+};

@@ -14,6 +14,37 @@ export const parseOne = (obj) => {
   return parsed;
 };
 
+export function parseObject(obj) {
+  if (!obj) {
+    return undefined;
+  }
+
+  if (typeof obj === "string") {
+    try {
+      return JSON.parse(obj);
+    } catch {
+      return obj;
+    }
+  }
+
+  if (Array.isArray(obj)) {
+    return obj.map(parseObject);
+  }
+
+  if (typeof obj === "object") {
+    const parsed = {};
+    for (const [
+      key,
+      value,
+    ] of Object.entries(obj)) {
+      parsed[key] = parseObject(value);
+    }
+    return parsed;
+  }
+
+  return obj;
+}
+
 export async function retryWithExponentialBackoff(
   requestFn, retries = MAX_RETRIES, backoff = INITIAL_BACKOFF_MILLISECONDS,
 ) {
@@ -59,10 +90,10 @@ export function buildSalesLineItems(numLineItems, context) {
   // Validate required keys exist for each line item
   const missingKeys = [];
   for (let i = 1; i <= numLineItems; i++) {
-    if (!context.hasOwnProperty(`amount_${i}`)) {
+    if (!Object.prototype.hasOwnProperty.call(context, `amount_${i}`)) {
       missingKeys.push(`amount_${i}`);
     }
-    if (!context.hasOwnProperty(`item_${i}`)) {
+    if (!Object.prototype.hasOwnProperty.call(context, `item_${i}`)) {
       missingKeys.push(`item_${i}`);
     }
   }
@@ -75,7 +106,7 @@ export function buildSalesLineItems(numLineItems, context) {
   const invalidAmounts = [];
   for (let i = 1; i <= numLineItems; i++) {
     const amount = context[`amount_${i}`];
-    if (amount !== undefined && amount !== null && amount !== "" && 
+    if (amount !== undefined && amount !== null && amount !== "" &&
         (typeof amount !== "number" && (typeof amount !== "string" || isNaN(parseFloat(amount))))) {
       invalidAmounts.push(`amount_${i}`);
     }
@@ -114,10 +145,10 @@ export function buildPurchaseLineItems(numLineItems, context) {
   // Validate required keys exist for each line item
   const missingKeys = [];
   for (let i = 1; i <= numLineItems; i++) {
-    if (!context.hasOwnProperty(`amount_${i}`)) {
+    if (!Object.prototype.hasOwnProperty.call(context, `amount_${i}`)) {
       missingKeys.push(`amount_${i}`);
     }
-    if (!context.hasOwnProperty(`item_${i}`)) {
+    if (!Object.prototype.hasOwnProperty.call(context, `item_${i}`)) {
       missingKeys.push(`item_${i}`);
     }
   }
@@ -130,7 +161,7 @@ export function buildPurchaseLineItems(numLineItems, context) {
   const invalidAmounts = [];
   for (let i = 1; i <= numLineItems; i++) {
     const amount = context[`amount_${i}`];
-    if (amount !== undefined && amount !== null && amount !== "" && 
+    if (amount !== undefined && amount !== null && amount !== "" &&
         (typeof amount !== "number" && (typeof amount !== "string" || isNaN(parseFloat(amount))))) {
       invalidAmounts.push(`amount_${i}`);
     }
@@ -141,7 +172,10 @@ export function buildPurchaseLineItems(numLineItems, context) {
   }
 
   // Validate detailType values if provided
-  const validDetailTypes = ["ItemBasedExpenseLineDetail", "AccountBasedExpenseLineDetail"];
+  const validDetailTypes = [
+    "ItemBasedExpenseLineDetail",
+    "AccountBasedExpenseLineDetail",
+  ];
   const invalidDetailTypes = [];
   for (let i = 1; i <= numLineItems; i++) {
     const detailType = context[`detailType_${i}`];
@@ -157,12 +191,16 @@ export function buildPurchaseLineItems(numLineItems, context) {
   const lineItems = [];
   for (let i = 1; i <= numLineItems; i++) {
     const detailType = context[`detailType_${i}`] || "ItemBasedExpenseLineDetail";
-    
+
     // Extract conditional logic into clear variables
     const isItemBased = detailType === "ItemBasedExpenseLineDetail";
-    const detailPropertyName = isItemBased ? "ItemBasedExpenseLineDetail" : "AccountBasedExpenseLineDetail";
-    const refPropertyName = isItemBased ? "ItemRef" : "AccountRef";
-    
+    const detailPropertyName = isItemBased
+      ? "ItemBasedExpenseLineDetail"
+      : "AccountBasedExpenseLineDetail";
+    const refPropertyName = isItemBased
+      ? "ItemRef"
+      : "AccountRef";
+
     // Build line item with clearer structure
     const lineItem = {
       DetailType: detailType,
@@ -171,9 +209,10 @@ export function buildPurchaseLineItems(numLineItems, context) {
         [refPropertyName]: {
           value: context[`item_${i}`],
         },
+        Qty: context[`quantity_${i}`],
       },
     };
-    
+
     lineItems.push(lineItem);
   }
   return lineItems;

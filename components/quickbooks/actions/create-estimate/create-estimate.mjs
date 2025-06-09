@@ -1,8 +1,9 @@
 import { ConfigurationError } from "@pipedream/platform";
 import quickbooks from "../../quickbooks.app.mjs";
-import { 
+import {
   parseLineItems,
   buildSalesLineItems,
+  parseObject,
 } from "../../common/utils.mjs";
 
 export default {
@@ -59,13 +60,13 @@ export default {
     billAddr: {
       type: "object",
       label: "Billing Address",
-      description: "Billing address details",
+      description: "Billing address details. Example: `{ \"Line1\": \"123 Elm St.\", \"City\": \"Springfield\", \"CountrySubDivisionCode\": \"IL\", \"PostalCode\": \"62701\" }`",
       optional: true,
     },
     shipAddr: {
       type: "object",
       label: "Shipping Address",
-      description: "Shipping address details",
+      description: "Shipping address details. Example: `{ \"Line1\": \"456 Oak St.\", \"City\": \"Springfield\", \"CountrySubDivisionCode\": \"IL\", \"PostalCode\": \"62701\" }`",
       optional: true,
     },
     privateNote: {
@@ -167,8 +168,8 @@ export default {
       AcceptedBy: this.acceptedBy,
       AcceptedDate: this.acceptedDate,
       DocNumber: this.docNumber,
-      BillAddr: this.billAddr,
-      ShipAddr: this.shipAddr,
+      BillAddr: parseObject(this.billAddr),
+      ShipAddr: parseObject(this.shipAddr),
       PrivateNote: this.privateNote,
     };
 
@@ -196,9 +197,9 @@ export default {
     });
 
     if (response) {
-      $.export("summary", `Successfully created estimate with ID ${response.Estimate.Id}`);
+      $.export("$summary", `Successfully created estimate with ID ${response.Estimate.Id}`);
     }
 
     return response;
   },
-}; 
+};

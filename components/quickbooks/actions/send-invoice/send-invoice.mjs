@@ -17,27 +17,26 @@ export default {
     email: {
       type: "string",
       label: "Email Address",
-      description: "Email address to send the invoice to (optional - if not provided, uses the customer's email address)",
-      optional: true,
+      description: "Email address to send the invoice to",
     },
   },
   async run({ $ }) {
-    const data = {};
-    
+    const params = {};
+
     if (this.email) {
-      data.email = this.email;
+      params.sendTo = this.email;
     }
 
     const response = await this.quickbooks.sendInvoice({
       $,
       invoiceId: this.invoiceId,
-      data,
+      params,
     });
 
     if (response) {
-      $.export("summary", `Successfully sent invoice with ID ${this.invoiceId}`);
+      $.export("$summary", `Successfully sent invoice with ID ${this.invoiceId}`);
     }
 
     return response;
   },
-}; 
+};

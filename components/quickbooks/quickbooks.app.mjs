@@ -9,7 +9,7 @@ export default {
     invoiceId: {
       label: "Invoice ID",
       type: "string",
-      description: "Id of the invoice to get details of",
+      description: "ID of the invoice to get details of",
       async options({ page }) {
         return this.getPropOptions({
           page,
@@ -127,7 +127,9 @@ export default {
           mapper: ({
             Id: value, DocNumber: docNumber, CustomerRef: customerRef,
           }) => ({
-            label: `(${docNumber}) ${customerRef.name}`,
+            label: `${docNumber
+              ? `(${docNumber}) `
+              : ""}${customerRef.name}`,
             value,
           }),
         });

@@ -1,8 +1,9 @@
 import { ConfigurationError } from "@pipedream/platform";
 import quickbooks from "../../quickbooks.app.mjs";
-import { 
+import {
   parseLineItems,
   buildPurchaseLineItems,
+  parseObject,
 } from "../../common/utils.mjs";
 
 export default {
@@ -13,6 +14,15 @@ export default {
   type: "action",
   props: {
     quickbooks,
+    accountId: {
+      propDefinition: [
+        quickbooks,
+        "accountIds",
+      ],
+      type: "string",
+      label: "Account ID",
+      description: "The ID of the account to use for the purchase order",
+    },
     vendorRefValue: {
       propDefinition: [
         quickbooks,
@@ -40,7 +50,7 @@ export default {
     shipAddr: {
       type: "object",
       label: "Shipping Address",
-      description: "Shipping address details",
+      description: "Shipping address details. Example: `{ \"Line1\": \"456 Oak St.\", \"City\": \"Springfield\", \"CountrySubDivisionCode\": \"IL\", \"PostalCode\": \"62701\" }`",
       optional: true,
     },
     memo: {
@@ -81,8 +91,14 @@ export default {
         type: "string",
         label: `Line ${i} - Detail Type`,
         options: [
-          { label: "Item Based Expense", value: "ItemBasedExpenseLineDetail" },
-          { label: "Account Based Expense", value: "AccountBasedExpenseLineDetail" }
+          {
+            label: "Item Based Expense",
+            value: "ItemBasedExpenseLineDetail",
+          },
+          {
+            label: "Account Based Expense",
+            value: "AccountBasedExpenseLineDetail",
+          },
         ],
         default: "ItemBasedExpenseLineDetail",
       };
@@ -105,6 +121,10 @@ export default {
       props[`amount_${i}`] = {
         type: "string",
         label: `Line ${i} - Amount`,
+      };
+      props[`quantity_${i}`] = {
+        type: "string",
+        label: `Line ${i} - Quantity`,
       };
     }
     return props;
@@ -144,8 +164,11 @@ export default {
       },
       DueDate: this.dueDate,
       DocNumber: this.docNumber,
-      ShipAddr: this.shipAddr,
+      ShipAddr: parseObject(this.shipAddr),
       Memo: this.memo,
+      APAccountRef: {
+        value: this.accountId,
+      },
     };
 
     if (this.currencyRefValue) {
@@ -160,9 +183,9 @@ export default {
     });
 
     if (response) {
-      $.export("summary", `Successfully created purchase order with ID ${response.PurchaseOrder.Id}`);
+      $.export("$summary", `Successfully created purchase order with ID ${response.PurchaseOrder.Id}`);
     }
 
     return response;
   },
-}; 
+};

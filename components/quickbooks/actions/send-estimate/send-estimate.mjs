@@ -18,26 +18,25 @@ export default {
       type: "string",
       label: "Email Address",
       description: "Email address to send the estimate to (optional - if not provided, uses the customer's email address)",
-      optional: true,
     },
   },
   async run({ $ }) {
-    const data = {};
-    
+    const params = {};
+
     if (this.email) {
-      data.email = this.email;
+      params.sendTo = this.email;
     }
 
     const response = await this.quickbooks.sendEstimate({
       $,
       estimateId: this.estimateId,
-      data,
+      params,
     });
 
     if (response) {
-      $.export("summary", `Successfully sent estimate with ID ${this.estimateId}`);
+      $.export("$summary", `Successfully sent estimate with ID ${this.estimateId}`);
     }
 
     return response;
   },
-}; 
+};

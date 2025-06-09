@@ -1,8 +1,9 @@
 import { ConfigurationError } from "@pipedream/platform";
 import quickbooks from "../../quickbooks.app.mjs";
-import { 
+import {
   parseLineItems,
   buildSalesLineItems,
+  parseObject,
 } from "../../common/utils.mjs";
 
 export default {
@@ -24,7 +25,6 @@ export default {
         quickbooks,
         "customer",
       ],
-      optional: true,
     },
     billEmail: {
       type: "string",
@@ -66,13 +66,13 @@ export default {
     billAddr: {
       type: "object",
       label: "Billing Address",
-      description: "Billing address details",
+      description: "Billing address details. Example: `{ \"Line1\": \"123 Elm St.\", \"City\": \"Springfield\", \"CountrySubDivisionCode\": \"IL\", \"PostalCode\": \"62701\" }`",
       optional: true,
     },
     shipAddr: {
       type: "object",
       label: "Shipping Address",
-      description: "Shipping address details",
+      description: "Shipping address details. Example: `{ \"Line1\": \"456 Oak St.\", \"City\": \"Springfield\", \"CountrySubDivisionCode\": \"IL\", \"PostalCode\": \"62701\" }`",
       optional: true,
     },
     privateNote: {
@@ -151,13 +151,18 @@ export default {
     },
     // Helper function to conditionally add properties
     addIfDefined(target, source, mappings) {
-      Object.entries(mappings).forEach(([sourceKey, targetConfig]) => {
+      Object.entries(mappings).forEach(([
+        sourceKey,
+        targetConfig,
+      ]) => {
         const value = source[sourceKey];
         if (value !== undefined && value !== null) {
           if (typeof targetConfig === "string") {
             target[targetConfig] = value;
           } else if (typeof targetConfig === "object") {
-            target[targetConfig.key] = targetConfig.transform ? targetConfig.transform(value) : value;
+            target[targetConfig.key] = targetConfig.transform
+              ? targetConfig.transform(value)
+              : value;
           }
         }
       });
@@ -173,6 +178,8 @@ export default {
     const data = {
       Id: this.estimateId,
       SyncToken: estimate.SyncToken,
+      BillAddr: parseObject(this.billAddr),
+      ShipAddr: parseObject(this.shipAddr),
     };
 
     // Only update fields that are provided
@@ -196,14 +203,12 @@ export default {
       data.Line = lines;
     }
 
-    // Add simple field mappings
+    // Add simple field mapping
     this.addIfDefined(data, this, {
       expirationDate: "ExpirationDate",
       acceptedBy: "AcceptedBy",
       acceptedDate: "AcceptedDate",
       docNumber: "DocNumber",
-      billAddr: "BillAddr",
-      shipAddr: "ShipAddr",
       privateNote: "PrivateNote",
     });
 
@@ -231,11 +236,11 @@ export default {
     });
 
     if (response?.Estimate?.Id) {
-      $.export("summary", `Successfully updated estimate with ID ${response.Estimate.Id}`);
+      $.export("$summary", `Successfully updated estimate with ID ${response.Estimate.Id}`);
     } else {
       throw new ConfigurationError("Failed to update estimate: Invalid response from QuickBooks API");
     }
 
     return response;
   },
-}; 
+};
