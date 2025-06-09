@@ -40,7 +40,7 @@ export default {
       props.lineItems = {
         type: "string[]",
         label: "Line Items",
-        description: "Line items of a bill. Set DetailType to `AccountBasedExpenseLineDetail`. Example: `{ \"DetailType\": \"AccountBasedExpenseLineDetail\", \"Amount\": 100.0, \"AccountBasedExpenseLineDetail\": { \"AccountRef\": { \"name\": \"Advertising\", \"value\": \"1\" } } }`",
+        description: "Line items of a bill. Set DetailType to `AccountBasedExpenseLineDetail`. Example: `{ \"DetailType\": \"AccountBasedExpenseLineDetail\", \"Amount\": 100.0, \"AccountBasedExpenseLineDetail\": { \"AccountRef\": { \"name\": \"Advertising\", \"value\": \"1\" } } }` [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/bill#create-a-bill) for more information.",
       };
       return props;
     }

@@ -73,7 +73,7 @@ export default {
       props.lineItems = {
         type: "string[]",
         label: "Line Items",
-        description: "Line items of a purchase order. Set DetailType to `ItemBasedExpenseLineDetail` or `AccountBasedExpenseLineDetail`. Example: `{ \"DetailType\": \"ItemBasedExpenseLineDetail\", \"Amount\": 100.0, \"ItemBasedExpenseLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }`",
+        description: "Line items of a purchase order. Set DetailType to `ItemBasedExpenseLineDetail` or `AccountBasedExpenseLineDetail`. Example: `{ \"DetailType\": \"ItemBasedExpenseLineDetail\", \"Amount\": 100.0, \"ItemBasedExpenseLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }` [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/purchaseorder#create-a-purchaseorder) for more information.",
       };
       return props;
     }
