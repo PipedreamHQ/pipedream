@@ -74,8 +74,6 @@ export default {
       },
     });
 
-    console.log(response.data.id);
-
     $.export("$summary", `Contact "${email}" has been created successfully.`);
     return response;
   },
