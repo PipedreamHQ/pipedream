@@ -355,6 +355,10 @@ export default {
       const leadLabelsApi = this.api("LeadLabelsApi");
       return leadLabelsApi.getLeadLabels(opts);
     },
+    getNotes(opts = {}) {
+      const notesApi = this.api("NotesApi");
+      return notesApi.getNotes(opts);
+    },
     addActivity(opts = {}) {
       const activityApi = this.api("ActivitiesApi", "v2");
       return activityApi.addActivity({
@@ -424,6 +428,46 @@ export default {
         id: personId,
         UpdatePersonRequest: opts,
       });
+    },
+    deleteNote(noteId) {
+      const notesApi = this.api("NotesApi");
+      return notesApi.deleteNote({
+        id: noteId,
+      });
+    },
+    async *paginate({
+      fn, params, max,
+    }) {
+      params = {
+        ...params,
+        start: 0,
+        limit: 100,
+      };
+      let hasMore, count = 0;;
+      do {
+        const {
+          data, additional_data: additionalData,
+        } = await fn(params);
+        if (!data?.length) {
+          return;
+        }
+        for (const item of data) {
+          yield item;
+          if (max && ++count >= max) {
+            return;
+          }
+        }
+        params.start += params.limit;
+        hasMore = additionalData.pagination.more_items_in_collection;
+      } while (hasMore);
+    },
+    async getPaginatedResources(opts) {
+      const results = [];
+      const resources = this.paginate(opts);
+      for await (const resource of resources) {
+        results.push(resource);
+      }
+      return results;
     },
   },
 };
