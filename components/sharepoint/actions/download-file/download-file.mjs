@@ -43,7 +43,7 @@ export default {
   async run({ $ }) {
     const response = await this.sharepoint.getFile({
       $,
-      siteId: this.siteId,
+      driveId: this.driveId,
       fileId: this.fileId,
       responseType: "arraybuffer",
     });
