@@ -2920,7 +2920,11 @@ importers:
         specifier: ^1.6.2
         version: 1.6.6
 
-  components/contactout: {}
+  components/contactout:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/contacts:
     dependencies:
@@ -35430,7 +35434,7 @@ snapshots:
 
   '@pipedream/canva@0.2.3':
     dependencies:
-      '@pipedream/platform': 3.0.3
+      '@pipedream/platform': 3.1.0
     transitivePeerDependencies:
       - debug
 
@@ -36074,8 +36078,6 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
-    transitivePeerDependencies:
-      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
