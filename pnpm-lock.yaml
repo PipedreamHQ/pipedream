@@ -751,6 +751,9 @@ importers:
 
   components/amazon_polly: {}
 
+  components/amazon_redshift:
+    specifiers: {}
+
   components/amazon_selling_partner: {}
 
   components/amazon_ses:
