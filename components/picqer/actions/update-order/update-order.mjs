@@ -1,16 +1,19 @@
-import { ConfigurationError } from "@pipedream/platform";
-import { LANGUAGE_OPTIONS } from "../../common/constants.mjs";
-import { parseObject } from "../../common/utils.mjs";
 import picqer from "../../picqer.app.mjs";
 
 export default {
-  key: "picqer-create-order",
-  name: "Create Picqer Order",
-  description: "Create a new order in Picqer. [See the documentation](https://picqer.com/en/api/orders)",
+  key: "picqer-update-order",
+  name: "Update Picqer Order",
+  description: "Update an order in Picqer. [See the documentation](https://picqer.com/en/api/orders#update)",
   version: "0.0.1",
   type: "action",
   props: {
     picqer,
+    orderId: {
+      propDefinition: [
+        picqer,
+        "orderId",
+      ],
+    },
     customerId: {
       propDefinition: [
         picqer,
@@ -26,18 +29,13 @@ export default {
       ],
       optional: true,
     },
-    shippingProviderId: {
-      propDefinition: [
-        picqer,
-        "shippingProviderId",
-      ],
-      optional: true,
-    },
     deliveryName: {
       propDefinition: [
         picqer,
         "deliveryName",
       ],
+      description: "Name of delivery address.",
+      optional: true,
       hidden: true,
     },
     deliveryContactName: {
@@ -93,6 +91,8 @@ export default {
         picqer,
         "deliveryCountry",
       ],
+      description: "Country of delivery address (needs to be ISO 3166 2-char code).",
+      optional: true,
       hidden: true,
     },
     invoiceName: {
@@ -100,6 +100,7 @@ export default {
         picqer,
         "invoiceName",
       ],
+      description: "Name of invoice address.",
       optional: true,
       hidden: true,
     },
@@ -156,7 +157,7 @@ export default {
         picqer,
         "invoiceCountry",
       ],
-      description: "Country of invoice address (needs to be ISO 3166 2-char code).",
+      optional: true,
       hidden: true,
     },
     telephone: {
@@ -173,38 +174,10 @@ export default {
       ],
       optional: true,
     },
-    reference: {
-      propDefinition: [
-        picqer,
-        "reference",
-      ],
-      optional: true,
-    },
-    customerRemarks: {
-      propDefinition: [
-        picqer,
-        "customerRemarks",
-      ],
-      optional: true,
-    },
-    partialDelivery: {
-      propDefinition: [
-        picqer,
-        "partialDelivery",
-      ],
-      optional: true,
-    },
     discount: {
       propDefinition: [
         picqer,
         "discount",
-      ],
-      optional: true,
-    },
-    invoiced: {
-      propDefinition: [
-        picqer,
-        "invoiced",
       ],
       optional: true,
     },
@@ -215,19 +188,47 @@ export default {
       ],
       optional: true,
     },
+    customerRemarks: {
+      propDefinition: [
+        picqer,
+        "customerRemarks",
+      ],
+      optional: true,
+    },
+    reference: {
+      propDefinition: [
+        picqer,
+        "reference",
+      ],
+      optional: true,
+    },
+    invoiced: {
+      propDefinition: [
+        picqer,
+        "invoiced",
+      ],
+      optional: true,
+    },
+    shippingProviderId: {
+      propDefinition: [
+        picqer,
+        "shippingProviderId",
+      ],
+      optional: true,
+    },
+    partialDelivery: {
+      propDefinition: [
+        picqer,
+        "partialDelivery",
+      ],
+      optional: true,
+    },
     language: {
       propDefinition: [
         picqer,
         "language",
       ],
-      options: LANGUAGE_OPTIONS,
       optional: true,
-    },
-    products: {
-      propDefinition: [
-        picqer,
-        "products",
-      ],
     },
   },
   async additionalProps(fixedProps) {
@@ -252,7 +253,6 @@ export default {
 
     if (this.customerId) {
       const orderFields = await this.picqer.listOrderFields();
-
       for (const field of orderFields) {
         const propData = {
           type: `string${field.type === "multicheckbox"
@@ -260,7 +260,6 @@ export default {
             : ""}`,
           label: field.title,
           description: `Order field: ${field.title}`,
-          optional: !field.required,
         };
 
         if (field.values.length) {
@@ -275,6 +274,7 @@ export default {
   async run({ $ }) {
     const {
       picqer,
+      orderId,
       customerId,
       templateId,
       shippingProviderId,
@@ -301,21 +301,14 @@ export default {
       partialDelivery,
       discount,
       invoiced,
-      products,
       preferredDeliveryDate,
       language,
       ...otherFields
     } = this;
 
-    if (!customerId && !deliveryName) {
-      throw new ConfigurationError("Delivery Name is required if **Customer Id** is not provided");
-    }
-    if (!customerId && !deliveryCountry) {
-      throw new ConfigurationError("Delivery Country is required if **Customer Id** is not provided");
-    }
-
-    const response = await picqer.createOrder({
+    const response = await picqer.updateOrder({
       $,
+      orderId,
       data: {
         idcustomer: customerId,
         idtemplate: templateId,
@@ -345,7 +338,6 @@ export default {
         invoiced,
         preferreddeliverydate: preferredDeliveryDate,
         language,
-        products: parseObject(products),
         orderfields: Object.entries(otherFields)?.map(([
           key,
           value,
@@ -358,7 +350,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Order created successfully with ID ${response.idorder}`);
+    $.export("$summary", `Order updated successfully with ID ${orderId}`);
     return response;
   },
 };
