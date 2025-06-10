@@ -55,7 +55,7 @@ export default {
     const {
       file, fileId, createdAt, modifiedAt, fileName, parentId,
     } = this;
-    const data = this.getFileUploadBody({
+    const data = await this.getFileUploadBody({
       file,
       createdAt,
       modifiedAt,

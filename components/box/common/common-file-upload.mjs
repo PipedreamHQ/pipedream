@@ -1,7 +1,7 @@
 import FormData from "form-data";
 import utils from "./utils.mjs";
 
-export function getFileUploadBody({
+export async function getFileUploadBody({
   file,
   createdAt,
   modifiedAt,
@@ -10,7 +10,7 @@ export function getFileUploadBody({
 }) {
   const {
     fileMeta, fileContent,
-  } = utils.getFileData(file);
+  } = await utils.getFileData(file);
   const attributes = fileMeta.attributes;
   if (createdAt && utils.checkRFC3339(createdAt)) {
     attributes.content_created_at = createdAt;

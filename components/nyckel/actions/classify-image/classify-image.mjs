@@ -46,7 +46,7 @@ export default {
     const response = await this.nyckel.invokeFunction({
       $,
       functionId: this.functionId,
-      ...this.getImageData(),
+      ...(await this.getImageData()),
       params: {
         labelCount: this.labelCount,
         includeMetadata: this.includeMetadata,

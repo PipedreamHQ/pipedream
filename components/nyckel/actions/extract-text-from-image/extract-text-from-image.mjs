@@ -28,7 +28,7 @@ export default {
     const response = await this.nyckel.extractTextFromImageUrl({
       $,
       functionId: this.functionId,
-      ...this.getImageData(),
+      ...(await this.getImageData()),
       params: {
         includeRegions: this.includeRegions,
       },
