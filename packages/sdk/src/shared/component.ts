@@ -68,7 +68,7 @@ type Defaultable<T, SingleT = T> = {
 
 export type ConfigurablePropAlert = BaseConfigurableProp & {
   type: "alert";
-  alertType: "info" | "neutral" | "warning" | "error"; // TODO check the types
+  alertType?: "info" | "neutral" | "warning" | "error"; // TODO check the types
   content: string;
 };
 
