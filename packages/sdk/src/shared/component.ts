@@ -55,59 +55,150 @@ type BaseConfigurableProp = {
 };
 
 // XXX fix duplicating mapping to value type here and with PropValue
-type Defaultable<T> = { default?: T; options?: T[]; };
+
+type LabelValueOption<T> = {
+  label: string;
+  value: T;
+};
+
+type Defaultable<T, SingleT = T> = {
+  default?: T
+  options?: SingleT[] | Array<LabelValueOption<SingleT>>;
+}
 
 export type ConfigurablePropAlert = BaseConfigurableProp & {
   type: "alert";
   alertType: "info" | "neutral" | "warning" | "error"; // TODO check the types
   content: string;
 };
+
 export type ConfigurablePropAny = BaseConfigurableProp & {
   type: "any";
 } & Defaultable<any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+
 export type ConfigurablePropApp = BaseConfigurableProp & {
   type: "app";
   app: string;
 };
-export type ConfigurablePropBoolean = BaseConfigurableProp & { type: "boolean"; };
+
+export type ConfigurablePropBoolean = BaseConfigurableProp & {
+  type: "boolean";
+} & Defaultable<boolean>;
+
 export type ConfigurablePropInteger = BaseConfigurableProp & {
   type: "integer";
   min?: number;
   max?: number;
 } & Defaultable<number>;
+
 export type ConfigurablePropObject = BaseConfigurableProp & {
   type: "object";
 } & Defaultable<object>;
+
 export type ConfigurablePropString = BaseConfigurableProp & {
   type: "string";
   secret?: boolean;
 } & Defaultable<string>;
+
 export type ConfigurablePropStringArray = BaseConfigurableProp & {
   type: "string[]";
   secret?: boolean; // TODO is this supported
-} & Defaultable<string[]>; // TODO
+} & Defaultable<string[], string>;
+
+export type TimerInterval = {
+  intervalSeconds: number;
+}
+
+export type TimerCron = {
+  cron: string;
+}
+
+export type ConfigurablePropTimer = BaseConfigurableProp & {
+  type: "$.interface.timer";
+  static?: TimerInterval | TimerCron;
+} & Defaultable<TimerInterval | TimerCron>;
+
+export type ConfigurablePropApphook = BaseConfigurableProp & {
+  type: "$.interface.apphook";
+  appProp: string;
+  eventNames?: Array<string>;
+  remote?: boolean;
+  static?: Array<unknown>;
+}
+
+export type ConfigurablePropIntegerArray = BaseConfigurableProp & {
+  type: "integer[]";
+  min?: number;
+  max?: number;
+} & Defaultable<number[], number>
+
+export type ConfigurablePropHttp = BaseConfigurableProp & {
+  type: "$.interface.http";
+  customResponse?: boolean;
+}
+
+export type ConfigurablePropDb = BaseConfigurableProp & {
+  type: "$.service.db";
+}
+
 export type ConfigurablePropSql = BaseConfigurableProp & {
   type: "sql";
-  auth: {
+  auth?: {
     app: string;
   };
 } & Defaultable<string>;
-// | { type: "$.interface.http" } // source only
-// | { type: "$.interface.timer" } // source only
-// | { type: "$.service.db" }
-// | { type: "data_store" }
-// | { type: "http_request" }
+
+export type ConfigurablePropAirtableBaseId = BaseConfigurableProp & {
+  type: "$.airtable.baseId";
+  appProp: string;
+}
+
+export type ConfigurablePropAirtableTableId = BaseConfigurableProp & {
+  type: "$.airtable.tableId";
+  baseIdProp: string;
+}
+
+export type ConfigurablePropAirtableViewId = BaseConfigurableProp & {
+  type: "$.airtable.viewId";
+  tableIdProp: string;
+}
+
+export type ConfigurablePropAirtableFieldId = BaseConfigurableProp & {
+  type: "$.airtable.fieldId";
+  tableIdProp: string;
+}
+
+export type ConfigurablePropDiscordChannel = BaseConfigurableProp & {
+  type: "$.discord.channel";
+  appProp: string;
+}
+
+export type ConfigurablePropDiscordChannelArray = BaseConfigurableProp & {
+  type: "$.discord.channel[]";
+  appProp: string;
+}
+
 export type ConfigurableProp =
+  | ConfigurablePropAirtableBaseId
+  | ConfigurablePropAirtableFieldId
+  | ConfigurablePropAirtableTableId
+  | ConfigurablePropAirtableViewId
   | ConfigurablePropAlert
   | ConfigurablePropAny
   | ConfigurablePropApp
+  | ConfigurablePropApphook
   | ConfigurablePropBoolean
+  | ConfigurablePropDb
+  | ConfigurablePropDiscordChannel
+  | ConfigurablePropDiscordChannelArray
+  | ConfigurablePropHttp
   | ConfigurablePropInteger
+  | ConfigurablePropIntegerArray
   | ConfigurablePropObject
+  | ConfigurablePropSql
   | ConfigurablePropString
   | ConfigurablePropStringArray
-  | ConfigurablePropSql
-  | (BaseConfigurableProp & { type: "$.discord.channel"; });
+  | ConfigurablePropTimer
 
 export type ConfigurableProps = Readonly<ConfigurableProp[]>;
 
