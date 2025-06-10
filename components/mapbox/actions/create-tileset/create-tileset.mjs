@@ -44,16 +44,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const filePath = this.filePath.includes("tmp/")
-      ? this.filePath
-      : `/tmp/${this.filePath}`;
-
     // Create Tileset Source
     try {
       const fileData = new FormData();
       const {
         stream, metadata,
-      } = await getFileStreamAndMetadata(filePath);
+      } = await getFileStreamAndMetadata(this.filePath);
       fileData.append("file", stream, {
         contentType: metadata.contentType,
         knownLength: metadata.size,
@@ -68,7 +64,7 @@ export default {
         headers: fileData.getHeaders(),
       });
     } catch (e) {
-      throw new Error(`Error uploading file: \`${filePath}\`. Error: ${e}`);
+      throw new Error(`Error uploading file: \`${this.filePath}\`. Error: ${e}`);
     }
 
     const recipe = typeof this.recipe === "string"

@@ -14,7 +14,6 @@ export default {
         pdf4me,
         "filePath",
       ],
-      description: "The path to a DOCX, XLSX, or PPTX file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
     },
     filename: {
       propDefinition: [
