@@ -5518,7 +5518,7 @@ importers:
         specifier: ^2.3.0
         version: 2.4.0
       '@pipedream/platform':
-        specifier: ^3.1.0
+        specifier: ^3.0.3
         version: 3.1.0
       cron-parser:
         specifier: ^4.9.0
@@ -6481,8 +6481,8 @@ importers:
   components/imagga:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.0
-        version: 3.1.0
+        specifier: ^1.5.1
+        version: 1.6.6
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -9205,7 +9205,7 @@ importers:
   components/openai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.1.0
+        specifier: ^3.0.3
         version: 3.1.0
       '@pipedream/types':
         specifier: ^0.1.4
