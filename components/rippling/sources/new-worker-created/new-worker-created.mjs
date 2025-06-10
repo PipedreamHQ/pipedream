@@ -53,7 +53,7 @@ export default {
           params: {
             order_by: "created_at desc",
             ...(this.filter && {
-              filter: encodeURIComponent(this.filter),
+              filter: this.filter,
             }),
             ...(this.expand && {
               expand: this.expand.join(","),
