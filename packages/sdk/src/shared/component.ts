@@ -62,7 +62,7 @@ type LabelValueOption<T> = {
 };
 
 type Defaultable<T, SingleT = T> = {
-  default?: T
+  default?: T;
   options?: SingleT[] | Array<LabelValueOption<SingleT>>;
 }
 
