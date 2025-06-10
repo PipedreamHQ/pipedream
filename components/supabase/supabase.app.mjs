@@ -62,7 +62,7 @@ export default {
           verifyForErrors(resp);
           return resp;
         } catch (error) {
-          if (attempt >= maxAttempts) {
+          if (attempt === maxAttempts - 1) {
             throw error;
           }
 
@@ -87,12 +87,13 @@ export default {
         ascending = args.sortOrder === "ascending",
         max,
       } = args;
-      const query = this.baseFilter(client, table, orderBy, ascending, max);
-      if (filter) {
-        const filterMethod = this[filter];
-        filterMethod(query, column, value);
-      }
-      const resp = await this.retryWithExponentialBackoff(() => query);
+      const resp = await this.retryWithExponentialBackoff(
+        () => this.baseFilter(client, table, orderBy, ascending, max)
+          .then((q) => {
+            if (filter) this[filter](q, column, value);
+            return q;
+          }),
+      );
       return resp;
     },
     baseFilter(client, table, orderBy, ascending, max) {
