@@ -52,6 +52,30 @@ export default {
     async _client() {
       return createClient(`https://${this.$auth.subdomain}.supabase.co`, this.$auth.service_key);
     },
+    retryWithExponentialBackoff(func, maxAttempts = 3, baseDelayS = 2) {
+      let attempt = 0;
+      const verifyForErrors = this.verifyForErrors;
+
+      const execute = async () => {
+        try {
+          const resp = await func();
+          verifyForErrors(resp);
+          return resp;
+        } catch (error) {
+          if (attempt >= maxAttempts) {
+            throw error;
+          }
+
+          const delayMs = Math.pow(baseDelayS, attempt) * 1000;
+          await new Promise((resolve) => setTimeout(resolve, delayMs));
+
+          attempt++;
+          return execute();
+        }
+      };
+
+      return execute();
+    },
     async selectRow(args) {
       const client = await this._client();
       const {
@@ -68,8 +92,7 @@ export default {
         const filterMethod = this[filter];
         filterMethod(query, column, value);
       }
-      const resp = await query;
-      this.verifyForErrors(resp);
+      const resp = await this.retryWithExponentialBackoff(() => query);
       return resp;
     },
     baseFilter(client, table, orderBy, ascending, max) {
