@@ -1075,8 +1075,8 @@ importers:
   components/autodesk:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/autoklose: {}
 
@@ -3028,8 +3028,8 @@ importers:
   components/cradl_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.5
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/craftboxx:
     dependencies:
@@ -3661,8 +3661,8 @@ importers:
   components/docsbot_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/docsgenflow: {}
 
@@ -4070,17 +4070,14 @@ importers:
   components/egnyte:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       bottleneck:
         specifier: ^2.19.5
         version: 2.19.5
       form-data:
         specifier: ^4.0.1
         version: 4.0.1
-      mime:
-        specifier: ^4.0.6
-        version: 4.0.6
       path:
         specifier: ^0.12.7
         version: 0.12.7
@@ -4691,8 +4688,8 @@ importers:
   components/flippingbook:
     dependencies:
       '@pipedream/platform':
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/float: {}
 
@@ -5919,8 +5916,8 @@ importers:
   components/happy_scribe:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/happyfox_chat:
     dependencies:
@@ -6460,8 +6457,8 @@ importers:
   components/ilovepdf:
     dependencies:
       '@pipedream/platform':
-        specifier: 1.5.1
-        version: 1.5.1
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -7618,8 +7615,8 @@ importers:
   components/lokalise:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/looker: {}
 
@@ -10170,8 +10167,8 @@ importers:
   components/podio:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -15258,8 +15255,8 @@ importers:
   components/zoho_crm:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       crypto:
         specifier: ^1.0.1
         version: 1.0.1
