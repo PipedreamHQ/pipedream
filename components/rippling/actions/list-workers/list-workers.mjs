@@ -47,7 +47,7 @@ export default {
         params: {
           order_by: `${this.orderBy} ${this.orderDirection}`,
           ...(this.filter && {
-            filter: encodeURIComponent(this.filter),
+            filter: this.filter,
           }),
           ...(this.expand && {
             expand: this.expand.join(","),

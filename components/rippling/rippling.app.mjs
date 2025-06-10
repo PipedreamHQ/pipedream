@@ -8,14 +8,26 @@ export default {
       type: "string",
       label: "Worker ID",
       description: "The ID of the worker",
-      async options() {
-        const data = await this.listWorkers();
-        return data?.map(({
-          id: value, personal_info,
-        }) => ({
-          label: `${personal_info.first_name} ${personal_info.last_name}`,
-          value,
-        })) || [];
+      async options({ prevContext }) {
+        const args = prevContext?.next
+          ? {
+            url: prevContext?.next,
+          }
+          : {};
+        const {
+          results, next_link: next,
+        } = await this.listWorkers(args);
+        return {
+          options: results?.map(({
+            id: value, personal_info,
+          }) => ({
+            label: `${personal_info.first_name} ${personal_info.last_name}`,
+            value,
+          })) || [],
+          context: {
+            next,
+          },
+        };
       },
     },
     teamId: {
@@ -25,7 +37,7 @@ export default {
       async options({ prevContext }) {
         const args = prevContext?.next
           ? {
-            url: next,
+            url: prevContext?.next,
           }
           : {};
         const {
@@ -51,7 +63,7 @@ export default {
       async options({ prevContext }) {
         const args = prevContext?.next
           ? {
-            url: next,
+            url: prevContext?.next,
           }
           : {};
         const {
@@ -77,7 +89,7 @@ export default {
       async options({ prevContext }) {
         const args = prevContext?.next
           ? {
-            url: next,
+            url: prevContext?.next,
           }
           : {};
         const {
@@ -237,9 +249,9 @@ export default {
           if (max && ++count >= max) {
             return;
           }
-          hasMore = next;
-          args.url = next;
         }
+        hasMore = next;
+        args.url = next;
       } while (hasMore);
     },
     async getPaginatedResources(opts) {
