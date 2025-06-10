@@ -49,27 +49,12 @@ export default {
         ...opts,
       });
     },
-    uploadImageFromUrl(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/image/url",
-        ...opts,
-      });
-    },
     deleteAltTextByAssetId({
       assetId, ...opts
     }) {
       return this._makeRequest({
         method: "DELETE",
         path: `/image/${assetId}`,
-        ...opts,
-      });
-    },
-    retrieveAltTextByJobId({
-      jobId, ...opts
-    }) {
-      return this._makeRequest({
-        path: `/image/job/${jobId}`,
         ...opts,
       });
     },
