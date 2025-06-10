@@ -9,6 +9,12 @@ function normalizeFilePath(path) {
     : `/tmp/${path}`;
 }
 
+function checkForExtension(filename, ext = "pdf") {
+  return filename.endsWith(`.${ext}`)
+    ? filename
+    : `${filename}.${ext}`;
+}
+
 function downloadToTmp(response, filename) {
   const rawcontent = response.toString("base64");
   const buffer = Buffer.from(rawcontent, "base64");
@@ -38,15 +44,20 @@ function handleErrorMessage(error) {
 }
 
 async function getBase64File(filePath) {
-  const stream = await getFileStream(filePath);
-  const chunks = [];
-  for await (const chunk of stream) {
-    chunks.push(chunk);
+  try {
+    const stream = await getFileStream(filePath);
+    const chunks = [];
+    for await (const chunk of stream) {
+      chunks.push(chunk);
+    }
+    return Buffer.concat(chunks).toString("base64");
+  } catch (error) {
+    throw new ConfigurationError(`Error parsing file \`${filePath}\`: ${error.message}`);
   }
-  return Buffer.concat(chunks).toString("base64");
 }
 
 export default {
+  checkForExtension,
   downloadToTmp,
   handleErrorMessage,
   getBase64File,
