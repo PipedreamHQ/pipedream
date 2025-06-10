@@ -3,7 +3,6 @@ import quickbooks from "../../quickbooks.app.mjs";
 import {
   parseLineItems,
   buildSalesLineItems,
-  parseObject,
 } from "../../common/utils.mjs";
 
 export default {
@@ -57,17 +56,77 @@ export default {
       description: "Reference number for the transaction",
       optional: true,
     },
-    billAddr: {
-      type: "object",
-      label: "Billing Address",
-      description: "Billing address details. Example: `{ \"Line1\": \"123 Elm St.\", \"City\": \"Springfield\", \"CountrySubDivisionCode\": \"IL\", \"PostalCode\": \"62701\" }`",
-      optional: true,
+    billingStreetAddress: {
+      propDefinition: [
+        quickbooks,
+        "billingStreetAddress",
+      ],
     },
-    shipAddr: {
-      type: "object",
-      label: "Shipping Address",
-      description: "Shipping address details. Example: `{ \"Line1\": \"456 Oak St.\", \"City\": \"Springfield\", \"CountrySubDivisionCode\": \"IL\", \"PostalCode\": \"62701\" }`",
-      optional: true,
+    billingCity: {
+      propDefinition: [
+        quickbooks,
+        "billingCity",
+      ],
+    },
+    billingState: {
+      propDefinition: [
+        quickbooks,
+        "billingState",
+      ],
+    },
+    billingZip: {
+      propDefinition: [
+        quickbooks,
+        "billingZip",
+      ],
+    },
+    billingLatitude: {
+      propDefinition: [
+        quickbooks,
+        "billingLatitude",
+      ],
+    },
+    billingLongitude: {
+      propDefinition: [
+        quickbooks,
+        "billingLongitude",
+      ],
+    },
+    shippingStreetAddress: {
+      propDefinition: [
+        quickbooks,
+        "shippingStreetAddress",
+      ],
+    },
+    shippingCity: {
+      propDefinition: [
+        quickbooks,
+        "shippingCity",
+      ],
+    },
+    shippingState: {
+      propDefinition: [
+        quickbooks,
+        "shippingState",
+      ],
+    },
+    shippingZip: {
+      propDefinition: [
+        quickbooks,
+        "shippingZip",
+      ],
+    },
+    shippingLatitude: {
+      propDefinition: [
+        quickbooks,
+        "shippingLatitude",
+      ],
+    },
+    shippingLongitude: {
+      propDefinition: [
+        quickbooks,
+        "shippingLongitude",
+      ],
     },
     privateNote: {
       type: "string",
@@ -158,6 +217,19 @@ export default {
       }
     });
 
+    const hasBillingAddress = this.billingStreetAddress
+      || this.billingCity
+      || this.billingState
+      || this.billingZip
+      || this.billingLatitude
+      || this.billingLongitude;
+    const hasShippingAddress = this.shippingStreetAddress
+      || this.shippingCity
+      || this.shippingState
+      || this.shippingZip
+      || this.shippingLatitude
+      || this.shippingLongitude;
+
     const params = {};
     const data = {
       Line: lines,
@@ -168,8 +240,26 @@ export default {
       AcceptedBy: this.acceptedBy,
       AcceptedDate: this.acceptedDate,
       DocNumber: this.docNumber,
-      BillAddr: parseObject(this.billAddr),
-      ShipAddr: parseObject(this.shipAddr),
+      BillAddr: hasBillingAddress
+        ? {
+          Line1: this.billingStreetAddress,
+          City: this.billingCity,
+          CountrySubDivisionCode: this.billingState,
+          PostalCode: this.billingZip,
+          Lat: this.billingLatitude,
+          Long: this.billingLongitude,
+        }
+        : undefined,
+      ShipAddr: hasShippingAddress
+        ? {
+          Line1: this.shippingStreetAddress,
+          City: this.shippingCity,
+          CountrySubDivisionCode: this.shippingState,
+          PostalCode: this.shippingZip,
+          Lat: this.shippingLatitude,
+          Long: this.shippingLongitude,
+        }
+        : undefined,
       PrivateNote: this.privateNote,
     };
 

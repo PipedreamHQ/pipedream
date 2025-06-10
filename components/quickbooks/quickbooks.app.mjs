@@ -473,6 +473,78 @@ export default {
       description: "Column types to be shown in the report",
       optional: true,
     },
+    billingStreetAddress: {
+      type: "string",
+      label: "Billing Street Address",
+      description: "The street address of the billing address",
+      optional: true,
+    },
+    billingCity: {
+      type: "string",
+      label: "Billing City",
+      description: "The city of the billing address",
+      optional: true,
+    },
+    billingState: {
+      type: "string",
+      label: "Billing State",
+      description: "The state of the billing address",
+      optional: true,
+    },
+    billingZip: {
+      type: "string",
+      label: "Billing Zip",
+      description: "The zip code of the billing address",
+      optional: true,
+    },
+    billingLatitude: {
+      type: "string",
+      label: "Billing Latitude",
+      description: "The latitude of the billing address",
+      optional: true,
+    },
+    billingLongitude: {
+      type: "string",
+      label: "Billing Longitude",
+      description: "The longitude of the billing address",
+      optional: true,
+    },
+    shippingStreetAddress: {
+      type: "string",
+      label: "Shipping Street Address",
+      description: "The street address of the shipping address",
+      optional: true,
+    },
+    shippingCity: {
+      type: "string",
+      label: "Shipping City",
+      description: "The city of the shipping address",
+      optional: true,
+    },
+    shippingState: {
+      type: "string",
+      label: "Shipping State",
+      description: "The state of the shipping address",
+      optional: true,
+    },
+    shippingZip: {
+      type: "string",
+      label: "Shipping Zip",
+      description: "The zip code of the shipping address",
+      optional: true,
+    },
+    shippingLatitude: {
+      type: "string",
+      label: "Shipping Latitude",
+      description: "The latitude of the shipping address",
+      optional: true,
+    },
+    shippingLongitude: {
+      type: "string",
+      label: "Shipping Longitude",
+      description: "The longitude of the shipping address",
+      optional: true,
+    },
   },
   methods: {
     _companyId() {

@@ -3,7 +3,6 @@ import quickbooks from "../../quickbooks.app.mjs";
 import {
   parseLineItems,
   buildPurchaseLineItems,
-  parseObject,
 } from "../../common/utils.mjs";
 
 export default {
@@ -47,11 +46,41 @@ export default {
       description: "Reference number for the transaction",
       optional: true,
     },
-    shipAddr: {
-      type: "object",
-      label: "Shipping Address",
-      description: "Shipping address details. Example: `{ \"Line1\": \"456 Oak St.\", \"City\": \"Springfield\", \"CountrySubDivisionCode\": \"IL\", \"PostalCode\": \"62701\" }`",
-      optional: true,
+    shippingStreetAddress: {
+      propDefinition: [
+        quickbooks,
+        "shippingStreetAddress",
+      ],
+    },
+    shippingCity: {
+      propDefinition: [
+        quickbooks,
+        "shippingCity",
+      ],
+    },
+    shippingState: {
+      propDefinition: [
+        quickbooks,
+        "shippingState",
+      ],
+    },
+    shippingZip: {
+      propDefinition: [
+        quickbooks,
+        "shippingZip",
+      ],
+    },
+    shippingLatitude: {
+      propDefinition: [
+        quickbooks,
+        "shippingLatitude",
+      ],
+    },
+    shippingLongitude: {
+      propDefinition: [
+        quickbooks,
+        "shippingLongitude",
+      ],
     },
     memo: {
       type: "string",
@@ -157,6 +186,13 @@ export default {
       }
     });
 
+    const hasShippingAddress = this.shippingStreetAddress
+      || this.shippingCity
+      || this.shippingState
+      || this.shippingZip
+      || this.shippingLatitude
+      || this.shippingLongitude;
+
     const data = {
       Line: lines,
       VendorRef: {
@@ -164,7 +200,16 @@ export default {
       },
       DueDate: this.dueDate,
       DocNumber: this.docNumber,
-      ShipAddr: parseObject(this.shipAddr),
+      ShipAddr: hasShippingAddress
+        ? {
+          Line1: this.shippingStreetAddress,
+          City: this.shippingCity,
+          CountrySubDivisionCode: this.shippingState,
+          PostalCode: this.shippingZip,
+          Lat: this.shippingLatitude,
+          Long: this.shippingLongitude,
+        }
+        : undefined,
       Memo: this.memo,
       APAccountRef: {
         value: this.accountId,
