@@ -6967,8 +6967,7 @@ importers:
 
   components/kartra: {}
 
-  components/keboola:
-    specifiers: {}
+  components/keboola: {}
 
   components/keen:
     dependencies:
