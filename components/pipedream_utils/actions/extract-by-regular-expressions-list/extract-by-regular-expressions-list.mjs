@@ -4,77 +4,92 @@ export default {
   name: "Formatting - [Text] Extract by Regular Expressions List (Regex)",
   description: "Find matches for regular expressions. Returns all matched groups with start and end position.",
   key: "pipedream_utils-extract-by-regular-expressions-list",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     pipedream_utils,
-    input: {
+    key_0: {
+      type: "string",
+      label: "Key",
+      description: "The key where the extraction result for a regex will be stored",
+      reloadProps: true,
+    },
+    input_0: {
       type: "string",
       label: "Input",
-      description: "Text you would like to find a pattern from",
+      description: "The text you would like to find a pattern from",
     },
-    regExpStrings: {
-      type: "string[]",
-      label: "Regular Expressions",
-      description: "An array of [regex strings](https://www.w3schools.com/js/js_regexp.asp) (e.g. `/foo/g`, `/bar/i`)",
+    regex_0: {
+      type: "string",
+      label: "Regular Expression",
+      description: "[Regular expression](https://www.w3schools.com/js/js_regexp.asp)",
     },
+  },
+  additionalProps() {
+    const props = {};
+    let count = 1;
+
+    while (this[`key_${count}`]) {
+      props[`key_${count}`] = {
+        type: "string",
+        label: "Another Key",
+        description: "The key where the extraction result for a regex will be stored",
+      };
+      props[`input_${count}`] = {
+        type: "string",
+        label: "Input",
+        description: "The text you would like to find a pattern from",
+      };
+      props[`regex_${count}`] = {
+        type: "string",
+        label: "Regular Expression",
+        description: "[Regular expression](https://www.w3schools.com/js/js_regexp.asp)",
+      };
+      count++;
+    }
+
+    props[`key_${count}`] = {
+      type: "string",
+      label: "Another Key",
+      description: "The key where the extraction result for a regex will be stored",
+      optional: true,
+      reloadProps: true,
+    };
+
+    return props;
   },
   methods: {
-    getAllResults(input) {
-      const resultMap = {};
-      const resultList = [];
-
-      for (const rStr of this.regExpStrings) {
-        if (typeof rStr !== "string" || !rStr.length) {
-          // still push an empty array to preserve order
-          resultMap[rStr] = [];
-          resultList.push([]);
-          continue;
-        }
-
-        const re = rStr.startsWith("/")
-          ? buildRegExp(rStr, [
-            "g",
-          ])
-          : new RegExp(rStr, "g");
-
-        const matches = [
-          ...input.matchAll(re),
-        ].map((m) => ({
-          match: m[0],
-          groups: m.groups ?? {},
-          startPosition: m.index,
-          endPosition: m.index + m[0].length,
-        }));
-
-        resultMap[rStr] = matches;
-        resultList.push(matches);
-      }
-
-      return {
-        resultMap,
-        resultList,
-      };
+    getRegExp(regExpStr) {
+      return regExpStr.startsWith("/")
+        ? buildRegExp(regExpStr, [
+          "g",
+        ])
+        : regExpStr;
+    },
+    getResults(input, regExpStr) {
+      return [
+        ...input.matchAll(this.getRegExp(regExpStr)),
+      ].map((match) => ({
+        match: match[0],
+        startPosition: match.index,
+        endPosition: match.index + match[0].length,
+      }));
     },
   },
-  async run({ $ }) {
-    const {
-      resultMap,
-      resultList,
-    } = this.getAllResults(this.input);
+  async run() {
+    let count = 0;
+    const resultMap = {};
 
-    const totalMatches = resultList.reduce((sum, arr) => sum + arr.length, 0);
+    while (this[`key_${count}`]) {
+      const input = this[`input_${count}`];
+      const regExpStr = this[`regex_${count}`];
 
-    $.export(
-      "$summary",
-      totalMatches
-        ? `Found ${totalMatches} matches across ${Object.keys(resultMap).length} patterns`
-        : "No matches found",
-    );
+      const result = this.getResults(input, regExpStr);
+      resultMap[this[`key_${count}`]] = result;
 
-    return {
-      map: resultMap,
-      list: resultList,
-    };
+      count++;
+    }
+
+    return resultMap;
   },
 };
