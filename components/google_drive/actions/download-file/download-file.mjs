@@ -3,7 +3,7 @@ import fs from "fs";
 import stream from "stream";
 import { promisify } from "util";
 import { GOOGLE_DRIVE_MIME_TYPE_PREFIX } from "../../common/constants.mjs";
-import googleWorkspaceExportFormats from "../google-workspace-export-formats.mjs";
+import googleWorkspaceExportFormats from "../common/google-workspace-export-formats.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 /**
