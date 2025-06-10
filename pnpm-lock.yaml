@@ -751,8 +751,7 @@ importers:
 
   components/amazon_polly: {}
 
-  components/amazon_redshift:
-    specifiers: {}
+  components/amazon_redshift: {}
 
   components/amazon_selling_partner: {}
 
@@ -2745,7 +2744,11 @@ importers:
 
   components/codeq_natural_language_processing_api: {}
 
-  components/codeqr: {}
+  components/codeqr:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.0
+        version: 3.1.0
 
   components/codereadr:
     dependencies:
