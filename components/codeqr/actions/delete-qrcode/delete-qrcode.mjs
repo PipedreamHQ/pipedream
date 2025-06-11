@@ -5,14 +5,16 @@ export default {
   key: "codeqr-delete-qrcode",
   name: "Delete a QR Code",
   description:
-    "Deletes a QR Code in CodeQR by qrcodeId or externalId. [See the docs here](https://codeqr.mintlify.app/api-reference/endpoint/delete-a-qrcode)",
+    "Deletes a QR Code in CodeQR by qrcodeId or externalId. [See the documentation](https://codeqr.mintlify.app/api-reference/endpoint/delete-a-qrcode)",
   version: "0.0.1",
   type: "action",
   props: {
     codeqr,
     qrcodeId: {
-      type: "string",
-      label: "QR Code ID",
+      propDefinition: [
+        codeqr,
+        "qrcodeId",
+      ],
       description: "The unique ID of the QR Code to delete.",
       optional: true,
     },
@@ -34,7 +36,10 @@ export default {
       );
     }
     const identifier = qrcodeId || externalId;
-    await this.codeqr.deleteQrcode(identifier);
+    await this.codeqr.deleteQrcode({
+      $,
+      identifier,
+    });
     $.export("$summary", `QR Code deleted successfully (${identifier}).`);
     return {
       success: true,

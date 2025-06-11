@@ -5,14 +5,16 @@ export default {
   key: "codeqr-get-qrcode-info",
   name: "Get QR Code Info",
   description:
-    "Retrieves QR Code info by qrcodeId, externalId, domain, or key via query string. [See the docs here](https://codeqr.mintlify.app/api-reference/endpoint/retrieve-a-qrcode)",
+    "Retrieves QR Code info by qrcodeId, externalId, domain, or key via query string. [See the documentation](https://codeqr.mintlify.app/api-reference/endpoint/retrieve-a-qrcode)",
   version: "0.0.1",
   type: "action",
   props: {
     codeqr,
     qrcodeId: {
-      type: "string",
-      label: "QR Code ID",
+      propDefinition: [
+        codeqr,
+        "qrcodeId",
+      ],
       description: "The unique ID of the QR Code.",
       optional: true,
     },
@@ -50,7 +52,10 @@ export default {
     externalId && (params.externalId = externalId);
     domain && (params.domain = domain);
     key && (params.key = key);
-    const response = await this.codeqr.getQrcodeInfo(params);
+    const response = await this.codeqr.getQrcodeInfo({
+      $,
+      params,
+    });
     $.export(
       "$summary",
       `QR Code info retrieved successfully${

@@ -4,14 +4,16 @@ import codeqr from "../../codeqr.app.mjs";
 export default {
   key: "codeqr-delete-link",
   name: "Delete a Link",
-  description: "Deletes a short link in CodeQR by linkId or externalId. [See the docs here](https://codeqr.mintlify.app/api-reference/endpoint/delete-a-link)",
+  description: "Deletes a short link in CodeQR by linkId or externalId. [See the documentation](https://codeqr.mintlify.app/api-reference/endpoint/delete-a-link)",
   version: "0.0.1",
   type: "action",
   props: {
     codeqr,
     linkId: {
-      type: "string",
-      label: "Link ID",
+      propDefinition: [
+        codeqr,
+        "linkId",
+      ],
       description: "The unique ID of the link to delete.",
       optional: true,
     },
@@ -37,7 +39,10 @@ export default {
     const identifier = linkId || externalId;
 
     // Perform DELETE request to /links/{identifier}
-    await this.codeqr.deleteLink(identifier);
+    await this.codeqr.deleteLink({
+      $,
+      identifier,
+    });
     $.export("$summary", `Link deleted successfully (${identifier}).`);
     return {
       success: true,

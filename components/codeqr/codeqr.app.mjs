@@ -4,7 +4,40 @@ import constants from "./common/constants.mjs";
 export default {
   type: "app",
   app: "codeqr",
-  propDefinitions: {},
+  propDefinitions: {
+    linkId: {
+      type: "string",
+      label: "Link ID",
+      description: "The unique ID of a link",
+      async options({ page }) {
+        const links = await this.listLinks({
+          params: {
+            page: page + 1,
+          },
+        });
+        return links?.map((link) => ({
+          label: link.url,
+          value: link.id,
+        }));
+      },
+    },
+    qrcodeId: {
+      type: "string",
+      label: "QR Code ID",
+      description: "The unique ID of a QR Code",
+      async options({ page }) {
+        const qrCodes = await this.listQrCodes({
+          params: {
+            page: page + 1,
+          },
+        });
+        return qrCodes?.map((qrCode) => ({
+          label: qrCode.url,
+          value: qrCode.id,
+        }));
+      },
+    },
+  },
   methods: {
     getHeader() {
       return {
@@ -16,58 +49,72 @@ export default {
       const { BASE_URL } = constants;
       return `${BASE_URL}${path}`;
     },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     async makeRequest(args = {}) {
       const {
-        $ = this, method = "get", path, params, data,
+        $ = this, method = "get", path, ...opts
       } = args;
       const config = {
         method,
         url: this.getUrl(path),
         headers: this.getHeader(),
-        params,
-        data,
+        ...opts,
       };
       return axios($, config);
     },
-    async createLink(data) {
+    async listLinks(opts = {}) {
+      return this.makeRequest({
+        path: "/links",
+        ...opts,
+      });
+    },
+    async listQrCodes(opts = {}) {
+      return this.makeRequest({
+        path: "/qrcodes",
+        ...opts,
+      });
+    },
+    async createLink(opts = {}) {
       return this.makeRequest({
         method: "post",
         path: "/links",
-        data,
+        ...opts,
       });
     },
-    async getLinkInfo(params) {
+    async getLinkInfo(opts = {}) {
       return this.makeRequest({
         path: "/links/info",
-        params,
+        ...opts,
       });
     },
-    async deleteLink(identifier) {
+    async deleteLink({
+      identifier, ...opts
+    }) {
       return this.makeRequest({
         method: "delete",
         path: `/links/${identifier}`,
+        ...opts,
       });
     },
-    async createQrcode(data) {
+    async createQrcode(opts = {}) {
       return this.makeRequest({
         method: "post",
         path: "/qrcodes",
-        data,
+        ...opts,
       });
     },
-    async getQrcodeInfo(params) {
+    async getQrcodeInfo(opts = {}) {
       return this.makeRequest({
         path: "/qrcodes/info",
-        params,
+        ...opts,
       });
     },
-    async deleteQRCode(identifier) {
+    async deleteQrcode({
+      identifier, ...opts
+    }) {
       return this.makeRequest({
         method: "delete",
         path: `/qrcodes/${identifier}`,
+        ...opts,
       });
     },
   },

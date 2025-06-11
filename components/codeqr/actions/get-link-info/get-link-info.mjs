@@ -5,14 +5,16 @@ export default {
   key: "codeqr-get-link-info",
   name: "Get a Link Info",
   description:
-    "Retrieves a short link from CodeQR by linkId, externalId, or domain/key via query string parameters. [See the docs here](https://codeqr.mintlify.app/api-reference/endpoint/retrieve-a-link)",
-  version: "0.0.2",
+    "Retrieves a short link from CodeQR by linkId, externalId, or domain/key via query string parameters. [See the documentation](https://codeqr.mintlify.app/api-reference/endpoint/retrieve-a-link)",
+  version: "0.0.1",
   type: "action",
   props: {
     codeqr,
     linkId: {
-      type: "string",
-      label: "Link ID",
+      propDefinition: [
+        codeqr,
+        "linkId",
+      ],
       description: "The unique ID of the short link.",
       optional: true,
     },
@@ -56,7 +58,10 @@ export default {
     key && (params.key = key);
 
     // Make GET request to /links/info with query string
-    const response = await this.codeqr.getLinkInfo(params);
+    const response = await this.codeqr.getLinkInfo({
+      $,
+      params,
+    });
     $.export(
       "$summary",
       `Link retrieved successfully${

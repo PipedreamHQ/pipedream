@@ -3,7 +3,7 @@ import codeqr from "../../codeqr.app.mjs";
 export default {
   key: "codeqr-create-qrcode",
   name: "Create a QR Code",
-  description: "Creates a new QR Code in CodeQR using the QR Codes API. [See the docs here](https://codeqr.mintlify.app/api-reference/endpoint/create-a-qrcode)",
+  description: "Creates a new QR Code in CodeQR using the QR Codes API. [See the documentation](https://codeqr.mintlify.app/api-reference/endpoint/create-a-qrcode)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -114,7 +114,6 @@ export default {
       "static",
       "text",
       "url",
-      "email",
       "phone",
       "expiresAt",
       "trackConversion",
@@ -129,7 +128,17 @@ export default {
     ]) {
       if (this[key] != null) payload[key] = this[key];
     }
-    const response = await this.codeqr.createQrcode(payload);
+
+    if (this.email) {
+      payload.email = typeof this.email === "string"
+        ? JSON.parse(this.email)
+        : this.email;
+    }
+
+    const response = await this.codeqr.createQrcode({
+      $,
+      data: payload,
+    });
     $.export("$summary", "QR Code created successfully.");
     return response;
   },

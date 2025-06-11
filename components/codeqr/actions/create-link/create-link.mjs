@@ -4,7 +4,7 @@ export default {
   key: "codeqr-create-link",
   name: "Create a CodeQR Link",
   description:
-    "Creates a short link in CodeQR using the CodeQR API. [See the docs here](https://codeqr.mintlify.app/api-reference/endpoint/create-a-link)",
+    "Creates a short link in CodeQR using the CodeQR API. [See the documentation](https://codeqr.mintlify.app/api-reference/endpoint/create-a-link)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -191,11 +191,14 @@ export default {
       comments,
       expiresAt,
       expiredUrl,
-      geo,
       publicStats,
       tagIds,
       tagNames,
     } = this;
+
+    const geo = typeof this.geo === "string"
+      ? JSON.parse(this.geo)
+      : this.geo;
 
     const payload = {
       url,
@@ -226,7 +229,10 @@ export default {
     if (tagIds?.length) payload.tagIds = tagIds;
     if (tagNames?.length) payload.tagNames = tagNames;
 
-    const response = await this.codeqr.createLink(payload);
+    const response = await this.codeqr.createLink({
+      $,
+      data: payload,
+    });
     response && $.export("$summary", "Link created successfully");
     return response;
   },
