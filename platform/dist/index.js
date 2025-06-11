@@ -8,6 +8,9 @@ Object.defineProperty(exports, "transformConfigForOauth", { enumerable: true, ge
 var utils_1 = require("./utils");
 Object.defineProperty(exports, "cloneSafe", { enumerable: true, get: function () { return utils_1.cloneSafe; } });
 Object.defineProperty(exports, "jsonStringifySafe", { enumerable: true, get: function () { return utils_1.jsonStringifySafe; } });
+var file_stream_1 = require("./file-stream");
+Object.defineProperty(exports, "getFileStreamAndMetadata", { enumerable: true, get: function () { return file_stream_1.getFileStreamAndMetadata; } });
+Object.defineProperty(exports, "getFileStream", { enumerable: true, get: function () { return file_stream_1.getFileStream; } });
 var errors_1 = require("./errors");
 Object.defineProperty(exports, "ConfigurationError", { enumerable: true, get: function () { return errors_1.ConfigurationError; } });
 var sql_prop_1 = require("./sql-prop");

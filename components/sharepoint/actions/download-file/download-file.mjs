@@ -5,7 +5,7 @@ export default {
   key: "sharepoint-download-file",
   name: "Download File",
   description: "Download a Microsoft Sharepoint file to the /tmp directory. [See the documentation](https://learn.microsoft.com/en-us/graph/api/driveitem-get-content?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     sharepoint,
@@ -43,7 +43,7 @@ export default {
   async run({ $ }) {
     const response = await this.sharepoint.getFile({
       $,
-      siteId: this.siteId,
+      driveId: this.driveId,
       fileId: this.fileId,
       responseType: "arraybuffer",
     });

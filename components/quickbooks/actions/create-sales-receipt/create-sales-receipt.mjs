@@ -6,7 +6,7 @@ export default {
   key: "quickbooks-create-sales-receipt",
   name: "Create Sales Receipt",
   description: "Creates a sales receipt. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/salesreceipt#create-a-salesreceipt)",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     quickbooks,
@@ -31,7 +31,7 @@ export default {
       props.lineItems = {
         type: "string[]",
         label: "Line Items",
-        description: "Line items of a sales receipt. Set DetailType to `SalesItemLineDetail` or `GroupLineDetail`. Example: `{ \"DetailType\": \"SalesItemLineDetail\", \"Amount\": 100.0, \"SalesItemLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }`",
+        description: "Line items of a sales receipt. Set DetailType to `SalesItemLineDetail` or `GroupLineDetail`. Example: `{ \"DetailType\": \"SalesItemLineDetail\", \"Amount\": 100.0, \"SalesItemLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }` [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/salesreceipt#create-a-salesreceipt) for more information.",
       };
       return props;
     }

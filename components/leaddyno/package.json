@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/leaddyno",
+  "version": "0.0.1",
+  "description": "Pipedream LeadDyno Components",
+  "main": "leaddyno.app.mjs",
+  "keywords": [
+    "pipedream",
+    "leaddyno"
+  ],
+  "homepage": "https://pipedream.com/apps/leaddyno",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
