@@ -87,13 +87,14 @@ export default {
         ascending = args.sortOrder === "ascending",
         max,
       } = args;
-      const resp = await this.retryWithExponentialBackoff(
-        () => this.baseFilter(client, table, orderBy, ascending, max)
-          .then((q) => {
-            if (filter) this[filter](q, column, value);
-            return q;
-          }),
-      );
+      const ctx = this;
+      const resp = await this.retryWithExponentialBackoff(async () => {
+        let query = ctx.baseFilter(client, table, orderBy, ascending, max);
+        if (filter) {
+          query = ctx[filter](query, column, value);
+        }
+        return await query;
+      });
       return resp;
     },
     baseFilter(client, table, orderBy, ascending, max) {
