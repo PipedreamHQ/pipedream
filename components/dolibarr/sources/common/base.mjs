@@ -44,6 +44,7 @@ export default {
       const resourceFn = this.getResourceFn();
       const args = this.getArgs();
       const lastTs = this._getLastTs();
+      let maxTs = lastTs;
       const results = this.dolibarr.paginate({
         fn: resourceFn,
         params: args,
@@ -53,8 +54,7 @@ export default {
       for await (const item of results) {
         if (item.date_creation > lastTs) {
           items.push(item);
-        } else {
-          break;
+          maxTs = Math.max(maxTs, item.date_creation);
         }
       }
 
@@ -62,7 +62,7 @@ export default {
         return;
       }
 
-      this._setLastTs(items[0].date_creation);
+      this._setLastTs(maxTs);
       items.reverse().forEach(this.emitEvent);
     },
     getResourceFn() {
