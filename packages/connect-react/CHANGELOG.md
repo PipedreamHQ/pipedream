@@ -5,19 +5,22 @@
 # [1.3.0] - 2025-06-10
 
 ## Added
-- Support for `externalUserId` parameter across all components as the preferred way to identify users
+
+- Support for `externalUserId` param across all components as the preferred way to identify users
 - Backward compatibility with existing `userId` parameter
-- Proper user identification in SDK debugger for `configureComponent`, `reloadComponentProps`, and `getAccounts` calls
 
 ## Changed
+
 - All internal SDK calls now use `externalUserId` parameter for consistency with backend SDK
-- Account loading now properly includes user identification from form context
 
 ## Deprecated
+
 - `userId` parameter in favor of `externalUserId` (existing code continues to work with console warnings)
 
 ## Migration
+
 Replace `userId` with `externalUserId` in component props:
+
 ```typescript
 // Before
 <ComponentFormContainer userId={userId} />
