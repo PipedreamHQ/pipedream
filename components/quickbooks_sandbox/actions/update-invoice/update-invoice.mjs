@@ -1,6 +1,5 @@
 import app from "../../quickbooks_sandbox.app.mjs";
-//import common from "@pipedream/quickbooks/actions/update-invoice/update-invoice.mjs";
-import common from "../../../quickbooks/actions/update-invoice/update-invoice.mjs";
+import common from "@pipedream/quickbooks/actions/update-invoice/update-invoice.mjs";
 
 import { adjustPropDefinitions } from "../../common/utils.mjs";
 
