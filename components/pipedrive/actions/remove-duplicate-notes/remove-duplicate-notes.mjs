@@ -1,4 +1,5 @@
 import pipedriveApp from "../../pipedrive.app.mjs";
+import { decode } from "html-entities";
 
 export default {
   key: "pipedrive-remove-duplicate-notes",
@@ -71,19 +72,26 @@ export default {
       });
 
       for (const note of sortedNotes) {
-        if (!note.content) {
+        // Normalize content by removing extra whitespace and converting to lowercase
+        const decodedContent = decode(note.content || "");
+        const normalizedContent = decodedContent?.replace(/^\s*<br\s*\/?>|<br\s*\/?>\s*$/gi, "").trim()
+          .toLowerCase();
+        console.log(normalizedContent);
+
+        if (!normalizedContent) {
+          // Skip notes with empty content
           continue;
         }
 
-        if (seenContent.has(note.content)) {
+        if (seenContent.has(normalizedContent)) {
           // This is a duplicate
           duplicates.push({
             duplicate: note,
-            original: seenContent.get(note.content),
+            original: seenContent.get(normalizedContent),
           });
         } else {
           // This is the first occurrence
-          seenContent.set(note.content, note);
+          seenContent.set(normalizedContent, note);
           uniqueNotes.push(note);
         }
       }
