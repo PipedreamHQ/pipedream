@@ -76,7 +76,6 @@ export default {
         const decodedContent = decode(note.content || "");
         const normalizedContent = decodedContent?.replace(/^\s*<br\s*\/?>|<br\s*\/?>\s*$/gi, "").trim()
           .toLowerCase();
-        console.log(normalizedContent);
 
         if (!normalizedContent) {
           // Skip notes with empty content
