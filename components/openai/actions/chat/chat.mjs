@@ -6,7 +6,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   ...common,
   name: "Chat",
-  version: "0.2.8",
+  version: "0.3.0",
   key: "openai-chat",
   description: "The Chat API, using the `gpt-3.5-turbo` or `gpt-4` model. [See the documentation](https://platform.openai.com/docs/api-reference/chat)",
   type: "action",
@@ -50,7 +50,7 @@ export default {
     audio: {
       type: "string",
       label: "Audio",
-      description: "Provide the file path to an audio file in the `/tmp` directory. For use with the `gpt-4o-audio-preview` model. Currently supports `wav` and `mp3` files.",
+      description: "The audio file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.mp3`). For use with the `gpt-4o-audio-preview` model. Currently supports `wav` and `mp3` files.",
       optional: true,
     },
     responseFormat: {

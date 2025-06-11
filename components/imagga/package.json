@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/imagga",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Pipedream Imagga Components",
   "main": "imagga.app.mjs",
   "keywords": [
