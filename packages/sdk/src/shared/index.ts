@@ -91,6 +91,11 @@ export type App = AppInfo & {
   name: string;
 
   /**
+   * A short description of the app.
+   */
+  description: string;
+
+  /**
    * The authentication type used by the app.
    */
   auth_type: AppAuthType;
@@ -497,7 +502,9 @@ export type ConnectTokenResponse = {
 /**
  * The response received when retrieving a list of accounts.
  */
-export type GetAccountsResponse = { data: Account[]; };
+export type GetAccountsResponse = PaginationResponse & {
+  data: Account[];
+};
 
 /**
  * @deprecated Use `GetAccountsResponse` instead.
@@ -507,7 +514,9 @@ export type AccountsRequestResponse = GetAccountsResponse;
 /**
  * The response received when retrieving a list of apps.
  */
-export type GetAppsResponse = { data: App[]; };
+export type GetAppsResponse = PaginationResponse & {
+  data: App[];
+};
 
 /**
  * @deprecated Use `GetAppsResponse` instead.
@@ -527,7 +536,7 @@ export type AppRequestResponse = GetAppResponse;
 /**
  * The response received when retrieving a list of components.
  */
-export type GetComponentsResponse = {
+export type GetComponentsResponse = PaginationResponse & {
   data: V1Component[];
 };
 
@@ -567,6 +576,15 @@ export type RunActionOpts = ExternalUserId & {
    * The ID of the last prop reconfiguration (if any).
    */
   dynamicPropsId?: string;
+
+  /**
+   * The ID of the File Stash to sync the action's /tmp directory with. This
+   * allows you to persist files across action runs for up to 1 day. If set to
+   * `true` or "", a unique stash ID will be generated for you and returned in
+   * the response. If not set, the action will not sync its /tmp directory with
+   * a File Stash.
+   */
+  stashId?: string | boolean;
 };
 
 /**
@@ -589,6 +607,11 @@ export type RunActionResponse = {
    * The value returned by the action
    */
   ret: unknown;
+
+  /**
+   * The ID of the File Stash that was used to sync the action's /tmp directory
+   */
+  stashId?: string;
 };
 
 /**
@@ -1428,6 +1451,7 @@ export abstract class BaseClient {
       id,
       configured_props: opts.configuredProps,
       dynamic_props_id: opts.dynamicPropsId,
+      stash_id: opts.stashId,
     };
     return this.makeConnectRequest<RunActionResponse>("/actions/run", {
       method: "POST",
@@ -1481,6 +1505,7 @@ export abstract class BaseClient {
       id,
       configured_props: opts.configuredProps,
       dynamic_props_id: opts.dynamicPropsId,
+      workflow_id: opts.workflowId,
       webhook_url: opts.webhookUrl,
     };
     return this.makeConnectRequest<DeployTriggerResponse>("/triggers/deploy", {

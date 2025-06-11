@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/action1",
+  "version": "0.0.1",
+  "description": "Pipedream Action1 Components",
+  "main": "action1.app.mjs",
+  "keywords": [
+    "pipedream",
+    "action1"
+  ],
+  "homepage": "https://pipedream.com/apps/action1",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

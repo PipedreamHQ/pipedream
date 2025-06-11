@@ -1,12 +1,15 @@
-import dropbox from "../../dropbox.app.mjs";
 import fs from "fs";
-import { file } from "tmp-promise";
+import got from "got";
+import stream from "stream";
+import { promisify } from "util";
+import { checkTmp } from "../../common/utils.mjs";
+import dropbox from "../../dropbox.app.mjs";
 
 export default {
   name: "Download File to TMP",
   description: "Download a specific file to the temporary directory. [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesDownload__anchor).",
   key: "dropbox-download-file-to-tmp",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     dropbox,
@@ -27,30 +30,40 @@ export default {
     },
   },
   async run({ $ }) {
-    const { result } = await this.dropbox.downloadFile({
-      path: this.dropbox.getNormalizedPath(this.path, false),
-    });
+    try {
+      const linkResponse = await this.dropbox.filesGetTemporaryLink({
+        path: this.dropbox.getNormalizedPath(this.path, false),
+      });
 
-    const {
-      path, cleanup,
-    } = await file();
+      console.log("linkResponse: ", linkResponse);
 
-    const extension = result.name.split(".").pop();
+      if (!linkResponse || !linkResponse.result) {
+        throw new Error("Failed to get temporary download link from Dropbox");
+      }
 
-    const tmpPath = this.name
-      ? `/tmp/${this.name}`
-      : `${path}.${extension}`;
+      const {
+        link, metadata,
+      } = linkResponse.result;
 
-    await fs.promises.appendFile(tmpPath, Buffer.from(result.fileBinary));
-    await cleanup();
+      const fileName = this.name || metadata.name;
+      const cleanFileName = fileName.replace(/[?$#&{}[]<>\*!@:\+\\\/]/g, "");
 
-    delete result.fileBinary;
+      const tmpPath = checkTmp(cleanFileName);
+      const pipeline = promisify(stream.pipeline);
 
-    $.export("$summary", `File successfully saved in "${tmpPath}"`);
+      await pipeline(
+        got.stream(link),
+        fs.createWriteStream(tmpPath),
+      );
 
-    return {
-      tmpPath,
-      ...result,
-    };
+      $.export("$summary", `File successfully saved in "${tmpPath}"`);
+
+      return {
+        tmpPath,
+        ...metadata,
+      };
+    } catch (error) {
+      throw new Error(`Failed to download file: ${error.message}`);
+    }
   },
 };
