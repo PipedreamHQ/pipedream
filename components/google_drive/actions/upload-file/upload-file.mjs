@@ -1,14 +1,13 @@
 import googleDrive from "../../google_drive.app.mjs";
 import path from "path";
 import {
-  getFileStream,
   omitEmptyStringValues,
   parseObjectEntries,
 } from "../../common/utils.mjs";
 import { GOOGLE_DRIVE_UPLOAD_TYPE_MULTIPART } from "../../common/constants.mjs";
 import {
-  additionalProps, updateType,
-} from "../../common/filePathOrUrl.mjs";
+  getFileStream, ConfigurationError,
+} from "@pipedream/platform";
 
 export default {
   key: "google_drive-upload-file",
@@ -16,10 +15,8 @@ export default {
   description: "Upload a file to Google Drive. [See the documentation](https://developers.google.com/drive/api/v3/manage-uploads) for more information",
   version: "1.1.0",
   type: "action",
-  additionalProps,
   props: {
     googleDrive,
-    updateType,
     drive: {
       propDefinition: [
         googleDrive,
@@ -39,21 +36,10 @@ export default {
         "The folder you want to upload the file to. If not specified, the file will be placed directly in the drive's top-level folder.",
       optional: true,
     },
-    fileUrl: {
-      propDefinition: [
-        googleDrive,
-        "fileUrl",
-      ],
-      optional: true,
-      hidden: true,
-    },
-    filePath: {
-      propDefinition: [
-        googleDrive,
-        "filePath",
-      ],
-      optional: true,
-      hidden: true,
+    file: {
+      type: "string",
+      label: "File",
+      description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFlie.pdf).",
     },
     name: {
       propDefinition: [
@@ -98,26 +84,24 @@ export default {
   async run({ $ }) {
     const {
       parentId,
-      fileUrl,
-      filePath,
       name,
       mimeType,
     } = this;
     let { uploadType } = this;
     const driveId = this.googleDrive.getDriveId(this.drive);
 
-    const filename = name || path.basename(fileUrl || filePath);
+    const filename = name || path.basename(this.file);
 
-    const file = await getFileStream({
-      $,
-      fileUrl,
-      filePath: filePath?.startsWith("/tmp/")
-        ? filePath
-        : `/tmp/${filePath}`,
-    });
+    const file = await getFileStream(this.file);
     console.log(`Upload type: ${uploadType}.`);
 
-    const metadata = parseObjectEntries(this.metadata);
+    const metadata = this.metadata
+      ? parseObjectEntries(this.metadata)
+      : undefined;
+
+    if (metadata?.mimeType && !mimeType) {
+      throw new ConfigurationError(`Please include the file's original MIME type in the \`Mime Type\` prop. File will be converted to \`${metadata.mimeType}\`.`);
+    }
 
     let result = null;
     if (this.fileId) {
