@@ -71,23 +71,19 @@ export default {
       });
 
       for (const note of sortedNotes) {
-        // Normalize content by removing extra whitespace and converting to lowercase
-        const normalizedContent = note.content?.trim().toLowerCase();
-
-        if (!normalizedContent) {
-          // Skip notes with empty content
+        if (!note.content) {
           continue;
         }
 
-        if (seenContent.has(normalizedContent)) {
+        if (seenContent.has(note.content)) {
           // This is a duplicate
           duplicates.push({
             duplicate: note,
-            original: seenContent.get(normalizedContent),
+            original: seenContent.get(note.content),
           });
         } else {
           // This is the first occurrence
-          seenContent.set(normalizedContent, note);
+          seenContent.set(note.content, note);
           uniqueNotes.push(note);
         }
       }
