@@ -6,8 +6,8 @@ export const resolveUserId = (
   externalUserId?: string,
   userId?: string,
 ): { resolvedId: string; warningType?: "both" | "deprecated" } => {
-  if (externalUserId) {
-    if (userId) {
+  if (externalUserId !== undefined && externalUserId !== "") {
+    if (userId !== undefined && userId !== "") {
       return {
         resolvedId: externalUserId,
         warningType: "both",
@@ -18,7 +18,7 @@ export const resolveUserId = (
     };
   }
 
-  if (userId) {
+  if (userId !== undefined && userId !== "") {
     return {
       resolvedId: userId,
       warningType: "deprecated",

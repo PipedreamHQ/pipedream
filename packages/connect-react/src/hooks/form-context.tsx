@@ -86,19 +86,19 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   // Resolve user ID with deprecation warning
   const {
     resolvedId: resolvedExternalUserId, warningType,
-  } = useMemo(() =>
-    resolveUserId(externalUserId, userId),
-  [
+  } = useMemo(() => resolveUserId(externalUserId, userId), [
     externalUserId,
     userId,
   ]);
 
   // Show deprecation warnings in useEffect to avoid render side effects
   useEffect(() => {
-    if (warningType === "both") {
-      console.warn("[connect-react] Both externalUserId and userId provided. Using externalUserId. Please remove userId to avoid this warning.");
-    } else if (warningType === "deprecated") {
-      console.warn("[connect-react] userId is deprecated. Please use externalUserId instead.");
+    if (process.env.NODE_ENV !== "production") {
+      if (warningType === "both") {
+        console.warn("[connect-react] Both externalUserId and userId provided. Using externalUserId. Please remove userId to avoid this warning.");
+      } else if (warningType === "deprecated") {
+        console.warn("[connect-react] userId is deprecated. Please use externalUserId instead.");
+      }
     }
   }, [
     warningType,
