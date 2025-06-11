@@ -3,19 +3,27 @@
  * Prefers externalUserId and returns both the resolved value and warning info
  */
 export const resolveUserId = (
-  externalUserId?: string, 
-  userId?: string
-): { resolvedId: string; warningType?: 'both' | 'deprecated' } => {
+  externalUserId?: string,
+  userId?: string,
+): { resolvedId: string; warningType?: "both" | "deprecated" } => {
   if (externalUserId) {
     if (userId) {
-      return { resolvedId: externalUserId, warningType: 'both' };
+      return {
+        resolvedId: externalUserId,
+        warningType: "both",
+      };
     }
-    return { resolvedId: externalUserId };
+    return {
+      resolvedId: externalUserId,
+    };
   }
-  
+
   if (userId) {
-    return { resolvedId: userId, warningType: 'deprecated' };
+    return {
+      resolvedId: userId,
+      warningType: "deprecated",
+    };
   }
-  
-  throw new Error('Either externalUserId or userId must be provided');
+
+  throw new Error("Either externalUserId or userId must be provided");
 };

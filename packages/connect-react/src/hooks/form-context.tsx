@@ -82,21 +82,27 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const {
     component, configuredProps: __configuredProps, propNames, externalUserId, userId, sdkResponse, enableDebugging,
   } = formProps;
-  
+
   // Resolve user ID with deprecation warning
-  const { resolvedId: resolvedExternalUserId, warningType } = useMemo(() => 
-    resolveUserId(externalUserId, userId), 
-    [externalUserId, userId]
-  );
+  const {
+    resolvedId: resolvedExternalUserId, warningType,
+  } = useMemo(() =>
+    resolveUserId(externalUserId, userId),
+  [
+    externalUserId,
+    userId,
+  ]);
 
   // Show deprecation warnings in useEffect to avoid render side effects
   useEffect(() => {
-    if (warningType === 'both') {
-      console.warn('[connect-react] Both externalUserId and userId provided. Using externalUserId. Please remove userId to avoid this warning.');
-    } else if (warningType === 'deprecated') {
-      console.warn('[connect-react] userId is deprecated. Please use externalUserId instead.');
+    if (warningType === "both") {
+      console.warn("[connect-react] Both externalUserId and userId provided. Using externalUserId. Please remove userId to avoid this warning.");
+    } else if (warningType === "deprecated") {
+      console.warn("[connect-react] userId is deprecated. Please use externalUserId instead.");
     }
-  }, [warningType]);
+  }, [
+    warningType,
+  ]);
   const componentId = component.key;
 
   const [
