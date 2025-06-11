@@ -16,6 +16,7 @@ import {
 import {
   Observation, SdkError,
 } from "../types";
+import { resolveUserId } from "../utils/resolve-user-id";
 
 export type DynamicProps<T extends ConfigurableProps> = { id: string; configurableProps: T; }; // TODO
 
@@ -39,6 +40,8 @@ export type FormContext<T extends ConfigurableProps> = {
   setConfiguredProp: (idx: number, value: unknown) => void; // XXX type safety for value (T will rarely be static right?)
   setSubmitting: (submitting: boolean) => void;
   submitting: boolean;
+  externalUserId: string;
+  /** @deprecated Use externalUserId instead */
   userId: string;
   enableDebugging?: boolean;
 };
@@ -77,8 +80,23 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const id = useId();
 
   const {
-    component, configuredProps: __configuredProps, propNames, userId, sdkResponse, enableDebugging,
+    component, configuredProps: __configuredProps, propNames, externalUserId, userId, sdkResponse, enableDebugging,
   } = formProps;
+  
+  // Resolve user ID with deprecation warning
+  const { resolvedId: resolvedExternalUserId, warningType } = useMemo(() => 
+    resolveUserId(externalUserId, userId), 
+    [externalUserId, userId]
+  );
+
+  // Show deprecation warnings in useEffect to avoid render side effects
+  useEffect(() => {
+    if (warningType === 'both') {
+      console.warn('[connect-react] Both externalUserId and userId provided. Using externalUserId. Please remove userId to avoid this warning.');
+    } else if (warningType === 'deprecated') {
+      console.warn('[connect-react] userId is deprecated. Please use externalUserId instead.');
+    }
+  }, [warningType]);
   const componentId = component.key;
 
   const [
@@ -134,7 +152,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     setReloadPropIdx,
   ] = useState<number>();
   const componentReloadPropsInput: ReloadComponentPropsOpts = {
-    userId,
+    externalUserId: resolvedExternalUserId,
     componentId,
     configuredProps,
     dynamicPropsId: dynamicProps?.id,
@@ -349,14 +367,14 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const [
     prevUserId,
     setPrevUserId,
-  ] = useState(userId)
+  ] = useState(resolvedExternalUserId)
   useEffect(() => {
-    if (prevUserId !== userId) {
+    if (prevUserId !== resolvedExternalUserId) {
       updateConfiguredProps({});
-      setPrevUserId(userId)
+      setPrevUserId(resolvedExternalUserId)
     }
   }, [
-    userId,
+    resolvedExternalUserId,
   ]);
 
   // maybe should take prop as first arg but for text inputs didn't want to compute index each time
@@ -550,7 +568,8 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     id,
     isValid: !Object.keys(errors).length, // XXX want to expose more from errors
     props: formProps,
-    userId,
+    externalUserId: resolvedExternalUserId,
+    userId: resolvedExternalUserId, // Keep for backward compatibility
     component,
     configurableProps,
     configuredProps,

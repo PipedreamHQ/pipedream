@@ -10,7 +10,14 @@ import type {
 import { InternalComponentForm } from "./InternalComponentForm";
 
 export type ComponentFormProps<T extends ConfigurableProps, U = ConfiguredProps<T>> = {
-  userId: string;
+  /**
+   * Your end user ID, for whom you're configuring the component.
+   */
+  externalUserId?: string;
+  /**
+   * @deprecated Use `externalUserId` instead.
+   */
+  userId?: string;
   component: V1Component<T>;
   configuredProps?: U; // XXX value?
   disableQueryDisabling?: boolean;
@@ -22,7 +29,10 @@ export type ComponentFormProps<T extends ConfigurableProps, U = ConfiguredProps<
   hideOptionalProps?: boolean;
   sdkResponse?: unknown | undefined;
   enableDebugging?: boolean;
-};
+} & (
+  | { externalUserId: string; userId?: never }
+  | { userId: string; externalUserId?: never }
+);
 
 export function ComponentForm<T extends ConfigurableProps>(props: ComponentFormProps<T>) {
   return (
