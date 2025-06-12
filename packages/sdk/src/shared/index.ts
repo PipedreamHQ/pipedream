@@ -91,6 +91,11 @@ export type App = AppInfo & {
   name: string;
 
   /**
+   * A short description of the app.
+   */
+  description: string;
+
+  /**
    * The authentication type used by the app.
    */
   auth_type: AppAuthType;
@@ -509,7 +514,9 @@ export type AccountsRequestResponse = GetAccountsResponse;
 /**
  * The response received when retrieving a list of apps.
  */
-export type GetAppsResponse = { data: App[]; };
+export type GetAppsResponse = PaginationResponse & {
+  data: App[];
+};
 
 /**
  * @deprecated Use `GetAppsResponse` instead.

@@ -2,6 +2,21 @@
 
 # Changelog
 
+## [1.6.9] - 2025-06-10
+
+### Added
+
+- Added types for the missing configurable props
+
+## Changed
+
+- Fixed the `Defaultable` type to correctly handle arrays
+- Fixed the `ConfigurablePropTimer` type to define cron expressions and
+  time intervals
+- Marked the `auth` field in the SQL prop type as optional
+- Fixed the `App` type to include the `description` field returned by the API
+- Fixed the `GetAppsResponse` type to include the pagination stuff
+
 ## [1.6.8] - 2025-06-07
 
 ### Added

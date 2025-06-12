@@ -751,6 +751,8 @@ importers:
 
   components/amazon_polly: {}
 
+  components/amazon_redshift: {}
+
   components/amazon_selling_partner: {}
 
   components/amazon_ses:
@@ -3762,7 +3764,11 @@ importers:
 
   components/dokan: {}
 
-  components/dolibarr: {}
+  components/dolibarr:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/domain_group:
     dependencies:
@@ -4132,8 +4138,8 @@ importers:
   components/elmah_io:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.2.0
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/elopage: {}
 
@@ -5546,8 +5552,8 @@ importers:
         specifier: ^2.3.0
         version: 2.4.0
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       cron-parser:
         specifier: ^4.9.0
         version: 4.9.0
@@ -5910,7 +5916,11 @@ importers:
         specifier: ^2.29.4
         version: 2.30.1
 
-  components/habitica: {}
+  components/habitica:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/habitify:
     dependencies:
@@ -7284,6 +7294,8 @@ importers:
 
   components/leadboxer: {}
 
+  components/leaddyno: {}
+
   components/leadfeeder:
     dependencies:
       '@pipedream/platform':
@@ -7426,7 +7438,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/limoexpress: {}
+  components/limoexpress:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/line:
     dependencies:
@@ -8123,7 +8139,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/metabase: {}
+  components/metabase:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/metaphor: {}
 
