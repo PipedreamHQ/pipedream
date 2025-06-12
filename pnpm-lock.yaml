@@ -10465,7 +10465,11 @@ importers:
 
   components/procore_sandbox: {}
 
-  components/prodatakey: {}
+  components/prodatakey:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/prodpad:
     dependencies:
@@ -44056,7 +44060,7 @@ snapshots:
       jest-util: 29.7.0
       natural-compare: 1.4.0
       pretty-format: 29.7.0
-      semver: 7.7.1
+      semver: 7.7.2
     transitivePeerDependencies:
       - supports-color
 
