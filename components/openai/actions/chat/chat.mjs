@@ -159,6 +159,16 @@ export default {
       },
     });
 
+    if (this.responseFormat === constants.CHAT_RESPONSE_FORMAT.JSON_SCHEMA.value) {
+      for (const choice of response.choices) {
+        try {
+          choice.message.content = JSON.parse(choice.message.content);
+        } catch {
+          console.log(`Unable to parse JSON: ${choice.message.content}`);
+        }
+      }
+    }
+
     if (response) {
       $.export("$summary", `Successfully sent chat with id ${response.id}`);
     }

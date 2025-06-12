@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/codeqr",
+  "version": "0.0.1",
+  "description": "Pipedream CodeQR Components",
+  "main": "codeqr.app.mjs",
+  "keywords": [
+    "pipedream",
+    "codeqr"
+  ],
+  "homepage": "https://pipedream.com/apps/codeqr",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

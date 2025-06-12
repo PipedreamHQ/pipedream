@@ -2,6 +2,7 @@ import Select, { components as ReactSelectComponents } from "react-select";
 import { useFrontendClient } from "../hooks/frontend-client-context";
 import { useAccounts } from "../hooks/use-accounts";
 import { useFormFieldContext } from "../hooks/form-field-context";
+import { useFormContext } from "../hooks/form-context";
 import { useCustomize } from "../hooks/customization-context";
 import type { BaseReactSelectProps } from "../hooks/customization-context";
 import { useMemo } from "react";
@@ -28,6 +29,7 @@ type ControlAppProps = {
 
 export function ControlApp({ app }: ControlAppProps) {
   const client = useFrontendClient();
+  const { externalUserId } = useFormContext();
   const formFieldCtx = useFormFieldContext<ConfigurablePropApp>();
   const {
     id, prop, value, onChange,
@@ -73,6 +75,7 @@ export function ControlApp({ app }: ControlAppProps) {
     refetch: refetchAccounts,
   } = useAccounts(
     {
+      externalUserId,
       app: app.name_slug,
       oauth_app_id: oauthAppId,
     },
