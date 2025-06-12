@@ -5,7 +5,7 @@ export default {
   name: "Create a QR Code",
   description:
     "Creates a new QR Code in CodeQR using the QR Codes API. [See the documentation](https://codeqr.mintlify.app/api-reference/endpoint/create-a-qrcode)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     codeqr,
@@ -87,7 +87,7 @@ export default {
       type: "string",
       label: "Expiration Date",
       description:
-        "The date and time when the short link will expire (ISO 8601). Only available for dynamic QR Codes.",
+        "The date and time when the short link will expire (ISO 8601). Only available for dynamic QR Codes. E.g. `2025-06-13T05:31:56Z`",
       optional: true,
     },
     expiredUrl: {
@@ -109,7 +109,6 @@ export default {
       "title",
       "bgColor",
       "fgColor",
-      "size",
       "showLogo",
       "src",
       "comments",

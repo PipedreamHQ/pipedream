@@ -5,7 +5,7 @@ export default {
   name: "Create a CodeQR Link",
   description:
     "Creates a short link in CodeQR using the CodeQR API. [See the documentation](https://codeqr.mintlify.app/api-reference/endpoint/create-a-link)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     codeqr,
@@ -113,7 +113,7 @@ export default {
       type: "string",
       label: "Expiration Date",
       description:
-        "The date and time when the short link will expire (ISO 8601).",
+        "The date and time when the short link will expire (ISO 8601). E.g. `2025-06-13T05:31:56Z`",
       optional: true,
     },
     expiredUrl: {
