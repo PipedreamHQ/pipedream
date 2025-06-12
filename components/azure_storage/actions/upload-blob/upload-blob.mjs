@@ -1,12 +1,12 @@
 import mime from "mime-types";
 import app from "../../azure_storage.app.mjs";
-import utils from "../../common/utils.mjs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 
 export default {
   key: "azure_storage-upload-blob",
   name: "Upload Blob",
   description: "Uploads a new blob to a specified container in Azure Storage. [See the documentation](https://learn.microsoft.com/en-us/rest/api/storageservices/put-blob?tabs=microsoft-entra-id).",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     app,
@@ -29,8 +29,8 @@ export default {
     },
     filePath: {
       type: "string",
-      label: "File",
-      description: "The file to be uploaded, please provide a file from `/tmp` Eg. `/tmp/my-file.txt`. To upload a file to `/tmp` folder, please follow the doc [here](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
+      label: "File Path or URL",
+      description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
     },
   },
   methods: {
@@ -51,9 +51,15 @@ export default {
       filePath,
     } = this;
 
-    const data = utils.getDataFromFile(filePath);
-    const fileName = utils.getFilenameFromPath(filePath);
-    const contentType = mime.lookup(fileName) || "application/octet-stream";
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(filePath);
+    const chunks = [];
+    for await (const chunk of stream) {
+      chunks.push(chunk);
+    }
+    const data = Buffer.concat(chunks);
+    const contentType = metadata.contentType || mime.lookup(metadata.name) || "application/octet-stream";
 
     await uploadBlob({
       $,
@@ -62,12 +68,11 @@ export default {
       data,
       headers: {
         "x-ms-blob-type": "BlockBlob",
-        // "Content-Type": "text/plain; charset=UTF-8",
         "Content-Type": contentType,
-        "x-ms-blob-content-disposition": `attachment; filename=${fileName}`,
+        "x-ms-blob-content-disposition": `attachment; filename=${metadata.name}`,
         "x-ms-meta-m1": "v1",
         "x-ms-meta-m2": "v2",
-        "Content-Length": data?.length,
+        "Content-Length": data.length,
       },
     });
 
