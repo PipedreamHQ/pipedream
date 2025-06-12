@@ -9,7 +9,7 @@ export default {
     invoiceId: {
       label: "Invoice ID",
       type: "string",
-      description: "Id of the invoice to get details of",
+      description: "ID of the invoice to get details of",
       async options({ page }) {
         return this.getPropOptions({
           page,
@@ -112,6 +112,42 @@ export default {
           }) => ({
             label: `${Id} - ${PaymentType} - ${TxnDate}`,
             value: Id,
+          }),
+        });
+      },
+    },
+    estimateId: {
+      label: "Estimate ID",
+      type: "string",
+      description: "ID of the estimate to get details of",
+      async options({ page }) {
+        return this.getPropOptions({
+          page,
+          resource: "Estimate",
+          mapper: ({
+            Id: value, DocNumber: docNumber, CustomerRef: customerRef,
+          }) => ({
+            label: `${docNumber
+              ? `(${docNumber}) `
+              : ""}${customerRef.name}`,
+            value,
+          }),
+        });
+      },
+    },
+    vendor: {
+      label: "Vendor Reference",
+      type: "string",
+      description: "Reference to a vendor",
+      async options({ page }) {
+        return this.getPropOptions({
+          page,
+          resource: "Vendor",
+          mapper: ({
+            Id: id, DisplayName: label,
+          }) => ({
+            label,
+            value: id,
           }),
         });
       },
@@ -437,6 +473,78 @@ export default {
       description: "Column types to be shown in the report",
       optional: true,
     },
+    billingStreetAddress: {
+      type: "string",
+      label: "Billing Street Address",
+      description: "The street address of the billing address",
+      optional: true,
+    },
+    billingCity: {
+      type: "string",
+      label: "Billing City",
+      description: "The city of the billing address",
+      optional: true,
+    },
+    billingState: {
+      type: "string",
+      label: "Billing State",
+      description: "The state of the billing address",
+      optional: true,
+    },
+    billingZip: {
+      type: "string",
+      label: "Billing Zip",
+      description: "The zip code of the billing address",
+      optional: true,
+    },
+    billingLatitude: {
+      type: "string",
+      label: "Billing Latitude",
+      description: "The latitude of the billing address",
+      optional: true,
+    },
+    billingLongitude: {
+      type: "string",
+      label: "Billing Longitude",
+      description: "The longitude of the billing address",
+      optional: true,
+    },
+    shippingStreetAddress: {
+      type: "string",
+      label: "Shipping Street Address",
+      description: "The street address of the shipping address",
+      optional: true,
+    },
+    shippingCity: {
+      type: "string",
+      label: "Shipping City",
+      description: "The city of the shipping address",
+      optional: true,
+    },
+    shippingState: {
+      type: "string",
+      label: "Shipping State",
+      description: "The state of the shipping address",
+      optional: true,
+    },
+    shippingZip: {
+      type: "string",
+      label: "Shipping Zip",
+      description: "The zip code of the shipping address",
+      optional: true,
+    },
+    shippingLatitude: {
+      type: "string",
+      label: "Shipping Latitude",
+      description: "The latitude of the shipping address",
+      optional: true,
+    },
+    shippingLongitude: {
+      type: "string",
+      label: "Shipping Longitude",
+      description: "The longitude of the shipping address",
+      optional: true,
+    },
   },
   methods: {
     _companyId() {
@@ -516,6 +624,76 @@ export default {
       return this._makeRequest({
         path: `company/${this._companyId()}/invoice`,
         method: "post",
+        ...opts,
+      });
+    },
+    sendInvoice({
+      invoiceId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/invoice/${invoiceId}/send`,
+        method: "post",
+        ...opts,
+      });
+    },
+    updateInvoice(opts = {}) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/invoice`,
+        method: "post",
+        params: {
+          operation: "update",
+        },
+        ...opts,
+      });
+    },
+    voidInvoice(opts = {}) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/invoice`,
+        method: "post",
+        params: {
+          operation: "void",
+        },
+        ...opts,
+      });
+    },
+    createPurchaseOrder(opts = {}) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/purchaseorder`,
+        method: "post",
+        ...opts,
+      });
+    },
+    createEstimate(opts = {}) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/estimate`,
+        method: "post",
+        ...opts,
+      });
+    },
+    sendEstimate({
+      estimateId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/estimate/${estimateId}/send`,
+        method: "post",
+        ...opts,
+      });
+    },
+    updateEstimate(opts = {}) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/estimate`,
+        method: "post",
+        params: {
+          operation: "update",
+        },
+        ...opts,
+      });
+    },
+    getEstimate({
+      estimateId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `company/${this._companyId()}/estimate/${estimateId}`,
         ...opts,
       });
     },

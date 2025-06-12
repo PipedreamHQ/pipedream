@@ -6,7 +6,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   ...common,
   name: "Chat",
-  version: "0.2.8",
+  version: "0.2.9",
   key: "openai-chat",
   description: "The Chat API, using the `gpt-3.5-turbo` or `gpt-4` model. [See the documentation](https://platform.openai.com/docs/api-reference/chat)",
   type: "action",
@@ -158,6 +158,16 @@ export default {
         tools: this._buildTools(),
       },
     });
+
+    if (this.responseFormat === constants.CHAT_RESPONSE_FORMAT.JSON_SCHEMA.value) {
+      for (const choice of response.choices) {
+        try {
+          choice.message.content = JSON.parse(choice.message.content);
+        } catch {
+          console.log(`Unable to parse JSON: ${choice.message.content}`);
+        }
+      }
+    }
 
     if (response) {
       $.export("$summary", `Successfully sent chat with id ${response.id}`);

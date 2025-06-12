@@ -721,7 +721,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/alttextify: {}
+  components/alttextify:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/amara:
     dependencies:
@@ -750,6 +754,8 @@ importers:
         version: 1.6.6
 
   components/amazon_polly: {}
+
+  components/amazon_redshift: {}
 
   components/amazon_selling_partner: {}
 
@@ -2202,7 +2208,11 @@ importers:
 
   components/changenow: {}
 
-  components/changes_page: {}
+  components/changes_page:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/channeladvisor:
     dependencies:
@@ -2735,6 +2745,8 @@ importers:
 
   components/codeq_natural_language_processing_api: {}
 
+  components/codeqr: {}
+
   components/codereadr:
     dependencies:
       '@pipedream/platform':
@@ -2911,7 +2923,11 @@ importers:
         specifier: ^1.6.2
         version: 1.6.6
 
-  components/contactout: {}
+  components/contactout:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/contacts:
     dependencies:
@@ -3366,6 +3382,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/deepsouce: {}
+
   components/defastra:
     dependencies:
       '@pipedream/platform':
@@ -3747,7 +3765,11 @@ importers:
 
   components/dokan: {}
 
-  components/dolibarr: {}
+  components/dolibarr:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/domain_group:
     dependencies:
@@ -3851,7 +3873,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/drimify: {}
+  components/drimify:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/drip:
     dependencies:
@@ -4113,8 +4139,8 @@ importers:
   components/elmah_io:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.2.0
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/elopage: {}
 
@@ -4238,7 +4264,14 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/esendex: {}
+  components/esendex:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
+      simple-xml2json:
+        specifier: ^1.2.3
+        version: 1.2.3
 
   components/esignatures_io:
     dependencies:
@@ -4574,6 +4607,8 @@ importers:
 
   components/finage: {}
 
+  components/finalscout: {}
+
   components/findymail:
     dependencies:
       '@pipedream/platform':
@@ -4621,8 +4656,8 @@ importers:
   components/firecrawl:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/firefish:
     dependencies:
@@ -5518,7 +5553,7 @@ importers:
         specifier: ^2.3.0
         version: 2.4.0
       '@pipedream/platform':
-        specifier: ^3.0.3
+        specifier: ^3.1.0
         version: 3.1.0
       cron-parser:
         specifier: ^4.9.0
@@ -5882,7 +5917,11 @@ importers:
         specifier: ^2.29.4
         version: 2.30.1
 
-  components/habitica: {}
+  components/habitica:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/habitify:
     dependencies:
@@ -6082,7 +6121,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/heylibby: {}
+  components/heylibby:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/heyreach: {}
 
@@ -6943,6 +6986,8 @@ importers:
 
   components/kartra: {}
 
+  components/keboola: {}
+
   components/keen:
     dependencies:
       '@pipedream/platform':
@@ -7250,6 +7295,8 @@ importers:
 
   components/leadboxer: {}
 
+  components/leaddyno: {}
+
   components/leadfeeder:
     dependencies:
       '@pipedream/platform':
@@ -7392,7 +7439,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/limoexpress: {}
+  components/limoexpress:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/line:
     dependencies:
@@ -8086,7 +8137,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/metabase: {}
+  components/metabase:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/metaphor: {}
 
@@ -10305,6 +10360,8 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/predictleads: {}
+
   components/prepr_graphql: {}
 
   components/prerender:
@@ -10482,7 +10539,11 @@ importers:
 
   components/proprofs_quiz_maker: {}
 
-  components/prospeo: {}
+  components/prospeo:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/provesource: {}
 
@@ -11232,6 +11293,12 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/rippling:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
+
   components/rise:
     dependencies:
       '@pipedream/platform':
@@ -11380,7 +11447,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/rumi_ai: {}
+  components/rumi_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/runpod: {}
 
@@ -11449,7 +11520,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/salesloft: {}
+  components/salesloft:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/salesmate:
     dependencies:
@@ -13311,7 +13386,11 @@ importers:
 
   components/test_apps_for_switching_appslug_009: {}
 
-  components/testlocally: {}
+  components/testlocally:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/testmo:
     dependencies:
@@ -28675,6 +28754,9 @@ packages:
   simple-update-notifier@2.0.0:
     resolution: {integrity: sha512-a2B9Y0KlNXl9u/vsW6sTIu9vGEpfKu2wRV6l1H3XEas/0gUIzGzBoP/IouTcUQbm9JWZLH3COxyn03TYlFax6w==}
     engines: {node: '>=10'}
+
+  simple-xml2json@1.2.3:
+    resolution: {integrity: sha512-R2qDtYMXCaaXq300+TKTtzJvryJ2BFmbP2VANnS6H7XzUgVbi9an7VnCVLvXMdEqyzAW6G4whZix7fOuUo54oQ==}
 
   sisteransi@1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
@@ -48684,6 +48766,8 @@ snapshots:
   simple-update-notifier@2.0.0:
     dependencies:
       semver: 7.7.1
+
+  simple-xml2json@1.2.3: {}
 
   sisteransi@1.0.5: {}
 

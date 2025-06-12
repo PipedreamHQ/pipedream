@@ -8,6 +8,7 @@ export { ControlApp } from "./components/ControlApp";
 export { ControlBoolean } from "./components/ControlBoolean";
 export { ControlInput } from "./components/ControlInput";
 export { ControlSelect } from "./components/ControlSelect";
+export { ControlSql } from "./components/ControlSql";
 export { ControlSubmit } from "./components/ControlSubmit";
 export { Description } from "./components/Description";
 export { ErrorBoundary } from "./components/ErrorBoundary";

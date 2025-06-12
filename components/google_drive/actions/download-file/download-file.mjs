@@ -3,7 +3,7 @@ import fs from "fs";
 import stream from "stream";
 import { promisify } from "util";
 import { GOOGLE_DRIVE_MIME_TYPE_PREFIX } from "../../common/constants.mjs";
-import googleWorkspaceExportFormats from "../google-workspace-export-formats.mjs";
+import googleWorkspaceExportFormats from "../common/google-workspace-export-formats.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
 /**
@@ -18,7 +18,7 @@ export default {
   key: "google_drive-download-file",
   name: "Download File",
   description: "Download a file. [See the documentation](https://developers.google.com/drive/api/v3/manage-downloads) for more information",
-  version: "0.1.9",
+  version: "0.1.10",
   type: "action",
   props: {
     googleDrive,
@@ -82,7 +82,10 @@ export default {
         return exportFormats[file.mimeType].map((f) =>
           googleWorkspaceExportFormats.find(
             (format) => format.value === f,
-          ) ?? f);
+          ) ?? {
+            value: f,
+            label: f,
+          });
       },
     },
   },
