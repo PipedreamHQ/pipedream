@@ -1,10 +1,9 @@
 import prodatakey from "../../prodatakey.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "prodatakey-retrieve-organization",
   name: "Retrieve Organization",
-  description: "Retrieve an existing organization. [See the documentation](https://developer.pdk.io/web/2.0/rest/organizations)",
+  description: "Retrieve an existing organization. [See the documentation](https://developer.pdk.io/web/2.0/rest/organizations#retrieve-an-organization)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -18,6 +17,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.prodatakey.retrieveOrganization({
+      $,
       organizationId: this.organizationId,
     });
 

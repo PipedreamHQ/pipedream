@@ -7,17 +7,95 @@ export default {
     organizationId: {
       type: "string",
       label: "Organization ID",
+      description: "The ID of the organization.",
       async options() {
         const organizations = await this.listOrganizations();
-        return organizations.map((org) => ({
-          label: org.name,
-          value: org.id,
+        return organizations.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    holderId: {
+      type: "string",
+      label: "Holder ID",
+      description: "The ID of the holder.",
+      async options({ organizationId }) {
+        const holders = await this.listHolders({
+          organizationId,
+        });
+
+        return holders.map(({
+          id: value, firstName, lastName, email,
+        }) => ({
+          label: `${firstName} ${lastName} (${email})`,
+          value,
+        }));
+      },
+    },
+    credentialId: {
+      type: "string",
+      label: "Credential ID",
+      description: "The ID of the credential to retrieve.",
+      async options({
+        organizationId, holderId,
+      }) {
+        const credentials = await this.listCredentials({
+          organizationId,
+          holderId,
+        });
+
+        return credentials.map(({
+          id: value, description: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    cloudNodeId: {
+      type: "string",
+      label: "Cloud Node ID",
+      description: "The ID of the cloud node.",
+      async options({ organizationId }) {
+        const cloudNodes = await this.listCloudNodes({
+          organizationId,
+        });
+
+        return cloudNodes.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    deviceId: {
+      type: "string",
+      label: "Device ID",
+      description: "The ID of the device to retrieve.",
+      async options({
+        organizationId, cloudNodeId,
+      }) {
+        const devices = await this.listDevices({
+          organizationId,
+          cloudNodeId,
+        });
+
+        return devices.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
     dealerId: {
       type: "string",
       label: "Dealer ID",
+      description: "The ID of the dealer to retrieve.",
       async options() {
         const dealers = await this.listDealers();
         return dealers.map((dealer) => ({
@@ -26,190 +104,154 @@ export default {
         }));
       },
     },
-    credentialId: {
-      type: "string",
-      label: "Credential ID",
-      async options({
-        systemId, holderId,
-      }) {
-        const credentials = await this.listCredentials({
-          systemId,
-          holderId,
-        });
-        return credentials.map((credential) => ({
-          label: credential.id,
-          value: credential.id,
-        }));
-      },
-    },
-    systemId: {
-      type: "string",
-      label: "System ID",
-    },
-    holderId: {
-      type: "string",
-      label: "Holder ID",
-    },
-    name: {
-      type: "string",
-      label: "Name",
-    },
-    url: {
-      type: "string",
-      label: "URL",
-    },
-    scope: {
-      type: "string",
-      label: "Scope",
-    },
-    authenticationType: {
-      type: "string",
-      label: "Authentication Type",
-    },
-    events: {
-      type: "string[]",
-      label: "Events",
-      optional: true,
-    },
-    authenticationUser: {
-      type: "string",
-      label: "Authentication User",
-      optional: true,
-    },
-    authenticationPassword: {
-      type: "string",
-      label: "Authentication Password",
-      optional: true,
-    },
-    secret: {
-      type: "string",
-      label: "Secret",
-      optional: true,
-    },
-    useBluetoothCredentials: {
-      type: "boolean",
-      label: "Use Bluetooth Credentials",
-      optional: true,
-    },
-    useTouchMobileApp: {
-      type: "boolean",
-      label: "Use Touch Mobile App",
-      optional: true,
-    },
-    allowCredentialResets: {
-      type: "boolean",
-      label: "Allow Credential Resets",
-      optional: true,
-    },
-    type: {
-      type: "string",
-      label: "Type",
-      optional: true,
-    },
   },
   methods: {
-    _baseUrl() {
-      return "https://accounts.pdk.io/api";
+    _baseUrl(systemId = null) {
+      return `https://${systemId
+        ? "systems"
+        : "accounts"}.pdk.io`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path, headers, ...otherOpts
-      } = opts;
+    async _headers({ systemId = null }) {
+      if (systemId) {
+        const { token } = await this.getSystemToken({
+          systemId,
+        });
+        return {
+          Authorization: `Bearer ${token}`,
+        };
+      }
+
+      return {
+        Authorization: `Bearer ${this.$auth.id_token}`,
+      };
+    },
+    async _makeRequest({
+      $ = this, path, systemId, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
-      });
-    },
-    async listOrganizations(opts = {}) {
-      return this._makeRequest({
-        path: "/organizations",
+        url: this._baseUrl(systemId) + path,
+        headers: await this._headers({
+          systemId,
+        }),
         ...opts,
       });
     },
-    async listDealers(opts = {}) {
-      return this._makeRequest({
-        path: "/dealers",
-        ...opts,
-      });
-    },
-    async listCredentials(opts = {}) {
-      const {
-        systemId, holderId,
-      } = opts;
-      return this._makeRequest({
-        path: `/systems/${systemId}/holders/${holderId}/credentials`,
-      });
-    },
-    async createCustomer({
-      dealerId, name, useBluetoothCredentials, useTouchMobileApp, allowCredentialResets, type,
+    getSystemToken({
+      systemId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/organizations/${dealerId}/children`,
-        data: {
-          name,
-          useBluetoothCredentials,
-          useTouchMobileApp,
-          allowCredentialResets,
-          type,
-        },
+        path: `/api/systems/${systemId}/token`,
+        ...opts,
       });
     },
-    async retrieveOrganization({ organizationId }) {
+    listOrganizations(opts = {}) {
       return this._makeRequest({
-        path: `/organizations/${organizationId}`,
+        path: "/api/organizations/mine",
+        ...opts,
+      });
+    },
+    retrieveOrganization({
+      organizationId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/api/organizations/${organizationId}`,
+        ...opts,
+      });
+    },
+    async listHolders({
+      organizationId, ...opts
+    }) {
+      const { systemId } = await this.retrieveOrganization({
+        organizationId,
+      });
+      return this._makeRequest({
+        path: `/${systemId}/holders`,
+        ...opts,
+      });
+    },
+    async listCredentials({
+      organizationId, holderId, ...opts
+    }) {
+      const { systemId } = await this.retrieveOrganization({
+        organizationId,
+      });
+      return this._makeRequest({
+        path: `/${systemId}/holders/${holderId}/credentials`,
+        systemId,
+        ...opts,
       });
     },
     async retrieveCredential({
-      systemId, holderId, credentialId,
+      organizationId, holderId, credentialId,
     }) {
+      const { systemId } = await this.retrieveOrganization({
+        organizationId,
+      });
       return this._makeRequest({
-        path: `/systems/${systemId}/holders/${holderId}/credentials/${credentialId}`,
+        path: `/${systemId}/holders/${holderId}/credentials/${credentialId}`,
+        systemId,
       });
     },
-    async emitEventCloudNodeConnected({
-      organizationId, name, url, scope, authenticationType, authenticationUser, authenticationPassword, secret,
+    listDealers(opts = {}) {
+      return this._makeRequest({
+        path: "/api/dealers",
+        ...opts,
+      });
+    },
+    async listCloudNodes({
+      organizationId, ...opts
+    }) {
+      const { systemId } = await this.retrieveOrganization({
+        organizationId,
+      });
+      return this._makeRequest({
+        path: `/${systemId}/cloud-nodes`,
+        systemId,
+        ...opts,
+      });
+    },
+    async listDevices({
+      organizationId, cloudNodeId, ...opts
+    }) {
+      const { systemId } = await this.retrieveOrganization({
+        organizationId,
+      });
+      return this._makeRequest({
+        path: `/${systemId}/cloud-nodes/${cloudNodeId}/devices`,
+        systemId,
+        ...opts,
+      });
+    },
+    async openAndCloseDevice({
+      organizationId, cloudNodeId, deviceId, data,
+    }) {
+      const { systemId } = await this.retrieveOrganization({
+        organizationId,
+      });
+      return this._makeRequest({
+        method: "POST",
+        path: `/${systemId}/cloud-nodes/${cloudNodeId}/devices/${deviceId}/try-open`,
+        systemId,
+        data,
+      });
+    },
+    createHook({
+      organizationId, ...opts
     }) {
       return this._makeRequest({
         method: "POST",
-        path: "/events",
-        data: {
-          event_type: "cloudnode.connected",
-          organization_id: organizationId,
-          name,
-          url,
-          scope,
-          authentication_type: authenticationType,
-          authentication_user: authenticationUser,
-          authentication_password: authenticationPassword,
-          secret,
-        },
+        path: `/api/organizations/${organizationId}/subscriptions`,
+        ...opts,
       });
     },
-    async emitEvent({
-      organizationId, name, url, scope, authenticationType, events, authenticationUser, authenticationPassword, secret,
+    deleteHook({
+      organizationId, webhookId,
     }) {
-      const eventPromises = events.map((event) => this._makeRequest({
-        method: "POST",
-        path: "/events",
-        data: {
-          event_type: event,
-          organization_id: organizationId,
-          name,
-          url,
-          scope,
-          authentication_type: authenticationType,
-          authentication_user: authenticationUser,
-          authentication_password: authenticationPassword,
-          secret,
-        },
-      }));
-      return Promise.all(eventPromises);
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/api/organizations/${organizationId}/subscriptions/${webhookId}`,
+      });
     },
   },
 };
