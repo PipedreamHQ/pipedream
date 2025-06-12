@@ -91,6 +91,11 @@ export type App = AppInfo & {
   name: string;
 
   /**
+   * A short description of the app.
+   */
+  description: string;
+
+  /**
    * The authentication type used by the app.
    */
   auth_type: AppAuthType;
@@ -497,7 +502,9 @@ export type ConnectTokenResponse = {
 /**
  * The response received when retrieving a list of accounts.
  */
-export type GetAccountsResponse = { data: Account[]; };
+export type GetAccountsResponse = PaginationResponse & {
+  data: Account[];
+};
 
 /**
  * @deprecated Use `GetAccountsResponse` instead.
@@ -507,7 +514,9 @@ export type AccountsRequestResponse = GetAccountsResponse;
 /**
  * The response received when retrieving a list of apps.
  */
-export type GetAppsResponse = { data: App[]; };
+export type GetAppsResponse = PaginationResponse & {
+  data: App[];
+};
 
 /**
  * @deprecated Use `GetAppsResponse` instead.
@@ -527,7 +536,7 @@ export type AppRequestResponse = GetAppResponse;
 /**
  * The response received when retrieving a list of components.
  */
-export type GetComponentsResponse = {
+export type GetComponentsResponse = PaginationResponse & {
   data: V1Component[];
 };
 

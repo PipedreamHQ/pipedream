@@ -1,5 +1,5 @@
 import {
-  useId, useState,
+  useId, useState, useEffect,
 } from "react";
 import Select, { components } from "react-select";
 import { useApps } from "../hooks/use-apps";
@@ -14,10 +14,27 @@ export function SelectApp({
   value, onChange,
 }: SelectAppProps) {
   const [
+    inputValue,
+    setInputValue,
+  ] = useState("");
+  const [
     q,
     setQ,
-  ] = useState(""); // XXX can we just use Select ref.value instead?
+  ] = useState(""); // Debounced query value
+
   const instanceId = useId();
+
+  // Debounce the search query
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setQ(inputValue);
+    }, 300); // 300ms delay
+
+    return () => clearTimeout(timer);
+  }, [
+    inputValue,
+  ]);
+
   const {
     isLoading,
     // TODO error
@@ -29,7 +46,11 @@ export function SelectApp({
     Option,
     SingleValue,
   } = components;
-  const selectedValue = apps?.find((o) => o.name_slug === value?.name_slug) || null;
+  // If we have a value prop but it's not in the search results, use the value prop directly
+  const selectedValue = apps?.find((o) => o.name_slug === value?.name_slug)
+    || (value?.name_slug
+      ? value as AppResponse
+      : null);
   return (
     <Select
       instanceId={instanceId}
@@ -86,8 +107,11 @@ export function SelectApp({
       getOptionValue={(o) => o.name_slug}
       value={selectedValue}
       onChange={(o) => onChange?.((o as AppResponse) || undefined)}
-      onInputChange={(v) => {
-        if (v) setQ(v)
+      onInputChange={(v, { action }) => {
+        // Only update on user input, not on blur/menu-close/etc
+        if (action === "input-change") {
+          setInputValue(v)
+        }
       }}
       isLoading={isLoading}
     />

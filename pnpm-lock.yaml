@@ -755,6 +755,8 @@ importers:
 
   components/amazon_polly: {}
 
+  components/amazon_redshift: {}
+
   components/amazon_selling_partner: {}
 
   components/amazon_ses:
@@ -2924,7 +2926,11 @@ importers:
         specifier: ^1.6.2
         version: 1.6.6
 
-  components/contactout: {}
+  components/contactout:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/contacts:
     dependencies:
@@ -3379,6 +3385,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/deepsouce: {}
+
   components/defastra:
     dependencies:
       '@pipedream/platform':
@@ -3760,7 +3768,11 @@ importers:
 
   components/dokan: {}
 
-  components/dolibarr: {}
+  components/dolibarr:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/domain_group:
     dependencies:
@@ -4130,8 +4142,8 @@ importers:
   components/elmah_io:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.2.0
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/elopage: {}
 
@@ -5544,8 +5556,8 @@ importers:
         specifier: ^2.3.0
         version: 2.4.0
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       cron-parser:
         specifier: ^4.9.0
         version: 4.9.0
@@ -5908,7 +5920,11 @@ importers:
         specifier: ^2.29.4
         version: 2.30.1
 
-  components/habitica: {}
+  components/habitica:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/habitify:
     dependencies:
@@ -6108,7 +6124,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/heylibby: {}
+  components/heylibby:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/heyreach: {}
 
@@ -6969,6 +6989,8 @@ importers:
 
   components/kartra: {}
 
+  components/keboola: {}
+
   components/keen:
     dependencies:
       '@pipedream/platform':
@@ -7276,6 +7298,8 @@ importers:
 
   components/leadboxer: {}
 
+  components/leaddyno: {}
+
   components/leadfeeder:
     dependencies:
       '@pipedream/platform':
@@ -7418,7 +7442,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/limoexpress: {}
+  components/limoexpress:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/line:
     dependencies:
@@ -8115,7 +8143,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/metabase: {}
+  components/metabase:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/metaphor: {}
 
@@ -10516,7 +10548,11 @@ importers:
 
   components/proprofs_quiz_maker: {}
 
-  components/prospeo: {}
+  components/prospeo:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/provesource: {}
 
@@ -11266,6 +11302,12 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/rippling:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
+
   components/rise:
     dependencies:
       '@pipedream/platform':
@@ -11414,7 +11456,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/rumi_ai: {}
+  components/rumi_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/runpod: {}
 
@@ -11483,7 +11529,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/salesloft: {}
+  components/salesloft:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.0.3
 
   components/salesmate:
     dependencies:
