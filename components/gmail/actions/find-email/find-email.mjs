@@ -6,7 +6,7 @@ export default {
   key: "gmail-find-email",
   name: "Find Email",
   description: "Find an email using Google's Search Engine. [See the docs](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/list)",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     gmail,
@@ -64,28 +64,52 @@ export default {
         (h) => h.name.toLowerCase() === "message-id",
       );
       if (messageIdHeader) {
-        message.message_id = messageIdHeader.value;
+        message.message_id = messageIdHeader.value.replace(/[<>]/g, "");
       }
 
-      if (message.payload?.body?.data && !Array.isArray(message.payload.parts)) {
-        const decodedBody = utils.decodeBase64Url(message.payload.body.data);
-        if (this.withTextPayload) {
-          newPayload += convert(decodedBody);
-        } else {
-          message.payload.body.text = decodedBody;
-        }
+      if (message.internalDate) {
+        message.date = new Date(parseInt(message.internalDate)).toISOString();
       }
 
-      if (Array.isArray(message.payload?.parts)) {
-        if (this.withTextPayload) {
-          newPayload += utils.extractTextFromParts(message.payload.parts);
-        } else {
-          utils.attachTextToParts(message.payload.parts);
-        }
+      const senderHeader = message.payload?.headers?.find(
+        (h) => h.name.toLowerCase() === "from",
+      );
+      if (senderHeader) {
+        message.sender = senderHeader.value;
+      }
+
+      const recipientHeader = message.payload?.headers?.find(
+        (h) => h.name.toLowerCase() === "to",
+      );
+      if (recipientHeader) {
+        message.recipient = recipientHeader.value;
+      }
+
+      const subjectHeader = message.payload?.headers?.find(
+        (h) => h.name.toLowerCase() === "subject",
+      );
+      if (subjectHeader) {
+        message.subject = subjectHeader.value;
       }
 
       if (this.withTextPayload) {
+        if (message.payload?.body?.data && !Array.isArray(message.payload.parts)) {
+          const decodedBody = utils.decodeBase64Url(message.payload.body.data);
+          newPayload += convert(decodedBody);
+        }
+
+        if (Array.isArray(message.payload?.parts)) {
+          newPayload += utils.extractTextFromParts(message.payload.parts);
+        }
+
         message.payload = newPayload;
+      } else {
+        if (message.payload?.body?.data && !Array.isArray(message.payload.parts)) {
+          message.payload.body.text = utils.decodeBase64Url(message.payload.body.data);
+        }
+        if (Array.isArray(message.payload?.parts)) {
+          utils.attachTextToParts(message.payload.parts);
+        }
       }
     }
 
