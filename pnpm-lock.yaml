@@ -548,8 +548,8 @@ importers:
   components/airparser:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.0
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -718,8 +718,8 @@ importers:
   components/alttext_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/alttextify: {}
 
@@ -1272,8 +1272,8 @@ importers:
   components/azure_storage:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       mime-types:
         specifier: ^2.1.35
         version: 2.1.35
@@ -1654,8 +1654,8 @@ importers:
   components/boldsign:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/boloforms:
     dependencies:
@@ -2079,8 +2079,8 @@ importers:
   components/canva:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/canva_enterprise:
     dependencies:
@@ -2420,14 +2420,11 @@ importers:
   components/claid_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
-      fs:
-        specifier: ^0.0.1-security
-        version: 0.0.1-security
       url-exist:
         specifier: ^3.0.1
         version: 3.0.1(web-streams-polyfill@3.3.3)
