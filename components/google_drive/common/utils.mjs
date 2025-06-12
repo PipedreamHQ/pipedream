@@ -1,5 +1,7 @@
 import fs from "fs";
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import {
   MY_DRIVE_VALUE,
   LEGACY_MY_DRIVE_VALUE,
@@ -257,6 +259,36 @@ function toSingleLineString(multiLineString) {
     .replace(/\s{2,}/g, " ");
 }
 
+function optionalParseAsJSON(value) {
+  try {
+    return JSON.parse(value);
+  } catch (e) {
+    return value;
+  }
+}
+
+function parseObjectEntries(value = {}) {
+  let obj;
+  if (typeof value === "string") {
+    try {
+      obj = JSON.parse(value);
+    } catch (e) {
+      throw new ConfigurationError(`Invalid JSON string provided: ${e.message}`);
+    }
+  } else {
+    obj = value;
+  }
+  return Object.fromEntries(
+    Object.entries(obj).map(([
+      key,
+      value,
+    ]) => [
+      key,
+      optionalParseAsJSON(value),
+    ]),
+  );
+}
+
 export {
   MY_DRIVE_VALUE,
   isMyDrive,
@@ -269,4 +301,5 @@ export {
   getFilePaths,
   streamToBuffer,
   byteToMB,
+  parseObjectEntries,
 };
