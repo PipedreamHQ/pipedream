@@ -4,7 +4,7 @@ export default {
   key: "discord-message-deleted",
   name: "Message Deleted (Instant)",
   description: "Emit new event for each message deleted",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   type: "source",
   props: {
