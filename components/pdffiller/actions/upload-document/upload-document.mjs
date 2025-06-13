@@ -1,6 +1,5 @@
 import FormData from "form-data";
 import { getFileStreamAndMetadata } from "@pipedream/platform";
-import { checkTmp } from "../../common/utils.mjs";
 import pdffiller from "../../pdffiller.app.mjs";
 
 export default {
@@ -28,7 +27,7 @@ export default {
   async run({ $ }) {
     const {
       stream, metadata,
-    } = getFileStreamAndMetadata(checkTmp(this.file));
+    } = getFileStreamAndMetadata(this.file);
     const data = new FormData();
     data.append("file", stream, {
       contentType: metadata.contentType,

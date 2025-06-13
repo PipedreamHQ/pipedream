@@ -49,14 +49,6 @@ export default {
       optional: true,
     },
   },
-  methods: {
-    checkTmp(filename) {
-      if (filename.indexOf("/tmp") === -1) {
-        return `/tmp/${filename}`;
-      }
-      return filename;
-    },
-  },
   async run({ $ }) {
     const {
       taskId,
@@ -65,11 +57,10 @@ export default {
     } = this;
 
     const data = new FormData();
-    const path = this.checkTmp(filepath);
 
     const {
       stream, metadata,
-    } = getFileStreamAndMetadata(path);
+    } = getFileStreamAndMetadata(filepath);
     data.append("local", stream, {
       contentType: metadata.contentType,
       knownLength: metadata.size,
@@ -83,6 +74,7 @@ export default {
     };
 
     const response = await this.meistertask.createAttachment({
+      $,
       taskId,
       data,
       headers,

@@ -63,9 +63,6 @@ export default {
     uploadFile(args = {}) {
       return this.app.post({
         path: "/upload/direct",
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
         ...args,
       });
     },
@@ -106,6 +103,7 @@ export default {
     const response = await uploadFile({
       $,
       data,
+      headers: data.getHeaders(),
     });
 
     $.export("$summary", `Successfully uploaded file with ID \`${response._id}\`.`);
