@@ -438,17 +438,27 @@ export default withNextra({
       },
       {
         source: "/cli/",
-        destination: "/workflows/cli/reference/",
+        destination: "/components/contributing/cli/reference/",
         permanent: true,
       },
       {
         source: "/cli/reference/",
-        destination: "/workflows/cli/reference/",
+        destination: "/components/contributing/cli/reference/",
         permanent: true,
       },
       {
         source: "/cli/login/",
-        destination: "/workflows/cli/login/",
+        destination: "/components/contributing/cli/login/",
+        permanent: true,
+      },
+      {
+        source: "/workflows/cli/",
+        destination: "/components/contributing/cli/reference/",
+        permanent: true,
+      },
+      {
+        source: "/workflows/cli/:path*",
+        destination: "/components/contributing/cli/:path*",
         permanent: true,
       },
       {
