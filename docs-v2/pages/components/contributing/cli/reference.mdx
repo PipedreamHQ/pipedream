@@ -2,7 +2,7 @@
 
 ## Installing the CLI
 
-[See the CLI installation docs](/workflows/cli/install/) to learn how to install the CLI for your OS / architecture.
+[See the CLI installation docs](/components/contributing/cli/install/) to learn how to install the CLI for your OS / architecture.
 
 ## Command Reference
 
@@ -196,13 +196,13 @@ pd list st
 
 ### `pd login`
 
-Log in to Pipedream CLI and persist API key locally. See [Logging into the CLI](/workflows/cli/login/) for more information.
+Log in to Pipedream CLI and persist API key locally. See [Logging into the CLI](/components/contributing/cli/login/) for more information.
 
 ### `pd logout`
 
 Unsets the local API key tied to your account.
 
-Running `pd logout` without any arguments removes the default API key from your [config file](/workflows/cli/reference/#cli-config-file).
+Running `pd logout` without any arguments removes the default API key from your [config file](/components/contributing/cli/reference/#cli-config-file).
 
 You can remove the API key for a specific profile by running:
 
@@ -234,7 +234,7 @@ pd publish my-action.js
 
 ### `pd signup`
 
-Sign up for Pipedream via the CLI and persist your API key locally. See the docs on [Signing up for Pipedream via the CLI](/workflows/cli/login/#signing-up-for-pipedream-via-the-cli) for more information.
+Sign up for Pipedream via the CLI and persist your API key locally. See the docs on [Signing up for Pipedream via the CLI](/components/contributing/cli/login/#signing-up-for-pipedream-via-the-cli) for more information.
 
 ### `pd unpublish`
 
@@ -279,7 +279,7 @@ Profiles allow you to work with multiple, named Pipedream accounts via the CLI.
 
 ### Creating a new profile
 
-When you [login to the CLI](/workflows/cli/login/), the CLI writes the API key for that account to your config file, in the `api_key` field:
+When you [login to the CLI](/components/contributing/cli/login/), the CLI writes the API key for that account to your config file, in the `api_key` field:
 
 ```bash
 api_key = abc123
