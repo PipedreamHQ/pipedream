@@ -2,7 +2,7 @@ import Callout from '@/components/Callout'
 
 # Using Custom Tools
 
-You can write and publish your own components to your Pipedream workspace to use with Connect. This complements the public triggers and actions available in Pipedream's global registry.
+You can write and publish your own components to your Pipedream workspace to use with Connect. This complements the public actions available in Pipedream's global registry.
 
 ## Overview
 
@@ -21,7 +21,7 @@ Custom tools use the same development workflow as standard Pipedream components:
 3. **Use the Pipedream CLI** to publish your component with a Connect-specific flag
 
 <Callout type="info">
-Custom tools are either [sources](/components/contributing/sources-quickstart/) (triggers) or [actions](/components/contributing/actions-quickstart/). Check out the respective quickstart guides for step-by-step development instructions.
+Custom tools are [actions](/components/contributing/actions-quickstart/). Check out the actions quickstart guide for step-by-step development instructions. Support for custom sources (triggers) is coming soon.
 </Callout>
 
 ## Publishing for Connect
@@ -80,7 +80,7 @@ Custom actions that you publish are automatically exposed as tools in the [Piped
 Here's a typical workflow for creating and using a custom tool:
 
 1. **Develop locally** using your preferred editor
-2. **Test your component** using [pd dev](/components/contributing/cli/reference/#pd-dev) for sources or local testing for actions  
+2. **Test your component** using local testing for actions  
 3. **Publish to Connect** with the appropriate environment flag
 4. **Integrate via Connect APIs** in your application
 
