@@ -5,7 +5,7 @@ export default {
   key: "timetonic-update-row",
   name: "Update Row",
   description: "Updates the values within a specified row in a table. [See the documentation](https://timetonic.com/live/apidoc/#api-Smart_table_operations-createOrUpdateTableRow)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
