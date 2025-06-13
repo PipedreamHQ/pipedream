@@ -135,12 +135,6 @@ export default {
       description: "Whether the short link's stats are publicly accessible.",
       optional: true,
     },
-    tagNames: {
-      type: "string[]",
-      label: "Tag Names",
-      description: "Array of tag names to apply to the short link.",
-      optional: true,
-    },
   },
 
   async run({ $ }) {
@@ -164,7 +158,6 @@ export default {
       expiresAt,
       expiredUrl,
       publicStats,
-      tagNames,
     } = this;
 
     const geo = typeof this.geo === "string"
@@ -193,8 +186,6 @@ export default {
     expiredUrl && (payload.expiredUrl = expiredUrl);
     geo && (payload.geo = geo);
     publicStats != null && (payload.publicStats = publicStats);
-
-    if (tagNames?.length) payload.tagNames = tagNames;
 
     const response = await this.codeqr.createLink({
       $,
