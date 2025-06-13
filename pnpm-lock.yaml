@@ -2748,7 +2748,11 @@ importers:
 
   components/codeq_natural_language_processing_api: {}
 
-  components/codeqr: {}
+  components/codeqr:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.0
+        version: 3.1.0
 
   components/codereadr:
     dependencies:
