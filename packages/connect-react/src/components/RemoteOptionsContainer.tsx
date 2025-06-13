@@ -13,7 +13,7 @@ export type RemoteOptionsContainerProps = {
 export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerProps) {
   const client = useFrontendClient();
   const {
-    userId,
+    externalUserId,
     component,
     configurableProps,
     configuredProps,
@@ -60,7 +60,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
     configuredPropsUpTo[prop.name] = configuredProps[prop.name];
   }
   const componentConfigureInput: ComponentConfigureOpts = {
-    userId,
+    externalUserId,
     page,
     prevContext: context,
     componentId: component.key,

@@ -40,6 +40,22 @@ export default [
     label: "MS Word document",
   },
   {
+    value: "application/vnd.oasis.opendocument.text",
+    label: "OpenDocument Text",
+  },
+  {
+    value: "application/vnd.oasis.opendocument.spreadsheet",
+    label: "OpenDocument Spreadsheet",
+  },
+  {
+    value: "application/vnd.oasis.opendocument.presentation",
+    label: "OpenDocument Presentation",
+  },
+  {
+    value: "application/vnd.google-apps.vid",
+    label: "MP4",
+  },
+  {
     value: "application/zip",
     label: "HTML (zipped)",
   },
@@ -70,5 +86,13 @@ export default [
   {
     value: "text/tab-separated-values",
     label: "TSV (sheet only)",
+  },
+  {
+    value: "text/markdown",
+    label: "Markdown",
+  },
+  {
+    value: "text/x-markdown",
+    label: "Markdown (Deprecated)",
   },
 ];
