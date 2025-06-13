@@ -83,10 +83,10 @@ import { fetchToken } from "./actions";
 
 export default function Page() {
   // https://pipedream.com/docs/connect/api#external-users
-  const userId = "my-authed-user-id";
+  const externalUserId = "my-authed-user-id";
   const client = createFrontendClient({
     environment: "development",
-    externalUserId: userId,
+    externalUserId: externalUserId,
     tokenCallback: fetchToken,
   });
   const [configuredProps, setConfiguredProps] = useState({
@@ -97,7 +97,7 @@ export default function Page() {
       <div>My application</div>
       <FrontendClientProvider client={client}>
         <ComponentFormContainer
-          externalUserId={userId}
+          externalUserId={externalUserId}
           componentKey="slack-send-message"
           configuredProps={configuredProps}
           onUpdateConfiguredProps={setConfiguredProps}
@@ -172,7 +172,7 @@ By default, apps use Pipedream OAuth clients. To configured your own, refer to t
 
 ```typescript
 <ComponentFormContainer
-  externalUserId={userId}
+  externalUserId={externalUserId}
   componentKey="slack-send-message-to-channel"
   configuredProps={configuredProps}
   onUpdateConfiguredProps={setConfiguredProps}
@@ -190,7 +190,7 @@ Style individual components using the `CustomizeProvider` and a `CustomizationCo
 <FrontendClientProvider client={client}>
   <CustomizeProvider {...customizationConfig}>
     <ComponentFormContainer
-      externalUserId={userId}
+      externalUserId={externalUserId}
       componentKey="slack-send-message"
       configuredProps={configuredProps}
       onUpdateConfiguredProps={setConfiguredProps}
