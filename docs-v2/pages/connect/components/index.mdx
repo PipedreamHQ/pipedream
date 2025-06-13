@@ -123,7 +123,12 @@ Here's the response:
       "categories": [
         "Developer Tools"
       ],
-      "featured_weight": 5000
+      "featured_weight": 5000,
+      "connect": {
+        "proxy_enabled": true,
+        "allowed_domains": ["gitlab.com"],
+        "base_proxy_target_url": "https://{{custom_fields.base_api_url}}"
+      }
     }
   ]
 }
