@@ -3,7 +3,7 @@ import Callout from '@/components/Callout'
 
 # Connect API Proxy
 
-Pipedream Connect provides a proxy API that you can use to send authenticated requests to any integrated API on behalf of your users, which is useful in a few scenarios:
+Pipedream Connect provides a proxy API that you can use to send authenticated requests to any integrated API on behalf of your users. This is useful in a few scenarios:
 
 1. You need code-level control and you want to use [Pipedream's OAuth](/connect/managed-auth/oauth-clients/#using-pipedream-oauth) instead of [your own OAuth client](/connect/managed-auth/oauth-clients/#using-a-custom-oauth-client)
 2. There isn't a [pre-built tool](/connect/components/) (action) for the app, or you need to modify the request
@@ -25,9 +25,10 @@ Before getting started with the Connect proxy, make sure you've already gone thr
 
 ## Getting started
 
-You can send requests to the Connect proxy using the Pipedream SDK with a fetch-style interface, or directly to the Pipedream REST API.
+You can send requests to the Connect proxy using either the Pipedream SDK with a fetch-style interface or the Pipedream REST API.T API.
 
-**Prerequisites:**
+### Prerequisites
+
 - A [Pipedream OAuth client](/rest-api/auth/#oauth) to make authenticated requests to Pipedream's API
 - Connect [environment](/connect/managed-auth/environments/) (ex, `production` or `development`)
 - The [external user ID](/connect/api/#external-users) for your end user (ex, `abc-123`)
@@ -43,7 +44,7 @@ Since Pipedream has {process.env.PUBLIC_APPS}+ integrated apps, we know how the 
 
 ### Sending requests
 
-When making requests through the Connect proxy, you'll need to provide the following:
+When making requests to the Connect Proxy, you must provide the following parameters:
 
 #### Request parameters
 
