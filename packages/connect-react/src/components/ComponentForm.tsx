@@ -37,8 +37,10 @@ export type ComponentFormProps<T extends ConfigurableProps, U = ConfiguredProps<
 };
 
 export function ComponentForm<T extends ConfigurableProps>(props: ComponentFormProps<T>) {
-  const { oauthAppId, ...formProps } = props;
-  
+  const {
+    oauthAppId, ...formProps
+  } = props;
+
   return (
     <OAuthAppProvider oauthAppId={oauthAppId}>
       <FormContextProvider props={formProps}>

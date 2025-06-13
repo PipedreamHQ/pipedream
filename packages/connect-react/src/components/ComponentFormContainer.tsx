@@ -37,6 +37,9 @@ export function ComponentFormContainer<T extends ConfigurableProps>(props: Compo
   }
 
   // TODO move / improve lib.ts and make sure V1Component and it match / are shared
-  const { componentKey, ...componentFormProps } = props;
+  const {
+    componentKey, ...componentFormProps
+  } = props;
+  void componentKey; // Mark as intentionally unused
   return <ComponentForm component={component} {...componentFormProps} />;
 }

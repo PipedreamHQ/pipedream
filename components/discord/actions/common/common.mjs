@@ -73,7 +73,7 @@ export default {
 
       const link = !workflowId
         ? `${baseLink}/connect`
-        : `${baseLink}/@/${workflowId}?o=a&a=discord`;
+        : `${baseLink}/@/${encodeURIComponent(workflowId)}?o=a&a=discord`;
 
       return `Sent via [${linkText}](<${link}>)`;
     },

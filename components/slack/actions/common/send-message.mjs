@@ -146,7 +146,7 @@ export default {
 
       const link = !workflowId
         ? `${baseLink}/connect`
-        : `${baseLink}/@/${workflowId}?o=a&a=slack`;
+        : `${baseLink}/@/${encodeURIComponent(workflowId)}?o=a&a=slack`;
 
       return {
         "type": "context",

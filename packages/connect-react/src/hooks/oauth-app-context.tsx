@@ -1,4 +1,6 @@
-import { createContext, useContext, ReactNode } from "react";
+import {
+  createContext, useContext, ReactNode,
+} from "react";
 
 export type OAuthAppContextValue = {
   oauthAppId?: string;
@@ -15,9 +17,13 @@ export type OAuthAppProviderProps = {
   oauthAppId?: string;
 };
 
-export function OAuthAppProvider({ children, oauthAppId }: OAuthAppProviderProps) {
+export function OAuthAppProvider({
+  children, oauthAppId,
+}: OAuthAppProviderProps) {
   return (
-    <OAuthAppContext.Provider value={{ oauthAppId }}>
+    <OAuthAppContext.Provider value={{
+      oauthAppId,
+    }}>
       {children}
     </OAuthAppContext.Provider>
   );
