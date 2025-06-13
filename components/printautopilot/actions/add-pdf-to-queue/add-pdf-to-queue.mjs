@@ -27,11 +27,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const filePath = this.filePath.includes("/tmp")
-      ? this.filePath
-      : `/tmp/${this.filePath}`;
-
-    const { stream } = getFileStream(filePath);
+    const stream = getFileStream(this.filePath);
     const chunks = [];
     for await (const chunk of stream) {
       chunks.push(chunk);

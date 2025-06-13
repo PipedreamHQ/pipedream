@@ -1,7 +1,5 @@
 import { getFileStream } from "@pipedream/platform";
-import {
-  checkTmp, isValidHttpUrl,
-} from "../../common/utils.mjs";
+import { checkTmp } from "../../common/utils.mjs";
 import printify from "../../printify.app.mjs";
 
 export default {
@@ -119,7 +117,7 @@ export default {
         props[`imagePath_${i}`] = {
           type: "string",
           label: `Image Path or URL ${i}`,
-          description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myImage.jpg`).",
+          description: `The file to upload for image ${i}. Provide either a file URL or a path to a file in the \`/tmp\` directory (for example, \`/tmp/myImage.jpg\`).`,
         };
         props[`imageX_${i}`] = {
           type: "string",
@@ -157,22 +155,13 @@ export default {
     }
     for (let i = 1; i <= this.imageCount; i++) {
       const imageString = this[`imagePath_${i}`];
-
-      let file = "";
-      let fieldName = "";
-
-      if (isValidHttpUrl(imageString)) {
-        file = imageString;
-        fieldName = "url";
-      } else {
-        const { stream } = getFileStream(checkTmp(imageString));
-        const chunks = [];
-        for await (const chunk of stream) {
-          chunks.push(chunk);
-        }
-        file = Buffer.concat(chunks).toString("base64");
-        fieldName = "contents";
+      const stream = getFileStream(checkTmp(imageString));
+      const chunks = [];
+      for await (const chunk of stream) {
+        chunks.push(chunk);
       }
+      const file = Buffer.concat(chunks).toString("base64");
+      const fieldName = "contents";
 
       const responseImage = await this.printify.uploadImage({
         data: {

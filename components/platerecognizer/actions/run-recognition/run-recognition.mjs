@@ -1,5 +1,4 @@
 import { getFileStream } from "@pipedream/platform";
-import { checkTmp } from "../../common/utils.mjs";
 import platerecognizer from "../../platerecognizer.app.mjs";
 
 export default {
@@ -12,8 +11,8 @@ export default {
     platerecognizer,
     imageFileOrUrl: {
       type: "string",
-      label: "Image File or URL",
-      description: "The image file or URL to be recognized. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myImage.jpg`)",
+      label: "Image Path or URL",
+      description: "The image to be recognized. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myImage.jpg`)",
     },
     regions: {
       type: "string[]",
@@ -41,24 +40,18 @@ export default {
     },
   },
   async run({ $ }) {
-    const fileObj = {};
 
-    if (this.imageFileOrUrl.startsWith("http")) {
-      fileObj.upload_url = this.imageFileOrUrl;
-    } else {
-      const { stream } = getFileStream(checkTmp(this.imageFileOrUrl));
-      const chunks = [];
-      for await (const chunk of stream) {
-        chunks.push(chunk);
-      }
-      const buffer = Buffer.concat(chunks);
-      fileObj.upload = buffer.toString("base64");
+    const stream = getFileStream(this.imageFileOrUrl);
+    const chunks = [];
+    for await (const chunk of stream) {
+      chunks.push(chunk);
     }
+    const buffer = Buffer.concat(chunks);
 
     const response = await this.platerecognizer.runRecognition({
       $,
       data: {
-        ...fileObj,
+        upload: buffer.toString("base64"),
         regions: this.regions,
         camera_id: this.cameraId,
         mmc: this.mmc,
