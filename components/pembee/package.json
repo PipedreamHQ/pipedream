@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/pembee",
+  "version": "0.0.1",
+  "description": "Pipedream Pembee Components",
+  "main": "pembee.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pembee"
+  ],
+  "homepage": "https://pipedream.com/apps/pembee",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
