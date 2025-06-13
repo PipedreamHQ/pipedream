@@ -1,6 +1,5 @@
 import FormData from "form-data";
 import { getFileStreamAndMetadata } from "@pipedream/platform";
-import { checkTmp } from "../../common/utils.mjs";
 import ragie from "../../ragie.app.mjs";
 
 export default {
@@ -54,7 +53,7 @@ export default {
     const data = new FormData();
     const {
       stream, metadata,
-    } = getFileStreamAndMetadata(checkTmp(this.file));
+    } = getFileStreamAndMetadata(this.file);
     data.append("file", stream, {
       contentType: metadata.contentType,
       knownLength: metadata.size,

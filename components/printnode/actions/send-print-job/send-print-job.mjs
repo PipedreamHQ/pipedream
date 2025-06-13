@@ -25,13 +25,6 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
-      optional: true,
-    },
-    fileUrl: {
-      type: "string",
-      label: "File URL",
-      description: "The URL to a document file.",
-      optional: true,
     },
     title: {
       type: "string",
@@ -73,22 +66,15 @@ export default {
   },
   async run({ $ }) {
     const {
-      printnode, contentType, filePath, fileUrl, ...props
+      printnode, contentType, filePath, ...props
     } = this;
 
-    let content;
-    if (contentType.endsWith("base64") && filePath) {
-      const { stream } = getFileStream(filePath.includes("tmp/")
-        ? filePath
-        : `/tmp/${filePath}`);
-      const chunks = [];
-      for await (const chunk of stream) {
-        chunks.push(chunk);
-      }
-      content = Buffer.concat(chunks).toString("base64");
-    } else {
-      content = fileUrl;
+    const stream = getFileStream(filePath);
+    const chunks = [];
+    for await (const chunk of stream) {
+      chunks.push(chunk);
     }
+    const content = Buffer.concat(chunks).toString("base64");
 
     const response = await printnode.createPrintJob({
       $,
