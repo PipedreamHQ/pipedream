@@ -10762,20 +10762,11 @@ importers:
   components/raindrop:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.2.0
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
-      got:
-        specifier: ^13.0.0
-        version: 13.0.0
-      stream:
-        specifier: ^0.0.2
-        version: 0.0.2
-      util:
-        specifier: ^0.12.5
-        version: 0.12.5
 
   components/raisely:
     dependencies:
@@ -10786,8 +10777,8 @@ importers:
   components/ramp:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       uuid:
         specifier: ^10.0.0
         version: 10.0.0
@@ -10989,8 +10980,8 @@ importers:
   components/reform:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.0
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -11347,8 +11338,8 @@ importers:
   components/roboflow:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/rocket_chat:
     dependencies:
@@ -11493,8 +11484,8 @@ importers:
   components/salesforce_rest_api:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       fast-xml-parser:
         specifier: ^4.3.2
         version: 4.5.0
@@ -11632,8 +11623,8 @@ importers:
   components/scoredetect:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.0
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -11671,8 +11662,8 @@ importers:
   components/scrapfly:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.1
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/scrapingant:
     dependencies:
