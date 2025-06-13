@@ -1,5 +1,5 @@
 import FormData from "form-data";
-import fs from "fs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import { checkTmp } from "../../common/utils.mjs";
 import pdffiller from "../../pdffiller.app.mjs";
 
@@ -7,7 +7,7 @@ export default {
   key: "pdffiller-upload-document",
   name: "Upload Document",
   description: "Uploads a chosen file to PDFfiller. [See the documentation](https://docs.pdffiller.com/docs/pdffiller/992d9d79fec32-creates-a-new-document-template-by-uploading-file-from-multipart)",
-  version: "0.0.2",
+  version: "0.1.0",
   type: "action",
   props: {
     pdffiller,
@@ -26,9 +26,15 @@ export default {
     },
   },
   async run({ $ }) {
-    const fileStream = fs.createReadStream(checkTmp(this.file));
+    const {
+      stream, metadata,
+    } = getFileStreamAndMetadata(checkTmp(this.file));
     const data = new FormData();
-    data.append("file", fileStream);
+    data.append("file", stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
+    });
 
     if (this.folderId) {
       data.append("folder_id", this.folderId);

@@ -1,5 +1,5 @@
 import FormData from "form-data";
-import fs from "fs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import { checkTmp } from "../../common/utils.mjs";
 import ragie from "../../ragie.app.mjs";
 
@@ -7,7 +7,7 @@ export default {
   key: "ragie-create-document",
   name: "Create Document",
   description: "Creates a new document in Ragie. [See the documentation](https://docs.ragie.ai/reference/createdocument)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     ragie,
@@ -52,7 +52,14 @@ export default {
   },
   async run({ $ }) {
     const data = new FormData();
-    data.append("file", fs.createReadStream(checkTmp(this.file)));
+    const {
+      stream, metadata,
+    } = getFileStreamAndMetadata(checkTmp(this.file));
+    data.append("file", stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
+    });
     if (this.mode) data.append("mode", this.mode);
     if (this.metadata) data.append("metadata", JSON.stringify(this.metadata));
     if (this.externalId) data.append("external_id", this.externalId);

@@ -1,18 +1,18 @@
 import printAutopilot from "../../printautopilot.app.mjs";
-import fs from "fs";
+import { getFileStream } from "@pipedream/platform";
 
 export default {
   key: "printautopilot-add-pdf-to-queue",
   name: "Add PDF to Print Autopilot Queue",
   description: "Uploads a PDF document to the print-autopilot queue. [See the documentation](https://documenter.getpostman.com/view/1334461/TW6wJonb#53f82327-4f23-416d-b2f0-ce17b8037933)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     printAutopilot,
     filePath: {
       type: "string",
-      label: "File Path",
-      description: "The path to the file saved to the [`/tmp` directory](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory) (e.g. `/tmp/myFile.pdf`).",
+      label: "File Path or URL",
+      description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.pdf`)",
     },
     fileName: {
       type: "string",
@@ -30,7 +30,14 @@ export default {
     const filePath = this.filePath.includes("/tmp")
       ? this.filePath
       : `/tmp/${this.filePath}`;
-    const fileContent = Buffer.from(fs.readFileSync(filePath)).toString("base64");
+
+    const { stream } = getFileStream(filePath);
+    const chunks = [];
+    for await (const chunk of stream) {
+      chunks.push(chunk);
+    }
+    const fileContent = Buffer.concat(chunks).toString("base64");
+
     const response = await this.printAutopilot.addDocumentToQueue({
       token: this.token,
       data: {

@@ -1,6 +1,5 @@
-import fs from "fs";
 import FormData from "form-data";
-import { ConfigurationError } from "@pipedream/platform";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import app from "../../pixelbin.app.mjs";
 import utils from "../../common/utils.mjs";
 
@@ -8,14 +7,14 @@ export default {
   key: "pixelbin-upload-file",
   name: "Upload File",
   description: "Upload a file to Pixelbin. [See the documentation](https://www.pixelbin.io/docs/api-docs/)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     app,
     filePath: {
       type: "string",
-      label: "File Path",
-      description: "Assete file path. The path to the file saved to the `/tmp` directory (e.g. `/tmp/example.pdf`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      label: "File Path or URL",
+      description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
     },
     path: {
       propDefinition: [
@@ -84,12 +83,15 @@ export default {
       filenameOverride,
     } = this;
 
-    if (!filePath.startsWith("/tmp/")) {
-      throw new ConfigurationError("File must be located in `/tmp` directory.");
-    }
-
+    const {
+      stream, metadata: fileMetadata,
+    } = getFileStreamAndMetadata(filePath);
     const data = new FormData();
-    data.append("file", fs.createReadStream(filePath));
+    data.append("file", stream, {
+      contentType: fileMetadata.contentType,
+      knownLength: fileMetadata.size,
+      filename: fileMetadata.name,
+    });
 
     utils.appendPropsToFormData(data, {
       path,

@@ -1,4 +1,4 @@
-import fs from "fs";
+import { getFileStream } from "@pipedream/platform";
 import {
   checkTmp, isValidHttpUrl,
 } from "../../common/utils.mjs";
@@ -8,7 +8,7 @@ export default {
   key: "printify-create-product",
   name: "Create a Product",
   description: "Creates a new product on Printify. [See the documentation](https://developers.printify.com/#create-a-new-product)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     printify,
@@ -119,7 +119,7 @@ export default {
         props[`imagePath_${i}`] = {
           type: "string",
           label: `Image Path or URL ${i}`,
-          description: `The URL or path to a file in the \`/tmp\` directory of the image ${i}. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).`,
+          description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myImage.jpg`).",
         };
         props[`imageX_${i}`] = {
           type: "string",
@@ -165,8 +165,12 @@ export default {
         file = imageString;
         fieldName = "url";
       } else {
-        file = fs.readFileSync(checkTmp(imageString));
-        file = Buffer.from(file).toString("base64");
+        const { stream } = getFileStream(checkTmp(imageString));
+        const chunks = [];
+        for await (const chunk of stream) {
+          chunks.push(chunk);
+        }
+        file = Buffer.concat(chunks).toString("base64");
         fieldName = "contents";
       }
 
