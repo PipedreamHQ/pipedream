@@ -4,6 +4,7 @@ import { useAccounts } from "../hooks/use-accounts";
 import { useFormFieldContext } from "../hooks/form-field-context";
 import { useFormContext } from "../hooks/form-context";
 import { useCustomize } from "../hooks/customization-context";
+import { useOAuthAppContext } from "../hooks/oauth-app-context";
 import type { BaseReactSelectProps } from "../hooks/customization-context";
 import { useMemo } from "react";
 import type { CSSProperties } from "react";
@@ -25,12 +26,12 @@ const BaseOption = (props: OptionProps<AppResponse>) => {
 
 type ControlAppProps = {
   app: AppResponse;
-  oauthAppId?: string;
 };
 
-export function ControlApp({ app, oauthAppId }: ControlAppProps) {
+export function ControlApp({ app }: ControlAppProps) {
   const client = useFrontendClient();
   const { externalUserId } = useFormContext();
+  const { oauthAppId } = useOAuthAppContext();
   const formFieldCtx = useFormFieldContext<ConfigurablePropApp>();
   const {
     id, prop, value, onChange,

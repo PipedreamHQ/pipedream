@@ -26,6 +26,7 @@ export * from "./hooks/customization-context";
 export * from "./hooks/form-context";
 export * from "./hooks/form-field-context";
 export * from "./hooks/frontend-client-context";
+export * from "./hooks/oauth-app-context";
 export * from "./hooks/use-accounts";
 export * from "./hooks/use-app";
 export * from "./hooks/use-apps";

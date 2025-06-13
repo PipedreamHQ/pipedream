@@ -15,7 +15,7 @@ export function InternalField<T extends ConfigurableProp>({
 }: FieldInternalProps<T>) {
   const formCtx = useFormContext();
   const {
-    id: formId, configuredProps, registerField, setConfiguredProp, errors, enableDebugging, oauthAppId,
+    id: formId, configuredProps, registerField, setConfiguredProp, errors, enableDebugging,
   } = formCtx;
 
   const appSlug = prop.type === "app" && "app" in prop
@@ -43,7 +43,6 @@ export function InternalField<T extends ConfigurableProp>({
     },
     extra: {
       app, // XXX fix ts
-      oauthAppId,
     },
     errors,
     enableDebugging,

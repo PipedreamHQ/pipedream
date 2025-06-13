@@ -74,7 +74,7 @@ export function Control<T extends ConfigurableProps, U extends ConfigurableProp>
   // case "any":
   //   return <ControlAny />
   case "app":
-    return <ControlApp app={app!} oauthAppId={field.extra.oauthAppId} />;
+    return <ControlApp app={app!} />;
   case "boolean":
     return <ControlBoolean />;
   case "string":

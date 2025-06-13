@@ -8,6 +8,7 @@ import type {
   V1Component,
 } from "@pipedream/sdk";
 import { InternalComponentForm } from "./InternalComponentForm";
+import { OAuthAppProvider } from "../hooks/oauth-app-context";
 
 export type ComponentFormProps<T extends ConfigurableProps, U = ConfiguredProps<T>> = {
   /**
@@ -30,18 +31,19 @@ export type ComponentFormProps<T extends ConfigurableProps, U = ConfiguredProps<
   sdkResponse?: unknown | undefined;
   enableDebugging?: boolean;
   /**
-   * The OAuth app ID to use when connecting accounts for app props.
+   * Optional OAuth app ID for app-specific account connections
    */
   oauthAppId?: string;
-} & (
-  | { externalUserId: string; userId?: never }
-  | { userId: string; externalUserId?: never }
-);
+};
 
 export function ComponentForm<T extends ConfigurableProps>(props: ComponentFormProps<T>) {
+  const { oauthAppId, ...formProps } = props;
+  
   return (
-    <FormContextProvider props={props}>
-      <InternalComponentForm />
-    </FormContextProvider>
+    <OAuthAppProvider oauthAppId={oauthAppId}>
+      <FormContextProvider props={formProps}>
+        <InternalComponentForm />
+      </FormContextProvider>
+    </OAuthAppProvider>
   );
 }

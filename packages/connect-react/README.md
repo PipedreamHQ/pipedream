@@ -97,7 +97,7 @@ export default function Page() {
       <div>My application</div>
       <FrontendClientProvider client={client}>
         <ComponentFormContainer
-          userId={userId}
+          externalUserId={userId}
           componentKey="slack-send-message"
           configuredProps={configuredProps}
           onUpdateConfiguredProps={setConfiguredProps}
@@ -137,24 +137,50 @@ type ComponentFormContainerProps = {
 type ComponentFormProps = {
   component: typeof import("@pipedream/sdk").V1Component;
   /** External user configuring the form */
-  userId: string;
+  externalUserId: string;
+  /** @deprecated Use externalUserId instead */
+  userId?: string;
   /** Form configured values */
   configuredProps?: Record<string, any>;
   /** Filtering configurable props */
   propNames?: string[];
   /** Shows submit button + callback when clicked */
-  onSubmit: (ctx: FormContext) => Awaitable<void>;
+  onSubmit?: (ctx: FormContext) => Awaitable<void>;
   /** To control and store configured values on form updates, can be used to call actionRun or triggerDeploy */
-  onUpdateConfiguredProps: (v: Record<string, any>) => void;
+  onUpdateConfiguredProps?: (v: Record<string, any>) => void;
   /** Hide optional props section */
-  hideOptionalProps: boolean;
+  hideOptionalProps?: boolean;
   /** SDK response payload. Used in conjunction with enableDebugging to
    * show errors in the form. */
-  sdkResponse: unknown[] | unknown | undefined;
-  /** Whether to show show errors in the form. Requires sdkErrors to be set. */
+  sdkResponse?: unknown[] | unknown | undefined;
+  /** Whether to show errors in the form. Requires sdkResponse to be set. */
   enableDebugging?: boolean;
+  /** Optional OAuth app ID for app-specific account connections */
+  oauthAppId?: string;
 };
 ```
+
+## OAuth Configuration
+
+By default, apps use Pipedream OAuth clients. To configured your own, refer to the docs [here](https://pipedream.com/docs/connect/managed-auth/oauth-clients).
+
+### Using a custom OAuth client
+
+1. Create an OAuth app in your target service (e.g., Slack, Google, etc.)
+2. Configure the client in Pipedream ([refer to the docs](https://pipedream.com/docs/connect/managed-auth/oauth-clients))
+3. Use the `oauthAppId` prop to specify which OAuth client to use for account connections
+
+```typescript
+<ComponentFormContainer
+  externalUserId={userId}
+  componentKey="slack-send-message-to-channel"
+  configuredProps={configuredProps}
+  onUpdateConfiguredProps={setConfiguredProps}
+  oauthAppId="your-custom-oauth-app-id" // oa_xxxxxxx
+/>
+```
+
+When `oauthAppId` is provided, all app connections within that component form will use your specified OAuth app instead of Pipedream's default.
 
 ## Customization
 
@@ -164,7 +190,8 @@ Style individual components using the `CustomizeProvider` and a `CustomizationCo
 <FrontendClientProvider client={client}>
   <CustomizeProvider {...customizationConfig}>
     <ComponentFormContainer
-      key="slack-send-message"
+      externalUserId={userId}
+      componentKey="slack-send-message"
       configuredProps={configuredProps}
       onUpdateConfiguredProps={setConfiguredProps}
     />
