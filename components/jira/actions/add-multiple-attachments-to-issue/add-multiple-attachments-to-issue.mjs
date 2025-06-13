@@ -1,14 +1,12 @@
-import { ConfigurationError } from "@pipedream/platform";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import FormData from "form-data";
-import fs from "fs";
-import utils from "../../common/utils.mjs";
 import jira from "../../jira.app.mjs";
 
 export default {
   key: "jira-add-multiple-attachments-to-issue",
   name: "Add Multiple Attachments To Issue",
   description: "Adds multiple attachments to an issue, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-attachments/#api-rest-api-3-issue-issueidorkey-attachments-post)",
-  version: "0.0.9",
+  version: "0.0.10",
   type: "action",
   props: {
     jira,
@@ -27,39 +25,26 @@ export default {
         }),
       ],
     },
-    filenames: {
-      type: "string[]",
-      label: "File names",
-      description: "Array of file paths in `/tmp` folder to add as attachments. To upload a file to `/tmp` folder, please follow the [doc here](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
+    files: {
+      type: "string",
+      label: "File",
+      description: "Provide either an array of file URLs or paths to files in the /tmp directory (for example, /tmp/myFlie.pdf).",
     },
   },
   async run({ $ }) {
     const responses = [];
 
-    //validate all files exist before processing
-    const not_found = [];
-    for (let i = 0; i < this.filenames.length; i++) {
-      const path = utils.checkTmp(this.filenames[i]);
-      if (!fs.existsSync(path)) {
-        not_found.push(path);
-      }
-    }
-
-    if (not_found.length > 0) {
-      // eslint-disable-next-line multiline-ternary
-      throw new ConfigurationError(`File${not_found.length > 1 ? "s" : ""} not found: ${not_found.join(", ")}`);
-    }
-
-    //all files exist - let's process them
-    for (let i = 0; i < this.filenames.length; i++) {
-      const filename = this.filenames[i];
+    for (let i = 0; i < this.files.length; i++) {
+      const file = this.files[i];
       const data = new FormData();
-      const path = utils.checkTmp(filename);
-      const file = fs.createReadStream(path);
-      const stats = fs.statSync(path);
+      const {
+        stream, metadata,
+      } = await getFileStreamAndMetadata(file);
 
-      data.append("file", file, {
-        knownLength: stats.size,
+      data .append("file", stream, {
+        contentType: metadata.contentType,
+        knownLength: metadata.size,
+        filename: metadata.name,
       });
 
       const headers = {

@@ -1,6 +1,6 @@
-import { ConfigurationError } from "@pipedream/platform";
-import fs from "fs";
-import got from "got";
+import {
+  getFileStream, ConfigurationError,
+} from "@pipedream/platform";
 import consts from "../../common/consts.mjs";
 import dropbox from "../../dropbox.app.mjs";
 
@@ -8,7 +8,7 @@ export default {
   name: "Upload Multiple Files",
   description: "Uploads multiple file to a selected folder. [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
   key: "dropbox-upload-multiple-files",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     dropbox,
@@ -22,19 +22,10 @@ export default {
       ],
       description: "The folder to upload to. Type the folder name to search for it in the user's Dropbox.",
     },
-    fileUrls: {
+    files: {
       type: "string[]",
-      label: "File URLs",
-      description: "The URLs of the files you want to upload to Dropbox. Must specify either File URLs or File Paths.",
-      default: [],
-      optional: true,
-    },
-    filePaths: {
-      type: "string[]",
-      label: "File Paths",
-      description: "The paths to the files, e.g. /tmp/myFile.csv . Must specify either File URLs or File Paths.",
-      default: [],
-      optional: true,
+      label: "Files",
+      description: "Provide an array of either file URLs or paths to a files in the /tmp directory (for example, /tmp/myFlie.pdf).",
     },
     filenames: {
       type: "string[]",
@@ -71,8 +62,7 @@ export default {
     const {
       dropbox,
       path,
-      fileUrls,
-      filePaths,
+      files,
       autorename,
       mute,
       strictConflict,
@@ -80,11 +70,7 @@ export default {
       filenames,
     } = this;
 
-    if (!fileUrls?.length && !filePaths?.length) {
-      throw new ConfigurationError("Must specify either File URLs or File Paths.");
-    }
-
-    const numFiles = fileUrls.length + filePaths.length;
+    const numFiles = files.length;
     if (numFiles !== filenames.length) {
       throw new ConfigurationError(`Number of filenames must match number of files. Detected ${numFiles} file(s) and ${filenames.length} filename(s)`);
     }
@@ -93,24 +79,13 @@ export default {
     const normalizedPath = dropbox.getNormalizedPath(path, true);
     let i = 0;
 
-    if (fileUrls?.length) {
-      for (const url of fileUrls) {
-        fileInfo.push({
-          contents: await got.stream(url),
-          path: `${normalizedPath}${filenames[i]}`,
-        });
-        i++;
-      }
-    }
-
-    if (filePaths?.length) {
-      for (const filePath of filePaths) {
-        fileInfo.push({
-          contents: fs.createReadStream(filePath),
-          path: `${normalizedPath}${filenames[i]}`,
-        });
-        i++;
-      }
+    for (const file of files) {
+      const contents = await getFileStream(file);
+      fileInfo.push({
+        contents,
+        path: `${normalizedPath}${filenames[i]}`,
+      });
+      i++;
     }
 
     const responses = [];

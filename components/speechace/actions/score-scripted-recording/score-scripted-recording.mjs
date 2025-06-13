@@ -1,19 +1,19 @@
 import speechace from "../../speechace.app.mjs";
 import FormData from "form-data";
-import fs from "fs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 
 export default {
   key: "speechace-score-scripted-recording",
   name: "Score Scripted Recording",
   description: "Scores a scripted recording based on fluency and pronunciation. [See the documentation](https://docs.speechace.com/#c34b11dd-8172-441a-bc27-223339d48d8e)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     speechace,
-    filePath: {
+    file: {
       propDefinition: [
         speechace,
-        "filePath",
+        "file",
       ],
     },
     text: {
@@ -42,10 +42,14 @@ export default {
   },
   async run({ $ }) {
     const data = new FormData();
-    const content = fs.createReadStream(this.filePath.includes("tmp/")
-      ? this.filePath
-      : `/tmp/${this.filePath}`);
-    data.append("user_audio_file", content);
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(this.file);
+    data.append("user_audio_file", stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
+    });
     if (this.text) {
       data.append("text", this.text);
     }

@@ -1,13 +1,12 @@
 import FormData from "form-data";
-import fs from "fs";
-import { checkTmp } from "../../common/utils.mjs";
 import vapi from "../../vapi.app.mjs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 
 export default {
   key: "vapi-upload-file",
   name: "Upload File",
   description: "Uploads a new file. [See the documentation](https://docs.vapi.ai/api-reference)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     vapi,
@@ -19,9 +18,14 @@ export default {
   },
   async run({ $ }) {
     const formData = new FormData();
-    const filePath = checkTmp(this.file);
-
-    formData.append("file", fs.createReadStream(filePath));
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(this.file);
+    formData.append("file", stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
+    });
 
     const response = await this.vapi.uploadFile({
       $,

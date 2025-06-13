@@ -1,12 +1,12 @@
-import fs from "fs";
 import FormData from "form-data";
 import app from "../../trust.app.mjs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 
 export default {
   key: "trust-upload-video",
   name: "Upload Video",
   description: "Upload a video to the Trust platform. [See the documentation](https://api-docs.usetrust.io/uploads-a-video-to-be-used-for-testimonials).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
@@ -19,7 +19,7 @@ export default {
     filePath: {
       type: "string",
       label: "File Path",
-      description: "File path of a file previously downloaded in Pipedream E.g. (`/tmp/my-file.mp4`). [Download a file to the `/tmp` directory](https://pipedream.com/docs/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory)",
+      description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFlie.pdf).",
     },
   },
   methods: {
@@ -40,7 +40,14 @@ export default {
     } = this;
 
     const data = new FormData();
-    data.append("file", fs.createReadStream(filePath));
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(filePath);
+    data.append("file", stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
+    });
 
     const response = await uploadVideo({
       $,

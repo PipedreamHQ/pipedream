@@ -1,11 +1,11 @@
 import FormData from "form-data";
-import fs from "fs";
 import elevenlabs from "../../elevenlabs.app.mjs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 
 export default {
   key: "elevenlabs-add-voice",
   name: "Add Voice",
-  version: "0.0.3",
+  version: "0.0.4",
   description: "Add a voice from one or more audio files. [See the documentation](https://elevenlabs.io/docs/api-reference/add-voice)",
   type: "action",
   props: {
@@ -18,7 +18,7 @@ export default {
     files: {
       type: "string[]",
       label: "Files",
-      description: "One or more audio files (in the `/tmp` folder) to clone the voice from. Example: `/tmp/voice.mp3`",
+      description: "Provide either a n array of file URLs or an array of paths to a files in the /tmp directory (for example, /tmp/myFlie.pdf).",
     },
     description: {
       type: "string",
@@ -45,10 +45,16 @@ export default {
     const data = new FormData();
     if (description) data.append("description", description);
 
-    files.forEach((file) => {
-      data.append("files", fs.createReadStream(file.includes("tmp/")
-        ? file
-        : `/tmp/${file}`));});
+    files.forEach(async (file) => {
+      const {
+        stream, metadata,
+      } = await getFileStreamAndMetadata(file);
+      data.append("files", stream, {
+        contentType: metadata.contentType,
+        knownLength: metadata.size,
+        filename: metadata.name,
+      });
+    });
 
     if (labels) data.append("labels", labels);
     data.append("name", name);

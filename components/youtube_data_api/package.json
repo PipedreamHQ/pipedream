@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/youtube_data_api",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "Pipedream Youtube Components",
   "main": "youtube_data_api.app.mjs",
   "keywords": [
@@ -11,7 +11,7 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
     "@googleapis/youtube": "^6.0.0",
-    "@pipedream/platform": "^3.0.3",
+    "@pipedream/platform": "^3.1.0",
     "got": "^14.4.6",
     "util": "^0.12.4"
   },

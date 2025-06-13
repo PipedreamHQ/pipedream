@@ -1,12 +1,9 @@
-import fs from "fs";
-import got from "got";
-import { ConfigurationError } from "@pipedream/platform";
+import { getFileStream } from "@pipedream/platform";
 
 export default {
   async run({ $ }) {
     const {
-      fileUrl,
-      filePath,
+      file,
       title,
       description,
       privacyStatus,
@@ -14,12 +11,9 @@ export default {
       tags,
       notifySubscribers,
     } = this;
-    if ((!fileUrl && !filePath) || (fileUrl && filePath)) {
-      throw new ConfigurationError("This action requires either `File URL` or `File Path`. Please enter one or the other above.");
-    }
-    const body = fileUrl
-      ? await got.stream(fileUrl)
-      : fs.createReadStream(filePath);
+
+    const body = await getFileStream(file);
+
     const { data: resp } = await this.youtubeDataApi.insertVideo({
       title,
       description,
