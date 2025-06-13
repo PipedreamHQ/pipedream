@@ -1,9 +1,27 @@
 export default {
-  "index": "What is Pipedream?",
+  "index": "Introduction",
   "workspaces": "Workspaces",
   "projects": "Projects",
-  "connect": "Connect",
-  "workflows": "Workflows",
+  "--connect": {
+    type: "separator",
+    title: "Connect",
+  },
+  "connect": {
+    title: "Overview",
+    // display: "children",
+  },
+  "--workflows": {
+    type: "separator",
+    title: "Workflows",
+  },
+  "workflows": {
+    title: "Workflows",
+    // display: "children",
+  },
+  "--platform": {
+    type: "separator",
+    title: "Platform",
+  },
   "apps": "Apps",
   "components": "Components",
   "rest-api": "REST API",
