@@ -452,6 +452,16 @@ export default withNextra({
         permanent: true,
       },
       {
+        source: "/cli/install/",
+        destination: "/components/contributing/cli/install/",
+        permanent: true,
+      },
+      {
+        source: "/cli/:path*",
+        destination: "/components/contributing/cli/:path*",
+        permanent: true,
+      },
+      {
         source: "/workflows/cli/",
         destination: "/components/contributing/cli/reference/",
         permanent: true,

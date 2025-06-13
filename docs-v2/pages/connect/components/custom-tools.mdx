@@ -1,0 +1,96 @@
+import Callout from '@/components/Callout'
+
+# Using Custom Tools
+
+In addition to the public triggers and actions in Pipedream's global registry, you can write and publish your own components to your workspace to use with Connect. Custom tools let you add specific functionality or capabilities that are unique to your exact use case.
+
+## Overview
+
+Custom tools are Node.js modules that you develop using the [Pipedream Components API](/components/contributing/api/) and publish to your Pipedream workspace. Once published, they become available across [all Connect APIs](/connect/api/#components), including the list, retrieve, run endpoints, etc.
+
+<Callout type="info">
+Publishing custom tools is available to Pipedream customers on the [Business plan](https://pipedream.com/pricing?plan=Enterprise).
+</Callout>
+
+## Creating custom tools
+
+Custom tools use the same development workflow as standard Pipedream components:
+
+1. **Write your component** using the [Pipedream Components API](/components/contributing/api/)
+2. **Follow component guidelines** outlined in the [component development docs](/components/contributing/guidelines/)
+3. **Use the Pipedream CLI** to publish your component with a Connect-specific flag
+
+<Callout type="info">
+Custom tools are either [sources](/components/contributing/sources-quickstart/) (triggers) or [actions](/components/contributing/actions-quickstart/). Check out the respective quickstart guides for step-by-step development instructions.
+</Callout>
+
+## Publishing for Connect
+
+To make your custom components available in Connect, use the `pd publish` command with the `--connect-environment` flag:
+
+```bash
+pd publish my-custom-action.mjs --connect-environment development
+```
+
+### Environments
+
+The `--connect-environment` flag accepts two values:
+
+- **`development`**: makes the component available to your Pipedream workspace in Connect in development
+- **`production`**: makes the component available to your Pipedream workspace in Connect in production
+
+<Callout type="warning">
+Components published to `development` will only be available in the development environment, and vice versa for `production`.
+</Callout>
+
+## Using custom tools
+
+Once published, your custom tools appear alongside public components in Connect APIs:
+
+- **List endpoints**: Custom tools are included in component listing responses
+- **Retrieve endpoints**: You can fetch details about your custom components
+- **Run endpoints**: Execute your custom tools with the same API calls used for public components
+
+### Referencing custom tools
+
+Custom tools are identified with a `~/` prefix in their component ID. For example, if you publish a component with the key `google_sheets-update-file`, it will appear in Connect APIs as `~/google_sheets-update-file`.
+
+When making API calls to list, retrieve, or run custom tools, use the prefixed ID:
+
+```bash
+# List all components (includes custom tools with ~/ prefix)
+GET /v1/components
+
+# Retrieve a specific custom tool
+GET /v1/components/~/google_sheets-update-file
+
+# Run a custom tool
+POST /v1/components/~/google_sheets-update-file/run
+```
+
+The Connect API treats custom tools identically to public components, ensuring a consistent integration experience.
+
+## Example workflow
+
+Here's a typical workflow for creating and using a custom tool:
+
+1. **Develop locally** using your preferred editor
+2. **Test your component** using [pd dev](/components/contributing/cli/reference/#pd-dev) for sources or local testing for actions  
+3. **Publish to Connect** with the appropriate environment flag
+4. **Integrate via Connect APIs** in your application
+
+<Callout type="info">
+Test your custom tools in your application directly or [run Pipedream's SDK playground](https://github.com/PipedreamHQ/pipedream-connect-examples/tree/master/connect-react-demo#pipedream-components-demo-react) locally with your Pipedream credentials.
+</Callout>
+
+## Best practices
+
+- **Follow naming conventions**: Use clear, descriptive names for your tools
+- **Include proper documentation**: Add helpful descriptions and prop labels for easier configuration
+- **Test thoroughly**: Validate your components work as expected before publishing to production
+- **Version management**: Update component versions when making changes
+- **Environment separation**: Use development environment for testing, production for live integrations
+
+## Getting help
+
+For component development questions, visit the [Pipedream Support](https://pipedream.com/support). For Connect-specific integration help, refer to the [Connect docs](/connect/).
