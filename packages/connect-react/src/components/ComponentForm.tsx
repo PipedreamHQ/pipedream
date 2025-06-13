@@ -29,6 +29,10 @@ export type ComponentFormProps<T extends ConfigurableProps, U = ConfiguredProps<
   hideOptionalProps?: boolean;
   sdkResponse?: unknown | undefined;
   enableDebugging?: boolean;
+  /**
+   * The OAuth app ID to use when connecting accounts for app props.
+   */
+  oauthAppId?: string;
 } & (
   | { externalUserId: string; userId?: never }
   | { userId: string; externalUserId?: never }

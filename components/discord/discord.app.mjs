@@ -11,8 +11,8 @@ export default {
       type: "boolean",
       optional: true,
       default: true,
-      label: "Include link to workflow",
-      description: "Defaults to `true`, includes a link to this workflow at the end of your Discord message.",
+      label: "Include link to Pipedream",
+      description: "Defaults to `true`, includes a link to Pipedream at the end of your Discord message.",
     },
     embeds: {
       type: "any",

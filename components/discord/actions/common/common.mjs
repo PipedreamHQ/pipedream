@@ -66,7 +66,16 @@ export default {
     },
     getSentViaPipedreamText() {
       const workflowId = process.env.PIPEDREAM_WORKFLOW_ID;
-      return `Sent via [Pipedream](<https://pipedream.com/@/${workflowId}?o=a&a=discord>)`;
+      const baseLink = "https://pipedream.com";
+      const linkText = !workflowId
+        ? "Pipedream Connect"
+        : "Pipedream";
+
+      const link = !workflowId
+        ? `${baseLink}/connect`
+        : `${baseLink}/@/${workflowId}?o=a&a=discord`;
+
+      return `Sent via [${linkText}](<${link}>)`;
     },
     getMessageFlags(suppressNotifications) {
       let flags = 0;

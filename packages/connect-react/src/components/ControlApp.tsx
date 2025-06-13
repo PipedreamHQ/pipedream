@@ -25,9 +25,10 @@ const BaseOption = (props: OptionProps<AppResponse>) => {
 
 type ControlAppProps = {
   app: AppResponse;
+  oauthAppId?: string;
 };
 
-export function ControlApp({ app }: ControlAppProps) {
+export function ControlApp({ app, oauthAppId }: ControlAppProps) {
   const client = useFrontendClient();
   const { externalUserId } = useFormContext();
   const formFieldCtx = useFormFieldContext<ConfigurablePropApp>();
@@ -67,7 +68,6 @@ export function ControlApp({ app }: ControlAppProps) {
   };
   const selectProps =  select.getProps("controlAppSelect", baseSelectProps);
 
-  const oauthAppId = undefined; // XXX allow customizing
   const {
     isLoading: isLoadingAccounts,
     // TODO error
@@ -75,7 +75,7 @@ export function ControlApp({ app }: ControlAppProps) {
     refetch: refetchAccounts,
   } = useAccounts(
     {
-      externalUserId,
+      external_user_id: externalUserId,
       app: app.name_slug,
       oauth_app_id: oauthAppId,
     },

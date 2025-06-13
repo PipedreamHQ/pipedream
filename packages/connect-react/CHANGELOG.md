@@ -2,6 +2,26 @@
 
 # Changelog
 
+# [1.3.1] - 2025-06-13
+
+## Added
+
+- Support for `oauthAppId` parameter in `ComponentForm` and `ComponentFormContainer` components
+- Pass `oauthAppId` through to `ControlApp` component for OAuth app-specific account connections
+
+## Usage
+
+```typescript
+<ComponentForm
+  externalUserId="user123"
+  component={component}
+  oauthAppId="your-oauth-app-id"  // New optional prop
+  // ... other props
+/>
+```
+
+This allows you to specify which OAuth app to use when connecting accounts, matching the behavior of the SDK's `connectAccount` method.
+
 # [1.3.0] - 2025-06-10
 
 ## Added

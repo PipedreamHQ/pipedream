@@ -7,6 +7,7 @@ import type {
 
 export type FormFieldContextExtra<T extends ConfigurableProp> = T extends ConfigurablePropApp ? {
   app?: AppResponse;
+  oauthAppId?: string;
 } : Record<string, never>;
 
 export type FormFieldContext<T extends ConfigurableProp> = {
