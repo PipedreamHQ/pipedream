@@ -93,6 +93,7 @@ export default {
       type: "string",
       label: "File",
       description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFlie.pdf).",
+      optional: true,
     },
     mimeType: {
       propDefinition: [
@@ -240,22 +241,28 @@ export default {
       coordinates,
     };
 
-    const form = new FormData();
-    const {
-      stream, metadata,
-    } = await getFileStreamAndMetadata(file);
-    form.append("file", stream, {
-      contentType: metadata.contentType,
-      knownLength: metadata.size,
-      filename: metadata.name,
-    });
-
-    response = await this.app.createCard({
-      $,
-      params,
-      headers: form.getHeaders(),
-      data: form,
-    });
+    if (file) {
+      const form = new FormData();
+      const {
+        stream, metadata,
+      } = await getFileStreamAndMetadata(file);
+      form.append("file", stream, {
+        contentType: metadata.contentType,
+        knownLength: metadata.size,
+        filename: metadata.name,
+      });
+      response = await this.app.createCard({
+        $,
+        params,
+        headers: form.getHeaders(),
+        data: form,
+      });
+    } else {
+      response = await this.app.createCard({
+        $,
+        params,
+      });
+    }
 
     if (customFieldIds) {
       const customFieldItems = await this.getCustomFieldItems($);

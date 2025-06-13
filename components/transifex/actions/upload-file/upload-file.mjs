@@ -59,7 +59,7 @@ export default {
     },
   },
   methods: {
-    asyncstreamToBuffer(stream) {
+    async streamToBuffer(stream) {
       return new Promise((resolve, reject) => {
         const chunks = [];
 

@@ -45,7 +45,7 @@ export default {
     const data = new FormData();
     if (description) data.append("description", description);
 
-    files.forEach(async (file) => {
+    for (const file of files) {
       const {
         stream, metadata,
       } = await getFileStreamAndMetadata(file);
@@ -54,7 +54,7 @@ export default {
         knownLength: metadata.size,
         filename: metadata.name,
       });
-    });
+    }
 
     if (labels) data.append("labels", labels);
     data.append("name", name);

@@ -14,15 +14,6 @@ export default {
     },
   },
   methods: {
-    streamToBuffer(stream) {
-      return new Promise((resolve, reject) => {
-        const chunks = [];
-
-        stream.on("data", (chunk) => chunks.push(chunk));
-        stream.on("end", () => resolve(Buffer.concat(chunks)));
-        stream.on("error", reject);
-      });
-    },
     async makeRequest($, url, image, params = {}) {
       // Prepare form data.
       const form = new FormData();
@@ -30,8 +21,7 @@ export default {
         stream, metadata,
       } = await getFileStreamAndMetadata(image);
 
-      const buffer = await this.streamToBuffer(stream);
-      form.append("image", buffer, {
+      form.append("image", stream, {
         contentType: metadata.contentType,
         knownLength: metadata.size,
         filename: metadata.name,
