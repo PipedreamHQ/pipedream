@@ -11,35 +11,38 @@ export default {
     apiServer: {
       type: "string",
       label: "Please select a API server",
-      default: 'googleSearch',
+      default: "googleSearch",
+      description: "Please select a API server to use",
       options: [
         {
           label: "Google Search",
-          value: 'googleSearch'
-        }
+          value: "googleSearch",
+        },
       ],
       reloadProps: true,
     },
   },
   async run({ $ }) {
-    const { apiServer, ...rest } = this;
+    const {
+      scrapeless, apiServer, ...inputProps
+    } = this;
 
-    if (apiServer === 'googleSearch') {
+    if (apiServer === "googleSearch") {
       const submitData = {
-        actor: 'scraper.google.search',
+        actor: "scraper.google.search",
         input: {
-          q: rest.q,
-          hl: rest.hl,
-          gl: rest.gl,
-        }
-      }
-      const response = await this.scrapeless.scrapingApi({
+          q: inputProps.q,
+          hl: inputProps.hl,
+          gl: inputProps.gl,
+        },
+      };
+      const response = await scrapeless.scrapingApi({
         $,
         submitData,
-        ...rest,
+        ...inputProps,
       });
 
-      $.export("$summary", `Successfully retrieved scraping results for Google Search`);
+      $.export("$summary", "Successfully retrieved scraping results for Google Search");
       return response;
     }
   },
@@ -48,29 +51,29 @@ export default {
 
     const props = {};
 
-    if (apiServer === 'googleSearch') {
+    if (apiServer === "googleSearch") {
       props.q = {
         type: "string",
         label: "Search Query",
         description: "Parameter defines the query you want to search. You can use anything that you would use in a regular Google search. e.g. inurl:, site:, intitle:. We also support advanced search query parameters such as as_dt and as_eq.",
-        default: "coffee"
-      }
+        default: "coffee",
+      };
 
       props.hl = {
         type: "string",
         label: "Language",
         description: "Parameter defines the language to use for the Google search. It's a two-letter language code. (e.g., en for English, es for Spanish, or fr for French).",
-        default: "en"
-      }
+        default: "en",
+      };
 
       props.gl = {
         type: "string",
         label: "Country",
         description: "Parameter defines the country to use for the Google search. It's a two-letter country code. (e.g., us for the United States, uk for United Kingdom, or fr for France).",
-        default: "us"
-      }
+        default: "us",
+      };
     }
 
     return props;
-  }
-}
+  },
+};
