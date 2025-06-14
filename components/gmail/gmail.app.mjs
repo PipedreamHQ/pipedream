@@ -397,6 +397,12 @@ export default {
       });
       return data;
     },
+    async getProfile() {
+      const { data } = await this._client().users.getProfile({
+        userId: constants.USER_ID,
+      });
+      return data;
+    },
     async getMessageSubject({ id }) {
       const message = await this.getMessage({
         id,
