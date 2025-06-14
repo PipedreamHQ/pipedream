@@ -23,13 +23,14 @@ export default {
     },
   },
   async run({ $ }) {
+    const filename = utils.checkForExtension(this.filename, "pdf");
     const fileContent = await utils.getBase64File(this.filePath);
 
     const response = await this.pdf4me.convertToPdf({
       $,
       data: {
         docContent: fileContent,
-        docName: this.filename,
+        docName: filename,
       },
       responseType: "arraybuffer",
     });

@@ -124,31 +124,16 @@ export default {
       $ = this,
       url,
       path,
-      headers: preHeaders,
       params,
-      data: preData,
+      headers,
       versionPath = constants.VERSION_PATH,
       withRetries = true,
       ...args
     } = {}) {
-      const contentType = constants.CONTENT_TYPE_KEY_HEADER;
-
-      const hasMultipartHeader = utils.hasMultipartHeader(preHeaders);
-      const data = hasMultipartHeader && await utils.getFormData(preData) || preData;
-
-      const currentHeaders = this.getHeaders(preHeaders);
-      const headers = hasMultipartHeader
-        ? {
-          ...currentHeaders,
-          [contentType]: data.getHeaders()[contentType.toLowerCase()],
-        }
-        : currentHeaders;
-
       const config = {
-        headers,
         url: this.getUrl(url, path, versionPath),
         params: this.getParams(url, params),
-        data,
+        headers: this.getHeaders(headers),
         ...args,
       };
       try {
