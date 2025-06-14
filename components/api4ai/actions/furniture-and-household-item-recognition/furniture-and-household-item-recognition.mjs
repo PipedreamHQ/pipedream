@@ -5,7 +5,7 @@ export default {
   name: "Furniture & Household Item Recognition",
   description: "This API provides identification of furniture & household items with advanced intelligent detection, categorization, and counting technologies. Powered by API4AI.",
   key: "api4ai-furniture-and-household-item-recognition",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

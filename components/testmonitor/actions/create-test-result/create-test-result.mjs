@@ -1,16 +1,15 @@
-import { ConfigurationError } from "@pipedream/platform";
-import FormData from "form-data";
-import fs from "fs";
 import {
-  checkTmp, parseObject,
-} from "../../common/utils.mjs";
+  getFileStreamAndMetadata, ConfigurationError,
+} from "@pipedream/platform";
+import FormData from "form-data";
+import { parseObject } from "../../common/utils.mjs";
 import testmonitor from "../../testmonitor.app.mjs";
 
 export default {
   key: "testmonitor-create-test-result",
   name: "Create Test Result",
   description: "Create a new test result. [See the docs here](https://docs.testmonitor.com/#tag/Test-Results/operation/PostTestResult)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     testmonitor,
@@ -47,7 +46,7 @@ export default {
     attachments: {
       type: "string[]",
       label: "Attachments",
-      description: "A list of attachment files.",
+      description: "A list of attachment files. Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFlie.pdf).",
       hidden: true,
       optional: true,
     },
@@ -94,7 +93,14 @@ export default {
         try {
           for (const file of parseObject(this.attachments)) {
             const data = new FormData();
-            data.append("file", fs.createReadStream(checkTmp(file)));
+            const {
+              stream, metadata,
+            } = await getFileStreamAndMetadata(file);
+            data.append("file", stream, {
+              contentType: metadata.contentType,
+              knownLength: metadata.size,
+              filename: metadata.name,
+            });
             await this.testmonitor.uploadAttachment({
               $,
               testResultId,

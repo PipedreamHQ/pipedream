@@ -1,15 +1,14 @@
-import { ConfigurationError } from "@pipedream/platform";
-import fs from "fs";
 import {
-  checkTmp, parseObject,
-} from "../../common/utils.mjs";
+  getFileStream, ConfigurationError,
+} from "@pipedream/platform";
+import { parseObject } from "../../common/utils.mjs";
 import theBookie from "../../the_bookie.app.mjs";
 
 export default {
   key: "the_bookie-create-sales-invoice",
   name: "Create Sales Invoice",
   description: "Creates a new sales invoice. [See the documentation](https://app.thebookie.nl/nl/help/article/api-documentatie/#salesentry_create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     theBookie,
@@ -67,8 +66,19 @@ export default {
     attachment: {
       type: "string",
       label: "Attachment",
-      description: "The path to the pdf file saved to the `/tmp` directory (e.g. `/tmp/example.pdf`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFlie.pdf).",
       optional: true,
+    },
+  },
+  methods: {
+    async streamToBuffer(stream) {
+      return new Promise((resolve, reject) => {
+        const chunks = [];
+
+        stream.on("data", (chunk) => chunks.push(chunk));
+        stream.on("end", () => resolve(Buffer.concat(chunks)));
+        stream.on("error", reject);
+      });
     },
   },
   async run({ $ }) {
@@ -76,9 +86,9 @@ export default {
       throw new ConfigurationError("At least one (1) 'Journal Entry Line' should be added");
     }
     if (this.attachment) {
-      this.attachment = fs.readFileSync(checkTmp(this.attachment), {
-        encoding: "base64",
-      });
+      const stream = await getFileStream(this.attachment);
+      const buffer = await this.streamToBuffer(stream);
+      this.attachment = buffer.toString("base64");
     }
     const response = await this.theBookie.createInvoice({
       $,

@@ -1,7 +1,7 @@
 import timetonic from "../../timetonic.app.mjs";
 import constants from "../../common/constants.mjs";
-import fs from "fs";
 import FormData from "form-data";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 
 export default {
   props: {
@@ -71,7 +71,7 @@ export default {
           });
         }
         if (field.type === "file" || field.type === "files") {
-          props[id].description = "The path to the file saved to the `/tmp` directory (e.g. `/tmp/example.pdf`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).";
+          props[id].description = "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFlie.pdf).";
           props[`${id}_is_file`] = {
             type: "boolean",
             default: true,
@@ -86,12 +86,16 @@ export default {
     isUpdate() {
       return false;
     },
-    uploadFile($, fieldId, filePath, rowId) {
-      const fileStream = fs.createReadStream(filePath.includes("/tmp")
-        ? filePath
-        : `/tmp/${filePath}`);
+    async uploadFile($, fieldId, filePath, rowId) {
+      const {
+        stream, metadata,
+      } = await getFileStreamAndMetadata(filePath);
       const formData = new FormData();
-      formData.append("qqfile", fileStream);
+      formData.append("qqfile", stream, {
+        contentType: metadata.contentType,
+        knownLength: metadata.size,
+        filename: metadata.name,
+      });
       return this.timetonic.uploadFile({
         $,
         params: {

@@ -5,7 +5,7 @@ export default {
   key: "transifex-download-file",
   name: "Download File",
   description: "Downloads a user-specified file from the Transifex platform. [See the documentation](https://developers.transifex.com/reference/get_resource-strings-async-downloads-resource-strings-async-download-id)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     transifex,

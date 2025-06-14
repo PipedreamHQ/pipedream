@@ -1,13 +1,12 @@
-import { ConfigurationError } from "@pipedream/platform";
-import fs from "fs";
-import { checkTmp } from "../../common/utils.mjs";
+import { streamToBuffer } from "../../common/utils.mjs";
 import syncmateByAssitro from "../../syncmate_by_assitro.app.mjs";
+import { getFileStream } from "@pipedream/platform";
 
 export default {
   key: "syncmate_by_assitro-send-message",
   name: "Send WhatsApp Message",
   description: "Send a single WhatsApp message using SyncMate by Assistro. [See the documentation](https://assistro.co/user-guide/connect-your-custom-app-with-syncmate/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     syncmateByAssitro,
@@ -24,7 +23,7 @@ export default {
     media: {
       type: "string",
       label: "Media",
-      description: "The the path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
+      description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFlie.pdf).",
       optional: true,
     },
     fileName: {
@@ -35,10 +34,6 @@ export default {
     },
   },
   async run({ $ }) {
-    if (this.media && !this.fileName) {
-      throw new ConfigurationError("You must provide the file name.");
-    }
-
     const msgs = [
       {
         number: this.number,
@@ -47,13 +42,13 @@ export default {
     ];
 
     if (this.media) {
-      const file = fs.readFileSync(checkTmp(this.media), {
-        encoding: "base64",
-      });
+      const stream = await getFileStream(this.media);
+      const buffer = await streamToBuffer(stream);
+      const base64 = buffer.toString("base64");
 
       msgs[0].media = [
         {
-          media_base64: file,
+          media_base64: base64,
           file_name: this.fileName,
         },
       ];
