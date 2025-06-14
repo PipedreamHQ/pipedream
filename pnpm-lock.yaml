@@ -990,8 +990,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/arpoone:
-    specifiers: {}
+  components/arpoone: {}
 
   components/arxiv: {}
 
@@ -10348,8 +10347,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/postmaster:
-    specifiers: {}
+  components/postmaster: {}
 
   components/power_automate: {}
 
@@ -15672,14 +15670,6 @@ importers:
       dotenv:
         specifier: ^6.0.0
         version: 6.2.0
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
 
   packages/ai:
     dependencies:
