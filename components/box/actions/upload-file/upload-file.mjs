@@ -5,7 +5,7 @@ export default {
   name: "Upload a File",
   description: "Uploads a small file to Box. [See the documentation](https://developer.box.com/reference/post-files-content/).",
   key: "box-upload-file",
-  version: "0.0.4",
+  version: "0.1.0",
   type: "action",
   props: {
     app,
@@ -47,7 +47,7 @@ export default {
     const {
       file, createdAt, modifiedAt, fileName, parentId,
     } = this;
-    const data = this.getFileUploadBody({
+    const data = await this.getFileUploadBody({
       file,
       createdAt,
       modifiedAt,

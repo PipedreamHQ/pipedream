@@ -4,17 +4,10 @@ export default {
   type: "app",
   app: "ilovepdf",
   propDefinitions: {
-    fileUrls: {
-      type: "string[]",
-      label: "File URLs",
-      description: "The URL(s) of the file(s) to be processed.",
-      optional: true,
-    },
     filePaths: {
       type: "string[]",
-      label: "File Paths",
-      description: "The path(s) to file(s) in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
-      optional: true,
+      label: "File Paths or URLs",
+      description: "The files to process. For each entry, provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.pdf`)",
     },
     tool: {
       type: "string",

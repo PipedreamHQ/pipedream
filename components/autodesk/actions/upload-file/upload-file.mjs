@@ -1,12 +1,13 @@
 import autodesk from "../../autodesk.app.mjs";
-import { axios } from "@pipedream/platform";
-import fs from "fs";
+import {
+  axios, getFileStreamAndMetadata,
+} from "@pipedream/platform";
 
 export default {
   key: "autodesk-upload-file",
   name: "Upload File",
   description: "Uploads a new file to a specified folder in Autodesk. [See the documentation](https://aps.autodesk.com/en/docs/data/v2/tutorials/upload-file/).",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     autodesk,
@@ -42,8 +43,8 @@ export default {
     },
     filePath: {
       type: "string",
-      label: "File Path",
-      description: "The path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
+      label: "File Path or URL",
+      description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
     },
     type: {
       type: "string",
@@ -107,19 +108,17 @@ export default {
     const signedUrl = urls[0];
 
     // Upload to signed URL
-    const filePath = this.filePath.includes("tmp/")
-      ? this.filePath
-      : `/tmp/${this.filePath}`;
-    const fileStream = fs.createReadStream(filePath);
-    const fileSize = fs.statSync(filePath).size;
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(this.filePath);
 
     await axios($, {
       url: signedUrl,
-      data: fileStream,
+      data: stream,
       method: "PUT",
       headers: {
         "Content-Type": "application/octet-stream",
-        "Content-Length": fileSize,
+        "Content-Length": metadata.size,
       },
       maxContentLength: Infinity,
       maxBodyLength: Infinity,

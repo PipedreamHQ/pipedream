@@ -6,7 +6,7 @@ export default {
   key: "nyckel-classify-image",
   name: "Classify Image",
   description: "Classifies image data based on pre-trained classifiers in Nyckel. [See the documentation](https://www.nyckel.com/docs#invoke-image)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     nyckel,
@@ -46,7 +46,7 @@ export default {
     const response = await this.nyckel.invokeFunction({
       $,
       functionId: this.functionId,
-      ...this.getImageData(),
+      ...(await this.getImageData()),
       params: {
         labelCount: this.labelCount,
         includeMetadata: this.includeMetadata,

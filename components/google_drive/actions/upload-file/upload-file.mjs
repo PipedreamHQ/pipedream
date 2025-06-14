@@ -1,19 +1,18 @@
 import googleDrive from "../../google_drive.app.mjs";
-import path from "path";
 import {
   omitEmptyStringValues,
   parseObjectEntries,
 } from "../../common/utils.mjs";
 import { GOOGLE_DRIVE_UPLOAD_TYPE_MULTIPART } from "../../common/constants.mjs";
 import {
-  getFileStream, ConfigurationError,
+  getFileStreamAndMetadata, ConfigurationError,
 } from "@pipedream/platform";
 
 export default {
   key: "google_drive-upload-file",
   name: "Upload File",
   description: "Upload a file to Google Drive. [See the documentation](https://developers.google.com/drive/api/v3/manage-uploads) for more information",
-  version: "1.1.0",
+  version: "2.0.0",
   type: "action",
   props: {
     googleDrive,
@@ -36,10 +35,11 @@ export default {
         "The folder you want to upload the file to. If not specified, the file will be placed directly in the drive's top-level folder.",
       optional: true,
     },
-    file: {
-      type: "string",
-      label: "File",
-      description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFlie.pdf).",
+    filePath: {
+      propDefinition: [
+        googleDrive,
+        "filePath",
+      ],
     },
     name: {
       propDefinition: [
@@ -84,16 +84,18 @@ export default {
   async run({ $ }) {
     const {
       parentId,
+      filePath,
       name,
       mimeType,
     } = this;
     let { uploadType } = this;
     const driveId = this.googleDrive.getDriveId(this.drive);
 
-    const filename = name || path.basename(this.file);
+    const {
+      stream: file, metadata: fileMetadata,
+    } = await getFileStreamAndMetadata(filePath);
 
-    const file = await getFileStream(this.file);
-    console.log(`Upload type: ${uploadType}.`);
+    const filename = name || fileMetadata.name;
 
     const metadata = this.metadata
       ? parseObjectEntries(this.metadata)

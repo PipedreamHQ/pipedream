@@ -34,17 +34,10 @@ export default {
       alertType: "info",
       content: "Please provide exactly one of File URL or File Path.",
     },
-    fileUrl: {
-      type: "string",
-      label: "File URL",
-      description: "The URL of the .pdf file that will be used to create the source for the publication. The URL must be publicly accessible for at least for several minutes.",
-      optional: true,
-    },
     filePath: {
       type: "string",
-      label: "File Path",
-      description: "The path to a .pdf file in the `/tmp` directory be used to create the source for the publication. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
-      optional: true,
+      label: "File Path or URL",
+      description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.pdf`)",
     },
     filename: {
       type: "string",

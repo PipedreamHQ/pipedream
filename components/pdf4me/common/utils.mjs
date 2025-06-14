@@ -1,5 +1,7 @@
 import fs from "fs";
-import { ConfigurationError } from "@pipedream/platform";
+import {
+  ConfigurationError, getFileStream,
+} from "@pipedream/platform";
 
 function normalizeFilePath(path) {
   return path.startsWith("/tmp/")
@@ -41,9 +43,22 @@ function handleErrorMessage(error) {
   throw new ConfigurationError(errorMessage);
 }
 
+async function getBase64File(filePath) {
+  try {
+    const stream = await getFileStream(filePath);
+    const chunks = [];
+    for await (const chunk of stream) {
+      chunks.push(chunk);
+    }
+    return Buffer.concat(chunks).toString("base64");
+  } catch (error) {
+    throw new ConfigurationError(`Error parsing file \`${filePath}\`: ${error.message}`);
+  }
+}
+
 export default {
-  normalizeFilePath,
   checkForExtension,
   downloadToTmp,
   handleErrorMessage,
+  getBase64File,
 };

@@ -1,36 +1,35 @@
 import alttextAi from "../../alttext_ai.app.mjs";
-import fs from "fs";
+import {
+  ConfigurationError, getFileStream,
+} from "@pipedream/platform";
 import { LANGUAGE_OPTIONS } from "../../commons/constants.mjs";
-import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "alttext_ai-generate-alt-text",
   name: "Generate Alt Text",
   description:
     "Generates a descriptive alt text for a given image. [See the documentation](https://alttext.ai/apidocs#tag/Images/operation/create-image)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     alttextAi,
+    fileInfo: {
+      type: "alert",
+      alertType: "warning",
+      content: "Either `Image Data` or `Image File Path or URL` should be provided. If both are provided, `Image Data` will be used.",
+    },
     imageData: {
       type: "string",
       label: "Image Data",
       description:
-        "The image data in base64 format. Only one of `Image Data`, `Image File Path` or `Image URL` should be specified.",
-      optional: true,
-    },
-    imageUrl: {
-      type: "string",
-      label: "Image URL",
-      description:
-        "The public URL to an image. Only one of `Image URL`, `Image Data` or `Image File Path` should be specified.",
+        "The image data in base64 format",
       optional: true,
     },
     imageFilePath: {
       type: "string",
-      label: "Image File Path",
+      label: "Image File Path or URL",
       description:
-        "The path to an image file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#the-tmp-directory). Only one of `Image File Path`, `Image URL` or `Image Data` should be specified.",
+        "The image to process. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myImage.jpg`)",
       optional: true,
     },
     keywords: {
@@ -64,31 +63,29 @@ export default {
     },
   },
   async run({ $ }) {
-    if (
-      (!this.imageData && !this.imageFilePath && !this.imageUrl)
-      || (this.imageData && this.imageFilePath)
-      || (this.imageData && this.imageUrl)
-      || (this.imageFilePath && this.imageUrl)
-    ) {
-      throw new ConfigurationError("Only one of `Image Data`, `Image File Path` or `Image URL` should be specified.");
+    const {
+      imageData, imageFilePath,
+    } = this;
+    if (!imageData && !imageFilePath) {
+      throw new ConfigurationError("Either `Image Data` or `Image File Path or URL` should be specified.");
+    }
+
+    let rawData = imageData;
+    if (!rawData) {
+      const stream = await getFileStream(this.imageInput);
+      const chunks = [];
+      for await (const chunk of stream) {
+        chunks.push(chunk);
+      }
+      const buffer = Buffer.concat(chunks);
+      rawData = buffer.toString("base64");
     }
 
     const response = await this.alttextAi.generateAltText({
       $,
       data: {
         image: {
-          url: this.imageUrl,
-          raw:
-            this.imageData ??
-            (this.imageFilePath &&
-              fs.readFileSync(
-                this.imageFilePath.includes("tmp/")
-                  ? this.imageFilePath
-                  : `/tmp/${this.imageFilePath}`,
-                {
-                  encoding: "base64",
-                },
-              )),
+          raw: rawData,
         },
         keywords: this.keywords,
         negative_keywords: this.negativeKeywords,

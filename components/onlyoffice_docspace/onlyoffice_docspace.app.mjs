@@ -46,12 +46,12 @@ export default {
         ...headers,
       };
     },
-    getConfig({
+    async getConfig({
       headers, data: preData, ...args
     } = {}) {
       const contentType = constants.CONTENT_TYPE_KEY_HEADER;
       const hasMultipartHeader = utils.hasMultipartHeader(headers);
-      const data = hasMultipartHeader && utils.getFormData(preData) || preData;
+      const data = hasMultipartHeader && await utils.getFormData(preData) || preData;
       const currentHeaders = this.getHeaders(headers);
 
       return {
@@ -65,10 +65,10 @@ export default {
         ...args,
       };
     },
-    _makeRequest({
+    async _makeRequest({
       $ = this, path, headers, ...args
     } = {}) {
-      const config = this.getConfig({
+      const config = await this.getConfig({
         url: this.getUrl(path),
         headers: this.getHeaders(headers),
         ...args,

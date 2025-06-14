@@ -1,14 +1,14 @@
 import cradlAi from "../../cradl_ai.app.mjs";
 import constants from "../../common/constants.mjs";
-import fs from "fs";
+import { getFileStream } from "@pipedream/platform";
 
 export default {
   props: {
     cradlAi,
     filePath: {
       type: "string",
-      label: "File Path",
-      description: "The path to the document file saved to the `/tmp` directory (e.g. `/tmp/example.pdf`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      label: "File Path or URL",
+      description: "The file to process. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`).",
     },
     contentType: {
       type: "string",
@@ -46,10 +46,8 @@ export default {
         },
       });
     },
-    uploadFile($, fileUrl) {
-      const fileData = fs.readFileSync(this.filePath.includes("/tmp")
-        ? this.filePath
-        : `/tmp/${this.filePath}`);
+    async uploadFile($, fileUrl) {
+      const fileData = await getFileStream(this.filePath);
       return this.cradlAi.uploadDocument({
         $,
         fileUrl,

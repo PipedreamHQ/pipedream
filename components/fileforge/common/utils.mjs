@@ -22,10 +22,3 @@ export const parseObject = (obj) => {
   }
   return obj;
 };
-
-export const checkTmp = (filename) => {
-  if (!filename.startsWith("/tmp")) {
-    return `/tmp/${filename}`;
-  }
-  return filename;
-};

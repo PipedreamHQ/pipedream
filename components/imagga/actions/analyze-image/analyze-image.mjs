@@ -6,23 +6,15 @@ export default {
   key: "imagga-analyze-image",
   name: "Analyze Image",
   description: "Assign a category to a single image based on its visual content. [See the documentation](https://docs.imagga.com/?shell#categories-categorizer_id)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   props: {
     imagga,
-    imageUrl: {
-      propDefinition: [
-        imagga,
-        "imageUrl",
-      ],
-      optional: true,
-    },
     imageFile: {
       propDefinition: [
         imagga,
         "imageFile",
       ],
-      optional: true,
     },
     imageProcessType: {
       propDefinition: [
@@ -41,7 +33,6 @@ export default {
   async run({ $ }) {
     const {
       imagga,
-      imageUrl,
       imageFile,
       language = [],
       saveIndex,
@@ -61,7 +52,6 @@ export default {
     } = this;
 
     const file = await prepareFile({
-      imageUrl,
       imageFile,
       imagga,
     });
