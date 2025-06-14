@@ -1,14 +1,13 @@
 import roboflow from "../../roboflow.app.mjs";
-import { ConfigurationError } from "@pipedream/platform";
+import { getFileStream } from "@pipedream/platform";
 import utils from "../../common/utils.mjs";
-import fs from "fs";
 import FormData from "form-data";
 
 export default {
   key: "roboflow-upload-image",
   name: "Upload Image",
   description: "Upload an image to a project on the Roboflow platform. [See the documentation](https://docs.roboflow.com/datasets/adding-data/upload-api).",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     roboflow,
@@ -24,12 +23,6 @@ export default {
         "filePath",
       ],
     },
-    fileUrl: {
-      propDefinition: [
-        roboflow,
-        "fileUrl",
-      ],
-    },
     name: {
       type: "string",
       label: "Name",
@@ -38,33 +31,26 @@ export default {
     },
   },
   async run({ $ }) {
-    if ((!this.filePath && !this.fileUrl) || (this.filePath && this.fileUrl)) {
-      throw new ConfigurationError("Exactly one of file Path or File URL must be specified.");
-    }
-
     const args = {
       projectId: utils.extractSubstringAfterSlash(this.projectId),
       $,
     };
 
-    if (this.filePath) {
-      const formData = new FormData();
-      if (this.name) {
-        formData.append("name", this.name);
-      }
-      formData.append("file", fs.createReadStream(this.filePath));
-
-      args.data = formData;
-      args.headers = formData.getHeaders();
+    const formData = new FormData();
+    if (this.name) {
+      formData.append("name", this.name);
     }
 
-    if (this.fileUrl) {
-      const params = {
-        image: this.fileUrl,
+    if (this.filePath.startsWith("http")) {
+      args.params = {
+        image: this.filePath,
         name: this.name,
       };
-
-      args.params = params;
+    } else {
+      const stream = getFileStream(this.filePath);
+      formData.append("file", stream);
+      args.data = formData;
+      args.headers = formData.getHeaders();
     }
 
     const response = await this.roboflow.uploadImage(args);
