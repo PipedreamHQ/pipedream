@@ -11,49 +11,52 @@ export default {
     apiServer: {
       type: "string",
       label: "Please select a API server",
-      default: 'crawl',
+      description: "Please select a API server to use",
+      default: "crawl",
       options: [
         {
           label: "Crawl",
-          value: 'crawl'
+          value: "crawl",
         },
         {
           label: "Scrape",
-          value: 'scrape'
-        }
+          value: "scrape",
+        },
       ],
       reloadProps: true,
     },
   },
   async run({ $ }) {
-    const { apiServer, ...rest } = this;
+    const {
+      scrapeless, apiServer, ...inputProps
+    } = this;
 
-    if (apiServer === 'crawl') {
+    if (apiServer === "crawl") {
       const submitData = {
-        limit: rest.limitCrawlPages,
-        url: rest.url,
-      }
-      const response = await this.scrapeless.crawlerCrawl({
+        limit: inputProps.limitCrawlPages,
+        url: inputProps.url,
+      };
+      const response = await scrapeless.crawlerCrawl({
         $,
         submitData,
-        ...rest,
+        ...inputProps,
       });
 
-      $.export("$summary", `Successfully retrieved crawling results for ${rest.url}`);
+      $.export("$summary", `Successfully retrieved crawling results for ${inputProps.url}`);
       return response;
     }
 
-    if (apiServer === 'scrape') {
+    if (apiServer === "scrape") {
       const submitData = {
-        url: rest.url,
-      }
-      const response = await this.scrapeless.crawlerScrape({
+        url: inputProps.url,
+      };
+      const response = await scrapeless.crawlerScrape({
         $,
         submitData,
-        ...rest,
+        ...inputProps,
       });
 
-      $.export("$summary", `Successfully retrieved scraping results for ${rest.url}`);
+      $.export("$summary", `Successfully retrieved scraping results for ${inputProps.url}`);
       return response;
     }
   },
@@ -62,23 +65,23 @@ export default {
 
     const props = {};
 
-    if (apiServer === 'crawl' || apiServer === 'scrape') {
+    if (apiServer === "crawl" || apiServer === "scrape") {
       props.url = {
         type: "string",
         label: "URL to Crawl",
         description: "If you want to crawl in batches, please refer to the SDK of the document",
-      }
+      };
     }
 
-    if (apiServer === 'crawl') {
+    if (apiServer === "crawl") {
       props.limitCrawlPages = {
         type: "integer",
         label: "Number Of Subpages",
         default: 5,
         description: "Max number of results to return",
-      }
+      };
     }
 
     return props;
-  }
-}
+  },
+};
