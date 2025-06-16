@@ -1,3 +1,4 @@
+import { parseObject } from "../../common/utils.mjs";
 import leaddyno from "../../leaddyno.app.mjs";
 
 export default {
@@ -76,7 +77,7 @@ export default {
         commission_amount_override: this.commissionAmount && parseFloat(this.commissionAmount),
         description: this.description,
         reassign_affiliate: this.reassignAffiliate,
-        line_items: this.lineItems,
+        line_items: parseObject(this.lineItems),
       },
     });
 
