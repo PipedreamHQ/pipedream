@@ -144,6 +144,12 @@ export default {
       optional: true,
       options: Object.values(constants.TICKET_STATUS_OPTIONS),
     },
+    tags: {
+      type: "string[]",
+      label: "Tags",
+      description: "Tags to apply to the ticket. You can specify multiple tags.",
+      optional: true,
+    },
     sortBy: {
       type: "string",
       label: "Sort By",
