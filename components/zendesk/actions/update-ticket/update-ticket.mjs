@@ -72,20 +72,32 @@ export default {
       customSubdomain,
     } = this;
 
+    const ticket = {
+      ...(ticketCommentBody && {
+        comment: {
+          body: ticketCommentBody,
+        },
+      }),
+      ...(ticketPriority && {
+        priority: ticketPriority,
+      }),
+      ...(ticketSubject && {
+        subject: ticketSubject,
+      }),
+      ...(ticketStatus && {
+        status: ticketStatus,
+      }),
+      ...(tags !== undefined && {
+        tags,
+      }),
+    };
+
     const response = await this.updateTicket({
       step,
       ticketId,
       customSubdomain,
       data: {
-        ticket: {
-          comment: {
-            body: ticketCommentBody,
-          },
-          priority: ticketPriority,
-          subject: ticketSubject,
-          status: ticketStatus,
-          tags: tags,
-        },
+        ticket,
       },
     });
 
