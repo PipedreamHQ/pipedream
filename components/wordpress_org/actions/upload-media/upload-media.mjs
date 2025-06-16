@@ -10,7 +10,7 @@ export default {
   type: "action",
   props: {
     wordpress,
-    file: {
+    filePath: {
       type: "string",
       label: "File",
       description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFlie.pdf).",
@@ -39,7 +39,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const content = await getFileStream(this.file);
+    const content = await getFileStream(this.filePath);
 
     const params = utils.cleanObj({
       title: this.title,

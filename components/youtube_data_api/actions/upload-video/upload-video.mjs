@@ -6,7 +6,7 @@ export default {
   key: "youtube_data_api-upload-video",
   name: "Upload Video",
   description: "Post a video to your channel. [See the documentation](https://developers.google.com/youtube/v3/docs/videos/insert) for more information",
-  version: "0.0.8",
+  version: "1.0.0",
   type: "action",
   props: {
     youtubeDataApi,
@@ -22,7 +22,7 @@ export default {
         "description",
       ],
     },
-    file: {
+    filePath: {
       type: "string",
       label: "File",
       description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFlie.pdf).",

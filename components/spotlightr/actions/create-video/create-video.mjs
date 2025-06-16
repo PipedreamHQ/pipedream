@@ -5,7 +5,7 @@ import spotlightr from "../../spotlightr.app.mjs";
 export default {
   key: "spotlightr-create-video",
   name: "Create Video",
-  version: "0.0.2",
+  version: "1.0.0",
   description: "Create a video in an application. [See the documentation](https://app.spotlightr.com/docs/api/#create-video)",
   type: "action",
   props: {

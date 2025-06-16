@@ -22,7 +22,7 @@ export default {
         "recipientPhoneNumber",
       ],
     },
-    file: {
+    filePath: {
       type: "string",
       label: "File",
       description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFlie.pdf).",
@@ -46,7 +46,7 @@ export default {
     const formData = new FormData();
     const {
       stream, metadata,
-    } = await getFileStreamAndMetadata(this.file);
+    } = await getFileStreamAndMetadata(this.filePath);
     formData.append("file", stream, {
       contentType: metadata.contentType,
       knownLength: metadata.size,

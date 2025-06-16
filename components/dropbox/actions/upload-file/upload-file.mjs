@@ -6,7 +6,7 @@ export default {
   name: "Upload a File",
   description: "Uploads a file to a selected folder. [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
   key: "dropbox-upload-file",
-  version: "0.0.15",
+  version: "1.0.0",
   type: "action",
   props: {
     dropbox,
@@ -25,7 +25,7 @@ export default {
       label: "File Name",
       description: "The name of your new file (make sure to include the file extension).",
     },
-    file: {
+    filePath: {
       type: "string",
       label: "File",
       description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFlie.pdf).",
@@ -58,7 +58,7 @@ export default {
   },
   async run({ $ }) {
     const {
-      file,
+      filePath,
       path,
       name,
       autorename,
@@ -68,7 +68,7 @@ export default {
       clientModified,
     } = this;
 
-    const contents = await getFileStream(file);
+    const contents = await getFileStream(filePath);
 
     let normalizedPath = this.dropbox.getNormalizedPath(path, true);
 

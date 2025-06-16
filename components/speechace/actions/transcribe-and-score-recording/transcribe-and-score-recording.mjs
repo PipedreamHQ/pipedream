@@ -10,7 +10,7 @@ export default {
   type: "action",
   props: {
     speechace,
-    file: {
+    filePath: {
       propDefinition: [
         speechace,
         "file",
@@ -39,7 +39,7 @@ export default {
     const data = new FormData();
     const {
       stream, metadata,
-    } = await getFileStreamAndMetadata(this.file);
+    } = await getFileStreamAndMetadata(this.filePath);
     data.append("user_audio_file", stream, {
       contentType: metadata.contentType,
       knownLength: metadata.size,

@@ -25,7 +25,7 @@ export default {
         }),
       ],
     },
-    file: {
+    filename: {
       type: "string",
       label: "File",
       description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFlie.pdf).",
@@ -33,7 +33,7 @@ export default {
   },
   async run({ $ }) {
     const data = new FormData();
-    const file = this.file;
+    const file = this.filename;
 
     const {
       stream, metadata,

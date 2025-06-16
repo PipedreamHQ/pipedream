@@ -16,7 +16,7 @@ export default defineAction({
   type: "action",
   props: {
     ...common.props,
-    file: {
+    filePath: {
       type: "string",
       label: "File",
       description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFlie.pdf).",
@@ -35,7 +35,7 @@ export default defineAction({
     try {
       const {
         stream, metadata,
-      } = await getFileStreamAndMetadata(this.file);
+      } = await getFileStreamAndMetadata(this.filePath);
       content = stream;
       meta = metadata;
     } catch (err) {

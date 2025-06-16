@@ -1,6 +1,8 @@
 import { streamToBuffer } from "../../common/utils.mjs";
 import syncmateByAssitro from "../../syncmate_by_assitro.app.mjs";
-import { getFileStream } from "@pipedream/platform";
+import {
+  getFileStream, ConfigurationError,
+} from "@pipedream/platform";
 
 export default {
   key: "syncmate_by_assitro-send-message",
@@ -34,6 +36,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.media && !this.fileName) {
+      throw new ConfigurationError("You must provide the file name.");
+    }
+
     const msgs = [
       {
         number: this.number,

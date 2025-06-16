@@ -3,7 +3,7 @@ import { getFileStream } from "@pipedream/platform";
 export default {
   async run({ $ }) {
     const {
-      file,
+      filePath,
       title,
       description,
       privacyStatus,
@@ -12,7 +12,7 @@ export default {
       notifySubscribers,
     } = this;
 
-    const body = await getFileStream(file);
+    const body = await getFileStream(filePath);
 
     const { data: resp } = await this.youtubeDataApi.insertVideo({
       title,

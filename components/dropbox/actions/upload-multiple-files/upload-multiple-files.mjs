@@ -8,7 +8,7 @@ export default {
   name: "Upload Multiple Files",
   description: "Uploads multiple file to a selected folder. [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
   key: "dropbox-upload-multiple-files",
-  version: "0.0.3",
+  version: "1.0.0",
   type: "action",
   props: {
     dropbox,
@@ -22,7 +22,7 @@ export default {
       ],
       description: "The folder to upload to. Type the folder name to search for it in the user's Dropbox.",
     },
-    files: {
+    filesPaths: {
       type: "string[]",
       label: "Files",
       description: "Provide an array of either file URLs or paths to a files in the /tmp directory (for example, /tmp/myFlie.pdf).",
@@ -62,7 +62,7 @@ export default {
     const {
       dropbox,
       path,
-      files,
+      filesPaths,
       autorename,
       mute,
       strictConflict,
@@ -70,7 +70,7 @@ export default {
       filenames,
     } = this;
 
-    const numFiles = files.length;
+    const numFiles = filesPaths.length;
     if (numFiles !== filenames.length) {
       throw new ConfigurationError(`Number of filenames must match number of files. Detected ${numFiles} file(s) and ${filenames.length} filename(s)`);
     }
@@ -79,7 +79,7 @@ export default {
     const normalizedPath = dropbox.getNormalizedPath(path, true);
     let i = 0;
 
-    for (const file of files) {
+    for (const file of filesPaths) {
       const contents = await getFileStream(file);
       fileInfo.push({
         contents,
