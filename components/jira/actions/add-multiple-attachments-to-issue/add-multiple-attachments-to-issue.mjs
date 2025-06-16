@@ -25,17 +25,17 @@ export default {
         }),
       ],
     },
-    filenames: {
+    files: {
       type: "string",
-      label: "File",
+      label: "File Paths or URLs",
       description: "Provide either an array of file URLs or paths to files in the /tmp directory (for example, /tmp/myFlie.pdf).",
     },
   },
   async run({ $ }) {
     const responses = [];
 
-    for (let i = 0; i < this.filenames.length; i++) {
-      const file = this.filenames[i];
+    for (let i = 0; i < this.files.length; i++) {
+      const file = this.files[i];
       const data = new FormData();
       const {
         stream, metadata,

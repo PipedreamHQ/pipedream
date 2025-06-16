@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/dropbox",
-  "version": "0.4.2",
+  "version": "1.0.0",
   "description": "Pipedream Dropbox Components",
   "main": "dropbox.app.mjs",
   "keywords": [

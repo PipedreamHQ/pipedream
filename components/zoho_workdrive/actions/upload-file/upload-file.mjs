@@ -48,7 +48,7 @@ export default {
     },
     content: {
       type: "string",
-      label: "File",
+      label: "File Path or URL",
       description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFlie.pdf).",
     },
   },

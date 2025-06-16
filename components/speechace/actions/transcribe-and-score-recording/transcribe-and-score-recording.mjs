@@ -13,7 +13,7 @@ export default {
     filePath: {
       propDefinition: [
         speechace,
-        "file",
+        "filePath",
       ],
     },
     relevanceContext: {

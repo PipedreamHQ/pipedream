@@ -25,15 +25,15 @@ export default {
         }),
       ],
     },
-    filename: {
+    file: {
       type: "string",
-      label: "File",
+      label: "File Path or URL",
       description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFlie.pdf).",
     },
   },
   async run({ $ }) {
     const data = new FormData();
-    const file = this.filename;
+    const file = this.file;
 
     const {
       stream, metadata,
