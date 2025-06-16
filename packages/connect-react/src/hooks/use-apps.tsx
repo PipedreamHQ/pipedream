@@ -10,9 +10,11 @@ export const useApps = (input?: GetAppsOpts) => {
   const query = useQuery({
     queryKey: [
       "apps",
-      input,
+      input?.q || "", // Stable key even if input is undefined
     ],
     queryFn: () => client.apps(input),
+    staleTime: 60000, // Consider data fresh for 1 minute
+    gcTime: 300000, // Keep in cache for 5 minutes (formerly cacheTime)
   });
 
   return {

@@ -24,13 +24,20 @@ export function SelectApp({
 
   const instanceId = useId();
 
-  // Debounce the search query
+  // Debounce the search query with cleanup guard
   useEffect(() => {
+    let cancelled = false;
+    
     const timer = setTimeout(() => {
-      setQ(inputValue);
+      if (!cancelled) {
+        setQ(inputValue);
+      }
     }, 300); // 300ms delay
 
-    return () => clearTimeout(timer);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
   }, [
     inputValue,
   ]);
@@ -106,7 +113,7 @@ export function SelectApp({
       getOptionLabel={(o) => o.name || o.name_slug} // TODO fetch initial value app so we show name
       getOptionValue={(o) => o.name_slug}
       value={selectedValue}
-      onChange={(o) => onChange?.((o as AppResponse) || undefined)}
+      onChange={(o) => onChange?.(o ? (o as AppResponse) : undefined)}
       onInputChange={(v, { action }) => {
         // Only update on user input, not on blur/menu-close/etc
         if (action === "input-change") {

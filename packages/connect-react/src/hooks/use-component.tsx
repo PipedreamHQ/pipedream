@@ -15,12 +15,14 @@ export const useComponent = (
   const query = useQuery({
     queryKey: [
       "component",
-      key,
+      key || "",
     ],
     queryFn: () => client.component({
       key: key!,
     }),
     enabled: !!key,
+    staleTime: 60000, // Consider data fresh for 1 minute
+    gcTime: 300000, // Keep in cache for 5 minutes
     ...opts?.useQueryOpts,
   });
 
