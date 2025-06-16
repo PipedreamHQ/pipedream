@@ -78,6 +78,7 @@ export default {
       const opts = {
         startHistoryId: String(startHistoryId),
         historyTypes: this.getHistoryTypes(),
+        maxResults: constants.MAX_LIMIT,
       };
 
       const length = this.labels?.length > 0
