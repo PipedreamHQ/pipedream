@@ -72,7 +72,7 @@ export default {
 
     let rawData = imageData;
     if (!rawData) {
-      const stream = await getFileStream(this.imageInput);
+      const stream = await getFileStream(imageFilePath);
       const chunks = [];
       for await (const chunk of stream) {
         chunks.push(chunk);
