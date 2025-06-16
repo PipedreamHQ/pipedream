@@ -26,7 +26,7 @@ export default {
       const response = await this.offorte.createHook({
         data: {
           payload_url: this.http.endpoint,
-          patload_content_type: "json",
+          payload_content_type: "json",
           active: true,
           events: this.events,
         },
