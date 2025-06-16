@@ -6,7 +6,7 @@ export default {
   key: "quickbooks-create-invoice",
   name: "Create Invoice",
   description: "Creates an invoice. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/invoice#create-an-invoice)",
-  version: "0.2.2",
+  version: "0.2.3",
   type: "action",
   props: {
     quickbooks,
@@ -26,6 +26,12 @@ export default {
       type: "string",
       label: "Due Date",
       description: "Date when the payment of the transaction is due (YYYY-MM-DD)",
+      optional: true,
+    },
+    termId: {
+      type: "integer",
+      label: "Term ID",
+      description: "Reference to the Term associated with the transaction. If specified, this takes precedence over DueDate for calculating payment due date.",
       optional: true,
     },
     allowOnlineCreditCardPayment: {
@@ -161,6 +167,11 @@ export default {
       throw new ConfigurationError("Must provide lineItems, and customerRefValue parameters.");
     }
 
+    // Validate that termId and dueDate are not both provided
+    if (this.termId && this.dueDate) {
+      $.export("$summary", "Warning: Both termId and dueDate provided. termId takes precedence over dueDate.");
+    }
+
     const lines = this.lineItemsAsObjects
       ? parseLineItems(this.lineItems)
       : this.buildLineItems();
@@ -177,7 +188,6 @@ export default {
       CustomerRef: {
         value: this.customerRefValue,
       },
-      DueDate: this.dueDate,
       AllowOnlineCreditCardPayment: this.allowOnlineCreditCardPayment,
       AllowOnlineACHPayment: this.allowOnlineACHPayment,
       DocNumber: this.docNumber,
@@ -186,6 +196,16 @@ export default {
       TrackingNum: this.trackingNum,
       PrivateNote: this.privateNote,
     };
+
+    // Add Term reference if termId is provided
+    if (this.termId) {
+      data.SalesTermRef = {
+        value: this.termId.toString(),
+      };
+    } else if (this.dueDate) {
+      // Only set DueDate if termId is not provided
+      data.DueDate = this.dueDate;
+    }
 
     if (this.billEmail) {
       params.include = "invoiceLink";
