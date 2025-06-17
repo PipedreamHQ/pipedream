@@ -403,7 +403,7 @@ export default {
     },
     async listUsers(params, nextPageToken) {
       const { data } = await this._makeRequest({
-        path: `/users`,
+        path: "/users",
         params: {
           page_size: 100,
           next_page_token: nextPageToken,

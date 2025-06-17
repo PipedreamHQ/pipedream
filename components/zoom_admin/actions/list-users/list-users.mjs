@@ -16,9 +16,18 @@ export default {
       optional: true,
       default: "active",
       options: [
-        { label: "Active", value: "active" },
-        { label: "Inactive", value: "inactive" },
-        { label: "Pending", value: "pending" },
+        {
+          label: "Active",
+          value: "active",
+        },
+        {
+          label: "Inactive",
+          value: "inactive",
+        },
+        {
+          label: "Pending",
+          value: "pending",
+        },
       ],
     },
     pageSize: {
@@ -48,8 +57,14 @@ export default {
       description: "Additional fields to include in the response",
       optional: true,
       options: [
-        { label: "Custom Attributes", value: "custom_attributes" },
-        { label: "Host Key", value: "host_key" },
+        {
+          label: "Custom Attributes",
+          value: "custom_attributes",
+        },
+        {
+          label: "Host Key",
+          value: "host_key",
+        },
       ],
     },
     nextPageToken: {
@@ -64,8 +79,14 @@ export default {
       description: "Filter users by specific license",
       optional: true,
       options: [
-        { label: "Zoom Workforce Management", value: "zoom_workforce_management" },
-        { label: "Zoom Compliance Management", value: "zoom_compliance_management" },
+        {
+          label: "Zoom Workforce Management",
+          value: "zoom_workforce_management",
+        },
+        {
+          label: "Zoom Compliance Management",
+          value: "zoom_compliance_management",
+        },
       ],
     },
   },
