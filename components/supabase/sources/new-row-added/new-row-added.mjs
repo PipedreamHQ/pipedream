@@ -9,7 +9,7 @@ export default {
   key: "supabase-new-row-added",
   name: "New Row Added",
   description: "Emit new event for every new row added in a table. [See documentation here](https://supabase.com/docs/reference/javascript/select)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   props: {
     ...base.props,

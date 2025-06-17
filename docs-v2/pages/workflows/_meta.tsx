@@ -9,5 +9,4 @@ export default {
   "domains": "Custom Domains",
   "vpc": "Virtual Private Clouds",
   "limits": "Limits",
-  "cli": "CLI",
 } as const

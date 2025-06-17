@@ -1,12 +1,12 @@
 import airparser from "../../airparser.app.mjs";
-import fs from "fs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import FormData from "form-data";
 
 export default {
   key: "airparser-upload-document-parse",
   name: "Upload Document and Parse",
   description: "Uploads a document into the inbox for data extraction. [See the documentation](https://help.airparser.com/public-api/public-api)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     airparser,
@@ -18,8 +18,8 @@ export default {
     },
     filePath: {
       type: "string",
-      label: "File Path",
-      description: "The path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
+      label: "File Path or URL",
+      description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
     },
     metadata: {
       type: "object",
@@ -29,11 +29,15 @@ export default {
     },
   },
   async run({ $ }) {
-    const fileStream = fs.createReadStream(this.filePath.includes("tmp/")
-      ? this.filePath
-      : `/tmp/${this.filePath}`);
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(this.filePath);
     const data = new FormData();
-    data.append("file", fileStream);
+    data.append("file", stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
+    });
     if (this.metadata) {
       data.append("meta", JSON.stringify(this.metadata));
     }

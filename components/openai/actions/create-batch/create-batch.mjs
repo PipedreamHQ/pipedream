@@ -1,14 +1,15 @@
 import openai from "../../openai.app.mjs";
 import constants from "../../common/constants.mjs";
-import { ConfigurationError } from "@pipedream/platform";
+import {
+  ConfigurationError, getFileStreamAndMetadata,
+} from "@pipedream/platform";
 import FormData from "form-data";
-import fs from "fs";
 
 export default {
   key: "openai-create-batch",
   name: "Create Batch",
   description: "Creates and executes a batch from an uploaded file of requests. [See the documentation](https://platform.openai.com/docs/api-reference/batch/create)",
-  version: "0.0.9",
+  version: "0.1.0",
   type: "action",
   props: {
     openai,
@@ -30,8 +31,8 @@ export default {
     },
     filePath: {
       type: "string",
-      label: "File Path",
-      description: "The path to a .jsonl file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
+      label: "File Path or URL",
+      description: "The .jsonl file to process. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.jpg`)",
       optional: true,
     },
     metadata: {
@@ -49,11 +50,15 @@ export default {
     let fileId = this.fileId;
     if (this.filePath) {
       const fileData = new FormData();
-      const content = fs.createReadStream(this.filePath.includes("tmp/")
-        ? this.filePath
-        : `/tmp/${this.filePath}`);
+      const {
+        stream, metadata,
+      } = await getFileStreamAndMetadata(this.filePath);
       fileData.append("purpose", "batch");
-      fileData.append("file", content);
+      fileData.append("file", stream, {
+        contentType: metadata.contentType,
+        knownLength: metadata.size,
+        filename: metadata.name,
+      });
 
       const { id } = await this.openai.uploadFile({
         $,

@@ -235,10 +235,6 @@ curl -X POST "https://api.pipedream.com/v1/connect/{your_project_id}/actions/run
 
 ## API Reference
 
-### Invoke workflows
-
-You can use the SDK to [invoke workflows on behalf of any end user](/connect/workflows/). **Write one workflow, run it for all of your users**.
-
 ### Tokens
 
 Your app will initiate the account connection flow for your end users in your frontend. To securely scope connection to a specific end user, on your server, **you retrieve a short-lived token for that user**, and return that token to your frontend.
@@ -3726,3 +3722,9 @@ curl -X PUT \
   ]
 }
 ```
+
+### Workflows
+
+#### Invoke workflows
+
+You can use the SDK to [invoke workflows on behalf of any end user](/connect/workflows/). **Write one workflow, run it for all of your users**.

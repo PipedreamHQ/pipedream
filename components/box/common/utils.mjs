@@ -1,4 +1,3 @@
-import path from "path";
 import constants from "./constants.mjs";
 import { getFileStreamAndMetadata } from "@pipedream/platform";
 
@@ -15,12 +14,13 @@ export default {
             .split(".")[0] + "Z",
           content_modified_at: new Date(metadata.lastModified).toISOString()
             .split(".")[0] + "Z",
-          name: path.basename(filePath),
+          name: metadata.name,
           parent: {
             id: 0,
           },
         },
         size: metadata.size,
+        contentType: metadata.contentType,
       },
     };
   },

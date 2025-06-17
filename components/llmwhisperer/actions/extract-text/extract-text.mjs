@@ -99,7 +99,9 @@ export default {
   },
   methods: {
     getHeaders() {
-      return "application/octet-stream";
+      return {
+        "Content-Type": "application/octet-stream",
+      };
     },
     async getData(data) {
       return getFileStream(data);

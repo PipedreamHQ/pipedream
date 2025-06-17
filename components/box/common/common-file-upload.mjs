@@ -27,7 +27,9 @@ export async function getFileUploadBody({
   const data = new FormData();
   data.append("attributes", JSON.stringify(attributes));
   data.append("file", fileContent, {
+    contentType: fileMeta.contentType,
     knownLength: fileMeta.size,
+    filename: attributes.name,
   });
 
   return data;

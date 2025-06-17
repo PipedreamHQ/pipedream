@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return `https://${this.$auth.org_domain}.crm.dynamics.com/api/data/v9.2`;
+      return `https://${this.$auth.api_url}/api/data/v9.2`;
     },
     _makeRequest({
       $ = this,
