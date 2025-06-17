@@ -1,5 +1,3 @@
-import builder from "../../common/builder.mjs";
-import propsFragments from "../../common/props-fragments.mjs";
 import common from "../common/common.mjs";
 import constants from "../common/constants.mjs";
 import sampleEmit from "./test-event.mjs";
@@ -9,7 +7,7 @@ export default {
   key: "clickup-updated-task",
   name: "New Updated Task (Instant)",
   description: "Emit new event when a new task is updated",
-  version: "0.0.11",
+  version: "0.0.12",
   dedupe: "unique",
   type: "source",
   props: {
@@ -30,26 +28,41 @@ export default {
       options: constants.TASK_FIELDS,
       optional: true,
     },
-    listWithFolder: {
-      optional: true,
+    folderId: {
       propDefinition: [
-        common.props.app,
-        "listWithFolder",
+        common.props.clickup,
+        "folderId",
+        (c) => ({
+          spaceId: c.spaceId,
+        }),
       ],
+      optional: true,
+    },
+    listId: {
+      propDefinition: [
+        common.props.clickup,
+        "listId",
+        (c) => ({
+          folderId: c.folderId,
+          spaceId: c.spaceId,
+        }),
+      ],
+      optional: true,
+    },
+    customFieldIds: {
+      propDefinition: [
+        common.props.clickup,
+        "customFieldId",
+        (c) => ({
+          listId: c.listId,
+        }),
+      ],
+      label: "Custom Fields",
+      type: "string[]",
+      description: "Select a custom field to filter",
+      optional: true,
     },
   },
-  additionalProps: builder.buildListProps({
-    listPropsOptional: true,
-    tailProps: {
-      customFieldIds: {
-        ...propsFragments.customFieldId,
-        label: "Custom Fields",
-        type: "string[]",
-        description: "Select a custom field to filter",
-        optional: true,
-      },
-    },
-  }),
   methods: {
     ...common.methods,
     _getMeta(historyItems) {

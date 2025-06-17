@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "clickup-update-comment",
   name: "Update Comment",
-  description: "Updates a comment. See the docs [here](https://clickup.com/api) in **Comments / Update Comment** section.",
-  version: "0.0.11",
+  description: "Updates a comment. [See the documentation](https://clickup.com/api) in **Comments / Update Comment** section.",
+  version: "0.0.12",
   type: "action",
   props: {
     ...common.props,
@@ -33,10 +33,23 @@ export default {
       type: "boolean",
       optional: true,
     },
-    listWithFolder: {
+    folderId: {
       propDefinition: [
         common.props.clickup,
-        "listWithFolder",
+        "folderId",
+        (c) => ({
+          spaceId: c.spaceId,
+        }),
+      ],
+    },
+    listId: {
+      propDefinition: [
+        common.props.clickup,
+        "listId",
+        (c) => ({
+          folderId: c.folderId,
+          spaceId: c.spaceId,
+        }),
       ],
     },
   },

@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "clickup-create-threaded-comment",
   name: "Create Threaded Comment",
-  description: "Creates a threaded comment. See the docs [here](https://clickup.com/api) in **Comments / Create Threaded Comment** section.",
-  version: "0.0.1",
+  description: "Creates a threaded comment. [See the documentation](https://clickup.com/api) in **Comments / Create Threaded Comment** section.",
+  version: "0.0.10",
   type: "action",
   props: {
     ...common.props,
@@ -30,10 +30,23 @@ export default {
       ],
       optional: true,
     },
-    listWithFolder: {
+    folderId: {
       propDefinition: [
         common.props.clickup,
-        "listWithFolder",
+        "folderId",
+        (c) => ({
+          spaceId: c.spaceId,
+        }),
+      ],
+    },
+    listId: {
+      propDefinition: [
+        common.props.clickup,
+        "listId",
+        (c) => ({
+          folderId: c.folderId,
+          spaceId: c.spaceId,
+        }),
       ],
     },
   },

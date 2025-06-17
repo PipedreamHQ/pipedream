@@ -1,4 +1,3 @@
-import builder from "../../common/builder.mjs";
 import common from "../common/common.mjs";
 import sampleEmit from "./test-event.mjs";
 
@@ -7,7 +6,7 @@ export default {
   key: "clickup-new-task-comment-updated",
   name: "New Task Comment Updated (Instant)",
   description: "Emit new event when a new task comment is updated",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   type: "source",
   props: {
@@ -21,17 +20,28 @@ export default {
         }),
       ],
     },
-    listWithFolder: {
-      optional: true,
+    folderId: {
       propDefinition: [
-        common.props.app,
-        "listWithFolder",
+        common.props.clickup,
+        "folderId",
+        (c) => ({
+          spaceId: c.spaceId,
+        }),
       ],
+      optional: true,
+    },
+    listId: {
+      propDefinition: [
+        common.props.clickup,
+        "listId",
+        (c) => ({
+          folderId: c.folderId,
+          spaceId: c.spaceId,
+        }),
+      ],
+      optional: true,
     },
   },
-  additionalProps: builder.buildListProps({
-    listPropsOptional: true,
-  }),
   methods: {
     ...common.methods,
     _getMeta({

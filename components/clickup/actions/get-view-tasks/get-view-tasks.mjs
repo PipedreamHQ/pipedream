@@ -1,13 +1,11 @@
-import builder from "../../common/builder.mjs";
-import propsFragments from "../../common/props-fragments.mjs";
 import common from "../common/list-props.mjs";
 
 export default {
   ...common,
   key: "clickup-get-view-tasks",
   name: "Get View Tasks",
-  description: "Get all tasks of a view. See the docs [here](https://clickup.com/api) in **Views / Get View Tasks** section.",
-  version: "0.0.9",
+  description: "Get all tasks of a view. [See the documentation](https://clickup.com/api) in **Views / Get View Tasks** section.",
+  version: "0.0.10",
   type: "action",
   props: {
     ...common.props,
@@ -19,20 +17,38 @@ export default {
       default: 0,
       optional: true,
     },
-    listWithFolder: {
-      optional: true,
+    folderId: {
       propDefinition: [
         common.props.clickup,
-        "listWithFolder",
+        "folderId",
+        (c) => ({
+          spaceId: c.spaceId,
+        }),
+      ],
+      optional: true,
+    },
+    listId: {
+      propDefinition: [
+        common.props.clickup,
+        "listId",
+        (c) => ({
+          folderId: c.folderId,
+          spaceId: c.spaceId,
+        }),
+      ],
+      optional: true,
+    },
+    viewId: {
+      propDefinition: [
+        common.props.clickup,
+        "viewId",
+        (c) => ({
+          folderId: c.folderId,
+          listId: c.listId,
+        }),
       ],
     },
   },
-  additionalProps: builder.buildListProps({
-    listPropsOptional: true,
-    tailProps: {
-      viewId: propsFragments.viewId,
-    },
-  }),
   async run({ $ }) {
     const {
       viewId,

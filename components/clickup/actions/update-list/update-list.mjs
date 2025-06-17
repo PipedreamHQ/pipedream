@@ -1,5 +1,4 @@
 import clickup from "../../clickup.app.mjs";
-import builder from "../../common/builder.mjs";
 import constants from "../common/constants.mjs";
 import common from "../common/list-props.mjs";
 
@@ -7,8 +6,8 @@ export default {
   ...common,
   key: "clickup-update-list",
   name: "Update List",
-  description: "Update a list. See the docs [here](https://clickup.com/api) in **Lists / Update List** section.",
-  version: "0.0.9",
+  description: "Update a list. [See the documentation](https://clickup.com/api) in **Lists / Update List** section.",
+  version: "0.0.10",
   type: "action",
   props: {
     ...common.props,
@@ -40,14 +39,26 @@ export default {
       ],
       optional: true,
     },
-    listWithFolder: {
+    folderId: {
       propDefinition: [
         common.props.clickup,
-        "listWithFolder",
+        "folderId",
+        (c) => ({
+          spaceId: c.spaceId,
+        }),
+      ],
+    },
+    listId: {
+      propDefinition: [
+        common.props.clickup,
+        "listId",
+        (c) => ({
+          folderId: c.folderId,
+          spaceId: c.spaceId,
+        }),
       ],
     },
   },
-  additionalProps: builder.buildListProps(),
   async run({ $ }) {
     const {
       listId,

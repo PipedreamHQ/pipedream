@@ -1,13 +1,11 @@
-import builder from "../../common/builder.mjs";
-import propsFragments from "../../common/props-fragments.mjs";
 import common from "../common/task-props.mjs";
 
 export default {
   ...common,
   key: "clickup-update-checklist",
   name: "Update Checklist",
-  description: "Updates a checklist in a task. See the docs [here](https://clickup.com/api) in **Checklists / Edit Checklist** section.",
-  version: "0.0.9",
+  description: "Updates a checklist in a task. [See the documentation](https://clickup.com/api) in **Checklists / Edit Checklist** section.",
+  version: "0.0.10",
   type: "action",
   props: {
     ...common.props,
@@ -23,22 +21,49 @@ export default {
       min: 0,
       optional: true,
     },
-    listWithFolder: {
+    folderId: {
       propDefinition: [
         common.props.clickup,
-        "listWithFolder",
+        "folderId",
+        (c) => ({
+          spaceId: c.spaceId,
+        }),
+      ],
+    },
+    listId: {
+      propDefinition: [
+        common.props.clickup,
+        "listId",
+        (c) => ({
+          folderId: c.folderId,
+          spaceId: c.spaceId,
+        }),
+      ],
+    },
+    taskId: {
+      propDefinition: [
+        common.props.clickup,
+        "taskId",
+        (c) => ({
+          listId: c.listId,
+          useCustomTaskIds: c.useCustomTaskIds,
+          authorizedTeamId: c.authorizedTeamId,
+        }),
+      ],
+      description: "To show options please select a **List** first",
+    },
+    checklistId: {
+      propDefinition: [
+        common.props.clickup,
+        "checklistId",
+        (c) => ({
+          taskId: c.taskId,
+          useCustomTaskIds: c.useCustomTaskIds,
+          authorizedTeamId: c.authorizedTeamId,
+        }),
       ],
     },
   },
-  additionalProps: builder.buildListProps({
-    tailProps: {
-      taskId: {
-        ...propsFragments.taskId,
-        description: "To show options please select a **List** first",
-      },
-      checklistId: propsFragments.checklistId,
-    },
-  }),
   async run({ $ }) {
     const {
       checklistId,

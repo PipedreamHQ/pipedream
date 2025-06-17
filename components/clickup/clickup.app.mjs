@@ -55,8 +55,8 @@ export default {
     },
     useCustomTaskIds: {
       type: "boolean",
-      label: "Use custom task ids",
-      description: "Whether it should use custom task id instead of the ClickUp task id. should be used with `Authorized Team`",
+      label: "Use custom task IDs",
+      description: "Whether it should use custom task id instead of the ClickUp task ID. Should be used with `Authorized Team`",
       optional: true,
     },
     authorizedTeamId: {
@@ -127,11 +127,223 @@ export default {
       options: Object.keys(constants.PRIORITIES),
       default: "Normal",
     },
-    listWithFolder: {
-      type: "boolean",
-      label: "Filter List ID By Folder?",
-      description: "If `TRUE`, the **List ID** field will be filtered by the selected **Folder ID**",
-      reloadProps: true,
+    folderId: {
+      type: "string",
+      label: "Folder ID",
+      description: "The ID of a folder",
+      async options({ spaceId }) {
+        const folders = await this.getFolders({
+          spaceId,
+        });
+        return folders?.map(({
+          name: label, id: value,
+        }) => ({
+          label,
+          value,
+        })) || [];
+      },
+    },
+    listId: {
+      type: "string",
+      label: "List ID",
+      description: "The ID of a list",
+      async options({
+        folderId, spaceId,
+      }) {
+        const lists = folderId
+          ? await this.getLists({
+            folderId,
+          })
+          : await this.getFolderlessLists({
+            spaceId,
+          });
+        return lists?.map(({
+          name: label, id: value,
+        }) => ({
+          label,
+          value,
+        })) || [];
+      },
+    },
+    viewId: {
+      type: "string",
+      label: "View ID",
+      description: "The ID of a view",
+      async options({
+        workspaceId,
+        spaceId,
+        folderId,
+        listId,
+      }) {
+        let views = [];
+        if (workspaceId) {
+          views = views.concat(await this.getTeamViews({
+            workspaceId,
+          }));
+        }
+        if (spaceId) {
+          views = views.concat(await this.getSpaceViews({
+            spaceId,
+          }));
+        }
+        if (folderId) {
+          views = views.concat(await this.getFolderViews({
+            folderId,
+          }));
+        }
+        if (listId) {
+          views = views.concat(await this.getListViews({
+            listId,
+          }));
+        }
+        return views?.map((view) => ({
+          label: view.name,
+          value: view.id,
+        })) || [];
+      },
+    },
+    taskId: {
+      type: "string",
+      label: "Task ID",
+      description: "The ID of a task",
+      async options ({
+        page, listId, useCustomTaskIds,
+      }) {
+        const tasks = await this.getTasks({
+          listId,
+          params: {
+            page,
+          },
+        });
+
+        const tasksHasCustomId = tasks.some((task) => task.custom_id);
+        if (useCustomTaskIds && !tasksHasCustomId) {
+          throw new ConfigurationError("Custom task id is a ClickApp, and it must to be enabled on ClickUp settings.");
+        }
+
+        return tasks?.map((task) => ({
+          label: task.name,
+          value: useCustomTaskIds ?
+            task.custom_id :
+            task.id,
+        })) || [];
+      },
+    },
+    checklistId: {
+      type: "string",
+      label: "Checklist ID",
+      description: "To show options please select a **Task** first",
+      async options ({
+        taskId, useCustomTaskIds, authorizedTeamId,
+      }) {
+        if (!taskId) {
+          return [];
+        }
+
+        const params =
+          this.getParamsForCustomTaskIdCall(useCustomTaskIds, authorizedTeamId);
+
+        const checklists = await this.getChecklists({
+          taskId,
+          params,
+        });
+
+        return checklists?.map((checklist) => ({
+          label: checklist.name,
+          value: checklist.id,
+        })) || [];
+      },
+    },
+    status: {
+      type: "string",
+      label: "Status",
+      description: "Select a status",
+      optional: true,
+      async options({ listId }) {
+        const { statuses } = await this.getList({
+          listId,
+        });
+        return statuses?.map(({ status }) => status) || [];
+      },
+    },
+    commentId: {
+      type: "string",
+      label: "Comment ID",
+      description: "The ID of a comment",
+      async options ({
+        taskId, listId, viewId,
+      }) {
+        if (!taskId && !listId && !viewId) {
+          throw new ConfigurationError("Please enter the List, View, or Task to retrieve Comments from");
+        }
+        let comments = [];
+
+        if (taskId) {
+          comments = comments.concat(await this.getTaskComments({
+            taskId,
+            params: {},
+          }));
+        }
+        if (listId) {
+          comments = comments.concat(await this.getListComments({
+            listId,
+          }));
+        }
+        if (viewId) {
+          comments = comments.concat(await this.getViewComments({
+            viewId,
+          }));
+        }
+
+        return comments?.map((comment) => ({
+          label: comment.comment_text,
+          value: comment.id,
+        })) || [];
+      },
+    },
+    checklistItemId: {
+      type: "string",
+      label: "Checklist Item ID",
+      description: "To show options please select a **Task and Checklist** first",
+      async options({
+        taskId, checklistId, useCustomTaskIds, authorizedTeamId,
+      }) {
+        if (!taskId || !checklistId) {
+          return [];
+        }
+
+        const params =
+          this.getParamsForCustomTaskIdCall(useCustomTaskIds, authorizedTeamId);
+
+        const items = await this.getChecklistItems({
+          taskId,
+          checklistId,
+          params,
+        });
+
+        return items?.map((item) => ({
+          label: item.name,
+          value: item.id,
+        })) || [];
+      },
+    },
+    customFieldId: {
+      type: "string",
+      label: "Custom Field ID",
+      description: "Select a custom field",
+      async options({ listId }) {
+        if (!listId) {
+          return [];
+        }
+        const fields = await this.getCustomFields({
+          listId,
+        });
+
+        return fields?.map((field) => ({
+          label: field.name,
+          value: field.id,
+        })) || [];
+      },
     },
   },
   methods: {

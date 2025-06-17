@@ -1,5 +1,3 @@
-import builder from "../../common/builder.mjs";
-import propsFragments from "../../common/props-fragments.mjs";
 import common from "./workspace-prop.mjs";
 
 export default {
@@ -14,11 +12,26 @@ export default {
         }),
       ],
     },
-  },
-  additionalProps: builder.buildListProps({
-    tailProps: {
-      taskId: propsFragments.taskId,
-      commentId: propsFragments.commentId,
+    taskId: {
+      propDefinition: [
+        common.props.clickup,
+        "taskId",
+        (c) => ({
+          listId: c.listId,
+          useCustomTaskIds: c.useCustomTaskIds,
+        }),
+      ],
     },
-  }),
+    commentId: {
+      propDefinition: [
+        common.props.clickup,
+        "commentId",
+        (c) => ({
+          taskId: c.taskId,
+          listId: c.listId,
+          viewId: c.viewId,
+        }),
+      ],
+    },
+  },
 };

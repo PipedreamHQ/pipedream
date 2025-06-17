@@ -1,6 +1,4 @@
 import clickup from "../../clickup.app.mjs";
-import builder from "../../common/builder.mjs";
-import propsFragments from "../../common/props-fragments.mjs";
 import constants from "../common/constants.mjs";
 import common from "../common/list-props.mjs";
 
@@ -8,8 +6,8 @@ export default {
   ...common,
   key: "clickup-create-task",
   name: "Create Task",
-  description: "Creates a new task. See the docs [here](https://clickup.com/api) in **Tasks / Create Task** section.",
-  version: "0.0.14",
+  description: "Creates a new task. [See the documentation](https://clickup.com/api) in **Tasks / Create Task** section.",
+  version: "0.0.15",
   type: "action",
   props: {
     ...common.props,
@@ -69,23 +67,48 @@ export default {
       description: "If set `true`, due date will be given with time. If not it will only be the closest date",
       optional: true,
     },
-    listWithFolder: {
+    folderId: {
       propDefinition: [
         common.props.clickup,
-        "listWithFolder",
+        "folderId",
+        (c) => ({
+          spaceId: c.spaceId,
+        }),
       ],
     },
-  },
-  additionalProps: builder.buildListProps({
-    tailProps: {
-      status: propsFragments.status,
-      parent: {
-        ...propsFragments.taskId,
-        label: "Parent Task",
-        optional: true,
-      },
+    listId: {
+      propDefinition: [
+        common.props.clickup,
+        "listId",
+        (c) => ({
+          folderId: c.folderId,
+          spaceId: c.spaceId,
+        }),
+      ],
+      optional: false,
     },
-  }),
+    status: {
+      propDefinition: [
+        common.props.clickup,
+        "status",
+        (c) => ({
+          listId: c.listId,
+        }),
+      ],
+    },
+    parent: {
+      propDefinition: [
+        common.props.clickup,
+        "taskId",
+        (c) => ({
+          listId: c.listId,
+          useCustomTaskIds: c.useCustomTaskIds,
+        }),
+      ],
+      label: "Parent Task ID",
+      optional: true,
+    },
+  },
   async run({ $ }) {
     const {
       listId,

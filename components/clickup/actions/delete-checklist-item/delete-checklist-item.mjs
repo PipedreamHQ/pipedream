@@ -1,33 +1,68 @@
-import builder from "../../common/builder.mjs";
-import propsFragments from "../../common/props-fragments.mjs";
 import common from "../common/task-props.mjs";
 
 export default {
   ...common,
   key: "clickup-delete-checklist-item",
   name: "Delete Checklist Item",
-  description: "Deletes item in a checklist. See the docs [here](https://clickup.com/api) in **Checklists / Delete Checklist Item** section.",
-  version: "0.0.9",
+  description: "Deletes item in a checklist. [See the documentation](https://clickup.com/api) in **Checklists / Delete Checklist Item** section.",
+  version: "0.0.10",
   type: "action",
   props: {
     ...common.props,
-    listWithFolder: {
+    folderId: {
       propDefinition: [
         common.props.clickup,
-        "listWithFolder",
+        "folderId",
+        (c) => ({
+          spaceId: c.spaceId,
+        }),
+      ],
+    },
+    listId: {
+      propDefinition: [
+        common.props.clickup,
+        "listId",
+        (c) => ({
+          folderId: c.folderId,
+          spaceId: c.spaceId,
+        }),
+      ],
+    },
+    taskId: {
+      propDefinition: [
+        common.props.clickup,
+        "taskId",
+        (c) => ({
+          listId: c.listId,
+          useCustomTaskIds: c.useCustomTaskIds,
+        }),
+      ],
+      description: "To show options please select a **List** first",
+    },
+    checklistId: {
+      propDefinition: [
+        common.props.clickup,
+        "checklistId",
+        (c) => ({
+          taskId: c.taskId,
+          useCustomTaskIds: c.useCustomTaskIds,
+          authorizedTeamId: c.authorizedTeamId,
+        }),
+      ],
+    },
+    checklistItemId: {
+      propDefinition: [
+        common.props.clickup,
+        "checklistItemId",
+        (c) => ({
+          taskId: c.taskId,
+          checklistId: c.checklistId,
+          useCustomTaskIds: c.useCustomTaskIds,
+          authorizedTeamId: c.authorizedTeamId,
+        }),
       ],
     },
   },
-  additionalProps: builder.buildListProps({
-    tailProps: {
-      taskId: {
-        ...propsFragments.taskId,
-        description: "To show options please select a **List** first",
-      },
-      checklistId: propsFragments.checklistId,
-      checklistItemId: propsFragments.checklistItemId,
-    },
-  }),
   async run({ $ }) {
     const {
       checklistId,
