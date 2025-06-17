@@ -154,8 +154,8 @@ importers:
   components/_2markdown:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.1
         version: 4.0.1
@@ -548,8 +548,8 @@ importers:
   components/airparser:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.0
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -609,8 +609,8 @@ importers:
   components/akeneo:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.3.0
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -718,8 +718,8 @@ importers:
   components/alttext_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/alttextify:
     dependencies:
@@ -990,6 +990,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/arpoone: {}
+
   components/arxiv: {}
 
   components/aryn: {}
@@ -1016,14 +1018,11 @@ importers:
   components/askyourpdf:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.2
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
-      fs:
-        specifier: ^0.0.1-security
-        version: 0.0.1-security
 
   components/assembla:
     dependencies:
@@ -1084,8 +1083,8 @@ importers:
   components/autodesk:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/autoklose: {}
 
@@ -1281,8 +1280,8 @@ importers:
   components/azure_storage:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       mime-types:
         specifier: ^2.1.35
         version: 2.1.35
@@ -1663,8 +1662,8 @@ importers:
   components/boldsign:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/boloforms:
     dependencies:
@@ -1744,8 +1743,8 @@ importers:
   components/box:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -2088,8 +2087,8 @@ importers:
   components/canva:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/canva_enterprise:
     dependencies:
@@ -2433,14 +2432,11 @@ importers:
   components/claid_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
-      fs:
-        specifier: ^0.0.1-security
-        version: 0.0.1-security
       url-exist:
         specifier: ^3.0.1
         version: 3.0.1(web-streams-polyfill@3.3.3)
@@ -2748,7 +2744,11 @@ importers:
 
   components/codeq_natural_language_processing_api: {}
 
-  components/codeqr: {}
+  components/codeqr:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.0
+        version: 3.1.0
 
   components/codereadr:
     dependencies:
@@ -3047,8 +3047,8 @@ importers:
   components/cradl_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.5
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/craftboxx:
     dependencies:
@@ -3682,8 +3682,8 @@ importers:
   components/docsbot_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/docsgenflow: {}
 
@@ -4102,17 +4102,14 @@ importers:
   components/egnyte:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       bottleneck:
         specifier: ^2.19.5
         version: 2.19.5
       form-data:
         specifier: ^4.0.1
         version: 4.0.1
-      mime:
-        specifier: ^4.0.6
-        version: 4.0.6
       path:
         specifier: ^0.12.7
         version: 0.12.7
@@ -4581,8 +4578,8 @@ importers:
   components/fileforge:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.1
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -4732,8 +4729,8 @@ importers:
   components/flippingbook:
     dependencies:
       '@pipedream/platform':
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/float: {}
 
@@ -5326,17 +5323,14 @@ importers:
         specifier: ^4.7.0
         version: 4.9.0
       '@googleapis/gmail':
-        specifier: ^0.3.4
-        version: 0.3.4
+        specifier: ^13.0.1
+        version: 13.0.1
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
       google-auth-library:
         specifier: ^8.7.0
         version: 8.9.0
-      googleapis:
-        specifier: ^105.0.0
-        version: 105.0.0
       html-to-text:
         specifier: ^9.0.5
         version: 9.0.5
@@ -5964,8 +5958,8 @@ importers:
   components/happy_scribe:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/happyfox_chat:
     dependencies:
@@ -6380,7 +6374,7 @@ importers:
   components/hunter:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
+        specifier: ^3.0.3
         version: 3.0.3
 
   components/hygraph: {}
@@ -6509,8 +6503,8 @@ importers:
   components/ilovepdf:
     dependencies:
       '@pipedream/platform':
-        specifier: 1.5.1
-        version: 1.5.1
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -6530,8 +6524,8 @@ importers:
   components/imagga:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -6792,6 +6786,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.5
         version: 1.6.6
+
+  components/issue_badge: {}
 
   components/itemize:
     dependencies:
@@ -7301,7 +7297,11 @@ importers:
 
   components/leadboxer: {}
 
-  components/leaddyno: {}
+  components/leaddyno:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/leadfeeder:
     dependencies:
@@ -7444,6 +7444,10 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/limitless: {}
+
+  components/limitless_ai: {}
 
   components/limoexpress:
     dependencies:
@@ -7612,11 +7616,8 @@ importers:
   components/llmwhisperer:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
-      fs:
-        specifier: ^0.0.1-security
-        version: 0.0.1-security
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/lmnt:
     dependencies:
@@ -7678,8 +7679,8 @@ importers:
   components/lokalise:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/looker: {}
 
@@ -7954,8 +7955,8 @@ importers:
   components/mapbox:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.1
         version: 4.0.1
@@ -8253,14 +8254,11 @@ importers:
         specifier: ^3.0.1
         version: 3.0.7
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       bottleneck:
         specifier: ^2.19.5
         version: 2.19.5
-      file-type:
-        specifier: ^18.7.0
-        version: 18.7.0
       isomorphic-fetch:
         specifier: ^3.0.0
         version: 3.0.0
@@ -8382,8 +8380,8 @@ importers:
   components/mistral_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.2
         version: 4.0.2
@@ -8463,8 +8461,8 @@ importers:
   components/monday:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -9047,8 +9045,8 @@ importers:
   components/nyckel:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.2
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -9077,8 +9075,8 @@ importers:
   components/ocrspace:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       mime:
         specifier: ^4.0.6
         version: 4.0.6
@@ -9102,6 +9100,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.1
         version: 3.0.3
+
+  components/offorte: {}
 
   components/oksign: {}
 
@@ -9240,8 +9240,8 @@ importers:
   components/onlinecheckwriter:
     dependencies:
       '@pipedream/platform':
-        specifier: 3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -9249,8 +9249,8 @@ importers:
   components/onlyoffice_docspace:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -9272,8 +9272,8 @@ importers:
   components/openai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       '@pipedream/types':
         specifier: ^0.1.4
         version: 0.1.6
@@ -9554,8 +9554,8 @@ importers:
   components/pandadoc:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.0
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -9733,8 +9733,8 @@ importers:
   components/pdf4me:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/pdf_api_io: {}
 
@@ -9809,6 +9809,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+
+  components/pembee: {}
 
   components/pendo: {}
 
@@ -10067,6 +10069,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+      html-entities:
+        specifier: ^2.6.0
+        version: 2.6.0
       pipedrive:
         specifier: ^24.1.1
         version: 24.1.1
@@ -10237,8 +10242,8 @@ importers:
   components/podio:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -10354,6 +10359,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+
+  components/postmaster: {}
 
   components/power_automate: {}
 
@@ -10718,8 +10725,8 @@ importers:
   components/quickbooks_sandbox:
     dependencies:
       '@pipedream/quickbooks':
-        specifier: ^0.5.1
-        version: 0.5.1
+        specifier: ^0.6.1
+        version: 0.6.1
 
   components/quickemailverification:
     dependencies:
@@ -12403,8 +12410,8 @@ importers:
   components/slack:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       '@slack/web-api':
         specifier: ^7.9.0
         version: 7.9.1
@@ -12870,15 +12877,12 @@ importers:
 
   components/stannp:
     dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
-      fs:
-        specifier: ^0.0.1-security
-        version: 0.0.1-security
-      url-exist:
-        specifier: ^3.0.1
-        version: 3.0.1(web-streams-polyfill@3.3.3)
 
   components/starloop: {}
 
@@ -15155,14 +15159,11 @@ importers:
   components/zamzar:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.2
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
-      fs:
-        specifier: ^0.0.1-security
-        version: 0.0.1-security
 
   components/zendesk:
     dependencies:
@@ -15358,8 +15359,8 @@ importers:
   components/zoho_crm:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       crypto:
         specifier: ^1.0.1
         version: 1.0.1
@@ -15370,17 +15371,14 @@ importers:
   components/zoho_desk:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.2
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       async-retry:
         specifier: ^1.3.3
         version: 1.3.3
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
-      fs:
-        specifier: ^0.0.1-security
-        version: 0.0.1-security
 
   components/zoho_docs:
     dependencies:
@@ -15540,6 +15538,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/zowie: {}
 
   components/zulip:
     dependencies:
@@ -15709,7 +15709,7 @@ importers:
         version: 1.2.13
       tsup:
         specifier: ^8.3.6
-        version: 8.3.6(@microsoft/api-extractor@7.47.12(@types/node@22.15.21))(jiti@1.21.6)(postcss@8.4.49)(tsx@4.19.4)(typescript@5.6.3)(yaml@2.6.1)
+        version: 8.3.6(@microsoft/api-extractor@7.47.12(@types/node@24.0.0))(jiti@1.21.6)(postcss@8.4.49)(tsx@4.19.4)(typescript@5.6.3)(yaml@2.6.1)
       typescript:
         specifier: ^5.6
         version: 5.6.3
@@ -15761,10 +15761,10 @@ importers:
         version: 18.3.12
       vite:
         specifier: ^5.4.11
-        version: 5.4.11(@types/node@22.15.21)
+        version: 5.4.11(@types/node@24.0.0)
       vite-plugin-dts:
         specifier: ^4.3.0
-        version: 4.3.0(@types/node@22.15.21)(rollup@4.27.3)(typescript@5.7.2)(vite@5.4.11(@types/node@22.15.21))
+        version: 4.3.0(@types/node@24.0.0)(rollup@4.27.3)(typescript@5.7.2)(vite@5.4.11(@types/node@24.0.0))
 
   packages/connect-react/examples/nextjs:
     dependencies:
@@ -15841,7 +15841,7 @@ importers:
         version: 3.1.7
       ts-jest:
         specifier: ^29.2.5
-        version: 29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0))(typescript@5.7.2)
+        version: 29.2.5(@babel/core@8.0.0-alpha.13)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@8.0.0-alpha.13))(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0))(typescript@5.7.2)
       tsup:
         specifier: ^8.3.6
         version: 8.3.6(@microsoft/api-extractor@7.47.12(@types/node@20.17.30))(jiti@1.21.6)(postcss@8.4.49)(tsx@4.19.4)(typescript@5.7.2)(yaml@2.6.1)
@@ -15884,7 +15884,7 @@ importers:
         version: 3.1.0
       jest:
         specifier: ^29.1.2
-        version: 29.7.0(@types/node@20.17.6)(babel-plugin-macros@3.1.0)
+        version: 29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0)
       type-fest:
         specifier: ^4.15.0
         version: 4.27.0
@@ -17936,9 +17936,9 @@ packages:
     resolution: {integrity: sha512-BXesWAH5wozF7LJfarzR960BAICV1f7bdyrdAkohSWtMWko2QcCWBjlMYrzT9bVpZYKILLV9G/H7uXscfJb6qQ==}
     engines: {node: '>=10.0.0'}
 
-  '@googleapis/gmail@0.3.4':
-    resolution: {integrity: sha512-5Z7CbSBRXZ2NZ5+EfwcE9T4dQtny5zcsKmOHPrI3LZOxo9s70z8YiyePr2Zf2mH9egqM8qGmUVITVRadHXDEww==}
-    engines: {node: '>=10.0.0'}
+  '@googleapis/gmail@13.0.1':
+    resolution: {integrity: sha512-1XHjhjaavr5/dawryUzgNJ0Hkd09p6uL5RjzC3E9OFNrm3B+NdyMiZnqCETwySUmpB6AWlAGOItSPzINOYf7UA==}
+    engines: {node: '>=12.0.0'}
 
   '@googleapis/sheets@0.3.0':
     resolution: {integrity: sha512-Axhbw2Hi3IAPyYGC4y8wmE/0aY0NVTieDDc+RMnx2/iSQ8laodWqAUDsUskTdEm4ZB2JD2Z+SU6o3IXktDaG4Q==}
@@ -18813,8 +18813,8 @@ packages:
   '@pipedream/postgresql@2.2.3':
     resolution: {integrity: sha512-Co9r4UKvvimEPo9T4v+EfVn/Sqqw8+X7PtvsAF7tydq7CHpkmOT9eYAiD0Kuybg5WbuWuqDaXHHmhVtsAxgpBw==}
 
-  '@pipedream/quickbooks@0.5.1':
-    resolution: {integrity: sha512-APqan523zeCY/JVBk6PhoRE5intfoBsK8LTj9xZSOlah0E9/zcVHaGJ9vQhaVjFLuPC9YYt3BemQpsjGFcU0fQ==}
+  '@pipedream/quickbooks@0.6.1':
+    resolution: {integrity: sha512-17uGEBdLTUk7FkyCwuaNT1eQodvnS4xN+w1+kSdtMw2GV8guzQU9/oB/IjECDDyDvO4Ba0ulfm9xb544bKWf/w==}
 
   '@pipedream/ramp@0.1.2':
     resolution: {integrity: sha512-vYC5OPJo+kxhYYav5y0Mb7WihbLqNdoUO/CnOH1rHfKKNI4E23LLLLICn3VAl0gRc7xbWLHf4Nmcyjw7qf5k7Q==}
@@ -20873,8 +20873,8 @@ packages:
   '@types/node@18.11.10':
     resolution: {integrity: sha512-juG3RWMBOqcOuXC643OAdSA525V44cVgGV6dUDuiFtss+8Fk5x1hI93Rsld43VeJVIeqlP9I7Fn9/qaVqoEAuQ==}
 
-  '@types/node@18.19.103':
-    resolution: {integrity: sha512-hHTHp+sEz6SxFsp+SA+Tqrua3AbmlAw+Y//aEwdHrdZkYVRWdvWD3y5uPZ0flYOkgskaFWqZ/YGFm3FaFQ0pRw==}
+  '@types/node@18.19.111':
+    resolution: {integrity: sha512-90sGdgA+QLJr1F9X79tQuEut0gEYIfkX9pydI4XGRgvFo9g2JWswefI+WUSUHPYVBHYSEfTEqBxA5hQvAZB3Mw==}
 
   '@types/node@18.19.64':
     resolution: {integrity: sha512-955mDqvO2vFf/oL7V3WiUtiz+BugyX8uVbaT2H8oj3+8dRyH2FLiNdowe7eNqRM7IOIZvzDH76EoAT+gwm6aIQ==}
@@ -20894,11 +20894,11 @@ packages:
   '@types/node@22.10.2':
     resolution: {integrity: sha512-Xxr6BBRCAOQixvonOye19wnzyDiUtTeqldOOmj3CkeblonbccA12PFwlufvRdrpjXxqnmUaeiU5EOA+7s5diUQ==}
 
-  '@types/node@22.15.21':
-    resolution: {integrity: sha512-EV/37Td6c+MgKAbkcLG6vqZ2zEYHD7bvSrzqqs2RIhbA6w3x+Dqz8MZM3sP6kGTeLrdoOgKZe+Xja7tUB2DNkQ==}
-
   '@types/node@22.15.9':
     resolution: {integrity: sha512-l6QaCgJSJQ0HngL1TjvEY2DlefKggyGeXP1KYvYLBX41ZDPM1FsgDMAr5c+T673NMy7VCptMOzXOuJqf5uB0bA==}
+
+  '@types/node@24.0.0':
+    resolution: {integrity: sha512-yZQa2zm87aRVcqDyH5+4Hv9KYgSdgwX1rFnGvpbzMaC7YAljmhBET93TPiTd3ObwTL+gSpIzPKg5BqVxdCvxKg==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -23849,10 +23849,6 @@ packages:
     resolution: {integrity: sha512-/yFHK0aGjFEgDJjEKP0pWCplsPFPhwyfwevf/pVxiN0tmE4L9LmwWxWukdJSHdoCli4VgQLehjJtwQBnqmsKcw==}
     engines: {node: '>=10'}
 
-  file-type@18.7.0:
-    resolution: {integrity: sha512-ihHtXRzXEziMrQ56VSgU7wkxh55iNchFkosu7Y9/S+tXHdKyrGjVK0ujbqNnsxzea+78MaLhN6PGmfYSAv1ACw==}
-    engines: {node: '>=14.16'}
-
   file-type@3.9.0:
     resolution: {integrity: sha512-RLoqTXE8/vPmMuTI88DAzhMYC99I8BWv7zYP4A1puo5HIjEJ5EX48ighy4ZyKMG9EDXxBgW6e++cn7d1xuFghA==}
     engines: {node: '>=0.10.0'}
@@ -24156,6 +24152,10 @@ packages:
     resolution: {integrity: sha512-LDODD4TMYx7XXdpwxAVRAIAuB0bzv0s+ywFonY46k126qzQHT9ygyoa9tncmOiQmmDrik65UYsEkv3lbfqQ3yQ==}
     engines: {node: '>=14'}
 
+  gaxios@7.0.0:
+    resolution: {integrity: sha512-wHVbHPzSEelanEE5L21HGwtYrMwzFn37nbLMtYj/Efz5R71ZpfAVNad8Rc33SUKFDcWTcQMo4g/VIEBz+CthuA==}
+    engines: {node: '>=18'}
+
   gcp-metadata@4.3.1:
     resolution: {integrity: sha512-x850LS5N7V1F3UcV7PoupzGsyD6iVwTVvsh3tbXfkctZnBnjW5yu5z1/3k3SehF7TyoTIe78rJs02GMMy+LF+A==}
     engines: {node: '>=10'}
@@ -24167,6 +24167,10 @@ packages:
   gcp-metadata@6.1.0:
     resolution: {integrity: sha512-Jh/AIwwgaxan+7ZUUmRLCjtchyDiqh4KjBJ5tW3plBZb5iL/BPcso8A5DlzeD9qlw0duCamnNdpFjxwaT0KyKg==}
     engines: {node: '>=14'}
+
+  gcp-metadata@7.0.0:
+    resolution: {integrity: sha512-3PfRTzvT3Msu0Hy8Gf9ypxJvaClG2IB9pyH0r8QOmRBW5mUcrHgYpF4GYP+XulDbfhxEhBYtJtJJQb5S2wM+LA==}
+    engines: {node: '>=18'}
 
   gdata-vaas@2.4.1:
     resolution: {integrity: sha512-G7Rn3jJ1QtMfr4fxtJ9ZwA2UikE1CAd9fAjc/HxeELJ+FwtqiTORSFdyE7boZsyCYzp5PcQ/69W8zSvz8xytUg==}
@@ -24351,6 +24355,10 @@ packages:
     engines: {node: '>=0.6.0'}
     hasBin: true
 
+  google-auth-library@10.0.0-rc.3:
+    resolution: {integrity: sha512-WC9wfEKK0bk3seWKsDn2loduLth6JWKTsrbWftzrhPuzpwnVXb5oi2+aa0JDBxLBDdkGesLvTQ67F2nZ7leq1Q==}
+    engines: {node: '>=18'}
+
   google-auth-library@7.14.1:
     resolution: {integrity: sha512-5Rk7iLNDFhFeBYc3s8l1CqzbEBcdhwR193RlD4vSNFajIcINKI8W8P0JLmBpwymHqqWbX34pJDQu39cSy/6RsA==}
     engines: {node: '>=10'}
@@ -24373,6 +24381,10 @@ packages:
 
   google-gax@4.4.1:
     resolution: {integrity: sha512-Phyp9fMfA00J3sZbJxbbB4jC55b7DBjE3F6poyL3wKMEBVKA79q6BGuHcTiM28yOzVql0NDbRL8MLLh8Iwk9Dg==}
+    engines: {node: '>=14'}
+
+  google-logging-utils@1.1.1:
+    resolution: {integrity: sha512-rcX58I7nqpu4mbKztFeOAObbomBbHU2oIb/d3tJfF3dizGSApqtSwYJigGCooHdnMyQBIw8BrWyK96w3YXgr6A==}
     engines: {node: '>=14'}
 
   google-p12-pem@3.1.4:
@@ -24402,9 +24414,9 @@ packages:
     resolution: {integrity: sha512-/fhDZEJZvOV3X5jmD+fKxMqma5q2Q9nZNSF3kn1F18tpxmA86BcTxAGBQdM0N89Z3bEaIs+HVznSmFJEAmMTjA==}
     engines: {node: '>=14.0.0'}
 
-  googleapis@105.0.0:
-    resolution: {integrity: sha512-wH/jU/6QpqwsjTKj4vfKZz97ne7xT7BBbKwzQEwnbsG8iH9Seyw19P+AuLJcxNNrmgblwLqfr3LORg4Okat1BQ==}
-    engines: {node: '>=12.0.0'}
+  googleapis-common@8.0.2-rc.0:
+    resolution: {integrity: sha512-JTcxRvmFa9Ec1uyfMEimEMeeKq1sHNZX3vn2qmoUMtnvixXXvcqTcbDZvEZXkEWpGlPlOf4joyep6/qs0BrLyg==}
+    engines: {node: '>=18.0.0'}
 
   googleapis@108.0.1:
     resolution: {integrity: sha512-NKYTMfQH1xVl38Efj4UAwYq/9j+vc/iaqULfG3dSBK4vQHhsYKgKN6agMrgzlWo3NA8ivwb/0bToxZxnhxj7Bg==}
@@ -24492,6 +24504,10 @@ packages:
   gtoken@7.1.0:
     resolution: {integrity: sha512-pCcEwRi+TKpMlxAQObHDQ56KawURgyAf6jtIY046fJ5tIv3zDe/LEIubckAO8fj6JnAxLdmWkUfNyulQ2iKdEw==}
     engines: {node: '>=14.0.0'}
+
+  gtoken@8.0.0:
+    resolution: {integrity: sha512-+CqsMbHPiSTdtSO14O51eMNlrp9N79gmeqmXeouJOhfucAedHw9noVe/n5uJk3tbKE6a+6ZCQg3RPhVhHByAIw==}
+    engines: {node: '>=18'}
 
   hachure-fill@0.5.2:
     resolution: {integrity: sha512-3GKBOn+m2LX9iq+JC1064cSFprJY4jL1jCXTcpnfER5HYE2l/4EfWSGzkPa/ZDBmYI0ZOEj5VHV/eKnPGkHuOg==}
@@ -24651,8 +24667,8 @@ packages:
   html-entities@1.4.0:
     resolution: {integrity: sha512-8nxjcBcd8wovbeKx7h3wTji4e6+rhaVuPNpMqwWgnHh+N9ToqsCs6XztWRBPQ+UtzsoMAdKZtUENoVzU/EMtZA==}
 
-  html-entities@2.5.2:
-    resolution: {integrity: sha512-K//PSRMQk4FZ78Kyau+mZurHn3FH0Vwr+H36eE0rPbeYkRRi9YxceYPhuN60UwWorxyKHhqoAJl2OFKa4BVtaA==}
+  html-entities@2.6.0:
+    resolution: {integrity: sha512-kig+rMn/QOVRvr7c86gQ8lWXq+Hkv6CbAH1hLu+RG338StTpE8Z0b44SDVaqVu7HGKf27frdmUYEs9hTUX/cLQ==}
 
   html-escaper@2.0.2:
     resolution: {integrity: sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==}
@@ -27521,10 +27537,6 @@ packages:
     resolution: {integrity: sha512-ZI3LnwUv5nOGbQzD9c2iDG6toheuXSZP5esSHBjopsXH4dg19soufvpUGA3uohi5anFtGb2lhAVdHzH6R/Evvg==}
     engines: {node: '>=8'}
 
-  peek-readable@5.3.1:
-    resolution: {integrity: sha512-GVlENSDW6KHaXcd9zkZltB7tCLosKB/4Hg0fqBJkAoBgYG2Tn1xtMgXtSUuMU9AK/gCm/tTdT8mgAeF4YNeeqw==}
-    engines: {node: '>=14.16'}
-
   pend@1.2.0:
     resolution: {integrity: sha512-F3asv42UuXchdzt+xXqfW1OGlVBe+mxa2mqI0pg5yAHZPvFmY3Y6drSf/GQ1A86WgWEN9Kzh/WrgKa6iGcHXLg==}
 
@@ -29147,10 +29159,6 @@ packages:
     resolution: {integrity: sha512-fZtbhtvI9I48xDSywd/somNqgUHl2L2cstmXCCif0itOf96jeW18MBSyrLuNicYQVkvpOxkZtkzujiTJ9LW5Jw==}
     engines: {node: '>=10'}
 
-  strtok3@7.1.1:
-    resolution: {integrity: sha512-mKX8HA/cdBqMKUr0MMZAFssCkIGoZeSCMXgnt79yKxNFguMLVFgRe6wB+fsL0NmoHDbeyZXczy7vEPSoo3rkzg==}
-    engines: {node: '>=16'}
-
   stubs@3.0.0:
     resolution: {integrity: sha512-PdHt7hHUJKxvTCgbKX9C1V/ftOcjJQgz8BZwNfV5c4B6dcGqlpelTbJ999jBGZ2jYiPAwcX5dP6oBwVlBlUbxw==}
 
@@ -29475,10 +29483,6 @@ packages:
   token-types@4.2.1:
     resolution: {integrity: sha512-6udB24Q737UD/SDsKAHI9FCRP7Bqc9D/MQUV02ORQg5iskjtLJlZJNdN4kKtcdtwCeWIwIHDGaUsTsCCAa8sFQ==}
     engines: {node: '>=10'}
-
-  token-types@5.0.1:
-    resolution: {integrity: sha512-Y2fmSnZjQdDb9W4w4r1tswlMHylzWIeOKpx0aZH9BgGtACHhrk3OkT52AzwcuqTRBZtvvnTjDBh8eynMulu8Vg==}
-    engines: {node: '>=14.16'}
 
   touch@3.1.1:
     resolution: {integrity: sha512-r0eojU4bI8MnHr8c5bNo7lJDdI2qXlWWJk6a9EAFG7vbhTjElYhBVS3/miuE0uOuoLdb8Mc/rVfsmm6eo5o9GA==}
@@ -29818,6 +29822,9 @@ packages:
 
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
+
+  undici-types@7.8.0:
+    resolution: {integrity: sha512-9UJ2xGDvQ43tYyVMpuHlsgApydB8ZKfVYTsLDhXkFL/6gfkp+U8xTGdh8pMJv1SpZna0zxG1DwsKZsreLbXBxw==}
 
   undici@5.28.4:
     resolution: {integrity: sha512-72RFADWFqKmUb2hmmvNODKL3p9hcB6Gt2DOQMis1SEBaV6a4MH8soBvzg+95CYhCKPFedut2JY9bMfrDl9D23g==}
@@ -33679,7 +33686,7 @@ snapshots:
   '@definitelytyped/utils@0.1.8':
     dependencies:
       '@qiwi/npm-registry-client': 8.9.1
-      '@types/node': 18.19.103
+      '@types/node': 18.19.111
       cachedir: 2.4.0
       charm: 1.0.2
       minimatch: 9.0.5
@@ -34374,7 +34381,7 @@ snapshots:
       fast-xml-parser: 4.5.0
       gaxios: 6.7.1
       google-auth-library: 9.15.0
-      html-entities: 2.5.2
+      html-entities: 2.6.0
       mime: 3.0.0
       p-limit: 3.1.0
       retry-request: 7.0.2
@@ -34427,11 +34434,10 @@ snapshots:
       - encoding
       - supports-color
 
-  '@googleapis/gmail@0.3.4':
+  '@googleapis/gmail@13.0.1':
     dependencies:
-      googleapis-common: 5.1.0
+      googleapis-common: 8.0.2-rc.0
     transitivePeerDependencies:
-      - encoding
       - supports-color
 
   '@googleapis/sheets@0.3.0':
@@ -34949,11 +34955,11 @@ snapshots:
       - '@types/node'
     optional: true
 
-  '@microsoft/api-extractor-model@7.29.9(@types/node@22.15.21)':
+  '@microsoft/api-extractor-model@7.29.9(@types/node@24.0.0)':
     dependencies:
       '@microsoft/tsdoc': 0.15.0
       '@microsoft/tsdoc-config': 0.17.0
-      '@rushstack/node-core-library': 5.10.0(@types/node@22.15.21)
+      '@rushstack/node-core-library': 5.10.0(@types/node@24.0.0)
     transitivePeerDependencies:
       - '@types/node'
 
@@ -34976,15 +34982,15 @@ snapshots:
       - '@types/node'
     optional: true
 
-  '@microsoft/api-extractor@7.47.12(@types/node@22.15.21)':
+  '@microsoft/api-extractor@7.47.12(@types/node@24.0.0)':
     dependencies:
-      '@microsoft/api-extractor-model': 7.29.9(@types/node@22.15.21)
+      '@microsoft/api-extractor-model': 7.29.9(@types/node@24.0.0)
       '@microsoft/tsdoc': 0.15.0
       '@microsoft/tsdoc-config': 0.17.0
-      '@rushstack/node-core-library': 5.10.0(@types/node@22.15.21)
+      '@rushstack/node-core-library': 5.10.0(@types/node@24.0.0)
       '@rushstack/rig-package': 0.5.3
-      '@rushstack/terminal': 0.14.3(@types/node@22.15.21)
-      '@rushstack/ts-command-line': 4.23.1(@types/node@22.15.21)
+      '@rushstack/terminal': 0.14.3(@types/node@24.0.0)
+      '@rushstack/ts-command-line': 4.23.1(@types/node@24.0.0)
       lodash: 4.17.21
       minimatch: 3.0.8
       resolve: 1.22.8
@@ -35687,7 +35693,7 @@ snapshots:
       - debug
       - pg-native
 
-  '@pipedream/quickbooks@0.5.1':
+  '@pipedream/quickbooks@0.6.1':
     dependencies:
       '@pipedream/platform': 3.1.0
     transitivePeerDependencies:
@@ -36820,7 +36826,7 @@ snapshots:
       '@types/node': 20.17.30
     optional: true
 
-  '@rushstack/node-core-library@5.10.0(@types/node@22.15.21)':
+  '@rushstack/node-core-library@5.10.0(@types/node@24.0.0)':
     dependencies:
       ajv: 8.13.0
       ajv-draft-04: 1.0.0(ajv@8.13.0)
@@ -36831,7 +36837,7 @@ snapshots:
       resolve: 1.22.8
       semver: 7.5.4
     optionalDependencies:
-      '@types/node': 22.15.21
+      '@types/node': 24.0.0
 
   '@rushstack/rig-package@0.5.3':
     dependencies:
@@ -36846,12 +36852,12 @@ snapshots:
       '@types/node': 20.17.30
     optional: true
 
-  '@rushstack/terminal@0.14.3(@types/node@22.15.21)':
+  '@rushstack/terminal@0.14.3(@types/node@24.0.0)':
     dependencies:
-      '@rushstack/node-core-library': 5.10.0(@types/node@22.15.21)
+      '@rushstack/node-core-library': 5.10.0(@types/node@24.0.0)
       supports-color: 8.1.1
     optionalDependencies:
-      '@types/node': 22.15.21
+      '@types/node': 24.0.0
 
   '@rushstack/ts-command-line@4.23.1(@types/node@20.17.30)':
     dependencies:
@@ -36863,9 +36869,9 @@ snapshots:
       - '@types/node'
     optional: true
 
-  '@rushstack/ts-command-line@4.23.1(@types/node@22.15.21)':
+  '@rushstack/ts-command-line@4.23.1(@types/node@24.0.0)':
     dependencies:
-      '@rushstack/terminal': 0.14.3(@types/node@22.15.21)
+      '@rushstack/terminal': 0.14.3(@types/node@24.0.0)
       '@types/argparse': 1.0.38
       argparse: 1.0.10
       string-argv: 0.3.2
@@ -38137,7 +38143,7 @@ snapshots:
 
   '@types/node@18.11.10': {}
 
-  '@types/node@18.19.103':
+  '@types/node@18.19.111':
     dependencies:
       undici-types: 5.26.5
 
@@ -38165,14 +38171,14 @@ snapshots:
     dependencies:
       undici-types: 6.20.0
 
-  '@types/node@22.15.21':
-    dependencies:
-      undici-types: 6.21.0
-    optional: true
-
   '@types/node@22.15.9':
     dependencies:
       undici-types: 6.21.0
+
+  '@types/node@24.0.0':
+    dependencies:
+      undici-types: 7.8.0
+    optional: true
 
   '@types/normalize-package-data@2.4.4': {}
 
@@ -41851,12 +41857,6 @@ snapshots:
       strtok3: 6.3.0
       token-types: 4.2.1
 
-  file-type@18.7.0:
-    dependencies:
-      readable-web-to-node-stream: 3.0.2
-      strtok3: 7.1.1
-      token-types: 5.0.1
-
   file-type@3.9.0: {}
 
   file-uri-to-path@1.0.0: {}
@@ -42084,7 +42084,7 @@ snapshots:
       dezalgo: 1.0.4
       hexoid: 1.0.0
       once: 1.4.0
-      qs: 6.13.1
+      qs: 6.14.0
 
   forwarded@0.2.0: {}
 
@@ -42215,6 +42215,14 @@ snapshots:
       - encoding
       - supports-color
 
+  gaxios@7.0.0:
+    dependencies:
+      extend: 3.0.2
+      https-proxy-agent: 7.0.5
+      node-fetch: 3.3.2
+    transitivePeerDependencies:
+      - supports-color
+
   gcp-metadata@4.3.1:
     dependencies:
       gaxios: 4.3.3
@@ -42237,6 +42245,14 @@ snapshots:
       json-bigint: 1.0.0
     transitivePeerDependencies:
       - encoding
+      - supports-color
+
+  gcp-metadata@7.0.0:
+    dependencies:
+      gaxios: 7.0.0
+      google-logging-utils: 1.1.1
+      json-bigint: 1.0.0
+    transitivePeerDependencies:
       - supports-color
 
   gdata-vaas@2.4.1:
@@ -42497,6 +42513,18 @@ snapshots:
     dependencies:
       minimist: 1.2.8
 
+  google-auth-library@10.0.0-rc.3:
+    dependencies:
+      base64-js: 1.5.1
+      ecdsa-sig-formatter: 1.0.11
+      gaxios: 7.0.0
+      gcp-metadata: 7.0.0
+      google-logging-utils: 1.1.1
+      gtoken: 8.0.0
+      jws: 4.0.0
+    transitivePeerDependencies:
+      - supports-color
+
   google-auth-library@7.14.1:
     dependencies:
       arrify: 2.0.1
@@ -42585,6 +42613,8 @@ snapshots:
       - encoding
       - supports-color
 
+  google-logging-utils@1.1.1: {}
+
   google-p12-pem@3.1.4:
     dependencies:
       node-forge: 1.3.1
@@ -42631,12 +42661,14 @@ snapshots:
       - encoding
       - supports-color
 
-  googleapis@105.0.0:
+  googleapis-common@8.0.2-rc.0:
     dependencies:
-      google-auth-library: 8.9.0
-      googleapis-common: 6.0.4
+      extend: 3.0.2
+      gaxios: 7.0.0
+      google-auth-library: 10.0.0-rc.3
+      qs: 6.14.0
+      url-template: 2.0.8
     transitivePeerDependencies:
-      - encoding
       - supports-color
 
   googleapis@108.0.1:
@@ -42806,6 +42838,13 @@ snapshots:
       jws: 4.0.0
     transitivePeerDependencies:
       - encoding
+      - supports-color
+
+  gtoken@8.0.0:
+    dependencies:
+      gaxios: 7.0.0
+      jws: 4.0.0
+    transitivePeerDependencies:
       - supports-color
 
   hachure-fill@0.5.2: {}
@@ -43054,8 +43093,7 @@ snapshots:
 
   html-entities@1.4.0: {}
 
-  html-entities@2.5.2:
-    optional: true
+  html-entities@2.6.0: {}
 
   html-escaper@2.0.2: {}
 
@@ -46899,8 +46937,6 @@ snapshots:
 
   peek-readable@4.1.0: {}
 
-  peek-readable@5.3.1: {}
-
   pend@1.2.0: {}
 
   performance-now@2.1.0: {}
@@ -49241,11 +49277,6 @@ snapshots:
       '@tokenizer/token': 0.3.0
       peek-readable: 4.1.0
 
-  strtok3@7.1.1:
-    dependencies:
-      '@tokenizer/token': 0.3.0
-      peek-readable: 5.3.1
-
   stubs@3.0.0: {}
 
   style-to-object@0.4.4:
@@ -49721,11 +49752,6 @@ snapshots:
       '@tokenizer/token': 0.3.0
       ieee754: 1.2.1
 
-  token-types@5.0.1:
-    dependencies:
-      '@tokenizer/token': 0.3.0
-      ieee754: 1.2.1
-
   touch@3.1.1: {}
 
   tough-cookie@2.5.0:
@@ -49779,7 +49805,7 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0))(typescript@5.7.2):
+  ts-jest@29.2.5(@babel/core@8.0.0-alpha.13)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@8.0.0-alpha.13))(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0))(typescript@5.7.2):
     dependencies:
       bs-logger: 0.2.6
       ejs: 3.1.10
@@ -49793,10 +49819,10 @@ snapshots:
       typescript: 5.7.2
       yargs-parser: 21.1.1
     optionalDependencies:
-      '@babel/core': 7.26.0
+      '@babel/core': 8.0.0-alpha.13
       '@jest/transform': 29.7.0
       '@jest/types': 29.6.3
-      babel-jest: 29.7.0(@babel/core@7.26.0)
+      babel-jest: 29.7.0(@babel/core@8.0.0-alpha.13)
 
   ts-jest@29.2.5(@babel/core@8.0.0-alpha.13)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@8.0.0-alpha.13))(jest@29.7.0(@types/node@20.17.6)(babel-plugin-macros@3.1.0))(typescript@5.6.3):
     dependencies:
@@ -49891,7 +49917,7 @@ snapshots:
       - tsx
       - yaml
 
-  tsup@8.3.6(@microsoft/api-extractor@7.47.12(@types/node@22.15.21))(jiti@1.21.6)(postcss@8.4.49)(tsx@4.19.4)(typescript@5.6.3)(yaml@2.6.1):
+  tsup@8.3.6(@microsoft/api-extractor@7.47.12(@types/node@24.0.0))(jiti@1.21.6)(postcss@8.4.49)(tsx@4.19.4)(typescript@5.6.3)(yaml@2.6.1):
     dependencies:
       bundle-require: 5.1.0(esbuild@0.24.2)
       cac: 6.7.14
@@ -49910,7 +49936,7 @@ snapshots:
       tinyglobby: 0.2.10
       tree-kill: 1.2.2
     optionalDependencies:
-      '@microsoft/api-extractor': 7.47.12(@types/node@22.15.21)
+      '@microsoft/api-extractor': 7.47.12(@types/node@24.0.0)
       postcss: 8.4.49
       typescript: 5.6.3
     transitivePeerDependencies:
@@ -50124,6 +50150,9 @@ snapshots:
   undici-types@6.20.0: {}
 
   undici-types@6.21.0: {}
+
+  undici-types@7.8.0:
+    optional: true
 
   undici@5.28.4:
     dependencies:
@@ -50492,9 +50521,9 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  vite-plugin-dts@4.3.0(@types/node@22.15.21)(rollup@4.27.3)(typescript@5.7.2)(vite@5.4.11(@types/node@22.15.21)):
+  vite-plugin-dts@4.3.0(@types/node@24.0.0)(rollup@4.27.3)(typescript@5.7.2)(vite@5.4.11(@types/node@24.0.0)):
     dependencies:
-      '@microsoft/api-extractor': 7.47.12(@types/node@22.15.21)
+      '@microsoft/api-extractor': 7.47.12(@types/node@24.0.0)
       '@rollup/pluginutils': 5.1.3(rollup@4.27.3)
       '@volar/typescript': 2.4.10
       '@vue/language-core': 2.1.6(typescript@5.7.2)
@@ -50505,19 +50534,19 @@ snapshots:
       magic-string: 0.30.13
       typescript: 5.7.2
     optionalDependencies:
-      vite: 5.4.11(@types/node@22.15.21)
+      vite: 5.4.11(@types/node@24.0.0)
     transitivePeerDependencies:
       - '@types/node'
       - rollup
       - supports-color
 
-  vite@5.4.11(@types/node@22.15.21):
+  vite@5.4.11(@types/node@24.0.0):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.4.49
       rollup: 4.27.3
     optionalDependencies:
-      '@types/node': 22.15.21
+      '@types/node': 24.0.0
       fsevents: 2.3.3
 
   vm2@3.9.19:

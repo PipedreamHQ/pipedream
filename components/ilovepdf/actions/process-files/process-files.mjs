@@ -1,22 +1,16 @@
 import ilovepdf from "../../ilovepdf.app.mjs";
 import FormData from "form-data";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import fs from "fs";
-import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "ilovepdf-process-files",
   name: "Process Files",
   description: "Process one or more files with the desired tool. [See the documentation](https://developer.ilovepdf.com/docs/api-reference)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   props: {
     ilovepdf,
-    fileUrls: {
-      propDefinition: [
-        ilovepdf,
-        "fileUrls",
-      ],
-    },
     filePaths: {
       propDefinition: [
         ilovepdf,
@@ -44,7 +38,7 @@ export default {
   },
   async run({ $ }) {
     const {
-      fileUrls, filePaths, tool, extraParameters, outputFilename,
+      filePaths, tool, extraParameters, outputFilename,
     } = this;
 
     const { token } = await this.ilovepdf.getAuthToken({
@@ -60,55 +54,32 @@ export default {
       tool,
     });
 
-    if (!filePaths?.length && !fileUrls.length) {
-      throw new ConfigurationError("You must provide either a File Path or File URL");
-    }
-
-    const fileNames = [
-      ...filePaths ?? [],
-      ...fileUrls ?? [],
-    ].map((f) => f.split("/").pop());
+    const fileNames = filePaths.map((f) => f.split("/").pop());
 
     // Upload the files
     const pathUploads = (filePaths ?? []).map(async (filePath) => {
       const formData = new FormData();
       formData.append("task", task);
 
-      const content = fs.createReadStream(filePath.includes("tmp/")
-        ? filePath
-        : `/tmp/${filePath}`);
-      formData.append("file", content);
-      const headers = {
-        "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
-      };
+      const {
+        stream, metadata,
+      } = await getFileStreamAndMetadata(filePath);
+      formData.append("file", stream, {
+        contentType: metadata.contentType,
+        knownLength: metadata.size,
+        filename: metadata.name,
+      });
+
       return this.ilovepdf.uploadFile({
         $,
         token,
         server,
         data: formData,
-        headers,
+        headers: formData.getHeaders(),
       });
     });
 
-    const urlUploads = (fileUrls ?? []).map(async (fileUrl) => {
-      return this.ilovepdf.uploadFile({
-        $,
-        token,
-        server,
-        data: {
-          task,
-          cloud_file: fileUrl,
-        },
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-    });
-
-    const uploadResponses = await Promise.all([
-      ...pathUploads,
-      ...urlUploads,
-    ]);
+    const uploadResponses = await Promise.all(pathUploads);
 
     const serverFilenames = uploadResponses.map((response) => response?.server_filename);
 

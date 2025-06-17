@@ -1,14 +1,13 @@
 import FormData from "form-data";
-import fs from "fs";
 import urlExists from "url-exist";
 import claidAi from "../../claid_ai.app.mjs";
-import { checkTmp } from "../../common/utils.mjs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 
 export default {
   key: "claid_ai-remove-background",
   name: "Remove Background",
   description: "Easily erases the image's background, effectively isolating the main subject. [See the documentation](https://docs.claid.ai/image-editing-api/image-operations/background)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     claidAi,
@@ -98,8 +97,15 @@ export default {
     };
 
     if (!await urlExists(this.image)) {
+      const {
+        stream, metadata,
+      } = await getFileStreamAndMetadata(this.image);
       const formData = new FormData();
-      formData.append("file", fs.createReadStream(checkTmp(this.image)));
+      formData.append("file", stream, {
+        contentType: metadata.contentType,
+        knownLength: metadata.size,
+        filename: metadata.name,
+      });
       formData.append("data", JSON.stringify({
         operations,
       }));

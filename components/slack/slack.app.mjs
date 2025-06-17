@@ -356,8 +356,8 @@ export default {
       },
     },
     content: {
-      label: "File Path",
-      description: "Full path to the file in `/tmp/` directory. E.g. `/tmp/cute_cat.jpg`",
+      label: "File Path or URL",
+      description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
       type: "string",
     },
     link_names: {

@@ -1,9 +1,27 @@
 export default {
-  "index": "What is Pipedream?",
+  "index": "Introduction",
   "workspaces": "Workspaces",
   "projects": "Projects",
-  "connect": "Connect",
-  "workflows": "Workflows",
+  "--connect": {
+    type: "separator",
+    title: "Connect",
+  },
+  "connect": {
+    title: "Integrate APIs",
+    // display: "children", <-- https://github.com/shuding/nextra/issues/4611
+  },
+  "--workflows": {
+    type: "separator",
+    title: "Workflows",
+  },
+  "workflows": {
+    title: "Build Workflows",
+    // display: "children", <-- https://github.com/shuding/nextra/issues/4611
+  },
+  "--platform": {
+    type: "separator",
+    title: "Platform",
+  },
   "apps": "Apps",
   "components": "Components",
   "rest-api": "REST API",

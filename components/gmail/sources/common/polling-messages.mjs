@@ -57,7 +57,10 @@ export default {
       }
     },
     async processHistoricalEvents(messageIds) {
-      let messages = await this.gmail.getMessages(messageIds);
+      let messages = [];
+      for await (const message of this.gmail.getAllMessages(messageIds)) {
+        messages.push(message);
+      }
       messages = messages.sort((a, b) => (a.internalDate - b.internalDate));
       this.setLastDate(messages[messages.length - 1].internalDate);
       messages.forEach((message) => this.emitEvent(message));

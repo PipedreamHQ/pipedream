@@ -144,7 +144,7 @@ export default {
       return await this.maybeCached(
         `lastMessage:${channel}:${ts}`,
         async () => {
-          const response = await this.slack.sdk().getConversationReplies({
+          const response = await this.slack.getConversationReplies({
             channel,
             ts,
             limit: 1,
