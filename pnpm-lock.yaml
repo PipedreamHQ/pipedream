@@ -6994,7 +6994,11 @@ importers:
 
   components/kartra: {}
 
-  components/keboola: {}
+  components/keboola:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/keen:
     dependencies:
