@@ -14,7 +14,7 @@ export default {
   key: "security_reporter-update-finding",
   name: "Update Security Finding",
   description: "Updates an existing security finding. [See the documentation](https://trial3.securityreporter.app/api-documentation)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     securityReporter,
@@ -146,8 +146,8 @@ export default {
     },
     draftDocumentsFile: {
       type: "string[]",
-      label: "Draft Documents File ",
-      description: "The path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
+      label: "Draft Documents File",
+      description: "One or more files to upload. For each entry, provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
       optional: true,
     },
     resolvers: {

@@ -1,5 +1,5 @@
 import scoreDetect from "../../scoredetect.app.mjs";
-import { getFileStream } from "@pipedream/platform";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 
 export default {
   key: "scoredetect-create-timestamp-file",
@@ -17,10 +17,13 @@ export default {
     },
   },
   async run({ $ }) {
-    const stream = await getFileStream(this.fileOrUrl);
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(this.fileOrUrl);
     const response = await this.scoreDetect.createCertificate({
       $,
       file: stream,
+      metadata,
     });
 
     $.export("$summary", "Successfully created certificate");
