@@ -85,11 +85,15 @@ export default {
       let content = [];
       if (this.images) {
         for (const image of this.images) {
+          const stream = await getFileStream(image);
+          const chunks = [];
+          for await (const chunk of stream) {
+            chunks.push(chunk);
+          }
+          const base64Image = Buffer.concat(chunks).toString("base64");
           content.push({
-            "type": "image_url",
-            "image_url": {
-              "url": image,
-            },
+            "type": "input_image",
+            "image_url": `data:image/jpeg;base64,${base64Image}`,
           });
         }
       }

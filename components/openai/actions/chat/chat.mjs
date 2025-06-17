@@ -43,7 +43,7 @@ export default {
     images: {
       label: "Images",
       type: "string[]",
-      description: "Provide one or more images to [OpenAI's vision model](https://platform.openai.com/docs/guides/vision). Accepts URLs or base64 encoded strings. Compatible with the `gpt4-vision-preview` model",
+      description: "Provide one or more images to [OpenAI's vision model](https://platform.openai.com/docs/guides/vision). Each entry should be either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.jpg`) Compatible with the `gpt4-vision-preview` model",
       optional: true,
     },
     audio: {
