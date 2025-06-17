@@ -1,5 +1,5 @@
 import {
-  ConfigurationError, getFileStream,
+  ConfigurationError, getFileStreamAndMetadata,
 } from "@pipedream/platform";
 import constants from "../../common/constants.mjs";
 import { parse } from "../../common/helpers.mjs";
@@ -85,27 +85,40 @@ export default {
       let content = [];
       if (this.images) {
         for (const image of this.images) {
-          const stream = await getFileStream(image);
-          const chunks = [];
-          for await (const chunk of stream) {
-            chunks.push(chunk);
+          let base64Image = image;
+          let imageType = "image/jpeg";
+          if (image.startsWith("http") || image.includes("tmp/")) {
+            const {
+              stream, metadata,
+            } = await getFileStreamAndMetadata(image);
+            const chunks = [];
+            for await (const chunk of stream) {
+              chunks.push(chunk);
+            }
+            base64Image = Buffer.concat(chunks).toString("base64");
+            if (metadata.contentType) imageType = metadata.contentType;
           }
-          const base64Image = Buffer.concat(chunks).toString("base64");
           content.push({
-            "type": "input_image",
-            "image_url": `data:image/jpeg;base64,${base64Image}`,
+            "type": "image_url",
+            "image_url": {
+              "url": base64Image.startsWith("data:")
+                ? base64Image
+                : `data:${imageType};base64,${base64Image}`,
+            },
           });
         }
       }
 
       if (this.audio) {
-        const stream = await getFileStream(this.audio);
+        const {
+          stream, metadata,
+        } = await getFileStreamAndMetadata(this.audio);
         const chunks = [];
         for await (const chunk of stream) {
           chunks.push(chunk);
         }
         const fileContent = Buffer.concat(chunks).toString("base64");
-        const extension = this.audio.match(/\.(\w+)$/)?.[1];
+        const extension = metadata.name.split(".").pop();
         content.push({
           type: "input_audio",
           input_audio: {
