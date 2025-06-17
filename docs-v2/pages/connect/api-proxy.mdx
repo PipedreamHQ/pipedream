@@ -232,6 +232,33 @@ Filter the response for apps where `connect.proxy_enabled` is `true`.
 </Tabs.Tab>
 </Tabs>
 
+## Restricted headers
+
+The following headers are not allowed when making requests through the Connect API Proxy. Requests that include these headers will be rejected with a `400` error:
+
+- `ACCEPT-ENCODING`
+- `ACCESS-CONTROL-REQUEST-HEADERS`
+- `ACCESS-CONTROL-REQUEST-METHOD`
+- `CONNECTION`
+- `CONTENT-LENGTH`
+- `COOKIE`
+- `DATE`
+- `DNT`
+- `EXPECT`
+- `HOST`
+- `KEEP-ALIVE`
+- `ORIGIN`
+- `PERMISSIONS-POLICY`
+- `REFERER`
+- `TE`
+- `TRAILER`
+- `TRANSFER-ENCODING`
+- `UPGRADE`
+- `VIA`
+- `NOTE`
+- Headers starting with `PROXY-`
+- Headers starting with `SEC-`
+
 ## Limits
 
 - The Connect Proxy limits API requests to 1,000 requests per 5 minutes per project. Requests that surpass this limit will receive a `429` response.
