@@ -60,9 +60,13 @@ export default {
         index === self.findIndex((m) => m.id === message.id));
 
       const messageIds = uniqueMessages.map(({ id }) => id);
-      const messagesWithHistoryId = await this.gmail.getMessages(messageIds);
+      const messages = [];
+      for await (const message of this.gmail.getAllMessages(messageIds)) {
+        messages.push(message);
+      }
+
       const sortedMessages =
-        Array.from(messagesWithHistoryId)
+        Array.from(messages)
           .sort((a, b) => (Number(b.historyId) - Number(a.historyId)));
 
       const { historyId } = await this.gmail.getMessage({

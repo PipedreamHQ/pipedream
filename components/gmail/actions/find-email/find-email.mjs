@@ -55,9 +55,10 @@ export default {
       maxResults: this.maxResults,
     });
     const messageIds = messages.map(({ id }) => id);
-    let messagesToEmit = await this.gmail.getMessages(messageIds);
+    const messagesToEmit = [];
+    for await (const message of this.gmail.getAllMessages(messageIds)) {
+      messagesToEmit.push(message);
 
-    for await (const message of messagesToEmit) {
       let newPayload = "";
 
       const messageIdHeader = message.payload?.headers?.find(
