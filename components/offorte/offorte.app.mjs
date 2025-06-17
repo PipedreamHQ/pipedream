@@ -125,6 +125,11 @@ export default {
         }));
       },
     },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The name of the contact",
+    },
   },
   methods: {
     _headers() {
