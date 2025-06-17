@@ -29,7 +29,6 @@ export default {
         (c) => ({
           taskId: c.taskId,
           listId: c.listId,
-          viewId: c.viewId,
         }),
       ],
     },

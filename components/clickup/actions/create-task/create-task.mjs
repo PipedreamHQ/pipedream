@@ -75,6 +75,7 @@ export default {
           spaceId: c.spaceId,
         }),
       ],
+      optional: true,
     },
     listId: {
       propDefinition: [
@@ -103,6 +104,7 @@ export default {
         (c) => ({
           listId: c.listId,
           useCustomTaskIds: c.useCustomTaskIds,
+          authorizedTeamId: c.authorizedTeamId,
         }),
       ],
       label: "Parent Task ID",

@@ -41,6 +41,7 @@ export default {
           spaceId: c.spaceId,
         }),
       ],
+      optional: true,
     },
     listId: {
       propDefinition: [
