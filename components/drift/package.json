@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/drift",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Pipedream drift Components",
   "main": "drift.app.mjs",
   "keywords": [

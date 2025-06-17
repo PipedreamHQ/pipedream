@@ -391,7 +391,12 @@ curl https://api.pipedream.com/v1/apps
       "categories": [
         "Communication"
       ],
-      "featured_weight": 1000000001
+      "featured_weight": 1000000001,
+      "connect": {
+        "proxy_enabled": true,
+        "allowed_domains": ["slack.com"],
+        "base_proxy_target_url": "https://slack.com"
+      }
     },
     {
       "id": "app_mWnheL",
@@ -404,7 +409,12 @@ curl https://api.pipedream.com/v1/apps
       "categories": [
         "Communication"
       ],
-      "featured_weight": 4100
+      "featured_weight": 4100,
+      "connect": {
+        "proxy_enabled": true,
+        "allowed_domains": ["slack.com"],
+        "base_proxy_target_url": "https://slack.com"
+      }
     }
   ]
 }
@@ -443,8 +453,8 @@ curl https://api.pipedream.com/v1/apps/app_OkrhR1 \
 #### Example Response
 
 ```json
-"data": [
-  {
+{
+  "data": {
     "id": "app_OkrhR1",
     "name_slug": "slack",
     "name": "Slack",
@@ -454,10 +464,15 @@ curl https://api.pipedream.com/v1/apps/app_OkrhR1 \
     "custom_fields_json": "[]",
     "categories": [
       "Communication"
-    ]
-    "featured_weight": 1000000001
+    ],
+    "featured_weight": 1000000001,
+    "connect": {
+      "proxy_enabled": true,
+      "allowed_domains": ["slack.com"],
+      "base_proxy_target_url": "https://slack.com"
+    }
   }
-]
+}
 ```
 
 ## Components

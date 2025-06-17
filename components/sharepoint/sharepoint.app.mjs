@@ -254,10 +254,10 @@ export default {
       });
     },
     getFile({
-      siteId, fileId, ...args
+      driveId, fileId, ...args
     }) {
       return this._makeRequest({
-        path: `/sites/${siteId}/drive/items/${fileId}/content`,
+        path: `/drives/${driveId}/items/${fileId}/content`,
         ...args,
       });
     },

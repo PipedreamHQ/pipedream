@@ -26,26 +26,53 @@ export default {
       const params = {
         maxResults: constants.HISTORICAL_EVENTS,
       };
+
+      let allMessages = [];
+
       if (this.labels?.length) {
-        params.labelIds = this.labels;
+        // Make individual calls for each labelId to make it inclusive (OR logic)
+        for (const labelId of this.labels) {
+          const { messages } = await this.gmail.listMessages({
+            ...params,
+            labelIds: [
+              labelId,
+            ],
+          });
+          if (messages?.length) {
+            allMessages.push(...messages);
+          }
+        }
+      } else {
+        // No labels specified, get all messages
+        const { messages } = await this.gmail.listMessages(params);
+        if (messages?.length) {
+          allMessages.push(...messages);
+        }
       }
-      let { messages } = await this.gmail.listMessages({
-        ...params,
-      });
-      if (!messages?.length) {
-        return;
+
+      if (!allMessages.length) {
+        const { historyId } = await this.gmail.getProfile();
+        return historyId;
       }
-      const messageIds = messages.map(({ id }) => id);
-      messages = await this.gmail.getMessages(messageIds);
-      messages = messages.sort((a, b) => (a.internalDate - b.internalDate));
+
+      // Remove duplicates based on message id
+      const uniqueMessages = allMessages.filter((message, index, self) =>
+        index === self.findIndex((m) => m.id === message.id));
+
+      const messageIds = uniqueMessages.map(({ id }) => id);
+      const messagesWithHistoryId = await this.gmail.getMessages(messageIds);
+      const sortedMessages =
+        Array.from(messagesWithHistoryId)
+          .sort((a, b) => (Number(b.historyId) - Number(a.historyId)));
+
       const { historyId } = await this.gmail.getMessage({
-        id: messages[messages.length - 1].id,
+        id: sortedMessages[0].id,
       });
       return historyId;
     },
     async emitHistories(startHistoryId) {
       const opts = {
-        startHistoryId,
+        startHistoryId: String(startHistoryId),
         historyTypes: this.getHistoryTypes(),
       };
 
@@ -59,19 +86,42 @@ export default {
           opts.labelId = this.labels[i];
         }
 
-        const {
-          history, historyId,
-        } = await this.gmail.listHistory(opts);
+        try {
+          const {
+            history, historyId,
+          } = await this.gmail.listHistory(opts);
 
-        if (!history) {
-          continue;
-        }
+          maxHistoryId = Math.max(maxHistoryId, historyId);
 
-        maxHistoryId = Math.max(maxHistoryId, historyId);
-        const responseArray = this.filterHistory(history);
+          if (!history) {
+            continue;
+          }
 
-        for (const item of responseArray) {
-          await this.emitFullMessage(item.messages[0].id);
+          const responseArray = this.filterHistory(history);
+
+          for (const item of responseArray) {
+            await this.emitFullMessage(item.messages[0].id);
+          }
+        } catch (error) {
+          // Handle expired or invalid historyId (HTTP 404)
+          if (error.status === 404 || error.message.includes("Requested entity was not found")) {
+            console.log(`History request failed with expired historyId: ${error.message}`);
+            console.log("Getting fresh historyId from profile");
+
+            // Get fresh historyId from profile
+            const profile = await this.gmail.getProfile();
+            const freshHistoryId = profile.historyId;
+
+            if (freshHistoryId) {
+              this._setLastHistoryId(freshHistoryId);
+            }
+
+            // Skip processing for this run since we're resetting the historyId
+            return;
+          } else {
+            // Re-throw other errors
+            throw error;
+          }
         }
       }
       if (maxHistoryId > 0) {
@@ -82,15 +132,40 @@ export default {
       const opts = {
         maxResults: constants.HISTORICAL_EVENTS,
       };
+
+      let allMessages = [];
+
       if (this.labels?.length) {
-        opts.labelIds = this.labels;
+        // Make individual calls for each labelId to make it inclusive (OR logic)
+        for (const labelId of this.labels) {
+          const { messages } = await this.gmail.listMessages({
+            ...opts,
+            labelIds: [
+              labelId,
+            ],
+          });
+          if (messages?.length) {
+            allMessages.push(...messages);
+          }
+        }
+      } else {
+        // No labels specified, get all messages
+        const { messages } = await this.gmail.listMessages(opts);
+        if (messages?.length) {
+          allMessages.push(...messages);
+        }
       }
-      let { messages } = await this.gmail.listMessages(opts);
-      if (!messages?.length) {
+
+      if (!allMessages.length) {
         return;
       }
-      messages = messages.sort((a, b) => (a.internalDate - b.internalDate));
-      for (const message of messages) {
+
+      // Remove duplicates based on message id
+      const uniqueMessages = allMessages.filter((message, index, self) =>
+        index === self.findIndex((m) => m.id === message.id));
+
+      const sortedMessages = uniqueMessages.sort((a, b) => (a.internalDate - b.internalDate));
+      for (const message of sortedMessages) {
         await this.emitFullMessage(message.id);
       }
     },
