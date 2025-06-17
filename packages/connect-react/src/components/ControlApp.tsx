@@ -4,6 +4,7 @@ import { useAccounts } from "../hooks/use-accounts";
 import { useFormFieldContext } from "../hooks/form-field-context";
 import { useFormContext } from "../hooks/form-context";
 import { useCustomize } from "../hooks/customization-context";
+import { useOAuthAppContext } from "../hooks/oauth-app-context";
 import type { BaseReactSelectProps } from "../hooks/customization-context";
 import { useMemo } from "react";
 import type { CSSProperties } from "react";
@@ -30,6 +31,7 @@ type ControlAppProps = {
 export function ControlApp({ app }: ControlAppProps) {
   const client = useFrontendClient();
   const { externalUserId } = useFormContext();
+  const { oauthAppId } = useOAuthAppContext();
   const formFieldCtx = useFormFieldContext<ConfigurablePropApp>();
   const {
     id, prop, value, onChange,
@@ -67,7 +69,6 @@ export function ControlApp({ app }: ControlAppProps) {
   };
   const selectProps =  select.getProps("controlAppSelect", baseSelectProps);
 
-  const oauthAppId = undefined; // XXX allow customizing
   const {
     isLoading: isLoadingAccounts,
     // TODO error
@@ -75,7 +76,7 @@ export function ControlApp({ app }: ControlAppProps) {
     refetch: refetchAccounts,
   } = useAccounts(
     {
-      externalUserId,
+      external_user_id: externalUserId,
       app: app.name_slug,
       oauth_app_id: oauthAppId,
     },
