@@ -8,7 +8,7 @@ export default {
   },
   "connect": {
     title: "Integrate APIs",
-    // display: "children",
+    // display: "children", <-- https://github.com/shuding/nextra/issues/4611
   },
   "--workflows": {
     type: "separator",
@@ -16,7 +16,7 @@ export default {
   },
   "workflows": {
     title: "Build Workflows",
-    // display: "children",
+    // display: "children", <-- https://github.com/shuding/nextra/issues/4611
   },
   "--platform": {
     type: "separator",
