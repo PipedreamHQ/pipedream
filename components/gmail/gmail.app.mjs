@@ -410,12 +410,6 @@ export default {
       const { value: subject } = message.payload.headers.find(({ name }) => name === "Subject");
       return subject;
     },
-    async getMessages(ids = []) {
-      const promises = ids.map((id) => this.getMessage({
-        id,
-      }));
-      return Promise.all(promises);
-    },
     async *getAllMessages(ids = []) {
       for (const id of ids) {
         const message = await this.getMessage({
