@@ -6793,6 +6793,8 @@ importers:
         specifier: ^1.6.5
         version: 1.6.6
 
+  components/issue_badge: {}
+
   components/itemize:
     dependencies:
       '@pipedream/platform':
@@ -7446,6 +7448,8 @@ importers:
         version: 3.0.3
 
   components/limitless: {}
+
+  components/limitless_ai: {}
 
   components/limoexpress:
     dependencies:
