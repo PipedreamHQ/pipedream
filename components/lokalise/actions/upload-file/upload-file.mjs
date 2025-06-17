@@ -1,11 +1,11 @@
 import lokalise from "../../lokalise.app.mjs";
-import fs from "fs";
+import { getFileStream } from "@pipedream/platform";
 
 export default {
   key: "lokalise-upload-file",
   name: "Upload File",
   description: "Uploads a specified file to a Lokalise project. [See the documentation](https://developers.lokalise.com/reference/upload-a-file)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     lokalise,
@@ -17,8 +17,8 @@ export default {
     },
     filePath: {
       type: "string",
-      label: "File Path",
-      description: "The path to a file of a [supported file format](https://docs.lokalise.com/en/collections/2909229-supported-file-formats) in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
+      label: "File Path or URL",
+      description: "The file to upload (see the [Lokalise documentation for supported file formats](https://docs.lokalise.com/en/collections/2909229-supported-file-formats)). Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`). Must be a [supported file format](https://docs.lokalise.com/en/collections/2909229-supported-file-formats).",
     },
     language: {
       propDefinition: [
@@ -29,15 +29,17 @@ export default {
     filename: {
       type: "string",
       label: "Filename",
-      description: "Set the filename. You may optionally use a relative path in the filename",
+      description: "Set the filename. You may optionally use a relative path in the filename (e.g `admin/main.json`)",
     },
   },
   async run({ $ }) {
-    const fileData = fs.readFileSync(this.filePath.startsWith("/tmp")
-      ? this.filePath
-      : `/tmp/${this.filePath}`, {
-      encoding: "base64",
-    });
+    const stream = await getFileStream(this.filePath);
+    const chunks = [];
+    for await (const chunk of stream) {
+      chunks.push(chunk);
+    }
+    const fileData = Buffer.concat(chunks).toString("base64");
+
     const response = await this.lokalise.uploadFile({
       $,
       projectId: this.projectId,

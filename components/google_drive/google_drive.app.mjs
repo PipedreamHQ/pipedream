@@ -155,24 +155,10 @@ export default {
       optional: true,
       default: false,
     },
-    fileUrl: {
-      type: "string",
-      label: "File URL",
-      description: toSingleLineString(`
-        The URL of the file you want to upload to Google Drive. Must specify either **File URL**
-        or **File Path**.
-      `),
-      optional: true,
-    },
     filePath: {
       type: "string",
-      label: "File Path",
-      description: toSingleLineString(`
-        The path to the file saved to the [\`/tmp\`
-        directory](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory)
-        (e.g. \`/tmp/myFile.csv\`). Must specify either **File URL** or **File Path**.
-      `),
-      optional: true,
+      label: "File Path or URL",
+      description: "The file content to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
     },
     fileName: {
       type: "string",

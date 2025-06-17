@@ -45,11 +45,8 @@ export default {
   },
   async run({ $ }) {
     const data = new FormData();
-    const {
-      url, file,
-    } = getUrlOrFile(this.file);
+    const file = await getUrlOrFile(this.file);
 
-    if (url) data.append("url", url);
     if (file) data.append("base64Image", file);
     if (this.imageLanguage) data.append("language", this.imageLanguage);
     if (this.isOverlayRequired) data.append("isOverlayRequired", `${this.isOverlayRequired}`);

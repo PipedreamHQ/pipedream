@@ -1,11 +1,11 @@
-import fs from "fs";
+import { getFileStream } from "@pipedream/platform";
 import app from "../../llmwhisperer.app.mjs";
 
 export default {
   key: "llmwhisperer-extract-text",
   name: "Extract Text",
   description: "Convert your PDF/scanned documents to text format which can be used by LLMs. [See the documentation](https://docs.unstract.com/llm_whisperer/apis/llm_whisperer_text_extraction_api)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     app,
@@ -91,40 +91,20 @@ export default {
       description: "Factor by which a horizontal stretch has to applied. It defaults to `1.0`. A stretch factor of `1.1` would mean at 10% stretch factor applied. Normally this factor need not be adjusted. You might want to use this parameter when multi column layouts back into each other. For example in a two column layout, the two columns get merged into one.",
       optional: true,
     },
-    urlInPost: {
-      type: "boolean",
-      label: "URL In Post",
-      description: "If set to `true`, the headers will be set to `text/plain`. If set to `false`, the headers will be set to `application/octet-stream`.",
-      reloadProps: true,
-      default: true,
+    data: {
+      type: "string",
+      label: "File Path or URL",
+      description: "The document to process. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
     },
-  },
-  additionalProps() {
-    const { urlInPost } = this;
-    return {
-      data: {
-        type: "string",
-        label: urlInPost
-          ? "Document URL"
-          : "Document Path",
-        description: urlInPost
-          ? "The URL of the document to process."
-          : "Document path of the file previously downloaded in Pipedream E.g. (`/tmp/my-file.txt`). [Download a file to the `/tmp` directory](https://pipedream.com/docs/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory)",
-      },
-    };
   },
   methods: {
-    getHeaders(urlInPost) {
+    getHeaders() {
       return {
-        "Content-Type": urlInPost
-          ? "text/plain"
-          : "application/octet-stream",
+        "Content-Type": "application/octet-stream",
       };
     },
-    getData(urlInPost, data) {
-      return urlInPost
-        ? data
-        : fs.readFileSync(data);
+    async getData(data) {
+      return getFileStream(data);
     },
     extractText(args = {}) {
       return this.app.post({
@@ -138,7 +118,6 @@ export default {
       extractText,
       getHeaders,
       getData,
-      urlInPost,
       processingMode,
       outputMode,
       pageSeperator,
@@ -156,9 +135,9 @@ export default {
 
     const response = await extractText({
       $,
-      headers: getHeaders(urlInPost),
+      headers: getHeaders(),
       params: {
-        url_in_post: urlInPost,
+        url_in_post: false,
         processing_mode: processingMode,
         output_mode: outputMode,
         page_seperator: pageSeperator,
@@ -172,7 +151,7 @@ export default {
         line_splitter_tolerance: lineSplitterTolerance,
         horizontal_stretch_factor: horizontalStretchFactor,
       },
-      data: getData(urlInPost, data),
+      data: await getData(data),
     });
 
     $.export("$summary", "Successfully extracted text from document.");

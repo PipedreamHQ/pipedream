@@ -1,19 +1,19 @@
 import app from "../../podio.app.mjs";
 import FormData from "form-data";
-import fs from "fs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 
 export default {
   key: "podio-upload-file",
   name: "Upload File",
   description: "Uploads a new file to Podio. [See the documentation](https://developers.podio.com/doc/files/upload-file-1004361)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     app,
     filePath: {
       type: "string",
-      label: "File Path",
-      description: "The path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
+      label: "File Path or URL",
+      description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
     },
     fileName: {
       type: "string",
@@ -35,15 +35,16 @@ export default {
     const data = new FormData();
 
     const {
-      filePath, fileName,
-    } = this;
+      stream, metadata,
+    } = await getFileStreamAndMetadata(this.filePath);
+    const fileName = this.fileName || metadata.name;
 
-    const content = fs.createReadStream(filePath.includes("tmp/")
-      ? filePath
-      : `/tmp/${filePath}`);
-
-    data.append("source", content);
-    data.append("filename", fileName ?? this.filePath.split("/").pop());
+    data.append("source", stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: fileName,
+    });
+    data.append("filename", fileName);
 
     const response = await this.uploadFile({
       $,
