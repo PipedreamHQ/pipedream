@@ -7303,7 +7303,11 @@ importers:
 
   components/leadboxer: {}
 
-  components/leaddyno: {}
+  components/leaddyno:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/leadfeeder:
     dependencies:
