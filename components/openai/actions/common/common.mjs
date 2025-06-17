@@ -118,7 +118,7 @@ export default {
 
       return content;
     },
-    _getChatArgs() {
+    async _getChatArgs() {
       if (this.messages && this.messages.length && !this.userMessage) {
         throw new ConfigurationError(
           `When you provide previous messages, you must provide the next User Message for the assistant to answer. See the OpenAI Chat format docs here: ${CHAT_DOCS_MESSAGE_FORMAT_URL}`,
@@ -164,7 +164,7 @@ export default {
 
       messages.push({
         "role": "user",
-        "content": this._getUserMessageContent(),
+        "content": await this._getUserMessageContent(),
       });
 
       const responseFormat = {};

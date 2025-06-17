@@ -1,7 +1,6 @@
 import openai from "../../openai.app.mjs";
 import common from "../common/common.mjs";
 import constants from "../../common/constants.mjs";
-import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   ...common,
@@ -145,11 +144,7 @@ export default {
     },
   },
   async run({ $ }) {
-    if (this.audio && !this.modelId.includes("gpt-4o-audio-preview")) {
-      throw new ConfigurationError("Use of audio files requires using the `gpt-4o-audio-preview` model.");
-    }
-
-    const args = this._getChatArgs();
+    const args = await this._getChatArgs();
 
     const response = await this.openai.createChatCompletion({
       $,
