@@ -1,5 +1,5 @@
 export default {
-  "index": "Overview",
+  "index": "Pipedream Connect",
   "use-cases": "Use Cases",
   "managed-auth": "Managed Auth",
   "components": "Tool Use",

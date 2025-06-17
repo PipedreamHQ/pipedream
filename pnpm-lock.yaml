@@ -6371,7 +6371,7 @@ importers:
   components/hunter:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
+        specifier: ^3.0.3
         version: 3.0.3
 
   components/hygraph: {}
@@ -6783,6 +6783,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.5
         version: 1.6.6
+
+  components/issue_badge: {}
 
   components/itemize:
     dependencies:
@@ -7292,7 +7294,11 @@ importers:
 
   components/leadboxer: {}
 
-  components/leaddyno: {}
+  components/leaddyno:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/leadfeeder:
     dependencies:
@@ -7435,6 +7441,10 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/limitless: {}
+
+  components/limitless_ai: {}
 
   components/limoexpress:
     dependencies:
@@ -10712,8 +10722,8 @@ importers:
   components/quickbooks_sandbox:
     dependencies:
       '@pipedream/quickbooks':
-        specifier: ^0.5.1
-        version: 0.5.1
+        specifier: ^0.6.1
+        version: 0.6.1
 
   components/quickemailverification:
     dependencies:
@@ -15523,6 +15533,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/zowie: {}
+
   components/zulip:
     dependencies:
       '@pipedream/platform':
@@ -18795,8 +18807,8 @@ packages:
   '@pipedream/postgresql@2.2.3':
     resolution: {integrity: sha512-Co9r4UKvvimEPo9T4v+EfVn/Sqqw8+X7PtvsAF7tydq7CHpkmOT9eYAiD0Kuybg5WbuWuqDaXHHmhVtsAxgpBw==}
 
-  '@pipedream/quickbooks@0.5.1':
-    resolution: {integrity: sha512-APqan523zeCY/JVBk6PhoRE5intfoBsK8LTj9xZSOlah0E9/zcVHaGJ9vQhaVjFLuPC9YYt3BemQpsjGFcU0fQ==}
+  '@pipedream/quickbooks@0.6.1':
+    resolution: {integrity: sha512-17uGEBdLTUk7FkyCwuaNT1eQodvnS4xN+w1+kSdtMw2GV8guzQU9/oB/IjECDDyDvO4Ba0ulfm9xb544bKWf/w==}
 
   '@pipedream/ramp@0.1.2':
     resolution: {integrity: sha512-vYC5OPJo+kxhYYav5y0Mb7WihbLqNdoUO/CnOH1rHfKKNI4E23LLLLICn3VAl0gRc7xbWLHf4Nmcyjw7qf5k7Q==}
@@ -35675,7 +35687,7 @@ snapshots:
       - debug
       - pg-native
 
-  '@pipedream/quickbooks@0.5.1':
+  '@pipedream/quickbooks@0.6.1':
     dependencies:
       '@pipedream/platform': 3.1.0
     transitivePeerDependencies:

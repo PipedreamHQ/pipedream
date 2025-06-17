@@ -4,7 +4,7 @@ export default {
   key: "microsoft_dynamics_365_sales-find-contact",
   name: "Find Contact",
   description: "Search for a contact by id, name, or using a custom filter. [See the documentation](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/webapi/query/overview)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     microsoft,
