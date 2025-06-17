@@ -29,7 +29,7 @@ export default {
     filename: {
       type: "string",
       label: "Filename",
-      description: "Set the filename. You may optionally use a relative path in the filename",
+      description: "Set the filename. You may optionally use a relative path in the filename (e.g `admin/main.json`)",
     },
   },
   async run({ $ }) {
