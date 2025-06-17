@@ -9,18 +9,27 @@ export default {
   key: "quickbooks-create-purchase-order",
   name: "Create Purchase Order",
   description: "Creates a purchase order. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/purchaseorder#create-a-purchaseorder)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     quickbooks,
     accountId: {
-      propDefinition: [
-        quickbooks,
-        "accountIds",
-      ],
       type: "string",
       label: "Account ID",
       description: "The ID of the account to use for the purchase order",
+      async options() {
+        const { QueryResponse: queryResponse } = await this.quickbooks.query({
+          params: {
+            query: "select * from Account where Classification = 'Liability' AND AccountSubType = 'AccountsPayable'",
+          },
+        });
+        return queryResponse.Account.map(({
+          Id, Name,
+        }) => ({
+          value: Id,
+          label: Name,
+        }));
+      },
     },
     vendorRefValue: {
       propDefinition: [
@@ -102,7 +111,7 @@ export default {
       props.lineItems = {
         type: "string[]",
         label: "Line Items",
-        description: "Line items of a purchase order. Set DetailType to `ItemBasedExpenseLineDetail` or `AccountBasedExpenseLineDetail`. Example: `{ \"DetailType\": \"ItemBasedExpenseLineDetail\", \"Amount\": 100.0, \"ItemBasedExpenseLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }` [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/purchaseorder#create-a-purchaseorder) for more information.",
+        description: "Line items of a purchase order. DetailType is `ItemBasedExpenseLineDetail`. Example: `{ \"DetailType\": \"ItemBasedExpenseLineDetail\", \"Amount\": 100.0, \"ItemBasedExpenseLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }` [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/purchaseorder#create-a-purchaseorder) for more information.",
       };
       return props;
     }
@@ -116,35 +125,26 @@ export default {
       return props;
     }
     for (let i = 1; i <= this.numLineItems; i++) {
-      props[`detailType_${i}`] = {
-        type: "string",
-        label: `Line ${i} - Detail Type`,
-        options: [
-          {
-            label: "Item Based Expense",
-            value: "ItemBasedExpenseLineDetail",
-          },
-          {
-            label: "Account Based Expense",
-            value: "AccountBasedExpenseLineDetail",
-          },
-        ],
-        default: "ItemBasedExpenseLineDetail",
-      };
       props[`item_${i}`] = {
         type: "string",
         label: `Line ${i} - Item/Account ID`,
         options: async ({ page }) => {
-          return this.quickbooks.getPropOptions({
+          const options = await this.quickbooks.getPropOptions({
             page,
             resource: "Item",
             mapper: ({
-              Id: value, Name: label,
-            }) => ({
-              value,
-              label,
-            }),
+              Id: value, Name: label, ExpenseAccountRef,
+            }) => {
+              if (ExpenseAccountRef) {
+                return {
+                  value,
+                  label,
+                };
+              }
+              return null;
+            },
           });
+          return options.filter((option) => option !== null);
         },
       };
       props[`amount_${i}`] = {
@@ -179,12 +179,6 @@ export default {
     if (!lines || lines.length === 0) {
       throw new ConfigurationError("No valid line items were provided.");
     }
-
-    lines.forEach((line, index) => {
-      if (line.DetailType !== "ItemBasedExpenseLineDetail" && line.DetailType !== "AccountBasedExpenseLineDetail") {
-        throw new ConfigurationError(`Line Item at index ${index + 1} has invalid DetailType '${line.DetailType}'. Must be 'ItemBasedExpenseLineDetail' or 'AccountBasedExpenseLineDetail'`);
-      }
-    });
 
     const hasShippingAddress = this.shippingStreetAddress
       || this.shippingCity

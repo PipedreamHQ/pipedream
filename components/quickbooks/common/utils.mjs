@@ -171,26 +171,9 @@ export function buildPurchaseLineItems(numLineItems, context) {
     throw new ConfigurationError(`Invalid amount values for: ${invalidAmounts.join(", ")}. Amounts must be valid numbers.`);
   }
 
-  // Validate detailType values if provided
-  const validDetailTypes = [
-    "ItemBasedExpenseLineDetail",
-    "AccountBasedExpenseLineDetail",
-  ];
-  const invalidDetailTypes = [];
-  for (let i = 1; i <= numLineItems; i++) {
-    const detailType = context[`detailType_${i}`];
-    if (detailType && !validDetailTypes.includes(detailType)) {
-      invalidDetailTypes.push(`detailType_${i}: ${detailType}`);
-    }
-  }
-
-  if (invalidDetailTypes.length > 0) {
-    throw new ConfigurationError(`Invalid detailType values for: ${invalidDetailTypes.join(", ")}. Valid types are: ${validDetailTypes.join(", ")}`);
-  }
-
   const lineItems = [];
   for (let i = 1; i <= numLineItems; i++) {
-    const detailType = context[`detailType_${i}`] || "ItemBasedExpenseLineDetail";
+    const detailType = "ItemBasedExpenseLineDetail";
 
     // Extract conditional logic into clear variables
     const isItemBased = detailType === "ItemBasedExpenseLineDetail";

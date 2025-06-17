@@ -1,6 +1,6 @@
 # Overview
 
-The Esendex API enables seamless SMS and voice messaging integration into your applications, allowing for automated communication with customers or systems. On Pipedream, you can harness this API to create serverless workflows that react to various triggers, from inbound messages to scheduled times, and interact with other services to provide a cohesive automation experience.
+The Esendex API enables seamless SMS, Business WhatsApp and voice messaging integration into your applications. On Pipedream, you can harness this API to create serverless workflows that react to various triggers, from inbound messages to scheduled times, and interact with other services to provide a cohesive automation experience.
 
 # Example Use Cases
 

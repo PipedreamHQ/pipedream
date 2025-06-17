@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/issue_badge",
+  "version": "0.0.1",
+  "description": "Pipedream Issue Badge Components",
+  "main": "issue_badge.app.mjs",
+  "keywords": [
+    "pipedream",
+    "issue_badge"
+  ],
+  "homepage": "https://pipedream.com/apps/issue_badge",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
