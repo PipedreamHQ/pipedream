@@ -79,7 +79,7 @@ export default {
         permalink: this.permalink,
         user_agent: this.userAgent,
         referrer: this.referrer,
-        comment_author: this.commentAauthor,
+        comment_author: this.commentAuthor,
         comment_author_email: this.commentAuthorEmail,
         comment_author_url: this.commentAuthorUrl,
         comment_content: this.commentContent,
