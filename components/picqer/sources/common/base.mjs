@@ -58,7 +58,7 @@ export default {
     const hash = CryptoJS.HmacSHA256(event.bodyRaw, this.secret);
     const hashBase64 = CryptoJS.enc.Base64.stringify(hash);
 
-    if (hashBase64 != signature) {
+    if (hashBase64 !== signature) {
       this.http.respond({
         status: 401,
         body: "Unauthorized",
