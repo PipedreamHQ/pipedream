@@ -1,32 +1,53 @@
 import keboola from "../../keboola.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "keboola-update-table-name",
   name: "Update Table Name",
-  description: "Update the name of a table. [See the documentation](https://keboola.docs.apiary.io/)",
-  version: "0.0.{{ts}}",
+  description: "Update the name of a table. [See the documentation](https://keboola.docs.apiary.io/#reference/tables/manage-tables/table-update)",
+  version: "0.0.1",
   type: "action",
   props: {
     keboola,
+    bucketId: {
+      propDefinition: [
+        keboola,
+        "bucketId",
+      ],
+    },
     tableId: {
       propDefinition: [
         keboola,
         "tableId",
+        (c) => ({
+          bucketId: c.bucketId,
+        }),
       ],
+      reloadProps: true,
     },
-    name: {
+    displayName: {
       type: "string",
-      label: "New Table Name",
-      description: "The new name for the table",
+      label: "Display Name",
+      description: "The new display name for the table",
     },
   },
+  async additionalProps(props) {
+    if (this.tableId) {
+      const table = await this.keboola.getTableDetails({
+        tableId: this.tableId,
+      });
+      props.displayName.default = table.displayName;
+    }
+    return {};
+  },
   async run({ $ }) {
-    const response = await this.keboola.updateTableName({
+    const response = await this.keboola.updateTable({
+      $,
       tableId: this.tableId,
-      name: this.name,
+      data: {
+        displayName: this.displayName,
+      },
     });
-    $.export("$summary", `Successfully updated table name to ${this.name}`);
+    $.export("$summary", `Successfully updated table name to ${this.displayName}`);
     return response;
   },
 };

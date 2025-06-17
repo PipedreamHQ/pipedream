@@ -3,8 +3,8 @@ import keboola from "../../keboola.app.mjs";
 export default {
   key: "keboola-get-bucket-detail",
   name: "Get Bucket Detail",
-  description: "Get detailed information about a specific bucket in Keboola. [See the documentation](https://keboola.docs.apiary.io/#reference/buckets/buckets-collection/details-of-a-bucket)",
-  version: "0.0.{{ts}}",
+  description: "Get detailed information about a specific bucket in Keboola. [See the documentation](https://keboola.docs.apiary.io/#reference/buckets/manage-bucket/bucket-detail)",
+  version: "0.0.1",
   type: "action",
   props: {
     keboola,
@@ -17,6 +17,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.keboola.getBucketDetails({
+      $,
       bucketId: this.bucketId,
     });
 

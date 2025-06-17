@@ -7,65 +7,60 @@ export default {
     bucketId: {
       type: "string",
       label: "Bucket ID",
-      description: "Select a bucket",
+      description: "The ID of the bucket",
       async options() {
         const buckets = await this.listBuckets();
-        return buckets.map((bucket) => ({
-          label: bucket.name,
-          value: bucket.id,
+        return buckets.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
     },
     tableId: {
       type: "string",
       label: "Table ID",
-      description: "Select a table",
+      description: "The ID of the table",
       async options({ bucketId }) {
         const tables = await this.listTablesInBucket({
           bucketId,
         });
-        return tables.map((table) => ({
-          label: table.name,
-          value: table.id,
+        return tables.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
         }));
       },
-    },
-    displayName: {
-      type: "string",
-      label: "Display Name",
-      description: "The new display name for the bucket",
-    },
-    name: {
-      type: "string",
-      label: "Name",
-      description: "The new name for the table",
     },
   },
   methods: {
     _baseUrl() {
-      return "https://connection.keboola.com/v2/storage";
+      return `https://${this.$auth.stack_endpoint}/v2/storage`;
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, method = "GET", path = "/", headers, ...otherOpts
-      } = opts;
+    _headers() {
+      return {
+        "x-storageapi-token": `${this.$auth.api_token}`,
+        "content-type": "multipart/form-data",
+      };
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
-        ...otherOpts,
-        method,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "X-StorageApi-Token": this.$auth.api_key,
-        },
+        headers: this._headers(),
+        ...opts,
       });
     },
-    async listBuckets(opts = {}) {
+    listBuckets(opts = {}) {
       return this._makeRequest({
         path: "/buckets",
         ...opts,
       });
     },
-    async getBucketDetails({
+    getBucketDetails({
       bucketId, ...opts
     }) {
       return this._makeRequest({
@@ -73,7 +68,7 @@ export default {
         ...opts,
       });
     },
-    async listTablesInBucket({
+    listTablesInBucket({
       bucketId, ...opts
     }) {
       return this._makeRequest({
@@ -81,7 +76,7 @@ export default {
         ...opts,
       });
     },
-    async getTableDetails({
+    getTableDetails({
       tableId, ...opts
     }) {
       return this._makeRequest({
@@ -89,7 +84,7 @@ export default {
         ...opts,
       });
     },
-    async updateBucket({
+    updateBucket({
       bucketId, displayName, ...opts
     }) {
       return this._makeRequest({
@@ -101,20 +96,14 @@ export default {
         ...opts,
       });
     },
-    async updateTableName({
-      tableId, name, ...opts
+    updateTable({
+      tableId, ...opts
     }) {
       return this._makeRequest({
         method: "PUT",
         path: `/tables/${tableId}`,
-        data: {
-          name,
-        },
         ...opts,
       });
-    },
-    authKeys() {
-      console.log(Object.keys(this.$auth));
     },
   },
 };
