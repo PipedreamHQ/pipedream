@@ -2,83 +2,63 @@ import Callout from '@/components/Callout'
 
 # Plans and Pricing
 
-We believe anyone should be able to run simple, low-volume workflows at no cost, and we want you to be able to prototype and get to value before having to pay Pipedream any money. We also hope that you share your [sources](/components/contributing/#sources), [workflows](/workflows/building-workflows/), [actions](/components/contributing/#actions), and other integration components so that other Pipedream users benefit from your work.
+We believe anyone should be able to run simple, low-volume workflows at no cost, and whatever you're building, we want you to be able to prototype and get to value before having to pay Pipedream any money. We also hope that you share your [sources](/components/contributing/#sources), [workflows](/workflows/building-workflows/), [actions](/components/contributing/#actions), and other integration components so that other Pipedream users benefit from your work.
 
-To support these goals, Pipedream offers a generous [free plan](#free-plan), free access to Pipedream Connect [while in `development`](/connect/environments), and you can **[request a free trial of our Advanced plan](https://pipedream.com/pricing)**. You can run sources and workflows for free within the limits of the free plan. If you hit these limits, you can upgrade to one of our [paid plans](#paid-plans).
+To support these goals, Pipedream offers a generous [free plan](#free-plan), free access to Pipedream Connect [while in `development`](/connect/environments), and you can **[request a free trial of our Advanced plan](https://pipedream.com/pricing)**. If you exceed the limits of the free plan, you can upgrade to one of our [paid plans](#paid-plans).
 
 [Read more about our plans and pricing here](https://pipedream.com/pricing).
 
 ## Free plan
 
-Workspaces on the Free plan have access to many of the Pipedream features including Workflows and Connect. However, the free plan includes several limitations:
+Workspaces on the Free plan have access to many of the Pipedream features including [Workflows](/workflows) and [Connect](/connect). However, the free plan includes several limitations:
 
 **General:**
 - **Daily credit limit**: Free workspaces have a [daily limit of free credits](/workflows/limits/#daily-credits-limit) that cannot be exceeded
-- **Support**: Community support only via [our forum](https://pipedream.com/community) and Slack
-
-**Workflows:**
-- **Connected accounts**: Limited to 3 different service accounts (like Slack, Google Sheets, GitHub, etc.)
-- **Active workflows**: Limited number of active workflows 
-- **Polling intervals**: Triggers that poll for updates are limited to a lower frequency compared to paid plans
+- **Support**: Community support is available via our [community forum](https://pipedream.com/community) and [Slack](https://join.slack.com/t/pipedream-users/shared_invite/zt-36p4ige2d-9CejV713NlwvVFeyMJnQPwL)
 
 **Connect:**
 - **Development environment**: Access all the features of Connect while in [development mode](/connect/environments)
 
-To lift the daily credit limit and increase the number of workflows and connected accounts, [upgrade to a paid plan](https://pipedream.com/pricing).
+**Workflows:**
+- **Active workflows**: Limited number of active workflows 
+- **Connected accounts**: Limited number of connected accounts (like Slack, Google Sheets, GitHub, etc.)
+
+To lift the daily credit limit, access additional features, or use Connect in production, [upgrade to a paid plan](https://pipedream.com/pricing).
 
 ## Paid plans
 
-[Visit our pricing page](https://pipedream.com/pricing) to learn more about our paid plans.
-
-All paid plans vary features based on plan level, but each paid plan option will:
-
-- Remove the daily [credits](#credits) limit for both Workflows and Connect usage
-- Increase the number of active workflows available
-- Increase the number of connected accounts
-- Unlock full Connect production features with higher usage limits
-- Provide priority support options
+[Visit our pricing page](https://pipedream.com/pricing) to learn more about the details of our paid plans.
 
 ## Pipedream Connect
 
-Pipedream Connect provides SDKs and APIs to let you easily add {process.env.PUBLIC_APPS}+ integrations to your app or AI agent. Connect uses the same credit-based pricing model as Workflows, with some key differences in how credits are consumed.
+Pipedream Connect provides SDKs and APIs to let you easily add {process.env.PUBLIC_APPS}+ integrations to your app or AI agent. Connect pricing is based on two inputs:
 
-{/* todo: talk about external users */}
+1. **[API usage](#how-credits-work-in-connect)**: Credits consumed by action executions, tool calls, and other operations
+2. **[End users](#end-users)**: Referred to as "external users" throughout the docs and API, this is the number of unique users in your application who connect accounts
 
 ### How credits work in Connect
 
-Here's how credit usage works in Connect:
+API operations that consume credits (1 credit per 30 seconds of compute time):
 
-- **`runAction()`** - Consumes 1 credit per call
-- **`makeProxyRequest()`** - Consumes 1 credit per call  
-- **Deployed triggers** - Consume 1 credit per invocation
-  - For polling triggers: 1 credit each time the trigger checks for changes (based on your defined polling schedule/interval)
-  - For webhook triggers: 1 credit each time an event is received
+- **Action executions**
+- **Tool calls via MCP**
+- **Source execution for deployed triggers**
+- **Requests to the Connect proxy**
 
-<Callout type="info">
-We don't charge credits for API calls that help you manage integrations, such as:
-- `getAccounts()` - List connected accounts
-- `getApps()` - Get available apps
-- `getComponents()` - List components
-- `configureComponent()` - Configure component settings
-- Other management and configuration endpoints
-</Callout>
+API operations that do **not** consume credits:
 
-### Connect credit examples
+- **Listing apps, actions, and triggers**
+- **Listing accounts**
+- **Configuring actions and triggers**
+- **Other management operations**
 
-| Scenario | Credits Used |
-| --- | --- |
-| Running a Slack "Send Message" action via `runAction()` | 1 credit |
-| Making an authenticated API request via `makeProxyRequest()` | 1 credit |
-| Polling trigger checking for new GitHub issues every 5 minutes | 1 credit per check (12 per hour) |
-| Webhook trigger receiving a Stripe payment event | 1 credit per event |
-| Calling `getAccounts()` to list user's connected accounts | 0 credits |
-| Configuring a component with `configureComponent()` | 0 credits |
+### End users
 
-### Connect pricing considerations
+End (external) users are a core billing component for Connect pricing, separate from credit usage:
 
-- Credits are consumed at the workspace level, shared across both Workflows and Connect usage
-- The same [free plan](#free-plan) and [paid plans](#paid-plans) limits apply
-- Monitor your Connect usage in your [Billing and Usage Settings](https://pipedream.com/settings/billing)
+- **End user definition**: A unique end user in your application who connects one or more accounts through Connect
+- **User to account relationship**: Each end user can have multiple connected accounts (e.g., one user might connect their Slack, Gmail, and GitHub accounts)
+- **Billing impact**: For standard plans, you're billed based on the number of unique external users, not the number of connected accounts
 
 ## Pipedream Workflows
 
@@ -86,7 +66,7 @@ Pipedream Workflows uses a credit-based pricing model where you pay for compute 
 
 ### Credits and billing
 
-Pipedream uses a number of terms to describe platform metrics and details of our plans. See the definitions of key terms below.
+Pipedream uses a number of terms to describe platform metrics and details of our plans. See the definitions of key terms in the [glossary](/glossary).
 
 #### How credits work for Workflows
 
@@ -96,7 +76,7 @@ Unlike some other platforms, Pipedream does not charge for usage based on the nu
 
 Adding additional memory capacity to workflows will increase credit usage in intervals of 256 megabytes. For example, doubling the memory of a workflow from 256MB to 512MB will double the cost of credits in the same execution time.
 
-##### Scenarios
+**Scenarios**
 
 <Callout type="info">
 Developing a workflow with test events in the Pipedream workflow builder is free. No credit usage is incurred.
@@ -106,7 +86,7 @@ Developing a workflow with test events in the Pipedream workflow builder is free
 If an active workflow isn't executed in a billing period no credit usage is incurred. Pipedream only charges credits for workflow executions.
 </Callout>
 
-###### Workflow segments configured to use 256MB memory (default)
+**Workflow segments configured to use 256MB memory (default)**
 
 | Scenario | Credits Used |
 | --- | --- |
@@ -117,7 +97,7 @@ If an active workflow isn't executed in a billing period no credit usage is incu
 | Workflow with a branch - 3 seconds before the branch- 15 seconds within the executed branch | 2 credits |
 | Workflow with a branch - 3 seconds before the branch, 15 seconds within the executed branch, 3 seconds after the branch in the parent flow | 3 credits |
 
-###### Workflow segments configured to use 1GB memory
+**Workflow segments configured to use 1GB memory**
 
 | Scenario | Credits Used |
 | --- | --- |
@@ -128,7 +108,7 @@ If an active workflow isn't executed in a billing period no credit usage is incu
 | Workflow with a branch - 3 seconds before the branch- 15 seconds within the executed branch | 8 credits |
 | Workflow with a branch - 3 seconds before the branch, 15 seconds within the executed branch, 3 seconds after the branch in the parent flow | 24 credits |
 
-##### Source credit usage
+#### Source credit usage
 
 When an [event source](/workflows/building-workflows/triggers/) triggers a workflow, **the source execution is included for free.** This includes workspaces on the [Free Tier](/pricing/#free-tier).
 

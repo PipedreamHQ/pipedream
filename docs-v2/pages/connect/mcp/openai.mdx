@@ -101,7 +101,6 @@ const pd = createBackendClient({
 // For this example, we'll use Notion
 const apps = await pd.getApps({ q: "notion" });
 const appSlug = apps.data[0].name_slug; // e.g., "notion",
-const appLabel = apps.data[0].name; // e.g., "Notion"
 
 // Get access token for MCP server auth
 const accessToken = await pd.rawAccessToken();
@@ -118,7 +117,7 @@ const response = await client.responses.create({
   tools: [
     {
       type: 'mcp',
-      server_label: appLabel,
+      server_label: appSlug,
       server_url: `https://remote.mcp.pipedream.net`,
       headers: {
         Authorization: `Bearer ${accessToken}`,

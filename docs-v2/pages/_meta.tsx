@@ -7,7 +7,7 @@ export default {
     title: "Connect",
   },
   "connect": {
-    title: "Overview",
+    title: "Integrate APIs",
     // display: "children",
   },
   "--workflows": {
@@ -15,7 +15,7 @@ export default {
     title: "Workflows",
   },
   "workflows": {
-    title: "Workflows",
+    title: "Build Workflows",
     // display: "children",
   },
   "--platform": {
