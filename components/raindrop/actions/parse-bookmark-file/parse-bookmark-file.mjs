@@ -20,7 +20,7 @@ export default {
     const form = new FormData();
     const {
       stream, metadata,
-    } = getFileStreamAndMetadata(this.filePath);
+    } = await getFileStreamAndMetadata(this.filePath);
     form.append("import", stream, {
       contentType: metadata.contentType,
       knownLength: metadata.size,

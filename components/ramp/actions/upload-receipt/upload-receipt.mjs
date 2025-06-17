@@ -42,7 +42,7 @@ export default {
       `--${boundary}\r\n` +
       `Content-Disposition: attachment; name="receipt"; filename="${this.filePath.split("/").pop()}"\r\n\r\n`;
 
-    const stream = getFileStream(this.filePath);
+    const stream = await getFileStream(this.filePath);
     const chunks = [];
     for await (const chunk of stream) {
       chunks.push(chunk);

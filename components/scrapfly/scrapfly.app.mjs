@@ -13,7 +13,7 @@ export default {
     body: {
       type: "string",
       label: "File Path or URL",
-      description: "The file containing the content of the page you want to extract data from. The content must be in the format specified by the `content-type` header or via the `content_type` HTTP parameter. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+      description: "The file containing the content of the page you want to extract data from. The content must be in the format specified by `Content Type`. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
     },
     contentType: {
       type: "string",

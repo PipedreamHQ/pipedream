@@ -29,7 +29,7 @@ export default {
     const formData = new FormData();
     const {
       stream, metadata,
-    } = getFileStreamAndMetadata(this.document);
+    } = await getFileStreamAndMetadata(this.document);
     formData.append("document", stream, {
       filename: metadata.name,
       contentType: metadata.contentType,

@@ -69,7 +69,7 @@ export default {
       printnode, contentType, filePath, ...props
     } = this;
 
-    const stream = getFileStream(filePath);
+    const stream = await getFileStream(filePath);
     const chunks = [];
     for await (const chunk of stream) {
       chunks.push(chunk);

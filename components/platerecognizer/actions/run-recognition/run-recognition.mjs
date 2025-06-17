@@ -41,7 +41,7 @@ export default {
   },
   async run({ $ }) {
 
-    const stream = getFileStream(this.imageFileOrUrl);
+    const stream = await getFileStream(this.imageFileOrUrl);
     const chunks = [];
     for await (const chunk of stream) {
       chunks.push(chunk);

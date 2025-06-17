@@ -1,5 +1,4 @@
 import { getFileStream } from "@pipedream/platform";
-import { checkTmp } from "../../common/utils.mjs";
 import printify from "../../printify.app.mjs";
 
 export default {
@@ -155,7 +154,7 @@ export default {
     }
     for (let i = 1; i <= this.imageCount; i++) {
       const imageString = this[`imagePath_${i}`];
-      const stream = getFileStream(checkTmp(imageString));
+      const stream = await getFileStream(imageString);
       const chunks = [];
       for await (const chunk of stream) {
         chunks.push(chunk);

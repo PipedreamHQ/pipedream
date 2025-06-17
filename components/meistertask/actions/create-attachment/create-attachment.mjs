@@ -60,7 +60,7 @@ export default {
 
     const {
       stream, metadata,
-    } = getFileStreamAndMetadata(filepath);
+    } = await getFileStreamAndMetadata(filepath);
     data.append("local", stream, {
       contentType: metadata.contentType,
       knownLength: metadata.size,

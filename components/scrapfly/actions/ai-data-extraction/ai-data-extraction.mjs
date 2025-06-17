@@ -65,7 +65,7 @@ export default {
       throw new ConfigurationError("You must provide at least **Extraction Template**, **Extraction Prompt** or **Extraction Model**");
     }
 
-    const stream = getFileStream(this.body);
+    const stream = await getFileStream(this.body);
     const chunks = [];
     for await (const chunk of stream) {
       chunks.push(chunk);

@@ -27,7 +27,7 @@ export default {
   async run({ $ }) {
     const {
       stream, metadata,
-    } = getFileStreamAndMetadata(this.file);
+    } = await getFileStreamAndMetadata(this.file);
     const data = new FormData();
     data.append("file", stream, {
       contentType: metadata.contentType,

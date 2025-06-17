@@ -17,7 +17,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const stream = getFileStream(this.fileOrUrl);
+    const stream = await getFileStream(this.fileOrUrl);
     const response = await this.scoreDetect.createCertificate({
       $,
       file: stream,

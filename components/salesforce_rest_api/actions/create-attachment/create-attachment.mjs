@@ -36,7 +36,7 @@ export default {
 
     let body;
     if (filePathOrContent.startsWith("http") || filePathOrContent.includes("tmp/")) {
-      const stream = getFileStream(filePathOrContent);
+      const stream = await getFileStream(filePathOrContent);
       const chunks = [];
       for await (const chunk of stream) {
         chunks.push(chunk);

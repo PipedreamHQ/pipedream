@@ -27,7 +27,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const stream = getFileStream(this.filePath);
+    const stream = await getFileStream(this.filePath);
     const chunks = [];
     for await (const chunk of stream) {
       chunks.push(chunk);

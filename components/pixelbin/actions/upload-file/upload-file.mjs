@@ -82,7 +82,7 @@ export default {
 
     const {
       stream, metadata: fileMetadata,
-    } = getFileStreamAndMetadata(filePath);
+    } = await getFileStreamAndMetadata(filePath);
     const data = new FormData();
     data.append("file", stream, {
       contentType: fileMetadata.contentType,
