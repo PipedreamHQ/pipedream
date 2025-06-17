@@ -11848,8 +11848,8 @@ importers:
   components/sendgrid:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       '@sendgrid/client':
         specifier: ^7.6.2
         version: 7.7.0
@@ -12043,8 +12043,8 @@ importers:
   components/sftp:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       ssh2-sftp-client:
         specifier: ^11.0.0
         version: 11.0.0
@@ -12271,20 +12271,17 @@ importers:
   components/signaturit:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.1
         version: 4.0.1
-      fs:
-        specifier: ^0.0.1-security
-        version: 0.0.1-security
 
   components/signerx:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -12292,17 +12289,14 @@ importers:
   components/signnow:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       crypto:
         specifier: ^1.0.1
         version: 1.0.1
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
-      fs:
-        specifier: ^0.0.1-security
-        version: 0.0.1-security
       uuid:
         specifier: ^10.0.0
         version: 10.0.0
@@ -12565,14 +12559,11 @@ importers:
   components/smugmug:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.1.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
-      fs:
-        specifier: ^0.0.1-security
-        version: 0.0.1-security
 
   components/snapchat_marketing: {}
 
@@ -12667,14 +12658,11 @@ importers:
   components/sonix:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
-      fs:
-        specifier: ^0.0.1-security
-        version: 0.0.1-security
 
   components/sourceforge:
     dependencies:
