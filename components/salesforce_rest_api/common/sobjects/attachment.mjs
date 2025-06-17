@@ -9,7 +9,7 @@ export default {
     },
     filePathOrContent: {
       type: "string",
-      label: "File Path or URL",
+      label: "File Path, URL or Content",
       description: "The file to attach. Provide either a file URL, a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`), or base64-encoded file data.",
     },
     ContentType: {

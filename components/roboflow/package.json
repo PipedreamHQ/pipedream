@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/roboflow",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Pipedream Roboflow  Components",
   "main": "roboflow.app.mjs",
   "keywords": [
