@@ -15,7 +15,7 @@ export default {
   name: "New Email Received",
   description: "Emit new event when a new email is received.",
   type: "source",
-  version: "0.2.7",
+  version: "0.2.8",
   dedupe: "unique",
   props: {
     gmail,
@@ -112,7 +112,7 @@ export default {
       \n2. Select "View Permissions" for the topic you intend to use for this source.
       \n3. Click "ADD PRINCIPAL"
       \n4. Select "Pub/Sub Publisher" for the Role.
-      \n5. Enter \`serviceAccount:gmail-api-push@system.gserviceaccount.com\` as the principal. 
+      \n5. Enter \`serviceAccount:gmail-api-push@system.gserviceaccount.com\` as the principal.
       \n6. Click "Save"
       `,
       hidden: true,
@@ -311,7 +311,7 @@ export default {
                 \n2. Select "View Permissions" for the topic you intend to use for this source.
                 \n3. Click "ADD PRINCIPAL"
                 \n4. Select "Pub/Sub Publisher" for the Role.
-                \n5. Enter \`serviceAccount:gmail-api-push@system.gserviceaccount.com\` as the principal. 
+                \n5. Enter \`serviceAccount:gmail-api-push@system.gserviceaccount.com\` as the principal.
                 \n6. Click "Save"
                 `,
                 hidden: false,

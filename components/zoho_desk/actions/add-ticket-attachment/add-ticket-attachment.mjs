@@ -1,12 +1,13 @@
 import zohoDesk from "../../zoho_desk.app.mjs";
-import constants from "../../common/constants.mjs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
+import FormData from "form-data";
 
 export default {
   key: "zoho_desk-add-ticket-attachment",
   name: "Add Ticket Attachment",
   description: "Attaches a file to a ticket. [See the docs here](https://desk.zoho.com/DeskAPIDocument#TicketAttachments#TicketAttachments_CreateTicketattachment)",
   type: "action",
-  version: "0.0.2",
+  version: "0.1.0",
   props: {
     zohoDesk,
     orgId: {
@@ -32,8 +33,8 @@ export default {
     },
     file: {
       type: "string",
-      label: "File",
-      description: "File path of a file previously downloaded in Pipedream E.g. (`/tmp/my-file.txt`). [Download a file to the `/tmp` directory](https://pipedream.com/docs/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory)",
+      label: "File Path or URL",
+      description: "The file to attach. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
     },
   },
   async run({ $ }) {
@@ -44,19 +45,30 @@ export default {
       file,
     } = this;
 
-    const response = await this.zohoDesk.createTicketAttachment({
-      ticketId,
-      headers: {
-        orgId,
-        ...constants.MULTIPART_FORM_DATA_HEADERS,
-      },
-      data: {
-        file,
-        isPublic,
-      },
+    const data = new FormData();
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(file);
+    data.append("file", stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
     });
 
-    $.export("$summary", `Successfully created a new ticket attachment with ID ${response.id}`);
+    const response = await this.zohoDesk.createTicketAttachment({
+      $,
+      ticketId,
+      params: {
+        isPublic,
+      },
+      headers: {
+        orgId,
+        ...data.getHeaders(),
+      },
+      data,
+    });
+
+    $.export("$summary", `Successfully created a new ticket attachment with ID ${response?.id}`);
 
     return response;
   },

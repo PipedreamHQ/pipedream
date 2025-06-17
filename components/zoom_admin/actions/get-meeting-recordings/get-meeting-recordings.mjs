@@ -1,5 +1,4 @@
 import get from "lodash/get.js";
-import { paginate } from "../../common/pagination.mjs";
 import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
@@ -7,7 +6,7 @@ export default {
   description:
     "Get all recordings of a meeting. [See the documentation](https://developers.zoom.us/docs/api/meetings/#tag/cloud-recording/GET/meetings/{meetingId}/recordings)",
   key: "zoom_admin-get-meeting-recordings",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     zoomAdmin,
@@ -23,16 +22,26 @@ export default {
       description: "Whether to include the download access token in the response",
       optional: true,
     },
+    ttl: {
+      type: "integer",
+      label: "TTL (seconds)",
+      description: "Time to live (TTL) of the download_access_token in seconds. Range: 0-604800 (7 days). Only valid when Download Access Token is enabled.",
+      optional: true,
+      min: 0,
+      max: 604800,
+    },
   },
   async run({ $ }) {
-    const res = await paginate(
-      this.zoomAdmin.listMeetingRecordings,
-      "recordings",
-      get(this.meeting, "value", this.meeting),
-      {
-        download_access_token: this.downloadAccessToken,
-      },
-    );
+    const params = {};
+
+    if (this.downloadAccessToken) {
+      params.include_fields = "download_access_token";
+      if (this.ttl !== undefined) {
+        params.ttl = this.ttl;
+      }
+    }
+
+    const res = await this.zoomAdmin.listMeetingRecordings(get(this.meeting, "value", this.meeting), params);
 
     $.export("$summary", `"${get(this.meeting, "label", this.meeting)}" meeting recordings successfully fetched`);
 

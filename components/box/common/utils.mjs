@@ -1,34 +1,27 @@
-import fs from "fs";
-import path from "path";
 import constants from "./constants.mjs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 
 export default {
-  isValidFile(filePath) {
-    const filePathWithTmp = `/tmp/${filePath}`;
-    if (fs.existsSync(filePathWithTmp)) {
-      return filePathWithTmp;
-    } else if (fs.existsSync(filePath)) {
-      return filePath;
-    }
-    return false;
-  },
-  getFileStream(filePath) {
-    return fs.createReadStream(filePath);
-  },
-  getFileMeta(filePath) {
-    const stats = fs.statSync(filePath);
+  async getFileData(filePath) {
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(filePath);
     return {
-      attributes: {
-        content_created_at: new Date(stats.ctimeMs).toISOString()
-          .split(".")[0] + "Z",
-        content_modified_at: new Date(stats.mtimeMs).toISOString()
-          .split(".")[0] + "Z",
-        name: path.basename(filePath),
-        parent: {
-          id: 0,
+      fileContent: stream,
+      fileMeta: {
+        attributes: {
+          content_created_at: new Date(metadata.lastModified).toISOString()
+            .split(".")[0] + "Z",
+          content_modified_at: new Date(metadata.lastModified).toISOString()
+            .split(".")[0] + "Z",
+          name: metadata.name,
+          parent: {
+            id: 0,
+          },
         },
+        size: metadata.size,
+        contentType: metadata.contentType,
       },
-      size: stats.size,
     };
   },
   checkRFC3339(dateTimeStr) {

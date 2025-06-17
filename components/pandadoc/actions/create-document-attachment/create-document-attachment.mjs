@@ -1,7 +1,5 @@
 import app from "../../pandadoc.app.mjs";
-import { ConfigurationError } from "@pipedream/platform";
-import fs from "fs";
-import path from "path";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import FormData from "form-data";
 
 export default {
@@ -9,7 +7,7 @@ export default {
   name: "Create Document Attachment",
   description: "Adds an attachment to a document. [See the documentation here](https://developers.pandadoc.com/reference/create-document-attachment)",
   type: "action",
-  version: "0.0.7",
+  version: "0.1.0",
   props: {
     app,
     documentId: {
@@ -31,39 +29,17 @@ export default {
     },
   },
   methods: {
-    isValidFile(filePath) {
-      const filePathWithTmp = `/tmp/${filePath}`;
-      if (fs.existsSync(filePathWithTmp)) {
-        return filePathWithTmp;
-      } else if (fs.existsSync(filePath)) {
-        return filePath;
-      }
-      return false;
-    },
-    getFileStream(filePath) {
-      return fs.createReadStream(filePath);
-    },
-    getFileMeta(filePath) {
-      const stats = fs.statSync(filePath);
-      return {
-        name: path.basename(filePath),
-        size: stats.size,
-      };
-    },
-    getFormData(file, fileName) {
-      const fileValidation = this.isValidFile(file);
-      if (!fileValidation) {
-        throw new ConfigurationError("`file` must be a valid file path!");
-      }
-
-      const fileMeta = this.getFileMeta(fileValidation);
-      const fileContent = this.getFileStream(fileValidation);
+    async getFormData(file, fileName) {
+      const {
+        stream, metadata,
+      } = await getFileStreamAndMetadata(file);
       const data = new FormData();
-      if (fileName) data.append("name", fileName);
-      data.append("file", fileContent, {
-        knownLength: fileMeta.size,
+      data.append("name", fileName || metadata.name);
+      data.append("file", stream, {
+        contentType: metadata.contentType,
+        knownLength: metadata.size,
+        filename: metadata.name,
       });
-
       return data;
     },
   },
@@ -74,7 +50,7 @@ export default {
       fileName,
     } = this;
 
-    const data = this.getFormData(file, fileName);
+    const data = await this.getFormData(file, fileName);
 
     const response = await this.app.createDocumentAttachments({
       $,

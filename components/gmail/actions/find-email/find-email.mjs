@@ -6,7 +6,7 @@ export default {
   key: "gmail-find-email",
   name: "Find Email",
   description: "Find an email using Google's Search Engine. [See the docs](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/list)",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "action",
   props: {
     gmail,
@@ -55,9 +55,10 @@ export default {
       maxResults: this.maxResults,
     });
     const messageIds = messages.map(({ id }) => id);
-    let messagesToEmit = await this.gmail.getMessages(messageIds);
+    const messagesToEmit = [];
+    for await (const message of this.gmail.getAllMessages(messageIds)) {
+      messagesToEmit.push(message);
 
-    for await (const message of messagesToEmit) {
       let newPayload = "";
 
       const messageIdHeader = message.payload?.headers?.find(

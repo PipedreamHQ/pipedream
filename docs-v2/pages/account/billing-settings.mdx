@@ -6,19 +6,21 @@ You'll find information on your usage data (for specific [Pipedream limits](/wor
 
 ## Subscription
 
-You can upgrade to [paid plans](https://pipedream.com/pricing) from this section.
-
 If you've already upgraded, you'll see an option to **Manage Subscription** here, which directs you to your personal Stripe portal. Here, you can change your payment method, review the details of previous invoices, and more.
 
 ## Usage
 
-[Credits](/pricing/#credits) are Pipedream's billable unit, and users on the [free tier](/pricing/#free-tier) are limited on the number of daily free credits allocated. The **Usage** section displays a chart of the daily credits across a historical range of time to provide insight into your usage patterns.
+[Credits](/pricing/#credits-and-billing) are Pipedream's billable unit, and users on the [free plan](/pricing/#free-plan) are limited on the number of daily free credits allocated. The **Usage** section displays a chart of the daily credits across a historical range of time to provide insight into your usage patterns.
+
+<Callout type="warning">
+Credit usage from [Connect](/connect) is not yet reflected in this section.
+</Callout>
 
 Hover over a specific column in the chart to see the number of credits run for that specific day:
 
 ![Daily credits tooltip](/images/account/daily-invocations-tooltip.png)
 
-_Click_ on a specific column to see credits for that day, broken out by workflow / source:
+Click on a specific column to see credits for that day, broken out by workflow / source:
 
 ![Credits broken out by workflow / source](/images/account/usage-by-resource.png)
 
@@ -26,18 +28,18 @@ Users on the free tier will see the last 30 days of usage in this chart. Users o
 
 ## Compute Budget
 
-Control the maximum number of compute credits permitted on your account with an _Credit Budget_.
+Control the maximum number of credits permitted on your account with a **Credit Budget**.
 
-This will restrict your account-wide usage to the specified number of [credits](/pricing/#credits) on a monthly or daily basis. The compute budget does not apply to credits incurred by [dedicated workers](/workflows/building-workflows/settings/#eliminate-cold-starts).
+This will restrict your workspace-wide usage to the specified number of [credits](/pricing/#credits-and-billing) on a monthly or daily basis. The compute budget does not apply to credits incurred by [dedicated workers](/workflows/building-workflows/settings/#eliminate-cold-starts) or Pipedream Connect.
 
-To enable this feature, _click_ on the toggle and define your maximum number of credits in the period.
+To enable this feature, click on the toggle and define your maximum number of credits in the period.
 
 <Callout type="info">
-Due to how credits are accrued, there may be cases where your credit usage may _slightly_ go over the cap.
+Due to how credits are accrued, there may be cases where your credit usage may go slightly over the cap.
 
 In an example scenario, with a cap set at 20 credits and a long-running workflow that uses 10 credits per run, it's possible that two concurrent events trigger the workflow, and the cap won't apply until after the concurrent events are processed.
 </Callout>
 
 ## Limits
 
-For users on the [Free tier](/pricing/#free-tier), this section displays your usage towards your [credits quota](/workflows/limits/#daily-credits-limit) for the current UTC day.
+For users on the [Free tier](/pricing/#free-plan), this section displays your usage towards your [credits quota](/workflows/limits/#daily-credits-limit) for the current UTC day.
