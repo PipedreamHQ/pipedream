@@ -41,7 +41,7 @@ export default {
       props.filePath = {
         type: "string",
         label: "File Path or URL",
-        description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFlie.pdf).",
+        description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
       };
     }
     return props;

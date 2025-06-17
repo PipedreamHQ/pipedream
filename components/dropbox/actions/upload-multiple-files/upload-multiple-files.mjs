@@ -25,7 +25,7 @@ export default {
     filesPaths: {
       type: "string[]",
       label: "File Paths or URLs",
-      description: "Provide an array of either file URLs or paths to a files in the /tmp directory (for example, /tmp/myFlie.pdf).",
+      description: "Provide an array of either file URLs or paths to a files in the /tmp directory (for example, /tmp/myFile.pdf).",
     },
     filenames: {
       type: "string[]",

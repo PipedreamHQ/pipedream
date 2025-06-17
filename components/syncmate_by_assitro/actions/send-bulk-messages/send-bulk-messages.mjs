@@ -35,7 +35,7 @@ export default {
       props[`media${i}`] = {
         type: "string",
         label: `Media ${i}`,
-        description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFlie.pdf).",
+        description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
         optional: true,
       };
       props[`fileName${i}`] = {

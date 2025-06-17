@@ -13,32 +13,32 @@ export default {
     frontImage: {
       type: "string",
       label: "Front Image",
-      description: "The path or URL to the front image image in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
+      description: "The frontimage to upload. Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.jpg).",
     },
     leftImage: {
       type: "string",
       label: "Left Image",
-      description: "The path or URLto the left image image in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
+      description: "The leftimage to upload. Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.jpg).",
     },
     rightImage: {
       type: "string",
       label: "Right Image",
-      description: "The path or URLto the right image image in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
+      description: "The right image to upload. Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.jpg).",
     },
     soleImage: {
       type: "string",
       label: "Sole Image",
-      description: "The path or URL to the sole image image in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
+      description: "The sole image to upload. Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.jpg).",
     },
     insoleImage: {
       type: "string",
       label: "Insole Image",
-      description: "The path or URL to the insole image image in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
+      description: "The insole image to upload. Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.jpg).",
     },
     sizeTagImage: {
       type: "string",
       label: "Size Tag Image",
-      description: "The path or URL to the sizeTag image image in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
+      description: "The size tag image to upload. Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.jpg).",
     },
     type: {
       type: "string",

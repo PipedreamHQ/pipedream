@@ -39,7 +39,7 @@ export default {
     file: {
       type: "string",
       label: "File",
-      description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFlie.pdf).",
+      description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
     },
     name: {
       propDefinition: [

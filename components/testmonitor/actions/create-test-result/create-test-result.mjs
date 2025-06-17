@@ -46,7 +46,7 @@ export default {
     attachments: {
       type: "string[]",
       label: "Attachments",
-      description: "A list of attachment files. Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFlie.pdf).",
+      description: "A list of attachment files. Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
       hidden: true,
       optional: true,
     },

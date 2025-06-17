@@ -71,7 +71,7 @@ export default {
           });
         }
         if (field.type === "file" || field.type === "files") {
-          props[id].description = "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFlie.pdf).";
+          props[id].description = "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).";
           props[`${id}_is_file`] = {
             type: "boolean",
             default: true,

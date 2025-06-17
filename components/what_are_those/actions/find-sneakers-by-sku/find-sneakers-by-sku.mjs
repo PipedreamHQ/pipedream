@@ -13,7 +13,7 @@ export default {
     sizeTagImage: {
       type: "string",
       label: "Size Tag Image",
-      description: "The path or URL to the size tag image in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
+      description: "The image to upload. Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.jpg).",
     },
   },
   async run({ $ }) {

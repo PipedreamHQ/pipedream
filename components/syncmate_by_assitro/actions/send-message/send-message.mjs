@@ -25,7 +25,7 @@ export default {
     media: {
       type: "string",
       label: "Media",
-      description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFlie.pdf).",
+      description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
       optional: true,
     },
     fileName: {
