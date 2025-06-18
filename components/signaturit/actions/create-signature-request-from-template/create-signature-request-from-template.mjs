@@ -1,21 +1,18 @@
 import FormData from "form-data";
-import fs from "fs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import {
   DELIVERY_TYPE_OPTIONS,
   SIGNATURE_TYPE_OPTIONS,
   SIGNING_MODE_OPTIONS,
 } from "../../common/constants.mjs";
-import {
-  checkTmp,
-  parseObject,
-} from "../../common/utils.mjs";
+import { parseObject } from "../../common/utils.mjs";
 import signaturit from "../../signaturit.app.mjs";
 
 export default {
   key: "signaturit-create-signature-request-from-template",
   name: "Create Signature Request from Template",
   description: "Creates a signature request using a pre-existing template. [See the documentation](https://docs.signaturit.com/api/latest#signatures_create_signature)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     signaturit,
@@ -213,7 +210,14 @@ export default {
     if (this.files) {
       let k = 0;
       for (const file of parseObject(this.files)) {
-        formData.append(`files[${k++}]`, fs.createReadStream(checkTmp(file)));
+        const {
+          stream, metadata,
+        } = await getFileStreamAndMetadata(file);
+        formData.append(`files[${k++}]`, stream, {
+          contentType: metadata.contentType,
+          knownLength: metadata.size,
+          filename: metadata.name,
+        });
       }
     }
     const response = await this.signaturit.createSignatureRequest({
