@@ -30,11 +30,9 @@ export default {
     if (apiServer === "googleSearch") {
       const submitData = {
         actor: "scraper.google.search",
-        input: {
-          q: inputProps.q,
-          hl: inputProps.hl,
-          gl: inputProps.gl,
-        },
+        q: inputProps.q,
+        hl: inputProps.hl,
+        gl: inputProps.gl,
       };
       const response = await scrapeless.scrapingApi({
         $,
