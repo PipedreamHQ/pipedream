@@ -226,7 +226,7 @@ export default {
     products: {
       type: "string[]",
       label: "Products",
-      description: "List of objects of products to add to the order. **Format: [{\"idproduct\": 123, \"productcode\": 'ABC123', \"name\": 'Product Name', \"remarks\": 'Product remarks', \"price\": 100, \"idvatgroup\": 123}]}**",
+      description: "List of objects of products to add to the order. **Format: [{\"idproduct\": 123, \"productcode\": \"ABC123\", \"name\": \"Product Name\", \"remarks\": \"Product remarks\", \"amount\": 100, \"idvatgroup\": 123}]**",
       optional: true,
     },
   },
@@ -267,7 +267,7 @@ export default {
           propData.options = field.values;
         }
 
-        props[field.idorderfield] = propData;
+        props[`id${field.idorderfield}`] = propData;
       }
     }
     return props;
@@ -350,7 +350,7 @@ export default {
           key,
           value,
         ]) => ({
-          idorderfield: parseInt(key),
+          idorderfield: parseInt(key.replace("id", "")),
           value: Array.isArray(value)
             ? value.join(";")
             : value,
