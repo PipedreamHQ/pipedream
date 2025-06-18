@@ -20,16 +20,18 @@ export default {
       optional: true,
     },
     category: {
-      type: "string",
-      label: "Category",
-      description: "The category to publish the page to",
-      optional: true,
+      propDefinition: [
+        tettra,
+        "categoryId",
+      ],
     },
     assignableId: {
-      type: "string",
+      propDefinition: [
+        tettra,
+        "userId",
+      ],
       label: "Assignable ID",
-      description: "The ID of the user to assign the suggestion",
-      optional: true,
+      description: "Select a user to assign the suggestion, or provide a user ID",
     },
   },
   async run({ $ }) {

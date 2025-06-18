@@ -19,16 +19,19 @@ export default {
       description: "The body of the page formatted as HTML",
     },
     categoryId: {
-      type: "string",
-      label: "Category ID",
-      description: "The category to publish the page to",
-      optional: true,
+      propDefinition: [
+        tettra,
+        "categoryId",
+      ],
     },
     subcategoryId: {
-      type: "string",
-      label: "Subcategory ID",
-      description: "The subcategory to publish the page to",
-      optional: true,
+      propDefinition: [
+        tettra,
+        "subcategoryId",
+        ({ categoryId }) => ({
+          categoryId,
+        }),
+      ],
     },
   },
   async run({ $ }) {
