@@ -31,14 +31,10 @@ export default {
     if (apiServer === "webUnlocker") {
       const submitData = {
         actor: "unlocker.webunlocker",
-        input: {
-          url: rest.url,
-          jsRender: rest.jsRender,
-          headless: rest.headless,
-        },
-        proxy: {
-          country: rest.country,
-        },
+        country: rest.country,
+        url: rest.url,
+        jsRender: rest.jsRender,
+        headless: rest.headless,
       };
       const response = await this.scrapeless.universalScrapingApi({
         $,
