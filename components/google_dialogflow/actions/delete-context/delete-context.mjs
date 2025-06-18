@@ -3,7 +3,7 @@ import googleDialogflow from "../../google_dialogflow.app.mjs";
 export default {
   type: "action",
   key: "google_dialogflow-delete-context",
-  version: "0.0.1",
+  version: "1.0.0",
   name: "Delete Context",
   description: "Deletes a context [See REST docs](https://cloud.google.com/dialogflow/es/docs/reference/rest/v2/projects.agent.environments.users.sessions.contexts/delete) and [client API](https://googleapis.dev/nodejs/dialogflow/latest/google.cloud.dialogflow.v2beta1.Contexts.html#deleteContext2)",
   props: {

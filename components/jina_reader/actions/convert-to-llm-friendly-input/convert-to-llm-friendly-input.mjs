@@ -1,13 +1,13 @@
-import fs from "fs";
-import path from "path";
-import { ConfigurationError } from "@pipedream/platform";
+import {
+  ConfigurationError, getFileStream,
+} from "@pipedream/platform";
 import app from "../../jina_reader.app.mjs";
 
 export default {
   key: "jina_reader-convert-to-llm-friendly-input",
   name: "Convert URL To LLM-Friendly Input",
   description: "Converts a provided URL to an LLM-friendly input using Jina Reader. [See the documentation](https://github.com/jina-ai/reader)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   props: {
     app,
@@ -104,33 +104,42 @@ export default {
     },
     pdf: {
       type: "string",
-      label: "PDF File Path",
-      description: "The path to the pdf file saved to the `/tmp` directory (e.g. `/tmp/example.pdf`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      label: "PDF File Path or URL",
+      description: "The path or URL to the pdf file.",
       optional: true,
     },
     html: {
       type: "string",
-      label: "HTML File Path",
-      description: "The path to the html file saved to the `/tmp` directory (e.g. `/tmp/example.html`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      label: "HTML File Path or URL",
+      description: "The path or URL to the html file.",
       optional: true,
     },
   },
   methods: {
-    async readFileFromTmp(filePath, encoding) {
-      if (!filePath) {
-        return;
-      }
-      const resolvedPath = path.resolve(filePath);
-      if (!resolvedPath.startsWith("/tmp/")) {
-        throw new ConfigurationError(`${filePath} must be located in the '/tmp/' directory`);
-      }
-      return await fs.promises.readFile(resolvedPath, encoding);
+    streamToBase64(stream) {
+      return new Promise((resolve, reject) => {
+        const chunks = [];
+        stream.on("data", (chunk) => chunks.push(chunk));
+        stream.on("end", () => {
+          const buffer = Buffer.concat(chunks);
+          resolve(buffer.toString("base64"));
+        });
+        stream.on("error", reject);
+      });
+    },
+    streamToUtf8(stream) {
+      return new Promise((resolve, reject) => {
+        let data = "";
+        stream.setEncoding("utf-8");
+        stream.on("data", (chunk) => data += chunk);
+        stream.on("end", () => resolve(data));
+        stream.on("error", reject);
+      });
     },
   },
   async run({ $ }) {
     const {
       app,
-      readFileFromTmp,
       url,
       contentFormat,
       timeout,
@@ -150,7 +159,21 @@ export default {
     } = this;
 
     if (!url && !pdf && !html) {
-      throw new ConfigurationError("You must provide at least one of **URL**, **PDF File Path**, or **HTML File Path**.");
+      throw new ConfigurationError("You must provide at least one of **URL**, **PDF File Path or URL**, or **HTML File Path or URL**.");
+    }
+
+    const data = {
+      url,
+    };
+
+    if (pdf) {
+      const stream = await getFileStream(pdf);
+      data.pdf = await this.streamToBase64(stream);
+    }
+
+    if (html) {
+      const stream = await getFileStream(html);
+      data.html = await this.streamToUtf8(stream);
     }
 
     const response = await app.post({
@@ -173,11 +196,7 @@ export default {
         "X-With-Shadow-Dom": shadowDomContent,
         "X-Iframe": iframeContent,
       },
-      data: {
-        url,
-        pdf: await readFileFromTmp(pdf, "base64"),
-        html: await readFileFromTmp(html, "utf-8"),
-      },
+      data,
     });
 
     $.export("$summary", "Converted URL to LLM-friendly input successfully.");

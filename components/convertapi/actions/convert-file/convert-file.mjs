@@ -1,22 +1,20 @@
 import FormData from "form-data";
-import fs from "fs";
-import {
-  checkTmp, saveFile,
-} from "../../common/utils.mjs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
+import { saveFile } from "../../common/utils.mjs";
 import convertapi from "../../convertapi.app.mjs";
 
 export default {
   key: "convertapi-convert-file",
   name: "Convert File",
   description: "Use this action to convert files to the chosen format. [See the documentation](https://v2.convertapi.com/info/openapi)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   props: {
     convertapi,
     file: {
       type: "string",
-      label: "File",
-      description: "The path to the file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
+      label: "File Path Or Url",
+      description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/file.docx`).",
     },
     formatFrom: {
       propDefinition: [
@@ -53,9 +51,15 @@ export default {
   },
   async run({ $ }) {
     try {
-      const file = fs.createReadStream(checkTmp(this.file));
+      const {
+        stream, metadata,
+      } = await getFileStreamAndMetadata(this.file);
       const data = new FormData();
-      data.append("File", file);
+      data.append("File", stream, {
+        filename: metadata.name,
+        contentType: metadata.contentType,
+        knownLength: metadata.size,
+      });
 
       const { Files } = await this.convertapi.convertFileToFormat({
         $,

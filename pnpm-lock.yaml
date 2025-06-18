@@ -1197,8 +1197,8 @@ importers:
         specifier: ^0.3.6
         version: 0.3.13
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       adm-zip:
         specifier: ^0.5.10
         version: 0.5.16
@@ -2496,8 +2496,8 @@ importers:
   components/click2mail2:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -2626,8 +2626,8 @@ importers:
   components/cloudflare_api_key:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.1.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       cloudflare:
         specifier: ^2.9.1
         version: 2.9.1
@@ -2663,8 +2663,8 @@ importers:
   components/cloudmersive:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.2.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       '@pipedream/types':
         specifier: ^0.1.4
         version: 0.1.6
@@ -2991,8 +2991,8 @@ importers:
   components/convertapi:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.2
         version: 4.0.2
@@ -3097,8 +3097,8 @@ importers:
   components/crowdin:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       fs:
         specifier: ^0.0.1-security
         version: 0.0.1-security
@@ -3365,17 +3365,14 @@ importers:
   components/deepgram:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/deepimage:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
-      fs:
-        specifier: ^0.0.1-security
-        version: 0.0.1-security
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/deepl: {}
 
@@ -3522,9 +3519,9 @@ importers:
 
   components/diffchecker:
     dependencies:
-      axios:
-        specifier: ^1.6.1
-        version: 1.7.7
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -3553,15 +3550,9 @@ importers:
       '@aws-sdk/client-s3':
         specifier: ^3.231.0
         version: 3.698.0(aws-crt@1.25.0)
-      '@pipedream/aws':
-        specifier: ^0.7.0
-        version: 0.7.0(aws-crt@1.25.0)(babel-plugin-macros@3.1.0)
-      '@pipedream/helper_functions':
-        specifier: ^0.3.8
-        version: 0.3.13
       '@pipedream/platform':
-        specifier: ^1.2.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       fs:
         specifier: ^0.0.1-security
         version: 0.0.1-security
@@ -3593,14 +3584,14 @@ importers:
   components/discord:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.4.0
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/discord_bot:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -3668,8 +3659,8 @@ importers:
   components/docparser:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/docraptor: {}
 
@@ -3716,8 +3707,8 @@ importers:
   components/documentpro:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -3846,8 +3837,8 @@ importers:
   components/dreamstudio:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -3893,8 +3884,8 @@ importers:
   components/dromo:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/dropboard:
     dependencies:
@@ -4082,8 +4073,8 @@ importers:
   components/eden_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -4424,8 +4415,8 @@ importers:
   components/ezeep_blue:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -4590,8 +4581,8 @@ importers:
   components/filestack:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.0
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/fillout:
     dependencies:
@@ -4717,8 +4708,8 @@ importers:
   components/flipando:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.5
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -4877,8 +4868,8 @@ importers:
   components/formstack_documents:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/formtitan:
     dependencies:
@@ -5106,8 +5097,8 @@ importers:
   components/generated_photos:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -5280,8 +5271,8 @@ importers:
   components/gladia:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -5515,8 +5506,8 @@ importers:
   components/google_cloud_vision_api:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.0
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/google_contacts:
     dependencies:
@@ -5532,6 +5523,9 @@ importers:
       '@google-cloud/dialogflow':
         specifier: ^5.1.0
         version: 5.9.0
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/google_directory: {}
 
@@ -5582,8 +5576,8 @@ importers:
   components/google_gemini:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       mime:
         specifier: ^4.0.7
         version: 4.0.7
@@ -5637,8 +5631,8 @@ importers:
   components/google_photos:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       mime:
         specifier: ^3.0.0
         version: 3.0.0
@@ -5810,8 +5804,8 @@ importers:
   components/gptzero_detect_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.1
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -5845,8 +5839,8 @@ importers:
   components/greenhouse:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.5
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/greenhouse_job_board_api: {}
 
@@ -5991,8 +5985,8 @@ importers:
   components/hathr_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       mime-types:
         specifier: ^3.0.1
         version: 3.0.1
@@ -6168,8 +6162,8 @@ importers:
   components/hippo_video:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.5
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -6466,8 +6460,8 @@ importers:
   components/ignisign:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.1
         version: 4.0.1
@@ -6509,8 +6503,8 @@ importers:
   components/imagekit_io:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -6553,7 +6547,11 @@ importers:
 
   components/imejis_io: {}
 
-  components/imgbb: {}
+  components/imgbb:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/imgix: {}
 
@@ -6820,8 +6818,8 @@ importers:
   components/jigsawstack:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.1
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -6832,8 +6830,8 @@ importers:
   components/jina_reader:
     dependencies:
       '@pipedream/platform':
-        specifier: 3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/jira:
     dependencies:
@@ -6866,8 +6864,8 @@ importers:
   components/jobnimbus:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/join: {}
 
@@ -7220,8 +7218,8 @@ importers:
   components/lamini:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/landbot:
     dependencies:
@@ -7506,8 +7504,8 @@ importers:
   components/linkedin:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       axios:
         specifier: ^1.2.3
         version: 1.7.7
@@ -7623,8 +7621,8 @@ importers:
   components/lmnt:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -15843,7 +15841,7 @@ importers:
         version: 3.1.7
       ts-jest:
         specifier: ^29.2.5
-        version: 29.2.5(@babel/core@8.0.0-alpha.13)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@8.0.0-alpha.13))(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0))(typescript@5.7.2)
+        version: 29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0))(typescript@5.7.2)
       tsup:
         specifier: ^8.3.6
         version: 8.3.6(@microsoft/api-extractor@7.47.12(@types/node@20.17.30))(jiti@1.21.6)(postcss@8.4.49)(tsx@4.19.4)(typescript@5.7.2)(yaml@2.6.1)
@@ -15886,7 +15884,7 @@ importers:
         version: 3.1.0
       jest:
         specifier: ^29.1.2
-        version: 29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0)
+        version: 29.7.0(@types/node@20.17.6)(babel-plugin-macros@3.1.0)
       type-fest:
         specifier: ^4.15.0
         version: 4.27.0
@@ -18733,9 +18731,6 @@ packages:
 
   '@pdfless/pdfless-js@1.0.510':
     resolution: {integrity: sha512-RmbzdGQcWy/OSuPF/eaT0wQsi9ELu465/r/8DsgajbHumStHrkzRqsm330g1PgBgQipZMi9ZTTHfP4i/Sbs+pw==}
-
-  '@pipedream/aws@0.7.0':
-    resolution: {integrity: sha512-msYqK4BGcCtdBy7+eyNrraXPIi2ZcDAdI0KAkdT0y45NNf4l5ST3auwAn1azJJvx5lw8yTaGZawvAPSVLuRxUw==}
 
   '@pipedream/brex@0.1.0':
     resolution: {integrity: sha512-Cq/A6fwVEb9kAGiAtcPlNpL1JJhBevMxOnMhQzUkUxzQTBNedsmvMzW963cNxqG45V4fyOBuHEPoXl3meH4ATg==}
@@ -35432,37 +35427,6 @@ snapshots:
       '@microsoft/kiota-serialization-json': 1.0.0-preview.77
       '@microsoft/kiota-serialization-text': 1.0.0-preview.77
 
-  '@pipedream/aws@0.7.0(aws-crt@1.25.0)(babel-plugin-macros@3.1.0)':
-    dependencies:
-      '@aws-sdk/client-cloudwatch-logs': 3.698.0(aws-crt@1.25.0)
-      '@aws-sdk/client-dynamodb': 3.696.0(aws-crt@1.25.0)
-      '@aws-sdk/client-dynamodb-streams': 3.696.0(aws-crt@1.25.0)
-      '@aws-sdk/client-ec2': 3.698.0(aws-crt@1.25.0)
-      '@aws-sdk/client-eventbridge': 3.696.0(aws-crt@1.25.0)
-      '@aws-sdk/client-iam': 3.696.0(aws-crt@1.25.0)
-      '@aws-sdk/client-lambda': 3.698.0(aws-crt@1.25.0)
-      '@aws-sdk/client-rds': 3.697.0(aws-crt@1.25.0)
-      '@aws-sdk/client-s3': 3.698.0(aws-crt@1.25.0)
-      '@aws-sdk/client-ses': 3.696.0(aws-crt@1.25.0)
-      '@aws-sdk/client-sfn': 3.696.0(aws-crt@1.25.0)
-      '@aws-sdk/client-sns': 3.696.0(aws-crt@1.25.0)
-      '@aws-sdk/client-sqs': 3.696.0(aws-crt@1.25.0)
-      '@aws-sdk/client-ssm': 3.698.0(aws-crt@1.25.0)
-      '@aws-sdk/client-sts': 3.696.0(aws-crt@1.25.0)
-      '@aws-sdk/s3-request-presigner': 3.698.0
-      '@pipedream/helper_functions': 0.3.13
-      '@pipedream/platform': 1.6.6
-      adm-zip: 0.5.16
-      dedent: 1.5.3(babel-plugin-macros@3.1.0)
-      mailparser: 3.7.1
-      mailparser-mit: 1.0.0
-      nanoid: 5.0.8
-      uuid: 9.0.1
-    transitivePeerDependencies:
-      - aws-crt
-      - babel-plugin-macros
-      - debug
-
   '@pipedream/brex@0.1.0':
     dependencies:
       '@pipedream/platform': 1.6.6
@@ -36116,8 +36080,6 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
-    transitivePeerDependencies:
-      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
@@ -38180,7 +38142,6 @@ snapshots:
   '@types/node@24.0.0':
     dependencies:
       undici-types: 7.8.0
-    optional: true
 
   '@types/normalize-package-data@2.4.4': {}
 
@@ -38287,7 +38248,7 @@ snapshots:
 
   '@types/ws@8.5.13':
     dependencies:
-      '@types/node': 20.17.30
+      '@types/node': 24.0.0
 
   '@types/ws@8.5.3':
     dependencies:
@@ -48348,7 +48309,7 @@ snapshots:
 
   resolve@1.22.8:
     dependencies:
-      is-core-module: 2.15.1
+      is-core-module: 2.16.1
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
 
@@ -49807,7 +49768,7 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  ts-jest@29.2.5(@babel/core@8.0.0-alpha.13)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@8.0.0-alpha.13))(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0))(typescript@5.7.2):
+  ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0))(typescript@5.7.2):
     dependencies:
       bs-logger: 0.2.6
       ejs: 3.1.10
@@ -49821,10 +49782,10 @@ snapshots:
       typescript: 5.7.2
       yargs-parser: 21.1.1
     optionalDependencies:
-      '@babel/core': 8.0.0-alpha.13
+      '@babel/core': 7.26.0
       '@jest/transform': 29.7.0
       '@jest/types': 29.6.3
-      babel-jest: 29.7.0(@babel/core@8.0.0-alpha.13)
+      babel-jest: 29.7.0(@babel/core@7.26.0)
 
   ts-jest@29.2.5(@babel/core@8.0.0-alpha.13)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@8.0.0-alpha.13))(jest@29.7.0(@types/node@20.17.6)(babel-plugin-macros@3.1.0))(typescript@5.6.3):
     dependencies:
@@ -50153,8 +50114,7 @@ snapshots:
 
   undici-types@6.21.0: {}
 
-  undici-types@7.8.0:
-    optional: true
+  undici-types@7.8.0: {}
 
   undici@5.28.4:
     dependencies:

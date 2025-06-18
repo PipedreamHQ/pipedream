@@ -1,19 +1,19 @@
 import generatedPhotos from "../../generated_photos.app.mjs";
 import FormData from "form-data";
-import fs from "fs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 
 export default {
   key: "generated_photos-generate-similar-faces-by-upload",
   name: "Generate Similar Faces to Uploaded Image",
   description: "Generates faces similar to an uploaded image with the Generated Photos API. [See the documentation](https://generated.photos/account#apikey)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   props: {
     generatedPhotos,
-    filePath: {
+    file: {
       type: "string",
-      label: "File Path",
-      description: "The path to the image file saved to the `/tmp` directory (e.g. `/tmp/image.png`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      label: "File Path or URL",
+      description: "Provide a file URL or a path to a file in the `/tmp` directory.",
     },
     limit: {
       propDefinition: [
@@ -23,13 +23,20 @@ export default {
     },
   },
   async run({ $ }) {
-    const filePath = this.filePath.startsWith("/tmp/")
-      ? this.filePath
-      : `/tmp/${this.filePath}`;
+    const {
+      file,
+      limit,
+    } = this;
 
+    const {
+      stream,
+      metadata,
+    } = await getFileStreamAndMetadata(file);
     const formData = new FormData();
-    formData.append("image_file", fs.createReadStream(filePath));
-    formData.append("per_page", this.limit);
+    formData.append("image_file", stream, {
+      filename: metadata.name,
+    });
+    formData.append("per_page", limit);
 
     const { faces } = await this.generatedPhotos.generateSimilarFaces({
       data: formData,

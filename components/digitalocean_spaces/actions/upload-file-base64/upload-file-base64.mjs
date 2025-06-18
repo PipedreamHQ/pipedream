@@ -1,5 +1,5 @@
 import common from "../../common/common-s3.mjs";
-import base from "@pipedream/aws/actions/s3-upload-file/s3-upload-file.mjs";
+import base from "../../../aws/actions/s3-upload-base64-as-file/s3-upload-base64-as-file.mjs";
 
 export default {
   ...common,
@@ -8,7 +8,7 @@ export default {
   key: "digitalocean_spaces-upload-file-base64",
   name: "Upload File Base64",
   description: "Accepts a base64-encoded string and a filename, then uploads as a file to DigitalOcean Spaces. [See the docs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html).",
-  version: "0.0.2",
+  version: "1.0.0",
   props: {
     ...common.props,
     filename: base.props.filename,
