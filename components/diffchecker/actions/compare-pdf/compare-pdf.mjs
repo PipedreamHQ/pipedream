@@ -1,13 +1,12 @@
 import FormData from "form-data";
-import fs from "fs";
-import { checkTmp } from "../../common/utils.mjs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import diffchecker from "../../diffchecker.app.mjs";
 
 export default {
   key: "diffchecker-compare-pdf",
   name: "Compare PDFs",
   description: "Compares two PDFs and returns the result. [See the documentation](https://www.diffchecker.com/public-api/)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   props: {
     diffchecker,
@@ -26,22 +25,35 @@ export default {
     },
     leftPdf: {
       type: "string",
-      label: "Left PDF",
-      description: "Left PDF file you want to compare. Provide the file path `/tmp/file.pdf`. [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      label: "Left PDF (File Path Or Url)",
+      description: "Left PDF file you want to compare. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/example.pdf`).",
     },
     rightPdf: {
       type: "string",
-      label: "Right PDF",
-      description: "Right PDF file you want to compare. Provide the file path `/tmp/file.pdf`. [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      label: "Right PDF (File Path Or Url)",
+      description: "Right PDF file you want to compare. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/example.pdf`).",
     },
   },
   async run({ $ }) {
     let data = new FormData();
-    const leftFilepath = checkTmp(this.leftPdf);
-    const rightFilepath = checkTmp(this.rightPdf);
+    const [
+      leftStream,
+      rightStream,
+    ] = await Promise.all([
+      getFileStreamAndMetadata(this.leftPdf),
+      getFileStreamAndMetadata(this.rightPdf),
+    ]);
 
-    data.append("left_pdf", fs.createReadStream(leftFilepath));
-    data.append("right_pdf", fs.createReadStream(rightFilepath));
+    data.append("left_pdf", leftStream.stream, {
+      contentType: leftStream.metadata.contentType,
+      knownLength: leftStream.metadata.size,
+      filename: leftStream.metadata.name,
+    });
+    data.append("right_pdf", rightStream.stream, {
+      contentType: rightStream.metadata.contentType,
+      knownLength: rightStream.metadata.size,
+      filename: rightStream.metadata.name,
+    });
 
     const response = await this.diffchecker.comparePdfs({
       data,

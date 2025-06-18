@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/diffchecker",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Pipedream Diffchecker Components",
   "main": "diffchecker.app.mjs",
   "keywords": [
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "axios": "^1.6.1",
+    "@pipedream/platform": "^3.1.0",
     "form-data": "^4.0.0",
     "fs": "^0.0.1-security"
   }

@@ -1,15 +1,13 @@
 import FormData from "form-data";
-import fs from "fs";
-import {
-  checkTmp, clearObj,
-} from "../../common/utils.mjs";
+import { clearObj } from "../../common/utils.mjs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import ezeepBlue from "../../ezeep_blue.app.mjs";
 
 export default {
   key: "ezeep_blue-create-print-job",
   name: "Create Print Job",
   description: "Send a new print job to a specified printer.",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   props: {
     ezeepBlue,
@@ -19,12 +17,10 @@ export default {
         "printerId",
       ],
     },
-    printType: {
-      propDefinition: [
-        ezeepBlue,
-        "printType",
-      ],
-      reloadProps: true,
+    file: {
+      type: "string",
+      label: "File Path or URL",
+      description: "Provide either a file URL or a path to a file in the `/tmp` directory.",
     },
     type: {
       type: "string",
@@ -52,6 +48,18 @@ export default {
         }),
       ],
       withLabel: true,
+      optional: true,
+    },
+    paperLength: {
+      type: "string",
+      label: "Paper Length",
+      description: "If paperid == 256 (custom size): length of paper in tenths of mm.",
+      optional: true,
+    },
+    paperWidth: {
+      type: "string",
+      label: "Paper Width",
+      description: "If paperid == 256 (custom size): width of paper in tenths of mm.",
       optional: true,
     },
     color: {
@@ -99,45 +107,14 @@ export default {
       optional: true,
     },
   },
-  async additionalProps() {
-    switch (this.printType) {
-    case "url" : return {
-      fileUrl: {
-        type: "string",
-        label: "File URL",
-        description: "The URL of the file to print",
-      },
-    };
-    case "upload": return {
-      file: {
-        type: "string",
-        label: "File Path",
-        description: "The path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
-      },
-      paperLength: {
-        type: "string",
-        label: "Paper Length",
-        description: "If paperid == 256 (custom size): length of paper in tenths of mm.",
-        optional: true,
-      },
-      paperWidth: {
-        type: "string",
-        label: "Paper Width",
-        description: "If paperid == 256 (custom size): width of paper in tenths of mm.",
-        optional: true,
-      },
-    };
-    }
-  },
   async run({ $ }) {
     const {
+      ezeepBlue,
       printerId,
-      fileUrl,
       file,
-      printType,
+      paperLength,
+      paperWidth,
     } = this;
-
-    let response;
 
     const data = {
       type: this.type,
@@ -154,44 +131,37 @@ export default {
         copies: this.copies,
         resolution: this.resolution,
       },
+      paperlength: paperLength,
+      paperwidth: paperWidth,
     };
 
-    if (printType === "upload") {
-      // Prepare file upload
-      const {
-        sasUri, fileid,
-      } = await this.ezeepBlue.prepareFileUpload();
+    const {
+      sasUri, fileid,
+    } = await ezeepBlue.prepareFileUpload();
 
-      // Upload file
-      const formData = new FormData();
-      formData.append("file", fs.createReadStream(checkTmp(file)));
+    const { stream } = await getFileStreamAndMetadata(file);
+    const formData = new FormData();
+    formData.append("file", stream);
 
-      await this.ezeepBlue.uploadFile({
-        url: sasUri,
-        headers: {
-          "x-ms-blob-type": "BlockBlob",
-          "x-ms-blob-content-type": "application/octet-stream",
-          ...formData.getHeaders(),
+    await ezeepBlue.uploadFile({
+      url: sasUri,
+      headers: {
+        "x-ms-blob-type": "BlockBlob",
+        "x-ms-blob-content-type": "application/octet-stream",
+        ...formData.getHeaders(),
+      },
+      transformRequest: [
+        (reqData, headers) => {
+          delete headers.common["Transfer-Encoding"];
+          return JSON.stringify(reqData);
         },
-        transformRequest: [
-          (data, headers) => {
-            delete headers.common["Transfer-Encoding"];
-            return JSON.stringify(data);
-          },
-        ],
-        data: formData,
-      });
+      ],
+      data: formData,
+    });
 
-      data.fileid = fileid;
-      data.paperlength = this.paperLength;
-      data.paperwidth = this.paperWidth;
+    data.fileid = fileid;
 
-    } else if (printType === "url") {
-      data.fileurl = fileUrl;
-    }
-
-    // Print file from URL
-    response = await this.ezeepBlue.printFile({
+    const response = await ezeepBlue.printFile({
       data: clearObj(data),
     });
 

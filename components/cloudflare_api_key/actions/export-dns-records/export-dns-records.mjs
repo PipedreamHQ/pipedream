@@ -4,7 +4,7 @@ export default {
   key: "cloudflare_api_key-export-dns-records",
   name: "Export DNS Records",
   description: "Export a BIND config of a zone. [See the docs here](https://api.cloudflare.com/#dns-records-for-a-zone-export-dns-records)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     cloudflare,
@@ -16,9 +16,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const zoneId = this.zoneIdentifier;
-
-    const response = await this.cloudflare.exportDnsRecords(zoneId);
+    const response = await this.cloudflare.exportDnsRecords({
+      zone_id: this.zoneIdentifier,
+    });
     $.export("$summary", "Successfully exported BIND file");
 
     return response;
