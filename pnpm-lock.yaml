@@ -9308,6 +9308,9 @@ importers:
         specifier: ^17.0.45
         version: 17.0.45
 
+  components/openai_passthrough:
+    specifiers: {}
+
   components/opencage:
     dependencies:
       '@pipedream/platform':
