@@ -4,8 +4,8 @@ import consts from "../../common/constants.mjs";
 export default {
   key: "cloudflare_api_key-create-ip-access-rule",
   name: "Create IP Access Rule",
-  description: "Creates a new IP Access Rule for an account. The rule will apply to all zones in the account. [See the docs here](https://api.cloudflare.com/#ip-access-rules-for-an-account-create-an-ip-access-rule)",
-  version: "0.0.1",
+  description: "Creates a new IP Access Rule for an account. The rule will apply to all zones in the account. [See the documentation](https://developers.cloudflare.com/api/node/resources/firewall/subresources/access_rules/methods/create/)",
+  version: "0.0.2",
   type: "action",
   props: {
     cloudflare,
@@ -41,18 +41,25 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = {
-      mode: this.mode,
+    const {
+      cloudflare,
+      accountIdentifier,
+      mode,
+      target,
+      value,
+      notes,
+    } = this;
+
+    const { result } = await cloudflare.createIpAccessRule({
+      account_id: accountIdentifier,
+      mode,
+      notes,
       configuration: {
-        target: this.target,
-        value: this.value,
+        target,
+        value,
       },
-      notes: this.notes,
-    };
-
-    const { result } = await this.cloudflare.createIpAccessRule($, this.accountIdentifier, data);
-
-    $.export("$summary", `Created IP Access Rule with ID ${result.id}`);
+    });
+    $.export("$summary", `Created IP Access Rule with ID \`${result.id}\``);
 
     return result;
   },

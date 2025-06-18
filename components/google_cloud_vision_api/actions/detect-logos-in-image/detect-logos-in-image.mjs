@@ -5,7 +5,7 @@ export default {
   name: "Detect Logos in Image",
   key: "google_cloud_vision_api-detect-logos-in-image",
   description: "Detects logos within a local or remote image file. [See the documentation](https://cloud.google.com/vision/docs/detecting-logos).",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   async run({ $ }) {
     this.checkFileProp();
@@ -15,7 +15,7 @@ export default {
         requests: [
           {
             image: {
-              content: await this.getFileContent($),
+              content: await this.getFileContent(),
             },
             features: [
               {

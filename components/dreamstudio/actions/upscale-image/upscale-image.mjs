@@ -1,23 +1,21 @@
 import FormData from "form-data";
-import fs from "node:fs";
-import {
-  getImagePath, writeImg,
-} from "../../common/utils.mjs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
+import { writeImg } from "../../common/utils.mjs";
 import common from "../common/images.mjs";
 
 export default {
   ...common,
   key: "dreamstudio-upscale-image",
   name: "Upscale Image",
-  version: "0.0.2",
+  version: "1.0.0",
   description: "Create a higher resolution version of an input image. [See the documentation](https://platform.stability.ai/docs/api-reference#tag/v1generation/operation/upscaleImage)",
   type: "action",
   props: {
     ...common.props,
     image: {
       type: "string",
-      label: "Image",
-      description: "Image used to upscale. It can be an URL to the image or a path to the image file saved to the `/tmp` directory (e.g. `/tmp/image.png`). [see docs here](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      label: "Image Path Or Url",
+      description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/example.png`)",
     },
     height: {
       propDefinition: [
@@ -45,8 +43,15 @@ export default {
 
     const formData = new FormData();
 
-    const imagePath = await getImagePath(image);
-    formData.append("image", fs.readFileSync(imagePath));
+    const {
+      stream,
+      metadata,
+    } = await getFileStreamAndMetadata(image);
+    formData.append("image", stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
+    });
     for (const [
       label,
       value,

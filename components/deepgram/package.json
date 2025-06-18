@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/deepgram",
-  "version": "0.0.7",
+  "version": "1.0.0",
   "description": "Pipedream Deepgram Components",
   "main": "deepgram.app.mjs",
   "keywords": [
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.5.1"
+    "@pipedream/platform": "^3.1.0"
   }
 }

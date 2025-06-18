@@ -5,7 +5,7 @@ import {
   ContextsClient,
   EntityTypesClient,
 } from "@google-cloud/dialogflow";
-import fs from "fs";
+import { getFileStream } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -135,6 +135,14 @@ export default {
         projectId: this._getAuthKeyJson().project_id,
       };
     },
+    streamToBuffer(stream) {
+      return new Promise((resolve, reject) => {
+        const chunks = [];
+        stream.on("data", (chunk) => chunks.push(chunk));
+        stream.on("end", () => resolve(Buffer.concat(chunks)));
+        stream.on("error", reject);
+      });
+    },
     getAgentsClient() { return new AgentsClient(this._getSDKParams()); },
     getIntentClient() { return new IntentsClient(this._getSDKParams()); },
     getSessionClient() { return new SessionsClient(this._getSDKParams()); },
@@ -180,9 +188,9 @@ export default {
       sessionId,
       ...otherParams
     } = {}) {
-      const inputAudio = inputAudioFile ?
-        fs.readFileSync(inputAudioFile) :
-        undefined;
+      const inputAudio = inputAudioFile
+        ? await this.streamToBuffer(await getFileStream(inputAudioFile))
+        : undefined;
       const sessionPath = this.getSessionClient().projectAgentSessionPath(
         this._getProjectId(),
         sessionId,

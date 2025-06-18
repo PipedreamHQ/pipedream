@@ -5,7 +5,7 @@ export default {
   key: "cloudflare_api_key-update-zone-security-level",
   name: "Update Zone Security Level",
   description: "Choose the appropriate security profile for your website, which will automatically adjust each of the security settings. [See the docs here](https://api.cloudflare.com/#zone-settings-change-security-level-setting)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     cloudflare,
@@ -26,7 +26,11 @@ export default {
     const zoneId = this.zoneIdentifier;
     const securityLevel = this.securityLevel;
 
-    const response = await this.cloudflare.updateZoneSecurityLevel(zoneId, securityLevel);
+    const response = await this.cloudflare.editZoneSetting({
+      settingId: "security_level",
+      zone_id: zoneId,
+      value: securityLevel,
+    });
     $.export("$summary", `Successfully updated zone #${zoneId} security level to '${securityLevel}'`);
 
     return response;

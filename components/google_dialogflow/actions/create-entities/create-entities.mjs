@@ -4,7 +4,7 @@ import utils from "../../common/utils.mjs";
 export default {
   type: "action",
   key: "google_dialogflow-create-entities",
-  version: "0.0.1",
+  version: "1.0.0",
   name: "Create Entities",
   description: "Batch create entities, [See REST docs](https://cloud.google.com/dialogflow/es/docs/reference/rest/v2/projects.agent.entityTypes.entities/batchCreate) and [client API docs](https://googleapis.dev/nodejs/dialogflow/latest/google.cloud.dialogflow.v2beta1.EntityTypes.html#batchCreateEntities2)",
   props: {

@@ -8,7 +8,7 @@ export default {
   key: "deepimage-remove-background",
   name: "Remove Background",
   description: "Removes the background from the provided image using DeepImage. [See the documentation](https://documentation.deep-image.ai/image-processing/background-processing)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     deepimage,
@@ -36,7 +36,7 @@ export default {
     const response = await this.deepimage.makeRequest({
       $,
       data: {
-        url: getUrlOrFile(this.image),
+        url: await getUrlOrFile(this.image),
         background: {
           remove: "auto",
           color: this.backgroundColor,

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/deepimage",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream DeepImage Components",
   "main": "deepimage.app.mjs",
   "keywords": [
@@ -13,7 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.0.3",
-    "fs": "^0.0.1-security"
+    "@pipedream/platform": "^3.1.0"
   }
 }

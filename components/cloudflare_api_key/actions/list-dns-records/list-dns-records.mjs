@@ -5,11 +5,11 @@ export default {
   key: "cloudflare_api_key-list-dns-records",
   name: "List DNS Records",
   description: "List, search, sort, and filter a zones' DNS records. [See the docs here](https://api.cloudflare.com/#dns-records-for-a-zone-list-dns-records)",
-  version: "0.0.3",
+  version: "1.0.0",
   type: "action",
   props: {
     cloudflare,
-    zoneIdentifier: {
+    zoneId: {
       propDefinition: [
         cloudflare,
         "zoneIdentifier",
@@ -36,7 +36,7 @@ export default {
       ],
       optional: true,
     },
-    dnsRecordType: {
+    type: {
       propDefinition: [
         cloudflare,
         "dnsRecordType",
@@ -53,21 +53,27 @@ export default {
     },
   },
   async run({ $ }) {
-    const zoneId = this.zoneIdentifier;
-    const dnsRecordData = {
-      match: this.match,
-      name: this.name,
-      content: this.content,
-      type: this.dnsRecordType,
-      proxied: this.proxied,
-    };
+    const {
+      cloudflare,
+      zoneId,
+      match,
+      name,
+      content,
+      type,
+      proxied,
+    } = this;
 
     let page = 1;
     const dnsRecords = [];
     let tempDnsRecords;
     do {
-      tempDnsRecords = await this.cloudflare.listDnsRecords(zoneId, {
-        ...dnsRecordData,
+      tempDnsRecords = await cloudflare.listDnsRecords({
+        zone_id: zoneId,
+        match,
+        name,
+        content,
+        type,
+        proxied,
         page,
       });
       dnsRecords.push(...tempDnsRecords.result);

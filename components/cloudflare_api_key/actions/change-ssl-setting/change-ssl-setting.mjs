@@ -4,7 +4,7 @@ export default {
   key: "cloudflare_api_key-change-ssl-setting",
   name: "Change Zone's SSL Setting",
   description: "Choose the appropriate SSL setting for your zone. [See the docs here](https://api.cloudflare.com/#zone-settings-change-ssl-setting)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     cloudflare,
@@ -14,24 +14,21 @@ export default {
         "zoneIdentifier",
       ],
     },
-    sslSetting: {
-      type: "string",
-      label: "SSL Setting",
-      description: "Value of the zone SSL setting",
-      options: [
-        "off",
-        "flexible",
-        "full",
-        "strict",
-      ],
+    enabled: {
+      type: "boolean",
+      label: "Enabled",
+      description: "Whether to enable or disable Universal SSL",
     },
   },
   async run({ $ }) {
     const zoneId = this.zoneIdentifier;
-    const sslSetting = this.sslSetting;
+    const enabled = this.enabled;
 
-    const response = await this.cloudflare.changeZoneSslSetting(zoneId, sslSetting);
-    $.export("$summary", `Successfully updated zone #${zoneId} SSL setting to '${sslSetting}'`);
+    const response = await this.cloudflare.changeZoneSslSetting({
+      zone_id: zoneId,
+      enabled,
+    });
+    $.export("$summary", `Successfully updated zone #${zoneId} SSL setting to '${enabled}'`);
 
     return response;
   },

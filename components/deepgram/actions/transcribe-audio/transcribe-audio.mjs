@@ -1,26 +1,18 @@
 import deepgram from "../../deepgram.app.mjs";
-import { ConfigurationError } from "@pipedream/platform";
-import fs from "fs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 
 export default {
   key: "deepgram-transcribe-audio",
   name: "Transcribe Audio",
   description: "Transcribes the specified audio file. [See the documentation](https://developers.deepgram.com/api-reference/transcription/#transcribe-pre-recorded-audio)",
-  version: "0.0.4",
+  version: "1.0.0",
   type: "action",
   props: {
     deepgram,
-    url: {
+    file: {
       type: "string",
-      label: "URL",
-      description: "URL of audio file to transcribe",
-      optional: true,
-    },
-    filePath: {
-      type: "string",
-      label: "File Path",
-      description: "The path to the file saved to the `/tmp` directory (e.g. `/tmp/example.mp3`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
-      optional: true,
+      label: "File Path Or Url",
+      description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/example.mp3`)",
     },
     tier: {
       propDefinition: [
@@ -158,7 +150,7 @@ export default {
     utterances: {
       type: "boolean",
       label: "Utterances",
-      description: "Indicates whether Deepgram will segment speech into meaningful semantic units, which allows the model to interact more naturally and effectively with speakers’ spontaneous speech patterns",
+      description: "Indicates whether Deepgram will segment speech into meaningful semantic units, which allows the model to interact more naturally and effectively with speakers' spontaneous speech patterns",
       optional: true,
     },
     uttSplit: {
@@ -180,12 +172,18 @@ export default {
       optional: true,
     },
   },
+  methods: {
+    streamToBuffer(stream) {
+      return new Promise((resolve, reject) => {
+        const chunks = [];
+        stream.on("data", (chunk) => chunks.push(chunk));
+        stream.on("end", () => resolve(Buffer.concat(chunks)));
+        stream.on("error", reject);
+      });
+    },
+  },
   async run({ $ }) {
-    if (!this.url && !this.filePath) {
-      throw new ConfigurationError("Either URL or File Path must be provided.");
-    }
-
-    let callback  = this.callback;
+    let callback = this.callback;
     if (this.callbackWithSuspend) {
       ({ resume_url: callback } = $.flow.suspend());
     }
@@ -223,17 +221,20 @@ export default {
       $,
     };
 
-    if (this.url) {
+    // Check if the file is a URL
+    if (this.file.startsWith("http://") || this.file.startsWith("https://")) {
       config.data = {
-        url: this.url,
+        url: this.file,
       };
-    }
-    if (this.filePath) {
-      config.data = fs.readFileSync(this.filePath.includes("tmp/")
-        ? this.filePath
-        : `/tmp/${this.filePath}`);
+    } else {
+      const {
+        stream,
+        metadata,
+      } = await getFileStreamAndMetadata(this.file);
+      const fileBuffer = await this.streamToBuffer(stream);
+      config.data = fileBuffer;
       config.headers = {
-        "Content-Type": "application/octet-stream",
+        "Content-Type": metadata.contentType || "application/octet-stream",
       };
     }
 

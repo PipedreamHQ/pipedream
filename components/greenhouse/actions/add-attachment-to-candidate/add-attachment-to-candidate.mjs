@@ -1,14 +1,14 @@
-import { ConfigurationError } from "@pipedream/platform";
-import fs from "fs";
+import {
+  ConfigurationError, getFileStream,
+} from "@pipedream/platform";
 import { CONTENT_TYPE_OPTIONS } from "../../common/constants.mjs";
-import { checkTmp } from "../../common/utils.mjs";
 import greenhouse from "../../greenhouse.app.mjs";
 
 export default {
   key: "greenhouse-add-attachment-to-candidate",
   name: "Add Attachment to Candidate",
   description: "Adds an attachment to a specific candidate or prospect. [See the documentation](https://developers.greenhouse.io/harvest.html#post-add-attachment)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   props: {
     greenhouse,
@@ -41,38 +41,41 @@ export default {
     },
     file: {
       type: "string",
-      label: "File",
-      description: "The path to the image file saved to the `/tmp` directory (e.g. `/tmp/example.jpg`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory). (if you are providing content, you do not need to provide url).",
-      optional: true,
-    },
-    url: {
-      type: "string",
-      label: "URL",
-      description: "Url of the attachment (if you are providing the url, you do not need to provide the content.) *Please note, shareable links from cloud services such as Google Drive will result in a corrupted file. Please use machine accessbile URLs*.",
-      optional: true,
+      label: "File or URL",
+      description: "Provide a file URL or path to a file in the `/tmp` directory.",
     },
     contentType: {
       type: "string",
       label: "Content Type",
-      description: "The content-type of the document you are sending. When using a URL, this generally isn't needed, as the responding server will deliver a content type. This should be included for encoded content.",
+      description: "The content-type of the document you are sending. This should be included for encoded content.",
       optional: true,
       options: CONTENT_TYPE_OPTIONS,
     },
   },
+  methods: {
+    streamToBase64(stream) {
+      return new Promise((resolve, reject) => {
+        const chunks = [];
+        stream.on("data", (chunk) => chunks.push(chunk));
+        stream.on("end", () => {
+          const buffer = Buffer.concat(chunks);
+          resolve(buffer.toString("base64"));
+        });
+        stream.on("error", reject);
+      });
+    },
+  },
   async run({ $ }) {
-    if ((this.file && this.url) || (!this.file && !this.url)) {
-      throw new ConfigurationError("You must provide either File or URL");
+    if (!this.file) {
+      throw new ConfigurationError("You must provide a File or URL.");
     }
 
-    let encodedFile;
-
-    if (this.file) {
-      if (!this.contentType) {
-        throw new ConfigurationError("You must provide the Content-Type");
-      }
-      const file = fs.readFileSync(checkTmp(this.file));
-      encodedFile = Buffer(file).toString("base64");
+    if (!this.contentType) {
+      throw new ConfigurationError("You must provide the Content-Type.");
     }
+
+    const stream = await getFileStream(this.file);
+    const encodedFile = await this.streamToBase64(stream);
 
     const response = await this.greenhouse.addAttachmentToCandidate({
       $,
@@ -84,7 +87,6 @@ export default {
         filename: this.filename,
         type: this.type,
         content: encodedFile,
-        url: this.url,
         content_type: this.contentType,
       },
     });
