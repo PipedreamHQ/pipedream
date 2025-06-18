@@ -5396,8 +5396,7 @@ importers:
 
   components/godial: {}
 
-  components/goformz:
-    specifiers: {}
+  components/goformz: {}
 
   components/gohighlevel:
     dependencies:
@@ -7288,8 +7287,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/lark:
-    specifiers: {}
+  components/lark: {}
 
   components/lastpass:
     dependencies:
@@ -7688,7 +7686,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
 
-  components/local_reviews: {}
+  components/local_reviews:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/locate:
     dependencies:
@@ -8494,8 +8496,7 @@ importers:
 
   components/mollie: {}
 
-  components/momentum_ams:
-    specifiers: {}
+  components/momentum_ams: {}
 
   components/monday:
     dependencies:
@@ -9478,8 +9479,7 @@ importers:
 
   components/order_sender: {}
 
-  components/orderspace:
-    specifiers: {}
+  components/orderspace: {}
 
   components/originality_ai:
     dependencies:
@@ -11556,8 +11556,7 @@ importers:
 
   components/ryver: {}
 
-  components/sage_accounting:
-    specifiers: {}
+  components/sage_accounting: {}
 
   components/sage_intacct: {}
 
@@ -12974,8 +12973,7 @@ importers:
 
   components/stealthseminar: {}
 
-  components/stiply:
-    specifiers: {}
+  components/stiply: {}
 
   components/storeganise:
     dependencies:
@@ -36185,8 +36183,6 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
-    transitivePeerDependencies:
-      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
