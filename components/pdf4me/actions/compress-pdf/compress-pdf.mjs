@@ -1,12 +1,11 @@
 import pdf4me from "../../pdf4me.app.mjs";
 import utils from "../../common/utils.mjs";
-import fs from "fs";
 
 export default {
   key: "pdf4me-compress-pdf",
   name: "Compress PDF",
   description: "Compress a PDF file to reduce its size. [See the documentation](https://dev.pdf4me.com/apiv2/documentation/actions/compress-pdf/)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     pdf4me,
@@ -41,10 +40,7 @@ export default {
   },
   async run({ $ }) {
     const filename = utils.checkForExtension(this.filename, "pdf");
-    const filePath = utils.normalizeFilePath(this.filePath);
-    const fileContent = fs.readFileSync(filePath, {
-      encoding: "base64",
-    });
+    const fileContent = await utils.getBase64File(this.filePath);
 
     const response = await this.pdf4me.compressPdf({
       $,

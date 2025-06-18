@@ -101,7 +101,6 @@ const pd = createBackendClient({
 // For this example, we'll use Notion
 const apps = await pd.getApps({ q: "notion" });
 const appSlug = apps.data[0].name_slug; // e.g., "notion",
-const appLabel = apps.data[0].name; // e.g., "Notion"
 
 // Get access token for MCP server auth
 const accessToken = await pd.rawAccessToken();
@@ -118,7 +117,7 @@ const response = await client.responses.create({
   tools: [
     {
       type: 'mcp',
-      server_label: appLabel,
+      server_label: appSlug,
       server_url: `https://remote.mcp.pipedream.net`,
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -153,17 +152,12 @@ APP_SLUG=$(curl -s -X GET "https://api.pipedream.com/v1/apps?q=notion" \
   -H "Authorization: Bearer $ACCESS_TOKEN" | jq -r '.data[0].name_slug')
 
 # Step 3: Make request to OpenAI with MCP tool
-curl -X POST https://api.openai.com/v1/chat/completions \
+curl -X POST https://api.openai.com/v1/responses \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $OPENAI_API_KEY" \
   -d '{
     "model": "gpt-4.1",
-    "messages": [
-      {
-        "role": "user",
-        "content": "Summarize my most recently created Notion doc for me and help draft an email to our customers"
-      }
-    ],
+    "input": "Summarize my most recently created Notion doc for me and help draft an email to our customers",
     "tools": [
       {
         "type": "mcp",

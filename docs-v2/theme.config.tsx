@@ -61,6 +61,16 @@ const config: DocsThemeConfig = {
   search: {
     component: DocSearch,
   },
+  // We can add banners to the docs for product announcements
+  // banner: {
+  //   key: "announcement-key", // Used for dismissible state in localStorage
+  //   dismissible: true, // Makes the banner dismissible
+  //   content: (
+  //     <a href="https://pipedream.com/connect/demo/" target="_blank" rel="noreferrer">
+  //       Check out the new Pipedream Connect SDK Playground →
+  //     </a>
+  //   ),
+  // },
 };
 
 export default config;

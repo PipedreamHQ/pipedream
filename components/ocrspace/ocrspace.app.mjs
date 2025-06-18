@@ -11,8 +11,8 @@ export default {
   propDefinitions: {
     file: {
       type: "string",
-      label: "Image",
-      description: "The URL of the image or the path to the file saved to the `/tmp` directory  (e.g. `/tmp/example.jpg`)  to process. [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      label: "File Path or URL",
+      description: "The file to process. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.jpg`)",
     },
     language: {
       type: "string",

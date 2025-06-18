@@ -15,18 +15,18 @@ and our community and their source code is available in our [public Github repo]
 
 ## Implementation
 
-### Use Pipedream's frontend SDK
+<Callout type="info">
+Check out the [SDK playground](https://pipedream.com/connect/demo) to see the SDK in action. You can also [run it locally and explore the code](https://github.com/PipedreamHQ/pipedream-connect-examples/tree/master/connect-react-demo).
+</Callout>
+
+### Use Pipedream's server SDK with your own frontend
+- See below to get started with Pipedream's server SDK or REST API
+- Refer to the [full API reference](/connect/api/#components) for additional info
+
+### Use Pipedream's frontend React SDK
 - Pipedream provides a frontend React SDK to enable your users to configure and run triggers and actions in your app's UI
 - Style the UI components however you want to match the design of your app, and you can also fork the SDK
 - Refer to the [SDK](https://github.com/PipedreamHQ/pipedream/blob/master/packages/connect-react/README.md) to get started
-
-<Callout type="info">
-Check out the [public demo app](https://pdrm.co/connect) to see the API and SDK in action. You can also [run it locally and explore the code](https://github.com/PipedreamHQ/pipedream-connect-examples/tree/master/connect-react-demo).
-</Callout>
-
-### Use your own frontend
-- See below to get started with the REST API
-- Refer to the [full API reference](/connect/api/#components) for supported SDK methods as well
 
 ## Getting started
 
@@ -123,7 +123,12 @@ Here's the response:
       "categories": [
         "Developer Tools"
       ],
-      "featured_weight": 5000
+      "featured_weight": 5000,
+      "connect": {
+        "proxy_enabled": true,
+        "allowed_domains": ["gitlab.com"],
+        "base_proxy_target_url": "https://{{custom_fields.base_api_url}}"
+      }
     }
   ]
 }

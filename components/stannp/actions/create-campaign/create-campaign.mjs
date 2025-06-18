@@ -2,14 +2,14 @@ import FormData from "form-data";
 import {
   TYPE_OPTIONS, WHAT_RECIPIENTS_OPTIONS,
 } from "../../common/constants.mjs";
-import { checkFile } from "../../common/utils.mjs";
+import { getFileData } from "../../common/utils.mjs";
 import stannp from "../../stannp.app.mjs";
 
 export default {
   key: "stannp-create-campaign",
   name: "Create a New Campaign",
   description: "Create a new campaign in Stannp. [See the documentation](https://www.stannp.com/us/direct-mail-api/campaigns)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     stannp,
@@ -58,22 +58,22 @@ export default {
     },
     file: {
       type: "string",
-      label: "File",
-      description: "A single or multi-page PDF file to use as the design artwork. can be a URL or a path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp). Make sure the image is in the correct format.",
+      label: "PDF File Path or URL",
+      description: "A PDF file to use as the design artwork. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.pdf`)",
       optional: true,
       reloadProps: true,
     },
     front: {
       type: "string",
-      label: "Front",
-      description: "A PDF or JPG file to use as the front image. Can be a URL or a path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp). Make sure the image is in the correct format.",
+      label: "Front Image Path or URL",
+      description: "A PDF or JPG file to use as the front image. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.jpg`)",
       optional: true,
       reloadProps: true,
     },
     back: {
       type: "string",
-      label: "Back",
-      description: "A PDF or JPG file to use as the back image. Can be a URL or a path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp). Make sure the image is in the correct format.",
+      label: "Back Image Path or URL",
+      description: "A PDF or JPG file to use as the back image. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.jpg`)",
       optional: true,
       reloadProps: true,
     },
@@ -107,9 +107,24 @@ export default {
 
     const formData = new FormData();
 
-    if (file) formData.append("file", await checkFile(file));
-    if (front) formData.append("front", await checkFile(front));
-    if (back) formData.append("back", await checkFile(back));
+    if (file) {
+      const {
+        stream, metadata,
+      } = await getFileData(file);
+      formData.append("file", stream, metadata);
+    }
+    if (front) {
+      const {
+        stream, metadata,
+      } = await getFileData(front);
+      formData.append("front", stream, metadata);
+    }
+    if (back) {
+      const {
+        stream, metadata,
+      } = await getFileData(back);
+      formData.append("back", stream, metadata);
+    }
 
     if (templateId) formData.append("template_id", templateId);
     if (groupId) formData.append("group_id", groupId);
