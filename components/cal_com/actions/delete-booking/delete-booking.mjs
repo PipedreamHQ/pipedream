@@ -4,7 +4,7 @@ export default {
   key: "cal_com-delete-booking",
   name: "Delete Booking",
   description: "Delete an existing booking by its ID. [See the documentation](https://developer.cal.com/api/api-reference/bookings)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     calCom,
