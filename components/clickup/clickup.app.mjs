@@ -146,7 +146,7 @@ export default {
     listId: {
       type: "string",
       label: "List ID",
-      description: "The ID of a list",
+      description: "The ID of a list. To show lists within a folder, please select a **Folder** first",
       async options({
         folderId, spaceId,
       }) {

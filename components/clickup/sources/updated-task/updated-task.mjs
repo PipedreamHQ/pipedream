@@ -30,7 +30,7 @@ export default {
     },
     folderId: {
       propDefinition: [
-        common.props.clickup,
+        common.props.app,
         "folderId",
         (c) => ({
           spaceId: c.spaceId,
@@ -40,7 +40,7 @@ export default {
     },
     listId: {
       propDefinition: [
-        common.props.clickup,
+        common.props.app,
         "listId",
         (c) => ({
           folderId: c.folderId,
@@ -51,7 +51,7 @@ export default {
     },
     customFieldIds: {
       propDefinition: [
-        common.props.clickup,
+        common.props.app,
         "customFieldId",
         (c) => ({
           listId: c.listId,

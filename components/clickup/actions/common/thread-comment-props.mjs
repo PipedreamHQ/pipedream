@@ -12,6 +12,26 @@ export default {
         }),
       ],
     },
+    folderId: {
+      propDefinition: [
+        common.props.clickup,
+        "folderId",
+        (c) => ({
+          spaceId: c.spaceId,
+        }),
+      ],
+      optional: true,
+    },
+    listId: {
+      propDefinition: [
+        common.props.clickup,
+        "listId",
+        (c) => ({
+          folderId: c.folderId,
+          spaceId: c.spaceId,
+        }),
+      ],
+    },
     taskId: {
       propDefinition: [
         common.props.clickup,

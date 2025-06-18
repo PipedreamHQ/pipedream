@@ -7,29 +7,6 @@ export default {
   description: "Deletes a comment. [See the documentation](https://clickup.com/api) in **Comments / Deleet Comment** section.",
   version: "0.0.10",
   type: "action",
-  props: {
-    ...common.props,
-    folderId: {
-      propDefinition: [
-        common.props.clickup,
-        "folderId",
-        (c) => ({
-          spaceId: c.spaceId,
-        }),
-      ],
-      optional: true,
-    },
-    listId: {
-      propDefinition: [
-        common.props.clickup,
-        "listId",
-        (c) => ({
-          folderId: c.folderId,
-          spaceId: c.spaceId,
-        }),
-      ],
-    },
-  },
   async run({ $ }) {
     const { commentId } = this;
 

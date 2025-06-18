@@ -33,26 +33,6 @@ export default {
       type: "boolean",
       optional: true,
     },
-    folderId: {
-      propDefinition: [
-        common.props.clickup,
-        "folderId",
-        (c) => ({
-          spaceId: c.spaceId,
-        }),
-      ],
-      optional: true,
-    },
-    listId: {
-      propDefinition: [
-        common.props.clickup,
-        "listId",
-        (c) => ({
-          folderId: c.folderId,
-          spaceId: c.spaceId,
-        }),
-      ],
-    },
   },
   async run({ $ }) {
     const {
