@@ -13614,11 +13614,8 @@ importers:
   components/tinypng:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
-      fs:
-        specifier: ^0.0.1-security
-        version: 0.0.1-security
+        specifier: ^3.1.0
+        version: 3.1.0
       stream:
         specifier: ^0.0.2
         version: 0.0.2
@@ -13649,8 +13646,8 @@ importers:
   components/todoist:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       json-2-csv:
         specifier: ^3.15.1
         version: 3.20.0
@@ -14973,8 +14970,8 @@ importers:
   components/xero_accounting_api:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.4.0
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/xperiencify:
     dependencies:
@@ -15199,8 +15196,8 @@ importers:
   components/zerobounce:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.1
         version: 4.0.1
@@ -15229,8 +15226,8 @@ importers:
   components/zip_archive_api:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.5
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -15276,8 +15273,8 @@ importers:
   components/zoho_bugtracker:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
