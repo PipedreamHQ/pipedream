@@ -224,10 +224,10 @@ export default {
       optional: true,
     },
     products: {
-      propDefinition: [
-        picqer,
-        "products",
-      ],
+      type: "string[]",
+      label: "Products",
+      description: "List of objects of products to add to the order. **Format: [{\"idproduct\": 123, \"productcode\": 'ABC123', \"name\": 'Product Name', \"remarks\": 'Product remarks', \"price\": 100, \"idvatgroup\": 123}]}**",
+      optional: true,
     },
   },
   async additionalProps(fixedProps) {
