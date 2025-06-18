@@ -5,7 +5,7 @@ export default {
   key: "tinypng-compress-image",
   name: "Compress Image",
   description: "Compress a WebP, JPEG, or PNG image using the TinyPNG API. [See the documentation](https://tinypng.com/developers/reference#compressing-images)",
-  version: "0.1.0",
+  version: "1.0.0",
   type: "action",
   props: {
     tinypng,

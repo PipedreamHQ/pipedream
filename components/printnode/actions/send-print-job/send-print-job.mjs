@@ -5,7 +5,7 @@ export default {
   key: "printnode-send-print-job",
   name: "Send Print Job",
   description: "Sends a print job to a specified printer. [See the documentation](https://www.printnode.com/en/docs/api/curl#creating-print-jobs)",
-  version: "0.1.0",
+  version: "1.0.0",
   type: "action",
   props: {
     printnode,

@@ -146,7 +146,7 @@ export default {
     },
     draftDocumentsFile: {
       type: "string[]",
-      label: "Draft Documents File",
+      label: "Draft Document File Paths or URLs",
       description: "One or more files to upload. For each entry, provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
       optional: true,
     },
