@@ -130,6 +130,66 @@ export default {
       label: "Name",
       description: "The name of the contact",
     },
+    street: {
+      type: "string",
+      label: "Street",
+      description: "The street of the contact",
+    },
+    zipcode: {
+      type: "string",
+      label: "Zipcode",
+      description: "The zipcode of the contact",
+    },
+    city: {
+      type: "string",
+      label: "City",
+      description: "The city of the contact",
+    },
+    state: {
+      type: "string",
+      label: "State",
+      description: "The state of the contact",
+    },
+    country: {
+      type: "string",
+      label: "Country",
+      description: "The country of the contact",
+    },
+    phone: {
+      type: "string",
+      label: "Phone",
+      description: "The phone of the contact",
+    },
+    email: {
+      type: "string",
+      label: "Email",
+      description: "The email address of the contact",
+    },
+    internet: {
+      type: "string",
+      label: "Internet",
+      description: "The internet address of the contact",
+    },
+    linkedin: {
+      type: "string",
+      label: "LinkedIn",
+      description: "The LinkedIn address of the contact",
+    },
+    facebook: {
+      type: "string",
+      label: "Facebook",
+      description: "The Facebook address of the contact",
+    },
+    twitter: {
+      type: "string",
+      label: "Twitter",
+      description: "The Twitter address of the contact",
+    },
+    instagram: {
+      type: "string",
+      label: "Instagram",
+      description: "The Instagram address of the contact",
+    },
   },
   methods: {
     _headers() {
