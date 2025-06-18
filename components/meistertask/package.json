@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/meistertask",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Meistertask Components",
   "main": "meistertask.app.mjs",
   "homepage": "https://pipedream.com/apps/meistertask",
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.4.1"
+    "@pipedream/platform": "^3.1.0"
   }
 }

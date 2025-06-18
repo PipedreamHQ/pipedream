@@ -7,7 +7,7 @@ export default defineAction({
   key: "zoho_catalyst-perform-face-detection-and-analysis",
   name: "Perform Face Detection and Analysis",
   description: "Perform face detection and analysis on an image. [See the documentation](https://catalyst.zoho.com/help/api/zia/face-analytics.html)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     app,
@@ -58,7 +58,7 @@ export default defineAction({
       imagePath, projectId,
     } = this;
 
-    const data = getImageFormData(imagePath);
+    const data = await getImageFormData(imagePath);
     for (const prop of [
       "mode",
       "emotion",
@@ -73,9 +73,7 @@ export default defineAction({
     const response = await this.app.performImageFaceDetection({
       $,
       projectId,
-      headers: {
-        ...data.getHeaders(),
-      },
+      headers: data.getHeaders(),
       data,
     });
 

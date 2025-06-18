@@ -7,7 +7,7 @@ export default defineAction({
   key: "zoho_catalyst-perform-image-moderation",
   name: "Perform Image Moderation",
   description: "Perform image moderation on an image. [See the documentation](https://catalyst.zoho.com/help/api/zia/image-moderation.html)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     app,
@@ -37,15 +37,13 @@ export default defineAction({
       imagePath, projectId, mode,
     } = this;
 
-    const data = getImageFormData(imagePath);
+    const data = await getImageFormData(imagePath);
     if (mode) data.append("mode", mode);
 
     const response = await this.app.performImageModeration({
       $,
       projectId,
-      headers: {
-        ...data.getHeaders(),
-      },
+      headers: data.getHeaders(),
       data,
     });
 

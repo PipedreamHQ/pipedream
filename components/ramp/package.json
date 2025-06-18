@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ramp",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Pipedream Ramp Components",
   "main": "ramp.app.mjs",
   "keywords": [
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.0.0",
+    "@pipedream/platform": "^3.1.0",
     "uuid": "^10.0.0"
   }
 }

@@ -1,10 +1,7 @@
 import { axios } from "@pipedream/platform";
 import FormData from "form-data";
-import fs from "fs";
-import {
-  checkTmp,
-  parseObject,
-} from "./common/utils.mjs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
+import { parseObject } from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -398,8 +395,14 @@ export default {
         const files = parseObject(draftDocumentsFile);
         for (const path of files) {
           const data = new FormData();
-          const file = fs.createReadStream(checkTmp(path));
-          data.append("file", file);
+          const {
+            stream, metadata,
+          } = await getFileStreamAndMetadata(path);
+          data.append("file", stream, {
+            contentType: metadata.contentType,
+            knownLength: metadata.size,
+            filename: metadata.name,
+          });
           data.append("documentable_type", "Finding");
           data.append("section", "description");
           const { id } = await this.uploadFile({

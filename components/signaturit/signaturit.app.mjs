@@ -32,8 +32,8 @@ export default {
     },
     attachments: {
       type: "string[]",
-      label: "Attachments",
-      description: "A list of paths to the files saved to the `/tmp` directory (e.g. `/tmp/example.pdf`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      label: "Attachment File Paths or URLs",
+      description: "The file(s) to attach. For each entry, provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
     },
     recipients: {
       type: "string[]",

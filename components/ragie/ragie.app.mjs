@@ -7,8 +7,8 @@ export default {
   propDefinitions: {
     documentFile: {
       type: "string",
-      label: "File",
-      description: "The path to the file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#the-tmp-directory).",
+      label: "File Path or URL",
+      description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
     },
     documentMode: {
       type: "string",

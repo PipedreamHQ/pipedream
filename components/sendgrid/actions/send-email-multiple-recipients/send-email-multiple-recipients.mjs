@@ -1,5 +1,6 @@
-import { ConfigurationError } from "@pipedream/platform";
-import fs from "fs";
+import {
+  ConfigurationError, getFileStream,
+} from "@pipedream/platform";
 import mime from "mime";
 import validate from "validate.js";
 import common from "../common/common.mjs";
@@ -9,7 +10,7 @@ export default {
   key: "sendgrid-send-email-multiple-recipients",
   name: "Send Email Multiple Recipients",
   description: "This action sends a personalized e-mail to multiple specified recipients. [See the docs here](https://docs.sendgrid.com/api-reference/mail-send/mail-send)",
-  version: "0.0.6",
+  version: "0.1.0",
   type: "action",
   props: {
     ...common.props,
@@ -156,8 +157,8 @@ export default {
         };
         props[`attachmentsPath${i}`] = {
           type: "string",
-          label: `Attachment File Path ${i}`,
-          description: "The path to your file in /tmp dir. [See the documentation](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp) for how to work with tmp dir.",
+          label: `Attachment File Path or URL ${i}`,
+          description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`).",
           optional: true,
         };
       }
@@ -208,10 +209,13 @@ export default {
     }
     const attachments = [];
     for (let i = 1; i <= this.numberOfAttachments; i++) {
-      const filepath = this.checkTmp(this["attachmentsPath" + i]);
-      const content = fs.readFileSync(filepath, {
-        encoding: "base64",
-      });
+      const filepath = this["attachmentsPath" + i];
+      const stream = await getFileStream(filepath);
+      const chunks = [];
+      for await (const chunk of stream) {
+        chunks.push(chunk);
+      }
+      const content = Buffer.concat(chunks).toString("base64");
       const type = mime.getType(filepath);
       attachments.push({
         content,

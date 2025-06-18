@@ -1,6 +1,6 @@
 import common, { getProps } from "../common/base-create-update.mjs";
 import attachment from "../../common/sobjects/attachment.mjs";
-import fs from "fs";
+import { getFileStream } from "@pipedream/platform";
 
 const docsLink = "https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_attachment.htm";
 
@@ -18,7 +18,7 @@ export default {
   key: "salesforce_rest_api-create-attachment",
   name: "Create Attachment",
   description: `Creates an Attachment on a parent object. [See the documentation](${docsLink})`,
-  version: "0.4.1",
+  version: "0.5.0",
   type: "action",
   props,
   async run({ $ }) {
@@ -34,9 +34,17 @@ export default {
     } = this;
     /* eslint-enable no-unused-vars */
 
-    const body =  filePathOrContent.includes("tmp/")
-      ? (await fs.promises.readFile(filePathOrContent)).toString("base64")
-      : filePathOrContent;
+    let body;
+    if (filePathOrContent.startsWith("http") || filePathOrContent.includes("tmp/")) {
+      const stream = await getFileStream(filePathOrContent);
+      const chunks = [];
+      for await (const chunk of stream) {
+        chunks.push(chunk);
+      }
+      body = Buffer.concat(chunks).toString("base64");
+    } else {
+      body = filePathOrContent;
+    }
 
     const response = await salesforce.createRecord("Attachment", {
       $,

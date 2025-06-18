@@ -9,8 +9,8 @@ export default {
     },
     filePathOrContent: {
       type: "string",
-      label: "File Path or Content",
-      description: "The path to a file in the `tmp` folder [(see the documentation)](https://pipedream.com/docs/code/nodejs/working-with-files). Alternatively, you can provide the base64-encoded file data.",
+      label: "File Path, URL or Content",
+      description: "The file to attach. Provide either a file URL, a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`), or base64-encoded file data.",
     },
     ContentType: {
       type: "string",

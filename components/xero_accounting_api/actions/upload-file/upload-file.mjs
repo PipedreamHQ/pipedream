@@ -1,13 +1,14 @@
 // legacy_hash_id: a_B0i8rE
-import fs from "fs";
 import FormData from "form-data";
-import { axios } from "@pipedream/platform";
+import {
+  axios, getFileStreamAndMetadata,
+} from "@pipedream/platform";
 
 export default {
   key: "xero_accounting_api-upload-file",
   name: "Upload File",
   description: "Uploads a file to the specified document.",
-  version: "0.2.1",
+  version: "1.0.0",
   type: "action",
   props: {
     xero_accounting_api: {
@@ -18,9 +19,10 @@ export default {
       type: "string",
       description: "Id of the organization tenant to use on the Xero Accounting API. See [Get Tenant Connections](https://pipedream.com/@sergio/xero-accounting-api-get-tenant-connections-p_OKCzOgn/edit) for a workflow example on how to pull this data.",
     },
-    attachment_filename: {
+    filePathOrUrl: {
       type: "string",
-      description: "Name of the file to upload as an attachment to the Xero document.",
+      label: "File Path or URL",
+      description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
     },
     document_type: {
       type: "string",
@@ -50,17 +52,24 @@ export default {
       throw new Error("Must provide tenant_id parameter.");
     }
 
-    let data = new FormData();
-    const file = fs.createReadStream(`/tmp/${this.attachment_filename}`);
-    data.append("file", file);
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(this.filePathOrUrl);
+    const data = new FormData();
+    data.append("file", stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
+    });
 
     //Sends the request against Xero Accounting API
     return await axios($, {
       method: "post",
-      url: `https://api.xero.com/api.xro/2.0/${this.document_type}/${this.document_id}/Attachments/${attachment_filename}`,
+      url: `https://api.xero.com/api.xro/2.0/${this.document_type}/${this.document_id}/Attachments/${metadata.name}`,
       headers: {
         "Authorization": `Bearer ${this.xero_accounting_api.$auth.oauth_access_token}`,
         "xero-tenant-id": this.tenant_id,
+        ...data.getHeaders(),
       },
       data,
     });

@@ -6,7 +6,7 @@ export default defineAction({
   key: "zoho_catalyst-extract-text-from-image",
   name: "Extract Text from Image",
   description: "Extract text from an image. [See the documentation](https://catalyst.zoho.com/help/api/zia/ocr.html)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     app,
@@ -28,14 +28,12 @@ export default defineAction({
       imagePath, projectId,
     } = this;
 
-    const data = getImageFormData(imagePath);
+    const data = await getImageFormData(imagePath);
 
     const response = await this.app.extractTextFromImage({
       $,
       projectId,
-      headers: {
-        ...data.getHeaders(),
-      },
+      headers: data.getHeaders(),
       data,
     });
 

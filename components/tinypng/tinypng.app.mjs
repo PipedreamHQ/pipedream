@@ -5,17 +5,10 @@ export default {
   type: "app",
   app: "tinypng",
   propDefinitions: {
-    url: {
-      type: "string",
-      label: "Image URL",
-      description: "URL of the image to compress (WebP, JPEG, or PNG).",
-      optional: true,
-    },
     file: {
       type: "string",
-      label: "Image File",
-      description: "The path to the image file (WebP, JPEG, or PNG) saved to the `/tmp` directory (e.g. `/tmp/example.jpg`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
-      optional: true,
+      label: "Image Path or URL",
+      description: "The image to upload (WebP, JPEG, or PNG). Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.png`)",
     },
     imageId: {
       type: "string",

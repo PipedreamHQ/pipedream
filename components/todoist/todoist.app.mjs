@@ -255,8 +255,8 @@ export default {
     },
     path: {
       type: "string",
-      label: "File Path",
-      description: "Path to .csv file containing task data. Enter a static value (e.g., `/tmp/myFile.csv`) or reference prior step exports via the `steps` object (e.g., `{{steps.export_tasks.$return_value}}`).",
+      label: "File Path or URL",
+      description: "The .csv file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.csv`)",
     },
   },
   methods: {

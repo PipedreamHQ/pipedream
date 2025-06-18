@@ -1,5 +1,4 @@
 import Client from "ssh2-sftp-client";
-import fs from "fs";
 
 export default {
   type: "app",
@@ -7,16 +6,9 @@ export default {
   propDefinitions: {
     file: {
       type: "string",
-      label: "File",
-      description: "Local file on `/tmp` folder to upload to the remote server.",
+      label: "File Path or URL",
+      description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`).",
       optional: true,
-      options() {
-        return fs.readdirSync("/tmp", {
-          withFileTypes: true,
-        })
-          .filter((file) => !file.isDirectory())
-          .map((file) => file.name);
-      },
     },
   },
   methods: {

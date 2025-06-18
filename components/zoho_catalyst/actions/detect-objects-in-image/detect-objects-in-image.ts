@@ -6,7 +6,7 @@ export default defineAction({
   key: "zoho_catalyst-detect-objects-in-image",
   name: "Detect Objects in Image",
   description: "Detect or recognize objects in an image. [See the documentation](https://catalyst.zoho.com/help/api/zia/or.html)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     app,
@@ -28,14 +28,12 @@ export default defineAction({
       imagePath, projectId,
     } = this;
 
-    const data = getImageFormData(imagePath);
+    const data = await getImageFormData(imagePath);
 
     const response = await this.app.detectObjectsInImage({
       $,
       projectId,
-      headers: {
-        ...data.getHeaders(),
-      },
+      headers: data.getHeaders(),
       data,
     });
 

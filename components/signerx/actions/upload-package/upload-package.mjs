@@ -1,25 +1,19 @@
 import FormData from "form-data";
-import fs from "fs";
-import { checkTmp } from "../../common/utils.mjs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import signerx from "../../signerx.app.mjs";
 
 export default {
   key: "signerx-upload-package",
   name: "Upload Package",
   description: "Quickly create a draft for a new package/document by uploading a file or providing a file_url to a PDF document. [See the documentation](https://documenter.getpostman.com/view/13877745/2sa3xv9kni)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     signerx,
-    documentType: {
+    file: {
       type: "string",
-      label: "Document Type",
-      description: "whether you hava the file or an URL to the file.",
-      options: [
-        "file",
-        "file_url",
-      ],
-      reloadProps: true,
+      label: "File Path or URL",
+      description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.pdf`).",
     },
     name: {
       type: "string",
@@ -27,28 +21,17 @@ export default {
       description: "The name of the package/document",
     },
   },
-  async additionalProps() {
-    const props = {};
-    props.file = (this.documentType === "file")
-      ? {
-        type: "string",
-        label: "File",
-        description: "The path to the pdf file saved to the `/tmp` directory (e.g. `/tmp/example.pdf`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
-      }
-      : {
-        type: "string",
-        label: "File URL",
-        description: "The URL to the file.",
-      };
-    return props;
-  },
   async run({ $ }) {
     const data = new FormData();
-    if (this.documentType === "file") {
-      data.append("file", fs.createReadStream(checkTmp(this.file)));
-    } else {
-      data.append("file_url", this.file);
-    }
+
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(this.file);
+    data.append("file", stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
+    });
     data.append("name", this.name);
 
     const response = await this.signerx.createDraftPackage({
