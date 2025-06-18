@@ -24,8 +24,7 @@ export default {
       contactId: this.contactId,
     });
 
--    $.export("summary", `Fetched contact details for ${this.contactId}`);
-+    $.export("$summary", `Fetched contact details for ${this.contactId}`);
+    $.export("$summary", `Fetched contact details for ${this.contactId}`);
     return response;
   },
 };
