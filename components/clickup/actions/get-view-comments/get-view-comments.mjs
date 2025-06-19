@@ -1,30 +1,46 @@
-import builder from "../../common/builder.mjs";
-import propsFragments from "../../common/props-fragments.mjs";
 import common from "../common/list-props.mjs";
 
 export default {
   ...common,
   key: "clickup-get-view-comments",
   name: "Get View Comments",
-  description: "Get a view comments. See the docs [here](https://clickup.com/api) in **Comments / Get Chat View Comments** section.",
-  version: "0.0.9",
+  description: "Get a view comments. [See the documentation](https://clickup.com/api) in **Comments / Get Chat View Comments** section.",
+  version: "0.0.10",
   type: "action",
   props: {
     ...common.props,
-    listWithFolder: {
-      optional: true,
+    folderId: {
       propDefinition: [
         common.props.clickup,
-        "listWithFolder",
+        "folderId",
+        (c) => ({
+          spaceId: c.spaceId,
+        }),
+      ],
+      optional: true,
+    },
+    listId: {
+      propDefinition: [
+        common.props.clickup,
+        "listId",
+        (c) => ({
+          folderId: c.folderId,
+          spaceId: c.spaceId,
+        }),
+      ],
+      optional: true,
+    },
+    viewId: {
+      propDefinition: [
+        common.props.clickup,
+        "viewId",
+        (c) => ({
+          folderId: c.folderId,
+          listId: c.listId,
+        }),
       ],
     },
   },
-  additionalProps: builder.buildListProps({
-    listPropsOptional: true,
-    tailProps: {
-      viewId: propsFragments.viewId,
-    },
-  }),
   async run({ $ }) {
     const { viewId } = this;
 
