@@ -17,12 +17,12 @@ export default {
     startTime: {
       type: "string",
       label: "Start Time",
-      description: "Start time of the slot lookup (ISO 8601 format)",
+      description: "Start time of the slot lookup (ISO 8601 format), e.g. `2025-04-01T06:00:00Z`",
     },
     endTime: {
       type: "string",
       label: "End Time",
-      description: "End time of the slot lookup (ISO 8601 format)",
+      description: "End time of the slot lookup (ISO 8601 format), e.g. `2025-04-01T06:00:00Z`",
     },
     timeZone: {
       propDefinition: [
