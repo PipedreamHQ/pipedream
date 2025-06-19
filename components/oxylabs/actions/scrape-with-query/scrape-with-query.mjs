@@ -2,9 +2,9 @@ import oxylabs from "../../oxylabs.app.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
-  key: "oxylabs-scrape-url",
-  name: "Scrape URL",
-  description: "Scrape a URL. [See the documentation](https://developers.oxylabs.io/scraping-solutions/web-scraper-api)",
+  key: "oxylabs-scrape-with-query",
+  name: "Scrape with Query",
+  description: "Extract data using a search query. [See the documentation](https://developers.oxylabs.io/scraping-solutions/web-scraper-api)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -13,13 +13,12 @@ export default {
       type: "string",
       label: "Source",
       description: "Sets the scraper that will be used to process your request",
-      options: constants.URL_SOURCES,
-      default: "universal",
+      options: constants.QUERY_SOURCES,
     },
-    url: {
+    query: {
       type: "string",
-      label: "URL",
-      description: "The URL to scrape",
+      label: "Query",
+      description: "The query to search for. [See the documentation](https://developers.oxylabs.io/scraping-solutions/web-scraper-api/targets) for more information about specific sources/targets",
     },
     geoLocation: {
       propDefinition: [
@@ -32,12 +31,12 @@ export default {
     const response = await this.oxylabs.scrape({
       $,
       data: {
-        source: "universal",
-        url: this.url,
+        source: this.source,
+        query: this.query,
         geo_location: this.geoLocation,
       },
     });
-    $.export("$summary", `Successfully scraped URL: ${this.url}`);
+    $.export("$summary", `Successfully scraped using query: ${this.query}`);
     return response;
   },
 };

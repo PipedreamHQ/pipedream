@@ -4,7 +4,14 @@ import { HttpsProxyAgent } from "https-proxy-agent";
 export default {
   type: "app",
   app: "oxylabs",
-  propDefinitions: {},
+  propDefinitions: {
+    geoLocation: {
+      type: "string",
+      label: "Geo Location",
+      description: "The geo locatio to scrape from. E.g. `United States`",
+      optional: true,
+    },
+  },
   methods: {
     _getBaseUrl() {
       return `https://${this.$auth.api_name}.oxylabs.io/v1`;
@@ -24,7 +31,7 @@ export default {
         ...opts,
       });
     },
-    scrapeUrl(opts = {}) {
+    scrape(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/queries",
@@ -38,6 +45,13 @@ export default {
       return axios($, {
         url: "https://ip.oxylabs.io/location",
         httpsAgent: agent,
+        ...opts,
+      });
+    },
+    createSchedule(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/schedules",
         ...opts,
       });
     },
