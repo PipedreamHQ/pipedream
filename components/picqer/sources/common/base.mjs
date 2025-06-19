@@ -55,15 +55,17 @@ export default {
   async run(event) {
     const { body } = event;
     const signature = event?.headers["x-picqer-signature"];
-    const hash = CryptoJS.HmacSHA256(event.bodyRaw, this.secret);
-    const hashBase64 = CryptoJS.enc.Base64.stringify(hash);
+    if (signature) {
+      const hash = CryptoJS.HmacSHA256(event.bodyRaw, this.secret);
+      const hashBase64 = CryptoJS.enc.Base64.stringify(hash);
 
-    if (hashBase64 !== signature) {
-      this.http.respond({
-        status: 401,
-        body: "Unauthorized",
-      });
-      return;
+      if (hashBase64 !== signature) {
+        this.http.respond({
+          status: 401,
+          body: "Unauthorized",
+        });
+        return;
+      }
     }
 
     this.http.respond({
