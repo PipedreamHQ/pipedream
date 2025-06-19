@@ -1,12 +1,12 @@
+import pipedrive from "../../pipedrive.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import { parseObject } from "../../common/utils.mjs";
-import pipedrive from "../../pipedrive.app.mjs";
 
 export default {
   key: "pipedrive-add-lead",
   name: "Add Lead",
   description: "Create a new lead in Pipedrive. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Leads#addLead)",
-  version: "0.0.5",
+  version: "0.0.4",
   type: "action",
   props: {
     pipedrive,
