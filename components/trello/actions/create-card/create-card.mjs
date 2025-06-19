@@ -100,6 +100,7 @@ export default {
         app,
         "mimeType",
       ],
+      optional: true,
     },
     idCardSource: {
       propDefinition: [
@@ -246,7 +247,7 @@ export default {
       const {
         stream, metadata,
       } = await getFileStreamAndMetadata(file);
-      form.append("file", stream, {
+      form.append("fileSource", stream, {
         contentType: metadata.contentType,
         knownLength: metadata.size,
         filename: metadata.name,

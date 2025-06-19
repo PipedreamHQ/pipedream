@@ -108,9 +108,7 @@ export default {
       ...preparedData,
     });
 
-    $.export("$summary", `A new video with ${response.data
-      ? `URL: ${response.data}`
-      : `Id: ${response}`} was successfully created!`);
+    $.export("$summary", "New video successfully created!");
     return response.data || response;
   },
 };

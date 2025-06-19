@@ -26,7 +26,7 @@ export default {
       ],
     },
     files: {
-      type: "string",
+      type: "string[]",
       label: "File Paths or URLs",
       description: "Provide either an array of file URLs or paths to files in the /tmp directory (for example, /tmp/myFile.pdf).",
     },
@@ -41,7 +41,7 @@ export default {
         stream, metadata,
       } = await getFileStreamAndMetadata(file);
 
-      data .append("file", stream, {
+      data.append("file", stream, {
         contentType: metadata.contentType,
         knownLength: metadata.size,
         filename: metadata.name,

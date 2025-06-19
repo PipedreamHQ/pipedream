@@ -8,7 +8,7 @@ import testmonitor from "../../testmonitor.app.mjs";
 export default {
   key: "testmonitor-create-test-result",
   name: "Create Test Result",
-  description: "Create a new test result. [See the docs here](https://docs.testmonitor.com/#tag/Test-Results/operation/PostTestResult)",
+  description: "Create a new test result. [See the documentation](https://docs.testmonitor.com/#tag/Test-Results/operation/PostTestResult)",
   version: "0.0.2",
   type: "action",
   props: {
@@ -32,8 +32,11 @@ export default {
       propDefinition: [
         testmonitor,
         "testRunId",
-        ({ projectId }) => ({
+        ({
+          projectId, testCaseId,
+        }) => ({
           projectId,
+          testCaseId,
         }),
       ],
     },

@@ -1,6 +1,8 @@
 import speechace from "../../speechace.app.mjs";
 import FormData from "form-data";
-import { getFileStreamAndMetadata } from "@pipedream/platform";
+import {
+  getFileStreamAndMetadata, ConfigurationError,
+} from "@pipedream/platform";
 
 export default {
   key: "speechace-score-scripted-recording",
@@ -66,6 +68,9 @@ export default {
       data,
       headers: data.getHeaders(),
     });
+    if (response.status === "error") {
+      throw new ConfigurationError(response.detail_message);
+    }
     $.export("$summary", `Scored scripted recording for audio file: ${this.filePath}`);
     return response;
   },

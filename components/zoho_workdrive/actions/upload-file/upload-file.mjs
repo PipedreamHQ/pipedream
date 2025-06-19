@@ -65,11 +65,10 @@ export default {
     const override = this.overrideNameExist?.toString();
 
     data.append("parent_id", this.parentId);
-    if (this.filename)data.append("filename", this.filename);
-    if (override)data.append("override-name-exist", override);
+    if (this.filename) data.append("filename", this.filename);
+    if (override) data.append("override-name-exist", override);
 
     const response = await this.app.uploadFile({
-      $,
       data,
       headers: {
         "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
