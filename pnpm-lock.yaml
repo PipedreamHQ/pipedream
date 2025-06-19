@@ -2850,8 +2850,7 @@ importers:
 
   components/common_paper: {}
 
-  components/commonninja:
-    specifiers: {}
+  components/commonninja: {}
 
   components/commpeak:
     dependencies:
@@ -9307,8 +9306,7 @@ importers:
         specifier: ^17.0.45
         version: 17.0.45
 
-  components/openai_passthrough:
-    specifiers: {}
+  components/openai_passthrough: {}
 
   components/opencage:
     dependencies:
@@ -9907,8 +9905,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/phonely:
-    specifiers: {}
+  components/phonely: {}
 
   components/php_point_of_sale:
     dependencies:
@@ -13428,8 +13425,7 @@ importers:
 
   components/test_apps_for_switching_appslug_009: {}
 
-  components/test_apps_for_switching_appslug_025:
-    specifiers: {}
+  components/test_apps_for_switching_appslug_025: {}
 
   components/testlocally:
     dependencies:
