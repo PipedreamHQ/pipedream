@@ -1,31 +1,47 @@
-import builder from "../../common/builder.mjs";
-import propsFragments from "../../common/props-fragments.mjs";
 import common from "../common/task-props.mjs";
 
 export default {
   ...common,
   key: "clickup-get-task",
   name: "Get Task",
-  description: "Get a task. See the docs [here](https://clickup.com/api) in **Tasks / Get Task** section.",
-  version: "0.0.9",
+  description: "Get a task. [See the documentation](https://clickup.com/api) in **Tasks / Get Task** section.",
+  version: "0.0.10",
   type: "action",
   props: {
     ...common.props,
-    listWithFolder: {
+    folderId: {
       propDefinition: [
         common.props.clickup,
-        "listWithFolder",
+        "folderId",
+        (c) => ({
+          spaceId: c.spaceId,
+        }),
+      ],
+      optional: true,
+    },
+    listId: {
+      propDefinition: [
+        common.props.clickup,
+        "listId",
+        (c) => ({
+          folderId: c.folderId,
+          spaceId: c.spaceId,
+        }),
       ],
     },
-  },
-  additionalProps: builder.buildListProps({
-    tailProps: {
-      taskId: {
-        ...propsFragments.taskId,
-        description: "To show options please select a **List** first",
-      },
+    taskId: {
+      propDefinition: [
+        common.props.clickup,
+        "taskId",
+        (c) => ({
+          listId: c.listId,
+          useCustomTaskIds: c.useCustomTaskIds,
+          authorizedTeamId: c.authorizedTeamId,
+        }),
+      ],
+      description: "To show options please select a **List** first",
     },
-  }),
+  },
   async run({ $ }) {
     const { taskId } = this;
 

@@ -1,13 +1,11 @@
-import builder from "../../common/builder.mjs";
-import propsFragments from "../../common/props-fragments.mjs";
 import common from "../common/task-props.mjs";
 
 export default {
   ...common,
   key: "clickup-start-time-entry",
   name: "Start Time Entry",
-  description: "Start time entry. [See documentation here](https://clickup.com/api/clickupreference/operation/StartatimeEntry)",
-  version: "0.0.3",
+  description: "Start time entry. [See the documentation](https://clickup.com/api/clickupreference/operation/StartatimeEntry)",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,
@@ -16,23 +14,40 @@ export default {
       description: "Description of the time entry",
       type: "string",
     },
-    listWithFolder: {
-      optional: true,
+    folderId: {
       propDefinition: [
         common.props.clickup,
-        "listWithFolder",
+        "folderId",
+        (c) => ({
+          spaceId: c.spaceId,
+        }),
       ],
+      optional: true,
+    },
+    listId: {
+      propDefinition: [
+        common.props.clickup,
+        "listId",
+        (c) => ({
+          folderId: c.folderId,
+          spaceId: c.spaceId,
+        }),
+      ],
+      optional: true,
+    },
+    taskId: {
+      propDefinition: [
+        common.props.clickup,
+        "taskId",
+        (c) => ({
+          listId: c.listId,
+          useCustomTaskIds: c.useCustomTaskIds,
+          authorizedTeamId: c.authorizedTeamId,
+        }),
+      ],
+      description: "To show options please select a **List** first",
     },
   },
-  additionalProps: builder.buildListProps({
-    listPropsOptional: true,
-    tailProps: {
-      taskId: {
-        ...propsFragments.taskId,
-        description: "To show options please select a **List** first",
-      },
-    },
-  }),
   async run({ $ }) {
     const response = await this.clickup.startTimeEntry({
       $,
