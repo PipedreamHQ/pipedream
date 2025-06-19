@@ -3,7 +3,7 @@ import scrapeless from "../../scrapeless.app.mjs";
 export default {
   key: "crawler-api",
   name: "Crawler",
-  description: "Crawl any website at scale and say goodbye to blocks.",
+  description: "Crawl any website at scale and say goodbye to blocks. [See the documentation](https://apidocs.scrapeless.com/api-17509010).",
   version: "0.0.1",
   type: "action",
   props: {

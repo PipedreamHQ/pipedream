@@ -3,7 +3,7 @@ import scrapeless from "../../scrapeless.app.mjs";
 export default {
   key: "scrapeless-scraping-api",
   name: "Scraping API",
-  description: "Endpoints for fresh, structured data from 100+ popular sites.",
+  description: "Endpoints for fresh, structured data from 100+ popular sites. [See the documentation](https://apidocs.scrapeless.com/api-12919045).",
   version: "0.0.1",
   type: "action",
   props: {
