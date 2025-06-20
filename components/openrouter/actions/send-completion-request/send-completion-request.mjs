@@ -4,7 +4,7 @@ import openrouter from "../../openrouter.app.mjs";
 export default {
   key: "openrouter-send-completion-request",
   name: "Send Completion Request",
-  version: "0.0.1",
+  version: "0.0.2",
   description: "Send a completion request to a selected model (text-only format) [See the documentation](https://openrouter.ai/docs/api-reference/completions)",
   type: "action",
   props: {
@@ -105,7 +105,8 @@ export default {
       ],
       type: "string[]",
       label: "Models",
-      description: "Alternate list of models for routing overrides.",
+      description: "Alternate list of models for routing overrides",
+      optional: true,
     },
     sort: {
       propDefinition: [
