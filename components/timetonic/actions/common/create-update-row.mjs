@@ -56,7 +56,7 @@ export default {
             id, name: label,
           }) => ({
             value: `${id}`,
-            label,
+            label: label || `${id}`,
           })) || [];
           props[`id_${id}`].options = options;
           props[`id_${id}`].description = "The Row ID from the linked table to create a link to";
@@ -65,7 +65,7 @@ export default {
           }) => {
             props[`${id}_${rowId}_link_text`] = {
               type: "string",
-              default: name,
+              default: name || `${rowId}`,
               hidden: true,
             };
           });

@@ -78,6 +78,27 @@ export default {
     return {};
   },
   async run({ $ }) {
+    let attachmentData = [];
+    if (this.attachments) {
+      try {
+        const files = parseObject(this.attachments);
+        for (const file of files) {
+          const {
+            stream, metadata,
+          } = await getFileStreamAndMetadata(file);
+          const data = new FormData();
+          data.append("file", stream, {
+            contentType: metadata.contentType,
+            knownLength: metadata.size,
+            filename: metadata.name,
+          });
+          attachmentData.push(data);
+        }
+      } catch (e) {
+        throw new ConfigurationError(`Error accessing attachments: ${e.message}`);
+      }
+    }
+
     let testResultId;
     let summary = "";
     try {
@@ -94,16 +115,7 @@ export default {
 
       if (this.attachments) {
         try {
-          for (const file of parseObject(this.attachments)) {
-            const data = new FormData();
-            const {
-              stream, metadata,
-            } = await getFileStreamAndMetadata(file);
-            data.append("file", stream, {
-              contentType: metadata.contentType,
-              knownLength: metadata.size,
-              filename: metadata.name,
-            });
+          for (const data of attachmentData) {
             await this.testmonitor.uploadAttachment({
               $,
               testResultId,
@@ -112,7 +124,7 @@ export default {
             });
           }
         } catch (e) {
-          summary = ", but the attachments could not be loaded.";
+          throw new ConfigurationError(`Error uploading attachments: ${e.message}`);
         }
       }
 
