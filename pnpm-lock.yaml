@@ -10565,6 +10565,9 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/prompthub:
+    specifiers: {}
+
   components/promptmate_io: {}
 
   components/proofly:
