@@ -1124,6 +1124,9 @@ importers:
 
   components/avochato: {}
 
+  components/avosms:
+    specifiers: {}
+
   components/aweber:
     dependencies:
       '@pipedream/platform':
