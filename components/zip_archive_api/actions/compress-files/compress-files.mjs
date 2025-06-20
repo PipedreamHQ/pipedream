@@ -1,8 +1,7 @@
 import app from "../../zip_archive_api.app.mjs";
 import FormData from "form-data";
-import {
-  getFileStreamAndMetadata, writeFile,
-} from "@pipedream/platform";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
+import fs from "fs";
 
 export default {
   key: "zip_archive_api-compress-files",
@@ -63,7 +62,7 @@ export default {
     });
 
     const tmpPath = `/tmp/${this.archiveName}`;
-    await writeFile(tmpPath, response);
+    fs.writeFileSync(tmpPath, response);
 
     $.export("$summary", `Successfully compressed the files into '${tmpPath}'`);
 
