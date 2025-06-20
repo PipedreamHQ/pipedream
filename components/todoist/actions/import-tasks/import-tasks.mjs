@@ -43,7 +43,7 @@ export default {
       chunks.push(chunk);
     }
     const fileContents = Buffer.concat(chunks).toString();
-    const tasks = await converter.csv2jsonAsync(fileContents);
+    const tasks = converter.csv2json(fileContents);
     // CREATE TASKS
     const data = tasks.map((task) => ({
       content: task.content,

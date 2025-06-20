@@ -1,7 +1,5 @@
 import FormData from "form-data";
-import {
-  clearObj, getUploadContentType,
-} from "../../common/utils.mjs";
+import { clearObj } from "../../common/utils.mjs";
 import { getFileStreamAndMetadata } from "@pipedream/platform";
 import zohoBugtracker from "../../zoho_bugtracker.app.mjs";
 
@@ -211,11 +209,11 @@ export default {
       const filename = metadata.name;
       formData.append("uploaddoc", stream, {
         filename,
-        contentType: getUploadContentType(metadata.name),
+        contentType: metadata.contentType,
         knownLength: metadata.size,
         header: [
           `Content-Disposition: form-data; name="uploaddoc"; filename="${filename}"`,
-          `Content-Type: ${getUploadContentType(filename)}`,
+          `Content-Type: ${metadata.contentType}`,
         ],
       });
     }
