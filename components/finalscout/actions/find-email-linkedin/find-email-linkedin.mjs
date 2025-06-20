@@ -35,7 +35,7 @@ export default {
     enableGenericEmail: {
       type: "boolean",
       label: "Enable Generic Email",
-      description: "Whether to find generic emails (e.g. john@gmail.com) when a professional email address is not found",
+      description: "Whether to find generic emails (e.g. support@company.com) when a professional email address is not found",
       optional: true,
     },
     webhookUrl: {
