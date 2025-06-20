@@ -5,6 +5,15 @@ export default {
   type: "app",
   app: "oxylabs",
   propDefinitions: {
+    scheduleId: {
+      type: "string",
+      label: "Schedule ID",
+      description: "The ID of the schedule to watch",
+      async options() {
+        const { schedules } = await this.listSchedules();
+        return schedules || [];
+      },
+    },
     geoLocation: {
       type: "string",
       label: "Geo Location",
@@ -38,6 +47,12 @@ export default {
         ...opts,
       });
     },
+    listSchedules(opts = {}) {
+      return this._makeRequest({
+        path: "/schedules",
+        ...opts,
+      });
+    },
     async createSession({
       $ = this, proxyUrl, ...opts
     }) {
@@ -52,6 +67,14 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "/schedules",
+        ...opts,
+      });
+    },
+    getRunsInfo({
+      scheduleId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/schedules/${scheduleId}/runs`,
         ...opts,
       });
     },
