@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/easybroker",
+  "version": "0.0.1",
+  "description": "Pipedream EasyBroker Components",
+  "main": "easybroker.app.mjs",
+  "keywords": [
+    "pipedream",
+    "easybroker"
+  ],
+  "homepage": "https://pipedream.com/apps/easybroker",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
