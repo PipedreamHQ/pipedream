@@ -32,7 +32,7 @@ export default {
     const response = await this.oxylabs.scrape({
       $,
       data: {
-        source: "universal",
+        source: this.source,
         url: this.url,
         geo_location: this.geoLocation,
       },
