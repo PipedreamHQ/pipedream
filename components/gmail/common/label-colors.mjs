@@ -312,7 +312,7 @@ export default [
     value: "#b3efd3",
   },
   {
-    label: "Sea Green",
+    label: "Forest Green",
     value: "#04502e",
   },
   {
@@ -348,24 +348,12 @@ export default [
     value: "#ff7537",
   },
   {
-    label: "Royal Blue",
-    value: "#4a86e8",
-  },
-  {
-    label: "Medium Purple",
-    value: "#a479e2",
-  },
-  {
     label: "Hot Pink",
     value: "#f691b3",
   },
   {
     label: "Misty Rose",
     value: "#f6c5be",
-  },
-  {
-    label: "Navajo White",
-    value: "#ffe6c7",
   },
   {
     label: "Blanched Almond",
@@ -388,10 +376,6 @@ export default [
     value: "#e4d7f5",
   },
   {
-    label: "Pink Lace",
-    value: "#fcdee8",
-  },
-  {
     label: "Terra Cotta",
     value: "#efa093",
   },
@@ -400,7 +384,7 @@ export default [
     value: "#ffd6a2",
   },
   {
-    label: "Cornsilk",
+    label: "Pale Peach",
     value: "#fce8b3",
   },
   {
@@ -428,10 +412,6 @@ export default [
     value: "#e66550",
   },
   {
-    label: "Rajah",
-    value: "#ffbc6b",
-  },
-  {
     label: "Sunglow",
     value: "#fcda83",
   },
@@ -444,20 +424,12 @@ export default [
     value: "#68dfa9",
   },
   {
-    label: "Cornflower Blue",
-    value: "#6d9eeb",
-  },
-  {
     label: "Mauve",
     value: "#b694e8",
   },
   {
     label: "Light Crimson",
     value: "#f7a7c0",
-  },
-  {
-    label: "Cinnabar",
-    value: "#cc3a21",
   },
   {
     label: "Gamboge",
@@ -504,16 +476,12 @@ export default [
     value: "#0b804b",
   },
   {
-    label: "Mountain Meadow",
+    label: "Jade Green",
     value: "#2a9c68",
   },
   {
-    label: "Denim",
+    label: "Cobalt Blue",
     value: "#285bac",
-  },
-  {
-    label: "Indigo",
-    value: "#653e9b",
   },
   {
     label: "Rose",
@@ -568,10 +536,6 @@ export default [
     value: "#b6cff5",
   },
   {
-    label: "Teal",
-    value: "#0d3b44",
-  },
-  {
     label: "Light Cyan",
     value: "#98d7e4",
   },
@@ -604,7 +568,7 @@ export default [
     value: "#7a2e0b",
   },
   {
-    label: "Melon",
+    label: "Peach",
     value: "#ffc8af",
   },
   {
@@ -684,10 +648,6 @@ export default [
     value: "#662e37",
   },
   {
-    label: "Snuff",
-    value: "#ebdbde",
-  },
-  {
     label: "Rose Quartz",
     value: "#cca6ac",
   },
@@ -698,9 +658,5 @@ export default [
   {
     label: "Medium Spring Green",
     value: "#42d692",
-  },
-  {
-    label: "Forest Green",
-    value: "#16a765",
   },
 ];
