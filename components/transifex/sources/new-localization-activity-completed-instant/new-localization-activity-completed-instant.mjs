@@ -6,7 +6,7 @@ export default {
   key: "transifex-new-localization-activity-completed-instant",
   name: "New Localization Activity Completed (Instant)",
   description: "Emit new event when a resource language is completely translated, reviewed, or filled up by TM or MT.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

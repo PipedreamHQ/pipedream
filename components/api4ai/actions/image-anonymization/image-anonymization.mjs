@@ -7,7 +7,7 @@ export default {
   name: "Image Anonymization",
   description: "Performs actual image anonymization. Powered by API4AI.",
   key: "api4ai-image-anonymization",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

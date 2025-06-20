@@ -1,12 +1,12 @@
 import supabase from "../../supabase.app.mjs";
-import fs from "fs";
 import { parse } from "csv-parse/sync";
+import { getFileStream } from "@pipedream/platform";
 
 export default {
   key: "supabase-batch-insert-rows",
   name: "Batch Insert Rows",
   description: "Inserts new rows into a database. [See the documentation](https://supabase.com/docs/reference/javascript/insert)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     supabase,
@@ -40,8 +40,8 @@ export default {
     if (this.source === "CSV File") {
       props.filePath = {
         type: "string",
-        label: "File Path",
-        description: "The path to a csv file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
+        label: "File Path or URL",
+        description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
       };
     }
     return props;
@@ -59,20 +59,30 @@ export default {
         return JSON.parse(arr);
       }
     },
-    getRowsFromCSV(filePath) {
-      const fileContent = fs.readFileSync(filePath.includes("tmp/")
-        ? filePath
-        : `/tmp/${filePath}`, "utf-8");
+    async getRowsFromCSV(filePath) {
+      const stream = await getFileStream(filePath);
+      const fileContent = await this.streamToUtf8(stream);
       const rows = parse(fileContent, {
         columns: true,
         skip_empty_lines: true,
       });
       return rows;
     },
+    async streamToUtf8(stream) {
+      return new Promise((resolve, reject) => {
+        let data = "";
+
+        stream.setEncoding("utf-8");
+
+        stream.on("data", (chunk) => data += chunk);
+        stream.on("end", () => resolve(data));
+        stream.on("error", reject);
+      });
+    },
   },
   async run({ $ }) {
     const data = this.source === "CSV File"
-      ? this.getRowsFromCSV(this.filePath)
+      ? await this.getRowsFromCSV(this.filePath)
       : this.parseArray(this.data);
 
     const response = await this.supabase.insertRow(this.table, data);

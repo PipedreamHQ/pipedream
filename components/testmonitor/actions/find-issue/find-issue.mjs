@@ -6,7 +6,7 @@ export default {
   key: "testmonitor-find-issue",
   name: "Find an Issue",
   description: "Retrieve a list of issues. [See the docs here](https://docs.testmonitor.com/#tag/Issues/operation/GetIssueCollection)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,
