@@ -11597,6 +11597,9 @@ importers:
         specifier: ^2.3.0
         version: 2.3.0
 
+  components/salesroom:
+    specifiers: {}
+
   components/salestown: {}
 
   components/samcart: {}
