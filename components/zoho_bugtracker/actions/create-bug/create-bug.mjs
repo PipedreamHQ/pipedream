@@ -208,9 +208,6 @@ export default {
       } = await getFileStreamAndMetadata(uploaddoc);
       const filename = metadata.name;
       formData.append("uploaddoc", stream, {
-        filename,
-        contentType: metadata.contentType,
-        knownLength: metadata.size,
         header: [
           `Content-Disposition: form-data; name="uploaddoc"; filename="${filename}"`,
           `Content-Type: ${metadata.contentType}`,

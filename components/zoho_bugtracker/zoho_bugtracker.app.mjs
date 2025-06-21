@@ -166,11 +166,11 @@ export default {
     portalId: {
       type: "string",
       label: "Portal Id",
-      description: "The Id of the portal.",
+      description: "Select a portal or provide a portal ID",
       async options() {
         const { portals } = await this.listPortals();
 
-        return portals.map(({
+        return portals?.map(({
           id_string: value, name: label,
         }) => ({
           label,
@@ -181,7 +181,7 @@ export default {
     projectId: {
       type: "string",
       label: "Project Id",
-      description: "project.",
+      description: "Select a project or provide a project ID",
       async options({
         page, portalId,
       }) {
