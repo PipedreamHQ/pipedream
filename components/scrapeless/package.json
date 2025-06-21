@@ -13,6 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.0.3"
+    "@pipedream/platform": "^3.0.3",
+    "@scrapeless-ai/sdk": "^1.4.0"
   }
 }

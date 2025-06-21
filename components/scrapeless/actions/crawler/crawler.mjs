@@ -1,7 +1,7 @@
 import scrapeless from "../../scrapeless.app.mjs";
 
 export default {
-  key: "crawler-api",
+  key: "scrapeless-crawler",
   name: "Crawler",
   description: "Crawl any website at scale and say goodbye to blocks. [See the documentation](https://apidocs.scrapeless.com/api-17509010).",
   version: "0.0.1",
@@ -31,33 +31,35 @@ export default {
       scrapeless, apiServer, ...inputProps
     } = this;
 
-    if (apiServer === "crawl") {
-      const submitData = {
-        limit: inputProps.limitCrawlPages,
-        url: inputProps.url,
-      };
-      const response = await scrapeless.crawlerCrawl({
-        $,
-        submitData,
-        ...inputProps,
-      });
+    const browserOptions = {
+      "proxy_country": "ANY",
+      "session_name": "Crawl",
+      "session_recording": true,
+      "session_ttl": 900,
+    };
 
-      $.export("$summary", `Successfully retrieved crawling results for ${inputProps.url}`);
-      return response;
+    let response;
+
+    if (apiServer === "crawl") {
+      response =
+        await scrapeless._scrapelessClient().scrapingCrawl.crawl.crawlUrl(inputProps.url, {
+          limit: inputProps.limitCrawlPages,
+          browserOptions,
+        });
     }
 
     if (apiServer === "scrape") {
-      const submitData = {
-        url: inputProps.url,
-      };
-      const response = await scrapeless.crawlerScrape({
-        $,
-        submitData,
-        ...inputProps,
-      });
+      response =
+        await scrapeless._scrapelessClient().scrapingCrawl.scrape.scrapeUrl(inputProps.url, {
+          browserOptions,
+        });
+    }
 
-      $.export("$summary", `Successfully retrieved scraping results for ${inputProps.url}`);
-      return response;
+    if (response?.status === "completed" && response?.data) {
+      $.export("$summary", `Successfully retrieved crawling results for ${inputProps.url}`);
+      return response.data;
+    } else {
+      throw new Error(response?.error || "Failed to retrieve crawling results");
     }
   },
   async additionalProps() {
