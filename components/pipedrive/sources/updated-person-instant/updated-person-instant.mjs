@@ -1,3 +1,4 @@
+import { parseData } from "../../common/utils.mjs";
 import common from "../common/base.mjs";
 import sampleEmit from "./test-event.mjs";
 
@@ -6,7 +7,7 @@ export default {
   key: "pipedrive-updated-person-instant",
   name: "PersonUpdated (Instant)",
   description: "Emit new event when a person is updated.",
-  version: "0.0.7",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -19,6 +20,12 @@ export default {
     },
     getSummary(body) {
       return `Person successfully updated: ${body.data.id}`;
+    },
+    async parseData(body) {
+      return await parseData({
+        fn: this.pipedrive.getPersonCustomFields,
+        body,
+      });
     },
   },
   sampleEmit,
