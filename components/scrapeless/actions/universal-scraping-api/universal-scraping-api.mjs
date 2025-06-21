@@ -25,21 +25,21 @@ export default {
   },
   async run({ $ }) {
     const {
-      apiServer, ...rest
+      scrapeless,
+      apiServer, ...inputProps
     } = this;
 
     if (apiServer === "webUnlocker") {
-      const submitData = {
+      const response = await scrapeless._scrapelessClient().universal.scrape({
         actor: "unlocker.webunlocker",
-        country: rest.country,
-        url: rest.url,
-        jsRender: rest.jsRender,
-        headless: rest.headless,
-      };
-      const response = await this.scrapeless.universalScrapingApi({
-        $,
-        submitData,
-        ...rest,
+        input: {
+          url: inputProps.url,
+          headless: inputProps.headless,
+          js_render: inputProps.jsRender,
+        },
+        proxy: {
+          country: inputProps.country,
+        },
       });
 
       $.export("$summary", "Successfully retrieved scraping results for Web Unlocker");

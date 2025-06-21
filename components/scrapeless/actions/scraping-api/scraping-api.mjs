@@ -1,5 +1,5 @@
 import scrapeless from "../../scrapeless.app.mjs";
-
+import { log } from "../../common/utils.mjs";
 export default {
   key: "scrapeless-scraping-api",
   name: "Scraping API",
@@ -27,22 +27,69 @@ export default {
       scrapeless, apiServer, ...inputProps
     } = this;
 
+    const MAX_RETRIES = 3;
+    // 10 seconds
+    const DELAY = 1000 * 10;
+    const { run } = $.context;
+
+    let submitData;
+    let job;
+
+    // pre check if the job is already in the context
+    if (run?.context?.job) {
+      job = run.context.job;
+    }
+
     if (apiServer === "googleSearch") {
-      const submitData = {
+      submitData = {
         actor: "scraper.google.search",
-        q: inputProps.q,
-        hl: inputProps.hl,
-        gl: inputProps.gl,
+        input: {
+          q: inputProps.q,
+          hl: inputProps.hl,
+          gl: inputProps.gl,
+        },
       };
-      const response = await scrapeless.scrapingApi({
-        $,
-        submitData,
-        ...inputProps,
+    }
+
+    if (!submitData) {
+      throw new Error("No actor found");
+    }
+    // 1. Create a new scraping job
+    if (!job) {
+      job = await scrapeless._scrapelessClient().deepserp.createTask({
+        actor: submitData.actor,
+        input: submitData.input,
       });
 
-      $.export("$summary", "Successfully retrieved scraping results for Google Search");
-      return response;
+      if (job.status === 200) {
+        $.export("$summary", "Successfully retrieved scraping results");
+        return job.data;
+      }
+
+      log("task in progress");
     }
+
+    // 2. Wait for the job to complete
+    if (run.runs === 1) {
+      $.flow.rerun(DELAY, {
+        job,
+      }, MAX_RETRIES);
+    } else if (run.runs > MAX_RETRIES ) {
+      throw new Error("Max retries reached");
+    } else if (job && job?.data?.taskId) {
+      const result = await scrapeless._scrapelessClient().deepserp.getTaskResult(job.data.taskId);
+      if (result.status === 200) {
+        $.export("$summary", "Successfully retrieved scraping results");
+        return result.data;
+      } else {
+        $.flow.rerun(DELAY, {
+          job,
+        }, MAX_RETRIES);
+      }
+    } else {
+      throw new Error("No job found");
+    }
+
   },
   async additionalProps() {
     const { apiServer } = this;
