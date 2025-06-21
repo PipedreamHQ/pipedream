@@ -3,10 +3,10 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "pipedrive-updated-deal-instant",
-  name: "Deal Updated (Instant)",
-  description: "Emit new event when a deal is updated.",
-  version: "0.0.7",
+  key: "pipedrive-updated-lead-instant",
+  name: "Lead Updated (Instant)",
+  description: "Emit new event when a lead is updated.",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -14,11 +14,11 @@ export default {
     getExtraData() {
       return {
         event_action: "change",
-        event_object: "deal",
+        event_object: "lead",
       };
     },
     getSummary(body) {
-      return `Deal successfully updated: ${body.data.id}`;
+      return `Lead successfully updated: ${body.data.id}`;
     },
   },
   sampleEmit,
