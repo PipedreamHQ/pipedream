@@ -1,7 +1,8 @@
 import googleCloudVision from "../../google_cloud_vision_api.app.mjs";
-import { ConfigurationError } from "@pipedream/platform";
-import { axios } from "@pipedream/platform";
-import fs from "fs";
+import {
+  ConfigurationError,
+  getFileStream,
+} from "@pipedream/platform";
 
 export default {
   props: {
@@ -12,42 +13,33 @@ export default {
         "projectId",
       ],
     },
-    fileUrl: {
+    file: {
       type: "string",
-      label: "File URL",
-      description: "The URL of the file to be processed.",
-      optional: true,
-    },
-    filePath: {
-      type: "string",
-      label: "File Path",
-      description: "The path to file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
-      optional: true,
+      label: "File Path or URL",
+      description: "Provide a file URL or a path to a file in the `/tmp` directory.",
     },
   },
   methods: {
     checkFileProp() {
-      if (!this.fileUrl && !this.filePath) {
-        throw new ConfigurationError("One of File URL or File Path must be provided.");
+      if (!this.file) {
+        throw new ConfigurationError("The File field is required.");
       }
     },
-    async getFileContent($) {
-      const content = this.filePath
-        ? await this.getFileFromPath()
-        : await this.getFileFromUrl($);
-      return Buffer.from(content).toString("base64");
-    },
-    getFileFromPath() {
-      const path = this.filePath.includes("tmp/")
-        ? this.filePath
-        : `/tmp/${this.filePath}`;
-      return fs.readFileSync(path);
-    },
-    getFileFromUrl($) {
-      return axios($, {
-        url: this.fileUrl,
-        responseType: "arraybuffer",
+    streamToBase64(stream) {
+      return new Promise((resolve, reject) => {
+        const chunks = [];
+        stream.on("data", (chunk) => chunks.push(chunk));
+        stream.on("end", () => {
+          const buffer = Buffer.concat(chunks);
+          resolve(buffer.toString("base64"));
+        });
+        stream.on("error", reject);
       });
+    },
+    async getFileContent() {
+      const stream = await getFileStream(this.file);
+      return this.streamToBase64(stream);
     },
   },
 };
+

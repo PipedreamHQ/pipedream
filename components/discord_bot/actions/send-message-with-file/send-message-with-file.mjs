@@ -9,15 +9,15 @@ export default {
   key: "discord_bot-send-message-with-file",
   name: "Send Message With File",
   description: "Post a message with an attached file. [See the docs here](https://discord.com/developers/docs/reference#uploading-files)",
-  version: "0.0.6",
+  version: "1.0.0",
   type: "action",
   props: {
     discord,
     ...common.props,
-    filePath: {
+    file: {
       type: "string",
-      label: "File Path",
-      description: "The path to the image file saved to the `/tmp` directory (e.g. `/tmp/image.png`). [see docs here](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      label: "File Path Or Url",
+      description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/example.pdf`)",
     },
     message: {
       propDefinition: [
@@ -116,7 +116,7 @@ export default {
         channelId: channelId,
         threadID: this.threadID,
         username: this.username,
-        filePath: this.filePath,
+        file: this.file,
         embeds: utils.parseObject(this.embeds),
         avatarURL: this.avatarURL,
         content: this.includeSentViaPipedream

@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -41,7 +41,7 @@ export default {
       };
     },
     async _makeRequest({
-      path, form = false, params, headers, ...args
+      $ = this, path, form = false, params, headers, ...args
     }) {
       const config = {
         url: this._baseUrl() + path,
@@ -55,8 +55,7 @@ export default {
         config.params = this._getParams(params);
       }
 
-      const { data } = await axios(config);
-      return data;
+      return axios($, config);
     },
     async compareText(args = {}) {
       return this._makeRequest({

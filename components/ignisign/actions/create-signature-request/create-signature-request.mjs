@@ -1,17 +1,16 @@
-import { ConfigurationError } from "@pipedream/platform";
-import FormData from "form-data";
-import fs from "fs";
-import { LANGUAGE_OPTIONS } from "../../common/constants.mjs";
 import {
-  checkTmp, parseObject,
-} from "../../common/utils.mjs";
+  ConfigurationError, getFileStreamAndMetadata,
+} from "@pipedream/platform";
+import FormData from "form-data";
+import { LANGUAGE_OPTIONS } from "../../common/constants.mjs";
+import { parseObject } from "../../common/utils.mjs";
 import ignisign from "../../ignisign.app.mjs";
 
 export default {
   key: "ignisign-create-signature-request",
   name: "Create Signature Request",
   description: "Creates a document signature request through IgniSign. [See the documentation](https://ignisign.io/docs/ignisign-api/init-signature-request)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   props: {
     ignisign,
@@ -41,8 +40,8 @@ export default {
     },
     file: {
       type: "string",
-      label: "Document File",
-      description: "The file to be uploaded, please provide a file from `/tmp`. To upload a file to `/tmp` folder, please follow the doc [here](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
+      label: "Document File Path or URL",
+      description: "Provide a file URL or a path to a file in the `/tmp` directory.",
     },
     title: {
       type: "string",
@@ -95,15 +94,19 @@ export default {
       },
     });
 
-    const path = checkTmp(this.file);
-    if (!fs.existsSync(path)) {
+    try {
+      const {
+        stream, metadata,
+      } = await getFileStreamAndMetadata(this.file);
+      data.append("file", stream, {
+        filename: metadata.name,
+      });
+    } catch (error) {
       await this.ignisign.closeSignatureRequest({
         signatureRequestId,
       });
-      throw new ConfigurationError("File does not exist!");
+      throw new ConfigurationError(`File handling failed: ${error.message}`);
     }
-    const file = fs.createReadStream(path);
-    data.append("file", file);
 
     await this.ignisign.uploadFile({
       documentId,
