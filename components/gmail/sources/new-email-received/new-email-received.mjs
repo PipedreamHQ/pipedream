@@ -15,7 +15,7 @@ export default {
   name: "New Email Received",
   description: "Emit new event when a new email is received.",
   type: "source",
-  version: "0.2.8",
+  version: "0.3.0",
   dedupe: "unique",
   props: {
     gmail,
@@ -40,6 +40,12 @@ export default {
       default: {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
+    },
+    withTextPayload: {
+      type: "boolean",
+      label: "Return payload as plaintext",
+      description: "Convert the payload response into a single text field. **This reduces the size of the payload and makes it easier for LLMs work with.**",
+      default: false,
     },
     serviceAccountKeyJson: {
       type: "string",
