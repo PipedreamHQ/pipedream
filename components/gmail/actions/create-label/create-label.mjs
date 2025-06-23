@@ -20,14 +20,14 @@ export default {
       label: "Text Color",
       description: "The text color of the label",
       options: labelColors,
-      optional: true,
+      optional: false,
     },
     backgroundColor: {
       type: "string",
       label: "Background Color",
       description: "The background color of the label",
       options: labelColors,
-      optional: true,
+      optional: false,
     },
     messageListVisibility: {
       type: "string",
