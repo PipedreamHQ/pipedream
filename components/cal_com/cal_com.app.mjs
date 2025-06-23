@@ -157,5 +157,11 @@ export default {
         ...args,
       });
     },
+    async getBookableSlots(args = {}) {
+      return this._makeRequest({
+        path: "slots",
+        ...args,
+      });
+    },
   },
 };

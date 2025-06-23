@@ -1,11 +1,11 @@
-import calCom from "../../cal_com.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import calCom from "../../cal_com.app.mjs";
 
 export default {
   key: "cal_com-create-booking",
   name: "Create Booking",
   description: "Create a new booking. [See the documentation](https://developer.cal.com/api/api-reference/bookings#create-a-new-booking)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     calCom,
