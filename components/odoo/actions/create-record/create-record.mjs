@@ -19,7 +19,7 @@ export default {
     const {
       odoo,
       ...data
-    } = this; console.log(data);
+    } = this;
     const response = await odoo.createRecord([
       data,
     ]);
