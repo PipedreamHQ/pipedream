@@ -1128,8 +1128,7 @@ importers:
 
   components/avochato: {}
 
-  components/avosms:
-    specifiers: {}
+  components/avosms: {}
 
   components/aweber:
     dependencies:
@@ -2857,8 +2856,7 @@ importers:
 
   components/common_paper: {}
 
-  components/commonninja:
-    specifiers: {}
+  components/commonninja: {}
 
   components/commpeak:
     dependencies:
@@ -4030,8 +4028,7 @@ importers:
 
   components/easy_projects: {}
 
-  components/easybroker:
-    specifiers: {}
+  components/easybroker: {}
 
   components/easycsv: {}
 
@@ -6781,8 +6778,7 @@ importers:
         specifier: ^1.1.1
         version: 1.6.6
 
-  components/ipstack:
-    specifiers: {}
+  components/ipstack: {}
 
   components/iqair_airvisual: {}
 
@@ -7466,7 +7462,11 @@ importers:
 
   components/limitless: {}
 
-  components/limitless_ai: {}
+  components/limitless_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/limoexpress:
     dependencies:
@@ -9320,8 +9320,7 @@ importers:
         specifier: ^17.0.45
         version: 17.0.45
 
-  components/openai_passthrough:
-    specifiers: {}
+  components/openai_passthrough: {}
 
   components/opencage:
     dependencies:
@@ -9920,8 +9919,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/phonely:
-    specifiers: {}
+  components/phonely: {}
 
   components/php_point_of_sale:
     dependencies:
@@ -10410,8 +10408,7 @@ importers:
 
   components/predictleads: {}
 
-  components/predis_ai:
-    specifiers: {}
+  components/predis_ai: {}
 
   components/prepr_graphql: {}
 
@@ -10572,8 +10569,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/prompthub:
-    specifiers: {}
+  components/prompthub: {}
 
   components/promptmate_io: {}
 
@@ -11601,8 +11597,7 @@ importers:
         specifier: ^2.3.0
         version: 2.3.0
 
-  components/salesroom:
-    specifiers: {}
+  components/salesroom: {}
 
   components/salestown: {}
 
@@ -13443,8 +13438,7 @@ importers:
 
   components/test_apps_for_switching_appslug_009: {}
 
-  components/test_apps_for_switching_appslug_025:
-    specifiers: {}
+  components/test_apps_for_switching_appslug_025: {}
 
   components/testlocally:
     dependencies:
