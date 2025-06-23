@@ -14333,7 +14333,11 @@ importers:
         specifier: ^0.0.1-security
         version: 0.0.1-security
 
-  components/veedea: {}
+  components/veedea:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/vend:
     dependencies:
