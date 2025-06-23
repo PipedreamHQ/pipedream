@@ -2,6 +2,12 @@
 
 # Changelog
 
+## [1.6.10] - 2025-06-24
+
+### Added
+
+- Added `stash` to `V1Component`
+
 ## [1.6.9] - 2025-06-10
 
 ### Added
