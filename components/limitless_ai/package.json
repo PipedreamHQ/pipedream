@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/limitless_ai",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Limitless.ai Components",
   "main": "limitless_ai.app.mjs",
   "keywords": [
