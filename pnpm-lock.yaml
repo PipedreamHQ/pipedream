@@ -3397,6 +3397,9 @@ importers:
 
   components/deepsouce: {}
 
+  components/deepsource:
+    specifiers: {}
+
   components/defastra:
     dependencies:
       '@pipedream/platform':
