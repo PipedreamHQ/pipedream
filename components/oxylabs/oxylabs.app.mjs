@@ -17,7 +17,7 @@ export default {
     geoLocation: {
       type: "string",
       label: "Geo Location",
-      description: "The geo locatio to scrape from. E.g. `United States`",
+      description: "The geo location to scrape from. [See the guide](https://developers.oxylabs.io/scraping-solutions/web-scraper-api/features/localization/e-commerce-localization) for using this property.",
       optional: true,
     },
   },
