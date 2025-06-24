@@ -1,4 +1,4 @@
-import tettra from "../tettra.app.mjs";
+import tettra from "../../tettra.app.mjs";
 
 export default {
   key: "tettra-suggest-page",
