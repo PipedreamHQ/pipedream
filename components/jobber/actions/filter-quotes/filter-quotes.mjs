@@ -80,7 +80,6 @@ export default {
           : undefined,
       },
     };
-    console.log(args);
     const quotes = await this.jobber.getPaginatedResources({
       query,
       args,
