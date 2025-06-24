@@ -37,13 +37,13 @@ export default {
     submitScrapeJob(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/scraper/request",
+        path: "/v1/scraper/request",
         ...opts,
       });
     },
     getScrapeResult({ scrapeJobId }) {
       return this._makeRequest({
-        path: `/scraper/result/${scrapeJobId}`,
+        path: `/v1/scraper/result/${scrapeJobId}`,
       });
     },
   },
