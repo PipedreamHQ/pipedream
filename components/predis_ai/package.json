@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/predis_ai",
+  "version": "0.0.1",
+  "description": "Pipedream Predis.ai Components",
+  "main": "predis_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "predis_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/predis_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

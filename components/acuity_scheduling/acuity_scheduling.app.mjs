@@ -44,6 +44,61 @@ export default {
         }));
       },
     },
+    certificate: {
+      type: "string",
+      label: "Certificate",
+      description: "Package or coupon certificate code",
+      async options({ appointmentTypeId }) {
+        const certificates = await this.listCertificates({
+          params: {
+            appointmentTypeID: appointmentTypeId,
+          },
+        });
+
+        return certificates?.map(({
+          name: label, certificate: value,
+        }) => ({
+          label,
+          value,
+        })) || [];
+      },
+    },
+    labelId: {
+      type: "string",
+      label: "Label ID",
+      description: "Label to be added to the appointment",
+      async options() {
+        const labels = await this.listLabels();
+
+        return labels?.map(({
+          name: label, id: value,
+        }) => ({
+          label,
+          value,
+        })) || [];
+      },
+    },
+    formId: {
+      type: "string",
+      label: "Form ID",
+      description: "Enter form fields for the appointment. [See the documentation](https://developers.acuityscheduling.com/reference/post-appointments#setting-forms) for more information on setting form fields.",
+      async options() {
+        const forms = await this.listForms();
+
+        return forms?.map(({
+          name: label, id: value,
+        }) => ({
+          label,
+          value,
+        })) || [];
+      },
+    },
+    timezone: {
+      type: "string",
+      label: "Timezone",
+      description: "Timezone of the client. E.g. `America/Los_Angeles`",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
@@ -63,9 +118,10 @@ export default {
         headers: this._headers(),
       });
     },
-    listAppointmentTypes() {
+    listAppointmentTypes(opts = {}) {
       return this._makeRequest({
         path: "/appointment-types",
+        ...opts,
       });
     },
     listCalendars() {
@@ -79,11 +135,48 @@ export default {
         ...opts,
       });
     },
+    listCertificates(opts = {}) {
+      return this._makeRequest({
+        path: "/certificates",
+        ...opts,
+      });
+    },
+    listLabels(opts = {}) {
+      return this._makeRequest({
+        path: "/labels",
+        ...opts,
+      });
+    },
+    listForms(opts = {}) {
+      return this._makeRequest({
+        path: "/forms",
+        ...opts,
+      });
+    },
+    listProducts(opts = {}) {
+      return this._makeRequest({
+        path: "/products",
+        ...opts,
+      });
+    },
     getAppointment({
       id, ...opts
     }) {
       return this._makeRequest({
         path: `/appointments/${id}`,
+        ...opts,
+      });
+    },
+    getAvailabilityTimes(opts = {}) {
+      return this._makeRequest({
+        path: "/availability/times",
+        ...opts,
+      });
+    },
+    checkAvailabilityTimes(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/availability/check-times",
         ...opts,
       });
     },
@@ -105,6 +198,13 @@ export default {
       return this._makeRequest({
         method: "DELETE",
         path: `/webhooks/${webhookId}`,
+      });
+    },
+    createAppointment(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/appointments",
+        ...opts,
       });
     },
   },

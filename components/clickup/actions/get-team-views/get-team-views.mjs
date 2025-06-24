@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "clickup-get-team-views",
   name: "Get Team Views",
-  description: "Get all views of a team. See the docs [here](https://clickup.com/api) in **Views / Get Team Views** section.",
-  version: "0.0.9",
+  description: "Get all views of a team. [See the documentation](https://clickup.com/api) in **Views / Get Team Views** section.",
+  version: "0.0.10",
   type: "action",
   async run({ $ }) {
     const { workspaceId } = this;

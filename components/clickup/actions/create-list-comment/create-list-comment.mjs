@@ -1,13 +1,12 @@
 import clickup from "../../clickup.app.mjs";
-import builder from "../../common/builder.mjs";
 import common from "../common/list-props.mjs";
 
 export default {
   ...common,
   key: "clickup-create-list-comment",
   name: "Create List Comment",
-  description: "Creates a list comment. See the docs [here](https://clickup.com/api) in **Comments / Create List Comment** section.",
-  version: "0.0.9",
+  description: "Creates a list comment. [See the documentation](https://clickup.com/api) in **Comments / Create List Comment** section.",
+  version: "0.0.10",
   type: "action",
   props: {
     ...common.props,
@@ -33,14 +32,27 @@ export default {
       ],
       optional: true,
     },
-    listWithFolder: {
+    folderId: {
       propDefinition: [
         common.props.clickup,
-        "listWithFolder",
+        "folderId",
+        (c) => ({
+          spaceId: c.spaceId,
+        }),
+      ],
+      optional: true,
+    },
+    listId: {
+      propDefinition: [
+        common.props.clickup,
+        "listId",
+        (c) => ({
+          folderId: c.folderId,
+          spaceId: c.spaceId,
+        }),
       ],
     },
   },
-  additionalProps: builder.buildListProps(),
   async run({ $ }) {
     const {
       listId,

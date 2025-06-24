@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/phonely",
+  "version": "0.0.1",
+  "description": "Pipedream Phonely Components",
+  "main": "phonely.app.mjs",
+  "keywords": [
+    "pipedream",
+    "phonely"
+  ],
+  "homepage": "https://pipedream.com/apps/phonely",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -294,8 +294,8 @@ importers:
   components/acuity_scheduling:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/acumbamail: {}
 
@@ -312,6 +312,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.1
         version: 3.0.3
+
+  components/add_to_calendar_pro: {}
 
   components/addevent:
     dependencies:
@@ -615,7 +617,11 @@ importers:
         specifier: ^4.0.0
         version: 4.0.1
 
-  components/akismet: {}
+  components/akismet:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/akkio:
     dependencies:
@@ -1121,6 +1127,8 @@ importers:
         version: 3.0.3
 
   components/avochato: {}
+
+  components/avosms: {}
 
   components/aweber:
     dependencies:
@@ -2534,8 +2542,8 @@ importers:
   components/clickup:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       crypto:
         specifier: ^1.0.1
         version: 1.0.1
@@ -2847,6 +2855,8 @@ importers:
         version: 3.0.3
 
   components/common_paper: {}
+
+  components/commonninja: {}
 
   components/commpeak:
     dependencies:
@@ -3386,6 +3396,8 @@ importers:
         version: 3.0.3
 
   components/deepsouce: {}
+
+  components/deepsource: {}
 
   components/defastra:
     dependencies:
@@ -4018,6 +4030,8 @@ importers:
 
   components/easy_projects: {}
 
+  components/easybroker: {}
+
   components/easycsv: {}
 
   components/easydns:
@@ -4607,7 +4621,11 @@ importers:
 
   components/finage: {}
 
-  components/finalscout: {}
+  components/finalscout:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/findymail:
     dependencies:
@@ -6766,6 +6784,8 @@ importers:
         specifier: ^1.1.1
         version: 1.6.6
 
+  components/ipstack: {}
+
   components/iqair_airvisual: {}
 
   components/ironclad:
@@ -6985,7 +7005,11 @@ importers:
 
   components/kartra: {}
 
-  components/keboola: {}
+  components/keboola:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/keen:
     dependencies:
@@ -9098,7 +9122,11 @@ importers:
         specifier: ^3.0.1
         version: 3.0.3
 
-  components/offorte: {}
+  components/offorte:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/oksign: {}
 
@@ -9293,6 +9321,8 @@ importers:
       '@types/node':
         specifier: ^17.0.45
         version: 17.0.45
+
+  components/openai_passthrough: {}
 
   components/opencage:
     dependencies:
@@ -9891,6 +9921,8 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/phonely: {}
+
   components/php_point_of_sale:
     dependencies:
       '@pipedream/platform':
@@ -9915,7 +9947,14 @@ importers:
         specifier: ^1.2.1
         version: 1.6.6
 
-  components/picqer: {}
+  components/picqer:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
+      crypto-js:
+        specifier: ^4.2.0
+        version: 4.2.0
 
   components/pidj:
     dependencies:
@@ -10376,7 +10415,13 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/predictleads: {}
+  components/predictleads:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
+
+  components/predis_ai: {}
 
   components/prepr_graphql: {}
 
@@ -10536,6 +10581,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/prompthub: {}
 
   components/promptmate_io: {}
 
@@ -11553,6 +11600,8 @@ importers:
       md5:
         specifier: ^2.3.0
         version: 2.3.0
+
+  components/salesroom: {}
 
   components/salestown: {}
 
@@ -13381,6 +13430,8 @@ importers:
 
   components/test_apps_for_switching_appslug_009: {}
 
+  components/test_apps_for_switching_appslug_025: {}
+
   components/testlocally:
     dependencies:
       '@pipedream/platform':
@@ -13801,8 +13852,8 @@ importers:
   components/trengo:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.1.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       crypto-js:
         specifier: ^4.1.1
         version: 4.2.0
@@ -14265,7 +14316,11 @@ importers:
         specifier: ^0.0.1-security
         version: 0.0.1-security
 
-  components/veedea: {}
+  components/veedea:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/vend:
     dependencies:
@@ -15658,6 +15713,14 @@ importers:
       dotenv:
         specifier: ^6.0.0
         version: 6.2.0
+
+  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
+
+  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
+
+  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
+
+  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
 
   packages/ai:
     dependencies:
@@ -44054,7 +44117,7 @@ snapshots:
       jest-util: 29.7.0
       natural-compare: 1.4.0
       pretty-format: 29.7.0
-      semver: 7.7.1
+      semver: 7.7.2
     transitivePeerDependencies:
       - supports-color
 
@@ -47208,7 +47271,7 @@ snapshots:
       jsdoc: 4.0.4
       minimist: 1.2.8
       protobufjs: 7.2.4
-      semver: 7.7.1
+      semver: 7.7.2
       tmp: 0.2.3
       uglify-js: 3.19.3
 

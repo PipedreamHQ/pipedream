@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/avosms",
+  "version": "0.0.1",
+  "description": "Pipedream AvoSMS Components",
+  "main": "avosms.app.mjs",
+  "keywords": [
+    "pipedream",
+    "avosms"
+  ],
+  "homepage": "https://pipedream.com/apps/avosms",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
