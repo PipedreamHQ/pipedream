@@ -1,19 +1,19 @@
 import wordpress from "../../wordpress_org.app.mjs";
 import utils from "../../common/utils.mjs";
-import fs from "fs";
+import { getFileStream } from "@pipedream/platform";
 
 export default {
   key: "wordpress_org-upload-media",
   name: "Upload Media",
   description: "Upload a media item to your WordPress media library. Returns a media ID to be used in creating or updating posts.[See the documentation](https://www.npmjs.com/package/wpapi#uploading-media)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     wordpress,
     filePath: {
       type: "string",
-      label: "File Path",
-      description: "The path to a document file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#the-tmp-directory).",
+      label: "File Path or URL",
+      description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
     },
     title: {
       propDefinition: [
@@ -39,7 +39,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const content = fs.createReadStream(utils.getFilePath(this.filePath));
+    const content = await getFileStream(this.filePath);
 
     const params = utils.cleanObj({
       title: this.title,

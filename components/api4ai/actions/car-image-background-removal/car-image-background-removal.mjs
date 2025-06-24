@@ -8,7 +8,7 @@ export default {
   description:
     "Remove Background for car images. Powered by API4AI.",
   key: "api4ai-car-image-background-removal",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

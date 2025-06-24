@@ -877,8 +877,8 @@ importers:
   components/api4ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.2
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -3916,6 +3916,9 @@ importers:
 
   components/dropbox:
     dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
       '@types/node-fetch':
         specifier: ^2.5.7
         version: 2.6.12
@@ -4138,8 +4141,8 @@ importers:
   components/elevenlabs:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -6858,8 +6861,8 @@ importers:
   components/jira:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.1
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -8290,8 +8293,8 @@ importers:
   components/microsoft_outlook:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       axios:
         specifier: ^0.21.1
         version: 0.21.4
@@ -12763,8 +12766,8 @@ importers:
   components/speechace:
     dependencies:
       '@pipedream/platform':
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -12839,8 +12842,8 @@ importers:
   components/spotlightr:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -13053,8 +13056,8 @@ importers:
   components/supabase:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       '@supabase/supabase-js':
         specifier: ^2.45.6
         version: 2.46.1
@@ -13218,8 +13221,8 @@ importers:
   components/syncmate_by_assitro:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/syncro: {}
 
@@ -13468,8 +13471,8 @@ importers:
   components/testmonitor:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       fs:
         specifier: ^0.0.1-security
         version: 0.0.1-security
@@ -13527,8 +13530,8 @@ importers:
   components/the_bookie:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.1
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/the_magic_drip:
     dependencies:
@@ -13656,8 +13659,8 @@ importers:
   components/timetonic:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.5
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -13812,8 +13815,8 @@ importers:
   components/transifex:
     dependencies:
       '@pipedream/platform':
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^3.1.0
+        version: 3.1.0
       fs:
         specifier: ^0.0.1-security
         version: 0.0.1-security
@@ -13849,8 +13852,8 @@ importers:
   components/trello:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.1
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       crypto:
         specifier: ^1.0.1
         version: 1.0.1
@@ -13911,8 +13914,8 @@ importers:
   components/trust:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -14030,8 +14033,8 @@ importers:
   components/twitter:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       '@pipedream/types':
         specifier: ^0.1.4
         version: 0.1.6
@@ -14314,8 +14317,8 @@ importers:
   components/vapi:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.1
         version: 4.0.1
@@ -14723,8 +14726,8 @@ importers:
   components/what_are_those:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/what_converts:
     dependencies:
@@ -14747,8 +14750,8 @@ importers:
   components/whatsapp_business:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.2.0
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -14917,6 +14920,9 @@ importers:
 
   components/wordpress_org:
     dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
       lodash.pickby:
         specifier: ^4.6.0
         version: 4.6.0
@@ -15175,8 +15181,8 @@ importers:
         specifier: ^6.0.0
         version: 6.0.0
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       got:
         specifier: ^14.4.6
         version: 14.4.6
@@ -15549,8 +15555,8 @@ importers:
   components/zoho_workdrive:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       axios:
         specifier: ^1.5.1
         version: 1.7.7
