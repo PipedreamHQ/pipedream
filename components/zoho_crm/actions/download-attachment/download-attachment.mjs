@@ -42,6 +42,7 @@ export default {
       type: "dir",
       accessMode: "write",
       sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {
