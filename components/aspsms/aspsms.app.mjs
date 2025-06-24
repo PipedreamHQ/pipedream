@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "twitter",
+  app: "aspsms",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data

@@ -6,7 +6,7 @@ export default {
   key: "transifex-new-task-for-set-of-strings-instant",
   name: "New Task for Set of Strings (Instant)",
   description: "Emit new event when the strings of a task are fully translated.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

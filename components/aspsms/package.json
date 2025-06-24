@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/aspsms",
+  "version": "0.0.1",
+  "description": "Pipedream ASPSMS Components",
+  "main": "aspsms.app.mjs",
+  "keywords": [
+    "pipedream",
+    "aspsms"
+  ],
+  "homepage": "https://pipedream.com/apps/aspsms",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
