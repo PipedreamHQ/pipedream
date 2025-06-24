@@ -1030,8 +1030,7 @@ importers:
         specifier: ^4.0.0
         version: 4.0.1
 
-  components/aspsms:
-    specifiers: {}
+  components/aspsms: {}
 
   components/assembla:
     dependencies:
@@ -10120,7 +10119,7 @@ importers:
   components/pipedrive:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
+        specifier: ^3.1.0
         version: 3.1.0
       html-entities:
         specifier: ^2.6.0
@@ -12572,8 +12571,7 @@ importers:
 
   components/smartymeet: {}
 
-  components/smashsend:
-    specifiers: {}
+  components/smashsend: {}
 
   components/smiirl:
     dependencies:
@@ -15760,14 +15758,6 @@ importers:
       dotenv:
         specifier: ^6.0.0
         version: 6.2.0
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
 
   packages/ai:
     dependencies:
