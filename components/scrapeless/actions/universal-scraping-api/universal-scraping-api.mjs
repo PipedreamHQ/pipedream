@@ -1,11 +1,11 @@
 import scrapeless from "../../scrapeless.app.mjs";
-import { countryOptions } from "../../common/constants.mjs";
+import { COUNTRY_OPTIONS } from "../../common/constants.mjs";
 
 export default {
   key: "scrapeless-universal-scraping-api",
   name: "Universal Scraping API",
   description: "Access any website at scale and say goodbye to blocks. [See the documentation](https://apidocs.scrapeless.com/api-11949854).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     scrapeless,
@@ -46,7 +46,7 @@ export default {
       return response;
     }
   },
-  async additionalProps() {
+  additionalProps() {
     const { apiServer } = this;
 
     const props = {};
@@ -74,7 +74,7 @@ export default {
         type: "string",
         label: "Country",
         default: "ANY",
-        options: countryOptions.map((country) => ({
+        options: COUNTRY_OPTIONS.map((country) => ({
           label: country.label,
           value: country.value,
         })),

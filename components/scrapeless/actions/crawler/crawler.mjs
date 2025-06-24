@@ -4,7 +4,7 @@ export default {
   key: "scrapeless-crawler",
   name: "Crawler",
   description: "Crawl any website at scale and say goodbye to blocks. [See the documentation](https://apidocs.scrapeless.com/api-17509010).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     scrapeless,
@@ -62,7 +62,7 @@ export default {
       throw new Error(response?.error || "Failed to retrieve crawling results");
     }
   },
-  async additionalProps() {
+  additionalProps() {
     const { apiServer } = this;
 
     const props = {};
