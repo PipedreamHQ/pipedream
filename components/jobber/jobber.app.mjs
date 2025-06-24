@@ -100,7 +100,7 @@ export default {
       do {
         const variables = {
           after: endCursor,
-          first: 1,
+          first: 100,
           ...args,
         };
         const { data } = await this.post({
