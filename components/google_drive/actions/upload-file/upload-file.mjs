@@ -12,7 +12,7 @@ export default {
   key: "google_drive-upload-file",
   name: "Upload File",
   description: "Upload a file to Google Drive. [See the documentation](https://developers.google.com/drive/api/v3/manage-uploads) for more information",
-  version: "2.0.0",
+  version: "2.0.1",
   type: "action",
   props: {
     googleDrive,
@@ -36,10 +36,9 @@ export default {
       optional: true,
     },
     filePath: {
-      propDefinition: [
-        googleDrive,
-        "filePath",
-      ],
+      type: "string",
+      label: "File Path or URL",
+      description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
     },
     name: {
       propDefinition: [
