@@ -1,10 +1,10 @@
 import app from "../../linkup.app.mjs";
 
 export default {
-  name: "Linkup Search",
-  description: "Retrieve a list of objects relevant to a natural language search query.",
-  key: "linkup-search",
-  version: "0.1.1",
+  name: "Linkup Answer",
+  description: "Get a natural language answer to your natural language question.",
+  key: "linkup-answer",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
@@ -28,7 +28,7 @@ export default {
       const response = await this.app.search({
         query: this.query,
         depth: this.depth,
-        outputType: "searchResults",
+        outputType: "sourcedAnswer",
       });
       $.export("$summary", "Successfully completed search query");
       return response;
