@@ -88,5 +88,49 @@ export default {
         ...opts,
       });
     },
+    async *paginate({
+      query,
+      args = {},
+      resourceKey,
+      max,
+    }) {
+      let counter = 0;
+      let hasNextPage;
+      let endCursor;
+      do {
+        const variables = {
+          after: endCursor,
+          first: 1,
+          ...args,
+        };
+        const { data } = await this.post({
+          data: {
+            query,
+            variables,
+          },
+        });
+        const {
+          nodes, pageInfo,
+        } = data[resourceKey];
+        if (!nodes?.length) {
+          return;
+        }
+        for (const node of nodes) {
+          counter += 1;
+          yield node;
+        }
+        ({
+          hasNextPage, endCursor,
+        } = pageInfo);
+      } while (hasNextPage && counter < max);
+    },
+    async getPaginatedResources(args) {
+      const results = [];
+      const resources = this.paginate(args);
+      for await (const resource of resources) {
+        results.push(resource);
+      }
+      return results;
+    },
   },
 };
