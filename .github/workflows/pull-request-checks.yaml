@@ -96,6 +96,8 @@ jobs:
           format: 'csv'
       # NOTE: These steps are kept in this workflow to avoid re-rerunning the rest of the lint job
       # in the Components Checks workflow 
+      - name: Build TypeScript Components
+        run: pnpm build
       - name: Check component keys
         run: node scripts/findBadKeys.js ${{ steps.changed_files.outputs.added_modified }} ${{ steps.changed_files.outputs.renamed }}
       - name: Check component app prop

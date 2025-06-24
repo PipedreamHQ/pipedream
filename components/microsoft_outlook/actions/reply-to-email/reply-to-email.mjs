@@ -4,7 +4,7 @@ export default {
   key: "microsoft_outlook-reply-to-email",
   name: "Reply to Email",
   description: "Reply to an email in Microsoft Outlook. [See the documentation](https://learn.microsoft.com/en-us/graph/api/message-reply)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     microsoftOutlook,
@@ -67,7 +67,7 @@ export default {
       data: {
         comment: this.comment,
         message: {
-          ...this.microsoftOutlook.prepareMessageBody(this),
+          ...await this.microsoftOutlook.prepareMessageBody(this),
           ...this.expand,
         },
       },

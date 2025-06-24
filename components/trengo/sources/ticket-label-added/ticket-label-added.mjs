@@ -2,9 +2,9 @@ import common from "../common/common.mjs";
 
 export default {
   key: "trengo-ticket-label-added",
-  name: "New Ticket Label Added Event",
+  name: "New Ticket Label Added Event (Instant)",
   description: "Emit new events when a ticket label added. [See the docs here](https://developers.trengo.com/docs/webhooks)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   ...common,

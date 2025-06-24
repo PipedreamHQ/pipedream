@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "clickup-get-folder",
   name: "Get Folder",
-  description: "Get a folder in a workplace. See the docs [here](https://clickup.com/api) in **Folders / Get Folder** section.",
-  version: "0.0.9",
+  description: "Get a folder in a workplace. [See the documentation](https://clickup.com/api) in **Folders / Get Folder** section.",
+  version: "0.0.10",
   type: "action",
   async run({ $ }) {
     const { folderId } = this;
