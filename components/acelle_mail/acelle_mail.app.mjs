@@ -8,11 +8,17 @@ export default {
       type: "string",
       label: "Subscriber ID",
       description: "The subscriber ID",
-      async options({ page }) {
+      async options({
+        page, listId,
+      }) {
+        const params = {
+          page: page + 1,
+        };
+
+        if (listId) params.list_uid = listId;
+
         const subscribers = await this.getSubscribers({
-          params: {
-            page: page + 1,
-          },
+          params,
         });
 
         return subscribers.map((subscriber) => ({
@@ -52,6 +58,25 @@ export default {
         }));
       },
     },
+    listId: {
+      type: "string",
+      label: "List ID",
+      description: "The list ID",
+      async options({ page }) {
+        const lists = await this.getLists({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return lists.map(({
+          uid, name,
+        }) => ({
+          label: name,
+          value: uid,
+        }));
+      },
+    },
   },
   methods: {
     _apiEndpoint() {
@@ -84,6 +109,12 @@ export default {
         ...args,
       });
     },
+    async getLists(args = {}) {
+      return this._makeRequest({
+        path: "/lists",
+        ...args,
+      });
+    },
     async getCustomers(args = {}) {
       return this._makeRequest({
         path: "/customers",
@@ -94,6 +125,33 @@ export default {
       return this._makeRequest({
         path: "/customers",
         method: "post",
+        ...args,
+      });
+    },
+    async updateSubscriber({
+      subscriberId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/subscribers/${subscriberId}`,
+        method: "patch",
+        ...args,
+      });
+    },
+    async subscribeToList({
+      listId, subscriberId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/lists/${listId}/subscribers/${subscriberId}/subscribe`,
+        method: "patch",
+        ...args,
+      });
+    },
+    async unsubscribeFromList({
+      listId, subscriberId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/lists/${listId}/subscribers/${subscriberId}/unsubscribe`,
+        method: "patch",
         ...args,
       });
     },
