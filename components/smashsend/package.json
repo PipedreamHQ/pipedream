@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/smashsend",
+  "version": "0.0.1",
+  "description": "Pipedream SmashSend Components",
+  "main": "smashsend.app.mjs",
+  "keywords": [
+    "pipedream",
+    "smashsend"
+  ],
+  "homepage": "https://pipedream.com/apps/smashsend",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
