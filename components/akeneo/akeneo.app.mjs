@@ -51,7 +51,7 @@ export default {
           params: {
             limit: PAGE_SIZE,
             page,
-            search: {
+            search: JSON.stringify({
               type: [
                 {
                   operator: "IN",
@@ -60,7 +60,7 @@ export default {
                   ],
                 },
               ],
-            },
+            }),
           },
         });
         return resp?._embedded?.items?.map((attribute) => attribute.code) || [];
