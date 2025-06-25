@@ -9,8 +9,8 @@ export default {
       label: "SIP User",
       description: "The SIP user to make the outbound call for",
       async options() {
-        const { result } = await this.listSipUsers();
-        return result?.map(({
+        const users = await this.listSipUsers();
+        return users?.map(({
           uuid: value, display_name, user_name,
         }) => ({
           label: display_name || user_name,
@@ -24,8 +24,8 @@ export default {
       description: "List of SIP users who will receive the outbound call request",
       optional: true,
       async options() {
-        const { result } = await this.listSipUsers();
-        return result?.map(({
+        const users = await this.listSipUsers();
+        return users?.map(({
           uuid: value, display_name, user_name,
         }) => ({
           label: display_name || user_name,
@@ -39,8 +39,22 @@ export default {
       description: "List of hunt groups who will receive the outbound call request",
       optional: true,
       async options() {
-        const { result } = await this.listHuntGroups();
-        return result?.map(({
+        const groups = await this.listHuntGroups();
+        return groups?.map(({
+          uuid: value, name: label,
+        }) => ({
+          label,
+          value,
+        })) || [];
+      },
+    },
+    phoneBookId: {
+      type: "string",
+      label: "Phone Book",
+      description: "The phone book to monitor for new contacts",
+      async options() {
+        const books = await this.listPhoneBooks();
+        return books?.map(({
           uuid: value, name: label,
         }) => ({
           label,
@@ -101,7 +115,23 @@ export default {
     },
     async listPhoneBooks(args) {
       return this._makeRequest({
-        path: "/phone-book",
+        path: "/voip/phone-book",
+        ...args,
+      });
+    },
+    async listPhoneBookContacts({
+      phoneBookId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/voip/phone-book/${phoneBookId}`,
+        ...args,
+      });
+    },
+    async listMailboxMessages({
+      mailboxId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/voip/mailbox/${mailboxId}/messages`,
         ...args,
       });
     },
