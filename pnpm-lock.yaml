@@ -14461,6 +14461,9 @@ importers:
         specifier: ^0.8.1
         version: 0.8.1
 
+  components/vincario:
+    specifiers: {}
+
   components/viral_loops:
     dependencies:
       '@pipedream/platform':
