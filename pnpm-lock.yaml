@@ -5392,8 +5392,7 @@ importers:
 
   components/godial: {}
 
-  components/goformz:
-    specifiers: {}
+  components/goformz: {}
 
   components/gohighlevel:
     dependencies:
@@ -8487,8 +8486,7 @@ importers:
 
   components/mollie: {}
 
-  components/momentum_ams:
-    specifiers: {}
+  components/momentum_ams: {}
 
   components/monday:
     dependencies:
@@ -9467,8 +9465,7 @@ importers:
 
   components/order_sender: {}
 
-  components/orderspace:
-    specifiers: {}
+  components/orderspace: {}
 
   components/originality_ai:
     dependencies:
