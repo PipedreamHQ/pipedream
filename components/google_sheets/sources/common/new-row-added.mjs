@@ -30,7 +30,7 @@ export default {
     },
     getMeta(worksheet, rowNumber) {
       const ts = Date.now();
-      const id = `${worksheet.properties.sheetId}${rowNumber}${ts}`;
+      const id = `${worksheet.properties.sheetId}${rowNumber}`;
       const summary = `New row #${rowNumber} in ${worksheet.properties.title}`;
       return {
         id,
