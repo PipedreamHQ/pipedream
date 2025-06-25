@@ -12963,6 +12963,9 @@ importers:
 
   components/stealthseminar: {}
 
+  components/stiply:
+    specifiers: {}
+
   components/storeganise:
     dependencies:
       '@pipedream/platform':
