@@ -22,7 +22,7 @@ export default {
     contentType: {
       type: "string",
       label: "Content Type",
-      description: "The type of content you are sending. [See the documentation for more information](https://www.printnode.com/en/docs/api/curl#create-printjob-content). You must also specify a `File Path` or `File URL`.",
+      description: "The type of content you are sending. [See the documentation for more information](https://www.printnode.com/en/docs/api/curl#create-printjob-content)",
       options: PRINT_CONTENT_OPTIONS,
     },
   },

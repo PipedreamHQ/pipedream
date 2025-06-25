@@ -8,7 +8,7 @@ export default {
     fileOrUrl: {
       type: "string",
       label: "File Path or URL",
-      description: "The path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp). Alternatively, you can pass the direct URL to a file.",
+      description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
     },
     text: {
       type: "string",
@@ -33,10 +33,19 @@ export default {
       });
     },
     async createCertificate({
-      file, ...args
+      file, metadata, ...args
     }) {
       const data = new FormData();
-      data.append("file", file);
+      if (metadata) {
+        data.append("file", file, {
+          contentType: metadata.contentType,
+          knownLength: metadata.size,
+          filename: metadata.name,
+        });
+      }
+      else {
+        data.append("file", file);
+      }
 
       const headers = data.getHeaders();
 
