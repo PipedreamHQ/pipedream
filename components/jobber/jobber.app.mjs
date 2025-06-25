@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -66,13 +68,13 @@ export default {
     _baseUrl() {
       return "https://api.getjobber.com/api";
     },
-    _makeRequest(opts = {}) {
+    async _makeRequest(opts = {}) {
       const {
         $ = this,
         path,
         ...otherOpts
       } = opts;
-      return axios($, {
+      const response = await axios($, {
         ...otherOpts,
         url: `${this._baseUrl()}${path}`,
         headers: {
@@ -80,6 +82,11 @@ export default {
           "X-JOBBER-GRAPHQL-VERSION": "2025-01-20",
         },
       });
+      if (response.errors) {
+        console.log(JSON.stringify(response, null, 2));
+        throw new ConfigurationError(response.errors[0].message);
+      }
+      return response;
     },
     post(opts = {}) {
       return this._makeRequest({
@@ -100,7 +107,7 @@ export default {
       do {
         const variables = {
           after: endCursor,
-          first: 100,
+          first: 10,
           ...args,
         };
         const { data } = await this.post({

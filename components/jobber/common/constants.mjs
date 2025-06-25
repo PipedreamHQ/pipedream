@@ -13,11 +13,6 @@ const QUOTE_FIELDS = `
   contractDisclaimer
   createdAt
   depositAmountUnallocated
-  depositRecords {
-    nodes {
-      id
-    }
-  }
   jobberWebUri
   jobs {
     nodes {
@@ -37,14 +32,8 @@ const QUOTE_FIELDS = `
   message
   quoteNumber
   quoteStatus
-  request {
-    id
-  }
   salesperson {
     id
-  }
-  taxDetails {
-    totalTaxAmount
   }
   transitionedAt
   updatedAt
