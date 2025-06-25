@@ -9130,7 +9130,11 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/odoo: {}
+  components/odoo:
+    dependencies:
+      xmlrpc:
+        specifier: ^1.3.2
+        version: 1.3.2
 
   components/office_365_management: {}
 
@@ -28637,6 +28641,9 @@ packages:
     resolution: {integrity: sha512-rOOcZfHYK3haArS4/RaD+DDcPrfMC7G7dCRrzjHLaLjIj+VTs/cbWcbFkCAGwS0OY2DuiUAzBVFVX302zGzw6Q==}
     engines: {node: '>=18'}
 
+  sax@1.2.4:
+    resolution: {integrity: sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==}
+
   sax@1.4.1:
     resolution: {integrity: sha512-+aWOz7yVScEGoKNd4PA10LZ8sk0A/z5+nXQG5giUO5rprX9jgYsTdov9qCchZiPIZezbZH+jRut8nPodFAX4Jg==}
 
@@ -30508,6 +30515,10 @@ packages:
     resolution: {integrity: sha512-Eux0i2QdDYKbdbA6AM6xE4m6ZTZr4G4xF9kahI2ukSEMCzwce2eX9WlTI5J3s+NU7hpasFsr8hWIONae7LluAQ==}
     engines: {node: '>=6.0'}
 
+  xmlbuilder@8.2.2:
+    resolution: {integrity: sha512-eKRAFz04jghooy8muekqzo8uCSVNeyRedbuJrp0fovbLIi7wlsYtdUn3vBAAPq2Y3/0xMz2WMEUQ8yhVVO9Stw==}
+    engines: {node: '>=4.0'}
+
   xmlbuilder@9.0.7:
     resolution: {integrity: sha512-7YXTQc3P2l9+0rjaUbLwMKRhtmwg1M1eDf6nag7urC7pIPYLD9W/jmzQ4ptRSUbodw5S0jfoGTflLemQibSpeQ==}
     engines: {node: '>=4.0'}
@@ -30522,6 +30533,10 @@ packages:
   xmldom@0.6.0:
     resolution: {integrity: sha512-iAcin401y58LckRZ0TkI4k0VSM1Qg0KGSc3i8rU+xrxe19A/BN1zHyVSJY7uoutVlaTSzYyk/v5AmkewAP7jtg==}
     engines: {node: '>=10.0.0'}
+
+  xmlrpc@1.3.2:
+    resolution: {integrity: sha512-jQf5gbrP6wvzN71fgkcPPkF4bF/Wyovd7Xdff8d6/ihxYmgETQYSuTc+Hl+tsh/jmgPLro/Aro48LMFlIyEKKQ==}
+    engines: {node: '>=0.8', npm: '>=1.0.0'}
 
   xpath@0.0.34:
     resolution: {integrity: sha512-FxF6+rkr1rNSQrhUNYrAFJpRXNzlDoMxeXN5qI84939ylEv3qqPFKa85Oxr6tDaJKqwW6KKyo2v26TSv3k6LeA==}
@@ -48613,6 +48628,8 @@ snapshots:
       - supports-color
       - typescript
 
+  sax@1.2.4: {}
+
   sax@1.4.1: {}
 
   sb-promise-queue@2.1.0: {}
@@ -50882,6 +50899,8 @@ snapshots:
 
   xmlbuilder@13.0.2: {}
 
+  xmlbuilder@8.2.2: {}
+
   xmlbuilder@9.0.7: {}
 
   xmlcreate@2.0.4: {}
@@ -50889,6 +50908,11 @@ snapshots:
   xmldom-sre@0.1.31: {}
 
   xmldom@0.6.0: {}
+
+  xmlrpc@1.3.2:
+    dependencies:
+      sax: 1.2.4
+      xmlbuilder: 8.2.2
 
   xpath@0.0.34: {}
 
