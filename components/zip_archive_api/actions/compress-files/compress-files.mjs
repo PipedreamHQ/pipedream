@@ -1,21 +1,16 @@
 import app from "../../zip_archive_api.app.mjs";
-import fs from "fs";
 import FormData from "form-data";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
+import fs from "fs";
 
 export default {
   key: "zip_archive_api-compress-files",
   name: "Compress Files",
   description: "Compress files provided through URLs into a zip folder. [See the documentation](https://archiveapi.com/rest-api/file-compression/)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   props: {
     app,
-    uploadType: {
-      propDefinition: [
-        app,
-        "uploadType",
-      ],
-    },
     archiveName: {
       propDefinition: [
         app,
@@ -42,33 +37,27 @@ export default {
     },
   },
   async run({ $ }) {
-    let data = {
-      files: this.files,
-      archiveName: this.archiveName,
-      compressionLevel: this.compressionLevel,
-      password: this.password,
-    };
+    const data = new FormData();
 
-    if (this.uploadType === "File") {
-      data = new FormData();
+    if (this.password) data.append("Password", this.password);
+    if (this.compressionLevel) data.append("CompressionLevel", this.compressionLevel);
+    data.append("ArchiveName", this.archiveName);
 
-      if (this.password) data.append("Password", this.password);
-      if (this.compressionLevel) data.append("CompressionLevel", this.compressionLevel);
-      data.append("ArchiveName", this.archiveName);
-
-      for (const file of this.files) {
-        data.append("Files", fs.createReadStream(file));
-      }
+    for (const file of this.files) {
+      const {
+        stream, metadata,
+      } = await getFileStreamAndMetadata(file);
+      data.append("Files", stream, {
+        contentType: metadata.contentType,
+        knownLength: metadata.size,
+        filename: metadata.name,
+      });
     }
-
-    const headers = this.uploadType === "File"
-      ? data.getHeaders()
-      : {};
 
     const response = await this.app.compressFiles({
       $,
       data,
-      headers,
+      headers: data.getHeaders(),
       responseType: "arraybuffer",
     });
 

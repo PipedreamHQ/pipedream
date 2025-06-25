@@ -1,14 +1,13 @@
 import app from "../../trello.app.mjs";
-import fs from "fs";
 import FormData from "form-data";
-import { ConfigurationError } from "@pipedream/platform";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import constants from "../../common/constants.mjs";
 
 export default {
   key: "trello-create-card",
   name: "Create Card",
   description: "Creates a new card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-post).",
-  version: "0.1.1",
+  version: "1.0.0",
   type: "action",
   props: {
     app,
@@ -90,34 +89,18 @@ export default {
       description: "Array of labelIDs to add to the card",
       optional: true,
     },
-    fileType: {
-      propDefinition: [
-        app,
-        "fileType",
-      ],
-      optional: true,
-      reloadProps: true,
-    },
-    urlSource: {
-      propDefinition: [
-        app,
-        "url",
-      ],
-      hidden: true,
-    },
     file: {
-      propDefinition: [
-        app,
-        "file",
-      ],
-      hidden: true,
+      type: "string",
+      label: "File Path or URL",
+      description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
+      optional: true,
     },
     mimeType: {
       propDefinition: [
         app,
         "mimeType",
       ],
-      hidden: true,
+      optional: true,
     },
     idCardSource: {
       propDefinition: [
@@ -171,12 +154,6 @@ export default {
   },
   async additionalProps(existingProps) {
     const props = {};
-
-    const attachmentIsPath = this.fileType === "path";
-    const attachmentIsUrl = this.fileType === "url";
-    existingProps.file.hidden = !attachmentIsPath;
-    existingProps.mimeType.hidden = !attachmentIsPath;
-    existingProps.urlSource.hidden = !attachmentIsUrl;
 
     existingProps.keepFromSource.hidden = !this.idCardSource;
 
@@ -237,7 +214,6 @@ export default {
       idList,
       idMembers,
       idLabels,
-      urlSource,
       mimeType,
       file,
       idCardSource,
@@ -266,14 +242,16 @@ export default {
       coordinates,
     };
 
-    if (file && !file?.startsWith("/tmp")) {
-      throw new ConfigurationError("The file path must be in the `/tmp` directory");
-    }
-
     if (file) {
       const form = new FormData();
-      form.append("fileSource", fs.createReadStream(file));
-
+      const {
+        stream, metadata,
+      } = await getFileStreamAndMetadata(file);
+      form.append("fileSource", stream, {
+        contentType: metadata.contentType,
+        knownLength: metadata.size,
+        filename: metadata.name,
+      });
       response = await this.app.createCard({
         $,
         params,
@@ -283,10 +261,7 @@ export default {
     } else {
       response = await this.app.createCard({
         $,
-        params: {
-          ...params,
-          urlSource,
-        },
+        params,
       });
     }
 

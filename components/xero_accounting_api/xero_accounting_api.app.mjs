@@ -10,7 +10,7 @@ export default {
       type: "string",
       label: "Tenant ID",
       description:
-        "Id of the organization tenant to use on the Xero Accounting API. See [Get Tenant Connections](https://pipedream.com/@sergio/xero-accounting-api-get-tenant-connections-p_OKCzOgn/edit) for a workflow example on how to pull this data.",
+        "Select an organization tenant to use, or provide a tenant ID",
       async options() {
         return this.getTenantsOpts();
       },

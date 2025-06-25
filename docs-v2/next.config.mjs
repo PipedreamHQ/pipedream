@@ -75,6 +75,12 @@ export default withNextra({
         permanent: true,
       },
       {
+        source: "/apps/connected-accounts/external-auth/",
+        destination: "/connect/",
+        permanent: true,
+      },
+
+      {
         source: "/support/",
         destination: "https://pipedream.com/support/",
         permanent: true,

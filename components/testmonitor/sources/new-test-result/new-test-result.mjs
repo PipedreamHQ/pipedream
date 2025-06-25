@@ -5,7 +5,7 @@ export default {
   key: "testmonitor-new-test-result",
   name: "New Test Result",
   description: "Emit new event when a new test result is created.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {

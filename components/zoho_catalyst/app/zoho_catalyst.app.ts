@@ -26,9 +26,8 @@ export default defineApp({
     },
     imagePath: {
       type: "string",
-      label: "Image Path",
-      description:
-        "A file path in the `/tmp` directory. [See the documentation on working with files.](https://pipedream.com/docs/code/nodejs/working-with-files/)",
+      label: "Image Path or URL",
+      description: "The image to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.png`)",
     },
     mode: {
       type: "string",

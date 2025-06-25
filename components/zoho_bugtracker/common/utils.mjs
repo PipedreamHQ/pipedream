@@ -1,4 +1,3 @@
-import { ConfigurationError } from "@pipedream/platform";
 /* eslint-disable no-unused-vars */
 export const clearObj = (obj) => {
   return Object.entries(obj)
@@ -18,15 +17,4 @@ export const clearObj = (obj) => {
       }),
       {},
     );
-};
-
-export const getUploadContentType = (filename) => {
-  const fileExt = filename.split(".").pop();
-  switch (fileExt.toLowerCase()) {
-  case "png": return "image/png";
-  case "jpg": return "image/jpeg";
-  case "jpeg": return "image/jpeg";
-  case "gif": return "image/gif";
-  default: throw ConfigurationError("Only `.jpg`, `.jpeg`, `.png`, and `.gif` may be used at this time. Other file types are not supported.");
-  }
 };
