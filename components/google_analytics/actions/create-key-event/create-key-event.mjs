@@ -4,13 +4,15 @@ export default {
   key: "google_analytics-create-key-event",
   name: "Create Key Event",
   description: "Creates a new key event. [See the documentation](https://developers.google.com/analytics/devguides/config/admin/v1/rest/v1beta/properties.keyEvents/create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
     parent: {
-      type: "string",
-      label: "Parent",
+      propDefinition: [
+        app,
+        "property",
+      ],
       description: "The resource name of the parent property where this Key Event will be created. Format: `properties/123`",
     },
     eventName: {
