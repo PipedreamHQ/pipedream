@@ -51,11 +51,9 @@ function validateTextPayload(message, withTextPayload) {
     let newPayload = "";
     if (message.payload?.body?.data && !Array.isArray(message.payload.parts)) {
       const decodedBody = decodeBase64Url(message.payload.body.data);
-      newPayload += convert(decodedBody);
-    }
-
-    if (Array.isArray(message.payload?.parts)) {
-      newPayload += extractTextFromParts(message.payload.parts);
+      newPayload = convert(decodedBody);
+    } else if (Array.isArray(message.payload?.parts)) {
+      newPayload = extractTextFromParts(message.payload.parts);
     }
     message.payload = newPayload;
     return message;
