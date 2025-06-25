@@ -1,4 +1,4 @@
-import yay_com from "../../yay_com.app.mjs";
+import yayCom from "../../yay_com.app.mjs";
 
 export default {
   key: "yay_com-get-documents",
@@ -8,10 +8,10 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    yay_com,
+    yayCom,
   },
   async run({ $ }) {
-    const response = await this.yay_com.listDocuments({
+    const response = await this.yayCom.listDocuments({
       $,
     });
     const { length } = response;

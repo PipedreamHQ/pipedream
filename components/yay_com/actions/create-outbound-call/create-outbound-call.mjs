@@ -1,4 +1,5 @@
-import yay_com from "../../app/yay_com.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
+import yayCom from "../../yay_com.app.mjs";
 
 export default {
   key: "yay_com-create-outbound-call",
@@ -7,46 +8,65 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    yay_com,
+    yayCom,
     userUuid: {
       propDefinition: [
-        yay_com,
+        yayCom,
         "sipUser",
       ],
     },
     destination: {
       propDefinition: [
-        yay_com,
+        yayCom,
         "destination",
       ],
     },
     displayName: {
       propDefinition: [
-        yay_com,
+        yayCom,
         "displayName",
       ],
     },
     sipUsers: {
       propDefinition: [
-        yay_com,
+        yayCom,
         "sipUsers",
       ],
     },
     huntGroups: {
       propDefinition: [
-        yay_com,
+        yayCom,
         "huntGroups",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.yay_com.createOutboundCall({
+    // Combine sipUsers and huntGroups into the targets array
+    const targets = [
+      ...(this.sipUsers?.map((uuid) => ({
+        type: "sipuser",
+        uuid,
+      })) || []),
+      ...(this.huntGroups?.map((uuid) => ({
+        type: "huntgroup",
+        uuid,
+      })) || []),
+    ];
+
+    if (!targets.length) {
+      throw new ConfigurationError("Please provide at least one target (SIP user or hunt group)");
+    }
+
+    const response = await this.yayCom.createOutboundCall({
       $,
-      userUuid: this.userUuid,
-      destination: this.destination,
-      displayName: this.displayName,
-      sipUsers: this.sipUsers || [],
-      huntGroups: this.huntGroups || [],
+      data: {
+        user_uuid: this.userUuid,
+        destination: this.destination,
+        display_name: this.displayName,
+        ...(targets.length > 0 && {
+          targets,
+        }),
+      },
     });
 
     $.export("$summary", `Successfully initiated outbound call to ${this.destination}`);

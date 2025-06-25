@@ -111,38 +111,11 @@ export default {
         ...args,
       });
     },
-    async createOutboundCall({
-      $,
-      userUuid,
-      destination,
-      displayName,
-      sipUsers = [],
-      huntGroups = [],
-    }) {
-      // Combine sipUsers and huntGroups into the targets array
-      const targets = [
-        ...sipUsers.map((uuid) => ({
-          type: "sipuser",
-          uuid,
-        })),
-        ...huntGroups.map((uuid) => ({
-          type: "huntgroup",
-          uuid,
-        })),
-      ];
-
+    async createOutboundCall(args) {
       return this._makeRequest({
-        $,
         method: "POST",
         path: "/calls/outbound",
-        data: {
-          user_uuid: userUuid,
-          destination,
-          display_name: displayName,
-          ...(targets.length > 0 && {
-            targets,
-          }),
-        },
+        ...args,
       });
     },
   },

@@ -1,4 +1,4 @@
-import yay_com from "../../app/yay_com.app.mjs";
+import yayCom from "../../yay_com.app.mjs";
 
 export default {
   key: "yay_com-get-phone-books",
@@ -7,12 +7,16 @@ export default {
   version: "0.0.1",
   type: "action",
   props: {
-    yay_com,
+    yayCom,
   },
   async run({ $ }) {
-    const response = await this.yay_com.listPhoneBooks($);
-    const phoneBooks = response.data || [];
-    $.export("$summary", `Successfully retrieved ${phoneBooks.length} phone book(s)`);
+    const response = await this.yayCom.listPhoneBooks({
+      $,
+    });
+    const { length } = response;
+    $.export("$summary", `Successfully retrieved ${length} phone book${length === 1
+      ? ""
+      : "s"}`);
     return response;
   },
 };
