@@ -12,7 +12,7 @@ export default {
     Downloads a file from S3 to the /tmp directory.
     [See the documentation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
   `),
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     aws: common.props.aws,
