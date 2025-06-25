@@ -42,6 +42,9 @@ importers:
       '@next/eslint-plugin-next':
         specifier: ^14.2.5
         version: 14.2.19
+      '@pipedream/eslint-plugin-pipedream':
+        specifier: 0.2.5
+        version: 0.2.5
       '@pipedream/types':
         specifier: 0.1.4
         version: 0.1.4
@@ -72,9 +75,6 @@ importers:
       eslint-plugin-jsonc:
         specifier: ^1.6.0
         version: 1.7.0(eslint@8.57.1)
-      eslint-plugin-pipedream:
-        specifier: 0.2.4
-        version: 0.2.4
       eslint-plugin-putout:
         specifier: ^23
         version: 23.2.0(eslint@8.57.1)(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
@@ -2355,8 +2355,7 @@ importers:
 
   components/chatsonic: {}
 
-  components/chattermill:
-    specifiers: {}
+  components/chattermill: {}
 
   components/chatwork:
     dependencies:
@@ -5399,8 +5398,7 @@ importers:
 
   components/godial: {}
 
-  components/goformz:
-    specifiers: {}
+  components/goformz: {}
 
   components/gohighlevel:
     dependencies:
@@ -7291,8 +7289,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/lark:
-    specifiers: {}
+  components/lark: {}
 
   components/lastpass:
     dependencies:
@@ -8497,8 +8494,7 @@ importers:
 
   components/mollie: {}
 
-  components/momentum_ams:
-    specifiers: {}
+  components/momentum_ams: {}
 
   components/monday:
     dependencies:
@@ -9412,8 +9408,7 @@ importers:
         specifier: ^0.9.0
         version: 0.9.0
 
-  components/opinion_stage:
-    specifiers: {}
+  components/opinion_stage: {}
 
   components/opnform:
     dependencies:
@@ -9484,8 +9479,7 @@ importers:
 
   components/order_sender: {}
 
-  components/orderspace:
-    specifiers: {}
+  components/orderspace: {}
 
   components/originality_ai:
     dependencies:
@@ -11562,8 +11556,7 @@ importers:
 
   components/ryver: {}
 
-  components/sage_accounting:
-    specifiers: {}
+  components/sage_accounting: {}
 
   components/sage_intacct: {}
 
@@ -12980,8 +12973,7 @@ importers:
 
   components/stealthseminar: {}
 
-  components/stiply:
-    specifiers: {}
+  components/stiply: {}
 
   components/storeganise:
     dependencies:
@@ -14461,8 +14453,7 @@ importers:
         specifier: ^0.8.1
         version: 0.8.1
 
-  components/vincario:
-    specifiers: {}
+  components/vincario: {}
 
   components/viral_loops:
     dependencies:
@@ -18826,6 +18817,9 @@ packages:
 
   '@pipedream/docusign@0.2.1':
     resolution: {integrity: sha512-4NxQNHAWOZ/eFvj/PkmZ4LY9ZwsXZdCh363scbNlJfXqeMGCxnNrfRrEgYIFWvnB8pJyzHtSdxsDLL2axIMx4g==}
+
+  '@pipedream/eslint-plugin-pipedream@0.2.5':
+    resolution: {integrity: sha512-99e88TuaQM9VGc64JlJueuk+3dCyuNuxOqTPCVg+QLbfzqovHnDHZ5cHqkzPjDLtFsFrAucIANIcgKcb0YAoxg==}
 
   '@pipedream/google_drive@0.6.19':
     resolution: {integrity: sha512-+JtwPhh0mHN3z3bOeyfw6OIztPhT0cVy/r/rpB5b0TFKWVly25Wz6Zv6zug5EhzyEt6DT7dnh9CpIhlxEj7SuA==}
@@ -23519,9 +23513,6 @@ packages:
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: '>=8.23.0'
-
-  eslint-plugin-pipedream@0.2.4:
-    resolution: {integrity: sha512-mKgRf5DFJnxcDantRh0b7CoSNRqPiDZMlAP9Ab/Pha8Uq7ZseIEiRGtWOJwp9tHSZnNOe1+MCN1X6yXnWC39sA==}
 
   eslint-plugin-putout@23.2.0:
     resolution: {integrity: sha512-uv+TkB3Dli3QzsKVkmGCX2MKnM2VF18eh2O64uxGlHUtoG4nlJ6+y0MksWDclJn648RQA5qvj+4E81NERT6bNg==}
@@ -29318,22 +29309,22 @@ packages:
   superagent@3.8.1:
     resolution: {integrity: sha512-VMBFLYgFuRdfeNQSMLbxGSLfmXL/xc+OO+BZp41Za/NRDBet/BNbkRJrYzCUu0u4GU0i/ml2dtT8b9qgkw9z6Q==}
     engines: {node: '>= 4.0'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v7.0.2+ of superagent.  We have fixed numerous issues with streams, form-data, attach(), filesystem errors not bubbling up (ENOENT on attach()), and all tests are now passing.  See the releases tab for more information at <https://github.com/visionmedia/superagent/releases>.
 
   superagent@4.1.0:
     resolution: {integrity: sha512-FT3QLMasz0YyCd4uIi5HNe+3t/onxMyEho7C3PSqmti3Twgy2rXT4fmkTz6wRL6bTF4uzPcfkUCa8u4JWHw8Ag==}
     engines: {node: '>= 6.0'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v7.0.2+ of superagent.  We have fixed numerous issues with streams, form-data, attach(), filesystem errors not bubbling up (ENOENT on attach()), and all tests are now passing.  See the releases tab for more information at <https://github.com/visionmedia/superagent/releases>.
 
   superagent@5.3.1:
     resolution: {integrity: sha512-wjJ/MoTid2/RuGCOFtlacyGNxN9QLMgcpYLDQlWFIhhdJ93kNscFonGvrpAHSCVjRVj++DGCglocF7Aej1KHvQ==}
     engines: {node: '>= 7.0.0'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v7.0.2+ of superagent.  We have fixed numerous issues with streams, form-data, attach(), filesystem errors not bubbling up (ENOENT on attach()), and all tests are now passing.  See the releases tab for more information at <https://github.com/visionmedia/superagent/releases>.
 
   superagent@7.1.6:
     resolution: {integrity: sha512-gZkVCQR1gy/oUXr+kxJMLDjla434KmSOKbx5iGD30Ql+AkJQ/YlPKECJy2nhqOsHLjGHzoDTXNSjhnvWhzKk7g==}
     engines: {node: '>=6.4.0 <13 || >=14'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please downgrade to v7.1.5 if you need IE/ActiveXObject support OR upgrade to v8.0.0 as we no longer support IE and published an incorrect patch version (see https://github.com/visionmedia/superagent/issues/1731)
 
   supports-color@2.0.0:
     resolution: {integrity: sha512-KKNVtd6pCYgPIKU4cp2733HWYCpplQhddZLBUryaAHou723x+FRzQ5Df824Fj+IyyuiQTRoub4SnIFfIcrp70g==}
@@ -35573,6 +35564,8 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+  '@pipedream/eslint-plugin-pipedream@0.2.5': {}
+
   '@pipedream/google_drive@0.6.19':
     dependencies:
       '@googleapis/drive': 2.4.0
@@ -41379,8 +41372,6 @@ snapshots:
       ignore: 5.3.2
       minimatch: 9.0.5
       semver: 7.7.1
-
-  eslint-plugin-pipedream@0.2.4: {}
 
   eslint-plugin-putout@23.2.0(eslint@8.57.1)(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3)):
     dependencies:
