@@ -13570,6 +13570,9 @@ importers:
         specifier: ^1.11.10
         version: 1.11.13
 
+  components/themarketer:
+    specifiers: {}
+
   components/thesportsdb: {}
 
   components/thinkific:
