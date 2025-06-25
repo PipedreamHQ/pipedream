@@ -5392,8 +5392,7 @@ importers:
 
   components/godial: {}
 
-  components/goformz:
-    specifiers: {}
+  components/goformz: {}
 
   components/gohighlevel:
     dependencies:
@@ -8487,8 +8486,7 @@ importers:
 
   components/mollie: {}
 
-  components/momentum_ams:
-    specifiers: {}
+  components/momentum_ams: {}
 
   components/monday:
     dependencies:
@@ -9467,8 +9465,7 @@ importers:
 
   components/order_sender: {}
 
-  components/orderspace:
-    specifiers: {}
+  components/orderspace: {}
 
   components/originality_ai:
     dependencies:
@@ -12122,8 +12119,8 @@ importers:
   components/sftp_password_based_auth:
     dependencies:
       '@pipedream/sftp':
-        specifier: ^0.4.1
-        version: 0.4.1
+        specifier: ^0.5.0
+        version: 0.5.0
 
   components/shadertoy:
     dependencies:
@@ -18882,8 +18879,8 @@ packages:
     resolution: {integrity: sha512-oyWFb2xsm+pRXrm+xiboSRQxA/PcP2tjqc2vQZ4y7TWFUOCBzzxencYFze8Lo+7l/QlWhXy4jbK0UzPMyFr2UQ==}
     engines: {node: '>=18.0.0'}
 
-  '@pipedream/sftp@0.4.1':
-    resolution: {integrity: sha512-K+tYweZBO4cAZDXqCsciPeDEG6tJsuCS0+kP+JlWfwjKHH/Z75G/P5NXFO3tGCwmSrhwyB/Ew1Zi89oUsQq8mQ==}
+  '@pipedream/sftp@0.5.0':
+    resolution: {integrity: sha512-JK7TDMEFauKILdN0GFrhYaclRfvPyL84awwQYxY/yK6UXrnX9kZ1MqP4dTijI82qQUmupbZ3ywbSsA/7aGrnqg==}
 
   '@pipedream/shopify@0.7.0':
     resolution: {integrity: sha512-bZoTDxcwBIepWhT8LVXzOxAO3S9NM8U1NEfS5106aDHFizr6L7lg/78+GaPdishK12oce0B/fCFY0ssd5AQxWA==}
@@ -35779,7 +35776,7 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@pipedream/sftp@0.4.1':
+  '@pipedream/sftp@0.5.0':
     dependencies:
       '@pipedream/platform': 3.1.0
       ssh2-sftp-client: 11.0.0
