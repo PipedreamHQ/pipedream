@@ -56,6 +56,11 @@ export type BackendClientOpts = {
    * https://pipedream.com/docs/workflows/domains
    */
   workflowDomain?: string;
+
+  /**
+   * OAuth scope to request when obtaining access tokens
+   */
+  scope?: string[];
 };
 
 /**
@@ -197,6 +202,7 @@ export class BackendClient extends BaseClient {
   };
   protected override projectId: string = "";
   private staticAccessToken?: string;
+  private scope?: string[];
 
   /**
    * Constructs a new ServerClient instance.
@@ -209,6 +215,7 @@ export class BackendClient extends BaseClient {
 
     this.ensureValidEnvironment(opts.environment);
     this.projectId = opts.projectId;
+    this.scope = opts.scope;
     if ("accessToken" in opts.credentials) {
       this.staticAccessToken = opts.credentials.accessToken;
     } else {
@@ -264,6 +271,16 @@ export class BackendClient extends BaseClient {
     return this.ensureValidOauthAccessToken();
   }
 
+  /**s
+   * Returns true if the client is configured to use a static access token.
+   *
+   * @returns True if the client is configured to use a static access token.
+   *
+   */
+  public isStaticAccessToken(): boolean {
+    return !!this.staticAccessToken;
+  }
+
   protected authHeaders(): string | Promise<string> {
     if (this.staticAccessToken) {
       return `Bearer ${this.staticAccessToken}`;
@@ -294,6 +311,9 @@ export class BackendClient extends BaseClient {
       }
 
       const parameters = new URLSearchParams();
+      if (this.scope && this.scope.length > 0) {
+        parameters.set("scope", this.scope.join(" "));
+      }
       try {
         const response = await oauth.clientCredentialsGrantRequest(as, client, clientAuth, parameters);
         const oauthTokenResponse = await oauth.processClientCredentialsResponse(as, client, response);
@@ -301,7 +321,8 @@ export class BackendClient extends BaseClient {
           token: oauthTokenResponse.access_token,
           expiresAt: Date.now() + (oauthTokenResponse.expires_in || 0) * 1000,
         };
-      } catch {
+      } catch (e) {
+        console.log(e)
         // pass
       }
 
