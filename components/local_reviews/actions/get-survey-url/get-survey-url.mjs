@@ -10,7 +10,7 @@ export default {
     app,
   },
   async run({ $ }) {
-    const response = await this.app.getSurveyUrl();
+    const response = await this.app.getSurveyUrl({ $ });
     $.export("$summary", "Successfully retrieved survey URL.");
     return response;
   },
