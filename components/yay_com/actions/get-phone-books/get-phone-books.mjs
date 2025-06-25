@@ -3,7 +3,7 @@ import yayCom from "../../yay_com.app.mjs";
 export default {
   key: "yay_com-get-phone-books",
   name: "Get Phone Books",
-  description: "Retrieves a list of phone books. [See documentation](https://www.yay.com/voip/api-docs/phone-books/phone-book/)",
+  description: "Retrieves all phone books available. [See the documentation](https://www.yay.com/voip/api-docs/phone-books/phone-book/)",
   version: "0.0.1",
   type: "action",
   props: {

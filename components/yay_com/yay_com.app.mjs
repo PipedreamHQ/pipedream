@@ -18,25 +18,10 @@ export default {
         })) || [];
       },
     },
-    sipUsers: {
-      type: "string[]",
-      label: "SIP Users",
-      description: "List of SIP users who will receive the outbound call request",
-      optional: true,
-      async options() {
-        const users = await this.listSipUsers();
-        return users?.map(({
-          uuid: value, display_name, user_name,
-        }) => ({
-          label: display_name || user_name,
-          value,
-        })) || [];
-      },
-    },
     huntGroups: {
       type: "string[]",
       label: "Hunt Groups",
-      description: "List of hunt groups who will receive the outbound call request",
+      description: "One or more hunt groups who will receive the outbound call request",
       optional: true,
       async options() {
         const groups = await this.listHuntGroups();

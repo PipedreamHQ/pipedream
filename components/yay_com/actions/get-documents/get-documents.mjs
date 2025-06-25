@@ -4,7 +4,7 @@ export default {
   key: "yay_com-get-documents",
   name: "Get Documents",
   description:
-    "Retrieves a list of documents. [See documentation](https://www.yay.com/voip/api-docs/account/document/)",
+    "Retrieves all documents available. [See the documentation](https://www.yay.com/voip/api-docs/account/document/)",
   version: "0.0.1",
   type: "action",
   props: {

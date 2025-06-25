@@ -4,7 +4,7 @@ import yayCom from "../../yay_com.app.mjs";
 export default {
   key: "yay_com-create-outbound-call",
   name: "Create Outbound Call",
-  description: "Initiates an outbound call to a specified number. [See documentation](https://www.yay.com/voip/api-docs/calls/outbound-call/)",
+  description: "Initiates an outbound call to a specified number. [See the documentation](https://www.yay.com/voip/api-docs/calls/outbound-call/)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -30,8 +30,11 @@ export default {
     sipUsers: {
       propDefinition: [
         yayCom,
-        "sipUsers",
+        "sipUser",
       ],
+      type: "string[]",
+      description: "One or more SIP users who will receive the outbound call request",
+      optional: true,
     },
     huntGroups: {
       propDefinition: [
@@ -63,9 +66,7 @@ export default {
         user_uuid: this.userUuid,
         destination: this.destination,
         display_name: this.displayName,
-        ...(targets.length > 0 && {
-          targets,
-        }),
+        targets,
       },
     });
 

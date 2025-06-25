@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "yay_com-new-contact-added",
   name: "New Contact Added",
-  description: "Emit new event when a new contact is added to a phone book. [See the documentation](https://www.yay.com/voip/api-docs/phone-books/phone-book-contact/)",
+  description: "Emit new event when a contact is added to a phone book. [See the documentation](https://www.yay.com/voip/api-docs/phone-books/phone-book-contact/)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
