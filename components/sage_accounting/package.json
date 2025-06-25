@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sage_accounting",
+  "version": "0.0.1",
+  "description": "Pipedream Sage Accounting Components",
+  "main": "sage_accounting.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sage_accounting"
+  ],
+  "homepage": "https://pipedream.com/apps/sage_accounting",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

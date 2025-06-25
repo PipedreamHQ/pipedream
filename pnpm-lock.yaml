@@ -11545,6 +11545,9 @@ importers:
 
   components/ryver: {}
 
+  components/sage_accounting:
+    specifiers: {}
+
   components/sage_intacct: {}
 
   components/sailpoint: {}
