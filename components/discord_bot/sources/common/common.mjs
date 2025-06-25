@@ -1,5 +1,5 @@
-import common from "../common.mjs";
-import constants from "../common/constants.mjs";
+import common from "../../common.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   ...common,
@@ -16,6 +16,17 @@ export default {
     },
     _setLastMemberID(memberID) {
       this.db.set(constants.LAST_MEMBER_ID, memberID);
+    },
+    _getBotId() {
+      return this.db.get("botId");
+    },
+    _setBotId(botId) {
+      this.db.set("botId", botId);
+    },
+    getBotProfile() {
+      return this.discord._makeRequest({
+        path: "/users/@me",
+      });
     },
   },
 };
