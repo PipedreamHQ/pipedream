@@ -14,6 +14,30 @@ const GET_ORDER = `
           endCursor
         }
       }
+      customer {
+        id
+        displayName
+        email
+        phone
+        addresses (first: $first) {
+          address1
+          address2
+          city
+          zip
+          country
+          company
+        }
+      }
+      totalPriceSet {
+        shopMoney {
+          amount
+          currencyCode
+        }
+        presentmentMoney {
+          amount
+          currencyCode
+        }
+      }
       suggestedRefund(refundLineItems: $refundLineItems) {
         subtotalSet {
           shopMoney {
@@ -104,11 +128,35 @@ const GET_DRAFT_ORDER = `
 `;
 
 const LIST_ORDERS = `
-  query ($first: Int, $after: String, $reverse: Boolean){
-    orders(first: $first, after: $after, reverse: $reverse) {
+  query ($first: Int, $after: String, $reverse: Boolean, $query: String){
+    orders(first: $first, after: $after, reverse: $reverse, query: $query) {
       nodes {
         id
         updatedAt
+        customer {
+          id
+          displayName
+          email
+          phone
+          addresses (first: $first) {
+            address1
+            address2
+            city
+            zip
+            country
+            company
+          }
+        }
+        totalPriceSet {
+          shopMoney {
+            amount
+            currencyCode
+          }
+          presentmentMoney {
+            amount
+            currencyCode
+          }
+        }
         metafields (first: $first) {
           nodes {
             id
@@ -154,6 +202,21 @@ const LIST_CUSTOMERS = `
       nodes {
         id
         displayName
+        email
+        phone
+        addresses (first: $first) {
+          address1
+          address2
+          city
+          country
+          company
+        }
+        orders (first: $first) {
+          nodes {
+            id
+            createdAt
+          }
+        }
         metafields (first: $first) {
           nodes {
             id
