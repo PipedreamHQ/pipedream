@@ -234,6 +234,7 @@ export type V1Component<T extends ConfigurableProps = any> = { // eslint-disable
   configurable_props: T;
   description?: string;
   component_type?: string;
+  stash?: "optional" | "required";
 };
 
 export type V1DeployedComponent<T extends ConfigurableProps = any> = { // eslint-disable-line @typescript-eslint/no-explicit-any
