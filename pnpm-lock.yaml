@@ -2355,8 +2355,7 @@ importers:
 
   components/chatsonic: {}
 
-  components/chattermill:
-    specifiers: {}
+  components/chattermill: {}
 
   components/chatwork:
     dependencies:

@@ -1,10 +1,10 @@
 import shopify from "../../shopify_developer_app.app.mjs";
 
 export default {
-  key: "shopify_developer_app-search-customers",
-  name: "Search for Customers",
-  description: "Search for a customer or a list of customers. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/customers)",
-  version: "0.0.7",
+  key: "shopify_developer_app-search-orders",
+  name: "Search for Orders",
+  description: "Search for an order or a list of orders. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/orders)",
+  version: "0.0.1",
   type: "action",
   props: {
     shopify,
@@ -12,6 +12,7 @@ export default {
       type: "string",
       label: "Query",
       description: "The search query",
+      optional: true,
     },
     max: {
       type: "integer",
@@ -21,17 +22,19 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.shopify.getPaginated({
-      resourceFn: this.shopify.listCustomers,
+    const orders = await this.shopify.getPaginated({
+      resourceFn: this.shopify.listOrders,
       resourceKeys: [
-        "customers",
+        "orders",
       ],
       variables: {
         query: this.query,
       },
       max: this.max,
     });
-    $.export("$summary", `Found ${response.length} customer(s)`);
-    return response;
+    $.export("$summary", `Found ${orders.length} order${orders.length === 1
+      ? ""
+      : "s"}`);
+    return orders;
   },
 };
