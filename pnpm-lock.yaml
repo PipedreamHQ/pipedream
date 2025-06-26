@@ -8618,6 +8618,9 @@ importers:
 
   components/mumara: {}
 
+  components/mumble:
+    specifiers: {}
+
   components/mural:
     dependencies:
       '@pipedream/platform':
