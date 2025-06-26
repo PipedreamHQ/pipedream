@@ -6,7 +6,7 @@ export default {
   propDefinitions: {
     sipUser: {
       type: "string",
-      label: "SIP User",
+      label: "SIP User ID",
       description: "The SIP user to make the outbound call for",
       async options() {
         const users = await this.listSipUsers();
@@ -20,7 +20,7 @@ export default {
     },
     huntGroups: {
       type: "string[]",
-      label: "Hunt Groups",
+      label: "Target Hunt Groups",
       description: "One or more hunt groups who will receive the outbound call request",
       optional: true,
       async options() {

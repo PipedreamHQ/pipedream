@@ -32,6 +32,7 @@ export default {
         yayCom,
         "sipUser",
       ],
+      label: "Target SIP Users",
       type: "string[]",
       description: "One or more SIP users who will receive the outbound call request",
       optional: true,
