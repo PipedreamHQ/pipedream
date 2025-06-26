@@ -7483,7 +7483,11 @@ importers:
 
   components/limitless: {}
 
-  components/limitless_ai: {}
+  components/limitless_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/limoexpress:
     dependencies:
