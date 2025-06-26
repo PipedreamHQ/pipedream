@@ -443,6 +443,12 @@ export default {
         id: noteId,
       });
     },
+    getPerson(personId) {
+      const personsApi = this.api("PersonsApi", "v2");
+      return personsApi.getPerson({
+        id: personId,
+      });
+    },
     async *paginate({
       fn, params, max,
     }) {

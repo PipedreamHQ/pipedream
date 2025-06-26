@@ -9415,8 +9415,7 @@ importers:
         specifier: ^0.9.0
         version: 0.9.0
 
-  components/opinion_stage:
-    specifiers: {}
+  components/opinion_stage: {}
 
   components/opnform:
     dependencies:
