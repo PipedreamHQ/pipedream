@@ -1,18 +1,25 @@
 import addToCalendarPro from "../../add_to_calendar_pro.app.mjs";
 
 export default {
-  key: "add_to_calendar_pro-create-landing-page-template",
-  name: "Create Landing Page Template",
-  description: "Create a landing page template. [See the documentation](https://docs.add-to-calendar-pro.com/api/landingpages#add-a-landing-page-template)",
+  key: "add_to_calendar_pro-update-landing-page-template",
+  name: "Update Landing Page Template",
+  description: "Update a landing page template. [See the documentation](https://docs.add-to-calendar-pro.com/api/landingpages#update-a-landing-page-template)",
   version: "0.0.1",
   type: "action",
   props: {
     addToCalendarPro,
+    landingPageTemplateId: {
+      propDefinition: [
+        addToCalendarPro,
+        "landingPageTemplateId",
+      ],
+    },
     name: {
       propDefinition: [
         addToCalendarPro,
         "landingPageTemplateName",
       ],
+      optional: true,
     },
     title: {
       propDefinition: [
@@ -82,8 +89,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.addToCalendarPro.createLandingPageTemplate({
+    const response = await this.addToCalendarPro.updateLandingPageTemplate({
       $,
+      landingPageTemplateId: this.landingPageTemplateId,
       data: {
         name: this.name,
         title: this.title,
@@ -99,7 +107,7 @@ export default {
         meta_description_override: this.metaDescriptionOverride,
       },
     });
-    $.export("$summary", "Successfully created landing page template.");
+    $.export("$summary", "Successfully updated landing page template.");
     return response;
   },
 };

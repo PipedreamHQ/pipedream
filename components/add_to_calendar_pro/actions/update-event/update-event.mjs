@@ -1,17 +1,17 @@
 import addToCalendarPro from "../../add_to_calendar_pro.app.mjs";
 
 export default {
-  key: "add_to_calendar_pro-create-event",
-  name: "Create Event",
-  description: "Create an event in a group. [See the documentation](https://docs.add-to-calendar-pro.com/api/events#add-an-event)",
+  key: "add_to_calendar_pro-update-event",
+  name: "Update Event",
+  description: "Update an event in a group. [See the documentation](https://docs.add-to-calendar-pro.com/api/events#update-an-event)",
   version: "0.0.1",
   type: "action",
   props: {
     addToCalendarPro,
-    groupProKey: {
+    eventProKey: {
       propDefinition: [
         addToCalendarPro,
-        "groupProKey",
+        "eventProKey",
       ],
     },
     name: {
@@ -19,12 +19,14 @@ export default {
         addToCalendarPro,
         "eventName",
       ],
+      optional: true,
     },
     startDate: {
       propDefinition: [
         addToCalendarPro,
         "startDate",
       ],
+      optional: true,
     },
     startTime: {
       propDefinition: [
@@ -101,10 +103,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const event = await this.addToCalendarPro.createEvent({
+    const response = await this.addToCalendarPro.updateEvent({
       $,
+      eventProKey: this.eventProKey,
       data: {
-        event_group: this.groupProKey,
         dates: [
           {
             name: this.name,
@@ -125,7 +127,7 @@ export default {
         landingpage: this.landingPageTemplateId,
       },
     });
-    $.export("$summary", "Successfully created event.");
-    return event;
+    $.export("$summary", "Successfully updated event.");
+    return response;
   },
 };

@@ -41,6 +41,18 @@ export default {
         })) || [];
       },
     },
+    rsvpTemplateId: {
+      type: "string",
+      label: "RSVP Template ID",
+      description: "The ID of an RSVP template",
+      async options() {
+        const templates = await this.listRsvpTemplates();
+        return templates?.map((template) => ({
+          label: template.name,
+          value: template.id,
+        })) || [];
+      },
+    },
     eventProKey: {
       type: "string",
       label: "Event Pro Key",
@@ -52,6 +64,236 @@ export default {
           value: event.prokey,
         })) || [];
       },
+    },
+    eventName: {
+      type: "string",
+      label: "Name",
+      description: "The name of the event",
+    },
+    startDate: {
+      type: "string",
+      label: "Start Date",
+      description: "The start date of the event in format YYYY-MM-DD",
+    },
+    startTime: {
+      type: "string",
+      label: "Start Time",
+      description: "The start time of the event in format HH:MM",
+      optional: true,
+    },
+    endDate: {
+      type: "string",
+      label: "End Date",
+      description: "The end date of the event in format YYYY-MM-DD",
+      optional: true,
+    },
+    endTime: {
+      type: "string",
+      label: "End Time",
+      description: "The end time of the event in format HH:MM",
+      optional: true,
+    },
+    timeZone: {
+      type: "string",
+      label: "Time Zone",
+      description: "The timezone of the event. Example: `America/Los_Angeles`",
+      optional: true,
+    },
+    description: {
+      type: "string",
+      label: "Description",
+      description: "The description of the event",
+      optional: true,
+    },
+    location: {
+      type: "string",
+      label: "Location",
+      description: "The location of the event",
+      optional: true,
+    },
+    rsvp: {
+      type: "boolean",
+      label: "RSVP",
+      description: "Whether the event is an RSVP event",
+      optional: true,
+    },
+    distribution: {
+      type: "boolean",
+      label: "Event Distribution",
+      description: "Whether the event is distributed to all group members",
+      optional: true,
+    },
+    hideButton: {
+      type: "boolean",
+      label: "Hide Button",
+      description: "Whether the Add to Calendar button is hidden",
+      optional: true,
+    },
+    cta: {
+      type: "boolean",
+      label: "Call to Action",
+      description: "Whether the event has a call to action",
+      optional: true,
+    },
+    landingPageTemplateName: {
+      type: "string",
+      label: "Name",
+      description: "The name of the landing page template",
+    },
+    title: {
+      type: "string",
+      label: "Title",
+      description: "The title of the landing page template",
+      optional: true,
+    },
+    intro: {
+      type: "string",
+      label: "Intro",
+      description: "The intro of the landing page template",
+      optional: true,
+    },
+    legal: {
+      type: "string",
+      label: "Legal",
+      description: "The legal footer text; allows for HTML",
+      optional: true,
+    },
+    highlightColor: {
+      type: "string",
+      label: "Highlight Color",
+      description: "Hex code; used for buttons and decorative elements",
+      optional: true,
+    },
+    backgroundColor1: {
+      type: "string",
+      label: "Background Color 1",
+      description: "Hex code; used for the background of the template",
+      optional: true,
+    },
+    backgroundColor2: {
+      type: "string",
+      label: "Background Color 2",
+      description: "Hex code; used for the background of the template",
+      optional: true,
+    },
+    background: {
+      type: "string",
+      label: "Background",
+      description: "Background of the template",
+      options: [
+        "solid",
+        "gradient",
+        "image",
+        "preset",
+      ],
+      optional: true,
+    },
+    gradientDirection: {
+      type: "string",
+      label: "Gradient Direction",
+      description: "The direction of the gradient. Only used if `background` is `gradient`.",
+      options: [
+        "linear-t",
+        "linear-tr",
+        "linear-r",
+        "linear-br",
+        "radial",
+      ],
+      optional: true,
+    },
+    imageRepeat: {
+      type: "boolean",
+      label: "Image Repeat",
+      description: "Whether to show the background image fullscreen or repeat it",
+      optional: true,
+    },
+    metaTitleOverride: {
+      type: "string",
+      label: "Meta Title Override",
+      description: "Text that overrides the auto-generated meta title",
+      optional: true,
+    },
+    metaDescriptionOverride: {
+      type: "string",
+      label: "Meta Description Override",
+      description: "Text that overrides the auto-generated meta description",
+      optional: true,
+    },
+    eventGroupName: {
+      type: "string",
+      label: "Event Group Name",
+      description: "The name of the event group",
+    },
+    internalNote: {
+      type: "string",
+      label: "Internal Note",
+      description: "Internal note for the event group",
+      optional: true,
+    },
+    subscriptionCallUrl: {
+      type: "string",
+      label: "Subscription Call URL",
+      description: "URL to an external calendar. Needs to start with \"http\"! Usually ends with \".ics\"",
+      optional: true,
+    },
+    rsvpTemplateName: {
+      type: "string",
+      label: "RSVP Template Name",
+      description: "The name of the RSVP template",
+    },
+    rsvpTemplateMax: {
+      type: "integer",
+      label: "Max",
+      description: "Max amount of seats; defaults to unlimited",
+      optional: true,
+    },
+    rsvpTemplateMaxPP: {
+      type: "integer",
+      label: "Max Per Person",
+      description: "Max seats per sign-up; defaults to 1",
+      optional: true,
+    },
+    expires: {
+      type: "string",
+      label: "Expires",
+      description: "an optional expiration date as ISO 8601 UTC datetime",
+      optional: true,
+    },
+    maybeOption: {
+      type: "boolean",
+      label: "Maybe Option",
+      description: "Whether to allow users to select a maybe option",
+      optional: true,
+    },
+    initialConfirmation: {
+      type: "boolean",
+      label: "Initial Confirmation",
+      description: "If `true`, the initial sign-up will always be \"confirmed\"",
+      optional: true,
+    },
+    doi: {
+      type: "boolean",
+      label: "DOI",
+      description: "If `true`, each user will need to confirm his email",
+      optional: true,
+    },
+    headline: {
+      type: "string",
+      label: "Headline",
+      description: "The headline of the RSVP template",
+      optional: true,
+    },
+    text: {
+      type: "string",
+      label: "Text",
+      description: "The text of the RSVP template",
+      optional: true,
+    },
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      description: "The fields of the RSVP template. Example: `[{ \"type\": \"text\", \"name\": \"additional_info\", \"label\": \"Additional note\", \"required\": false, \"placeholder\": \"Type here...\", \"default\": \"Call me maybe\" }] [See the documentation](https://docs.add-to-calendar-pro.com/api/rsvp#add-an-rsvp-template) for more information.`",
+      optional: true,
     },
   },
   methods: {
@@ -132,6 +374,12 @@ export default {
     listLandingPageTemplates(opts = {}) {
       return this._makeRequest({
         path: "/landingpage/all",
+        ...opts,
+      });
+    },
+    listRsvpTemplates(opts = {}) {
+      return this._makeRequest({
+        path: "/rsvp-block/all",
         ...opts,
       });
     },
