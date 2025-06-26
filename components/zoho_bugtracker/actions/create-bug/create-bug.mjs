@@ -1,14 +1,12 @@
 import FormData from "form-data";
-import fs from "fs";
-import {
-  clearObj, getUploadContentType,
-} from "../../common/utils.mjs";
+import { clearObj } from "../../common/utils.mjs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import zohoBugtracker from "../../zoho_bugtracker.app.mjs";
 
 export default {
   key: "zoho_bugtracker-create-bug",
   name: "Create Bug",
-  version: "0.0.1",
+  version: "0.1.0",
   description: "Create a new bug [See the documentation](https://www.zoho.com/projects/help/rest-api/bugtracker-bugs-api.html#alink3)",
   type: "action",
   props: {
@@ -205,14 +203,14 @@ export default {
     }
 
     if (uploaddoc) {
-
-      const file = fs.createReadStream(uploaddoc);
-      const filename = uploaddoc.split("/").pop();
-
-      formData.append("uploaddoc", file, {
+      const {
+        stream, metadata,
+      } = await getFileStreamAndMetadata(uploaddoc);
+      const filename = metadata.name;
+      formData.append("uploaddoc", stream, {
         header: [
           `Content-Disposition: form-data; name="uploaddoc"; filename="${filename}"`,
-          `Content-Type: ${getUploadContentType(filename)}`,
+          `Content-Type: ${metadata.contentType}`,
         ],
       });
     }

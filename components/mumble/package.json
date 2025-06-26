@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/mumble",
+  "version": "0.0.1",
+  "description": "Pipedream Mumble Components",
+  "main": "mumble.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mumble"
+  ],
+  "homepage": "https://pipedream.com/apps/mumble",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
