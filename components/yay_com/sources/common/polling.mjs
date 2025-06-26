@@ -19,7 +19,7 @@ export default {
     _setSavedIds(ids) {
       this.db.set("savedIds", ids);
     },
-    async startEvent() {
+    async startEvent(maxItems) {
       const savedIds = this._getSavedIds();
       const items = await this.getItems(savedIds);
 
@@ -28,7 +28,9 @@ export default {
         const id = this.getItemId(item);
         if (!savedIds.includes(id)) {
           const meta = this.generateMeta(item);
-          this.$emit(item, meta);
+          if (maxItems === undefined || (typeof maxItems === "number" && --maxItems >= 0)) {
+            this.$emit(item, meta);
+          }
           newIds.push(id);
         }
       }
@@ -45,5 +47,10 @@ export default {
   },
   async run() {
     await this.startEvent();
+  },
+  hooks: {
+    async deploy() {
+      await this.startEvent(5);
+    },
   },
 };
