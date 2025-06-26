@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "add_to_calendar_pro-event-group-deleted-instant",
   name: "Event Group Deleted (Instant)",
-  description: "Emit new event when a new event is deleted in the system",
+  description: "Emit new event when a new event group is deleted in the system",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

@@ -59,17 +59,15 @@ export default {
       $,
       groupProKey: this.groupProKey,
       data: {
-        data: {
-          name: this.eventGroupName,
-          internal_note: this.internalNote,
-          subscription: this.subscriptionCallUrl
-            ? "external"
-            : "no",
-          subscription_call_url: this.subscriptionCallUrl,
-          cta: this.cta,
-          layout: this.styleId,
-          landingpage: this.landingPageTemplateId,
-        },
+        name: this.eventGroupName,
+        internal_note: this.internalNote,
+        subscription: this.subscriptionCallUrl
+          ? "external"
+          : "no",
+        subscription_call_url: this.subscriptionCallUrl,
+        cta: this.cta,
+        layout: this.styleId,
+        landingpage: this.landingPageTemplateId,
       },
     });
     $.export("$summary", "Successfully updated event group.");

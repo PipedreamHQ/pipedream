@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "add_to_calendar_pro-event-group-updated-instant",
   name: "Event Group Updated (Instant)",
-  description: "Emit new event when a new event is updated in the system",
+  description: "Emit new event when a new event group is updated in the system",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

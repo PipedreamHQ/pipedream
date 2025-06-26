@@ -292,7 +292,7 @@ export default {
     fields: {
       type: "string[]",
       label: "Fields",
-      description: "The fields of the RSVP template. Example: `[{ \"type\": \"text\", \"name\": \"additional_info\", \"label\": \"Additional note\", \"required\": false, \"placeholder\": \"Type here...\", \"default\": \"Call me maybe\" }] [See the documentation](https://docs.add-to-calendar-pro.com/api/rsvp#add-an-rsvp-template) for more information.`",
+      description: "The fields of the RSVP template. Example: `[{ \"type\": \"text\", \"name\": \"additional_info\", \"label\": \"Additional note\", \"required\": false, \"placeholder\": \"Type here...\", \"default\": \"Call me maybe\" }]` [See the documentation](https://docs.add-to-calendar-pro.com/api/rsvp#add-an-rsvp-template) for more information.",
       optional: true,
     },
   },
@@ -314,6 +314,7 @@ export default {
       } catch (error) {
         if (error.status === 404 && JSON.parse(error.message)?.message?.includes("No entry found")) {
           console.log("No entry found");
+          return null;
         } else {
           throw error;
         }
