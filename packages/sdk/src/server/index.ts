@@ -322,8 +322,41 @@ export class BackendClient extends BaseClient {
           expiresAt: Date.now() + (oauthTokenResponse.expires_in || 0) * 1000,
         };
       } catch (e) {
-        console.log(e)
-        // pass
+        // Extract error details from OAuth response
+        let errorMessage = "OAuth token request failed";
+        let wwwAuthenticate: string | undefined;
+        let statusCode: number | undefined;
+        
+        if (e instanceof Error) {
+          errorMessage = e.message;
+        }
+        
+        // Check if the error contains response information
+        if (e && typeof e === 'object' && 'response' in e) {
+          const errorResponse = (e as any).response;
+          if (errorResponse) {
+            statusCode = errorResponse.status;
+            wwwAuthenticate = errorResponse.headers?.get?.('www-authenticate') || 
+                             errorResponse.headers?.['www-authenticate'];
+            
+            // Create more specific error message based on status code
+            if (statusCode === 401) {
+              errorMessage = `OAuth authentication failed (401 Unauthorized)${wwwAuthenticate ? `: ${wwwAuthenticate}` : ''}`;
+            } else if (statusCode === 400) {
+              errorMessage = "OAuth request invalid (400 Bad Request) - check client credentials";
+            } else if (statusCode) {
+              errorMessage = `OAuth request failed with status ${statusCode}`;
+            }
+          }
+        }
+        
+        // If this is the last attempt, throw a detailed error
+        if (attempts >= maxAttempts) {
+          const error = new Error(errorMessage);
+          (error as any).statusCode = statusCode;
+          (error as any).wwwAuthenticate = wwwAuthenticate;
+          throw error;
+        }
       }
 
       attempts++;
