@@ -313,7 +313,11 @@ importers:
         specifier: ^3.0.1
         version: 3.0.3
 
-  components/add_to_calendar_pro: {}
+  components/add_to_calendar_pro:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/addevent:
     dependencies:
@@ -2355,8 +2359,7 @@ importers:
 
   components/chatsonic: {}
 
-  components/chattermill:
-    specifiers: {}
+  components/chattermill: {}
 
   components/chatwork:
     dependencies:
@@ -5399,8 +5402,7 @@ importers:
 
   components/godial: {}
 
-  components/goformz:
-    specifiers: {}
+  components/goformz: {}
 
   components/gohighlevel:
     dependencies:
@@ -7291,8 +7293,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/lark:
-    specifiers: {}
+  components/lark: {}
 
   components/lastpass:
     dependencies:
@@ -8497,8 +8498,7 @@ importers:
 
   components/mollie: {}
 
-  components/momentum_ams:
-    specifiers: {}
+  components/momentum_ams: {}
 
   components/monday:
     dependencies:
@@ -9481,8 +9481,7 @@ importers:
 
   components/order_sender: {}
 
-  components/orderspace:
-    specifiers: {}
+  components/orderspace: {}
 
   components/originality_ai:
     dependencies:
@@ -11559,8 +11558,7 @@ importers:
 
   components/ryver: {}
 
-  components/sage_accounting:
-    specifiers: {}
+  components/sage_accounting: {}
 
   components/sage_intacct: {}
 
@@ -12977,8 +12975,7 @@ importers:
 
   components/stealthseminar: {}
 
-  components/stiply:
-    specifiers: {}
+  components/stiply: {}
 
   components/storeganise:
     dependencies:
