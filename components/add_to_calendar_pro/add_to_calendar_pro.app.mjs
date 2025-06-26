@@ -319,6 +319,22 @@ export default {
         }
       }
     },
+    createWebhook(opts = {}) {
+      return this._makeRequest({
+        path: "/webhook",
+        method: "POST",
+        ...opts,
+      });
+    },
+    deleteWebhook({
+      hookId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/webhook/${hookId}`,
+        method: "DELETE",
+        ...opts,
+      });
+    },
     getGroup({
       groupProKey, ...opts
     }) {
