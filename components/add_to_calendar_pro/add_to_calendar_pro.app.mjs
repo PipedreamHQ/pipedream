@@ -33,7 +33,6 @@ export default {
       type: "string",
       label: "Landing Page Template ID",
       description: "The ID of a landing page template",
-      optional: true,
       async options() {
         const templates = await this.listLandingPageTemplates();
         return templates?.map((template) => ({

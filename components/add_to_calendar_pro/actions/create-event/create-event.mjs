@@ -95,6 +95,7 @@ export default {
         addToCalendarPro,
         "landingPageTemplateId",
       ],
+      optional: true,
     },
   },
   async run({ $ }) {
