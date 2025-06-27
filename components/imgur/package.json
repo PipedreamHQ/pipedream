@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/imgur",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The imgur app file for Pipedream action & trigger integrations.",
-  "main": "index.js",
+  "main": "imgur.app.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,6 +14,5 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
-  },
-  "license": "ISC"
+  }
 }

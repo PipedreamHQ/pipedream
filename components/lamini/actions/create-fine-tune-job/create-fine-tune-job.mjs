@@ -6,7 +6,7 @@ export default {
   key: "lamini-create-fine-tune-job",
   name: "Create Fine-Tune Job",
   description: "Create a fine-tuning job with a dataset. [See the documentation](https://docs.lamini.ai/api/).",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     app,
@@ -52,7 +52,7 @@ export default {
     waitForCompletion: {
       type: "boolean",
       label: "Wait for Completion",
-      description: "If set to `true`, the action will wait and poll until the fine-tuning job is `COMPLETED`. If is set to `false`, it will return immediately after creating the job.",
+      description: "If set to `true`, the action will wait and poll until the fine-tuning job is `COMPLETED`. If is set to `false`, it will return immediately after creating the job. Not available in Pipedream Connect.",
       default: false,
       optional: true,
     },
@@ -81,7 +81,12 @@ export default {
 
     const MAX_RETRIES = 15;
     const DELAY = 1000 * 30; // 30 seconds
-    const { run } = $.context;
+    const context = $.context;
+    const run = context
+      ? context.run
+      : {
+        runs: 1,
+      };
 
     // First run: Create the fine-tune job
     if (run.runs === 1) {
@@ -114,7 +119,7 @@ export default {
       $.export("$summary", `Successfully created a fine-tune job with ID \`${response.job_id}\`.`);
 
       // If user doesn't want to wait, return immediately
-      if (!waitForCompletion) {
+      if (!waitForCompletion || !context) {
         return response;
       }
 

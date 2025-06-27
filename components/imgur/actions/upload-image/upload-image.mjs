@@ -2,7 +2,7 @@ import imgur from "../../imgur.app.mjs";
 
 export default {
   name: "Upload Image",
-  version: "0.1.0",
+  version: "0.1.1",
   key: "imgur-upload-image",
   description: "Upload an image to Imgur",
   props: {
@@ -19,7 +19,11 @@ export default {
 
     if (!res.status == 200) {
       $.export("response", res);
-      return $.flow.exit("Failed to upload.");
+      if ($.flow) {
+        return $.flow.exit("Failed to upload.");
+      } else {
+        throw new Error("Failed to upload.");
+      }
     }
 
     return res;

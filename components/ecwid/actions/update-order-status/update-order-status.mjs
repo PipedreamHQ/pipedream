@@ -44,7 +44,11 @@ export default {
         console.error("Error Updating Order Status of " + this.orderId + " to " + this.fulfilmentStatus);
         update = "ERROR";
         $.export("$summary", "Error Updating Order Status of " + this.orderId + " to " + this.fulfilmentStatus);
-        return $.flow.exit("Error Updating Order Status of " + this.orderId + " to " + this.fulfilmentStatus);
+        if ($.flow) {
+          return $.flow.exit("Error Updating Order Status of " + this.orderId + " to " + this.fulfilmentStatus);
+        } else {
+          throw new Error("Error Updating Order Status of " + this.orderId + " to " + this.fulfilmentStatus);
+        }
       }
     } else {
       $.export("$summary", "No updates done to order " + this.orderId);
