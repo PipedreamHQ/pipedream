@@ -3,8 +3,8 @@ import cloudflare from "../../cloudflare_api_key.app.mjs";
 export default {
   key: "cloudflare_api_key-create-key-value-pairs",
   name: "Create Key/Value Pairs",
-  description: "Create new Key/Value pairs in a Namespace. [See the docs here](https://api.cloudflare.com/#workers-kv-namespace-write-key-value-pair)",
-  version: "0.0.2",
+  description: "Create new Key/Value pairs in a Namespace. [See the documentation](https://developers.cloudflare.com/api/node/resources/kv/subresources/namespaces/methods/bulk_update/)",
+  version: "0.0.3",
   type: "action",
   props: {
     cloudflare,
@@ -41,7 +41,10 @@ export default {
         value,
       });
     }
-    const response = await this.cloudflare.createKeyValuePair(this.account, this.namespace, data);
+    const response = await this.cloudflare.createKeyValuePair({
+      namespaceId: this.namespace,
+      body: data,
+    });
 
     $.export("$summary", `Successfully created value in namespace with ID ${this.namespace}`);
 

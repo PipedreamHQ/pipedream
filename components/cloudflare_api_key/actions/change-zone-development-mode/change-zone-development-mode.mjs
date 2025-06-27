@@ -5,7 +5,7 @@ export default {
   key: "cloudflare_api_key-change-zone-development-mode",
   name: "Change Development Mode",
   description: "Development Mode temporarily allows you to enter development mode for your websites if you need to make changes to your site. This will bypass Cloudflare's accelerated cache and slow down your site. [See the docs here](https://api.cloudflare.com/#zone-settings-change-development-mode-setting)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     cloudflare,
@@ -26,7 +26,11 @@ export default {
     const zoneId = this.zoneIdentifier;
     const developmentMode = this.developmentMode;
 
-    const response = await this.cloudflare.changeDevelopmentMode(zoneId, developmentMode);
+    const response = await this.cloudflare.editZoneSetting({
+      settingId: "development_mode",
+      zone_id: zoneId,
+      value: developmentMode,
+    });
     $.export("$summary", `Turned ${developmentMode} development mode for #${zoneId}`);
 
     return response;

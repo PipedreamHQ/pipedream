@@ -1,16 +1,13 @@
-import fs from "fs";
 import { TYPE_OPTIONS } from "../../common/constants.mjs";
-import {
-  checkTmp,
-  parseObject,
-} from "../../common/utils.mjs";
+import { parseObject } from "../../common/utils.mjs";
 import crowdin from "../../crowdin.app.mjs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 
 export default {
   key: "crowdin-add-file",
   name: "Add File to Project",
   description: "Adds a file into the created project. [See the documentation](https://developer.crowdin.com/api/v2/#tag/source-files/operation/api.projects.files.post)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   props: {
     crowdin,
@@ -22,8 +19,8 @@ export default {
     },
     file: {
       type: "string",
-      label: "File",
-      description: "The path to the file saved to the `/tmp` directory  (e.g. `/tmp/example.jpg`) to process. [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      label: "File Path Or Url",
+      description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/example.jpg`)",
     },
     name: {
       type: "string",
@@ -83,6 +80,16 @@ export default {
       ],
     },
   },
+  methods: {
+    streamToBuffer(stream) {
+      return new Promise((resolve, reject) => {
+        const chunks = [];
+        stream.on("data", (chunk) => chunks.push(chunk));
+        stream.on("end", () => resolve(Buffer.concat(chunks)));
+        stream.on("error", reject);
+      });
+    },
+  },
   async run({ $ }) {
     const {
       crowdin,
@@ -92,7 +99,11 @@ export default {
       ...data
     } = this;
 
-    const fileBinary = fs.readFileSync(checkTmp(file));
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(file);
+    const fileBinary = await this.streamToBuffer(stream);
+
     const crowdinFilename = file.startsWith("/tmp/")
       ? file.slice(5)
       : file;
@@ -101,7 +112,7 @@ export default {
       data: Buffer.from(fileBinary, "binary"),
       headers: {
         "Crowdin-API-FileName": encodeURI(crowdinFilename),
-        "Content-Type": "application/octet-stream",
+        "Content-Type": metadata.contentType || "application/octet-stream",
       },
     });
 

@@ -1,44 +1,88 @@
-import fs from "fs";
+import path from "path";
+import { promises as fs } from "fs";
+import FormData from "form-data";
 import { defineAction } from "@pipedream/types";
-import { ConfigurationError } from "@pipedream/platform";
+import {
+  ConfigurationError,
+  getFileStreamAndMetadata,
+} from "@pipedream/platform";
 import cloudmersive from "../../app/cloudmersive.app";
 import { DOCS } from "../../common/constants";
-import { ConvertToPDFParams } from "../../common/types";
 
 export default defineAction({
   name: "Convert to PDF",
-  description: `Convert Office Word Documents (docx) to PDF [See docs here](${DOCS.convertToPDF})`,
+  description: `Convert Office Word Documents (docx) to PDF [See the documentation](${DOCS.convertToPDF})`,
   key: "cloudmersive-convert-to-pdf",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   props: {
     cloudmersive,
-    filePath: {
+    file: {
       type: "string",
-      label: "File Path",
-      description:
-        `Path to the input .docx file, such as \`/tmp/file.docx\`. [See the docs on working with files](${DOCS.pdFilesTutorial})`,
+      label: "File Path Or Url",
+      description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/file.docx`)",
+    },
+    outputType: {
+      type: "string",
+      label: "Output Type",
+      description: "The desired output type. Select **File Path** to save the converted file to `/tmp` and return the path.",
+      options: [
+        {
+          label: "Binary",
+          value: "binary",
+        },
+        {
+          label: "File Path",
+          value: "file_path",
+        },
+      ],
+      default: "binary",
+      optional: true,
     },
   },
   async run({ $ }) {
-    const { filePath } = this;
-    let file: Buffer;
+    const {
+      cloudmersive,
+      file,
+      outputType,
+    } = this;
+
+    const data = new FormData();
+    const {
+      stream,
+      metadata,
+    } = await getFileStreamAndMetadata(file);
+
     try {
-      file = await fs.promises.readFile(filePath);
+
+      data.append("inputFile", stream, {
+        filename: metadata.name,
+        contentType: metadata.contentType,
+      });
+
     } catch (err) {
       throw new ConfigurationError(
         `**Error when reading file** - check the file path and try again.
         ${err}`,
       );
     }
-    const params: ConvertToPDFParams = {
+
+    const response = await cloudmersive.convertToPDF({
       $,
-      file,
-    };
+      data,
+    });
 
-    const response = await this.cloudmersive.convertToPDF(params);
+    if (outputType === "file_path") {
+      const fileName = path.parse(metadata.name).name;
+      const outputPath = `/tmp/${fileName}.pdf`;
+      await fs.writeFile(outputPath, response);
+      $.export("$summary", `Successfully converted \`${file}\` and saved to \`${outputPath}\`.`);
+      return {
+        outputPath,
+      };
+    }
 
-    $.export("$summary", `Converted file "${filePath}"`);
+    $.export("$summary", `Successfully converted \`${file}\``);
 
     return response;
   },

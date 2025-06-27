@@ -5,7 +5,7 @@ export default {
   key: "deepimage-auto-enhance",
   name: "Auto Enhance Image",
   description: "Improves the provided image. [See the documentation](https://documentation.deep-image.ai/image-processing/auto-enhance)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     deepimage,
@@ -19,7 +19,7 @@ export default {
   async run({ $ }) {
     const response = await this.deepimage.makeRequest({
       data: {
-        url: getUrlOrFile(this.image),
+        url: await getUrlOrFile(this.image),
         preset: "auto_enhance",
       },
     });

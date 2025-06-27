@@ -1,4 +1,4 @@
-import fs from "fs";
+import { getFileStream } from "@pipedream/platform";
 
 export const isValidUrl = (urlString) => {
   var urlPattern = new RegExp("^(https?:\\/\\/)?" + // validate protocol
@@ -10,17 +10,22 @@ export const isValidUrl = (urlString) => {
   return !!urlPattern.test(urlString);
 };
 
-export const checkTmp = (filename) => {
-  if (filename.indexOf("/tmp") === -1) {
-    return `/tmp/${filename}`;
-  }
-  return filename;
+export const streamToBase64 = (stream) => {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    stream.on("data", (chunk) => chunks.push(chunk));
+    stream.on("end", () => {
+      const buffer = Buffer.concat(chunks);
+      resolve(buffer.toString("base64"));
+    });
+    stream.on("error", reject);
+  });
 };
 
-export const getUrlOrFile = (url) => {
+export const getUrlOrFile = async (url) => {
   if (!isValidUrl(url)) {
-    const data = fs.readFileSync(checkTmp(url));
-    const base64Image = Buffer.from(data, "binary").toString("base64");
+    const stream = await getFileStream(url);
+    const base64Image = await streamToBase64(stream);
     return `base64,${base64Image}`;
   }
   return url;

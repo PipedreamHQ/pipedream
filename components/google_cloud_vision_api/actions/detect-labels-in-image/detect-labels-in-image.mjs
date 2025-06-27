@@ -5,7 +5,7 @@ export default {
   name: "Detect Labels in Image",
   key: "google_cloud_vision_api-detect-labels-in-image",
   description: "Performs feature detection on a local or remote image file. [See the documentation](https://cloud.google.com/vision/docs/labels).",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   props: {
     ...common.props,
@@ -25,7 +25,7 @@ export default {
         requests: [
           {
             image: {
-              content: await this.getFileContent($),
+              content: await this.getFileContent(),
             },
             features: [
               {

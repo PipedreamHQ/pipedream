@@ -1,11 +1,11 @@
 import app from "../digitalocean_spaces.app.mjs";
-import pipedreamS3 from "@pipedream/aws/common/common-s3.mjs";
+import common from "../../aws/common/common-s3.mjs";
 
 export default {
-  ...pipedreamS3,
+  ...common,
   props: {
     aws: app,
-    bucket: pipedreamS3.props.bucket,
+    bucket: common.props.bucket,
     acl: {
       propDefinition: [
         app,

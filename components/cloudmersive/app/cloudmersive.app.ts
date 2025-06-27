@@ -1,8 +1,9 @@
 import { defineApp } from "@pipedream/types";
-import { axios } from "@pipedream/platform";
-import FormData from "form-data";
 import {
-  ConvertToPDFParams,
+  axios,
+  ConfigurationError,
+} from "@pipedream/platform";
+import {
   HttpRequestParams, ScreenshotWebsiteParams, ValidateEmailAddressParams,
 } from "../common/types";
 
@@ -21,14 +22,18 @@ export default defineApp({
       headers,
       ...args
     }: HttpRequestParams): Promise<object> {
-      return axios($, {
-        baseURL: this._baseUrl(),
-        headers: {
-          ...headers,
-          Apikey: this._apiKey(),
-        },
-        ...args,
-      });
+      try {
+        return await axios($, {
+          baseURL: this._baseUrl(),
+          headers: {
+            ...headers,
+            Apikey: this._apiKey(),
+          },
+          ...args,
+        });
+      } catch (error) {
+        throw new ConfigurationError(`${error.response.status} - ${error.response.statusText} - Please try again`);
+      }
     },
     async validateEmailAddress({
       email, ...args
@@ -47,16 +52,10 @@ export default defineApp({
         ...args,
       });
     },
-    async convertToPDF({
-      file, ...args
-    }: ConvertToPDFParams): Promise<Buffer> {
-      const data = new FormData();
-      data.append("InputFile", file);
+    convertToPDF(args = {}): Promise<Buffer> {
       return this._httpRequest({
         method: "POST",
         url: "/convert/docx/to/pdf",
-        headers: data.getHeaders(),
-        data,
         ...args,
       });
     },

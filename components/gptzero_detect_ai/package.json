@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/gptzero_detect_ai",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Pipedream GPTZero: Detect AI Components",
   "main": "gptzero_detect_ai.app.mjs",
   "keywords": [
@@ -13,8 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.0.1",
+    "@pipedream/platform": "^3.1.0",
     "form-data": "^4.0.0"
   }
 }
-

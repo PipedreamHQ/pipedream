@@ -3,8 +3,8 @@ import cloudflare from "../../cloudflare_api_key.app.mjs";
 export default {
   key: "cloudflare_api_key-create-namespace",
   name: "Create Namespace",
-  description: "Create a new Namespace in an account. [See the docs here](https://api.cloudflare.com/#workers-kv-namespace-create-a-namespace)",
-  version: "0.0.2",
+  description: "Create a new Namespace in an account. [See the documentation](https://developers.cloudflare.com/api/node/resources/kv/subresources/namespaces/methods/create/)",
+  version: "0.0.3",
   type: "action",
   props: {
     cloudflare,
@@ -22,11 +22,18 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.cloudflare.createNamespace(this.account, {
-      title: this.title,
+    const {
+      cloudflare,
+      account,
+      title,
+    } = this;
+
+    const response = await cloudflare.createNamespace({
+      account_id: account,
+      title,
     });
 
-    $.export("$summary", `Successfully created namespace with ID ${response.result.id}`);
+    $.export("$summary", `Successfully created namespace with ID \`${response.result.id}\``);
 
     return response;
   },

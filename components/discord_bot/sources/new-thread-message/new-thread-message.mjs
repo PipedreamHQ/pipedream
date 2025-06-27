@@ -9,7 +9,7 @@ export default {
   name: "New Thread Message",
   description: "Emit new event for each thread message posted.",
   type: "source",
-  version: "0.0.6",
+  version: "1.0.0",
   dedupe: "unique", // Dedupe events based on the Discord message ID
   props: {
     ...common.props,
