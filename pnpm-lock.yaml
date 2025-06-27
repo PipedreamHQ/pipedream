@@ -12357,6 +12357,9 @@ importers:
         specifier: 1.6.5
         version: 1.6.5
 
+  components/sign_plus:
+    specifiers: {}
+
   components/signable: {}
 
   components/signalwire: {}
