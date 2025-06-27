@@ -355,6 +355,18 @@ export default {
       const leadLabelsApi = this.api("LeadLabelsApi");
       return leadLabelsApi.getLeadLabels(opts);
     },
+    getNotes(opts = {}) {
+      const notesApi = this.api("NotesApi");
+      return notesApi.getNotes(opts);
+    },
+    getDealCustomFields(opts) {
+      const dealCustomFieldsApi = this.api("DealFieldsApi");
+      return dealCustomFieldsApi.getDealFields(opts);
+    },
+    getPersonCustomFields(opts) {
+      const personCustomFieldsApi = this.api("PersonFieldsApi");
+      return personCustomFieldsApi.getPersonFields(opts);
+    },
     addActivity(opts = {}) {
       const activityApi = this.api("ActivitiesApi", "v2");
       return activityApi.addActivity({
@@ -424,6 +436,52 @@ export default {
         id: personId,
         UpdatePersonRequest: opts,
       });
+    },
+    deleteNote(noteId) {
+      const notesApi = this.api("NotesApi");
+      return notesApi.deleteNote({
+        id: noteId,
+      });
+    },
+    getPerson(personId) {
+      const personsApi = this.api("PersonsApi", "v2");
+      return personsApi.getPerson({
+        id: personId,
+      });
+    },
+    async *paginate({
+      fn, params, max,
+    }) {
+      params = {
+        ...params,
+        start: 0,
+        limit: 100,
+      };
+      let hasMore, count = 0;
+      do {
+        const {
+          data, additional_data: additionalData,
+        } = await fn(params);
+        if (!data?.length) {
+          return;
+        }
+        for (const item of data) {
+          yield item;
+          if (max && ++count >= max) {
+            return;
+          }
+        }
+        params.start += params.limit;
+        hasMore = additionalData.pagination.more_items_in_collection;
+      } while (hasMore);
+    },
+    async getPaginatedResources(opts) {
+      const results = [];
+      const resources = this.paginate(opts);
+      for await (const resource of resources) {
+        results.push(resource);
+      }
+      return results;
     },
   },
 };

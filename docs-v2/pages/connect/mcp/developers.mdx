@@ -302,7 +302,7 @@ curl -s -X POST https://api.pipedream.com/v1/oauth/token \
 #### Params
 
 - Below are params that you should send with every HTTP request to Pipedream's MCP server.
-- To enable broad support for various MCP clients, you can pass these params via HTTP headers **or** as query params on the URL.
+- To enable broad support for various MCP clients, you can pass most of these params via HTTP headers **or** as query params on the URL.
 
 <br />
 
@@ -314,6 +314,10 @@ curl -s -X POST https://api.pipedream.com/v1/oauth/token \
 | `x-pd-external-user-id` | `externalUserId` | `<your-users-id>` | Yes |
 | `x-pd-app-slug` | `app` | `linear`, `notion`, etc | Yes |
 | `x-pd-tool-mode` | `toolMode` | `sub-agent`, `tools-only` | No <br /> Defaults to `sub-agent` |
+| `x-pd-oauth-app-id` | Must be passed as header | `oa_xxxxxxx` <br /> <br /> More info [here](/connect/managed-auth/oauth-clients) | No |
+| `x-pd-webhook-uri` | Must be passed as header | More info [here](/connect/managed-auth/webhooks) | No |
+| `x-pd-error-redirect-uri` | Must be passed as header | More info [here](/connect/managed-auth/connect-link/#success-and-error-redirect-urls) | No |
+| `x-pd-success-redirect-uri` | Must be passed as header | More info [here](/connect/managed-auth/connect-link/#success-and-error-redirect-urls) | No |
 </div>
 
 #### Example request
@@ -344,6 +348,8 @@ const transport = new StreamableHTTPClientTransport(new URL(serverUrl), {
       "x-pd-environment": PIPEDREAM_ENVIRONMENT, // development | production
       "x-pd-external-user-id": EXTERNAL_USER_ID, // the user's ID from your system
       "x-pd-app-slug": APP_SLUG, // notion, linear, gmail, etc
+      "x-pd-oauth-app-id": OAUTH_APP_ID, // oa_xxxxxxx, include if using a custom OAuth client
+      
     }
   }
 });
@@ -422,3 +428,7 @@ If running locally:
 ```
 http://localhost:3010/{external_user_id}/{app_slug}
 ```
+
+## Using custom tools
+
+Publish [custom tools](/connect/components/custom-tools) to your workspace to use them in the Pipedream MCP server for the relevant app. This lets you add custom and unique functionality that may not be available in the public registry.

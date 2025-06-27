@@ -9,22 +9,15 @@ export default {
   key: "imagga-process-batch",
   name: "Process Batch of Images",
   description: "Analyzes a batch of images for categorization, tagging, or color extraction. [See the documentation](https://docs.imagga.com/)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   props: {
     imagga,
-    imageUrl: {
-      label: "Image URLs",
-      description: "The array of Image URLs to analyze.",
-      type: "string[]",
-      optional: true,
-    },
     imageFile: {
-      label: "Image File Paths",
+      label: "File Paths or URLs",
       description:
-        "The array of Image file path from [`/tmp` dir](https://pipedream.com/docs/code/nodejs/working-with-files/#the-tmp-directory) to analyze.",
+        "The image files to process. For each entry, provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.jpg`)",
       type: "string[]",
-      optional: true,
     },
     callbackUrl: {
       propDefinition: [
@@ -51,7 +44,6 @@ export default {
   async run({ $ }) {
     const {
       imagga,
-      imageUrl,
       imageFile,
       language = [],
       saveIndex,
@@ -71,7 +63,6 @@ export default {
     } = this;
 
     const file = await prepareBatchFile({
-      imageUrl,
       imageFile,
       imagga,
     });

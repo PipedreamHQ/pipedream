@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/zowie",
+  "version": "0.0.1",
+  "description": "Pipedream Zowie Components",
+  "main": "zowie.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zowie"
+  ],
+  "homepage": "https://pipedream.com/apps/zowie",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

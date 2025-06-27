@@ -1,11 +1,11 @@
 import printnode from "../../printnode.app.mjs";
-import fs from "fs";
+import { getFileStream } from "@pipedream/platform";
 
 export default {
   key: "printnode-send-print-job",
   name: "Send Print Job",
   description: "Sends a print job to a specified printer. [See the documentation](https://www.printnode.com/en/docs/api/curl#creating-print-jobs)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   props: {
     printnode,
@@ -23,15 +23,8 @@ export default {
     },
     filePath: {
       type: "string",
-      label: "File Path",
-      description: "The path to a document file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#the-tmp-directory).",
-      optional: true,
-    },
-    fileUrl: {
-      type: "string",
-      label: "File URL",
-      description: "The URL to a document file.",
-      optional: true,
+      label: "File Path or URL",
+      description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
     },
     title: {
       type: "string",
@@ -73,15 +66,16 @@ export default {
   },
   async run({ $ }) {
     const {
-      printnode, contentType, filePath, fileUrl, ...props
+      printnode, contentType, filePath, ...props
     } = this;
-    const content = contentType.endsWith("base64")
-      ? fs.readFileSync(filePath.includes("tmp/")
-        ? filePath
-        : `/tmp/${filePath}`, {
-        encoding: "base64",
-      })
-      : fileUrl;
+
+    const stream = await getFileStream(filePath);
+    const chunks = [];
+    for await (const chunk of stream) {
+      chunks.push(chunk);
+    }
+    const content = Buffer.concat(chunks).toString("base64");
+
     const response = await printnode.createPrintJob({
       $,
       data: {

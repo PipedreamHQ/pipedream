@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/postmaster",
+  "version": "0.0.1",
+  "description": "Pipedream Postmaster+ Components",
+  "main": "postmaster.app.mjs",
+  "keywords": [
+    "pipedream",
+    "postmaster"
+  ],
+  "homepage": "https://pipedream.com/apps/postmaster",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

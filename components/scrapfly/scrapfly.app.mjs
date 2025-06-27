@@ -12,8 +12,8 @@ export default {
     },
     body: {
       type: "string",
-      label: "Body",
-      description: "The request body must contain the content of the page you want to extract data from. The content must be in the format specified by the `content-type` header or via the `content_type` HTTP parameter.  Provide a file from `/tmp`. To upload a file to `/tmp` folder, please follow the doc [here](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
+      label: "File Path or URL",
+      description: "The file containing the content of the page you want to extract data from. The content must be in the format specified by `Content Type`. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
     },
     contentType: {
       type: "string",

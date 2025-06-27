@@ -1,12 +1,12 @@
 export default {
-  "index": "Overview",
-  "use-cases": "Use cases",
-  "managed-auth": "Managed auth",
-  "components": "Tool calling",
+  "index": "Pipedream Connect",
+  "use-cases": "Use Cases",
+  "managed-auth": "Managed Auth",
+  "components": "Tool Use",
   "mcp": "MCP",
-  "api-proxy": "API proxy",
+  "api-proxy": "API Proxy",
   "workflows": "Workflows",
-  "api": "API & SDK reference",
+  "api": "API & SDK Reference",
   "migrating-from-project-keys-to-oauth": {
     "display": "hidden",
   },

@@ -155,24 +155,10 @@ export default {
       optional: true,
       default: false,
     },
-    fileUrl: {
-      type: "string",
-      label: "File URL",
-      description: toSingleLineString(`
-        The URL of the file you want to upload to Google Drive. Must specify either **File URL**
-        or **File Path**.
-      `),
-      optional: true,
-    },
     filePath: {
       type: "string",
-      label: "File Path",
-      description: toSingleLineString(`
-        The path to the file saved to the [\`/tmp\`
-        directory](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory)
-        (e.g. \`/tmp/myFile.csv\`). Must specify either **File URL** or **File Path**.
-      `),
-      optional: true,
+      label: "File Path or URL",
+      description: "The file content to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
     },
     fileName: {
       type: "string",
@@ -729,12 +715,12 @@ export default {
       // When watching for changes to an entire account, we must pass a pageToken,
       // which points to the moment in time we want to start watching for changes:
       // https://developers.google.com/drive/api/v3/manage-changes
+      const fn = () => drive.changes.watch(watchRequest);
+      const { data } = await this.retryWithExponentialBackoff(fn);
       const {
         expiration,
         resourceId,
-      } = (
-        await drive.changes.watch(watchRequest)
-      ).data;
+      } = data;
       console.log(`Watch request for drive successful, expiry: ${expiration}`);
       return {
         expiration: parseInt(expiration),
@@ -744,16 +730,16 @@ export default {
     async watchFile(id, address, fileId) {
       const drive = this.drive();
       const requestBody = this._makeWatchRequestBody(id, address);
+      const fn = () => drive.files.watch({
+        fileId,
+        requestBody,
+        supportsAllDrives: true,
+      });
+      const { data } = await this.retryWithExponentialBackoff(fn);
       const {
         expiration,
         resourceId,
-      } = (
-        await drive.files.watch({
-          fileId,
-          requestBody,
-          supportsAllDrives: true,
-        })
-      ).data;
+      } = data;
       console.log(
         `Watch request for file ${fileId} successful, expiry: ${expiration}`,
       );
@@ -1474,6 +1460,33 @@ export default {
     async resolveAccessProposal(opts = {}) {
       const drive = this.drive();
       return (await drive.accessproposals.resolve(opts)).data;
+    },
+    retryWithExponentialBackoff(func, maxAttempts = 3, baseDelayS = 2) {
+      let attempt = 0;
+
+      const execute = async () => {
+        try {
+          return await func();
+        } catch (error) {
+          // retry for error status 422
+          const statusCode = error.status || error.response?.status;
+          if (attempt >= maxAttempts || statusCode !== 422) {
+            throw error;
+          }
+
+          // display error message for 422 status
+          const errorMessage = error.message || error.response?.data?.message || error.response?.statusText || "Unknown error";
+          console.log(`Received 422 error: ${errorMessage}. Retrying attempt ${attempt + 1}/${maxAttempts}...`);
+
+          const delayMs = Math.pow(baseDelayS, attempt) * 1000;
+          await new Promise((resolve) => setTimeout(resolve, delayMs));
+
+          attempt++;
+          return execute();
+        }
+      };
+
+      return execute();
     },
   },
 };
