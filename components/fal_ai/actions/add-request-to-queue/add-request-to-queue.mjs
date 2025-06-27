@@ -70,7 +70,12 @@ export default {
       run: {
         runs, callback_request: callbackRequest,
       },
-    } = context;
+    } = context || {
+      run: {
+        runs: 1,
+        callback_request: undefined,
+      },
+    };
 
     const {
       app,
