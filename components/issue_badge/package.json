@@ -1,15 +1,21 @@
 {
   "name": "@pipedream/issue_badge",
-  "version": "0.0.1",
-  "description": "Pipedream Issue Badge Components",
+  "version": "0.1.0",
+  "description": "Pipedream Issue Badge Components - Manage badges, issues, and organizations",
   "main": "issue_badge.app.mjs",
   "keywords": [
     "pipedream",
-    "issue_badge"
+    "issue_badge",
+    "badges",
+    "issues",
+    "organizations"
   ],
   "homepage": "https://pipedream.com/apps/issue_badge",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
   }
 }
