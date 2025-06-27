@@ -7,7 +7,7 @@ export default {
   key: "reddit-new-comments-by-user",
   name: "New Comments by User",
   description: "Emit new event each time a user posts a new comment.",
-  version: "0.1.1",
+  version: "0.1.2",
   dedupe: "unique",
   props: {
     ...common.props,
