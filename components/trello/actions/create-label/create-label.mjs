@@ -1,11 +1,11 @@
-import app from "../../trello.app.mjs";
 import constants from "../../common/constants.mjs";
+import app from "../../trello.app.mjs";
 
 export default {
   key: "trello-create-label",
   name: "Create Label",
   description: "Creates a new label on the specified board. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-labels/#api-labels-post).",
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     app,

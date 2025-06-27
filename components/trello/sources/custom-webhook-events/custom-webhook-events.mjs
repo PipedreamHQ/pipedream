@@ -6,7 +6,7 @@ export default {
   key: "trello-custom-webhook-events",
   name: "Custom Webhook Events (Instant)", /* eslint-disable-line pipedream/source-name */
   description: "Emit new events for activity matching a board, event types, lists and/or cards.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "source",
   props: {
     ...common.props,
