@@ -46,9 +46,25 @@ function attachTextToParts(parts) {
   }
 };
 
+function validateTextPayload(message, withTextPayload) {
+  if (withTextPayload) {
+    let newPayload = "";
+    if (message.payload?.body?.data && !Array.isArray(message.payload.parts)) {
+      const decodedBody = decodeBase64Url(message.payload.body.data);
+      newPayload = convert(decodedBody);
+    } else if (Array.isArray(message.payload?.parts)) {
+      newPayload = extractTextFromParts(message.payload.parts);
+    }
+    message.payload = newPayload;
+    return message;
+  }
+  return false;
+};
+
 export default {
   parseArray,
   decodeBase64Url,
   extractTextFromParts,
   attachTextToParts,
+  validateTextPayload,
 };

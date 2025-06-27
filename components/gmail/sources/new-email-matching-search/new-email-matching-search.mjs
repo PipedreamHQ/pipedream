@@ -6,7 +6,7 @@ export default {
   key: "gmail-new-email-matching-search",
   name: "New Email Matching Search",
   description: "Emit new event when an email matching the search criteria is received. This source is capped at 100 max new messages per run.",
-  version: "0.0.13",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   props: {
@@ -26,6 +26,12 @@ export default {
       type: "string[]",
       label: "Labels",
       optional: true,
+    },
+    withTextPayload: {
+      type: "boolean",
+      label: "Return payload as plaintext",
+      description: "Convert the payload response into a single text field. **This reduces the size of the payload and makes it easier for LLMs work with.**",
+      default: false,
     },
   },
   methods: {

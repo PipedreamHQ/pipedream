@@ -5355,8 +5355,8 @@ importers:
         specifier: ^13.0.1
         version: 13.0.1
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       google-auth-library:
         specifier: ^8.7.0
         version: 8.9.0
