@@ -493,8 +493,8 @@ export default {
     getPrivateMessages(opts = { }) {
       return this._withRetries(() =>
         this._makeRequest({
-          path: `/message/inbox`,
-          ...opts
+          path: "/message/inbox",
+          ...opts,
         }));
     },
   },

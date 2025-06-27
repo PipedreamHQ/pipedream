@@ -1,5 +1,4 @@
 import common from "../common.mjs";
-const { reddit } = common.props;
 
 export default {
   ...common,
@@ -15,15 +14,15 @@ export default {
       var privateMessages = await this.reddit.getPrivateMessages({
         params: {
           limit: 20,
-        }
+        },
       });
-      
+
       let { children: messages = [] } = privateMessages.data;
       if (messages.length === 0) {
         console.log("No data available, skipping iteration");
         return;
       }
-      
+
       const { id = this._getBefore() } = messages[0].data;
       this._setBefore(id);
       messages.reverse().forEach(this.emitRedditEvent);
@@ -46,7 +45,7 @@ export default {
         params: {
           before: `t4_${this._getBefore()}`,
           limit: 2,
-        }
+        },
       });
 
       const { children: messages = [] } = privateMessages.data;
