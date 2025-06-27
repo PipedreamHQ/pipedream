@@ -1,4 +1,4 @@
-import { DUE_REMINDER_OPTIONS } from "../../common/constants.mjs";
+import constants from "../../common/constants.mjs";
 import app from "../../trello.app.mjs";
 
 export default {
@@ -67,7 +67,7 @@ export default {
       type: "string",
       label: "Due Reminder",
       description: "A dueReminder for the due date on the checkitem",
-      options: DUE_REMINDER_OPTIONS,
+      options: constants.DUE_REMINDER_OPTIONS,
       optional: true,
     },
     idMember: {
