@@ -1575,8 +1575,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/bitget:
-    specifiers: {}
+  components/bitget: {}
 
   components/bitly:
     dependencies:
@@ -6905,8 +6904,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/joggai:
-    specifiers: {}
+  components/joggai: {}
 
   components/join: {}
 
@@ -11037,8 +11035,8 @@ importers:
   components/reddit:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.4.0
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       async-retry:
         specifier: ^1.3.3
         version: 1.3.3
