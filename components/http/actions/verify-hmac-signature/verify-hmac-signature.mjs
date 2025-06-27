@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import http from "../../http.app.mjs";
 
 export default {
   name: "Verify HMAC Signature",
@@ -7,7 +8,7 @@ export default {
   description: "Validate HMAC signature for incoming HTTP webhook requests. Make sure to configure the HTTP trigger to \"Return a custom response from your workflow\".",
   type: "action",
   props: {
-    http: "$.interface.http",
+    http,
     secret: {
       type: "string",
       label: "Secret",
