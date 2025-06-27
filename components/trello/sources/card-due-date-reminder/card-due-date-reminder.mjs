@@ -1,14 +1,14 @@
-import taskScheduler from "../../../pipedream/sources/new-scheduled-tasks/new-scheduled-tasks.mjs";
-import trello from "../../trello.app.mjs";
 import ms from "ms";
+import taskScheduler from "../../../pipedream/sources/new-scheduled-tasks/new-scheduled-tasks.mjs";
 import constants from "../../common/constants.mjs";
+import trello from "../../trello.app.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "trello-card-due-date-reminder",
   name: "Card Due Date Reminder", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event at a specified time before a card is due.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "source",
   dedupe: "unique",
   props: {
