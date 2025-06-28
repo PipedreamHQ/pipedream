@@ -12,7 +12,7 @@ export default {
   description: "Verify an email address and check if it is properly formatted, really exists and can accept mails, " +
         "flagging spam traps, disposable emails and much more. [See the docs](https://verifalia.com/developers#email-validations-creating) for more information",
   key: "verifalia-verify-email",
-  version: "1.1.0",
+  version: "1.1.1",
   type: "action",
   props: {
     verifalia,
@@ -42,7 +42,12 @@ export default {
   },
 
   async run({ $ }) {
-    const { run } = $.context;
+    const context = $.context;
+    const run = context
+      ? context.run
+      : {
+        runs: 1,
+      };
     const verifaliaClient = this.verifalia.buildVerifaliaRestClient();
 
     // This component takes advantage of the new Pipedream's flow suspension: we handle
@@ -66,7 +71,7 @@ export default {
       let waitForResults = false;
       let cancellationToken = null;
 
-      if ($.context.test) {
+      if (context && $.context.test) {
         // In test mode, we will wait for the verification results during this execution
         // and cancel the token after 20s (the actual lowest limit is 30s).
         // See: https://pipedream.com/docs/limits/#time-per-execution

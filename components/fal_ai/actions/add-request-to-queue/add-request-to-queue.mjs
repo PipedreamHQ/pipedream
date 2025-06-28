@@ -4,7 +4,7 @@ export default {
   key: "fal_ai-add-request-to-queue",
   name: "Add Request to Queue",
   description: "Adds a request to the queue for asynchronous processing, including specifying a webhook URL for receiving updates. [See the documentation](https://fal.ai/docs/model-endpoints/queue#queue-endpoints).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
@@ -38,7 +38,7 @@ export default {
         reRunTimeoutInSecs: {
           type: "integer",
           label: "Rerun Timeout",
-          description: "The time in seconds to wait before rerunning the step to retrieve the request response. Eg. `30`. [See the documentation](https://pipedream.com/docs/code/nodejs/rerun/#flowrerun).",
+          description: "The time in seconds to wait before rerunning the step to retrieve the request response. Eg. `30`. [See the documentation](https://pipedream.com/docs/code/nodejs/rerun/#flowrerun). Not for use in Pipedream Connect.",
           optional: true,
           min: 10,
         },
@@ -65,14 +65,17 @@ export default {
     },
   },
   async run({ $ }) {
+    const context = $.context;
     const {
-      context: {
-        run: {
-          runs,
-          callback_request: callbackRequest,
-        },
+      run: {
+        runs, callback_request: callbackRequest,
       },
-    } = $;
+    } = context || {
+      run: {
+        runs: 1,
+        callback_request: undefined,
+      },
+    };
 
     const {
       app,
@@ -100,7 +103,11 @@ export default {
 
     if (runs === 1) {
       const timeout = 1000 * (reRunTimeoutInSecs || 10);
-      const { resume_url: resumeUrl } = $.flow.rerun(timeout, null, 1);
+      const { resume_url: resumeUrl } = context
+        ? $.flow.rerun(timeout, null, 1)
+        : {
+          resume_url: undefined,
+        };
 
       return addToQueue({
         $,

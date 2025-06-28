@@ -2,7 +2,7 @@ import { FULFILMENT_STATUS_LIST } from "../../commons/commons.mjs";
 import ecwid from "../../ecwid.app.mjs";
 export default {
   name: "Ecwid Update Order Status",
-  version: "0.0.5",
+  version: "0.0.6",
   key: "ecwid-update-order-status",
   description: "Update the Status of an Ecwid Order. Makes use of the [Update Order API](https://api-docs.ecwid.com/reference/update-order).",
   props: {
@@ -44,7 +44,11 @@ export default {
         console.error("Error Updating Order Status of " + this.orderId + " to " + this.fulfilmentStatus);
         update = "ERROR";
         $.export("$summary", "Error Updating Order Status of " + this.orderId + " to " + this.fulfilmentStatus);
-        return $.flow.exit("Error Updating Order Status of " + this.orderId + " to " + this.fulfilmentStatus);
+        if ($.flow) {
+          return $.flow.exit("Error Updating Order Status of " + this.orderId + " to " + this.fulfilmentStatus);
+        } else {
+          throw new Error("Error Updating Order Status of " + this.orderId + " to " + this.fulfilmentStatus);
+        }
       }
     } else {
       $.export("$summary", "No updates done to order " + this.orderId);

@@ -4,7 +4,7 @@ export default {
   key: "enrow-find-single-email",
   name: "Find Single Email",
   description: "Executes a single email search using Enrow email finder. [See the documentation](https://enrow.readme.io/reference/find-single-email)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     enrow,
@@ -51,16 +51,21 @@ export default {
     callbackWithRerun: {
       type: "boolean",
       label: "Callback With Rerun",
-      description: "Use the `$.flow.rerun` Node.js helper to rerun the step when the search is completed. Overrides the `webhookUrl` prop. This will increase execution time and credit usage as a result. [See the documentation(https://pipedream.com/docs/code/nodejs/rerun/#flow-rerun)",
+      description: "Use the `$.flow.rerun` Node.js helper to rerun the step when the search is completed. Overrides the `webhookUrl` prop. This will increase execution time and credit usage as a result. [See the documentation(https://pipedream.com/docs/code/nodejs/rerun/#flow-rerun). Not available in Pipedream Connect.",
       optional: true,
     },
   },
   async run({ $ }) {
     let response;
-    const { run } = $.context;
+    const context = $.context;
+    const run = context
+      ? context.run
+      : {
+        runs: 1,
+      };
     if (run.runs === 1) {
       let webhook  = this.webhookUrl;
-      if (this.callbackWithRerun) {
+      if (context && this.callbackWithRerun) {
         ({ resume_url: webhook } = $.flow.rerun(600000, null, 1));
       }
       response = await this.enrow.executeSearch({

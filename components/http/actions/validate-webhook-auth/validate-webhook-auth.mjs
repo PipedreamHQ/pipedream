@@ -2,7 +2,7 @@ import http from "../../http.app.mjs";
 
 export default {
   name: "Validate Webhook Auth",
-  version: "0.0.3",
+  version: "0.0.4",
   key: "http-validate-webhook-auth",
   description: "Require authorization for incoming HTTP webhook requests. Make sure to configure the HTTP trigger to \"Return a custom response from your workflow\".",
   type: "action",
@@ -96,7 +96,11 @@ export default {
           body: "Invalid credentials",
         });
       }
-      return $.flow.exit("Invalid credentials");
+      if ($.flow) {
+        return $.flow.exit("Invalid credentials");
+      } else {
+        throw new Error("Invalid credentials");
+      }
     }
     $.export("$summary", "HTTP request successfully authenticated");
   },

@@ -5,7 +5,7 @@ export default {
   key: "contactout-verify-email-bulk",
   name: "Verify Email Bulk",
   description: "Verify the deliverability for a batch of up to 1000 email addresses in bulk. [See the documentation](https://api.contactout.com/#bulk).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
@@ -26,7 +26,7 @@ export default {
     waitForCompletion: {
       type: "boolean",
       label: "Wait for Completion",
-      description: "If set to `true`, the action will wait and poll until the bulk verification job is `DONE`. If set to `false`, it will return immediately after creating the job.",
+      description: "If set to `true`, the action will wait and poll until the bulk verification job is `DONE`. If set to `false`, it will return immediately after creating the job. Not available in Pipedream Connect.",
       default: false,
       optional: true,
     },
@@ -41,7 +41,12 @@ export default {
 
     const MAX_RETRIES = 15;
     const DELAY = 1000 * 15; // 15 seconds
-    const { run } = $.context;
+    const context = $.context;
+    const run = context
+      ? context.run
+      : {
+        runs: 1,
+      };
 
     // First run: Create the bulk verification job
     if (run.runs === 1) {
@@ -56,7 +61,7 @@ export default {
       $.export("$summary", `Successfully queued bulk email verification with job ID \`${response.job_id}\`.`);
 
       // If user doesn't want to wait, return immediately
-      if (!waitForCompletion) {
+      if (!waitForCompletion || !context) {
         return response;
       }
 

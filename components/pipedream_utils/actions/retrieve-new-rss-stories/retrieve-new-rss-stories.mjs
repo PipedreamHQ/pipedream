@@ -7,7 +7,7 @@ export default {
   key: "pipedream_utils-retrieve-new-rss-stories",
   name: "Helper Functions - Retrieve New RSS Stories",
   description: "Gets new stories from a specified RSS feed that have not already been processed.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     pipedream_utils,
@@ -36,7 +36,11 @@ export default {
     }
 
     if (!newStories.length) {
-      $.flow.exit("No new stories");
+      if ($.flow) {
+        $.flow.exit("No new stories");
+      } else {
+        console.log("No new stories");
+      }
     }
 
     this.db.set("$checkpoint", previouslyPostedStories.concat(newStories.map((s) => s.link)));

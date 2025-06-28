@@ -3,7 +3,7 @@ import crypto from "crypto";
 
 export default {
   name: "Verify Webhook",
-  version: "0.0.5",
+  version: "0.0.6",
   key: "shopify_partner-verify-webhook",
   description:
     "Verify an incoming webhook from Shopify. Exits the workflow if the signature is not valid, otherwise returns `true`",
@@ -46,7 +46,11 @@ export default {
     if (hash !== shopifyHmac) {
       console.log("Invalid webhook signature, unauthorized");
       console.log(shopifyHmac, hash);
-      return $.flow.exit("Invalid webhook signature.");
+      if ($.flow) {
+        return $.flow.exit("Invalid webhook signature.");
+      } else {
+        throw new Error("Invalid webhook signature.");
+      }
     }
 
     return true;

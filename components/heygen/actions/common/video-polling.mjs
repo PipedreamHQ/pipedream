@@ -6,12 +6,19 @@ export default {
     heygen,
   },
   async run({ $ }) {
-    const { run } = $.context;
+    const context = $.context;
+    const run = context
+      ? context.run
+      : {
+        runs: 1,
+      };
     if (run.runs === 1) {
       const videoId = await this.processVideo($);
-      $.flow.rerun(constants.DELAY, {
-        videoId,
-      });
+      if (context) {
+        $.flow.rerun(constants.DELAY, {
+          videoId,
+        });
+      }
     }
     else {
       const videoId = run.context.videoId;
