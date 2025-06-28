@@ -1,8 +1,8 @@
 import { axios } from "@pipedream/platform";
-import qs from "qs";
-import isNil from "lodash/isNil.js";
 import retry from "async-retry";
 import get from "lodash/get.js";
+import isNil from "lodash/isNil.js";
+import qs from "qs";
 
 export default {
   type: "app",
@@ -488,6 +488,13 @@ export default {
           params: {
             comment,
           },
+        }));
+    },
+    getPrivateMessages(opts = { }) {
+      return this._withRetries(() =>
+        this._makeRequest({
+          path: "/message/inbox",
+          ...opts,
         }));
     },
   },

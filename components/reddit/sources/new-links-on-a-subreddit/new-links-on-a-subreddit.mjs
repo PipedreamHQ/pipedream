@@ -1,5 +1,5 @@
-import common from "../common.mjs";
 import get from "lodash/get.js";
+import common from "../common.mjs";
 const { reddit } = common.props;
 
 export default {
@@ -8,7 +8,7 @@ export default {
   key: "reddit-new-links-on-a-subreddit",
   name: "New Links on a Subreddit",
   description: "Emit new event each time a new link is added to a subreddit",
-  version: "0.1.1",
+  version: "0.1.2",
   dedupe: "unique",
   props: {
     ...common.props,
