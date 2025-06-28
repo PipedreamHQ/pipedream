@@ -59,10 +59,9 @@ export default {
   },
   methods: {
     _getCommonArgs() {
-      return {
+      const args = {
         model: this.modelId,
         prompt: this.prompt,
-        max_tokens: this.maxTokens,
         temperature: this.temperature
           ? +this.temperature
           : this.temperature,
@@ -80,6 +79,12 @@ export default {
         best_of: this.bestOf,
         user: this.user,
       };
+      if (this.modelId.startsWith("o1") || this.modelId.startsWith("o3") || this.modelId.startsWith("o4")) {
+        args.max_completion_tokens = this.maxTokens;
+      } else {
+        args.max_tokens = this.maxTokens;
+      }
+      return args;
     },
     async _getUserMessageContent() {
       let content = [];
