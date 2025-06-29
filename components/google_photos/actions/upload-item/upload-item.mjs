@@ -6,7 +6,7 @@ import fs from "fs";
 
 export default {
   key: "google_photos-upload-item",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   name: "Upload Item",
   description: "Uploads an item to Google Photos. [See the documentation](https://developers.google.com/photos/library/guides/upload-media)",
@@ -32,6 +32,12 @@ export default {
         app,
         "albumId",
       ],
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

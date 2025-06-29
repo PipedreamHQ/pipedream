@@ -10,11 +10,17 @@ export default {
   key: "digitalocean_spaces-upload-file-tmp",
   name: "Upload File /tmp",
   description: "Accepts a file path starting from /tmp, then uploads as a file to DigitalOcean Spaces. [See the docs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html).",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     ...common.props,
     customFilename: base.props.customFilename,
     path: base.props.path,
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   methods: {
     ...base.methods,

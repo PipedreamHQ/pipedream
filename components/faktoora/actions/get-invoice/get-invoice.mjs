@@ -6,7 +6,7 @@ export default {
   key: "faktoora-get-invoice",
   name: "Download Invoice",
   description: "Download an invoice using the unique invoice number to '/tmp' folder. [See the documentation](https://api.faktoora.com/api/v1/api-docs/static/index.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     faktoora,
@@ -15,6 +15,11 @@ export default {
         faktoora,
         "invoiceNumber",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   async run({ $ }) {

@@ -12,7 +12,7 @@ export default {
   key: "google_drive-upload-file",
   name: "Upload File",
   description: "Upload a file to Google Drive. [See the documentation](https://developers.google.com/drive/api/v3/manage-uploads) for more information",
-  version: "2.0.1",
+  version: "2.0.2",
   type: "action",
   props: {
     googleDrive,
@@ -77,6 +77,12 @@ export default {
       type: "object",
       label: "Metadata",
       description: "Additional metadata to supply in the upload. [See the documentation](https://developers.google.com/workspace/drive/api/reference/rest/v3/files) for information on available fields. Values will be parsed as JSON where applicable. Example: `{ \"description\": \"my file description\" }`",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

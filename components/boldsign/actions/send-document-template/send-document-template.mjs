@@ -9,7 +9,7 @@ export default {
   key: "boldsign-send-document-template",
   name: "Send Document Using Template",
   description: "Send documents for e-signature using a BoldSign template. [See the documentation](https://developers.boldsign.com/documents/send-document-from-template/?region=us)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     boldsign,
@@ -179,6 +179,12 @@ export default {
       type: "boolean",
       label: "Enable Audit Trail Localization",
       description: "Enable localization for audit trail based on the signer's language. If null is provided, the value will be inherited from the Business Profile settings. Only one additional language can be specified in the signer's languages besides English.",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

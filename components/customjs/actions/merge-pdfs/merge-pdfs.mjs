@@ -6,7 +6,7 @@ export default {
   key: "customjs-merge-pdfs",
   name: "Merge PDFs",
   description: "Merges multiple PDF documents into one. [See the documentation](https://www.customjs.space/api/docs#_2-merge-pdfs)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     customjs,
@@ -20,6 +20,11 @@ export default {
         customjs,
         "filename",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   async run({ $ }) {

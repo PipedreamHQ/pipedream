@@ -7,7 +7,7 @@ export default {
   key: "guru-export-card-to-pdf",
   name: "Export Card to PDF",
   description: "Export a specific card identified by its ID to a PDF file. [See the documentation](https://developer.getguru.com/docs/download-cards-to-pdf)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     guru,
@@ -16,6 +16,11 @@ export default {
         guru,
         "cardId",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   async run({ $ }) {

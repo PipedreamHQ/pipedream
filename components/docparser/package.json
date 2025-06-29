@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/docparser",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream docparser Components",
   "main": "docparser.app.mjs",
   "keywords": [

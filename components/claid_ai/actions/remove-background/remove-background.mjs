@@ -7,7 +7,7 @@ export default {
   key: "claid_ai-remove-background",
   name: "Remove Background",
   description: "Easily erases the image's background, effectively isolating the main subject. [See the documentation](https://docs.claid.ai/image-editing-api/image-operations/background)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     claidAi,
@@ -35,6 +35,12 @@ export default {
       description: "Removes image background.",
       default: true,
       reloadProps: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async additionalProps() {

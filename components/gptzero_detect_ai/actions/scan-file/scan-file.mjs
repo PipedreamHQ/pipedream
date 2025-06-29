@@ -10,7 +10,7 @@ export default {
   key: "gptzero_detect_ai-scan-file",
   name: "Scan File for AI Detection",
   description: "This endpoint takes in file(s) input and returns the model's result. [See the documentation](https://gptzero.stoplight.io/docs/gptzero-api/0a8e7efa751a6-ai-detection-on-an-array-of-files)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     gptzeroDetectAi,
@@ -25,6 +25,12 @@ export default {
       type: "string[]",
       label: "Files",
       description: "A list of paths to files in the `/tmp` directory to analyze. Each file's document will be truncated to 50,000 characters. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

@@ -6,7 +6,7 @@ export default {
   key: "convertapi-convert-base64-encoded-file",
   name: "Convert Base64 Encoded File",
   description: "This action converts a base64-string-encoded file into the user-specified format. [See the documentation](https://v2.convertapi.com/info/openapi)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     convertapi,
@@ -27,6 +27,11 @@ export default {
         "formatFrom",
       ],
       reloadProps: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   async additionalProps() {

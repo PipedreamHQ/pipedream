@@ -10,7 +10,7 @@ export default {
   key: "gladia-send-audio-for-transcription",
   name: "Send Audio For Transcription",
   description: "Sends audio to Gladia for transcription and optional translation. [See the documentation](https://docs.gladia.io/reference/pre-recorded)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     gladia,
@@ -69,6 +69,12 @@ export default {
         "languageBehaviour",
       ],
       reloadProps: true,
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

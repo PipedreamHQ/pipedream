@@ -6,7 +6,7 @@ import elevenlabs from "../../elevenlabs.app.mjs";
 export default {
   key: "elevenlabs-text-to-speech",
   name: "Text To Speech",
-  version: "0.0.4",
+  version: "0.0.5",
   description: "Retrieve an audio file. [See the documentation](https://docs.elevenlabs.io/api-reference/text-to-speech)",
   type: "action",
   props: {
@@ -40,6 +40,11 @@ export default {
       label: "Stability",
       description: "Decreasing stability can make speech more expressive with output varying between re-generations. It can also lead to instabilities. Increasing stability will make the voice more consistent between re-generations, but it can also make it sounds a bit monotone. On longer text fragments we recommend lowering this value. It goes from `0.0` to `1.0`.",
       optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   async run({ $ }) {

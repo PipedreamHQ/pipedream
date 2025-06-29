@@ -10,7 +10,7 @@ export default {
     Accepts a file URL, and streams the file to the provided S3 bucket/key.
     [See the docs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html)
   `),
-  version: "0.4.4",
+  version: "0.4.5",
   type: "action",
   props: {
     aws: common.props.aws,
@@ -18,6 +18,12 @@ export default {
     bucket: common.props.bucket,
     fileUrl: common.props.fileUrl,
     filename: common.props.key,
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   methods: {
     ...common.methods,

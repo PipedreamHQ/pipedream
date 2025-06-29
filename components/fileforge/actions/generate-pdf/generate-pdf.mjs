@@ -7,7 +7,7 @@ export default {
   key: "fileforge-generate-pdf",
   name: "Generate PDF",
   description: "Generate a PDF from provided HTML. [See the documentation](https://docs.fileforge.com/api-reference/api-reference/pdf/generate)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     fileforge,
@@ -49,6 +49,12 @@ export default {
       type: "boolean",
       label: "Allow Viewing",
       description: "Specifies whether viewing is allowed.",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

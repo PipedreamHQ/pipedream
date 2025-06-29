@@ -6,7 +6,7 @@ export default {
   key: "generated_photos-generate-similar-faces-by-upload",
   name: "Generate Similar Faces to Uploaded Image",
   description: "Generates faces similar to an uploaded image with the Generated Photos API. [See the documentation](https://generated.photos/account#apikey)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     generatedPhotos,
@@ -20,6 +20,12 @@ export default {
         generatedPhotos,
         "limit",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

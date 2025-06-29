@@ -7,7 +7,7 @@ export default {
   key: "docparser-upload-document",
   name: "Upload Document",
   description: "Uploads a document to docparser that initiates parsing immediately after reception. [See the documentation](https://docparser.com/api/#import-documents)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     docparser,
@@ -21,6 +21,12 @@ export default {
       type: "string",
       label: "File",
       description: "The path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

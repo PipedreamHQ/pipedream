@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/dreamstudio",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream DreamStudio (Stable Diffusion) Components",
   "main": "dreamstudio.app.mjs",
   "keywords": [

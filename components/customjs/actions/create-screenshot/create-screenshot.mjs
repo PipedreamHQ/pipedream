@@ -6,7 +6,7 @@ export default {
   key: "customjs-create-screenshot",
   name: "Create Screenshot",
   description: "Create a screenshot of a website. [See the documentation](https://www.customjs.space/api/docs#_3-create-screenshot)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     customjs,
@@ -21,6 +21,11 @@ export default {
         "filename",
       ],
       description: "Download the PNG file to the `/tmp` directory with the specified filename.",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   async run({ $ }) {

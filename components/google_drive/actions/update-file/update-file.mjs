@@ -6,7 +6,7 @@ export default {
   key: "google_drive-update-file",
   name: "Update File",
   description: "Update a file's metadata and/or content. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/update) for more information",
-  version: "2.0.0",
+  version: "2.0.1",
   type: "action",
   props: {
     googleDrive,
@@ -95,6 +95,12 @@ export default {
       description: toSingleLineString(`
         Any additional parameters to pass in the request. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/update#request-body) for all available parameters.
       `),
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

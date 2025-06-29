@@ -13,7 +13,7 @@ export default {
   key: "convertapi-convert-web-url",
   name: "Convert Web URL to Specified Format",
   description: "Converts a website page to a specified format. [See the documentation](https://v2.convertapi.com/info/openapi)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     convertapi,
@@ -331,6 +331,11 @@ export default {
       hidden: true,
       optional: true,
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
+    },
   },
   async additionalProps(props) {
     const isJpg = this.formatTo === "jpg";
@@ -428,7 +433,9 @@ export default {
         formatTo: this.formatTo,
         data,
         headers: data.getHeaders(),
-        timeout: this.timeout ? 2000 * Number(this.timeout) : undefined,
+        timeout: this.timeout
+          ? 2000 * Number(this.timeout)
+          : undefined,
       });
 
       await saveFile(Files);

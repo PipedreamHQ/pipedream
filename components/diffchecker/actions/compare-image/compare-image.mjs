@@ -7,7 +7,7 @@ export default {
   key: "diffchecker-compare-image",
   name: "Compare Image",
   description: "Compares two images and returns the result.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     diffchecker,
@@ -26,6 +26,12 @@ export default {
         },
       ],
       reloadProps: true,
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

@@ -5,7 +5,7 @@ export default {
   key: "dromo-create-headless-import",
   name: "Create Headless Import",
   description: "Creates a new headless import. [See the documentation](https://developer.dromo.io/api/#tag/headless/operation/createHeadlessImport)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     dromo,
@@ -24,6 +24,12 @@ export default {
       type: "string",
       label: "File Path",
       description: "The path to the file saved to the `/tmp` directory (e.g. `/tmp/example.csv`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   methods: {

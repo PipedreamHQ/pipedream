@@ -8,7 +8,7 @@ export default {
   key: "discord-send-message-with-file",
   name: "Send Message With File",
   description: "Post a message with an attached file",
-  version: "1.1.1",
+  version: "1.1.2",
   type: "action",
   props: {
     ...common.props,
@@ -30,6 +30,12 @@ export default {
         common.props.discord,
         "filePath",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

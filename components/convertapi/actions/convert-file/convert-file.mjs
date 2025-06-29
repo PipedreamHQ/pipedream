@@ -9,7 +9,7 @@ export default {
   key: "convertapi-convert-file",
   name: "Convert File",
   description: "Use this action to convert files to the chosen format. [See the documentation](https://v2.convertapi.com/info/openapi)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     convertapi,
@@ -24,6 +24,11 @@ export default {
         "formatFrom",
       ],
       reloadProps: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read-write",
+      sync: true,
     },
   },
   async additionalProps() {

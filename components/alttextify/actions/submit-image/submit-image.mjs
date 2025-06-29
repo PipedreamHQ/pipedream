@@ -5,7 +5,7 @@ export default {
   key: "alttextify-submit-image",
   name: "Submit Image to Alttextify",
   description: "Upload or submit an image to Alttextify for alt text generation. [See the documentation](https://apidoc.alttextify.net/#api-Image-UploadRawImage)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     alttextify,
@@ -75,6 +75,12 @@ export default {
       type: "string",
       label: "Ecommerce Product Size",
       description: "The size of the product in the image.",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

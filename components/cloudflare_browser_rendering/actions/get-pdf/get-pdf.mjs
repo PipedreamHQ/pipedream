@@ -9,7 +9,7 @@ export default {
   key: "cloudflare_browser_rendering-get-pdf",
   name: "Get PDF",
   description: "Fetches rendered PDF from provided URL or HTML. [See the documentation](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/pdf/methods/create/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,
@@ -18,6 +18,11 @@ export default {
       label: "PDF File Name",
       description: "The name of the PDF file",
       default: "content.pdf",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   methods: {

@@ -7,7 +7,7 @@ export default {
   key: "claid_ai-upscale-image",
   name: "Upscale Image",
   description: "Enlarges the selected image in order to improve its resolution. By running this action, users can obtain clearer and sharper images. [See the documentation](https://docs.claid.ai/image-editing-api/image-operations/resizing)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     claidAi,
@@ -35,6 +35,12 @@ export default {
       type: "integer",
       label: "Upscale Width",
       description: "The quantity of pixels or percentage.",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

@@ -7,7 +7,7 @@ export default {
   key: "diffchecker-compare-pdf",
   name: "Compare PDFs",
   description: "Compares two PDFs and returns the result. [See the documentation](https://www.diffchecker.com/public-api/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     diffchecker,
@@ -33,6 +33,12 @@ export default {
       type: "string",
       label: "Right PDF",
       description: "Right PDF file you want to compare. Provide the file path `/tmp/file.pdf`. [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {
