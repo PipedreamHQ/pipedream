@@ -10,7 +10,7 @@ export default {
   key: "crowdin-add-file",
   name: "Add File to Project",
   description: "Adds a file into the created project. [See the documentation](https://developer.crowdin.com/api/v2/#tag/source-files/operation/api.projects.files.post)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     crowdin,
@@ -81,6 +81,12 @@ export default {
           projectId: c.projectId,
         }),
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

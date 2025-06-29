@@ -9,7 +9,7 @@ export default {
   key: "ezeep_blue-create-print-job",
   name: "Create Print Job",
   description: "Send a new print job to a specified printer.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ezeepBlue,
@@ -96,6 +96,12 @@ export default {
           printerId,
         }),
       ],
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

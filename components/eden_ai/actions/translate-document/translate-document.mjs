@@ -12,7 +12,7 @@ export default {
   key: "eden_ai-translate-document",
   name: "Translate Document",
   description: "Translates a document from a local file or URL. [See the documentation](https://docs.edenai.co/reference/translation_document_translation_create)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     app,
@@ -61,6 +61,12 @@ export default {
       type: "string",
       label: "File URL",
       description: "The URL of the file to translate",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },
