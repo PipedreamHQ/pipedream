@@ -11,7 +11,7 @@ const props = adjustPropDefinitions(others.props, shopify);
 export default {
   ...others,
   key: "shopify_developer_app-update-inventory-level",
-  version: "0.0.6",
+  version: "0.0.7",
   name,
   description,
   type,

@@ -1,6 +1,6 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import maxBy from "lodash.maxby";
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
@@ -9,7 +9,7 @@ export default {
   name: "New Thread Message",
   description: "Emit new event for each thread message posted.",
   type: "source",
-  version: "0.0.5",
+  version: "0.0.6",
   dedupe: "unique", // Dedupe events based on the Discord message ID
   props: {
     ...common.props,
@@ -20,10 +20,27 @@ export default {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
+    ignoreBotMessages: {
+      type: "boolean",
+      label: "Ignore Bot Messages",
+      description: "Set to `true` to only emit messages NOT from the configured Discord bot",
+      optional: true,
+    },
+  },
+  hooks: {
+    async deploy() {
+      if (this.ignoreBotMessages) {
+        const { id } = await this.getBotProfile();
+        this._setBotId(id);
+      }
+    },
   },
   async run({ $ }) {
     // We store a cursor to the last message ID
     let lastMessageIDs = this._getLastMessageIDs();
+    const botId = this.ignoreBotMessages
+      ? this._getBotId()
+      : null;
 
     const { threads } = await this.discord.listThreads({
       $,
@@ -79,6 +96,10 @@ export default {
       if (!messages.length) {
         console.log(`No new messages in thread ${channelId}`);
         continue;
+      }
+
+      if (botId) {
+        messages = messages.filter((message) => message.author.id !== botId);
       }
 
       console.log(`${messages.length} new messages in thread ${channelId}`);

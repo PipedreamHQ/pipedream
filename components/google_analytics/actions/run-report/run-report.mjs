@@ -2,9 +2,9 @@ import analytics from "../../google_analytics.app.mjs";
 
 export default {
   key: "google_analytics-run-report",
-  version: "0.1.0",
+  version: "0.1.1",
   name: "Run Report",
-  description: "Return report metrics based on a start and end date. [See the docs here](https://developers.google.com/analytics/devguides/reporting/core/v4/rest?hl=en)",
+  description: "Return report metrics based on a start and end date. [See the documentation](https://developers.google.com/analytics/devguides/reporting/core/v4/rest?hl=en)",
   type: "action",
   props: {
     analytics,

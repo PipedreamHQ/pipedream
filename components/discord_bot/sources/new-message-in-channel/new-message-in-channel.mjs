@@ -1,6 +1,6 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import maxBy from "lodash.maxby";
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 import sampleEmit from "./test-event.mjs";
 
 const { discord } = common.props;
@@ -11,8 +11,7 @@ export default {
   name: "New Message in Channel",
   description: "Emit new event for each message posted to one or more channels",
   type: "source",
-  version: "0.0.18",
-
+  version: "0.0.19",
   dedupe: "unique", // Dedupe events based on the Discord message ID
   props: {
     ...common.props,
@@ -37,6 +36,12 @@ export default {
       optional: true,
       default: false,
     },
+    ignoreBotMessages: {
+      type: "boolean",
+      label: "Ignore Bot Messages",
+      description: "Set to `true` to only emit messages NOT from the configured Discord bot",
+      optional: true,
+    },
     timer: {
       type: "$.interface.timer",
       default: {
@@ -44,9 +49,20 @@ export default {
       },
     },
   },
+  hooks: {
+    async deploy() {
+      if (this.ignoreBotMessages) {
+        const { id } = await this.getBotProfile();
+        this._setBotId(id);
+      }
+    },
+  },
   async run({ $ }) {
     // We store a cursor to the last message ID
     let lastMessageIDs = this._getLastMessageIDs();
+    const botId = this.ignoreBotMessages
+      ? this._getBotId()
+      : null;
 
     // If this is our first time running this source,
     // get the last N messages, emit them, and checkpoint
@@ -95,6 +111,10 @@ export default {
       if (!messages.length) {
         console.log(`No new messages in channel ${channelId}`);
         return;
+      }
+
+      if (botId) {
+        messages = messages.filter((message) => message.author.id !== botId);
       }
 
       console.log(`${messages.length} new messages in channel ${channelId}`);

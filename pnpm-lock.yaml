@@ -42,6 +42,9 @@ importers:
       '@next/eslint-plugin-next':
         specifier: ^14.2.5
         version: 14.2.19
+      '@pipedream/eslint-plugin-pipedream':
+        specifier: 0.2.5
+        version: 0.2.5
       '@pipedream/types':
         specifier: 0.1.4
         version: 0.1.4
@@ -72,9 +75,6 @@ importers:
       eslint-plugin-jsonc:
         specifier: ^1.6.0
         version: 1.7.0(eslint@8.57.1)
-      eslint-plugin-pipedream:
-        specifier: 0.2.4
-        version: 0.2.4
       eslint-plugin-putout:
         specifier: ^23
         version: 23.2.0(eslint@8.57.1)(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
@@ -1575,6 +1575,9 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/bitget:
+    specifiers: {}
+
   components/bitly:
     dependencies:
       '@pipedream/platform':
@@ -2354,6 +2357,8 @@ importers:
   components/chatrace: {}
 
   components/chatsonic: {}
+
+  components/chattermill: {}
 
   components/chatwork:
     dependencies:
@@ -4424,6 +4429,9 @@ importers:
         specifier: ^6.11.0
         version: 6.13.1
 
+  components/explorium:
+    specifiers: {}
+
   components/expofp:
     dependencies:
       '@pipedream/platform':
@@ -4708,7 +4716,11 @@ importers:
 
   components/fivetran: {}
 
-  components/fixer_io: {}
+  components/fixer_io:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/flash_by_velora_ai:
     dependencies:
@@ -5346,8 +5358,8 @@ importers:
         specifier: ^13.0.1
         version: 13.0.1
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       google-auth-library:
         specifier: ^8.7.0
         version: 8.9.0
@@ -6896,6 +6908,9 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/joggai:
+    specifiers: {}
+
   components/join: {}
 
   components/joomla:
@@ -7477,7 +7492,11 @@ importers:
 
   components/limitless: {}
 
-  components/limitless_ai: {}
+  components/limitless_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/limoexpress:
     dependencies:
@@ -7682,7 +7701,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
 
-  components/local_reviews: {}
+  components/local_reviews:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/locate:
     dependencies:
@@ -8608,6 +8631,8 @@ importers:
 
   components/mumara: {}
 
+  components/mumble: {}
+
   components/mural:
     dependencies:
       '@pipedream/platform':
@@ -9123,7 +9148,11 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/odoo: {}
+  components/odoo:
+    dependencies:
+      xmlrpc:
+        specifier: ^1.3.2
+        version: 1.3.2
 
   components/office_365_management: {}
 
@@ -9397,6 +9426,8 @@ importers:
       '@pipedream/platform':
         specifier: ^0.9.0
         version: 0.9.0
+
+  components/opinion_stage: {}
 
   components/opnform:
     dependencies:
@@ -12123,8 +12154,8 @@ importers:
   components/sftp_password_based_auth:
     dependencies:
       '@pipedream/sftp':
-        specifier: ^0.4.1
-        version: 0.4.1
+        specifier: ^0.5.0
+        version: 0.5.0
 
   components/shadertoy:
     dependencies:
@@ -12328,6 +12359,9 @@ importers:
       '@pipedream/platform':
         specifier: 1.6.5
         version: 1.6.5
+
+  components/sign_plus:
+    specifiers: {}
 
   components/signable: {}
 
@@ -13482,7 +13516,11 @@ importers:
         specifier: ^2.29.4
         version: 2.30.1
 
-  components/tettra: {}
+  components/tettra:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/textcortex:
     dependencies:
@@ -13549,6 +13587,8 @@ importers:
       dayjs:
         specifier: ^1.11.10
         version: 1.11.13
+
+  components/themarketer: {}
 
   components/thesportsdb: {}
 
@@ -14440,6 +14480,8 @@ importers:
       '@pipedreamhq/platform':
         specifier: ^0.8.1
         version: 0.8.1
+
+  components/vincario: {}
 
   components/viral_loops:
     dependencies:
@@ -18804,6 +18846,9 @@ packages:
   '@pipedream/docusign@0.2.1':
     resolution: {integrity: sha512-4NxQNHAWOZ/eFvj/PkmZ4LY9ZwsXZdCh363scbNlJfXqeMGCxnNrfRrEgYIFWvnB8pJyzHtSdxsDLL2axIMx4g==}
 
+  '@pipedream/eslint-plugin-pipedream@0.2.5':
+    resolution: {integrity: sha512-99e88TuaQM9VGc64JlJueuk+3dCyuNuxOqTPCVg+QLbfzqovHnDHZ5cHqkzPjDLtFsFrAucIANIcgKcb0YAoxg==}
+
   '@pipedream/google_drive@0.6.19':
     resolution: {integrity: sha512-+JtwPhh0mHN3z3bOeyfw6OIztPhT0cVy/r/rpB5b0TFKWVly25Wz6Zv6zug5EhzyEt6DT7dnh9CpIhlxEj7SuA==}
 
@@ -18885,8 +18930,8 @@ packages:
     resolution: {integrity: sha512-oyWFb2xsm+pRXrm+xiboSRQxA/PcP2tjqc2vQZ4y7TWFUOCBzzxencYFze8Lo+7l/QlWhXy4jbK0UzPMyFr2UQ==}
     engines: {node: '>=18.0.0'}
 
-  '@pipedream/sftp@0.4.1':
-    resolution: {integrity: sha512-K+tYweZBO4cAZDXqCsciPeDEG6tJsuCS0+kP+JlWfwjKHH/Z75G/P5NXFO3tGCwmSrhwyB/Ew1Zi89oUsQq8mQ==}
+  '@pipedream/sftp@0.5.0':
+    resolution: {integrity: sha512-JK7TDMEFauKILdN0GFrhYaclRfvPyL84awwQYxY/yK6UXrnX9kZ1MqP4dTijI82qQUmupbZ3ywbSsA/7aGrnqg==}
 
   '@pipedream/shopify@0.7.0':
     resolution: {integrity: sha512-bZoTDxcwBIepWhT8LVXzOxAO3S9NM8U1NEfS5106aDHFizr6L7lg/78+GaPdishK12oce0B/fCFY0ssd5AQxWA==}
@@ -23496,9 +23541,6 @@ packages:
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: '>=8.23.0'
-
-  eslint-plugin-pipedream@0.2.4:
-    resolution: {integrity: sha512-mKgRf5DFJnxcDantRh0b7CoSNRqPiDZMlAP9Ab/Pha8Uq7ZseIEiRGtWOJwp9tHSZnNOe1+MCN1X6yXnWC39sA==}
 
   eslint-plugin-putout@23.2.0:
     resolution: {integrity: sha512-uv+TkB3Dli3QzsKVkmGCX2MKnM2VF18eh2O64uxGlHUtoG4nlJ6+y0MksWDclJn648RQA5qvj+4E81NERT6bNg==}
@@ -28627,6 +28669,9 @@ packages:
     resolution: {integrity: sha512-rOOcZfHYK3haArS4/RaD+DDcPrfMC7G7dCRrzjHLaLjIj+VTs/cbWcbFkCAGwS0OY2DuiUAzBVFVX302zGzw6Q==}
     engines: {node: '>=18'}
 
+  sax@1.2.4:
+    resolution: {integrity: sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==}
+
   sax@1.4.1:
     resolution: {integrity: sha512-+aWOz7yVScEGoKNd4PA10LZ8sk0A/z5+nXQG5giUO5rprX9jgYsTdov9qCchZiPIZezbZH+jRut8nPodFAX4Jg==}
 
@@ -30498,6 +30543,10 @@ packages:
     resolution: {integrity: sha512-Eux0i2QdDYKbdbA6AM6xE4m6ZTZr4G4xF9kahI2ukSEMCzwce2eX9WlTI5J3s+NU7hpasFsr8hWIONae7LluAQ==}
     engines: {node: '>=6.0'}
 
+  xmlbuilder@8.2.2:
+    resolution: {integrity: sha512-eKRAFz04jghooy8muekqzo8uCSVNeyRedbuJrp0fovbLIi7wlsYtdUn3vBAAPq2Y3/0xMz2WMEUQ8yhVVO9Stw==}
+    engines: {node: '>=4.0'}
+
   xmlbuilder@9.0.7:
     resolution: {integrity: sha512-7YXTQc3P2l9+0rjaUbLwMKRhtmwg1M1eDf6nag7urC7pIPYLD9W/jmzQ4ptRSUbodw5S0jfoGTflLemQibSpeQ==}
     engines: {node: '>=4.0'}
@@ -30512,6 +30561,10 @@ packages:
   xmldom@0.6.0:
     resolution: {integrity: sha512-iAcin401y58LckRZ0TkI4k0VSM1Qg0KGSc3i8rU+xrxe19A/BN1zHyVSJY7uoutVlaTSzYyk/v5AmkewAP7jtg==}
     engines: {node: '>=10.0.0'}
+
+  xmlrpc@1.3.2:
+    resolution: {integrity: sha512-jQf5gbrP6wvzN71fgkcPPkF4bF/Wyovd7Xdff8d6/ihxYmgETQYSuTc+Hl+tsh/jmgPLro/Aro48LMFlIyEKKQ==}
+    engines: {node: '>=0.8', npm: '>=1.0.0'}
 
   xpath@0.0.34:
     resolution: {integrity: sha512-FxF6+rkr1rNSQrhUNYrAFJpRXNzlDoMxeXN5qI84939ylEv3qqPFKa85Oxr6tDaJKqwW6KKyo2v26TSv3k6LeA==}
@@ -35539,6 +35592,8 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+  '@pipedream/eslint-plugin-pipedream@0.2.5': {}
+
   '@pipedream/google_drive@0.6.19':
     dependencies:
       '@googleapis/drive': 2.4.0
@@ -35782,7 +35837,7 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@pipedream/sftp@0.4.1':
+  '@pipedream/sftp@0.5.0':
     dependencies:
       '@pipedream/platform': 3.1.0
       ssh2-sftp-client: 11.0.0
@@ -41345,8 +41400,6 @@ snapshots:
       ignore: 5.3.2
       minimatch: 9.0.5
       semver: 7.7.1
-
-  eslint-plugin-pipedream@0.2.4: {}
 
   eslint-plugin-putout@23.2.0(eslint@8.57.1)(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3)):
     dependencies:
@@ -48603,6 +48656,8 @@ snapshots:
       - supports-color
       - typescript
 
+  sax@1.2.4: {}
+
   sax@1.4.1: {}
 
   sb-promise-queue@2.1.0: {}
@@ -50872,6 +50927,8 @@ snapshots:
 
   xmlbuilder@13.0.2: {}
 
+  xmlbuilder@8.2.2: {}
+
   xmlbuilder@9.0.7: {}
 
   xmlcreate@2.0.4: {}
@@ -50879,6 +50936,11 @@ snapshots:
   xmldom-sre@0.1.31: {}
 
   xmldom@0.6.0: {}
+
+  xmlrpc@1.3.2:
+    dependencies:
+      sax: 1.2.4
+      xmlbuilder: 8.2.2
 
   xpath@0.0.34: {}
 
