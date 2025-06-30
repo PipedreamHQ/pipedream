@@ -6,7 +6,7 @@ export default {
   key: "zerobounce-file-validation",
   name: "Validate Emails in File",
   description: "Performs email validation on all the addresses contained in a provided file. [See the documentation](https://www.zerobounce.net/docs/email-validation-api-quickstart/)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     zerobounce,
@@ -60,6 +60,12 @@ export default {
       type: "boolean",
       label: "Callback With Rerun",
       description: "Use the `$.flow.rerun` Node.js helper to rerun the step when the validation is completed. Overrides the `rerunUrl` prop. This will increase execution time and credit usage as a result. [See the documentation](https://pipedream.com/docs/code/nodejs/rerun/#flow-rerun)",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

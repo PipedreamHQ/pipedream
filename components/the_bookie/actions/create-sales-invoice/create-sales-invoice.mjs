@@ -8,7 +8,7 @@ export default {
   key: "the_bookie-create-sales-invoice",
   name: "Create Sales Invoice",
   description: "Creates a new sales invoice. [See the documentation](https://app.thebookie.nl/nl/help/article/api-documentatie/#salesentry_create)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     theBookie,
@@ -67,6 +67,12 @@ export default {
       type: "string",
       label: "Attachment",
       description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

@@ -6,7 +6,7 @@ export default {
   key: "wordpress_org-upload-media",
   name: "Upload Media",
   description: "Upload a media item to your WordPress media library. Returns a media ID to be used in creating or updating posts.[See the documentation](https://www.npmjs.com/package/wpapi#uploading-media)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     wordpress,
@@ -35,6 +35,12 @@ export default {
         "description",
       ],
       description: "Description of the media item",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

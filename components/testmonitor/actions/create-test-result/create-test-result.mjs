@@ -9,7 +9,7 @@ export default {
   key: "testmonitor-create-test-result",
   name: "Create Test Result",
   description: "Create a new test result. [See the documentation](https://docs.testmonitor.com/#tag/Test-Results/operation/PostTestResult)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     testmonitor,
@@ -67,6 +67,12 @@ export default {
       type: "string",
       label: "Description",
       description: "The description of the test result.",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

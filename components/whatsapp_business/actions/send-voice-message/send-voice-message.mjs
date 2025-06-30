@@ -6,7 +6,7 @@ export default {
   key: "whatsapp_business-send-voice-message",
   name: "Send Voice Message",
   description: "Sends a voice message. [See the documentation](https://developers.facebook.com/docs/whatsapp/cloud-api/messages/audio-messages)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     whatsapp,
@@ -39,6 +39,12 @@ export default {
         "audio/ogg",
         "audio/opus",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sendgrid",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Pipedream Sendgrid Components",
   "main": "sendgrid.app.mjs",
   "keywords": [

@@ -6,7 +6,7 @@ export default {
   key: "youtube_data_api-upload-thumbnail",
   name: "Upload Thumbnail",
   description: "Uploads a custom video thumbnail to YouTube and sets it for a video. Note: Account must be [verified](https://www.youtube.com/verify). [See the documentation](https://developers.google.com/youtube/v3/docs/thumbnails/set) for more information",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   props: {
     youtubeDataApi,
@@ -33,5 +33,11 @@ export default {
       ],
     },
     ...common.props,
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
 };

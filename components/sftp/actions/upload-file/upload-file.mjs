@@ -7,7 +7,7 @@ export default {
   key: "sftp-upload-file",
   name: "Upload File",
   description: "Uploads a file or string in UTF-8 format to the SFTP server. [See the documentation](https://github.com/theophilusx/ssh2-sftp-client#org99d1b64)",
-  version: "0.4.0",
+  version: "0.4.1",
   type: "action",
   props: {
     app,
@@ -27,6 +27,12 @@ export default {
       type: "string",
       label: "Remote Path",
       description: "The path on the sftp server for store the data. e.g. `./uploads/my-file.txt`",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {
