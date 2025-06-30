@@ -51,6 +51,7 @@ export const skippablePropTypes = [
   "$.interface.http",
   "$.interface.apphook",
   "$.interface.timer", // TODO add support for this (cron string and timers)
+  "dir",
 ]
 
 export const FormContext = createContext<FormContext<any /* XXX fix */> | undefined>(undefined); // eslint-disable-line @typescript-eslint/no-explicit-any
