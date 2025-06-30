@@ -6,7 +6,7 @@ export default {
   key: "zoho_crm-upload-attachment",
   name: "Upload Attachment",
   description: "Uploads an attachment file to Zoho CRM from a URL or file path. [See the documentation](https://www.zoho.com/crm/developer/docs/api/v3/upload-attachment.html)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     zohoCrm,
@@ -29,6 +29,15 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+    },
+    // This prop indicates that a remote directory (if configured for the execution context) is
+    // automatically synced to the /tmp directory before the action runs, making files in that
+    // directory accessible for use in this action via the file system.
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {
