@@ -51,7 +51,7 @@ export default {
 
         for (const message of messages) {
           yield message;
-          if (max && count >= max) {
+          if (max && ++count >= max) {
             return;
           }
         }
