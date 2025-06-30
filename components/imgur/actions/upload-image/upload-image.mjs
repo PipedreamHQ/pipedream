@@ -34,7 +34,7 @@ export default {
 
     const res = await this.imgur.uploadImage(base64);
 
-    if (!res.status == 200) {
+    if (res.status !== 200) {
       $.export("response", res);
       if ($.flow) {
         return $.flow.exit("Failed to upload.");
