@@ -153,7 +153,7 @@ export default {
       optional: true,
     },
     recurrenceByMonthDay: {
-      type: "integer",
+      type: "string",
       label: "Recurrence By Month Day",
       description: "Example: `3,23` for the 3rd and 23rd day of the month",
       optional: true,
