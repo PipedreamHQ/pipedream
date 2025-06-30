@@ -80,6 +80,19 @@ export default {
         "metaDescriptionOverride",
       ],
     },
+    metaRobotsOverride: {
+      propDefinition: [
+        addToCalendarPro,
+        "metaRobotsOverride",
+      ],
+    },
+    customDomainId: {
+      propDefinition: [
+        addToCalendarPro,
+        "customDomainId",
+      ],
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await this.addToCalendarPro.createLandingPageTemplate({
@@ -97,6 +110,8 @@ export default {
         image_repeat: this.imageRepeat,
         meta_title_override: this.metaTitleOverride,
         meta_description_override: this.metaDescriptionOverride,
+        meta_robots_override: this.metaRobotsOverride,
+        custom_domain: this.customDomainId,
       },
     });
     $.export("$summary", "Successfully created landing page template.");

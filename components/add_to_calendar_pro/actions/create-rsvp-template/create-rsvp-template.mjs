@@ -69,6 +69,76 @@ export default {
         "fields",
       ],
     },
+    emailRsvpDoi: {
+      propDefinition: [
+        addToCalendarPro,
+        "emailTemplateId",
+        () => ({
+          type: "rsvp_doi",
+        }),
+      ],
+      label: "Email Template: DOI",
+    },
+    emailRsvpThankYou: {
+      propDefinition: [
+        addToCalendarPro,
+        "emailTemplateId",
+        () => ({
+          type: "rsvp_thank_you",
+        }),
+      ],
+      label: "Email Template: Thank you",
+    },
+    emailRsvpSignupConfirmation: {
+      propDefinition: [
+        addToCalendarPro,
+        "emailTemplateId",
+        () => ({
+          type: "rsvp_signup_confirmation",
+        }),
+      ],
+      label: "Email Template: Sign-up Confirmation",
+    },
+    emailRsvpChangeConfirmation: {
+      propDefinition: [
+        addToCalendarPro,
+        "emailTemplateId",
+        () => ({
+          type: "rsvp_change_confirmation",
+        }),
+      ],
+      label: "Email Template: Change Confirmation",
+    },
+    emailRsvpEventUpdate: {
+      propDefinition: [
+        addToCalendarPro,
+        "emailTemplateId",
+        () => ({
+          type: "rsvp_event_update",
+        }),
+      ],
+      label: "Email Template: Event Update",
+    },
+    emailRsvpMagicLink: {
+      propDefinition: [
+        addToCalendarPro,
+        "emailTemplateId",
+        () => ({
+          type: "rsvp_magic_link",
+        }),
+      ],
+      label: "Email Template: Magic Link",
+    },
+    emailRsvpSecondSignup: {
+      propDefinition: [
+        addToCalendarPro,
+        "emailTemplateId",
+        () => ({
+          type: "rsvp_second_signup",
+        }),
+      ],
+      label: "Email Template: Second Sign-up",
+    },
   },
   async run({ $ }) {
     const response = await this.addToCalendarPro.createRsvpTemplate({
@@ -84,6 +154,13 @@ export default {
         headline: this.headline,
         text: this.text,
         fields: parseObject(this.fields),
+        email_rsvp_doi: this.emailRsvpDoi,
+        email_rsvp_thank_you: this.emailRsvpThankYou,
+        email_rsvp_signup_confirmation: this.emailRsvpSignupConfirmation,
+        email_rsvp_change_confirmation: this.emailRsvpChangeConfirmation,
+        email_rsvp_event_update: this.emailRsvpEventUpdate,
+        email_rsvp_magic_link: this.emailRsvpMagicLink,
+        email_rsvp_second_signup: this.emailRsvpSecondSignup,
       },
     });
     $.export("$summary", "Successfully created RSVP template.");

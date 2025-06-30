@@ -53,6 +53,18 @@ export default {
         })) || [];
       },
     },
+    ctaTemplateId: {
+      type: "string",
+      label: "CTA Template ID",
+      description: "The ID of a Call to Action template",
+      async options() {
+        const templates = await this.listCtaTemplates();
+        return templates?.map((template) => ({
+          label: template.name,
+          value: template.id,
+        })) || [];
+      },
+    },
     eventProKey: {
       type: "string",
       label: "Event Pro Key",
@@ -65,50 +77,103 @@ export default {
         })) || [];
       },
     },
-    eventName: {
+    customDomainId: {
       type: "string",
-      label: "Name",
-      description: "The name of the event",
+      label: "Custom Domain ID",
+      description: "The ID of a custom domain",
+      async options() {
+        const { available_custom_domains: domains } = await this.listCustomDomains();
+        return domains?.map((domain) => ({
+          label: domain.host,
+          value: domain.id,
+        })) || [];
+      },
     },
-    startDate: {
+    emailTemplateId: {
       type: "string",
-      label: "Start Date",
-      description: "The start date of the event in format YYYY-MM-DD",
+      label: "Email Template ID",
+      description: "The ID of an email template",
+      optional: true,
+      async options({ type }) {
+        const templates = await this.listEmailTemplates({
+          type,
+        });
+        return templates?.map((template) => ({
+          label: template.name,
+          value: template.id,
+        })) || [];
+      },
     },
-    startTime: {
+    titleEventSeries: {
       type: "string",
-      label: "Start Time",
-      description: "The start time of the event in format HH:MM",
+      label: "Title Event Series",
+      description: "The title of the event series",
       optional: true,
     },
-    endDate: {
-      type: "string",
-      label: "End Date",
-      description: "The end date of the event in format YYYY-MM-DD",
+    simplifiedRecurrence: {
+      type: "boolean",
+      label: "Simplified Recurrence",
+      description: "Set false, if you go for the \"recurrence\" field, which takes an RRULE; and true if you use the other recurrence fields",
       optional: true,
     },
-    endTime: {
+    recurrence: {
       type: "string",
-      label: "End Time",
-      description: "The end time of the event in format HH:MM",
+      label: "Recurrence",
+      description: "The recurrence of the event",
       optional: true,
     },
-    timeZone: {
+    recurrenceSimpleType: {
       type: "string",
-      label: "Time Zone",
-      description: "The timezone of the event. Example: `America/Los_Angeles`",
+      label: "Recurrence Simple Type",
+      description: "The type of recurrence",
+      options: [
+        "daily",
+        "weekly",
+        "monthly",
+        "yearly",
+      ],
       optional: true,
     },
-    description: {
-      type: "string",
-      label: "Description",
-      description: "The description of the event",
+    recurrenceInterval: {
+      type: "integer",
+      label: "Recurrence Interval",
+      description: "The interval of the recurrence",
       optional: true,
     },
-    location: {
+    recurrenceByDay: {
       type: "string",
-      label: "Location",
-      description: "The location of the event",
+      label: "Recurrence By Day",
+      description: "Example: `2MO,TU` for the second Monday and each Tuesday",
+      optional: true,
+    },
+    recurrenceByMonth: {
+      type: "string",
+      label: "Recurrence By Month",
+      description: "Example: `1,2,12` for Jan, Feb, and Dec",
+      optional: true,
+    },
+    recurrenceByMonthDay: {
+      type: "integer",
+      label: "Recurrence By Month Day",
+      description: "Example: `3,23` for the 3rd and 23rd day of the month",
+      optional: true,
+    },
+    recurrenceCount: {
+      type: "integer",
+      label: "Recurrence Count",
+      description: "The count of the recurrence",
+      optional: true,
+    },
+    recurrenceWeekStart: {
+      type: "string",
+      label: "Recurrence Week Start",
+      description: "The week start of the recurrence. Example: `MO` for Monday",
+      optional: true,
+    },
+    iCalFileName: {
+      type: "string",
+      label: "iCal File Name",
+      description: "Overriding the ics file name",
       optional: true,
     },
     rsvp: {
@@ -219,6 +284,12 @@ export default {
       description: "Text that overrides the auto-generated meta description",
       optional: true,
     },
+    metaRobotsOverride: {
+      type: "string",
+      label: "Meta Robots Override",
+      description: "If true, Add to Calendar Pro will set \"norobots, noindex\"",
+      optional: true,
+    },
     eventGroupName: {
       type: "string",
       label: "Event Group Name",
@@ -230,9 +301,9 @@ export default {
       description: "Internal note for the event group",
       optional: true,
     },
-    subscriptionCallUrl: {
+    subscriptionCalUrl: {
       type: "string",
-      label: "Subscription Call URL",
+      label: "Subscription Cal URL",
       description: "URL to an external calendar. Needs to start with \"http\"! Usually ends with \".ics\"",
       optional: true,
     },
@@ -397,6 +468,26 @@ export default {
     listRsvpTemplates(opts = {}) {
       return this._makeRequest({
         path: "/rsvp-block/all",
+        ...opts,
+      });
+    },
+    listCtaTemplates(opts = {}) {
+      return this._makeRequest({
+        path: "/cta-block/all",
+        ...opts,
+      });
+    },
+    listCustomDomains(opts = {}) {
+      return this._makeRequest({
+        path: "/custom-domains",
+        ...opts,
+      });
+    },
+    listEmailTemplates({
+      type, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/email-template/${type}`,
         ...opts,
       });
     },

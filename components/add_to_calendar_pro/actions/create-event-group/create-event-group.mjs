@@ -20,10 +20,10 @@ export default {
         "internalNote",
       ],
     },
-    subscriptionCallUrl: {
+    subscriptionCalUrl: {
       propDefinition: [
         addToCalendarPro,
-        "subscriptionCallUrl",
+        "subscriptionCalUrl",
       ],
     },
     cta: {
@@ -45,6 +45,13 @@ export default {
       ],
       optional: true,
     },
+    ctaTemplateId: {
+      propDefinition: [
+        addToCalendarPro,
+        "ctaTemplateId",
+      ],
+      optional: true,
+    },
   },
   async run({ $ }) {
     const response = await this.addToCalendarPro.createGroup({
@@ -52,13 +59,14 @@ export default {
       data: {
         name: this.eventGroupName,
         internal_note: this.internalNote,
-        subscription: this.subscriptionCallUrl
+        subscription: this.subscriptionCalUrl
           ? "external"
           : "no",
-        subscription_call_url: this.subscriptionCallUrl,
+        subscription_cal_url: this.subscriptionCalUrl,
         cta: this.cta,
         layout: this.styleId,
         landingpage: this.landingPageTemplateId,
+        cta_block: this.ctaTemplateId,
       },
     });
     $.export("$summary", "Successfully created event group.");

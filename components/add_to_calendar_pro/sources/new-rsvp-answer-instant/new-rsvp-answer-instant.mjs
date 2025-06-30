@@ -19,7 +19,7 @@ export default {
     },
     generateMeta({ element_data: item }) {
       return {
-        id: item.prokey,
+        id: `${item.prokey}${item.email}`,
         summary: `New RSVP Answer with ProKey: ${item.prokey}`,
         ts: Date.parse(item.date_created),
       };
