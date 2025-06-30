@@ -1,5 +1,4 @@
 export default {
-
   LANGUAGE_OPTIONS: [
     {
       value: "ab",
@@ -695,11 +694,11 @@ export default {
     },
     {
       value: "vi",
-      label: "Vietlabelse",
+      label: "Vietnamese",
     },
     {
       value: "vo",
-      label: "Volap_k",
+      label: "Volapük",
     },
     {
       value: "wa",

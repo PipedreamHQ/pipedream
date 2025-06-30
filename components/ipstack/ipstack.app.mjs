@@ -13,13 +13,13 @@ export default {
     hostname: {
       type: "boolean",
       label: "Hostname",
-      description: "If set to 1, hostname lookup will be included in the API response",
+      description: "If set to `true`, hostname lookup will be included in the API response",
       optional: true,
     },
     security: {
       type: "boolean",
       label: "Security",
-      description: "If set to 1, includes security module in the API response",
+      description: "If set to `true`, includes security module in the API response",
       optional: true,
     },
     language: {
@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "http://api.ipstack.com";
+      return "https://api.ipstack.com";
     },
     async _makeRequest(opts = {}) {
       const {
