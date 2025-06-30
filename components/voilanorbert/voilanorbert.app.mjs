@@ -79,6 +79,7 @@ export default {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
+        debug: true,
       };
       return axios($, config);
     },

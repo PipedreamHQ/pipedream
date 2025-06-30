@@ -11,7 +11,8 @@ export default {
   props: {
     pipedream_utils,
     rss_feeds: {
-      type: "any",
+      type: "string[]",
+      label: "RSS Feeds",
       description: "The URL(s) of the RSS Feeds",
     },
   },

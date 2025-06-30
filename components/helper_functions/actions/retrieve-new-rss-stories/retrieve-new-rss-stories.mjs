@@ -13,7 +13,8 @@ export default {
     helper_functions,
     db: "$.service.db",
     rss_feeds: {
-      type: "any",
+      type: "string[]",
+      label: "RSS Feeds",
       description: "The URL(s) of the RSS Feeds",
     },
   },

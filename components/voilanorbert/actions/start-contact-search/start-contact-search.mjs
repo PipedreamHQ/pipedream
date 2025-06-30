@@ -49,6 +49,10 @@ export default {
   },
   methods: {
     async processEvent({ $ }) {
+      if (!this.domain && !this.company) {
+        throw new ConfigurationError("Either domain or company is required.");
+      }
+
       const { resume_url } = this.webhookUrl
         ? {
           resume_url: this.webhookUrl,
