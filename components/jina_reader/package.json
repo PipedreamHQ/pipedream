@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/jina_reader",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Jina Reader Components",
   "main": "jina_reader.app.mjs",
   "keywords": [

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pexels",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream pexels Components",
   "main": "pexels.app.mjs",
   "keywords": [

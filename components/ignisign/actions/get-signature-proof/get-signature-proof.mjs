@@ -7,7 +7,7 @@ export default {
   key: "ignisign-get-signature-proof",
   name: "Get Signature Proof",
   description: "Retrieves a proof file for a specific signature. [See the documentation](https://ignisign.io/docs/category/ignisign-api)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ignisign,
@@ -26,6 +26,11 @@ export default {
         }),
       ],
       withLabel: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   async run({ $ }) {

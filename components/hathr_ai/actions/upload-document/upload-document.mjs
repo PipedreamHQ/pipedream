@@ -8,7 +8,7 @@ export default {
   key: "hathr_ai-upload-document",
   name: "Upload Document",
   description: "Uploads a document that can be used in future chat requests. [See the documentation](https://drive.google.com/drive/folders/1jtoSXqzhe-iwf9kfUwTCVQBu4iXVJO2x?usp=sharing)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     hathrAi,
@@ -21,6 +21,12 @@ export default {
       type: "string",
       label: "Filename",
       description: "The name of the file to be uploaded",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

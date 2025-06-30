@@ -7,7 +7,7 @@ import imagekitIo from "../../imagekit_io.app.mjs";
 export default {
   key: "imagekit_io-upload-image",
   name: "Upload Image",
-  version: "0.0.2",
+  version: "0.0.3",
   description: "Upload a new image to ImageKit.io. [See the documentation](https://docs.imagekit.io/api-reference/upload-file-api/server-side-file-upload)",
   type: "action",
   props: {
@@ -98,6 +98,12 @@ export default {
       type: "object",
       label: "customMetadata",
       description: "A JSON key-value data to be associated with the asset. Checkout **overwriteCustomMetadata** parameter to understand default behaviour. Before setting any custom metadata on an asset you have to create the field using [custom metadata fields API](https://docs.imagekit.io/api-reference/custom-metadata-fields-api).",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

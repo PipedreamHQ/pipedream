@@ -5,7 +5,7 @@ export default {
   key: "ocrspace-process-image",
   name: "Process Image",
   description: "Submits an image file for OCR processing using OCR.space. [See the documentation](https://ocr.space/ocrapi)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     ...common.props,
@@ -20,6 +20,12 @@ export default {
         common.props.ocrspace,
         "filetype",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   methods: {

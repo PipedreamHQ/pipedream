@@ -6,7 +6,7 @@ export default {
   key: "mistral_ai-upload-file",
   name: "Upload File",
   description: "Upload a file that can be used across various endpoints. [See the Documentation](https://docs.mistral.ai/api/#tag/files/operation/files_api_routes_upload_file)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     mistralAI,
@@ -24,6 +24,12 @@ export default {
         "batch",
         "ocr",
       ],
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

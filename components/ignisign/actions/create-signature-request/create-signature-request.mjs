@@ -11,7 +11,7 @@ export default {
   key: "ignisign-create-signature-request",
   name: "Create Signature Request",
   description: "Creates a document signature request through IgniSign. [See the documentation](https://ignisign.io/docs/ignisign-api/init-signature-request)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ignisign,
@@ -74,6 +74,12 @@ export default {
       label: "Language",
       description: "Represents the languages for signatures supported by a signature profile.",
       options: LANGUAGE_OPTIONS,
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

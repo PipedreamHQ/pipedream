@@ -11,7 +11,7 @@ export default {
   key: "jigsawstack-object-detection",
   name: "Object Detection",
   description: "Recognize objects within a provided image and retrieve it with great accuracy. [See the documentation](https://docs.jigsawstack.com/api-reference/ai/object-detection)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     jigsawstack,
@@ -31,6 +31,12 @@ export default {
       type: "string",
       label: "Image File",
       description: "The path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

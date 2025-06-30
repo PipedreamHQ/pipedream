@@ -9,7 +9,7 @@ export default {
   name: "Get PDF",
   description:
     "Generate a PDF of a page using Puppeteer. [See the documentation](https://pptr.dev/api/puppeteer.page.pdf)",
-  version: "1.0.2",
+  version: "1.0.3",
   type: "action",
   props: {
     puppeteer,
@@ -135,6 +135,11 @@ export default {
       description:
         "Sets the width of paper. You can pass in a number or a string with a unit.",
       optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   methods: {

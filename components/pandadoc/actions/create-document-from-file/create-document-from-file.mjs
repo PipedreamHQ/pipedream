@@ -7,7 +7,7 @@ export default {
   name: "Create Document From File",
   description: "Create a document from a file or public file URL. [See the documentation here](https://developers.pandadoc.com/reference/create-document-from-pdf)",
   type: "action",
-  version: "1.0.0",
+  version: "1.0.1",
   props: {
     app,
     name: {
@@ -39,6 +39,12 @@ export default {
       label: "Fields",
       description: `A \`fields\` object containing fields to add to the document. [See the documentation](https://developers.pandadoc.com/reference/create-document-from-pdf) for more information about fields.
       \nE.g. \`{ "name": { "value": "Jane", "role": "user" }, "like": { "value": true, "role": "user" } }\``,
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

@@ -7,7 +7,7 @@ export default {
   key: "jina_reader-convert-to-llm-friendly-input",
   name: "Convert URL To LLM-Friendly Input",
   description: "Converts a provided URL to an LLM-friendly input using Jina Reader. [See the documentation](https://github.com/jina-ai/reader)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
@@ -112,6 +112,12 @@ export default {
       type: "string",
       label: "HTML File Path",
       description: "The path to the html file saved to the `/tmp` directory (e.g. `/tmp/example.html`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },
