@@ -11626,6 +11626,9 @@ importers:
         specifier: ^9.0.1
         version: 9.0.1
 
+  components/salesforge:
+    specifiers: {}
+
   components/saleslens:
     dependencies:
       '@pipedream/platform':

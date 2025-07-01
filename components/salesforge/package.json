@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/salesforge",
+  "version": "0.0.1",
+  "description": "Pipedream Salesforge Components",
+  "main": "salesforge.app.mjs",
+  "keywords": [
+    "pipedream",
+    "salesforge"
+  ],
+  "homepage": "https://pipedream.com/apps/salesforge",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
