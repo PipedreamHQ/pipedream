@@ -4,7 +4,7 @@ export default {
   key: "scrapeless-crawler",
   name: "Crawler",
   description: "Crawl any website at scale and say goodbye to blocks. [See the documentation](https://apidocs.scrapeless.com/api-17509010).",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     scrapeless,
@@ -29,7 +29,7 @@ export default {
   async run({ $ }) {
     const {
       scrapeless, apiServer, ...inputProps
-    } = this;
+    } = await this;
 
     const browserOptions = {
       "proxy_country": "ANY",
