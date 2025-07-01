@@ -18,7 +18,7 @@ export default {
   key: "google_drive-download-file",
   name: "Download File",
   description: "Download a file. [See the documentation](https://developers.google.com/drive/api/v3/manage-downloads) for more information",
-  version: "0.1.11",
+  version: "0.1.13",
   type: "action",
   props: {
     googleDrive,
@@ -89,17 +89,17 @@ export default {
           });
       },
     },
-    getRawResponse: {
+    getBufferResponse: {
       type: "boolean",
-      label: "Get Raw Response",
-      description: "Whether to return the file content directly in the response instead of writing to a file path",
+      label: "Get Buffer Response",
+      description: "Whether to return the file content as a buffer instead of writing to a file path",
       optional: true,
     },
   },
   async run({ $ }) {
     // Validate that filePath is provided when not getting raw response
-    if (!this.getRawResponse && !this.filePath) {
-      throw new Error("File Path is required when not using Get Raw Response");
+    if (!this.getBufferResponse && !this.filePath) {
+      throw new Error("File Path is required when not using Get Buffer Response");
     }
 
     // Get file metadata to get file's MIME type
@@ -125,11 +125,19 @@ export default {
         alt: "media",
       });
 
-    if (this.getRawResponse) {
+    if (this.getBufferResponse) {
       $.export("$summary", `Successfully retrieved raw content for file "${fileMetadata.name}"`);
+
+      // Convert stream to buffer
+      const chunks = [];
+      for await (const chunk of file) {
+        chunks.push(chunk);
+      }
+      const buffer = Buffer.concat(chunks);
+
       return {
         fileMetadata,
-        content: file,
+        content: buffer,
       };
     }
 
