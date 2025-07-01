@@ -7,7 +7,7 @@ export default {
   key: "apify-run-actor",
   name: "Run Actor",
   description: "Performs an execution of a selected Actor in Apify. [See the documentation](https://docs.apify.com/api/v2#/reference/actors/run-collection/run-actor)",
-  version: "0.0.7",
+  version: "0.0.3",
   type: "action",
   props: {
     apify,
@@ -16,19 +16,21 @@ export default {
         apify,
         "actorId",
       ],
+    },
+    buildId: {
+      propDefinition: [
+        apify,
+        "buildId",
+        (c) => ({
+          actorId: c.actorId,
+        }),
+      ],
       reloadProps: true,
     },
     runAsynchronously: {
       type: "boolean",
       label: "Run Asynchronously",
       description: "Set to `true` to run the Actor asynchronously",
-      reloadProps: true,
-    },
-    build: {
-      type: "string",
-      label: "Build",
-      description: "Specifies the Actor build to run. It can be either a build tag or build number.",
-      optional: true,
       reloadProps: true,
     },
     timeout: {
@@ -129,30 +131,11 @@ export default {
   },
   async additionalProps() {
     const props = {};
-    const { actorId, build } = this;
-    if (this.actorId) {
-      const apifyClient = this.apify._apifyClient();
-      const actor = await apifyClient.actor(actorId).get();
+    if (this.buildId) {
       try {
-        let buildId
-        // If user specified a build, use it, otherwise use the latest build
-        if (build) {
-          const selectedBuild = actor.taggedBuilds && actor.taggedBuilds[build];
-          if (!selectedBuild) {
-            throw new Error(`Build with tag "${build}" not found for Actor with ID "${actorId}".`);
-          }
-          buildId = selectedBuild.buildId;
-        } else {
-          const defaultBuild = await apifyClient.actor(actorId).defaultBuild();
-          if (!defaultBuild) {
-            throw new Error(`No default build found for Actor with ID "${actorId}". Please specify a build.`);
-          }
-          buildId = defaultBuild.id; // Use the default build
-        }
-
         const {
           properties, required: requiredProps = [],
-        } = await this.getSchema(buildId);
+        } = await this.getSchema(this.buildId);
 
         for (const [
           key,
