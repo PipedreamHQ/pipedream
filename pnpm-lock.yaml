@@ -7551,8 +7551,8 @@ importers:
   components/linkedin:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       axios:
         specifier: ^1.2.3
         version: 1.7.7
