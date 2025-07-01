@@ -1,6 +1,5 @@
 // legacy_hash_id: a_k6iY38
 import Parser from "rss-parser";
-import get from "lodash.get";
 import pipedream_utils from "../../pipedream_utils.app.mjs";
 
 export default {
@@ -11,7 +10,9 @@ export default {
   type: "action",
   props: {
     pipedream_utils,
-    db: "$.service.db",
+    dataStore: {
+      type: "data_store",
+    },
     rss_feeds: {
       type: "string[]",
       label: "RSS Feeds",
@@ -21,7 +22,7 @@ export default {
   async run({ $ }) {
     let parser = new Parser();
 
-    const previouslyPostedStories = get(this, "$checkpoint", []);
+    const previouslyPostedStories = await this.dataStore.get("previouslyPostedStories") || [];
     let newStories = [];
 
     for (const url of this.rss_feeds) {
@@ -44,7 +45,7 @@ export default {
       }
     }
 
-    this.db.set("$checkpoint", previouslyPostedStories.concat(newStories.map((s) => s.link)));
+    await this.dataStore.set("previouslyPostedStories", previouslyPostedStories.concat(newStories.map((s) => s.link)));
     return newStories;
   },
 };
