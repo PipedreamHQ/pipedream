@@ -42,7 +42,11 @@ export default {
       },
     });
 
-    $.export("$summary", "Successfully retrieved profile picture fields");
+    if (response.profilePicture) {
+      $.export("$summary", "Successfully retrieved profile picture fields");
+    } else {
+      $.export("$summary", "Profile retrieved, but no profile picture found for this account");
+    }
 
     return response;
   },
