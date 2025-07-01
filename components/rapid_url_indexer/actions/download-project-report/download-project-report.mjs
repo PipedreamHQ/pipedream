@@ -6,7 +6,7 @@ export default {
   name: "Download Project Report",
   description: "Download the report for a specific project. [See the documentation](https://rapidurlindexer.com/indexing-api/).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     rapidUrlIndexer,
     projectId: {
@@ -19,6 +19,11 @@ export default {
       type: "string",
       label: "Filename",
       description: "A filename to save the report as in the `/tmp` directory. Include the `.csv` extension",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   async run({ $ }) {
