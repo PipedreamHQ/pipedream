@@ -2,6 +2,12 @@
 
 # Changelog
 
+## [1.6.10] - 2025-07-01
+
+### Added
+
+- Added `sortKey` and `sortDirection` options to the `getApps` method
+
 ## [1.6.9] - 2025-06-10
 
 ### Added
