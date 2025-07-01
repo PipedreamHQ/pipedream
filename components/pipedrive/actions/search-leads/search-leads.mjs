@@ -32,14 +32,14 @@ export default {
         pipedriveApp,
         "personId",
       ],
-      description: "Will filter Deals by the provided Person ID",
+      description: "Will filter leads by the provided Person ID",
     },
     organizationId: {
       propDefinition: [
         pipedriveApp,
         "organizationId",
       ],
-      description: "Will filter Deals by the provided Organization ID",
+      description: "Will filter leads by the provided Organization ID",
     },
     includeFields: {
       type: "string",
