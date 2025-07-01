@@ -6,8 +6,8 @@ import { EVENT_TYPES } from "../../common/constants.mjs";
 export default {
   key: "apify-run-actor",
   name: "Run Actor",
-  description: "Performs an execution of a selected actor in Apify. [See the documentation](https://docs.apify.com/api/v2#/reference/actors/run-collection/run-actor)",
-  version: "0.0.3",
+  description: "Performs an execution of a selected Actor in Apify. [See the documentation](https://docs.apify.com/api/v2#/reference/actors/run-collection/run-actor)",
+  version: "0.0.7",
   type: "action",
   props: {
     apify,
@@ -16,21 +16,19 @@ export default {
         apify,
         "actorId",
       ],
-    },
-    buildId: {
-      propDefinition: [
-        apify,
-        "buildId",
-        (c) => ({
-          actorId: c.actorId,
-        }),
-      ],
       reloadProps: true,
     },
     runAsynchronously: {
       type: "boolean",
       label: "Run Asynchronously",
-      description: "Set to `true` to run the actor asynchronously",
+      description: "Set to `true` to run the Actor asynchronously",
+      reloadProps: true,
+    },
+    build: {
+      type: "string",
+      label: "Build",
+      description: "Specifies the Actor build to run. It can be either a build tag or build number.",
+      optional: true,
       reloadProps: true,
     },
     timeout: {
@@ -131,11 +129,30 @@ export default {
   },
   async additionalProps() {
     const props = {};
-    if (this.buildId) {
+    const { actorId, build } = this;
+    if (this.actorId) {
+      const apifyClient = this.apify._apifyClient();
+      const actor = await apifyClient.actor(actorId).get();
       try {
+        let buildId
+        // If user specified a build, use it, otherwise use the latest build
+        if (build) {
+          const selectedBuild = actor.taggedBuilds && actor.taggedBuilds[build];
+          if (!selectedBuild) {
+            throw new Error(`Build with tag "${build}" not found for Actor with ID "${actorId}".`);
+          }
+          buildId = selectedBuild.buildId;
+        } else {
+          const defaultBuild = await apifyClient.actor(actorId).defaultBuild();
+          if (!defaultBuild) {
+            throw new Error(`No default build found for Actor with ID "${actorId}". Please specify a build.`);
+          }
+          buildId = defaultBuild.id; // Use the default build
+        }
+
         const {
           properties, required: requiredProps = [],
-        } = await this.getSchema(this.buildId);
+        } = await this.getSchema(buildId);
 
         for (const [
           key,
@@ -162,7 +179,7 @@ export default {
         props.properties = {
           type: "object",
           label: "Properties",
-          description: "Properties to set for this actor",
+          description: "Properties to set for this Actor",
         };
       }
       if (this.runAsynchronously) {
@@ -241,8 +258,8 @@ export default {
       },
     });
     const summary = this.runAsynchronously
-      ? `Successfully started actor run with ID: ${response.data.id}`
-      : `Successfully ran actor with ID: ${this.actorId}`;
+      ? `Successfully started Actor run with ID: ${response.data.id}`
+      : `Successfully ran Actor with ID: ${this.actorId}`;
     $.export("$summary", `${summary}`);
     return response;
   },
