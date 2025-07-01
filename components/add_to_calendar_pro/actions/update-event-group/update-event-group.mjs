@@ -4,7 +4,7 @@ export default {
   key: "add_to_calendar_pro-update-event-group",
   name: "Update Event Group",
   description: "Update an event group. [See the documentation](https://docs.add-to-calendar-pro.com/api/groups#update-a-group)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     addToCalendarPro,
@@ -27,10 +27,10 @@ export default {
         "internalNote",
       ],
     },
-    subscriptionCallUrl: {
+    subscriptionCalUrl: {
       propDefinition: [
         addToCalendarPro,
-        "subscriptionCallUrl",
+        "subscriptionCalUrl",
       ],
       description: "URL to an external calendar. Needs to start with \"http\"! Usually ends with \".ics\". Note: You can only change the subscription setting as long as there are no events linked to the group",
     },
@@ -61,10 +61,10 @@ export default {
       data: {
         name: this.eventGroupName,
         internal_note: this.internalNote,
-        subscription: this.subscriptionCallUrl
+        subscription: this.subscriptionCalUrl
           ? "external"
           : "no",
-        subscription_call_url: this.subscriptionCallUrl,
+        subscription_cal_url: this.subscriptionCalUrl,
         cta: this.cta,
         layout: this.styleId,
         landingpage: this.landingPageTemplateId,
