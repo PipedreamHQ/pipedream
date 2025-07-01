@@ -32,20 +32,18 @@ export default {
         "date",
       ],
     },
-    productName: {
+    customFields: {
       propDefinition: [
         app,
-        "productName",
-      ],
-    },
-    unitsSold: {
-      propDefinition: [
-        app,
-        "unitsSold",
+        "customFields",
       ],
     },
   },
   async run({ $ }) {
+    const customFields = typeof this.customFields === "string"
+      ? JSON.parse(this.customFields)
+      : this.customFields;
+
     const response = await this.app.createRegistration({
       $,
       data: {
@@ -53,8 +51,7 @@ export default {
         "member": this.member,
         "external_id": this.externalId,
         "date": this.date,
-        "Product Name": this.productName,
-        "Units Sold": this.unitsSold,
+        ...customFields,
       },
     });
     $.export("$summary", "Successfully created registration with ID: " + response.id);

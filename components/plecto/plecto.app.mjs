@@ -44,16 +44,10 @@ export default {
       description: "Date and time of the registration in ISO 8601 format",
       optional: true,
     },
-    productName: {
-      type: "string",
-      label: "Product Name",
-      description: "Custom field representing the product name",
-      optional: true,
-    },
-    unitsSold: {
-      type: "string",
-      label: "Units Sold",
-      description: "Custom field representing the number of units sold",
+    customFields: {
+      type: "object",
+      label: "Custom Fields",
+      description: "Custom fields representing the product information. For example. `{ \"Product Name\": \"Green tea\", \"Units Sold\": 2 }`",
       optional: true,
     },
   },
