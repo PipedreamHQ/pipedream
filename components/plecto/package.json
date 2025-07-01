@@ -2,12 +2,11 @@
   "name": "@pipedream/plecto",
   "version": "0.1.0",
   "description": "Pipedream Plecto Components",
-  "main": "dist/app/plecto.app.mjs",
+  "main": "plecto.app.mjs",
   "keywords": [
     "pipedream",
     "plecto"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/plecto",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
