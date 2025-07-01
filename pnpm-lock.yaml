@@ -313,7 +313,11 @@ importers:
         specifier: ^3.0.1
         version: 3.0.3
 
-  components/add_to_calendar_pro: {}
+  components/add_to_calendar_pro:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/addevent:
     dependencies:
