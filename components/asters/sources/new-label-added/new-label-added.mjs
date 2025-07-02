@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "asters-new-label-added",
   name: "New Label Added",
-  description: "Emit new event when a label is added to a post.",
+  description: "Emit new event when a label is added to a post. [See the documentation](https://docs.asters.ai/api/endpoints/posts)",
   type: "source",
   version: "0.0.1",
   dedupe: "unique",

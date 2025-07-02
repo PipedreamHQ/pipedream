@@ -13,7 +13,11 @@ export default {
     },
   ],
   "urls": [],
-  "labels": [],
+  "labels": [
+    {
+      "_id": "6811f76c3aa4bf3deb1e940b",
+    },
+  ],
   "socialIdentifier": "18032713838636836",
   "socialLink": "https://www.instagram.com/reel/DIEZuNpi46I/",
   "publishDate": "2025-04-05T14:47:07.015Z",
