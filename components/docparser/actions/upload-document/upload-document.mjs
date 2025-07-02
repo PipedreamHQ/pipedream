@@ -6,7 +6,7 @@ export default {
   key: "docparser-upload-document",
   name: "Upload Document",
   description: "Uploads a document to docparser that initiates parsing immediately after reception. [See the documentation](https://docparser.com/api/#import-documents)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   props: {
     docparser,
@@ -20,6 +20,12 @@ export default {
       type: "string",
       label: "File Path Or Url",
       description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/example.pdf`)",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

@@ -9,7 +9,7 @@ export default {
   key: "discord_bot-send-message-with-file",
   name: "Send Message With File",
   description: "Post a message with an attached file. [See the docs here](https://discord.com/developers/docs/reference#uploading-files)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   props: {
     discord,
@@ -78,6 +78,12 @@ export default {
       default: true,
       label: "Include link to workflow",
       description: "Defaults to `true`, includes a link to this workflow at the end of your Discord message.",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   methods: {

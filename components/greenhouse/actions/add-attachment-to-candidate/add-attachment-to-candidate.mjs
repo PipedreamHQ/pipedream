@@ -8,7 +8,7 @@ export default {
   key: "greenhouse-add-attachment-to-candidate",
   name: "Add Attachment to Candidate",
   description: "Adds an attachment to a specific candidate or prospect. [See the documentation](https://developers.greenhouse.io/harvest.html#post-add-attachment)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   props: {
     greenhouse,
@@ -50,6 +50,12 @@ export default {
       description: "The content-type of the document you are sending. This should be included for encoded content.",
       optional: true,
       options: CONTENT_TYPE_OPTIONS,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   methods: {

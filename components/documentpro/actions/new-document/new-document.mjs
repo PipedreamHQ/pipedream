@@ -6,7 +6,7 @@ export default {
   key: "documentpro-new-document",
   name: "Upload New Document",
   description: "Uploads a document to DocumentPro's parser. [See the documentation](https://docs.documentpro.ai/docs/using-api/manage-documents/import-files)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   props: {
     documentpro,
@@ -20,6 +20,12 @@ export default {
       type: "string",
       label: "File Path Or Url",
       description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/example.pdf`)",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

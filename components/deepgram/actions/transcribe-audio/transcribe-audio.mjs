@@ -5,7 +5,7 @@ export default {
   key: "deepgram-transcribe-audio",
   name: "Transcribe Audio",
   description: "Transcribes the specified audio file. [See the documentation](https://developers.deepgram.com/api-reference/transcription/#transcribe-pre-recorded-audio)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   props: {
     deepgram,
@@ -169,6 +169,12 @@ export default {
       type: "boolean",
       label: "Callback with Suspend",
       description: "Use the `$.flow.suspend` Node.js helper to suspend the workflow until the transcription is completed. Overrides the `callback` parameter to Deepgram.",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

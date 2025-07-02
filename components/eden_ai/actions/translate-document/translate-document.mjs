@@ -11,7 +11,7 @@ export default {
   key: "eden_ai-translate-document",
   name: "Translate Document",
   description: "Translates a document from a local file or URL. [See the documentation](https://docs.edenai.co/reference/translation_document_translation_create)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   props: {
     app,
@@ -54,6 +54,12 @@ export default {
       type: "string",
       label: "File Path Or Url",
       description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/example.pdf`)",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

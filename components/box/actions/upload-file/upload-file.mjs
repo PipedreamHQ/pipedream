@@ -5,7 +5,7 @@ export default {
   name: "Upload a File",
   description: "Uploads a small file to Box. [See the documentation](https://developer.box.com/reference/post-files-content/).",
   key: "box-upload-file",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     app,
@@ -38,6 +38,12 @@ export default {
         app,
         "parentId",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   methods: {

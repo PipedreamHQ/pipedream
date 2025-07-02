@@ -6,7 +6,7 @@ export default {
   key: "diffchecker-compare-pdf",
   name: "Compare PDFs",
   description: "Compares two PDFs and returns the result. [See the documentation](https://www.diffchecker.com/public-api/)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   props: {
     diffchecker,
@@ -32,6 +32,12 @@ export default {
       type: "string",
       label: "Right PDF (File Path Or Url)",
       description: "Right PDF file you want to compare. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/example.pdf`).",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

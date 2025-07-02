@@ -6,7 +6,7 @@ export default {
   key: "airparser-upload-document-parse",
   name: "Upload Document and Parse",
   description: "Uploads a document into the inbox for data extraction. [See the documentation](https://help.airparser.com/public-api/public-api)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     airparser,
@@ -25,6 +25,12 @@ export default {
       type: "object",
       label: "Metadata",
       description: "The user-defined extraction schema for data extraction",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

@@ -9,7 +9,7 @@ export default {
   key: "gptzero_detect_ai-scan-file",
   name: "Scan File for AI Detection",
   description: "This endpoint takes in file(s) input and returns the model's result. [See the documentation](https://gptzero.stoplight.io/docs/gptzero-api/0a8e7efa751a6-ai-detection-on-an-array-of-files)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   props: {
     gptzeroDetectAi,
@@ -24,6 +24,12 @@ export default {
       type: "string[]",
       label: "Files or URLs",
       description: "A list of file paths from the `/tmp` directory or URLs to analyze.",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

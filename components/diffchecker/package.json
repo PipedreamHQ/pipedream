@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/diffchecker",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pipedream Diffchecker Components",
   "main": "diffchecker.app.mjs",
   "keywords": [

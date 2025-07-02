@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/gladia",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pipedream Gladia Components",
   "main": "gladia.app.mjs",
   "keywords": [

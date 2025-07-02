@@ -7,7 +7,7 @@ export default {
   key: "formstack_documents-create-document",
   name: "Create Document",
   description: "Create a new document. [See documentation](https://www.webmerge.me/developers?page=documents)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   props: {
     formstackDocuments,
@@ -33,6 +33,12 @@ export default {
       type: "string",
       label: "Folder",
       description: "The name of the folder to save the document in. If folder doesn't exist, one will be created.",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

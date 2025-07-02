@@ -9,7 +9,7 @@ export default {
   ...common,
   key: "dreamstudio-modify-image",
   name: "Modify Image",
-  version: "1.0.0",
+  version: "1.0.1",
   description: "Modify an image based on a text prompt. [See the documentation](https://platform.stability.ai/docs/api-reference#tag/v1generation/operation/imageToImage)",
   type: "action",
   props: {
@@ -91,6 +91,11 @@ export default {
       ],
       reloadProps: true,
       optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read-write",
+      sync: true,
     },
   },
   async additionalProps() {

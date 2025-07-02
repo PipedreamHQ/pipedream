@@ -8,7 +8,7 @@ export default {
   name: "Upload Multiple Files",
   description: "Uploads multiple file to a selected folder. [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
   key: "dropbox-upload-multiple-files",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   props: {
     dropbox,
@@ -55,6 +55,12 @@ export default {
       label: "Mode",
       description: "Selects what to do if the file already exists.",
       options: consts.UPLOAD_FILE_MODE_OPTIONS,
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

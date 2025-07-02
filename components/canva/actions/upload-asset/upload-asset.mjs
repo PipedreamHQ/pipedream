@@ -5,7 +5,7 @@ export default {
   key: "canva-upload-asset",
   name: "Upload Asset",
   description: "Uploads an asset to Canva. [See the documentation](https://www.canva.dev/docs/connect/api-reference/assets/create-asset-upload-job/)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     canva,
@@ -25,6 +25,12 @@ export default {
         canva,
         "waitForCompletion",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

@@ -6,7 +6,7 @@ export default {
   key: "customjs-run-puppeteer",
   name: "Run Puppeteer",
   description: "Run Puppeteer. [See the documentation](https://www.customjs.space/api/docs#_5-run-puppeteer)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     customjs,
@@ -21,6 +21,11 @@ export default {
         "filename",
       ],
       description: "Download the PNG file to the `/tmp` directory with the specified filename.",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   async run({ $ }) {

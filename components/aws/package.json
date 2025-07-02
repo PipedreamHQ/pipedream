@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/aws",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pipedream Aws Components",
   "main": "aws.app.mjs",
   "keywords": [

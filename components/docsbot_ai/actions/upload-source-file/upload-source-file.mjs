@@ -5,7 +5,7 @@ export default {
   key: "docsbot_ai-upload-source-file",
   name: "Upload Source File",
   description: "Upload a file to be used as a source. [See the documentation](https://docsbot.ai/documentation/developer/source-api#source-file-uploads)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     docsbotAi,
@@ -29,6 +29,12 @@ export default {
         docsbotAi,
         "filePath",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

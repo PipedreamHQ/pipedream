@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/filestack",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pipedream FileStack Components",
   "main": "filestack.app.mjs",
   "keywords": [

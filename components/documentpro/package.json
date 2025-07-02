@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/documentpro",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pipedream DocumentPro Components",
   "main": "documentpro.app.mjs",
   "keywords": [
