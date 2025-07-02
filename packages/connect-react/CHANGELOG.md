@@ -2,6 +2,12 @@
 
 # Changelog
 
+# [1.3.1] - 2025-06-30
+
+## Changed
+
+- Fixed handling of the 'dir' prop type to exclude it from configurable props
+
 # [1.3.0] - 2025-06-10
 
 ## Added

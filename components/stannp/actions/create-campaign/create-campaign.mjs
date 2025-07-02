@@ -9,7 +9,7 @@ export default {
   key: "stannp-create-campaign",
   name: "Create a New Campaign",
   description: "Create a new campaign in Stannp. [See the documentation](https://www.stannp.com/us/direct-mail-api/campaigns)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     stannp,
@@ -76,6 +76,12 @@ export default {
       description: "A PDF or JPG file to use as the back image. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.jpg`)",
       optional: true,
       reloadProps: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async additionalProps() {

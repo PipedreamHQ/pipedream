@@ -1,13 +1,12 @@
 import FormData from "form-data";
-import fs from "fs";
-import { checkTmp } from "../../common/utils.mjs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import documentpro from "../../documentpro.app.mjs";
 
 export default {
   key: "documentpro-new-document",
   name: "Upload New Document",
   description: "Uploads a document to DocumentPro's parser. [See the documentation](https://docs.documentpro.ai/docs/using-api/manage-documents/import-files)",
-  version: "0.0.2",
+  version: "1.0.1",
   type: "action",
   props: {
     documentpro,
@@ -18,10 +17,9 @@ export default {
       ],
     },
     document: {
-      propDefinition: [
-        documentpro,
-        "document",
-      ],
+      type: "string",
+      label: "File Path Or Url",
+      description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/example.pdf`)",
     },
     syncDir: {
       type: "dir",
@@ -31,9 +29,17 @@ export default {
     },
   },
   async run({ $ }) {
+    const {
+      stream,
+      metadata,
+    } = await getFileStreamAndMetadata(this.document);
+
     const formData = new FormData();
-    const file = fs.createReadStream(checkTmp(this.document));
-    formData.append("file", file);
+    formData.append("file", stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
+    });
 
     const response = await this.documentpro.uploadDocument({
       parserId: this.parserId,
