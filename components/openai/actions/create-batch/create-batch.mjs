@@ -9,7 +9,7 @@ export default {
   key: "openai-create-batch",
   name: "Create Batch",
   description: "Creates and executes a batch from an uploaded file of requests. [See the documentation](https://platform.openai.com/docs/api-reference/batch/create)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     openai,
@@ -40,6 +40,12 @@ export default {
         openai,
         "metadata",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

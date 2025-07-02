@@ -7,7 +7,7 @@ import {
 
 export default {
   key: "jobnimbus-create-attachment",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   name: "Create Attachment",
   description: "Creates an attachment. [See the documentation](https://documenter.getpostman.com/view/3919598/S11PpG4x#5f3f485b-91f9-4ed9-912c-99a07987ac6c)",
@@ -41,6 +41,12 @@ export default {
       type: "string",
       label: "Description",
       description: "The description of the file.",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

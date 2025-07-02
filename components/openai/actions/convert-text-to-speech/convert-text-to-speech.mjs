@@ -5,7 +5,7 @@ export default {
   key: "openai-convert-text-to-speech",
   name: "Convert Text to Speech (TTS)",
   description: "Generates audio from the input text. [See the documentation](https://platform.openai.com/docs/api-reference/audio/createSpeech)",
-  version: "0.0.14",
+  version: "0.0.15",
   type: "action",
   props: {
     openai,
@@ -42,7 +42,12 @@ export default {
     outputFile: {
       type: "string",
       label: "Output Filename",
-      description: "The filename of the output audio file that will be written to the `/tmp` folder, e.g. `/tmp/myFile.mp3`",
+      description: "The filename of the output audio file that will be written to the `/tmp` folder, e.g. `myFile.mp3`",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   async run({ $ }) {
@@ -60,7 +65,7 @@ export default {
 
     const outputFilePath = this.outputFile.includes("tmp/")
       ? this.outputFile
-      : `/tmp/${this.outputFile}`;
+      : `${process.env.STASH_DIR || "/tmp"}/${this.outputFile}`;
 
     await fs.promises.writeFile(outputFilePath, Buffer.from(response));
 

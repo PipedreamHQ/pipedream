@@ -8,7 +8,7 @@ export default {
   key: "hippo_video-send-personalization-request",
   name: "Send Personalization Request",
   description: "Sends a personalization request for a specified video. [See the documentation](https://help.hippovideo.io/support/solutions/articles/19000099793-bulk-video-personalization-and-tracking-api)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   props: {
     hippoVideo,
@@ -22,6 +22,12 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "Provide a file URL or a path to a file (csv, xls, or xlsx) in the `/tmp` directory.",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

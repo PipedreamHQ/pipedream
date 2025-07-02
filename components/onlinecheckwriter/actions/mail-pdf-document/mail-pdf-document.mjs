@@ -6,7 +6,7 @@ export default {
   key: "onlinecheckwriter-mail-pdf-document",
   name: "Mail PDF Document",
   description: "Mails a PDF document to a destination. [See the documentation](https://apiv3.onlinecheckwriter.com/#878daf05-e36e-44a2-bce8-15f24d72f82e).",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     app,
@@ -129,6 +129,12 @@ export default {
       type: "string",
       label: "Destination Email",
       description: "The email address of the recipient.",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

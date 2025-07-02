@@ -6,7 +6,7 @@ export default {
   key: "mergemole-generate-pdf",
   name: "Generate PDF",
   description: "Generate a PDF document based on the specified template. [See the documentation](https://documenter.getpostman.com/view/41321603/2sB2j3AWqz#a389449f-ada9-4e2e-9d8a-f1bde20da980)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     mergemole,
@@ -21,6 +21,11 @@ export default {
       type: "string",
       label: "Document Name",
       description: "The name of the generated PDF document",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   async additionalProps() {
@@ -72,13 +77,14 @@ export default {
       responseType: "arraybuffer",
     });
 
-    fs.writeFileSync(`/tmp/${documentName}`, Buffer.from(response));
+    const filePath = `${process.env.STASH_DIR || "/tmp"}/${documentName}`;
+    fs.writeFileSync(filePath, Buffer.from(response));
 
     $.export("$summary", "Successfully generated PDF");
 
     return {
       filename: documentName,
-      downloadedFilepath: `/tmp/${documentName}`,
+      downloadedFilepath: filePath,
     };
   },
 };

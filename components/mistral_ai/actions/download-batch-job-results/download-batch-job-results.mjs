@@ -5,7 +5,7 @@ export default {
   key: "mistral_ai-download-batch-job-results",
   name: "Download Batch Job Results",
   description: "Download a batch job results file to the /tmp directory. [See the Documentation](https://docs.mistral.ai/api/#tag/files/operation/files_api_routes_download_file)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     mistralAI,
@@ -25,6 +25,11 @@ export default {
       type: "string",
       label: "File Name",
       description: "The filename to save the results file in the /tmp directory",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   async run({ $ }) {
