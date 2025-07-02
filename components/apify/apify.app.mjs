@@ -156,19 +156,6 @@ export default {
     },
   },
   methods: {
-    // TODO: Replace all axios calls with ApifyClient, it has a lot of useful methods and features like exponential backoff calls
-    _apifyClient() {
-      return new ApifyClient({
-        token: this.$auth.api_token,
-        requestInterceptors: [(config) => ({
-          ...config,
-          headers: {
-            ...config.headers,
-            "x-apify-integration-platform": "pipedream",
-          },
-        })],
-      });
-    },
     _baseUrl() {
       return "https://api.apify.com/v2";
     },
