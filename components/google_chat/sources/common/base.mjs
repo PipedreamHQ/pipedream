@@ -82,6 +82,10 @@ export default {
 
       const relevantMessages = messages.filter((message) => this.isRelevant(message));
 
+      if (!relevantMessages.length) {
+        return;
+      }
+
       this._setLastTs(relevantMessages[0].createTime);
 
       relevantMessages.reverse().forEach((message) => {
