@@ -1,7 +1,6 @@
 import app from "../../eden_ai.app.mjs";
-import { ConfigurationError } from "@pipedream/platform";
 import FormData from "form-data";
-import fs from "fs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 
 const options = [
   "deepl",
@@ -12,7 +11,7 @@ export default {
   key: "eden_ai-translate-document",
   name: "Translate Document",
   description: "Translates a document from a local file or URL. [See the documentation](https://docs.edenai.co/reference/translation_document_translation_create)",
-  version: "0.0.3",
+  version: "1.0.0",
   type: "action",
   props: {
     app,
@@ -53,23 +52,22 @@ export default {
     },
     file: {
       type: "string",
-      label: "File Path",
-      description: "The path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
-      optional: true,
-    },
-    fileUrl: {
-      type: "string",
-      label: "File URL",
-      description: "The URL of the file to translate",
-      optional: true,
+      label: "File Path Or Url",
+      description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/example.pdf`)",
     },
   },
   async run({ $ }) {
     const {
-      providers, fallbackProviders, showOriginalResponse, sourceLanguage, targetLanguage, file, fileUrl, // eslint-disable-line max-len
+      app,
+      providers,
+      fallbackProviders,
+      showOriginalResponse,
+      sourceLanguage,
+      targetLanguage,
+      file,
     } = this;
 
-    let headers, data = {
+    const data = {
       providers: providers.join(),
       fallback_providers: fallbackProviders?.join(),
       show_original_response: showOriginalResponse,
@@ -77,39 +75,35 @@ export default {
       target_language: targetLanguage,
     };
 
-    if (file) {
-      const formData = new FormData();
-      Object.entries(data).forEach(([
-        key,
-        value,
-      ]) => {
-        if (value !== undefined) {
-          formData.append(key, value);
-        }
-      });
+    const {
+      stream,
+      metadata,
+    } = await getFileStreamAndMetadata(file);
+    const formData = new FormData();
 
-      const content = fs.createReadStream(file.includes("tmp/")
-        ? file
-        : `/tmp/${file}`);
-      formData.append("file", content);
-      headers = {
-        "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
-      };
-      data = formData;
-    } else if (fileUrl) {
-      data.file_url = fileUrl;
-      headers = {
-        "Content-Type": "application/json",
-      };
-    } else {
-      throw new ConfigurationError("You must provide either a file or a file URL");
-    }
-
-    const response = await this.app.translateText({
-      $,
-      data,
-      headers,
+    Object.entries(data).forEach(([
+      key,
+      value,
+    ]) => {
+      if (value !== undefined) {
+        formData.append(key, value);
+      }
     });
+
+    formData.append("file", stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
+    });
+
+    const response = await app.translateText({
+      $,
+      data: formData,
+      headers: {
+        "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
+      },
+    });
+
     $.export("$summary", "Document translated successfully");
     return response;
   },

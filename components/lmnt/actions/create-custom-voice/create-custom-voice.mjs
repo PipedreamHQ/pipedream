@@ -1,19 +1,19 @@
 import lmnt from "../../lmnt.app.mjs";
-import fs from "fs";
+import { getFileStream } from "@pipedream/platform";
 import FormData from "form-data";
 
 export default {
   key: "lmnt-create-custom-voice",
   name: "Create Custom Voice",
   description: "Generates a custom voice from a batch of input audio data. [See the documentation](https://docs.lmnt.com/api-reference/voice/create-voice)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   props: {
     lmnt,
     files: {
       type: "string[]",
-      label: "Audio Files",
-      description: "One or more `.wav` or `.mp3` filepaths in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#the-tmp-directory). Max attached files: 20. Max total file size: 250 MB.",
+      label: "Audio Files Paths or URLs",
+      description: "One or more `.wav` or `.mp3` file paths or URLs. Max attached files: 20. Max total file size: 250 MB.",
     },
     name: {
       propDefinition: [
@@ -63,12 +63,10 @@ export default {
       contentType: "application/json",
     });
 
-    this.files.forEach?.((file) => {
-      const content = fs.createReadStream(file.includes("tmp/")
-        ? file
-        : `/tmp/${file}`);
-      data.append("files", content);
-    });
+    for (const file of this.files) {
+      const stream = await getFileStream(file);
+      data.append("files", stream);
+    }
 
     const response = await this.lmnt.createVoice({
       $,

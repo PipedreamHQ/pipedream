@@ -7,15 +7,15 @@ import imagekitIo from "../../imagekit_io.app.mjs";
 export default {
   key: "imagekit_io-upload-image",
   name: "Upload Image",
-  version: "0.0.2",
+  version: "1.0.0",
   description: "Upload a new image to ImageKit.io. [See the documentation](https://docs.imagekit.io/api-reference/upload-file-api/server-side-file-upload)",
   type: "action",
   props: {
     imagekitIo,
     file: {
       type: "string",
-      label: "File",
-      description: "The file you want to upload. It can be **binnary**, **base64** or **url** or **a file path in the `/tmp` directory.** [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/).",
+      label: "File Path or URL",
+      description: "The file to upload. Provide a file URL or a path to a file in the `/tmp` directory. This can be a binary file or a base64-encoded string.",
     },
     fileName: {
       type: "string",
@@ -110,22 +110,17 @@ export default {
       ...appendData
     } = this;
 
-    const data = getFileFormData(file);
+    const data = await getFileFormData(file);
 
-    let newExt = extensions;
+    if (extensions) {
+      const processedExtensions = Array.isArray(extensions)
+        ? extensions.map((item) => typeof item === "object"
+          ? JSON.stringify(item)
+          : item)
+        : extensions;
 
-    if (Array.isArray(newExt)) {
-      newExt = newExt.map((item) => {
-        if (typeof item === "object") {
-          return JSON.stringify(item);
-        }
-        return item;
-      });
-
-      newExt = `[${newExt.toString()}]`;
+      data.append("extensions", JSON.stringify(processedExtensions));
     }
-
-    data.append("extensions", newExt);
 
     for (const [
       label,
@@ -140,9 +135,7 @@ export default {
 
     const response = await imagekitIo.uploadImage({
       $,
-      headers: {
-        ...data.getHeaders(),
-      },
+      headers: data.getHeaders(),
       data,
     });
 

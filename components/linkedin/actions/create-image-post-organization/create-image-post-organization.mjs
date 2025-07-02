@@ -1,12 +1,12 @@
 import linkedin from "../../linkedin.app.mjs";
-import fs from "fs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import FormData from "form-data";
 
 export default {
   key: "linkedin-create-image-post-organization",
   name: "Create Image Post (Organization)",
   description: "Create an image post on LinkedIn. [See the docs here](https://learn.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/images-api?view=li-lms-2023-09&tabs=http#uploading-an-image)",
-  version: "0.0.3",
+  version: "1.0.0",
   type: "action",
   props: {
     linkedin,
@@ -16,10 +16,10 @@ export default {
         "organizationId",
       ],
     },
-    filePath: {
+    file: {
       type: "string",
-      label: "File Path",
-      description: "The path to the image file saved to the `/tmp` directory (e.g. `/tmp/image.png`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      label: "File Path or URL",
+      description: "The path or URL to the image file.",
     },
     text: {
       propDefinition: [
@@ -66,11 +66,15 @@ export default {
       $,
     });
 
-    const filePath = this.filePath.startsWith("/tmp/")
-      ? this.filePath
-      : `/tmp/${this.filePath}`;
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(this.file);
     const formData = new FormData();
-    formData.append("file", fs.createReadStream(filePath));
+    formData.append("file", stream, {
+      filename: metadata.name,
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+    });
 
     await this.uploadImage(uploadUrl, formData);
 

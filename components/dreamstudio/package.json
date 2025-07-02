@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/dreamstudio",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "Pipedream DreamStudio (Stable Diffusion) Components",
   "main": "dreamstudio.app.mjs",
   "keywords": [
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.5.1",
+    "@pipedream/platform": "^3.1.0",
     "form-data": "^4.0.0",
     "fs": "^0.0.1-security",
     "got": "^13.0.0",

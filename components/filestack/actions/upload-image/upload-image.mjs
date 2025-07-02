@@ -1,71 +1,39 @@
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import filestack from "../../filestack.app.mjs";
-import fs from "fs";
 
 export default {
   key: "filestack-upload-image",
   name: "Upload Image",
   description:
     "Upload an image from a file or URL to FileStack. [See the documentation](https://www.filestack.com/docs/uploads/uploading/#upload-file)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   props: {
     filestack,
-    fileOrUrl: {
-      propDefinition: [
-        filestack,
-        "fileOrUrl",
-      ],
-    },
-  },
-  methods: {
-    getImageMimeType(path) {
-      const ext = path.split(".").pop();
-      switch (ext) {
-      case "jpg":
-        return "jpeg";
-      case "jpeg":
-      case "png":
-      case "gif":
-      case "bmp":
-      case "webp":
-      case "tiff":
-        return ext;
-      case "svg":
-        return "svg+xml";
-      default:
-        return "*";
-      }
-    },
-    async getImageData() {
-      const { fileOrUrl } = this;
-      const isUrl = fileOrUrl.startsWith("http");
-      return isUrl
-        ? {
-          data: {
-            url: fileOrUrl,
-          },
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        }
-        : {
-          data: fs.createReadStream(
-            fileOrUrl.includes("tmp/")
-              ? fileOrUrl
-              : `/tmp/${fileOrUrl}`,
-          ),
-          headers: {
-            "Content-Type": `image/${this.getImageMimeType(fileOrUrl)}`,
-          },
-        };
+    file: {
+      type: "string",
+      label: "File Path or URL",
+      description: "Provide a file URL or a path to a file in the `/tmp` directory.",
     },
   },
   async run({ $ }) {
-    const args = await this.getImageData();
+    const {
+      filestack,
+      file,
+    } = this;
 
-    const response = await this.filestack.uploadImage({
+    const {
+      stream,
+      metadata,
+    } = await getFileStreamAndMetadata(file);
+
+    const response = await filestack.uploadImage({
       $,
-      ...args,
+      data: stream,
+      headers: {
+        "Content-Type": metadata.contentType,
+        "Content-Length": metadata.size,
+      },
     });
 
     $.export(
