@@ -6,7 +6,7 @@ export default {
   key: "zerobounce-file-validation",
   name: "Validate Emails in File",
   description: "Performs email validation on all the addresses contained in a provided file. [See the documentation](https://www.zerobounce.net/docs/email-validation-api-quickstart/)",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     zerobounce,
@@ -59,7 +59,7 @@ export default {
     callbackWithRerun: {
       type: "boolean",
       label: "Callback With Rerun",
-      description: "Use the `$.flow.rerun` Node.js helper to rerun the step when the validation is completed. Overrides the `rerunUrl` prop. This will increase execution time and credit usage as a result. [See the documentation](https://pipedream.com/docs/code/nodejs/rerun/#flow-rerun)",
+      description: "Use the `$.flow.rerun` Node.js helper to rerun the step when the validation is completed. Overrides the `rerunUrl` prop. This will increase execution time and credit usage as a result. [See the documentation](https://pipedream.com/docs/code/nodejs/rerun/#flow-rerun). Not available in Pipedream Connect.",
       optional: true,
     },
     syncDir: {
@@ -71,11 +71,16 @@ export default {
   },
   async run({ $ }) {
     let response, summary;
-    const { run } = $.context;
+    const context = $.context;
+    const run = context
+      ? context.run
+      : {
+        runs: 1,
+      };
 
     if (run.runs === 1) {
       let returnUrl  = this.returnUrl;
-      if (this.callbackWithRerun) {
+      if (context && this.callbackWithRerun) {
         ({ resume_url: returnUrl } = $.flow.rerun(600000, null, 1));
       }
 
