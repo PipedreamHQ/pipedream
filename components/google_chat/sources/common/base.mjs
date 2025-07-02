@@ -82,7 +82,7 @@ export default {
 
       const relevantMessages = messages.filter((message) => this.isRelevant(message));
 
-      if (!relevantMessages.length) {
+      if (!relevantMessages?.length) {
         return;
       }
 
