@@ -9,7 +9,7 @@ export default {
   key: "xero_accounting_api-upload-file",
   name: "Upload File",
   description: "Uploads a file to the specified document. [See the documentation](https://developer.xero.com/documentation/api/accounting/invoices#upload-attachment)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   props: {
     xeroAccountingApi,
@@ -44,6 +44,12 @@ export default {
       label: "Document ID",
       type: "string",
       description: "Xero identifier of the document where the attachment will be sent to.",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

@@ -5,7 +5,7 @@ export default {
   key: "ocrspace-process-pdf",
   name: "Process PDF for OCR",
   description: "Submit a PDF for OCR processing. [See the documentation](https://ocr.space/ocrapi)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     ...common.props,
@@ -16,6 +16,12 @@ export default {
       ],
       label: "PDF File",
       description: "The URL of the PDF file or the path to the file saved to the `/tmp` directory  (e.g. `/tmp/example.pdf`)  to process. [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   methods: {
