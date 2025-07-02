@@ -5388,7 +5388,11 @@ importers:
 
   components/godial: {}
 
-  components/goformz: {}
+  components/goformz:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/gohighlevel:
     dependencies:
