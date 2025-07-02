@@ -1,7 +1,7 @@
 import FormData from "form-data";
-import fs from "node:fs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import {
-  getImagePath, parsePrompts, writeImg,
+  parsePrompts, writeImg,
 } from "../../common/utils.mjs";
 import common from "../common/images.mjs";
 
@@ -9,7 +9,7 @@ export default {
   ...common,
   key: "dreamstudio-modify-image",
   name: "Modify Image",
-  version: "0.0.2",
+  version: "1.0.0",
   description: "Modify an image based on a text prompt. [See the documentation](https://platform.stability.ai/docs/api-reference#tag/v1generation/operation/imageToImage)",
   type: "action",
   props: {
@@ -22,8 +22,8 @@ export default {
     },
     initImage: {
       type: "string",
-      label: "Init Image",
-      description: "Image used to initialize the diffusion process, in lieu of random noise. It can be an URL to the image or a path to the image file saved to the `/tmp` directory (e.g. `/tmp/image.png`). [see docs here](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      label: "Init Image Path Or Url",
+      description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/example.png`)",
     },
     cfgScale: {
       propDefinition: [
@@ -136,8 +136,15 @@ export default {
       i++;
     }
 
-    const imagePath = await getImagePath(initImage);
-    formData.append("init_image", fs.readFileSync(imagePath));
+    const {
+      stream,
+      metadata,
+    } = await getFileStreamAndMetadata(initImage);
+    formData.append("init_image", stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
+    });
     initImageMode && formData.append("init_image_mode", initImageMode);
     cfgScale && formData.append("cfg_scale", cfgScale);
     clipGuidancePreset && formData.append("clip_guidance_preset", clipGuidancePreset);

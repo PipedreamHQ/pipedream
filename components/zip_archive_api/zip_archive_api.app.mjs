@@ -30,13 +30,8 @@ export default {
     },
     files: {
       type: "string[]",
-      label: "Files URLs",
-      description: "The URLs or path of the files to be compressed",
-    },
-    file: {
-      type: "string",
-      label: "File URL",
-      description: "The URL or path of the archive to extract the files from",
+      label: "File Paths or URLs",
+      description: "The files to upload. For each entry, provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
     },
   },
   methods: {

@@ -1,11 +1,11 @@
 import dromo from "../../dromo.app.mjs";
-import fs from "fs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 
 export default {
   key: "dromo-create-headless-import",
   name: "Create Headless Import",
   description: "Creates a new headless import. [See the documentation](https://developer.dromo.io/api/#tag/headless/operation/createHeadlessImport)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   props: {
     dromo,
@@ -18,12 +18,13 @@ export default {
     originalFilename: {
       type: "string",
       label: "Original Filename",
-      description: "The original filename of the imported file",
+      description: "The original filename of the imported file. If not provided, the name of the uploaded file will be used.",
+      optional: true,
     },
-    filePath: {
+    file: {
       type: "string",
-      label: "File Path",
-      description: "The path to the file saved to the `/tmp` directory (e.g. `/tmp/example.csv`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      label: "File Path Or Url",
+      description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/example.csv`)",
     },
   },
   methods: {
@@ -39,22 +40,34 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.dromo.createHeadlessImport({
+    const {
+      dromo,
+      schemaId,
+      originalFilename,
+      file,
+      uploadFile,
+    } = this;
+
+    const {
+      stream,
+      metadata,
+    } = await getFileStreamAndMetadata(file);
+
+    const response = await dromo.createHeadlessImport({
       data: {
-        schema_id: this.schemaId,
-        original_filename: this.originalFilename,
+        schema_id: schemaId,
+        original_filename: originalFilename || metadata.name,
       },
       $,
     });
 
     const uploadUrl = response.upload;
-    const fileBuffer = fs.readFileSync(this.filePath);
-    await this.uploadFile(uploadUrl, fileBuffer);
+    await uploadFile(uploadUrl, stream);
 
     let importItem;
     const timer = (ms) => new Promise((res) => setTimeout(res, ms));
     do {
-      importItem = await this.dromo.getHeadlessImport({
+      importItem = await dromo.getHeadlessImport({
         importId: response.id,
         $,
       });

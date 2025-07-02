@@ -5,7 +5,7 @@ export default {
   key: "testmonitor-new-issue",
   name: "New Issue",
   description: "Emit new event when a new issue is created.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {

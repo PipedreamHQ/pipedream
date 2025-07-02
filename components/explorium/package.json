@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/explorium",
+  "version": "0.0.1",
+  "description": "Pipedream Explorium Components",
+  "main": "explorium.app.mjs",
+  "keywords": [
+    "pipedream",
+    "explorium"
+  ],
+  "homepage": "https://pipedream.com/apps/explorium",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

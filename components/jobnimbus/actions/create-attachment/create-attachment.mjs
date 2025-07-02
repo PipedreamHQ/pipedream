@@ -1,21 +1,22 @@
 import app from "../../jobnimbus.app.mjs";
 import utils from "../../common/utils.mjs";
 import { attachmentTypes } from "../../common/constants.mjs";
-import { ConfigurationError } from "@pipedream/platform";
-import fs from "fs";
+import {
+  ConfigurationError, getFileStream,
+} from "@pipedream/platform";
 
 export default {
   key: "jobnimbus-create-attachment",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   name: "Create Attachment",
   description: "Creates an attachment. [See the documentation](https://documenter.getpostman.com/view/3919598/S11PpG4x#5f3f485b-91f9-4ed9-912c-99a07987ac6c)",
   props: {
     app,
-    filePath: {
+    file: {
       type: "string",
-      label: "File Path",
-      description: "The file to upload, please provide a valid file from `/tmp`. To upload a file to `/tmp` folder, please follow the doc [here](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
+      label: "File Path or URL",
+      description: "The file to upload. Provide a file URL or a path to a file in the `/tmp` directory.",
     },
     type: {
       type: "string",
@@ -43,22 +44,34 @@ export default {
       optional: true,
     },
   },
+  methods: {
+    streamToBase64(stream) {
+      return new Promise((resolve, reject) => {
+        const chunks = [];
+        stream.on("data", (chunk) => chunks.push(chunk));
+        stream.on("end", () => {
+          const buffer = Buffer.concat(chunks);
+          resolve(buffer.toString("base64"));
+        });
+        stream.on("error", reject);
+      });
+    },
+  },
   async run ({ $ }) {
-    const filePath = utils.isValidFile(this.filePath);
-    if (!filePath) {
-      throw new ConfigurationError("`File Path` must be a valid file path!");
+    if (!this.file) {
+      throw new ConfigurationError("The `File Path or URL` prop is required.");
     }
-    const fileData = fs.readFileSync(filePath, {
-      flag: "r",
-      encoding: "base64",
-    });
+
+    const stream = await getFileStream(this.file);
+    const fileData = await this.streamToBase64(stream);
+
     const data = {
       ...utils.extractProps(this, {
         customerIdFromContacts: "customer",
       }),
       data: fileData,
     };
-    delete data["filePath"];
+    delete data.file;
     const resp = await this.app.createAttachment({
       $,
       data,

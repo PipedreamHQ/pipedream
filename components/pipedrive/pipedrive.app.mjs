@@ -359,6 +359,14 @@ export default {
       const notesApi = this.api("NotesApi");
       return notesApi.getNotes(opts);
     },
+    getDealCustomFields(opts) {
+      const dealCustomFieldsApi = this.api("DealFieldsApi");
+      return dealCustomFieldsApi.getDealFields(opts);
+    },
+    getPersonCustomFields(opts) {
+      const personCustomFieldsApi = this.api("PersonFieldsApi");
+      return personCustomFieldsApi.getPersonFields(opts);
+    },
     addActivity(opts = {}) {
       const activityApi = this.api("ActivitiesApi", "v2");
       return activityApi.addActivity({
@@ -434,6 +442,22 @@ export default {
       return notesApi.deleteNote({
         id: noteId,
       });
+    },
+    getPerson(personId) {
+      const personsApi = this.api("PersonsApi", "v2");
+      return personsApi.getPerson({
+        id: personId,
+      });
+    },
+    getLead(leadId) {
+      const leadApi = this.api("LeadsApi");
+      return leadApi.getLead({
+        id: leadId,
+      });
+    },
+    searchLeads(opts = {}) {
+      const leadApi = this.api("LeadsApi", "v2");
+      return leadApi.searchLeads(opts);
     },
     async *paginate({
       fn, params, max,

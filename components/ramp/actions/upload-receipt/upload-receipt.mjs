@@ -1,12 +1,12 @@
 import ramp from "../../ramp.app.mjs";
 import { v4 as uuidv4 } from "uuid";
-import fs from "fs";
+import { getFileStream } from "@pipedream/platform";
 
 export default {
   key: "ramp-upload-receipt",
   name: "Upload Receipt",
   description: "Uploads a receipt for a given transaction and user. [See the documentation](https://docs.ramp.com/developer-api/v1/reference/rest/receipts#post-developer-v1-receipts)",
-  version: "0.0.2",
+  version: "0.1.1",
   type: "action",
   props: {
     ramp,
@@ -24,8 +24,14 @@ export default {
     },
     filePath: {
       type: "string",
-      label: "File Path",
-      description: "The path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
+      label: "File Path or URL",
+      description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {
@@ -42,9 +48,12 @@ export default {
       `--${boundary}\r\n` +
       `Content-Disposition: attachment; name="receipt"; filename="${this.filePath.split("/").pop()}"\r\n\r\n`;
 
-    const fileContent = fs.readFileSync(this.filePath.includes("tmp/")
-      ? this.filePath
-      : `/tmp/${this.filePath}`);
+    const stream = await getFileStream(this.filePath);
+    const chunks = [];
+    for await (const chunk of stream) {
+      chunks.push(chunk);
+    }
+    const fileContent = Buffer.concat(chunks);
 
     const formEnd = `\r\n--${boundary}--`;
 

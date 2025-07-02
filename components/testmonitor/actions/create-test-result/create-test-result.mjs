@@ -1,16 +1,15 @@
-import { ConfigurationError } from "@pipedream/platform";
-import FormData from "form-data";
-import fs from "fs";
 import {
-  checkTmp, parseObject,
-} from "../../common/utils.mjs";
+  getFileStreamAndMetadata, ConfigurationError,
+} from "@pipedream/platform";
+import FormData from "form-data";
+import { parseObject } from "../../common/utils.mjs";
 import testmonitor from "../../testmonitor.app.mjs";
 
 export default {
   key: "testmonitor-create-test-result",
   name: "Create Test Result",
-  description: "Create a new test result. [See the docs here](https://docs.testmonitor.com/#tag/Test-Results/operation/PostTestResult)",
-  version: "0.0.1",
+  description: "Create a new test result. [See the documentation](https://docs.testmonitor.com/#tag/Test-Results/operation/PostTestResult)",
+  version: "0.0.3",
   type: "action",
   props: {
     testmonitor,
@@ -33,8 +32,11 @@ export default {
       propDefinition: [
         testmonitor,
         "testRunId",
-        ({ projectId }) => ({
+        ({
+          projectId, testCaseId,
+        }) => ({
           projectId,
+          testCaseId,
         }),
       ],
     },
@@ -47,7 +49,7 @@ export default {
     attachments: {
       type: "string[]",
       label: "Attachments",
-      description: "A list of attachment files.",
+      description: "A list of attachment files. Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
       hidden: true,
       optional: true,
     },
@@ -67,6 +69,12 @@ export default {
       description: "The description of the test result.",
       optional: true,
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async additionalProps(props) {
     if (!this.draft) {
@@ -76,6 +84,27 @@ export default {
     return {};
   },
   async run({ $ }) {
+    let attachmentData = [];
+    if (this.attachments) {
+      try {
+        const files = parseObject(this.attachments);
+        for (const file of files) {
+          const {
+            stream, metadata,
+          } = await getFileStreamAndMetadata(file);
+          const data = new FormData();
+          data.append("file", stream, {
+            contentType: metadata.contentType,
+            knownLength: metadata.size,
+            filename: metadata.name,
+          });
+          attachmentData.push(data);
+        }
+      } catch (e) {
+        throw new ConfigurationError(`Error accessing attachments: ${e.message}`);
+      }
+    }
+
     let testResultId;
     let summary = "";
     try {
@@ -92,9 +121,7 @@ export default {
 
       if (this.attachments) {
         try {
-          for (const file of parseObject(this.attachments)) {
-            const data = new FormData();
-            data.append("file", fs.createReadStream(checkTmp(file)));
+          for (const data of attachmentData) {
             await this.testmonitor.uploadAttachment({
               $,
               testResultId,
@@ -103,7 +130,7 @@ export default {
             });
           }
         } catch (e) {
-          summary = ", but the attachments could not be loaded.";
+          throw new ConfigurationError(`Error uploading attachments: ${e.message}`);
         }
       }
 

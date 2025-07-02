@@ -1,26 +1,16 @@
 import FormData from "form-data";
-import fs from "fs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import click2mail2 from "../../click2mail2.app.mjs";
 import { FORMATS } from "../../common/constants.mjs";
 
 export default {
   key: "click2mail2-create-document",
   name: "Create Document",
-  version: "0.0.1",
+  version: "1.0.0",
   description: "Creates a new document in your account from an uploaded file or a URL. [See the documentation for file](https://developers.click2mail.com/reference/createdocument_1).  [See the documentation for URL](https://developers.click2mail.com/reference/createdocumentfromurl)",
   type: "action",
   props: {
     click2mail2,
-    uploadType: {
-      type: "string",
-      label: "Upload Type",
-      description: "The type of the upload.",
-      reloadProps: true,
-      options: [
-        "URL",
-        "File",
-      ],
-    },
     documentName: {
       type: "string",
       label: "Document Name",
@@ -39,49 +29,54 @@ export default {
         "documentClass",
       ],
     },
-  },
-  async additionalProps() {
-    const props = {};
-    if (this.uploadType === "URL") {
-      props.url = {
-        type: "string",
-        label: "URL",
-        description: "Document url",
-      };
-    } else {
-      props.file = {
-        type: "string",
-        label: "File",
-        description: "Path of the file in /tmp folder. To upload a file to /tmp folder, please follow the [doc here](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
-      };
-    }
-    return props;
+    file: {
+      type: "string",
+      label: "File Path Or Url",
+      description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.pdf`).",
+    },
   },
   async run({ $ }) {
     const {
       click2mail2,
-      uploadType,
       file,
-      ...params
+      documentName,
+      documentFormat,
+      documentClass,
     } = this;
 
-    let objToSend = {};
+    const isUrl = file.startsWith("http://") || file.startsWith("https://");
 
-    if (uploadType === "File") {
+    const objToSend = {
+      params: {
+        documentName,
+        documentFormat,
+        documentClass,
+      },
+    };
+
+    if (!isUrl) {
+      const {
+        stream, metadata,
+      } = await getFileStreamAndMetadata(file);
       const formData = new FormData();
-      formData.append("file", fs.createReadStream(file));
+      formData.append("file", stream, {
+        contentType: metadata.contentType,
+        knownLength: metadata.size,
+        filename: metadata.name,
+      });
 
-      objToSend = {
-        data: formData,
-        headers: formData.getHeaders(),
-      };
+      objToSend.data = formData;
+      objToSend.headers = formData.getHeaders();
+
+    } else {
+      objToSend.params.url = file;
     }
+
     const response = await click2mail2.create({
       $,
-      path: `${uploadType === "File"
+      path: `${!isUrl
         ? "documents"
         : "documents/url"}`,
-      params,
       ...objToSend,
     });
 

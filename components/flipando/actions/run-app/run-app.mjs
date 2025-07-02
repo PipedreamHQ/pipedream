@@ -1,12 +1,12 @@
 import flipando from "../../flipando.app.mjs";
-import fs from "fs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import FormData from "form-data";
 
 export default {
   key: "flipando-run-app",
   name: "Run App",
   description: "Executes a chosen app within Flipando. Returns a 'task_id' to be used in fetching the outcome of this action. [See the documentation]([See the documentation](https://flipandoai.notion.site/Flipando-ai-API-Integration-Guide-6b508cfe1a5d4a249d20b926eac3a1d7#36b02715e5f440c9b21952b668e0e70c))",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   props: {
     flipando,
@@ -44,10 +44,10 @@ export default {
       };
     }
     if (hasDocs) {
-      props.filePath = {
+      props.file = {
         type: "string",
-        label: "File Path",
-        description: "The path to a document file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#the-tmp-directory).",
+        label: "File Path or URL",
+        description: "Provide a file URL or path to a document file in the `/tmp` directory.",
       };
       props.fileDescription = {
         type: "string",
@@ -62,19 +62,22 @@ export default {
       flipando,
       appId,
       waitForCompletion,
-      filePath,
+      file,
       fileDescription,
       ...inputs
     } = this;
 
     let data = new FormData();
     data.append("inputs_data", JSON.stringify(inputs));
-    if (filePath) {
+    if (file) {
+      const {
+        stream,
+        metadata,
+      } = await getFileStreamAndMetadata(file);
       data.append("file_description", fileDescription);
-      const path = filePath.includes("tmp/")
-        ? filePath
-        : `/tmp/${filePath}`;
-      data.append("file", fs.createReadStream(path));
+      data.append("file", stream, {
+        filename: metadata.name,
+      });
     }
 
     let response = await flipando.executeApp({

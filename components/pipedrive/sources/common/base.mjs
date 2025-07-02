@@ -16,6 +16,9 @@ export default {
     getExtraData() {
       return {};
     },
+    parseData(data) {
+      return data;
+    },
   },
   hooks: {
     async activate() {
@@ -35,7 +38,7 @@ export default {
   async run({ body }) {
     const ts = Date.parse(body.meta.timestamp);
 
-    this.$emit(body, {
+    this.$emit(await this.parseData(body), {
       id: `${body.data.id}-${ts}`,
       summary: this.getSummary(body),
       ts,

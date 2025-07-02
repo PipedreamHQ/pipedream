@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/deepsource",
+  "version": "0.0.1",
+  "description": "Pipedream Deepsource Components",
+  "main": "deepsource.app.mjs",
+  "keywords": [
+    "pipedream",
+    "deepsource"
+  ],
+  "homepage": "https://pipedream.com/apps/deepsource",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

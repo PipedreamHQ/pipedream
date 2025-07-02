@@ -8,7 +8,7 @@ export default {
   key: "rendi-run-ffmpeg-command",
   name: "Run FFmpeg Command",
   description: "Submit an FFmpeg command for processing with input and output file specifications. [See the documentation](https://docs.rendi.dev/api-reference/endpoint/run-ffmpeg-command)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     rendi,
@@ -39,6 +39,11 @@ export default {
       description: "Set to `true` to poll the API in 3-second intervals until the command is completed",
       optional: true,
       reloadProps: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   additionalProps() {
@@ -93,7 +98,8 @@ export default {
             responseType: "arraybuffer",
           });
           const filename = value.storage_url.split("/").pop();
-          const downloadedFilepath = `/tmp/${filename}`;
+          const downloadedFilepath =
+            `${process.env.STASH_DIR || "/tmp"}/${filename}`;
           fs.writeFileSync(downloadedFilepath, resp);
 
           response.tmpFiles.push({

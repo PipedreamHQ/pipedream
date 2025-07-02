@@ -6,7 +6,7 @@ export default {
   description:
     "Content moderation solution for NSFW (Not Safe For Work) sexual images identification. Powered by API4AI.",
   key: "api4ai-nsfw-image-recognition",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

@@ -1,13 +1,14 @@
-import { ConfigurationError } from "@pipedream/platform";
-import fs from "fs";
-import { checkTmp } from "../../common/utils.mjs";
+import {
+  getFileStream, ConfigurationError,
+} from "@pipedream/platform";
+import { streamToBuffer } from "../../common/utils.mjs";
 import syncmateByAssitro from "../../syncmate_by_assitro.app.mjs";
 
 export default {
   key: "syncmate_by_assitro-send-bulk-messages",
   name: "Send Bulk Messages",
   description: "Send multiple WhatsApp messages in bulk. [See the documentation](https://assistro.co/user-guide/bulk-messaging-at-a-scheduled-time-using-syncmate-2/)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     syncmateByAssitro,
@@ -16,6 +17,12 @@ export default {
       label: "Messages Number",
       description: "The quantity of messages you want to send.",
       reloadProps: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async additionalProps() {
@@ -34,7 +41,7 @@ export default {
       props[`media${i}`] = {
         type: "string",
         label: `Media ${i}`,
-        description: "The the path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
+        description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
         optional: true,
       };
       props[`fileName${i}`] = {
@@ -60,12 +67,12 @@ export default {
       };
 
       if (this[`media${i}`]) {
-        const file = fs.readFileSync(checkTmp(this[`media${i}`]), {
-          encoding: "base64",
-        });
+        const stream = await getFileStream(this[`media${i}`]);
+        const buffer = await streamToBuffer(stream);
+        const base64 = buffer.toString("base64");
         data.media = [
           {
-            media_base64: file,
+            media_base64: base64,
             file_name: this[`fileName${i}`],
           },
         ];

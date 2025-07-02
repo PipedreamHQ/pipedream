@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/hathr_ai",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Pipedream Hathr AI Components",
   "main": "hathr_ai.app.mjs",
   "keywords": [
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.0.3",
+    "@pipedream/platform": "^3.1.0",
     "mime-types": "^3.0.1"
   }
 }

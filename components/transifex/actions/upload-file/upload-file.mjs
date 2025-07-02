@@ -1,12 +1,11 @@
-import fs from "fs";
-import { checkTmp } from "../../common/utils.mjs";
 import transifex from "../../transifex.app.mjs";
+import { getFileStream } from "@pipedream/platform";
 
 export default {
   key: "transifex-upload-file",
   name: "Upload File to Transifex",
   description: "Uploads a given file to the Transifex platform. [See the documentation](https://developers.transifex.com/reference/post_resource-strings-async-uploads)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     transifex,
@@ -58,8 +57,28 @@ export default {
         }),
       ],
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
+  },
+  methods: {
+    async streamToBuffer(stream) {
+      return new Promise((resolve, reject) => {
+        const chunks = [];
+
+        stream.on("data", (chunk) => chunks.push(chunk));
+        stream.on("end", () => resolve(Buffer.concat(chunks)));
+        stream.on("error", reject);
+      });
+    },
   },
   async run({ $ }) {
+    const stream = await getFileStream(this.file);
+    const buffer = await this.streamToBuffer(stream);
+    const base64 = buffer.toString("base64");
     const response = await this.transifex.uploadFile({
       $,
       headers: {
@@ -70,9 +89,7 @@ export default {
         data: {
           attributes: {
             callback_url: this.callbackUrl,
-            content: fs.readFileSync(checkTmp(this.file), {
-              encoding: "base64",
-            }),
+            content: base64,
             content_encoding: "base64",
             keep_translations: this.keepTranslations,
             replace_edited_strings: this.replaceEditedStrings,
