@@ -53,7 +53,6 @@ export default {
         headers: {
           "x-api-key": `${this.$auth.api_key}`,
         },
-        debug: true,
         ...opts,
       });
     },
