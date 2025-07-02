@@ -887,6 +887,9 @@ importers:
 
   components/apify:
     dependencies:
+      '@apify/consts':
+        specifier: ^2.41.0
+        version: 2.43.0
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
@@ -7755,13 +7758,11 @@ importers:
 
   components/mailninja: {}
 
-  components/mailosaur:
-    specifiers: {}
+  components/mailosaur: {}
 
   components/mailrefine: {}
 
-  components/mailrelay:
-    specifiers: {}
+  components/mailrelay: {}
 
   components/mails_so:
     dependencies:
@@ -15373,14 +15374,6 @@ importers:
         specifier: ^6.0.0
         version: 6.2.0
 
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
-
   packages/browsers:
     dependencies:
       '@sparticuz/chromium':
@@ -15688,6 +15681,9 @@ packages:
 
   '@apidevtools/swagger-methods@3.0.2':
     resolution: {integrity: sha512-QAkD5kK2b1WfjDS/UQn/qQkbwF31uqRjPTrsCs5ZG9BQGAkjwvqGFjjPqAuzac/IYzpPtRzjCP1WrTuAIjMrXg==}
+
+  '@apify/consts@2.43.0':
+    resolution: {integrity: sha512-6bhzXeftGa+MrO0XwHLLBJyP9Vc2gZXsbk3d8rcDmiEMJwChA+Qw1WD6BWI9zVazPeXb2OrjzOwfe05f59RD4g==}
 
   '@apimatic/schema@0.6.0':
     resolution: {integrity: sha512-JgG32LQRLphHRWsn64vIt7wD2m+JH46swM6ZrY7g1rdiGiKV5m+A+TBrJKoUUQRmS14azMgePNZY30NauWqzLg==}
@@ -30312,6 +30308,8 @@ snapshots:
 
   '@apidevtools/swagger-methods@3.0.2': {}
 
+  '@apify/consts@2.43.0': {}
+
   '@apimatic/schema@0.6.0':
     dependencies:
       tslib: 2.8.1
@@ -35623,8 +35621,6 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
-    transitivePeerDependencies:
-      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
