@@ -26,7 +26,6 @@ export default {
     },
   },
   async run({ $ }) {
-    // Build the projection parameter based on user preferences
     let projection = "id,profilePicture(displayImage~digitalmediaAsset:playableStreams";
 
     if (this.includeOriginalImage) {
