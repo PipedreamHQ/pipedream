@@ -1,24 +1,21 @@
 import googleDrive from "../../google_drive.app.mjs";
-import path from "path";
 import {
-  getFileStream,
   omitEmptyStringValues,
+  parseObjectEntries,
 } from "../../common/utils.mjs";
 import { GOOGLE_DRIVE_UPLOAD_TYPE_MULTIPART } from "../../common/constants.mjs";
 import {
-  additionalProps, updateType,
-} from "../../common/filePathOrUrl.mjs";
+  getFileStreamAndMetadata, ConfigurationError,
+} from "@pipedream/platform";
 
 export default {
   key: "google_drive-upload-file",
   name: "Upload File",
   description: "Upload a file to Google Drive. [See the documentation](https://developers.google.com/drive/api/v3/manage-uploads) for more information",
-  version: "1.0.2",
+  version: "2.0.1",
   type: "action",
-  additionalProps,
   props: {
     googleDrive,
-    updateType,
     drive: {
       propDefinition: [
         googleDrive,
@@ -38,21 +35,10 @@ export default {
         "The folder you want to upload the file to. If not specified, the file will be placed directly in the drive's top-level folder.",
       optional: true,
     },
-    fileUrl: {
-      propDefinition: [
-        googleDrive,
-        "fileUrl",
-      ],
-      optional: true,
-      hidden: true,
-    },
     filePath: {
-      propDefinition: [
-        googleDrive,
-        "filePath",
-      ],
-      optional: true,
-      hidden: true,
+      type: "string",
+      label: "File Path or URL",
+      description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
     },
     name: {
       propDefinition: [
@@ -84,14 +70,19 @@ export default {
         "fileId",
       ],
       label: "File to replace",
-      description: "Id of the file to replace. Leave it empty to upload a new file.",
+      description: "ID of the file to replace. Leave it empty to upload a new file.",
+      optional: true,
+    },
+    metadata: {
+      type: "object",
+      label: "Metadata",
+      description: "Additional metadata to supply in the upload. [See the documentation](https://developers.google.com/workspace/drive/api/reference/rest/v3/files) for information on available fields. Values will be parsed as JSON where applicable. Example: `{ \"description\": \"my file description\" }`",
       optional: true,
     },
   },
   async run({ $ }) {
     const {
       parentId,
-      fileUrl,
       filePath,
       name,
       mimeType,
@@ -99,16 +90,19 @@ export default {
     let { uploadType } = this;
     const driveId = this.googleDrive.getDriveId(this.drive);
 
-    const filename = name || path.basename(fileUrl || filePath);
+    const {
+      stream: file, metadata: fileMetadata,
+    } = await getFileStreamAndMetadata(filePath);
 
-    const file = await getFileStream({
-      $,
-      fileUrl,
-      filePath: filePath?.startsWith("/tmp/")
-        ? filePath
-        : `/tmp/${filePath}`,
-    });
-    console.log(`Upload type: ${uploadType}.`);
+    const filename = name || fileMetadata.name;
+
+    const metadata = this.metadata
+      ? parseObjectEntries(this.metadata)
+      : undefined;
+
+    if (metadata?.mimeType && !mimeType) {
+      throw new ConfigurationError(`Please include the file's original MIME type in the \`Mime Type\` prop. File will be converted to \`${metadata.mimeType}\`.`);
+    }
 
     let result = null;
     if (this.fileId) {
@@ -120,6 +114,7 @@ export default {
         name: filename,
         mimeType,
         uploadType,
+        requestBody: metadata,
       }));
       $.export("$summary", `Successfully updated file, "${result.name}"`);
     } else {
@@ -130,6 +125,7 @@ export default {
         parentId,
         driveId,
         uploadType,
+        requestBody: metadata,
       }));
       $.export("$summary", `Successfully uploaded a new file, "${result.name}"`);
     }

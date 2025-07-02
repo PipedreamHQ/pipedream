@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/add_to_calendar_pro",
+  "version": "0.1.1",
+  "description": "Pipedream Add to Calendar PRO Components",
+  "main": "add_to_calendar_pro.app.mjs",
+  "keywords": [
+    "pipedream",
+    "add_to_calendar_pro"
+  ],
+  "homepage": "https://pipedream.com/apps/add_to_calendar_pro",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
+  }
+}

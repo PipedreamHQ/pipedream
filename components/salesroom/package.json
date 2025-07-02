@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/salesroom",
+  "version": "0.0.1",
+  "description": "Pipedream Salesroom Components",
+  "main": "salesroom.app.mjs",
+  "keywords": [
+    "pipedream",
+    "salesroom"
+  ],
+  "homepage": "https://pipedream.com/apps/salesroom",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

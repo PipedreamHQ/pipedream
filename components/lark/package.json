@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/lark",
+  "version": "0.0.1",
+  "description": "Pipedream Lark Components",
+  "main": "lark.app.mjs",
+  "keywords": [
+    "pipedream",
+    "lark"
+  ],
+  "homepage": "https://pipedream.com/apps/lark",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

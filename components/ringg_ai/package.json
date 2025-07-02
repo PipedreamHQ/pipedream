@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ringg_ai",
+  "version": "0.0.1",
+  "description": "Pipedream Ringg AI Components",
+  "main": "ringg_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ringg_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/ringg_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

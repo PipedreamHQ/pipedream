@@ -3,7 +3,7 @@ import microsoftOutlook from "../../microsoft_outlook.app.mjs";
 export default {
   type: "action",
   key: "microsoft_outlook-send-email",
-  version: "0.0.14",
+  version: "0.0.15",
   name: "Send Email",
   description: "Send an email to one or multiple recipients, [See the docs](https://docs.microsoft.com/en-us/graph/api/user-sendmail)",
   props: {
@@ -63,7 +63,7 @@ export default {
       $,
       data: {
         message: {
-          ...this.microsoftOutlook.prepareMessageBody(this),
+          ...await this.microsoftOutlook.prepareMessageBody(this),
           ...this.expand,
         },
       },

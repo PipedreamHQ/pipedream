@@ -1,0 +1,17 @@
+{
+  "name": "@pipedream/landbot",
+  "version": "0.0.1",
+  "description": "Pipedream Landbot Components",
+  "main": "landbot.app.mjs",
+  "keywords": [
+    "pipedream",
+    "landbot"
+  ],
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

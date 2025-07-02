@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/amazon_redshift",
+  "version": "0.0.1",
+  "description": "Pipedream Amazon Redshift Components",
+  "main": "amazon_redshift.app.mjs",
+  "keywords": [
+    "pipedream",
+    "amazon_redshift"
+  ],
+  "homepage": "https://pipedream.com/apps/amazon_redshift",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

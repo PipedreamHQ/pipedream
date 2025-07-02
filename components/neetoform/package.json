@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/neetoform",
+  "version": "0.0.1",
+  "description": "Pipedream NeetoForm Components",
+  "main": "neetoform.app.mjs",
+  "keywords": [
+    "pipedream",
+    "neetoform"
+  ],
+  "homepage": "https://pipedream.com/apps/neetoform",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -79,9 +79,11 @@ export default {
         }
 
         for (const result of results) {
-          if (await this.isRelevant(result, after)) {
-            this.emitEvent(result);
-            const ts = this.getTs(result);
+          const ts = this.getTs(result);
+          if (!after || ts > after) {
+            if (await this.isRelevant(result, after, ts)) {
+              this.emitEvent(result);
+            }
             if (ts > maxTs) {
               maxTs = ts;
               this._setAfter(ts);

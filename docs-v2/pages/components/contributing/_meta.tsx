@@ -5,4 +5,5 @@ export default {
   "sources-quickstart": "Quickstart — Sources",
   "guidelines": "Guidelines",
   "typescript": "TypeScript components",
+  "cli": "CLI",
 } as const

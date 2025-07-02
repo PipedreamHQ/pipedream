@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mongodb",
-  "version": "0.1.1",
+  "version": "0.1.4",
   "description": "Pipedream MongoDB Components",
   "main": "mongodb.app.mjs",
   "keywords": [

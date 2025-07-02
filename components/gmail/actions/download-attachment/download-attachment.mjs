@@ -1,13 +1,13 @@
-import gmail from "../../gmail.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 import fs from "fs";
 import path from "path";
-import { ConfigurationError } from "@pipedream/platform";
+import gmail from "../../gmail.app.mjs";
 
 export default {
   key: "gmail-download-attachment",
   name: "Download Attachment",
   description: "Download an attachment by attachmentId to the /tmp directory. [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages.attachments/get)",
-  version: "0.0.6",
+  version: "0.0.11",
   type: "action",
   props: {
     gmail,

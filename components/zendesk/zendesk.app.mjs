@@ -144,6 +144,30 @@ export default {
       optional: true,
       options: Object.values(constants.TICKET_STATUS_OPTIONS),
     },
+    sortBy: {
+      type: "string",
+      label: "Sort By",
+      description: "Field to sort tickets by",
+      optional: true,
+      options: constants.SORT_BY_OPTIONS,
+    },
+    sortOrder: {
+      type: "string",
+      label: "Sort Order",
+      description: "Sort order (ascending or descending)",
+      optional: true,
+      options: [
+        "asc",
+        "desc",
+      ],
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Maximum number of tickets to return",
+      optional: true,
+      default: 100,
+    },
     customSubdomain: {
       type: "string",
       label: "Custom Subdomain",
@@ -180,6 +204,20 @@ export default {
         ...args,
       };
       return axios(step, config);
+    },
+    getTicketInfo({
+      ticketId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}`,
+        ...args,
+      });
+    },
+    searchTickets(args = {}) {
+      return this.makeRequest({
+        path: "/search",
+        ...args,
+      });
     },
     create(args = {}) {
       return this.makeRequest({
@@ -230,6 +268,37 @@ export default {
         path: "/ticket_fields",
         ...args,
       });
+    },
+    async *paginate({
+      fn, args, resourceKey, max,
+    }) {
+      args = {
+        ...args,
+        params: {
+          ...args?.params,
+          per_page: constants.DEFAULT_LIMIT,
+          page: 1,
+        },
+      };
+      let hasMore = true;
+      let count = 0;
+      while (hasMore) {
+        const response = await fn(args);
+        const items = resourceKey
+          ? response[resourceKey]
+          : response;
+        if (!items?.length) {
+          return;
+        }
+        for (const item of items) {
+          yield item;
+          if (max && ++count >= max) {
+            return;
+          }
+        }
+        hasMore = !!response.next_page;
+        args.params.page += 1;
+      }
     },
   },
 };

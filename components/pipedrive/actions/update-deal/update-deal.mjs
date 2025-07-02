@@ -5,7 +5,7 @@ export default {
   key: "pipedrive-update-deal",
   name: "Update Deal",
   description: "Updates the properties of a deal. See the Pipedrive API docs for Deals [here](https://developers.pipedrive.com/docs/api/v1/Deals#updateDeal)",
-  version: "0.1.8",
+  version: "0.1.15",
   type: "action",
   props: {
     pipedriveApp,
@@ -91,6 +91,12 @@ export default {
         "visibleTo",
       ],
     },
+    note: {
+      type: "string",
+      label: "Note",
+      description: "A note to add to the deal",
+      optional: true,
+    },
   },
   async run({ $ }) {
     try {
@@ -109,6 +115,13 @@ export default {
         lost_reason: this.lostReason,
         visible_to: this.visibleTo,
       });
+
+      if (this.note) {
+        await this.pipedriveApp.addNote({
+          content: this.note,
+          deal_id: this.dealId,
+        });
+      }
 
       $.export("$summary", "Successfully updated deal");
 

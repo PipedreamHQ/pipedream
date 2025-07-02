@@ -2,15 +2,17 @@ import analytics from "../../google_analytics.app.mjs";
 
 export default {
   key: "google_analytics-run-report-in-ga4",
-  version: "0.1.0",
+  version: "0.1.1",
   name: "Run Report in GA4",
-  description: "Returns a customized report of your Google Analytics event data. Reports contain statistics derived from data collected by the Google Analytics tracking code. [See the documentation here](https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/properties/runReport)",
+  description: "Returns a customized report of your Google Analytics event data. Reports contain statistics derived from data collected by the Google Analytics tracking code. [See the documentation](https://developers.google.com/analytics/devguides/reporting/data/v1/rest/v1beta/properties/runReport)",
   type: "action",
   props: {
     analytics,
     property: {
-      type: "string",
-      label: "Property",
+      propDefinition: [
+        analytics,
+        "property",
+      ],
       description: "A Google Analytics GA4 property identifier whose events are tracked. Specified in the URL path and not the body. To learn more, [see where to find your Property ID](https://developers.google.com/analytics/devguides/reporting/data/v1/property-id). Within a batch request, this property should either be unspecified or consistent with the batch-level property.",
     },
     startDate: {
@@ -64,8 +66,9 @@ export default {
       })),
       dimensionFilter: dimensionFilter,
     };
+    const property = this.property.match(/\d+/)[0];
     const report = await this.analytics.queryReportsGA4({
-      property: this.property,
+      property,
       data,
     });
     $.export("$summary", `Successfully retrieved report for the property ${this.property}`);

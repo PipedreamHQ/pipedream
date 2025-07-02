@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/neetocal",
+  "version": "0.0.1",
+  "description": "Pipedream neetoCal Components",
+  "main": "neetocal.app.mjs",
+  "keywords": [
+    "pipedream",
+    "neetocal"
+  ],
+  "homepage": "https://pipedream.com/apps/neetocal",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

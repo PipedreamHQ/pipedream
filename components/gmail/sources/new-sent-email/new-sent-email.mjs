@@ -6,7 +6,7 @@ export default {
   key: "gmail-new-sent-email",
   name: "New Sent Email",
   description: "Emit new event for each new email sent. (Maximum of 100 events emited per execution)",
-  version: "0.0.10",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   props: {
@@ -17,6 +17,12 @@ export default {
         gmail,
         "q",
       ],
+    },
+    withTextPayload: {
+      type: "boolean",
+      label: "Return payload as plaintext",
+      description: "Convert the payload response into a single text field. **This reduces the size of the payload and makes it easier for LLMs work with.**",
+      default: false,
     },
   },
   methods: {

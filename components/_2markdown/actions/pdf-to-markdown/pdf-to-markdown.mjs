@@ -1,12 +1,12 @@
 import _2markdown from "../../_2markdown.app.mjs";
-import fs from "fs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import FormData from "form-data";
 
 export default {
   key: "_2markdown-pdf-to-markdown",
   name: "PDF to Markdown",
   description: "Convert a PDF document to Markdown format. [See the documentation](https://2markdown.com/docs#pdf2md)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     _2markdown,
@@ -15,7 +15,7 @@ export default {
         _2markdown,
         "filePath",
       ],
-      description: "The path to a PDF file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
+      description: "A PDF file. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.pdf`)",
     },
     waitForCompletion: {
       type: "boolean",
@@ -27,9 +27,14 @@ export default {
   async run({ $ }) {
     const form = new FormData();
 
-    form.append("document", fs.createReadStream(this.filePath.includes("tmp/")
-      ? this.filePath
-      : `/tmp/${this.filePath}`));
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(this.filePath);
+    form.append("document", stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
+    });
 
     let response = await this._2markdown.pdfToMarkdown({
       $,
