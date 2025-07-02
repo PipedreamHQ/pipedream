@@ -1,4 +1,5 @@
 import microsoftOutlook from "../../microsoft_outlook.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   type: "action",
@@ -63,7 +64,7 @@ export default {
       $,
       data: {
         ...await this.microsoftOutlook.prepareMessageBody(this),
-        ...this.expand,
+        ...parseObject(this.expand),
       },
     });
     $.export("$summary", "Email draft has been created.");
