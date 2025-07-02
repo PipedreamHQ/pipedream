@@ -15,6 +15,12 @@ export default {
       label: "File Path or URL",
       description: "Provide a file URL or a path to a file in the `/tmp` directory.",
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
     const {
