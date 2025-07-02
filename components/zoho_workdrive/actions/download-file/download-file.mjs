@@ -7,7 +7,7 @@ export default {
   key: "zoho_workdrive-download-file",
   name: "Download File to Tmp Direcory",
   description: "Download a file to the /tmp directory. [See the documentation](https://workdrive.zoho.com/apidocs/v1/filesfolders/downloadserverfile)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     app,
@@ -64,6 +64,11 @@ export default {
       label: "Filename",
       description: "What to name the new file saved to /tmp directory",
       optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   methods: {

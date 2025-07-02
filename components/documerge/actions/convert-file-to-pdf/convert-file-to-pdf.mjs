@@ -5,7 +5,7 @@ export default {
   key: "documerge-convert-file-to-pdf",
   name: "Convert File to PDF",
   description: "Converts a specified file into a PDF. [See the documentation](https://app.documerge.ai/api-docs/#tools-POSTapi-tools-pdf-convert)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     documerge,
@@ -19,6 +19,11 @@ export default {
       label: "URL",
       description: "The URL of the file to convert",
       optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   async run({ $ }) {

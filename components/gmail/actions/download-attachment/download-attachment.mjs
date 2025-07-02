@@ -7,7 +7,7 @@ export default {
   key: "gmail-download-attachment",
   name: "Download Attachment",
   description: "Download an attachment by attachmentId to the /tmp directory. [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages.attachments/get)",
-  version: "0.0.11",
+  version: "0.0.12",
   type: "action",
   props: {
     gmail,
@@ -32,6 +32,11 @@ export default {
       label: "Filename",
       description: "Name of the new file. Example: `test.jpg`",
       optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   async run({ $ }) {

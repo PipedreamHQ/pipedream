@@ -6,7 +6,7 @@ export default {
   key: "egnyte-upload-file",
   name: "Upload File",
   description: "Uploads a file to a specified folder in Egnyte. [See the documentation](https://developers.egnyte.com/docs/File_System_Management_API_Documentation#Upload-a-File)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     egnyte,
@@ -19,6 +19,12 @@ export default {
       type: "string",
       label: "Folder Path",
       description: "The full path to the folder where the file should be uploaded. Example: `/Shared/Documents",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {
