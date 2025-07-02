@@ -5,7 +5,7 @@ export default {
   key: "deepimage-upscale",
   name: "Upscale Image",
   description: "Upscales the provided image using Deep Image. [See the documentation](https://documentation.deep-image.ai/image-processing/resize-and-padding)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     deepimage,
@@ -31,7 +31,7 @@ export default {
     const response = await this.deepimage.makeRequest({
       $,
       data: {
-        url: getUrlOrFile(this.image),
+        url: await getUrlOrFile(this.image),
         width: `${this.upscaleMultiplier}%`,
         height: `${this.upscaleMultiplier}%`,
         generative_upscale: this.generativeUpscale,

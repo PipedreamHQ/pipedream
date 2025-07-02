@@ -35,6 +35,12 @@ const FIELD = {
   UPDATE_TIME: "update_time",
 };
 
+const LEAD_FIELD_OPTIONS = [
+  "custom_fields",
+  "notes",
+  "title",
+];
+
 export default {
   STATUS_OPTIONS,
   FIELD_OPTIONS,
@@ -42,4 +48,5 @@ export default {
   INCLUDE_FIELDS_OPTIONS,
   DEFAULT_PAGE_LIMIT,
   FIELD,
+  LEAD_FIELD_OPTIONS,
 };

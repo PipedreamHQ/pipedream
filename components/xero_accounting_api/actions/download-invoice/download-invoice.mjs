@@ -6,7 +6,7 @@ export default {
   key: "xero_accounting_api-download-invoice",
   name: "Download Invoice",
   description: "Downloads an invoice as pdf file. File will be placed at the action's associated workflow temporary folder.",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
     xero_accounting_api: {
@@ -20,6 +20,11 @@ export default {
     invoice_id: {
       type: "string",
       description: "Xero generated unique identifier for the invoice to download.",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   async run({ $ }) {
@@ -47,5 +52,8 @@ export default {
     $.export("invoice_path", invoicePath); //This is where the invoice is saved at the workflow's temporary files.
     fs.writeFileSync(invoicePath, buffer);
     console.log(`Invoice saved at: ${invoicePath}`);
+    return {
+      filePath: invoicePath,
+    };
   },
 };

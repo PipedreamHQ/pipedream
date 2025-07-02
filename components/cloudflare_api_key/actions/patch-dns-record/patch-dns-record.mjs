@@ -4,7 +4,7 @@ export default {
   key: "cloudflare_api_key-patch-dns-record",
   name: "Patch DNS Record",
   description: "Patches a DNS record of a zone. [See the docs here](https://api.cloudflare.com/#dns-records-for-a-zone-patch-dns-record)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     cloudflare,
@@ -60,17 +60,26 @@ export default {
     },
   },
   async run({ $ }) {
-    const zoneId = this.zoneIdentifier;
-    const dnsRecordID = this.dnsRecordIdentifier;
-    const dnsRecordData = {
-      type: this.dnsRecordType,
-      name: this.dnsRecordName,
-      content: this.dnsRecordContent,
-      ttl: this.dnsRecordTtl,
-      proxied: this.dnsRecordProxied,
-    };
+    const {
+      cloudflare,
+      zoneIdentifier,
+      dnsRecordIdentifier,
+      dnsRecordType,
+      dnsRecordName,
+      dnsRecordContent,
+      dnsRecordTtl,
+      dnsRecordProxied,
+    } = this;
 
-    const response = await this.cloudflare.patchDnsRecord(zoneId, dnsRecordID, dnsRecordData);
+    const response = await cloudflare.patchDnsRecord({
+      zone_id: zoneIdentifier,
+      dnsRecordId: dnsRecordIdentifier,
+      type: dnsRecordType,
+      name: dnsRecordName,
+      content: dnsRecordContent,
+      ttl: dnsRecordTtl,
+      proxied: dnsRecordProxied,
+    });
     $.export("$summary", `Successfully patched DNS record with ID ${response.result.id}`);
 
     return response;

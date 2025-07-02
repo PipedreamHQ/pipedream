@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/sftp",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Pipedream SFTP Components",
   "main": "sftp.app.mjs",
   "keywords": [

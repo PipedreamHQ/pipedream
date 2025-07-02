@@ -7,7 +7,7 @@ export default {
   key: "trello-create-card",
   name: "Create Card",
   description: "Creates a new card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-post).",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   props: {
     app,
@@ -150,6 +150,12 @@ export default {
         }),
       ],
       reloadProps: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async additionalProps(existingProps) {

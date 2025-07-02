@@ -4,7 +4,7 @@ import utils from "../../common/utils.mjs";
 export default {
   type: "action",
   key: "google_dialogflow-detect-intent",
-  version: "0.0.2",
+  version: "1.0.0",
   name: "Detect Intent",
   description: "Processes a natural language query and returns structured, actionable data as a result, [See REST docs](https://cloud.google.com/dialogflow/es/docs/reference/rest/v2/projects.agent.sessions/detectIntent) and [client API](https://googleapis.dev/nodejs/dialogflow/latest/google.cloud.dialogflow.v2beta1.Sessions.html#detectIntent2)",
   props: {
@@ -40,9 +40,9 @@ export default {
       optional: true,
     },
     inputAudioFile: {
-      label: "Input Audio",
-      description: "Please provide a file path, e.g. `/tmp/recording.mp3`",
-      type: "object",
+      label: "Input Audio File or URL",
+      description: "Provide a file URL or a path to a file in the `/tmp` directory.",
+      type: "string",
       optional: true,
     },
   },
