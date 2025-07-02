@@ -30,6 +30,16 @@ export default {
         }));
       },
     },
+    fromDate: {
+      type: "string",
+      label: "From Date",
+      description: "The date to start the search from (YYYY-MM-DD)",
+    },
+    toDate: {
+      type: "string",
+      label: "To Date",
+      description: "The date to end the search (YYYY-MM-DD)",
+    },
   },
   methods: {
     _baseUrl() {
@@ -43,6 +53,7 @@ export default {
         headers: {
           "x-api-key": `${this.$auth.api_key}`,
         },
+        debug: true,
         ...opts,
       });
     },
@@ -60,12 +71,62 @@ export default {
         ...opts,
       });
     },
+    listLabels({
+      workspaceId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/labels`,
+        ...opts,
+      });
+    },
     listPosts(opts = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/data/posts",
         ...opts,
       });
+    },
+    listPostAnalytics(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/analytics/posts",
+        ...opts,
+      });
+    },
+    async *paginate({
+      fn, args, max,
+    }) {
+      args = {
+        ...args,
+        data: {
+          ...args?.data,
+          page: 1,
+        },
+      };
+      let hasMore, count = 0;
+      do {
+        const {
+          data, pagination,
+        } = await fn(args);
+        if (!data?.length) {
+          return;
+        }
+        for (const item of data) {
+          yield item;
+          if (max && ++count >= max) {
+            return;
+          }
+        }
+        hasMore = pagination?.totalPages > args.data.page;
+        args.data.page++;
+      } while (hasMore);
+    },
+    async getPaginatedResources(opts) {
+      const results = [];
+      for await (const item of this.paginate(opts)) {
+        results.push(item);
+      }
+      return results;
     },
   },
 };

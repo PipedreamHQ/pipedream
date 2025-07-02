@@ -1,4 +1,5 @@
 import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
@@ -6,8 +7,58 @@ export default {
   name: "New Label Added",
   description: "Emit new event when a label is added to a post.",
   type: "source",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   dedupe: "unique",
-  async run() {
+  props: {
+    ...common.props,
+    workspaceId: {
+      propDefinition: [
+        common.props.asters,
+        "workspaceId",
+      ],
+    },
+    socialAccountId: {
+      propDefinition: [
+        common.props.asters,
+        "socialAccountId",
+        (c) => ({
+          workspaceId: c.workspaceId,
+        }),
+      ],
+    },
   },
+  methods: {
+    ...common.methods,
+    getResourceFn() {
+      return this.asters.listPosts;
+    },
+    getArgs() {
+      return {
+        data: {
+          socialAccountId: this.socialAccountId,
+          filters: {
+            date: {
+              from: "1979-01-01",
+              to: new Date().toISOString(),
+            },
+          },
+        },
+      };
+    },
+    async processResource(post) {
+      const { labels = [] } = post;
+      for (const label of labels) {
+        const meta = this.generateMeta(post, label);
+        this.$emit(post, meta);
+      }
+    },
+    generateMeta(post, label) {
+      return {
+        id: `${post._id}-${label._id}`,
+        summary: `New Label ${label._id} added to post ${post._id}`,
+        ts: Date.now(),
+      };
+    },
+  },
+  sampleEmit,
 };
