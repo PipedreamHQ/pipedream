@@ -6,7 +6,7 @@ export default {
   key: "ragie-create-document",
   name: "Create Document",
   description: "Creates a new document in Ragie. [See the documentation](https://docs.ragie.ai/reference/createdocument)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     ragie,
@@ -46,6 +46,12 @@ export default {
         ragie,
         "partition",
       ],
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

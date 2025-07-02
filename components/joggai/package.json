@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/joggai",
+  "version": "0.0.1",
+  "description": "Pipedream JoggAI Components",
+  "main": "joggai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "joggai"
+  ],
+  "homepage": "https://pipedream.com/apps/joggai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

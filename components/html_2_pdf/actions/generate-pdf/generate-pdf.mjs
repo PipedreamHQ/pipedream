@@ -9,7 +9,7 @@ export default {
   key: "html_2_pdf-generate-pdf",
   name: "Generate PDF",
   description: "Creates a PDF from a URL or HTML string. [See the documentation](https://www.html2pdf.co.uk/api-documentation)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     html2Pdf,
@@ -136,6 +136,11 @@ export default {
       label: "CSS",
       description: "Use custom CSS to overwrite the default styles of your page.",
       optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   async run({ $ }) {

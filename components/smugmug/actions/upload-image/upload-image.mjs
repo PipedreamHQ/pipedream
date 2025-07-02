@@ -6,7 +6,7 @@ export default {
   key: "smugmug-upload-image",
   name: "Upload Image",
   description: "Uploads an image to a SmugMug album. [See the docs here](https://api.smugmug.com/services/api/?method=upload)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     smugmug,
@@ -21,6 +21,12 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`).",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

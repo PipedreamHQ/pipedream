@@ -5,7 +5,7 @@ export default {
   key: "printify-create-product",
   name: "Create a Product",
   description: "Creates a new product on Printify. [See the documentation](https://developers.printify.com/#create-a-new-product)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     printify,
@@ -49,6 +49,12 @@ export default {
         }),
       ],
       reloadProps: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async additionalProps() {

@@ -4,7 +4,7 @@ import fs from "fs";
 
 export default {
   name: "Create Image (Dall-E)",
-  version: "0.1.22",
+  version: "0.1.23",
   key: "openai-create-image",
   description: "Creates an image given a prompt returning a URL to the image. [See the documentation](https://platform.openai.com/docs/api-reference/images)",
   type: "action",
@@ -38,6 +38,11 @@ export default {
       optional: true,
       options: constants.IMAGE_SIZES,
       default: "1024x1024",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   async additionalProps() {
@@ -106,7 +111,7 @@ export default {
           : this.filename.replace(/(\.[^/.]+)$/, `_${i}$1`);
         const outputFilePath = filename.includes("tmp/")
           ? filename
-          : `/tmp/${filename}`;
+          : `${process.env.STASH_DIR || "/tmp"}/${filename}`;
         await fs.writeFileSync(outputFilePath, Buffer.from(response.data[0].b64_json.toString(), "base64"));
         fileData.push({
           tmp: [

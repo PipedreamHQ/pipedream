@@ -1,8 +1,8 @@
 import {
   axios, ConfigurationError,
+  getFileStreamAndMetadata,
 } from "@pipedream/platform";
 import FormData from "form-data";
-import fs from "fs";
 import utils from "./common/utils.mjs";
 
 export default {
@@ -648,10 +648,13 @@ export default {
       });
     },
     async sendMessageWithFile({
-      $, content, username, threadID, filePath, channelId, embeds, avatarURL,
+      $, content, username, threadID, file, channelId, embeds, avatarURL,
     }) {
-      const file = fs.createReadStream(filePath);
-      const filename = filePath.split("/").pop();
+      const {
+        stream,
+        metadata,
+      } = await getFileStreamAndMetadata(file);
+
       const data = new FormData();
       data.append("payload_json", JSON.stringify({
         content,
@@ -662,14 +665,13 @@ export default {
         attachments: [
           {
             id: 0,
-            filename,
+            filename: metadata.name,
           },
         ],
       }));
-      data.append("files[0]", file, {
-        header: [
-          `Content-Disposition: form-data; name="files[0]"; filename="${filename}"`,
-        ],
+      data.append("files[0]", stream, {
+        filename: metadata.name,
+        contentType: metadata.contentType,
       });
       return await this._makeRequest({
         $,

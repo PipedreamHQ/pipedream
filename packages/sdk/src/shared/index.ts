@@ -255,6 +255,18 @@ export type GetAppsOpts = RelationOpts & {
    * Filter by whether apps have triggers in the component registry.
    */
   hasTriggers?: boolean;
+  /**
+   * The key to sort the apps by.
+   *
+   * @default "name_slug"
+   */
+  sortKey?: "name" | "featured_weight" | "name_slug";
+  /**
+   * The direction to sort the apps.
+   *
+   * @default "asc"
+   */
+  sortDirection?: "asc" | "desc";
 };
 
 /**
@@ -1177,6 +1189,12 @@ export abstract class BaseClient {
       params.has_triggers = opts.hasTriggers
         ? "1"
         : "0";
+    }
+    if (opts?.sortKey) {
+      params.sort_key = opts.sortKey;
+    }
+    if (opts?.sortDirection) {
+      params.sort_direction = opts.sortDirection;
     }
 
     this.addRelationOpts(params, opts);

@@ -7,7 +7,7 @@ export default {
   key: "shopify-bulk-import",
   name: "Bulk Import",
   description: "Execute bulk mutations by uploading a JSONL file containing mutation variables. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/bulkoperationrunmutation)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     shopify,
@@ -30,6 +30,12 @@ export default {
       type: "string",
       label: "Client Identifier",
       description: "An optional identifier which may be used for querying",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

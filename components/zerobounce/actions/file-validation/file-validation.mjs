@@ -62,6 +62,12 @@ export default {
       description: "Use the `$.flow.rerun` Node.js helper to rerun the step when the validation is completed. Overrides the `rerunUrl` prop. This will increase execution time and credit usage as a result. [See the documentation](https://pipedream.com/docs/code/nodejs/rerun/#flow-rerun). Not available in Pipedream Connect.",
       optional: true,
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
     let response, summary;

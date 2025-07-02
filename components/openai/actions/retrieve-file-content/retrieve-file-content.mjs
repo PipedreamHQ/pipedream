@@ -5,7 +5,7 @@ export default {
   key: "openai-retrieve-file-content",
   name: "Retrieve File Content",
   description: "Retrieves the contents of the specified file. [See the documentation](https://platform.openai.com/docs/api-reference/files/retrieve-content)",
-  version: "0.0.15",
+  version: "0.0.16",
   type: "action",
   props: {
     openai,
@@ -20,6 +20,11 @@ export default {
       label: "Filename",
       description: "Optionally, download the file to the `/tmp` directory using the given filename",
       optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   async run({ $ }) {
