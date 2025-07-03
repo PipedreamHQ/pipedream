@@ -9,7 +9,7 @@ export default {
   name: "Download File",
   description: "Download a file stored in OneDrive. [See the documentation](https://learn.microsoft.com/en-us/onedrive/developer/rest-api/api/driveitem_get_content?view=odsp-graph-online)",
   key: "microsoft_onedrive-download-file",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     onedrive,
@@ -30,6 +30,11 @@ export default {
       type: "string",
       label: "New File Name",
       description: "The file name to save the downloaded content as, under the `/tmp` folder. Make sure to include the file extension.",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   methods: {

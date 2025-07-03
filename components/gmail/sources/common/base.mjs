@@ -1,4 +1,5 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import utils from "../../common/utils.mjs";
 
 export default {
   props: {
@@ -17,32 +18,34 @@ export default {
         || ArrayBuffer.isView(data);
     },
     decodeContent(message) {
-      const MULTIPART_MIME_TYPE = "multipart";
-      const {
-        payload: {
-          mimeType, body, parts,
-        },
-      } = message;
+      let parsedMessage = utils.validateTextPayload(message, this.withTextPayload);
+      if (!parsedMessage) {
+        const MULTIPART_MIME_TYPE = "multipart";
+        const {
+          payload: {
+            mimeType, body, parts,
+          },
+        } = message;
 
-      if (!mimeType.startsWith(MULTIPART_MIME_TYPE)) {
-        return !this.isValidType(body?.data)
-          ? message
-          : {
-            ...message,
-            decodedContent: Buffer.from(body.data, "base64").toString(),
-          };
+        if (!mimeType.startsWith(MULTIPART_MIME_TYPE)) {
+          return !this.isValidType(body?.data)
+            ? message
+            : {
+              ...message,
+              decodedContent: Buffer.from(body.data, "base64").toString(),
+            };
+        }
+
+        const [
+          firstPart,
+        ] = parts;
+
+        if (this.isValidType(firstPart?.body?.data)) {
+          message.decodedContent = Buffer.from(firstPart.body.data, "base64").toString();
+        }
+        parsedMessage = message;
       }
-
-      const [
-        firstPart,
-      ] = parts;
-
-      return !this.isValidType(firstPart?.body?.data)
-        ? message
-        : {
-          ...message,
-          decodedContent: Buffer.from(firstPart.body.data, "base64").toString(),
-        };
+      return parsedMessage;
     },
     parseEmail(emailStr) {
       if (!emailStr) {

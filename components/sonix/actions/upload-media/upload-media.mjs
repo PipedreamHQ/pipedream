@@ -7,7 +7,7 @@ export default {
   key: "sonix-upload-media",
   name: "Upload Media",
   description: "Submits new media for processing. [See the documentation](https://sonix.ai/docs/api#new_media)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   props: {
     sonix,
@@ -57,6 +57,12 @@ export default {
       type: "string",
       label: "Callback URL",
       description: "URL for Sonix to make a POST request notifying of a change in transcript status (either failed or completed). The POST will include the media status JSON.",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

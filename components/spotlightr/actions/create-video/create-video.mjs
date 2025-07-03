@@ -5,7 +5,7 @@ import spotlightr from "../../spotlightr.app.mjs";
 export default {
   key: "spotlightr-create-video",
   name: "Create Video",
-  version: "1.0.0",
+  version: "1.0.1",
   description: "Create a video in an application. [See the documentation](https://app.spotlightr.com/docs/api/#create-video)",
   type: "action",
   props: {
@@ -69,6 +69,12 @@ export default {
       type: "object",
       label: "Player Settings",
       description: "Video ID for coping playerSettings (decoded base64)",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

@@ -89,6 +89,11 @@ export default {
           });
       },
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
+    },
     getBufferResponse: {
       type: "boolean",
       label: "Get Buffer Response",

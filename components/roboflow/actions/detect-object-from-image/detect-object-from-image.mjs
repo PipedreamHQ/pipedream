@@ -5,7 +5,7 @@ export default {
   key: "roboflow-detect-object-from-image",
   name: "Detect Object From Image",
   description: "Run inference on your object detection models hosted on Roboflow. [See the documentation](https://docs.roboflow.com/deploy/hosted-api/object-detection).",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   props: {
     roboflow,
@@ -29,6 +29,12 @@ export default {
         roboflow,
         "filePath",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

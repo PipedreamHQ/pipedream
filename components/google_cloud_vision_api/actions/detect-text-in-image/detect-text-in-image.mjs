@@ -5,7 +5,7 @@ export default {
   name: "Detect Text in Image",
   key: "google_cloud_vision_api-detect-text-in-image",
   description: "Detects text in a local image or remote image. [See the documentation](https://cloud.google.com/vision/docs/ocr#vision_text_detection_gcs-drest).",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   async run({ $ }) {
     this.checkFileProp();
@@ -15,7 +15,7 @@ export default {
         requests: [
           {
             image: {
-              content: await this.getFileContent($),
+              content: await this.getFileContent(),
             },
             features: [
               {

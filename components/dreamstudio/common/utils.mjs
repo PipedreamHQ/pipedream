@@ -4,12 +4,17 @@ import moment from "moment";
 import stream from "stream";
 import { promisify } from "util";
 
+const getOutputDirectory = () => {
+  return process.env.STASH_DIR || "/tmp";
+};
+
 export const getImagePath = async (image) => {
   const regex = new RegExp(/\/tmp\//, "g");
   let imagePath = image;
+  const outputDir = getOutputDirectory();
 
   if (isUrl(image)) {
-    imagePath = `/tmp/image_${moment().format("YYYYMMDD")}.png`;
+    imagePath = `${outputDir}/image_${moment().format("YYYYMMDD")}.png`;
     const pipeline = promisify(stream.pipeline);
     await pipeline(
       got.stream(image),
@@ -20,7 +25,7 @@ export const getImagePath = async (image) => {
   if (imagePath.match(regex)) {
     return imagePath;
   }
-  return `/tmp/${imagePath}`;
+  return `${outputDir}/${imagePath}`;
 };
 
 export const isUrl = (string) => {
@@ -45,10 +50,12 @@ export const parsePrompts = (textPrompts) => {
 
 export const writeImg = async (artifacts) => {
   const filePaths = [];
+  const outputDir = getOutputDirectory();
   for (const image of artifacts) {
-    filePaths.push(`/tmp/img_${image.seed}.png`);
+    const filePath = `${outputDir}/img_${image.seed}.png`;
+    filePaths.push(filePath);
     fs.writeFileSync(
-      `/tmp/img_${image.seed}.png`,
+      filePath,
       Buffer.from(image.base64, "base64"),
     );
   }

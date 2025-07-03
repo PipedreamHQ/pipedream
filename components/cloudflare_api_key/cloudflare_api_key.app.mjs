@@ -1,5 +1,5 @@
-import { axios } from "@pipedream/platform";
-import cloudflare from "cloudflare";
+import Cloudflare from "cloudflare";
+import { ConfigurationError } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 
 export default {
@@ -10,42 +10,41 @@ export default {
       type: "string",
       label: "Account ID",
       description: "Account which the zone is created in",
-      async options({ prevContext }) {
-        const page = prevContext.page || 1;
-        const accounts = await this.getAccounts({
-          page,
+      async options({ page }) {
+        const response = await this.getAccounts({
+          page: page + 1,
         });
 
-        return {
-          options: accounts.result.map((account) => ({
-            value: account.id,
-            label: account.name,
-          })),
-          context: {
-            page: page + 1,
-          },
-        };
+        return response.result.map(({
+          id: value,
+          name: label,
+        }) => ({
+          value,
+          label,
+        }));
       },
     },
     zoneIdentifier: {
       type: "string",
       label: "Zone ID",
       description: "The zone identifier",
-      async options({ prevContext }) {
-        const page = prevContext.page || 1;
-        const zones = await this.getZones({
-          page,
+      async options({
+        page,
+        accountIdentifier,
+      }) {
+        const response = await this.getZones({
+          page: page + 1,
+          ["account.id"]: accountIdentifier,
         });
+        console.log("response!!!", JSON.stringify(response, null, 2));
 
-        return {
-          options: zones.result.map((zone) => ({
-            value: zone.id,
-            label: zone.name,
-          })),
-          context: {
-            page: page + 1,
-          },
-        };
+        return response.result.map(({
+          id: value,
+          name: label,
+        }) => ({
+          value,
+          label,
+        }));
       },
     },
     dnsRecordIdentifier: {
@@ -53,23 +52,20 @@ export default {
       label: "DNS record ID",
       description: "The DNS record identifier",
       async options({
-        prevContext,
-        zoneIdentifier,
+        page, zoneIdentifier,
       }) {
-        const page = prevContext.page || 1;
-        const dnsRecords = await this.listDnsRecords(zoneIdentifier, {
-          page,
+        const response = await this.listDnsRecords({
+          zone_id: zoneIdentifier,
+          page: page + 1,
         });
 
-        return {
-          options: dnsRecords.result.map((record) => ({
-            value: record.id,
-            label: record.name,
-          })),
-          context: {
-            page: page + 1,
-          },
-        };
+        return response.result.map(({
+          id: value,
+          name: label,
+        }) => ({
+          value,
+          label,
+        }));
       },
     },
     certificateIdentifier: {
@@ -77,28 +73,24 @@ export default {
       label: "Certificate ID",
       description: "The certificate identifier",
       async options({
-        prevContext,
-        zoneIdentifier,
+        page, zoneIdentifier,
       }) {
-        const page = prevContext.page || 1;
-        const certificates = await this.getCertificates(zoneIdentifier, {
-          page,
+        const response = await this.getCertificates({
+          zone_id: zoneIdentifier,
+          page: page + 1,
         });
 
-        return {
-          options: certificates.result.map((certificate) => certificate.id),
-          context: {
-            page: page + 1,
-          },
-        };
+        return response.result.map(({ id }) => id);
       },
     },
     namespace: {
       type: "string",
       label: "Namespace",
       description: "The namespace identifier",
-      async options({ accountId }) {
-        const namespaces = await this.listNamespaces(accountId);
+      async options({ accountIdentifier }) {
+        const namespaces = await this.listNamespaces({
+          account_id: accountIdentifier,
+        });
         return namespaces.result.map((namespace) => ({
           label: namespace.title,
           value: namespace.id,
@@ -133,268 +125,194 @@ export default {
     },
   },
   methods: {
-    _makeRequest($ = this, opts) {
-      const {
-        method = "get",
-        path,
-        data,
-        params,
-      } = opts;
-      return axios($, {
-        method,
-        url: `https://api.cloudflare.com/client/v4${path}`,
-        data,
-        params,
-        headers: {
-          ...this._getHeaders(),
-          ...opts.headers,
-        },
-      });
-    },
     _throwFormattedError(error) {
       if (!error.response) {
-        throw new Error(error);
+        throw new ConfigurationError(error);
       }
       const cloudflareResponse = error.response.body;
       this._throwApiRequestFormattedError(cloudflareResponse);
     },
     _throwApiRequestFormattedError(cloudflareResponse) {
       if (!cloudflareResponse.errors) {
-        throw new Error(cloudflareResponse);
+        throw new ConfigurationError(cloudflareResponse);
       }
       const cloudflareError = cloudflareResponse.errors[0];
       const errorMessage = cloudflareResponse.errors[0].message;
       if (cloudflareError.error_chain && cloudflareError.error_chain.length > 0) {
-        throw new Error(cloudflareError.error_chain[0].message);
+        throw new ConfigurationError(cloudflareError.error_chain[0].message);
       }
-      throw new Error(errorMessage);
+      throw new ConfigurationError(errorMessage);
     },
-    _getHeaders() {
-      return {
-        "X-Auth-Email": `${this.$auth.Email}`,
-        "X-Auth-Key": `${this.$auth.API_Key}`,
-        "Content-Type": "application/json",
-      };
-    },
-    _getCloudflareClient() {
-      const client = cloudflare({
-        email: this.$auth.Email,
-        key: this.$auth.API_Key,
+    getClient() {
+      const {
+        Email: apiEmail,
+        API_Key: apiKey,
+      } = this.$auth;
+
+      const client = new Cloudflare({
+        apiEmail,
+        apiKey,
       });
       return client;
     },
-    async getZones(options) {
-      const cf = this._getCloudflareClient();
+    async getZones(args = {}) {
+      const client = this.getClient();
       try {
-        const response = await cf.zones.browse(options);
-        return response;
+        return await client.zones.list(args);
       } catch (error) {
         this._throwFormattedError(error);
       }
     },
-    async createZone(zoneData) {
-      const cf = this._getCloudflareClient();
+    async createZone(args = {}) {
+      const client = this.getClient();
       try {
-        const response = await cf.zones.add(zoneData);
-        return response;
+        return await client.zones.create(args);
       } catch (error) {
         this._throwFormattedError(error);
       }
     },
-    async changeZoneSslSetting(zoneID, sslSetting) {
-      const cf = this._getCloudflareClient();
+    async changeZoneSslSetting(args = {}) {
+      const client = this.getClient();
       try {
-        const response = await cf.zoneSettings.edit(zoneID, "ssl", {
-          value: sslSetting,
-        });
-        return response;
+        return await client.ssl.universal.settings.edit(args);
       } catch (error) {
         this._throwFormattedError(error);
       }
     },
-    async updateZoneSecurityLevel(zoneID, securityLevel) {
-      const cf = this._getCloudflareClient();
+    async editZoneSetting({
+      settingId, ...args
+    } = {}) {
+      const client = this.getClient();
       try {
-        const response = await cf.zoneSettings.edit(zoneID, "security_level", {
-          value: securityLevel,
-        });
-        return response;
+        return await client.zones.settings.edit(settingId, args);
       } catch (error) {
         this._throwFormattedError(error);
       }
     },
-    async changeDevelopmentMode(zoneID, developmentMode) {
-      const cf = this._getCloudflareClient();
+    async createDnsRecord(args = {}) {
+      const client = this.getClient();
       try {
-        const response = await cf.zoneSettings.edit(zoneID, "development_mode", {
-          value: developmentMode,
-        });
-        return response;
+        return await client.dns.records.create(args);
       } catch (error) {
         this._throwFormattedError(error);
       }
     },
-    async createDnsRecord(zoneID, dnsRecordData) {
-      const cf = this._getCloudflareClient();
+    async listDnsRecords(args = {}) {
+      const client = this.getClient();
       try {
-        const response = await cf.dnsRecords.add(zoneID, dnsRecordData);
-        return response;
+        return await client.dns.records.list(args);
       } catch (error) {
         this._throwFormattedError(error);
       }
     },
-    async listDnsRecords(zoneID, dnsRecordData) {
-      const cf = this._getCloudflareClient();
+    async patchDnsRecord({
+      dnsRecordId, ...args
+    } = {}) {
+      const client = this.getClient();
       try {
-        const response = await cf.dnsRecords.browse(zoneID, dnsRecordData);
-        return response;
+        return await client.dns.records.edit(dnsRecordId, args);
       } catch (error) {
         this._throwFormattedError(error);
       }
     },
-    async patchDnsRecord(zoneID, dnsRecordID, dnsRecordData) {
+    async deleteDnsRecord({
+      dnsRecordId, ...args
+    } = {}) {
+      const client = this.getClient();
       try {
-        const response = await this._makeRequest(this, {
-          method: "PATCH",
-          path: `/zones/${zoneID}/dns_records/${dnsRecordID}`,
-          data: dnsRecordData,
-        });
-        return response;
-      } catch (error) {
-        this._throwApiRequestFormattedError(error);
-      }
-    },
-    async deleteDnsRecord(zoneID, dnsRecordID) {
-      const cf = this._getCloudflareClient();
-      try {
-        const response = await cf.dnsRecords.del(zoneID, dnsRecordID);
-        return response;
+        return await client.dns.records.delete(dnsRecordId, args);
       } catch (error) {
         this._throwFormattedError(error);
       }
     },
-    async exportDnsRecords(zoneID) {
-      const cf = this._getCloudflareClient();
+    async exportDnsRecords(args = {}) {
+      const client = this.getClient();
       try {
-        const response = await cf.dnsRecords.export(zoneID);
-        return response;
+        return await client.dns.records.export(args);
       } catch (error) {
         this._throwFormattedError(error);
       }
     },
-    async importDnsRecords(zoneID, importData) {
+    async importDnsRecords(args = {}) {
+      const client = this.getClient();
       try {
-        const response = await this._makeRequest(this, {
-          method: "POST",
-          path: `/zones/${zoneID}/dns_records/import`,
-          headers: {
-            "Content-Type": `multipart/form-data; boundary=${importData._boundary}`,
-          },
-          data: importData,
-        });
-        return response;
-      } catch (error) {
-        this._throwApiRequestFormattedError(error);
-      }
-    },
-    async createCertificate(certificateData) {
-      try {
-        const response = await this._makeRequest(this, {
-          method: "POST",
-          path: "/certificates",
-          data: certificateData,
-        });
-        return response;
-      } catch (error) {
-        this._throwApiRequestFormattedError(error);
-      }
-    },
-    async getCertificates(zoneID, params) {
-      try {
-        const response = await this._makeRequest(this, {
-          method: "GET",
-          path: "/certificates",
-          params: {
-            zone_id: zoneID,
-            ...params,
-          },
-        });
-        return response;
-      } catch (error) {
-        this._throwApiRequestFormattedError(error);
-      }
-    },
-    async revokeCertificate(certificateID) {
-      try {
-        const response = await this._makeRequest(this, {
-          method: "DELETE",
-          path: `/certificates/${certificateID}`,
-        });
-        return response;
-      } catch (error) {
-        this._throwApiRequestFormattedError(error);
-      }
-    },
-    async getAccounts(params) {
-      try {
-        const response = await this._makeRequest(this, {
-          method: "GET",
-          path: "/accounts/",
-          params,
-        });
-        return response;
-      } catch (error) {
-        this._throwApiRequestFormattedError(error);
-      }
-    },
-    async listNamespaces(accountId) {
-      const cf = this._getCloudflareClient();
-      try {
-        const response = await cf.enterpriseZoneWorkersKVNamespaces.browse(accountId);
-        return response;
+        return await client.dns.records.import(args);
       } catch (error) {
         this._throwFormattedError(error);
       }
     },
-    async createNamespace(accountId, config) {
-      const cf = this._getCloudflareClient();
+    async createCertificate(args = {}) {
+      const client = this.getClient();
       try {
-        const response = await cf.enterpriseZoneWorkersKVNamespaces.add(accountId, config);
-        return response;
+        return await client.originCACertificates.create(args);
       } catch (error) {
         this._throwFormattedError(error);
       }
     },
-    async createKeyValuePair(accountId, namespaceId, data) {
-      const cf = this._getCloudflareClient();
+    async getCertificates(args = {}) {
+      const client = this.getClient();
       try {
-        const response = await cf.enterpriseZoneWorkersKV.addMulti(accountId, namespaceId, data);
-        return response;
+        return await client.originCACertificates.list(args);
       } catch (error) {
         this._throwFormattedError(error);
       }
     },
-    async getWorkerAnalytics($, accountId) {
+    async revokeCertificate(certificateId) {
+      const client = this.getClient();
       try {
-        const response = await this._makeRequest($, {
-          method: "GET",
-          path: `/accounts/${accountId}/storage/analytics`,
-        });
-        return response;
+        return await client.originCACertificates.delete(certificateId);
       } catch (error) {
-        this._throwApiRequestFormattedError(error);
+        this._throwFormattedError(error);
       }
     },
-    async createIpAccessRule($, accountId, data) {
+    async getAccounts(args = {}) {
+      const client = this.getClient();
       try {
-        const response = await this._makeRequest($, {
-          method: "POST",
-          path: `/accounts/${accountId}/firewall/access_rules/rules`,
-          data,
-        });
-        return response;
+        return await client.accounts.list(args);
       } catch (error) {
-        this._throwApiRequestFormattedError(error);
+        this._throwFormattedError(error);
+      }
+    },
+    async listNamespaces(args = {}) {
+      const client = this.getClient();
+      try {
+        return await client.kv.namespaces.list(args);
+      } catch (error) {
+        this._throwFormattedError(error);
+      }
+    },
+    async createKeyValuePair({
+      namespaceId, ...args
+    } = {}) {
+      const client = this.getClient();
+      try {
+        return await client.kv.namespaces.bulkUpdate(namespaceId, args);
+      } catch (error) {
+        this._throwFormattedError(error);
+      }
+    },
+    async createNamespace(args = {}) {
+      const client = this.getClient();
+      try {
+        return await client.kv.namespaces.create(args);
+      } catch (error) {
+        this._throwFormattedError(error);
+      }
+    },
+    async createIpAccessRule(args = {}) {
+      const client = this.getClient();
+      try {
+        return await client.firewall.accessRules.create(args);
+      } catch (error) {
+        this._throwFormattedError(error);
+      }
+    },
+    async purgeCache(args = {}) {
+      const client = this.getClient();
+      try {
+        return await client.cache.purge(args);
+      } catch (error) {
+        this._throwFormattedError(error);
       }
     },
   },
