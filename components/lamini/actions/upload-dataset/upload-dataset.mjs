@@ -1,5 +1,6 @@
-import fs from "fs";
-import { ConfigurationError } from "@pipedream/platform";
+import {
+  ConfigurationError, getFileStreamAndMetadata,
+} from "@pipedream/platform";
 import app from "../../lamini.app.mjs";
 import constants from "../../common/constants.mjs";
 
@@ -7,14 +8,14 @@ export default {
   key: "lamini-upload-dataset",
   name: "Upload Dataset",
   description: "Upload a dataset to Lamini for training.",
-  version: "0.0.2",
+  version: "1.0.0",
   type: "action",
   props: {
     app,
-    fileUrl: {
+    file: {
       type: "string",
-      label: "Dataset File URL",
-      description: "URL of the file containing your training data. Supported formats include `.jsonl` and `.jsonlines`. Eg. `https://raw.githubusercontent.com/lamini-ai/lamini-examples/refs/heads/main/data/results/spot_check_results.jsonl`.",
+      label: "Dataset File Path or URL",
+      description: "URL or path to a file containing your training data. Supported formats include `.jsonl` and `.jsonlines`.",
     },
     inputKey: {
       type: "string",
@@ -48,23 +49,29 @@ export default {
         path: "/get-upload-base-path",
       });
     },
+    streamToUtf8(stream) {
+      return new Promise((resolve, reject) => {
+        let data = "";
+        stream.setEncoding("utf-8");
+        stream.on("data", (chunk) => data += chunk);
+        stream.on("end", () => resolve(data));
+        stream.on("error", reject);
+      });
+    },
   },
   async run({ $ }) {
     const {
-      app,
-      fileUrl,
+      file,
       inputKey,
       outputKey,
       isPublic,
     } = this;
 
     const {
-      fileName, filePath,
-    } = await app.downloadFileToTmp({
-      $,
-      url: fileUrl,
-    });
+      stream, metadata,
+    } = await getFileStreamAndMetadata(file);
 
+    const fileName = metadata.name;
     if (!fileName.endsWith(".jsonl") && !fileName.endsWith(".jsonlines")) {
       throw new ConfigurationError(`Unsupported file format for \`${fileName}\`. Only **.jsonl** and **.jsonlines** files are supported.`);
     }
@@ -73,7 +80,7 @@ export default {
 
     let allData = [];
 
-    const fileContent = fs.readFileSync(filePath, "utf8");
+    const fileContent = await this.streamToUtf8(stream);
     const lines = fileContent.trim().split("\n");
 
     for (const line of lines) {

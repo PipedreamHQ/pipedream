@@ -6,7 +6,7 @@ import zohoBugtracker from "../../zoho_bugtracker.app.mjs";
 export default {
   key: "zoho_bugtracker-create-bug",
   name: "Create Bug",
-  version: "0.1.0",
+  version: "0.1.1",
   description: "Create a new bug [See the documentation](https://www.zoho.com/projects/help/rest-api/bugtracker-bugs-api.html#alink3)",
   type: "action",
   props: {
@@ -162,6 +162,12 @@ export default {
         zohoBugtracker,
         "uploaddoc",
       ],
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

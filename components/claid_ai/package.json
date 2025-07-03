@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/claid_ai",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream Claid AI Components",
   "main": "claid_ai.app.mjs",
   "keywords": [
@@ -18,4 +18,3 @@
     "url-exist": "^3.0.1"
   }
 }
-

@@ -5,7 +5,7 @@ export default {
   key: "fireflies-upload-audio",
   name: "Upload Audio",
   description: "Creates and stores a new meeting in Fireflies, allowing it to be transcribed and shared. [See the documentation](https://docs.fireflies.ai/graphql-api/mutation/upload-audio)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     fireflies,
@@ -28,16 +28,21 @@ export default {
     callbackWithRerun: {
       type: "boolean",
       label: "Callback With Rerun",
-      description: "Use the `$.flow.rerun` Node.js helper to rerun the step when the transcription is completed. Overrides the `webhookUrl` prop. This will increase execution time and credit usage as a result. [See the documentation(https://pipedream.com/docs/code/nodejs/rerun/#flow-rerun)",
+      description: "Use the `$.flow.rerun` Node.js helper to rerun the step when the transcription is completed. Overrides the `webhookUrl` prop. This will increase execution time and credit usage as a result. [See the documentation(https://pipedream.com/docs/code/nodejs/rerun/#flow-rerun). Not available in Pipedream Connect.",
       optional: true,
     },
   },
   async run({ $ }) {
     let response;
-    const { run } = $.context;
+    const context = $.context;
+    const run = context
+      ? context.run
+      : {
+        runs: 1,
+      };
     if (run.runs === 1) {
       let webhookUrl  = this.webhookUrl;
-      if (this.callbackWithRerun) {
+      if (context && this.callbackWithRerun) {
         ({ resume_url: webhookUrl } = $.flow.rerun(600000, null, 1));
       }
       response = await this.fireflies.query({

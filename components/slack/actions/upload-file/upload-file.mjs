@@ -8,7 +8,7 @@ export default {
   key: "slack-upload-file",
   name: "Upload File",
   description: "Upload a file. [See the documentation](https://api.slack.com/messaging/files#uploading_files)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     slack,
@@ -30,6 +30,12 @@ export default {
         slack,
         "initial_comment",
       ],
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

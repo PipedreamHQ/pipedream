@@ -6,7 +6,7 @@ export default {
   key: "scrapfly-ai-data-extraction",
   name: "AI Data Extraction",
   description: "Automate content extraction from any text-based source using AI, LLM, and custom parsing. [See the documentation](https://scrapfly.io/docs/extraction-api/getting-started)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     scrapfly,
@@ -57,6 +57,12 @@ export default {
       type: "string",
       label: "Webhook Name",
       description: "Queue you scrape request and redirect API response to a provided webhook endpoint. You can create a webhook endpoint from your `dashboard`, it takes the name of the webhook. Webhooks are scoped to the given project/env.",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

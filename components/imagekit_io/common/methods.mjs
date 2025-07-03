@@ -1,13 +1,17 @@
 import FormData from "form-data";
-import fs from "fs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 
-export function getFileFormData(file) {
-  const content = file.startsWith("/tmp")
-    ? fs.createReadStream(file)
-    : file;
+export async function getFileFormData(file) {
+  const {
+    stream, metadata,
+  } = await getFileStreamAndMetadata(file);
 
   const data = new FormData();
-  data.append("file", content);
+  data.append("file", stream, {
+    filename: metadata.name,
+    contentType: metadata.contentType,
+    knownLength: metadata.size,
+  });
   return data;
 }
 

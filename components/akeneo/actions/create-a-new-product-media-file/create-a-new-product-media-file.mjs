@@ -7,7 +7,7 @@ import FormData from "form-data";
 export default {
   type: "action",
   key: "akeneo-create-a-new-product-media-file",
-  version: "0.1.1",
+  version: "0.1.2",
   name: "Create A New Product Media File",
   description: "Allows you to create a new media file and associate it to an attribute value of a given product or product model. [See the docs](https://api.akeneo.com/api-reference.html#post_media_files)",
   props: {
@@ -34,6 +34,12 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to be uploaded. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run ({ $ }) {

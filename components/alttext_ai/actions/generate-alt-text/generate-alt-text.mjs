@@ -9,7 +9,7 @@ export default {
   name: "Generate Alt Text",
   description:
     "Generates a descriptive alt text for a given image. [See the documentation](https://alttext.ai/apidocs#tag/Images/operation/create-image)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     alttextAi,
@@ -59,6 +59,12 @@ export default {
       description: "The language for the generated alt text.",
       options: LANGUAGE_OPTIONS,
       default: "en",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

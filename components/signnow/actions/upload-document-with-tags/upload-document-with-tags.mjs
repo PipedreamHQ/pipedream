@@ -6,7 +6,7 @@ export default {
   key: "signnow-upload-document-with-tags",
   name: "Upload Document With Tags",
   description: "Uploads a file that contains SignNow text tags. [See the documentation](https://docs.signnow.com/docs/signnow/document/operations/create-a-document-fieldextract)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     app,
@@ -14,6 +14,12 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`).",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   methods: {

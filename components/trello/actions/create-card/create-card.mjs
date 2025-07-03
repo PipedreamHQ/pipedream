@@ -151,6 +151,12 @@ export default {
       ],
       reloadProps: true,
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async additionalProps(existingProps) {
     const props = {};

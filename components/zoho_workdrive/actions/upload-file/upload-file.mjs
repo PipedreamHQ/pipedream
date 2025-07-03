@@ -5,7 +5,7 @@ import app from "../../zoho_workdrive.app.mjs";
 export default {
   key: "zoho_workdrive-upload-file",
   name: "Upload File",
-  version: "0.0.5",
+  version: "0.0.6",
   description: "Upload a new file to your WorkDrive account. [See the documentation](https://workdrive.zoho.com/apidocs/v1/chunkupload/chunkuploadcreatesession)",
   type: "action",
   props: {
@@ -50,6 +50,12 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {
