@@ -45,11 +45,18 @@ export default {
         },
       };
     },
-    async processResource(post) {
-      const { labels = [] } = post;
-      for (const label of labels) {
-        const meta = this.generateMeta(post, label);
-        this.$emit(post, meta);
+    async processResources(posts) {
+      const { data: allLabels } = await this.asters.listLabels({
+        workspaceId: this.workspaceId,
+      });
+
+      for (const post of posts) {
+        const { labels = [] } = post;
+        for (const label of labels) {
+          const postLabel = allLabels.find((l) => l._id === label._id);
+          const meta = this.generateMeta(post, label);
+          this.$emit(postLabel, meta);
+        }
       }
     },
     generateMeta(post, label) {

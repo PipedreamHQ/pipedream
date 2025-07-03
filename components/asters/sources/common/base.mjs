@@ -24,8 +24,8 @@ export default {
     generateMeta() {
       throw new ConfigurationError("generateMeta must be implemented");
     },
-    processResource() {
-      throw new ConfigurationError("processResource must be implemented");
+    processResources() {
+      throw new ConfigurationError("processResources must be implemented");
     },
   },
   async run() {
@@ -34,8 +34,6 @@ export default {
       args: this.getArgs(),
     });
 
-    for (const resource of resources) {
-      await this.processResource(resource);
-    }
+    await this.processResources(resources);
   },
 };
