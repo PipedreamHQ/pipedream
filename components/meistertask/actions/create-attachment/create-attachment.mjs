@@ -6,7 +6,7 @@ export default {
   key: "meistertask-create-attachment",
   name: "Create Attachment",
   description: "Create a new attachment. [See the docs](https://developers.meistertask.com/reference/post-attachment)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     meistertask,
@@ -46,6 +46,12 @@ export default {
       type: "string",
       label: "Name",
       description: "The name of the attachment",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

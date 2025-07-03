@@ -7,7 +7,7 @@ export default {
     image: {
       type: "string",
       label: "Image",
-      description: "The URL of the image or the path to the file saved to the `/tmp` directory  (e.g. `/tmp/example.jpg`)  to process. [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/example.jpg`).",
     },
   },
   methods: {

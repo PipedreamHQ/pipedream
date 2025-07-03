@@ -6,7 +6,7 @@ export default {
   key: "azure_storage-upload-blob",
   name: "Upload Blob",
   description: "Uploads a new blob to a specified container in Azure Storage. [See the documentation](https://learn.microsoft.com/en-us/rest/api/storageservices/put-blob?tabs=microsoft-entra-id).",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     app,
@@ -31,6 +31,12 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   methods: {

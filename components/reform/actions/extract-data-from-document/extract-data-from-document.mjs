@@ -7,7 +7,7 @@ export default {
   key: "reform-extract-data-from-document",
   name: "Extract Data From Document",
   description: "Extract structured data from a document. [See the documentation](https://docs.reformhq.com/synchronous-data-processing/extract)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     reform,
@@ -22,6 +22,12 @@ export default {
         reform,
         "fields",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

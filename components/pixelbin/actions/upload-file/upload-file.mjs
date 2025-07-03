@@ -7,7 +7,7 @@ export default {
   key: "pixelbin-upload-file",
   name: "Upload File",
   description: "Upload a file to Pixelbin. [See the documentation](https://www.pixelbin.io/docs/api-docs/)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     app,
@@ -57,6 +57,12 @@ export default {
         app,
         "filenameOverride",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   methods: {

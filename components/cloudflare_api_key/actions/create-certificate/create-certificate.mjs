@@ -4,8 +4,8 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "cloudflare_api_key-create-certificate",
   name: "Create a Certificate",
-  description: "Creates an Origin CA certificate. [See the docs here](https://api.cloudflare.com/#origin-ca-create-certificate)",
-  version: "0.0.3",
+  description: "Creates an Origin CA certificate. [See the documentation](https://developers.cloudflare.com/api/node/resources/origin_ca_certificates/methods/create/)",
+  version: "0.0.4",
   type: "action",
   props: {
     cloudflare,
@@ -34,15 +34,21 @@ export default {
     },
   },
   async run({ $ }) {
-    const certificateData = {
-      hostnames: this.hostnames,
-      requested_validity: this.requestedValidity,
-      request_type: this.requestType,
-      csr: this.csr,
-    };
+    const {
+      cloudflare,
+      hostnames,
+      requestedValidity,
+      requestType,
+      csr,
+    } = this;
 
-    const response = await this.cloudflare.createCertificate(certificateData);
-    $.export("$summary", `Successfully created certificate with ID ${response.result.id}`);
+    const response = await cloudflare.createCertificate({
+      csr,
+      hostnames,
+      request_type: requestType,
+      requested_validity: requestedValidity,
+    });
+    $.export("$summary", `Successfully created certificate with ID \`${response.result.id}\``);
 
     return response;
   },

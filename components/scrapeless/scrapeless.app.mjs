@@ -1,15 +1,17 @@
 import { axios } from "@pipedream/platform";
+import { ConfigurationError } from "@pipedream/platform";
+import { Scrapeless } from "@scrapeless-ai/sdk";
 
 export default {
   type: "app",
   app: "scrapeless",
   methods: {
     _baseUrl() {
-      return "https://api.scrapeless.com/api/v1";
+      return "https://api.scrapeless.com/api";
     },
     _headers() {
       return {
-        "x-api-token": `${this.$auth.api_key}`,
+        "x-api-key": `${this.$auth.api_key}`,
       };
     },
     _makeRequest({
@@ -21,17 +23,29 @@ export default {
         ...opts,
       });
     },
+    _scrapelessClient() {
+      const { api_key } = this.$auth;
+      if (!api_key) {
+        throw new ConfigurationError("API key is required");
+      }
+
+      return new Scrapeless({
+        apiKey: api_key,
+        baseUrl: this._baseUrl(),
+      });
+    },
     submitScrapeJob(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/scraper/request",
+        path: "/v1/scraper/request",
         ...opts,
       });
     },
     getScrapeResult({ scrapeJobId }) {
       return this._makeRequest({
-        path: `/scraper/result/${scrapeJobId}`,
+        path: `/v1/scraper/result/${scrapeJobId}`,
       });
     },
   },
+
 };

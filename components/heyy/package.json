@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/heyy",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Heyy Components",
   "main": "heyy.app.mjs",
   "keywords": [

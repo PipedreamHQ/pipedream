@@ -6,7 +6,7 @@ export default {
   key: "callerapi-get-phone-number-picture",
   name: "Get Phone Number Picture",
   description: "Retrieve the profile picture associated with a phone number. [See the documentation](https://callerapi.com/documentation)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     callerapi,
@@ -16,6 +16,11 @@ export default {
         "phoneNumber",
       ],
       description: "The phone number to retrieve the profile picture for, in E.164 format (e.g., +18006927753)",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   async run({ $ }) {
