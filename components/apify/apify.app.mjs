@@ -1,5 +1,4 @@
 import { axios } from "@pipedream/platform";
-import { ApifyClient } from "apify-client";
 import { LIMIT } from "./common/constants.mjs";
 
 export default {
