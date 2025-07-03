@@ -56,6 +56,11 @@ export type BackendClientOpts = {
    * https://pipedream.com/docs/workflows/domains
    */
   workflowDomain?: string;
+
+  /**
+   * OAuth scope to request when obtaining access tokens
+   */
+  scope?: string[];
 };
 
 /**
@@ -197,6 +202,7 @@ export class BackendClient extends BaseClient {
   };
   protected override projectId: string = "";
   private staticAccessToken?: string;
+  private scope?: string[];
 
   /**
    * Constructs a new ServerClient instance.
@@ -209,6 +215,7 @@ export class BackendClient extends BaseClient {
 
     this.ensureValidEnvironment(opts.environment);
     this.projectId = opts.projectId;
+    this.scope = opts.scope;
     if ("accessToken" in opts.credentials) {
       this.staticAccessToken = opts.credentials.accessToken;
     } else {
@@ -294,6 +301,11 @@ export class BackendClient extends BaseClient {
       }
 
       const parameters = new URLSearchParams();
+      if (this.scope && this.scope.length > 0) {
+        parameters.set("scope", this.scope.join(" "));
+      }
+      parameters.set("project_id", this.projectId);
+      parameters.set("environment", this.environment);
       try {
         const response = await oauth.clientCredentialsGrantRequest(as, client, clientAuth, parameters);
         const oauthTokenResponse = await oauth.processClientCredentialsResponse(as, client, response);
