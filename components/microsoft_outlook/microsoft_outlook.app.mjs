@@ -305,7 +305,7 @@ export default {
           "contentType": metadata.contentType,
           "contentBytes": base64,
         });
-      } console.log(attachments);
+      }
       const message = {
         subject: self.subject,
         attachments,
