@@ -5,7 +5,7 @@ export default {
   name: "Create Customer",
   description: "Create a new customer. [See the documentation](https://apidocs.orderspace.com/#create-a-customer)",
   type: "action",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   props: {
     orderspace,
     companyName: {
@@ -136,7 +136,7 @@ export default {
             },
           ],
           minimum_spend: this.minimumSpend,
-          payment_term_id: this.paymentTermId,
+          payment_terms_id: this.paymentTermId,
           customer_group_id: this.customerGroupId,
           price_list_id: this.priceListId,
         },
