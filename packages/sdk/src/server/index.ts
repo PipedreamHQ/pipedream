@@ -313,7 +313,6 @@ export class BackendClient extends BaseClient {
         }
         parameters.set("project_id", this.projectId);
         parameters.set("environment", this.environment);
-        
         try {
           const response = await oauth.clientCredentialsGrantRequest(as, client, clientAuth, parameters);
           const oauthTokenResponse = await oauth.processClientCredentialsResponse(as, client, response);
@@ -327,7 +326,6 @@ export class BackendClient extends BaseClient {
           let errorMessage = "OAuth token request failed";
           let wwwAuthenticate: string | undefined;
           let statusCode: number | undefined;
-          
           if (e instanceof Error) {
             errorMessage = e.message;
           }
@@ -338,7 +336,6 @@ export class BackendClient extends BaseClient {
               statusCode = errorResponse.status;
               wwwAuthenticate = errorResponse.headers?.get?.("www-authenticate") ||
                                errorResponse.headers?.["www-authenticate"];
-              
               // Create more specific error message based on status code
               if (statusCode === 401) {
                 errorMessage = `OAuth authentication failed (401 Unauthorized)${wwwAuthenticate ? `: ${wwwAuthenticate}` : ""}`;
@@ -349,11 +346,9 @@ export class BackendClient extends BaseClient {
               }
             }
           }
-          
           const error = new Error(errorMessage);
           (error as any).statusCode = statusCode;
           (error as any).wwwAuthenticate = wwwAuthenticate;
-          
           // If this is the last attempt, throw the error
           if (attempts >= maxAttempts) {
             throw error;
