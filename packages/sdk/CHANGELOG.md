@@ -2,6 +2,12 @@
 
 # Changelog
 
+## [1.7.0] - 2025-07-03
+
+### Added
+
+- Added optional scope parameter to backendClient creation.
+
 ## [1.6.9] - 2025-06-10
 
 ### Added
