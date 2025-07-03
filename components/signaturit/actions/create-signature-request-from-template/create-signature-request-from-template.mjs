@@ -12,7 +12,7 @@ export default {
   key: "signaturit-create-signature-request-from-template",
   name: "Create Signature Request from Template",
   description: "Creates a signature request using a pre-existing template. [See the documentation](https://docs.signaturit.com/api/latest#signatures_create_signature)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     signaturit,
@@ -129,6 +129,12 @@ export default {
       label: "Type",
       description: "The type of the signature.",
       options: SIGNATURE_TYPE_OPTIONS,
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

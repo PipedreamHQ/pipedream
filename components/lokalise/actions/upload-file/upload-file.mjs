@@ -5,7 +5,7 @@ export default {
   key: "lokalise-upload-file",
   name: "Upload File",
   description: "Uploads a specified file to a Lokalise project. [See the documentation](https://developers.lokalise.com/reference/upload-a-file)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     lokalise,
@@ -30,6 +30,12 @@ export default {
       type: "string",
       label: "Filename",
       description: "Set the filename. You may optionally use a relative path in the filename (e.g `admin/main.json`)",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

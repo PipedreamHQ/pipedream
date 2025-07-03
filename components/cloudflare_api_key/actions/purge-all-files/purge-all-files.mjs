@@ -1,40 +1,33 @@
-// legacy_hash_id: a_nji3N5
-import { axios } from "@pipedream/platform";
+import cloudflare from "../../cloudflare_api_key.app.mjs";
 
 export default {
   key: "cloudflare_api_key-purge-all-files",
   name: "Purge All Files",
-  description: "Remove ALL files from Cloudflare's cache.",
-  version: "0.2.2",
+  description: "Remove ALL files from Cloudflare's cache. [See the documentation](https://developers.cloudflare.com/api/node/resources/cache/methods/purge/)",
+  version: "1.0.0",
   type: "action",
   props: {
-    cloudflare_api_key: {
-      type: "app",
-      app: "cloudflare_api_key",
-    },
-    zone_id: {
-      type: "string",
-      description: "The zone ID where the DNS record being modified belongs to.",
+    cloudflare,
+    zoneId: {
+      propDefinition: [
+        cloudflare,
+        "zoneIdentifier",
+      ],
     },
   },
   async run({ $ }) {
-  //See Quickbooks API docs at: https://api.cloudflare.com/#zone-purge-all-files
+    const {
+      cloudflare,
+      zoneId,
+    } = this;
 
-    if (!this.zone_id) {
-      throw new Error("Must provide zone_id parameter.");
-    }
-
-    return await axios($, {
-      method: "post",
-      url: `https://api.cloudflare.com/client/v4/zones/${this.zone_id}/purge_cache`,
-      headers: {
-        "X-Auth-Email": `${this.cloudflare_api_key.$auth.Email}`,
-        "X-Auth-Key": `${this.cloudflare_api_key.$auth.API_Key}`,
-        "Content-Type": "application/json",
-      },
-      data: {
-        purge_everything: true,
-      },
+    const response = await cloudflare.purgeCache({
+      zone_id: zoneId,
+      purge_everything: true,
     });
+
+    $.export("$summary", `Purged all files from zone \`${zoneId}\``);
+
+    return response;
   },
 };

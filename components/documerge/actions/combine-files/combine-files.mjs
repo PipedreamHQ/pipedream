@@ -5,7 +5,7 @@ export default {
   key: "documerge-combine-files",
   name: "Combine Files",
   description: "Merges multiple user-specified files into a single PDF or DOCX. [See the documentation](https://app.documerge.ai/api-docs/#tools-POSTapi-tools-combine)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     documerge,
@@ -27,6 +27,11 @@ export default {
       type: "string[]",
       label: "URLs",
       description: "Array of URLs to combine",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   async run({ $ }) {

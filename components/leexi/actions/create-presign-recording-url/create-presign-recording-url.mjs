@@ -5,7 +5,7 @@ export default {
   key: "leexi-create-presign-recording-url",
   name: "Create Presigned Recording URL",
   description: "Creates a presigned URL for uploading a call recording. [See the documentation](https://developer.leexi.ai/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
@@ -19,6 +19,12 @@ export default {
       type: "string",
       label: "File Path",
       description: "The path to the file to upload. Eg. `/tmp/recording.mp3`",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   methods: {

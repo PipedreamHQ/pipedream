@@ -6,7 +6,7 @@ export default {
   key: "ramp-upload-receipt",
   name: "Upload Receipt",
   description: "Uploads a receipt for a given transaction and user. [See the documentation](https://docs.ramp.com/developer-api/v1/reference/rest/receipts#post-developer-v1-receipts)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     ramp,
@@ -26,6 +26,12 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

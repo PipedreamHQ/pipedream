@@ -6,7 +6,7 @@ export default {
   key: "customjs-convert-html-to-pdf",
   name: "Convert HTML to PDF",
   description: "Converts an HTML string to a PDF document. [See the documentation](https://www.customjs.space/api/docs#_1-html-to-pdf)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     customjs,
@@ -20,6 +20,11 @@ export default {
         customjs,
         "filename",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   async run({ $ }) {
