@@ -14443,6 +14443,9 @@ importers:
         specifier: 3.2.2
         version: 3.2.2
 
+  components/veriff:
+    specifiers: {}
+
   components/verifiedemail: {}
 
   components/verifone: {}
