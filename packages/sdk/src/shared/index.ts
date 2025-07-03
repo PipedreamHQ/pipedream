@@ -865,6 +865,14 @@ export type ErrorResponse = {
    * The error message returned by the API.
    */
   error: string;
+  /**
+   * The www-authenticate header value, if present in the error response.
+   */
+  wwwAuthenticate?: string;
+  /**
+   * Additional error headers that may be relevant for error handling.
+   */
+  headers?: Record<string, string>;
 };
 
 /**

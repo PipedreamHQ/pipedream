@@ -14746,8 +14746,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/webscrape_ai:
-    specifiers: {}
+  components/webscrape_ai: {}
 
   components/webscraper_io:
     dependencies:
