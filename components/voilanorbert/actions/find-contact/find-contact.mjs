@@ -5,7 +5,7 @@ export default {
   key: "voilanorbert-find-contact",
   name: "Find Contact",
   description: "This action returns a specific contact. The object email is either null when the email is not found, or contains an object with at least email (the email string) and the score. [See the docs here](https://api.voilanorbert.com/2018-01-08/#contacts-get-1)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     ...common.props,

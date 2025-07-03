@@ -5,7 +5,7 @@ export default {
   key: "platerecognizer-run-recognition",
   name: "Run Recognition",
   description: "Triggers a recognition process using the Plate Recognizer SDK.",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     platerecognizer,
@@ -36,6 +36,12 @@ export default {
       type: "object",
       label: "Config",
       description: "Additional configuration. [See further details here](https://guides.platerecognizer.com/docs/snapshot/api-reference/#engine-configuration)",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

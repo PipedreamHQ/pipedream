@@ -1,5 +1,5 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import common from "../common.mjs";
+import common from "../common/common.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
@@ -8,7 +8,7 @@ export default {
   name: "New Tag Added to Forum Thread",
   description: "Emit new event when a new tag is added to a thread",
   type: "source",
-  version: "0.0.1",
+  version: "1.0.0",
   dedupe: "unique",
   props: {
     ...common.props,

@@ -6,7 +6,7 @@ export default {
   key: "trello-add-attachment-to-card",
   name: "Add Attachment To Card",
   description: "Adds a file attachment on a card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-attachments-post)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   props: {
     app,
@@ -51,6 +51,12 @@ export default {
       label: "Set Cover?",
       description: "Determines whether to use the new attachment as a cover for the Card",
       default: false,
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

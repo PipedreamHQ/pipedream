@@ -9,7 +9,7 @@ export default {
   type: "source",
   name: "New Updates (Instant)",
   description: "Emit new event each time a row or cell is updated in a spreadsheet.",
-  version: "0.2.9",
+  version: "0.2.10",
   dedupe: "unique",
   props: {
     ...httpBase.props,

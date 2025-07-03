@@ -1,13 +1,14 @@
 import crypto from "crypto";
+import http from "../../http.app.mjs";
 
 export default {
   name: "Verify HMAC Signature",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "http-verify-hmac-signature",
   description: "Validate HMAC signature for incoming HTTP webhook requests. Make sure to configure the HTTP trigger to \"Return a custom response from your workflow\".",
   type: "action",
   props: {
-    http: "$.interface.http",
+    http,
     secret: {
       type: "string",
       label: "Secret",
@@ -60,7 +61,11 @@ export default {
           body: "Invalid credentials",
         });
       }
-      return $.flow.exit("Invalid credentials");
+      if ($.flow) {
+        return $.flow.exit("Invalid credentials");
+      } else {
+        throw new Error("Invalid credentials");
+      }
     }
 
     $.export("$summary", "HTTP request successfully authenticated");

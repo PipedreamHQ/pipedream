@@ -6,7 +6,7 @@ export default {
   key: "trust-upload-video",
   name: "Upload Video",
   description: "Upload a video to the Trust platform. [See the documentation](https://api-docs.usetrust.io/uploads-a-video-to-be-used-for-testimonials).",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     app,
@@ -20,6 +20,12 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   methods: {

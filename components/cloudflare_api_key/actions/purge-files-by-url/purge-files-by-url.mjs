@@ -1,18 +1,18 @@
-import { axios } from "@pipedream/platform";
-import cloudflare_api_key from "../../cloudflare_api_key.app.mjs";
+import cloudflare from "../../cloudflare_api_key.app.mjs";
 
 export default {
   key: "cloudflare_api_key-purge-files-by-url",
   type: "action",
-  version: "0.0.3",
+  version: "0.1.0",
   name: "Purge Files by URL",
-  description: "Granularly remove one or more files from Cloudflare's cache by specifying URLs. [See docs here](https://developers.cloudflare.com/cache/how-to/purge-cache/#purge-by-single-file-by-url)",
+  description: "Granularly remove one or more files from Cloudflare's cache by specifying URLs. [See the documentation](https://developers.cloudflare.com/api/node/resources/cache/methods/purge/)",
   props: {
-    cloudflare_api_key,
+    cloudflare,
     zoneId: {
-      type: "string",
-      label: "Zone ID",
-      description: "The Zone ID where the URL(s) being purged belongs to.",
+      propDefinition: [
+        cloudflare,
+        "zoneIdentifier",
+      ],
     },
     purgeUrls: {
       type: "string[]",
@@ -21,17 +21,19 @@ export default {
     },
   },
   async run({ $ }) {
-    return await axios($, {
-      method: "post",
-      url: `https://api.cloudflare.com/client/v4/zones/${this.zoneId}/purge_cache`,
-      headers: {
-        "X-Auth-Email": `${this.cloudflare_api_key.$auth.Email}`,
-        "X-Auth-Key": `${this.cloudflare_api_key.$auth.API_Key}`,
-        "Content-Type": "application/json",
-      },
-      data: {
-        files: this.purgeUrls,
-      },
+    const {
+      cloudflare,
+      zoneId,
+      purgeUrls,
+    } = this;
+
+    const response = await cloudflare.purgeCache({
+      zone_id: zoneId,
+      files: purgeUrls,
     });
+
+    $.export("$summary", `Purged files from zone \`${zoneId}\``);
+
+    return response;
   },
 };

@@ -3,7 +3,7 @@ import app from "../../happy_scribe.app.mjs";
 
 export default {
   name: "Submit File",
-  version: "0.1.0",
+  version: "0.1.1",
   key: "happy_scribe-submit-file",
   description: "Submit a file. [See the documentation](https://dev.happyscribe.com/sections/product/#uploads-2-upload-your-file-with-the-signed-url)",
   type: "action",
@@ -18,6 +18,12 @@ export default {
       type: "string",
       label: "File Path or URL",
       description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

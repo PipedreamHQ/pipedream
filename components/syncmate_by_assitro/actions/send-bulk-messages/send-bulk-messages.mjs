@@ -8,7 +8,7 @@ export default {
   key: "syncmate_by_assitro-send-bulk-messages",
   name: "Send Bulk Messages",
   description: "Send multiple WhatsApp messages in bulk. [See the documentation](https://assistro.co/user-guide/bulk-messaging-at-a-scheduled-time-using-syncmate-2/)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     syncmateByAssitro,
@@ -17,6 +17,12 @@ export default {
       label: "Messages Number",
       description: "The quantity of messages you want to send.",
       reloadProps: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async additionalProps() {

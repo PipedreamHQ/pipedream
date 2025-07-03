@@ -6,7 +6,7 @@ export default {
   key: "mapbox-create-tileset",
   name: "Create Tileset",
   description: "Uploads and creates a new tileset from a data source. [See the documentation](https://docs.mapbox.com/api/maps/mapbox-tiling-service/)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     mapbox,
@@ -40,6 +40,12 @@ export default {
       type: "boolean",
       label: "Private",
       description: "Describes whether the tileset must be used with an access token from your Mapbox account. Default is `true`.",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },
