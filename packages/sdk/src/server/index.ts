@@ -271,7 +271,7 @@ export class BackendClient extends BaseClient {
     return this.ensureValidOauthAccessToken();
   }
 
-  /**s
+  /**
    * Returns true if the client is configured to use a static access token.
    *
    * @returns True if the client is configured to use a static access token.
@@ -331,18 +331,17 @@ export class BackendClient extends BaseClient {
           if (e instanceof Error) {
             errorMessage = e.message;
           }
-          
           // Check if the error contains response information
-          if (e && typeof e === 'object' && 'response' in e) {
+          if (e && typeof e === "object" && "response" in e) {
             const errorResponse = (e as any).response;
             if (errorResponse) {
               statusCode = errorResponse.status;
-              wwwAuthenticate = errorResponse.headers?.get?.('www-authenticate') || 
-                               errorResponse.headers?.['www-authenticate'];
+              wwwAuthenticate = errorResponse.headers?.get?.("www-authenticate") ||
+                               errorResponse.headers?.["www-authenticate"];
               
               // Create more specific error message based on status code
               if (statusCode === 401) {
-                errorMessage = `OAuth authentication failed (401 Unauthorized)${wwwAuthenticate ? `: ${wwwAuthenticate}` : ''}`;
+                errorMessage = `OAuth authentication failed (401 Unauthorized)${wwwAuthenticate ? `: ${wwwAuthenticate}` : ""}`;
               } else if (statusCode === 400) {
                 errorMessage = "OAuth request invalid (400 Bad Request) - check client credentials";
               } else if (statusCode) {
@@ -351,11 +350,12 @@ export class BackendClient extends BaseClient {
             }
           }
           
-          // If this is the last attempt, throw a detailed error
+          const error = new Error(errorMessage);
+          (error as any).statusCode = statusCode;
+          (error as any).wwwAuthenticate = wwwAuthenticate;
+          
+          // If this is the last attempt, throw the error
           if (attempts >= maxAttempts) {
-            const error = new Error(errorMessage);
-            (error as any).statusCode = statusCode;
-            (error as any).wwwAuthenticate = wwwAuthenticate;
             throw error;
           }
         }
