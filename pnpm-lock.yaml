@@ -1575,8 +1575,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/bitget:
-    specifiers: {}
+  components/bitget: {}
 
   components/bitly:
     dependencies:
@@ -4429,8 +4428,7 @@ importers:
         specifier: ^6.11.0
         version: 6.13.1
 
-  components/explorium:
-    specifiers: {}
+  components/explorium: {}
 
   components/expofp:
     dependencies:
@@ -6803,7 +6801,11 @@ importers:
         specifier: ^1.1.1
         version: 1.6.6
 
-  components/ipstack: {}
+  components/ipstack:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/iqair_airvisual: {}
 
@@ -6908,8 +6910,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/joggai:
-    specifiers: {}
+  components/joggai: {}
 
   components/join: {}
 
@@ -12360,8 +12361,7 @@ importers:
         specifier: 1.6.5
         version: 1.6.5
 
-  components/sign_plus:
-    specifiers: {}
+  components/sign_plus: {}
 
   components/signable: {}
 
