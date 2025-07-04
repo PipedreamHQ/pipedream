@@ -44,6 +44,48 @@ export default {
       description: "The `team_id` for which you want to retrieve the list of boards.",
       optional: true,
     },
+    cardTitle: {
+      type: "string",
+      label: "Title",
+      description: "A short text header for the card",
+      optional: true,
+    },
+    cardDescription: {
+      type: "string",
+      label: "Description",
+      description: "The description of the card",
+      optional: true,
+    },
+    dueDate: {
+      type: "string",
+      label: "Due Date",
+      description: "The date when the task or activity described in the card is due to be completed. Example: `2023-10-12T22:00:55.000Z`",
+      optional: true,
+    },
+    cardTheme: {
+      type: "string",
+      label: "Card Theme",
+      description: "Hex value of the border color of the card. Default: `#2d9bf0`",
+      optional: true,
+    },
+    height: {
+      type: "string",
+      label: "Height",
+      description: "The height of the card in pixels",
+      optional: true,
+    },
+    rotation: {
+      type: "string",
+      label: "Rotation",
+      description: "Rotation angle of an item, in degrees, relative to the board. You can rotate items clockwise (right) and counterclockwise (left) by specifying positive and negative values, respectively.",
+      optional: true,
+    },
+    width: {
+      type: "string",
+      label: "Width",
+      description: "The width of the card in pixels",
+      optional: true,
+    },
     boardId: {
       type: "string",
       label: "Board ID",
@@ -98,7 +140,38 @@ export default {
         const options = data.map(({
           id: value, type, data,
         }) => ({
-          label: data.content || data[type] || type,
+          label: data?.content || data?.title || data?.[type] || type,
+          value,
+        }));
+        return {
+          options,
+          context: {
+            offset,
+          },
+        };
+      },
+    },
+    userId: {
+      type: "string",
+      label: "User ID",
+      description: "The ID of a user",
+      async options({
+        boardId, prevContext,
+      }) {
+        const {
+          data,
+          offset,
+        } = await this.listBoardMembers({
+          boardId,
+          params: {
+            limit: constants.DEFAULT_LIMIT,
+            offset: prevContext.offset,
+          },
+        });
+        const options = data.map(({
+          id: value, name: label,
+        }) => ({
+          label,
           value,
         }));
         return {
@@ -167,6 +240,15 @@ export default {
         ...args,
       });
     },
+    createCardItem({
+      boardId, ...args
+    } = {}) {
+      return this.makeRequest({
+        method: "post",
+        path: `/boards/${boardId}/cards`,
+        ...args,
+      });
+    },
     deleteBoard({
       boardId, ...args
     } = {}) {
@@ -215,6 +297,14 @@ export default {
         ...args,
       });
     },
+    listBoardMembers({
+      boardId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/boards/${boardId}/members`,
+        ...args,
+      });
+    },
     updateBoard({
       boardId, ...args
     } = {}) {
@@ -239,6 +329,15 @@ export default {
       return this.makeRequest({
         method: "patch",
         path: `/boards/${boardId}/sticky_notes/${itemId}`,
+        ...args,
+      });
+    },
+    updateCardItem({
+      boardId, itemId, ...args
+    } = {}) {
+      return this.makeRequest({
+        method: "patch",
+        path: `/boards/${boardId}/cards/${itemId}`,
         ...args,
       });
     },
