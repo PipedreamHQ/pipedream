@@ -4958,8 +4958,7 @@ importers:
 
   components/freshbooks: {}
 
-  components/freshchat:
-    specifiers: {}
+  components/freshchat: {}
 
   components/freshdesk:
     dependencies:
@@ -11315,8 +11314,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/returnless:
-    specifiers: {}
+  components/returnless: {}
 
   components/returnly:
     dependencies:
