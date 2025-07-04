@@ -5,7 +5,7 @@ export default {
   key: "trello-new-notification",
   name: "New Notification",
   description: "Emit new event for each new Trello notification for the authenticated user.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "source",
   dedupe: "unique",
   methods: {
