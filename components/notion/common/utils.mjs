@@ -30,8 +30,35 @@ function parseArray(value) {
     : value;
 }
 
+function parseObject(obj) {
+  if (!obj) {
+    return {};
+  }
+  if (typeof obj === "string") {
+    try {
+      return JSON.parse(obj);
+    } catch {
+      return obj;
+    }
+  }
+  if (Array.isArray(obj)) {
+    return obj.map(parseObject);
+  }
+  if (typeof obj === "object") {
+    return Object.fromEntries(Object.entries(obj).map(([
+      key,
+      value,
+    ]) => [
+      key,
+      parseObject(value),
+    ]));
+  }
+  return obj;
+}
+
 export default {
   buildTextProperty,
   parseStringToJSON,
   parseArray,
+  parseObject,
 };
