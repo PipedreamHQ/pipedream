@@ -8439,6 +8439,9 @@ importers:
 
   components/minio: {}
 
+  components/mintlify:
+    specifiers: {}
+
   components/miro_custom_app:
     dependencies:
       '@pipedream/platform':
