@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/belco",
+  "version": "0.0.1",
+  "description": "Pipedream Belco Components",
+  "main": "belco.app.mjs",
+  "keywords": [
+    "pipedream",
+    "belco"
+  ],
+  "homepage": "https://pipedream.com/apps/belco",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

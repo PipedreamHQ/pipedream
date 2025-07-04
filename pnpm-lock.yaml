@@ -1430,6 +1430,9 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/belco:
+    specifiers: {}
+
   components/benchmark_email:
     dependencies:
       '@pipedream/platform':
