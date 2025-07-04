@@ -1,8 +1,6 @@
 import {
-  axios, getFileStream,
+  axios, getFileStreamAndMetadata,
 } from "@pipedream/platform";
-import path from "path";
-import mime from "mime-types";
 const DEFAULT_LIMIT = 50;
 
 export default {
@@ -297,12 +295,14 @@ export default {
 
       const attachments = [];
       for (let i = 0; self.files && i < self.files.length; i++) {
-        const stream = await getFileStream(self.files[i]);
+        const {
+          stream, metadata,
+        } = await getFileStreamAndMetadata(self.files[i]);
         const base64 = await this.streamToBase64(stream);
         attachments.push({
           "@odata.type": "#microsoft.graph.fileAttachment",
-          "name": path.basename(self.files[i]),
-          "contentType": mime.lookup(self.files[i]),
+          "name": metadata.name,
+          "contentType": metadata.contentType,
           "contentBytes": base64,
         });
       }
