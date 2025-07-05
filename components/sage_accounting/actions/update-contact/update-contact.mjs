@@ -2,29 +2,55 @@ import { ConfigurationError } from "@pipedream/platform";
 import app from "../../sage_accounting.app.mjs";
 
 export default {
-  key: "sage_accounting-create-contact",
-  name: "Create Contact",
-  description: "Creates a new contact in Sage Accounting. [See the documentation](https://developer.sage.com/accounting/reference/contacts/#tag/Contacts/operation/postContacts)",
+  key: "sage_accounting-update-contact",
+  name: "Update Contact",
+  description: "Updates an existing contact in Sage Accounting. [See the documentation](https://developer.sage.com/accounting/reference/contacts/#tag/Contacts/operation/putContactsKey)",
   version: "0.0.1",
   type: "action",
   props: {
     app,
+    contactId: {
+      propDefinition: [
+        app,
+        "contactId",
+      ],
+    },
     name: {
       propDefinition: [
         app,
         "name",
       ],
+      optional: true,
     },
     contactTypeIds: {
       propDefinition: [
         app,
         "contactTypeIds",
       ],
+      optional: true,
     },
     reference: {
       propDefinition: [
         app,
         "reference",
+      ],
+    },
+    defaultSalesLedgerAccountId: {
+      propDefinition: [
+        app,
+        "defaultSalesLedgerAccountId",
+      ],
+    },
+    defaultSalesTaxRateId: {
+      propDefinition: [
+        app,
+        "defaultSalesTaxRateId",
+      ],
+    },
+    defaultPurchaseLedgerAccountId: {
+      propDefinition: [
+        app,
+        "defaultPurchaseLedgerAccountId",
       ],
     },
     taxNumber: {
@@ -117,35 +143,15 @@ export default {
         "destinationVatBlocking",
       ],
     },
-    defaultSalesLedgerAccountId: {
-      propDefinition: [
-        app,
-        "defaultSalesLedgerAccountId",
-      ],
-    },
-    defaultSalesTaxRateId: {
-      propDefinition: [
-        app,
-        "defaultSalesTaxRateId",
-      ],
-    },
-    defaultPurchaseLedgerAccountId: {
-      propDefinition: [
-        app,
-        "defaultPurchaseLedgerAccountId",
-      ],
-    },
   },
   async run({ $ }) {
-    if (!this.name) {
-      throw new ConfigurationError("Name is required");
-    }
-    if (!this.contactTypeIds || this.contactTypeIds.length === 0) {
-      throw new ConfigurationError("At least one Contact Type ID is required");
+    if (!this.contactId) {
+      throw new ConfigurationError("Contact ID is required");
     }
 
-    const response = await this.app.createContact({
+    const response = await this.app.updateContact({
       $,
+      contactId: this.contactId,
       data: {
         name: this.name,
         contact_type_ids: this.contactTypeIds,
@@ -171,7 +177,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully created contact: ${response.name || response.displayed_as}`);
+    $.export("$summary", `Successfully updated contact: ${response.name || response.displayed_as}`);
     return response;
   },
 };
