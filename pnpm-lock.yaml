@@ -1434,8 +1434,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/belco:
-    specifiers: {}
+  components/belco: {}
 
   components/benchmark_email:
     dependencies:
@@ -4965,8 +4964,7 @@ importers:
 
   components/freshbooks: {}
 
-  components/freshchat:
-    specifiers: {}
+  components/freshchat: {}
 
   components/freshdesk:
     dependencies:
@@ -8439,8 +8437,7 @@ importers:
 
   components/minio: {}
 
-  components/mintlify:
-    specifiers: {}
+  components/mintlify: {}
 
   components/miro_custom_app:
     dependencies:
@@ -11325,8 +11322,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/returnless:
-    specifiers: {}
+  components/returnless: {}
 
   components/returnly:
     dependencies:
