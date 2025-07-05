@@ -54,10 +54,6 @@ export default {
           label: "WebP",
           value: "webp",
         },
-        {
-          label: "PDF",
-          value: "pdf",
-        },
       ],
       default: "png",
     },
@@ -95,16 +91,22 @@ export default {
     async getTemplateModifications({
       templateId, ...opts
     }) {
+      const params = new URLSearchParams({
+        templateId,
+      });
       return this._makeRequest({
-        path: `/v1/templates/modifications?templateId=${templateId}`,
+        path: `/v1/templates/modifications?${params}`,
         ...opts,
       });
     },
     async getStudioTemplateModifications({
       templateId, ...opts
     }) {
+      const params = new URLSearchParams({
+        templateId,
+      });
       return this._makeRequest({
-        path: `/v1/studio/template/modifications?templateId=${templateId}`,
+        path: `/v1/studio/template/modifications?${params}`,
         ...opts,
       });
     },
@@ -121,7 +123,7 @@ export default {
         data: {
           templateId,
           modifications,
-          source: "pipedream-integration",
+          source: "orshot-pipedream",
           response: {
             format: responseFormat,
             type: responseType,
@@ -143,7 +145,7 @@ export default {
         data: {
           templateId,
           modifications,
-          source: "pipedream-integration",
+          source: "orshot-pipedream",
           response: {
             format: responseFormat,
             type: responseType,

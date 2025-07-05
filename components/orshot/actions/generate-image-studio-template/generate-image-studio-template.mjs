@@ -5,7 +5,7 @@ export default {
   name: "Generate Image from Studio Template",
   description:
     "Generate an image from an Orshot Studio template using the Orshot API",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     orshot,
@@ -43,11 +43,59 @@ export default {
       modifications = {},
     } = this;
 
+    // Input validation
+    if (!templateId) {
+      throw new Error("Template ID is required");
+    }
+
+    if (!responseType) {
+      throw new Error("Response type is required");
+    }
+
+    if (!responseFormat) {
+      throw new Error("Response format is required");
+    }
+
+    // Validate responseType
+    const validResponseTypes = [
+      "base64",
+      "binary",
+      "url",
+    ];
+    if (!validResponseTypes.includes(responseType)) {
+      throw new Error(
+        `Invalid response type. Must be one of: ${validResponseTypes.join(
+          ", ",
+        )}`,
+      );
+    }
+
+    // Validate responseFormat
+    const validFormats = [
+      "png",
+      "jpg",
+      "jpeg",
+      "webp",
+    ];
+    if (!validFormats.includes(responseFormat.toLowerCase())) {
+      throw new Error(
+        `Invalid response format. Must be one of: ${validFormats.join(", ")}`,
+      );
+    }
+
+    // Validate modifications if provided
+    if (modifications && typeof modifications !== "object") {
+      throw new Error("Modifications must be an object");
+    }
+
+    // Ensure modifications is not null
+    const validModifications = modifications || {};
+
     try {
       const response = await this.orshot.generateImageFromStudioTemplate({
         $,
         templateId,
-        modifications,
+        modifications: validModifications,
         responseType,
         responseFormat,
       });
@@ -56,7 +104,7 @@ export default {
         templateId,
         responseType,
         responseFormat,
-        modifications,
+        modifications: validModifications,
         timestamp: new Date().toISOString(),
         source: "orshot-pipedream",
       };
@@ -90,10 +138,12 @@ export default {
         templateId,
         responseType,
         responseFormat,
-        modifications,
+        modifications: validModifications,
         timestamp: new Date().toISOString(),
+        source: "orshot-pipedream",
       };
 
+      // Enhanced error handling for different error types
       if (error.response) {
         errorResult.httpStatus = error.response.status;
         errorResult.httpStatusText = error.response.statusText;
@@ -103,24 +153,43 @@ export default {
             typeof error.response.data === "string"
               ? JSON.parse(error.response.data)
               : error.response.data;
-        } catch {
+        } catch (parseError) {
           errorResult.rawResponse = error.response.data;
+          errorResult.parseError = parseError.message;
         }
+      } else if (error.code) {
+        // Handle network/connection errors
+        errorResult.errorCode = error.code;
+        errorResult.errorType = "network";
+      } else if (error.name) {
+        // Handle other types of errors
+        errorResult.errorName = error.name;
+        errorResult.errorType = "application";
       }
 
       throw new Error(`Failed to generate image: ${errorMessage}`);
     }
   },
   methods: {
+    /**
+     * Get the MIME type for a given file format
+     * @param {string} format - The file format (e.g., 'png', 'jpg')
+     * @returns {string} The corresponding MIME type
+     */
     _getMimeType(format) {
+      if (!format || typeof format !== "string") {
+        return "application/octet-stream";
+      }
+
       const mimeTypes = {
         png: "image/png",
         jpg: "image/jpeg",
         jpeg: "image/jpeg",
         webp: "image/webp",
-        pdf: "application/pdf",
       };
-      return mimeTypes[format] || "application/octet-stream";
+
+      const normalizedFormat = format.toLowerCase().trim();
+      return mimeTypes[normalizedFormat] || "application/octet-stream";
     },
   },
 };
