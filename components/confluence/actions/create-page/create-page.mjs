@@ -3,11 +3,16 @@ import confluence from "../../confluence.app.mjs";
 export default {
   key: "confluence-create-page",
   name: "Create Page",
-  description: "Creates a page in the space. Pages are created as published by default unless specified as a draft in the status field. [See the documentation](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-page/#api-pages-post)",
+  description: "Creates a new page in the space. [See the documentation](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-page/#api-pages-post)",
   version: "0.0.1",
   type: "action",
   props: {
     confluence,
+    draftInfo: {
+      type: "alert",
+      alertType: "info",
+      content: "Pages are created as published by default, unless specified as a draft in the `Status` prop.",
+    },
     spaceId: {
       propDefinition: [
         confluence,
@@ -19,18 +24,21 @@ export default {
         confluence,
         "title",
       ],
+      description: "The title of the page",
     },
     body: {
       propDefinition: [
         confluence,
         "body",
       ],
+      description: "The body of the page",
     },
     status: {
       propDefinition: [
         confluence,
         "status",
       ],
+      description: "The status of the page, specifies if the page will be created as a new page or a draft.",
     },
     parentId: {
       propDefinition: [

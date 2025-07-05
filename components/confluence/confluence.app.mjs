@@ -7,7 +7,7 @@ export default {
     postId: {
       type: "string",
       label: "Post ID",
-      description: "The ID of the post",
+      description: "Select a post or provide its ID",
       async options({ prevContext }) {
         const params = prevContext?.cursor
           ? {
@@ -37,8 +37,8 @@ export default {
     },
     spaceId: {
       type: "string",
-      label: "Space Id",
-      description: "The Id of the space",
+      label: "Space ID",
+      description: "Select a space or provide its ID",
       async options({ prevContext }) {
         const params = prevContext?.cursor
           ? {
@@ -89,7 +89,7 @@ export default {
     parentId: {
       type: "string",
       label: "Parent Page ID",
-      description: "The ID of the parent page",
+      description: "Select a parent page or provide its ID",
       async options({
         prevContext, spaceId,
       }) {
