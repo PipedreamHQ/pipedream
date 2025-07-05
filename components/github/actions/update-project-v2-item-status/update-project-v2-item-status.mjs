@@ -4,7 +4,7 @@ export default {
   key: "github-update-project-v2-item-status",
   name: "Update Project (V2) Item Status",
   description: "Update the status of an item in the selected Project (V2). [See the documentation](https://docs.github.com/en/graphql/reference/mutations#updateprojectv2itemfieldvalue)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     github,

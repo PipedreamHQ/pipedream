@@ -4,7 +4,7 @@ export default {
   key: "github-get-repository",
   name: "Get Repository Info",
   description: "Get information for a specific repository. [See the documentation](https://docs.github.com/en/rest/repos/repos#get-a-repository)",
-  version: "0.0.21",
+  version: "0.0.22",
   type: "action",
   props: {
     github,

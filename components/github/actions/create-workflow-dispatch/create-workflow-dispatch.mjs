@@ -5,7 +5,7 @@ export default {
   key: "github-create-workflow-dispatch",
   name: "Create Workflow Dispatch",
   description: "Creates a new workflow dispatch event. [See the documentation](https://docs.github.com/en/rest/actions/workflows?apiVersion=2022-11-28#create-a-workflow-dispatch-event)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     github,

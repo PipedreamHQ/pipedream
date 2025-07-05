@@ -9,7 +9,7 @@ export default {
   key: "github-new-or-updated-milestone",
   name: "New or Updated Milestone",
   description: "Emit new event when a milestone is created or updated",
-  version: "1.1.7",
+  version: "1.1.8",
   type: "source",
   dedupe: "unique",
   methods: {

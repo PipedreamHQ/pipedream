@@ -314,6 +314,40 @@ export default {
         }));
       },
     },
+    branchSha: {
+      label: "Branch SHA",
+      description: "SHA of a branch",
+      type: "string",
+      async options({
+        page, repoFullname,
+      }) {
+        const branches = await this.getBranches({
+          repoFullname,
+          per_page: constants.LIMIT,
+          page: page + 1,
+        });
+
+        return branches.map((branch) => ({
+          label: branch.name,
+          value: branch.commit.sha,
+        }));
+      },
+    },
+    commitSha: {
+      type: "string",
+      label: "Commit SHA",
+      description: "A commit SHA to retrieve",
+      async options({
+        repoFullname, page,
+      }) {
+        const commits = await this.listCommits({
+          repoFullname,
+          per_page: constants.LIMIT,
+          page: page + 1,
+        });
+        return commits.map((commit) => commit.sha);
+      },
+    },
   },
   methods: {
     _baseApiUrl() {
@@ -898,6 +932,18 @@ export default {
         ...args,
       });
 
+      return response.data;
+    },
+    async getCommit({
+      repoFullname, commitRef,
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/commits/${commitRef}`, {});
+      return response.data;
+    },
+    async listCommits({
+      repoFullname, ...args
+    }) {
+      const response = await this._client().request(`GET /repos/${repoFullname}/commits`, args);
       return response.data;
     },
   },
