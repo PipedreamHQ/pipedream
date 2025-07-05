@@ -9916,6 +9916,9 @@ importers:
 
   components/pembee: {}
 
+  components/pencil_spaces:
+    specifiers: {}
+
   components/pendo: {}
 
   components/pennylane:
