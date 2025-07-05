@@ -4,7 +4,7 @@ export default {
   key: "scrapeless-scraping-api",
   name: "Scraping API",
   description: "Endpoints for fresh, structured data from 100+ popular sites. [See the documentation](https://apidocs.scrapeless.com/api-12919045).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     scrapeless,
@@ -25,7 +25,7 @@ export default {
   async run({ $ }) {
     const {
       scrapeless, apiServer, ...inputProps
-    } = this;
+    } = await this;
 
     const MAX_RETRIES = 3;
     // 10 seconds
