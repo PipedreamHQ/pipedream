@@ -164,6 +164,115 @@ export default {
       description: "Identifies a contact should be blocked due to destination VAT",
       optional: true,
     },
+    // Contact Payment propDefinitions
+    transactionTypeId: {
+      type: "string",
+      label: "Transaction Type ID",
+      description: "The transaction type of the payment",
+      async options() {
+        const transactionTypes = await this.listTransactionTypes();
+        return transactionTypes.map((transactionType) => ({
+          label: transactionType.displayed_as,
+          value: transactionType.id,
+        }));
+      },
+    },
+    bankAccountId: {
+      type: "string",
+      label: "Bank Account ID",
+      description: "The bank account of the payment",
+      async options() {
+        const bankAccounts = await this.listBankAccounts();
+        return bankAccounts.map((bankAccount) => ({
+          label: bankAccount.displayed_as,
+          value: bankAccount.id,
+        }));
+      },
+    },
+    paymentMethodId: {
+      type: "string",
+      label: "Payment Method ID",
+      description: "The ID of the Payment Method",
+      async options() {
+        const paymentMethods = await this.listPaymentMethods();
+        return paymentMethods.map((paymentMethod) => ({
+          label: paymentMethod.displayed_as,
+          value: paymentMethod.id,
+        }));
+      },
+      optional: true,
+    },
+    taxRateId: {
+      type: "string",
+      label: "Tax Rate ID",
+      description: "The ID of the Tax Rate",
+      async options() {
+        const taxRates = await this.listTaxRates();
+        return taxRates.map((taxRate) => ({
+          label: taxRate.displayed_as,
+          value: taxRate.id,
+        }));
+      },
+      optional: true,
+    },
+    date: {
+      type: "string",
+      label: "Date",
+      description: "The date the payment was made (YYYY-MM-DD format)",
+    },
+    totalAmount: {
+      type: "string",
+      label: "Total Amount",
+      description: "The total amount of the payment",
+    },
+    netAmount: {
+      type: "string",
+      label: "Net Amount",
+      description: "The net amount of the payment",
+      optional: true,
+    },
+    taxAmount: {
+      type: "string",
+      label: "Tax Amount",
+      description: "The tax amount of the payment",
+      optional: true,
+    },
+    exchangeRate: {
+      type: "string",
+      label: "Exchange Rate",
+      description: "The exchange rate of the payment",
+      optional: true,
+    },
+    baseCurrencyNetAmount: {
+      type: "string",
+      label: "Base Currency Net Amount",
+      description: "The net amount of the payment in base currency",
+      optional: true,
+    },
+    baseCurrencyTaxAmount: {
+      type: "string",
+      label: "Base Currency Tax Amount",
+      description: "The tax amount of the payment in base currency",
+      optional: true,
+    },
+    baseCurrencyTotalAmount: {
+      type: "string",
+      label: "Base Currency Total Amount",
+      description: "The total amount of the payment in base currency",
+      optional: true,
+    },
+    baseCurrencyCurrencyCharge: {
+      type: "string",
+      label: "Base Currency Currency Charge",
+      description: "The currency conversion charges in base currency",
+      optional: true,
+    },
+    paymentReference: {
+      type: "string",
+      label: "Payment Reference",
+      description: "A reference for the payment",
+      optional: true,
+    },
   },
   methods: {
     // this.$auth contains connected account data
@@ -242,6 +351,42 @@ export default {
       return this._makeRequest({
         method: "DELETE",
         path: `/contacts/${contactId}`,
+        ...opts,
+      });
+    },
+    // Contact Payment API methods
+    async listTransactionTypes(opts = {}) {
+      const response = await this._makeRequest({
+        path: "/transaction_types",
+        ...opts,
+      });
+      return response.$items || response.items || [];
+    },
+    async listBankAccounts(opts = {}) {
+      const response = await this._makeRequest({
+        path: "/bank_accounts",
+        ...opts,
+      });
+      return response.$items || response.items || [];
+    },
+    async listPaymentMethods(opts = {}) {
+      const response = await this._makeRequest({
+        path: "/payment_methods",
+        ...opts,
+      });
+      return response.$items || response.items || [];
+    },
+    async listTaxRates(opts = {}) {
+      const response = await this._makeRequest({
+        path: "/tax_rates",
+        ...opts,
+      });
+      return response.$items || response.items || [];
+    },
+    async createContactPayment(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/contact_payments",
         ...opts,
       });
     },
