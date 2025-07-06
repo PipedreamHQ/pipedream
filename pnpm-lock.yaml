@@ -1434,8 +1434,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/belco:
-    specifiers: {}
+  components/belco: {}
 
   components/benchmark_email:
     dependencies:
@@ -2245,8 +2244,7 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
-  components/channable:
-    specifiers: {}
+  components/channable: {}
 
   components/channeladvisor:
     dependencies:
@@ -4968,8 +4966,7 @@ importers:
 
   components/freshbooks: {}
 
-  components/freshchat:
-    specifiers: {}
+  components/freshchat: {}
 
   components/freshdesk:
     dependencies:
@@ -8442,8 +8439,7 @@ importers:
 
   components/minio: {}
 
-  components/mintlify:
-    specifiers: {}
+  components/mintlify: {}
 
   components/miro_custom_app:
     dependencies:
@@ -9919,8 +9915,7 @@ importers:
 
   components/pembee: {}
 
-  components/pencil_spaces:
-    specifiers: {}
+  components/pencil_spaces: {}
 
   components/pendo: {}
 
@@ -11331,8 +11326,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/returnless:
-    specifiers: {}
+  components/returnless: {}
 
   components/returnly:
     dependencies:
@@ -15831,6 +15825,14 @@ importers:
       dotenv:
         specifier: ^6.0.0
         version: 6.2.0
+
+  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
+
+  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
+
+  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
+
+  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
 
   packages/ai:
     dependencies:

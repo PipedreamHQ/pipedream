@@ -6,9 +6,9 @@ export default {
   ...common,
   key: "linear_app-new-projectupdate-created",
   name: "New Project Update Written (Instant)",
-  description: "Project updates are short status reports on the health of your projects. Emit new event when a new Project Update is written. [See the documentation](https://developers.linear.app/docs/graphql/webhooks)",
+  description: "Triggers instantly when a project update (status report) is created in Linear. Returns update content, author, project details, and health status. Filters by team and optionally by project. See Linear docs for additional info [here](https://developers.linear.app/docs/graphql/webhooks).",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     linearApp,
