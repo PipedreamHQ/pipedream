@@ -18,6 +18,7 @@ export default {
       type: "boolean",
       label: "Include Tabs Content",
       description: "Whether to populate the `Document.tabs` field instead of the text content fields like `body` and `documentStyle` on `Document`",
+      optional: true,
       default: false,
     },
   },
