@@ -5891,6 +5891,9 @@ importers:
 
   components/greenhouse_job_board_api: {}
 
+  components/greenspark:
+    specifiers: {}
+
   components/greptile:
     dependencies:
       '@pipedream/platform':
