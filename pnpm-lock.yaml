@@ -711,6 +711,9 @@ importers:
 
   components/alphamoon: {}
 
+  components/alt_text_generator_ai:
+    specifiers: {}
+
   components/alteryx_analytics_cloud: {}
 
   components/altiria:
