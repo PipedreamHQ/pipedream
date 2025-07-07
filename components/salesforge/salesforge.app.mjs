@@ -8,9 +8,13 @@ export default {
       type: "string",
       label: "Workspace ID",
       description: "Select a workspace or provide a workspace ID",
-      async options() {
-        const workspaces = await this.listWorkspaces();
-        return workspaces?.map((workspace) => ({
+      async options({ page }) {
+        const response = await this.listWorkspaces({
+          params: {
+            offset: page,
+          },
+        });
+        return response.data?.map((workspace) => ({
           label: workspace.name,
           value: workspace.id,
         }));
@@ -55,6 +59,15 @@ export default {
       return this._makeRequest({
         path: `/workspaces/${workspaceId}/integrations/webhooks/${webhookId}`,
         method: "DELETE",
+        ...args,
+      });
+    },
+    async createContact({
+      workspaceId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/workspaces/${workspaceId}/contacts`,
+        method: "POST",
         ...args,
       });
     },
