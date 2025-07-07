@@ -9,7 +9,7 @@ export default {
   ...getIssue,
   ...utils.getAppProps(getIssue),
   key: "linear-get-issue",
-  description: "Get an issue by ID (OAuth). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api)",
-  version: "0.1.9",
+  description: "Retrieves a Linear issue by its ID. Returns complete issue details including title, description, state, assignee, team, project, labels, and timestamps. Uses OAuth authentication. See Linear docs for additional info [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api).",
+  version: "0.1.10",
 };
 

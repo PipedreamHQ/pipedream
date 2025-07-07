@@ -1052,7 +1052,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/asters: {}
+  components/asters:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/astica_ai:
     dependencies:
@@ -1429,6 +1433,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+
+  components/belco: {}
 
   components/benchmark_email:
     dependencies:
@@ -2237,6 +2243,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.0
         version: 3.1.0
+
+  components/channable: {}
 
   components/channeladvisor:
     dependencies:
@@ -4958,6 +4966,8 @@ importers:
 
   components/freshbooks: {}
 
+  components/freshchat: {}
+
   components/freshdesk:
     dependencies:
       '@pipedream/platform':
@@ -5489,8 +5499,8 @@ importers:
   components/google_chat:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/google_chat_developer_app: {}
 
@@ -5880,6 +5890,8 @@ importers:
         version: 3.1.0
 
   components/greenhouse_job_board_api: {}
+
+  components/greenspark: {}
 
   components/greptile:
     dependencies:
@@ -6809,7 +6821,11 @@ importers:
         specifier: ^1.1.1
         version: 1.6.6
 
-  components/ipstack: {}
+  components/ipstack:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/iqair_airvisual: {}
 
@@ -8425,11 +8441,13 @@ importers:
 
   components/minio: {}
 
+  components/mintlify: {}
+
   components/miro_custom_app:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/mission_mobile: {}
 
@@ -9507,7 +9525,11 @@ importers:
 
   components/order_sender: {}
 
-  components/orderspace: {}
+  components/orderspace:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/originality_ai:
     dependencies:
@@ -9898,6 +9920,8 @@ importers:
         version: 3.0.3
 
   components/pembee: {}
+
+  components/pencil_spaces: {}
 
   components/pendo: {}
 
@@ -11307,6 +11331,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+
+  components/returnless: {}
 
   components/returnly:
     dependencies:
@@ -14443,6 +14469,8 @@ importers:
         specifier: 3.2.2
         version: 3.2.2
 
+  components/veriff: {}
+
   components/verifiedemail: {}
 
   components/verifone: {}
@@ -14742,6 +14770,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/webscrape_ai: {}
 
   components/webscraper_io:
     dependencies:
@@ -15805,6 +15835,14 @@ importers:
       dotenv:
         specifier: ^6.0.0
         version: 6.2.0
+
+  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
+
+  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
+
+  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
+
+  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
 
   packages/ai:
     dependencies:

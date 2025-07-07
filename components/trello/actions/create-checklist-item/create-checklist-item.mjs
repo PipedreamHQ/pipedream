@@ -1,10 +1,11 @@
+import constants from "../../common/constants.mjs";
 import app from "../../trello.app.mjs";
 
 export default {
   key: "trello-create-checklist-item",
   name: "Create a Checklist Item",
   description: "Creates a new checklist item in a card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-checklists/#api-checklists-id-checkitems-post).",
-  version: "0.2.1",
+  version: "0.3.0",
   type: "action",
   props: {
     app,
@@ -56,6 +57,35 @@ export default {
       description: "Determines whether the check item is already checked when created.",
       optional: true,
     },
+    due: {
+      type: "string",
+      label: "Due Date",
+      description: "A due date for the checkitem. **Format: YYYY-MM-DDThh:mm:ss.sssZ**",
+      optional: true,
+    },
+    dueReminder: {
+      type: "string",
+      label: "Due Reminder",
+      description: "A dueReminder for the due date on the checkitem",
+      options: constants.DUE_REMINDER_OPTIONS,
+      optional: true,
+    },
+    idMember: {
+      propDefinition: [
+        app,
+        "member",
+        ({
+          board, card,
+        }) => ({
+          board,
+          card,
+          excludeCardMembers: true,
+        }),
+      ],
+      label: "Id Member",
+      description: "An ID of a member resource",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const {
@@ -63,6 +93,9 @@ export default {
       name,
       pos,
       checked,
+      due,
+      dueReminder,
+      idMember,
     } = this;
 
     const response = await this.app.createChecklistItem({
@@ -72,6 +105,11 @@ export default {
         name,
         pos,
         checked,
+        due,
+        dueReminder: dueReminder
+          ? parseInt(dueReminder)
+          : undefined,
+        idMember,
       },
     });
 

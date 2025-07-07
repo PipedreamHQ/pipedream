@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/freshchat",
+  "version": "0.0.1",
+  "description": "Pipedream Freshchat Components",
+  "main": "freshchat.app.mjs",
+  "keywords": [
+    "pipedream",
+    "freshchat"
+  ],
+  "homepage": "https://pipedream.com/apps/freshchat",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

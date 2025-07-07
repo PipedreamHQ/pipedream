@@ -1,13 +1,13 @@
-import app from "../../trello.app.mjs";
-import FormData from "form-data";
 import { getFileStreamAndMetadata } from "@pipedream/platform";
+import FormData from "form-data";
 import constants from "../../common/constants.mjs";
+import app from "../../trello.app.mjs";
 
 export default {
   key: "trello-create-card",
   name: "Create Card",
   description: "Creates a new card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-post).",
-  version: "1.0.1",
+  version: "1.0.2",
   type: "action",
   props: {
     app,

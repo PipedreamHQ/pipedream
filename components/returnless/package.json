@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/returnless",
+  "version": "0.0.1",
+  "description": "Pipedream Returnless Components",
+  "main": "returnless.app.mjs",
+  "keywords": [
+    "pipedream",
+    "returnless"
+  ],
+  "homepage": "https://pipedream.com/apps/returnless",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

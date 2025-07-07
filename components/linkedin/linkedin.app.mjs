@@ -234,9 +234,14 @@ export default {
         ...args,
       });
     },
-    async getAccessControl({ params }) {
+    async getAccessControl({
+      strParams, ...args
+    }) {
       return this._makeRequestAxios({
-        path: `/organizationAcls?${params}`,
+        path: `/organizationAcls${strParams
+          ? `?${strParams}`
+          : ""}`,
+        ...args,
       });
     },
     async queryAnaltyics(query, args = {} ) {
