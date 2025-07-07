@@ -10,7 +10,7 @@ import joggai from "../../joggai.app.mjs";
 export default {
   key: "joggai-create-avatar-video",
   name: "Create Avatar Video",
-  description: "Creates an avatar video using JoggAI API.",
+  description: "Creates an avatar video using JoggAI API. [See the documentation](https://docs.jogg.ai/api-reference/Create-Avatar-Videos/CreateAvatarVideo)",
   version: "0.0.1",
   type: "action",
   props: {

@@ -8,7 +8,7 @@ import joggai from "../../joggai.app.mjs";
 export default {
   key: "joggai-create-product-from-product-info",
   name: "Create Product from Product Info",
-  description: "Creates a product from product info using JoggAI API. [See the documentation](https://docs.jogg.ai/api-reference/URL-to-Video/UploadURL)",
+  description: "Creates a product from product info using JoggAI API. [See the documentation](https://docs.jogg.ai/api-reference/URL-to-Video/CreateVideo)",
   version: "0.0.1",
   type: "action",
   props: {
