@@ -20,10 +20,12 @@ export default {
           : [
             clients,
           ];
-        return clientsArray.map((client) => ({
-          label: client.Name,
-          value: client.UUID,
-        }));
+        return clientsArray
+          .filter((client) => client && client.Name && client.UUID)
+          .map((client) => ({
+            label: client.Name,
+            value: client.UUID,
+          }));
       },
     },
     name: {
@@ -51,7 +53,7 @@ export default {
           : [
             groups,
           ];
-        return groupsArray.map((group) => ({
+        return groupsArray.filter((group) => group && group.Name && group.UUID).map((group) => ({
           label: group.Name,
           value: group.UUID,
         }));
