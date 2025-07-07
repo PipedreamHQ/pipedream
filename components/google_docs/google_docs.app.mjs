@@ -102,11 +102,14 @@ export default {
         },
       });
     },
-    async getDocument(documentId) {
+    async getDocument(documentId, includeTabsContent = false) {
       const { data } = await this.docs().documents.get({
         documentId,
+        includeTabsContent,
       });
-      const doc = utils.addTextContentToDocument(data);
+      const doc = includeTabsContent
+        ? data
+        : utils.addTextContentToDocument(data);
       return doc;
     },
     async createEmptyDoc(title) {
