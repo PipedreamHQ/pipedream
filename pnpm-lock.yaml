@@ -5971,8 +5971,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/hana:
-    specifiers: {}
+  components/hana: {}
 
   components/handwrytten: {}
 
@@ -6605,8 +6604,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/indiefunnels:
-    specifiers: {}
+  components/indiefunnels: {}
 
   components/inferable: {}
 
@@ -6916,7 +6914,11 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
-  components/joggai: {}
+  components/joggai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/join: {}
 
