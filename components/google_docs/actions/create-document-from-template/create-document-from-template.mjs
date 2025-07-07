@@ -13,7 +13,7 @@ export default {
   ...others,
   key: "google_docs-create-document-from-template",
   name: "Create New Document From Template",
-  version: "0.0.1",
+  version: "0.0.2",
   description,
   type,
   props: {
