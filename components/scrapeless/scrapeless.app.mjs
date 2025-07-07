@@ -1,6 +1,5 @@
 import { axios } from "@pipedream/platform";
 import { ConfigurationError } from "@pipedream/platform";
-import { Scrapeless } from "@scrapeless-ai/sdk";
 
 export default {
   type: "app",
@@ -23,7 +22,12 @@ export default {
         ...opts,
       });
     },
-    _scrapelessClient() {
+    async _scrapelessClient() {
+      process.env.SCRAPELESS_IS_ONLINE = "true";
+      process.env.SCRAPELESS_LOG_ROOT_DIR = "/tmp";
+
+      const { Scrapeless } = await import("@scrapeless-ai/sdk");
+
       const { api_key } = this.$auth;
       if (!api_key) {
         throw new ConfigurationError("API key is required");
