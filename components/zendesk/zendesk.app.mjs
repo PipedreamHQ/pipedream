@@ -128,7 +128,7 @@ export default {
     ticketCommentBodyIsHTML: {
       type: "boolean",
       label: "Comment body is HTML",
-      description: "Whether the comment body is HTML. Default is `false`",
+      description: "Whether the comment body is HTML. Default is `false`, which expects Markdown",
       default: false,
       optional: true,
     },
