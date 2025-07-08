@@ -1,10 +1,10 @@
-import orshot from "../app/orshot.app.mjs";
+import orshot from "../../orshot.app.mjs";
 
 export default {
   key: "orshot-list-templates",
   name: "List Templates",
   description: "Retrieve a list of available library templates from Orshot",
-  version: "0.1.0",
+  version: "0.0.1",
   type: "action",
   props: {
     orshot,

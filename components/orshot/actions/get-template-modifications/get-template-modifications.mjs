@@ -1,10 +1,10 @@
-import orshot from "../../app/orshot.app.mjs";
+import orshot from "../../orshot.app.mjs";
 
 export default {
   key: "orshot-get-template-modifications",
   name: "Get Template Modifications",
   description: "Get available modification keys for a library template",
-  version: "0.1.0",
+  version: "0.0.1",
   type: "action",
   props: {
     orshot,
@@ -13,6 +13,7 @@ export default {
         orshot,
         "templateId",
       ],
+      description: "The ID of the template to get modifications for",
     },
   },
   async run({ $ }) {
@@ -21,7 +22,9 @@ export default {
     try {
       const modifications = await this.orshot.getTemplateModifications({
         $,
-        templateId,
+        params: {
+          templateId,
+        },
       });
 
       $.export(

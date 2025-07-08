@@ -1,10 +1,10 @@
-import orshot from "../../app/orshot.app.mjs";
+import orshot from "../../orshot.app.mjs";
 
 export default {
   key: "orshot-get-studio-template-modifications",
   name: "Get Studio Template Modifications",
   description: "Get available modification keys for a studio template",
-  version: "0.1.0",
+  version: "0.0.1",
   type: "action",
   props: {
     orshot,
@@ -21,7 +21,9 @@ export default {
     try {
       const modifications = await this.orshot.getStudioTemplateModifications({
         $,
-        templateId,
+        params: {
+          templateId,
+        },
       });
 
       $.export(

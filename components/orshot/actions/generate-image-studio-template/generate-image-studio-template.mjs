@@ -1,11 +1,13 @@
-import orshot from "../app/orshot.app.mjs";
+import orshot from "../../orshot.app.mjs";
+import {
+  getMimeType, parseObject,
+} from "../../common/utils.mjs";
 
 export default {
   key: "orshot-generate-image-studio-template",
   name: "Generate Image from Studio Template",
-  description:
-    "Generate an image from an Orshot Studio template using the Orshot API",
-  version: "0.1.1",
+  description: "Generate an image from an Orshot Studio template using the Orshot API. [See the documentation](https://orshot.com/docs/api-reference/render-from-studio-template)",
+  version: "0.0.1",
   type: "action",
   props: {
     orshot,
@@ -83,21 +85,19 @@ export default {
       );
     }
 
-    // Validate modifications if provided
-    if (modifications && typeof modifications !== "object") {
-      throw new Error("Modifications must be an object");
-    }
-
-    // Ensure modifications is not null
-    const validModifications = modifications || {};
+    const validModifications = parseObject(modifications);
 
     try {
       const response = await this.orshot.generateImageFromStudioTemplate({
         $,
-        templateId,
-        modifications: validModifications,
-        responseType,
-        responseFormat,
+        data: {
+          templateId,
+          modifications: validModifications,
+          response: {
+            type: responseType,
+            format: responseFormat,
+          },
+        },
       });
 
       const result = {
@@ -112,18 +112,18 @@ export default {
       // Handle different response types
       switch (responseType) {
       case "base64":
-        result.data = response;
-        result.mimeType = this._getMimeType(responseFormat);
+        result.data = response.data;
+        result.mimeType = getMimeType(responseFormat);
         break;
       case "binary":
         result.data = response;
-        result.mimeType = this._getMimeType(responseFormat);
+        result.mimeType = getMimeType(responseFormat);
         break;
       case "url":
-        result.data = response;
+        result.data = response.data;
         break;
       default:
-        result.data = response;
+        result.data = response.data;
       }
 
       $.export(
@@ -133,63 +133,7 @@ export default {
       return result;
     } catch (error) {
       const errorMessage = error.message || "Unknown error occurred";
-      const errorResult = {
-        error: errorMessage,
-        templateId,
-        responseType,
-        responseFormat,
-        modifications: validModifications,
-        timestamp: new Date().toISOString(),
-        source: "orshot-pipedream",
-      };
-
-      // Enhanced error handling for different error types
-      if (error.response) {
-        errorResult.httpStatus = error.response.status;
-        errorResult.httpStatusText = error.response.statusText;
-
-        try {
-          errorResult.apiError =
-            typeof error.response.data === "string"
-              ? JSON.parse(error.response.data)
-              : error.response.data;
-        } catch (parseError) {
-          errorResult.rawResponse = error.response.data;
-          errorResult.parseError = parseError.message;
-        }
-      } else if (error.code) {
-        // Handle network/connection errors
-        errorResult.errorCode = error.code;
-        errorResult.errorType = "network";
-      } else if (error.name) {
-        // Handle other types of errors
-        errorResult.errorName = error.name;
-        errorResult.errorType = "application";
-      }
-
       throw new Error(`Failed to generate image: ${errorMessage}`);
     }
-  },
-  methods: {
-    /**
-     * Get the MIME type for a given file format
-     * @param {string} format - The file format (e.g., 'png', 'jpg')
-     * @returns {string} The corresponding MIME type
-     */
-    _getMimeType(format) {
-      if (!format || typeof format !== "string") {
-        return "application/octet-stream";
-      }
-
-      const mimeTypes = {
-        png: "image/png",
-        jpg: "image/jpeg",
-        jpeg: "image/jpeg",
-        webp: "image/webp",
-      };
-
-      const normalizedFormat = format.toLowerCase().trim();
-      return mimeTypes[normalizedFormat] || "application/octet-stream";
-    },
   },
 };
