@@ -37,7 +37,7 @@ export default {
       this.db.set("hookId", hookId);
     },
     generateMeta(event) {
-      const ts = Date.parse(event.createdAt);
+      const ts = Date.parse(event.timestamp);
       return {
         id: `${event.event}-${ts}`,
         summary: this.getSummary(event),
