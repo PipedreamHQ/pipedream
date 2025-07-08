@@ -2147,6 +2147,9 @@ importers:
 
   components/captaindata: {}
 
+  components/capturekit:
+    specifiers: {}
+
   components/carbone: {}
 
   components/cardinal: {}
