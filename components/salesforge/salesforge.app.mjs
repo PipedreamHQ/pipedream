@@ -33,7 +33,7 @@ export default {
       return axios($, {
         url: `${this._apiUrl()}${path}`,
         headers: {
-          "authorization": `${this.$auth.api_key}`,
+          "Authorization": `${this.$auth.api_key}`,
         },
         ...args,
       });

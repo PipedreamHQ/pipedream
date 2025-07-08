@@ -54,6 +54,7 @@ export default {
     } = this;
 
     const response = await app.createContact({
+      $,
       workspaceId,
       data,
     });
