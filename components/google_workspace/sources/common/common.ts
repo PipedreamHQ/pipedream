@@ -123,7 +123,7 @@ export default {
     },
     isCorrectEventType(data) {
       if (this.eventName) {
-        return data.events.find((event) => event.name === this.eventName);
+        return data.name === this.eventName;
       }
       return true;
     },
@@ -156,14 +156,13 @@ export default {
     } = body;
 
     events.forEach((event) => {
-      if (!this.isCorrectEventType(event)) {
-        return;
-      }
-
       const data = {
         ...otherProps,
         ...event,
       };
+      if (!this.isCorrectEventType(data)) {
+        return;
+      }
       this.$emit(data, this.getMetadata(data));
     });
   },
