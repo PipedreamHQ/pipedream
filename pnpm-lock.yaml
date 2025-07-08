@@ -242,8 +242,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/accuweather:
-    specifiers: {}
+  components/accuweather: {}
 
   components/acelle_mail: {}
 
@@ -714,8 +713,7 @@ importers:
 
   components/alphamoon: {}
 
-  components/alt_text_generator_ai:
-    specifiers: {}
+  components/alt_text_generator_ai: {}
 
   components/alteryx_analytics_cloud: {}
 
@@ -15837,14 +15835,6 @@ importers:
       dotenv:
         specifier: ^6.0.0
         version: 6.2.0
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
 
   packages/ai:
     dependencies:
