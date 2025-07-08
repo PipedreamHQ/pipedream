@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "salesforge-email-opened-instant",
   name: "Email Opened (Instant)",
-  description: "Emit new event when an email is opened in Salesforge. [See the documentation](https://api.salesforge.ai/public/v2/swagger/index.html)",
+  description: "Emit new event when an email is opened in Salesforge. [See the documentation](https://help.salesforge.ai/en/articles/8680365-how-to-use-webhooks)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -13,8 +13,8 @@ export default {
     getEventType() {
       return "email_opened";
     },
-    getSummary(data) {
-      return `Email opened: ${data.name || data.id}`;
+    getSummary({ sequenceEmail }) {
+      return `Email opened: "${sequenceEmail?.subject}"`;
     },
   },
 };

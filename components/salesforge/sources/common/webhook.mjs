@@ -1,4 +1,3 @@
-import { v4 as uuid } from "uuid";
 import salesforge from "../../salesforge.app.mjs";
 
 export default {
@@ -21,11 +20,15 @@ export default {
       this.db.set("webhookId", webhookId);
     },
     generateMeta(data) {
-      const { id } = data;
+      const { webhookInfo } = data;
+      const ts = webhookInfo?.eventTime
+        ? new Date(webhookInfo.eventTime).valueOf()
+        : Date.now();
+      const id = `${this.getEventType()}-${ts}`;
       return {
-        id: id || uuid(),
+        id,
         summary: this.getSummary(data),
-        ts: Date.now(),
+        ts,
       };
     },
   },
@@ -41,15 +44,7 @@ export default {
       });
       this._setWebhookId(response.id);
     },
-    async deactivate() {
-      const webhookId = this._getWebhookId();
-      if (webhookId) {
-        await this.salesforge.deleteWebhook({
-          workspaceId: this.workspaceId,
-          webhookId,
-        });
-      }
-    },
+    // Salesforge does not seem to support deactivating/deleting webhooks via the API
   },
   async run(event) {
     const { body } = event;

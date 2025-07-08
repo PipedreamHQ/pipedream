@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "salesforge-email-sent-instant",
   name: "Email Sent (Instant)",
-  description: "Emit new event when an email is sent in Salesforge. [See the documentation](https://api.salesforge.ai/public/v2/swagger/index.html)",
+  description: "Emit new event when an email is sent in Salesforge. [See the documentation](https://help.salesforge.ai/en/articles/8680365-how-to-use-webhooks)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -13,8 +13,8 @@ export default {
     getEventType() {
       return "email_sent";
     },
-    getSummary(data) {
-      return `Email sent: ${data.name || data.id}`;
+    getSummary({ sequenceEmail }) {
+      return `Email sent: "${sequenceEmail?.subject}"`;
     },
   },
 };

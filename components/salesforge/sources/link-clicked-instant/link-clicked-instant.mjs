@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "salesforge-link-clicked-instant",
   name: "Link Clicked (Instant)",
-  description: "Emit new event when a link is clicked in Salesforge. [See the documentation](https://api.salesforge.ai/public/v2/swagger/index.html)",
+  description: "Emit new event when a link is clicked in Salesforge. [See the documentation](https://help.salesforge.ai/en/articles/8680365-how-to-use-webhooks)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -13,8 +13,10 @@ export default {
     getEventType() {
       return "link_clicked";
     },
-    getSummary(data) {
-      return `Link clicked: ${data.name || data.url || data.id}`;
+    getSummary({
+      sequenceEmail, linkUrl,
+    }) {
+      return `Link clicked: ${linkUrl} in "${sequenceEmail?.subject}"`;
     },
   },
 };
