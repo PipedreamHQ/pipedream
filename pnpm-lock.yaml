@@ -242,6 +242,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/accuweather: {}
+
   components/acelle_mail: {}
 
   components/acquire:
@@ -710,6 +712,8 @@ importers:
         version: 3.0.3
 
   components/alphamoon: {}
+
+  components/alt_text_generator_ai: {}
 
   components/alteryx_analytics_cloud: {}
 
@@ -2143,6 +2147,9 @@ importers:
 
   components/captaindata: {}
 
+  components/capturekit:
+    specifiers: {}
+
   components/carbone: {}
 
   components/cardinal: {}
@@ -2912,8 +2919,8 @@ importers:
   components/confluence:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/confluent: {}
 
@@ -4398,6 +4405,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.4.1
         version: 1.6.6
+
+  components/exact_mails:
+    specifiers: {}
 
   components/exhibitday:
     dependencies:
@@ -5890,6 +5900,8 @@ importers:
         version: 3.1.0
 
   components/greenhouse_job_board_api: {}
+
+  components/greenspark: {}
 
   components/greptile:
     dependencies:
@@ -9523,7 +9535,11 @@ importers:
 
   components/order_sender: {}
 
-  components/orderspace: {}
+  components/orderspace:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/originality_ai:
     dependencies:
@@ -14464,6 +14480,9 @@ importers:
         version: 3.2.2
 
   components/veriff: {}
+
+  components/verifi_email:
+    specifiers: {}
 
   components/verifiedemail: {}
 

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/verifi_email",
+  "version": "0.0.1",
+  "description": "Pipedream verifi.email Components",
+  "main": "verifi_email.app.mjs",
+  "keywords": [
+    "pipedream",
+    "verifi_email"
+  ],
+  "homepage": "https://pipedream.com/apps/verifi_email",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

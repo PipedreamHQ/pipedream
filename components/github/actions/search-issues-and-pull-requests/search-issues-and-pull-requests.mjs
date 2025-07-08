@@ -4,7 +4,7 @@ export default {
   key: "github-search-issues-and-pull-requests",
   name: "Search Issues and Pull Requests",
   description: "Find issues and pull requests by state and keyword. [See the documentation](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests)",
-  version: "0.2.5",
+  version: "0.2.6",
   type: "action",
   props: {
     github,
