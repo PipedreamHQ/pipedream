@@ -14475,6 +14475,9 @@ importers:
 
   components/veriff: {}
 
+  components/verifi_email:
+    specifiers: {}
+
   components/verifiedemail: {}
 
   components/verifone: {}
