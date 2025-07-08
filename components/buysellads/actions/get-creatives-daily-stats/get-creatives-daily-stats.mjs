@@ -45,7 +45,12 @@ export default {
           : undefined,
       },
     });
-    $.export("$summary", `Successfully fetched ${response.length} creative stat${response.length === 1
+
+    const length = this.csvOutput
+      ? response.split("\n").length - 1
+      : response.length;
+
+    $.export("$summary", `Successfully fetched ${length} creative stat${length === 1
       ? ""
       : "s"}`);
     return response;

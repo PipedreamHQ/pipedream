@@ -38,7 +38,12 @@ export default {
           : undefined,
       },
     });
-    $.export("$summary", `Successfully fetched ${response.length} line item${response.length === 1
+
+    const length = this.csvOutput
+      ? response.split("\n").length - 1
+      : response.length;
+
+    $.export("$summary", `Successfully fetched ${length} line item${length === 1
       ? ""
       : "s"}`);
     return response;

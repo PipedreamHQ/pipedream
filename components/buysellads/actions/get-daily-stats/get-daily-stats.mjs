@@ -45,7 +45,12 @@ export default {
           : undefined,
       },
     });
-    $.export("$summary", `Successfully fetched ${response.length} daily stat${response.length === 1
+
+    const length = this.csvOutput
+      ? response.split("\n").length - 1
+      : response.length;
+
+    $.export("$summary", `Successfully fetched ${length} daily stat${length === 1
       ? ""
       : "s"}`);
     return response;
