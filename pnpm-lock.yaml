@@ -5008,7 +5008,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/freshsales: {}
+  components/freshsales:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/freshservice:
     dependencies:
