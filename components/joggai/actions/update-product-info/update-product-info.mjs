@@ -1,6 +1,5 @@
 import {
   checkResponse,
-  prepareAdditionalProps,
   prepareMediaData,
 } from "../../common/utils.mjs";
 import joggai from "../../joggai.app.mjs";
@@ -37,15 +36,6 @@ export default {
         "targetAudience",
       ],
     },
-    mediaQuantity: {
-      propDefinition: [
-        joggai,
-        "mediaQuantity",
-      ],
-    },
-  },
-  async additionalProps() {
-    return prepareAdditionalProps(this);
   },
   async run({ $ }) {
     const mediaData = await prepareMediaData(this, {

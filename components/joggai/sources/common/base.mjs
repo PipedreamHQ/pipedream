@@ -23,6 +23,10 @@ export default {
     },
   },
   async run({ body }) {
+    if (typeof body === "string") {
+      return;
+    }
+
     this.$emit(body, {
       id: body.event_id,
       summary: this.getSummary(body),
