@@ -22,7 +22,7 @@ export default {
         label_name: this.labelNameList,
       },
     });
-    $.export("$summary", "Successfully sent the request do delete a label: " + response.message);
+    $.export("$summary", "Successfully sent the request to delete a label: " + response.message);
     return response;
   },
 };
