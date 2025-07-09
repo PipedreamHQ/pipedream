@@ -7,7 +7,7 @@ export default {
     postId: {
       type: "string",
       label: "Post ID",
-      description: "The ID of the post",
+      description: "Select a post or provide its ID",
       async options({ prevContext }) {
         const params = prevContext?.cursor
           ? {
@@ -37,8 +37,8 @@ export default {
     },
     spaceId: {
       type: "string",
-      label: "Space Id",
-      description: "The Id of the space",
+      label: "Space ID",
+      description: "Select a space or provide its ID",
       async options({ prevContext }) {
         const params = prevContext?.cursor
           ? {
@@ -85,6 +85,43 @@ export default {
       type: "string",
       label: "Body",
       description: "Body of the blog post",
+    },
+    parentId: {
+      type: "string",
+      label: "Parent Page ID",
+      description: "Select a parent page or provide its ID",
+      async options({
+        prevContext, spaceId,
+      }) {
+        if (!spaceId) {
+          return [];
+        }
+        const params = prevContext?.cursor
+          ? {
+            cursor: prevContext.cursor,
+          }
+          : {};
+        const cloudId = await this.getCloudId();
+        const {
+          results, _links: links,
+        } = await this.listPagesInSpace({
+          cloudId,
+          spaceId,
+          params,
+        });
+        const options = results?.map(({
+          id: value, title: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+        return {
+          options,
+          context: {
+            cursor: this._extractCursorFromLink(links?.next),
+          },
+        };
+      },
     },
   },
   methods: {
@@ -172,6 +209,13 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "/blogposts",
+        ...opts,
+      });
+    },
+    createPage(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/pages",
         ...opts,
       });
     },

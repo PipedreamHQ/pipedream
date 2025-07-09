@@ -4,8 +4,8 @@ import {
   ConfigurationError,
   DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
 } from "@pipedream/platform";
-import googleWorkspace from "../app/google_workspace.app";
-import constants from "../common/constants";
+import googleWorkspace from "../../app/google_workspace.app";
+import constants from "../../common/constants";
 
 export default {
   props: {
@@ -18,6 +18,12 @@ export default {
       default: {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
+    },
+    eventName: {
+      propDefinition: [
+        googleWorkspace,
+        "eventName",
+      ],
     },
   },
   hooks: {
@@ -115,6 +121,12 @@ export default {
     getMetadata() {
       throw new Error("getMetadata not implemented!");
     },
+    isCorrectEventType(data) {
+      if (this.eventName) {
+        return data.name === this.eventName;
+      }
+      return true;
+    },
   },
   async run(event) {
     const {
@@ -148,6 +160,9 @@ export default {
         ...otherProps,
         ...event,
       };
+      if (!this.isCorrectEventType(data)) {
+        return;
+      }
       this.$emit(data, this.getMetadata(data));
     });
   },

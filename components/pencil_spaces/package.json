@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/pencil_spaces",
+  "version": "0.0.1",
+  "description": "Pipedream Pencil Spaces Components",
+  "main": "pencil_spaces.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pencil_spaces"
+  ],
+  "homepage": "https://pipedream.com/apps/pencil_spaces",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

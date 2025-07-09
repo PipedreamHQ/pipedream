@@ -9,6 +9,6 @@ export default {
   ...issueUpdatedInstant,
   ...utils.getAppProps(issueUpdatedInstant),
   key: "linear-issue-updated-instant",
-  description: "Emit new event when an issue is updated (OAuth). See the documentation](https://developers.linear.app/docs/graphql/webhooks)",
-  version: "0.3.11",
+  description: "Triggers instantly when any issue is updated in Linear. Provides complete issue details with changes. Supports filtering by team and project. Includes all updates except status changes. Uses OAuth authentication. See Linear docs for additional info [here](https://developers.linear.app/docs/graphql/webhooks).",
+  version: "0.3.12",
 };

@@ -1,0 +1,25 @@
+export default {
+  "event": "CONTACT_RESUBSCRIBED",
+  "payload": {
+    "contact": {
+      "createdAt": "2025-07-07T20:22:49.263Z",
+      "id": "ctc_FqzSFyFXRD9QrVGsm5ge9XnT",
+      "properties": {
+        "avatarUrl": null,
+        "birthday": null,
+        "city": null,
+        "countryCode": null,
+        "email": "contact@example.com",
+        "firstName": "John",
+        "language": null,
+        "lastName": "Doe",
+        "phone": null,
+        "status": "SUBSCRIBED"
+      },
+      "updatedAt": "2025-07-07T20:32:15.654Z",
+      "workspaceId": "wrk_lKDIOgIaDqfDcfUnuCKG9C4S"
+    }
+  },
+  "timestamp": "2025-07-07T20:32:15.737Z",
+  "version": 1
+}

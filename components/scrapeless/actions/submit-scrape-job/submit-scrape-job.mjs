@@ -6,7 +6,7 @@ export default {
   key: "scrapeless-submit-scrape-job",
   name: "Submit Scrape Job",
   description: "Submit a new web scraping job with specified target URL and extraction rules. [See the documentation](https://apidocs.scrapeless.com/api-11949852)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     scrapeless,
