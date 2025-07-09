@@ -8670,7 +8670,11 @@ importers:
 
   components/mumara: {}
 
-  components/mumble: {}
+  components/mumble:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/mural:
     dependencies:
