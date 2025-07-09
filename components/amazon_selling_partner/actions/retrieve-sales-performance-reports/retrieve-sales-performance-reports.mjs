@@ -1,4 +1,5 @@
 import amazonSellingPartner from "../../amazon_selling_partner.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "amazon_selling_partner-retrieve-sales-performance-reports",
@@ -79,6 +80,9 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.asin && this.sku) {
+      throw new ConfigurationError("Cannot specify both ASIN and SKU parameters");
+    }
     const { payload } = await this.amazonSellingPartner.getOrderMetrics({
       $,
       params: {
