@@ -13301,6 +13301,9 @@ importers:
 
   components/switchboard: {}
 
+  components/sylius:
+    specifiers: {}
+
   components/symbl_ai:
     dependencies:
       '@pipedream/platform':
