@@ -2147,8 +2147,7 @@ importers:
 
   components/captaindata: {}
 
-  components/capturekit:
-    specifiers: {}
+  components/capturekit: {}
 
   components/carbone: {}
 
@@ -4406,8 +4405,7 @@ importers:
         specifier: ^1.4.1
         version: 1.6.6
 
-  components/exact_mails:
-    specifiers: {}
+  components/exact_mails: {}
 
   components/exhibitday:
     dependencies:
@@ -9557,8 +9555,7 @@ importers:
         specifier: ^1.6.2
         version: 1.6.6
 
-  components/orshot:
-    specifiers: {}
+  components/orshot: {}
 
   components/ortto:
     dependencies:
@@ -10823,8 +10820,7 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/qr_api:
-    specifiers: {}
+  components/qr_api: {}
 
   components/qryptal: {}
 
@@ -13647,8 +13643,7 @@ importers:
         specifier: ^1.11.10
         version: 1.11.13
 
-  components/the_official_board:
-    specifiers: {}
+  components/the_official_board: {}
 
   components/themarketer: {}
 
@@ -14494,8 +14489,7 @@ importers:
 
   components/veriff: {}
 
-  components/verifi_email:
-    specifiers: {}
+  components/verifi_email: {}
 
   components/verifiedemail: {}
 
@@ -14720,8 +14714,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/walletap:
-    specifiers: {}
+  components/walletap: {}
 
   components/wappalyzer:
     dependencies:
