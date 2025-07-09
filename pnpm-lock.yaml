@@ -13305,8 +13305,7 @@ importers:
 
   components/switchboard: {}
 
-  components/sylius:
-    specifiers: {}
+  components/sylius: {}
 
   components/symbl_ai:
     dependencies:
