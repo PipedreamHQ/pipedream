@@ -12655,7 +12655,11 @@ importers:
 
   components/smartymeet: {}
 
-  components/smashsend: {}
+  components/smashsend:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/smiirl:
     dependencies:
