@@ -2147,8 +2147,7 @@ importers:
 
   components/captaindata: {}
 
-  components/capturekit:
-    specifiers: {}
+  components/capturekit: {}
 
   components/carbone: {}
 
@@ -4406,8 +4405,7 @@ importers:
         specifier: ^1.4.1
         version: 1.6.6
 
-  components/exact_mails:
-    specifiers: {}
+  components/exact_mails: {}
 
   components/exhibitday:
     dependencies:
@@ -9557,8 +9555,7 @@ importers:
         specifier: ^1.6.2
         version: 1.6.6
 
-  components/orshot:
-    specifiers: {}
+  components/orshot: {}
 
   components/ortto:
     dependencies:
@@ -13051,7 +13048,11 @@ importers:
 
   components/stealthseminar: {}
 
-  components/stiply: {}
+  components/stiply:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/storeganise:
     dependencies:
@@ -14488,8 +14489,7 @@ importers:
 
   components/veriff: {}
 
-  components/verifi_email:
-    specifiers: {}
+  components/verifi_email: {}
 
   components/verifiedemail: {}
 
