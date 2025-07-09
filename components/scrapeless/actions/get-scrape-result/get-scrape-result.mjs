@@ -4,7 +4,7 @@ export default {
   key: "scrapeless-get-scrape-result",
   name: "Get Scrape Result",
   description: "Retrieve the result of a completed scraping job. [See the documentation](https://apidocs.scrapeless.com/api-11949853)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     scrapeless,
