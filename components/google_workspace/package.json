@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_workspace",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Pipedream Google Workspace Admin Components",
   "main": "dist/app/google_workspace.app.mjs",
   "keywords": [
@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@googleapis/admin": "^6.0.2",
-    "@pipedream/platform": "^1.2.0",
+    "@pipedream/platform": "^3.1.0",
     "googleapis": "^108.0.0",
     "uuidv4": "^6.2.13"
   },

@@ -1,12 +1,12 @@
 import { defineSource } from "@pipedream/types";
-import common from "../common";
+import common from "../common/common";
 
 export default defineSource({
   ...common,
   key: "google_workspace-new-admin-activity-by-app-name",
   name: "New Admin Activity By Application Name",
   description: "Emit new admin activities by selected user",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   props: {

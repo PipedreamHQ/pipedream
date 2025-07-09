@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sylius",
+  "version": "0.0.1",
+  "description": "Pipedream Sylius Components",
+  "main": "sylius.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sylius"
+  ],
+  "homepage": "https://pipedream.com/apps/sylius",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
