@@ -32,7 +32,6 @@ export default {
       description: "A list of seller SKUs for which to return inventory summaries. You may specify up to 50 SKUs.",
       optional: true,
     },
-
   },
   async run({ $ }) {
     const { payload } = await this.amazonSellingPartner.getInventorySummaries({
