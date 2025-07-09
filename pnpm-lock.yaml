@@ -5789,8 +5789,8 @@ importers:
         specifier: ^6.0.2
         version: 6.0.2
       '@pipedream/platform':
-        specifier: ^1.2.0
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       googleapis:
         specifier: ^108.0.0
         version: 108.0.1
@@ -36012,7 +36012,7 @@ snapshots:
   '@pipedream/linear_app@0.7.1':
     dependencies:
       '@linear/sdk': 13.0.0
-      '@pipedream/platform': 3.0.3
+      '@pipedream/platform': 3.1.0
     transitivePeerDependencies:
       - debug
       - encoding
