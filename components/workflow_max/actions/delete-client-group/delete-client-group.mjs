@@ -1,4 +1,5 @@
 import app from "../../workflow_max.app.mjs";
+import { parseStringPromise } from "xml2js";
 
 export default {
   key: "workflow_max-delete-client-group",
@@ -34,6 +35,6 @@ export default {
     }
 
     $.export("$summary", "Successfully deleted the client group: " + this.name);
-    return response;
+    return await parseStringPromise(response);
   },
 };
