@@ -2,7 +2,7 @@ import stiply from "../../stiply.app.mjs";
 import { parseObject } from "../../common/utils.mjs";
 
 export default {
-  key: "send-sign-request",
+  key: "stiply-send-sign-request",
   name: "Send Sign Request",
   description: "Send a sign request to a recipient. [See the documentation](https://app.stiply.nl/api-documentation/v2#tag/sign-requests/operation/SendSignRequest)",
   version: "0.0.1",

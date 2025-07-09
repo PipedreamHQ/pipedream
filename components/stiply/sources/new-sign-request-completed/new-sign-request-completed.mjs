@@ -3,7 +3,7 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import sampleEmit from "./test-event.mjs";
 
 export default {
-  key: "new-sign-request-completed",
+  key: "stiply-new-sign-request-completed",
   name: "New Sign Request Completed",
   description: "Emit new event when a sign request is completed in Stiply. [See the documentation](https://app.stiply.nl/api-documentation/v2#tag/sign-requests/operation/GetSignRequests).",
   type: "source",
