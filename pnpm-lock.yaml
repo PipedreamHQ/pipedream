@@ -771,7 +771,11 @@ importers:
 
   components/amazon_redshift: {}
 
-  components/amazon_selling_partner: {}
+  components/amazon_selling_partner:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/amazon_ses:
     dependencies:
@@ -13305,8 +13309,7 @@ importers:
 
   components/switchboard: {}
 
-  components/sylius:
-    specifiers: {}
+  components/sylius: {}
 
   components/symbl_ai:
     dependencies:
@@ -35948,7 +35951,7 @@ snapshots:
 
   '@pipedream/canva@0.2.3':
     dependencies:
-      '@pipedream/platform': 3.0.3
+      '@pipedream/platform': 3.1.0
     transitivePeerDependencies:
       - debug
 
@@ -35967,7 +35970,7 @@ snapshots:
 
   '@pipedream/docusign@0.2.1':
     dependencies:
-      '@pipedream/platform': 3.0.3
+      '@pipedream/platform': 3.1.0
     transitivePeerDependencies:
       - debug
 
