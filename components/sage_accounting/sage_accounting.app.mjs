@@ -7,11 +7,28 @@ export default {
   type: "app",
   app: "sage_accounting",
   propDefinitions: {
+    ledgerAccountType: {
+      type: "string",
+      label: "Ledger Account Type",
+      description: "The type of ledger account to retrieve",
+      optional: true,
+      async options({ page = 0 }) {
+        const ledgerAccountTypes = await this.listLedgerAccountTypes({
+          params: {
+            page,
+          },
+        });
+        return ledgerAccountTypes.map((ledgerAccountType) => ({
+          label: ledgerAccountType.displayed_as,
+          value: ledgerAccountType.id,
+        }));
+      },
+    },
     contactId: {
       type: "string",
       label: "Contact ID",
       description: "The unique identifier for the contact",
-      async options({ page }) {
+      async options({ page = 0 }) {
         const contacts = await this.listContacts({
           params: {
             page,
@@ -27,7 +44,7 @@ export default {
       type: "string[]",
       label: "Contact Type IDs",
       description: "The IDs of the Contact Types",
-      async options({ page }) {
+      async options({ page = 0 }) {
         const contactTypes = await this.listContactTypes({
           params: {
             page,
@@ -46,7 +63,7 @@ export default {
       type: "string",
       label: "Currency ID",
       description: "The ID of the Currency",
-      async options({ page }) {
+      async options({ page = 0 }) {
         const currencies = await this.listCurrencies({
           params: {
             page,
@@ -74,10 +91,13 @@ export default {
       type: "string",
       label: "Ledger Account ID",
       description: "The ID of the ledger account",
-      async options({ page }) {
+      async options({
+        page = 0, type,
+      }) {
         const ledgerAccounts = await this.listLedgerAccounts({
           params: {
             page,
+            ledger_account_type_id: type,
           },
         });
         return ledgerAccounts.map((account) => ({
@@ -195,7 +215,7 @@ export default {
       type: "string",
       label: "Transaction Type ID",
       description: "The transaction type of the payment",
-      async options({ page }) {
+      async options({ page = 0 }) {
         const transactionTypes = await this.listTransactionTypes({
           params: {
             page,
@@ -211,7 +231,7 @@ export default {
       type: "string",
       label: "Bank Account ID",
       description: "The bank account of the payment",
-      async options({ page }) {
+      async options({ page = 0 }) {
         const bankAccounts = await this.listBankAccounts({
           params: {
             page,
@@ -227,7 +247,7 @@ export default {
       type: "string",
       label: "Payment Method ID",
       description: "The ID of the Payment Method",
-      async options({ page }) {
+      async options({ page = 0 }) {
         const paymentMethods = await this.listPaymentMethods({
           params: {
             page,
@@ -244,7 +264,7 @@ export default {
       type: "string",
       label: "Tax Rate ID",
       description: "The ID of the Tax Rate",
-      async options({ page }) {
+      async options({ page = 0 }) {
         const taxRates = await this.listTaxRates({
           params: {
             page,
@@ -317,10 +337,6 @@ export default {
     },
   },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     _baseUrl() {
       return "https://api.accounting.sage.com/v3.1";
     },
@@ -337,8 +353,16 @@ export default {
         },
       });
     },
-    async _paginatedRequest(args = {}) {
-      const response = await this._makeRequest(args);
+    async _paginatedRequest({
+      params, ...args
+    }) {
+      const response = await this._makeRequest({
+        params: {
+          ...params,
+          page: (params.page ?? 0) + 1,
+        },
+        ...args,
+      });
       return response.$items || response.items || [];
     },
     async listContactTypes(args) {
@@ -471,6 +495,12 @@ export default {
     async listContactPayments(args) {
       return this._paginatedRequest({
         path: "/contact_payments",
+        ...args,
+      });
+    },
+    async listLedgerAccountTypes(args) {
+      return this._paginatedRequest({
+        path: "/ledger_account_types",
         ...args,
       });
     },

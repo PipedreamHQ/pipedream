@@ -8,6 +8,12 @@ export default {
   type: "action",
   props: {
     app,
+    ledgerAccountType: {
+      propDefinition: [
+        app,
+        "ledgerAccountType",
+      ],
+    },
     itemsPerPage: {
       type: "integer",
       label: "Max Items",
@@ -29,9 +35,10 @@ export default {
   async run({ $ }) {
     const response = await this.app.listLedgerAccounts({
       $,
-      page: this.page,
       params: {
+        ledger_account_type_id: this.ledgerAccountType,
         items_per_page: this.itemsPerPage,
+        page: this.page,
       },
     });
 

@@ -17,17 +17,25 @@ export default {
       propDefinition: [
         app,
         "ledgerAccountId",
+        () => ({
+          type: "SALES",
+        }),
       ],
       label: "Sales Ledger Account ID",
       description: "The sales ledger account for the product",
+      optional: false,
     },
     purchaseLedgerAccountId: {
       propDefinition: [
         app,
         "ledgerAccountId",
+        () => ({
+          type: "DIRECT_EXPENSES",
+        }),
       ],
       label: "Purchase Ledger Account ID",
       description: "The purchase ledger account for the product",
+      optional: false,
     },
     itemCode: {
       type: "string",
@@ -118,19 +126,21 @@ export default {
     const response = await this.app.createProduct({
       $,
       data: {
-        description: this.description,
-        sales_ledger_account_id: this.salesLedgerAccountId,
-        purchase_ledger_account_id: this.purchaseLedgerAccountId,
-        item_code: this.itemCode,
-        notes: this.notes,
-        sales_tax_rate_id: this.salesTaxRateId,
-        usual_supplier_id: this.usualSupplierId,
-        purchase_tax_rate_id: this.purchaseTaxRateId,
-        cost_price: this.costPrice,
-        source_guid: this.sourceGuid,
-        purchase_description: this.purchaseDescription,
-        active: this.active,
-        catalog_item_type_id: this.catalogItemTypeId,
+        product: {
+          description: this.description,
+          sales_ledger_account_id: this.salesLedgerAccountId,
+          purchase_ledger_account_id: this.purchaseLedgerAccountId,
+          item_code: this.itemCode,
+          notes: this.notes,
+          sales_tax_rate_id: this.salesTaxRateId,
+          usual_supplier_id: this.usualSupplierId,
+          purchase_tax_rate_id: this.purchaseTaxRateId,
+          cost_price: this.costPrice,
+          source_guid: this.sourceGuid,
+          purchase_description: this.purchaseDescription,
+          active: this.active,
+          catalog_item_type_id: this.catalogItemTypeId,
+        },
       },
     });
 
