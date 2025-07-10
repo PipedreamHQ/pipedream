@@ -49,7 +49,7 @@ export default {
         data,
       });
     } catch {
-      // Always returns the error
+      // Sends message, but always returns the error
     /*   {
         "code": 400,
         "status": "INVALID_VALUE",
