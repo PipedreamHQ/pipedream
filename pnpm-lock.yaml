@@ -6027,6 +6027,9 @@ importers:
 
   components/harmonic: {}
 
+  components/harpa_ai:
+    specifiers: {}
+
   components/harry_potter_api:
     dependencies:
       '@pipedream/platform':
