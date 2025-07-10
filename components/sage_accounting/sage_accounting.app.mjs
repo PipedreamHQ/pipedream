@@ -456,5 +456,23 @@ export default {
         ...args,
       });
     },
+    async listProducts(args) {
+      return this._paginatedRequest({
+        path: "/products",
+        ...args,
+      });
+    },
+    async listServices(args) {
+      return this._paginatedRequest({
+        path: "/services",
+        ...args,
+      });
+    },
+    async listContactPayments(args) {
+      return this._paginatedRequest({
+        path: "/contact_payments",
+        ...args,
+      });
+    },
   },
 };
