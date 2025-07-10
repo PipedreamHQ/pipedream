@@ -15,8 +15,10 @@ export default {
       const summary = this.getItemSummary(payment);
       return {
         id,
-        summary: `New Contact Payment Created: ${summary}`,
-        ts: Date.parse(payment.created_at) || Date.now(),
+        summary: `New Payment to: ${summary}`,
+        ts: payment.created_at
+          ? new Date(payment.created_at).getTime()
+          : Date.now(),
       };
     },
     getItemId(payment) {
@@ -24,13 +26,13 @@ export default {
     },
     getItemSummary(payment) {
       const contactName = payment.contact?.displayed_as || payment.contact?.name || "Unknown Contact";
-      const amount = payment.total_amount || payment.net_amount || "Unknown Amount";
-      return `${contactName} - ${amount}`;
+      return contactName;
     },
     async getItems() {
       const payments = await this.sageAccounting.listContactPayments({
         params: {
           items_per_page: 100,
+          sort: "created_at:desc",
         },
       });
       return payments || [];

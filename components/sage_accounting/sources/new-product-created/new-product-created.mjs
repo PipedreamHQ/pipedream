@@ -15,20 +15,23 @@ export default {
       const summary = this.getItemSummary(product);
       return {
         id,
-        summary: `New Product Created: ${summary}`,
-        ts: Date.parse(product.created_at) || Date.now(),
+        summary: `New Product: ${summary}`,
+        ts: product.created_at
+          ? new Date(product.created_at).getTime()
+          : Date.now(),
       };
     },
     getItemId(product) {
       return product.id;
     },
     getItemSummary(product) {
-      return product.description || product.displayed_as || product.id;
+      return product.description || product.displayed_as || `Product ${product.id}`;
     },
     async getItems() {
       const products = await this.sageAccounting.listProducts({
         params: {
           items_per_page: 100,
+          sort: "created_at:desc",
         },
       });
       return products || [];

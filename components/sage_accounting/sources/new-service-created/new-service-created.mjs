@@ -15,20 +15,23 @@ export default {
       const summary = this.getItemSummary(service);
       return {
         id,
-        summary: `New Service Created: ${summary}`,
-        ts: Date.parse(service.created_at) || Date.now(),
+        summary: `New Service: ${summary}`,
+        ts: service.created_at
+          ? new Date(service.created_at).getTime()
+          : Date.now(),
       };
     },
     getItemId(service) {
       return service.id;
     },
     getItemSummary(service) {
-      return service.description || service.displayed_as || service.id;
+      return service.description || service.displayed_as || `Service ${service.id}`;
     },
     async getItems() {
       const services = await this.sageAccounting.listServices({
         params: {
           items_per_page: 100,
+          sort: "created_at:desc",
         },
       });
       return services || [];
