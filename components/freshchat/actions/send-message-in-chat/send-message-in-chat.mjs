@@ -26,7 +26,7 @@ export default {
     message: {
       type: "string",
       label: "Message",
-      description: "The content of themessage to send",
+      description: "The content of the message to send",
     },
   },
   async run({ $ }) {
