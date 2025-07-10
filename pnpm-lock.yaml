@@ -9840,6 +9840,9 @@ importers:
 
   components/paypro: {}
 
+  components/payrexx:
+    specifiers: {}
+
   components/paystack:
     dependencies:
       '@pipedream/platform':
