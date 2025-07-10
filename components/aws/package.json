@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/aws",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Pipedream Aws Components",
   "main": "aws.app.mjs",
   "keywords": [
@@ -18,6 +18,8 @@
     "@aws-sdk/client-iam": "^3.58.0",
     "@aws-sdk/client-lambda": "^3.65.0",
     "@aws-sdk/client-rds": "^3.556.0",
+    "@aws-sdk/client-redshift-data": "^3.840.0",
+    "@aws-sdk/client-redshift-serverless": "^3.840.0",
     "@aws-sdk/client-s3": "^3.66.0",
     "@aws-sdk/client-ses": "^3.58.0",
     "@aws-sdk/client-sfn": "^3.58.0",

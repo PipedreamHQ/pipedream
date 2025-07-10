@@ -5,7 +5,7 @@ export default {
   key: "aws-s3-upload-base64-as-file",
   name: "S3 - Upload Base64 As File",
   description: "Accepts a base64-encoded string and a filename, then uploads as a file to S3. [See the documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     aws: common.props.aws,
