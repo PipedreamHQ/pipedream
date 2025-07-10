@@ -38,8 +38,10 @@ export default {
     defaultSalesLedgerAccountId: {
       propDefinition: [
         app,
-        "defaultSalesLedgerAccountId",
+        "ledgerAccountId",
       ],
+      label: "Default Sales Ledger Account ID",
+      description: "The ID of the default sales ledger account for the contact",
     },
     defaultSalesTaxRateId: {
       propDefinition: [
@@ -50,8 +52,10 @@ export default {
     defaultPurchaseLedgerAccountId: {
       propDefinition: [
         app,
-        "defaultPurchaseLedgerAccountId",
+        "ledgerAccountId",
       ],
+      label: "Default Purchase Ledger Account ID",
+      description: "The ID of the default purchase ledger account for the contact",
     },
     taxNumber: {
       propDefinition: [

@@ -11,8 +11,12 @@ export default {
       type: "string",
       label: "Contact ID",
       description: "The unique identifier for the contact",
-      async options() {
-        const contacts = await this.listContacts();
+      async options({ page }) {
+        const contacts = await this.listContacts({
+          params: {
+            page,
+          },
+        });
         return contacts.map((contact) => ({
           label: contact.name || contact.displayed_as,
           value: contact.id,
@@ -23,8 +27,12 @@ export default {
       type: "string[]",
       label: "Contact Type IDs",
       description: "The IDs of the Contact Types",
-      async options() {
-        const contactTypes = await this.listContactTypes();
+      async options({ page }) {
+        const contactTypes = await this.listContactTypes({
+          params: {
+            page,
+          },
+        });
         return contactTypes.map((contactType) => ({
           label: contactType.displayed_as,
           value: contactType.id,
@@ -38,8 +46,12 @@ export default {
       type: "string",
       label: "Currency ID",
       description: "The ID of the Currency",
-      async options() {
-        const currencies = await this.listCurrencies();
+      async options({ page }) {
+        const currencies = await this.listCurrencies({
+          params: {
+            page,
+          },
+        });
         return currencies.map((currency) => ({
           label: currency.displayed_as,
           value: currency.id,
@@ -58,10 +70,21 @@ export default {
       description: "Unique reference for the contact",
       optional: true,
     },
-    defaultSalesLedgerAccountId: {
+    ledgerAccountId: {
       type: "string",
-      label: "Default Sales Ledger Account ID",
-      description: "The ID of the default sales ledger account for the contact",
+      label: "Ledger Account ID",
+      description: "The ID of the ledger account",
+      async options({ page }) {
+        const ledgerAccounts = await this.listLedgerAccounts({
+          params: {
+            page,
+          },
+        });
+        return ledgerAccounts.map((account) => ({
+          label: account.displayed_as,
+          value: account.id,
+        }));
+      },
       optional: true,
     },
     defaultSalesTaxRateId: {
@@ -70,16 +93,11 @@ export default {
       description: "The ID of the default sales tax rate for the contact",
       optional: true,
     },
-    defaultPurchaseLedgerAccountId: {
-      type: "string",
-      label: "Default Purchase Ledger Account ID",
-      description: "The ID of the default purchase ledger account for the contact",
-      optional: true,
-    },
     taxNumber: {
       type: "string",
       label: "Tax Number",
-      description: "The VAT registration number of the contact. The format will be validated.",
+      description:
+        "The VAT registration number of the contact. The format will be validated.",
       optional: true,
     },
     notes: {
@@ -98,7 +116,8 @@ export default {
     creditLimit: {
       type: "string",
       label: "Credit Limit",
-      description: "Custom credit limit amount for the contact (not applicable to Start)",
+      description:
+        "Custom credit limit amount for the contact (not applicable to Start)",
       optional: true,
     },
     creditDays: {
@@ -112,14 +131,16 @@ export default {
     creditTerms: {
       type: "string",
       label: "Credit Terms",
-      description: "Credit terms options determine how invoice due dates are calculated",
+      description:
+        "Credit terms options determine how invoice due dates are calculated",
       options: CREDIT_TERMS_OPTIONS,
       optional: true,
     },
     creditTermsAndConditions: {
       type: "string",
       label: "Credit Terms and Conditions",
-      description: "Custom terms and conditions for the contact. If set will override global /invoice_settings default terms and conditions. (Customers only)",
+      description:
+        "Custom terms and conditions for the contact. If set will override global /invoice_settings default terms and conditions. (Customers only)",
       optional: true,
     },
     productSalesPriceTypeId: {
@@ -137,31 +158,36 @@ export default {
     auxReference: {
       type: "string",
       label: "Auxiliary Reference",
-      description: "Auxiliary reference. Used for German 'Kreditorennummer' and 'Debitorennummer'",
+      description:
+        "Auxiliary reference. Used for German 'Kreditorennummer' and 'Debitorennummer'",
       optional: true,
     },
     registeredNumber: {
       type: "string",
       label: "Registered Number",
-      description: "The registered number of the contact's business. Only used for German businesses and represents the 'Steuernummer' there (not the 'USt-ID')",
+      description:
+        "The registered number of the contact's business. Only used for German businesses and represents the 'Steuernummer' there (not the 'USt-ID')",
       optional: true,
     },
     taxCalculation: {
       type: "string",
       label: "Tax Calculation",
-      description: "Tax calculation method used to define tax treatment (varies by country)",
+      description:
+        "Tax calculation method used to define tax treatment (varies by country)",
       optional: true,
     },
     auxiliaryAccount: {
       type: "string",
       label: "Auxiliary Account",
-      description: "Auxiliary account - used when auxiliary accounting is enabled in business settings. Available only in Spain and France",
+      description:
+        "Auxiliary account - used when auxiliary accounting is enabled in business settings. Available only in Spain and France",
       optional: true,
     },
     destinationVatBlocking: {
       type: "boolean",
       label: "Destination VAT Blocking",
-      description: "Identifies a contact should be blocked due to destination VAT",
+      description:
+        "Identifies a contact should be blocked due to destination VAT",
       optional: true,
     },
     // Contact Payment propDefinitions
@@ -169,8 +195,12 @@ export default {
       type: "string",
       label: "Transaction Type ID",
       description: "The transaction type of the payment",
-      async options() {
-        const transactionTypes = await this.listTransactionTypes();
+      async options({ page }) {
+        const transactionTypes = await this.listTransactionTypes({
+          params: {
+            page,
+          },
+        });
         return transactionTypes.map((transactionType) => ({
           label: transactionType.displayed_as,
           value: transactionType.id,
@@ -181,8 +211,12 @@ export default {
       type: "string",
       label: "Bank Account ID",
       description: "The bank account of the payment",
-      async options() {
-        const bankAccounts = await this.listBankAccounts();
+      async options({ page }) {
+        const bankAccounts = await this.listBankAccounts({
+          params: {
+            page,
+          },
+        });
         return bankAccounts.map((bankAccount) => ({
           label: bankAccount.displayed_as,
           value: bankAccount.id,
@@ -193,8 +227,12 @@ export default {
       type: "string",
       label: "Payment Method ID",
       description: "The ID of the Payment Method",
-      async options() {
-        const paymentMethods = await this.listPaymentMethods();
+      async options({ page }) {
+        const paymentMethods = await this.listPaymentMethods({
+          params: {
+            page,
+          },
+        });
         return paymentMethods.map((paymentMethod) => ({
           label: paymentMethod.displayed_as,
           value: paymentMethod.id,
@@ -206,8 +244,12 @@ export default {
       type: "string",
       label: "Tax Rate ID",
       description: "The ID of the Tax Rate",
-      async options() {
-        const taxRates = await this.listTaxRates();
+      async options({ page }) {
+        const taxRates = await this.listTaxRates({
+          params: {
+            page,
+          },
+        });
         return taxRates.map((taxRate) => ({
           label: taxRate.displayed_as,
           value: taxRate.id,
@@ -282,15 +324,11 @@ export default {
     _baseUrl() {
       return "https://api.accounting.sage.com/v3.1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
+    async _makeRequest({
+      $ = this, path, headers, ...args
+    }) {
       return axios($, {
-        ...otherOpts,
+        ...args,
         url: this._baseUrl() + path,
         headers: {
           ...headers,
@@ -299,40 +337,41 @@ export default {
         },
       });
     },
-    async listContactTypes(opts = {}) {
-      const response = await this._makeRequest({
+    async _paginatedRequest(args = {}) {
+      const response = await this._makeRequest(args);
+      return response.$items || response.items || [];
+    },
+    async listContactTypes(args) {
+      return this._paginatedRequest({
         path: "/contact_types",
-        ...opts,
+        ...args,
       });
-      return response.$items || response.items || [];
     },
-    async listCurrencies(opts = {}) {
-      const response = await this._makeRequest({
+    async listCurrencies(args) {
+      return this._paginatedRequest({
         path: "/currencies",
-        ...opts,
+        ...args,
       });
-      return response.$items || response.items || [];
     },
-    async listContacts(opts = {}) {
-      const response = await this._makeRequest({
+    async listContacts(args) {
+      return this._paginatedRequest({
         path: "/contacts",
-        ...opts,
+        ...args,
       });
-      return response.$items || response.items || [];
     },
-    async createContact(opts = {}) {
+    async createContact(args) {
       return this._makeRequest({
         method: "POST",
         path: "/contacts",
-        ...opts,
+        ...args,
       });
     },
     async getContact({
-      contactId, ...opts
+      contactId, ...args
     }) {
       return this._makeRequest({
         path: `/contacts/${contactId}`,
-        ...opts,
+        ...args,
       });
     },
     async updateContact({
@@ -346,48 +385,75 @@ export default {
       });
     },
     async deleteContact({
-      contactId, ...opts
+      contactId, ...args
     }) {
       return this._makeRequest({
         method: "DELETE",
         path: `/contacts/${contactId}`,
-        ...opts,
+        ...args,
       });
     },
     // Contact Payment API methods
-    async listTransactionTypes(opts = {}) {
-      const response = await this._makeRequest({
+    async listTransactionTypes(args) {
+      return this._paginatedRequest({
         path: "/transaction_types",
-        ...opts,
+        ...args,
       });
-      return response.$items || response.items || [];
     },
-    async listBankAccounts(opts = {}) {
-      const response = await this._makeRequest({
+    async listBankAccounts(args) {
+      return this._paginatedRequest({
         path: "/bank_accounts",
-        ...opts,
+        ...args,
       });
-      return response.$items || response.items || [];
     },
-    async listPaymentMethods(opts = {}) {
-      const response = await this._makeRequest({
+    async listPaymentMethods(args) {
+      return this._paginatedRequest({
         path: "/payment_methods",
-        ...opts,
+        ...args,
       });
-      return response.$items || response.items || [];
     },
-    async listTaxRates(opts = {}) {
-      const response = await this._makeRequest({
+    async listTaxRates(args) {
+      return this._paginatedRequest({
         path: "/tax_rates",
-        ...opts,
+        ...args,
       });
-      return response.$items || response.items || [];
     },
-    async createContactPayment(opts = {}) {
+    async listLedgerAccounts(args) {
+      return this._paginatedRequest({
+        path: "/ledger_accounts",
+        ...args,
+      });
+    },
+    async createContactPayment(args) {
       return this._makeRequest({
         method: "POST",
         path: "/contact_payments",
-        ...opts,
+        ...args,
+      });
+    },
+    async listSuppliers({
+      params, ...args
+    }) {
+      return this._paginatedRequest({
+        path: "/contacts",
+        params: {
+          contact_type_id: "SUPPLIER",
+          ...params,
+        },
+        ...args,
+      });
+    },
+    async listCatalogItemTypes(args) {
+      return this._paginatedRequest({
+        path: "/catalog_item_types",
+        ...args,
+      });
+    },
+    async createProduct(args) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/products",
+        ...args,
       });
     },
   },
