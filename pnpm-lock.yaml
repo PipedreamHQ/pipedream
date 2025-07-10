@@ -771,7 +771,11 @@ importers:
 
   components/amazon_redshift: {}
 
-  components/amazon_selling_partner: {}
+  components/amazon_selling_partner:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/amazon_ses:
     dependencies:
