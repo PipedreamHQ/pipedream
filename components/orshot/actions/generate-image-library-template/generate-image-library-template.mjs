@@ -6,8 +6,9 @@ import {
 export default {
   key: "orshot-generate-image-library-template",
   name: "Generate Image from Library Template",
-  description: "Generate an image from a pre-designed library template using the Orshot API. [See the documentation](https://orshot.com/docs/api-reference/render-from-template)",
-  version: "0.0.1",
+  description:
+    "Generate an image from a pre-designed library template using the Orshot API. [See the documentation](https://orshot.com/docs/api-reference/render-from-template)",
+  version: "0.0.2",
   type: "action",
   props: {
     orshot,
@@ -97,6 +98,7 @@ export default {
             type: responseType,
             format: responseFormat,
           },
+          source: "orshot-pipedream",
         },
       });
 
@@ -106,7 +108,6 @@ export default {
         responseFormat,
         modifications: validModifications,
         timestamp: new Date().toISOString(),
-        source: "orshot-pipedream",
       };
 
       // Handle different response types
