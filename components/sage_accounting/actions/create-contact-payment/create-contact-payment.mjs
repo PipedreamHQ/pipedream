@@ -1,4 +1,5 @@
 import app from "../../sage_accounting.app.mjs";
+import { optionalParseFloat } from "../../common/utils.mjs";
 
 export default {
   key: "sage_accounting-create-contact-payment",
@@ -113,28 +114,14 @@ export default {
       date: this.date,
       total_amount: parseFloat(this.totalAmount),
       payment_method_id: this.paymentMethodId,
-      net_amount: this.netAmount
-        ? parseFloat(this.netAmount)
-        : undefined,
-      tax_amount: this.taxAmount
-        ? parseFloat(this.taxAmount)
-        : undefined,
+      net_amount: optionalParseFloat(this.netAmount),
+      tax_amount: optionalParseFloat(this.taxAmount),
       currency_id: this.currencyId,
-      exchange_rate: this.exchangeRate
-        ? parseFloat(this.exchangeRate)
-        : undefined,
-      base_currency_net_amount: this.baseCurrencyNetAmount
-        ? parseFloat(this.baseCurrencyNetAmount)
-        : undefined,
-      base_currency_tax_amount: this.baseCurrencyTaxAmount
-        ? parseFloat(this.baseCurrencyTaxAmount)
-        : undefined,
-      base_currency_total_amount: this.baseCurrencyTotalAmount
-        ? parseFloat(this.baseCurrencyTotalAmount)
-        : undefined,
-      base_currency_currency_charge: this.baseCurrencyCurrencyCharge
-        ? parseFloat(this.baseCurrencyCurrencyCharge)
-        : undefined,
+      exchange_rate: optionalParseFloat(this.exchangeRate),
+      base_currency_net_amount: optionalParseFloat(this.baseCurrencyNetAmount),
+      base_currency_tax_amount: optionalParseFloat(this.baseCurrencyTaxAmount),
+      base_currency_total_amount: optionalParseFloat(this.baseCurrencyTotalAmount),
+      base_currency_currency_charge: optionalParseFloat(this.baseCurrencyCurrencyCharge),
       reference: this.paymentReference,
       tax_rate_id: this.taxRateId,
     };
@@ -144,7 +131,7 @@ export default {
       data,
     });
 
-    $.export("$summary", `Successfully created contact payment with ID: ${response.id}`);
+    $.export("$summary", `Successfully created contact payment (ID: ${response.id})`);
     return response;
   },
 };

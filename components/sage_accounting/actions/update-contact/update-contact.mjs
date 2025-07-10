@@ -1,4 +1,3 @@
-import { ConfigurationError } from "@pipedream/platform";
 import app from "../../sage_accounting.app.mjs";
 
 export default {
@@ -149,10 +148,6 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.contactId) {
-      throw new ConfigurationError("Contact ID is required");
-    }
-
     const response = await this.app.updateContact({
       $,
       contactId: this.contactId,
