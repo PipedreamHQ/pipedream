@@ -28,7 +28,7 @@ export default {
       description: "Only return content for the specified tabs",
       optional: true,
       async options() {
-        const { tabs } = await this.googleDocs.getDocument(this.docId, this.includeTabsContent);
+        const { tabs } = await this.googleDocs.getDocument(this.docId, true);
         if (!tabs?.length) return [];
         return tabs.map((tab) => ({
           label: tab.tabProperties.title,
