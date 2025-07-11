@@ -9961,7 +9961,11 @@ importers:
 
   components/pembee: {}
 
-  components/pencil_spaces: {}
+  components/pencil_spaces:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/pendo: {}
 
