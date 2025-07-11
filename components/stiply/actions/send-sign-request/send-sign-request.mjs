@@ -33,7 +33,7 @@ export default {
     message: {
       type: "string",
       label: "Message",
-      description: "The message to the signers. The message can have some basic HTML tags. The tags <br>, <b>, <strong>, <i>, <em>, <u>, <a>, <ul>, <ol>, <li>, <p>, <h1-5> are allowed. Always use <br> for newlines.",
+      description: "The message to the signers. The message can have some basic HTML tags.",
       optional: true,
     },
     signingSequenceType: {
