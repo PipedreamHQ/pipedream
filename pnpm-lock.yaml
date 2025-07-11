@@ -9405,9 +9405,6 @@ importers:
       '@pipedream/types':
         specifier: ^0.1.4
         version: 0.1.6
-      axios:
-        specifier: ^1.6.2
-        version: 1.7.7
       bottleneck:
         specifier: ^2.19.5
         version: 2.19.5
@@ -38964,7 +38961,7 @@ snapshots:
       '@supabase/node-fetch': 2.6.15
       '@types/phoenix': 1.6.5
       '@types/ws': 8.5.13
-      ws: 8.18.0
+      ws: 8.18.2
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -38974,7 +38971,7 @@ snapshots:
       '@supabase/node-fetch': 2.6.15
       '@types/phoenix': 1.6.5
       '@types/ws': 8.5.13
-      ws: 8.18.0
+      ws: 8.18.2
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
