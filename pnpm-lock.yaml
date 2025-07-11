@@ -6966,7 +6966,11 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
-  components/joggai: {}
+  components/joggai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/join: {}
 
