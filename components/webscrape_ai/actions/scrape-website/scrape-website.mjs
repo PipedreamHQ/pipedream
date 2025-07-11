@@ -1,7 +1,7 @@
 import webscrapeAi from "../../webscrape_ai.app.mjs";
 
 export default {
-  key: "webscrape-ai-scrape-website",
+  key: "webscrape_ai-scrape-website",
   name: "Scrape Website",
   description: "Scrape the provided URL and store the results in the system. [See the documentation](https://webscrapeai.com/docs)",
   version: "0.0.1",
