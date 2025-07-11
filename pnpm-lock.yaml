@@ -14573,8 +14573,7 @@ importers:
         specifier: ^1.2.5
         version: 1.2.7
 
-  components/viewdns_info:
-    specifiers: {}
+  components/viewdns_info: {}
 
   components/vimeo:
     dependencies:
@@ -14833,7 +14832,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/webscrape_ai: {}
+  components/webscrape_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/webscraper_io:
     dependencies:
@@ -37182,6 +37185,8 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
+    transitivePeerDependencies:
+      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
