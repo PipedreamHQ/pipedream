@@ -4988,7 +4988,11 @@ importers:
 
   components/freshbooks: {}
 
-  components/freshchat: {}
+  components/freshchat:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/freshdesk:
     dependencies:
