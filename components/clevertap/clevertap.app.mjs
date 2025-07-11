@@ -3,7 +3,22 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "clevertap",
-  propDefinitions: {},
+  propDefinitions: {
+    campaignId: {
+      type: "integer",
+      label: "Campaign ID",
+      description: "The ID of the campaign you want to stop.",
+      async options() {
+        const { targets } = await this.getCampaigns();
+        return targets?.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        })) || [];
+      },
+    },
+  },
   methods: {
     _projectId() {
       return this.$auth.project_id;
@@ -17,7 +32,7 @@ export default {
     _apiUrl() {
       return `https://${this._region()}.clevertap.com/1`;
     },
-    async _makeRequest({
+    _makeRequest({
       $ = this, path, ...args
     }) {
       return axios($, {
@@ -30,7 +45,35 @@ export default {
         },
       });
     },
-    async uploadEvent(args = {}) {
+    getCampaigns(args = {}) {
+      return this._makeRequest({
+        path: "/targets/list.json",
+        method: "post",
+        ...args,
+      });
+    },
+    createCampaign(args = {}) {
+      return this._makeRequest({
+        path: "/targets/create.json",
+        method: "post",
+        ...args,
+      });
+    },
+    getCampaignReport(args = {}) {
+      return this._makeRequest({
+        path: "/targets/result.json",
+        method: "post",
+        ...args,
+      });
+    },
+    stopCampaign(args = {}) {
+      return this._makeRequest({
+        path: "/targets/stop.json",
+        method: "post",
+        ...args,
+      });
+    },
+    uploadEvent(args = {}) {
       return this._makeRequest({
         path: "/upload",
         method: "post",
