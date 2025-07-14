@@ -174,6 +174,12 @@ export default {
       description: "For Enterprise Zendesk accounts: optionally specify the subdomain to use. This will override the subdomain that was provided when connecting your Zendesk account to Pipedream. For example, if you Zendesk URL is https://examplehelp.zendesk.com, your subdomain is `examplehelp`",
       optional: true,
     },
+    ticketTags: {
+      type: "string[]",
+      label: "Tags",
+      description: "Array of tags to apply to the ticket. These will replace any existing tags on the ticket.",
+      optional: true,
+    },
   },
   methods: {
     getUrl(path, customSubdomain) {
@@ -299,6 +305,69 @@ export default {
         hasMore = !!response.next_page;
         args.params.page += 1;
       }
+    },
+    /**
+     * Set tags on a ticket (replaces all existing tags)
+     * @param {object} args - Arguments object
+     * @param {string} args.ticketId - The ticket ID
+     * @param {string[]} args.tags - Array of tags to set
+     * @param {string} args.customSubdomain - Optional custom subdomain
+     * @returns {Promise<object>} API response
+     */
+    setTicketTags({
+      ticketId, tags, customSubdomain, ...args
+    }) {
+      return this.makeRequest({
+        method: "PUT",
+        path: `/tickets/${ticketId}/tags.json`,
+        customSubdomain,
+        data: {
+          tags,
+        },
+        ...args,
+      });
+    },
+    /**
+     * Add tags to a ticket (appends to existing tags)
+     * @param {object} args - Arguments object
+     * @param {string} args.ticketId - The ticket ID
+     * @param {string[]} args.tags - Array of tags to add
+     * @param {string} args.customSubdomain - Optional custom subdomain
+     * @returns {Promise<object>} API response
+     */
+    addTicketTags({
+      ticketId, tags, customSubdomain, ...args
+    }) {
+      return this.makeRequest({
+        method: "POST",
+        path: `/tickets/${ticketId}/tags.json`,
+        customSubdomain,
+        data: {
+          tags,
+        },
+        ...args,
+      });
+    },
+    /**
+     * Remove specific tags from a ticket
+     * @param {object} args - Arguments object
+     * @param {string} args.ticketId - The ticket ID
+     * @param {string[]} args.tags - Array of tags to remove
+     * @param {string} args.customSubdomain - Optional custom subdomain
+     * @returns {Promise<object>} API response
+     */
+    removeTicketTags({
+      ticketId, tags, customSubdomain, ...args
+    }) {
+      return this.makeRequest({
+        method: "DELETE",
+        path: `/tickets/${ticketId}/tags.json`,
+        customSubdomain,
+        data: {
+          tags,
+        },
+        ...args,
+      });
     },
   },
 };
