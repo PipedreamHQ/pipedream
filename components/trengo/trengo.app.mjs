@@ -241,5 +241,17 @@ export default {
         ...args,
       });
     },
+    /**
+     * Create an internal note on a ticket
+     * @param {object} args - Request arguments
+     * @returns {object} Response from Trengo API
+     */
+    async createInternalNote(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/tickets/notes",
+        ...args,
+      });
+    },
   },
 };
