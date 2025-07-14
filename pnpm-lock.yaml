@@ -1868,6 +1868,9 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/bright_data:
+    specifiers: {}
+
   components/brilliant_directories:
     dependencies:
       '@pipedream/platform':
