@@ -241,5 +241,12 @@ export default {
         ...args,
       });
     },
+    async createInternalNote(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/tickets/notes",
+        ...args,
+      });
+    },
   },
 };
