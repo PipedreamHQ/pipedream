@@ -103,4 +103,12 @@ export default {
     ${fragments.projectUpdate}
     ${fragments.pageInfo}
   `,
+  getProjectUpdate: `
+    query GetProjectUpdate($projectUpdateId: String!) {
+      projectUpdate(id: $projectUpdateId) {
+        ...ProjectUpdate
+      }
+    }
+    ${fragments.projectUpdate}
+  `,
 };

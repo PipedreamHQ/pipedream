@@ -72,11 +72,9 @@ export default {
           }),
           resourcesArgs: teamId && {
             filter: {
-              issues: {
-                team: {
-                  id: {
-                    eq: teamId,
-                  },
+              accessibleTeams: {
+                id: {
+                  eq: teamId,
                 },
               },
             },
@@ -257,6 +255,17 @@ export default {
     },
     async getProjectUpdate(id) {
       return this.client().projectUpdate(id);
+    },
+    async getProjectUpdateGraphQL(id) {
+      const { data: { projectUpdate } } = await this.post({
+        data: {
+          query: queries.getProjectUpdate,
+          variables: {
+            projectUpdateId: id,
+          },
+        },
+      });
+      return projectUpdate;
     },
     async getState(id) {
       return this.client().workflowState(id);
