@@ -71,7 +71,7 @@ export default {
       do {
         const response = await fn(args);
         const items = response[resourceKey];
-        const total = items?.length;
+        total = items?.length;
         if (!total) {
           return;
         }
