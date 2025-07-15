@@ -1872,8 +1872,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/bright_data:
-    specifiers: {}
+  components/bright_data: {}
 
   components/brilliant_directories:
     dependencies:
@@ -2271,7 +2270,11 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
-  components/channable: {}
+  components/channable:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/channeladvisor:
     dependencies:
@@ -2646,14 +2649,11 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
 
-  components/clio_australia:
-    specifiers: {}
+  components/clio_australia: {}
 
-  components/clio_canada:
-    specifiers: {}
+  components/clio_canada: {}
 
-  components/clio_eu:
-    specifiers: {}
+  components/clio_eu: {}
 
   components/clockify:
     dependencies:
@@ -11470,8 +11470,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/rhombus:
-    specifiers: {}
+  components/rhombus: {}
 
   components/richpanel:
     dependencies:
