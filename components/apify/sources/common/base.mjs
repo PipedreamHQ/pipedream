@@ -1,4 +1,4 @@
-import { WEBHOOK_EVENT_TYPES } from '@apify/consts';
+import { WEBHOOK_EVENT_TYPES } from "@apify/consts";
 import apify from "../../apify.app.mjs";
 
 export default {
