@@ -5,7 +5,7 @@ export default {
   key: "pdf4me-convert-to-pdf",
   name: "Convert to PDF",
   description: "Convert a document (e.g., DOCX, XLSX, PPTX) to PDF. [See the documentation](https://dev.pdf4me.com/apiv2/documentation/actions/convert-to-pdf/)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     pdf4me,
@@ -20,6 +20,11 @@ export default {
         pdf4me,
         "filename",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read-write",
+      sync: true,
     },
   },
   async run({ $ }) {

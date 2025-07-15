@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/aws",
-  "version": "0.7.9",
+  "version": "1.1.0",
   "description": "Pipedream Aws Components",
   "main": "aws.app.mjs",
   "keywords": [
@@ -18,6 +18,8 @@
     "@aws-sdk/client-iam": "^3.58.0",
     "@aws-sdk/client-lambda": "^3.65.0",
     "@aws-sdk/client-rds": "^3.556.0",
+    "@aws-sdk/client-redshift-data": "^3.840.0",
+    "@aws-sdk/client-redshift-serverless": "^3.840.0",
     "@aws-sdk/client-s3": "^3.66.0",
     "@aws-sdk/client-ses": "^3.58.0",
     "@aws-sdk/client-sfn": "^3.58.0",
@@ -29,7 +31,7 @@
     "@aws-sdk/s3-request-presigner": "^3.609.0",
     "@aws-sdk/signature-v4-crt": "^3.731.0",
     "@pipedream/helper_functions": "^0.3.6",
-    "@pipedream/platform": "^3.0.3",
+    "@pipedream/platform": "^3.1.0",
     "adm-zip": "^0.5.10",
     "dedent": "^1.5.1",
     "mailparser": "^3.6.6",

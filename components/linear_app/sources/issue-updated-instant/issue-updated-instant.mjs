@@ -4,10 +4,10 @@ import constants from "../../common/constants.mjs";
 export default {
   ...common,
   key: "linear_app-issue-updated-instant",
-  name: "New Updated Issue (Instant)",
-  description: "Emit new event when an issue is updated. [See the documentation](https://developers.linear.app/docs/graphql/webhooks)",
+  name: "Issue Updated (Instant)",
+  description: "Triggers instantly when any issue is updated in Linear. Provides complete issue details with changes. Supports filtering by team and project. Includes all updates except status changes. See Linear docs for additional info [here](https://developers.linear.app/docs/graphql/webhooks).",
   type: "source",
-  version: "0.3.10",
+  version: "0.3.12",
   dedupe: "unique",
   methods: {
     ...common.methods,

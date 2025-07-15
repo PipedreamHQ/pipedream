@@ -18,7 +18,7 @@ export default {
   key: "google_drive-download-file",
   name: "Download File",
   description: "Download a file. [See the documentation](https://developers.google.com/drive/api/v3/manage-downloads) for more information",
-  version: "0.1.10",
+  version: "0.1.12",
   type: "action",
   props: {
     googleDrive,
@@ -47,6 +47,7 @@ export default {
         directory](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory)
         (e.g., \`/tmp/myFile.csv\`)
       `),
+      optional: true,
     },
     mimeType: {
       type: "string",
@@ -88,8 +89,24 @@ export default {
           });
       },
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
+    },
+    getBufferResponse: {
+      type: "boolean",
+      label: "Get Buffer Response",
+      description: "Whether to return the file content as a buffer instead of writing to a file path",
+      optional: true,
+    },
   },
   async run({ $ }) {
+    // Validate that filePath is provided when not getting raw response
+    if (!this.getBufferResponse && !this.filePath) {
+      throw new Error("File Path is required when not using Get Buffer Response");
+    }
+
     // Get file metadata to get file's MIME type
     const fileMetadata = await this.googleDrive.getFile(this.fileId, {
       fields: "name,mimeType",
@@ -113,6 +130,22 @@ export default {
         alt: "media",
       });
 
+    if (this.getBufferResponse) {
+      $.export("$summary", `Successfully retrieved raw content for file "${fileMetadata.name}"`);
+
+      // Convert stream to buffer
+      const chunks = [];
+      for await (const chunk of file) {
+        chunks.push(chunk);
+      }
+      const buffer = Buffer.concat(chunks);
+
+      return {
+        fileMetadata,
+        content: buffer,
+      };
+    }
+
     // Stream file to `filePath`
     const pipeline = promisify(stream.pipeline);
     const filePath = this.filePath.includes("tmp/")
@@ -120,7 +153,7 @@ export default {
       : `/tmp/${this.filePath}`;
     await pipeline(file, fs.createWriteStream(filePath));
     $.export("$summary", `Successfully downloaded the file, "${fileMetadata.name}"`);
-    return  {
+    return {
       fileMetadata,
       filePath,
     };

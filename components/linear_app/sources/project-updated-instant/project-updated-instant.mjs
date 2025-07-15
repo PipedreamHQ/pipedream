@@ -5,10 +5,10 @@ import linearApp from "../../linear_app.app.mjs";
 export default {
   ...common,
   key: "linear_app-project-updated-instant",
-  name: "New Updated Project (Instant)",
-  description: "Emit new event when a project is updated. [See the documentation](https://developers.linear.app/docs/graphql/webhooks)",
+  name: "Project Updated (Instant)",
+  description: "Triggers instantly when a project is updated in Linear. Returns project details including name, description, status, dates, and team info. Supports filtering by specific teams. See Linear docs for additional info [here](https://developers.linear.app/docs/graphql/webhooks).",
   type: "source",
-  version: "0.0.3",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     linearApp,

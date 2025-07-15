@@ -6,7 +6,7 @@ export default {
   key: "microsoft_outlook-download-attachment",
   name: "Download Attachment",
   description: "Downloads an attachment to the /tmp directory. [See the documentation](https://learn.microsoft.com/en-us/graph/api/attachment-get?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     microsoftOutlook,
@@ -30,6 +30,11 @@ export default {
       type: "string",
       label: "Filename",
       description: "The filename to save the attachment as in the /tmp directory",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   async run({ $ }) {

@@ -2,6 +2,18 @@
 
 # Changelog
 
+## [1.7.0] - 2025-07-03
+
+### Added
+
+- Added optional scope parameter to backendClient creation.
+
+## [1.6.11] - 2025-07-02
+
+### Added
+
+- Added `stash` to `V1Component`
+
 ## [1.6.10] - 2025-07-01
 
 ### Added

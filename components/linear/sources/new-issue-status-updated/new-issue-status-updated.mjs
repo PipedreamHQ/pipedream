@@ -9,6 +9,6 @@ export default {
   ...newIssueStatusUpdated,
   ...utils.getAppProps(newIssueStatusUpdated),
   key: "linear-new-issue-status-updated",
-  description: "Emit new event when the status of an issue is updated (OAuth). [See the documentation](https://developers.linear.app/docs/graphql/webhooks)",
-  version: "0.1.12",
+  description: "Triggers instantly when an issue's workflow state changes (e.g., Todo to In Progress). Returns issue with previous and current state info. Can filter by specific target state. Uses OAuth authentication. See Linear docs for additional info [here](https://developers.linear.app/docs/graphql/webhooks).",
+  version: "0.1.13",
 };

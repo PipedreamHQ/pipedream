@@ -6,9 +6,9 @@ export default {
   ...common,
   key: "linear_app-new-projectupdate-created",
   name: "New Project Update Written (Instant)",
-  description: "Project updates are short status reports on the health of your projects. Emit new event when a new Project Update is written. [See the documentation](https://developers.linear.app/docs/graphql/webhooks)",
+  description: "Triggers instantly when a project update (status report) is created in Linear. Returns update content, author, project details, and health status. Filters by team and optionally by project. See Linear docs for additional info [here](https://developers.linear.app/docs/graphql/webhooks).",
   type: "source",
-  version: "0.0.2",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     linearApp,
@@ -58,11 +58,10 @@ export default {
       };
     },
     getResource(projectUpdate) {
-      return this.linearApp.getProjectUpdate(projectUpdate.id);
+      return this.linearApp.getProjectUpdateGraphQL(projectUpdate.id);
     },
     isRelevant(body) {
-      const teamIds = body.data.infoSnapshot.teamsInfo.map(({ id }) => id);
-      return body?.action === "create" && teamIds.includes(this.teamId);
+      return body?.action === "create";
     },
     isRelevantPolling(resource) {
       const teamIds = resource.infoSnapshot.teamsInfo.map(({ id }) => id);

@@ -7,7 +7,7 @@ export default {
   key: "ilovepdf-process-files",
   name: "Process Files",
   description: "Process one or more files with the desired tool. [See the documentation](https://developer.ilovepdf.com/docs/api-reference)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   props: {
     ilovepdf,
@@ -34,6 +34,11 @@ export default {
       label: "Output Filename",
       description: "If specified, the name of the file that will be written to the `/tmp` folder. Defaults to the download filename returned by the API.",
       optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read-write",
+      sync: true,
     },
   },
   async run({ $ }) {

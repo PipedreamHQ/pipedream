@@ -5,7 +5,7 @@ export default {
   key: "printnode-send-print-job",
   name: "Send Print Job",
   description: "Sends a print job to a specified printer. [See the documentation](https://www.printnode.com/en/docs/api/curl#creating-print-jobs)",
-  version: "1.0.0",
+  version: "1.0.1",
   type: "action",
   props: {
     printnode,
@@ -61,6 +61,12 @@ export default {
       type: "object",
       label: "Authentication",
       description: "If access to the file URL requires HTTP Basic or Digest Authentication, specify the username and password information here. [See the documentation for more information](https://www.printnode.com/en/docs/api/curl#printjob-creating).",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },

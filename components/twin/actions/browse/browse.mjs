@@ -4,7 +4,7 @@ export default {
   key: "twin-browse",
   name: "Browse",
   description: "Browse the internet with an AI web navigation agent that can find information for you. [See the documentation](https://docs.twin.so/api-reference/endpoint/browse)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     twin,
@@ -33,15 +33,20 @@ export default {
     callbackWithRerun: {
       type: "boolean",
       label: "Callback With Rerun",
-      description: "Use the `$.flow.rerun` Node.js helper to rerun the step when the search is completed. This will increase execution time and credit usage as a result. [See the documentation](https://pipedream.com/docs/code/nodejs/rerun/#flow-rerun)",
+      description: "Use the `$.flow.rerun` Node.js helper to rerun the step when the search is completed. This will increase execution time and credit usage as a result. [See the documentation](https://pipedream.com/docs/code/nodejs/rerun/#flow-rerun). Not available in Pipedream Connect.",
       optional: true,
     },
   },
   async run({ $ }) {
     let response, completionCallbackUrl;
-    const { run } = $.context;
+    const context = $.context;
+    const run = context
+      ? context.run
+      : {
+        runs: 1,
+      };
     if (run.runs === 1) {
-      if (this.callbackWithRerun) {
+      if (context && this.callbackWithRerun) {
         ({ resume_url: completionCallbackUrl } = $.flow.rerun(600000, null, 1));
       }
       response = await this.twin.browse({

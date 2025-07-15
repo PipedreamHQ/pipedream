@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/harpa_ai",
+  "version": "0.0.1",
+  "description": "Pipedream HARPA AI Components",
+  "main": "harpa_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "harpa_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/harpa_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

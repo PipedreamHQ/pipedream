@@ -5,7 +5,7 @@ export default {
   key: "printautopilot-add-pdf-to-queue",
   name: "Add PDF to Print Autopilot Queue",
   description: "Uploads a PDF document to the print-autopilot queue. [See the documentation](https://documenter.getpostman.com/view/1334461/TW6wJonb#53f82327-4f23-416d-b2f0-ce17b8037933)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     printAutopilot,
@@ -24,6 +24,12 @@ export default {
       label: "Print Queue Token",
       description: "An API Token associated with the intended print queue",
       secret: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

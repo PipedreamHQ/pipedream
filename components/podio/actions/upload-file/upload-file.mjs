@@ -6,7 +6,7 @@ export default {
   key: "podio-upload-file",
   name: "Upload File",
   description: "Uploads a new file to Podio. [See the documentation](https://developers.podio.com/doc/files/upload-file-1004361)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     app,
@@ -19,6 +19,12 @@ export default {
       type: "string",
       label: "File Name",
       description: "File name of the uploaded file. If not specified, the original file name will be used.",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },
