@@ -1,10 +1,11 @@
 import chattermill from "../../chattermill.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "chattermill-create-response",
   name: "Create Response",
   description: "Create response model with given attributes. [See the documentation](https://apidocs.chattermill.com/#70001058-ac53-eec1-7c44-c836fb0b2489)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     chattermill,
@@ -24,10 +25,15 @@ export default {
       label: "Comment",
       description: "The comment to add to the response",
     },
-    customerId: {
-      type: "string",
-      label: "Customer ID",
-      description: "A unique customer ID to add to the response",
+    userMeta: {
+      type: "object",
+      label: "User Meta",
+      description: "The user meta to add to the response. Example: `{ \"customer_id\": { \"type\": \"text\", \"value\": \"1234\", \"name\": \"Customer ID\" } }`",
+    },
+    segments: {
+      type: "object",
+      label: "Segments",
+      description: "The segments to add to the response. Example: `{ \"customer_type\": { \"type\": \"text\", \"value\": \"New\", \"name\": \"Customer Type\" } }`",
     },
     dataType: {
       propDefinition: [
@@ -49,34 +55,25 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.chattermill.createResponse({
-      $,
-      projectId: this.projectId,
-      data: {
-        comment: this.comment,
-        response: {
-          score: this.score,
-          comment: this.comment,
-          user_meta: {
-            customer_id: {
-              type: "text",
-              value: this.customerId,
-              name: "Customer ID",
-            },
+    try {
+      const response = await this.chattermill.createResponse({
+        $,
+        projectId: this.projectId,
+        data: {
+          response: {
+            score: this.score,
+            comment: this.comment,
+            user_meta: parseObject(this.userMeta),
+            segments: parseObject(this.segments),
+            data_type: this.dataType,
+            data_source: this.dataSource,
           },
-          segments: {
-            customer_type: {
-              type: "text",
-              value: "New",
-              name: "Customer Type",
-            },
-          },
-          data_type: this.dataType,
-          data_source: this.dataSource,
         },
-      },
-    });
-    $.export("$summary", "Successfully created response.");
-    return response;
+      });
+      $.export("$summary", "Successfully created response.");
+      return response;
+    } catch {
+      throw new Error("Failed to create response");
+    }
   },
 };

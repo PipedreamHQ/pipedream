@@ -77,7 +77,7 @@ export default {
       projectId, responseId, ...opts
     }) {
       return this._makeRequest({
-        path: `/projects/${projectId}/responses/${responseId}`,
+        path: `/${projectId}/responses/${responseId}`,
         ...opts,
       });
     },
