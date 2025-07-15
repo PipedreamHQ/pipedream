@@ -3,45 +3,15 @@ import app from "../../momentum_ams.app.mjs";
 export default {
   key: "momentum_ams-insert-note",
   name: "Insert Note",
-  description: "Description for insert-note. [See the documentation](https://docs.google.com/document/d/11Xk7TviRujq806pLK8pQTcdzDF2ClmPvkfnVmdh1bGc/edit?tab=t.0)",
+  description: "Insert note . [See the documentation](https://docs.google.com/document/d/11Xk7TviRujq806pLK8pQTcdzDF2ClmPvkfnVmdh1bGc/edit?tab=t.0)",
   version: "0.0.1",
   type: "action",
   props: {
     app,
-    count: {
-      propDefinition: [
-        app,
-        "count",
-      ],
-    },
-    orderby: {
-      propDefinition: [
-        app,
-        "orderby",
-      ],
-    },
-    skip: {
-      propDefinition: [
-        app,
-        "skip",
-      ],
-    },
-    top: {
-      propDefinition: [
-        app,
-        "top",
-      ],
-    },
     id: {
       propDefinition: [
         app,
         "id",
-        (c) => ({
-          count: c.count,
-          orderby: c.orderby,
-          skip: c.skip,
-          top: c.top,
-        }),
       ],
     },
     subject: {
@@ -79,7 +49,7 @@ export default {
     const response = await this.app.insertNote({
       $,
       data: {
-        insured_database_id: this.insuredDatabaseId,
+        insured_database_id: this.id,
         subject: this.subject,
         creator_name: this.creatorName,
         type: this.type,

@@ -37,43 +37,21 @@ export default {
       type: "string",
       label: "Client ID",
       description: "The ID of the client",
-      async options({
-        count, orderby, skip, top,
-      }) {
+      async options({ page }) {
         const response = await this.getClients({
-          count,
-          orderby,
-          skip,
-          top,
+          params: {
+            "$top": 10,
+            "$skip": page * 10,
+            "$orderby": "id",
+          },
         });
-        const ids = response.value;
-        return ids.map(({
+        return response.value.map(({
           id, commercialName,
         }) => ({
           value: id,
           label: commercialName,
         }));
       },
-    },
-    count: {
-      type: "boolean",
-      label: "Count",
-      description: "Returns the total number of records that exist in nowcerts database",
-    },
-    orderby: {
-      type: "string",
-      label: "Order By",
-      description: "The parameter used to sort the results, e.g.: `firstName`, `changeDate`)",
-    },
-    skip: {
-      type: "integer",
-      label: "Skip",
-      description: "The number of records to skip for pagination purposes",
-    },
-    top: {
-      type: "integer",
-      label: "Top",
-      description: "The maximum number of records to retrieve for pagination purposes",
     },
   },
   methods: {
@@ -99,10 +77,12 @@ export default {
 
     async insertNote(args = {}) {
       return this._makeRequest({
-        path: "/InsertNote",
+        path: "/Zapier/InsertNote",
+        method: "post",
         ...args,
       });
     },
+
     async getClient({
       id, ...args
     }) {
@@ -111,17 +91,10 @@ export default {
         ...args,
       });
     },
-    async getClients({
-      count, orderby, skip, top, ...args
-    }) {
+
+    async getClients(args = {}) {
       return this._makeRequest({
         path: "/InsuredDetailList",
-        params: {
-          "$count": count,
-          "$orderby": orderby,
-          "$skip": skip,
-          "$top": top,
-        },
         ...args,
       });
     },
