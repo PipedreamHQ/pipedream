@@ -6,8 +6,8 @@ import { EVENT_TYPES } from "../../common/constants.mjs";
 export default {
   key: "apify-run-actor",
   name: "Run Actor",
-  description: "Performs an execution of a selected actor in Apify. [See the documentation](https://docs.apify.com/api/v2#/reference/actors/run-collection/run-actor)",
-  version: "0.0.3",
+  description: "Performs an execution of a selected Actor in Apify. [See the documentation](https://docs.apify.com/api/v2#/reference/actors/run-collection/run-actor)",
+  version: "0.0.4",
   type: "action",
   props: {
     apify,
@@ -30,7 +30,7 @@ export default {
     runAsynchronously: {
       type: "boolean",
       label: "Run Asynchronously",
-      description: "Set to `true` to run the actor asynchronously",
+      description: "Set to `true` to run the Actor asynchronously",
       reloadProps: true,
     },
     timeout: {
@@ -162,7 +162,7 @@ export default {
         props.properties = {
           type: "object",
           label: "Properties",
-          description: "Properties to set for this actor",
+          description: "Properties to set for this Actor",
         };
       }
       if (this.runAsynchronously) {
@@ -241,8 +241,8 @@ export default {
       },
     });
     const summary = this.runAsynchronously
-      ? `Successfully started actor run with ID: ${response.data.id}`
-      : `Successfully ran actor with ID: ${this.actorId}`;
+      ? `Successfully started Actor run with ID: ${response.data.id}`
+      : `Successfully ran Actor with ID: ${this.actorId}`;
     $.export("$summary", `${summary}`);
     return response;
   },
