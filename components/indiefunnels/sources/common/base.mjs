@@ -7,6 +7,14 @@ export default {
     db: "$.service.db",
     http: "$.interface.http",
   },
+  methods: {
+    _setWebhookId(id) {
+      this.db.set("webhookId", id);
+    },
+    _getWebhookId() {
+      return this.db.get("webhookId");
+    },
+  },
   hooks: {
     async activate() {
       const response = await this.indiefunnels.createHook({
@@ -16,10 +24,10 @@ export default {
           events: this.getEvent(),
         },
       });
-      this.db.set("webhookId", response.id);
+      this._setWebhookId(response.id);
     },
     async deactivate() {
-      const webhookId = this.db.get("webhookId");
+      const webhookId = this._getWebhookId();
       await this.indiefunnels.deleteHook(webhookId);
     },
   },

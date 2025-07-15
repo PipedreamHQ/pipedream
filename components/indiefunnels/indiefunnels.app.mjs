@@ -8,7 +8,7 @@ export default {
     memberId: {
       type: "string",
       label: "Member ID",
-      description: "The Id of the member to update",
+      description: "The ID of the member to update",
       async options({ page }) {
         const { items } = await this.listMembers({
           params: {
@@ -27,7 +27,7 @@ export default {
     contactId: {
       type: "string",
       label: "Contact ID",
-      description: "Contact id of the member",
+      description: "Contact ID of the member",
       async options({ page }) {
         const { items } = await this.listContacts({
           params: {
@@ -47,7 +47,7 @@ export default {
     groups: {
       type: "string[]",
       label: "Member Groups",
-      description: "Member group id(s) to which the member belong",
+      description: "Member group ID(s) to which the member belongs",
       async options() {
         const items = await this.listMemberGroups();
 
@@ -242,7 +242,7 @@ export default {
     _headers() {
       return {
         "Authorization": `Bearer ${this.$auth.api_key}`,
-        "user-agent ": "@PipedreamHQ/pipedream v0.1",
+        "user-agent": "@PipedreamHQ/pipedream v0.1",
       };
     },
     _makeRequest({
