@@ -124,7 +124,7 @@ export default {
       }) {
         let { startAt } = prevContext || {};
         const pageSize = 50;
-        const resp = await this.getUsers({
+        const resp = await this.findUsers({
           cloudId,
           params: {
             startAt,
@@ -352,7 +352,7 @@ export default {
       });
       if (response?.webhookRegistrationResult[0]?.errors) {
         throw new ConfigurationError(`Cannot create the webhook trigger because Jira only allows one active webhook at a time. This is most likely because you have an existing Jira webhook running in another workflow. You can reuse your existing source in your workflow or deactivate the existing source and try again.
-        
+
         Error detail:
         Could not create trigger(s). ${response.webhookRegistrationResult[0].errors}`);
       }
@@ -447,9 +447,9 @@ export default {
         ...args,
       });
     },
-    getUsers(args = {}) {
+    findUsers(args = {}) {
       return this._makeRequest({
-        path: "/users/search",
+        path: "/user/search",
         ...args,
       });
     },

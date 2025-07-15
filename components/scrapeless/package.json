@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/scrapeless",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Pipedream Scrapeless Components",
   "main": "scrapeless.app.mjs",
   "keywords": [
@@ -14,6 +14,6 @@
   },
   "dependencies": {
     "@pipedream/platform": "^3.0.3",
-    "@scrapeless-ai/sdk": "^1.4.0"
+    "@scrapeless-ai/sdk": "1.6.0"
   }
 }
