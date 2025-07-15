@@ -105,21 +105,21 @@ export default {
         })) || [];
       },
     },
-    buildId: {
+    buildTag: {
       type: "string",
       label: "Build",
       description: "Specifies the Actor build to run. It can be either a build tag or build number.",
-      async options({
-        page, actorId,
-      }) {
-        const { data: { items } } = await this.listBuilds({
+      async options({ actorId }) {
+        const { data: { taggedBuilds } } = await this.getActor({
           actorId,
-          params: {
-            offset: LIMIT * page,
-            limit: LIMIT,
-          },
         });
-        return items?.map(({ id }) => id) || [];
+        return Object.entries(taggedBuilds).map(([
+          name,
+          { buildId },
+        ]) => ({
+          label: name,
+          value: buildId,
+        }));
       },
     },
     clean: {
@@ -211,9 +211,20 @@ export default {
         path: `/actor-tasks/${taskId}/runs`,
       });
     },
-    getBuild(build) {
+    getActor({ actorId }) {
       return this._makeRequest({
-        path: `/actor-builds/${build}`,
+        path: `/acts/${actorId}`,
+      });
+    },
+    getBuild(actorId, buildId) {
+      if (buildId) {
+        return this._makeRequest({
+          path: `/actor-builds/${buildId}`,
+        });
+      }
+
+      return this._makeRequest({
+        path: `/acts/${actorId}/builds/default`,
       });
     },
     listActors(opts = {}) {
