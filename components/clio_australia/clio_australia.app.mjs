@@ -1,11 +1,15 @@
+import clio from "@pipedream/clio";
+import constants from "@pipedream/clio/common/constants.mjs";
+
 export default {
+  ...clio,
   type: "app",
   app: "clio_australia",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    ...clio.methods,
+    getUrl(path) {
+      return `https://au.app.clio.com${constants.VERSION_PATH}${path}`;
     },
   },
 };
