@@ -29,7 +29,8 @@ export default {
     },
   },
   async run() {
-    let lastRatingCreatedAt = this._getLastUpdate();
+    const lastRatingCreatedAt = this._getLastUpdate();
+    let maxLastRatingCreatedAt = lastRatingCreatedAt;
     const data = {
       query: {
         field: "conversation_rating.requested_at",
@@ -41,14 +42,14 @@ export default {
     const results = await this.intercom.searchConversations(data);
     for (const conversation of results) {
       const createdAt = conversation.conversation_rating.created_at;
-      if (createdAt > lastRatingCreatedAt)
-        lastRatingCreatedAt = createdAt;
+      if (createdAt > maxLastRatingCreatedAt)
+        maxLastRatingCreatedAt = createdAt;
       if (!this.newConversationsOnly || conversation.created_at > lastRatingCreatedAt) {
         const meta = this.generateMeta(conversation);
         this.$emit(conversation, meta);
       }
     }
 
-    this._setLastUpdate(lastRatingCreatedAt);
+    this._setLastUpdate(maxLastRatingCreatedAt);
   },
 };
