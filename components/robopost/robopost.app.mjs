@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "clio_eu",
+  app: "robopost",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
