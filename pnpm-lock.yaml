@@ -2273,7 +2273,11 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
-  components/channable: {}
+  components/channable:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/channeladvisor:
     dependencies:
@@ -8248,8 +8252,7 @@ importers:
 
   components/membervault: {}
 
-  components/memento_database:
-    specifiers: {}
+  components/memento_database: {}
 
   components/memix: {}
 
@@ -11569,8 +11572,7 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
-  components/robopost:
-    specifiers: {}
+  components/robopost: {}
 
   components/rocket_chat:
     dependencies:
