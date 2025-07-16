@@ -5,9 +5,18 @@ export default {
   key: "intercom-new-conversation-rating-added",
   name: "New Conversation Rating Added",
   description: "Emit new event each time a new rating is added to a conversation.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
+  props: {
+    ...common.props,
+    newConversationsOnly: {
+      type: "boolean",
+      label: "New Conversations Only",
+      description: "Set to `true` to only emit events for new conversations",
+      optional: true,
+    },
+  },
   methods: {
     ...common.methods,
     generateMeta(conversation) {
@@ -34,8 +43,10 @@ export default {
       const createdAt = conversation.conversation_rating.created_at;
       if (createdAt > lastRatingCreatedAt)
         lastRatingCreatedAt = createdAt;
-      const meta = this.generateMeta(conversation);
-      this.$emit(conversation, meta);
+      if (!this.newConversationsOnly || conversation.created_at > lastRatingCreatedAt) {
+        const meta = this.generateMeta(conversation);
+        this.$emit(conversation, meta);
+      }
     }
 
     this._setLastUpdate(lastRatingCreatedAt);
