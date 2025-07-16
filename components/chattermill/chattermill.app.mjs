@@ -29,10 +29,10 @@ export default {
             page: page + 1,
           },
         });
-        return responses.map((response) => ({
+        return responses?.map((response) => ({
           label: response.comment || response.id,
           value: response.id,
-        }));
+        })) || [];
       },
     },
     dataType: {
@@ -56,6 +56,16 @@ export default {
         });
         return sources.map((source) => source.name);
       },
+    },
+    userMeta: {
+      type: "object",
+      label: "User Meta",
+      description: "The user meta to add to the response. Example: `{ \"customer_id\": { \"type\": \"text\", \"value\": \"1234\", \"name\": \"Customer ID\" } }`",
+    },
+    segments: {
+      type: "object",
+      label: "Segments",
+      description: "The segments to add to the response. Example: `{ \"customer_type\": { \"type\": \"text\", \"value\": \"New\", \"name\": \"Customer Type\" } }`",
     },
   },
   methods: {
@@ -111,15 +121,6 @@ export default {
         ...opts,
       });
     },
-    searchResponses({
-      projectId, ...opts
-    }) {
-      return this._makeRequest({
-        path: `/${projectId}/responses/search`,
-        method: "POST",
-        ...opts,
-      });
-    },
     createResponse({
       projectId, ...opts
     }) {
@@ -137,6 +138,42 @@ export default {
         method: "PUT",
         ...opts,
       });
+    },
+    async *paginate({
+      fn, args, resourceKey, max,
+    }) {
+      const limit = 100;
+      args = {
+        ...args,
+        params: {
+          ...args.params,
+          per_page: limit,
+          page: 1,
+        },
+      };
+      let total, count = 0;
+      do {
+        const response = await fn(args);
+        const items = response[resourceKey];
+        if (!items?.length) {
+          return;
+        }
+        for (const item of items) {
+          yield item;
+          if (max && ++count >= max) {
+            return;
+          }
+        }
+        total = items.length;
+        args.params.page++;
+      } while (total === limit);
+    },
+    async getPaginatedResources(opts) {
+      const resources = [];
+      for await (const resource of this.paginate(opts)) {
+        resources.push(resource);
+      }
+      return resources;
     },
   },
 };

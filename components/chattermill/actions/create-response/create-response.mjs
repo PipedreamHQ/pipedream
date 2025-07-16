@@ -26,14 +26,16 @@ export default {
       description: "The comment to add to the response",
     },
     userMeta: {
-      type: "object",
-      label: "User Meta",
-      description: "The user meta to add to the response. Example: `{ \"customer_id\": { \"type\": \"text\", \"value\": \"1234\", \"name\": \"Customer ID\" } }`",
+      propDefinition: [
+        chattermill,
+        "userMeta",
+      ],
     },
     segments: {
-      type: "object",
-      label: "Segments",
-      description: "The segments to add to the response. Example: `{ \"customer_type\": { \"type\": \"text\", \"value\": \"New\", \"name\": \"Customer Type\" } }`",
+      propDefinition: [
+        chattermill,
+        "segments",
+      ],
     },
     dataType: {
       propDefinition: [

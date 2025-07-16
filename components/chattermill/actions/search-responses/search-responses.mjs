@@ -1,10 +1,11 @@
 import chattermill from "../../chattermill.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "chattermill-search-responses",
   name: "Search Responses",
-  description: "Search for responses. [See the documentation](https://apidocs.chattermill.com/#3e586e66-678f-0167-ec06-af9e1b715ef5)",
-  version: "0.0.{{ts}}",
+  description: "Search for responses. [See the documentation](https://apidocs.chattermill.com/#3dd30375-7956-b872-edbd-873eef126b2d)",
+  version: "0.0.1",
   type: "action",
   props: {
     chattermill,
@@ -14,13 +15,47 @@ export default {
         "projectId",
       ],
     },
+    filterProperty: {
+      type: "string",
+      label: "Filter Property",
+      description: "Segment property to filter by",
+      optional: true,
+    },
+    filterValue: {
+      type: "string",
+      label: "Filter Value",
+      description: "Segment value to filter by",
+      optional: true,
+    },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "The maximum number of results to return",
+      default: 100,
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const response = await this.chattermill.searchResponses({
-      $,
-      data: {},
+    if ((this.filterProperty && !this.filterValue)
+      || (!this.filterProperty && this.filterValue)) {
+      throw new ConfigurationError("Filter Property and Value must be provided together");
+    }
+
+    const responses = await this.chattermill.getPaginatedResources({
+      fn: this.chattermill.listResponses,
+      args: {
+        $,
+        projectId: this.projectId,
+        params: {
+          filter_property: this.filterProperty,
+          filter_value: this.filterValue,
+        },
+      },
+      resourceKey: "responses",
+      max: this.maxResults,
     });
-    $.export("$summary", "Successfully searched for responses.");
-    return response;
+
+    $.export("$summary", `Found ${responses.length} responses.`);
+    return responses;
   },
 };
