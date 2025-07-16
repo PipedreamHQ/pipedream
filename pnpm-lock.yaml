@@ -8593,7 +8593,11 @@ importers:
 
   components/mollie: {}
 
-  components/momentum_ams: {}
+  components/momentum_ams:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/monday:
     dependencies:
