@@ -5,7 +5,7 @@ export default {
   key: "apify-set-key-value-store-record",
   name: "Set Key-Value Store Record",
   description: "Create or update a record in the key-value store of Apify. [See the documentation](https://docs.apify.com/api/v2#/reference/key-value-stores/record-collection/put-record)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     apify,
