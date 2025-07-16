@@ -1,5 +1,6 @@
 import returnless from "../../returnless.app.mjs";
 import { parseObject } from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "returnless-create-return-order",
@@ -16,9 +17,13 @@ export default {
       ],
     },
     locale: {
-      type: "string",
-      label: "Locale",
-      description: "The locale of the form to create the return-order intent for",
+      propDefinition: [
+        returnless,
+        "locale",
+        (c) => ({
+          formId: c.formId,
+        }),
+      ],
     },
     input: {
       type: "string",
@@ -84,7 +89,7 @@ export default {
     });
     for (const item of items) {
       props[`item${item.id}Quantity`] = {
-        type: "string",
+        type: "integer",
         label: `Item ${item.id} Quantity`,
         description: `The quantity of item ${item.id} to return`,
       };
@@ -120,6 +125,9 @@ export default {
         order_number: order.order_number,
       },
     });
+    if (intent.status === "failed") {
+      throw new ConfigurationError(intent.status_message);
+    }
 
     const { data: returnOrder } = await this.returnless.createReturnOrder({
       $,
@@ -128,7 +136,7 @@ export default {
         customer: {
           house_number: this.customerHouseNumber,
           street: this.customerStreet,
-          postal_code: this.customerPostalCode,
+          postcode: this.customerPostalCode,
           city: this.customerCity,
           country_id: this.customerCountryId,
         },

@@ -83,25 +83,14 @@ export default {
       type: "string",
       label: "Country ID",
       description: "The ID of the country to use for the return order",
-      async options({ prevContext }) {
-        const {
-          data, meta,
-        } = await this.listCountries({
-          params: {
-            cursor: prevContext?.cursor,
-          },
-        });
-        return {
-          options: data.map(({
-            id: value, name: label,
-          }) => ({
-            value,
-            label,
-          })) || [],
-          context: {
-            cursor: meta.next_cursor,
-          },
-        };
+      async options() {
+        const { data } = await this.listCountries();
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
       },
     },
     itemIds: {
@@ -152,6 +141,17 @@ export default {
         };
       },
     },
+    locale: {
+      type: "string",
+      label: "Locale",
+      description: "The locale of the form to use for the return order",
+      async options({ formId }) {
+        const { data } = await this.getForm({
+          formId,
+        });
+        return data.locales.map(({ locale }) => locale);
+      },
+    },
     maxResults: {
       type: "integer",
       label: "Max Results",
@@ -197,6 +197,14 @@ export default {
     }) {
       return this._makeRequest({
         path: `/sales-orders/${orderId}`,
+        ...opts,
+      });
+    },
+    getForm({
+      formId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/forms/${formId}`,
         ...opts,
       });
     },
