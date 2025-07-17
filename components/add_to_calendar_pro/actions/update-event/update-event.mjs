@@ -148,11 +148,13 @@ export default {
         type: "string",
         label: `Title of Date ${i + 1}`,
         description: `The title of Date ${i + 1}`,
+        optional:true
       };
       props[`startDate${i}`] = {
         type: "string",
         label: `Start Date of Date ${i + 1}`,
         description: `The start date of Date ${i + 1} in format YYYY-MM-DD`,
+        optional:true
       };
       props[`startTime${i}`] = {
         type: "string",
