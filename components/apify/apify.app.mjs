@@ -49,7 +49,7 @@ export default {
     userActorId: {
       type: "string",
       label: "Actor ID",
-      description: "The ID of the actor to monitor.",
+      description: "The ID of the Actor to monitor.",
       async options({ page }) {
         const { data: { items } } = await this.listUserActors({
           params: {
@@ -162,6 +162,7 @@ export default {
       return {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${this.$auth.api_token}`,
+        "x-apify-integration-platform": "pipedream",
       };
     },
     _makeRequest({
