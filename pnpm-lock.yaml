@@ -715,6 +715,9 @@ importers:
 
   components/alt_text_generator_ai: {}
 
+  components/alt_text_lab:
+    specifiers: {}
+
   components/alteryx_analytics_cloud: {}
 
   components/altiria:
