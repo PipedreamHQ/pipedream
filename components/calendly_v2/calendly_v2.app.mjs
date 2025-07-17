@@ -202,23 +202,27 @@ export default {
       delete opts.params.paginate;
       delete opts.params.maxResults;
 
-      do {
-        const res = await axios(
-          $ ?? this,
-          this._makeRequestOpts(opts),
-        );
-        response.collection.push(...res.collection);
-        response.pagination.count += res.pagination.count;
-        response.pagination.next_page = res.pagination.next_page;
-        opts.params.page_token = this._extractNextPageToken(res.pagination.next_page);
-      } while (paginate && opts.params.page_token && response.collection.length < maxResults);
+      try {
+        do {
+          const res = await axios(
+            $ ?? this,
+            this._makeRequestOpts(opts),
+          );
+          response.collection.push(...res.collection);
+          response.pagination.count += res.pagination.count;
+          response.pagination.next_page = res.pagination.next_page;
+          opts.params.page_token = this._extractNextPageToken(res.pagination.next_page);
+        } while (paginate && opts.params.page_token && response.collection.length < maxResults);
 
-      if (response.collection.length > maxResults) {
-        response.collection.length = maxResults;
-        response.pagination.count = maxResults;
+        if (response.collection.length > maxResults) {
+          response.collection.length = maxResults;
+          response.pagination.count = maxResults;
+        }
+
+        return response;
+      } catch (error) {
+        throw new Error(`${error.response.data.title} - ${error.response.data.message}`);
       }
-
-      return response;
     },
     async getUserInfo(user, $) {
       const opts = {
