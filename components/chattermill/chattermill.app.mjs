@@ -38,7 +38,8 @@ export default {
     dataType: {
       type: "string",
       label: "Data Type",
-      description: "The type of data to add to the response",
+      description: "The type of data to add to the response. Note: Not all combinations of data type and data source are valid.",
+      default: "Comment",
       async options({ projectId }) {
         const { data_types: types } = await this.listDataTypes({
           projectId,
@@ -49,7 +50,8 @@ export default {
     dataSource: {
       type: "string",
       label: "Data Source",
-      description: "The source of the data to add to the response",
+      description: "The source of the data to add to the response. Note: Not all combinations of data type and data source are valid.",
+      default: "CSV Upload",
       async options({ projectId }) {
         const { data_sources: sources } = await this.listDataSources({
           projectId,

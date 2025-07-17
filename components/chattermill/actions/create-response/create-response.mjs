@@ -18,7 +18,9 @@ export default {
     score: {
       type: "integer",
       label: "Score",
-      description: "The score to add to the response",
+      description: "A score of 1 - 10 to add to the response",
+      min: 1,
+      max: 10,
     },
     comment: {
       type: "string",
