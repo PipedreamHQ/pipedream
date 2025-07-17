@@ -13,7 +13,7 @@ export default {
         frontApp,
         "messageTemplateId",
       ],
-      description: "The message template ID",
+      description: "ID of the message template to delete",
     },
   },
   async run({ $ }) {

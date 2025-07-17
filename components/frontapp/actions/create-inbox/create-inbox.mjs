@@ -14,13 +14,13 @@ export default {
       description: "The name of the inbox",
     },
     teammateIds: {
-      type: "string[]",
-      label: "Teammate IDs",
-      description: "An array of teammate IDs that should have access to the inbox. Alternatively, you can supply teammate emails as a resource alias.",
       propDefinition: [
         frontApp,
         "teammateId",
       ],
+      type: "string[]",
+      label: "Teammate IDs",
+      description: "One or more IDs of teammates that should have access to the inbox",
       optional: true,
     },
   },

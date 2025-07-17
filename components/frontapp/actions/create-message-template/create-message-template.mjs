@@ -24,7 +24,7 @@ export default {
     body: {
       type: "string",
       label: "Body",
-      description: "Body of the message template. You can supply HTML with inline CSS to structure and style your template.",
+      description: "Body of the message template. You can supply HTML with inline CSS to structure and style your template",
     },
     folderId: {
       propDefinition: [
@@ -36,7 +36,7 @@ export default {
     inboxIds: {
       type: "string[]",
       label: "Inbox IDs",
-      description: "The specific inboxes this template is available in. If not specified, it will be available in all inboxes.",
+      description: "The specific inboxes this template is available in. If not specified, it will be available in all inboxes",
       propDefinition: [
         frontApp,
         "inboxId",
@@ -64,7 +64,7 @@ export default {
     let data, headers = {};
 
     // Handle attachments if provided
-    if (attachments && attachments.length > 0) {
+    if (attachments?.length > 0) {
       const formData = new FormData();
 
       formData.append("name", name);

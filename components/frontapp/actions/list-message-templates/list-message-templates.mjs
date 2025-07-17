@@ -11,11 +11,10 @@ export default {
     sortBy: {
       type: "string",
       label: "Sort By",
-      description: "Field used to sort the message templates.",
+      description: "Field used to sort the message templates",
       options: [
         "created_at",
         "updated_at",
-        "sort_order",
       ],
       optional: true,
     },
@@ -24,8 +23,14 @@ export default {
       label: "Sort Order",
       description: "Order by which results should be sorted",
       options: [
-        "asc",
-        "desc",
+        {
+          label: "Ascending",
+          value: "asc",
+        },
+        {
+          label: "Descending",
+          value: "desc",
+        },
       ],
       optional: true,
     },
@@ -37,18 +42,19 @@ export default {
       sortOrder,
     } = this;
 
-    const params = {};
-
-    if (sortBy) params.sort_by = sortBy;
-    if (sortOrder) params.sort_order = sortOrder;
-
     const response = await frontApp.listMessageTemplates({
-      params,
       $,
+      params: {
+        sort_by: sortBy,
+        sort_order: sortOrder,
+      },
     });
 
     const templates = response._results || [];
-    $.export("$summary", `Successfully retrieved ${templates.length} message template(s)`);
+    const length = templates.length;
+    $.export("$summary", `Successfully retrieved ${length} message template${length === 1
+      ? ""
+      : "s"}`);
 
     return response;
   },

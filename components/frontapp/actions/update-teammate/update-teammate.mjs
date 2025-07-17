@@ -13,7 +13,7 @@ export default {
         frontApp,
         "teammateId",
       ],
-      description: "The teammate ID. Alternatively, you can supply an email as a resource alias",
+      description: "ID of the teammate to update",
     },
     username: {
       type: "string",
