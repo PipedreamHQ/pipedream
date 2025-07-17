@@ -56,6 +56,21 @@ export default {
         });
       },
     },
+    groupId: {
+      type: "string",
+      label: "Group ID",
+      description: "A group UUID",
+      async options({
+        prevContext, organization,
+      }) {
+        prevContext.organization = organization;
+        return await this._makeAsyncOptionsRequest({
+          prevContext,
+          requestType: "listGroups",
+          optionsCallbackFn: this._getNameOptions,
+        });
+      },
+    },
     inviteeEmail: {
       type: "string",
       label: "Inviteee Email",
@@ -100,6 +115,9 @@ export default {
     },
     _buildUserUri(user) {
       return `${this._baseUri()}/users/${user}`;
+    },
+    _buildGroupUri(group) {
+      return `${this._baseUri()}/groups/${group}`;
     },
     _buildEventType(eventType) {
       return `${this._baseUri()}/event_types/${eventType}`;
@@ -239,18 +257,19 @@ export default {
       );
     },
     async listEvents(params, uuid, $) {
-      const user = uuid
-        ? this._buildUserUri(uuid)
-        : !params?.organization
-          ? await this.defaultUser($)
-          : undefined;
+      if (uuid) {
+        params.user = this._buildUserUri(uuid);
+      }
+      if (params.group) {
+        params.group = this._buildGroupUri(params.group);
+      }
+      if (!params.organization && !params.group && !params.user) {
+        params.user = await this.defaultUser($);
+      }
 
       const opts = {
         path: "/scheduled_events",
-        params: {
-          user,
-          ...params,
-        },
+        params,
       };
 
       return this._makeRequest(opts, $);
@@ -294,6 +313,14 @@ export default {
           user: await this.defaultUser($),
           ...params,
         },
+      };
+
+      return this._makeRequest(opts, $);
+    },
+    async listGroups(params, $) {
+      const opts = {
+        path: "/groups",
+        params,
       };
 
       return this._makeRequest(opts, $);

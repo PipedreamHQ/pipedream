@@ -6,7 +6,7 @@ export default {
   key: "calendly_v2-new-event-scheduled",
   name: "New Event Scheduled",
   description: "Emit new event when a event is scheduled.",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "source",
   dedupe: "unique",
   props: {
@@ -18,6 +18,72 @@ export default {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: `
+      Select "authenticatedUser" scope to return events for the authenticated user
+      Select "organization" scope to return events for that organization (requires admin/owner privilege)
+      Select "user" scope to return events for a specific User in your organization (requires admin/owner privilege)
+      Select "group" scope to return events for a specific Group (requires organization admin/owner or group admin privilege)`,
+    },
+    scope: {
+      type: "string",
+      label: "Scope",
+      description: "The scope to fetch events for",
+      options: [
+        "authenticatedUser",
+        "organization",
+        "user",
+        "group",
+      ],
+      default: "authenticatedUser",
+      reloadProps: true,
+    },
+    organization: {
+      propDefinition: [
+        app,
+        "organization",
+      ],
+      optional: true,
+      hidden: true,
+    },
+    user: {
+      propDefinition: [
+        app,
+        "user",
+        (c) => ({
+          organization: c.organization,
+        }),
+      ],
+      description: "Returns events for a specified user",
+      optional: true,
+      hidden: true,
+    },
+    group: {
+      propDefinition: [
+        app,
+        "groupId",
+        (c) => ({
+          organization: c.organization,
+        }),
+      ],
+      description: "Returns events for a specified group",
+      optional: true,
+      hidden: true,
+    },
+  },
+  async additionalProps(props) {
+    props.organization.hidden = this.scope === "authenticatedUser";
+    props.organization.optional = this.scope === "authenticatedUser";
+
+    props.group.hidden = this.scope !== "group";
+    props.group.optional = this.scope !== "group";
+
+    props.user.hidden = this.scope !== "user";
+    props.user.optional = this.scope !== "user";
+
+    return {};
   },
   methods: {
     emitEvent(data) {
@@ -41,14 +107,27 @@ export default {
 
     let nextPage;
 
+    const params = {
+      count: 100,
+      sort: "created_at:desc",
+    };
+    if (this.scope !== "authenticatedUser") {
+      params.organization = this.organization;
+    }
+    if (this.scope === "user") {
+      params.user = this.user;
+    }
+    if (this.scope === "group") {
+      params.group = this.group;
+    }
+
     do {
       const {
         pagination, collection: events,
       } = await this.app.listEvents({
         params: {
+          ...params,
           page_token: nextPage,
-          count: 100,
-          sort: "created_at:desc",
         },
       });
 
