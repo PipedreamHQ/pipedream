@@ -14,14 +14,31 @@ export default {
         "conversationId",
       ],
     },
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "Page number to retrieve. By default, the 25 most recent threads are retrieved (page 1)",
+      optional: true,
+      default: 1,
+      min: 1,
+    },
   },
   async run({ $ }) {
-    const response = (await this.helpScout.getConversationThreads({
+    const response = await this.helpScout.getConversationThreads({
       $,
       conversationId: this.conversationId,
-    }))?._embedded?.threads;
+      params: {
+        page: this.page,
+      },
+    });
 
-    $.export("$summary", `Successfully retrieved ${response?.length || 0} threads for conversation ID: ${this.conversationId}`);
-    return response;
+    const threads = response?._embedded?.threads;
+    const pageInfo = response?.page;
+
+    $.export("$summary", `Successfully retrieved ${threads?.length || 0} threads for conversation ID: ${this.conversationId} (Page ${pageInfo?.number + 1 || this.page} of ${pageInfo?.totalPages || "unknown"})`);
+    return {
+      threads,
+      pagination: pageInfo,
+    };
   },
 };
