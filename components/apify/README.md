@@ -6,7 +6,7 @@ The Apify API unleashes the power to automate web scraping, process data, and or
 
 **E-commerce Price Monitoring**
 
-- Set up a Pipedream workflow that triggers an Apify actor to scrape product prices from multiple e-commerce sites daily. Store this data in Pipedream's built-in data store and use the Pipedream Email API to send a daily digest of the best deals to subscribers.
+- Set up a Pipedream workflow that triggers an Apify Actor to scrape product prices from multiple e-commerce sites daily. Store this data in Pipedream's built-in data store and use the Pipedream Email API to send a daily digest of the best deals to subscribers.
 
 **Social Media Sentiment Analysis**
 
