@@ -266,7 +266,6 @@ export default {
 
     const response = await app.createCampaign({
       $,
-      debug: true,
       data: {
         name,
         target_mode: targetMode,
