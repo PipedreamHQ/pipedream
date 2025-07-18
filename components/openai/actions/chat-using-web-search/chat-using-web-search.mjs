@@ -5,7 +5,7 @@ import constants from "../../common/constants.mjs";
 export default {
   ...common,
   name: "Chat using Web Search",
-  version: "0.0.5",
+  version: "0.0.6",
   key: "openai-chat-using-web-search",
   description: "Chat using the web search tool. [See the documentation](https://platform.openai.com/docs/guides/tools-web-search)",
   type: "action",

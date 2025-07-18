@@ -4,7 +4,7 @@ export default {
   key: "wix_api_key-create-product",
   name: "Create Product",
   description: "Creates a new product. [See the documentation](https://dev.wix.com/api/rest/wix-stores/catalog/products/create-product)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     wix,

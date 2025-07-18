@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/robopost",
+  "version": "0.0.1",
+  "description": "Pipedream Robopost Components",
+  "main": "robopost.app.mjs",
+  "keywords": [
+    "pipedream",
+    "robopost"
+  ],
+  "homepage": "https://pipedream.com/apps/robopost",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
