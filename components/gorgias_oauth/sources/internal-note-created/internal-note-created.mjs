@@ -1,4 +1,3 @@
-import constants from "../../common/constants.mjs";
 import base from "../common/base.mjs";
 import eventTypes from "../common/event-types.mjs";
 import sampleEmit from "./test-event.mjs";
