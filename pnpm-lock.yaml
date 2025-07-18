@@ -719,8 +719,7 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
-  components/alt_text_lab:
-    specifiers: {}
+  components/alt_text_lab: {}
 
   components/alteryx_analytics_cloud: {}
 
@@ -6686,7 +6685,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/indiefunnels: {}
+  components/indiefunnels:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/inferable: {}
 
