@@ -19,25 +19,16 @@ export default {
       },
     },
     alert: {
-      type: "alert",
-      alertType: "info",
-      content: `
-      Select "authenticatedUser" scope to return events for the authenticated user
-      Select "organization" scope to return events for that organization (requires admin/owner privilege)
-      Select "user" scope to return events for a specific User in your organization (requires admin/owner privilege)
-      Select "group" scope to return events for a specific Group (requires organization admin/owner or group admin privilege)`,
+      propDefinition: [
+        app,
+        "listEventsAlert",
+      ],
     },
     scope: {
-      type: "string",
-      label: "Scope",
-      description: "The scope to fetch events for",
-      options: [
-        "authenticatedUser",
-        "organization",
-        "user",
-        "group",
+      propDefinition: [
+        app,
+        "listEventsScope",
       ],
-      default: "authenticatedUser",
       reloadProps: true,
     },
     organization: {
@@ -74,16 +65,7 @@ export default {
     },
   },
   async additionalProps(props) {
-    props.organization.hidden = this.scope === "authenticatedUser";
-    props.organization.optional = this.scope === "authenticatedUser";
-
-    props.group.hidden = this.scope !== "group";
-    props.group.optional = this.scope !== "group";
-
-    props.user.hidden = this.scope !== "user";
-    props.user.optional = this.scope !== "user";
-
-    return {};
+    return this.app.listEventsAdditionalProps(props, this.scope);
   },
   methods: {
     emitEvent(data) {

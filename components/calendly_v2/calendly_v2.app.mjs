@@ -108,6 +108,22 @@ export default {
       description: "Indicates if the webhook subscription scope will be `organization` or `user`",
       options: constants.scopes,
     },
+    listEventsScope: {
+      type: "string",
+      label: "Scope",
+      description: "The scope to fetch events for",
+      options: constants.listEventsScopes,
+      default: "authenticatedUser",
+    },
+    listEventsAlert: {
+      type: "alert",
+      alertType: "info",
+      content: `
+      Select "authenticatedUser" scope to return events for the authenticated user
+      Select "organization" scope to return events for that organization (requires admin/owner privilege)
+      Select "user" scope to return events for a specific User in your organization (requires admin/owner privilege)
+      Select "group" scope to return events for a specific Group (requires organization admin/owner or group admin privilege)`,
+    },
   },
   methods: {
     _baseUri() {
@@ -374,6 +390,18 @@ export default {
         this,
         this._makeRequestOpts(opts),
       );
+    },
+    listEventsAdditionalProps(props, scope) {
+      props.organization.hidden = scope === "authenticatedUser";
+      props.organization.optional = scope === "authenticatedUser";
+
+      props.group.hidden = scope !== "group";
+      props.group.optional = scope !== "group";
+
+      props.user.hidden = scope !== "user";
+      props.user.optional = scope !== "user";
+
+      return {};
     },
   },
 };
