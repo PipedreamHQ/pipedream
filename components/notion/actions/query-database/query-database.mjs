@@ -4,8 +4,8 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "notion-query-database",
   name: "Query Database",
-  description: "Query a database. [See the docs](https://developers.notion.com/reference/post-database-query)",
-  version: "0.0.8",
+  description: "Query a database with a specified filter. [See the documentation](https://developers.notion.com/reference/post-database-query)",
+  version: "0.0.12",
   type: "action",
   props: {
     notion,
@@ -16,8 +16,8 @@ export default {
       ],
     },
     filter: {
-      label: "Filter",
-      description: "The filter to query. [See how filters work here](https://developers.notion.com/reference/post-database-query-filter). E.g. { \"property\": \"Email\", \"rich_text\": { \"contains\": \"gmail.com\" } }",
+      label: "Filter (query)",
+      description: "The filter to apply, as a JSON-stringified object. [See the documentation for available filters](https://developers.notion.com/reference/post-database-query-filter). Example: `{ \"property\": \"Name\", \"title\": { \"contains\": \"title to search for\" } }`",
       type: "string",
     },
   },
@@ -28,7 +28,11 @@ export default {
       filter: utils.parseStringToJSON(filter),
     });
 
-    $.export("$summary", "Retrieved database query result");
+    const length = response?.results?.length;
+
+    $.export("$summary", `Retrieved ${length} result${length === 1
+      ? ""
+      : "s"}`);
 
     return response;
   },

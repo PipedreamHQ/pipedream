@@ -7,9 +7,9 @@ const { MEETING_TYPE_OPTIONS } = consts;
 
 export default {
   name: "Create a meeting",
-  description: "Create a new room in zoom. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingcreate)",
+  description: "Create a new room in zoom. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingcreate)",
   key: "zoom_admin-create-meeting",
-  version: "0.1.5",
+  version: "0.1.6",
   type: "action",
   props: {
     zoomAdmin,

@@ -1,0 +1,19 @@
+export const PAYLOAD_TYPE_OPTIONS = [
+  "TEXT",
+  "FILE",
+  "URLS",
+];
+
+export const STATUSES_OPTIONS = [
+  "BACKLOG",
+  "QUEUED",
+  "QUEUED_FOR_RESYNC",
+  "QUEUED_FOR_DELETE",
+  "PRE_PROCESSING",
+  "PROCESSING",
+  "DELETING",
+  "CANCELLING",
+  "COMPLETED",
+  "FAILED",
+  "CANCELLED",
+];

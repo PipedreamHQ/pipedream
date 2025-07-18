@@ -5,8 +5,8 @@ export default {
   ...common,
   key: "youtube_data_api-update-channel",
   name: "Update Channel",
-  description: "Updates a channel's metadata. [See the docs](https://developers.google.com/youtube/v3/docs/channels/update) for more information",
-  version: "0.0.1",
+  description: "Updates a channel's metadata. [See the documentation](https://developers.google.com/youtube/v3/docs/channels/update) for more information",
+  version: "0.0.2",
   type: "action",
   props: {
     youtubeDataApi,

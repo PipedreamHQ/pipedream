@@ -6,7 +6,7 @@ export default {
   name: "Search For Contacts",
   description: "Search for contacts in Apollo.io. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#search-for-contacts)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.6",
   props: {
     app,
     search: {
@@ -43,7 +43,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const resourcesStream = this.app.getResourcesStream({
+    const resourcesStream = this.app.getIterations({
       resourceFn: this.app.searchContacts,
       resourceFnArgs: {
         params: {
@@ -56,7 +56,7 @@ export default {
       resourceName: "contacts",
     });
 
-    const contacts = await utils.streamIterator(resourcesStream);
+    const contacts = await utils.iterate(resourcesStream);
 
     $.export("$summary", `Successfully fetched ${contacts.length} contacts.`);
 

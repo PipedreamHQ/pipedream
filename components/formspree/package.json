@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/formspree",
+  "version": "0.6.0",
+  "description": "Pipedream formspree Components",
+  "main": "formspree.app.mjs",
+  "keywords": [
+    "pipedream",
+    "formspree"
+  ],
+  "homepage": "https://pipedream.com/apps/formspree",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

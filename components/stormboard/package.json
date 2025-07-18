@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/stormboard",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Stormboard Components",
-  "main": "stormboard.app.js",
+  "main": "stormboard.app.mjs",
   "keywords": [
     "pipedream",
     "stormboard"

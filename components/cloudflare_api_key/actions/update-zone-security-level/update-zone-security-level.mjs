@@ -1,33 +1,64 @@
 import cloudflare from "../../cloudflare_api_key.app.mjs";
-import constants from "../../common/constants.mjs";
 
 export default {
   key: "cloudflare_api_key-update-zone-security-level",
   name: "Update Zone Security Level",
-  description: "Choose the appropriate security profile for your website, which will automatically adjust each of the security settings. [See the docs here](https://api.cloudflare.com/#zone-settings-change-security-level-setting)",
-  version: "0.0.3",
+  description: "Choose the appropriate security profile for your website, which will automatically adjust each of the security settings. [See the documentation](https://developers.cloudflare.com/api/node/resources/zones/subresources/settings/methods/edit/)",
+  version: "0.0.5",
   type: "action",
   props: {
     cloudflare,
-    zoneIdentifier: {
+    zoneId: {
       propDefinition: [
         cloudflare,
         "zoneIdentifier",
       ],
     },
-    securityLevel: {
+    value: {
       type: "string",
       label: "Security Level",
-      description: "Security level value",
-      options: constants.ZONE_SECURITY_LEVEL_OPTIONS,
+      description: "Choose the appropriate security profile for your website",
+      options: [
+        {
+          label: "Off",
+          value: "off",
+        },
+        {
+          label: "Essentially Off",
+          value: "essentially_off",
+        },
+        {
+          label: "Low",
+          value: "low",
+        },
+        {
+          label: "Medium",
+          value: "medium",
+        },
+        {
+          label: "High",
+          value: "high",
+        },
+        {
+          label: "Under Attack",
+          value: "under_attack",
+        },
+      ],
+      default: "medium",
     },
   },
   async run({ $ }) {
-    const zoneId = this.zoneIdentifier;
-    const securityLevel = this.securityLevel;
+    const {
+      zoneId,
+      value,
+    } = this;
 
-    const response = await this.cloudflare.updateZoneSecurityLevel(zoneId, securityLevel);
-    $.export("$summary", `Successfully updated zone #${zoneId} security level to '${securityLevel}'`);
+    const response = await this.cloudflare.editZoneSetting({
+      settingId: "security_level",
+      zone_id: zoneId,
+      value,
+    });
+    $.export("$summary", "Successfully updated zone with security level");
 
     return response;
   },

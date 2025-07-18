@@ -1,16 +1,22 @@
 import shopify from "../../shopify_developer_app.app.mjs";
-import common from "@pipedream/shopify/sources/new-abandoned-cart/common.mjs";
+import common from "@pipedream/shopify/sources/new-abandoned-cart/new-abandoned-cart.mjs";
+
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
+const props = adjustPropDefinitions(others.props, shopify);
 
 export default {
-  ...common,
+  ...others,
   key: "shopify_developer_app-new-abandoned-cart",
-  name: "New Abandoned Cart",
-  type: "source",
-  description: "Emit new event each time a user abandons their cart.",
-  version: "0.0.5",
-  dedupe: "unique",
+  version: "0.0.8",
+  name,
+  description,
+  type,
   props: {
     shopify,
-    ...common.props,
+    ...props,
   },
 };

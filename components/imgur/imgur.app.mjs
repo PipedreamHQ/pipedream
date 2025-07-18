@@ -6,10 +6,6 @@ export default {
   app: "imgur",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
-    },
     /**
      * Upload a screenshot to Imgur
      *

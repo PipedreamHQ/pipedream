@@ -8,6 +8,7 @@ import {
   DEFAULT_PRODUCT_PROPERTIES,
   DEFAULT_LINE_ITEM_PROPERTIES,
   DEFAULT_LEAD_PROPERTIES,
+  DEFAULT_LIMIT,
 } from "../../common/constants.mjs";
 import common from "../common/common-create.mjs";
 import { ConfigurationError } from "@pipedream/platform";
@@ -16,7 +17,7 @@ export default {
   key: "hubspot-search-crm",
   name: "Search CRM",
   description: "Search companies, contacts, deals, feedback submissions, products, tickets, line-items, quotes, leads, or custom objects. [See the documentation](https://developers.hubspot.com/docs/api/crm/search)",
-  version: "0.0.13",
+  version: "1.0.4",
   type: "action",
   props: {
     hubspot,
@@ -32,6 +33,13 @@ export default {
         },
       ],
       reloadProps: true,
+    },
+    exactMatch: {
+      type: "boolean",
+      label: "Exact Match",
+      description: "Set to `true` to search for an exact match of the search value. If `false`, partial matches will be returned. Default: `true`",
+      default: true,
+      optional: true,
     },
     createIfNotFound: {
       type: "boolean",
@@ -50,7 +58,7 @@ export default {
         props.customObjectType = {
           type: "string",
           label: "Custom Object Type",
-          options: await this.getCustomObjectTypes(),
+          options: async () => await this.getCustomObjectTypes(),
           reloadProps: true,
         };
       } catch {
@@ -71,12 +79,20 @@ export default {
       schema = await this.hubspot.getSchema({
         objectType,
       });
+      const properties = schema.properties;
+      const searchableProperties = schema.searchableProperties?.map((prop) => {
+        const propData = properties.find(({ name }) => name === prop);
+        return {
+          label: propData.label,
+          value: propData.name,
+        };
+      });
 
       props.searchProperty = {
         type: "string",
         label: "Search Property",
         description: "The field to search",
-        options: schema.searchableProperties,
+        options: searchableProperties,
       };
     } catch {
       props.searchProperty = {
@@ -89,7 +105,7 @@ export default {
     props.searchValue = {
       type: "string",
       label: "Search Value",
-      description: "Search for objects where the specified search field/property contains an exact match of the search value",
+      description: "Search for objects where the specified search field/property contains a match of the search value",
     };
     const defaultProperties = this.getDefaultProperties();
     if (defaultProperties?.length) {
@@ -186,7 +202,29 @@ export default {
     },
     async getCustomObjectTypes() {
       const { results } = await this.hubspot.listSchemas();
-      return results?.map(({ name }) => name ) || [];
+      return results?.map(({
+        fullyQualifiedName: value, labels,
+      }) => ({
+        value,
+        label: labels.plural,
+      })) || [];
+    },
+    async paginate(params) {
+      let results;
+      const items = [];
+      while (!results || params.after) {
+        results = await this.hubspot.searchCRM(params);
+        if (results.paging) {
+          params.after = results.paging.next.after;
+        } else {
+          delete params.after;
+        }
+        results = results.results;
+        for (const result of results) {
+          items.push(result);
+        }
+      }
+      return items;
     },
   },
   async run({ $ }) {
@@ -197,6 +235,7 @@ export default {
       additionalProperties = [],
       searchProperty,
       searchValue,
+      exactMatch,
       /* eslint-disable no-unused-vars */
       info,
       createIfNotFound,
@@ -204,8 +243,10 @@ export default {
       ...otherProperties
     } = this;
 
+    const actualObjectType = customObjectType ?? objectType;
+
     const schema = await this.hubspot.getSchema({
-      objectType,
+      objectType: actualObjectType,
     });
 
     if (!schema.searchableProperties.includes(searchProperty)) {
@@ -227,29 +268,39 @@ export default {
         ...defaultProperties,
         ...additionalProperties,
       ],
-      filters: [
+    };
+    if (exactMatch) {
+      data.filters = [
         {
           propertyName: searchProperty,
           operator: "EQ",
           value: searchValue,
         },
-      ],
-    };
-    const { results } = await hubspot.searchCRM({
-      object: customObjectType ?? objectType,
+      ];
+    } else {
+      data.limit = DEFAULT_LIMIT;
+    }
+
+    let results = await this.paginate({
+      object: actualObjectType,
       data,
-      $,
     });
+
+    if (!exactMatch) {
+      results = results.filter((result) =>
+        result.properties[searchProperty]
+        && result.properties[searchProperty].toLowerCase().includes(searchValue.toLowerCase()));
+    }
 
     if (!results?.length && createIfNotFound) {
       const response = await hubspot.createObject({
         $,
-        objectType: customObjectType ?? objectType,
+        objectType: actualObjectType,
         data: {
           properties,
         },
       });
-      const objectName = hubspot.getObjectTypeName(customObjectType ?? objectType);
+      const objectName = hubspot.getObjectTypeName(actualObjectType);
       $.export("$summary", `Successfully created ${objectName}`);
       return response;
     }

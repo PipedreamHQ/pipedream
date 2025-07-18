@@ -6,7 +6,7 @@ export default {
   key: "quickbooks-create-invoice",
   name: "Create Invoice",
   description: "Creates an invoice. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/invoice#create-an-invoice)",
-  version: "0.1.8",
+  version: "0.2.4",
   type: "action",
   props: {
     quickbooks,
@@ -16,10 +16,76 @@ export default {
         "customer",
       ],
     },
+    billEmail: {
+      type: "string",
+      label: "Bill Email",
+      description: "Email address where the invoice should be sent",
+      optional: true,
+    },
+    dueDate: {
+      type: "string",
+      label: "Due Date",
+      description: "Date when the payment of the transaction is due (YYYY-MM-DD)",
+      optional: true,
+    },
+    allowOnlineCreditCardPayment: {
+      type: "boolean",
+      label: "Allow Online Credit Card Payment",
+      description: "Allow online credit card payment",
+      optional: true,
+    },
+    allowOnlineACHPayment: {
+      type: "boolean",
+      label: "Allow Online Bank Transfer Payment",
+      description: "Allow online bank transfer payment",
+      optional: true,
+    },
     currencyRefValue: {
       propDefinition: [
         quickbooks,
         "currency",
+      ],
+    },
+    docNumber: {
+      type: "string",
+      label: "Document Number",
+      description: "Reference number for the transaction",
+      optional: true,
+    },
+    billAddr: {
+      type: "object",
+      label: "Billing Address",
+      description: "Billing address details",
+      optional: true,
+    },
+    shipAddr: {
+      type: "object",
+      label: "Shipping Address",
+      description: "Shipping address details",
+      optional: true,
+    },
+    trackingNum: {
+      type: "string",
+      label: "Tracking Number",
+      description: "Shipping tracking number",
+      optional: true,
+    },
+    privateNote: {
+      type: "string",
+      label: "Private Note",
+      description: "Private note for internal use",
+      optional: true,
+    },
+    customerMemo: {
+      type: "string",
+      label: "Customer Memo",
+      description: "Memo visible to customer",
+      optional: true,
+    },
+    taxCodeId: {
+      propDefinition: [
+        quickbooks,
+        "taxCodeId",
       ],
     },
     lineItemsAsObjects: {
@@ -36,7 +102,7 @@ export default {
       props.lineItems = {
         type: "string[]",
         label: "Line Items",
-        description: "Line items of an invoice. Set DetailType to `SalesItemLineDetail`, `GroupLineDetail`, or `DescriptionOnly`. Example: `{ \"DetailType\": \"SalesItemLineDetail\", \"Amount\": 100.0, \"SalesItemLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }`",
+        description: "Line items of an invoice. Set DetailType to `SalesItemLineDetail`, `GroupLineDetail`, or `DescriptionOnly`. Example: `{ \"DetailType\": \"SalesItemLineDetail\", \"Amount\": 100.0, \"SalesItemLineDetail\": { \"ItemRef\": { \"name\": \"Services\", \"value\": \"1\" } } }` [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/invoice#create-an-invoice) for more information.",
       };
       return props;
     }
@@ -105,17 +171,43 @@ export default {
       }
     });
 
+    const params = {};
+    const data = {
+      Line: lines,
+      CustomerRef: {
+        value: this.customerRefValue,
+      },
+      DueDate: this.dueDate,
+      AllowOnlineCreditCardPayment: this.allowOnlineCreditCardPayment,
+      AllowOnlineACHPayment: this.allowOnlineACHPayment,
+      DocNumber: this.docNumber,
+      BillAddr: this.billAddr,
+      ShipAddr: this.shipAddr,
+      TrackingNum: this.trackingNum,
+      PrivateNote: this.privateNote,
+    };
+
+    if (this.billEmail) {
+      params.include = "invoiceLink";
+      data.BillEmail = {
+        Address: this.billEmail,
+      };
+    }
+    if (this.currencyRefValue) {
+      data.CurrencyRef = {
+        value: this.currencyRefValue,
+      };
+    }
+    if (this.customerMemo) {
+      data.CustomerMemo = {
+        value: this.customerMemo,
+      };
+    }
+
     const response = await this.quickbooks.createInvoice({
       $,
-      data: {
-        Line: lines,
-        CustomerRef: {
-          value: this.customerRefValue,
-        },
-        CurrencyRef: {
-          value: this.currencyRefValue,
-        },
-      },
+      params,
+      data,
     });
 
     if (response) {

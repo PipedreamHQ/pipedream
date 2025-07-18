@@ -12,7 +12,7 @@ This guide is only relevant if:
 
 ## What changed
 
-- In the `0.x` version of the SDK and the original Connect API, you could authenticate with keys scoped to a specific project. In the `1.x` version of the SDK, you need to authenticate with [OAuth clients](/rest-api/auth#oauth).
+- In the `0.x` version of the SDK and the original Connect API, you could authenticate with keys scoped to a specific project. In the `1.x` version of the SDK, you need to authenticate with [OAuth clients](/rest-api/auth/#oauth).
 - The `createClient` method from both the browser and Node.js SDKs has been replaced with separate methods: `createFrontendClient` and `createBackendClient`, respectively.
 - The `connectTokenCreate` method has been renamed `createConnectToken`
 - New SDK methods: `projectInfo`, `invokeWorkflow`, and more
@@ -23,7 +23,7 @@ This guide is only relevant if:
 
 ### Create an OAuth client
 
-Follow the instructions [here](/rest-api/auth#oauth) to create an OAuth client.
+Follow the instructions [here](/rest-api/auth/#oauth) to create an OAuth client.
 
 ### Update your SDK version
 
@@ -75,7 +75,7 @@ You'll need to make three changes to your backend code:
 <Tabs.Tab>
 ```typescript
 import { createBackendClient, HTTPAuthType } from "@pipedream/sdk/server";
- 
+
 // These secrets should be saved securely and passed to your environment
 const pd = createBackendClient({
   credentials: {

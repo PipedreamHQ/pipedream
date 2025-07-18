@@ -1,6 +1,6 @@
 # Connect Webhooks
 
-When you [generate a Connect token](/connect/managed-auth/quickstart/#generate-a-short-lived-token), you can pass a `webhook_uri` parameter. Pipedream will send a POST request to this URL when the user completes the connection flow, or if an error occurs at any point. [See the API docs](/connect/api#create-a-new-token) for details.
+When you [generate a Connect token](/connect/managed-auth/quickstart/#generate-a-short-lived-token), you can pass a `webhook_uri` parameter. Pipedream will send a POST request to this URL when the user completes the connection flow, or if an error occurs at any point. [See the API docs](/connect/api/#create-token) for details.
 
 ## Webhook events
 
@@ -11,7 +11,7 @@ When you [generate a Connect token](/connect/managed-auth/quickstart/#generate-a
 
 ### Successful connection
 
-Please note that user credentials are not sent in the webhook request. To retrieve credentials, use the [Connect API to fetch the account](/connect/api#retrieve-account-details-by-id) using the `account.id` provided in the webhook payload.
+Please note that user credentials are not sent in the webhook request. To retrieve credentials, use the [Connect API to fetch the account](/connect/api/#retrieve-account-details-by-id) using the `account.id` provided in the webhook payload.
 
 ```json
 {

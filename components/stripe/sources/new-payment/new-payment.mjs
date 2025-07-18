@@ -5,7 +5,7 @@ export default {
   key: "stripe-new-payment",
   name: "New Payment",
   type: "source",
-  version: "0.1.2",
+  version: "0.1.4",
   description: "Emit new event for each new payment",
   methods: {
     ...common.methods,

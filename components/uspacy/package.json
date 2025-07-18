@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/uspacy",
+  "version": "0.0.1",
+  "description": "Pipedream Uspacy Components",
+  "main": "uspacy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "uspacy"
+  ],
+  "homepage": "https://pipedream.com/apps/uspacy",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

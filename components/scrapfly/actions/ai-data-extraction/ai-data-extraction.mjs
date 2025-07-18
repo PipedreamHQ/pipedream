@@ -1,13 +1,12 @@
 import { ConfigurationError } from "@pipedream/platform";
-import fs from "fs";
-import { checkTmp } from "../../common/utils.mjs";
+import { getFileStream } from "@pipedream/platform";
 import scrapfly from "../../scrapfly.app.mjs";
 
 export default {
   key: "scrapfly-ai-data-extraction",
   name: "AI Data Extraction",
   description: "Automate content extraction from any text-based source using AI, LLM, and custom parsing. [See the documentation](https://scrapfly.io/docs/extraction-api/getting-started)",
-  version: "0.0.1",
+  version: "0.1.1",
   type: "action",
   props: {
     scrapfly,
@@ -60,11 +59,25 @@ export default {
       description: "Queue you scrape request and redirect API response to a provided webhook endpoint. You can create a webhook endpoint from your `dashboard`, it takes the name of the webhook. Webhooks are scoped to the given project/env.",
       optional: true,
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
     if (!this.extractionTemplate && !this.extractionPrompt && !this.extractionModel) {
       throw new ConfigurationError("You must provide at least **Extraction Template**, **Extraction Prompt** or **Extraction Model**");
     }
+
+    const stream = await getFileStream(this.body);
+    const chunks = [];
+    for await (const chunk of stream) {
+      chunks.push(chunk);
+    }
+    const data = Buffer.concat(chunks).toString();
+
     const response = await this.scrapfly.automateContentExtraction({
       $,
       headers: {
@@ -79,7 +92,7 @@ export default {
         extraction_model: this.extractionModel,
         webhook_name: this.webhookName,
       },
-      data: fs.readFileSync(checkTmp(this.body)).toString(),
+      data,
     });
 
     $.export("$summary", "Successfully extracted content");

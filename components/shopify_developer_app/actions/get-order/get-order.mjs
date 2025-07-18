@@ -1,23 +1,25 @@
-import app from "../../common/rest-admin.mjs";
+import shopify from "../../shopify_developer_app.app.mjs";
+import { MAX_LIMIT } from "@pipedream/shopify/common/constants.mjs";
 
 export default {
   key: "shopify_developer_app-get-order",
   name: "Get Order",
-  description: "Retrieve an order by specifying the order ID. [See The Documentation](https://shopify.dev/docs/api/admin-rest/2024-10/resources/order#get-orders)",
-  version: "0.0.2",
+  description: "Retrieve an order by specifying the order ID. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/order)",
+  version: "0.0.5",
   type: "action",
   props: {
-    app,
+    shopify,
     orderId: {
       propDefinition: [
-        app,
+        shopify,
         "orderId",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.app.getOrder({
-      orderId: this.orderId,
+    const response = await this.shopify.getOrder({
+      id: this.orderId,
+      first: MAX_LIMIT,
     });
     $.export("$summary", `Successfully retrieved order with ID: ${this.orderId}`);
     return response;

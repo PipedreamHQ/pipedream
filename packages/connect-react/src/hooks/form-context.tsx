@@ -1,10 +1,10 @@
 import {
-  createContext, useContext, useEffect, useId, useState, type ReactNode,
+  createContext, useContext, useEffect, useId, useMemo, useState, type ReactNode,
 } from "react";
 import isEqual from "lodash.isequal";
 import { useQuery } from "@tanstack/react-query";
 import type {
-  ComponentReloadPropsOpts, ConfigurableProp, ConfigurableProps, ConfiguredProps, V1Component,
+  ConfigurableProp, ConfigurableProps, ConfiguredProps, ReloadComponentPropsOpts, V1Component,
 } from "@pipedream/sdk";
 import { useFrontendClient } from "./frontend-client-context";
 import type { ComponentFormProps } from "../components/ComponentForm";
@@ -13,10 +13,10 @@ import {
   appPropErrors, arrayPropErrors, booleanPropErrors, integerPropErrors,
   stringPropErrors,
 } from "../utils/component";
-import _ from "lodash";
 import {
   Observation, SdkError,
 } from "../types";
+import { resolveUserId } from "../utils/resolve-user-id";
 
 export type DynamicProps<T extends ConfigurableProps> = { id: string; configurableProps: T; }; // TODO
 
@@ -40,6 +40,8 @@ export type FormContext<T extends ConfigurableProps> = {
   setConfiguredProp: (idx: number, value: unknown) => void; // XXX type safety for value (T will rarely be static right?)
   setSubmitting: (submitting: boolean) => void;
   submitting: boolean;
+  externalUserId: string;
+  /** @deprecated Use externalUserId instead */
   userId: string;
   enableDebugging?: boolean;
 };
@@ -49,6 +51,7 @@ export const skippablePropTypes = [
   "$.interface.http",
   "$.interface.apphook",
   "$.interface.timer", // TODO add support for this (cron string and timers)
+  "dir",
 ]
 
 export const FormContext = createContext<FormContext<any /* XXX fix */> | undefined>(undefined); // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -78,8 +81,29 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const id = useId();
 
   const {
-    component, configuredProps: __configuredProps, propNames, userId, sdkResponse, enableDebugging,
+    component, configuredProps: __configuredProps, propNames, externalUserId, userId, sdkResponse, enableDebugging,
   } = formProps;
+
+  // Resolve user ID with deprecation warning
+  const {
+    resolvedId: resolvedExternalUserId, warningType,
+  } = useMemo(() => resolveUserId(externalUserId, userId), [
+    externalUserId,
+    userId,
+  ]);
+
+  // Show deprecation warnings in useEffect to avoid render side effects
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "production") {
+      if (warningType === "both") {
+        console.warn("[connect-react] Both externalUserId and userId provided. Using externalUserId. Please remove userId to avoid this warning.");
+      } else if (warningType === "deprecated") {
+        console.warn("[connect-react] userId is deprecated. Please use externalUserId instead.");
+      }
+    }
+  }, [
+    warningType,
+  ]);
   const componentId = component.key;
 
   const [
@@ -102,7 +126,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const [
     sdkErrors,
     setSdkErrors,
-  ] = useState<SdkError[]>([])
+  ] = useState<SdkError[]>([]);
 
   const [
     enabledOptionalProps,
@@ -134,8 +158,8 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     reloadPropIdx,
     setReloadPropIdx,
   ] = useState<number>();
-  const componentReloadPropsInput: ComponentReloadPropsOpts = {
-    userId,
+  const componentReloadPropsInput: ReloadComponentPropsOpts = {
+    externalUserId: resolvedExternalUserId,
     componentId,
     configuredProps,
     dynamicPropsId: dynamicProps?.id,
@@ -153,7 +177,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       queryKeyInput,
     ],
     queryFn: async () => {
-      const result = await client.componentReloadProps(componentReloadPropsInput);
+      const result = await client.reloadComponentProps(componentReloadPropsInput);
       const {
         dynamicProps, observations, errors: __errors,
       } = result
@@ -188,20 +212,30 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   ]);
 
   // XXX fix types of dynamicProps, props.component so this type decl not needed
-  let configurableProps: T = dynamicProps?.configurableProps || formProps.component.configurable_props || [];
-  if (propNames?.length) {
-    const _configurableProps = [];
-    for (const prop of configurableProps) {
-      // TODO decided propNames (and hideOptionalProps) should NOT filter dynamic props
-      if (propNames.findIndex((name) => prop.name === name) >= 0) {
-        _configurableProps.push(prop);
+  const configurableProps = useMemo<T>(() => {
+    let props: T = dynamicProps?.configurableProps || formProps.component.configurable_props || [];
+    if (propNames?.length) {
+      const _configurableProps = [];
+      for (const prop of props) {
+        // TODO decided propNames (and hideOptionalProps) should NOT filter dynamic props
+        if (propNames.findIndex((name) => prop.name === name) >= 0) {
+          _configurableProps.push(prop);
+        }
       }
+      props = _configurableProps as unknown as T; // XXX
     }
-    configurableProps = _configurableProps as unknown as T; // XXX
-  }
-  if (reloadPropIdx != null) {
-    configurableProps = configurableProps.slice(0, reloadPropIdx + 1) as unknown as T; // XXX
-  }
+    if (reloadPropIdx != null) {
+      props = Array.isArray(props)
+        ? props.slice(0, reloadPropIdx + 1) as unknown as T // eslint-disable-line react/prop-types
+        : props; // XXX
+    }
+    return props;
+  }, [
+    dynamicProps?.configurableProps,
+    formProps.component.configurable_props,
+    propNames,
+    reloadPropIdx,
+  ]);
 
   // these validations are necessary because they might override PropInput for number case for instance
   // so can't rely on that base control form validation
@@ -340,14 +374,14 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const [
     prevUserId,
     setPrevUserId,
-  ] = useState(userId)
+  ] = useState(resolvedExternalUserId)
   useEffect(() => {
-    if (prevUserId !== userId) {
+    if (prevUserId !== resolvedExternalUserId) {
       updateConfiguredProps({});
-      setPrevUserId(userId)
+      setPrevUserId(resolvedExternalUserId)
     }
   }, [
-    userId,
+    resolvedExternalUserId,
   ]);
 
   // maybe should take prop as first arg but for text inputs didn't want to compute index each time
@@ -421,7 +455,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     // NB: The infinite loop is triggered because of calling
     // checkPropsNeedConfiguring() from registerField, which is called
     // from inside useEffect.
-    if (_propsNeedConfiguring && propsNeedConfiguring && _.isEqual(_propsNeedConfiguring, propsNeedConfiguring)) return;
+    if (_propsNeedConfiguring && propsNeedConfiguring && isEqual(_propsNeedConfiguring, propsNeedConfiguring)) return;
 
     setPropsNeedConfiguring(_propsNeedConfiguring)
   }
@@ -541,7 +575,8 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     id,
     isValid: !Object.keys(errors).length, // XXX want to expose more from errors
     props: formProps,
-    userId,
+    externalUserId: resolvedExternalUserId,
+    userId: resolvedExternalUserId, // Keep for backward compatibility
     component,
     configurableProps,
     configuredProps,

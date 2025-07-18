@@ -3,7 +3,7 @@ import Callout from '@/components/Callout'
 
 # OAuth Clients
 
-When connecting an account for any OAuth app via Pipedream Connect, we'll default to using Pipedream's official OAuth client, which enables you to quickly get up and running. [Read more about OAuth clients in Pipedream here](/connected-accounts/oauth-clients).
+When connecting an account for any OAuth app via Pipedream Connect, we'll default to using Pipedream's official OAuth client, which enables you to quickly get up and running. [Read more about OAuth clients in Pipedream here](/apps/connected-accounts/oauth-clients).
 
 ## Using Pipedream OAuth
 
@@ -13,24 +13,25 @@ There are two types of apps in Pipedream:
 2. **OAuth**: These apps require OAuth authorization. Pipedream manages the OAuth flow for these apps, ensuring you always have a fresh access token for requests.
 
 <Callout type="info">
-For any OAuth app that supports it, **you can always use your own client.** Your ability to use Pipedream's OAuth clients in production depends on the use case.
+For any OAuth app that supports it, **you can always use your own client.** Your ability to use Pipedream's OAuth clients in production depends on the use case. See below for details.
 </Callout>
 
 <br />
 
 <div className="highlightHeaderRowTable">
-| Operation | Details | Environment |
+| Operation | Details | OAuth Client |
 |--------|---------|------------------------------|
-| [Retrieve credentials via API](/connect/api#accounts) | Fetch the credentials for your end user from Pipedream's API to use in your application. | ✅ `development`<br />❌ `production` |
-| [Invoke workflows](/connect/workflows) | Trigger any Pipedream workflow and use the connected account of your end user | ✅ `development`<br />❌ `production` |
-| [Run components via API](/connect/components) | Run any action and deploy any trigger directly from your application | ✅ `development`<br />✅ `production` |
+| Retrieve user credentials | [Fetch the credentials](/connect/api#accounts) for your end user from Pipedream's API to use in your app | ❌ Pipedream<br />✅ Custom |
+| Invoke workflows | [Trigger any Pipedream workflow](/connect/workflows) and use the connected account of your end users | ❌ Pipedream<br />✅ Custom |
+| Embed prebuilt tools | [Run any action and deploy any trigger](/connect/components) directly from your AI agent or app | ✅ Pipedream<br />✅ Custom |
+| Proxy API requests | [Write custom code to interface with any integrated API](/connect/api-proxy) while avoiding dealing with user auth | ✅ Pipedream<br />✅ Custom |
 </div>
 
 ## Using a custom OAuth client
 
-1. Follow the steps [here](/connected-accounts/oauth-clients#configuring-custom-oauth-clients) to create an OAuth client in Pipedream.
-2. When connecting an account either via the [frontend SDK](/connect/managed-auth/quickstart#use-the-pipedream-sdk-in-your-frontend), make sure to include the `oauthAppId` in `pd.connectAccount()`.
-3. If using [Connect Link](/connect/managed-auth/quickstart#or-use-connect-link), make sure to include the `oauthAppId` in the URL.
+1. Follow the steps [here](/apps/oauth-clients#configuring-custom-oauth-clients) to create an OAuth client in Pipedream.
+2. When connecting an account either via the [frontend SDK](/connect/managed-auth/quickstart/#use-the-pipedream-sdk-in-your-frontend), make sure to include the `oauthAppId` in `pd.connectAccount()`.
+3. If using [Connect Link](/connect/managed-auth/quickstart/#or-use-connect-link), make sure to include the `oauthAppId` in the URL.
 
 ### Finding your OAuth app ID
 

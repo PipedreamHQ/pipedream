@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ai_chatbot_hub",
+  "version": "0.0.1",
+  "description": "Pipedream AI Chatbot Hub Components",
+  "main": "ai_chatbot_hub.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ai_chatbot_hub"
+  ],
+  "homepage": "https://pipedream.com/apps/ai_chatbot_hub",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

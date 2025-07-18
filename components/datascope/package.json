@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/datascope",
+  "version": "0.6.0",
+  "description": "Pipedream datascope Components",
+  "main": "datascope.app.mjs",
+  "keywords": [
+    "pipedream",
+    "datascope"
+  ],
+  "homepage": "https://pipedream.com/apps/datascope",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

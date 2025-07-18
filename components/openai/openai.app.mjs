@@ -37,7 +37,7 @@ export default {
       label: "Model",
       description: "The ID of the model to use for the assistant",
       async options() {
-        const models = (await this.models({})).filter(({ id }) => (id.includes("gpt-3.5-turbo") || id.includes("gpt-4-turbo") || id.includes("gpt-4o")) && (id !== "gpt-3.5-turbo-0301"));
+        const models = await this.getAssistantsModels({});
         return models.map(({ id }) => id);
       },
     },
@@ -255,8 +255,8 @@ export default {
     },
     file: {
       type: "string",
-      label: "File",
-      description: "The path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp). See the [Assistants Tools guide](https://platform.openai.com/docs/assistants/tools) to learn more about the types of files supported. The Fine-tuning API only supports `.jsonl` files.",
+      label: "File Path or URL",
+      description: "The file to process. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`). See the [Assistants Tools guide](https://platform.openai.com/docs/assistants/tools) to learn more about the types of files supported. The Fine-tuning API only supports `.jsonl` files.",
     },
     purpose: {
       type: "string",
@@ -338,6 +338,9 @@ export default {
         maxBodyLength: Infinity,
       });
     },
+    isReasoningModel(model) {
+      return model.match(/^o[1-9]/gi)?.length;
+    },
     async models({ $ }) {
       const { data: models } = await this._makeRequest({
         $,
@@ -349,7 +352,7 @@ export default {
       const models = await this.models({
         $,
       });
-      return models.filter((model) => model.id.match(/4o|o[1-9]/gi));
+      return models.filter((model) => model.id.match(/4o|o[1-9]|4\.1/gi));
     },
     async getCompletionModels({ $ }) {
       const models = await this.models({
@@ -372,6 +375,12 @@ export default {
           id.match(/^(text-embedding-ada-002|text-embedding-3.*|.*-(davinci|curie|babbage|ada)-.*-001)$/gm)
         );
       });
+    },
+    async getAssistantsModels({ $ }) {
+      const models = await this.models({
+        $,
+      });
+      return models.filter(({ id }) => (id.includes("gpt-3.5-turbo") || id.includes("gpt-4-turbo") || id.includes("gpt-4o") || id.includes("gpt-4.1")) && (id !== "gpt-3.5-turbo-0301"));
     },
     async _makeCompletion({
       path, ...args
@@ -761,6 +770,13 @@ export default {
     listBatches(args = {}) {
       return this._makeRequest({
         path: "/batches",
+        ...args,
+      });
+    },
+    responses(args = {}) {
+      return this._makeRequest({
+        path: "/responses",
+        method: "POST",
         ...args,
       });
     },

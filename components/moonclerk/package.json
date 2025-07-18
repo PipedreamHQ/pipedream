@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/moonclerk",
+  "version": "0.6.0",
+  "description": "Pipedream moonclerk Components",
+  "main": "moonclerk.app.mjs",
+  "keywords": [
+    "pipedream",
+    "moonclerk"
+  ],
+  "homepage": "https://pipedream.com/apps/moonclerk",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

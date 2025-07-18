@@ -9,6 +9,7 @@ export default {
       type: "string",
       label: "Trigger Category ID",
       description: "The ID of the trigger category. [See the docs here](https://developer.zendesk.com/api-reference/ticketing/business-rules/trigger_categories/#list-trigger-categories)",
+      optional: true,
       async options({ prevContext }) {
         const { afterCursor } = prevContext;
 
@@ -124,6 +125,13 @@ export default {
       label: "Comment body",
       description: "The body of the comment.",
     },
+    ticketCommentBodyIsHTML: {
+      type: "boolean",
+      label: "Comment body is HTML",
+      description: "Whether the comment body is HTML. Default is `false`, which expects Markdown",
+      default: false,
+      optional: true,
+    },
     ticketPriority: {
       type: "string",
       label: "Ticket Priority",
@@ -143,6 +151,37 @@ export default {
       description: "The status of the ticket.",
       optional: true,
       options: Object.values(constants.TICKET_STATUS_OPTIONS),
+    },
+    ticketCommentPublic: {
+      type: "boolean",
+      label: "Comment Public",
+      description: "Whether the comment is public. Default is `true`",
+      default: true,
+      optional: true,
+    },
+    sortBy: {
+      type: "string",
+      label: "Sort By",
+      description: "Field to sort tickets by",
+      optional: true,
+      options: constants.SORT_BY_OPTIONS,
+    },
+    sortOrder: {
+      type: "string",
+      label: "Sort Order",
+      description: "Sort order (ascending or descending)",
+      optional: true,
+      options: [
+        "asc",
+        "desc",
+      ],
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Maximum number of tickets to return",
+      optional: true,
+      default: 100,
     },
     customSubdomain: {
       type: "string",
@@ -180,6 +219,20 @@ export default {
         ...args,
       };
       return axios(step, config);
+    },
+    getTicketInfo({
+      ticketId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}`,
+        ...args,
+      });
+    },
+    searchTickets(args = {}) {
+      return this.makeRequest({
+        path: "/search",
+        ...args,
+      });
     },
     create(args = {}) {
       return this.makeRequest({
@@ -230,6 +283,37 @@ export default {
         path: "/ticket_fields",
         ...args,
       });
+    },
+    async *paginate({
+      fn, args, resourceKey, max,
+    }) {
+      args = {
+        ...args,
+        params: {
+          ...args?.params,
+          per_page: constants.DEFAULT_LIMIT,
+          page: 1,
+        },
+      };
+      let hasMore = true;
+      let count = 0;
+      while (hasMore) {
+        const response = await fn(args);
+        const items = resourceKey
+          ? response[resourceKey]
+          : response;
+        if (!items?.length) {
+          return;
+        }
+        for (const item of items) {
+          yield item;
+          if (max && ++count >= max) {
+            return;
+          }
+        }
+        hasMore = !!response.next_page;
+        args.params.page += 1;
+      }
     },
   },
 };

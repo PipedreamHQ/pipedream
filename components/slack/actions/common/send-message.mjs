@@ -19,8 +19,8 @@ export default {
       type: "boolean",
       optional: true,
       default: true,
-      label: "Include link to workflow",
-      description: "Defaults to `true`, includes a link to the workflow at the end of your Slack message.",
+      label: "Include link to Pipedream",
+      description: "Defaults to `true`, includes a link to Pipedream at the end of your Slack message.",
     },
     customizeBotSettings: {
       type: "boolean",
@@ -139,15 +139,21 @@ export default {
   methods: {
     _makeSentViaPipedreamBlock() {
       const workflowId = process.env.PIPEDREAM_WORKFLOW_ID;
-      // The link is a URL without a protocol to prevent link unfurling. See
-      // https://api.slack.com/reference/messaging/link-unfurling#classic_unfurl
-      const link = `https://pipedream.com/@/${workflowId}?o=a&a=slack`;
+      const baseLink = "https://pipedream.com";
+      const linkText = !workflowId
+        ? "Pipedream Connect"
+        : "Pipedream";
+
+      const link = !workflowId
+        ? `${baseLink}/connect`
+        : `${baseLink}/@/${workflowId}?o=a&a=slack`;
+
       return {
         "type": "context",
         "elements": [
           {
             "type": "mrkdwn",
-            "text": `Sent via <${link}|Pipedream>`,
+            "text": `Sent via <${link}|${linkText}>`,
           },
         ],
       };
@@ -229,16 +235,18 @@ export default {
 
     if (this.post_at) {
       obj.post_at = Math.floor(new Date(this.post_at).getTime() / 1000);
-      return await this.slack.sdk().chat.scheduleMessage(obj);
+      return await this.slack.scheduleMessage(obj);
     }
-    const resp = await this.slack.sdk().chat.postMessage(obj);
+    const resp = await this.slack.postChatMessage(obj);
     const { channel } = await this.slack.conversationsInfo({
       channel: resp.channel,
     });
     let channelName = `#${channel?.name}`;
     if (channel.is_im) {
-      const usernames = await this.slack.userNames();
-      channelName = `@${usernames[channel.user]}`;
+      const { profile } = await this.slack.getUserProfile({
+        user: channel.user,
+      });
+      channelName = `@${profile.real_name}`;
     } else if (channel.is_mpim) {
       channelName = `@${channel.purpose.value}`;
     }

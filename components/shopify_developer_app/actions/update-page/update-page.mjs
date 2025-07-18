@@ -1,33 +1,22 @@
-import app from "../../common/rest-admin.mjs";
-import common from "@pipedream/shopify/actions/update-page/common.mjs";
+import shopify from "../../shopify_developer_app.app.mjs";
+import common from "@pipedream/shopify/actions/update-page/update-page.mjs";
+
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
+const props = adjustPropDefinitions(others.props, shopify);
 
 export default {
-  ...common,
+  ...others,
   key: "shopify_developer_app-update-page",
-  name: "Update Page",
-  description: "Update an existing page. [See The Documentation](https://shopify.dev/docs/api/admin-rest/2023-04/resources/page#put-pages-page-id)",
-  version: "0.0.6",
-  type: "action",
+  version: "0.0.9",
+  name,
+  description,
+  type,
   props: {
-    app,
-    pageId: {
-      propDefinition: [
-        app,
-        "pageId",
-      ],
-    },
-    title: {
-      description: "The title of the page.",
-      propDefinition: [
-        app,
-        "title",
-      ],
-    },
-    bodyHtml: {
-      propDefinition: [
-        app,
-        "bodyHtml",
-      ],
-    },
+    shopify,
+    ...props,
   },
 };

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/semrush",
+  "version": "0.6.0",
+  "description": "Pipedream semrush Components",
+  "main": "semrush.app.mjs",
+  "keywords": [
+    "pipedream",
+    "semrush"
+  ],
+  "homepage": "https://pipedream.com/apps/semrush",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

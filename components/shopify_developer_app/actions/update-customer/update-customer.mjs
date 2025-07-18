@@ -1,14 +1,12 @@
 import shopify from "../../shopify_developer_app.app.mjs";
-import metafieldActions from "../common/metafield-actions.mjs";
-import common from "@pipedream/shopify/actions/update-customer/common.mjs";
+import common from "../common/metafield-actions.mjs";
 
 export default {
-  ...metafieldActions,
   ...common,
   key: "shopify_developer_app-update-customer",
   name: "Update Customer",
-  description: "Update a existing customer. [See the docs](https://shopify.dev/api/admin-rest/2022-01/resources/customer#[put]/admin/api/2022-01/customers/{customer_id}.json)",
-  version: "0.0.5",
+  description: "Update a existing customer. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/customerupdate)",
+  version: "0.0.8",
   type: "action",
   props: {
     shopify,
@@ -85,5 +83,34 @@ export default {
         "metafields",
       ],
     },
+  },
+  async run({ $ }) {
+    const metafields = await this.createMetafieldsArray(this.metafields, this.customerId, "customer");
+
+    const response = await this.shopify.updateCustomer({
+      input: {
+        id: this.customerId,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        email: this.email,
+        phone: this.phone,
+        addresses: [
+          {
+            address1: this.address,
+            company: this.company,
+            city: this.city,
+            province: this.province,
+            country: this.country,
+            zip: this.zip,
+          },
+        ],
+        metafields,
+      },
+    });
+    if (response.customerUpdate.userErrors.length > 0) {
+      throw new Error(response.customerUpdate.userErrors[0].message);
+    }
+    $.export("$summary", `Updated customer \`${response.customerUpdate.customer.email || response.customerUpdate.customer.firstName}\` with ID \`${response.customerUpdate.customer.id}\``);
+    return response;
   },
 };

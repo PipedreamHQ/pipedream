@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/satws",
+  "version": "0.0.1",
+  "description": "Pipedream Syntage Components",
+  "main": "satws.app.mjs",
+  "keywords": [
+    "pipedream",
+    "satws"
+  ],
+  "homepage": "https://pipedream.com/apps/satws",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

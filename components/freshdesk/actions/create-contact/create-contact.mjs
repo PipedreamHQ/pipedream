@@ -1,11 +1,11 @@
-import { removeNullEntries } from "../../common/utils.mjs";
 import freshdesk from "../../freshdesk.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "freshdesk-create-contact",
   name: "Create a Contact",
-  description: "Create a contact. [See docs here](https://developers.freshdesk.com/api/#create_contact)",
-  version: "0.0.1",
+  description: "Create a contact. [See the documentation](https://developers.freshdesk.com/api/#create_contact)",
+  version: "0.0.4",
   type: "action",
   props: {
     freshdesk,
@@ -16,20 +16,20 @@ export default {
     },
     email: {
       type: "string",
-      label: "Email",
-      description: "Primary email address of the contact. If you want to associate additional email(s) with this contact, use the other_emails attribute.",
+      label: "Email Address",
+      description: "Primary email address of the contact",
       optional: true,
     },
     otherEmails: {
       type: "string[]",
-      label: "Additional email addresses",
-      description: "String array of additional email addresses.",
+      label: "Additional Email Addresses",
+      description: "One or more additional email addresses for the contact",
       optional: true,
     },
     phone: {
       type: "string",
-      label: "Phone number",
-      description: "Telephone number of the contact.",
+      label: "Phone Number",
+      description: "Phone number of the contact",
       optional: true,
     },
     companyId: {
@@ -41,16 +41,21 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = removeNullEntries({
-      name: this.name,
-      email: this.email,
-      other_emails: this.otherEmails,
-      phone: this.phone,
-      company_id: this.companyId && Number(this.companyId),
-    });
-    const response = await this.freshdesk.createContact({
+    const {
+      freshdesk, companyId, otherEmails, ...data
+    } = this;
+
+    if (!this.email && !this.phone) {
+      throw new ConfigurationError("Must specify `email` and/or `phone`");
+    }
+
+    const response = await freshdesk.createContact({
       $,
-      data,
+      data: {
+        other_emails: otherEmails,
+        company_id: companyId && Number(companyId),
+        ...data,
+      },
     });
     response && $.export("$summary", "Contact successfully created");
     return response;

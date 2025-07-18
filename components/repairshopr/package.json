@@ -1,8 +1,8 @@
 {
     "name": "@pipedream/repairshopr",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "Pipedream Repairshopr Components",
-    "main": "repairshopr.app.js",
+    "main": "repairshopr.app.mjs",
     "keywords": [
         "pipedream",
         "repairshopr"

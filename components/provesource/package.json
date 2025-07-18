@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/provesource",
+  "version": "0.0.1",
+  "description": "Pipedream ProveSource Components",
+  "main": "provesource.app.mjs",
+  "keywords": [
+    "pipedream",
+    "provesource"
+  ],
+  "homepage": "https://pipedream.com/apps/provesource",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

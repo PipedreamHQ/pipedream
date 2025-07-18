@@ -1,36 +1,22 @@
 import shopify from "../../shopify_developer_app.app.mjs";
-import common from "@pipedream/shopify/actions/update-inventory-level/common.mjs";
+import common from "@pipedream/shopify/actions/update-inventory-level/update-inventory-level.mjs";
+
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
+const props = adjustPropDefinitions(others.props, shopify);
 
 export default {
-  ...common,
+  ...others,
   key: "shopify_developer_app-update-inventory-level",
-  name: "Update Inventory Level",
-  description: "Sets the inventory level for an inventory item at a location. [See the documenation](https://shopify.dev/api/admin-rest/2022-01/resources/inventorylevel#[post]/admin/api/2022-01/inventory_levels/set.json)",
-  version: "0.0.4",
-  type: "action",
+  version: "0.0.7",
+  name,
+  description,
+  type,
   props: {
     shopify,
-    locationId: {
-      propDefinition: [
-        shopify,
-        "locationId",
-      ],
-    },
-    productId: {
-      propDefinition: [
-        shopify,
-        "productId",
-      ],
-    },
-    inventoryItemId: {
-      propDefinition: [
-        shopify,
-        "inventoryItemId",
-        (c) => ({
-          productId: c.productId,
-        }),
-      ],
-    },
-    ...common.props,
+    ...props,
   },
 };

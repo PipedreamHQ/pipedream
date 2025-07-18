@@ -8,7 +8,7 @@ export default {
   key: "hubspot-new-note",
   name: "New Note Created",
   description: "Emit new event for each new note created. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/engagements/notes#get-%2Fcrm%2Fv3%2Fobjects%2Fnotes)",
-  version: "0.0.2",
+  version: "1.0.4",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -34,7 +34,7 @@ export default {
 
       const objectTypes = OBJECT_TYPES.map(({ value }) => value);
       const { results: custom } = await this.hubspot.listSchemas();
-      const customObjects = custom?.map(({ name }) => name);
+      const customObjects = custom?.map(({ fullyQualifiedName }) => fullyQualifiedName);
       const associations = [
         ...objectTypes,
         ...customObjects,

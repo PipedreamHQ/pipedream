@@ -7,13 +7,13 @@ export default {
   type: "source",
   name: "New Task Field Updated In Project (Instant)",
   description: "Emit new event whenever given task fields are updated.",
-  version: "0.0.6",
+  version: "0.0.9",
   dedupe: "unique",
   props: {
     ...common.props,
     project: {
       label: "Project",
-      description: "Gid of a project.",
+      description: "GID of a project",
       type: "string",
       propDefinition: [
         asana,
@@ -37,20 +37,25 @@ export default {
     ...common.methods,
     getWebhookFilter() {
       return {
-        filters: [
-          {
-            action: "changed",
-            resource_type: "task",
-            fields: this.taskFields,
-          },
-        ],
         resource: this.project,
       };
+    },
+    isRelevant({
+      resource, change, parent,
+    }) {
+      const { taskFields } = this;
+      return resource.resource_type === "task"
+        && (
+          taskFields.includes(change?.field)
+          || taskFields.includes(parent?.resource_type)
+          || taskFields.find((field) => field.slice(0, -1) === parent?.resource_type)
+        );
     },
     async emitEvent(event) {
       const { events = [] } = event.body || {};
 
       const promises = events
+        .filter((event) => this.isRelevant(event))
         .map(async (event) => ({
           event,
           task: (await this.asana.getTask({

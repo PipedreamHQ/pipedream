@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/notiff_io",
+  "version": "0.1.0",
+  "description": "Pipedream Notiff (OAuth) Components",
+  "main": "notiff_io.app.mjs",
+  "keywords": [
+    "pipedream",
+    "notiff_io"
+  ],
+  "homepage": "https://pipedream.com/apps/notiff_io",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

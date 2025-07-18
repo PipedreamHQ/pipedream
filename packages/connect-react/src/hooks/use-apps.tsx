@@ -17,6 +17,6 @@ export const useApps = (input?: GetAppsOpts) => {
 
   return {
     ...query,
-    apps: query.data?.data,
+    apps: query.data?.data || [],
   };
 };

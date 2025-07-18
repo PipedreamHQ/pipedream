@@ -10,11 +10,18 @@ export default {
   key: "google_drive-new-files-instant",
   name: "New Files (Instant)",
   description: "Emit new event when a new file is added in your linked Google Drive",
-  version: "0.1.11",
+  version: "0.1.14",
   type: "source",
   dedupe: "unique",
   props: {
     ...common.props,
+    alert: {
+      type: "alert",
+      content: "For shared drives, prefer to use [New Files (Shared Drive)](https://pipedream.com/apps/google-drive/triggers/new-files-shared-drive) instead. \
+      It provides a more reliable way to track changes using polling. \
+      Shared drive notifications may be delayed or incomplete, as they don't immediately reflect all changes made by other users. \
+      For more details, see [Google's documentation](https://developers.google.com/drive/api/guides/about-changes#track_shared_drives).",
+    },
     folders: {
       type: "string[]",
       label: "Folders",

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/themarketer",
+  "version": "0.0.1",
+  "description": "Pipedream theMarketer Components",
+  "main": "themarketer.app.mjs",
+  "keywords": [
+    "pipedream",
+    "themarketer"
+  ],
+  "homepage": "https://pipedream.com/apps/themarketer",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

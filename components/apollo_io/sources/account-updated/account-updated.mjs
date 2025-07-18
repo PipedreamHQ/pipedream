@@ -5,9 +5,9 @@ export default {
   ...common,
   key: "apollo_io-account-updated",
   name: "Account Updated",
-  description: "Triggers when an account is updated. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#search-for-contacts)",
+  description: "Emit new event when an account is updated. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#search-for-contacts)",
   type: "source",
-  version: "0.0.3",
+  version: "0.0.6",
   dedupe: "unique",
   props: {
     ...common.props,
@@ -34,10 +34,11 @@ export default {
       return "accounts";
     },
     getResourceFn() {
-      return this.app.listAccounts;
+      return this.app.searchAccounts;
     },
     getResourceFnArgs() {
       return {
+        debug: true,
         params: {
           account_stage_ids: this.accountStageIds,
           sort_by_field: "account_last_activity_date",

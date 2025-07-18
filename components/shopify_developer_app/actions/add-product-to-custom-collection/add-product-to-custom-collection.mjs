@@ -1,32 +1,22 @@
 import shopify from "../../shopify_developer_app.app.mjs";
-import common from "@pipedream/shopify/actions/add-product-to-custom-collection/common.mjs";
+import common from "@pipedream/shopify/actions/add-product-to-custom-collection/add-product-to-custom-collection.mjs";
+
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
+const props = adjustPropDefinitions(others.props, shopify);
 
 export default {
-  ...common,
+  ...others,
   key: "shopify_developer_app-add-product-to-custom-collection",
-  name: "Add Products to Custom Collections",
-  description: "Adds a product or products to a custom collection or collections. [See the docs](https://shopify.dev/docs/api/admin-rest/2023-01/resources/collect#post-collects)",
-  version: "0.0.4",
-  type: "action",
+  version: "0.0.7",
+  name,
+  description,
+  type,
   props: {
     shopify,
-    productIds: {
-      propDefinition: [
-        shopify,
-        "productId",
-      ],
-      type: "string[]",
-      label: "Product IDs",
-    },
-    collectionIds: {
-      propDefinition: [
-        shopify,
-        "collectionId",
-      ],
-      type: "string[]",
-      label: "Collection IDs",
-      description: "IDs of the collections that the product will be added to",
-      optional: false,
-    },
+    ...props,
   },
 };

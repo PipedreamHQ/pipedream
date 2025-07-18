@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 import queries from "./common/queries.mjs";
 
@@ -70,11 +72,15 @@ export default {
         },
       });
     },
-    query(opts = {}) {
-      return this._makeRequest({
+    async query(opts = {}) {
+      const response = await this._makeRequest({
         method: "POST",
         ...opts,
       });
+      if (response.errors?.length) {
+        throw new ConfigurationError(`Error: ${response.errors[0].message}`);
+      }
+      return response;
     },
   },
 };

@@ -1,19 +1,25 @@
-import fs from "fs";
 import FormData from "form-data";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import app from "../../signnow.app.mjs";
 
 export default {
   key: "signnow-upload-document-with-tags",
   name: "Upload Document With Tags",
   description: "Uploads a file that contains SignNow text tags. [See the documentation](https://docs.signnow.com/docs/signnow/document/operations/create-a-document-fieldextract)",
-  version: "0.0.1",
+  version: "0.1.1",
   type: "action",
   props: {
     app,
     file: {
       type: "string",
-      label: "File Path",
-      description: "File path of a file previously downloaded in Pipedream E.g. (`/tmp/my-file.pdf`). [Download a file to the `/tmp` directory](https://pipedream.com/docs/code/nodejs/http-requests/#download-a-file-to-the-tmp-directory)",
+      label: "File Path or URL",
+      description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`).",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   methods: {
@@ -37,7 +43,14 @@ export default {
     } = this;
 
     const data = new FormData();
-    data.append("file", fs.createReadStream(file));
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(file);
+    data.append("file", stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
+    });
 
     const response = await uploadDocumentWithTags({
       $,

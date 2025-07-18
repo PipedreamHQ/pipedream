@@ -5,7 +5,7 @@ export default {
   name: "Upload File Version",
   description: "Update a file's content. [See the documentation](https://developer.box.com/reference/post-files-id-content/).",
   key: "box-upload-file-version",
-  version: "0.0.2",
+  version: "0.1.1",
   type: "action",
   props: {
     app,
@@ -47,6 +47,12 @@ export default {
       ],
       description: "An optional new name for the file. If specified, the file will be renamed when the new version is uploaded.",
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   methods: {
     getFileUploadBody,
@@ -55,7 +61,7 @@ export default {
     const {
       file, fileId, createdAt, modifiedAt, fileName, parentId,
     } = this;
-    const data = this.getFileUploadBody({
+    const data = await this.getFileUploadBody({
       file,
       createdAt,
       modifiedAt,

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/offorte",
+  "version": "0.1.0",
+  "description": "Pipedream Offorte Components",
+  "main": "offorte.app.mjs",
+  "keywords": [
+    "pipedream",
+    "offorte"
+  ],
+  "homepage": "https://pipedream.com/apps/offorte",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
+  }
+}

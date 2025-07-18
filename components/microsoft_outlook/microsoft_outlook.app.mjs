@@ -1,8 +1,7 @@
-import { axios } from "@pipedream/platform";
-import fs from "fs";
-import path from "path";
-import { encode } from "js-base64";
-import mime from "mime-types";
+import {
+  axios, getFileStreamAndMetadata,
+} from "@pipedream/platform";
+const DEFAULT_LIMIT = 50;
 
 export default {
   type: "app",
@@ -53,17 +52,23 @@ export default {
       optional: true,
     },
     files: {
-      label: "File paths",
-      description: "Absolute paths to the files (eg. `/tmp/my_file.pdf`)",
       type: "string[]",
+      label: "File Paths or URLs",
+      description: "Provide either an array of file URLs or an array of paths to a files in the /tmp directory (for example, /tmp/myFile.pdf).",
       optional: true,
     },
     contact: {
       label: "Contact",
       description: "The contact to be updated",
       type: "string",
-      async options() {
-        const contactResponse = await this.listContacts();
+      async options({ page }) {
+        const limit = DEFAULT_LIMIT;
+        const contactResponse = await this.listContacts({
+          params: {
+            $top: limit,
+            $skip: limit * page,
+          },
+        });
         return contactResponse.value.map((co) => ({
           label: co.displayName,
           value: co.id,
@@ -127,7 +132,7 @@ export default {
       label: "Message ID",
       description: "The identifier of the message to update",
       async options({ page }) {
-        const limit = 50;
+        const limit = DEFAULT_LIMIT;
         const { value } = await this.listMessages({
           params: {
             $top: limit,
@@ -147,8 +152,14 @@ export default {
       type: "string[]",
       label: "Folder IDs to Monitor",
       description: "Specify the folder IDs or names in Outlook that you want to monitor for new emails. Leave empty to monitor all folders (excluding \"Sent Items\" and \"Drafts\").",
-      async options() {
-        const { value: folders } = await this.listFolders();
+      async options({ page }) {
+        const limit = DEFAULT_LIMIT;
+        const { value: folders } = await this.listFolders({
+          params: {
+            $top: limit,
+            $skip: limit * page,
+          },
+        });
         return folders?.map(({
           id: value, displayName: label,
         }) => ({
@@ -156,6 +167,36 @@ export default {
           label,
         })) || [];
       },
+    },
+    attachmentId: {
+      type: "string",
+      label: "Attachment ID",
+      description: "The identifier of the attachment to download",
+      async options({
+        messageId, page,
+      }) {
+        const limit = DEFAULT_LIMIT;
+        const { value: attachments } = await this.listAttachments({
+          messageId,
+          params: {
+            $top: limit,
+            $skip: limit * page,
+          },
+        });
+        return attachments?.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "The maximum number of results to return",
+      default: 100,
+      optional: true,
     },
   },
   methods: {
@@ -210,7 +251,19 @@ export default {
         ...args,
       });
     },
-    prepareMessageBody(self) {
+    async streamToBase64(stream) {
+      return new Promise((resolve, reject) => {
+        const chunks = [];
+
+        stream.on("data", (chunk) => chunks.push(chunk));
+        stream.on("end", () => {
+          const buffer = Buffer.concat(chunks);
+          resolve(buffer.toString("base64"));
+        });
+        stream.on("error", reject);
+      });
+    },
+    async prepareMessageBody(self) {
       const toRecipients = [];
       const ccRecipients = [];
       const bccRecipients = [];
@@ -242,27 +295,29 @@ export default {
 
       const attachments = [];
       for (let i = 0; self.files && i < self.files.length; i++) {
+        const {
+          stream, metadata,
+        } = await getFileStreamAndMetadata(self.files[i]);
+        const base64 = await this.streamToBase64(stream);
         attachments.push({
           "@odata.type": "#microsoft.graph.fileAttachment",
-          "name": path.basename(self.files[i]),
-          "contentType": mime.lookup(self.files[i]),
-          "contentBytes": encode([
-            ...fs.readFileSync(self.files[i], {
-              flag: "r",
-            }).values(),
-          ]),
+          "name": metadata.name,
+          "contentType": metadata.contentType,
+          "contentBytes": base64,
         });
       }
       const message = {
         subject: self.subject,
-        body: {
-          content: self.content,
-          contentType: self.contentType,
-        },
-        toRecipients,
         attachments,
       };
 
+      if (self.content) {
+        message.body = {
+          content: self.content,
+          contentType: self.contentType,
+        };
+      }
+      if (toRecipients.length > 0) message.toRecipients = toRecipients;
       if (ccRecipients.length > 0) message.ccRecipients = ccRecipients;
       if (bccRecipients.length > 0) message.bccRecipients = bccRecipients;
 
@@ -272,6 +327,15 @@ export default {
       return await this._makeRequest({
         method: "POST",
         path: "/me/sendMail",
+        ...args,
+      });
+    },
+    async replyToEmail({
+      messageId, ...args
+    }) {
+      return await this._makeRequest({
+        method: "POST",
+        path: `/me/messages/${messageId}/reply`,
         ...args,
       });
     },
@@ -293,16 +357,15 @@ export default {
       filterAddress,
       ...args
     } = {}) {
-      const paramsContainer = {};
+      args.params = {
+        ...args?.params,
+      };
       if (filterAddress) {
-        paramsContainer.params = {
-          "$filter": `emailAddresses/any(a:a/address eq '${filterAddress}')`,
-        };
+        args.params["$filter"] = `emailAddresses/any(a:a/address eq '${filterAddress}')`;
       }
       return await this._makeRequest({
         method: "GET",
         path: "/me/contacts",
-        ...paramsContainer,
         ...args,
       });
     },
@@ -372,6 +435,47 @@ export default {
         path: `/me/messages/${messageId}`,
         ...args,
       });
+    },
+    getAttachment({
+      messageId, attachmentId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/me/messages/${messageId}/attachments/${attachmentId}/$value`,
+        ...args,
+      });
+    },
+    listAttachments({
+      messageId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/me/messages/${messageId}/attachments`,
+        ...args,
+      });
+    },
+    async *paginate({
+      fn, args = {}, max,
+    }) {
+      const limit = DEFAULT_LIMIT;
+      args = {
+        ...args,
+        params: {
+          ...args?.params,
+          $top: limit,
+          $skip: 0,
+        },
+      };
+      let total, count = 0;
+      do {
+        const { value } = await fn(args);
+        for (const item of value) {
+          yield item;
+          if (max && ++count >= max) {
+            return;
+          }
+        }
+        total = value?.length;
+        args.params["$skip"] += limit;
+      } while (total);
     },
   },
 };

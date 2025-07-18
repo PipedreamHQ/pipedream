@@ -1,5 +1,5 @@
 export default {
-  "index": "Projects",
-  "git": "GitHub Sync",
-  "file-stores": "File Stores",
+  "index": "Overview",
+  "access-controls": "Access Controls",
+  "secrets": "Variables and Secrets",
 } as const

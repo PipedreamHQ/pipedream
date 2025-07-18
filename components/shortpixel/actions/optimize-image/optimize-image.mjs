@@ -6,7 +6,7 @@ export default {
   key: "shortpixel-optimize-image",
   name: "Optimize Image",
   description: "Optimize and/or adjust an image using ShortPixel. [See the documentation](https://shortpixel.com/knowledge-base/article/shortpixel-adaptive-images-api-parameters/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     shortpixel,
@@ -56,6 +56,12 @@ export default {
       type: "string",
       label: "Filename",
       description: "Optionally, enter a filename that will be used to save the image in /tmp",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
       optional: true,
     },
   },

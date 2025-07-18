@@ -91,6 +91,11 @@ export type App = AppInfo & {
   name: string;
 
   /**
+   * A short description of the app.
+   */
+  description: string;
+
+  /**
    * The authentication type used by the app.
    */
   auth_type: AppAuthType;
@@ -109,6 +114,11 @@ export type App = AppInfo & {
    * Categories associated with the app.
    */
   categories: string[];
+
+  /**
+   * A rough directional ordering of app popularity, subject to changes by Pipedream.
+   */
+  featured_weight: number
 };
 
 /**
@@ -123,6 +133,8 @@ export type PropOption = {
   label: string;
   value: string;
 };
+
+type ConfigureComponentContext = Record<string, unknown>
 
 /**
  * The response received after configuring a component's prop.
@@ -155,6 +167,12 @@ export type ConfigureComponentResponse = {
    * A list of errors that occurred during the configuration process.
    */
   errors: string[];
+
+  /**
+   * The context object resolved in the options execution (useful for pagination, etc.).
+   * See {@link ConfigureComponentOpts.prevContext}.
+   */
+  context?: ConfigureComponentContext
 };
 
 /**
@@ -237,6 +255,18 @@ export type GetAppsOpts = RelationOpts & {
    * Filter by whether apps have triggers in the component registry.
    */
   hasTriggers?: boolean;
+  /**
+   * The key to sort the apps by.
+   *
+   * @default "name_slug"
+   */
+  sortKey?: "name" | "featured_weight" | "name_slug";
+  /**
+   * The direction to sort the apps.
+   *
+   * @default "asc"
+   */
+  sortDirection?: "asc" | "desc";
 };
 
 /**
@@ -394,6 +424,10 @@ export type ConfigureComponentOpts = ExternalUserId & {
    */
   dynamicPropsId?: string;
 
+  /**
+   * A string with the user input if the prop has the useQuery property set to
+   * true. Use with APIs that return items based on a query or search parameter.
+   */
   query?: string;
 
   /**
@@ -403,11 +437,10 @@ export type ConfigureComponentOpts = ExternalUserId & {
   page?: number;
 
   /**
-   * A string representing the context for the previous options
-   * execution. Use with APIs that accept a token representing the last
-   * record for pagination.
+   * The context object from the previous options execution (useful for pagination, etc.).
+   * See {@link ConfigureComponentResponse.context}.
    */
-  prevContext?: never;
+  prevContext?: ConfigureComponentContext;
 };
 
 /**
@@ -481,7 +514,9 @@ export type ConnectTokenResponse = {
 /**
  * The response received when retrieving a list of accounts.
  */
-export type GetAccountsResponse = { data: Account[]; };
+export type GetAccountsResponse = PaginationResponse & {
+  data: Account[];
+};
 
 /**
  * @deprecated Use `GetAccountsResponse` instead.
@@ -491,7 +526,9 @@ export type AccountsRequestResponse = GetAccountsResponse;
 /**
  * The response received when retrieving a list of apps.
  */
-export type GetAppsResponse = { data: App[]; };
+export type GetAppsResponse = PaginationResponse & {
+  data: App[];
+};
 
 /**
  * @deprecated Use `GetAppsResponse` instead.
@@ -511,8 +548,8 @@ export type AppRequestResponse = GetAppResponse;
 /**
  * The response received when retrieving a list of components.
  */
-export type GetComponentsResponse = {
-  data: Omit<V1Component, "configurable_props">[];
+export type GetComponentsResponse = PaginationResponse & {
+  data: V1Component[];
 };
 
 /**
@@ -551,6 +588,15 @@ export type RunActionOpts = ExternalUserId & {
    * The ID of the last prop reconfiguration (if any).
    */
   dynamicPropsId?: string;
+
+  /**
+   * The ID of the File Stash to sync the action's /tmp directory with. This
+   * allows you to persist files across action runs for up to 1 day. If set to
+   * `true` or "", a unique stash ID will be generated for you and returned in
+   * the response. If not set, the action will not sync its /tmp directory with
+   * a File Stash.
+   */
+  stashId?: string | boolean;
 };
 
 /**
@@ -573,6 +619,11 @@ export type RunActionResponse = {
    * The value returned by the action
    */
   ret: unknown;
+
+  /**
+   * The ID of the File Stash that was used to sync the action's /tmp directory
+   */
+  stashId?: string;
 };
 
 /**
@@ -785,6 +836,13 @@ export type UpdateTriggerOpts = {
   active?: boolean;
 
   /**
+   * The props that have already been configured for the trigger. This is a
+   * JSON-serializable object with the prop names as keys and the configured
+   * values as values.
+   */
+  configuredProps?: ConfiguredProps<ConfigurableProps>;
+
+  /**
    * The new name of the trigger.
    */
   name?: string;
@@ -841,6 +899,59 @@ export interface RequestOptions extends Omit<RequestInit, "headers" | "body"> {
 
 export interface AsyncRequestOptions extends RequestOptions {
   body: { async_handle: string; } & Required<RequestOptions["body"]>;
+}
+
+const SENSITIVE_KEYS = [
+  "token",
+  "password",
+  "secret",
+  "apiKey",
+  "authorization",
+  "auth",
+  "key",
+  "access_token",
+];
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function sanitize(value: any, seen = new WeakSet()): any {
+  if (value === null || value === undefined) return value;
+
+  if (typeof value === "object") {
+    if (seen.has(value)) return "[CIRCULAR]";
+    seen.add(value);
+
+    if (Array.isArray(value)) {
+      return value.map((v) => sanitize(v, seen));
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const sanitizedObj: Record<string, any> = {};
+    for (const [
+      k,
+      v,
+    ] of Object.entries(value)) {
+      const isSensitiveKey = SENSITIVE_KEYS.some((sensitiveKey) =>
+        k.toLowerCase().includes(sensitiveKey.toLowerCase()));
+      sanitizedObj[k] = isSensitiveKey
+        ? "[REDACTED]"
+        : sanitize(v, seen);
+    }
+    return sanitizedObj;
+  }
+
+  return value; // numbers, booleans, functions, etc.
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function DEBUG(...args: any[]) {
+  if (
+    typeof process !== "undefined" &&
+    typeof process.env !== "undefined" &&
+    process.env.PD_SDK_DEBUG === "true"
+  ) {
+    const safeArgs = args.map((arg) => sanitize(arg));
+    console.log("[PD_SDK_DEBUG]", ...safeArgs);
+  }
 }
 
 /**
@@ -957,20 +1068,28 @@ export abstract class BaseClient {
 
     const response: Response = await fetch(url.toString(), requestOptions);
 
+    const rawBody = await response.text();
+
+    DEBUG("status: ", response.status)
+    DEBUG("url: ", url.toString())
+    DEBUG("requestOptions: ", requestOptions)
+    DEBUG("rawBody: ", rawBody)
+
     if (!response.ok) {
-      const errorBody = await response.text();
-      throw new Error(
-        `HTTP error! status: ${response.status}, body: ${errorBody}`,
-      );
+      throw new Error(`HTTP error! status: ${response.status}, body: ${rawBody}`);
     }
 
-    // Attempt to parse JSON, fall back to raw text if it fails
     const contentType = response.headers.get("Content-Type");
     if (contentType && contentType.includes("application/json")) {
-      return (await response.json()) as T;
+      try {
+        const json = JSON.parse(rawBody);
+        return json as T;
+      } catch (err) {
+        DEBUG("Couldn't parse json, falling back to raw", err)
+      }
     }
 
-    return (await response.text()) as unknown as T;
+    return rawBody as unknown as T;
   }
 
   protected abstract authHeaders(): string | Promise<string>;
@@ -1070,6 +1189,12 @@ export abstract class BaseClient {
       params.has_triggers = opts.hasTriggers
         ? "1"
         : "0";
+    }
+    if (opts?.sortKey) {
+      params.sort_key = opts.sortKey;
+    }
+    if (opts?.sortDirection) {
+      params.sort_direction = opts.sortDirection;
     }
 
     this.addRelationOpts(params, opts);
@@ -1228,6 +1353,7 @@ export abstract class BaseClient {
       dynamic_props_id: opts.dynamicPropsId,
       page: opts.page,
       prev_context: opts.prevContext,
+      query: opts.query,
     };
     return this.makeConnectRequest<ConfigureComponentResponse>("/components/configure", {
       method: "POST",
@@ -1343,6 +1469,7 @@ export abstract class BaseClient {
       id,
       configured_props: opts.configuredProps,
       dynamic_props_id: opts.dynamicPropsId,
+      stash_id: opts.stashId,
     };
     return this.makeConnectRequest<RunActionResponse>("/actions/run", {
       method: "POST",
@@ -1396,6 +1523,7 @@ export abstract class BaseClient {
       id,
       configured_props: opts.configuredProps,
       dynamic_props_id: opts.dynamicPropsId,
+      workflow_id: opts.workflowId,
       webhook_url: opts.webhookUrl,
     };
     return this.makeConnectRequest<DeployTriggerResponse>("/triggers/deploy", {
@@ -1481,16 +1609,18 @@ export abstract class BaseClient {
       id,
       externalUserId,
       active = null,
+      configuredProps = null,
       name = null,
     } = opts;
 
-    return this.makeConnectRequest<V1DeployedComponent>(`/deployed-triggers/${id}`, {
+    return this.makeConnectRequest<GetTriggerResponse>(`/deployed-triggers/${id}`, {
       method: "PUT",
       params: {
         external_user_id: externalUserId,
       },
       body: {
         active,
+        configured_props: configuredProps,
         name,
       },
     });

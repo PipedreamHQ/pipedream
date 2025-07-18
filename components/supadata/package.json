@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/supadata",
+  "version": "0.0.1",
+  "description": "Pipedream Supadata Components",
+  "main": "supadata.app.mjs",
+  "keywords": [
+    "pipedream",
+    "supadata"
+  ],
+  "homepage": "https://pipedream.com/apps/supadata",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

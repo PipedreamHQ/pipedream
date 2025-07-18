@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/v1ce",
+  "version": "0.0.1",
+  "description": "Pipedream V1CE Components",
+  "main": "v1ce.app.mjs",
+  "keywords": [
+    "pipedream",
+    "v1ce"
+  ],
+  "homepage": "https://pipedream.com/apps/v1ce",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/kvdb",
+  "version": "0.6.0",
+  "description": "Pipedream kvdb Components",
+  "main": "kvdb.app.mjs",
+  "keywords": [
+    "pipedream",
+    "kvdb"
+  ],
+  "homepage": "https://pipedream.com/apps/kvdb",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

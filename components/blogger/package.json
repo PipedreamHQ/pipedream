@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/blogger",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Blogger Components",
-  "main": "blogger.app.js",
+  "main": "blogger.app.mjs",
   "keywords": [
     "pipedream",
     "blogger"

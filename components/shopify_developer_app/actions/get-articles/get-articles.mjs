@@ -1,20 +1,22 @@
-import app from "../../common/rest-admin.mjs";
-import common from "@pipedream/shopify/actions/get-articles/common.mjs";
+import shopify from "../../shopify_developer_app.app.mjs";
+import common from "@pipedream/shopify/actions/get-articles/get-articles.mjs";
+
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
+const props = adjustPropDefinitions(others.props, shopify);
 
 export default {
-  ...common,
+  ...others,
   key: "shopify_developer_app-get-articles",
-  name: "Get Articles",
-  description: "Retrieve a list of all articles from a blog. [See The Documentation](https://shopify.dev/docs/api/admin-rest/2023-04/resources/article#get-blogs-blog-id-articles)",
-  version: "0.0.6",
-  type: "action",
+  version: "0.0.9",
+  name,
+  description,
+  type,
   props: {
-    app,
-    blogId: {
-      propDefinition: [
-        app,
-        "blogId",
-      ],
-    },
+    shopify,
+    ...props,
   },
 };

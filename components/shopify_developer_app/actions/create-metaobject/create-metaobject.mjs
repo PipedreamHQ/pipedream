@@ -1,27 +1,22 @@
 import shopify from "../../shopify_developer_app.app.mjs";
-import metaobjects from "../common/metaobjects.mjs";
-import common from "@pipedream/shopify/actions/create-metaobject/common.mjs";
+import common from "@pipedream/shopify/actions/create-metaobject/create-metaobject.mjs";
+
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
+const props = adjustPropDefinitions(others.props, shopify);
 
 export default {
-  ...metaobjects,
-  ...common,
+  ...others,
   key: "shopify_developer_app-create-metaobject",
-  name: "Create Metaobject",
-  description: "Creates a metaobject. [See the documentation](https://shopify.dev/docs/api/admin-graphql/2023-04/mutations/metaobjectCreate)",
-  version: "0.0.6",
-  type: "action",
+  version: "0.0.9",
+  name,
+  description,
+  type,
   props: {
     shopify,
-    type: {
-      type: "string",
-      label: "Type",
-      description: "The Metaobject Type",
-      async options() {
-        const { data: { metaobjectDefinitions: { nodes } } }
-          = await this.listMetaobjectDefinitions();
-        return nodes?.map(({ type }) => type) || [];
-      },
-      reloadProps: true,
-    },
+    ...props,
   },
 };

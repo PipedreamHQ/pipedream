@@ -5,27 +5,9 @@ export default {
   key: "miro_custom_app-item-position-changed",
   name: "Item Position Changed",
   description: "Emit new event when an item's position changes in a Miro Custom App.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
-  props: {
-    ...common.props,
-    teamId: {
-      propDefinition: [
-        common.props.miro,
-        "teamId",
-      ],
-    },
-    boardId: {
-      propDefinition: [
-        common.props.miro,
-        "boardId",
-        ({ teamId }) => ({
-          teamId,
-        }),
-      ],
-    },
-  },
   methods: {
     ...common.methods,
     _getPositions() {

@@ -1,4 +1,4 @@
-import common from "../common/common.mjs";
+import common from "../common/common-contacts.mjs";
 
 const {
   props: {
@@ -11,7 +11,7 @@ export default {
   key: "highlevel_oauth-create-contact",
   name: "Create Contact",
   description: "Creates a new contact on HighLevel. [See the documentation](https://highlevel.stoplight.io/docs/integrations/4c8362223c17b-create-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

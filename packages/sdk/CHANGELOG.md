@@ -2,6 +2,158 @@
 
 # Changelog
 
+## [1.7.0] - 2025-07-03
+
+### Added
+
+- Added optional scope parameter to backendClient creation.
+
+## [1.6.11] - 2025-07-02
+
+### Added
+
+- Added `stash` to `V1Component`
+
+## [1.6.10] - 2025-07-01
+
+### Added
+
+- Added `sortKey` and `sortDirection` options to the `getApps` method
+
+## [1.6.9] - 2025-06-10
+
+### Added
+
+- Added types for the missing configurable props
+
+## Changed
+
+- Fixed the `Defaultable` type to correctly handle arrays
+- Fixed the `ConfigurablePropTimer` type to define cron expressions and
+  time intervals
+- Marked the `auth` field in the SQL prop type as optional
+- Fixed the `App` type to include the `description` field returned by the API
+- Fixed the `GetAppsResponse` type to include the pagination stuff
+
+## [1.6.8] - 2025-06-07
+
+### Added
+
+- Added `endpoint_url` field to the component metadata, providing the URL to the
+  HTTP interface of the component.
+- Added missing pagination fields to the `GetComponentsResponse`  and
+  `GetAccountsResponse` types.
+
+## [1.6.7] - 2025-06-06
+
+### Added
+
+- Added `stashId` option to the `runAction` method, which allows files to be
+  persisted between action runs.
+
+## [1.6.6] - 2025-06-05
+
+### Added
+
+- Added support for `sql` prop type for `connect-react` package
+
+## [1.6.5] - 2025-06-02
+
+### Changed
+
+- Fix the `deployTrigger` method so that it sends the workflow ID to the API
+
+## [1.6.4] - 2025-05-30
+
+### Added
+
+- Added `onClose` callback to `connectAccount` method that receives a
+  `ConnectStatus` object with `successful` and `completed` boolean properties
+
+## [1.6.3] - 2025-05-20b
+
+### Added
+
+- Added `rawAccessToken` getter to `BackendClient`
+
+## [1.6.2] - 2025-05-20a
+
+### Added
+
+- Added ability to create a `BackendClient` with just an `AccessToken`
+
+## [1.6.1] - 2025-05-20
+
+### Added
+
+- Added `rawToken` getter to `BrowserClient`
+
+### Changed
+
+- changed `GetComponentsResponse` type to include `configurable_props`
+
+## [1.6.0] - 2025-04-30
+
+### Added
+
+- Added `configuredProps` argument to the `updateTrigger` method.
+
+### Changed
+
+- Corrected the return type of `updateTrigger`.
+- Changed the type of property values of `ConfigureComponentContext` from
+  explicit `any` to `unknown`.
+
+## [1.5.5] - 2025-04-28
+
+### Changed
+
+- Types and documentation around `configureComponent` `prevContext` and `context`.
+
+## [1.5.4] - 2025-04-25
+
+### Added
+
+- Changed server-side authorized requests to refresh its auth token if it expires
+  within 1 second.
+
+## [1.5.3] - 2025-04-18
+
+### Added
+
+- Added `ProxyResponse` type for makeProxyRequest
+- changed the location of connect DEBUG calls so they'll still show in the
+  error case.
+
+## [1.5.2] - 2025-04-15
+
+### Added
+
+- PD_SDK_DEBUG env var. Set it to true to enable debugging of Pipedream Connect
+  API requests. Simple sanitization is performed to prevent sensitive field leakage
+  but use caution.
+
+## [1.5.1] - 2025-04-15
+
+### Added
+
+- `withLabel` to `BaseConfigurableProp` type definition
+- documentation describing various fields in `BaseConfigurableProp`
+- `featured_weight` to `App` type definition now that API returns this value
+
+## [1.5.0] - 2025-04-08
+
+### Added
+
+- Added support for the `query` option to the `configureComponent` method,
+  enabling API-based search using the specified query.
+
+## [1.4.0] - 2025-03-12
+
+### Changed
+
+- Added `description` and `component_type` to `V1Component`
+
 ## [1.3.3] - 2025-02-5
 
 ### Changed

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/lead_identity_check",
+  "version": "0.0.1",
+  "description": "Pipedream Lead Identity Check Components",
+  "main": "lead_identity_check.app.mjs",
+  "keywords": [
+    "pipedream",
+    "lead_identity_check"
+  ],
+  "homepage": "https://pipedream.com/apps/lead_identity_check",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

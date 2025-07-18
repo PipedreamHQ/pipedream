@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/chattermill",
+  "version": "0.1.0",
+  "description": "Pipedream Chattermill Components",
+  "main": "chattermill.app.mjs",
+  "keywords": [
+    "pipedream",
+    "chattermill"
+  ],
+  "homepage": "https://pipedream.com/apps/chattermill",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
+  }
+}

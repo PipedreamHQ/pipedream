@@ -6,7 +6,7 @@ export default {
   name: "Update Contact",
   description: "Updates an existing contact in Apollo.io. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#update-a-contact)",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.7",
   props: {
     app,
     contactId: {
@@ -83,7 +83,9 @@ export default {
         title: this.title,
         account_id: this.accountId,
         website_url: this.websiteUrl,
-        label_names: this.labelNames,
+        label_names: typeof this.labelNames === "string"
+          ? JSON.parse(this.labelNames)
+          : this.labelNames,
         present_raw_address: this.address,
         direct_phone: this.phone,
       }),

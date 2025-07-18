@@ -36,7 +36,9 @@ export type BackendClientOpts = {
   /**
    * The credentials to use for authentication against the Pipedream API.
    */
-  credentials: OAuthCredentials;
+  credentials: OAuthCredentials | {
+    accessToken: string;
+  };
 
   /**
    * The base project ID tied to relevant API requests
@@ -54,6 +56,11 @@ export type BackendClientOpts = {
    * https://pipedream.com/docs/workflows/domains
    */
   workflowDomain?: string;
+
+  /**
+   * OAuth scope to request when obtaining access tokens
+   */
+  scope?: string[];
 };
 
 /**
@@ -150,6 +157,14 @@ export type ProxyTargetApiRequest = {
 };
 
 /**
+ * The parsed response body from a proxied API request.
+ *
+ * If the response has a Content-Type of application/json, the body will be parsed
+ * and returned as an object. Otherwise the type will be a string.
+ */
+export type ProxyResponse = Record<string, unknown> | string;
+
+/**
  * Creates a new instance of BackendClient with the provided options.
  *
  * @example
@@ -180,12 +195,14 @@ export class BackendClient extends BaseClient {
     client: oauth.Client
     clientAuth: oauth.ClientAuth
     as: oauth.AuthorizationServer
-  };
+  } | undefined;
   private oauthAccessToken?: {
     token: string
     expiresAt: number
   };
   protected override projectId: string = "";
+  private staticAccessToken?: string;
+  private scope?: string[];
 
   /**
    * Constructs a new ServerClient instance.
@@ -198,7 +215,12 @@ export class BackendClient extends BaseClient {
 
     this.ensureValidEnvironment(opts.environment);
     this.projectId = opts.projectId;
-    this.oauthClient = this.newOauthClient(opts.credentials, this.apiHost);
+    this.scope = opts.scope;
+    if ("accessToken" in opts.credentials) {
+      this.staticAccessToken = opts.credentials.accessToken;
+    } else {
+      this.oauthClient = this.newOauthClient(opts.credentials, this.apiHost);
+    }
   }
 
   private ensureValidEnvironment(environment?: string) {
@@ -236,11 +258,30 @@ export class BackendClient extends BaseClient {
     }
   }
 
+  /**
+   * Returns the raw access token string or a promise resolving to it.
+   * This can be used when you need the token directly without Authorization header formatting.
+   *
+   * @returns A string or promise resolving to the access token.
+   */
+  public rawAccessToken(): string | Promise<string> {
+    if (this.staticAccessToken) {
+      return this.staticAccessToken;
+    }
+    return this.ensureValidOauthAccessToken();
+  }
+
   protected authHeaders(): string | Promise<string> {
+    if (this.staticAccessToken) {
+      return `Bearer ${this.staticAccessToken}`;
+    }
     return this.oauthAuthorizationHeader();
   }
 
   private async ensureValidOauthAccessToken(): Promise<string> {
+    if (!this.oauthClient) {
+      throw new Error("OAuth client not configured")
+    }
     const {
       client,
       clientAuth,
@@ -250,7 +291,7 @@ export class BackendClient extends BaseClient {
     let attempts = 0;
     const maxAttempts = 2;
 
-    while (!this.oauthAccessToken || this.oauthAccessToken.expiresAt - Date.now() <= 0) {
+    while (!this.oauthAccessToken || this.oauthAccessToken.expiresAt - Date.now() < 1000) {
       if (attempts > maxAttempts) {
         throw new Error("ran out of attempts trying to retrieve oauth access token");
       }
@@ -260,6 +301,11 @@ export class BackendClient extends BaseClient {
       }
 
       const parameters = new URLSearchParams();
+      if (this.scope && this.scope.length > 0) {
+        parameters.set("scope", this.scope.join(" "));
+      }
+      parameters.set("project_id", this.projectId);
+      parameters.set("environment", this.environment);
       try {
         const response = await oauth.clientCredentialsGrantRequest(as, client, clientAuth, parameters);
         const oauthTokenResponse = await oauth.processClientCredentialsResponse(as, client, response);
@@ -278,10 +324,6 @@ export class BackendClient extends BaseClient {
   }
 
   private async oauthAuthorizationHeader(): Promise<string> {
-    if (!this.oauthClient) {
-      throw new Error("OAuth client not configured")
-    }
-
     const accessToken = await this.ensureValidOauthAccessToken();
 
     return `Bearer ${accessToken}`;
@@ -422,7 +464,7 @@ export class BackendClient extends BaseClient {
    *
    * @returns A promise resolving to the response from the downstream service
    */
-  public makeProxyRequest(proxyOptions: ProxyApiOpts, targetRequest: ProxyTargetApiRequest): Promise<string> {
+  public makeProxyRequest(proxyOptions: ProxyApiOpts, targetRequest: ProxyTargetApiRequest): Promise<ProxyResponse> {
     const url64 = btoa(targetRequest.url).replace(/\+/g, "-")
       .replace(/\//g, "_")
       .replace(/=+$/, "");

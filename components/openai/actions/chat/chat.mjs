@@ -1,17 +1,21 @@
 import openai from "../../openai.app.mjs";
 import common from "../common/common.mjs";
 import constants from "../../common/constants.mjs";
-import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   ...common,
   name: "Chat",
-  version: "0.2.5",
+  version: "0.3.2",
   key: "openai-chat",
   description: "The Chat API, using the `gpt-3.5-turbo` or `gpt-4` model. [See the documentation](https://platform.openai.com/docs/api-reference/chat)",
   type: "action",
   props: {
     openai,
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: "Looking to chat with your tools? Check out our individual actions: [Chat using Web Search](https://pipedream.com/apps/openai/actions/chat-using-web-search), [Chat using File Search](https://pipedream.com/apps/openai/actions/chat-using-file-search), and [Chat using Functions](https://pipedream.com/apps/openai/actions/chat-using-functions).",
+    },
     modelId: {
       propDefinition: [
         openai,
@@ -39,19 +43,19 @@ export default {
     images: {
       label: "Images",
       type: "string[]",
-      description: "Provide one or more images to [OpenAI's vision model](https://platform.openai.com/docs/guides/vision). Accepts URLs or base64 encoded strings. Compatible with the `gpt4-vision-preview` model",
+      description: "Provide one or more images to [OpenAI's vision model](https://platform.openai.com/docs/guides/vision). Each entry should be either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.jpg`), or raw base64-encoded image data. Compatible with the `gpt4-vision-preview` model",
       optional: true,
     },
     audio: {
       type: "string",
       label: "Audio",
-      description: "Provide the file path to an audio file in the `/tmp` directory. For use with the `gpt-4o-audio-preview` model. Currently supports `wav` and `mp3` files.",
+      description: "The audio file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.mp3`). For use with the `gpt-4o-audio-preview` model. Currently supports `wav` and `mp3` files.",
       optional: true,
     },
     responseFormat: {
       type: "string",
       label: "Response Format",
-      description: "Specify the format that the model must output. \n- **Text** (default): Returns unstructured text output.\n- **JSON Object**: Ensures the model's output is a valid JSON object.\n- **JSON Schema** (GPT-4o and later): Enables you to define a specific structure for the model's output using a JSON schema. Supported with models `gpt-4o-2024-08-06` and later, and `gpt-4o-mini-2024-07-18` and later.",
+      description: "- **Text**: Returns unstructured text output.\n- **JSON Schema**: Enables you to define a [specific structure for the model's output using a JSON schema](https://platform.openai.com/docs/guides/structured-outputs?api-mode=responses).",
       options: Object.values(constants.CHAT_RESPONSE_FORMAT),
       default: constants.CHAT_RESPONSE_FORMAT.TEXT.value,
       optional: true,
@@ -140,11 +144,7 @@ export default {
     },
   },
   async run({ $ }) {
-    if (this.audio && !this.modelId.includes("gpt-4o-audio-preview")) {
-      throw new ConfigurationError("Use of audio files requires using the `gpt-4o-audio-preview` model.");
-    }
-
-    const args = this._getChatArgs();
+    const args = await this._getChatArgs();
 
     const response = await this.openai.createChatCompletion({
       $,
@@ -153,6 +153,16 @@ export default {
         tools: this._buildTools(),
       },
     });
+
+    if (this.responseFormat === constants.CHAT_RESPONSE_FORMAT.JSON_SCHEMA.value) {
+      for (const choice of response.choices) {
+        try {
+          choice.message.content = JSON.parse(choice.message.content);
+        } catch {
+          console.log(`Unable to parse JSON: ${choice.message.content}`);
+        }
+      }
+    }
 
     if (response) {
       $.export("$summary", `Successfully sent chat with id ${response.id}`);

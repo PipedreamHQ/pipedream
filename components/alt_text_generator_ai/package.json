@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/alt_text_generator_ai",
+  "version": "0.1.0",
+  "description": "Pipedream Alt Text Generator AI Components",
+  "main": "alt_text_generator_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "alt_text_generator_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/alt_text_generator_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
+  }
+}

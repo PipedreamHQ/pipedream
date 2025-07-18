@@ -1,0 +1,20 @@
+{
+  "name": "push-registry-app-files-supabase",
+  "version": "1.0.1",
+  "description": "Push registry app files to Supabase",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "pnpm build && node dist/index.js",
+    "clean": "rm -rf ./dist",
+    "build": "pnpm run clean && ncc build src/index.js --license licenses.txt"
+  },
+  "keywords": [],
+  "author": "pipedream",
+  "license": "ISC",
+  "dependencies": {
+    "@actions/core": "^1.9.0",
+    "@supabase/supabase-js": "^2.48.1",
+    "@vercel/ncc": "^0.34.0",
+    "ncc": "^0.3.6"
+  }
+}

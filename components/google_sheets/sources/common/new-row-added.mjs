@@ -16,6 +16,9 @@ export default {
           sheetId: c.sheetID,
         }),
       ],
+      type: "string[]",
+      label: "Worksheet ID(s)",
+      description: "Select one or more worksheet(s), or provide an array of worksheet IDs.",
     },
   },
   methods: {
@@ -25,9 +28,9 @@ export default {
     _setRowHashes(rowHashes) {
       this.db.set("rowHashes", rowHashes);
     },
-    getMeta(worksheet, rowNumber) {
+    getMeta(worksheet, rowNumber, rowHashString) {
       const ts = Date.now();
-      const id = `${worksheet.properties.sheetId}${rowNumber}${ts}`;
+      const id = rowHashString;
       const summary = `New row #${rowNumber} in ${worksheet.properties.title}`;
       return {
         id,
@@ -175,7 +178,7 @@ export default {
               worksheet,
               rowNumber,
             },
-            this.getMeta(worksheet, rowNumber),
+            this.getMeta(worksheet, rowNumber, rowHashString),
           );
         }
         this._setRowHashes(rowHashes);

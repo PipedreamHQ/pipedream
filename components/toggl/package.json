@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/toggl",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Pipedream Toggl Components",
-  "main": "toggl.app.js",
+  "main": "toggl.app.mjs",
   "keywords": [
     "pipedream",
     "toggl"

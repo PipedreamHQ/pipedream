@@ -1,67 +1,204 @@
 // eslint-disable @typescript-eslint/no-explicit-any
 type BaseConfigurableProp = {
+  /**
+   * When building `configuredProps`, make sure to use this field as the key when
+   * setting the prop value.
+   */
   name: string;
   type: string;
 
   // XXX don't actually apply to all, fix
+
+  /**
+   * Value to use as an input label. In cases where `type` is "app", should load
+   * the app via `getApp`, etc. and show `app.name` instead.
+   */
   label?: string;
+
   description?: string;
   optional?: boolean;
   disabled?: boolean;
+
+  /**
+   * If true, should not expose this prop to the user.
+   */
   hidden?: boolean;
+
+  /**
+   * If true, call `configureComponent` for this prop to load remote options.
+   * It is safe, and preferred, given a returned list of
+   * { label: string; value: any } objects to set the prop
+   * value to { __lv: { label: string; value: any } }. This way, on load, you
+   * can access label for the value without necessarily reloading these options.
+   */
   remoteOptions?: boolean;
+
+  /**
+   * If true, calls to `configureComponent` for this prop support receiving a
+   * `query` parameter to filter remote options.
+   */
   useQuery?: boolean;
+
+  /**
+   * If true, after setting a value for this prop, a call to `reloadComponentProps` is
+   * required as the component has dynamic configurable props dependent on this
+   * one.
+   */
   reloadProps?: boolean;
+
+  /**
+   * If true, you must save the configured prop value as a "label-value" object
+   * which should look like: { __lv: { label: string; value: any } }
+   * because the execution needs to access the label.
+   */
+  withLabel?: boolean;
 };
 
 // XXX fix duplicating mapping to value type here and with PropValue
-type Defaultable<T> = { default?: T; options?: T[]; };
+
+type LabelValueOption<T> = {
+  label: string;
+  value: T;
+};
+
+type Defaultable<T, SingleT = T> = {
+  default?: T;
+  options?: SingleT[] | Array<LabelValueOption<SingleT>>;
+}
 
 export type ConfigurablePropAlert = BaseConfigurableProp & {
   type: "alert";
-  alertType: "info" | "neutral" | "warning" | "error"; // TODO check the types
+  alertType?: "info" | "neutral" | "warning" | "error"; // TODO check the types
   content: string;
 };
+
 export type ConfigurablePropAny = BaseConfigurableProp & {
   type: "any";
 } & Defaultable<any>; // eslint-disable-line @typescript-eslint/no-explicit-any
+
 export type ConfigurablePropApp = BaseConfigurableProp & {
   type: "app";
   app: string;
 };
-export type ConfigurablePropBoolean = BaseConfigurableProp & { type: "boolean"; };
+
+export type ConfigurablePropBoolean = BaseConfigurableProp & {
+  type: "boolean";
+} & Defaultable<boolean>;
+
 export type ConfigurablePropInteger = BaseConfigurableProp & {
   type: "integer";
   min?: number;
   max?: number;
 } & Defaultable<number>;
+
 export type ConfigurablePropObject = BaseConfigurableProp & {
   type: "object";
 } & Defaultable<object>;
+
 export type ConfigurablePropString = BaseConfigurableProp & {
   type: "string";
   secret?: boolean;
 } & Defaultable<string>;
+
 export type ConfigurablePropStringArray = BaseConfigurableProp & {
   type: "string[]";
   secret?: boolean; // TODO is this supported
-} & Defaultable<string[]>; // TODO
-// | { type: "$.interface.http" } // source only
-// | { type: "$.interface.timer" } // source only
-// | { type: "$.service.db" }
-// | { type: "data_store" }
-// | { type: "http_request" }
-// | { type: "sql" } -- not in component api docs!
+} & Defaultable<string[], string>;
+
+export type TimerInterval = {
+  intervalSeconds: number;
+}
+
+export type TimerCron = {
+  cron: string;
+}
+
+export type ConfigurablePropTimer = BaseConfigurableProp & {
+  type: "$.interface.timer";
+  static?: TimerInterval | TimerCron;
+} & Defaultable<TimerInterval | TimerCron>;
+
+export type ConfigurablePropApphook = BaseConfigurableProp & {
+  type: "$.interface.apphook";
+  appProp: string;
+  eventNames?: Array<string>;
+  remote?: boolean;
+  static?: Array<unknown>;
+}
+
+export type ConfigurablePropIntegerArray = BaseConfigurableProp & {
+  type: "integer[]";
+  min?: number;
+  max?: number;
+} & Defaultable<number[], number>
+
+export type ConfigurablePropHttp = BaseConfigurableProp & {
+  type: "$.interface.http";
+  customResponse?: boolean;
+}
+
+export type ConfigurablePropDb = BaseConfigurableProp & {
+  type: "$.service.db";
+}
+
+export type ConfigurablePropSql = BaseConfigurableProp & {
+  type: "sql";
+  auth?: {
+    app: string;
+  };
+} & Defaultable<string>;
+
+export type ConfigurablePropAirtableBaseId = BaseConfigurableProp & {
+  type: "$.airtable.baseId";
+  appProp: string;
+}
+
+export type ConfigurablePropAirtableTableId = BaseConfigurableProp & {
+  type: "$.airtable.tableId";
+  baseIdProp: string;
+}
+
+export type ConfigurablePropAirtableViewId = BaseConfigurableProp & {
+  type: "$.airtable.viewId";
+  tableIdProp: string;
+}
+
+export type ConfigurablePropAirtableFieldId = BaseConfigurableProp & {
+  type: "$.airtable.fieldId";
+  tableIdProp: string;
+}
+
+export type ConfigurablePropDiscordChannel = BaseConfigurableProp & {
+  type: "$.discord.channel";
+  appProp: string;
+}
+
+export type ConfigurablePropDiscordChannelArray = BaseConfigurableProp & {
+  type: "$.discord.channel[]";
+  appProp: string;
+}
+
 export type ConfigurableProp =
+  | ConfigurablePropAirtableBaseId
+  | ConfigurablePropAirtableFieldId
+  | ConfigurablePropAirtableTableId
+  | ConfigurablePropAirtableViewId
   | ConfigurablePropAlert
   | ConfigurablePropAny
   | ConfigurablePropApp
+  | ConfigurablePropApphook
   | ConfigurablePropBoolean
+  | ConfigurablePropDb
+  | ConfigurablePropDiscordChannel
+  | ConfigurablePropDiscordChannelArray
+  | ConfigurablePropHttp
   | ConfigurablePropInteger
+  | ConfigurablePropIntegerArray
   | ConfigurablePropObject
+  | ConfigurablePropSql
   | ConfigurablePropString
   | ConfigurablePropStringArray
-  | (BaseConfigurableProp & { type: "$.discord.channel"; });
+  | ConfigurablePropTimer
 
 export type ConfigurableProps = Readonly<ConfigurableProp[]>;
 
@@ -81,6 +218,8 @@ export type PropValue<T extends ConfigurableProp["type"]> = T extends "alert"
   ? string
   : T extends "string[]"
   ? string[] // XXX support arrays differently?
+  : T extends "sql"
+  ? { app: string; query: string; params: unknown[]; }
   : never;
 
 export type ConfiguredProps<T extends ConfigurableProps> = {
@@ -93,6 +232,9 @@ export type V1Component<T extends ConfigurableProps = any> = { // eslint-disable
   key: string;
   version: string;
   configurable_props: T;
+  description?: string;
+  component_type?: string;
+  stash?: "optional" | "required";
 };
 
 export type V1DeployedComponent<T extends ConfigurableProps = any> = { // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -107,6 +249,11 @@ export type V1DeployedComponent<T extends ConfigurableProps = any> = { // eslint
   name: string;
   name_slug: string;
   callback_observations?: unknown;
+
+  /**
+   * The URL to the HTTP interface of this component, if it has one.
+   */
+  endpoint_url?: string;
 };
 
 export type V1EmittedEvent = {

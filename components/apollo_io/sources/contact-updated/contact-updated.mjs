@@ -4,9 +4,9 @@ export default {
   ...common,
   key: "apollo_io-contact-updated",
   name: "Contact Updated",
-  description: "Triggers when a contact is updated. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#search-for-contacts)",
+  description: "Emit new event when a contact is updated. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#search-for-contacts)",
   type: "source",
-  version: "0.0.5",
+  version: "0.0.8",
   dedupe: "unique",
   methods: {
     ...common.methods,
@@ -18,6 +18,7 @@ export default {
     },
     getResourceFnArgs() {
       return {
+        debug: true,
         params: {
           sort_by_field: "contact_updated_at",
           sort_ascending: false,

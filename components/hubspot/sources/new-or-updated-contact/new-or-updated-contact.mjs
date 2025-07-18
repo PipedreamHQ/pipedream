@@ -9,7 +9,7 @@ export default {
   key: "hubspot-new-or-updated-contact",
   name: "New or Updated Contact",
   description: "Emit new event for each new or updated contact in Hubspot.",
-  version: "0.0.5",
+  version: "0.0.10",
   dedupe: "unique",
   type: "source",
   props: {
@@ -102,7 +102,9 @@ export default {
           limit: DEFAULT_LIMIT,
           sorts: [
             {
-              propertyName: "lastmodifieddate",
+              propertyName: this.newOnly
+                ? "createdate"
+                : "lastmodifieddate",
               direction: "DESCENDING",
             },
           ],

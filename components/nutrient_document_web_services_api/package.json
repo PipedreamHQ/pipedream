@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/nutrient_document_web_services_api",
+  "version": "0.0.1",
+  "description": "Pipedream Nutrient Document Web Services API Components",
+  "main": "nutrient_document_web_services_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "nutrient_document_web_services_api"
+  ],
+  "homepage": "https://pipedream.com/apps/nutrient_document_web_services_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

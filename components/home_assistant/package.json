@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/home_assistant",
+  "version": "0.6.0",
+  "description": "Pipedream home_assistant Components",
+  "main": "home_assistant.app.mjs",
+  "keywords": [
+    "pipedream",
+    "home_assistant"
+  ],
+  "homepage": "https://pipedream.com/apps/home_assistant",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

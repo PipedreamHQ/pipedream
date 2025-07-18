@@ -100,16 +100,9 @@ export default {
   },
   methods: {
     _getBaseUrl() {
-      let baseUrl = `https://${this.$auth.region}.jotform.com/`;
-      const standardSubdomains = [
-        "api",
-        "eu-api",
-        "hipaa-api",
-      ];
-      if (!standardSubdomains.includes(this.$auth.region)) {
-        baseUrl += "API/";
-      }
-      return baseUrl;
+      return this.$auth.subdomain
+        ? `https://${this.$auth.subdomain}.jotform.com/API/`
+        : `https://${this.$auth.region}.jotform.com/`;
     },
     _ensureTrailingSlash(str) {
       return (str.endsWith("/"))

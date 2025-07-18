@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/commercehq",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream CommerceHQ Components",
-  "main": "commercehq.app.js",
+  "main": "commercehq.app.mjs",
   "keywords": [
     "pipedream",
     "commercehq"

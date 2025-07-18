@@ -5,7 +5,7 @@ export default {
   name: "Delete File",
   description:
     "Permanently delete a file or folder without moving it to the trash. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/delete) for more information",
-  version: "0.1.8",
+  version: "0.1.10",
   type: "action",
   props: {
     googleDrive,

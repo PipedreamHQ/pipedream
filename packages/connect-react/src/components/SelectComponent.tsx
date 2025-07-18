@@ -20,22 +20,23 @@ export function SelectComponent({
 }: SelectComponentProps) {
   const instanceId = useId();
   const {
-    isLoading,
-    // TODO error
-    components,
+    isLoading, components,
   } = useComponents({
     app: app?.name_slug,
     componentType,
   });
+
+  const selectedValue = components?.find((c) => c.key === value?.key) || null;
+
   return (
     <Select
       instanceId={instanceId}
       className="react-select-container text-sm"
       classNamePrefix="react-select"
       options={components}
-      getOptionLabel={(o) => o.name || o.key} // TODO fetch default component so we show name (or just prime correctly in demo)
+      getOptionLabel={(o) => o.name || o.key}
       getOptionValue={(o) => o.key}
-      value={value}
+      value={selectedValue}
       onChange={(o) => onChange?.((o as V1Component) || undefined)}
       isLoading={isLoading}
       components={{

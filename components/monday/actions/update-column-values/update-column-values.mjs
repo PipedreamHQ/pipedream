@@ -1,20 +1,26 @@
 import common from "../common/column-values.mjs";
-import { axios } from "@pipedream/platform";
-import fs from "fs";
+import {
+  axios, getFileStreamAndMetadata,
+} from "@pipedream/platform";
 import FormData from "form-data";
+import { getColumnOptions } from "../../common/utils.mjs";
 
 export default {
   ...common,
   key: "monday-update-column-values",
   name: "Update Column Values",
-  description: "Update multiple column values of an item. [See the documentation](https://developer.monday.com/api-reference/docs/columns#change-multiple-column-values)",
-  version: "0.0.5",
+  description: "Update multiple column values of an item. [See the documentation](https://developer.monday.com/api-reference/reference/columns#change-multiple-column-values)",
+  version: "0.2.1",
   type: "action",
   props: {
     ...common.props,
+    updateInfoBox: {
+      type: "alert",
+      alertType: "info",
+      content: "See the [Column types reference](https://developer.monday.com/api-reference/reference/column-types-reference) to find the proper data structures for supported column types",
+    },
     boardId: {
       ...common.props.boardId,
-      description: "The board's unique identifier. See the [Column types reference](https://developer.monday.com/api-reference/docs/column-types-reference) to find the proper data structures for supported column types.",
       reloadProps: true,
     },
     itemId: {
@@ -27,20 +33,31 @@ export default {
       ],
       optional: false,
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async additionalProps() {
     const props = {};
-    if (this.boardId) {
-      const columns = await this.getColumns(this.boardId);
+    const { boardId } = this;
+    if (boardId) {
+      const columns = await this.monday.listColumns({
+        boardId: +boardId,
+      });
       for (const column of columns) {
-        props[column.id] = {
+        const id = column.id;
+        props[id] = {
           type: "string",
           label: column.title,
-          description: `The value for column ${column.title}`,
+          description: `The value for the "${column.title}" column (\`${id}\`)`,
           optional: true,
+          options: getColumnOptions(columns, id),
         };
         if (column.type === "file") {
-          props[column.id].description += ". The path to a file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).";
+          props[column.id].description += ". Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)";
         }
       }
     }
@@ -52,13 +69,17 @@ export default {
       $, itemId, column, filePath,
     }) {
       const query = `mutation ($file: File!) { add_file_to_column (file: $file, item_id: ${itemId}, column_id: "${column.id}") { id } }`;
-      const content = fs.createReadStream(filePath.includes("tmp/")
-        ? filePath
-        : `/tmp/${filePath}`);
+      const {
+        stream, metadata,
+      } = await getFileStreamAndMetadata(filePath);
 
       const formData = new FormData();
       formData.append("query", query);
-      formData.append("variables[file]", content);
+      formData.append("variables[file]", stream, {
+        contentType: metadata.contentType,
+        knownLength: metadata.size,
+        filename: metadata.name,
+      });
 
       return axios($, {
         method: "POST",

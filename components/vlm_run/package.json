@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/vlm_run",
+  "version": "0.0.1",
+  "description": "Pipedream VLM Run Components",
+  "main": "vlm_run.app.mjs",
+  "keywords": [
+    "pipedream",
+    "vlm_run"
+  ],
+  "homepage": "https://pipedream.com/apps/vlm_run",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/ecwid",
-  "version": "0.0.10",
+  "version": "0.0.12",
   "description": "Pipedream Ecwid Components",
-  "main": "dist/ecwid.app.mjs",
+  "main": "ecwid.app.mjs",
   "keywords": [
     "pipedream",
     "ecwid"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/ecwid",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

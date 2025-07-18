@@ -1,11 +1,11 @@
 import { axios } from "@pipedream/platform";
-import reddit from "../../reddit.app.mjs";
 import tzs from "../../pytz-timezones.mjs";
+import reddit from "../../reddit.app.mjs";
 
 export default {
   type: "action",
   key: "reddit-submit-a-post",
-  version: "0.1.0",
+  version: "0.1.2",
   name: "Submit a Post",
   description: "Create a post to a subreddit. [See the docs here](https://www.reddit.com/dev/api/#POST_api_submit)",
   props: {

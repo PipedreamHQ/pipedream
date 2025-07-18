@@ -82,13 +82,13 @@ export default {
     objectType: {
       type: "string",
       label: "Object Type",
-      description: "Watch for new events concerning the object type specified.",
+      description: "Watch for new events concerning the object type specified. For custom objects, this is the object's `fullyQualifiedName`, `objectTypeId`, or the short-hand custom object type name (aka `p_{object_name}`)",
       async options({ includeCustom = false }) {
         const objectTypes = OBJECT_TYPES;
         if (includeCustom) {
           const { results } = await this.listSchemas();
           const customObjects = results?.map(({
-            name: value, labels,
+            fullyQualifiedName: value, labels,
           }) => ({
             value,
             label: labels.plural,
@@ -101,7 +101,7 @@ export default {
     objectSchema: {
       type: "string",
       label: "Object Schema",
-      description: "Watch for new events of objects with the specified custom schema.",
+      description: "Watch for new events of objects with the specified custom schema. This is the `objectTypeId` of an object.",
       async options() {
         const { results } = await this.listSchemas();
         return results?.map(({
@@ -437,10 +437,65 @@ export default {
     customObjectType: {
       type: "string",
       label: "Custom Object Type",
-      description: "Tye type of custom object to create",
+      description: "The type of custom object to create. This is the object's `fullyQualifiedName`, `objectTypeId`, or the short-hand custom object type name (aka `p_{object_name}`)",
       async options() {
         const { results } = await this.listSchemas();
-        return results?.map(({ name }) => name ) || [];
+        return results?.map(({
+          name, fullyQualifiedName,
+        }) => ({
+          label: name,
+          value: fullyQualifiedName,
+        }) ) || [];
+      },
+    },
+    timeframe: {
+      type: "string",
+      label: "Time Frame",
+      description: "Filter meetings within a specific time frame",
+      optional: true,
+      reloadProps: true,
+      options: [
+        {
+          label: "Today",
+          value: "today",
+        },
+        {
+          label: "This Week",
+          value: "this_week",
+        },
+        {
+          label: "This Month",
+          value: "this_month",
+        },
+        {
+          label: "Last Month",
+          value: "last_month",
+        },
+        {
+          label: "Custom Range",
+          value: "custom",
+        },
+      ],
+    },
+    mostRecent: {
+      type: "boolean",
+      label: "Most Recent Only",
+      description: "Only return the most recent meeting",
+      optional: true,
+      default: false,
+    },
+    meetingId: {
+      type: "string",
+      label: "Meeting ID",
+      description: "The ID of the meeting to retrieve",
+      useQuery: true,
+      async options({ query }) {
+        const { results } = await this.searchMeetings({
+          data: {
+            query,
+          },
+        });
+        return results.map(({ id }) => id);
       },
     },
   },
@@ -704,6 +759,15 @@ export default {
       return this.makeRequest({
         api: API_PATH.EVENTS,
         endpoint: "/events",
+        ...opts,
+      });
+    },
+    getFormDefinition({
+      formId, ...opts
+    } = {}) {
+      return this.makeRequest({
+        api: API_PATH.MARKETINGV3,
+        endpoint: `/forms/${formId}`,
         ...opts,
       });
     },
@@ -1025,6 +1089,56 @@ export default {
       return this.makeRequest({
         api: API_PATH.CRMV3,
         endpoint: "/objects/tasks",
+        ...opts,
+      });
+    },
+    getAssociations({
+      objectType, objectId, toObjectType, ...opts
+    } = {}) {
+      return this.makeRequest({
+        api: API_PATH.CRMV4,
+        endpoint: `/objects/${objectType}/${objectId}/associations/${toObjectType}`,
+        ...opts,
+      });
+    },
+    /**
+     * Get meeting by ID
+     * @param {string} meetingId - The ID of the meeting to retrieve
+     * @param {object} opts - Additional options to pass to the request
+     * @returns {Promise<object>} The meeting object
+     */
+    getMeeting({
+      meetingId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: `/objects/meetings/${meetingId}`,
+        ...opts,
+      });
+    },
+    /**
+     * Create a new meeting
+     * @param {object} opts - The meeting data and request options
+     * @returns {Promise<object>} The created meeting object
+     */
+    createMeeting(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: "/objects/meetings",
+        method: "POST",
+        ...opts,
+      });
+    },
+    /**
+     * Search meetings using a filter
+     * @param {object} opts - Search parameters and request options
+     * @returns {Promise<object>} Search results
+     */
+    searchMeetings(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: "/objects/meetings/search",
+        method: "POST",
         ...opts,
       });
     },

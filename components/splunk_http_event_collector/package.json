@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/splunk_http_event_collector",
+  "version": "0.1.0",
+  "description": "Pipedream Splunk HTTP Event Collector Components",
+  "main": "splunk_http_event_collector.app.mjs",
+  "keywords": [
+    "pipedream",
+    "splunk_http_event_collector"
+  ],
+  "homepage": "https://pipedream.com/apps/splunk_http_event_collector",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

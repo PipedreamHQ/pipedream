@@ -4,7 +4,7 @@ import utils from "../../common/utils.mjs";
 
 export default {
   key: "google_analytics-page-opened",
-  version: "0.1.0",
+  version: "0.1.1",
   name: "New Page Opened",
   description: "Emit new event when a page is viewed",
   type: "source",

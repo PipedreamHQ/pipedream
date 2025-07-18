@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/agentx",
+  "version": "0.0.1",
+  "description": "Pipedream AgentX Components",
+  "main": "agentx.app.mjs",
+  "keywords": [
+    "pipedream",
+    "agentx"
+  ],
+  "homepage": "https://pipedream.com/apps/agentx",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -7,7 +7,7 @@ export default {
   name: "Create Document From File",
   description: "Create a document from a file or public file URL. [See the documentation here](https://developers.pandadoc.com/reference/create-document-from-pdf)",
   type: "action",
-  version: "0.0.8",
+  version: "1.0.1",
   props: {
     app,
     name: {
@@ -27,13 +27,6 @@ export default {
         app,
         "file",
       ],
-      optional: true,
-    },
-    fileUrl: {
-      type: "string",
-      label: "File URL",
-      description: "A public file URL to use instead of a local file.",
-      optional: true,
     },
     documentFolderId: {
       propDefinition: [
@@ -48,6 +41,12 @@ export default {
       \nE.g. \`{ "name": { "value": "Jane", "role": "user" }, "like": { "value": true, "role": "user" } }\``,
       optional: true,
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   methods: createDocumentAttachment.methods,
   async run({ $ }) {
@@ -55,7 +54,6 @@ export default {
       name,
       recipients,
       file,
-      fileUrl,
       documentFolderId,
     } = this;
 
@@ -66,7 +64,7 @@ export default {
       throw new ConfigurationError("**Error parsing recipients** - each must be a valid JSON-stringified object");
     }
 
-    let data, contentType, json = {
+    const json = {
       name,
       recipients: parsedRecipients,
       folder_uuid: documentFolderId,
@@ -78,15 +76,9 @@ export default {
         : this.fields;
     }
 
-    if (fileUrl) {
-      data = json;
-      contentType = "application/json";
-      data.url = fileUrl;
-    } else {
-      data = this.getFormData(file);
-      contentType = `multipart/form-data; boundary=${data._boundary}`;
-      data.append("data", JSON.stringify(json));
-    }
+    const data = await this.getFormData(file);
+    const contentType = `multipart/form-data; boundary=${data._boundary}`;
+    data.append("data", JSON.stringify(json));
 
     const response = await this.app.createDocument({
       $,

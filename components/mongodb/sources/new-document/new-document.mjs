@@ -6,7 +6,7 @@ export default {
   key: "mongodb-new-document",
   name: "New Document",
   description: "Emit new an event when a new document is added to a collection",
-  version: "0.0.9",
+  version: "0.0.12",
   type: "source",
   dedupe: "unique",
   props: {
@@ -29,7 +29,18 @@ export default {
     timestampField: {
       type: "string",
       label: "Timestamp Field",
-      description: "The key of a timestamp field, such as 'created_at' that is set to the current timestamp when a document is created. Must be of type Timestamp.",
+      description: "The key of a timestamp field, such as 'created_at' that is set to the current timestamp when a document is created.",
+    },
+    timestampFieldType: {
+      type: "string",
+      label: "Timestamp Field Type",
+      description: "The type of the timestamp field",
+      default: "Timestamp",
+      options: [
+        "Timestamp",
+        "Integer",
+        "ISO8601",
+      ],
     },
   },
   hooks: {
@@ -47,15 +58,32 @@ export default {
     _setLastTs(lastTs) {
       this.db.set("lastTs", lastTs);
     },
-    getTs(doc) {
-      try {
-        return JSON.parse(doc[this.timestampField]);
-      } catch {
-        return doc[this.timestampField];
+    makeTs(timestamp) {
+      if (this.timestampFieldType === "Integer") {
+        return timestamp;
       }
+      if (this.timestampFieldType === "Timestamp") {
+        return this.convertToTimestamp(timestamp);
+      }
+      if (this.timestampFieldType === "ISO8601") {
+        return new Date(timestamp);
+      }
+      return timestamp;
     },
-    convertToTimestamp(timestampStr) {
-      const bigIntValue = BigInt(timestampStr);
+    getTs(timestamp) {
+      if (this.timestampFieldType === "Integer") {
+        return timestamp;
+      }
+      if (this.timestampFieldType === "Timestamp") {
+        return timestamp.getHighBits() * 1_000;
+      }
+      if (this.timestampFieldType === "ISO8601") {
+        return new Date(timestamp).getTime();
+      }
+      return timestamp;
+    },
+    convertToTimestamp(timestamp) {
+      const bigIntValue = BigInt(timestamp.toString());
       const seconds = Number(bigIntValue >> 32n);
       const increment = Number(bigIntValue & 0xFFFFFFFFn);
       return new Timestamp({
@@ -73,14 +101,16 @@ export default {
       };
       const query = {
         [this.timestampField]: {
-          $gt: this.convertToTimestamp(lastTs),
+          $gt: this.makeTs(lastTs),
         },
       };
-      const documents = await collection.find(query).sort(sort)
+      const documents = await collection
+        .find(query)
+        .sort(sort)
         .toArray();
       const docs = [];
       for (const doc of documents) {
-        const ts = this.getTs(doc);
+        const ts = this.getTs(doc[this.timestampField]);
         if (!(ts > lastTs) || (max && count >= max)) {
           break;
         }

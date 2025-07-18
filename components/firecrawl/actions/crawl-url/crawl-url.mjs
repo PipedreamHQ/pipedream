@@ -1,10 +1,11 @@
+import { parseObjectEntries } from "../../common/utils.mjs";
 import firecrawl from "../../firecrawl.app.mjs";
 
 export default {
   key: "firecrawl-crawl-url",
   name: "Crawl URL",
-  description: "Crawls a given input URL and returns the contents of sub-pages. [See the documentation](https://docs.firecrawl.dev/api-reference/endpoint/crawl)",
-  version: "0.0.1",
+  description: "Crawls a given URL and returns the contents of sub-pages. [See the documentation](https://docs.firecrawl.dev/api-reference/endpoint/crawl-post)",
+  version: "1.0.3",
   type: "action",
   props: {
     firecrawl,
@@ -14,180 +15,75 @@ export default {
         "url",
       ],
     },
-    includes: {
-      propDefinition: [
-        firecrawl,
-        "includes",
-      ],
+    excludePaths: {
+      type: "string[]",
+      label: "Exclude Paths",
+      description: "URL pathname regex patterns that exclude matching URLs from the crawl. For example, a value of `blog/.*` for the URL `firecrawl.dev` will exclude any results matching that pattern, such as `https://www.firecrawl.dev/blog/firecrawl-launch-week-1-recap`",
       optional: true,
     },
-    excludes: {
-      propDefinition: [
-        firecrawl,
-        "excludes",
-      ],
-      optional: true,
-    },
-    generateImgAltText: {
-      propDefinition: [
-        firecrawl,
-        "generateImgAltText",
-      ],
-      optional: true,
-    },
-    returnOnlyUrls: {
-      propDefinition: [
-        firecrawl,
-        "returnOnlyUrls",
-      ],
+    includePaths: {
+      type: "string[]",
+      label: "Include Paths",
+      description: "Similar to `Exclude Paths`, but if set, only the paths matching the specified patterns will be included",
       optional: true,
     },
     maxDepth: {
-      propDefinition: [
-        firecrawl,
-        "maxDepth",
-      ],
-      optional: true,
-    },
-    mode: {
-      propDefinition: [
-        firecrawl,
-        "mode",
-      ],
+      type: "integer",
+      label: "Max Depth",
+      description: "Maximum depth to crawl relative to the entered URL",
       optional: true,
     },
     ignoreSitemap: {
-      propDefinition: [
-        firecrawl,
-        "ignoreSitemap",
-      ],
+      type: "boolean",
+      label: "Ignore Sitemap",
+      description: "Ignore the website sitemap when crawling",
+      optional: true,
+    },
+    ignoreQueryParameters: {
+      type: "boolean",
+      label: "Ignore Query Parameters",
+      description: "Do not re-scrape the same path with different (or none) query parameters",
       optional: true,
     },
     limit: {
-      propDefinition: [
-        firecrawl,
-        "limit",
-      ],
+      type: "integer",
+      label: "Limit",
+      description: "Maximum number of pages to crawl",
       optional: true,
     },
-    allowBackwardCrawling: {
-      propDefinition: [
-        firecrawl,
-        "allowBackwardCrawling",
-      ],
+    allowBackwardLinks: {
+      type: "boolean",
+      label: "Allow Backward Links",
+      description: "Enables the crawler to navigate from a specific URL to previously linked pages",
       optional: true,
     },
-    allowExternalContentLinks: {
-      propDefinition: [
-        firecrawl,
-        "allowExternalContentLinks",
-      ],
+    allowExternalLinks: {
+      type: "boolean",
+      label: "Allow External Links",
+      description: "Allows the crawler to follow links to external websites",
       optional: true,
     },
-    headers: {
+    additionalOptions: {
       propDefinition: [
         firecrawl,
-        "headers",
+        "additionalOptions",
       ],
-      optional: true,
-    },
-    includeHtml: {
-      propDefinition: [
-        firecrawl,
-        "includeHtml",
-      ],
-      optional: true,
-    },
-    includeRawHtml: {
-      propDefinition: [
-        firecrawl,
-        "includeRawHtml",
-      ],
-      optional: true,
-    },
-    onlyIncludeTags: {
-      propDefinition: [
-        firecrawl,
-        "onlyIncludeTags",
-      ],
-      optional: true,
-    },
-    onlyMainContent: {
-      propDefinition: [
-        firecrawl,
-        "onlyMainContent",
-      ],
-      optional: true,
-    },
-    removeTags: {
-      propDefinition: [
-        firecrawl,
-        "removeTags",
-      ],
-      optional: true,
-    },
-    replaceAllPathsWithAbsolutePaths: {
-      propDefinition: [
-        firecrawl,
-        "replaceAllPathsWithAbsolutePaths",
-      ],
-      optional: true,
-    },
-    screenshot: {
-      propDefinition: [
-        firecrawl,
-        "screenshot",
-      ],
-      optional: true,
-    },
-    fullPageScreenshot: {
-      propDefinition: [
-        firecrawl,
-        "fullPageScreenshot",
-      ],
-      optional: true,
-    },
-    waitFor: {
-      propDefinition: [
-        firecrawl,
-        "waitFor",
-      ],
-      optional: true,
+      description: "Additional parameters to send in the request. [See the documentation](https://docs.firecrawl.dev/api-reference/endpoint/crawl-post) for available parameters. Values will be parsed as JSON where applicable. For example, to add the `webhook` param, use the value `{\"webhook\": {\"url\": \"https://your-server-webhook-api.com\",\"headers\": {},\"metadata\": {},\"events\": [\"completed\"]}}`",
     },
   },
   async run({ $ }) {
-    const response = await this.firecrawl.crawl({
+    const {
+      firecrawl, additionalOptions, ...data
+    } = this;
+    const response = await firecrawl.crawl({
       $,
       data: {
-        url: this.url,
-        crawlerOptions: {
-          includes: this.includes,
-          excludes: this.excludes,
-          generateImgAltText: this.generateImgAltText,
-          returnOnlyUrls: this.returnOnlyUrls,
-          maxDepth: parseInt(this.maxDepth),
-          mode: this.mode,
-          ignoreSitemap: this.ignoreSitemap,
-          limit: this.limit,
-          allowBackwardCrawling: this.allowBackwardCrawling,
-          allowExternalContentLinks: this.allowExternalContentLinks,
-        },
-        pageOptions: {
-          headers: this.headers,
-          includeHtml: this.includeHtml,
-          includeRawHtml: this.includeRawHtml,
-          onlyIncludeTags: this.onlyIncludeTags,
-          onlyMainContent: this.onlyMainContent,
-          removeTags: this.removeTags,
-          replaceAllPathsWithAbsolutePaths: this.replaceAllPathsWithAbsolutePaths,
-          screenshot: this.screenshot,
-          fullPageScreenshot: this.fullPageScreenshot,
-          waitFor: parseInt(this.waitFor),
-        },
+        ...data,
+        ...(additionalOptions && parseObjectEntries(additionalOptions)),
       },
     });
 
-    $.export("$summary", `Crawl job started with jobId: ${response.jobId}`);
+    $.export("$summary", `Crawl job started (ID: ${response.id})`);
     return response;
   },
 };

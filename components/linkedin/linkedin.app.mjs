@@ -1,6 +1,7 @@
 import { axios as axiosPD } from "@pipedream/platform";
 import axios from "axios";
 import constants from "./common/constants.mjs";
+import utils from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -233,9 +234,14 @@ export default {
         ...args,
       });
     },
-    async getAccessControl({ params }) {
+    async getAccessControl({
+      strParams, ...args
+    }) {
       return this._makeRequestAxios({
-        path: `/organizationAcls?${params}`,
+        path: `/organizationAcls${strParams
+          ? `?${strParams}`
+          : ""}`,
+        ...args,
       });
     },
     async queryAnaltyics(query, args = {} ) {
@@ -267,6 +273,66 @@ export default {
         path: "/adCampaigns?q=search",
         ...args,
       });
+    },
+    listPosts(args = {}) {
+      return this._makeRequest({
+        path: "/posts",
+        paramsSerializer: utils.getParamsSerializer(utils.encodeFn),
+        ...args,
+      });
+    },
+    async *getIterations({
+      resourcesFn, resourcesFnArgs, resourceName,
+      lastDateAt, dateField,
+      max = constants.DEFAULT_MAX,
+    }) {
+      let page = 0;
+      let resourcesCount = 0;
+
+      while (true) {
+        const response =
+          await resourcesFn({
+            ...resourcesFnArgs,
+            params: {
+              ...resourcesFnArgs?.params,
+              count: constants.DEFAULT_LIMIT,
+              start: page * constants.DEFAULT_LIMIT,
+            },
+          });
+
+        const nextResources = utils.getNestedProperty(response, resourceName);
+
+        if (!nextResources?.length) {
+          console.log("No more resources found");
+          return;
+        }
+
+        for (const resource of nextResources) {
+          const isDateGreater =
+            lastDateAt
+              && resource[dateField] > lastDateAt;
+
+          if (!lastDateAt || isDateGreater) {
+            yield resource;
+            resourcesCount += 1;
+          }
+
+          if (resourcesCount >= max) {
+            console.log("Reached max resources");
+            return;
+          }
+        }
+
+        if (nextResources.length < constants.DEFAULT_LIMIT) {
+          console.log("No next page found");
+          return;
+        }
+
+        page += 1;
+      }
+    },
+    paginate(args = {}) {
+      return utils.iterate(this.getIterations(args));
     },
   },
 };

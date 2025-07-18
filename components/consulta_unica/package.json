@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/consulta_unica",
+  "version": "0.0.1",
+  "description": "Pipedream Consulta Única Components",
+  "main": "consulta_unica.app.mjs",
+  "keywords": [
+    "pipedream",
+    "consulta_unica"
+  ],
+  "homepage": "https://pipedream.com/apps/consulta_unica",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

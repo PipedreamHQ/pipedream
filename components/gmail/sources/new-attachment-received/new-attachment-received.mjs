@@ -1,3 +1,4 @@
+import utils from "../../common/utils.mjs";
 import gmail from "../../gmail.app.mjs";
 import common from "../common/polling-messages.mjs";
 
@@ -6,12 +7,12 @@ export default {
   key: "gmail-new-attachment-received",
   name: "New Attachment Received",
   description: "Emit new event for each attachment in a message received. This source is capped at 100 max new messages per run.",
-  version: "0.0.6",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   props: {
-    ...common.props,
     gmail,
+    ...common.props,
     q: {
       propDefinition: [
         gmail,
@@ -27,22 +28,23 @@ export default {
       label: "Labels",
       optional: true,
     },
+    withTextPayload: {
+      type: "boolean",
+      label: "Return payload as plaintext",
+      description: "Convert the payload response into a single text field. **This reduces the size of the payload and makes it easier for LLMs work with.**",
+      default: false,
+    },
   },
   methods: {
     ...common.methods,
     constructQuery(lastDate) {
-      const { q: query } = this;
-      const hasAttachment = query?.includes("has:attachment")
-        ? ""
-        : "has:attachment";
-      const after = !query?.includes("after:") && lastDate
-        ? `after:${lastDate / 1000}`
-        : "";
-      return [
-        hasAttachment,
-        after,
-        query,
-      ].join(" ").trim();
+      const hasAttachment = "has:attachment";
+      if (!this.q) {
+        this.q = hasAttachment;
+      } else if (!this.q.includes(hasAttachment)) {
+        this.q = `${this.q} ${hasAttachment}`;
+      }
+      return common.methods.constructQuery.call(this, lastDate);
     },
     getLabels() {
       return this.labels;
@@ -56,11 +58,12 @@ export default {
     },
     emitEvent(message) {
       if (message) {
-        const { parts: attachments } = message.payload;
+        const { parts: attachments = [] } = message.payload;
+        const parsedMessage = utils.validateTextPayload(message, this.withTextPayload);
 
         attachments.filter((attachment) => attachment.body.attachmentId).forEach((attachment) => {
           this.$emit({
-            message,
+            message: parsedMessage || message,
             attachment,
           }, this.generateMeta(attachment, message));
         });

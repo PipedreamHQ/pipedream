@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/medium",
+  "version": "0.6.0",
+  "description": "Pipedream medium Components",
+  "main": "medium.app.mjs",
+  "keywords": [
+    "pipedream",
+    "medium"
+  ],
+  "homepage": "https://pipedream.com/apps/medium",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

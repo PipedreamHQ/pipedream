@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/speak_ai",
+  "version": "0.1.0",
+  "description": "Pipedream Speak AI Components",
+  "main": "speak_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "speak_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/speak_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

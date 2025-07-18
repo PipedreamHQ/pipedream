@@ -1,29 +1,42 @@
-import pick from "lodash.pick";
 import app from "../../stripe.app.mjs";
 
 export default {
   key: "stripe-create-payout",
   name: "Create a Payout",
   type: "action",
-  version: "0.1.0",
-  description: "Send funds to your own bank account. Your Stripe balance must be able to cover " +
-    "the payout amount, or you'll receive an 'Insufficient Funds' error. [See the " +
-    "docs](https://stripe.com/docs/api/payouts/create) for more information",
+  version: "0.1.2",
+  description: "Create a payout. [See the documentation](https://stripe.com/docs/api/payouts/create).",
   props: {
     app,
+    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: "Send funds to your own bank account. Your Stripe balance must be able to cover the payout amount, or you'll receive an 'Insufficient Funds' error. [See the documentation](https://stripe.com/docs/api/payouts/create).",
+    },
     amount: {
-      "propDefinition": [
+      optional: false,
+      propDefinition: [
         app,
         "amount",
       ],
-      "optional": false,
+    },
+    country: {
+      propDefinition: [
+        app,
+        "country",
+      ],
+      optional: false,
     },
     currency: {
-      "propDefinition": [
+      optional: false,
+      propDefinition: [
         app,
         "currency",
+        ({ country }) => ({
+          country,
+        }),
       ],
-      "optional": false,
     },
     description: {
       propDefinition: [
@@ -31,23 +44,33 @@ export default {
         "description",
       ],
     },
-    statement_descriptor: {
+    statementDescriptor: {
       propDefinition: [
         app,
-        "statement_descriptor",
+        "statementDescriptor",
       ],
     },
     method: {
-      propDefinition: [
-        app,
-        "payout_method",
+      type: "string",
+      label: "Method",
+      description: "`instant` is only supported for payouts to debit cards",
+      default: "standard",
+      options: [
+        "standard",
+        "instant",
       ],
+      optional: true,
     },
-    source_type: {
-      propDefinition: [
-        app,
-        "payout_source_type",
+    sourceType: {
+      type: "string",
+      label: "Source Type",
+      description: "The balance type of your Stripe balance to draw this payout from",
+      options: [
+        "bank_account",
+        "card",
+        "fpx",
       ],
+      optional: true,
     },
     metadata: {
       propDefinition: [
@@ -57,17 +80,27 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = pick(this, [
-      "amount",
-      "currency",
-      "description",
-      "statement_descriptor",
-      "method",
-      "source_type",
-      "metadata",
-    ]);
-    const resp = await this.app.sdk().payouts.create(data);
-    $.export("$summary", `Successfully created a new payout for ${resp.amount} of the smallest unit of currency of ${resp.currency}`);
+    const {
+      app,
+      amount,
+      currency,
+      description,
+      statementDescriptor,
+      method,
+      sourceType,
+      metadata,
+    } = this;
+
+    const resp = await app.sdk().payouts.create({
+      amount,
+      currency,
+      description,
+      statement_descriptor: statementDescriptor,
+      method,
+      source_type: sourceType,
+      metadata,
+    });
+    $.export("$summary", `Successfully created a new payout for \`${resp.amount}\` of the smallest unit of currency of \`${resp.currency}\`.`);
     return resp;
   },
 };

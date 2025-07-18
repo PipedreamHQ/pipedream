@@ -15,7 +15,7 @@ export default {
     the new item completely replaces the existing item.
     [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/classes/putitemcommand.html)
   `),
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     aws: common.props.aws,

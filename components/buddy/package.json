@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/buddy",
+  "version": "0.0.1",
+  "description": "Pipedream Buddy Components",
+  "main": "buddy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "buddy"
+  ],
+  "homepage": "https://pipedream.com/apps/buddy",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

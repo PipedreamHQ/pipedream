@@ -1,16 +1,22 @@
 import shopify from "../../shopify_developer_app.app.mjs";
-import common from "@pipedream/shopify/sources/new-article/common.mjs";
+import common from "@pipedream/shopify/sources/new-article/new-article.mjs";
+
+import { adjustPropDefinitions } from "../../common/utils.mjs";
+
+const {
+  name, description, type, ...others
+} = common;
+const props = adjustPropDefinitions(others.props, shopify);
 
 export default {
-  ...common,
+  ...others,
   key: "shopify_developer_app-new-article",
-  name: "New Article",
-  type: "source",
-  description: "Emit new event for each new article in a blog.",
-  version: "0.0.4",
-  dedupe: "unique",
+  version: "0.0.7",
+  name,
+  description,
+  type,
   props: {
-    shopify,
-    ...common.props,
+    app: shopify,
+    ...props,
   },
 };

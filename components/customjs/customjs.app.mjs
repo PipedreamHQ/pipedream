@@ -11,19 +11,26 @@ export default {
     },
   },
   methods: {
+    _getBaseHeaders() {
+      return {
+        "Content-Type": "application/json",
+        "customjs-origin": "pipedream",
+      };
+    },
     _makeRequest(opts = {}) {
       const {
         $ = this,
-        headers,
+        headers = {},
         ...otherOpts
       } = opts;
+
       return axios($, {
         ...otherOpts,
         method: "POST",
         url: `https://e.customjs.io/__js1-${this.$auth.api_key}`,
         headers: {
+          ...this._getBaseHeaders(),
           ...headers,
-          "Content-Type": "application/json",
         },
         responseType: "arraybuffer",
       });

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/everwebinar",
+  "version": "0.6.0",
+  "description": "Pipedream everwebinar Components",
+  "main": "everwebinar.app.mjs",
+  "keywords": [
+    "pipedream",
+    "everwebinar"
+  ],
+  "homepage": "https://pipedream.com/apps/everwebinar",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

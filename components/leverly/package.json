@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/leverly",
+  "version": "0.0.1",
+  "description": "Pipedream Leverly Components",
+  "main": "leverly.app.mjs",
+  "keywords": [
+    "pipedream",
+    "leverly"
+  ],
+  "homepage": "https://pipedream.com/apps/leverly",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

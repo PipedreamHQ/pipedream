@@ -1,0 +1,28 @@
+{
+  "description": "Pipedream stdio and HTTP MCP servers",
+  "scripts": {
+    "dev:stdio": "bun --watch src/stdio.ts",
+    "dev:http": "tsx watch -r dotenv/config src/http.ts",
+    "prod:http": "tsx src/http.ts",
+    "dev:sse": "pnpm run dev:http",
+    "prod:sse": "pnpm run prod:http"
+  },
+  "type": "module",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.10.2",
+    "@pipedream/sdk": "^1.5.4",
+    "@supabase/supabase-js": "^2.49.1",
+    "cors": "^2.8.5",
+    "dd-trace": "^3.58.0",
+    "express": "^4.21.2",
+    "openai": "^4.87.3",
+    "tsx": "^4.19.3",
+    "zod": "^3.24.2",
+    "zod-to-json-schema": "^3.24.5"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.15.3",
+    "dotenv": "^6.0.0"
+  }
+}

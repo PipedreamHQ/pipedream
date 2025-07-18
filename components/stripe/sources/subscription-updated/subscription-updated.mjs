@@ -5,13 +5,14 @@ export default {
   key: "stripe-subscription-updated",
   name: "Subscription Updated",
   type: "source",
-  version: "0.1.1",
+  version: "0.1.3",
   description: "Emit new event on a new subscription is updated",
   methods: {
     ...common.methods,
     getEvents() {
       return [
         "subscription_schedule.updated",
+        "customer.subscription.updated",
       ];
     },
   },

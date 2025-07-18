@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/servicetitan",
+  "version": "0.0.1",
+  "description": "Pipedream ServiceTitan Components",
+  "main": "servicetitan.app.mjs",
+  "keywords": [
+    "pipedream",
+    "servicetitan"
+  ],
+  "homepage": "https://pipedream.com/apps/servicetitan",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

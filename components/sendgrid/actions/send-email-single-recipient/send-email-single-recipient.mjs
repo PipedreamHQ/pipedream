@@ -1,3 +1,5 @@
+import { getFileStream } from "@pipedream/platform";
+import mime from "mime";
 import validate from "validate.js";
 import common from "../common/common.mjs";
 
@@ -6,7 +8,7 @@ export default {
   key: "sendgrid-send-email-single-recipient",
   name: "Send Email Single Recipient",
   description: "This action sends a personalized e-mail to the specified recipient. [See the docs here](https://docs.sendgrid.com/api-reference/mail-send/mail-send)",
-  version: "0.0.7",
+  version: "0.1.1",
   type: "action",
   props: {
     ...common.props,
@@ -96,12 +98,6 @@ export default {
       ],
       optional: true,
     },
-    attachments: {
-      propDefinition: [
-        common.props.sendgrid,
-        "attachments",
-      ],
-    },
     headers: {
       propDefinition: [
         common.props.sendgrid,
@@ -162,6 +158,39 @@ export default {
         "trackingSettings",
       ],
     },
+    numberOfAttachments: {
+      propDefinition: [
+        common.props.sendgrid,
+        "numberOfAttachments",
+      ],
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
+  },
+  async additionalProps() {
+    const props = {};
+    if (this.numberOfAttachments) {
+      for (let i = 1; i <= this.numberOfAttachments; i++) {
+        props[`attachmentsName${i}`] = {
+          type: "string",
+          label: `Attachment File Name ${i}`,
+          description: "The name of the file.",
+          optional: true,
+        };
+        props[`attachmentsPath${i}`] = {
+          type: "string",
+          label: `Attachment File Path or URL ${i}`,
+          description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`).",
+          optional: true,
+        };
+      }
+    }
+    return props;
   },
   async run({ $ }) {
     //Performs validation on parameters.
@@ -202,16 +231,23 @@ export default {
         },
       };
     }
-    let attachments = this.convertEmptyStringToUndefined(this.attachments);
-    if (this.attachments) {
-      constraints.attachments = {
-        arrayValidator: {
-          value: this.attachments,
-          key: "attachments",
-        },
-      };
-      attachments = this.getArrayObject(this.attachments);
+    const attachments = [];
+    for (let i = 1; i <= this.numberOfAttachments; i++) {
+      const filepath = this["attachmentsPath" + i];
+      const stream = await getFileStream(filepath);
+      const chunks = [];
+      for await (const chunk of stream) {
+        chunks.push(chunk);
+      }
+      const content = Buffer.concat(chunks).toString("base64");
+      const type = mime.getType(filepath);
+      attachments.push({
+        content,
+        type,
+        filename: this[`attachmentsName${i}`],
+      });
     }
+
     if (this.categories) {
       constraints.categories = {
         type: "array",
@@ -222,8 +258,8 @@ export default {
         email: true,
       };
     }
-    this.sendAt = this.convertEmptyStringToUndefined(this.sendAt);
-    if (this.sendAt != null) {
+    this.sendAt = this.convertEmptyStringToUndefined(Date.parse(this.sendAt));
+    if (this.sendAt) {
       constraints.sendAt = this.getIntegerGtZeroConstraint();
     }
     //Executes validation

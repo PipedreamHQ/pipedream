@@ -6,19 +6,25 @@ export default {
   key: "attio-note-updated-instant",
   name: "Note Updated (Instant)",
   description: "Emit new event when the title of a note is modified. Body updates do not currently trigger webhooks.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
-    getEventType() {
-      return "note.updated";
+    getSubscriptions() {
+      return [
+        {
+          event_type: "note.updated",
+          filter: null,
+        },
+      ];
     },
     generateMeta(note) {
+      const ts = Date.now();
       return {
-        id: note.id.note_id,
+        id: `${note.id.note_id}-${ts}`,
         summary: `Updated Note with ID: ${note.id.note_id}`,
-        ts: Date.now(),
+        ts,
       };
     },
   },

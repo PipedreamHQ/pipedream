@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/orshot",
+  "version": "0.2.0",
+  "description": "Pipedream Orshot Components",
+  "main": "orshot.app.mjs",
+  "keywords": [
+    "pipedream",
+    "orshot"
+  ],
+  "homepage": "https://pipedream.com/apps/orshot",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
+  }
+}

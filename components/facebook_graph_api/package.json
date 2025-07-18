@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/facebook_graph_api",
+  "version": "0.0.1",
+  "description": "Pipedream Facebook Graph API Components",
+  "main": "facebook_graph_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "facebook_graph_api"
+  ],
+  "homepage": "https://pipedream.com/apps/facebook_graph_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

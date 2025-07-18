@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/tailscale",
+  "version": "0.0.1",
+  "description": "Pipedream Tailscale Components",
+  "main": "tailscale.app.mjs",
+  "keywords": [
+    "pipedream",
+    "tailscale"
+  ],
+  "homepage": "https://pipedream.com/apps/tailscale",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

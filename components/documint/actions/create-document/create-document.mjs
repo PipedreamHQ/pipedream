@@ -2,7 +2,7 @@ import app from "../../documint.app.mjs";
 
 export default {
   name: "Create Document",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "documint-create-document",
   description: "Create a document. [See the documentation](https://documenter.getpostman.com/view/11741160/TVK5cLxQ#032798a4-6eb6-43cd-9c1b-9ba313f7d39c)",
   type: "action",
@@ -19,6 +19,13 @@ export default {
       description: "Variables to merge with template. E.g. `{ \"company\": \"Pipedream\" }`",
       type: "object",
     },
+    preview: {
+      type: "boolean",
+      label: "Preview",
+      description: "Set to `false` to create the document without a watermark",
+      optional: true,
+      default: true,
+    },
   },
   async run({ $ }) {
     const variables = typeof this.variables === "string"
@@ -30,7 +37,7 @@ export default {
       templateId: this.templateId,
       params: {
         active: true,
-        preview: true,
+        preview: this.preview,
       },
       data: {
         ...variables,
@@ -38,7 +45,7 @@ export default {
     });
 
     if (response) {
-      $.export("$summary", `Successfully created document with ID \`${response.id}\``);
+      $.export("$summary", `Successfully created document with ID \`${response._id}\``);
     }
 
     return response;

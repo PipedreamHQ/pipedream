@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/mergemole",
+  "version": "0.1.1",
+  "description": "Pipedream MergeMole Components",
+  "main": "mergemole.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mergemole"
+  ],
+  "homepage": "https://pipedream.com/apps/mergemole",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

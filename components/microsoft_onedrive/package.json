@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/microsoft_onedrive",
-  "version": "1.6.0",
+  "version": "1.7.1",
   "description": "Pipedream Microsoft OneDrive components",
-  "main": "microsoft_onedrive.app.js",
+  "main": "microsoft_onedrive.app.mjs",
   "homepage": "https://pipedream.com/apps/microsoft-onedrive",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
@@ -10,9 +10,8 @@
   },
   "dependencies": {
     "@microsoft/microsoft-graph-client": "^3.0.1",
-    "@pipedream/platform": "^3.0.3",
+    "@pipedream/platform": "^3.1.0",
     "bottleneck": "^2.19.5",
-    "file-type": "^18.7.0",
     "isomorphic-fetch": "^3.0.0",
     "lodash.get": "^4.4.2"
   }

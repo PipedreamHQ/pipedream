@@ -2,6 +2,8 @@
 
 OpenAI provides a suite of powerful AI models through its API, enabling developers to integrate advanced natural language processing and generative capabilities into their applications. Here’s an overview of the services offered by OpenAI's API:
 
+- [Web search](https://platform.openai.com/docs/guides/tools-web-search)
+- [Function calling](https://platform.openai.com/docs/guides/function-calling)
 - [Text generation](https://platform.openai.com/docs/guides/text-generation)
 - [Embeddings](https://platform.openai.com/docs/guides/embeddings)
 - [Fine-tuning](https://platform.openai.com/docs/guides/fine-tuning)
@@ -16,13 +18,17 @@ Use Python or Node.js code to make fully authenticated API requests with your Op
 
 The OpenAI API can be leveraged in a wide range of business contexts to drive efficiency, enhance customer experiences, and innovate product offerings. Here are some specific business use cases for utilizing the OpenAI API:
 
+### AI Agent Tools
+
+Empower your business with [AI Agent Tools](https://pipedream.com/blog/introducing-enhanced-openai-chat-actions-for-pipedream/#using-pipedream-workflows-as-functions) that act as intelligent, autonomous assistants capable of executing a range of complex tasks.
+
 ### **Customer Support Automation**
 
 Significantly reduce response times and free up human agents to tackle more complex issues by automating customer support ticket responses.
 
 ### **Content Creation and Management**
 
-Utilize AI to generate high-quality content for blogs, articles, product descriptions, and marketing material. 
+Utilize AI to generate high-quality content for blogs, articles, product descriptions, and marketing material.
 
 ### **Personalized Marketing and Advertising**
 
@@ -54,13 +60,9 @@ Name the key `Pipedream` and then save the API key within Pipedream. Now you’r
 
 ## 401 - Invalid Authentication
 
----
-
 Ensure the correct [API key](https://platform.openai.com/account/api-keys) and requesting organization are being used.
 
 ## 401 - Incorrect API key provided
-
----
 
 Ensure the API key used is correct or [generate a new one](https://platform.openai.com/account/api-keys) and then reconnect it to Pipedream.
 
@@ -73,8 +75,6 @@ Contact OpenAI to get added to a new organization or ask your organization manag
 You are accessing the API from an unsupported country, region, or territory.
 
 ## 429 - Rate limit reached for requests
-
----
 
 You are sending requests too quickly. Pace your requests. Read the OpenAI [Rate limit guide](https://platform.openai.com/docs/guides/rate-limits). Use [Pipedream Concurrency and Throttling](https://pipedream.com/docs/workflows/concurrency-and-throttling) settings to control the frequency of API calls to OpenAI.
 

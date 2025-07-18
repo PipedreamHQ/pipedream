@@ -1,20 +1,16 @@
-import { ConfigurationError } from "@pipedream/platform";
 import FormData from "form-data";
 import utils from "./utils.mjs";
 
-export function getFileUploadBody({
+export async function getFileUploadBody({
   file,
   createdAt,
   modifiedAt,
   fileName,
   parentId,
 }) {
-  const fileValidation = utils.isValidFile(file);
-  if (!fileValidation) {
-    throw new ConfigurationError("`file` must be a valid file path!");
-  }
-  const fileMeta = utils.getFileMeta(fileValidation);
-  const fileContent = utils.getFileStream(fileValidation);
+  const {
+    fileMeta, fileContent,
+  } = await utils.getFileData(file);
   const attributes = fileMeta.attributes;
   if (createdAt && utils.checkRFC3339(createdAt)) {
     attributes.content_created_at = createdAt;
@@ -31,7 +27,9 @@ export function getFileUploadBody({
   const data = new FormData();
   data.append("attributes", JSON.stringify(attributes));
   data.append("file", fileContent, {
+    contentType: fileMeta.contentType,
     knownLength: fileMeta.size,
+    filename: attributes.name,
   });
 
   return data;

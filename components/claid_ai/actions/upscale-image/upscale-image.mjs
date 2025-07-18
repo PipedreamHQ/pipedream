@@ -1,14 +1,13 @@
 import FormData from "form-data";
-import fs from "fs";
 import urlExists from "url-exist";
 import claidAi from "../../claid_ai.app.mjs";
-import { checkTmp } from "../../common/utils.mjs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 
 export default {
   key: "claid_ai-upscale-image",
   name: "Upscale Image",
   description: "Enlarges the selected image in order to improve its resolution. By running this action, users can obtain clearer and sharper images. [See the documentation](https://docs.claid.ai/image-editing-api/image-operations/resizing)",
-  version: "0.0.1",
+  version: "0.1.1",
   type: "action",
   props: {
     claidAi,
@@ -37,6 +36,12 @@ export default {
       label: "Upscale Width",
       description: "The quantity of pixels or percentage.",
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
     let imageUrl = this.image;
@@ -57,8 +62,15 @@ export default {
     };
 
     if (!await urlExists(this.image)) {
+      const {
+        stream, metadata,
+      } = await getFileStreamAndMetadata(this.image);
       const formData = new FormData();
-      formData.append("file", fs.createReadStream(checkTmp(this.image)));
+      formData.append("file", stream, {
+        contentType: metadata.contentType,
+        knownLength: metadata.size,
+        filename: metadata.name,
+      });
       formData.append("data", JSON.stringify({
         operations,
       }));

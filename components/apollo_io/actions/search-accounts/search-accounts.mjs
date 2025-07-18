@@ -6,7 +6,7 @@ export default {
   name: "Search For Accounts",
   description: "Search for accounts in Apollo.io. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#search-for-accounts)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.6",
   props: {
     app,
     search: {
@@ -40,7 +40,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const resourcesStream = this.app.getResourcesStream({
+    const resourcesStream = this.app.getIterations({
       resourceFn: this.app.searchAccounts,
       resourceFnArgs: {
         params: {
@@ -53,7 +53,7 @@ export default {
       resourceName: "accounts",
     });
 
-    const accounts = await utils.streamIterator(resourcesStream);
+    const accounts = await utils.iterate(resourcesStream);
 
     $.export("$summary", `Successfully fetched ${accounts.length} accounts.`);
 

@@ -1,8 +1,5 @@
 import constants from "./common/constants.mjs";
-import {
-  axios, ConfigurationError,
-} from "@pipedream/platform";
-import retry from "async-retry";
+import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -11,19 +8,82 @@ export default {
     companyId: {
       type: "integer",
       label: "Company ID",
-      description: "The ID of the company",
+      description: "Select a company or provide a company ID",
       async options() {
         const response = await this.getCompanies();
-        return response.map((project) => ({
-          label: project.name,
-          value: project.id,
+        return response.map(({
+          id, name,
+        }) => ({
+          label: name || id,
+          value: id,
         }));
       },
     },
+
+    ticketId: {
+      type: "integer",
+      label: "Ticket ID",
+      description: "Select a ticket or provide a ticket ID",
+      async options({ page = 0 }) {
+        const response = await this.listTickets({
+          params: {
+            page: page + 1,
+          },
+        });
+        return response.map(({
+          id, subject,
+        }) => ({
+          label: subject || id,
+          value: id,
+        }));
+      },
+    },
+    agentId: {
+      type: "integer",
+      label: "Agent",
+      description: "Select an agent to assign the ticket to",
+      async options({ page = 0 }) {
+        const response = await this._makeRequest({
+          method: "GET",
+          url: "/agents",
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return response.map((agent) => ({
+          label: agent.contact?.name
+            ? `${agent.contact.name} (${agent.contact.email || "No email"})`
+            : `Agent ${agent.id}`,
+          value: agent.id,
+        }));
+      },
+    },
+    groupId: {
+      type: "integer",
+      label: "Group",
+      description: "Select a group to assign the ticket to.",
+      async options({ page = 0 }) {
+        const groups = await this._makeRequest({
+          method: "GET",
+          url: "/groups",
+          params: {
+            page: page + 1,
+            per_page: 100,
+          },
+        });
+
+        return groups.map((group) => ({
+          label: group.name || `Group ${group.id}`,
+          value: group.id,
+        }));
+      },
+    },
+
     ticketStatus: {
       type: "integer",
       label: "Status",
-      description: "Status of the ticket.",
+      description: "Status of the ticket",
       options() {
         return constants.TICKET_STATUS;
       },
@@ -31,7 +91,7 @@ export default {
     ticketPriority: {
       type: "integer",
       label: "Priority",
-      description: "Priority of the ticket.",
+      description: "Priority of the ticket",
       options() {
         return constants.TICKET_PRIORITY;
       },
@@ -39,14 +99,21 @@ export default {
     contactEmail: {
       type: "string",
       label: "Email",
-      description: "Contact Email.",
+      description: "Select a contact or provide a contact's email",
       async options({ companyId }) {
-        const response = await this.getCompanies();
-        const contacts = response.filter((contact) => contact.company_id === Number(companyId));
-        return contacts.map((contact) => ({
-          label: contact?.email ?? contact?.name,
-          value: contact.email,
-        }));
+        const contacts = await this.getContacts({
+          params: {
+            company_id: companyId,
+          },
+        });
+        return contacts
+          .filter(({ email }) => email)
+          .map(({
+            email, name,
+          }) => ({
+            label: name || email,
+            value: email,
+          }));
       },
     },
   },
@@ -66,64 +133,32 @@ export default {
         "Content-Type": "application/json;charset=utf-8",
       };
     },
-    _getUrl(path) {
-      const {
-        HTTP_PROTOCOL,
-        BASE_PATH,
-        VERSION_PATH,
-      } = constants;
-      return `${HTTP_PROTOCOL}${this.$auth.domain}${BASE_PATH}${VERSION_PATH}${path}`;
+    _getDomain() {
+      const { domain } = this.$auth;
+      return domain.includes("freshdesk.com")
+        ? domain
+        : `${domain}.freshdesk.com`;
     },
-    async _makeRequest(args = {}) {
-      const {
-        $,
-        method = "get",
-        path,
-        params,
-        data,
-      } = args;
-      const config = {
-        method,
-        url: this._getUrl(path),
-        headers: this._getHeaders(),
-        params,
-        data,
-      };
-
-      return axios($ ?? this, config);
-    },
-    _isRetriableStatusCode(statusCode) {
-      constants.retriableStatusCodes.includes(statusCode);
-    },
-    async _withRetries(apiCall) {
-      const retryOpts = {
-        retries: 5,
-        factor: 2,
-      };
-      return retry(async (bail) => {
-        try {
-          const data = await apiCall();
-
-          return data;
-        } catch (err) {
-
-          const { status = 500 } = err;
-          if (!this._isRetriableStatusCode(status)) {
-            bail(`
-              Unexpected error (status code: ${status}):
-              ${JSON.stringify(err.response)}
-            `);
-          }
-          throw new ConfigurationError("Could not get data");
-        }
-      }, retryOpts);
+    async _makeRequest({
+      $ = this, headers, ...args
+    }) {
+      return axios($, {
+        baseURL: `https://${this._getDomain()}/api/v2`,
+        headers: {
+          ...this._getHeaders(),
+          ...headers,
+        },
+        ...args,
+      });
     },
     async *filterTickets(params) {
       let loadedData = 0;
       do {
-        const response = await this.searchTickets(params);
+        const response = await this.searchTickets({
+          params,
+        });
 
-        if (!response || response.results.length === 0) {
+        if (!response?.results?.length) {
           return;
         }
         loadedData += response.results.length;
@@ -139,9 +174,11 @@ export default {
     async *filterContacts(params) {
       let loadedData = 0;
       do {
-        const response = await this.searchContacts(params);
+        const response = await this.searchContacts({
+          params,
+        });
 
-        if (!response || response.results.length === 0) {
+        if (!response?.results?.length) {
           return;
         }
         loadedData += response.results.length;
@@ -154,69 +191,80 @@ export default {
         params.page += 1;
       } while (true);
     },
-    async createCompany({
-      $, payload: data,
-    }) {
+    async createCompany(args) {
       return this._makeRequest({
-        $,
-        path: "/companies",
-        data,
+        url: "/companies",
         method: "post",
+        ...args,
       });
     },
-    async getCompanies($ = undefined) {
+    async getCompanies(args) {
       return this._makeRequest({
-        $,
-        path: "/contacts",
+        url: "/companies",
+        ...args,
       });
     },
-    async getContacts($ = undefined) {
+    async getContacts(args) {
       return this._makeRequest({
-        $,
-        path: "/companies",
+        url: "/contacts",
+        ...args,
       });
     },
-    async createContact({
-      $, data,
-    }) {
+    async createContact(args) {
       return this._makeRequest({
-        $,
-        path: "/contacts",
-        data,
+        url: "/contacts",
         method: "post",
+        ...args,
       });
     },
-    async createTicket({
-      $, data,
-    }) {
+    async createTicket(args) {
       return this._makeRequest({
-        $,
-        path: "/tickets",
-        data,
+        url: "/tickets",
         method: "post",
+        ...args,
       });
     },
     async getTicket({
-      $, id,
+      ticketId, ...args
     }) {
       return this._makeRequest({
-        $,
-        path: `/tickets/${id}`,
+        url: `/tickets/${ticketId}`,
+        ...args,
       });
     },
-    async searchTickets(params, $ = undefined) {
+    async searchTickets(args) {
       return this._makeRequest({
-        $,
-        path: "/search/tickets",
-        params,
+        url: "/search/tickets",
+        ...args,
       });
     },
-    async searchContacts(params, $ = undefined) {
+    async searchContacts(args) {
       return this._makeRequest({
-        $,
-        path: "/search/contacts",
-        params,
+        url: "/search/contacts",
+        ...args,
       });
+    },
+    async listTickets(args) {
+      return this._makeRequest({
+        url: "/tickets",
+        ...args,
+      });
+    },
+    async getTicketName(ticketId) {
+      const ticket = await this.getTicket({
+        ticketId,
+      });
+      return ticket.subject;
+    },
+    parseIfJSONString(input) {
+      if (typeof input === "string") {
+        try {
+          return JSON.parse(input);
+        } catch (error) {
+          return input;
+        }
+      }
+      return input;
     },
   },
 };

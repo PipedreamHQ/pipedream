@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/limitless",
+  "version": "0.0.1",
+  "description": "Pipedream Limitless Components",
+  "main": "limitless.app.mjs",
+  "keywords": [
+    "pipedream",
+    "limitless"
+  ],
+  "homepage": "https://pipedream.com/apps/limitless",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

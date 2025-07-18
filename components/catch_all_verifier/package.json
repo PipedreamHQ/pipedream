@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/catch_all_verifier",
+  "version": "0.0.1",
+  "description": "Pipedream Catch-all Verifier Components",
+  "main": "catch_all_verifier.app.mjs",
+  "keywords": [
+    "pipedream",
+    "catch_all_verifier"
+  ],
+  "homepage": "https://pipedream.com/apps/catch_all_verifier",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

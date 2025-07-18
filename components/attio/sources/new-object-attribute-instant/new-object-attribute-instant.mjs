@@ -6,13 +6,18 @@ export default {
   key: "attio-new-object-attribute-instant",
   name: "New Object Attribute (Instant)",
   description: "Emit new event when an object attribute is created (e.g. when defining a new attribute \"Rating\" on the company object)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
-    getEventType() {
-      return "object-attribute.created";
+    getSubscriptions() {
+      return [
+        {
+          event_type: "object-attribute.created",
+          filter: null,
+        },
+      ];
     },
     generateMeta(attribute) {
       return {

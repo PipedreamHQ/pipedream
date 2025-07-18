@@ -4,24 +4,26 @@ export default {
   key: "stripe-retrieve-payment-intent",
   name: "Retrieve a Payment Intent",
   type: "action",
-  version: "0.1.0",
-  description: "Retrieves the details of a " +
-    "[payment intent](https://stripe.com/docs/payments/payment-intents) that was previously " +
-    "created. [See the docs](https://stripe.com/docs/api/payment_intents/retrieve) for more " +
-    "information",
+  version: "0.1.2",
+  description: "Retrieves the details of a payment intent that was previously created. [See the documentation](https://stripe.com/docs/api/payment_intents/retrieve).",
   props: {
     app,
-    client_secret: {
+    clientSecret: {
       propDefinition: [
         app,
-        "payment_intent_client_secret",
+        "paymentIntentClientSecret",
       ],
       optional: false,
     },
   },
   async run({ $ }) {
-    const resp = await this.app.sdk().paymentIntents.retrieve(this.client_secret);
-    $.export("$summary", `Successfully retrieved the payment intent, "${resp.description || resp.id}"`);
+    const {
+      app,
+      clientSecret,
+    } =  this;
+
+    const resp = await app.sdk().paymentIntents.retrieve(clientSecret);
+    $.export("$summary", `Successfully retrieved the payment intent, \`${resp.description || resp.id}\`.`);
     return resp;
   },
 };

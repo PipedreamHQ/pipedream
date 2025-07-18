@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/textrazor",
+  "version": "0.6.0",
+  "description": "Pipedream textrazor Components",
+  "main": "textrazor.app.mjs",
+  "keywords": [
+    "pipedream",
+    "textrazor"
+  ],
+  "homepage": "https://pipedream.com/apps/textrazor",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

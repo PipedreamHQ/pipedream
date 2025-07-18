@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/docker_engine",
+  "version": "0.0.1",
+  "description": "Pipedream Docker Engine Components",
+  "main": "docker_engine.app.mjs",
+  "keywords": [
+    "pipedream",
+    "docker_engine"
+  ],
+  "homepage": "https://pipedream.com/apps/docker_engine",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

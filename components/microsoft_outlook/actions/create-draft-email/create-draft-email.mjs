@@ -1,11 +1,12 @@
 import microsoftOutlook from "../../microsoft_outlook.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   type: "action",
   key: "microsoft_outlook-create-draft-email",
-  version: "0.0.10",
+  version: "0.0.15",
   name: "Create Draft Email",
-  description: "Create a draft email, [See the docs](https://docs.microsoft.com/en-us/graph/api/user-post-messages)",
+  description: "Create a draft email, [See the documentation](https://docs.microsoft.com/en-us/graph/api/user-post-messages)",
   props: {
     microsoftOutlook,
     recipients: {
@@ -62,8 +63,8 @@ export default {
     const response =  await this.microsoftOutlook.createDraft({
       $,
       data: {
-        ...this.microsoftOutlook.prepareMessageBody(this),
-        ...this.expand,
+        ...await this.microsoftOutlook.prepareMessageBody(this),
+        ...parseObject(this.expand),
       },
     });
     $.export("$summary", "Email draft has been created.");

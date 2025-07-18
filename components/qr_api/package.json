@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/qr_api",
+  "version": "0.0.1",
+  "description": "Pipedream QR API Components",
+  "main": "qr_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "qr_api"
+  ],
+  "homepage": "https://pipedream.com/apps/qr_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

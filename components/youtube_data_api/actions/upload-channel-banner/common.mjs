@@ -1,15 +1,9 @@
-import fs from "fs";
-import got from "got@13.0.0";
+import { getFileStream } from "@pipedream/platform";
 
 export default {
   async run({ $ }) {
-    if (!this.fileUrl && !this.filePath) {
-      throw new Error("This action requires either File URL or File Path. Please enter one or the other above.");
-    }
+    const body = await getFileStream(this.filePath);
 
-    const body = this.fileUrl
-      ? await got.stream(this.fileUrl)
-      : fs.createReadStream(this.filePath);
     const params = {
       onBehalfOfContentOwner: this.onBehalfOfContentOwner,
       media: {

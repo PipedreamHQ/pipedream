@@ -133,6 +133,33 @@ export default {
         })) || [];
       },
     },
+    draftPostId: {
+      type: "string",
+      label: "Draft Post ID",
+      description: "The ID of the draft post to publish",
+      async options({
+        page, siteId,
+      }) {
+        const limit = constants.DEFAULT_LIMIT;
+        const params = {
+          "paging.limit": limit,
+          "paging.offset": page * limit,
+          "status": "UNPUBLISHED",
+        };
+
+        const { draftPosts } = await this.listDraftPosts({
+          siteId,
+          params,
+        });
+
+        return draftPosts?.map(({
+          id: value, title: label,
+        }) => ({
+          label,
+          value,
+        })) || [];
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -257,6 +284,22 @@ export default {
         path: `/stores/v1/collections/${collectionId}/productIds`,
         method: "POST",
         ...args,
+      });
+    },
+    listDraftPosts(opts = {}) {
+      return this._makeRequest({
+        path: "/blog/v3/draft-posts",
+        ...opts,
+      });
+    },
+    publishDraftPost({
+      postId,
+      ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/blog/v3/draft-posts/${postId}/publish`,
+        ...opts,
       });
     },
   },

@@ -6,10 +6,15 @@ export default {
   key: "openai-chat-with-assistant",
   name: "Chat with Assistant",
   description: "Sends a message and generates a response, storing the message history for a continuous conversation. [See the documentation](https://platform.openai.com/docs/api-reference/runs/createThreadAndRun)",
-  version: "0.0.9",
+  version: "0.0.11",
   type: "action",
   props: {
     openai,
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: "Looking to chat with your tools? Check out our individual actions: [Chat using Web Search](https://pipedream.com/apps/openai/actions/chat-using-web-search), [Chat using File Search](https://pipedream.com/apps/openai/actions/chat-using-file-search), and [Chat using Functions](https://pipedream.com/apps/openai/actions/chat-using-functions).",
+    },
     message: {
       type: "string",
       label: "Message",

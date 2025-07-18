@@ -4,7 +4,7 @@ export default {
   key: "nifty-assign-task",
   name: "Assign Task to Team Member",
   description: "Assigns a specific task to a team member in Nifty. [See the documentation](https://openapi.niftypm.com/api#put-api-v1-0-tasks-task_id-assignees)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     nifty,

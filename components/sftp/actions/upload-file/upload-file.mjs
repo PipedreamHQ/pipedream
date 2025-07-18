@@ -1,12 +1,13 @@
 import app from "../../sftp.app.mjs";
-import fs from "fs";
-import { ConfigurationError } from "@pipedream/platform";
+import {
+  ConfigurationError, getFileStream,
+} from "@pipedream/platform";
 
 export default {
   key: "sftp-upload-file",
   name: "Upload File",
   description: "Uploads a file or string in UTF-8 format to the SFTP server. [See the documentation](https://github.com/theophilusx/ssh2-sftp-client#org99d1b64)",
-  version: "0.3.0",
+  version: "0.4.1",
   type: "action",
   props: {
     app,
@@ -27,14 +28,20 @@ export default {
       label: "Remote Path",
       description: "The path on the sftp server for store the data. e.g. `./uploads/my-file.txt`",
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
     if (!this.data && !this.file) {
-      throw new ConfigurationError("Either `Data` or `File` must be provided.");
+      throw new ConfigurationError("Either `Data` or `File Path or URL` must be provided.");
     }
 
     const buffer = this.file ?
-      fs.readFileSync(this.file) :
+      (await getFileStream(this.file)) :
       Buffer.from(this.data);
 
     const response = await this.app.put({

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/go",
+  "version": "0.6.0",
+  "description": "Pipedream go Components",
+  "main": "go.app.mjs",
+  "keywords": [
+    "pipedream",
+    "go"
+  ],
+  "homepage": "https://pipedream.com/apps/go",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

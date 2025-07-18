@@ -1,5 +1,5 @@
-import common from "../common.mjs";
 import get from "lodash/get.js";
+import common from "../common.mjs";
 const { reddit } = common.props;
 
 export default {
@@ -9,7 +9,7 @@ export default {
   name: "New comments on a post",
   description:
     "Emit new event each time a new comment is added to a subreddit.",
-  version: "0.1.0",
+  version: "0.1.2",
   dedupe: "unique",
   props: {
     ...common.props,

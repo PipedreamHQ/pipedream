@@ -22,6 +22,7 @@ const API_PATH = {
   AUTOMATION: "/automation/v2",
   DEAL: "/deals/v1",
   BUSINESS_UNITS: "/business-units/v3",
+  MARKETINGV3: "/marketing/v3",
 };
 
 /** Association categories for association types, as defined by the [Hubspot API
@@ -169,6 +170,19 @@ const DEFAULT_LEAD_PROPERTIES = [
   "hs_associated_company_name",
 ];
 
+const DEFAULT_MEETING_PROPERTIES = [
+  "hs_timestamp",
+  "hubspot_owner_id",
+  "hs_meeting_title",
+  "hs_meeting_body",
+  "hs_internal_meeting_notes",
+  "hs_meeting_external_url",
+  "hs_meeting_location",
+  "hs_meeting_start_time",
+  "hs_meeting_end_time",
+  "hs_meeting_outcome",
+];
+
 const ENGAGEMENT_TYPE_OPTIONS = [
   {
     label: "Note",
@@ -209,4 +223,5 @@ export {
   DEFAULT_LINE_ITEM_PROPERTIES,
   DEFAULT_LEAD_PROPERTIES,
   ENGAGEMENT_TYPE_OPTIONS,
+  DEFAULT_MEETING_PROPERTIES,
 };

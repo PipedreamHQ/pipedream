@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/celoxis",
+  "version": "0.6.0",
+  "description": "Pipedream celoxis Components",
+  "main": "celoxis.app.mjs",
+  "keywords": [
+    "pipedream",
+    "celoxis"
+  ],
+  "homepage": "https://pipedream.com/apps/celoxis",
+  "author": "Pipedream support@pipedream.com (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}

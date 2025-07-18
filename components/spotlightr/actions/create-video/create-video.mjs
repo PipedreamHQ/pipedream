@@ -1,22 +1,19 @@
-import { ConfigurationError } from "@pipedream/platform";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import FormData from "form-data";
-import fs from "fs";
-import { checkTmp } from "../../common/utils.mjs";
 import spotlightr from "../../spotlightr.app.mjs";
 
 export default {
   key: "spotlightr-create-video",
   name: "Create Video",
-  version: "0.0.1",
+  version: "1.0.1",
   description: "Create a video in an application. [See the documentation](https://app.spotlightr.com/docs/api/#create-video)",
   type: "action",
   props: {
     spotlightr,
-    url: {
+    file: {
       type: "string",
-      label: "URL",
-      description: "The video URL. `You must provide at least the URL or File.`",
-      optional: true,
+      label: "File Path or URL",
+      description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
     },
     name: {
       type: "string",
@@ -74,65 +71,50 @@ export default {
       description: "Video ID for coping playerSettings (decoded base64)",
       optional: true,
     },
-    file: {
-      type: "string",
-      label: "File",
-      description: "Full path to the file in `/tmp/` directory. E.g. `/tmp/video.mp4`. `You must provide at least the URL or File.`",
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },
   async run({ $ }) {
     const {
       spotlightr,
-      url,
       file,
       ...data
     } = this;
 
-    if (!file && !url) {
-      throw new ConfigurationError("You must provide at least the URL or File.");
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(file);
+
+    const formData = new FormData();
+
+    formData.append("file", stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
+    });
+    for (const [
+      key,
+      value,
+    ] of Object.entries(data)) {
+      formData.append(key, value);
     }
 
-    let preparedData = {};
-    if (file) {
-      const formData = new FormData();
-
-      const path = checkTmp(file);
-      if (!fs.existsSync(path)) {
-        throw new ConfigurationError("File does not exist!");
-      }
-
-      formData.append("file", fs.createReadStream(path));
-      for (const [
-        key,
-        value,
-      ] of Object.entries(data)) {
-        formData.append(key, value);
-      }
-
-      preparedData = {
-        formDataRequest: true,
-        headers: formData.getHeaders(),
-        data: formData,
-      };
-
-    } else {
-      preparedData = {
-        data: {
-          URL: url,
-          ...data,
-        },
-      };
-    }
+    const preparedData = {
+      formDataRequest: true,
+      headers: formData.getHeaders(),
+      data: formData,
+    };
 
     const response = await spotlightr.createVideo({
       $,
       ...preparedData,
     });
 
-    $.export("$summary", `A new video with ${response.data
-      ? `URL: ${response.data}`
-      : `Id: ${response}`} was successfully created!`);
+    $.export("$summary", "New video successfully created!");
     return response.data || response;
   },
 };

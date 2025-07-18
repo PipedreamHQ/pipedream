@@ -6,6 +6,8 @@ import {
   DEFAULT_TICKET_PROPERTIES,
   DEFAULT_PRODUCT_PROPERTIES,
   DEFAULT_LINE_ITEM_PROPERTIES,
+  DEFAULT_MEETING_PROPERTIES,
+  OBJECT_TYPE,
 } from "../../common/constants.mjs";
 
 export default {
@@ -62,18 +64,20 @@ export default {
       throw new Error("getObjectType is not implemented");
     },
     getDefaultProperties(objectType) {
-      if (objectType === "contact") {
+      if (objectType === OBJECT_TYPE.CONTACT) {
         return DEFAULT_CONTACT_PROPERTIES;
-      } else if (objectType === "company") {
+      } else if (objectType === OBJECT_TYPE.COMPANY) {
         return DEFAULT_COMPANY_PROPERTIES;
-      } else if (objectType === "deal") {
+      } else if (objectType === OBJECT_TYPE.DEAL) {
         return DEFAULT_DEAL_PROPERTIES;
-      } else if (objectType === "ticket") {
+      } else if (objectType === OBJECT_TYPE.TICKET) {
         return DEFAULT_TICKET_PROPERTIES;
-      } else if (objectType === "product") {
+      } else if (objectType === OBJECT_TYPE.PRODUCT) {
         return DEFAULT_PRODUCT_PROPERTIES;
-      } else if (objectType === "line_item") {
+      } else if (objectType === OBJECT_TYPE.LINE_ITEM) {
         return DEFAULT_LINE_ITEM_PROPERTIES;
+      } else if (objectType === OBJECT_TYPE.MEETING) {
+        return DEFAULT_MEETING_PROPERTIES;
       } else {
         return [];
       }

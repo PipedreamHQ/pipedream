@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/maileroo",
+  "version": "0.0.1",
+  "description": "Pipedream Maileroo Components",
+  "main": "maileroo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "maileroo"
+  ],
+  "homepage": "https://pipedream.com/apps/maileroo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

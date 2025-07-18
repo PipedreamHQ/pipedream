@@ -1,5 +1,7 @@
 import notion from "@notionhq/client";
 import NOTION_META from "./common/notion-meta-selection.mjs";
+import { ConfigurationError } from "@pipedream/platform";
+import { NotionToMarkdown } from "notion-to-md";
 
 export default {
   type: "app",
@@ -8,7 +10,7 @@ export default {
     databaseId: {
       type: "string",
       label: "Database ID",
-      description: "The identifier for a Notion database",
+      description: "Select a database or provide a database ID",
       async options({ prevContext }) {
         const response = await this.listDatabases({
           start_cursor: prevContext.nextPageParameters ?? undefined,
@@ -20,10 +22,17 @@ export default {
     pageId: {
       type: "string",
       label: "Page ID",
-      description: "The identifier for a Notion page",
-      async options({ prevContext }) {
-        const response = await this.search(undefined, {
+      description: "Search for a page or provide a page ID",
+      useQuery: true,
+      async options({
+        query, prevContext,
+      }) {
+        const response = await this.search(query || undefined, {
           start_cursor: prevContext.nextPageParameters ?? undefined,
+          filter: {
+            property: "object",
+            value: "page",
+          },
         });
         const options = this._extractPageTitleOptions(response.results);
         return this._buildPaginatedOptions(options, response.next_cursor);
@@ -32,11 +41,14 @@ export default {
     pageIdInDatabase: {
       type: "string",
       label: "Page ID",
-      description: "The identifier for a Notion page",
+      description: "Search for a page from the database or provide a page ID",
+      useQuery: true,
       async options({
-        prevContext, databaseId,
+        query, prevContext, databaseId,
       }) {
+        this._checkOptionsContext(databaseId, "Database ID");
         const response = await this.queryDatabase(databaseId, {
+          query,
           start_cursor: prevContext.nextPageParameters ?? undefined,
         });
         const options = this._extractPageTitleOptions(response.results);
@@ -46,8 +58,9 @@ export default {
     propertyId: {
       type: "string",
       label: "Property ID",
-      description: "The identifier for a Notion page property",
+      description: "Select a page property or provide a property ID",
       async options({ pageId }) {
+        this._checkOptionsContext(pageId, "Page ID");
         const response = await this.retrievePage(pageId);
 
         const parentType = response.parent.type;
@@ -77,7 +90,7 @@ export default {
     metaTypes: {
       type: "string[]",
       label: "Meta Types",
-      description: "Select the page attributes such as icon and cover",
+      description: "Select one or more page attributes (such as icon and cover)",
       options: Object.keys(NOTION_META),
       optional: true,
       reloadProps: true,
@@ -85,11 +98,12 @@ export default {
     propertyTypes: {
       type: "string[]",
       label: "Property Types",
-      description: "Select the page properties",
+      description: "Select one or more page properties",
       optional: true,
       async options({
         parentId, parentType,
       }) {
+        this._checkOptionsContext(parentId, "Database ID");
         try {
           const { properties } = parentType === "database"
             ? await this.retrieveDatabase(parentId)
@@ -103,21 +117,20 @@ export default {
     },
     archived: {
       type: "boolean",
-      label: "Archive page",
-      description: "Set to true to archive (delete) a page. Set to false to un-archive\
-(restore) a page.",
+      label: "Archive Page",
+      description: "Set to `true` to archive (delete) a page. Set to `false` to  un-archive (restore) a page",
       optional: true,
     },
     title: {
       type: "string",
       label: "Page Title",
-      description: "The page title. Defaults to `Untitled`.",
+      description: "The page title (defaults to `Untitled`)",
       optional: true,
     },
     userIds: {
       type: "string[]",
       label: "Users",
-      description: "A list of users",
+      description: "Select one or more users, or provide user IDs",
       async options() {
         const users = await this.getUsers();
 
@@ -130,7 +143,7 @@ export default {
     sortDirection: {
       type: "string",
       label: "Sort Direction",
-      description: "The direction to sort.",
+      description: "The direction to sort by",
       optional: true,
       options: [
         "ascending",
@@ -140,28 +153,41 @@ export default {
     pageSize: {
       type: "integer",
       label: "Page Size",
-      description: "The number of items from the full list desired in the response. Maximum: 100",
+      description: "The number of items from the full list desired in the response (max 100)",
       default: 100,
+      min: 1,
+      max: 100,
       optional: true,
     },
     startCursor: {
       type: "string",
       label: "Start Cursor (page_id)",
-      description: "If supplied, this endpoint will return a page of results starting after the cursor provided. If not supplied, this endpoint will return the first page of results.",
+      description: "Leave blank to retrieve the first page of results. Otherwise, the response will be the page of results starting after the provided cursor",
       optional: true,
     },
     filter: {
       type: "string",
-      label: "Filter",
-      description: "The value of the property to filter the results by. Possible values for object type include `page` or `database`. Limitation: Currently the only filter allowed is `object` which will filter by type of object (either `page` or `database`)",
+      label: "Page or Database",
+      description: "Whether to search for pages or databases",
       optional: true,
       options: [
         "page",
         "database",
       ],
     },
+    pageContent: {
+      type: "string",
+      label: "Page Content",
+      description: "The content of the page, using Markdown syntax. [See the documentation](https://www.notion.com/help/writing-and-editing-basics#markdown-and-shortcuts) for more information",
+      optional: true,
+    },
   },
   methods: {
+    _checkOptionsContext(value, name) {
+      if (value.match(/{{\s?steps/)) {
+        throw new ConfigurationError(`Please use a custom expression to reference a previous value, since you are also using one for \`${name}\``);
+      }
+    },
     _getNotionClient() {
       return new notion.Client({
         auth: this.$auth.oauth_access_token,
@@ -298,7 +324,8 @@ export default {
         block_id: blockId,
       });
     },
-    async retrieveBlockChildren(block, params = {}) {
+    async retrieveBlockChildren(block, subpagesOnly = false) {
+      const params = {};
       const children = [];
       if (!block.has_children) return children;
 
@@ -308,11 +335,11 @@ export default {
           next_cursor: nextCursor,
         } = await this.listBlockChildren(block.id, params);
 
-        children.push(...results);
+        children.push(...(results.filter((child) => !subpagesOnly || child.type === "child_page")));
         params.next_cursor = nextCursor;
       } while (params.next_cursor);
 
-      (await Promise.all(children.map((child) => this.retrieveBlockChildren(child))))
+      (await Promise.all(children.map((child) => this.retrieveBlockChildren(child, subpagesOnly))))
         .forEach((c, i) => {
           children[i].children = c;
         });
@@ -329,6 +356,21 @@ export default {
       const response = await this._getNotionClient().users.list();
 
       return response.results;
+    },
+    async getPageAsMarkdown(pageId, shouldRetrieveChildren) {
+      const notion = this._getNotionClient();
+
+      const n2m = new NotionToMarkdown({
+        notionClient: notion,
+        config: {
+          separateChildPage: true,
+        },
+      });
+      const blocks = await n2m.pageToMarkdown(pageId);
+      const output = n2m.toMarkdownString(blocks);
+      return shouldRetrieveChildren
+        ? output
+        : output.parent;
     },
   },
 };

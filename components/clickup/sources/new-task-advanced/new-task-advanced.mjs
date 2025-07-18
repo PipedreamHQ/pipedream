@@ -1,4 +1,3 @@
-import builder from "../../common/builder.mjs";
 import common from "../common/common.mjs";
 import sampleEmit from "./test-event.mjs";
 
@@ -7,7 +6,7 @@ export default {
   key: "clickup-new-task-advanced",
   name: "New Task Advanced (Instant)",
   description: "Emit new event when a new task is created matching the filter",
-  version: "0.0.6",
+  version: "0.0.7",
   dedupe: "unique",
   type: "source",
   props: {
@@ -21,17 +20,28 @@ export default {
         }),
       ],
     },
-    listWithFolder: {
-      optional: true,
+    folderId: {
       propDefinition: [
         common.props.app,
-        "listWithFolder",
+        "folderId",
+        (c) => ({
+          spaceId: c.spaceId,
+        }),
       ],
+      optional: true,
+    },
+    listId: {
+      propDefinition: [
+        common.props.app,
+        "listId",
+        (c) => ({
+          folderId: c.folderId,
+          spaceId: c.spaceId,
+        }),
+      ],
+      optional: true,
     },
   },
-  additionalProps: builder.buildListProps({
-    listPropsOptional: true,
-  }),
   methods: {
     ...common.methods,
     _getMeta({ task_id: taskId }) {

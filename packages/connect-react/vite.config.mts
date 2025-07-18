@@ -28,6 +28,9 @@ export default defineConfig({
     },
   },
   resolve: {
+    alias: {
+      "decode-named-character-reference": "../../node_modules/decode-named-character-reference/index.js",
+    },
     dedupe: ["@emotion/react"],
   },
   plugins: [

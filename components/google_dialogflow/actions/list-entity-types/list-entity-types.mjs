@@ -3,7 +3,7 @@ import googleDialogflow from "../../google_dialogflow.app.mjs";
 export default {
   type: "action",
   key: "google_dialogflow-list-entity-types",
-  version: "0.0.1",
+  version: "1.0.0",
   name: "List Entity Types",
   description: "Retrieves list of entity types, [See REST docs](https://cloud.google.com/dialogflow/es/docs/reference/rest/v2/projects.agent.entityTypes/list) and [client API docs](https://googleapis.dev/nodejs/dialogflow/latest/google.cloud.dialogflow.v2beta1.EntityTypes.html#listEntityTypes2)",
   props: {

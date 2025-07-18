@@ -3,8 +3,8 @@ import cloudflare from "../../cloudflare_api_key.app.mjs";
 export default {
   key: "cloudflare_api_key-list-certificates",
   name: "List Certificates",
-  description: "List all existing Origin CA certificates for a given zone. [See the docs here](https://api.cloudflare.com/#origin-ca-list-certificates)",
-  version: "0.0.3",
+  description: "List all existing Origin CA certificates for a given zone. [See the documentation](https://developers.cloudflare.com/api/node/resources/origin_ca_certificates/methods/list/)",
+  version: "0.0.4",
   type: "action",
   props: {
     cloudflare,
@@ -16,9 +16,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const zoneId = this.zoneIdentifier;
+    const {
+      cloudflare,
+      zoneIdentifier,
+    } = this;
 
-    const response = await this.cloudflare.getCertificates(zoneId);
+    const response = await cloudflare.getCertificates({
+      zone_id: zoneIdentifier,
+    });
     $.export("$summary", "Certificates successfully retrieved");
 
     return response;

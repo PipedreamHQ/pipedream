@@ -1,14 +1,12 @@
 import FormData from "form-data";
-import fs from "fs";
-import {
-  clearObj, getUploadContentType,
-} from "../../common/utils.mjs";
+import { clearObj } from "../../common/utils.mjs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import zohoBugtracker from "../../zoho_bugtracker.app.mjs";
 
 export default {
   key: "zoho_bugtracker-update-bug",
   name: "Update Bug",
-  version: "0.0.1",
+  version: "0.1.1",
   description: "Update a specific bug [See the documentation](https://www.zoho.com/projects/help/rest-api/bugtracker-bugs-api.html#alink4)",
   type: "action",
   props: {
@@ -184,6 +182,12 @@ export default {
       ],
       optional: true,
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
     const {
@@ -226,14 +230,17 @@ export default {
     }
 
     if (uploaddoc) {
-
-      const file = fs.createReadStream(uploaddoc);
-      const filename = uploaddoc.split("/").pop();
-
-      formData.append("uploaddoc", file, {
+      const {
+        stream, metadata,
+      } = await getFileStreamAndMetadata(uploaddoc);
+      const filename = metadata.name;
+      formData.append("uploaddoc", stream, {
+        filename,
+        contentType: metadata.contentType,
+        knownLength: metadata.size,
         header: [
           `Content-Disposition: form-data; name="uploaddoc"; filename="${filename}"`,
-          `Content-Type: ${getUploadContentType(filename)}`,
+          `Content-Type: ${metadata.contentType}`,
         ],
       });
     }
@@ -249,7 +256,7 @@ export default {
       },
     });
 
-    $.export("$summary", `A bug with Id: ${bugId} was successfully updated!`);
+    $.export("$summary", `Successfully updated bug with Id: ${bugId}!`);
     return response;
   },
 };

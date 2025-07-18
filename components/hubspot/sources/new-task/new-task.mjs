@@ -8,7 +8,7 @@ export default {
   key: "hubspot-new-task",
   name: "New Task Created",
   description: "Emit new event for each new task created. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/engagements/tasks#get-%2Fcrm%2Fv3%2Fobjects%2Ftasks)",
-  version: "0.0.14",
+  version: "1.0.4",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -34,7 +34,7 @@ export default {
 
       const objectTypes = OBJECT_TYPES.map(({ value }) => value);
       const { results: custom } = await this.hubspot.listSchemas();
-      const customObjects = custom?.map(({ name }) => name);
+      const customObjects = custom?.map(({ fullyQualifiedName }) => fullyQualifiedName);
       const associations = [
         ...objectTypes,
         ...customObjects,

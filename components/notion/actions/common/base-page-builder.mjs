@@ -39,7 +39,7 @@ export default {
      */
     _buildPropDescription(type, example) {
       const typeName = type.replace(/_/g, "-");
-      const description = `The type of this property is \`${type}\`. [See ${type} type docs here](https://developers.notion.com/reference/property-object#${typeName}).`;
+      const description = `The type of this property is \`${type}\`. [See ${type} type documentation here](https://developers.notion.com/reference/property-object#${typeName}).`;
       const descriptionExample = example
         ? `e.g. ${example}.`
         : "";

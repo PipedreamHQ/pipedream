@@ -9,10 +9,10 @@ export default {
   type: "app",
   app: "cal_com",
   propDefinitions: {
-    booking: {
+    bookingId: {
       type: "string",
-      label: "Booking",
-      description: "The booking to retrieve",
+      label: "Booking ID",
+      description: "The identifier of the booking to retrieve",
       async options({ filterCancelled = false }) {
         const { bookings = [] } = await this.listBookings();
         const filteredBookings = filterCancelled
@@ -24,10 +24,10 @@ export default {
         }));
       },
     },
-    eventType: {
-      type: "string",
-      label: "Event Type",
-      description: "Event type of the new booking",
+    eventTypeId: {
+      type: "integer",
+      label: "Event Type ID",
+      description: "The identifier of the event type of the new booking",
       async options() {
         const { event_types: eventTypes } = await this.listEventTypes();
         return eventTypes.map((type) => ({
@@ -154,6 +154,12 @@ export default {
     async listEventTypes(args = {}) {
       return this._makeRequest({
         path: "event-types",
+        ...args,
+      });
+    },
+    async getBookableSlots(args = {}) {
+      return this._makeRequest({
+        path: "slots",
         ...args,
       });
     },

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/gather",
+  "version": "0.0.1",
+  "description": "Pipedream Gather Components",
+  "main": "gather.app.mjs",
+  "keywords": [
+    "pipedream",
+    "gather"
+  ],
+  "homepage": "https://pipedream.com/apps/gather",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

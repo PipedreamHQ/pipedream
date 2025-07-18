@@ -258,10 +258,16 @@ You can also reference an object exported by a previous step, e.g. \`{{steps.foo
         : axios($, config);
     },
     getRecord({
-      baseId, tableId, recordId,
+      baseId,
+      tableId,
+      recordId,
+      opts = {},
     }) {
-      const base = this.base(baseId);
-      return base(tableId).find(recordId);
+      return this._makeRequest({
+        method: "GET",
+        path: `/${baseId}/${tableId}/${recordId}`,
+        params: opts,
+      });
     },
     listBases(args = {}) {
       return this._makeRequest({
@@ -282,16 +288,22 @@ You can also reference an object exported by a previous step, e.g. \`{{steps.foo
     }) {
       const base = this.base(baseId);
       const data = [];
-      await base(tableId).select({
-        ...params,
-      })
-        .eachPage(function page(records, fetchNextPage) {
-          records.forEach(function(record) {
-            data.push(record._rawJson);
+
+      try {
+        await base(tableId).select({
+          ...params,
+        })
+          .eachPage(function page(records, fetchNextPage) {
+            records.forEach(function(record) {
+              data.push(record._rawJson);
+            });
+            fetchNextPage();
           });
-          fetchNextPage();
-        });
-      return data;
+        return data;
+
+      } catch (err) {
+        this.throwFormattedError(err);
+      }
     },
     listComments({
       baseId, tableId, recordId, ...args

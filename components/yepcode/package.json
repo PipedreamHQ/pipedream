@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/yepcode",
+  "version": "0.0.1",
+  "description": "Pipedream YepCode Components",
+  "main": "yepcode.app.mjs",
+  "keywords": [
+    "pipedream",
+    "yepcode"
+  ],
+  "homepage": "https://pipedream.com/apps/yepcode",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

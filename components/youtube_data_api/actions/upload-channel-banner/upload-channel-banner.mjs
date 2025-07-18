@@ -5,24 +5,20 @@ export default {
   ...common,
   key: "youtube_data_api-upload-channel-banner",
   name: "Upload Channel Banner",
-  description: "Uploads a channel banner image to YouTube. [See the docs](https://developers.google.com/youtube/v3/docs/channelBanners/insert) for more information",
-  version: "0.0.3",
+  description: "Uploads a channel banner image to YouTube. [See the documentation](https://developers.google.com/youtube/v3/docs/channelBanners/insert) for more information",
+  version: "1.0.1",
   type: "action",
   props: {
     youtubeDataApi,
-    fileUrl: {
-      propDefinition: [
-        youtubeDataApi,
-        "fileUrl",
-      ],
-      description: "The URL of the banner image file you want to upload to YouTube. Must specify either **File URL** or **File Path**.",
+    infoAlert: {
+      type: "alert",
+      alertType: "info",
+      content: "- Maximum file size: 6MB \n- The image must have a 16:9 aspect ratio and be at least 2048x1152 pixels \n- Accepted Media MIME types: image/jpeg, image/png, application/octet-stream",
     },
     filePath: {
-      propDefinition: [
-        youtubeDataApi,
-        "filePath",
-      ],
-      description: "Path to the banner image file to upload (e.g., `/tmp/myVideo.mp4`). Must specify either **File URL** or **File Path**.",
+      type: "string",
+      label: "File Path or URL",
+      description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
     },
     onBehalfOfContentOwner: {
       propDefinition: [
@@ -31,5 +27,11 @@ export default {
       ],
     },
     ...common.props,
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
 };

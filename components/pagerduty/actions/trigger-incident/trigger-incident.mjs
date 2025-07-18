@@ -13,7 +13,7 @@ export default {
   name: "Trigger Incident",
   description: "Trigger an incident. [See the docs here](https://developer.pagerduty.com/api-reference/b3A6Mjc0ODE0MA-create-an-incident)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     pagerduty,
     title: {
@@ -56,6 +56,7 @@ export default {
       type: "string[]",
       label: "Assignee IDs",
       description: "The IDs of the users to assign to the incident. Use a comma-separated list when structured mode is `off` specifying the ids as values. (e.g. `P97DSQO,PWLDHXC,P1M4QLY`)",
+      optional: true,
       propDefinition: [
         pagerduty,
         "userId",
