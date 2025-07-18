@@ -64,7 +64,7 @@ export default {
       throw new ConfigurationError("Note body cannot be empty");
     }
 
-    const ticketName = await freshdesk.getTicketName(ticketId);
+    const ticketName = await freshdesk.getTicketName(ticketId) || "Unknown Ticket";
 
     const data = {
       body,
@@ -76,10 +76,19 @@ export default {
     }
 
     if (user_id) {
-      data.user_id = Number(user_id);
+      const userId = Number(user_id);
+      if (isNaN(userId)) {
+        throw new ConfigurationError("User ID must be a valid number");
+      }
+      data.user_id = userId;
     }
 
     if (notify_emails && notify_emails.length > 0) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const invalidEmails = notify_emails.filter((email) => !emailRegex.test(email));
+      if (invalidEmails.length > 0) {
+        throw new ConfigurationError(`Invalid email addresses: ${invalidEmails.join(", ")}`);
+      }
       data.notify_emails = notify_emails;
     }
 
