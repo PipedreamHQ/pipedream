@@ -1,11 +1,21 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "verifi_email",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    validateEmailAddress({
+      $ = this, params, ...opts
+    }) {
+      return axios($, {
+        url: "https://api.verifi.email/check",
+        params: {
+          ...params,
+          token: this.$auth.api_key,
+        },
+        ...opts,
+      });
     },
   },
 };
