@@ -1,12 +1,13 @@
 import linkedin from "../../linkedin.app.mjs";
 import { getFileStreamAndMetadata } from "@pipedream/platform";
 import FormData from "form-data";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "linkedin-create-image-post-organization",
   name: "Create Image Post (Organization)",
-  description: "Create an image post on LinkedIn. [See the docs here](https://learn.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/images-api?view=li-lms-2023-09&tabs=http#uploading-an-image)",
-  version: "1.0.1",
+  description: "Create an image post on LinkedIn. [See the documentation](https://learn.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/images-api?view=li-lms-2023-09&tabs=http#uploading-an-image)",
+  version: "1.0.2",
   type: "action",
   props: {
     linkedin,
@@ -87,7 +88,7 @@ export default {
     await this.linkedin.createPost({
       data: {
         author: this.organizationId,
-        commentary: this.text,
+        commentary: utils.escapeText(this.text),
         visibility: "PUBLIC",
         content: {
           media: {
