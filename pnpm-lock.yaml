@@ -719,8 +719,7 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
-  components/alt_text_lab:
-    specifiers: {}
+  components/alt_text_lab: {}
 
   components/alteryx_analytics_cloud: {}
 
