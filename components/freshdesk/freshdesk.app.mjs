@@ -266,5 +266,15 @@ export default {
       }
       return input;
     },
+    async addNoteToTicket({
+      ticketId, data, ...args
+    }) {
+      return this._makeRequest({
+        url: `/tickets/${ticketId}/notes`,
+        method: "post",
+        data,
+        ...args,
+      });
+    },
   },
 };

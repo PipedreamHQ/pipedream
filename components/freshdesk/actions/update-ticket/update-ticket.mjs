@@ -5,7 +5,7 @@ export default {
   key: "freshdesk-update-ticket",
   name: "Update a Ticket",
   description: "Update status, priority, subject, description, agent, group, etc.  [See the documentation](https://developers.freshdesk.com/api/#update_ticket).",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     freshdesk,
@@ -71,19 +71,6 @@ export default {
       description: "Used when creating a contact with phone but no email.",
       optional: true,
     },
-    internalNote: {
-      type: "boolean",
-      label: "Internal note (private)",
-      description: "If enabled, the comment will be added as an internal note (not visible to requester).",
-      optional: true,
-      default: false,
-    },
-    noteBody: {
-      type: "string",
-      label: "Note Body",
-      description: "The content of the internal note to add.",
-      optional: true,
-    },
     type: {
       type: "string",
       label: "Type",
@@ -108,8 +95,6 @@ export default {
     const {
       freshdesk,
       ticketId,
-      internalNote,
-      noteBody,
       ...fields
     } = this;
 
@@ -117,35 +102,20 @@ export default {
 
     const ticketName = await freshdesk.getTicketName(ticketId);
 
-    if (internalNote && noteBody) {
-      const response = await freshdesk._makeRequest({
-        $,
-        method: "POST",
-        url: `/tickets/${ticketId}/notes`,
-        data: {
-          body: noteBody,
-          private: true,
-        },
-      });
-  
-      $.export("$summary", `Internal note added to ticket "${ticketName}" (ID: ${ticketId})`);
-      return response;
-    }
-    
     if (!Object.keys(data).length) {
       throw new Error("Please provide at least one field to update.");
     }
-  
+
     if (data.custom_fields) freshdesk.parseIfJSONString(data.custom_fields);
-  
+
     const response = await freshdesk._makeRequest({
       $,
       method: "PUT",
       url: `/tickets/${ticketId}`,
       data,
     });
-  
+
     $.export("$summary", `Ticket "${ticketName}" (ID: ${this.ticketId}) updated successfully`);
     return response;
   },
-}
+};
