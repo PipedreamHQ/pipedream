@@ -273,6 +273,41 @@ export default {
       default: 100,
       optional: true,
     },
+    messageTemplateId: {
+      type: "string",
+      label: "Message Template ID",
+      description: "The message template ID",
+      async options({ prevContext }) {
+        return this.paginateOptions({
+          prevContext,
+          listResourcesFn: this.listMessageTemplates,
+          mapper: ({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          }),
+        });
+      },
+    },
+    folderId: {
+      type: "string",
+      label: "Folder ID",
+      description: "ID of the message template folder",
+      async options({ prevContext }) {
+        return this.paginateOptions({
+          prevContext,
+          listResourcesFn: this.listMessageTemplateFolders,
+          mapper: ({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          }),
+        });
+      },
+      optional: true,
+    },
   },
   methods: {
     getUrl(path, url) {
@@ -507,6 +542,50 @@ export default {
       return this.makeRequest({
         method: constants.METHOD.PUT,
         path: `/conversations/${conversationId}/assignee`,
+        ...args,
+      });
+    },
+    async listMessageTemplates(args = {}) {
+      return this.makeRequest({
+        path: "/message_templates",
+        ...args,
+      });
+    },
+    async listMessageTemplateFolders(args = {}) {
+      return this.makeRequest({
+        path: "/message_template_folders",
+        ...args,
+      });
+    },
+    async updateTeammate({
+      teammateId, ...args
+    } = {}) {
+      return this.makeRequest({
+        method: "patch",
+        path: `/teammates/${teammateId}`,
+        ...args,
+      });
+    },
+    async createInbox(args = {}) {
+      return this.makeRequest({
+        method: "post",
+        path: "/inboxes",
+        ...args,
+      });
+    },
+    async createMessageTemplate(args = {}) {
+      return this.makeRequest({
+        method: "post",
+        path: "/message_templates",
+        ...args,
+      });
+    },
+    async deleteMessageTemplate({
+      messageTemplateId, ...args
+    } = {}) {
+      return this.makeRequest({
+        method: "delete",
+        path: `/message_templates/${messageTemplateId}`,
         ...args,
       });
     },

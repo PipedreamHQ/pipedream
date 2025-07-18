@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/frontapp",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Pipedream Frontapp Components",
   "main": "frontapp.app.mjs",
   "keywords": [
@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/frontapp",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^3.0.3",
+    "@pipedream/platform": "^3.1.0",
     "form-data": "^4.0.0"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
