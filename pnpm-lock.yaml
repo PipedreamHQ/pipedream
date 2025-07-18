@@ -713,7 +713,14 @@ importers:
 
   components/alphamoon: {}
 
-  components/alt_text_generator_ai: {}
+  components/alt_text_generator_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
+
+  components/alt_text_lab:
+    specifiers: {}
 
   components/alteryx_analytics_cloud: {}
 
@@ -11414,7 +11421,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/returnless: {}
+  components/returnless:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/returnly:
     dependencies:
