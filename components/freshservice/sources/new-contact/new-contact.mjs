@@ -3,10 +3,10 @@ import freshservice from "../../freshservice.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
-  name: "New Ticket",
-  version: "0.0.3",
-  key: "freshservice-new-ticket",
-  description: "Emit new event for each created ticket. [See documentation](https://api.freshservice.com/v2/#list_all_tickets)",
+  name: "New Contact",
+  version: "0.0.1",
+  key: "freshservice-new-contact",
+  description: "Emit new event for each created contact. [See documentation](https://api.freshservice.com/v2/#list_all_requesters)",
   type: "source",
   dedupe: "unique",
   props: {
@@ -23,16 +23,16 @@ export default {
     emitEvent(data) {
       this.$emit(data, {
         id: data.id,
-        summary: `New ticket: ${data.subject || data.id}`,
+        summary: `New contact: ${data.first_name} ${data.last_name || ""} (${data.email})`,
         ts: Date.parse(data.created_at),
       });
     },
-    async *getTickets(params = {}) {
+    async *getContacts(params = {}) {
       let page = 1;
       let hasMore = true;
 
       while (hasMore) {
-        const { tickets } = await this.freshservice.filterTickets({
+        const { requesters } = await this.freshservice.filterContacts({
           params: {
             ...params,
             page,
@@ -40,11 +40,11 @@ export default {
           },
         });
 
-        if (!tickets || tickets.length === 0) {
+        if (!requesters || requesters.length === 0) {
           hasMore = false;
         } else {
-          for (const ticket of tickets) {
-            yield ticket;
+          for (const contact of requesters) {
+            yield contact;
           }
           page++;
         }
@@ -62,11 +62,11 @@ export default {
 
       let maxCreatedAt = lastDateChecked;
       
-      for await (const ticket of this.getTickets(params)) {
-        this.emitEvent(ticket);
+      for await (const contact of this.getContacts(params)) {
+        this.emitEvent(contact);
         
-        if (ticket.created_at > maxCreatedAt) {
-          maxCreatedAt = ticket.created_at;
+        if (contact.created_at > maxCreatedAt) {
+          maxCreatedAt = contact.created_at;
         }
       }
 
