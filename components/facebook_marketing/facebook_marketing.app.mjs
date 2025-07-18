@@ -56,22 +56,21 @@ export default {
     },
   },
   methods: {
-    _apiVersion() {
-      return "v19.0";
-    },
     _baseUrl() {
-      return `https://graph.facebook.com/${this._apiVersion()}`;
+      return "https://graph.facebook.com";
+    },
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
     },
     async _makeRequest({
-      $ = this, path, headers, ...otherOpts
+      $ = this, path, ...otherOpts
     }) {
       return axios($, {
         ...otherOpts,
         url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-        },
+        headers: this._headers(),
       });
     },
     async getAuthenticatedUserInfo() {

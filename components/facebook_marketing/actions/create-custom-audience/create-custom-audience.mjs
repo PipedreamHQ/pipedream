@@ -3,8 +3,8 @@ import app from "../../facebook_marketing.app.mjs";
 export default {
   key: "facebook_marketing-create-custom-audience",
   name: "Create Custom Audience",
-  description: "Creates a new custom audience in Facebook. [See the documentation](https://developers.facebook.com/docs/marketing-api/audiences/guides/custom-audiences/#build)",
-  version: "0.0.1",
+  description: "Creates a new custom audience in Facebook. [See the documentation](https://developers.facebook.com/docs/marketing-api/audiences/guides/custom-audiences/?locale=en_US#build)",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
