@@ -1,33 +1,27 @@
 const GET_ORDER = `
-  query SuggestedRefund($id: ID!, $refundLineItems: [RefundLineItemInput!], $first: Int, $after: String) {
+  query GetOrder($id: ID!, $first: Int, $after: String) {
     order(id: $id) {
       id
-      metafields (first: $first, after: $after) {
-        nodes {
-          id
-          key
-          namespace
-          value
-          type
-        }
-        pageInfo {
-          endCursor
-        }
-      }
-      customer {
-        id
-        displayName
-        email
-        phone
-        addresses (first: $first) {
-          address1
-          address2
-          city
-          zip
-          country
-          company
-        }
-      }
+      name
+      createdAt
+      updatedAt
+      processedAt
+      cancelledAt
+      cancelReason
+      closedAt
+      confirmed
+      note
+      tags
+      test
+      currencyCode
+      displayFinancialStatus
+      displayFulfillmentStatus
+      closed
+      requiresShipping
+      riskLevel
+      customerAcceptsMarketing
+      paymentGatewayNames
+      
       totalPriceSet {
         shopMoney {
           amount
@@ -38,8 +32,256 @@ const GET_ORDER = `
           currencyCode
         }
       }
-      suggestedRefund(refundLineItems: $refundLineItems) {
-        subtotalSet {
+      
+      subtotalPriceSet {
+        shopMoney {
+          amount
+          currencyCode
+        }
+        presentmentMoney {
+          amount
+          currencyCode
+        }
+      }
+      
+      currentTotalPriceSet {
+        shopMoney {
+          amount
+          currencyCode
+        }
+        presentmentMoney {
+          amount
+          currencyCode
+        }
+      }
+      
+      totalDiscountsSet {
+        shopMoney {
+          amount
+          currencyCode
+        }
+        presentmentMoney {
+          amount
+          currencyCode
+        }
+      }
+      
+      totalShippingPriceSet {
+        shopMoney {
+          amount
+          currencyCode
+        }
+        presentmentMoney {
+          amount
+          currencyCode
+        }
+      }
+      
+      totalTaxSet {
+        shopMoney {
+          amount
+          currencyCode
+        }
+        presentmentMoney {
+          amount
+          currencyCode
+        }
+      }
+      
+      customer {
+        id
+        displayName
+        firstName
+        lastName
+        email
+        phone
+        note
+        acceptsMarketing
+        createdAt
+        updatedAt
+        verifiedEmail
+        tags
+        defaultAddress {
+          id
+          address1
+          address2
+          city
+          province
+          zip
+          country
+          countryCodeV2
+          company
+          firstName
+          lastName
+          phone
+        }
+      }
+      
+      billingAddress {
+        address1
+        address2
+        city
+        province
+        zip
+        country
+        countryCodeV2
+        company
+        firstName
+        lastName
+        phone
+      }
+      
+      shippingAddress {
+        address1
+        address2
+        city
+        province
+        zip
+        country
+        countryCodeV2
+        company
+        firstName
+        lastName
+        phone
+      }
+      
+      lineItems(first: 250) {
+        edges {
+          node {
+            id
+            title
+            quantity
+            variantTitle
+            vendor
+            fulfillmentStatus
+            fulfillableQuantity
+            refundableQuantity
+            requiresShipping
+            restockable
+            
+            originalUnitPriceSet {
+              shopMoney {
+                amount
+                currencyCode
+              }
+              presentmentMoney {
+                amount
+                currencyCode
+              }
+            }
+            
+            discountedUnitPriceSet {
+              shopMoney {
+                amount
+                currencyCode
+              }
+              presentmentMoney {
+                amount
+                currencyCode
+              }
+            }
+            
+            totalDiscountSet {
+              shopMoney {
+                amount
+                currencyCode
+              }
+              presentmentMoney {
+                amount
+                currencyCode
+              }
+            }
+            
+            variant {
+              id
+              title
+              sku
+              barcode
+              weight
+              weightUnit
+              inventoryQuantity
+              price
+              compareAtPrice
+              availableForSale
+              image {
+                url
+                altText
+              }
+            }
+            
+            product {
+              id
+              title
+              handle
+              vendor
+              productType
+              tags
+              status
+              createdAt
+              updatedAt
+              images(first: 1) {
+                edges {
+                  node {
+                    url
+                    altText
+                  }
+                }
+              }
+            }
+            
+            taxLines {
+              title
+              rate
+              ratePercentage
+              priceSet {
+                shopMoney {
+                  amount
+                  currencyCode
+                }
+                presentmentMoney {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+            
+            discountAllocations {
+              allocatedAmountSet {
+                shopMoney {
+                  amount
+                  currencyCode
+                }
+                presentmentMoney {
+                  amount
+                  currencyCode
+                }
+              }
+              discountApplication {
+                ... on DiscountCodeApplication {
+                  code
+                  applicable
+                }
+                ... on AutomaticDiscountApplication {
+                  title
+                }
+                ... on ManualDiscountApplication {
+                  title
+                  description
+                }
+              }
+            }
+          }
+        }
+      }
+      
+      shippingLines {
+        title
+        code
+        source
+        carrierIdentifier
+        requestedFulfillmentServiceId
+        deliveryCategory
+        originalPriceSet {
           shopMoney {
             amount
             currencyCode
@@ -49,11 +291,176 @@ const GET_ORDER = `
             currencyCode
           }
         }
-        refundLineItems {
-          lineItem {
-            id
+        discountedPriceSet {
+          shopMoney {
+            amount
+            currencyCode
           }
-          quantity
+          presentmentMoney {
+            amount
+            currencyCode
+          }
+        }
+        taxLines {
+          title
+          rate
+          ratePercentage
+          priceSet {
+            shopMoney {
+              amount
+              currencyCode
+            }
+            presentmentMoney {
+              amount
+              currencyCode
+            }
+          }
+        }
+      }
+      
+      fulfillments {
+        id
+        status
+        displayStatus
+        createdAt
+        updatedAt
+        estimatedDeliveryAt
+        inTransitAt
+        deliveredAt
+        trackingCompany
+        trackingNumbers
+        trackingUrls
+        service {
+          serviceName
+          shippingMethods
+        }
+        fulfillmentLineItems(first: 250) {
+          edges {
+            node {
+              id
+              quantity
+              lineItem {
+                id
+                title
+              }
+            }
+          }
+        }
+      }
+      
+      transactions(first: 250) {
+        id
+        status
+        kind
+        gateway
+        test
+        createdAt
+        processedAt
+        amountSet {
+          shopMoney {
+            amount
+            currencyCode
+          }
+          presentmentMoney {
+            amount
+            currencyCode
+          }
+        }
+        fees {
+          amount {
+            amount
+            currencyCode
+          }
+          flatFee {
+            amount
+            currencyCode
+          }
+          rate
+          rateName
+          type
+        }
+      }
+      
+      refunds {
+        id
+        createdAt
+        note
+        totalRefundedSet {
+          shopMoney {
+            amount
+            currencyCode
+          }
+          presentmentMoney {
+            amount
+            currencyCode
+          }
+        }
+        refundLineItems(first: 250) {
+          edges {
+            node {
+              id
+              quantity
+              restockType
+              location {
+                id
+                name
+              }
+              lineItem {
+                id
+                title
+                quantity
+              }
+              subtotalSet {
+                shopMoney {
+                  amount
+                  currencyCode
+                }
+                presentmentMoney {
+                  amount
+                  currencyCode
+                }
+              }
+              totalTaxSet {
+                shopMoney {
+                  amount
+                  currencyCode
+                }
+                presentmentMoney {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+        transactions {
+          id
+          status
+          kind
+          gateway
+          amountSet {
+            shopMoney {
+              amount
+              currencyCode
+            }
+            presentmentMoney {
+              amount
+              currencyCode
+            }
+          }
+        }
+      }
+      
+      metafields (first: $first, after: $after) {
+        nodes {
+          id
+          key
+          namespace
+          value
+          type
+        }
+        pageInfo {
+          endCursor
         }
       }
     }
@@ -132,21 +539,18 @@ const LIST_ORDERS = `
     orders(first: $first, after: $after, reverse: $reverse, query: $query) {
       nodes {
         id
+        name
+        createdAt
         updatedAt
-        customer {
-          id
-          displayName
-          email
-          phone
-          addresses (first: $first) {
-            address1
-            address2
-            city
-            zip
-            country
-            company
-          }
-        }
+        processedAt
+        currencyCode
+        displayFinancialStatus
+        displayFulfillmentStatus
+        closed
+        confirmed
+        test
+        note
+        tags
         totalPriceSet {
           shopMoney {
             amount
@@ -156,6 +560,121 @@ const LIST_ORDERS = `
             amount
             currencyCode
           }
+        }
+        subtotalPriceSet {
+          shopMoney {
+            amount
+            currencyCode
+          }
+          presentmentMoney {
+            amount
+            currencyCode
+          }
+        }
+        totalTaxSet {
+          shopMoney {
+            amount
+            currencyCode
+          }
+          presentmentMoney {
+            amount
+            currencyCode
+          }
+        }
+        totalShippingPriceSet {
+          shopMoney {
+            amount
+            currencyCode
+          }
+          presentmentMoney {
+            amount
+            currencyCode
+          }
+        }
+        customer {
+          id
+          displayName
+          firstName
+          lastName
+          email
+          phone
+          acceptsMarketing
+          defaultAddress {
+            id
+            address1
+            address2
+            city
+            province
+            zip
+            country
+            company
+          }
+        }
+        shippingAddress {
+          address1
+          address2
+          city
+          province
+          zip
+          country
+          company
+          firstName
+          lastName
+        }
+        lineItems(first: 50) {
+          edges {
+            node {
+              id
+              title
+              quantity
+              variantTitle
+              vendor
+              fulfillmentStatus
+              originalUnitPriceSet {
+                shopMoney {
+                  amount
+                  currencyCode
+                }
+                presentmentMoney {
+                  amount
+                  currencyCode
+                }
+              }
+              variant {
+                id
+                title
+                sku
+                price
+                image {
+                  url
+                  altText
+                }
+              }
+              product {
+                id
+                title
+                handle
+                vendor
+                productType
+                images(first: 1) {
+                  edges {
+                    node {
+                      url
+                      altText
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        fulfillments {
+          id
+          status
+          displayStatus
+          trackingCompany
+          trackingNumbers
+          trackingUrls
         }
         metafields (first: $first) {
           nodes {
@@ -169,6 +688,7 @@ const LIST_ORDERS = `
       }
       pageInfo {
         endCursor
+        hasNextPage
       }
     }
   }

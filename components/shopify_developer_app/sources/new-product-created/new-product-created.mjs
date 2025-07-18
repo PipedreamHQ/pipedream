@@ -6,7 +6,7 @@ export default {
   name: "New Product Created (Instant)",
   type: "source",
   description: "Emit new event for each product added to a store.",
-  version: "0.0.11",
+  version: "0.0.12",
   dedupe: "unique",
   methods: {
     ...common.methods,
