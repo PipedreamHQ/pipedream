@@ -100,7 +100,7 @@ export default {
 
     const data = removeNullEntries(fields);
 
-    const ticketName = await freshdesk.getTicketName(ticketId);
+    const ticketName = await freshdesk.getTicketName(ticketId) || "Unknown Ticket";
 
     if (!Object.keys(data).length) {
       throw new Error("Please provide at least one field to update.");
