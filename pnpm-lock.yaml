@@ -713,7 +713,14 @@ importers:
 
   components/alphamoon: {}
 
-  components/alt_text_generator_ai: {}
+  components/alt_text_generator_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
+
+  components/alt_text_lab:
+    specifiers: {}
 
   components/alteryx_analytics_cloud: {}
 
@@ -919,6 +926,9 @@ importers:
 
   components/apify:
     dependencies:
+      '@apify/consts':
+        specifier: ^2.41.0
+        version: 2.43.0
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
@@ -1448,7 +1458,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/belco: {}
+  components/belco:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/benchmark_email:
     dependencies:
@@ -1868,6 +1882,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/bright_data: {}
+
   components/brilliant_directories:
     dependencies:
       '@pipedream/platform':
@@ -2264,7 +2280,11 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
-  components/channable: {}
+  components/channable:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/channeladvisor:
     dependencies:
@@ -2395,7 +2415,11 @@ importers:
 
   components/chatsonic: {}
 
-  components/chattermill: {}
+  components/chattermill:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/chatwork:
     dependencies:
@@ -2638,6 +2662,12 @@ importers:
       crypto:
         specifier: ^1.0.1
         version: 1.0.1
+
+  components/clio_australia: {}
+
+  components/clio_canada: {}
+
+  components/clio_eu: {}
 
   components/clockify:
     dependencies:
@@ -4447,7 +4477,11 @@ importers:
         specifier: ^6.11.0
         version: 6.13.1
 
-  components/explorium: {}
+  components/explorium:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/expofp:
     dependencies:
@@ -7585,8 +7619,8 @@ importers:
         specifier: ^13.0.0
         version: 13.0.0
       '@pipedream/linear_app':
-        specifier: ^0.7.1
-        version: 0.7.1
+        specifier: ^0.7.3
+        version: 0.7.3
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
@@ -8229,6 +8263,8 @@ importers:
 
   components/membervault: {}
 
+  components/memento_database: {}
+
   components/memix: {}
 
   components/mercury:
@@ -8574,7 +8610,11 @@ importers:
 
   components/mollie: {}
 
-  components/momentum_ams: {}
+  components/momentum_ams:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/monday:
     dependencies:
@@ -10130,6 +10170,8 @@ importers:
         specifier: ^6.11.1
         version: 6.13.1
 
+  components/pingback: {}
+
   components/pingbell:
     dependencies:
       '@pipedream/platform':
@@ -11383,7 +11425,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/returnless: {}
+  components/returnless:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/returnly:
     dependencies:
@@ -11449,6 +11495,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+
+  components/rhombus: {}
 
   components/richpanel:
     dependencies:
@@ -11540,6 +11588,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.0
         version: 3.1.0
+
+  components/robopost: {}
 
   components/rocket_chat:
     dependencies:
@@ -13089,7 +13139,11 @@ importers:
 
   components/stealthseminar: {}
 
-  components/stiply: {}
+  components/stiply:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/storeganise:
     dependencies:
@@ -14836,7 +14890,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/webscrape_ai: {}
+  components/webscrape_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/webscraper_io:
     dependencies:
@@ -15106,7 +15164,11 @@ importers:
         specifier: ^1.1.1
         version: 1.6.6
 
-  components/workflow_max: {}
+  components/workflow_max:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/workiom: {}
 
@@ -16235,6 +16297,9 @@ packages:
 
   '@apidevtools/swagger-methods@3.0.2':
     resolution: {integrity: sha512-QAkD5kK2b1WfjDS/UQn/qQkbwF31uqRjPTrsCs5ZG9BQGAkjwvqGFjjPqAuzac/IYzpPtRzjCP1WrTuAIjMrXg==}
+
+  '@apify/consts@2.43.0':
+    resolution: {integrity: sha512-6bhzXeftGa+MrO0XwHLLBJyP9Vc2gZXsbk3d8rcDmiEMJwChA+Qw1WD6BWI9zVazPeXb2OrjzOwfe05f59RD4g==}
 
   '@apimatic/schema@0.6.0':
     resolution: {integrity: sha512-JgG32LQRLphHRWsn64vIt7wD2m+JH46swM6ZrY7g1rdiGiKV5m+A+TBrJKoUUQRmS14azMgePNZY30NauWqzLg==}
@@ -19102,8 +19167,8 @@ packages:
   '@pipedream/helpers@1.3.12':
     resolution: {integrity: sha512-k305RiFddUBtKY11V9G2aqYD8ICgarHV+A0Isxh0j3il4asnht0q4+t6ykPOb+hl5uo9UV8WY+9eAWlj6VFt6Q==}
 
-  '@pipedream/linear_app@0.7.1':
-    resolution: {integrity: sha512-DsErH1lO1HhA2Om4My0KGd4L3h7SjN+gg8kvB6u+EliY3e5tjqde+cosolSn3ZYzBbbboSEZUMjVHtl/nFQ7Wg==}
+  '@pipedream/linear_app@0.7.3':
+    resolution: {integrity: sha512-NCJNJwj+tv0jlj2hn2B7JIaH38oTY0r1eL59V7d4KVDEZ+vaT9pnjOtYwRQqA+SfAJ9mpg82y497PARs1MaQbQ==}
 
   '@pipedream/linkedin@0.1.1':
     resolution: {integrity: sha512-9pFjaohz/wnJMIRpPmDPqHeWiXUIJVWIPvQudE8TkUjaBbyieDpscy8reWMp96UK9aXz1Z2J2yiNh0msILAX9Q==}
@@ -31422,6 +31487,8 @@ snapshots:
 
   '@apidevtools/swagger-methods@3.0.2': {}
 
+  '@apify/consts@2.43.0': {}
+
   '@apimatic/schema@0.6.0':
     dependencies:
       tslib: 2.8.1
@@ -36594,7 +36661,7 @@ snapshots:
       '@pipedream/types': 0.0.5
       lodash-es: 4.17.21
 
-  '@pipedream/linear_app@0.7.1':
+  '@pipedream/linear_app@0.7.3':
     dependencies:
       '@linear/sdk': 13.0.0
       '@pipedream/platform': 3.1.0
