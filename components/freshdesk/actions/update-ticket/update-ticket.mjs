@@ -90,13 +90,6 @@ export default {
       description: "Custom fields as key-value pairs (make sure types match your config)",
       optional: true,
     },
-    tags: {
-      propDefinition: [
-        freshdesk,
-        "ticketTags",
-      ],
-      description: "Array of tags to set on the ticket. This will replace all existing tags.",
-    },
   },
   async run({ $ }) {
     const {
