@@ -17,7 +17,7 @@ export default {
       },
     },
     styleId: {
-      type: "string",
+      type: "integer",
       label: "Style ID",
       description: "The ID of a style",
       optional: true,
@@ -30,7 +30,7 @@ export default {
       },
     },
     landingPageTemplateId: {
-      type: "string",
+      type: "integer",
       label: "Landing Page Template ID",
       description: "The ID of a landing page template",
       async options() {
@@ -42,7 +42,7 @@ export default {
       },
     },
     rsvpTemplateId: {
-      type: "string",
+      type: "integer",
       label: "RSVP Template ID",
       description: "The ID of an RSVP template",
       async options() {
@@ -54,7 +54,7 @@ export default {
       },
     },
     ctaTemplateId: {
-      type: "string",
+      type: "integer",
       label: "CTA Template ID",
       description: "The ID of a Call to Action template",
       async options() {
@@ -78,7 +78,7 @@ export default {
       },
     },
     customDomainId: {
-      type: "string",
+      type: "integer",
       label: "Custom Domain ID",
       description: "The ID of a custom domain",
       async options() {
@@ -90,7 +90,7 @@ export default {
       },
     },
     emailTemplateId: {
-      type: "string",
+      type: "integer",
       label: "Email Template ID",
       description: "The ID of an email template",
       optional: true,
@@ -119,13 +119,13 @@ export default {
     recurrence: {
       type: "string",
       label: "Recurrence",
-      description: "The recurrence of the event",
+      description: "An RRULE. Use in combination with \"Simplified Recurrence\" being set to false.",
       optional: true,
     },
     recurrenceSimpleType: {
       type: "string",
       label: "Recurrence Simple Type",
-      description: "The type of recurrence",
+      description: "Use in combination with \"Simplified Recurrence\" being set to true.",
       options: [
         "daily",
         "weekly",
@@ -285,7 +285,7 @@ export default {
       optional: true,
     },
     metaRobotsOverride: {
-      type: "string",
+      type: "boolean",
       label: "Meta Robots Override",
       description: "If true, Add to Calendar Pro will set \"norobots, noindex\"",
       optional: true,

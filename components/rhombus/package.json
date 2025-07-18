@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/rhombus",
+  "version": "0.0.1",
+  "description": "Pipedream Rhombus Components",
+  "main": "rhombus.app.mjs",
+  "keywords": [
+    "pipedream",
+    "rhombus"
+  ],
+  "homepage": "https://pipedream.com/apps/rhombus",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

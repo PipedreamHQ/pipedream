@@ -1,15 +1,17 @@
 {
   "name": "@pipedream/joggai",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream JoggAI Components",
   "main": "joggai.app.mjs",
   "keywords": [
-    "pipedream",
     "joggai"
   ],
   "homepage": "https://pipedream.com/apps/joggai",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
   }
 }

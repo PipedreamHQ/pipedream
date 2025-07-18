@@ -5,7 +5,7 @@ export default {
   name: "Update Ticket",
   description: "Updates a ticket. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/tickets/tickets/#update-ticket).",
   type: "action",
-  version: "0.1.3",
+  version: "0.1.4",
   props: {
     app,
     ticketId: {
@@ -18,6 +18,12 @@ export default {
       propDefinition: [
         app,
         "ticketCommentBody",
+      ],
+    },
+    ticketCommentBodyIsHTML: {
+      propDefinition: [
+        app,
+        "ticketCommentBodyIsHTML",
       ],
     },
     ticketPriority: {
@@ -36,6 +42,12 @@ export default {
       propDefinition: [
         app,
         "ticketStatus",
+      ],
+    },
+    ticketCommentPublic: {
+      propDefinition: [
+        app,
+        "ticketCommentPublic",
       ],
     },
     customSubdomain: {
@@ -59,11 +71,23 @@ export default {
     const {
       ticketId,
       ticketCommentBody,
+      ticketCommentBodyIsHTML,
       ticketPriority,
       ticketSubject,
       ticketStatus,
+      ticketCommentPublic,
       customSubdomain,
     } = this;
+
+    const ticketComment = ticketCommentBodyIsHTML
+      ? {
+        html_body: ticketCommentBody,
+      }
+      : {
+        body: ticketCommentBody,
+      };
+
+    ticketComment.public = ticketCommentPublic;
 
     const response = await this.updateTicket({
       step,
@@ -71,9 +95,7 @@ export default {
       customSubdomain,
       data: {
         ticket: {
-          comment: {
-            body: ticketCommentBody,
-          },
+          comment: ticketComment,
           priority: ticketPriority,
           subject: ticketSubject,
           status: ticketStatus,

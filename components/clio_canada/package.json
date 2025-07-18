@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/clio_canada",
+  "version": "0.0.1",
+  "description": "Pipedream Clio - Canada Components",
+  "main": "clio_canada.app.mjs",
+  "keywords": [
+    "pipedream",
+    "clio_canada"
+  ],
+  "homepage": "https://pipedream.com/apps/clio_canada",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

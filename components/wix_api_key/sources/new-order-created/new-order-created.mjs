@@ -1,12 +1,12 @@
-import common from "../common/common.mjs";
 import constants from "../../common/constants.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "wix_api_key-new-order-created",
   name: "New Order Created",
   description: "Emit new event when a new order is created. [See the documentation](https://dev.wix.com/api/rest/wix-stores/orders/query-orders)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   methods: {
     ...common.methods,

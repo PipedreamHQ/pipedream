@@ -21,7 +21,7 @@ export default {
           this.getEventType(),
         ],
       });
-      this._setHookId(webhook.id);
+      this._setHookId(webhook.webhook_id);
     },
     async deactivate() {
       const hookId = this._getHookId();

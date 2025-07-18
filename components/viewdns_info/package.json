@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/viewdns_info",
+  "version": "0.0.1",
+  "description": "Pipedream ViewDNS.info Components",
+  "main": "viewdns_info.app.mjs",
+  "keywords": [
+    "pipedream",
+    "viewdns_info"
+  ],
+  "homepage": "https://pipedream.com/apps/viewdns_info",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
