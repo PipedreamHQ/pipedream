@@ -2415,7 +2415,11 @@ importers:
 
   components/chatsonic: {}
 
-  components/chattermill: {}
+  components/chattermill:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/chatwork:
     dependencies:
