@@ -11493,6 +11493,9 @@ importers:
 
   components/rewardful: {}
 
+  components/rewiser:
+    specifiers: {}
+
   components/rex:
     dependencies:
       '@pipedream/platform':
