@@ -102,7 +102,7 @@ export default {
   },
   async run({ $ }) {
     const params = {
-      inviteeEmail: this.inviteeEmail,
+      invitee_email: this.inviteeEmail,
       status: this.status,
       paginate: this.paginate,
       maxResults: this.maxResults,
