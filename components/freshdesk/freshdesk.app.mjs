@@ -307,8 +307,13 @@ export default {
         ...args,
       });
       const currentTags = ticket.tags || [];
-      const newTags = [...new Set([...currentTags, ...tags])]; // Remove duplicates
-      
+      const newTags = [
+        ...new Set([
+          ...currentTags,
+          ...tags,
+        ]),
+      ]; // Remove duplicates
+
       return this.setTicketTags({
         ticketId,
         tags: newTags,
@@ -332,8 +337,8 @@ export default {
       });
       const currentTags = ticket.tags || [];
       const tagsToRemove = new Set(tags);
-      const remainingTags = currentTags.filter(tag => !tagsToRemove.has(tag));
-      
+      const remainingTags = currentTags.filter((tag) => !tagsToRemove.has(tag));
+
       return this.setTicketTags({
         ticketId,
         tags: remainingTags,

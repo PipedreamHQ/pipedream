@@ -1,4 +1,5 @@
 import freshdesk from "../../freshdesk.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "freshdesk-remove-ticket-tags",
@@ -29,7 +30,7 @@ export default {
     } = this;
 
     if (!ticketTags || ticketTags.length === 0) {
-      throw new Error("At least one tag must be provided");
+      throw new ConfigurationError("At least one tag must be provided");
     }
 
     const response = await this.freshdesk.removeTicketTags({
