@@ -20,8 +20,8 @@ export default {
       $,
       eventProKey: this.eventProKey,
       params: {
-        responseType: "object"
-      }
+        responseType: "object",
+      },
     });
     $.export("$summary", "Successfully retrieved ICS data.");
     return response;
