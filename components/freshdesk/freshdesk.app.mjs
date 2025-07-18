@@ -116,6 +116,12 @@ export default {
           }));
       },
     },
+    ticketTags: {
+      type: "string[]",
+      label: "Tags",
+      description: "Array of tags to apply to the ticket. Each tag must be 32 characters or less.",
+      optional: true,
+    },
   },
   methods: {
     setLastDateChecked(db, value) {
@@ -265,6 +271,79 @@ export default {
         }
       }
       return input;
+    },
+    /**
+     * Set tags on a ticket (replaces all existing tags)
+     * @param {object} args - Arguments object
+     * @param {string|number} args.ticketId - The ticket ID
+     * @param {string[]} args.tags - Array of tags to set
+     * @returns {Promise<object>} API response
+     */
+    async setTicketTags({
+      ticketId, tags, ...args
+    }) {
+      return this._makeRequest({
+        url: `/tickets/${ticketId}`,
+        method: "PUT",
+        data: {
+          tags,
+        },
+        ...args,
+      });
+    },
+    /**
+     * Add tags to a ticket (appends to existing tags)
+     * @param {object} args - Arguments object
+     * @param {string|number} args.ticketId - The ticket ID
+     * @param {string[]} args.tags - Array of tags to add
+     * @returns {Promise<object>} API response
+     */
+    async addTicketTags({
+      ticketId, tags, ...args
+    }) {
+      // Get current ticket to merge tags
+      const ticket = await this.getTicket({
+        ticketId,
+        ...args,
+      });
+      const currentTags = ticket.tags || [];
+      const newTags = [
+        ...new Set([
+          ...currentTags,
+          ...tags,
+        ]),
+      ]; // Remove duplicates
+
+      return this.setTicketTags({
+        ticketId,
+        tags: newTags,
+        ...args,
+      });
+    },
+    /**
+     * Remove specific tags from a ticket
+     * @param {object} args - Arguments object
+     * @param {string|number} args.ticketId - The ticket ID
+     * @param {string[]} args.tags - Array of tags to remove
+     * @returns {Promise<object>} API response
+     */
+    async removeTicketTags({
+      ticketId, tags, ...args
+    }) {
+      // Get current ticket to filter tags
+      const ticket = await this.getTicket({
+        ticketId,
+        ...args,
+      });
+      const currentTags = ticket.tags || [];
+      const tagsToRemove = new Set(tags);
+      const remainingTags = currentTags.filter((tag) => !tagsToRemove.has(tag));
+
+      return this.setTicketTags({
+        ticketId,
+        tags: remainingTags,
+        ...args,
+      });
     },
   },
 };
