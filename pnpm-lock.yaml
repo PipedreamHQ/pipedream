@@ -713,7 +713,13 @@ importers:
 
   components/alphamoon: {}
 
-  components/alt_text_generator_ai: {}
+  components/alt_text_generator_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
+
+  components/alt_text_lab: {}
 
   components/alteryx_analytics_cloud: {}
 
@@ -2408,7 +2414,11 @@ importers:
 
   components/chatsonic: {}
 
-  components/chattermill: {}
+  components/chattermill:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/chatwork:
     dependencies:
@@ -2555,8 +2565,8 @@ importers:
   components/clevertap:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/click2mail2:
     dependencies:
@@ -6675,7 +6685,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/indiefunnels: {}
+  components/indiefunnels:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/inferable: {}
 
@@ -10159,6 +10173,8 @@ importers:
         specifier: ^6.11.1
         version: 6.13.1
 
+  components/pingback: {}
+
   components/pingbell:
     dependencies:
       '@pipedream/platform':
@@ -11412,7 +11428,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/returnless: {}
+  components/returnless:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/returnly:
     dependencies:
@@ -11472,6 +11492,9 @@ importers:
   components/reward_sciences: {}
 
   components/rewardful: {}
+
+  components/rewiser:
+    specifiers: {}
 
   components/rex:
     dependencies:
@@ -14873,7 +14896,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/webscrape_ai: {}
+  components/webscrape_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/webscraper_io:
     dependencies:
@@ -37231,8 +37258,6 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
-    transitivePeerDependencies:
-      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
