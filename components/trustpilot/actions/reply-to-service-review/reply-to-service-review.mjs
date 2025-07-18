@@ -3,8 +3,9 @@ import trustpilot from "../../app/trustpilot.app.ts";
 export default {
   key: "trustpilot-reply-to-service-review",
   name: "Reply to Service Review",
-  description: "Reply to a service review on behalf of your business. [See the documentation](https://developers.trustpilot.com/business-units-api#reply-to-review)",
+  description: "Posts a public reply to a service review on Trustpilot on behalf of your business. This action enables you to engage with customers who have reviewed your services, allowing you to address complaints, clarify misunderstandings, express gratitude for positive feedback, or provide updates on how you're improving based on their input. Professional responses to reviews can significantly impact your business reputation and show potential customers that you value feedback. Remember that all replies are permanent and publicly visible. [See the documentation](https://developers.trustpilot.com/business-units-api#reply-to-review)",
   version: "0.0.1",
+  publishedAt: "2025-07-18T00:00:00.000Z",
   type: "action",
   props: {
     trustpilot,
@@ -45,7 +46,7 @@ export default {
       });
 
       $.export("$summary", `Successfully replied to service review ${reviewId}`);
-      
+
       return {
         success: true,
         reply: result,

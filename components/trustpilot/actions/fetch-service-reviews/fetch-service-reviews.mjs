@@ -3,9 +3,10 @@ import trustpilot from "../../app/trustpilot.app.ts";
 export default {
   key: "trustpilot-fetch-service-reviews",
   name: "Fetch Service Reviews",
-  description: "Fetch service reviews for a business unit. [See the documentation](https://developers.trustpilot.com/business-units-api#get-business-unit-reviews)",
+  description: "Fetches service reviews for a specific business unit from Trustpilot with support for filtering by star rating, tags, language, and more. [See the documentation](https://developers.trustpilot.com/business-units-api#get-business-unit-reviews)",
   version: "0.0.1",
   type: "action",
+  publishedAt: "2025-07-18T00:00:00.000Z",
   props: {
     trustpilot,
     businessUnitId: {
@@ -83,10 +84,12 @@ export default {
         offset,
       });
 
-      const { reviews, pagination } = result;
+      const {
+        reviews, pagination,
+      } = result;
 
       $.export("$summary", `Successfully fetched ${reviews.length} service review(s) for business unit ${businessUnitId}`);
-      
+
       return {
         reviews,
         pagination,

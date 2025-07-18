@@ -1,12 +1,15 @@
 import common from "../common/polling.mjs";
-import { SOURCE_TYPES, SORT_OPTIONS } from "../../common/constants.mjs";
+import {
+  SOURCE_TYPES, SORT_OPTIONS,
+} from "../../common/constants.mjs";
 
 export default {
   ...common,
   key: "trustpilot-new-service-review-replies",
-  name: "New Service Review Replies", 
-  description: "Emit new events when replies are added to service reviews. Polls every 15 minutes.",
+  name: "New Service Review Replies",
+  description: "Emit new event when a business replies to a service review on Trustpilot. This source polls the Trustpilot API every 15 minutes to detect new replies to service reviews. Each event includes the reply text, creation timestamp, and associated review details (star rating, review title, consumer info). Essential for tracking business engagement with customer feedback, monitoring response times, and ensuring all service reviews receive appropriate attention.",
   version: "0.0.1",
+  publishedAt: "2025-07-18T00:00:00.000Z",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -17,7 +20,7 @@ export default {
     getPollingMethod() {
       return "getServiceReviews";
     },
-    getPollingParams(since) {
+    getPollingParams() {
       return {
         businessUnitId: this.businessUnitId,
         limit: 100,
@@ -25,12 +28,12 @@ export default {
         offset: 0,
       };
     },
-    async fetchItems(since) {
-      const result = await this.trustpilot.getServiceReviews(this.getPollingParams(since));
-      
+    async fetchItems() {
+      const result = await this.trustpilot.getServiceReviews(this.getPollingParams());
+
       // Filter for reviews that have replies and extract the replies
       const repliesWithReviews = [];
-      
+
       if (result.reviews) {
         for (const review of result.reviews) {
           if (review.company?.reply) {
@@ -51,15 +54,17 @@ export default {
           }
         }
       }
-      
+
       return repliesWithReviews;
     },
-    generateSummary(item, sourceType) {
+    generateSummary(item) {
       const reviewTitle = item.review?.title || "Review";
       const consumerName = item.review?.consumer?.displayName || "Anonymous";
       const replyPreview = item.text?.substring(0, 50) || "";
-      const preview = replyPreview.length > 50 ? `${replyPreview}...` : replyPreview;
-      
+      const preview = replyPreview.length > 50
+        ? `${replyPreview}...`
+        : replyPreview;
+
       return `New reply to "${reviewTitle}" by ${consumerName}: "${preview}"`;
     },
   },

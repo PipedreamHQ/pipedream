@@ -1,12 +1,15 @@
 import common from "../common/polling.mjs";
-import { SOURCE_TYPES, SORT_OPTIONS } from "../../common/constants.mjs";
+import {
+  SOURCE_TYPES, SORT_OPTIONS,
+} from "../../common/constants.mjs";
 
 export default {
   ...common,
   key: "trustpilot-updated-product-reviews",
-  name: "Updated Product Reviews",
-  description: "Emit new events when product reviews are updated or revised. Polls every 15 minutes.",
+  name: "New Updated Product Reviews",
+  description: "Emit new event when an existing product review is updated or revised on Trustpilot. This source polls the Trustpilot API every 15 minutes to detect product reviews that have been modified. Each event contains the updated review data including any changes to star rating, review text, or other review attributes. Perfect for tracking review modifications, monitoring changes in customer sentiment, and ensuring product feedback accuracy over time.",
   version: "0.0.1",
+  publishedAt: "2025-07-18T00:00:00.000Z",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -17,7 +20,7 @@ export default {
     getPollingMethod() {
       return "getProductReviews";
     },
-    getPollingParams(since) {
+    getPollingParams() {
       return {
         businessUnitId: this.businessUnitId,
         limit: 100,
@@ -25,12 +28,12 @@ export default {
         offset: 0,
       };
     },
-    generateSummary(item, sourceType) {
+    generateSummary(item) {
       const stars = item.stars || "N/A";
       const consumerName = item.consumer?.displayName || "Anonymous";
       const productName = item.product?.title || "Unknown Product";
       const businessUnit = item.businessUnit?.displayName || this.businessUnitId || "Unknown";
-      
+
       return `Product review updated by ${consumerName} (${stars} stars) for "${productName}" (${businessUnit})`;
     },
   },

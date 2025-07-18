@@ -3,8 +3,9 @@ import trustpilot from "../../app/trustpilot.app.ts";
 export default {
   key: "trustpilot-fetch-product-review-by-id",
   name: "Fetch Product Review by ID",
-  description: "Fetch a specific product review by its ID. [See the documentation](https://developers.trustpilot.com/product-reviews-api#get-private-product-review)",
+  description: "Retrieves detailed information about a specific product review on Trustpilot. Use this action to get comprehensive data about a single product review, including customer feedback, star rating, review text, and metadata. Perfect for analyzing individual customer experiences, responding to specific feedback, or integrating review data into your customer service workflows. [See the documentation](https://developers.trustpilot.com/product-reviews-api#get-private-product-review)",
   version: "0.0.1",
+  publishedAt: "2025-07-18T00:00:00.000Z",
   type: "action",
   props: {
     trustpilot,
@@ -24,7 +25,7 @@ export default {
       });
 
       $.export("$summary", `Successfully fetched product review ${reviewId}`);
-      
+
       return {
         review,
         metadata: {

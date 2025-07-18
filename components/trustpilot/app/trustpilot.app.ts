@@ -1,5 +1,6 @@
 import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
+import crypto from "crypto";
 import { 
   BASE_URL, 
   ENDPOINTS, 
@@ -20,6 +21,7 @@ import {
   formatQueryParams,
   parseApiError,
   sleep,
+  sanitizeInput,
 } from "../common/utils.mjs";
 
 export default defineApp({
@@ -305,11 +307,20 @@ export default defineApp({
         throw new Error("Reply message is required");
       }
 
+      // Sanitize and validate message length (Trustpilot limit is 5000 characters)
+      const sanitizedMessage = sanitizeInput(message, 5000);
+      if (sanitizedMessage.length === 0) {
+        throw new Error("Reply message cannot be empty after sanitization");
+      }
+      if (message.length > 5000) {
+        console.warn("Reply message was truncated to 5000 characters");
+      }
+
       const endpoint = buildUrl(ENDPOINTS.REPLY_TO_SERVICE_REVIEW, { businessUnitId, reviewId });
       const response = await this._makeRequest({
         endpoint,
         method: "POST",
-        data: { message },
+        data: { message: sanitizedMessage },
       });
       return response;
     },
@@ -377,11 +388,20 @@ export default defineApp({
         throw new Error("Reply message is required");
       }
 
+      // Sanitize and validate message length (Trustpilot limit is 5000 characters)
+      const sanitizedMessage = sanitizeInput(message, 5000);
+      if (sanitizedMessage.length === 0) {
+        throw new Error("Reply message cannot be empty after sanitization");
+      }
+      if (message.length > 5000) {
+        console.warn("Reply message was truncated to 5000 characters");
+      }
+
       const endpoint = buildUrl(ENDPOINTS.REPLY_TO_PRODUCT_REVIEW, { reviewId });
       const response = await this._makeRequest({
         endpoint,
         method: "POST",
-        data: { message },
+        data: { message: sanitizedMessage },
       });
       return response;
     },
@@ -437,11 +457,20 @@ export default defineApp({
         throw new Error("Reply message is required");
       }
 
+      // Sanitize and validate message length (Trustpilot limit is 5000 characters)
+      const sanitizedMessage = sanitizeInput(message, 5000);
+      if (sanitizedMessage.length === 0) {
+        throw new Error("Reply message cannot be empty after sanitization");
+      }
+      if (message.length > 5000) {
+        console.warn("Reply message was truncated to 5000 characters");
+      }
+
       const endpoint = buildUrl(ENDPOINTS.REPLY_TO_CONVERSATION, { conversationId });
       const response = await this._makeRequest({
         endpoint,
         method: "POST",
-        data: { message },
+        data: { message: sanitizedMessage },
       });
       return response;
     },
@@ -497,14 +526,25 @@ export default defineApp({
     },
 
     validateWebhookSignature(payload, signature, secret) {
-      // TODO: Implement webhook signature validation when Trustpilot provides it
-      return true;
+      // Trustpilot uses HMAC-SHA256 for webhook signature validation
+      // The signature is sent in the x-trustpilot-signature header
+      if (!signature || !secret) {
+        return false;
+      }
+
+      const payloadString = typeof payload === 'string' ? payload : JSON.stringify(payload);
+      
+      const expectedSignature = crypto
+        .createHmac('sha256', secret)
+        .update(payloadString)
+        .digest('hex');
+      
+      // Constant time comparison to prevent timing attacks
+      return crypto.timingSafeEqual(
+        Buffer.from(signature),
+        Buffer.from(expectedSignature)
+      );
     },
 
-    // Legacy method for debugging
-    authKeys() {
-      console.log("Auth keys:", Object.keys(this.$auth || {}));
-      return Object.keys(this.$auth || {});
-    },
   },
 });

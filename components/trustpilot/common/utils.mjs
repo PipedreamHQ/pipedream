@@ -1,4 +1,46 @@
-import { ENDPOINTS } from "./constants.mjs";
+/**
+ * Escape HTML special characters to prevent XSS
+ * @param {string} text - Text to escape
+ * @returns {string} - Escaped text
+ */
+export function escapeHtml(text) {
+  if (!text) return text;
+  const map = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    "\"": "&quot;",
+    "'": "&#x27;",
+    "/": "&#x2f;",
+  };
+  const reg = /[&<>"'/]/g;
+  return text.toString().replace(reg, (match) => map[match]);
+}
+
+/**
+ * Sanitize input text by removing potentially harmful content
+ * @param {string} text - Text to sanitize
+ * @param {number} maxLength - Maximum allowed length
+ * @returns {string} - Sanitized text
+ */
+export function sanitizeInput(text, maxLength = 5000) {
+  if (!text) return "";
+
+  // Convert to string and trim
+  let sanitized = String(text).trim();
+
+  // Remove control characters except newlines and tabs
+  // Using Unicode property escapes for safer regex
+  // eslint-disable-next-line no-control-regex
+  sanitized = sanitized.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "");
+
+  // Limit length
+  if (sanitized.length > maxLength) {
+    sanitized = sanitized.substring(0, maxLength);
+  }
+
+  return sanitized;
+}
 
 /**
  * Build URL from endpoint template and parameters
@@ -8,12 +50,17 @@ import { ENDPOINTS } from "./constants.mjs";
  */
 export function buildUrl(endpoint, params = {}) {
   let url = endpoint;
-  
-  // Replace path parameters
-  Object.entries(params).forEach(([key, value]) => {
-    url = url.replace(`{${key}}`, value);
+
+  // Replace path parameters with proper escaping
+  Object.entries(params).forEach(([
+    key,
+    value,
+  ]) => {
+    const placeholder = `{${key}}`;
+    // Use split/join to avoid regex issues and encode the value
+    url = url.split(placeholder).join(encodeURIComponent(String(value)));
   });
-  
+
   return url;
 }
 
@@ -26,23 +73,25 @@ export function parseReview(review) {
   return {
     id: review.id,
     stars: review.stars,
-    title: review.title,
-    text: review.text,
+    title: escapeHtml(review.title),
+    text: escapeHtml(review.text),
     language: review.language,
-    location: review.location,
+    location: escapeHtml(review.location),
     tags: review.tags || [],
     createdAt: review.createdAt,
     updatedAt: review.updatedAt,
     consumer: {
       id: review.consumer?.id,
-      displayName: review.consumer?.displayName,
+      displayName: escapeHtml(review.consumer?.displayName),
       numberOfReviews: review.consumer?.numberOfReviews,
     },
     company: {
-      reply: review.companyReply ? {
-        text: review.companyReply.text,
-        createdAt: review.companyReply.createdAt,
-      } : null,
+      reply: review.companyReply
+        ? {
+          text: escapeHtml(review.companyReply.text),
+          createdAt: review.companyReply.createdAt,
+        }
+        : null,
     },
     imported: review.imported || false,
     verified: review.verified || false,
@@ -79,8 +128,10 @@ export function parseBusinessUnit(businessUnit) {
  * @returns {object} - Parsed webhook data
  */
 export function parseWebhookPayload(payload) {
-  const { event, data } = payload;
-  
+  const {
+    event, data,
+  } = payload;
+
   return {
     event: event?.type || payload.eventType,
     timestamp: event?.timestamp || payload.timestamp,
@@ -98,7 +149,11 @@ export function parseWebhookPayload(payload) {
  * @returns {boolean} - Whether the ID is valid
  */
 export function validateBusinessUnitId(businessUnitId) {
-  return businessUnitId && typeof businessUnitId === 'string' && businessUnitId.length > 0;
+  // Trustpilot Business Unit IDs are 24-character hexadecimal strings (MongoDB ObjectID format)
+  return (
+    typeof businessUnitId === "string" &&
+    /^[a-f0-9]{24}$/.test(businessUnitId)
+  );
 }
 
 /**
@@ -107,7 +162,11 @@ export function validateBusinessUnitId(businessUnitId) {
  * @returns {boolean} - Whether the ID is valid
  */
 export function validateReviewId(reviewId) {
-  return reviewId && typeof reviewId === 'string' && reviewId.length > 0;
+  // Trustpilot Review IDs are 24-character hexadecimal strings (MongoDB ObjectID format)
+  return (
+    typeof reviewId === "string" &&
+    /^[a-f0-9]{24}$/.test(reviewId)
+  );
 }
 
 /**
@@ -117,13 +176,16 @@ export function validateReviewId(reviewId) {
  */
 export function formatQueryParams(params) {
   const formatted = {};
-  
-  Object.entries(params).forEach(([key, value]) => {
-    if (value !== null && value !== undefined && value !== '') {
+
+  Object.entries(params).forEach(([
+    key,
+    value,
+  ]) => {
+    if (value !== null && value !== undefined && value !== "") {
       formatted[key] = value;
     }
   });
-  
+
   return formatted;
 }
 
@@ -134,20 +196,22 @@ export function formatQueryParams(params) {
  */
 export function parseApiError(error) {
   if (error.response) {
-    const { status, data } = error.response;
+    const {
+      status, data,
+    } = error.response;
     return {
       status,
-      message: data?.message || data?.error || 'API Error',
+      message: data?.message || data?.error || "API Error",
       details: data?.details || data?.errors || [],
       code: data?.code || `HTTP_${status}`,
     };
   }
-  
+
   return {
     status: 0,
-    message: error.message || 'Unknown error',
+    message: error.message || "Unknown error",
     details: [],
-    code: 'UNKNOWN_ERROR',
+    code: "UNKNOWN_ERROR",
   };
 }
 
@@ -157,5 +221,5 @@ export function parseApiError(error) {
  * @returns {Promise} - Promise that resolves after delay
  */
 export function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }

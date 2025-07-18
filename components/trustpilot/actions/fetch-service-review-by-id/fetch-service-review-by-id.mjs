@@ -3,8 +3,9 @@ import trustpilot from "../../app/trustpilot.app.ts";
 export default {
   key: "trustpilot-fetch-service-review-by-id",
   name: "Fetch Service Review by ID",
-  description: "Fetch a specific service review by its ID. [See the documentation](https://developers.trustpilot.com/business-units-api#get-business-unit-review)",
+  description: "Retrieves detailed information about a specific service review for your business on Trustpilot. Use this action to access comprehensive data about an individual service review, including the customer's rating, review content, date, and any responses. Essential for customer service teams to analyze specific feedback, track review history, or integrate individual review data into CRM systems and support tickets. [See the documentation](https://developers.trustpilot.com/business-units-api#get-business-unit-review)",
   version: "0.0.1",
+  publishedAt: "2025-07-18T00:00:00.000Z",
   type: "action",
   props: {
     trustpilot,
@@ -34,7 +35,7 @@ export default {
       });
 
       $.export("$summary", `Successfully fetched service review ${reviewId} for business unit ${businessUnitId}`);
-      
+
       return {
         review,
         metadata: {
