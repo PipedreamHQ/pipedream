@@ -19,7 +19,9 @@ export default {
     const response = await this.addToCalendarPro.getIcsData({
       $,
       eventProKey: this.eventProKey,
-      responseType: "object",
+      params: {
+        responseType: "object"
+      }
     });
     $.export("$summary", "Successfully retrieved ICS data.");
     return response;
