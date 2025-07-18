@@ -13,7 +13,7 @@ export default {
   key: "help_scout-create-customer",
   name: "Create Customer",
   description: "Creates a new customer record in Help Scout. [See the documentation](https://developer.helpscout.com/mailbox-api/endpoints/customers/create/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     helpScout,

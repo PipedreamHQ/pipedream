@@ -6,7 +6,7 @@ export default {
   key: "help_scout-new-customer-instant",
   name: "New Customer Added (Instant)",
   description: "Emit new event when a new customer is added.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

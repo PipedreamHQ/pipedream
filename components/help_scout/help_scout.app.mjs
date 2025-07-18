@@ -146,5 +146,21 @@ export default {
         ...opts,
       });
     },
+    getConversation({
+      conversationId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/conversations/${conversationId}`,
+        ...opts,
+      });
+    },
+    getConversationThreads({
+      conversationId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/conversations/${conversationId}/threads`,
+        ...opts,
+      });
+    },
   },
 };
