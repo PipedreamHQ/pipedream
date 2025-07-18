@@ -5,7 +5,6 @@ export default {
   ...clio,
   type: "app",
   app: "clio_australia",
-  propDefinitions: {},
   methods: {
     ...clio.methods,
     getUrl(path) {
