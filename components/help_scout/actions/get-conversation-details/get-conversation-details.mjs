@@ -26,7 +26,9 @@ export default {
       $,
       conversationId: this.conversationId,
       params: {
-        embed: this.embed,
+        embed: this.embed
+          ? "threads"
+          : undefined,
       },
     });
 
