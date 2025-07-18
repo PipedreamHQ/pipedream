@@ -69,9 +69,15 @@ export default {
 
       formData.append("name", name);
       formData.append("body", body);
-      formData.append("subject", subject);
-      formData.append("folder_id", folderId);
-      formData.append("inbox_ids", inboxIds);
+      if (subject !== undefined) {
+        formData.append("subject", subject);
+      }
+      if (folderId !== undefined) {
+        formData.append("folder_id", folderId);
+      }
+      if (inboxIds !== undefined) {
+        formData.append("inbox_ids", inboxIds);
+      }
 
       for (const attachment of attachments) {
         const {
