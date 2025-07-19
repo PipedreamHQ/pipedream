@@ -1,0 +1,39 @@
+name: Retrieve Commits
+
+
+on:
+  workflow_dispatch:
+
+jobs:
+  fetch-commits:
+    runs-on: ubuntu-latest
+    steps:
+      
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+    
+      - name: List commits
+        run: |
+          gh api \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            /repos/${{ github.repository_owner }}/${{ github.event.repository.name }}/commits?per_page=30 \
+            > commits.json
+
+      - name: Get specific commit
+        run: |
+          gh api \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            /repos/${{ github.repository_owner }}/${{ github.event.repository.name }}/commits/${{ github.sha }} \
+            > commit.json
+
+      
+      - name: Upload commit data
+        uses: actions/upload-artifact@v3
+        with:
+          name: commit-data
+          path: |
+            commits.json
+            commit.json 
