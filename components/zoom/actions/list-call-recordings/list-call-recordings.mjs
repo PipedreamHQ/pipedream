@@ -2,12 +2,18 @@ import zoom from "../../zoom.app.mjs";
 
 export default {
   name: "List Call Recordings",
-  description: "Get your account's call recordings. [See the documentation](https://developers.zoom.us/docs/api/rest/reference/phone/methods/#operation/getPhoneRecordings)",
+  description: "Get your account's call recordings. Requires a paid Zoom account. [See the documentation](https://developers.zoom.us/docs/api/rest/reference/phone/methods/#operation/getPhoneRecordings)",
   key: "zoom-list-call-recordings",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     zoom,
+    paidAccountAlert: {
+      propDefinition: [
+        zoom,
+        "paidAccountAlert",
+      ],
+    },
     infoBox: {
       type: "alert",
       alertType: "info",

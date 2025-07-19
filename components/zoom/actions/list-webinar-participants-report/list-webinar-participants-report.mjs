@@ -1,14 +1,20 @@
-import utils from "../../common/utils.mjs";
 import app from "../../zoom.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "zoom-list-webinar-participants-report",
   name: "List Webinar Participants Report",
-  description: "Retrieves detailed report on each webinar attendee. You can get webinar participant reports for the last 6 months. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/reportWebinarParticipants).",
-  version: "0.0.4",
+  description: "Retrieves detailed report on each webinar attendee. Requires a paid Zoom account. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/reportWebinarParticipants).",
+  version: "0.0.5",
   type: "action",
   props: {
     app,
+    paidAccountAlert: {
+      propDefinition: [
+        app,
+        "paidAccountAlert",
+      ],
+    },
     webinarId: {
       propDefinition: [
         app,

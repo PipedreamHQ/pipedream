@@ -3,11 +3,17 @@ import app from "../../zoom.app.mjs";
 export default {
   key: "zoom-list-past-meeting-participants",
   name: "List Past Meeting Participants",
-  description: "Retrieve information on participants from a past meeting. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/pastMeetingParticipants).",
-  version: "0.2.3",
+  description: "Retrieve information on participants from a past meeting. Requires a paid Zoom account. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/methods/#operation/pastMeetingParticipants).",
+  version: "0.2.4",
   type: "action",
   props: {
     app,
+    paidAccountAlert: {
+      propDefinition: [
+        app,
+        "paidAccountAlert",
+      ],
+    },
     meetingId: {
       propDefinition: [
         app,
