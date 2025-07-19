@@ -12844,6 +12844,9 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/snipe_it:
+    specifiers: {}
+
   components/snov:
     dependencies:
       '@pipedream/platform':
