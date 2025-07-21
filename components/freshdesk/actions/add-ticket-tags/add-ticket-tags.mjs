@@ -6,7 +6,7 @@ export default {
   name: "Add Ticket Tags",
   description: "Add tags to a ticket (appends to existing tags). [See the documentation](https://developers.freshdesk.com/api/#update_ticket)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     freshdesk,
     ticketId: {

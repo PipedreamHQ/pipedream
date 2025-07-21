@@ -1829,8 +1829,7 @@ importers:
 
   components/brandmentions: {}
 
-  components/brave_search_api:
-    specifiers: {}
+  components/brave_search_api: {}
 
   components/braze: {}
 
@@ -12854,8 +12853,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/snipe_it:
-    specifiers: {}
+  components/snipe_it: {}
 
   components/snov:
     dependencies:
