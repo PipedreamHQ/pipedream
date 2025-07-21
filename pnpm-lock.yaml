@@ -6081,7 +6081,11 @@ importers:
 
   components/harmonic: {}
 
-  components/harpa_ai: {}
+  components/harpa_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/harry_potter_api:
     dependencies:
