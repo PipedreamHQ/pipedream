@@ -244,7 +244,9 @@ export default {
       data: messageData,
     });
 
-    $.export("$summary", `Successfully created ${isInternalNote ? "internal note" : "ticket message"} with ID: ${response.id}`);
+    $.export("$summary", `Successfully created ${isInternalNote
+      ? "internal note"
+      : "ticket message"} with ID: ${response.id}`);
 
     return response;
   },
