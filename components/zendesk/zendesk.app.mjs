@@ -318,7 +318,7 @@ export default {
       ticketId, tags, customSubdomain, ...args
     }) {
       return this.makeRequest({
-        method: "PUT",
+        method: "POST",
         path: `/tickets/${ticketId}/tags.json`,
         customSubdomain,
         data: {
@@ -339,7 +339,7 @@ export default {
       ticketId, tags, customSubdomain, ...args
     }) {
       return this.makeRequest({
-        method: "POST",
+        method: "PUT",
         path: `/tickets/${ticketId}/tags.json`,
         customSubdomain,
         data: {
