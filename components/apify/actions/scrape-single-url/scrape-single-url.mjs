@@ -5,7 +5,7 @@ export default {
   key: "apify-scrape-single-url",
   name: "Scrape Single URL",
   description: "Executes a scraper on a specific website and returns its content as text. This action is perfect for extracting content from a single page.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     apify,

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/memento_database",
+  "version": "0.0.1",
+  "description": "Pipedream Memento Database Components",
+  "main": "memento_database.app.mjs",
+  "keywords": [
+    "pipedream",
+    "memento_database"
+  ],
+  "homepage": "https://pipedream.com/apps/memento_database",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
