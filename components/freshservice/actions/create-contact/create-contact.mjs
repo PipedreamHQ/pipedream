@@ -94,7 +94,7 @@ export default {
     }
 
     const data = removeNullEntries(otherProps);
-    
+
     if (secondary_emails && secondary_emails.length > 0) {
       data.secondary_emails = secondary_emails;
     }

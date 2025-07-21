@@ -1,6 +1,8 @@
 import { ConfigurationError } from "@pipedream/platform";
 import freshservice from "../../freshservice.app.mjs";
-import { TICKET_STATUS, TICKET_PRIORITY } from "../../common/constants.mjs";
+import {
+  TICKET_STATUS, TICKET_PRIORITY,
+} from "../../common/constants.mjs";
 import { removeNullEntries } from "../../common/utils.mjs";
 
 export default {
@@ -138,7 +140,7 @@ export default {
 
     // Handle ticket update
     const data = removeNullEntries(otherProps);
-    
+
     if (custom_fields) {
       data.custom_fields = this.freshservice.parseIfJSONString(custom_fields);
     }
@@ -156,8 +158,12 @@ export default {
 
     const statusLabel = TICKET_STATUS[response.ticket?.status] || response.ticket?.status;
     const priorityLabel = TICKET_PRIORITY[response.ticket?.priority] || response.ticket?.priority;
-    
-    $.export("$summary", `Successfully updated ticket ${ticketId}${statusLabel ? ` (Status: ${statusLabel})` : ""}${priorityLabel ? ` (Priority: ${priorityLabel})` : ""}`);
+
+    $.export("$summary", `Successfully updated ticket ${ticketId}${statusLabel
+      ? ` (Status: ${statusLabel})`
+      : ""}${priorityLabel
+      ? ` (Priority: ${priorityLabel})`
+      : ""}`);
     return response;
   },
 };

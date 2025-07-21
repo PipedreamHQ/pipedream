@@ -53,7 +53,7 @@ export default {
     async emitEvents() {
       const lastDateChecked = await this.freshservice.getLastDateChecked();
       const formattedDate = moment(lastDateChecked).format("YYYY-MM-DDTHH:mm:ss[Z]");
-      
+
       const params = {
         query: `"created_at:>'${formattedDate}'"`,
         order_by: "created_at",
@@ -61,10 +61,10 @@ export default {
       };
 
       let maxCreatedAt = lastDateChecked;
-      
+
       for await (const contact of this.getContacts(params)) {
         this.emitEvent(contact);
-        
+
         if (contact.created_at > maxCreatedAt) {
           maxCreatedAt = contact.created_at;
         }

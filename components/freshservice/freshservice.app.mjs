@@ -7,7 +7,6 @@ import {
   TICKET_SORT_OPTIONS,
   ORDER_TYPE_OPTIONS,
 } from "./common/constants.mjs";
-import { removeNullEntries } from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -161,7 +160,9 @@ export default {
     },
     parseIfJSONString(value) {
       try {
-        return typeof value === "string" ? JSON.parse(value) : value;
+        return typeof value === "string"
+          ? JSON.parse(value)
+          : value;
       } catch (error) {
         return value;
       }
@@ -272,7 +273,9 @@ export default {
       });
     },
     async getTicketName(ticketId) {
-      const { ticket } = await this.getTicket({ ticketId });
+      const { ticket } = await this.getTicket({
+        ticketId,
+      });
       return ticket?.subject || ticketId;
     },
     // Note methods

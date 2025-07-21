@@ -53,7 +53,7 @@ export default {
     async emitEvents() {
       const lastDateChecked = await this.freshservice.getLastDateChecked();
       const formattedDate = moment(lastDateChecked).format("YYYY-MM-DDTHH:mm:ss[Z]");
-      
+
       const params = {
         query: `"created_at:>'${formattedDate}'"`,
         order_by: "created_at",
@@ -61,10 +61,10 @@ export default {
       };
 
       let maxCreatedAt = lastDateChecked;
-      
+
       for await (const ticket of this.getTickets(params)) {
         this.emitEvent(ticket);
-        
+
         if (ticket.created_at > maxCreatedAt) {
           maxCreatedAt = ticket.created_at;
         }

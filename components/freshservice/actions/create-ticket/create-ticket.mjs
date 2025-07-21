@@ -126,7 +126,7 @@ export default {
     } = this;
 
     const data = removeNullEntries(otherProps);
-    
+
     if (custom_fields) {
       data.custom_fields = this.freshservice.parseIfJSONString(custom_fields);
     }

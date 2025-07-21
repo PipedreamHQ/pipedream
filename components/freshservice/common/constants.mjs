@@ -10,7 +10,7 @@ export const TICKET_STATUS = {
 
 export const TICKET_PRIORITY = {
   1: "Low",
-  2: "Medium", 
+  2: "Medium",
   3: "High",
   4: "Urgent",
 };
@@ -44,7 +44,7 @@ export const ORDER_TYPE_OPTIONS = [
     value: "asc",
   },
   {
-    label: "Descending", 
+    label: "Descending",
     value: "desc",
   },
 ];
