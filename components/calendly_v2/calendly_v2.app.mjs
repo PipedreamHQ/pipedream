@@ -56,6 +56,21 @@ export default {
         });
       },
     },
+    groupId: {
+      type: "string",
+      label: "Group ID",
+      description: "A group UUID",
+      async options({
+        prevContext, organization,
+      }) {
+        prevContext.organization = organization;
+        return await this._makeAsyncOptionsRequest({
+          prevContext,
+          requestType: "listGroups",
+          optionsCallbackFn: this._getNameOptions,
+        });
+      },
+    },
     inviteeEmail: {
       type: "string",
       label: "Inviteee Email",
@@ -93,6 +108,22 @@ export default {
       description: "Indicates if the webhook subscription scope will be `organization` or `user`",
       options: constants.scopes,
     },
+    listEventsScope: {
+      type: "string",
+      label: "Scope",
+      description: "The scope to fetch events for",
+      options: constants.listEventsScopes,
+      default: "authenticatedUser",
+    },
+    listEventsAlert: {
+      type: "alert",
+      alertType: "info",
+      content: `
+      Select "authenticatedUser" scope to return events for the authenticated user
+      Select "organization" scope to return events for that organization (requires admin/owner privilege)
+      Select "user" scope to return events for a specific User in your organization (requires admin/owner privilege)
+      Select "group" scope to return events for a specific Group (requires organization admin/owner or group admin privilege)`,
+    },
   },
   methods: {
     _baseUri() {
@@ -100,6 +131,9 @@ export default {
     },
     _buildUserUri(user) {
       return `${this._baseUri()}/users/${user}`;
+    },
+    _buildGroupUri(group) {
+      return `${this._baseUri()}/groups/${group}`;
     },
     _buildEventType(eventType) {
       return `${this._baseUri()}/event_types/${eventType}`;
@@ -184,23 +218,27 @@ export default {
       delete opts.params.paginate;
       delete opts.params.maxResults;
 
-      do {
-        const res = await axios(
-          $ ?? this,
-          this._makeRequestOpts(opts),
-        );
-        response.collection.push(...res.collection);
-        response.pagination.count += res.pagination.count;
-        response.pagination.next_page = res.pagination.next_page;
-        opts.params.page_token = this._extractNextPageToken(res.pagination.next_page);
-      } while (paginate && opts.params.page_token && response.collection.length < maxResults);
+      try {
+        do {
+          const res = await axios(
+            $ ?? this,
+            this._makeRequestOpts(opts),
+          );
+          response.collection.push(...res.collection);
+          response.pagination.count += res.pagination.count;
+          response.pagination.next_page = res.pagination.next_page;
+          opts.params.page_token = this._extractNextPageToken(res.pagination.next_page);
+        } while (paginate && opts.params.page_token && response.collection.length < maxResults);
 
-      if (response.collection.length > maxResults) {
-        response.collection.length = maxResults;
-        response.pagination.count = maxResults;
+        if (response.collection.length > maxResults) {
+          response.collection.length = maxResults;
+          response.pagination.count = maxResults;
+        }
+
+        return response;
+      } catch (error) {
+        throw new Error(`${error.response.data.title} - ${error.response.data.message}`);
       }
-
-      return response;
     },
     async getUserInfo(user, $) {
       const opts = {
@@ -239,18 +277,19 @@ export default {
       );
     },
     async listEvents(params, uuid, $) {
-      const user = uuid
-        ? this._buildUserUri(uuid)
-        : !params?.organization
-          ? await this.defaultUser($)
-          : undefined;
+      if (uuid) {
+        params.user = this._buildUserUri(uuid);
+      }
+      if (params.group) {
+        params.group = this._buildGroupUri(params.group);
+      }
+      if (!params.organization && !params.group && !params.user) {
+        params.user = await this.defaultUser($);
+      }
 
       const opts = {
         path: "/scheduled_events",
-        params: {
-          user,
-          ...params,
-        },
+        params,
       };
 
       return this._makeRequest(opts, $);
@@ -294,6 +333,14 @@ export default {
           user: await this.defaultUser($),
           ...params,
         },
+      };
+
+      return this._makeRequest(opts, $);
+    },
+    async listGroups(params, $) {
+      const opts = {
+        path: "/groups",
+        params,
       };
 
       return this._makeRequest(opts, $);
@@ -343,6 +390,18 @@ export default {
         this,
         this._makeRequestOpts(opts),
       );
+    },
+    listEventsAdditionalProps(props, scope) {
+      props.organization.hidden = scope === "authenticatedUser";
+      props.organization.optional = scope === "authenticatedUser";
+
+      props.group.hidden = scope !== "group";
+      props.group.optional = scope !== "group";
+
+      props.user.hidden = scope !== "user";
+      props.user.optional = scope !== "user";
+
+      return {};
     },
   },
 };
