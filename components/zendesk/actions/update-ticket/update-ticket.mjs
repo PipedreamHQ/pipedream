@@ -20,6 +20,12 @@ export default {
         "ticketCommentBody",
       ],
     },
+    ticketCommentBodyIsHTML: {
+      propDefinition: [
+        app,
+        "ticketCommentBodyIsHTML",
+      ],
+    },
     ticketPriority: {
       propDefinition: [
         app,
@@ -36,6 +42,12 @@ export default {
       propDefinition: [
         app,
         "ticketStatus",
+      ],
+    },
+    ticketCommentPublic: {
+      propDefinition: [
+        app,
+        "ticketCommentPublic",
       ],
     },
     customSubdomain: {
@@ -86,13 +98,25 @@ export default {
     const {
       ticketId,
       ticketCommentBody,
+      ticketCommentBodyIsHTML,
       ticketPriority,
       ticketSubject,
       ticketStatus,
+      ticketCommentPublic,
       customSubdomain,
       ticketTags,
       tagAction,
     } = this;
+
+    const ticketComment = ticketCommentBodyIsHTML
+      ? {
+        html_body: ticketCommentBody,
+      }
+      : {
+        body: ticketCommentBody,
+      };
+
+    ticketComment.public = ticketCommentPublic;
 
     const response = await this.updateTicket({
       step,
@@ -100,9 +124,7 @@ export default {
       customSubdomain,
       data: {
         ticket: {
-          comment: {
-            body: ticketCommentBody,
-          },
+          comment: ticketComment,
           priority: ticketPriority,
           subject: ticketSubject,
           status: ticketStatus,

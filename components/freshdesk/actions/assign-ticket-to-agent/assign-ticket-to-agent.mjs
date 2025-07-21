@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-assign-ticket-to-agent",
   name: "Assign Ticket to Agent",
   description: "Assign a Freshdesk ticket to a specific agent. [See the documentation](https://developers.freshdesk.com/api/#update_ticket).",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     freshdesk,

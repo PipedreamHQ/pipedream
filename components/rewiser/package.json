@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/rewiser",
+  "version": "0.0.1",
+  "description": "Pipedream Rewiser Components",
+  "main": "rewiser.app.mjs",
+  "keywords": [
+    "pipedream",
+    "rewiser"
+  ],
+  "homepage": "https://pipedream.com/apps/rewiser",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
