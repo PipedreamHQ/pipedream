@@ -1,12 +1,12 @@
-import common from "../common/common.mjs";
 import constants from "../../common/constants.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "wix_api_key-new-member-registered",
   name: "New Member Registered",
   description: "Emit new event when a new member is registered. [See the documentation](https://dev.wix.com/api/rest/members/members/list-members)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   methods: {
     ...common.methods,
