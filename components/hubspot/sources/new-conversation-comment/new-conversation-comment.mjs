@@ -33,7 +33,7 @@ export default {
     isRelevant(comment, createdAfter) {
       const isAfterTimestamp = this.getTs(comment) > createdAfter;
       const isComment = comment.type === "COMMENT";
-      
+
       return isAfterTimestamp && isComment;
     },
     async getParams() {
@@ -45,17 +45,16 @@ export default {
     },
     async processResults(after, params) {
       const createdAfter = after || this.getLastCreatedAt();
-      
+
       // Get messages from the specified thread
       const messages = await this.hubspot.getConversationMessages({
         threadId: this.threadId,
         ...params,
       });
-      
-      const comments = messages.results?.filter(msg => 
-        this.isRelevant(msg, createdAfter)
-      ) || [];
-      
+
+      const comments = messages.results?.filter((msg) =>
+        this.isRelevant(msg, createdAfter)) || [];
+
       this.processEvents(comments);
     },
   },

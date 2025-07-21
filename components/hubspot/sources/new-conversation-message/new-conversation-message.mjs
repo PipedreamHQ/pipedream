@@ -45,7 +45,9 @@ export default {
       return Date.parse(message.createdAt);
     },
     generateMeta(message) {
-      const messageType = message.type === "COMMENT" ? "Internal Comment" : "Message";
+      const messageType = message.type === "COMMENT"
+        ? "Internal Comment"
+        : "Message";
       return {
         id: message.id,
         summary: `New ${messageType}: ${message.text || message.id}`,
@@ -55,7 +57,7 @@ export default {
     isRelevant(message, createdAfter) {
       const isAfterTimestamp = this.getTs(message) > createdAfter;
       const matchesType = !this.messageType || message.type === this.messageType;
-      
+
       return isAfterTimestamp && matchesType;
     },
     async getParams() {
@@ -67,17 +69,16 @@ export default {
     },
     async processResults(after, params) {
       const createdAfter = after || this.getLastCreatedAt();
-      
+
       // Get messages from the specified thread
       const messages = await this.hubspot.getConversationMessages({
         threadId: this.threadId,
         ...params,
       });
-      
-      const relevantMessages = messages.results?.filter(msg => 
-        this.isRelevant(msg, createdAfter)
-      ) || [];
-      
+
+      const relevantMessages = messages.results?.filter((msg) =>
+        this.isRelevant(msg, createdAfter)) || [];
+
       this.processEvents(relevantMessages);
     },
   },
