@@ -136,7 +136,7 @@ export default {
       cardId, ...args
     } = {}) {
       return this.post({
-        path: `/card/pivot/${cardId}/query`,
+        path: `/card/${cardId}/query`,
         ...args,
       });
     },
