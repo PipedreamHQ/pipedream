@@ -113,7 +113,7 @@ export default {
     // Handle tag operations if tags are provided
     if (ticketTags && ticketTags.length > 0) {
       let tagResponse;
-      
+
       switch (tagAction) {
       case "add":
         tagResponse = await this.app.addTicketTags({
