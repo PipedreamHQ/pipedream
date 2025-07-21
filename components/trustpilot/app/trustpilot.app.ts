@@ -549,7 +549,6 @@ export default defineApp({
         throw new Error("Reply message cannot be empty after sanitization");
       }
       if (message.length > 5000) {
-        console.warn("Reply message was truncated to 5000 characters");
       }
 
       const endpoint = buildUrl(ENDPOINTS.REPLY_TO_CONVERSATION, {
