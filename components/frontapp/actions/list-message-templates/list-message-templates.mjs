@@ -8,54 +8,27 @@ export default {
   type: "action",
   props: {
     frontApp,
-    sortBy: {
-      type: "string",
-      label: "Sort By",
-      description: "Field used to sort the message templates",
-      options: [
-        "created_at",
-        "updated_at",
+    maxResults: {
+      propDefinition: [
+        frontApp,
+        "maxResults",
       ],
-      optional: true,
-    },
-    sortOrder: {
-      type: "string",
-      label: "Sort Order",
-      description: "Order by which results should be sorted",
-      options: [
-        {
-          label: "Ascending",
-          value: "asc",
-        },
-        {
-          label: "Descending",
-          value: "desc",
-        },
-      ],
-      optional: true,
     },
   },
   async run({ $ }) {
-    const {
-      frontApp,
-      sortBy,
-      sortOrder,
-    } = this;
-
-    const response = await frontApp.listMessageTemplates({
+    const items = this.frontApp.paginate({
+      fn: this.frontApp.listMessageTemplates,
+      maxResults: this.maxResults,
       $,
-      params: {
-        sort_by: sortBy,
-        sort_order: sortOrder,
-      },
     });
 
-    const templates = response._results || [];
-    const length = templates.length;
-    $.export("$summary", `Successfully retrieved ${length} message template${length === 1
+    const results = [];
+    for await (const item of items) {
+      results.push(item);
+    }
+    $.export("$summary", `Successfully retrieved ${results?.length} message template${results?.length === 1
       ? ""
       : "s"}`);
-
-    return response;
+    return results;
   },
 };
