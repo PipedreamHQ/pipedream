@@ -2668,11 +2668,23 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
 
-  components/clio_australia: {}
+  components/clio_australia:
+    dependencies:
+      '@pipedream/clio':
+        specifier: ^0.1.1
+        version: 0.1.1
 
-  components/clio_canada: {}
+  components/clio_canada:
+    dependencies:
+      '@pipedream/clio':
+        specifier: ^0.1.1
+        version: 0.1.1
 
-  components/clio_eu: {}
+  components/clio_eu:
+    dependencies:
+      '@pipedream/clio':
+        specifier: ^0.1.1
+        version: 0.1.1
 
   components/clockify:
     dependencies:
@@ -19159,6 +19171,9 @@ packages:
 
   '@pipedream/canva@0.2.3':
     resolution: {integrity: sha512-DSGSafiRvVT8DH4xZdffNWvZrdnfBMiKohU35aVNOg63T9/6BranefjFE7aokL3mmoZnI4bygblZzM7VauWwmQ==}
+
+  '@pipedream/clio@0.1.1':
+    resolution: {integrity: sha512-IbnvVIWiAjS6P03WmDkLLnKxFwM+WgjwZZ6TmEbYmyX9zUDfVbohnniqdAcJh++pH2GcCS8aCOVNBosjwKzJbQ==}
 
   '@pipedream/connect-react@file:packages/connect-react':
     resolution: {directory: packages/connect-react, type: directory}
@@ -36611,6 +36626,13 @@ snapshots:
   '@pipedream/canva@0.2.3':
     dependencies:
       '@pipedream/platform': 3.1.0
+    transitivePeerDependencies:
+      - debug
+
+  '@pipedream/clio@0.1.1':
+    dependencies:
+      '@pipedream/platform': 1.6.6
+      crypto: 1.0.1
     transitivePeerDependencies:
       - debug
 
