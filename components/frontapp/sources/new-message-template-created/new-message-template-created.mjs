@@ -1,4 +1,4 @@
-import common from "../common/polling-ids.mjs";
+import common from "../common/base.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
@@ -11,25 +11,21 @@ export default {
   dedupe: "unique",
   methods: {
     ...common.methods,
-    generateMeta(template) {
+    _getFunction() {
+      return this.frontapp.listMessageTemplates;
+    },
+    _getParams() {
+      return {
+        sort_by: "created_at",
+        sort_order: "desc",
+      };
+    },
+    _getEmit(template) {
       return {
         id: template.id,
         summary: `New message template created: ${template.name}`,
         ts: template.created_at * 1000,
       };
-    },
-    getItemId(template) {
-      return template.id;
-    },
-    async getItems() {
-      const response = await this.frontapp.listMessageTemplates({
-        params: {
-          sort_by: "created_at",
-          sort_order: "desc",
-        },
-      });
-
-      return response._results || [];
     },
   },
   sampleEmit,

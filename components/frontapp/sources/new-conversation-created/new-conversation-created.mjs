@@ -1,4 +1,4 @@
-import common from "../common/polling-ids.mjs";
+import common from "../common/base.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
@@ -11,25 +11,21 @@ export default {
   dedupe: "unique",
   methods: {
     ...common.methods,
-    generateMeta(conversation) {
+    _getFunction() {
+      return this.frontapp.listConversations;
+    },
+    _getParams() {
+      return {
+        sort_by: "date",
+        sort_order: "desc",
+      };
+    },
+    _getEmit(conversation) {
       return {
         id: conversation.id,
         summary: `New conversation created: ${conversation.subject}`,
         ts: conversation.created_at * 1000,
       };
-    },
-    getItemId(conversation) {
-      return conversation.id;
-    },
-    async getItems() {
-      const response = await this.frontapp.listConversations({
-        params: {
-          sort_by: "date",
-          sort_order: "desc",
-        },
-      });
-
-      return response._results || [];
     },
   },
   sampleEmit,
