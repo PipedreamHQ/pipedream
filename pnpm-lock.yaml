@@ -6201,6 +6201,9 @@ importers:
 
   components/helpdesk: {}
 
+  components/helpdocs:
+    specifiers: {}
+
   components/helper_functions:
     dependencies:
       '@pipedream/platform':
