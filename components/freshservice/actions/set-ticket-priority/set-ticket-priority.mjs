@@ -31,9 +31,14 @@ export default {
       $,
     });
 
-    const ticketName = await this.freshservice.getTicketName(this.ticketId);
-    const priorityLabel = TICKET_PRIORITY[this.priority];
-    $.export("$summary", `Successfully set priority of ticket "${ticketName}" to ${priorityLabel}`);
+    try {
+      const ticketName = await this.freshservice.getTicketName(this.ticketId);
+      const priorityLabel = TICKET_PRIORITY[this.priority];
+      $.export("$summary", `Successfully set priority of ticket "${ticketName}" to ${priorityLabel}`);
+    } catch (error) {
+      const priorityLabel = TICKET_PRIORITY[this.priority];
+      $.export("$summary", `Successfully set priority of ticket ${this.ticketId} to ${priorityLabel}`);
+    }
     return response;
   },
 };

@@ -30,8 +30,12 @@ export default {
       $,
     });
 
-    const ticketName = await this.freshservice.getTicketName(this.ticketId);
-    $.export("$summary", `Successfully assigned ticket "${ticketName}" to agent`);
+    try {
+      const ticketName = await this.freshservice.getTicketName(this.ticketId);
+      $.export("$summary", `Successfully assigned ticket "${ticketName}" to agent`);
+    } catch (error) {
+      $.export("$summary", `Successfully assigned ticket ${this.ticketId} to agent`);
+    }
     return response;
   },
 };

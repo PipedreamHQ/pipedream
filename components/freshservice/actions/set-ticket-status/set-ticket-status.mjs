@@ -31,9 +31,14 @@ export default {
       $,
     });
 
-    const ticketName = await this.freshservice.getTicketName(this.ticketId);
-    const statusLabel = TICKET_STATUS[this.status];
-    $.export("$summary", `Successfully set status of ticket "${ticketName}" to ${statusLabel}`);
+    try {
+      const ticketName = await this.freshservice.getTicketName(this.ticketId);
+      const statusLabel = TICKET_STATUS[this.status];
+      $.export("$summary", `Successfully set status of ticket "${ticketName}" to ${statusLabel}`);
+    } catch (error) {
+      const statusLabel = TICKET_STATUS[this.status];
+      $.export("$summary", `Successfully set status of ticket ${this.ticketId} to ${statusLabel}`);
+    }
     return response;
   },
 };

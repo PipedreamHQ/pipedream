@@ -14,7 +14,7 @@ export default {
         "ticketId",
       ],
     },
-    group_id: {
+    groupId: {
       propDefinition: [
         freshservice,
         "groupId",
@@ -25,13 +25,17 @@ export default {
     const response = await this.freshservice.updateTicket({
       ticketId: this.ticketId,
       data: {
-        group_id: this.group_id,
+        group_id: this.groupId,
       },
       $,
     });
 
-    const ticketName = await this.freshservice.getTicketName(this.ticketId);
-    $.export("$summary", `Successfully assigned ticket "${ticketName}" to group`);
+    try {
+      const ticketName = await this.freshservice.getTicketName(this.ticketId);
+      $.export("$summary", `Successfully assigned ticket "${ticketName}" to group`);
+    } catch (error) {
+      $.export("$summary", `Successfully assigned ticket ${this.ticketId} to group`);
+    }
     return response;
   },
 };

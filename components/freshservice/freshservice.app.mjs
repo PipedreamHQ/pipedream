@@ -170,7 +170,9 @@ export default {
       await this.db.set(DB_LAST_DATE_CHECK, value);
     },
     async getLastDateChecked() {
-      return await this.db.get(DB_LAST_DATE_CHECK) || "2021-01-01T00:00:00Z";
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+      return await this.db.get(DB_LAST_DATE_CHECK) || thirtyDaysAgo.toISOString();
     },
     // Company methods
     async createCompany(args = {}) {
@@ -280,12 +282,6 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: `/v2/tickets/${ticketId}/notes`,
-        ...args,
-      });
-    },
-    async getTickets(args = {}) {
-      return this._makeRequest({
-        path: "/v2/tickets",
         ...args,
       });
     },

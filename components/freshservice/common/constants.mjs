@@ -15,43 +15,21 @@ export const TICKET_PRIORITY = {
   4: "Urgent",
 };
 
-export const STATUS_OPTIONS = [
-  {
-    label: "Open",
-    value: 2,
-  },
-  {
-    label: "Pending", 
-    value: 3,
-  },
-  {
-    label: "Resolved",
-    value: 4,
-  },
-  {
-    label: "Closed",
-    value: 5,
-  },
-];
+export const STATUS_OPTIONS = Object.entries(TICKET_STATUS).map(([
+  value,
+  label,
+]) => ({
+  label,
+  value: parseInt(value),
+}));
 
-export const PRIORITY_OPTIONS = [
-  {
-    label: "Low",
-    value: 1,
-  },
-  {
-    label: "Medium",
-    value: 2,
-  },
-  {
-    label: "High", 
-    value: 3,
-  },
-  {
-    label: "Urgent",
-    value: 4,
-  },
-];
+export const PRIORITY_OPTIONS = Object.entries(TICKET_PRIORITY).map(([
+  value,
+  label,
+]) => ({
+  label,
+  value: parseInt(value),
+}));
 
 export const TICKET_SORT_OPTIONS = [
   "created_at",

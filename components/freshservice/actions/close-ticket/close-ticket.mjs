@@ -24,8 +24,12 @@ export default {
       $,
     });
 
-    const ticketName = await this.freshservice.getTicketName(this.ticketId);
-    $.export("$summary", `Successfully closed ticket "${ticketName}"`);
+    try {
+      const ticketName = await this.freshservice.getTicketName(this.ticketId);
+      $.export("$summary", `Successfully closed ticket "${ticketName}"`);
+    } catch (error) {
+      $.export("$summary", `Successfully closed ticket ${this.ticketId}`);
+    }
     return response;
   },
 };
