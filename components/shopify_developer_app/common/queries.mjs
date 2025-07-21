@@ -96,7 +96,7 @@ const GET_ORDER = `
         email
         phone
         note
-        acceptsMarketing
+        emailMarketingConsent
         createdAt
         updatedAt
         verifiedEmail
@@ -197,8 +197,15 @@ const GET_ORDER = `
               title
               sku
               barcode
-              weight
-              weightUnit
+              inventoryItem {
+                id
+                measurement {
+                  weight {
+                    value
+                    unit
+                  }
+                }
+              }
               inventoryQuantity
               price
               compareAtPrice
@@ -279,7 +286,11 @@ const GET_ORDER = `
         code
         source
         carrierIdentifier
-        requestedFulfillmentServiceId
+        requestedFulfillmentService {
+          id
+          serviceName
+          handle
+        }
         deliveryCategory
         originalPriceSet {
           shopMoney {
@@ -331,8 +342,9 @@ const GET_ORDER = `
         trackingNumbers
         trackingUrls
         service {
+          id
           serviceName
-          shippingMethods
+          handle
         }
         fulfillmentLineItems(first: 250) {
           edges {
@@ -598,7 +610,7 @@ const LIST_ORDERS = `
           lastName
           email
           phone
-          acceptsMarketing
+          emailMarketingConsent
           defaultAddress {
             id
             address1
