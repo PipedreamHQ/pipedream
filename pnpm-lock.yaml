@@ -2590,6 +2590,9 @@ importers:
         specifier: ^0.0.1-security
         version: 0.0.1-security
 
+  components/click_sign:
+    specifiers: {}
+
   components/clickfunnels:
     dependencies:
       '@pipedream/platform':
