@@ -482,7 +482,7 @@ export default {
 
     const response = await this.app.createPerson(data, $);
 
-    $.export("$summary", `User wit ID:${this.firstName} ${this.lastName} created successfully`);
+    $.export("$summary", `User ${this.firstName} ${this.lastName} created successfully`);
     return response;
   },
 };

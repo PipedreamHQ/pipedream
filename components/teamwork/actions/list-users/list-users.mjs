@@ -43,7 +43,7 @@ export default {
     },
   },
   async run({ $ }) {
-    let total, count = 0, page = 1;;
+    let total, count = 0, page = 1;
     let users = [];
     const params = {
       sort: this.sort,
