@@ -143,9 +143,12 @@ export default {
       }
 
       // Include tag information in summary
-      const tagSummary = `and ${tagAction === "set" ? "set" : tagAction === "add" ? "added" : "removed"} ${ticketTags.length} tag(s)`;
+      const tagSummary = `and ${tagAction === "set"
+        ? "set"
+        : tagAction === "add"
+          ? "added"
+          : "removed"} ${ticketTags.length} tag(s)`;
       step.export("$summary", `Successfully updated ticket with ID ${response.ticket.id} ${tagSummary}`);
-      
       // Include tag response in the return data
       return {
         ticket: response,
