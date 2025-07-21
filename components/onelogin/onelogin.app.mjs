@@ -1,228 +1,236 @@
 import { axios } from "@pipedream/platform";
+import {
+  MAPPINGS_OPTIONS,
+  PASSWORD_ALGORITHM_OPTIONS,
+  STATE_OPTIONS,
+  STATUS_OPTIONS,
+} from "./common/constants.mjs";
 
 export default {
   type: "app",
   app: "onelogin",
   propDefinitions: {
-    // Required props for creating a new user
-    firstname: {
-      type: "string",
-      label: "First Name",
-      description: "User's first name.",
+    groupId: {
+      type: "integer",
+      label: "Group ID",
+      description: "The ID of the Group in OneLogin that the user will be assigned to",
+      async options({ prevContext }) {
+        const {
+          data, pagination,
+        } = await this.listGroups({
+          params: {
+            after_cursor: prevContext?.nextCursor,
+          },
+        });
+
+        return {
+          options: data.map(({
+            id: value, name: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            nextCursor: pagination?.after_cursor,
+          },
+        };
+      },
     },
-    lastname: {
-      type: "string",
-      label: "Last Name",
-      description: "User's last name.",
+    roleIds: {
+      type: "integer[]",
+      label: "Role IDs",
+      description: "A list of OneLogin Role IDs the user will be assigned to",
+      async options({ prevContext }) {
+        const {
+          data, pagination,
+        } = await this.listRoles({
+          params: {
+            after_cursor: prevContext?.nextCursor,
+          },
+        });
+
+        return {
+          options: data.map(({
+            id: value, name: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            nextCursor: pagination?.after_cursor,
+          },
+        };
+      },
     },
-    email: {
+    userId: {
       type: "string",
-      label: "Email",
-      description: "User's email address.",
-      optional: true,
+      label: "User ID",
+      description: "The ID of the user",
+      async options({ page }) {
+        const data = await this.listUsers({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return data.map(({
+          id: value, username, email,
+        }) => ({
+          label: `${username || email}`,
+          value,
+        }));
+      },
     },
     username: {
       type: "string",
       label: "Username",
-      description: "User's username.",
-      optional: true,
+      description: "The user's username (required if email is not provided)",
     },
-    // Optional props for creating/updating a user
-    company: {
+    email: {
       type: "string",
-      label: "Company",
-      description: "Company the user is associated with.",
-      optional: true,
+      label: "Email",
+      description: "The user's email address (required if username is not provided)",
     },
-    department: {
+    firstname: {
       type: "string",
-      label: "Department",
-      description: "Department the user works in.",
-      optional: true,
+      label: "First Name",
+      description: "The user's first name",
     },
-    directoryId: {
-      type: "integer",
-      label: "Directory ID",
-      description: "ID of the directory (e.g., Active Directory, LDAP) from which the user was created.",
-      optional: true,
-    },
-    distinguishedName: {
+    lastname: {
       type: "string",
-      label: "Distinguished Name",
-      description: "Synchronized from Active Directory.",
-      optional: true,
+      label: "Last Name",
+      description: "The user's last name",
     },
-    externalId: {
+    password: {
       type: "string",
-      label: "External ID",
-      description: "External ID that can be used to uniquely identify the user in another system.",
-      optional: true,
+      label: "Password",
+      description: "The password to set for the user",
+      secret: true,
     },
-    groupId: {
-      type: "integer",
-      label: "Group ID",
-      description: "Group to which the user belongs.",
-      async options() {
-        const groups = await this.listGroups();
-        return groups.map((group) => ({
-          label: group.name,
-          value: group.id.toString(),
-        }));
-      },
-      optional: true,
-    },
-    invalidLoginAttempts: {
-      type: "integer",
-      label: "Invalid Login Attempts",
-      description: "Number of sequential invalid login attempts the user has made.",
-      optional: true,
-    },
-    localeCode: {
+    passwordConfirmation: {
       type: "string",
-      label: "Locale Code",
-      description: "Locale code representing a geographical, political, or cultural region.",
-      optional: true,
+      label: "Password Confirmation",
+      description: "Required if the password is being set",
+      secret: true,
     },
-    memberOf: {
+    passwordAlgorithm: {
       type: "string",
-      label: "Member Of",
-      description: "Groups the user is a member of.",
-      optional: true,
+      label: "Password Algorithm",
+      description: "Use this when importing a password that's already hashed. [See the documentation](https://developers.onelogin.com/api-docs/2/users/create-user) for further information",
+      options: PASSWORD_ALGORITHM_OPTIONS,
     },
-    openidName: {
+    salt: {
       type: "string",
-      label: "OpenID Name",
-      description: "OpenID URL that can be configured in other applications that accept OpenID for sign-in.",
-      optional: true,
-    },
-    phone: {
-      type: "string",
-      label: "Phone",
-      description: "User's phone number.",
-      optional: true,
-    },
-    samaccountname: {
-      type: "string",
-      label: "SAMAccountName",
-      description: "Synchronized from Active Directory.",
-      optional: true,
+      label: "Salt",
+      description: "The salt value used with the `Password Algorithm`",
     },
     title: {
       type: "string",
       label: "Title",
-      description: "User's title.",
-      optional: true,
+      description: "The user's job title",
+    },
+    department: {
+      type: "string",
+      label: "Department",
+      description: "The user's department",
+    },
+    company: {
+      type: "string",
+      label: "Company",
+      description: "The user's company",
+    },
+    comment: {
+      type: "string",
+      label: "Comment",
+      description: "Free text related to the user",
+    },
+    phone: {
+      type: "string",
+      label: "Phone",
+      description: "The [E.164](https://en.wikipedia.org/wiki/E.164) format phone number for a user",
+    },
+    state: {
+      type: "string",
+      label: "State",
+      description: "The user's state",
+      options: STATE_OPTIONS,
+    },
+    status: {
+      type: "string",
+      label: "Status",
+      description: "The user's status",
+      options: STATUS_OPTIONS,
+    },
+    directoryId: {
+      type: "integer",
+      label: "Directory ID",
+      description: "The ID of the OneLogin Directory the user will be assigned to",
+    },
+    trustedIdpId: {
+      type: "integer",
+      label: "Trusted IDP ID",
+      description: "The ID of the OneLogin Trusted IDP the user will be assigned to",
+    },
+    samaccountname: {
+      type: "string",
+      label: "SAM Account Name",
+      description: "The user's Active Directory username",
+    },
+    memberOf: {
+      type: "string",
+      label: "Member Of",
+      description: "The user's directory membership",
+    },
+    userPrincipalName: {
+      type: "string",
+      label: "User Principal Name",
+      description: "The principle name of the user",
+    },
+    distinguishedName: {
+      type: "string",
+      label: "Distinguished Name",
+      description: "The distinguished name of the user",
+    },
+    externalId: {
+      type: "string",
+      label: "External ID",
+      description: "The ID of the user in an external directory",
+    },
+    openidName: {
+      type: "string",
+      label: "OpenID Name",
+      description: "The name configured for use in other applications that accept OpenID for sign-in",
+    },
+    invalidLoginAttempts: {
+      type: "integer",
+      label: "Invalid Login Attempts",
+      description: "The number of sequential invalid login attempts the user has made",
+    },
+    preferredLocaleCode: {
+      type: "string",
+      label: "Preferred Locale Code",
+      description: "The 2-character language locale for the user, such as `en` for English or `es` for Spanish.",
     },
     customAttributes: {
       type: "object",
       label: "Custom Attributes",
-      description: "Custom attributes for the user.",
-      optional: true,
+      description: "An object to contain any other custom attributes you have configured",
     },
-    // Props for updating an existing user
-    updateUserId: {
+    mappings: {
       type: "string",
-      label: "User ID",
-      description: "Unique ID of the user to update.",
-      async options() {
-        const users = await this.listUsers();
-        return users.map((user) => ({
-          label: `${user.firstname} ${user.lastname} (${user.email})`,
-          value: user.id.toString(),
-        }));
-      },
+      label: "Mappings",
+      description: "Controls how mappings will be applied to the user on creation.",
+      options: MAPPINGS_OPTIONS,
     },
-    // Props for revoking user sessions
-    revokeUserId: {
-      type: "string",
-      label: "User ID",
-      description: "Unique ID of the user to revoke sessions for.",
-      async options() {
-        const users = await this.listUsers();
-        return users.map((user) => ({
-          label: `${user.firstname} ${user.lastname} (${user.email})`,
-          value: user.id.toString(),
-        }));
-      },
-    },
-    // Props for User Created Event Trigger filters
-    filterUserRole: {
-      type: "string",
-      label: "User Role",
-      description: "Filter by user role.",
-      async options() {
-        const roles = await this.listRoles();
-        return roles.map((role) => ({
-          label: role.name,
-          value: role.id.toString(),
-        }));
-      },
-      optional: true,
-    },
-    filterGroup: {
-      type: "string",
-      label: "Group",
-      description: "Filter by user group.",
-      async options() {
-        const groups = await this.listGroups();
-        return groups.map((group) => ({
-          label: group.name,
-          value: group.id.toString(),
-        }));
-      },
-      optional: true,
-    },
-    // Props for Login Attempt Event Trigger filters
-    filterLoginSuccess: {
+    validatePolicy: {
       type: "boolean",
-      label: "Successful Attempts",
-      description: "Filter to only include successful login attempts.",
-      optional: true,
-    },
-    filterLoginFailure: {
-      type: "boolean",
-      label: "Failed Attempts",
-      description: "Filter to only include failed login attempts.",
-      optional: true,
-    },
-    // Props for Directory Sync Event Trigger filters
-    directoryName: {
-      type: "string",
-      label: "Directory Name",
-      description: "Filter by specific directory name.",
-      async options() {
-        const directories = await this.listDirectories();
-        return directories.map((dir) => ({
-          label: dir.name,
-          value: dir.id.toString(),
-        }));
-      },
-      optional: true,
-    },
-    syncStatus: {
-      type: "string",
-      label: "Sync Status",
-      description: "Filter by sync status.",
-      options: [
-        {
-          label: "Success",
-          value: "success",
-        },
-        {
-          label: "Failure",
-          value: "failure",
-        },
-        {
-          label: "In Progress",
-          value: "in_progress",
-        },
-      ],
-      optional: true,
+      label: "Validate Policy",
+      description: "Will passwords validate against the User Policy?",
     },
   },
   methods: {
     _baseUrl() {
-      return `https://${this.$auth.subdomain}.onelogin.com/api/1`;
+      return `https://${this.$auth.subdomain}.onelogin.com`;
     },
     _headers() {
       return {
@@ -232,94 +240,77 @@ export default {
     _makeRequest({
       $ = this, path, ...opts
     }) {
-      const config = {
+      return axios($, {
         url: this._baseUrl() + path,
         headers: this._headers(),
         ...opts,
-      };
-      console.log("config: ", config);
-      return axios($, config);
+      });
     },
-    createUser(data, opts = {}) {
+    listGroups(opts = {}) {
+      return this._makeRequest({
+        path: "/api/1/groups",
+        ...opts,
+      });
+    },
+    listRoles(opts = {}) {
+      return this._makeRequest({
+        path: "/api/1/roles",
+        ...opts,
+      });
+    },
+    listUsers(opts = {}) {
+      return this._makeRequest({
+        path: "/api/2/users",
+        ...opts,
+      });
+    },
+    createUser(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/users",
-        data,
+        path: "/api/2/users",
         ...opts,
       });
     },
-
-    // Pagination Logic
-    async paginate(fn, ...args) {
-      const results = [];
-      let page = 1;
-      let hasNext = true;
-      while (hasNext) {
-        const response = await fn({
-          page,
-          ...args,
-        });
-        if (Array.isArray(response)) {
-          results.push(...response);
-          hasNext = false;
-        } else {
-          results.push(...response);
-          hasNext = false;
-        }
-      }
-      return results;
-    },
-    // List Groups
-    async listGroups(opts = {}) {
-      return this._makeRequest({
-        path: "/groups",
-        ...opts,
-      });
-    },
-    // List Roles
-    async listRoles(opts = {}) {
-      return this._makeRequest({
-        path: "/roles",
-        ...opts,
-      });
-    },
-    // List Users
-    async listUsers(opts = {}) {
-      return this._makeRequest({
-        path: "/users",
-        ...opts,
-      });
-    },
-    // List Directories
-    async listDirectories(opts = {}) {
-      return this.paginate(async ({ page }) => {
-        const response = await this._makeRequest({
-          path: "/directories",
-          params: {
-            limit: 100,
-            page,
-            ...opts.params,
-          },
-        });
-        return response;
-      }, opts);
-    },
-    // Update User
-    async updateUser(userId, data, opts = {}) {
+    updateUser({
+      userId, ...opts
+    }) {
       return this._makeRequest({
         method: "PUT",
-        path: `/users/${userId}`,
-        data,
+        path: `/api/2/users/${userId}`,
         ...opts,
       });
     },
-    // Revoke User Sessions
-    async revokeUserSessions(userId, opts = {}) {
+    listEvents(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: `/users/${userId}/logout`,
+        path: "/api/1/events",
         ...opts,
       });
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let count = 0;
+      let nextCursor = null;
+
+      do {
+        params.after_cursor = nextCursor;
+        const {
+          data,
+          pagination: { after_cursor },
+        } = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of data) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        nextCursor = after_cursor;
+      } while (nextCursor);
     },
   },
 };

@@ -1,19 +1,35 @@
+import { parseObject } from "../../common/utils.mjs";
 import onelogin from "../../onelogin.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "onelogin-update-user",
   name: "Update User",
-  description: "Updates an existing user's details in OneLogin. [See the documentation]()",
-  version: "0.0.{{ts}}",
+  description: "Update an existing user's details in OneLogin. [See the documentation](https://developers.onelogin.com/api-docs/2/users/update-user)",
+  version: "0.0.1",
   type: "action",
   props: {
     onelogin,
-    updateUserId: {
+    userId: {
       propDefinition: [
         onelogin,
-        "updateUserId",
+        "userId",
       ],
+    },
+    username: {
+      propDefinition: [
+        onelogin,
+        "username",
+      ],
+      description: "The user's username",
+      optional: true,
+    },
+    email: {
+      propDefinition: [
+        onelogin,
+        "email",
+      ],
+      description: "The user's email address",
+      optional: true,
     },
     firstname: {
       propDefinition: [
@@ -29,101 +45,31 @@ export default {
       ],
       optional: true,
     },
-    email: {
+    password: {
       propDefinition: [
         onelogin,
-        "email",
+        "password",
       ],
       optional: true,
     },
-    username: {
+    passwordConfirmation: {
       propDefinition: [
         onelogin,
-        "username",
+        "passwordConfirmation",
       ],
       optional: true,
     },
-    company: {
+    passwordAlgorithm: {
       propDefinition: [
         onelogin,
-        "company",
+        "passwordAlgorithm",
       ],
       optional: true,
     },
-    department: {
+    salt: {
       propDefinition: [
         onelogin,
-        "department",
-      ],
-      optional: true,
-    },
-    directoryId: {
-      propDefinition: [
-        onelogin,
-        "directoryId",
-      ],
-      optional: true,
-    },
-    distinguishedName: {
-      propDefinition: [
-        onelogin,
-        "distinguishedName",
-      ],
-      optional: true,
-    },
-    externalId: {
-      propDefinition: [
-        onelogin,
-        "externalId",
-      ],
-      optional: true,
-    },
-    groupId: {
-      propDefinition: [
-        onelogin,
-        "groupId",
-      ],
-      optional: true,
-    },
-    invalidLoginAttempts: {
-      propDefinition: [
-        onelogin,
-        "invalidLoginAttempts",
-      ],
-      optional: true,
-    },
-    localeCode: {
-      propDefinition: [
-        onelogin,
-        "localeCode",
-      ],
-      optional: true,
-    },
-    memberOf: {
-      propDefinition: [
-        onelogin,
-        "memberOf",
-      ],
-      optional: true,
-    },
-    openidName: {
-      propDefinition: [
-        onelogin,
-        "openidName",
-      ],
-      optional: true,
-    },
-    phone: {
-      propDefinition: [
-        onelogin,
-        "phone",
-      ],
-      optional: true,
-    },
-    samaccountname: {
-      propDefinition: [
-        onelogin,
-        "samaccountname",
+        "salt",
       ],
       optional: true,
     },
@@ -134,10 +80,45 @@ export default {
       ],
       optional: true,
     },
-    customAttributes: {
+    department: {
       propDefinition: [
         onelogin,
-        "customAttributes",
+        "department",
+      ],
+      optional: true,
+    },
+    company: {
+      propDefinition: [
+        onelogin,
+        "company",
+      ],
+      optional: true,
+    },
+    comment: {
+      propDefinition: [
+        onelogin,
+        "comment",
+      ],
+      optional: true,
+    },
+    groupId: {
+      propDefinition: [
+        onelogin,
+        "groupId",
+      ],
+      optional: true,
+    },
+    roleIds: {
+      propDefinition: [
+        onelogin,
+        "roleIds",
+      ],
+      optional: true,
+    },
+    phone: {
+      propDefinition: [
+        onelogin,
+        "phone",
       ],
       optional: true,
     },
@@ -155,70 +136,149 @@ export default {
       ],
       optional: true,
     },
-    userprincipalname: {
+    directoryId: {
       propDefinition: [
         onelogin,
-        "userprincipalname",
+        "directoryId",
       ],
       optional: true,
     },
-    managerAdId: {
+    trustedIdpId: {
       propDefinition: [
         onelogin,
-        "manager_ad_id",
+        "trustedIdpId",
       ],
       optional: true,
     },
     managerUserId: {
       propDefinition: [
         onelogin,
-        "manager_user_id",
+        "userId",
+      ],
+      label: "Manager User ID",
+      description: "The OneLogin User ID for the user's manager",
+      optional: true,
+    },
+    samaccountname: {
+      propDefinition: [
+        onelogin,
+        "samaccountname",
       ],
       optional: true,
     },
-    roleId: {
+    memberOf: {
       propDefinition: [
         onelogin,
-        "role_id",
+        "memberOf",
+      ],
+      optional: true,
+    },
+    userPrincipalName: {
+      propDefinition: [
+        onelogin,
+        "userPrincipalName",
+      ],
+      optional: true,
+    },
+    distinguishedName: {
+      propDefinition: [
+        onelogin,
+        "distinguishedName",
+      ],
+      optional: true,
+    },
+    externalId: {
+      propDefinition: [
+        onelogin,
+        "externalId",
+      ],
+      optional: true,
+    },
+    openidName: {
+      propDefinition: [
+        onelogin,
+        "openidName",
+      ],
+      optional: true,
+    },
+    invalidLoginAttempts: {
+      propDefinition: [
+        onelogin,
+        "invalidLoginAttempts",
+      ],
+      optional: true,
+    },
+    preferredLocaleCode: {
+      propDefinition: [
+        onelogin,
+        "preferredLocaleCode",
+      ],
+      optional: true,
+    },
+    customAttributes: {
+      propDefinition: [
+        onelogin,
+        "customAttributes",
+      ],
+      optional: true,
+    },
+    mappings: {
+      propDefinition: [
+        onelogin,
+        "mappings",
+      ],
+      optional: true,
+    },
+    validatePolicy: {
+      propDefinition: [
+        onelogin,
+        "validatePolicy",
       ],
       optional: true,
     },
   },
   async run({ $ }) {
-    const userId = this.updateUserId;
-    const data = {};
+    const response = await this.onelogin.updateUser({
+      $,
+      userId: this.userId,
+      data: {
+        email: this.email,
+        username: this.username,
+        firstname: this.firstname,
+        lastname: this.lastname,
+        password: this.password,
+        password_confirmation: this.passwordConfirmation,
+        password_algorithm: this.passwordAlgorithm,
+        salt: this.salt,
+        title: this.title,
+        department: this.department,
+        company: this.company,
+        comment: this.comment,
+        group_id: this.groupId,
+        role_ids: parseObject(this.roleIds),
+        phone: this.phone,
+        state: this.state && parseInt(this.state),
+        status: this.status && parseInt(this.status),
+        directory_id: this.directoryId,
+        trusted_idp_id: this.trustedIdpId,
+        manager_user_id: this.managerUserId,
+        samaccountname: this.samaccountname,
+        member_of: this.memberOf,
+        userprincipalname: this.userPrincipalName,
+        distinguished_name: this.distinguishedName,
+        external_id: this.externalId,
+        openid_name: this.openidName,
+        invalid_login_attempts: this.invalidLoginAttempts,
+        preferred_locale_code: this.preferredLocaleCode,
+        custom_attributes: this.customAttributes,
+      },
+      params: {
+        mappings: this.mappings,
+        validate_policy: this.validatePolicy,
+      },
+    });
 
-    if (this.firstname) data.firstname = this.firstname;
-    if (this.lastname) data.lastname = this.lastname;
-    if (this.email) data.email = this.email;
-    if (this.username) data.username = this.username;
-    if (this.company) data.company = this.company;
-    if (this.department) data.department = this.department;
-    if (this.directoryId !== undefined) data.directory_id = this.directoryId;
-    if (this.distinguishedName) data.distinguished_name = this.distinguishedName;
-    if (this.externalId) data.external_id = this.externalId;
-    if (this.groupId) data.group_id = parseInt(this.groupId, 10);
-    if (this.invalidLoginAttempts !== undefined) data.invalid_login_attempts = this.invalidLoginAttempts;
-    if (this.localeCode) data.locale_code = this.localeCode;
-    if (this.memberOf) data.member_of = this.memberOf;
-    if (this.openidName) data.openid_name = this.openidName;
-    if (this.phone) data.phone = this.phone;
-    if (this.samaccountname) data.samaccountname = this.samaccountname;
-    if (this.title) data.title = this.title;
-    if (this.customAttributes) data.custom_attributes = this.customAttributes;
-    if (this.state !== undefined) data.state = this.state;
-    if (this.status !== undefined) data.status = this.status;
-    if (this.userprincipalname) data.userprincipalname = this.userprincipalname;
-    if (this.managerAdId) data.manager_ad_id = this.managerAdId;
-    if (this.managerUserId !== undefined) data.manager_user_id = this.managerUserId;
-    if (this.roleId) {
-      data.role_id = Array.isArray(this.roleId)
-        ? this.roleId.map((id) => parseInt(id, 10))
-        : parseInt(this.roleId, 10);
-    }
-
-    const response = await this.onelogin.updateUser(userId, data);
-    $.export("$summary", `Successfully updated user with ID ${userId}`);
+    $.export("$summary", `Successfully updated user with ID: ${this.userId}`);
     return response;
   },
 };

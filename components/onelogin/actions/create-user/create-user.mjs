@@ -5,22 +5,17 @@ import onelogin from "../../onelogin.app.mjs";
 export default {
   key: "onelogin-create-user",
   name: "Create User",
-  description: "Creates a new user in OneLogin. [See the documentation](https://developers.onelogin.com/api-docs/1/users/create-user)",
-  version: "0.0.{{ts}}",
+  description: "Create a new user in OneLogin with details. [See the documentation](https://developers.onelogin.com/api-docs/2/users/create-user)",
+  version: "0.0.1",
   type: "action",
   props: {
     onelogin,
-    firstname: {
+    username: {
       propDefinition: [
         onelogin,
-        "firstname",
+        "username",
       ],
-    },
-    lastname: {
-      propDefinition: [
-        onelogin,
-        "lastname",
-      ],
+      optional: true,
     },
     email: {
       propDefinition: [
@@ -29,17 +24,52 @@ export default {
       ],
       optional: true,
     },
-    username: {
+    firstname: {
       propDefinition: [
         onelogin,
-        "username",
+        "firstname",
       ],
       optional: true,
     },
-    company: {
+    lastname: {
       propDefinition: [
         onelogin,
-        "company",
+        "lastname",
+      ],
+      optional: true,
+    },
+    password: {
+      propDefinition: [
+        onelogin,
+        "password",
+      ],
+      optional: true,
+    },
+    passwordConfirmation: {
+      propDefinition: [
+        onelogin,
+        "passwordConfirmation",
+      ],
+      optional: true,
+    },
+    passwordAlgorithm: {
+      propDefinition: [
+        onelogin,
+        "passwordAlgorithm",
+      ],
+      optional: true,
+    },
+    salt: {
+      propDefinition: [
+        onelogin,
+        "salt",
+      ],
+      optional: true,
+    },
+    title: {
+      propDefinition: [
+        onelogin,
+        "title",
       ],
       optional: true,
     },
@@ -50,10 +80,96 @@ export default {
       ],
       optional: true,
     },
+    company: {
+      propDefinition: [
+        onelogin,
+        "company",
+      ],
+      optional: true,
+    },
+    comment: {
+      propDefinition: [
+        onelogin,
+        "comment",
+      ],
+      optional: true,
+    },
+    groupId: {
+      propDefinition: [
+        onelogin,
+        "groupId",
+      ],
+      optional: true,
+    },
+    roleIds: {
+      propDefinition: [
+        onelogin,
+        "roleIds",
+      ],
+      optional: true,
+    },
+    phone: {
+      propDefinition: [
+        onelogin,
+        "phone",
+      ],
+      optional: true,
+    },
+    state: {
+      propDefinition: [
+        onelogin,
+        "state",
+      ],
+      optional: true,
+    },
+    status: {
+      propDefinition: [
+        onelogin,
+        "status",
+      ],
+      optional: true,
+    },
     directoryId: {
       propDefinition: [
         onelogin,
         "directoryId",
+      ],
+      optional: true,
+    },
+    trustedIdpId: {
+      propDefinition: [
+        onelogin,
+        "trustedIdpId",
+      ],
+      optional: true,
+    },
+    managerUserId: {
+      propDefinition: [
+        onelogin,
+        "userId",
+      ],
+      label: "Manager User ID",
+      description: "The OneLogin User ID for the user's manager",
+      optional: true,
+    },
+    samaccountname: {
+      propDefinition: [
+        onelogin,
+        "samaccountname",
+      ],
+      optional: true,
+    },
+    memberOf: {
+      propDefinition: [
+        onelogin,
+        "memberOf",
+      ],
+      optional: true,
+    },
+    userPrincipalName: {
+      propDefinition: [
+        onelogin,
+        "userPrincipalName",
       ],
       optional: true,
     },
@@ -71,10 +187,10 @@ export default {
       ],
       optional: true,
     },
-    groupId: {
+    openidName: {
       propDefinition: [
         onelogin,
-        "groupId",
+        "openidName",
       ],
       optional: true,
     },
@@ -85,45 +201,10 @@ export default {
       ],
       optional: true,
     },
-    localeCode: {
+    preferredLocaleCode: {
       propDefinition: [
         onelogin,
-        "localeCode",
-      ],
-      optional: true,
-    },
-    memberOf: {
-      propDefinition: [
-        onelogin,
-        "memberOf",
-      ],
-      optional: true,
-    },
-    openidName: {
-      propDefinition: [
-        onelogin,
-        "openidName",
-      ],
-      optional: true,
-    },
-    phone: {
-      propDefinition: [
-        onelogin,
-        "phone",
-      ],
-      optional: true,
-    },
-    samaccountname: {
-      propDefinition: [
-        onelogin,
-        "samaccountname",
-      ],
-      optional: true,
-    },
-    title: {
-      propDefinition: [
-        onelogin,
-        "title",
+        "preferredLocaleCode",
       ],
       optional: true,
     },
@@ -134,37 +215,66 @@ export default {
       ],
       optional: true,
     },
+    mappings: {
+      propDefinition: [
+        onelogin,
+        "mappings",
+      ],
+      optional: true,
+    },
+    validatePolicy: {
+      propDefinition: [
+        onelogin,
+        "validatePolicy",
+      ],
+      optional: true,
+    },
   },
   async run({ $ }) {
     if (!this.email && !this.username) {
-      throw new ConfigurationError("Either email or username must be provided.");
+      throw new ConfigurationError("You must provide at least `Email` or `Username` property.");
     }
 
     const response = await this.onelogin.createUser({
       $,
       data: {
-        firstname: this.firstname,
-        lastname: this.lastname,
         email: this.email,
         username: this.username,
-        company: this.company,
+        firstname: this.firstname,
+        lastname: this.lastname,
+        password: this.password,
+        password_confirmation: this.passwordConfirmation,
+        password_algorithm: this.passwordAlgorithm,
+        salt: this.salt,
+        title: this.title,
         department: this.department,
+        company: this.company,
+        comment: this.comment,
+        group_id: this.groupId,
+        role_ids: parseObject(this.roleIds),
+        phone: this.phone,
+        state: this.state && parseInt(this.state),
+        status: this.status && parseInt(this.status),
         directory_id: this.directoryId,
+        trusted_idp_id: this.trustedIdpId,
+        manager_user_id: this.managerUserId,
+        samaccountname: this.samaccountname,
+        member_of: this.memberOf,
+        userprincipalname: this.userPrincipalName,
         distinguished_name: this.distinguishedName,
         external_id: this.externalId,
-        group_id: this.groupId,
-        invalid_login_attempts: this.invalidLoginAttempts,
-        locale_code: this.localeCode,
-        member_of: this.memberOf,
         openid_name: this.openidName,
-        phone: this.phone,
-        samaccountname: this.samaccountname,
-        title: this.title,
-        custom_attributes: parseObject(this.customAttributes),
+        invalid_login_attempts: this.invalidLoginAttempts,
+        preferred_locale_code: this.preferredLocaleCode,
+        custom_attributes: this.customAttributes,
+      },
+      params: {
+        mappings: this.mappings,
+        validate_policy: this.validatePolicy,
       },
     });
 
-    $.export("$summary", `Created user ${response.username} with ID ${response.id}`);
+    $.export("$summary", `Successfully created user with ID: ${response.id}`);
     return response;
   },
 };
