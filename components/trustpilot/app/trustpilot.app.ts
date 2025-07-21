@@ -1,5 +1,5 @@
 import { defineApp } from "@pipedream/types";
-import { axios } from "@pipedream/platform";
+import { axios, ConfigurationError } from "@pipedream/platform";
 import crypto from "crypto";
 import { 
   BASE_URL, 
@@ -108,6 +108,10 @@ export default defineApp({
         "User-Agent": "Pipedream/1.0",
       };
 
+      if (!this.$auth?.api_key && !this.$auth?.oauth_access_token) {
+        throw new Error("Authentication required: Configure either API key or OAuth token");
+      }
+
       if (this.$auth?.api_key) {
         headers["apikey"] = this.$auth.api_key;
       }
@@ -136,13 +140,8 @@ export default defineApp({
         config.data = data;
       }
 
-      try {
-        const response = await axios(this, config);
-        return response.data || response;
-      } catch (error) {
-        const parsedError = parseApiError(error);
-        throw new Error(`Trustpilot API Error: ${parsedError.message} (${parsedError.code})`);
-      }
+      const response = await axios(this, config);
+      return response.data || response;
     },
 
     async _makeRequestWithRetry(config, retries = RETRY_CONFIG.MAX_RETRIES) {
@@ -238,8 +237,9 @@ export default defineApp({
       return parseReview(response);
     },
 
-    // Private Service Review methods
-    async getServiceReviews({
+    // Private helper for fetching reviews
+    async _getReviews({
+      endpoint,
       businessUnitId,
       stars = null,
       sortBy = SORT_OPTIONS.CREATED_AT_DESC,
@@ -249,11 +249,10 @@ export default defineApp({
       tags = [],
       language = null,
     } = {}) {
-      if (!validateBusinessUnitId(businessUnitId)) {
+      if (businessUnitId && !validateBusinessUnitId(businessUnitId)) {
         throw new Error("Invalid business unit ID");
       }
 
-      const endpoint = buildUrl(ENDPOINTS.PRIVATE_SERVICE_REVIEWS, { businessUnitId });
       const params = {
         stars,
         orderBy: sortBy,
@@ -281,6 +280,12 @@ export default defineApp({
           hasMore: response.pagination?.hasMore || false,
         },
       };
+    },
+
+    // Private Service Review methods
+    async getServiceReviews(options = {}) {
+      const endpoint = buildUrl(ENDPOINTS.PRIVATE_SERVICE_REVIEWS, { businessUnitId: options.businessUnitId });
+      return this._getReviews({ endpoint, ...options });
     },
 
     async getServiceReviewById({ businessUnitId, reviewId }) {
@@ -326,48 +331,9 @@ export default defineApp({
     },
 
     // Product Review methods
-    async getProductReviews({
-      businessUnitId,
-      stars = null,
-      sortBy = SORT_OPTIONS.CREATED_AT_DESC,
-      limit = DEFAULT_LIMIT,
-      offset = 0,
-      includeReportedReviews = false,
-      tags = [],
-      language = null,
-    } = {}) {
-      if (!validateBusinessUnitId(businessUnitId)) {
-        throw new Error("Invalid business unit ID");
-      }
-
-      const endpoint = buildUrl(ENDPOINTS.PRIVATE_PRODUCT_REVIEWS, { businessUnitId });
-      const params = {
-        stars,
-        orderBy: sortBy,
-        perPage: limit,
-        page: Math.floor(offset / limit) + 1,
-        includeReportedReviews,
-        language,
-      };
-
-      if (tags.length > 0) {
-        params.tags = tags.join(",");
-      }
-
-      const response = await this._makeRequestWithRetry({
-        endpoint,
-        params,
-      });
-
-      return {
-        reviews: response.reviews?.map(parseReview) || [],
-        pagination: {
-          total: response.pagination?.total || 0,
-          page: response.pagination?.page || 1,
-          perPage: response.pagination?.perPage || limit,
-          hasMore: response.pagination?.hasMore || false,
-        },
-      };
+    async getProductReviews(options = {}) {
+      const endpoint = buildUrl(ENDPOINTS.PRIVATE_PRODUCT_REVIEWS, { businessUnitId: options.businessUnitId });
+      return this._getReviews({ endpoint, ...options });
     },
 
     async getProductReviewById({ reviewId }) {

@@ -7,9 +7,8 @@ export default {
   ...common,
   key: "trustpilot-updated-product-reviews",
   name: "New Updated Product Reviews",
-  description: "Emit new event when an existing product review is updated or revised on Trustpilot. This source polls the Trustpilot API every 15 minutes to detect product reviews that have been modified. Each event contains the updated review data including any changes to star rating, review text, or other review attributes. Perfect for tracking review modifications, monitoring changes in customer sentiment, and ensuring product feedback accuracy over time.",
+  description: "Emit new event when an existing product review is updated or revised on Trustpilot. This source periodically polls the Trustpilot API to detect product reviews that have been modified. Each event contains the updated review data including any changes to star rating, review text, or other review attributes. Perfect for tracking review modifications, monitoring changes in customer sentiment, and ensuring product feedback accuracy over time.",
   version: "0.0.1",
-  publishedAt: "2025-07-18T00:00:00.000Z",
   type: "source",
   dedupe: "unique",
   methods: {
