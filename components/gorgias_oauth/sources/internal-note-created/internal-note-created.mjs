@@ -28,6 +28,7 @@ export default {
   },
   hooks: {
     ...base.hooks,
+    deploy() {},
   },
   methods: {
     ...base.methods,
