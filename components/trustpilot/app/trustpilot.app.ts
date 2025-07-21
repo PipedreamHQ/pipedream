@@ -1,6 +1,6 @@
 import { defineApp } from "@pipedream/types";
 import { axios, ConfigurationError } from "@pipedream/platform";
-import crypto from "crypto";
+import * as crypto from "crypto";
 import { 
   BASE_URL, 
   ENDPOINTS, 
@@ -127,7 +127,7 @@ export default defineApp({
       const url = `${BASE_URL}${endpoint}`;
       const headers = this._getAuthHeaders();
       
-      const config = {
+      const config: any = {
         method,
         url,
         headers,
@@ -190,13 +190,13 @@ export default defineApp({
       offset = 0,
       tags = [],
       language = null,
-    } = {}) {
+    }: any = {}) {
       if (!validateBusinessUnitId(businessUnitId)) {
         throw new Error("Invalid business unit ID");
       }
 
       const endpoint = buildUrl(ENDPOINTS.PUBLIC_REVIEWS, { businessUnitId });
-      const params = {
+      const params: any = {
         stars,
         orderBy: sortBy,
         perPage: limit,
@@ -248,12 +248,12 @@ export default defineApp({
       includeReportedReviews = false,
       tags = [],
       language = null,
-    } = {}) {
+    }: any = {}) {
       if (businessUnitId && !validateBusinessUnitId(businessUnitId)) {
         throw new Error("Invalid business unit ID");
       }
 
-      const params = {
+      const params: any = {
         stars,
         orderBy: sortBy,
         perPage: limit,
@@ -283,7 +283,7 @@ export default defineApp({
     },
 
     // Private Service Review methods
-    async getServiceReviews(options = {}) {
+    async getServiceReviews(options: any = {}) {
       const endpoint = buildUrl(ENDPOINTS.PRIVATE_SERVICE_REVIEWS, { businessUnitId: options.businessUnitId });
       return this._getReviews({ endpoint, ...options });
     },
@@ -331,7 +331,7 @@ export default defineApp({
     },
 
     // Product Review methods
-    async getProductReviews(options = {}) {
+    async getProductReviews(options: any = {}) {
       const endpoint = buildUrl(ENDPOINTS.PRIVATE_PRODUCT_REVIEWS, { businessUnitId: options.businessUnitId });
       return this._getReviews({ endpoint, ...options });
     },
@@ -379,7 +379,7 @@ export default defineApp({
       sortBy = SORT_OPTIONS.CREATED_AT_DESC,
       businessUnitId = null,
     } = {}) {
-      const params = {
+      const params: any = {
         perPage: limit,
         page: Math.floor(offset / limit) + 1,
         orderBy: sortBy,
@@ -450,7 +450,7 @@ export default defineApp({
         throw new Error("At least one event must be specified");
       }
 
-      const data = {
+      const data: any = {
         url,
         events,
       };
