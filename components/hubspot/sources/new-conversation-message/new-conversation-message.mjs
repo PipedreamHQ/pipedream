@@ -15,8 +15,7 @@ export default {
         common.props.hubspot,
         "threadId",
       ],
-      description: "Filter messages from a specific conversation thread",
-      optional: true,
+      description: "The ID of the conversation thread to monitor for messages",
     },
     messageType: {
       type: "string",
@@ -55,10 +54,9 @@ export default {
     },
     isRelevant(message, createdAfter) {
       const isAfterTimestamp = this.getTs(message) > createdAfter;
-      const matchesThread = !this.threadId || message.threadId === this.threadId;
       const matchesType = !this.messageType || message.type === this.messageType;
       
-      return isAfterTimestamp && matchesThread && matchesType;
+      return isAfterTimestamp && matchesType;
     },
     async getParams() {
       return {
@@ -70,23 +68,17 @@ export default {
     async processResults(after, params) {
       const createdAfter = after || this.getLastCreatedAt();
       
-      if (this.threadId) {
-        // If specific thread is provided, get messages from that thread
-        const messages = await this.hubspot.getConversationMessages({
-          threadId: this.threadId,
-          ...params,
-        });
-        
-        const relevantMessages = messages.results?.filter(msg => 
-          this.isRelevant(msg, createdAfter)
-        ) || [];
-        
-        this.processEvents(relevantMessages);
-      } else {
-        // Note: HubSpot Conversations API doesn't provide a direct way to list all threads
-        // This would require HubSpot webhooks or a different approach
-        console.log("Thread-specific monitoring recommended - provide threadId prop for best results");
-      }
+      // Get messages from the specified thread
+      const messages = await this.hubspot.getConversationMessages({
+        threadId: this.threadId,
+        ...params,
+      });
+      
+      const relevantMessages = messages.results?.filter(msg => 
+        this.isRelevant(msg, createdAfter)
+      ) || [];
+      
+      this.processEvents(relevantMessages);
     },
   },
 };

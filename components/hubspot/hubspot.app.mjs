@@ -1157,7 +1157,8 @@ export default {
       threadId, ...opts
     }) {
       return this.makeRequest({
-        endpoint: `/conversations/v3/conversations/threads/${threadId}`,
+        api: API_PATH.CONVERSATIONS,
+        endpoint: `/conversations/threads/${threadId}`,
         ...opts,
       });
     },
@@ -1171,7 +1172,8 @@ export default {
       threadId, ...opts
     }) {
       return this.makeRequest({
-        endpoint: `/conversations/v3/conversations/threads/${threadId}/messages`,
+        api: API_PATH.CONVERSATIONS,
+        endpoint: `/conversations/threads/${threadId}/messages`,
         ...opts,
       });
     },
@@ -1185,7 +1187,8 @@ export default {
       threadId, ...opts
     }) {
       return this.makeRequest({
-        endpoint: `/conversations/v3/conversations/threads/${threadId}/messages`,
+        api: API_PATH.CONVERSATIONS,
+        endpoint: `/conversations/threads/${threadId}/messages`,
         method: "POST",
         ...opts,
       });
@@ -1200,7 +1203,8 @@ export default {
       threadId, ...opts
     }) {
       return this.makeRequest({
-        endpoint: `/conversations/v3/conversations/threads/${threadId}/messages`,
+        api: API_PATH.CONVERSATIONS,
+        endpoint: `/conversations/threads/${threadId}/messages`,
         method: "POST",
         ...opts,
       });

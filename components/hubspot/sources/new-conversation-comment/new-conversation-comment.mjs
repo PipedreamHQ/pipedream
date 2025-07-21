@@ -15,8 +15,7 @@ export default {
         common.props.hubspot,
         "threadId",
       ],
-      description: "Filter comments from a specific conversation thread",
-      optional: true,
+      description: "The ID of the conversation thread to monitor for internal comments",
     },
   },
   methods: {
@@ -33,10 +32,9 @@ export default {
     },
     isRelevant(comment, createdAfter) {
       const isAfterTimestamp = this.getTs(comment) > createdAfter;
-      const matchesThread = !this.threadId || comment.threadId === this.threadId;
       const isComment = comment.type === "COMMENT";
       
-      return isAfterTimestamp && matchesThread && isComment;
+      return isAfterTimestamp && isComment;
     },
     async getParams() {
       return {
@@ -48,23 +46,17 @@ export default {
     async processResults(after, params) {
       const createdAfter = after || this.getLastCreatedAt();
       
-      if (this.threadId) {
-        // If specific thread is provided, get messages from that thread
-        const messages = await this.hubspot.getConversationMessages({
-          threadId: this.threadId,
-          ...params,
-        });
-        
-        const comments = messages.results?.filter(msg => 
-          this.isRelevant(msg, createdAfter)
-        ) || [];
-        
-        this.processEvents(comments);
-      } else {
-        // Note: HubSpot Conversations API doesn't provide a direct way to list all threads
-        // This would require HubSpot webhooks or a different approach
-        console.log("Thread-specific monitoring recommended - provide threadId prop for best results");
-      }
+      // Get messages from the specified thread
+      const messages = await this.hubspot.getConversationMessages({
+        threadId: this.threadId,
+        ...params,
+      });
+      
+      const comments = messages.results?.filter(msg => 
+        this.isRelevant(msg, createdAfter)
+      ) || [];
+      
+      this.processEvents(comments);
     },
   },
 };
