@@ -337,9 +337,6 @@ const GET_ORDER = `
         estimatedDeliveryAt
         inTransitAt
         deliveredAt
-        trackingCompany
-        trackingNumbers
-        trackingUrls
         service {
           id
           serviceName
@@ -682,9 +679,6 @@ const LIST_ORDERS = `
           id
           status
           displayStatus
-          trackingCompany
-          trackingNumbers
-          trackingUrls
         }
         metafields (first: $first) {
           nodes {
