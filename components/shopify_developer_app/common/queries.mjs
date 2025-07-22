@@ -96,7 +96,6 @@ const GET_ORDER = `
         email
         phone
         note
-        emailMarketingConsent
         createdAt
         updatedAt
         verifiedEmail
@@ -610,7 +609,6 @@ const LIST_ORDERS = `
           lastName
           email
           phone
-          emailMarketingConsent
           defaultAddress {
             id
             address1
