@@ -44,7 +44,7 @@ export default {
      * @returns {boolean} Whether the message is relevant
      */
     isRelevant(message) {
-      return message.channel === "internal-note"
+      return message.source.type === "internal-note"
         && (!this.ticketId || message.ticket_id === this.ticketId)
         && (!this.sender || message.sender?.email === this.sender);
     },

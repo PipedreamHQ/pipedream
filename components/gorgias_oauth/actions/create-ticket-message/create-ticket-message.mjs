@@ -114,7 +114,7 @@ export default {
     props.toUser.hidden = this.fromAgent || isInternalNote;
     props.fromCustomer.hidden = this.fromAgent || isInternalNote;
     props.toCustomer.hidden = !this.fromAgent || isInternalNote;
-    props.fromUser.hidden = !this.fromAgent || isInternalNote;
+    props.fromUser.hidden = !this.fromAgent;
     return {};
   },
   methods: {
@@ -172,6 +172,10 @@ export default {
 
     const isInternalNote = this.channel === "internal-note";
 
+    if (isInternalNote && this.fromAgent === false) {
+      throw new ConfigurationError("From Agent must be set to `true` when creating an internal note");
+    }
+
     let contentType, size;
     if (this.attachmentUrl) {
       ({
@@ -187,13 +191,13 @@ export default {
       ? this.toCustomer
       : this.toUser;
 
-    // For internal notes, we don't need from/to validation
+    if (!fromId) {
+      throw new ConfigurationError(`"${this.fromAgent
+        ? "From User"
+        : "From Customer"}" is required when "From Agent" is set to \`${this.fromAgent}\``);
+    }
+    // For internal notes, we don't need to validation
     if (!isInternalNote) {
-      if (!fromId) {
-        throw new ConfigurationError(`"${this.fromAgent
-          ? "From User"
-          : "From Customer"}" is required when "From Agent" is set to \`${this.fromAgent}\``);
-      }
       if (!toId) {
         throw new ConfigurationError(`"${this.fromAgent
           ? "To Customer"
@@ -216,9 +220,12 @@ export default {
           size,
         },
       ],
+      sender: {
+        id: fromId,
+      },
     };
 
-    // Only add source, sender, and receiver for non-internal notes
+    // Only add source and receiver for non-internal notes
     if (!isInternalNote) {
       messageData.source = {
         from: {
@@ -229,9 +236,6 @@ export default {
             address: await this.getEmail($, toId, "to"),
           },
         ],
-      };
-      messageData.sender = {
-        id: fromId,
       };
       messageData.receiver = {
         id: toId,
