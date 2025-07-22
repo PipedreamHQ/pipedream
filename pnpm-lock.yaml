@@ -14623,7 +14623,11 @@ importers:
 
   components/veriff: {}
 
-  components/verifi_email: {}
+  components/verifi_email:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/verifiedemail: {}
 
