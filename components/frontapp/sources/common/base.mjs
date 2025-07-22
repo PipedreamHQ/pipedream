@@ -40,7 +40,7 @@ export default {
         if (filterFn) {
           responseArray.sort((a, b) => b.created_at - a.created_at);
         }
-        this._setLastTs(responseArray[0].emitted_at);
+        this._setLastTs(this._getEmit(responseArray[0]).ts);
       }
 
       for (const item of responseArray.reverse()) {
