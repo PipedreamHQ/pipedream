@@ -5,9 +5,7 @@ import { useFormContext } from "../hooks/form-context";
 import { useFormFieldContext } from "../hooks/form-field-context";
 import { useFrontendClient } from "../hooks/frontend-client-context";
 import { ControlSelect } from "./ControlSelect";
-import {
-  isString, isOptionWithValue,
-} from "../utils/type-guards";
+import { isString } from "../utils/type-guards";
 
 export type RemoteOptionsContainerProps = {
   queryEnabled?: boolean;

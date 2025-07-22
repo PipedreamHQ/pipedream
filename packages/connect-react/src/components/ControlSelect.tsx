@@ -12,7 +12,7 @@ import { useCustomize } from "../hooks/customization-context";
 import type { BaseReactSelectProps } from "../hooks/customization-context";
 import { LoadMoreButton } from "./LoadMoreButton";
 import {
-  isString, isOptionWithValue, OptionWithValue,
+  isOptionWithValue, OptionWithValue, sanitizeOption,
 } from "../utils/type-guards";
 
 // XXX T and ConfigurableProp should be related
@@ -44,44 +44,11 @@ export function ControlSelect<T>({
   ] = useState(value);
 
   useEffect(() => {
-    // Ensure all options have proper primitive values for label/value
-    const sanitizedOptions = options.map((option) => {
-      if (typeof option === "string") return option;
-
-      // If option has __lv wrapper, extract the inner option
-      if (option && typeof option === "object" && "__lv" in option) {
-        const innerOption = option.__lv;
-        return {
-          label: String(innerOption?.label || innerOption?.value || ""),
-          value: innerOption?.value,
-        };
-      }
-
-      // Handle nested label and value objects
-      let actualLabel = "";
-      let actualValue = option.value;
-
-      // Extract nested label
-      if (option.label && typeof option.label === "object" && "label" in option.label) {
-        actualLabel = String(option.label.label || "");
-      } else {
-        actualLabel = String(option.label || option.value || "");
-      }
-
-      // Extract nested value
-      if (option.value && typeof option.value === "object" && "value" in option.value) {
-        actualValue = option.value.value;
-      }
-
-      return {
-        label: actualLabel,
-        value: actualValue,
-      };
-    });
-    setSelectOptions(sanitizedOptions)
+    const sanitizedOptions = options.map(sanitizeOption);
+    setSelectOptions(sanitizedOptions);
   }, [
     options,
-  ])
+  ]);
 
   useEffect(() => {
     setRawValue(value)
@@ -184,16 +151,7 @@ export function ControlSelect<T>({
     let newRawValue = newOption
 
     // NEVER add wrapped objects to selectOptions - only clean {label, value} objects
-    const cleanSelectOptions = selectOptions.map((opt) => {
-      if (typeof opt === "string") return opt;
-      if (opt && typeof opt === "object" && "__lv" in opt) {
-        return {
-          label: String(opt.__lv?.label || ""),
-          value: opt.__lv?.value,
-        };
-      }
-      return opt;
-    });
+    const cleanSelectOptions = selectOptions.map(sanitizeOption);
 
     const newSelectOptions = [
       newOption,
@@ -250,31 +208,7 @@ export function ControlSelect<T>({
     : Select;
 
   // Final safety check - ensure NO __lv wrapped objects reach react-select
-  const cleanedOptions = selectOptions.map((opt) => {
-    if (typeof opt === "string") return opt;
-    if (opt && typeof opt === "object" && "__lv" in opt && opt.__lv) {
-      let actualLabel = "";
-      let actualValue = opt.__lv.value;
-
-      // Handle nested label in __lv
-      if (opt.__lv.label && typeof opt.__lv.label === "object" && "label" in opt.__lv.label) {
-        actualLabel = String(opt.__lv.label.label || "");
-      } else {
-        actualLabel = String(opt.__lv.label || opt.__lv.value || "");
-      }
-
-      // Handle nested value in __lv
-      if (opt.__lv.value && typeof opt.__lv.value === "object" && "value" in opt.__lv.value) {
-        actualValue = opt.__lv.value.value;
-      }
-
-      return {
-        label: actualLabel,
-        value: actualValue,
-      };
-    }
-    return opt;
-  });
+  const cleanedOptions = selectOptions.map(sanitizeOption);
 
   return (
     <MaybeCreatableSelect
