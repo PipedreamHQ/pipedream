@@ -5,7 +5,9 @@ import { useFormContext } from "../hooks/form-context";
 import { useFormFieldContext } from "../hooks/form-field-context";
 import { useFrontendClient } from "../hooks/frontend-client-context";
 import { ControlSelect } from "./ControlSelect";
-import { isString, isOptionWithValue } from "../utils/type-guards";
+import {
+  isString, isOptionWithValue,
+} from "../utils/type-guards";
 
 export type RemoteOptionsContainerProps = {
   queryEnabled?: boolean;
@@ -146,7 +148,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
           value = o.value;
         } else {
           // Skip items that don't match expected format
-          console.warn('Skipping invalid option:', o);
+          console.warn("Skipping invalid option:", o);
           continue;
         }
         if (allValues.has(value)) {

@@ -5,24 +5,24 @@ export interface OptionWithValue {
 }
 
 export function isString(value: unknown): value is string {
-  return typeof value === 'string';
+  return typeof value === "string";
 }
 
 export function isOptionWithValue(value: unknown): value is OptionWithValue {
   return (
     value !== null &&
-    typeof value === 'object' &&
+    typeof value === "object" &&
     !Array.isArray(value) &&
-    'value' in value
+    "value" in value
   );
 }
 
 export function isStringArray(value: unknown): value is string[] {
-  return Array.isArray(value) && value.every(item => typeof item === 'string');
+  return Array.isArray(value) && value.every((item) => typeof item === "string");
 }
 
 export function isOptionArray(value: unknown): value is OptionWithValue[] {
-  return Array.isArray(value) && value.every(item => isOptionWithValue(item));
+  return Array.isArray(value) && value.every((item) => isOptionWithValue(item));
 }
 
 export function normalizeOption(option: unknown): OptionWithValue | string {

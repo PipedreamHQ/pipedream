@@ -11,7 +11,9 @@ import { useFormFieldContext } from "../hooks/form-field-context";
 import { useCustomize } from "../hooks/customization-context";
 import type { BaseReactSelectProps } from "../hooks/customization-context";
 import { LoadMoreButton } from "./LoadMoreButton";
-import { isString, isOptionWithValue, OptionWithValue } from "../utils/type-guards";
+import {
+  isString, isOptionWithValue, OptionWithValue,
+} from "../utils/type-guards";
 
 // XXX T and ConfigurableProp should be related
 type ControlSelectProps<T> = {
@@ -43,37 +45,37 @@ export function ControlSelect<T>({
 
   useEffect(() => {
     // Ensure all options have proper primitive values for label/value
-    const sanitizedOptions = options.map(option => {
-      if (typeof option === 'string') return option;
-      
+    const sanitizedOptions = options.map((option) => {
+      if (typeof option === "string") return option;
+
       // If option has __lv wrapper, extract the inner option
-      if (option && typeof option === 'object' && '__lv' in option) {
+      if (option && typeof option === "object" && "__lv" in option) {
         const innerOption = option.__lv;
         return {
-          label: String(innerOption?.label || innerOption?.value || ''),
-          value: innerOption?.value
+          label: String(innerOption?.label || innerOption?.value || ""),
+          value: innerOption?.value,
         };
       }
-      
+
       // Handle nested label and value objects
-      let actualLabel = '';
+      let actualLabel = "";
       let actualValue = option.value;
-      
+
       // Extract nested label
-      if (option.label && typeof option.label === 'object' && 'label' in option.label) {
-        actualLabel = String(option.label.label || '');
+      if (option.label && typeof option.label === "object" && "label" in option.label) {
+        actualLabel = String(option.label.label || "");
       } else {
-        actualLabel = String(option.label || option.value || '');
+        actualLabel = String(option.label || option.value || "");
       }
-      
+
       // Extract nested value
-      if (option.value && typeof option.value === 'object' && 'value' in option.value) {
+      if (option.value && typeof option.value === "object" && "value" in option.value) {
         actualValue = option.value.value;
       }
-      
+
       return {
         label: actualLabel,
-        value: actualValue
+        value: actualValue,
       };
     });
     setSelectOptions(sanitizedOptions)
@@ -160,7 +162,7 @@ export function ControlSelect<T>({
   }
 
   const props = select.getProps("controlSelect", baseSelectProps)
-  
+
   if (showLoadMoreButton) {
     props.components = {
       // eslint-disable-next-line react/prop-types
@@ -180,19 +182,25 @@ export function ControlSelect<T>({
     }
     const newOption = createOption(inputValue)
     let newRawValue = newOption
-    
+
     // NEVER add wrapped objects to selectOptions - only clean {label, value} objects
-    const cleanSelectOptions = selectOptions.map(opt => {
-      if (typeof opt === 'string') return opt;
-      if (opt && typeof opt === 'object' && '__lv' in opt) {
-        return {label: String(opt.__lv?.label || ''), value: opt.__lv?.value};
+    const cleanSelectOptions = selectOptions.map((opt) => {
+      if (typeof opt === "string") return opt;
+      if (opt && typeof opt === "object" && "__lv" in opt) {
+        return {
+          label: String(opt.__lv?.label || ""),
+          value: opt.__lv?.value,
+        };
       }
       return opt;
     });
-    
-    const newSelectOptions = [newOption, ...cleanSelectOptions];
+
+    const newSelectOptions = [
+      newOption,
+      ...cleanSelectOptions,
+    ];
     setSelectOptions(newSelectOptions);
-    
+
     if (prop.type.endsWith("[]")) {
       if (Array.isArray(rawValue)) {
         newRawValue = [
@@ -242,33 +250,32 @@ export function ControlSelect<T>({
     : Select;
 
   // Final safety check - ensure NO __lv wrapped objects reach react-select
-  const cleanedOptions = selectOptions.map(opt => {
-    if (typeof opt === 'string') return opt;
-    if (opt && typeof opt === 'object' && '__lv' in opt && opt.__lv) {
-      let actualLabel = '';
+  const cleanedOptions = selectOptions.map((opt) => {
+    if (typeof opt === "string") return opt;
+    if (opt && typeof opt === "object" && "__lv" in opt && opt.__lv) {
+      let actualLabel = "";
       let actualValue = opt.__lv.value;
-      
+
       // Handle nested label in __lv
-      if (opt.__lv.label && typeof opt.__lv.label === 'object' && 'label' in opt.__lv.label) {
-        actualLabel = String(opt.__lv.label.label || '');
+      if (opt.__lv.label && typeof opt.__lv.label === "object" && "label" in opt.__lv.label) {
+        actualLabel = String(opt.__lv.label.label || "");
       } else {
-        actualLabel = String(opt.__lv.label || opt.__lv.value || '');
+        actualLabel = String(opt.__lv.label || opt.__lv.value || "");
       }
-      
+
       // Handle nested value in __lv
-      if (opt.__lv.value && typeof opt.__lv.value === 'object' && 'value' in opt.__lv.value) {
+      if (opt.__lv.value && typeof opt.__lv.value === "object" && "value" in opt.__lv.value) {
         actualValue = opt.__lv.value.value;
       }
-      
+
       return {
         label: actualLabel,
-        value: actualValue
+        value: actualValue,
       };
     }
     return opt;
   });
 
-  
   return (
     <MaybeCreatableSelect
       inputId={id}
@@ -279,10 +286,14 @@ export function ControlSelect<T>({
       isClearable={true}
       required={!prop.optional}
       getOptionLabel={(option) => {
-        return typeof option === 'string' ? option : String(option?.label || option?.value || '');
+        return typeof option === "string"
+          ? option
+          : String(option?.label || option?.value || "");
       }}
       getOptionValue={(option) => {
-        return typeof option === 'string' ? option : String(option?.value || '');
+        return typeof option === "string"
+          ? option
+          : String(option?.value || "");
       }}
       onChange={handleChange}
       {...props}

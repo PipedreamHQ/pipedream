@@ -33,15 +33,15 @@ export * from "./hooks/use-component";
 export * from "./hooks/use-components";
 
 // Debug info for development
-import packageJson from '../package.json';
+import packageJson from "../package.json";
 
 export const DEBUG_INFO = {
   version: `${packageJson.version}-dev`,
   buildTime: new Date().toISOString(),
-  source: "local-development"
+  source: "local-development",
 };
 
 // Auto-log debug info in development
-if (typeof window !== 'undefined') {
-  console.log('🔧 @pipedream/connect-react DEBUG:', DEBUG_INFO);
+if (typeof window !== "undefined") {
+  console.log("🔧 @pipedream/connect-react DEBUG:", DEBUG_INFO);
 }
