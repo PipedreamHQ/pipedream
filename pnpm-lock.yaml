@@ -160,8 +160,7 @@ importers:
         specifier: ^4.0.1
         version: 4.0.1
 
-  components/_302_ai:
-    specifiers: {}
+  components/_302_ai: {}
 
   components/_360nrs:
     dependencies:
