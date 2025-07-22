@@ -8,6 +8,38 @@ export default {
   type: "action",
   props: {
     frontApp,
+    sortBy: {
+      type: "string",
+      label: "Sort By Field",
+      description: "Field used to sort the message templates",
+      options: [
+        {
+          label: "Created At",
+          value: "created_at",
+        },
+        {
+          label: "Updated At",
+          value: "updated_at",
+        },
+      ],
+      optional: true,
+    },
+    sortOrder: {
+      type: "string",
+      label: "Sort Order",
+      description: "Order by which results should be sorted",
+      options: [
+        {
+          label: "Ascending",
+          value: "asc",
+        },
+        {
+          label: "Descending",
+          value: "desc",
+        },
+      ],
+      optional: true,
+    },
     maxResults: {
       propDefinition: [
         frontApp,
@@ -18,6 +50,10 @@ export default {
   async run({ $ }) {
     const items = this.frontApp.paginate({
       fn: this.frontApp.listMessageTemplates,
+      params: {
+        sort_by: this.sortBy,
+        sort_order: this.sortOrder,
+      },
       maxResults: this.maxResults,
       $,
     });
