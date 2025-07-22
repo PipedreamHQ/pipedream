@@ -1042,6 +1042,9 @@ importers:
 
   components/ascora: {}
 
+  components/ashby_job_postings_api:
+    specifiers: {}
+
   components/asin_data_api: {}
 
   components/asknicely:
