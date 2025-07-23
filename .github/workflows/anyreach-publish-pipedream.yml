@@ -43,7 +43,7 @@ jobs:
           HEAD_REF: ${{ github.sha }}
         run: |
           chmod +x scripts/anyreach-pd-change-handler.sh
-          ./scripts/pd-change-handler.sh \
+          ./scripts/anyreach-pd-change-handler.sh \
             --base "${BASE_REF}" \
             --head "${HEAD_REF}" \
             $( [[ "$DRY_RUN" == 'true' ]] && echo "--dry-run" )
