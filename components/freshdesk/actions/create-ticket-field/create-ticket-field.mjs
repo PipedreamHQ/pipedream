@@ -45,7 +45,7 @@ export default {
       default: "custom_dropdown",
       optional: true,
     },
-    requiredForClusure: {
+    requiredForClosure: {
       type: "boolean",
       label: "Required for Closure",
       description: "Set to `true` if the field is mandatory for closing the ticket",
@@ -96,7 +96,7 @@ export default {
         displayed_to_customers: this.displayedToCustomers,
         position: this.position,
         type: this.type,
-        required_for_closure: this.requiredForClusure,
+        required_for_closure: this.requiredForClosure,
         required_for_agents: this.requiredForAgents,
         required_for_customers: this.requiredForCustomers,
         choices: parseObject(this.choices),

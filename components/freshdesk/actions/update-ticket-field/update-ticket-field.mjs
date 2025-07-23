@@ -45,7 +45,7 @@ export default {
       description: "The position of the fieldPosition in which the ticket field is displayed in the form. If not given, it will be displayed on top",
       optional: true,
     },
-    requiredForClusure: {
+    requiredForClosure: {
       type: "boolean",
       label: "Required for Closure",
       description: "Set to `true` if the field is mandatory for closing the ticket",
@@ -92,7 +92,7 @@ export default {
         customers_can_edit: this.customersCanEdit,
         displayed_to_customers: this.displayedToCustomers,
         position: this.position,
-        required_for_closure: this.requiredForClusure,
+        required_for_closure: this.requiredForClosure,
         required_for_agents: this.requiredForAgents,
         required_for_customers: this.requiredForCustomers,
         choices: parseObject(this.choices),

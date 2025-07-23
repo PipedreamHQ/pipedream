@@ -655,9 +655,9 @@ export default {
         }
         for (const result of results) {
           yield result;
-        }
-        if (max && ++count >= max) {
-          return;
+          if (max && ++count >= max) {
+            return;
+          }
         }
         args.params.page += 1;
       } while (total === args.params.per_page);
