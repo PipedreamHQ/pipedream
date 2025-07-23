@@ -22,3 +22,9 @@ export const parseObject = (obj) => {
   }
   return obj;
 };
+
+export const snakeCaseToTitleCase = (s) =>
+  s.toLowerCase()
+    .replace(/^_*(.)|_+(.)/g, (s, c, d) => c
+      ? c.toUpperCase()
+      : " " + d.toUpperCase());

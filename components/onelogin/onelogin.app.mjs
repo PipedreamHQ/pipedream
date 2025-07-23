@@ -5,6 +5,7 @@ import {
   STATE_OPTIONS,
   STATUS_OPTIONS,
 } from "./common/constants.mjs";
+import { snakeCaseToTitleCase } from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -77,6 +78,25 @@ export default {
           id: value, username, email,
         }) => ({
           label: `${username || email}`,
+          value,
+        }));
+      },
+    },
+    eventType: {
+      type: "string",
+      label: "Event Type",
+      description: "The type of event to emit",
+      async options({ page }) {
+        const { data } = await this.listEventTypes({
+          params: {
+            page,
+          },
+        });
+
+        return data.map(({
+          id: value, name, description,
+        }) => ({
+          label: `${snakeCaseToTitleCase(name)}: ${description}`,
           value,
         }));
       },
@@ -230,7 +250,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return `https://${this.$auth.subdomain}.onelogin.com`;
+      return `https://${this.$auth.subdomain}.onelogin.com/api`;
     },
     _headers() {
       return {
@@ -248,26 +268,26 @@ export default {
     },
     listGroups(opts = {}) {
       return this._makeRequest({
-        path: "/api/1/groups",
+        path: "/1/groups",
         ...opts,
       });
     },
     listRoles(opts = {}) {
       return this._makeRequest({
-        path: "/api/1/roles",
+        path: "/1/roles",
         ...opts,
       });
     },
     listUsers(opts = {}) {
       return this._makeRequest({
-        path: "/api/2/users",
+        path: "/2/users",
         ...opts,
       });
     },
     createUser(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/api/2/users",
+        path: "/2/users",
         ...opts,
       });
     },
@@ -276,13 +296,19 @@ export default {
     }) {
       return this._makeRequest({
         method: "PUT",
-        path: `/api/2/users/${userId}`,
+        path: `/2/users/${userId}`,
         ...opts,
       });
     },
     listEvents(opts = {}) {
       return this._makeRequest({
-        path: "/api/1/events",
+        path: "/1/events",
+        ...opts,
+      });
+    },
+    listEventTypes(opts = {}) {
+      return this._makeRequest({
+        path: "/1/events/types",
         ...opts,
       });
     },
