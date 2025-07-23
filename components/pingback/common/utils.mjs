@@ -22,3 +22,16 @@ export const parseObject = (obj) => {
   }
   return obj;
 };
+
+export const parseCustomFields = (customFields) => {
+  const parsedCustomFields = Object.entries(parseObject(customFields) || {});
+  if (parsedCustomFields.length) {
+    return parsedCustomFields.map(([
+      key,
+      value,
+    ]) => ({
+      label: key,
+      value,
+    }));
+  }
+};

@@ -1,8 +1,7 @@
-import { defineAction } from "@pipedream/types";
-import { parseObject } from "../../common/utils.mjs";
+import { parseCustomFields } from "../../common/utils.mjs";
 import pingback from "../../pingback.app.mjs";
 
-export default defineAction({
+export default {
   name: "Update Subscriber",
   description: "Update a specific subscriber by email [See the documentation](https://developer.pingback.com/docs/api/update-subscriber)",
   key: "pingback-update-subscriber",
@@ -42,24 +41,21 @@ export default defineAction({
     },
   },
   async run({ $ }) {
+    const data = {
+      phone: this.phone,
+      name: this.name,
+      status: this.status,
+    };
+
+    data.customFields = parseCustomFields(this.customFields);
+
     const response = await this.pingback.updateSubscriber({
       $,
       email: this.email,
-      data: {
-        phone: this.phone,
-        name: this.name,
-        status: this.status,
-        customFields: Object.entries(parseObject(this.customFields))?.map(([
-          key,
-          value,
-        ]) => ({
-          label: key,
-          value,
-        })),
-      },
+      data,
     });
 
     $.export("$summary", `Subscriber updated successfully with ID: ${response.data.data.id}`);
     return response;
   },
-});
+};

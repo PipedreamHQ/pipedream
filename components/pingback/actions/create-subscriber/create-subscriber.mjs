@@ -1,4 +1,7 @@
-import { parseObject } from "../../common/utils.mjs";
+import {
+  parseCustomFields,
+  parseObject,
+} from "../../common/utils.mjs";
 import pingback from "../../pingback.app.mjs";
 
 export default {
@@ -47,22 +50,19 @@ export default {
     },
   },
   async run({ $ }) {
+    const data  = {
+      email: this.email,
+      phone: this.phone,
+      name: this.name,
+      status: this.status,
+      segmentationLists: parseObject(this.segmentationLists),
+    };
+
+    data.customFields = parseCustomFields(this.customFields);
+
     const response = await this.pingback.createSubscriber({
       $,
-      data: {
-        email: this.email,
-        phone: this.phone,
-        name: this.name,
-        status: this.status,
-        customFields: Object.entries(parseObject(this.customFields))?.map(([
-          key,
-          value,
-        ]) => ({
-          label: key,
-          value,
-        })),
-        segmentationLists: parseObject(this.segmentationLists),
-      },
+      data,
     });
 
     $.export("$summary", `Subscriber created successfully with ID: ${response.data.data.id}`);

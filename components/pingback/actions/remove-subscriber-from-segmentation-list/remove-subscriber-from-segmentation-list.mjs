@@ -1,7 +1,6 @@
-import { defineAction } from "@pipedream/types";
 import pingback from "../../pingback.app.mjs";
 
-export default defineAction({
+export default {
   name: "Remove Subscriber From Segmentation List",
   description: "Remove a subscriber from a segmentation list by email [See the documentation](https://developer.pingback.com/docs/api/remove-subscriber-from-segment)",
   key: "pingback-remove-subscriber-from-segmentation-list",
@@ -18,9 +17,11 @@ export default defineAction({
     segmentationListId: {
       propDefinition: [
         pingback,
-        "segmentationListId",
+        "segmentationLists",
       ],
-      type: "string",
+      type: "string[]",
+      label: "Segmentation Lists",
+      description: "Segmentation list ID to remove the subscriber from. You can get the ID by clicking audience and lists at Pingback dashboard.",
     },
   },
   async run({ $ }) {
@@ -33,4 +34,4 @@ export default defineAction({
     $.export("$summary", `Subscriber ${this.email} removed from segmentation list ${this.segmentationListId} successfully`);
     return response;
   },
-});
+};

@@ -1,8 +1,7 @@
-import { defineAction } from "@pipedream/types";
 import { parseObject } from "../../common/utils.mjs";
 import pingback from "../../pingback.app.mjs";
 
-export default defineAction({
+export default {
   name: "Add Subscriber To Segmentation Lists",
   description: "Add a subscriber to segmentation lists by email [See the documentation](https://developer.pingback.com/docs/api/add-subscriber-to-segment)",
   key: "pingback-add-subscriber-to-segmentation-lists",
@@ -35,4 +34,4 @@ export default defineAction({
     $.export("$summary", `Subscriber ${this.email} added to segmentation list(s) successfully`);
     return response;
   },
-});
+};
