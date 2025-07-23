@@ -2,19 +2,21 @@
 name: Pipedream CI/CD
 
 on:
-  push:
-    branches:
-      - main
-      - research
   pull_request:
     types:
       - opened
-      - synchronize
+      - synchronize 
       - reopened
+      - closed
+    branches:
+      - main
+      - research
 
 jobs:
   handle-components:
     runs-on: ubuntu-latest
+    # Only run on merge events or PR validation (not closed without merge)
+    if: github.event.action != 'closed' || github.event.pull_request.merged == true
     steps:
       - name: Checkout all history
         uses: actions/checkout@v3
@@ -36,12 +38,21 @@ jobs:
             "$PIPEDREAM_API_KEY" "$PIPEDREAM_ORG_ID" \
           > ~/.config/pipedream/config
 
+      - name: Show Event Info
+        run: |
+          echo "Event: ${{ github.event_name }}"
+          echo "Action: ${{ github.event.action }}"
+          echo "Merged: ${{ github.event.pull_request.merged }}"
+          echo "Base branch: ${{ github.event.pull_request.base.ref }}"
+          echo "Head branch: ${{ github.event.pull_request.head.ref }}"
+
       - name: Diff & Process Components
         env:
           PROFILE: workspace
-          DRY_RUN: ${{ github.event_name == 'pull_request' }}
-          BASE_REF: ${{ github.event.pull_request.base.sha || github.sha }}
-          HEAD_REF: ${{ github.sha }}
+          # Only run actual publish/unpublish on merged PRs, dry-run for validation
+          DRY_RUN: ${{ github.event.action != 'closed' || github.event.pull_request.merged != true }}
+          BASE_REF: ${{ github.event.pull_request.base.sha }}
+          HEAD_REF: ${{ github.event.pull_request.head.sha }}
         run: |
           chmod +x scripts/anyreach-pd-change-handler.sh
           ./scripts/anyreach-pd-change-handler.sh \

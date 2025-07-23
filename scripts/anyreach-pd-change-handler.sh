@@ -37,6 +37,17 @@ echo "PROFILE: $PROFILE"
 echo "========================"
 echo
 
+# Check if base and head are the same commit
+BASE_HASH=$(git rev-parse "$BASE")
+HEAD_HASH=$(git rev-parse "$HEAD")
+if [[ "$BASE_HASH" == "$HEAD_HASH" ]]; then
+  echo "WARNING: BASE and HEAD point to the same commit ($BASE_HASH)"
+  echo "This will result in no diff. Consider using:"
+  echo "  --base HEAD~1 --head HEAD (compare against previous commit)"
+  echo "  --base \$(git merge-base HEAD~1 HEAD) --head HEAD (compare against merge base)"
+  echo
+fi
+
 # 1) Get changed files under any actions directory
 mapfile -t changes < <(
   git diff --name-status "$BASE" "$HEAD" \
