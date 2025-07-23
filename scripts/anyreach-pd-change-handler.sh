@@ -28,6 +28,15 @@ while [[ $# -gt 0 ]]; do
 done
 [[ -n "$BASE" && -n "$HEAD" ]] || usage
 
+# Print arguments for debugging
+echo "=== Script Arguments ==="
+echo "BASE: $BASE"
+echo "HEAD: $HEAD"
+echo "DRY_RUN: $DRY_RUN"
+echo "PROFILE: $PROFILE"
+echo "========================"
+echo
+
 # 1) Get changed files under any actions directory
 mapfile -t changes < <(
   git diff --name-status "$BASE" "$HEAD" \

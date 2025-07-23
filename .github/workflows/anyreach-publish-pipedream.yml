@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - research
   pull_request:
     types:
       - opened
