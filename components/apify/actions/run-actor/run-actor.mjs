@@ -7,7 +7,7 @@ export default {
   key: "apify-run-actor",
   name: "Run Actor",
   description: "Performs an execution of a selected actor in Apify. [See the documentation](https://docs.apify.com/api/v2#/reference/actors/run-collection/run-actor)",
-  version: "0.0.20",
+  version: "0.0.25",
   type: "action",
   props: {
     apify,
@@ -194,13 +194,6 @@ export default {
         description: "Key of the record from run's default key-value store to be returned in the response. By default, it is OUTPUT.",
         optional: true,
       };
-    } else {
-      props.waitForFinish = {
-        type: "string",
-        label: "Wait For Finish",
-        description: "The maximum number of seconds the server waits for the run to finish. By default, it is 0, the maximum value is 60. If the build finishes in time then the returned run object will have a terminal status (e.g. SUCCEEDED), otherwise it will have a transitional status (e.g. RUNNING).",
-        optional: true,
-      };
     }
     if (this.webhook) {
       props.eventTypes = {
@@ -229,7 +222,6 @@ export default {
       memory,
       maxItems,
       maxTotalChargeUsd,
-      waitForFinish,
       webhook,
       eventTypes,
       ...data
@@ -250,7 +242,6 @@ export default {
         memory,
         maxItems,
         maxTotalChargeUsd,
-        waitForFinish,
         build: buildId,
         webhooks: webhook
           ? btoa(JSON.stringify([
