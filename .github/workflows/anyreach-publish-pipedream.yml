@@ -1,0 +1,49 @@
+# .github/workflows/pipedream-ci.yml
+name: Pipedream CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  handle-components:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout all history
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install Pipedream CLI
+        run: |
+          curl https://cli.pipedream.com/install | sh
+          echo "$HOME/.pipedream/bin" >> $GITHUB_PATH
+
+      - name: Configure Pipedream CLI Profile
+        env:
+          PIPEDREAM_API_KEY: ${{ secrets.PIPEDREAM_API_KEY }}
+          PIPEDREAM_ORG_ID:  ${{ vars.PIPEDREAM_ORG_ID }}
+        run: |
+          mkdir -p ~/.config/pipedream
+          printf "[workspace]\napi_key = %s\norg_id = %s\n" \
+            "$PIPEDREAM_API_KEY" "$PIPEDREAM_ORG_ID" \
+          > ~/.config/pipedream/config
+
+      - name: Diff & Process Components
+        env:
+          PROFILE: workspace
+          DRY_RUN: ${{ github.event_name == 'pull_request' }}
+          BASE_REF: ${{ github.event.pull_request.base.sha || github.sha }}
+          HEAD_REF: ${{ github.sha }}
+        run: |
+          chmod +x scripts/pd-change-handler.sh
+          ./scripts/pd-change-handler.sh \
+            --base "${BASE_REF}" \
+            --head "${HEAD_REF}" \
+            $( [[ "$DRY_RUN" == 'true' ]] && echo "--dry-run" )
