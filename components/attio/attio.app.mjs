@@ -302,5 +302,13 @@ export default {
         ...args,
       });
     },
+    getRecord({
+      objectId, recordId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/objects/${objectId}/records/${recordId}`,
+        ...args,
+      });
+    },
   },
 };
