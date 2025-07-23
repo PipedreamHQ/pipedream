@@ -122,5 +122,19 @@ export default {
         ...args,
       });
     },
+    getFreeSlots({calendarId,...args}) {
+      return this._makeRequest({
+        method: "GET",
+        url: `/calendars/${calendarId}/free-slots`,
+        ...args,
+      });
+    },
+    createCalendarAppointment(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        url: `/calendars/events/appointments`,
+        ...args,
+      });
+    },
   },
 };
