@@ -265,7 +265,6 @@ const GET_ORDER = `
               discountApplication {
                 ... on DiscountCodeApplication {
                   code
-                  applicable
                 }
                 ... on AutomaticDiscountApplication {
                   title
@@ -280,7 +279,7 @@ const GET_ORDER = `
         }
       }
       
-      shippingLines {
+      shippingLine {
         title
         code
         source
@@ -442,18 +441,20 @@ const GET_ORDER = `
           }
         }
         transactions {
-          id
-          status
-          kind
-          gateway
-          amountSet {
-            shopMoney {
-              amount
-              currencyCode
-            }
-            presentmentMoney {
-              amount
-              currencyCode
+          nodes {
+            id
+            status
+            kind
+            gateway
+            amountSet {
+              shopMoney {
+                amount
+                currencyCode
+              }
+              presentmentMoney {
+                amount
+                currencyCode
+              }
             }
           }
         }
