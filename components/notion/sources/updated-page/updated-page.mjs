@@ -185,7 +185,7 @@ export default {
     const propertiesToCheck = await this._getPropertiesToCheck();
     const propertyValues = this._getPropertyValues();
 
-    for await (const page of pagesStream) { console.log(page);
+    for await (const page of pagesStream) {
       const changes = [];
       let isNewPage = false;
       let propertyHasChanged = false;
