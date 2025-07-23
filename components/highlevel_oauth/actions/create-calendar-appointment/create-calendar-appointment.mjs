@@ -5,7 +5,7 @@ export default {
   key: "highlevel_oauth-create-calendar-appointment",
   name: "Create Calendar Appointment",
   description: "Creates a new calendar appointment in HighLevel. [See the documentation](https://highlevel.stoplight.io/docs/integrations/db6affea7570b-create-calendar)",
-  version: "0.0.22",
+  version: "0.0.23",
   type: "action",
   props: {
     ...common.props,
