@@ -3,13 +3,14 @@ import sampleEmit from "./test-event.mjs";
 import base from "../common/base.mjs";
 import constants from "../common/constants.mjs";
 import zlib from "zlib";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   ...base,
   key: "notion-updated-page",
   name: "New or Updated Page in Database", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event when a page is created or updated in the selected database. [See the documentation](https://developers.notion.com/reference/page)",
-  version: "0.1.7",
+  version: "0.1.8",
   type: "source",
   dedupe: "unique",
   props: {
@@ -38,16 +39,32 @@ export default {
       description: "Only emit events when one or more of the selected properties have changed",
       optional: true,
     },
+    includeChanges: {
+      type: "boolean",
+      label: "Include Changes",
+      description: "If `false`, the emitted event will not include information about the specific property changes. Must be `true` if `property types` is set. Default: `true`",
+      default: true,
+      optional: true,
+    },
     alert: {
       type: "alert",
       alertType: "warning",
-      content: "Source not saving? Your database might be too large. If deployment takes longer than one minute, an error will occur.",
+      content: "Source not saving? Your database might be too large. If deployment takes longer than one minute, an error will occur. Try removing `property types` and setting `includeChanges` to `false`.",
     },
   },
   hooks: {
     async activate() {
-      console.log("Activating: fetching pages and properties");
+      if (!this.includeChanges && this.properties?.length) {
+        throw new ConfigurationError("`includeChanges` must be `true` if `properties` are set");
+      }
+
       this._setLastUpdatedTimestamp(Date.now());
+
+      if (!this.includeChanges) {
+        return;
+      }
+
+      console.log("Activating: fetching pages and properties");
       const propertyValues = {};
       const propertiesToCheck = await this._getPropertiesToCheck();
       const params = this.lastUpdatedSortParam();
@@ -124,14 +141,15 @@ export default {
         : this._generateMeta(page, constants.summaries.PAGE_UPDATED);
       const event = {
         page,
-        changes,
       };
+      if (this.includeChanges) {
+        event.changes = changes;
+      }
       this.$emit(event, meta);
     },
   },
   async run() {
     const lastCheckedTimestamp = this._getLastUpdatedTimestamp();
-    const propertyValues = this._getPropertyValues();
 
     if (!lastCheckedTimestamp) {
       // recently updated (deactivated / activated), skip execution
@@ -149,10 +167,25 @@ export default {
       },
     };
     let newLastUpdatedTimestamp = lastCheckedTimestamp;
-    const propertiesToCheck = await this._getPropertiesToCheck();
     const pagesStream = this.notion.getPages(this.databaseId, params);
 
-    for await (const page of pagesStream) {
+    if (!this.includeChanges) {
+      for await (const page of pagesStream) {
+        newLastUpdatedTimestamp = Math.max(
+          newLastUpdatedTimestamp,
+          Date.parse(page.last_edited_time),
+        );
+        const isNewPage = page.last_edited_time === page.created_time;
+        this._emitEvent(page, [], isNewPage);
+      }
+      this._setLastUpdatedTimestamp(newLastUpdatedTimestamp);
+      return;
+    }
+
+    const propertiesToCheck = await this._getPropertiesToCheck();
+    const propertyValues = this._getPropertyValues();
+
+    for await (const page of pagesStream) { console.log(page);
       const changes = [];
       let isNewPage = false;
       let propertyHasChanged = false;
