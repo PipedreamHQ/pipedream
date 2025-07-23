@@ -42,7 +42,7 @@ jobs:
           BASE_REF: ${{ github.event.pull_request.base.sha || github.sha }}
           HEAD_REF: ${{ github.sha }}
         run: |
-          chmod +x scripts/pd-change-handler.sh
+          chmod +x scripts/anyreach-pd-change-handler.sh
           ./scripts/pd-change-handler.sh \
             --base "${BASE_REF}" \
             --head "${HEAD_REF}" \
