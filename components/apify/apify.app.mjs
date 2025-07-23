@@ -30,8 +30,14 @@ export default {
       type: "string",
       label: "Actor ID",
       description: "Actor ID or a tilde-separated owner's username and Actor name",
-      async options({ page }) {
-        const { data: { items } } = await this.listActors({
+      async options({
+        page, actorSource,
+      }) {
+        actorSource ??= "recently-used";
+        const listFn = actorSource === "store"
+          ? this.listActors
+          : this.listUserActors;
+        const { data: { items } } = await listFn({
           params: {
             offset: LIMIT * page,
             limit: LIMIT,
@@ -39,29 +45,9 @@ export default {
         });
 
         return items.map(({
-          id: value, name: label,
+          id: value, title: title, username, name,
         }) => ({
-          label,
-          value,
-        }));
-      },
-    },
-    userActorId: {
-      type: "string",
-      label: "Actor ID",
-      description: "The ID of the Actor to monitor.",
-      async options({ page }) {
-        const { data: { items } } = await this.listUserActors({
-          params: {
-            offset: LIMIT * page,
-            limit: LIMIT,
-          },
-        });
-
-        return items.map(({
-          id: value, name: label,
-        }) => ({
-          label,
+          label: `${title} (${username}/${name})`,
           value,
         }));
       },
@@ -79,9 +65,9 @@ export default {
         });
 
         return items.map(({
-          id: value, name: label,
+          id: value, title, username, name,
         }) => ({
-          label,
+          label: `${title} (${username}/${name})`,
           value,
         }));
       },
@@ -235,7 +221,7 @@ export default {
     },
     listUserActors(opts = {}) {
       return this._makeRequest({
-        path: "/acts",
+        path: "/acts?desc=1&sortBy=stats.lastRunStartedAt",
         ...opts,
       });
     },

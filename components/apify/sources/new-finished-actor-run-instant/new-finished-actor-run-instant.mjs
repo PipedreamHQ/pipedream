@@ -15,7 +15,7 @@ export default {
     actorId: {
       propDefinition: [
         common.props.apify,
-        "userActorId",
+        "actorId",
       ],
     },
   },
