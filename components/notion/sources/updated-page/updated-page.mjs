@@ -7,7 +7,7 @@ import zlib from "zlib";
 export default {
   ...base,
   key: "notion-updated-page",
-  name: "New or Updated Page in Database", /* eslint-disable-line pipedream/source-name */
+  name: "New or Updated Page in Database (By Property)",
   description: "Emit new event when a page is created or updated in the selected database. [See the documentation](https://developers.notion.com/reference/page)",
   version: "0.1.8",
   type: "source",
