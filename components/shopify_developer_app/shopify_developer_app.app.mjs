@@ -57,7 +57,7 @@ export default {
         }));
       },
     },
-    fullfillmentId: {
+    fulfillmentId: {
       type: "string",
       label: "Fulfillment ID",
       description: "The identifier of a fulfillment",

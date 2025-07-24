@@ -2,7 +2,7 @@ import shopify from "../../shopify_developer_app.app.mjs";
 import { MAX_LIMIT } from "@pipedream/shopify/common/constants.mjs";
 
 export default {
-  key: "shopify-refund-order",
+  key: "shopify_developer_app-refund-order",
   name: "Refund Order",
   description: "Refund an order. [See the documentation](https://shopify.dev/docs/api/admin-graphql/unstable/mutations/refundcreate)",
   version: "0.0.1",
@@ -14,6 +14,12 @@ export default {
         shopify,
         "orderId",
       ],
+    },
+    note: {
+      type: "string",
+      label: "Note",
+      description: "An optional note that's attached to the refund",
+      optional: true,
     },
     lineItemIds: {
       propDefinition: [

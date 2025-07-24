@@ -14,10 +14,10 @@ export default {
         "orderId",
       ],
     },
-    fullfillmentId: {
+    fulfillmentId: {
       propDefinition: [
         shopify,
-        "fullfillmentId",
+        "fulfillmentId",
         (c) => ({
           orderId: c.orderId,
         }),
@@ -50,7 +50,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.shopify.updateFulfillmentTrackingInfo({
-      fulfillmentId: this.fullfillmentId,
+      fulfillmentId: this.fulfillmentId,
       trackingInfoInput: {
         company: this.company,
         number: this.number,
@@ -62,7 +62,7 @@ export default {
     if (response.fulfillmentTrackingInfoUpdate.userErrors.length > 0) {
       throw new Error(response.fulfillmentTrackingInfoUpdate.userErrors[0].message);
     }
-    $.export("$summary", `Updated fulfillment tracking info for fulfillment with ID: ${this.fullfillmentId}`);
+    $.export("$summary", `Updated fulfillment tracking info for fulfillment with ID: ${this.fulfillmentId}`);
     return response;
   },
 };
