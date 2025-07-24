@@ -4073,6 +4073,9 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/dynamic_content_snippet:
+    specifiers: {}
+
   components/dynamics_365_business_central_api:
     dependencies:
       '@pipedream/platform':
