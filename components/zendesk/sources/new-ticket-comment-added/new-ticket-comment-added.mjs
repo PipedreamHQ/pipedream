@@ -1,3 +1,4 @@
+import app from "../../zendesk.app.mjs";
 import common from "../common/ticket.mjs";
 
 export default {
@@ -8,6 +9,23 @@ export default {
   description: "Emit new event when a ticket comment has been added",
   version: "0.0.1",
   dedupe: "unique",
+  props: {
+    app,
+    db: "$.service.db",
+    http: "$.interface.http",
+    categoryId: {
+      propDefinition: [
+        app,
+        "categoryId",
+      ],
+    },
+    customSubdomain: {
+      propDefinition: [
+        app,
+        "customSubdomain",
+      ],
+    },
+  },
   methods: {
     ...common.methods,
     _getLastTs() {
