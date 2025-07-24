@@ -23,72 +23,6 @@ import {
   sanitizeInput,
 } from "./common/utils.mjs";
 
-/**
- * @typedef {Object} RequestConfig
- * @property {string} endpoint
- * @property {string} [method]
- * @property {Record<string, unknown>} [params]
- * @property {unknown} [data]
- */
-
-/**
- * @typedef {Object} ReviewsOptions
- * @property {string} [endpoint]
- * @property {string} [businessUnitId]
- * @property {number|null} [stars]
- * @property {string} [sortBy]
- * @property {number} [limit]
- * @property {number} [offset]
- * @property {boolean} [includeReportedReviews]
- * @property {string[]} [tags]
- * @property {string|null} [language]
- */
-
-/**
- * @typedef {Object} PublicReviewsOptions
- * @property {string} businessUnitId
- * @property {number|null} [stars]
- * @property {string} [sortBy]
- * @property {number} [limit]
- * @property {number} [offset]
- * @property {string[]} [tags]
- * @property {string|null} [language]
- */
-
-/**
- * @typedef {Object} ServiceReviewsOptions
- * @property {string} [businessUnitId]
- * @property {number|null} [stars]
- * @property {string} [sortBy]
- * @property {number} [limit]
- * @property {number} [offset]
- * @property {boolean} [includeReportedReviews]
- * @property {string[]} [tags]
- * @property {string|null} [language]
- */
-
-/**
- * @typedef {Object} ConversationsOptions
- * @property {number} [limit]
- * @property {number} [offset]
- * @property {string} [sortBy]
- * @property {string|null} [businessUnitId]
- */
-
-/**
- * @typedef {Object} WebhookOptions
- * @property {string} url
- * @property {string[]} events
- * @property {string|null} [businessUnitId]
- */
-
-/**
- * @typedef {Object} WebhookData
- * @property {string} url
- * @property {string[]} events
- * @property {string} [businessUnitId]
- */
-
 export default defineApp({
   type: "app",
   app: "trustpilot",
@@ -219,7 +153,10 @@ export default defineApp({
         return await this._makeRequest(config);
       } catch (error) {
         if (retries > 0 && error.response?.status === HTTP_STATUS.TOO_MANY_REQUESTS) {
-          const delay = Math.min(RETRY_CONFIG.INITIAL_DELAY * (RETRY_CONFIG.MAX_RETRIES - retries + 1), RETRY_CONFIG.MAX_DELAY);
+          const delay = Math.min(
+            RETRY_CONFIG.INITIAL_DELAY * (RETRY_CONFIG.MAX_RETRIES - retries + 1),
+            RETRY_CONFIG.MAX_DELAY,
+          );
           await sleep(delay);
           return this._makeRequestWithRetry(config, retries - 1);
         }
