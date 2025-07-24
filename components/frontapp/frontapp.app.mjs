@@ -314,7 +314,7 @@ export default {
       return url || `${constants.BASE_URL}${path}`;
     },
     hasMultipartHeader(headers) {
-      return headers && headers["Content-Type"].includes("multipart/form-data");
+      return headers?.["Content-Type"]?.includes("multipart/form-data");
     },
     getHeaders(headers) {
       return {
@@ -328,7 +328,10 @@ export default {
       headers, path, url, data: originalData, ...args
     } = {}) {
       const hasMultipartHeader = this.hasMultipartHeader(headers);
-      const data = hasMultipartHeader && utils.getFormData(originalData) || originalData;
+      const isFormData = originalData instanceof FormData;
+      const data = (!isFormData && hasMultipartHeader)
+        ? utils.getFormData(originalData)
+        : originalData;
       const currentHeaders = this.getHeaders(headers);
       const builtHeaders = hasMultipartHeader
         ? {
