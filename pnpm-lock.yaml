@@ -12828,6 +12828,9 @@ importers:
 
   components/sms_magic: {}
 
+  components/sms_messages:
+    specifiers: {}
+
   components/sms_partner: {}
 
   components/smsapi:
