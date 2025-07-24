@@ -27,14 +27,14 @@ export default {
         ts: conversation.created_at * 1000,
       };
     },
-    hooks: {
-      async deploy() {
-        await this.startEvent(25, (item, lastTs) => item.created_at > lastTs);
-      },
+  },
+  hooks: {
+    async deploy() {
+      await this.startEvent(25, (item, lastTs) => item.created_at > lastTs);
     },
-    async run() {
-      await this.startEvent(0, (item, lastTs) => item.created_at > lastTs);
-    },
+  },
+  async run() {
+    await this.startEvent(0, (item, lastTs) => item.created_at > lastTs);
   },
   sampleEmit,
 };
