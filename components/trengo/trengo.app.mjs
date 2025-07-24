@@ -146,6 +146,22 @@ export default {
       description: "Search term to find a contact. If not given, all contacts will be returned.",
       optional: true,
     },
+    helpCenterId: {
+      type: "integer",
+      label: "Help Center ID",
+      description: "Select a help center or provide an ID",
+      async options({ page = 0 }) {
+        const response = await this.getHelpCenters({
+          params: {
+            page: page + 1,
+          },
+        });
+        return response.data.map((helpCenter) => ({
+          label: helpCenter.name || helpCenter.slug,
+          value: helpCenter.id,
+        }));
+      },
+    },
   },
   methods: {
     _getUrl(path) {
@@ -238,6 +254,20 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "/messages",
+        ...args,
+      });
+    },
+    async getHelpCenters(args = {}) {
+      return this._makeRequest({
+        path: "/help_center",
+        ...args,
+      });
+    },
+    async getArticles({
+      helpCenterId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/help_center/${helpCenterId}/articles`,
         ...args,
       });
     },
