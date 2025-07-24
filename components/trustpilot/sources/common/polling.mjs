@@ -1,4 +1,4 @@
-import trustpilot from "../../app/trustpilot.app.mjs";
+import trustpilot from "../../trustpilot.app.mjs";
 import {
   POLLING_CONFIG, SOURCE_TYPES,
 } from "../../common/constants.mjs";

@@ -1,4 +1,4 @@
-import trustpilot from "../../app/trustpilot.app.mjs";
+import trustpilot from "../../trustpilot.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {

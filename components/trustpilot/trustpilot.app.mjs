@@ -10,7 +10,7 @@ import {
   RATING_SCALE,
   RETRY_CONFIG,
   HTTP_STATUS,
-} from "../common/constants.mjs";
+} from "./common/constants.mjs";
 import {
   buildUrl,
   parseReview,
@@ -21,68 +21,73 @@ import {
   formatQueryParams,
   sleep,
   sanitizeInput,
-} from "../common/utils.mjs";
+} from "./common/utils.mjs";
 
-// Type definitions for better type safety
-interface RequestConfig {
-  endpoint: string;
-  method?: string;
-  params?: Record<string, unknown>;
-  data?: unknown;
-  [key: string]: unknown;
-}
+/**
+ * @typedef {Object} RequestConfig
+ * @property {string} endpoint
+ * @property {string} [method]
+ * @property {Record<string, unknown>} [params]
+ * @property {unknown} [data]
+ */
 
-interface ReviewsOptions {
-  endpoint?: string;
-  businessUnitId?: string;
-  stars?: number | null;
-  sortBy?: string;
-  limit?: number;
-  offset?: number;
-  includeReportedReviews?: boolean;
-  tags?: string[];
-  language?: string | null;
-}
+/**
+ * @typedef {Object} ReviewsOptions
+ * @property {string} [endpoint]
+ * @property {string} [businessUnitId]
+ * @property {number|null} [stars]
+ * @property {string} [sortBy]
+ * @property {number} [limit]
+ * @property {number} [offset]
+ * @property {boolean} [includeReportedReviews]
+ * @property {string[]} [tags]
+ * @property {string|null} [language]
+ */
 
-interface PublicReviewsOptions {
-  businessUnitId: string;
-  stars?: number | null;
-  sortBy?: string;
-  limit?: number;
-  offset?: number;
-  tags?: string[];
-  language?: string | null;
-}
+/**
+ * @typedef {Object} PublicReviewsOptions
+ * @property {string} businessUnitId
+ * @property {number|null} [stars]
+ * @property {string} [sortBy]
+ * @property {number} [limit]
+ * @property {number} [offset]
+ * @property {string[]} [tags]
+ * @property {string|null} [language]
+ */
 
-interface ServiceReviewsOptions {
-  businessUnitId?: string;
-  stars?: number | null;
-  sortBy?: string;
-  limit?: number;
-  offset?: number;
-  includeReportedReviews?: boolean;
-  tags?: string[];
-  language?: string | null;
-}
+/**
+ * @typedef {Object} ServiceReviewsOptions
+ * @property {string} [businessUnitId]
+ * @property {number|null} [stars]
+ * @property {string} [sortBy]
+ * @property {number} [limit]
+ * @property {number} [offset]
+ * @property {boolean} [includeReportedReviews]
+ * @property {string[]} [tags]
+ * @property {string|null} [language]
+ */
 
-interface ConversationsOptions {
-  limit?: number;
-  offset?: number;
-  sortBy?: string;
-  businessUnitId?: string | null;
-}
+/**
+ * @typedef {Object} ConversationsOptions
+ * @property {number} [limit]
+ * @property {number} [offset]
+ * @property {string} [sortBy]
+ * @property {string|null} [businessUnitId]
+ */
 
-interface WebhookOptions {
-  url: string;
-  events: string[];
-  businessUnitId?: string | null;
-}
+/**
+ * @typedef {Object} WebhookOptions
+ * @property {string} url
+ * @property {string[]} events
+ * @property {string|null} [businessUnitId]
+ */
 
-interface WebhookData {
-  url: string;
-  events: string[];
-  businessUnitId?: string;
-}
+/**
+ * @typedef {Object} WebhookData
+ * @property {string} url
+ * @property {string[]} events
+ * @property {string} [businessUnitId]
+ */
 
 export default defineApp({
   type: "app",
@@ -188,11 +193,11 @@ export default defineApp({
 
     async _makeRequest({
       endpoint, method = "GET", params = {}, data = null, ...args
-    }: RequestConfig) {
+    }) {
       const url = `${BASE_URL}${endpoint}`;
       const headers = this._getAuthHeaders();
 
-      const config: Record<string, unknown> = {
+      const config = {
         method,
         url,
         headers,
@@ -209,7 +214,7 @@ export default defineApp({
       return response.data || response;
     },
 
-    async _makeRequestWithRetry(config: RequestConfig, retries = RETRY_CONFIG.MAX_RETRIES) {
+    async _makeRequestWithRetry(config, retries = RETRY_CONFIG.MAX_RETRIES) {
       try {
         return await this._makeRequest(config);
       } catch (error) {
@@ -223,7 +228,7 @@ export default defineApp({
     },
 
     // Business Unit methods
-    async getBusinessUnit(businessUnitId: string) {
+    async getBusinessUnit(businessUnitId) {
       if (!validateBusinessUnitId(businessUnitId)) {
         throw new Error("Invalid business unit ID");
       }
@@ -261,7 +266,7 @@ export default defineApp({
       offset = 0,
       tags = [],
       language = null,
-    }: PublicReviewsOptions) {
+    }) {
       if (!validateBusinessUnitId(businessUnitId)) {
         throw new Error("Invalid business unit ID");
       }
@@ -269,7 +274,7 @@ export default defineApp({
       const endpoint = buildUrl(ENDPOINTS.PUBLIC_REVIEWS, {
         businessUnitId,
       });
-      const params: Record<string, unknown> = {
+      const params = {
         stars,
         orderBy: sortBy,
         perPage: limit,
@@ -299,7 +304,7 @@ export default defineApp({
 
     async getPublicServiceReviewById({
       businessUnitId, reviewId,
-    }: { businessUnitId: string; reviewId: string }) {
+    }) {
       if (!validateBusinessUnitId(businessUnitId)) {
         throw new Error("Invalid business unit ID");
       }
@@ -328,12 +333,12 @@ export default defineApp({
       includeReportedReviews = false,
       tags = [],
       language = null,
-    }: ReviewsOptions) {
+    }) {
       if (businessUnitId && !validateBusinessUnitId(businessUnitId)) {
         throw new Error("Invalid business unit ID");
       }
 
-      const params: Record<string, unknown> = {
+      const params = {
         stars,
         orderBy: sortBy,
         perPage: limit,
@@ -347,7 +352,7 @@ export default defineApp({
       }
 
       const response = await this._makeRequestWithRetry({
-        endpoint: endpoint!,
+        endpoint: endpoint || ENDPOINTS.PRIVATE_SERVICE_REVIEWS,
         params,
       });
 
@@ -363,7 +368,7 @@ export default defineApp({
     },
 
     // Private Service Review methods
-    async getServiceReviews(options: ServiceReviewsOptions = {}) {
+    async getServiceReviews(options = {}) {
       const endpoint = buildUrl(ENDPOINTS.PRIVATE_SERVICE_REVIEWS, {
         businessUnitId: options.businessUnitId,
       });
@@ -375,7 +380,7 @@ export default defineApp({
 
     async getServiceReviewById({
       businessUnitId, reviewId,
-    }: { businessUnitId: string; reviewId: string }) {
+    }) {
       if (!validateBusinessUnitId(businessUnitId)) {
         throw new Error("Invalid business unit ID");
       }
@@ -395,7 +400,7 @@ export default defineApp({
 
     async replyToServiceReview({
       businessUnitId, reviewId, message,
-    }: { businessUnitId: string; reviewId: string; message: string }) {
+    }) {
       if (!validateBusinessUnitId(businessUnitId)) {
         throw new Error("Invalid business unit ID");
       }
@@ -427,7 +432,7 @@ export default defineApp({
     },
 
     // Product Review methods
-    async getProductReviews(options: ServiceReviewsOptions = {}) {
+    async getProductReviews(options = {}) {
       const endpoint = buildUrl(ENDPOINTS.PRIVATE_PRODUCT_REVIEWS, {
         businessUnitId: options.businessUnitId,
       });
@@ -437,7 +442,7 @@ export default defineApp({
       });
     },
 
-    async getProductReviewById({ reviewId }: { reviewId: string }) {
+    async getProductReviewById({ reviewId }) {
       if (!validateReviewId(reviewId)) {
         throw new Error("Invalid review ID");
       }
@@ -453,7 +458,7 @@ export default defineApp({
 
     async replyToProductReview({
       reviewId, message,
-    }: { reviewId: string; message: string }) {
+    }) {
       if (!validateReviewId(reviewId)) {
         throw new Error("Invalid review ID");
       }
@@ -486,8 +491,8 @@ export default defineApp({
       offset = 0,
       sortBy = SORT_OPTIONS.CREATED_AT_DESC,
       businessUnitId = null,
-    }: ConversationsOptions = {}) {
-      const params: Record<string, unknown> = {
+    } = {}) {
+      const params = {
         perPage: limit,
         page: Math.floor(offset / limit) + 1,
         orderBy: sortBy,
@@ -513,7 +518,7 @@ export default defineApp({
       };
     },
 
-    async getConversationById({ conversationId }: { conversationId: string }) {
+    async getConversationById({ conversationId }) {
       if (!conversationId) {
         throw new Error("Invalid conversation ID");
       }
@@ -529,7 +534,7 @@ export default defineApp({
 
     async replyToConversation({
       conversationId, message,
-    }: { conversationId: string; message: string }) {
+    }) {
       if (!conversationId) {
         throw new Error("Invalid conversation ID");
       }
@@ -559,7 +564,7 @@ export default defineApp({
     // Webhook methods
     async createWebhook({
       url, events = [], businessUnitId = null,
-    }: WebhookOptions) {
+    }) {
       if (!url) {
         throw new Error("Webhook URL is required");
       }
@@ -567,7 +572,7 @@ export default defineApp({
         throw new Error("At least one event must be specified");
       }
 
-      const data: WebhookData = {
+      const data = {
         url,
         events,
       };
@@ -584,7 +589,7 @@ export default defineApp({
       return response;
     },
 
-    async deleteWebhook(webhookId: string) {
+    async deleteWebhook(webhookId) {
       if (!webhookId) {
         throw new Error("Webhook ID is required");
       }
@@ -606,11 +611,11 @@ export default defineApp({
     },
 
     // Utility methods
-    parseWebhookPayload(payload: unknown) {
+    parseWebhookPayload(payload) {
       return parseWebhookPayload(payload);
     },
 
-    validateWebhookSignature(payload: unknown, signature: string, secret: string) {
+    validateWebhookSignature(payload, signature, secret) {
       // Trustpilot uses HMAC-SHA256 for webhook signature validation
       // The signature is sent in the x-trustpilot-signature header
       if (!signature || !secret) {

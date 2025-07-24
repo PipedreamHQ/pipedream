@@ -1,4 +1,4 @@
-import trustpilot from "../../app/trustpilot.app.mjs";
+import trustpilot from "../../trustpilot.app.mjs";
 
 export default {
   key: "trustpilot-fetch-service-review-by-id",
