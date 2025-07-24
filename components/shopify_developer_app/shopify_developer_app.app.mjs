@@ -2,7 +2,9 @@ import commonApp from "@pipedream/shopify";
 import Shopify from "shopify-api-node";
 import queries from "./common/queries.mjs";
 import mutations from "./common/mutations.mjs";
-import { API_VERSION } from "@pipedream/shopify/common/constants.mjs";
+import {
+  API_VERSION, MAX_LIMIT,
+} from "@pipedream/shopify/common/constants.mjs";
 
 export default {
   ...commonApp,
@@ -38,6 +40,60 @@ export default {
           labelKey: "displayName",
           prevContext,
         });
+      },
+    },
+    lineItemIds: {
+      type: "string[]",
+      label: "Line Item IDs",
+      description: "An array of line item IDs",
+      async options({ orderId }) {
+        const order = await this.getOrder({
+          id: orderId,
+          first: MAX_LIMIT,
+        });
+        return order.order.lineItems.edges.map(({ node }) => ({
+          label: node.title,
+          value: node.id,
+        }));
+      },
+    },
+    fullfillmentId: {
+      type: "string",
+      label: "Fulfillment ID",
+      description: "The identifier of a fulfillment",
+      async options({ orderId }) {
+        const order = await this.getOrder({
+          id: orderId,
+          first: MAX_LIMIT,
+        });
+        return order.order.fulfillments?.map(({ id }) => id) ?? [];
+      },
+    },
+    fulfillmentOrderId: {
+      type: "string",
+      label: "Fulfillment Order ID",
+      description: "The identifier of a fulfillment order",
+      async options({ prevContext }) {
+        return this.getPropOptions({
+          resourceFn: this.listFulfillmentOrders,
+          resourceKeys: [
+            "fulfillmentOrders",
+          ],
+          labelKey: "id",
+          prevContext,
+        });
+      },
+    },
+    fulfillmentOrderLineItemIds: {
+      type: "string[]",
+      label: "Fulfillment Order Line Item IDs",
+      description: "An array of fulfillment order line item IDs",
+      async options({ fulfillmentOrderId }) {
+        const fulfillmentOrder = await this.getFulfillmentOrder({
+          fulfillmentOrderId,
+          first: MAX_LIMIT,
+        });
+        return fulfillmentOrder.fulfillmentOrder.lineItems.nodes.map(({ id }) => id);
       },
     },
     firstName: {
@@ -122,6 +178,9 @@ export default {
     getDraftOrder(variables) {
       return this._makeGraphQlRequest(queries.GET_DRAFT_ORDER, variables);
     },
+    getFulfillmentOrder(variables) {
+      return this._makeGraphQlRequest(queries.GET_FULFILLMENT_ORDER, variables);
+    },
     getCustomer(variables) {
       return this._makeGraphQlRequest(queries.GET_CUSTOMER, variables);
     },
@@ -134,14 +193,26 @@ export default {
     listCustomers(variables) {
       return this._makeGraphQlRequest(queries.LIST_CUSTOMERS, variables);
     },
+    listFulfillmentOrders(variables) {
+      return this._makeGraphQlRequest(queries.LIST_FULFILLMENT_ORDERS, variables);
+    },
     createOrder(variables) {
       return this._makeGraphQlRequest(mutations.CREATE_ORDER, variables);
     },
     createCustomer(variables) {
       return this._makeGraphQlRequest(mutations.CREATE_CUSTOMER, variables);
     },
+    createFulfillment(variables) {
+      return this._makeGraphQlRequest(mutations.CREATE_FULFILLMENT, variables);
+    },
     updateCustomer(variables) {
       return this._makeGraphQlRequest(mutations.UPDATE_CUSTOMER, variables);
+    },
+    refundOrder(variables) {
+      return this._makeGraphQlRequest(mutations.REFUND_ORDER, variables);
+    },
+    updateFulfillmentTrackingInfo(variables) {
+      return this._makeGraphQlRequest(mutations.UPDATE_FULFILLMENT_TRACKING_INFO, variables);
     },
   },
 };
