@@ -39,6 +39,12 @@ export default {
       description: "The article's search term (if not specified, all articles will be returned)",
       optional: true,
     },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "Maximum number of articles to return (if not specified, all results will be returned)",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const articles = [];
@@ -55,6 +61,9 @@ export default {
     });
     for await (const item of resourcesStream) {
       articles.push(item);
+      if (this.maxResults && articles.length >= this.maxResults) {
+        break;
+      }
     }
     const length = articles.length;
     $.export("$summary", `Successfully retrieved ${length} article${length === 1
