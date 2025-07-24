@@ -14677,7 +14677,11 @@ importers:
         specifier: ^1.2.5
         version: 1.2.7
 
-  components/viewdns_info: {}
+  components/viewdns_info:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/vimeo:
     dependencies:
