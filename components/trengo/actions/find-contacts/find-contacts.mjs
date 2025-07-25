@@ -4,7 +4,7 @@ import app from "../../trengo.app.mjs";
 export default {
   type: "action",
   key: "trengo-find-contacts",
-  version: "0.0.2",
+  version: "0.0.3",
   name: "Find Contacts",
   description: "Finds contacts with the given term. [See the docs](https://developers.trengo.com/reference/as)",
   props: {
