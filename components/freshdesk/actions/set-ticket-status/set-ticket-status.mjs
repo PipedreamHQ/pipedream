@@ -4,7 +4,7 @@ export default {
   key: "freshdesk-set-ticket-status",
   name: "Set Ticket Status",
   description: "Update the status of a ticket in Freshdesk  [See the documentation](https://developers.freshdesk.com/api/#update_ticket).",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     freshdesk,

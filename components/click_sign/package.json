@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/click_sign",
+  "version": "0.0.1",
+  "description": "Pipedream Click & Sign Components",
+  "main": "click_sign.app.mjs",
+  "keywords": [
+    "pipedream",
+    "click_sign"
+  ],
+  "homepage": "https://pipedream.com/apps/click_sign",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

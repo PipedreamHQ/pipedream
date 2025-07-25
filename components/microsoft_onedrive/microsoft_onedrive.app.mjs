@@ -27,37 +27,46 @@ export default {
           const firstLink = drivePath + driveItemPath + "/children";
           const url = get(prevContext, "nextLink", firstLink);
 
-          const response = await this.client()
-            .api(url)
-            .select(
-              "folder",
-              "id",
-              "name",
-            )
-            .orderby("name")
-            .get();
+          try {
+            const response = await this.client()
+              .api(url)
+              .select(
+                "folder",
+                "id",
+                "name",
+              )
+              .orderby("name")
+              .get();
 
-          const {
-            "@odata.nextLink": nextLink,
-            "value": children,
-          } = response;
+            const {
+              "@odata.nextLink": nextLink,
+              "value": children,
+            } = response;
 
-          const folders = children.filter((child) => !!child.folder);
+            const folders = children.filter((child) => !!child.folder);
 
-          const options = folders.map((folder) => ({
-            value: folder.id,
-            label: (label
-              ? `${label} > `
-              : "") + folder.name,
-          }));
+            const options = folders.map((folder) => ({
+              value: folder.id,
+              label: (label
+                ? `${label} > `
+                : "") + folder.name,
+            }));
 
-          return {
-            options,
-            context: {
-              nextLink,
+            return {
               options,
-            },
-          };
+              context: {
+                nextLink,
+                options,
+              },
+            };
+
+          } catch (error) {
+            console.error("Error listing folders:", error);
+            return {
+              options: [],
+              context: {},
+            };
+          }
         }));
 
         return {
@@ -150,6 +159,49 @@ export default {
       label: "Exclude Folders?",
       description: "Set to `true` to return only files in the response. Defaults to `false`",
       optional: true,
+    },
+    drive: {
+      type: "string",
+      label: "Drive",
+      description: "Select a drive to monitor. Defaults to the personal OneDrive if not specified.",
+      optional: true,
+      async options() {
+        let options = [];
+
+        try {
+          const { value: drives } = await this.listDrives();
+
+          options = drives
+            .filter((drive) => drive.owner?.user?.email)
+            .map(({
+              id, description, name, driveType,
+            }) => ({
+              label: `${description || name} (${driveType})`,
+              value: id,
+            }));
+        } catch (error) {
+          console.error("Error listing drives:", error);
+        }
+
+        try {
+          const { value: sharedFiles } = await this.listSharedFiles();
+
+          const sharedDriveOptions = sharedFiles
+            .map(({ remoteItem }) => ({
+              label: `${remoteItem.parentReference.driveId} (${remoteItem.parentReference.driveType})`,
+              value: remoteItem.parentReference.driveId,
+            }));
+
+          options = [
+            ...options,
+            ...sharedDriveOptions,
+          ];
+        } catch (error) {
+          console.error("Error listing shared files:", error);
+        }
+
+        return options;
+      },
     },
   },
   methods: {
@@ -420,6 +472,20 @@ export default {
       return client
         .api("/me/drive/root/children")
         .get(args);
+    },
+    listDrives() {
+      const client = this.client();
+      return client
+        .api("/drives")
+        .select("id", "description", "name", "driveType", "owner")
+        .get();
+    },
+    listSharedFiles() {
+      const client = this.client();
+      return client
+        .api("/me/drive/sharedWithMe")
+        .select("name", "remoteItem", "folder")
+        .get();
     },
   },
 };

@@ -160,6 +160,8 @@ importers:
         specifier: ^4.0.1
         version: 4.0.1
 
+  components/_302_ai: {}
+
   components/_360nrs:
     dependencies:
       '@pipedream/platform':
@@ -242,7 +244,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/accuweather: {}
+  components/accuweather:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/acelle_mail: {}
 
@@ -1038,6 +1044,8 @@ importers:
 
   components/ascora: {}
 
+  components/ashby_job_postings_api: {}
+
   components/asin_data_api: {}
 
   components/asknicely:
@@ -1618,7 +1626,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/bitget: {}
+  components/bitget:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/bitly:
     dependencies:
@@ -1824,6 +1836,8 @@ importers:
   components/braintree: {}
 
   components/brandmentions: {}
+
+  components/brave_search_api: {}
 
   components/braze: {}
 
@@ -2565,8 +2579,8 @@ importers:
   components/clevertap:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/click2mail2:
     dependencies:
@@ -2579,6 +2593,8 @@ importers:
       fs:
         specifier: ^0.0.1-security
         version: 0.0.1-security
+
+  components/click_sign: {}
 
   components/clickfunnels:
     dependencies:
@@ -2662,11 +2678,23 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
 
-  components/clio_australia: {}
+  components/clio_australia:
+    dependencies:
+      '@pipedream/clio':
+        specifier: ^0.1.1
+        version: 0.1.1
 
-  components/clio_canada: {}
+  components/clio_canada:
+    dependencies:
+      '@pipedream/clio':
+        specifier: ^0.1.1
+        version: 0.1.1
 
-  components/clio_eu: {}
+  components/clio_eu:
+    dependencies:
+      '@pipedream/clio':
+        specifier: ^0.1.1
+        version: 0.1.1
 
   components/clockify:
     dependencies:
@@ -4045,6 +4073,8 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/dynamic_content_snippet: {}
+
   components/dynamics_365_business_central_api:
     dependencies:
       '@pipedream/platform':
@@ -4127,6 +4157,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+
+  components/ebay:
+    specifiers: {}
 
   components/echtpost_postcards:
     dependencies:
@@ -5831,8 +5864,8 @@ importers:
   components/google_vertex_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.4
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/google_workspace:
     dependencies:
@@ -6074,7 +6107,11 @@ importers:
 
   components/harmonic: {}
 
-  components/harpa_ai: {}
+  components/harpa_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/harry_potter_api:
     dependencies:
@@ -6158,8 +6195,8 @@ importers:
   components/help_scout:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       crypto:
         specifier: ^1.0.1
         version: 1.0.1
@@ -6171,6 +6208,8 @@ importers:
         version: 1.6.6
 
   components/helpdesk: {}
+
+  components/helpdocs: {}
 
   components/helper_functions:
     dependencies:
@@ -6685,7 +6724,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/indiefunnels: {}
+  components/indiefunnels:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/inferable: {}
 
@@ -9343,7 +9386,11 @@ importers:
 
   components/onehash: {}
 
-  components/onelogin: {}
+  components/onelogin:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/onenote:
     dependencies:
@@ -9523,6 +9570,9 @@ importers:
       fast-xml-parser:
         specifier: ^4.3.2
         version: 4.5.0
+
+  components/openum:
+    specifiers: {}
 
   components/openweather_api:
     dependencies:
@@ -10169,7 +10219,11 @@ importers:
         specifier: ^6.11.1
         version: 6.13.1
 
-  components/pingback: {}
+  components/pingback:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/pingbell:
     dependencies:
@@ -11489,6 +11543,8 @@ importers:
 
   components/rewardful: {}
 
+  components/rewiser: {}
+
   components/rex:
     dependencies:
       '@pipedream/platform':
@@ -12777,6 +12833,9 @@ importers:
 
   components/sms_magic: {}
 
+  components/sms_messages:
+    specifiers: {}
+
   components/sms_partner: {}
 
   components/smsapi:
@@ -12836,6 +12895,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/snipe_it: {}
 
   components/snov:
     dependencies:
@@ -13564,11 +13625,8 @@ importers:
   components/teamwork:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.1.1
-        version: 1.6.6
-      crypto:
-        specifier: ^1.0.1
-        version: 1.0.1
+        specifier: ^3.1.0
+        version: 3.1.0
       uuid:
         specifier: ^9.0.0
         version: 9.0.1
@@ -14583,7 +14641,11 @@ importers:
 
   components/veriff: {}
 
-  components/verifi_email: {}
+  components/verifi_email:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/verifiedemail: {}
 
@@ -14630,7 +14692,11 @@ importers:
         specifier: ^1.2.5
         version: 1.2.7
 
-  components/viewdns_info: {}
+  components/viewdns_info:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/vimeo:
     dependencies:
@@ -14837,6 +14903,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/wbiztool:
+    specifiers: {}
 
   components/wealthbox:
     dependencies:
@@ -19141,6 +19210,9 @@ packages:
 
   '@pipedream/canva@0.2.3':
     resolution: {integrity: sha512-DSGSafiRvVT8DH4xZdffNWvZrdnfBMiKohU35aVNOg63T9/6BranefjFE7aokL3mmoZnI4bygblZzM7VauWwmQ==}
+
+  '@pipedream/clio@0.1.1':
+    resolution: {integrity: sha512-IbnvVIWiAjS6P03WmDkLLnKxFwM+WgjwZZ6TmEbYmyX9zUDfVbohnniqdAcJh++pH2GcCS8aCOVNBosjwKzJbQ==}
 
   '@pipedream/connect-react@file:packages/connect-react':
     resolution: {directory: packages/connect-react, type: directory}
@@ -36596,6 +36668,13 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+  '@pipedream/clio@0.1.1':
+    dependencies:
+      '@pipedream/platform': 1.6.6
+      crypto: 1.0.1
+    transitivePeerDependencies:
+      - debug
+
   '@pipedream/connect-react@file:packages/connect-react(@types/react@18.3.12)(react-dom@19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106))(react@19.0.0-rc-66855b96-20241106)':
     dependencies:
       '@pipedream/sdk': link:packages/sdk
@@ -37251,8 +37330,6 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
-    transitivePeerDependencies:
-      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:

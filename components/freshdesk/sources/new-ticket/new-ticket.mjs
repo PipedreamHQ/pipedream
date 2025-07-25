@@ -6,7 +6,7 @@ export default {
   key: "freshdesk-new-ticket",
   name: "New Ticket Created",
   description: "Emit new event when a ticket is created. [See the documentation](https://developers.freshdesk.com/api/#filter_tickets)",
-  version: "0.0.5",
+  version: "0.0.7",
   type: "source",
   props: {
     freshdesk,
