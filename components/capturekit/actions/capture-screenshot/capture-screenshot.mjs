@@ -46,6 +46,11 @@ export default {
         "fileName",
       ],
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
+    },
   },
   async run({ $ }) {
     const response = await this.app.captureScreenshot({
