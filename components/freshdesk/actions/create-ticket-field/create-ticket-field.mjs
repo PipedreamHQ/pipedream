@@ -20,6 +20,12 @@ export default {
       label: "Label for Customers",
       description: "The label for the field as seen by customers",
     },
+    type: {
+      type: "string",
+      label: "Type",
+      description: "The type of the field. Can be custom_dropdown, custom_checkbox, custom_text, etc...",
+      default: "custom_text",
+    },
     customersCanEdit: {
       type: "boolean",
       label: "Customers Can Edit",
@@ -36,13 +42,6 @@ export default {
       type: "integer",
       label: "Position",
       description: "The position of the fieldPosition in which the ticket field is displayed in the form. If not given, it will be displayed on top",
-      optional: true,
-    },
-    type: {
-      type: "string",
-      label: "Type",
-      description: "The type of the field. Can be custom_dropdown, custom_checkbox, custom_text, etc...",
-      default: "custom_dropdown",
       optional: true,
     },
     requiredForClosure: {
