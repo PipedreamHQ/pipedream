@@ -43,7 +43,7 @@ export default {
     plannedDate: {
       type: "string",
       label: "Planned Date",
-      description: "The planned date for the transaction, in the format `YYYY-MM-DD` (e.g. `2025-01-01`"),
+      description: "The planned date for the transaction, in the format `YYYY-MM-DD` (e.g. `2025-01-01`)",
     },
     isPaid: {
       type: "boolean",
