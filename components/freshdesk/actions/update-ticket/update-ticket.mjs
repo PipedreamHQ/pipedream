@@ -5,7 +5,7 @@ export default {
   key: "freshdesk-update-ticket",
   name: "Update a Ticket",
   description: "Update status, priority, subject, description, agent, group, etc.  [See the documentation](https://developers.freshdesk.com/api/#update_ticket).",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     freshdesk,
@@ -100,7 +100,7 @@ export default {
 
     const data = removeNullEntries(fields);
 
-    const ticketName = await freshdesk.getTicketName(ticketId);
+    const ticketName = await freshdesk.getTicketName(ticketId) || "Unknown Ticket";
 
     if (!Object.keys(data).length) {
       throw new Error("Please provide at least one field to update.");
@@ -119,4 +119,3 @@ export default {
     return response;
   },
 };
-

@@ -2,7 +2,7 @@ import app from "../../clevertap.app.mjs";
 
 export default {
   name: "Upload Events",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "clevertap-upload-events",
   description: "Upload events. [See the documentation](https://developer.clevertap.com/docs/upload-events-api)",
   type: "action",

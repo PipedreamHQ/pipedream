@@ -1,10 +1,10 @@
 import linkedin from "../../linkedin.app.mjs";
 
 export default {
-  key: "linkedin-get-member-organization-access-control",
+  key: "linkedin-get-org-member-access",
   name: "Get Member's Organization Access Control Information",
   description: "Gets the organization access control information of the current authenticated member. [See the documentation](https://learn.microsoft.com/en-us/linkedin/marketing/community-management/organizations/organization-access-control-by-role?view=li-lms-2025-01&tabs=http#find-a-members-organization-access-control-information)",
-  version: "1.0.0",
+  version: "1.0.2",
   type: "action",
   props: {
     linkedin,

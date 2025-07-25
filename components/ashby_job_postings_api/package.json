@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ashby_job_postings_api",
+  "version": "0.0.1",
+  "description": "Pipedream Ashby Job Postings Components",
+  "main": "ashby_job_postings_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ashby_job_postings_api"
+  ],
+  "homepage": "https://pipedream.com/apps/ashby_job_postings_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
