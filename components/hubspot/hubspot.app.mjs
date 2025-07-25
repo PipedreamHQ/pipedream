@@ -124,6 +124,11 @@ export default {
           : [];
       },
     },
+    threadId: {
+      type: "string",
+      label: "Thread ID",
+      description: "HubSpot conversation thread ID",
+    },
     objectIds: {
       type: "string[]",
       label: "Object",
@@ -1138,6 +1143,68 @@ export default {
       return this.makeRequest({
         api: API_PATH.CRMV3,
         endpoint: "/objects/meetings/search",
+        method: "POST",
+        ...opts,
+      });
+    },
+    /**
+     * Get conversation thread details
+     * @param {string} threadId - The ID of the conversation thread
+     * @param {object} opts - Additional options to pass to the request
+     * @returns {Promise<object>} The conversation thread object
+     */
+    getConversationThread({
+      threadId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CONVERSATIONS,
+        endpoint: `/conversations/threads/${threadId}`,
+        ...opts,
+      });
+    },
+    /**
+     * Get messages from a conversation thread
+     * @param {string} threadId - The ID of the conversation thread
+     * @param {object} opts - Additional options to pass to the request
+     * @returns {Promise<object>} The messages in the conversation thread
+     */
+    getConversationMessages({
+      threadId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CONVERSATIONS,
+        endpoint: `/conversations/threads/${threadId}/messages`,
+        ...opts,
+      });
+    },
+    /**
+     * Send a message to a conversation thread
+     * @param {string} threadId - The ID of the conversation thread
+     * @param {object} opts - Message data and request options
+     * @returns {Promise<object>} The sent message object
+     */
+    sendConversationMessage({
+      threadId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CONVERSATIONS,
+        endpoint: `/conversations/threads/${threadId}/messages`,
+        method: "POST",
+        ...opts,
+      });
+    },
+    /**
+     * Add an internal comment to a conversation thread
+     * @param {string} threadId - The ID of the conversation thread
+     * @param {object} opts - Comment data and request options
+     * @returns {Promise<object>} The added comment object
+     */
+    addConversationComment({
+      threadId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CONVERSATIONS,
+        endpoint: `/conversations/threads/${threadId}/messages`,
         method: "POST",
         ...opts,
       });
