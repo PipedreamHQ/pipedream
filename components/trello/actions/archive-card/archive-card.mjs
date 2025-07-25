@@ -4,7 +4,7 @@ export default {
   key: "trello-archive-card",
   name: "Archive Card",
   description: "Archives a card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put).",
-  version: "0.2.2",
+  version: "0.2.3",
   type: "action",
   props: {
     app,

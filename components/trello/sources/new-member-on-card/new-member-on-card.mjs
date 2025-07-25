@@ -6,7 +6,7 @@ export default {
   key: "trello-new-member-on-card",
   name: "New Member on Card (Instant)",
   description: "Emit new event for each member that join in a card.",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "source",
   dedupe: "unique",
   methods: {

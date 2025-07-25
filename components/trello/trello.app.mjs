@@ -2,6 +2,7 @@ import { axios } from "@pipedream/platform";
 import fields from "./common/fields.mjs";
 import constants from "./common/constants.mjs";
 import mime from "mime/types/standard.js";
+import actions from "./sources/common/actions.mjs";
 
 export default {
   type: "app",
@@ -337,6 +338,48 @@ export default {
         "path",
         "url",
       ],
+    },
+    actions: {
+      type: "string[]",
+      label: "Actions",
+      description: "This is a nested resource. Specify what actions to include in the response. Default is `all`.",
+      optional: true,
+      options: actions,
+    },
+    labels: {
+      type: "string[]",
+      label: "Labels",
+      description: "This is a nested resource. Specify what labels to include in the response.",
+      optional: true,
+      async options({ boardId }) {
+        if (!boardId) {
+          return [];
+        }
+        const labels = await this.findLabel({
+          boardId,
+        });
+        return labels.map(({ name }) => name);
+      },
+    },
+    members: {
+      type: "string[]",
+      label: "Members",
+      description: "This is a nested resource. Specify what members to include in the response.",
+      optional: true,
+      async options({ boardId }) {
+        if (!boardId) {
+          return [];
+        }
+        const members = await this.listMembers({
+          boardId,
+        });
+        return members.map(({
+          fullName: label, id: value,
+        }) => ({
+          label,
+          value,
+        }));
+      },
     },
   },
   methods: {

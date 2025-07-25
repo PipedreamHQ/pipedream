@@ -5,7 +5,7 @@ export default {
   key: "trello-get-card",
   name: "Get Card",
   description: "Gets a card by its ID. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-get).",
-  version: "0.2.2",
+  version: "0.2.3",
   type: "action",
   props: {
     ...common.props,
