@@ -8,7 +8,7 @@ export default {
   key: "trello-card-due-date-reminder",
   name: "Card Due Date Reminder", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event at a specified time before a card is due.",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "source",
   dedupe: "unique",
   props: {
