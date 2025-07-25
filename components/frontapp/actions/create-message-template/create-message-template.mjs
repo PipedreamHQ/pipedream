@@ -81,8 +81,12 @@ export default {
       if (folderId !== undefined) {
         formData.append("folder_id", folderId);
       }
-      if (inboxIds !== undefined) {
+      if (typeof inboxIds === "string") {
         formData.append("inbox_ids", inboxIds);
+      } else if (Array.isArray(inboxIds)) {
+        for (const inboxId of inboxIds) {
+          formData.append("inbox_ids", inboxId);
+        }
       }
 
       for (const attachment of attachments) {
