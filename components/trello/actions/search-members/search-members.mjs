@@ -4,7 +4,7 @@ export default {
   key: "trello-search-members",
   name: "Search Members",
   description: "Search for Trello members. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-search/#api-search-members-get).",
-  version: "0.2.2",
+  version: "0.2.3",
   type: "action",
   props: {
     app,

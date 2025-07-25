@@ -4,7 +4,7 @@ export default {
   key: "trello-add-member-to-card",
   name: "Add Member to Card",
   description: "Adds a member to the specified card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idmembers-post).",
-  version: "0.2.2",
+  version: "0.2.3",
   type: "action",
   props: {
     app,
