@@ -19,6 +19,9 @@ export default {
     _setLastTs(lastTs) {
       this.db.set("lastTs", lastTs);
     },
+    _getItemTs(item) {
+      return item.created_at * 1000;
+    },
     async startEvent(maxResults = 0, filterFn = null) {
       const lastTs = this._getLastTs();
       const items = this.frontapp.paginate({

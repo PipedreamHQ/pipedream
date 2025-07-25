@@ -23,18 +23,18 @@ export default {
     _getEmit(template) {
       return {
         id: template.id,
-        summary: `New message template created: ${template.name}`,
+        summary: `New template: ${template.name}`,
         ts: template.created_at * 1000,
       };
     },
   },
   hooks: {
     async deploy() {
-      await this.startEvent(25, (item, lastTs) => item.created_at > lastTs);
+      await this.startEvent(25, (item, lastTs) => this._getItemTs(item) > lastTs);
     },
   },
   async run() {
-    await this.startEvent(0, (item, lastTs) => item.created_at > lastTs);
+    await this.startEvent(0, (item, lastTs) => this._getItemTs(item) > lastTs);
   },
   sampleEmit,
 };
