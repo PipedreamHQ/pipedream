@@ -3,8 +3,8 @@ import rewiser from "../../rewiser.app.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
-  key: "rewiser-new-transaction",
-  name: "New Transaction",
+  key: "rewiser-new-transaction-created",
+  name: "New Transaction Created",
   description: "Emit new event when a new transaction is created in Rewiser. [See the documentation](https://rewiser.io/api)",
   version: "0.0.1",
   type: "source",
