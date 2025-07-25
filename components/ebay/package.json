@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ebay",
+  "version": "0.0.1",
+  "description": "Pipedream eBay Components",
+  "main": "ebay.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ebay"
+  ],
+  "homepage": "https://pipedream.com/apps/ebay",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
