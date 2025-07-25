@@ -8,6 +8,11 @@ export default {
       customResponse: false,
     },
     db: "$.service.db",
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: "Note: Krispcall webhook triggers will emit events for changes made via the KrispCall UI, but not via the API.",
+    },
   },
   methods: {
     _setHookId(hookId) {

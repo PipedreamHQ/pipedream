@@ -4,8 +4,8 @@ import krispcall from "../../krispcall.app.mjs";
 export default {
   key: "krispcall-delete-contact",
   name: "Delete Contact",
-  description: "Deletes a list of contacts. [See the documentation](https://documenter.getpostman.com/view/32476792/2sA3dxFCaL)",
-  version: "0.0.4",
+  description: "Deletes a list of contacts. [See the documentation](https://documenter.getpostman.com/view/38507826/2sB2xEA8V5#fa88b9ed-84fe-49f7-acc1-a37169fc6cb0)",
+  version: "0.0.5",
   type: "action",
   props: {
     krispcall,

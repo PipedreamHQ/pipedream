@@ -6,7 +6,7 @@ export default {
   key: "krispcall-new-call-instant",
   name: "New Call (Instant)",
   description: "Emit new event when a new call is created.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {
