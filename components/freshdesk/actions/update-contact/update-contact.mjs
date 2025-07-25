@@ -1,18 +1,24 @@
 import freshdesk from "../../freshdesk.app.mjs";
-import { ConfigurationError } from "@pipedream/platform";
 
 export default {
-  key: "freshdesk-create-contact",
-  name: "Create a Contact",
-  description: "Create a contact. [See the documentation](https://developers.freshdesk.com/api/#create_contact)",
-  version: "0.0.7",
+  key: "freshdesk-update-contact",
+  name: "Update Contact",
+  description: "Update a contact in Freshdesk. [See the documentation](https://developers.freshdesk.com/api/#update_contact)",
+  version: "0.0.1",
   type: "action",
   props: {
     freshdesk,
+    contactId: {
+      propDefinition: [
+        freshdesk,
+        "contactId",
+      ],
+    },
     name: {
       type: "string",
       label: "Name",
       description: "Name of the contact.",
+      optional: true,
     },
     email: {
       type: "string",
@@ -41,23 +47,18 @@ export default {
     },
   },
   async run({ $ }) {
-    const {
-      freshdesk, companyId, otherEmails, ...data
-    } = this;
-
-    if (!this.email && !this.phone) {
-      throw new ConfigurationError("Must specify `email` and/or `phone`");
-    }
-
-    const response = await freshdesk.createContact({
+    const response = await this.freshdesk.updateContact({
       $,
+      contactId: this.contactId,
       data: {
-        other_emails: otherEmails,
-        company_id: companyId && Number(companyId),
-        ...data,
+        name: this.name,
+        email: this.email,
+        other_emails: this.otherEmails,
+        phone: this.phone,
+        company_id: this.companyId,
       },
     });
-    response && $.export("$summary", "Contact successfully created");
+    $.export("$summary", `Contact successfully updated: ${response.name}`);
     return response;
   },
 };
