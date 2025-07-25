@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/clio_eu",
+  "version": "0.1.0",
+  "description": "Pipedream Clio - EU Components",
+  "main": "clio_eu.app.mjs",
+  "keywords": [
+    "pipedream",
+    "clio_eu"
+  ],
+  "homepage": "https://pipedream.com/apps/clio_eu",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/clio": "^0.1.1"
+  }
+}

@@ -8,7 +8,7 @@ export default {
   key: "notion-create-page-from-database",
   name: "Create Page from Database",
   description: "Create a page from a database. [See the documentation](https://developers.notion.com/reference/post-page)",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "action",
   props: {
     notion,
@@ -23,7 +23,8 @@ export default {
     Name: {
       type: "string",
       label: "Name",
-      description: "The name of the page",
+      description: "The name of the page. Use this only if the database has a `title` property named `Name`. Otherwise, use the `Properties` prop below to set the title property.",
+      optional: true,
     },
     properties: {
       type: "object",

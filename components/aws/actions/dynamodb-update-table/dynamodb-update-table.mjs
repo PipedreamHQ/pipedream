@@ -10,7 +10,7 @@ export default {
     Modifies the settings for a given table. Only one type of modification is permitted per request.
     [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/classes/updatetablecommand.html)
   `),
-  version: "0.2.1",
+  version: "0.2.2",
   type: "action",
   props: {
     aws: common.props.aws,

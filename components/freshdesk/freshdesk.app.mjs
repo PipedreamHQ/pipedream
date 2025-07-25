@@ -116,6 +116,12 @@ export default {
           }));
       },
     },
+    ticketTags: {
+      type: "string[]",
+      label: "Tags",
+      description: "Array of tags to apply to the ticket. Each tag must be 32 characters or less.",
+      optional: true,
+    },
   },
   methods: {
     setLastDateChecked(db, value) {
@@ -251,10 +257,17 @@ export default {
       });
     },
     async getTicketName(ticketId) {
-      const ticket = await this.getTicket({
-        ticketId,
-      });
-      return ticket.subject;
+      try {
+        const ticket = await this.getTicket({
+          ticketId,
+        });
+        return ticket.subject;
+      } catch (error) {
+        if (error.response?.status === 404) {
+          return null;
+        }
+        throw error;
+      }
     },
     parseIfJSONString(input) {
       if (typeof input === "string") {
@@ -265,6 +278,102 @@ export default {
         }
       }
       return input;
+    },
+    /**
+     * Add a note to a Freshdesk ticket
+     * @param {Object} options - The options object
+     * @param {number} options.ticketId - The ID of the ticket to add the note to
+     * @param {Object} options.data - The note data object
+     * @param {string} options.data.body - Content of the note in HTML format
+     * @param {boolean} [options.data.private=false] - Whether the note is private
+     * @param {boolean} [options.data.incoming] - Whether the note is incoming
+     * @param {number} [options.data.user_id] - ID of the user creating the note
+     * @param {string[]} [options.data.notify_emails] - Array of email addresses to notify
+     * @param {...*} args - Additional arguments passed to _makeRequest
+     * @returns {Promise<Object>} The API response containing the created note
+     */
+    async addNoteToTicket({
+      ticketId, data, ...args
+    }) {
+      return this._makeRequest({
+        url: `/tickets/${ticketId}/notes`,
+        method: "post",
+        data,
+        ...args,
+      });
+    },
+    /**
+     * Set tags on a ticket (replaces all existing tags)
+     * @param {object} args - Arguments object
+     * @param {string|number} args.ticketId - The ticket ID
+     * @param {string[]} args.tags - Array of tags to set
+     * @returns {Promise<object>} API response
+     */
+    async setTicketTags({
+      ticketId, tags, ...args
+    }) {
+      return this._makeRequest({
+        url: `/tickets/${ticketId}`,
+        method: "PUT",
+        data: {
+          tags,
+        },
+        ...args,
+      });
+    },
+    /**
+     * Add tags to a ticket (appends to existing tags)
+     * @param {object} args - Arguments object
+     * @param {string|number} args.ticketId - The ticket ID
+     * @param {string[]} args.tags - Array of tags to add
+     * @returns {Promise<object>} API response
+     */
+    async addTicketTags({
+      ticketId, tags, ...args
+    }) {
+      // Get current ticket to merge tags
+      const ticket = await this.getTicket({
+        ticketId,
+        ...args,
+      });
+      const currentTags = ticket.tags || [];
+      const newTags = [
+        ...new Set([
+          ...currentTags,
+          ...tags,
+        ]),
+      ]; // Remove duplicates
+
+      return this.setTicketTags({
+        ticketId,
+        tags: newTags,
+        ...args,
+      });
+    },
+    /**
+     * Remove specific tags from a ticket
+     * @param {object} args - Arguments object
+     * @param {string|number} args.ticketId - The ticket ID
+     * @param {string[]} args.tags - Array of tags to remove
+     * @returns {Promise<object>} API response
+     */
+    async removeTicketTags({
+      ticketId, tags, ...args
+    }) {
+      // Get current ticket to filter tags
+      const ticket = await this.getTicket({
+        ticketId,
+        ...args,
+      });
+      const currentTags = ticket.tags || [];
+      const tagsToRemove = new Set(tags);
+      const remainingTags = currentTags.filter((tag) => !tagsToRemove.has(tag));
+
+      return this.setTicketTags({
+        ticketId,
+        tags: remainingTags,
+        ...args,
+      });
     },
   },
 };

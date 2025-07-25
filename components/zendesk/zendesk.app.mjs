@@ -9,6 +9,7 @@ export default {
       type: "string",
       label: "Trigger Category ID",
       description: "The ID of the trigger category. [See the docs here](https://developer.zendesk.com/api-reference/ticketing/business-rules/trigger_categories/#list-trigger-categories)",
+      optional: true,
       async options({ prevContext }) {
         const { afterCursor } = prevContext;
 
@@ -124,6 +125,13 @@ export default {
       label: "Comment body",
       description: "The body of the comment.",
     },
+    ticketCommentBodyIsHTML: {
+      type: "boolean",
+      label: "Comment body is HTML",
+      description: "Whether the comment body is HTML. Default is `false`, which expects Markdown",
+      default: false,
+      optional: true,
+    },
     ticketPriority: {
       type: "string",
       label: "Ticket Priority",
@@ -143,6 +151,13 @@ export default {
       description: "The status of the ticket.",
       optional: true,
       options: Object.values(constants.TICKET_STATUS_OPTIONS),
+    },
+    ticketCommentPublic: {
+      type: "boolean",
+      label: "Comment Public",
+      description: "Whether the comment is public. Default is `true`",
+      default: true,
+      optional: true,
     },
     sortBy: {
       type: "string",
@@ -172,6 +187,12 @@ export default {
       type: "string",
       label: "Custom Subdomain",
       description: "For Enterprise Zendesk accounts: optionally specify the subdomain to use. This will override the subdomain that was provided when connecting your Zendesk account to Pipedream. For example, if you Zendesk URL is https://examplehelp.zendesk.com, your subdomain is `examplehelp`",
+      optional: true,
+    },
+    ticketTags: {
+      type: "string[]",
+      label: "Tags",
+      description: "Array of tags to apply to the ticket. These will replace any existing tags on the ticket.",
       optional: true,
     },
   },
@@ -299,6 +320,69 @@ export default {
         hasMore = !!response.next_page;
         args.params.page += 1;
       }
+    },
+    /**
+     * Set tags on a ticket (replaces all existing tags)
+     * @param {object} args - Arguments object
+     * @param {string} args.ticketId - The ticket ID
+     * @param {string[]} args.tags - Array of tags to set
+     * @param {string} args.customSubdomain - Optional custom subdomain
+     * @returns {Promise<object>} API response
+     */
+    setTicketTags({
+      ticketId, tags, customSubdomain, ...args
+    }) {
+      return this.makeRequest({
+        method: "POST",
+        path: `/tickets/${ticketId}/tags.json`,
+        customSubdomain,
+        data: {
+          tags,
+        },
+        ...args,
+      });
+    },
+    /**
+     * Add tags to a ticket (appends to existing tags)
+     * @param {object} args - Arguments object
+     * @param {string} args.ticketId - The ticket ID
+     * @param {string[]} args.tags - Array of tags to add
+     * @param {string} args.customSubdomain - Optional custom subdomain
+     * @returns {Promise<object>} API response
+     */
+    addTicketTags({
+      ticketId, tags, customSubdomain, ...args
+    }) {
+      return this.makeRequest({
+        method: "PUT",
+        path: `/tickets/${ticketId}/tags.json`,
+        customSubdomain,
+        data: {
+          tags,
+        },
+        ...args,
+      });
+    },
+    /**
+     * Remove specific tags from a ticket
+     * @param {object} args - Arguments object
+     * @param {string} args.ticketId - The ticket ID
+     * @param {string[]} args.tags - Array of tags to remove
+     * @param {string} args.customSubdomain - Optional custom subdomain
+     * @returns {Promise<object>} API response
+     */
+    removeTicketTags({
+      ticketId, tags, customSubdomain, ...args
+    }) {
+      return this.makeRequest({
+        method: "DELETE",
+        path: `/tickets/${ticketId}/tags.json`,
+        customSubdomain,
+        data: {
+          tags,
+        },
+        ...args,
+      });
     },
   },
 };
