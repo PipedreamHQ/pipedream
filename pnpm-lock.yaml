@@ -5111,8 +5111,8 @@ importers:
   components/frontapp:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -37330,6 +37330,8 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
+    transitivePeerDependencies:
+      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
