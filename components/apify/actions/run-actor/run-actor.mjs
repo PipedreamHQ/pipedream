@@ -7,7 +7,7 @@ export default {
   key: "apify-run-actor",
   name: "Run Actor",
   description: "Performs an execution of a selected actor in Apify. [See the documentation](https://docs.apify.com/api/v2#/reference/actors/run-collection/run-actor)",
-  version: "0.0.25",
+  version: "0.0.31",
   type: "action",
   props: {
     apify,
@@ -214,7 +214,7 @@ export default {
       prepareData,
       apify,
       actorId,
-      buildId,
+      buildTag,
       properties,
       runAsynchronously,
       outputRecordKey,
@@ -242,7 +242,7 @@ export default {
         memory,
         maxItems,
         maxTotalChargeUsd,
-        build: buildId,
+        build: buildTag,
         webhooks: webhook
           ? btoa(JSON.stringify([
             {

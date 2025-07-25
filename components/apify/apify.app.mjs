@@ -45,7 +45,7 @@ export default {
         });
 
         return items.map(({
-          id: value, title: title, username, name,
+          id: value, title, username, name,
         }) => ({
           label: `${title} (${username}/${name})`,
           value,
@@ -101,11 +101,7 @@ export default {
         });
         return Object.entries(taggedBuilds).map(([
           name,
-          { buildId },
-        ]) => ({
-          label: name,
-          value: buildId,
-        }));
+        ]) => name);
       },
     },
     clean: {
