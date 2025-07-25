@@ -543,6 +543,18 @@ const GET_DRAFT_ORDER = `
   }
 `;
 
+const GET_FULFILLMENT_ORDER = `
+  query LocationsForMoveList($fulfillmentOrderId: ID!, $first: Int) {
+    fulfillmentOrder(id: $fulfillmentOrderId) {
+      lineItems (first: $first) {
+        nodes {
+          id
+        }
+      }
+    }
+  }
+`;
+
 const LIST_ORDERS = `
   query ($first: Int, $after: String, $reverse: Boolean, $query: String){
     orders(first: $first, after: $after, reverse: $reverse, query: $query) {
@@ -759,11 +771,46 @@ const LIST_CUSTOMERS = `
   }
 `;
 
+const LIST_FULFILLMENT_ORDERS = `
+  query ($first: Int, $after: String, $query: String) {
+    fulfillmentOrders(first: $first, after: $after, query: $query) {
+      nodes {
+        id
+        status
+        createdAt
+        updatedAt
+        fulfillAt
+        orderId
+        orderName
+        fulfillments (first: $first) {
+          nodes {
+            id
+            name
+          }
+        }
+        lineItems (first: $first) {
+          nodes {
+            id
+            productTitle
+            totalQuantity
+          }
+        }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+    }
+  }
+`;
+
 export default {
   GET_ORDER,
   GET_CUSTOMER,
   GET_DRAFT_ORDER,
+  GET_FULFILLMENT_ORDER,
   LIST_ORDERS,
   LIST_DRAFT_ORDERS,
   LIST_CUSTOMERS,
+  LIST_FULFILLMENT_ORDERS,
 };
