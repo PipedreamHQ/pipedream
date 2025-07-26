@@ -68,9 +68,20 @@ export default {
       description: "The WhatsApp template ID.",
     },
     ticketId: {
-      type: "string",
+      type: "integer",
       label: "Ticket ID",
-      description: "The ticket ID. Only required if `Recipient Phone Number` is not set.",
+      description: "Select a ticket or provide an ID",
+      async options({ page = 0 }) {
+        const response = await this.getTickets({
+          params: {
+            page: page + 1,
+          },
+        });
+        return response.data.map((ticket) => ({
+          label: `#${ticket.ticket_id} - ${ticket.subject || "No subject"}`,
+          value: ticket.ticket_id,
+        }));
+      },
     },
     whatsappTemplateParamsKeys: {
       type: "string[]",
@@ -145,6 +156,22 @@ export default {
       label: "Search Term",
       description: "Search term to find a contact. If not given, all contacts will be returned.",
       optional: true,
+    },
+    helpCenterId: {
+      type: "integer",
+      label: "Help Center ID",
+      description: "Select a help center or provide an ID",
+      async options({ page = 0 }) {
+        const response = await this.getHelpCenters({
+          params: {
+            page: page + 1,
+          },
+        });
+        return response.data.map((helpCenter) => ({
+          label: helpCenter.name || helpCenter.slug,
+          value: helpCenter.id,
+        }));
+      },
     },
   },
   methods: {
@@ -238,6 +265,26 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "/messages",
+        ...args,
+      });
+    },
+    async getHelpCenters(args = {}) {
+      return this._makeRequest({
+        path: "/help_center",
+        ...args,
+      });
+    },
+    async getArticles({
+      helpCenterId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/help_center/${helpCenterId}/articles`,
+        ...args,
+      });
+    },
+    async getTickets(args = {}) {
+      return this._makeRequest({
+        path: "/tickets",
         ...args,
       });
     },
