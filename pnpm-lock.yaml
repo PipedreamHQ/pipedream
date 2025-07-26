@@ -6385,6 +6385,9 @@ importers:
         specifier: ^1.11.7
         version: 1.11.13
 
+  components/hospitable:
+    specifiers: {}
+
   components/hostaway:
     dependencies:
       '@pipedream/platform':
