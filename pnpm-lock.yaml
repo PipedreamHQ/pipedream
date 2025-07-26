@@ -6894,6 +6894,9 @@ importers:
 
   components/invoicing_plus: {}
 
+  components/ionos_hosting_services:
+    specifiers: {}
+
   components/ip2location:
     dependencies:
       '@pipedream/platform':
