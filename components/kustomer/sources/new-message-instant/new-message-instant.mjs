@@ -6,7 +6,7 @@ export default {
   key: "kustomer-new-message-instant",
   name: "New Message Created in Conversation (Instant)",
   description: "Emit new event when a new message is created in a conversation.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

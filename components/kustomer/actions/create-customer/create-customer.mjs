@@ -7,7 +7,7 @@ export default {
   key: "kustomer-create-customer",
   name: "Create Customer",
   description: "Creates a new customer in Kustomer. [See the documentation](https://developer.kustomer.com/kustomer-api-docs/reference/createacustomer)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     kustomer,
