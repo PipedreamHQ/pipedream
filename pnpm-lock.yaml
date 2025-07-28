@@ -160,6 +160,8 @@ importers:
         specifier: ^4.0.1
         version: 4.0.1
 
+  components/_302_ai: {}
+
   components/_360nrs:
     dependencies:
       '@pipedream/platform':
@@ -242,7 +244,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/accuweather: {}
+  components/accuweather:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/acelle_mail: {}
 
@@ -713,7 +719,13 @@ importers:
 
   components/alphamoon: {}
 
-  components/alt_text_generator_ai: {}
+  components/alt_text_generator_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
+
+  components/alt_text_lab: {}
 
   components/alteryx_analytics_cloud: {}
 
@@ -1032,6 +1044,8 @@ importers:
 
   components/ascora: {}
 
+  components/ashby_job_postings_api: {}
+
   components/asin_data_api: {}
 
   components/asknicely:
@@ -1060,8 +1074,8 @@ importers:
   components/assemblyai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/asters:
     dependencies:
@@ -1612,7 +1626,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/bitget: {}
+  components/bitget:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/bitly:
     dependencies:
@@ -1818,6 +1836,8 @@ importers:
   components/braintree: {}
 
   components/brandmentions: {}
+
+  components/brave_search_api: {}
 
   components/braze: {}
 
@@ -2408,7 +2428,11 @@ importers:
 
   components/chatsonic: {}
 
-  components/chattermill: {}
+  components/chattermill:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/chatwork:
     dependencies:
@@ -2555,8 +2579,8 @@ importers:
   components/clevertap:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/click2mail2:
     dependencies:
@@ -2569,6 +2593,8 @@ importers:
       fs:
         specifier: ^0.0.1-security
         version: 0.0.1-security
+
+  components/click_sign: {}
 
   components/clickfunnels:
     dependencies:
@@ -2652,11 +2678,23 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
 
-  components/clio_australia: {}
+  components/clio_australia:
+    dependencies:
+      '@pipedream/clio':
+        specifier: ^0.1.1
+        version: 0.1.1
 
-  components/clio_canada: {}
+  components/clio_canada:
+    dependencies:
+      '@pipedream/clio':
+        specifier: ^0.1.1
+        version: 0.1.1
 
-  components/clio_eu: {}
+  components/clio_eu:
+    dependencies:
+      '@pipedream/clio':
+        specifier: ^0.1.1
+        version: 0.1.1
 
   components/clockify:
     dependencies:
@@ -4035,6 +4073,8 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/dynamic_content_snippet: {}
+
   components/dynamics_365_business_central_api:
     dependencies:
       '@pipedream/platform':
@@ -4117,6 +4157,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+
+  components/ebay: {}
 
   components/echtpost_postcards:
     dependencies:
@@ -5068,8 +5110,8 @@ importers:
   components/frontapp:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -5821,8 +5863,8 @@ importers:
   components/google_vertex_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.4
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/google_workspace:
     dependencies:
@@ -6064,7 +6106,11 @@ importers:
 
   components/harmonic: {}
 
-  components/harpa_ai: {}
+  components/harpa_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/harry_potter_api:
     dependencies:
@@ -6148,8 +6194,8 @@ importers:
   components/help_scout:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       crypto:
         specifier: ^1.0.1
         version: 1.0.1
@@ -6161,6 +6207,8 @@ importers:
         version: 1.6.6
 
   components/helpdesk: {}
+
+  components/helpdocs: {}
 
   components/helper_functions:
     dependencies:
@@ -6335,6 +6383,9 @@ importers:
       dayjs:
         specifier: ^1.11.7
         version: 1.11.13
+
+  components/hospitable:
+    specifiers: {}
 
   components/hostaway:
     dependencies:
@@ -6675,7 +6726,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/indiefunnels: {}
+  components/indiefunnels:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/inferable: {}
 
@@ -6837,6 +6892,9 @@ importers:
         version: 3.0.3
 
   components/invoicing_plus: {}
+
+  components/ionos_hosting_services:
+    specifiers: {}
 
   components/ip2location:
     dependencies:
@@ -9333,7 +9391,11 @@ importers:
 
   components/onehash: {}
 
-  components/onelogin: {}
+  components/onelogin:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/onenote:
     dependencies:
@@ -9513,6 +9575,8 @@ importers:
       fast-xml-parser:
         specifier: ^4.3.2
         version: 4.5.0
+
+  components/openum: {}
 
   components/openweather_api:
     dependencies:
@@ -10160,7 +10224,10 @@ importers:
         version: 6.13.1
 
   components/pingback:
-    specifiers: {}
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/pingbell:
     dependencies:
@@ -11415,7 +11482,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/returnless: {}
+  components/returnless:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/returnly:
     dependencies:
@@ -11475,6 +11546,12 @@ importers:
   components/reward_sciences: {}
 
   components/rewardful: {}
+
+  components/rewiser:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/rex:
     dependencies:
@@ -12764,6 +12841,8 @@ importers:
 
   components/sms_magic: {}
 
+  components/sms_messages: {}
+
   components/sms_partner: {}
 
   components/smsapi:
@@ -12823,6 +12902,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/snipe_it: {}
 
   components/snov:
     dependencies:
@@ -13551,11 +13632,8 @@ importers:
   components/teamwork:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.1.1
-        version: 1.6.6
-      crypto:
-        specifier: ^1.0.1
-        version: 1.0.1
+        specifier: ^3.1.0
+        version: 3.1.0
       uuid:
         specifier: ^9.0.0
         version: 9.0.1
@@ -14100,7 +14178,11 @@ importers:
         specifier: ^0.0.1-security
         version: 0.0.1-security
 
-  components/trustpilot: {}
+  components/trustpilot:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/tubular:
     dependencies:
@@ -14570,7 +14652,11 @@ importers:
 
   components/veriff: {}
 
-  components/verifi_email: {}
+  components/verifi_email:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/verifiedemail: {}
 
@@ -14617,7 +14703,11 @@ importers:
         specifier: ^1.2.5
         version: 1.2.7
 
-  components/viewdns_info: {}
+  components/viewdns_info:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/vimeo:
     dependencies:
@@ -14824,6 +14914,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/wbiztool: {}
 
   components/wealthbox:
     dependencies:
@@ -19128,6 +19220,9 @@ packages:
 
   '@pipedream/canva@0.2.3':
     resolution: {integrity: sha512-DSGSafiRvVT8DH4xZdffNWvZrdnfBMiKohU35aVNOg63T9/6BranefjFE7aokL3mmoZnI4bygblZzM7VauWwmQ==}
+
+  '@pipedream/clio@0.1.1':
+    resolution: {integrity: sha512-IbnvVIWiAjS6P03WmDkLLnKxFwM+WgjwZZ6TmEbYmyX9zUDfVbohnniqdAcJh++pH2GcCS8aCOVNBosjwKzJbQ==}
 
   '@pipedream/connect-react@file:packages/connect-react':
     resolution: {directory: packages/connect-react, type: directory}
@@ -29920,22 +30015,22 @@ packages:
   superagent@3.8.1:
     resolution: {integrity: sha512-VMBFLYgFuRdfeNQSMLbxGSLfmXL/xc+OO+BZp41Za/NRDBet/BNbkRJrYzCUu0u4GU0i/ml2dtT8b9qgkw9z6Q==}
     engines: {node: '>= 4.0'}
-    deprecated: Please upgrade to v7.0.2+ of superagent.  We have fixed numerous issues with streams, form-data, attach(), filesystem errors not bubbling up (ENOENT on attach()), and all tests are now passing.  See the releases tab for more information at <https://github.com/visionmedia/superagent/releases>.
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@4.1.0:
     resolution: {integrity: sha512-FT3QLMasz0YyCd4uIi5HNe+3t/onxMyEho7C3PSqmti3Twgy2rXT4fmkTz6wRL6bTF4uzPcfkUCa8u4JWHw8Ag==}
     engines: {node: '>= 6.0'}
-    deprecated: Please upgrade to v7.0.2+ of superagent.  We have fixed numerous issues with streams, form-data, attach(), filesystem errors not bubbling up (ENOENT on attach()), and all tests are now passing.  See the releases tab for more information at <https://github.com/visionmedia/superagent/releases>.
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@5.3.1:
     resolution: {integrity: sha512-wjJ/MoTid2/RuGCOFtlacyGNxN9QLMgcpYLDQlWFIhhdJ93kNscFonGvrpAHSCVjRVj++DGCglocF7Aej1KHvQ==}
     engines: {node: '>= 7.0.0'}
-    deprecated: Please upgrade to v7.0.2+ of superagent.  We have fixed numerous issues with streams, form-data, attach(), filesystem errors not bubbling up (ENOENT on attach()), and all tests are now passing.  See the releases tab for more information at <https://github.com/visionmedia/superagent/releases>.
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@7.1.6:
     resolution: {integrity: sha512-gZkVCQR1gy/oUXr+kxJMLDjla434KmSOKbx5iGD30Ql+AkJQ/YlPKECJy2nhqOsHLjGHzoDTXNSjhnvWhzKk7g==}
     engines: {node: '>=6.4.0 <13 || >=14'}
-    deprecated: Please downgrade to v7.1.5 if you need IE/ActiveXObject support OR upgrade to v8.0.0 as we no longer support IE and published an incorrect patch version (see https://github.com/visionmedia/superagent/issues/1731)
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   supports-color@2.0.0:
     resolution: {integrity: sha512-KKNVtd6pCYgPIKU4cp2733HWYCpplQhddZLBUryaAHou723x+FRzQ5Df824Fj+IyyuiQTRoub4SnIFfIcrp70g==}
@@ -36580,6 +36675,13 @@ snapshots:
   '@pipedream/canva@0.2.3':
     dependencies:
       '@pipedream/platform': 3.1.0
+    transitivePeerDependencies:
+      - debug
+
+  '@pipedream/clio@0.1.1':
+    dependencies:
+      '@pipedream/platform': 1.6.6
+      crypto: 1.0.1
     transitivePeerDependencies:
       - debug
 

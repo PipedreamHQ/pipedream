@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/helpdocs",
+  "version": "0.0.1",
+  "description": "Pipedream HelpDocs Components",
+  "main": "helpdocs.app.mjs",
+  "keywords": [
+    "pipedream",
+    "helpdocs"
+  ],
+  "homepage": "https://pipedream.com/apps/helpdocs",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

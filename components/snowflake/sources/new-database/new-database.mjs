@@ -7,7 +7,7 @@ export default {
   key: "snowflake-new-database",
   name: "New Database",
   description: "Emit new event when a database is created",
-  version: "0.1.2",
+  version: "0.1.3",
   methods: {
     ...common.methods,
     alwaysRunInSingleProcessMode() {

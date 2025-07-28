@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/trustpilot",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Trustpilot Components",
-  "main": "dist/app/trustpilot.app.mjs",
+  "main": "trustpilot.app.mjs",
   "keywords": [
     "pipedream",
     "trustpilot"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/trustpilot",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
   }
 }

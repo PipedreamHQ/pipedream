@@ -5,21 +5,20 @@ export default {
   dedupe: "unique",
   type: "source",
   key: "teamwork-task-deleted",
-  name: "New Task Deleted",
+  name: "New Task Deleted (Instant)",
   description: "Emit new event when a new task is deleted",
-  version: "0.0.1",
+  version: "0.0.2",
   methods: {
     ...common.methods,
     _getEventName() {
       return "TASK.DELETED";
     },
-  },
-  async run(event) {
-    this._checkHmac(event.bodyRaw, event.headers["x-projects-signature"]);
-    this.$emit(event.body, {
-      id: event.body.ID,
-      summary: `${event.body.ID} deleted by ${event.body["EventCreator.FirstName"]} ${event.body["EventCreator.LastName"]}`,
-      ts: Date.now(),
-    });
+    generateMeta(body) {
+      return {
+        id: body.ID,
+        summary: `${body.ID} deleted by ${body["EventCreator.FirstName"]} ${body["EventCreator.LastName"]}`,
+        ts: Date.now(),
+      };
+    },
   },
 };

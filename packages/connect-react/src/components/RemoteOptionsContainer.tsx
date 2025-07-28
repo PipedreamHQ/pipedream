@@ -5,6 +5,7 @@ import { useFormContext } from "../hooks/form-context";
 import { useFormFieldContext } from "../hooks/form-field-context";
 import { useFrontendClient } from "../hooks/frontend-client-context";
 import { ControlSelect } from "./ControlSelect";
+import { isString } from "../utils/type-guards";
 
 export type RemoteOptionsContainerProps = {
   queryEnabled?: boolean;
@@ -138,9 +139,16 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
       const newOptions = []
       const allValues = new Set(pageable.values)
       for (const o of _options || []) {
-        const value = typeof o === "string"
-          ? o
-          : o.value
+        let value: string | number;
+        if (isString(o)) {
+          value = o;
+        } else if (o && typeof o === "object" && "value" in o && o.value != null) {
+          value = o.value;
+        } else {
+          // Skip items that don't match expected format
+          console.warn("Skipping invalid option:", o);
+          continue;
+        }
         if (allValues.has(value)) {
           continue
         }

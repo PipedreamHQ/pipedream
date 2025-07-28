@@ -5,21 +5,20 @@ export default {
   dedupe: "unique",
   type: "source",
   key: "teamwork-new-task",
-  name: "New Task",
+  name: "New Task (Instant)",
   description: "Emit new event when a new task is created",
-  version: "0.0.1",
+  version: "0.0.2",
   methods: {
     ...common.methods,
     _getEventName() {
       return "TASK.CREATED";
     },
-  },
-  async run(event) {
-    this._checkHmac(event.bodyRaw, event.headers["x-projects-signature"]);
-    this.$emit(event.body, {
-      id: event.body["Task.ID"],
-      summary: event.body["Task.Name"],
-      ts: event.body["Task.DateCreated"],
-    });
+    generateMeta(body) {
+      return {
+        id: body["Task.ID"],
+        summary: body["Task.Name"],
+        ts: body["Task.DateCreated"],
+      };
+    },
   },
 };

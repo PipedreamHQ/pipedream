@@ -4,7 +4,7 @@ export default {
   key: "add_to_calendar_pro-update-event",
   name: "Update Event",
   description: "Update an event in a group. [See the documentation](https://docs.add-to-calendar-pro.com/api/events#update-an-event)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     addToCalendarPro,
@@ -148,11 +148,13 @@ export default {
         type: "string",
         label: `Title of Date ${i + 1}`,
         description: `The title of Date ${i + 1}`,
+        optional: true,
       };
       props[`startDate${i}`] = {
         type: "string",
         label: `Start Date of Date ${i + 1}`,
         description: `The start date of Date ${i + 1} in format YYYY-MM-DD`,
+        optional: true,
       };
       props[`startTime${i}`] = {
         type: "string",

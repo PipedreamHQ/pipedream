@@ -2,8 +2,9 @@ import { createPrivateKey } from "crypto";
 import { snowflake } from "@pipedream/snowflake-sdk";
 import { promisify } from "util";
 import {
-  sqlProxy, sqlProp,
+  sqlProxy, sqlProp, ConfigurationError,
 } from "@pipedream/platform";
+import utils from "./common/utils.mjs";
 
 snowflake.configure({
   logLevel: "WARN",
@@ -368,13 +369,123 @@ export default {
       };
       return this.executeQuery(statement);
     },
-    async insertRows(tableName, columns, binds) {
-      const sqlText = `INSERT INTO ${tableName} (${columns.join(",")}) VALUES (${columns.map(() => "?").join(", ")});`;
+    async _insertRowsOriginal(tableName, columns, values) {
+      // Create placeholders for all rows
+      const rowPlaceholders = values.map(() =>
+        `(${columns.map(() => "?").join(", ")})`).join(", ");
+
+      const sqlText = `INSERT INTO ${tableName} (${columns.join(",")}) VALUES ${rowPlaceholders}`;
+
+      // Flatten all values into a single array for binding
+      const binds = values.flat();
+
       const statement = {
         sqlText,
         binds,
       };
+
       return this.executeQuery(statement);
+    },
+    async insertRows(tableName, columns, values, options = {}) {
+      const {
+        batchSize = 100,
+        maxPayloadSizeMB = 5,
+        enableBatching = true,
+      } = options;
+
+      // If batching is disabled or small dataset, use original approach
+      if (!enableBatching || values.length <= 50) {
+        return this._insertRowsOriginal(tableName, columns, values);
+      }
+
+      // Estimate payload size for dynamic batch sizing
+      const sampleRowData = values.slice(0, Math.min(10, values.length));
+      const sampleSize = utils.estimatePayloadSize(sampleRowData);
+      const avgRowSize = sampleSize / sampleRowData.length;
+      const maxSizeBytes = maxPayloadSizeMB * 1024 * 1024;
+
+      // Calculate optimal batch size with safety margin
+      const calculatedBatchSize = Math.floor((maxSizeBytes * 0.8) / avgRowSize);
+      const optimalBatchSize = Math.min(
+        Math.max(calculatedBatchSize, 10), // Minimum 10 rows per batch
+        Math.min(batchSize, 500), // Maximum 500 rows per batch
+      );
+
+      console.log(`Processing ${values.length} rows in batches of ${optimalBatchSize}`);
+
+      // Split into batches
+      const batches = utils.createBatches(values, optimalBatchSize);
+
+      // Process batches sequentially
+      const results = [];
+      let totalRowsProcessed = 0;
+      let successfulBatches = 0;
+      let failedBatches = 0;
+
+      for (let i = 0; i < batches.length; i++) {
+        const batch = batches[i];
+
+        try {
+          console.log(`Processing batch ${i + 1}/${batches.length} (${batch.length} rows)`);
+
+          const batchResult = await this._insertRowsOriginal(tableName, columns, batch);
+
+          results.push({
+            batchIndex: i + 1,
+            rowsProcessed: batch.length,
+            success: true,
+            result: batchResult,
+          });
+
+          totalRowsProcessed += batch.length;
+          successfulBatches++;
+
+          // Small delay between batches to prevent overwhelming the server
+          if (i < batches.length - 1) {
+            await new Promise((resolve) => setTimeout(resolve, 100));
+          }
+
+        } catch (error) {
+          console.log(`Batch ${i + 1} failed:`, error.message);
+
+          results.push({
+            batchIndex: i + 1,
+            rowsProcessed: 0,
+            success: false,
+            error: error.message,
+          });
+
+          failedBatches++;
+
+          // Continue processing remaining batches
+        }
+      }
+
+      const summary = {
+        totalRows: values.length,
+        totalBatches: batches.length,
+        successfulBatches,
+        failedBatches,
+        totalRowsProcessed,
+        batchSize: optimalBatchSize,
+        results,
+      };
+
+      console.log(`Batch processing completed: ${totalRowsProcessed}/${values.length} rows processed`);
+
+      if (failedBatches > 0) {
+        const error = new ConfigurationError(
+          `Batch insert partially failed: \`${totalRowsProcessed}/${values.length}\` rows inserted. \`${failedBatches}\` batches failed.`,
+        );
+        error.summary = summary;
+        throw error;
+      }
+
+      return {
+        success: true,
+        message: `Successfully inserted ${totalRowsProcessed} rows in ${batches.length} batches`,
+        summary,
+      };
     },
   },
 };
