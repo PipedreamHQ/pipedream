@@ -1074,8 +1074,8 @@ importers:
   components/assemblyai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/asters:
     dependencies:
@@ -4158,8 +4158,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/ebay:
-    specifiers: {}
+  components/ebay: {}
 
   components/echtpost_postcards:
     dependencies:
@@ -9577,8 +9576,7 @@ importers:
         specifier: ^4.3.2
         version: 4.5.0
 
-  components/openum:
-    specifiers: {}
+  components/openum: {}
 
   components/openweather_api:
     dependencies:
@@ -12843,8 +12841,7 @@ importers:
 
   components/sms_magic: {}
 
-  components/sms_messages:
-    specifiers: {}
+  components/sms_messages: {}
 
   components/sms_partner: {}
 
@@ -14914,8 +14911,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/wbiztool:
-    specifiers: {}
+  components/wbiztool: {}
 
   components/wealthbox:
     dependencies:
