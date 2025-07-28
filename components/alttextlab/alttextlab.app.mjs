@@ -2,7 +2,7 @@ import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
-  app: "alttext_ai",
+  app: "alttextlab",
   propDefinitions: {},
   methods: {
     _baseUrl() {
