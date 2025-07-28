@@ -5,7 +5,7 @@ export default {
   key: "alttextlab-generate-alt-text",
   name: "Generate Alt Text",
   description: "Generates alt text for images using AI. [See the documentation](https://www.alttextlab.com/docs/api)",
-  version: "0.1.0",
+  version: "0.0.1",
   type: "action",
   props: {
     altTextLab,
@@ -19,7 +19,6 @@ export default {
       label: "Image URL",
       description: "Provide the direct URL to the image you want to generate alt text for. Make sure the link is publicly accessible (not behind a login or firewall).",
     },
-
     lang: {
       type: "string",
       label: "Language",
@@ -80,7 +79,6 @@ export default {
           material: this.ecommerceMaterial,
         },
       },
-
     });
 
     $.export("$summary", "Alt text has been generated");
