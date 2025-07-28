@@ -66,8 +66,8 @@ export default {
   },
   async run({ $ }) {
     const {
-      hubspot,
       /* eslint-disable no-unused-vars */
+      hubspot,
       toObjectType,
       toObjectId,
       associationType,
@@ -110,8 +110,7 @@ export default {
 
     const engagement = await this.createEngagement(objectType, properties, associations, $);
 
-    const objectName = hubspot.getObjectTypeName(objectType);
-    $.export("$summary", `Successfully created ${objectName}`);
+    $.export("$summary", "Successfully created note");
 
     return engagement;
   },
