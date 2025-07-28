@@ -75,10 +75,10 @@ export default {
   methods: {
     _baseUrl() {
       // Base URL for Production
-    //   return "https://automationapi.krispcall.com/api/v3/platform/pipedream";
+      return "https://automationapi.krispcall.com/api/v3/platform/pipedream";
 
       // Base URL for Development
-      return "https://qa.safefamilyapp.com/api/v3/platform/pipedream";
+      //   return "https://qa.safefamilyapp.com/api/v3/platform/pipedream";
     },
     _headers() {
       return {
