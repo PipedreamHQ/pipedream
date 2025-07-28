@@ -6384,8 +6384,7 @@ importers:
         specifier: ^1.11.7
         version: 1.11.13
 
-  components/hospitable:
-    specifiers: {}
+  components/hospitable: {}
 
   components/hostaway:
     dependencies:
@@ -6893,8 +6892,7 @@ importers:
 
   components/invoicing_plus: {}
 
-  components/ionos_hosting_services:
-    specifiers: {}
+  components/ionos_hosting_services: {}
 
   components/ip2location:
     dependencies:
@@ -37340,8 +37338,6 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
-    transitivePeerDependencies:
-      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
