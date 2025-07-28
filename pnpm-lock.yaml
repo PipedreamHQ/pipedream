@@ -6384,8 +6384,7 @@ importers:
         specifier: ^1.11.7
         version: 1.11.13
 
-  components/hospitable:
-    specifiers: {}
+  components/hospitable: {}
 
   components/hostaway:
     dependencies:
@@ -6893,8 +6892,7 @@ importers:
 
   components/invoicing_plus: {}
 
-  components/ionos_hosting_services:
-    specifiers: {}
+  components/ionos_hosting_services: {}
 
   components/ip2location:
     dependencies:
