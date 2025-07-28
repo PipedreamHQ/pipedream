@@ -5,7 +5,7 @@ export default {
   name: "Add Ticket Tags",
   description: "Add tags to a ticket (appends to existing tags). [See the documentation](https://developer.zendesk.com/api-reference/ticketing/ticket-management/tags/#add-tags).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     ticketId: {

@@ -5,7 +5,7 @@ export default {
   name: "Update Ticket",
   description: "Updates a ticket and optionally manages tags. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/tickets/tickets/#update-ticket).",
   type: "action",
-  version: "0.1.5",
+  version: "0.1.6",
   props: {
     app,
     ticketId: {
