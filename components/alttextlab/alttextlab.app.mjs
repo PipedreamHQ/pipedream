@@ -14,7 +14,9 @@ export default {
         "x-api-key": `${this.$auth.api_key}`,
       };
     },
-    async _makeRequest({$ = this, path, headers, ...otherOptions}) {
+    async _makeRequest({
+      $ = this, path, headers, ...otherOptions
+    }) {
       return axios($, {
         url: this._baseUrl() + path,
         headers: this._headers(headers),

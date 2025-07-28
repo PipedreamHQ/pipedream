@@ -68,7 +68,7 @@ export default {
     const response = await this.altTextLab.altTextGeneration({
       $,
       data: {
-        source: 'pipedream',
+        source: "pipedream",
         imageUrl: this.imageUrl,
         lang: this.lang,
         style: this.style,
@@ -83,7 +83,7 @@ export default {
 
     });
 
-    $.export("$summary", `Alt text has been generated`);
+    $.export("$summary", "Alt text has been generated");
     return response;
   },
 };

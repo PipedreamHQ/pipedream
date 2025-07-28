@@ -15,4 +15,4 @@ export const AI_WRITING_STYLE = [
     label: "Minimal",
     value: "minimal",
   },
-]
+];
