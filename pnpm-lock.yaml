@@ -753,6 +753,9 @@ importers:
         specifier: ^3.0.3
         version: 3.1.0
 
+  components/alttextlab:
+    specifiers: {}
+
   components/amara:
     dependencies:
       '@pipedream/platform':
@@ -1074,8 +1077,8 @@ importers:
   components/assemblyai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/asters:
     dependencies:
@@ -2724,6 +2727,9 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
+  components/cloudbeds:
+    specifiers: {}
+
   components/cloudbees:
     dependencies:
       '@pipedream/platform':
@@ -4162,6 +4168,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/ebay: {}
+
   components/echtpost_postcards:
     dependencies:
       '@pipedream/platform':
@@ -5112,8 +5120,8 @@ importers:
   components/frontapp:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -5865,8 +5873,8 @@ importers:
   components/google_vertex_ai:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.4
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/google_workspace:
     dependencies:
@@ -5898,8 +5906,8 @@ importers:
   components/gorgias_oauth:
     dependencies:
       '@pipedream/platform':
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^3.1.0
+        version: 3.1.0
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -6385,6 +6393,8 @@ importers:
       dayjs:
         specifier: ^1.11.7
         version: 1.11.13
+
+  components/hospitable: {}
 
   components/hostaway:
     dependencies:
@@ -6892,6 +6902,8 @@ importers:
 
   components/invoicing_plus: {}
 
+  components/ionos_hosting_services: {}
+
   components/ip2location:
     dependencies:
       '@pipedream/platform':
@@ -7287,6 +7299,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.6.6
+
+  components/knocommerce:
+    specifiers: {}
 
   components/knorish:
     dependencies:
@@ -9387,7 +9402,11 @@ importers:
 
   components/onehash: {}
 
-  components/onelogin: {}
+  components/onelogin:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/onenote:
     dependencies:
@@ -9567,6 +9586,8 @@ importers:
       fast-xml-parser:
         specifier: ^4.3.2
         version: 4.5.0
+
+  components/openum: {}
 
   components/openweather_api:
     dependencies:
@@ -11537,7 +11558,11 @@ importers:
 
   components/rewardful: {}
 
-  components/rewiser: {}
+  components/rewiser:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/rex:
     dependencies:
@@ -12826,6 +12851,8 @@ importers:
   components/sms_it: {}
 
   components/sms_magic: {}
+
+  components/sms_messages: {}
 
   components/sms_partner: {}
 
@@ -14162,7 +14189,11 @@ importers:
         specifier: ^0.0.1-security
         version: 0.0.1-security
 
-  components/trustpilot: {}
+  components/trustpilot:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/tubular:
     dependencies:
@@ -14417,6 +14448,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.0
         version: 1.6.6
+
+  components/upgrade_chat:
+    specifiers: {}
 
   components/upkeep:
     dependencies:
@@ -14894,6 +14928,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/wbiztool: {}
 
   components/wealthbox:
     dependencies:
