@@ -5846,6 +5846,9 @@ importers:
       '@googleapis/slides':
         specifier: ^0.7.1
         version: 0.7.1
+      '@pipedream/google_drive':
+        specifier: ^1.0.3
+        version: 1.0.3
       '@pipedream/platform':
         specifier: ^0.9.0
         version: 0.9.0
@@ -19251,6 +19254,9 @@ packages:
 
   '@pipedream/google_drive@1.0.2':
     resolution: {integrity: sha512-C5L5mx3CiCsrv7tZTMOaLcAWgMIi/7Yu7F5z7DOSaCKY+xJRAtCB9AT63RYeAC3OqpIpEwTJPpDjQQfTsPHNzg==}
+
+  '@pipedream/google_drive@1.0.3':
+    resolution: {integrity: sha512-E7MF0E3f/RRyL5PsLaoL51IZtdoyWKNpUIT7RIpQDJ2wh00H0hrISfgugfKAVdv7Tl//BvJezu1FecSLTxhroQ==}
 
   '@pipedream/helper_functions@0.3.13':
     resolution: {integrity: sha512-67zXT5rMccSYEeQCEKjO0g/U2Wnc3q1ErRWt0sivqJEF/KYqAb3tWmznDYGACbC8L6ML0WWSWRy7nEGt5Vyuaw==}
@@ -36732,6 +36738,21 @@ snapshots:
       - supports-color
 
   '@pipedream/google_drive@1.0.2':
+    dependencies:
+      '@googleapis/drive': 2.4.0
+      '@pipedream/platform': 3.1.0
+      cron-parser: 4.9.0
+      google-docs-mustaches: 1.2.2
+      got: 13.0.0
+      lodash: 4.17.21
+      mime-db: 1.54.0
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - debug
+      - encoding
+      - supports-color
+
+  '@pipedream/google_drive@1.0.3':
     dependencies:
       '@googleapis/drive': 2.4.0
       '@pipedream/platform': 3.1.0
