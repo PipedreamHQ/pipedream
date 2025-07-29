@@ -754,7 +754,10 @@ importers:
         version: 3.1.0
 
   components/alttextlab:
-    specifiers: {}
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/amara:
     dependencies:
@@ -2723,8 +2726,7 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/cloudbeds:
-    specifiers: {}
+  components/cloudbeds: {}
 
   components/cloudbees:
     dependencies:
@@ -7296,8 +7298,7 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
-  components/knocommerce:
-    specifiers: {}
+  components/knocommerce: {}
 
   components/knorish:
     dependencies:
@@ -14445,8 +14446,7 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/upgrade_chat:
-    specifiers: {}
+  components/upgrade_chat: {}
 
   components/upkeep:
     dependencies:
