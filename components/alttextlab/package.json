@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/alttextlab",
+  "version": "0.0.1",
+  "description": "Pipedream AltTextLab Components",
+  "main": "alttextlab.app.mjs",
+  "keywords": [
+    "pipedream",
+    "alttextlab"
+  ],
+  "homepage": "https://pipedream.com/apps/alttextlab",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
