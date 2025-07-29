@@ -54,7 +54,7 @@ export default {
         const { pageElements } = await this.getSlide(presentationId, slideId);
         let shapes = pageElements;
         if (textOnly) {
-          shapes = shapes.filter((element) => element.shape.shapeType === "TEXT_BOX");
+          shapes = shapes.filter((element) => element?.shape?.shapeType === "TEXT_BOX");
         }
         return shapes.map((element) => ({
           label: element.shape?.placeholder?.type || element?.shape?.shapeType || element.objectId,
