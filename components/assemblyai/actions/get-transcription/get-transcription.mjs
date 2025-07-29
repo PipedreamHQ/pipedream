@@ -4,7 +4,7 @@ export default {
   name: "Get Transcription",
   description: "Fetches a specific transcribed result from the AssemblyAI API. [See the documentation](https://www.assemblyai.com/docs/API%20reference/transcript)",
   key: "assemblyai-get-transcription",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     assemblyai,

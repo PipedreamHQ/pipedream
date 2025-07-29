@@ -101,6 +101,77 @@ export default {
         };
       },
     },
+    userId: {
+      type: "string",
+      label: "User ID",
+      description: "The ID of the user",
+      async options({ prevContext }) {
+        const { afterCursor } = prevContext;
+
+        const {
+          users,
+          meta,
+        } = await this.listUsers({
+          params: {
+            [constants.PAGE_SIZE_PARAM]: constants.DEFAULT_LIMIT,
+            [constants.PAGE_AFTER_PARAM]: afterCursor,
+          },
+        });
+
+        return {
+          context: {
+            afterCursor: meta.after_cursor,
+          },
+          options: users.map(({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          })),
+        };
+      },
+    },
+    groupId: {
+      type: "string",
+      label: "Group ID",
+      description: "The ID of the group",
+      optional: true,
+      async options({ prevContext }) {
+        const { afterCursor } = prevContext;
+
+        const {
+          groups,
+          meta,
+        } = await this.listGroups({
+          params: {
+            [constants.PAGE_SIZE_PARAM]: constants.DEFAULT_LIMIT,
+            [constants.PAGE_AFTER_PARAM]: afterCursor,
+          },
+        });
+
+        return {
+          context: {
+            afterCursor: meta.after_cursor,
+          },
+          options: groups.map(({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          })),
+        };
+      },
+    },
+    macroCategory: {
+      type: "string",
+      label: "Macro Category",
+      description: "The category of the macro",
+      optional: true,
+      async options() {
+        const { categories } = await this.listMacroCategories();
+        return categories.map((category) => category);
+      },
+    },
     fields: {
       type: "string[]",
       label: "Fields",
@@ -234,6 +305,14 @@ export default {
         ...args,
       });
     },
+    getUserInfo({
+      userId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/users/${userId}`,
+        ...args,
+      });
+    },
     searchTickets(args = {}) {
       return this.makeRequest({
         path: "/search",
@@ -287,6 +366,44 @@ export default {
     listTicketFields(args = {}) {
       return this.makeRequest({
         path: "/ticket_fields",
+        ...args,
+      });
+    },
+    listTicketComments({
+      ticketId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}/comments`,
+        ...args,
+      });
+    },
+    listUsers(args = {}) {
+      return this.makeRequest({
+        path: "/users",
+        ...args,
+      });
+    },
+    listLocales(args = {}) {
+      return this.makeRequest({
+        path: "/locales",
+        ...args,
+      });
+    },
+    listMacros(args = {}) {
+      return this.makeRequest({
+        path: "/macros",
+        ...args,
+      });
+    },
+    listMacroCategories(args = {}) {
+      return this.makeRequest({
+        path: "/macros/categories",
+        ...args,
+      });
+    },
+    listGroups(args = {}) {
+      return this.makeRequest({
+        path: "/groups",
         ...args,
       });
     },
