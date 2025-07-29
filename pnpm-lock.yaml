@@ -2436,8 +2436,7 @@ importers:
 
   components/chatrace: {}
 
-  components/chatsistant:
-    specifiers: {}
+  components/chatsistant: {}
 
   components/chatsonic: {}
 
@@ -11895,8 +11894,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/sap_s_4hana_cloud:
-    specifiers: {}
+  components/sap_s_4hana_cloud: {}
 
   components/sapling: {}
 
@@ -14760,8 +14758,7 @@ importers:
 
   components/virustotal: {}
 
-  components/visibot:
-    specifiers: {}
+  components/visibot: {}
 
   components/vision6:
     dependencies:
@@ -37394,8 +37391,6 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
-    transitivePeerDependencies:
-      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
