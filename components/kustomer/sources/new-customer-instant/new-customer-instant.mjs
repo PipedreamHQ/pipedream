@@ -6,7 +6,7 @@ export default {
   key: "kustomer-new-customer-instant",
   name: "New Customer Created (Instant)",
   description: "Emit new event when a new customer is added to Kustomer.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

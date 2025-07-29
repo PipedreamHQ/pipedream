@@ -127,6 +127,49 @@ export default {
         }));
       },
     },
+    klassName: {
+      type: "string",
+      label: "Klass Name",
+      description: "Klass name of the KObjects (custom objects)",
+      async options({ page }) {
+        const { data } = await this.listKlasses({
+          params: {
+            page: page + 1,
+            pageSize: LIMIT * page,
+          },
+        });
+        return data.map(({
+          attributes: {
+            name: value, displayName: label,
+          },
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    customObjectId: {
+      type: "string",
+      label: "Custom Object ID",
+      description: "The ID of the custom object to retrieve",
+      async options({
+        page, klassName,
+      }) {
+        const { data } = await this.listCustomObjects({
+          klassName,
+          params: {
+            page: page + 1,
+            pageSize: LIMIT * page,
+          },
+        });
+        return data.map(({
+          id: value, attributes: { title: label },
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
     externalId: {
       type: "string",
       label: "External ID",
@@ -324,6 +367,51 @@ export default {
     listTeams(opts = {}) {
       return this._makeRequest({
         path: "/teams",
+        ...opts,
+      });
+    },
+    listKlasses(opts = {}) {
+      return this._makeRequest({
+        path: "/klasses",
+        ...opts,
+      });
+    },
+    listCustomObjects({
+      klassName, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/klasses/${klassName}`,
+        ...opts,
+      });
+    },
+    getCustomObjectById({
+      klassName,
+      customObjectId,
+      ...opts
+    }) {
+      return this._makeRequest({
+        path: `/klasses/${klassName}/${customObjectId}`,
+        ...opts,
+      });
+    },
+    getCustomObjectByExternalId({
+      klassName,
+      externalId,
+      ...opts
+    }) {
+      return this._makeRequest({
+        path: `/klasses/${klassName}/externalId=${externalId}`,
+        ...opts,
+      });
+    },
+    updateCustomObjectById({
+      klassName,
+      customObjectId,
+      ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/klasses/${klassName}/${customObjectId}`,
         ...opts,
       });
     },
