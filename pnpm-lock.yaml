@@ -2726,6 +2726,9 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
+  components/cloudbeds:
+    specifiers: {}
+
   components/cloudbees:
     dependencies:
       '@pipedream/platform':
@@ -5902,8 +5905,8 @@ importers:
   components/gorgias_oauth:
     dependencies:
       '@pipedream/platform':
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^3.1.0
+        version: 3.1.0
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -7295,6 +7298,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.6.6
+
+  components/knocommerce:
+    specifiers: {}
 
   components/knorish:
     dependencies:
@@ -14441,6 +14447,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.0
         version: 1.6.6
+
+  components/upgrade_chat:
+    specifiers: {}
 
   components/upkeep:
     dependencies:
