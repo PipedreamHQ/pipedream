@@ -5899,8 +5899,8 @@ importers:
   components/gorgias_oauth:
     dependencies:
       '@pipedream/platform':
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^3.1.0
+        version: 3.1.0
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -6387,8 +6387,7 @@ importers:
         specifier: ^1.11.7
         version: 1.11.13
 
-  components/hospitable:
-    specifiers: {}
+  components/hospitable: {}
 
   components/hostaway:
     dependencies:
@@ -6896,8 +6895,7 @@ importers:
 
   components/invoicing_plus: {}
 
-  components/ionos_hosting_services:
-    specifiers: {}
+  components/ionos_hosting_services: {}
 
   components/ip2location:
     dependencies:
