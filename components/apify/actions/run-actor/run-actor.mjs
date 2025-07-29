@@ -6,8 +6,8 @@ import { EVENT_TYPES } from "../../common/constants.mjs";
 export default {
   key: "apify-run-actor",
   name: "Run Actor",
-  description: "Performs an execution of a selected actor in Apify. [See the documentation](https://docs.apify.com/api/v2#/reference/actors/run-collection/run-actor)",
-  version: "0.0.31",
+  description: "Performs an execution of a selected Actor in Apify. [See the documentation](https://docs.apify.com/api/v2#/reference/actors/run-collection/run-actor)",
+  version: "0.0.33",
   type: "action",
   props: {
     apify,
@@ -17,7 +17,7 @@ export default {
       description: "Where to search for Actors. Valid options are Store and Recently used Actors.",
       options: [
         {
-          label: "Store",
+          label: "Apify Store Actors",
           value: "store",
         },
         {
@@ -51,7 +51,7 @@ export default {
     runAsynchronously: {
       type: "boolean",
       label: "Run Asynchronously",
-      description: "Set to `true` to run the actor asynchronously",
+      description: "Set to `true` to run the Actor asynchronously",
       reloadProps: true,
       default: true,
     },
@@ -110,7 +110,15 @@ export default {
         key,
         value,
       ] of Object.entries(data)) {
-        const editor = properties[key]?.editor;
+        let editor;
+
+        if (properties[key]) {
+          editor = properties[key].editor;
+        } else {
+          console.warn(`Property "${key}" is not defined in the schema`);
+          editor = "hidden"; // This will prevent it from showing up
+        }
+
         newData[key] = (Array.isArray(value))
           ? value.map((item) => this.setValue(editor, item))
           : value;
@@ -254,8 +262,8 @@ export default {
       },
     });
     const summary = this.runAsynchronously
-      ? `Successfully started actor run with ID: ${response.data.id}`
-      : `Successfully ran actor with ID: ${this.actorId}`;
+      ? `Successfully started Actor run with ID: ${response.data.id}`
+      : `Successfully ran Actor with ID: ${this.actorId}`;
     $.export("$summary", `${summary}`);
     return response;
   },

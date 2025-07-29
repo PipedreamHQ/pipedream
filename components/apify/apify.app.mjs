@@ -44,11 +44,9 @@ export default {
           },
         });
 
-        return items.map(({
-          id: value, title, username, name,
-        }) => ({
-          label: `${title} (${username}/${name})`,
-          value,
+        return items.map((actor) => ({
+          label: this.formatActorOrTaskLabel(actor),
+          value: actor.id,
         }));
       },
     },
@@ -64,11 +62,9 @@ export default {
           },
         });
 
-        return items.map(({
-          id: value, title, username, name,
-        }) => ({
-          label: `${title} (${username}/${name})`,
-          value,
+        return items.map((task) => ({
+          label: this.formatActorOrTaskLabel(task),
+          value: task.id,
         }));
       },
     },
@@ -268,6 +264,14 @@ export default {
         path: `/key-value-stores/${storeId}/records/${recordKey}`,
         ...opts,
       });
+    },
+    formatActorOrTaskLabel({
+      title, username, name,
+    }) {
+      if (title) {
+        return `${title} (${username}/${name})`;
+      }
+      return `${username}/${name}`;
     },
   },
 };
