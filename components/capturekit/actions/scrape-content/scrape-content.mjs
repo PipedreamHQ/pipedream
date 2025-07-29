@@ -8,42 +8,36 @@ export default {
   type: "action",
   props: {
     app,
-
     url: {
       propDefinition: [
         app,
         "url",
       ],
     },
-
     includeHtml: {
       propDefinition: [
         app,
         "includeHtml",
       ],
     },
-
     useDefuddle: {
       propDefinition: [
         app,
         "useDefuddle",
       ],
     },
-
     selector: {
       propDefinition: [
         app,
         "selector",
       ],
     },
-
     removeSelectors: {
       propDefinition: [
         app,
         "removeSelectors",
       ],
     },
-
     blockUrls: {
       propDefinition: [
         app,
