@@ -10014,6 +10014,9 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
+  components/pdf_munk:
+    specifiers: {}
+
   components/pdffiller:
     dependencies:
       '@pipedream/platform':
