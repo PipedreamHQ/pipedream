@@ -11686,6 +11686,9 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
+  components/rocketskip:
+    specifiers: {}
+
   components/rockset:
     dependencies:
       '@pipedream/platform':
