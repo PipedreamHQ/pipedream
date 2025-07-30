@@ -2196,7 +2196,11 @@ importers:
 
   components/captaindata: {}
 
-  components/capturekit: {}
+  components/capturekit:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/carbone: {}
 
