@@ -1,5 +1,4 @@
 import attio from "../../attio.app.mjs";
-import constants from "../../common/constants.mjs";
 
 export default {
   key: "attio-get-record",
@@ -16,10 +15,10 @@ export default {
       ],
     },
     recordId: {
-    recordId: {
-      label: "Record ID",
-      description: "The identifier of the record to retrieve.",
-    },
+      recordId: {
+        label: "Record ID",
+        description: "The identifier of the record to retrieve.",
+      },
       propDefinition: [
         attio,
         "recordId",
