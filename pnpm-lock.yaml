@@ -10014,8 +10014,7 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/pdf_munk:
-    specifiers: {}
+  components/pdf_munk: {}
 
   components/pdffiller:
     dependencies:
@@ -13688,8 +13687,7 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/templatedocs:
-    specifiers: {}
+  components/templatedocs: {}
 
   components/tento8: {}
 
@@ -14331,8 +14329,7 @@ importers:
 
   components/typebot: {}
 
-  components/typeflo:
-    specifiers: {}
+  components/typeflo: {}
 
   components/typeflowai:
     dependencies:
