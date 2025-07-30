@@ -1,6 +1,6 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import salesforce from "../salesforce_rest_api.app.mjs";
-import constants from "../common/constants.mjs";
+import salesforce from "../../salesforce_rest_api.app.mjs";
+import constants from "../../common/constants.mjs";
 import { v4 as uuidv4 } from "uuid";
 import commonWebhookMethods from "./common-webhook-methods.mjs";
 

@@ -18,11 +18,15 @@ export default {
       ],
       label: "Case ID",
       description: "The ID of the case to retrieve email messages for",
+      optional: true,
     },
   },
   async run({ $ }) {
     const fields = (await this.salesforce.getFieldsForObjectType("EmailMessage")).map(({ name }) => name);
-    let query = `SELECT ${fields.join(", ")} FROM EmailMessage WHERE RelatedToId = '${this.caseId}'`;
+    let query = `SELECT ${fields.join(", ")} FROM EmailMessage`;
+    if (this.caseId) {
+      query += ` WHERE RelatedToId = '${this.caseId}'`;
+    }
 
     const { records } = await this.salesforce.query({
       $,

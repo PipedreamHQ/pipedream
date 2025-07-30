@@ -4,8 +4,7 @@ export default {
   key: "salesforce_rest_api-get-case",
   name: "Get Case",
   description: "Retrieves a case by its ID. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_get_field_values.htm)",
-  //version: "0.0.1",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     salesforce,

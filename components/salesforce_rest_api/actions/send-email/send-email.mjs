@@ -4,7 +4,7 @@ export default {
   key: "salesforce_rest_api-send-email",
   name: "Send Email",
   description: "Sends an email. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_action.meta/api_action/actions_obj_email_simple.htm)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     salesforce,
@@ -22,6 +22,12 @@ export default {
       type: "string",
       label: "Body",
       description: "The body of the email",
+    },
+    logEmailOnSend: {
+      type: "boolean",
+      label: "Log Email on Send",
+      description: "Indicates whether to log the email on the specified records’ activity time lines",
+      optional: true,
     },
   },
   methods: {
@@ -43,6 +49,7 @@ export default {
             emailSubject: this.emailSubject,
             emailBody: this.emailBody,
             senderType: "CurrentUser",
+            logEmailOnSend: this.logEmailOnSend,
           },
         ],
       },
