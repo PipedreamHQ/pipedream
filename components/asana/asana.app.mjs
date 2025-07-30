@@ -531,7 +531,9 @@ export default {
       let teams = [];
 
       for (const workspace of workspaces) {
-        const { data } = (await this._makeRequest(`organizations/${workspace}/teams`));
+        const { data } = (await this._makeRequest({
+          path: `workspaces/${workspace}/teams`,
+        }));
         teams = teams.concat(data);
       }
 

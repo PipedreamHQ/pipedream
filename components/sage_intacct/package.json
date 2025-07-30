@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sage_intacct",
+  "version": "0.0.1",
+  "description": "Pipedream Sage Intacct Components",
+  "main": "sage_intacct.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sage_intacct"
+  ],
+  "homepage": "https://pipedream.com/apps/sage_intacct",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

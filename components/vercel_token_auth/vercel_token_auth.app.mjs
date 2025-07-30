@@ -44,13 +44,17 @@ export default {
       type: "string",
       label: "Team",
       description: "The Team identifier or slug to perform the request on behalf of",
-      async options() {
+      async options({
+        mapper = ({
+          slug: label, id: value,
+        }) => ({
+          label,
+          value,
+        }),
+      }) {
         try {
           const teams = await this.listTeams();
-          return teams?.map((team) => ({
-            label: team.slug,
-            value: team.id,
-          })) ?? [];
+          return teams?.map(mapper) ?? [];
         } catch (e) {
           throw new Error(e.message);
         }

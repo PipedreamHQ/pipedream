@@ -1,27 +1,37 @@
 import FormData from "form-data";
-import fs from "fs";
-import { checkTmp } from "../../common/utils.mjs";
 import vapi from "../../vapi.app.mjs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 
 export default {
   key: "vapi-upload-file",
   name: "Upload File",
   description: "Uploads a new file. [See the documentation](https://docs.vapi.ai/api-reference)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     vapi,
     file: {
       type: "string",
-      label: "File",
-      description: "The path to the file saved to the `/tmp` directory (e.g. `/tmp/example.txt`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      label: "File Path or URL",
+      description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {
     const formData = new FormData();
-    const filePath = checkTmp(this.file);
-
-    formData.append("file", fs.createReadStream(filePath));
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(this.file);
+    formData.append("file", stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
+    });
 
     const response = await this.vapi.uploadFile({
       $,

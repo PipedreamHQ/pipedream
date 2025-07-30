@@ -152,6 +152,11 @@ export function appPropErrors(opts: ValidationOpts<ConfigurablePropApp>): string
       "app field not registered",
     ]
   }
+  if (!app.auth_type) {
+    // These apps don't require authentication since they can't be configured
+    // (i.e. auth_type == "none")
+    return
+  }
   if (!value) {
     return [
       "no app configured",
@@ -164,23 +169,20 @@ export function appPropErrors(opts: ValidationOpts<ConfigurablePropApp>): string
   }
   const _value = value as PropValue<"app">
   if ("authProvisionId" in _value && !_value.authProvisionId) {
-    if (app.auth_type) {
-      const errs = []
-      if (app.auth_type === "oauth" && !(_value as OauthAppPropValue).oauth_access_token) {
-        errs.push("missing oauth token")
-      }
-      if (app.auth_type === "oauth" || app.auth_type === "keys") {
-        const customFields = getCustomFields(app)
-        const _valueWithCustomFields = _value as AppPropValueWithCustomFields<typeof customFields>
-        for (const cf of customFields) {
-          if (!cf.optional && !_valueWithCustomFields[cf.name]) {
-            errs.push(`missing custom field: ${cf.name}`)
-          }
+    const errs = []
+    if (app.auth_type === "oauth" && !(_value as OauthAppPropValue).oauth_access_token) {
+      errs.push("missing oauth token")
+    }
+    if (app.auth_type === "oauth" || app.auth_type === "keys") {
+      const customFields = getCustomFields(app)
+      const _valueWithCustomFields = _value as AppPropValueWithCustomFields<typeof customFields>
+      for (const cf of customFields) {
+        if (!cf.optional && !_valueWithCustomFields[cf.name]) {
+          errs.push(`missing custom field: ${cf.name}`)
         }
       }
-      if (app.auth_type !== "none")
-        errs.push("no auth provision configured")
-      return errs
     }
+
+    return errs
   }
 }

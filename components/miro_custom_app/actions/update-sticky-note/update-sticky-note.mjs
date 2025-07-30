@@ -5,7 +5,7 @@ const { app } = common.props;
 
 export default {
   name: "Update Sticky Note",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "miro_custom_app-update-sticky-note",
   description: "Updates content of an existing sticky note on a Miro board. [See the docs](https://developers.miro.com/reference/update-sticky-note-item).",
   type: "action",

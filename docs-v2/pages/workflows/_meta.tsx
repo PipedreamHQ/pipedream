@@ -1,5 +1,6 @@
 export default {
   "index": "Overview",
+  "quickstart": "Quickstart",
   "building-workflows": "Building Workflows",
   "data-management": "Data Management",
   "event-history": "Event History",
@@ -8,5 +9,4 @@ export default {
   "domains": "Custom Domains",
   "vpc": "Virtual Private Clouds",
   "limits": "Limits",
-  "cli": "CLI",
 } as const

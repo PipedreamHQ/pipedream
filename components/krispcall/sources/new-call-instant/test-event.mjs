@@ -5,5 +5,5 @@ export default {
   "duration": "00 hr 00 min 13 secs",
   "outcome": "Connected",
   "direction": "Outgoing",
-  "call_recording": "https://qa.safefamilyapp.com/1c343d?vmid=0x21d2ee31ba6"
+  "call_recording": "https://app.krispcall.com/1c343d?vmid=0x21d2ee31ba6"
 }

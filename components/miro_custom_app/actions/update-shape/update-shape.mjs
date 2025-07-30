@@ -5,7 +5,7 @@ const { app } = common.props;
 
 export default {
   name: "Update Shape",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "miro_custom_app-update-shape",
   description: "Updates content of an existing shape on a Miro board. [See the docs](https://developers.miro.com/reference/update-shape-item).",
   type: "action",

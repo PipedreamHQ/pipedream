@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/selzy",
+  "version": "0.1.0",
+  "description": "Pipedream Selzy Components",
+  "main": "selzy.app.mjs",
+  "keywords": [
+    "pipedream",
+    "selzy"
+  ],
+  "homepage": "https://pipedream.com/apps/selzy",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

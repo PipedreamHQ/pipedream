@@ -222,6 +222,19 @@ const TICKET_FIELD_OPTIONS = [
   },
 ];
 
+const SORT_BY_OPTIONS = [
+  "assignee",
+  "assignee.name",
+  "created_at",
+  "group",
+  "id",
+  "requester",
+  "requester.name",
+  "status",
+  "subject",
+  "updated_at",
+];
+
 export default {
   SUBDOMAIN_PLACEHOLDER,
   BASE_URL,
@@ -242,4 +255,5 @@ export default {
   TICKET_PRIORITY_OPTIONS,
   TICKET_STATUS_OPTIONS,
   TICKET_FIELD_OPTIONS,
+  SORT_BY_OPTIONS,
 };

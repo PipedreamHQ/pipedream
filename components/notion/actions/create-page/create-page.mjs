@@ -7,7 +7,7 @@ export default {
   key: "notion-create-page",
   name: "Create Page",
   description: "Create a page from a parent page. [See the documentation](https://developers.notion.com/reference/post-page)",
-  version: "0.2.16",
+  version: "0.2.17",
   type: "action",
   props: {
     notion,

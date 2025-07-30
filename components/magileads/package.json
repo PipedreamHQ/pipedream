@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/magileads",
+  "version": "0.0.1",
+  "description": "Pipedream Magileads Components",
+  "main": "magileads.app.mjs",
+  "keywords": [
+    "pipedream",
+    "magileads"
+  ],
+  "homepage": "https://pipedream.com/apps/magileads",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

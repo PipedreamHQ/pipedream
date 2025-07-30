@@ -7,7 +7,7 @@ export default {
   key: "helper_functions-csv-file-to-objects",
   name: "CSV File To Objects",
   description: "Convert a CSV file to an array of objects.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
@@ -43,6 +43,12 @@ export default {
       description: "Set to `true` to skip records with errors. Tolerates parsing errors. It skips the records containing an error inside and directly go process the next record.",
       optional: true,
       default: false,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {

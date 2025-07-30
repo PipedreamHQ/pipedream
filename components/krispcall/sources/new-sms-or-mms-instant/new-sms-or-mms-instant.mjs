@@ -6,7 +6,7 @@ export default {
   key: "krispcall-new-sms-or-mms-instant",
   name: "New SMS or MMS Sent (Instant)",
   description: "Emit new event when a new SMS or MMS is sent.",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   methods: {

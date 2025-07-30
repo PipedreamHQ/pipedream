@@ -3,15 +3,17 @@ import linkedin from "../../linkedin.app.mjs";
 export default {
   key: "linkedin-get-organization-access-control",
   name: "Gets Organization Access Control",
-  description: "Gets an organization's access control information, given the organization urn. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/organizations/organization-access-control?context=linkedin/compliance/context#find-access-control-information)",
-  version: "0.1.6",
+  description: "Gets a selected organization's access control information. [See the documentation](https://learn.microsoft.com/en-us/linkedin/marketing/community-management/organizations/organization-access-control-by-role?view=li-lms-2025-01&tabs=http#find-organization-access-control)",
+  version: "0.2.1",
   type: "action",
   props: {
     linkedin,
-    organizationUrn: {
-      type: "string",
-      label: "Organization Urn",
-      description: "The organizational entity for which the access control information is being retrieved. Must be in URN format urn:li:organization:{id}.",
+    organizationId: {
+      propDefinition: [
+        linkedin,
+        "organizationId",
+      ],
+      description: "The ID of the organization for which the access control information is being retrieved",
     },
     max: {
       propDefinition: [
@@ -25,12 +27,14 @@ export default {
     const count = 50;
     const results = [];
 
-    const params = `q=organization&organization=${this.organizationUrn.replace(/:/g, "%3A")}&count=${count}`;
+    const organizationUrn = `urn:li:organization:${this.organizationId}`;
+
+    const params = `q=organization&organization=${organizationUrn.replace(/:/g, "%3A")}&count=${count}`;
 
     let done = false;
     do {
       const { data: { elements } } = await this.linkedin.getAccessControl({
-        params: params + `&start=${start}`,
+        strParams: params + `&start=${start}`,
       });
 
       results.push(...elements);

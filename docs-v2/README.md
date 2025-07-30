@@ -1,5 +1,12 @@
 # Pipedream docs
 
+> [!WARNING]
+> **⚠️ THIS PROJECT IS DEPRECATED ⚠️**
+> 
+> This docs-v2 directory is no longer maintained. Do not make changes to files in this directory as they will not be deployed or used.
+> 
+> The documentation has been moved to a new location. Please contact the team for the current documentation repository.
+
 ## Quickstart
 
 [Install `asdf`](https://asdf-vm.com/guide/getting-started.html) if you haven't already.

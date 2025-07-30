@@ -8,6 +8,7 @@ export { ControlApp } from "./components/ControlApp";
 export { ControlBoolean } from "./components/ControlBoolean";
 export { ControlInput } from "./components/ControlInput";
 export { ControlSelect } from "./components/ControlSelect";
+export { ControlSql } from "./components/ControlSql";
 export { ControlSubmit } from "./components/ControlSubmit";
 export { Description } from "./components/Description";
 export { ErrorBoundary } from "./components/ErrorBoundary";
@@ -30,3 +31,9 @@ export * from "./hooks/use-app";
 export * from "./hooks/use-apps";
 export * from "./hooks/use-component";
 export * from "./hooks/use-components";
+
+// Debug info for development - consumers can choose to log this if needed
+export const DEBUG_INFO = {
+  buildTime: new Date().toISOString(),
+  source: "local-development",
+};

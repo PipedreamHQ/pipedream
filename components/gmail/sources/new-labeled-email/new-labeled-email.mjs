@@ -8,7 +8,7 @@ export default {
   name: "New Labeled Email",
   description: "Emit new event when a new email is labeled.",
   type: "source",
-  version: "0.0.10",
+  version: "0.1.0",
   dedupe: "unique",
   props: {
     gmail,
@@ -20,6 +20,12 @@ export default {
       ],
       type: "string[]",
       label: "Labels",
+    },
+    withTextPayload: {
+      type: "boolean",
+      label: "Return payload as plaintext",
+      description: "Convert the payload response into a single text field. **This reduces the size of the payload and makes it easier for LLMs work with.**",
+      default: false,
     },
   },
   methods: {

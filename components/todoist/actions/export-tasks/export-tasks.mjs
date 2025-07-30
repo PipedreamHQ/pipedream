@@ -7,7 +7,7 @@ export default {
   key: "todoist-export-tasks",
   name: "Export Tasks",
   description: "Export project task names as comma separated file. Returns path to new file. [See Docs](https://developer.todoist.com/rest/v2/#get-active-tasks)",
-  version: "0.0.3",
+  version: "0.1.1",
   type: "action",
   props: {
     todoist,
@@ -16,6 +16,11 @@ export default {
         todoist,
         "project",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   async run ({ $ }) {
@@ -27,7 +32,7 @@ export default {
         project_id: project,
       },
     });
-    const csv = await converter.json2csvAsync(tasks);
+    const csv = converter.json2csv(tasks);
 
     const { path } = await file({
       postfix: ".csv",

@@ -5,7 +5,7 @@ export default {
   key: "calendly_v2-invitee-canceled",
   name: "New Invitee Canceled",
   description: "Emit new event when an event is canceled.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/scrapfly",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "Pipedream Scrapfly Components",
   "main": "scrapfly.app.mjs",
   "keywords": [
@@ -13,7 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.0.1"
+    "@pipedream/platform": "^3.1.0"
   }
 }
-

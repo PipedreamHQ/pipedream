@@ -25,7 +25,7 @@ export default {
       },
     },
     eventTypeId: {
-      type: "string",
+      type: "integer",
       label: "Event Type ID",
       description: "The identifier of the event type of the new booking",
       async options() {
@@ -154,6 +154,12 @@ export default {
     async listEventTypes(args = {}) {
       return this._makeRequest({
         path: "event-types",
+        ...args,
+      });
+    },
+    async getBookableSlots(args = {}) {
+      return this._makeRequest({
+        path: "slots",
         ...args,
       });
     },

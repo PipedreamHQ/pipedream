@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pexels",
-  "version": "0.6.0",
+  "version": "0.1.1",
   "description": "Pipedream pexels Components",
   "main": "pexels.app.mjs",
   "keywords": [
@@ -13,6 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.0.0"
+    "@pipedream/platform": "^3.0.3",
+    "stream": "^0.0.3"
   }
 }

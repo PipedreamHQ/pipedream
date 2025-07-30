@@ -1,16 +1,12 @@
 import aws from "../../aws.app.mjs";
 import common from "../../common/common-eventbridge.mjs";
-import { toSingleLineString } from "../../common/utils.mjs";
 
 export default {
   ...common,
   key: "aws-eventbridge-send-event",
-  name: "EventBridge - Send event to Event Bus",
-  description: toSingleLineString(`
-    Sends an event to an EventBridge event bus.
-    [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-eventbridge/classes/puteventscommand.html)
-  `),
-  version: "0.4.1",
+  name: "EventBridge - Send Event to Event Bus",
+  description: "Sends an event to an EventBridge event bus. [See documentation](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/eventbridge/command/PutEventsCommand/)",
+  version: "0.4.3",
   type: "action",
   props: {
     aws: common.props.aws,
@@ -23,13 +19,19 @@ export default {
       ],
       optional: false,
     },
+    detailType: {
+      type: "string",
+      label: "Detail Type",
+      description: "Free-form string, with a maximum of 128 characters, used to decide what fields to expect in the event detail. Detail, DetailType, and Source are required for EventBridge to successfully send an event to an event bus. If you include event entries in a request that does not include each of those properties, EventBridge fails that entry. If you submit a request in which none of the entries have each of these properties, EventBridge fails the entire request.",
+      optional: true,
+    },
   },
   async run({ $ }) {
     const params = {
       Entries: [
         {
           Detail: JSON.stringify(this.eventData),
-          DetailType: Object.keys(this.eventData).join(" "),
+          DetailType: this.detailType || Object.keys(this.eventData).join(" "),
           EventBusName: this.eventBusName,
           Source: "pipedream",
         },

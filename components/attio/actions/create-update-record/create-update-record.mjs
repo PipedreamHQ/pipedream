@@ -1,44 +1,58 @@
 import attio from "../../attio.app.mjs";
+import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
 
 export default {
   key: "attio-create-update-record",
   name: "Create or Update Record",
   description: "Creates or updates a specific record such as a person or a deal. If the record already exists, it's updated. Otherwise, a new record is created. [See the documentation](https://developers.attio.com/reference/put_v2-objects-object-records)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     attio,
     objectId: {
+      reloadProps: true,
       propDefinition: [
         attio,
         "objectId",
+        () => ({
+          filter: (o) => o.api_slug !== constants.TARGET_OBJECT.DEALS,
+        }),
       ],
     },
-    attributeId: {
+    matchingAttribute: {
+      reloadProps: true,
       propDefinition: [
         attio,
-        "attributeId",
+        "matchingAttribute",
         (c) => ({
           objectId: c.objectId,
         }),
       ],
-      reloadProps: true,
     },
   },
   async additionalProps() {
     const props = {};
-    if (!this.attributeId) {
+    if (!this.matchingAttribute) {
       return props;
     }
     const attributes = await this.getRelevantAttributes();
+
+    const matchingAttribute = attributes.find(
+      (a) => a.api_slug === this.matchingAttribute,
+    );
+    if (matchingAttribute) {
+      attributes.splice(attributes.indexOf(matchingAttribute), 1);
+      attributes.unshift(matchingAttribute);
+    }
+
     for (const attribute of attributes) {
-      props[attribute.id.attribute_id] = {
+      props[attribute.api_slug] = {
         type: attribute.is_multiselect
           ? "string[]"
           : "string",
         label: attribute.title,
-        optional: attribute.id.attribute_id !== this.attributeId && !attribute.is_required,
+        optional: !attribute.is_required,
       };
     }
     return props;
@@ -52,29 +66,29 @@ export default {
         },
       });
       const attributes = await utils.streamIterator(stream);
-      return attributes.filter((a) => a.is_writable || a.id.attribute_id === this.attributeId);
+
+      return attributes
+        .filter((a) => a.is_writable)
+        .sort((a, b) => b.is_required - a.is_required);
     },
   },
   async run({ $ }) {
     const {
       attio,
-      getRelevantAttributes,
       objectId,
-      attributeId,
+      matchingAttribute,
       ...values
     } = this;
-
-    const attributes = await getRelevantAttributes();
 
     const response = await attio.upsertRecord({
       $,
       objectId,
       params: {
-        matching_attribute: attributeId,
+        matching_attribute: matchingAttribute,
       },
       data: {
         data: {
-          values: utils.parseValues(attributes, values),
+          values,
         },
       },
     });

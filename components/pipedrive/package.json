@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pipedrive",
-  "version": "0.3.13",
+  "version": "0.9.0",
   "description": "Pipedream Pipedrive Components",
   "main": "pipedrive.app.mjs",
   "keywords": [
@@ -14,7 +14,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.0.3",
+    "@pipedream/platform": "^3.1.0",
+    "html-entities": "^2.6.0",
     "pipedrive": "^24.1.1"
   }
 }

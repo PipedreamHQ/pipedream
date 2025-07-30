@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/greenspark",
+  "version": "0.0.1",
+  "description": "Pipedream GreenSpark Components",
+  "main": "greenspark.app.mjs",
+  "keywords": [
+    "pipedream",
+    "greenspark"
+  ],
+  "homepage": "https://pipedream.com/apps/greenspark",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

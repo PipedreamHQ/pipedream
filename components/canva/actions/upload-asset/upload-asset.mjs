@@ -1,11 +1,11 @@
 import canva from "../../canva.app.mjs";
-import fs from "fs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 
 export default {
   key: "canva-upload-asset",
   name: "Upload Asset",
   description: "Uploads an asset to Canva. [See the documentation](https://www.canva.dev/docs/connect/api-reference/assets/create-asset-upload-job/)",
-  version: "0.0.5",
+  version: "0.1.1",
   type: "action",
   props: {
     canva,
@@ -26,22 +26,29 @@ export default {
         "waitForCompletion",
       ],
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
     const nameBase64 = Buffer.from(this.name).toString("base64");
-    const filePath = this.filePath.includes("tmp/")
-      ? this.filePath
-      : `/tmp/${this.filePath}`;
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(this.filePath);
+
     let response = await this.canva.uploadAsset({
       $,
       headers: {
         "Asset-Upload-Metadata": JSON.stringify({
           "name_base64": nameBase64,
         }),
-        "Content-Length": fs.statSync(filePath).size,
+        "Content-Length": metadata.size,
         "Content-Type": "application/octet-stream",
       },
-      data: fs.createReadStream(filePath),
+      data: stream,
     });
 
     if (this.waitForCompletion) {

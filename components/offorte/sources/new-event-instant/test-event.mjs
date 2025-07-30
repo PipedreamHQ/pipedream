@@ -1,0 +1,31 @@
+export default {
+  "type": "contact_created",
+  "date_created": "2025-06-16T19:31:42.000000Z",
+  "data": {
+    "account_user_id": "17689",
+    "type": "person",
+    "name": "test 03",
+    "street": "",
+    "zipcode": "",
+    "city": "",
+    "state": "",
+    "country": "",
+    "phone": "",
+    "email": "test03@email.com",
+    "internet": "",
+    "linkedin": "",
+    "facebook": "",
+    "twitter": "",
+    "instagram": "",
+    "account_user_name": "sergio wong",
+    "date_created": "2025-06-16T19:31:42.000000Z",
+    "tags": [],
+    "firstname": "test",
+    "lastname": "03",
+    "fullname": "test 03",
+    "salutation": "",
+    "mobile": "",
+    "proposals": [],
+    "id": "210996"
+  }
+}

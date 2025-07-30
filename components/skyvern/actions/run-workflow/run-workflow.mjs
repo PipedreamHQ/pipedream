@@ -5,7 +5,7 @@ export default {
   key: "skyvern-run-workflow",
   name: "Run Workflow",
   description: "Trigger a predefined workflow in Skyvern, allowing the execution of complex routines from Pipedream. [See the documentation](https://docs.skyvern.com/workflows/running-workflows)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     skyvern,
@@ -35,8 +35,8 @@ export default {
       workflowId: this.workflowId,
       data: {
         data: parseObject(this.data),
-        proxyLocation: "RESIDENTIAL",
-        webhookCallbackUrl: this.webhookCallbackUrl,
+        proxy_location: "RESIDENTIAL",
+        webhook_callback_url: this.webhookCallbackUrl,
       },
     });
 

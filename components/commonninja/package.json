@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/commonninja",
+  "version": "0.0.1",
+  "description": "Pipedream CommonNinja Components",
+  "main": "commonninja.app.mjs",
+  "keywords": [
+    "pipedream",
+    "commonninja"
+  ],
+  "homepage": "https://pipedream.com/apps/commonninja",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

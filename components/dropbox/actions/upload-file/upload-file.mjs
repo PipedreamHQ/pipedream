@@ -1,14 +1,12 @@
-import dropbox from "../../dropbox.app.mjs";
+import { getFileStream } from "@pipedream/platform";
 import consts from "../../common/consts.mjs";
-import fs from "fs";
-import got from "got";
-import { ConfigurationError } from "@pipedream/platform";
+import dropbox from "../../dropbox.app.mjs";
 
 export default {
   name: "Upload a File",
   description: "Uploads a file to a selected folder. [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
   key: "dropbox-upload-file",
-  version: "0.0.13",
+  version: "1.0.1",
   type: "action",
   props: {
     dropbox,
@@ -27,17 +25,10 @@ export default {
       label: "File Name",
       description: "The name of your new file (make sure to include the file extension).",
     },
-    fileUrl: {
-      type: "string",
-      label: "File URL",
-      description: "The URL of the file you want to upload to Dropbox. Must specify either File URL or File Path.",
-      optional: true,
-    },
     filePath: {
       type: "string",
-      label: "File Path",
-      description: "The path to the file, e.g. /tmp/myFile.csv . Must specify either File URL or File Path.",
-      optional: true,
+      label: "File Path or URL",
+      description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
     },
     autorename: {
       type: "boolean",
@@ -64,10 +55,15 @@ export default {
       options: consts.UPLOAD_FILE_MODE_OPTIONS,
       optional: true,
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
     const {
-      fileUrl,
       filePath,
       path,
       name,
@@ -78,13 +74,7 @@ export default {
       clientModified,
     } = this;
 
-    if (!fileUrl && !filePath) {
-      throw new ConfigurationError("Must specify either File URL or File Path.");
-    }
-
-    const contents = fileUrl
-      ? await got.stream(fileUrl)
-      : fs.createReadStream(filePath);
+    const contents = await getFileStream(filePath);
 
     let normalizedPath = this.dropbox.getNormalizedPath(path, true);
 

@@ -1,12 +1,24 @@
 import wordpress from "../../wordpress_com.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "wordpress_com-new-follower",
   name: "New Follower",
   description: "Emit new event for each new follower that subscribes to the site.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
+  methods: {
+    getWordpressFollowers($) {
+
+      return this.wordpress.getWordpressFollowers({
+        $,
+        site: this.site,
+        type: this.type,
+      });
+
+    },
+  },
   props: {
     wordpress,
     db: "$.service.db",
@@ -16,49 +28,62 @@ export default {
         "siteId",
       ],
     },
+    type: {
+      type: "string",
+      label: "Follower Type",
+      description: "Select the type of followers to fetch: those who clicked Subscribe or those manually added in the dashboard.",
+      options: [
+        {
+          label: "WordPress.com Followers",
+          value: "wpcom",
+        },
+        {
+          label: "Email-only Followers",
+          value: "email",
+        },
+      ],
+      default: "wpcom",
+    },
+    timer: {
+      type: "$.interface.timer",
+      label: "Timer",
+      description: "How often to poll WordPress for new followers.",
+      default: {
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+      },
+    },
   },
-  async run({ $ }) {
-    const warnings = [];
+  hooks: {
+    async activate() {
 
+      const {
+        wordpress,
+        db,
+      } = this;
+
+      await this.db.set("lastFollowerId", null); //reset
+
+      const response = await this.getWordpressFollowers();
+
+      const followers = response.subscribers || [];
+
+      await wordpress.initialize(followers, db, "lastFollowerId");
+    },
+  },
+
+  async run({ $ }) {
     const {
       wordpress,
       db,
-      site,
     } = this;
 
-    warnings.push(...wordpress.checkDomainOrId(site));
-
-    let response;
-    try {
-      response = await wordpress.getWordpressFollowers({
-        $,
-        site,
-      });
-
-    } catch (error) {
-      wordpress.throwCustomError("Failed to fetch followers from WordPress:", error, warnings);
-    }
+    const response = await this.getWordpressFollowers($);
 
     const followers = response.subscribers || [];
 
     const lastFollowerId = Number(await db.get("lastFollowerId"));
 
-    // First run: Initialize cursor
-    if (!lastFollowerId) {
-      if (!followers.length) {
-        console.log("No followers found on first run. Source initialized with no cursor.");
-        return;
-      }
-
-      const newest = followers[0]?.ID;
-      if (!newest) {
-        throw new Error("Failed to initialize: The latest follower does not have a valid ID.");
-      }
-
-      await db.set("lastFollowerId", newest);
-      console.log(`Initialized lastFollowerId on first run with follower ID ${newest}.`);
-      return;
-    }
+    if (!lastFollowerId) await wordpress.initialize(followers, db, "lastFollowerId");
 
     let maxFollowerIdTracker = lastFollowerId;
     const newFollowers = [];
@@ -86,10 +111,6 @@ export default {
       console.log(`Checked for new followers. Emitted ${newFollowers.length} follower(s).`);
     } else {
       console.log("No new followers found.");
-    }
-
-    if (warnings.length > 0) {
-      console.log("Warnings:\n- " + warnings.join("\n- "));
     }
   },
 };

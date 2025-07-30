@@ -8,7 +8,7 @@ export default {
   key: "tinypng-convert-image",
   name: "Convert Image",
   description: "Convert your images to your desired image type using TinyPNG. [See the documentation](https://tinypng.com/developers/reference#converting-images)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     tinypng,
@@ -29,6 +29,11 @@ export default {
       label: "Transform Background",
       description: "The background color to use when converting images with transparency to a format that does not support transparency (like JPEG). Use a hex value (e.g., '#FFFFFF') or 'white'/'black'.",
       optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   async run({ $ }) {

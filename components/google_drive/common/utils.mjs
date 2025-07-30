@@ -1,5 +1,4 @@
-import fs from "fs";
-import { axios } from "@pipedream/platform";
+import { ConfigurationError } from "@pipedream/platform";
 import {
   MY_DRIVE_VALUE,
   LEGACY_MY_DRIVE_VALUE,
@@ -56,34 +55,6 @@ function getListFilesOpts(drive, baseOpts = {}) {
       supportsAllDrives: true,
     };
   return opts;
-}
-
-/**
- * Returns a file stream from a file URL or file path to be used in Google Drive
- * API calls
- *
- * @param {Object} opts - an object containing options for getting a file stream
- * @param {String} opts.fileUrl - the url of a file to download to a Readable
- * stream
- * @param {String} opts.filePath - the path to a file from which to create a
- * Readable stream
- * @returns {stream.Readable} a Readable stream from the file URL or file path
- */
-async function getFileStream({
-  fileUrl, filePath,
-}) {
-  if (fileUrl) {
-    try {
-      return await axios(this, {
-        url: fileUrl,
-        method: "GET",
-        responseType: "stream",
-      });
-    } catch (e) {
-      throw new Error(`Status ${e.response.status} ${e.response.statusText}. ${e.message}`);
-    }
-  }
-  return fs.createReadStream(filePath);
 }
 
 function streamToBuffer(stream) {
@@ -257,16 +228,46 @@ function toSingleLineString(multiLineString) {
     .replace(/\s{2,}/g, " ");
 }
 
+function optionalParseAsJSON(value) {
+  try {
+    return JSON.parse(value);
+  } catch (e) {
+    return value;
+  }
+}
+
+function parseObjectEntries(value = {}) {
+  let obj;
+  if (typeof value === "string") {
+    try {
+      obj = JSON.parse(value);
+    } catch (e) {
+      throw new ConfigurationError(`Invalid JSON string provided: ${e.message}`);
+    }
+  } else {
+    obj = value;
+  }
+  return Object.fromEntries(
+    Object.entries(obj).map(([
+      key,
+      value,
+    ]) => [
+      key,
+      optionalParseAsJSON(value),
+    ]),
+  );
+}
+
 export {
   MY_DRIVE_VALUE,
   isMyDrive,
   getDriveId,
   getListFilesOpts,
-  getFileStream,
   omitEmptyStringValues,
   toSingleLineString,
   buildFilePaths,
   getFilePaths,
   streamToBuffer,
   byteToMB,
+  parseObjectEntries,
 };

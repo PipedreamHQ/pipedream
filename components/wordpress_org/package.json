@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/wordpress_org",
-  "version": "0.4.0",
+  "version": "0.4.2",
   "description": "Pipedream Wordpress.org Components",
   "main": "wordpress_org.app.mjs",
   "keywords": [
@@ -10,6 +10,7 @@
   "homepage": "https://pipedream.com/apps/wordpress_org",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
+    "@pipedream/platform": "^3.1.0",
     "lodash.pickby": "^4.6.0",
     "wpapi": "^1.2.2"
   },

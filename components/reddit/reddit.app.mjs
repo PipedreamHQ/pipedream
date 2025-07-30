@@ -1,8 +1,8 @@
 import { axios } from "@pipedream/platform";
-import qs from "qs";
-import isNil from "lodash/isNil.js";
 import retry from "async-retry";
 import get from "lodash/get.js";
+import isNil from "lodash/isNil.js";
+import qs from "qs";
 
 export default {
   type: "app",
@@ -106,6 +106,9 @@ export default {
         query,
         prevContext,
       }) {
+        if (!query) {
+          return [];
+        }
         const res = await this.searchSubreddits({
           after: prevContext?.after,
           q: query,
@@ -202,7 +205,6 @@ export default {
     _getHeaders() {
       return {
         "authorization": `Bearer ${this._accessToken()}`,
-        "user-agent": "@PipedreamHQ/pipedream v0.1",
       };
     },
     _accessToken() {
@@ -225,7 +227,6 @@ export default {
     }) {
       if (!opts.headers) opts.headers = {};
       opts.headers.authorization = `Bearer ${this._accessToken()}`;
-      opts.headers["user-agent"] = "@PipedreamHQ/pipedream v0.1";
       const { path } = opts;
       delete opts.path;
       opts.url = `${this._apiUrl()}${path[0] === "/" ?
@@ -487,6 +488,13 @@ export default {
           params: {
             comment,
           },
+        }));
+    },
+    getPrivateMessages(opts = { }) {
+      return this._withRetries(() =>
+        this._makeRequest({
+          path: "/message/inbox",
+          ...opts,
         }));
     },
   },

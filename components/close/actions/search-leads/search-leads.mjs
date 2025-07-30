@@ -4,14 +4,14 @@ import utils from "../../common/utils.mjs";
 export default {
   type: "action",
   key: "close-search-leads",
-  version: "0.1.0",
+  version: "0.1.1",
   name: "Search Leads",
-  description: "Searching leads with a given field and word, [See the docs](https://developer.close.com/resources/advanced-filtering/)",
+  description: "Search leads with a given field and word. [See the documentation](https://developer.close.com/resources/advanced-filtering/)",
   props: {
     close,
     field: {
       label: "Field",
-      description: "Field name which will be searched in, e.g. 'name'",
+      description: "Field name which will be searched. e.g. 'name'",
       type: "string",
     },
     text: {
@@ -57,7 +57,9 @@ export default {
         },
       },
     });
-    $.export("$summary", `${response.data.data.length} Leads has been found.`);
+    $.export("$summary", `${response.data.data.length} Lead${response.data.data.length === 1
+      ? " has"
+      : "s have"} been found.`);
     return response.data;
   },
 };

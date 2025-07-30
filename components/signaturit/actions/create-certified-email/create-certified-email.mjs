@@ -1,17 +1,14 @@
 import FormData from "form-data";
-import fs from "fs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import { TYPE_OPTIONS } from "../../common/constants.mjs";
-import {
-  checkTmp,
-  parseObject,
-} from "../../common/utils.mjs";
+import { parseObject } from "../../common/utils.mjs";
 import signaturit from "../../signaturit.app.mjs";
 
 export default {
   key: "signaturit-create-certified-email",
   name: "Create Certified Email",
   description: "Initiates the creation of a certified email. [See the documentation](https://docs.signaturit.com/api/latest#emails_create_email)",
-  version: "0.0.1",
+  version: "0.1.1",
   type: "action",
   props: {
     signaturit,
@@ -70,6 +67,12 @@ export default {
       ],
       optional: true,
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
     const formData = new FormData();
@@ -102,7 +105,14 @@ export default {
     if (this.attachments) {
       let j = 0;
       for (const file of parseObject(this.attachments)) {
-        formData.append(`attachments[${j++}]`, fs.createReadStream(checkTmp(file)));
+        const {
+          stream, metadata,
+        } = await getFileStreamAndMetadata(file);
+        formData.append(`attachments[${j++}]`, stream, {
+          contentType: metadata.contentType,
+          knownLength: metadata.size,
+          filename: metadata.name,
+        });
       }
     }
     const response = await this.signaturit.createCertifiedEmail({

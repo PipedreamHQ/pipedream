@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "clickup-get-lists",
   name: "Get Lists",
-  description: "Get a list of lists. See the docs [here](https://clickup.com/api) in **Lists / Get Lists** section.",
-  version: "0.0.9",
+  description: "Get a list of lists. [See the documentation](https://clickup.com/api) in **Lists / Get Lists** section.",
+  version: "0.0.10",
   type: "action",
   props: {
     ...common.props,

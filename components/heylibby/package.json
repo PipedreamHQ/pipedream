@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/heylibby",
+  "version": "0.1.0",
+  "description": "Pipedream HeyLibby Components",
+  "main": "heylibby.app.mjs",
+  "keywords": [
+    "pipedream",
+    "heylibby"
+  ],
+  "homepage": "https://pipedream.com/apps/heylibby",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
+  }
+}

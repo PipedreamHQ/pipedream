@@ -8,7 +8,7 @@ export default {
   key: "twilio-download-recording-media",
   name: "Download Recording Media",
   description: "Download a recording media file. [See the documentation](https://www.twilio.com/docs/voice/api/recording#fetch-a-recording-media-file)",
-  version: "0.1.6",
+  version: "0.1.7",
   type: "action",
   props: {
     twilio,
@@ -28,6 +28,11 @@ export default {
       type: "string",
       label: "File Path",
       description: "The destination path in [`/tmp`](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory) for the downloaded the file (e.g., `/tmp/myFile.mp3`). Make sure to include the file extension.",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   methods: {
@@ -58,13 +63,16 @@ export default {
       downloadUrl,
     });
     const pipeline = promisify(stream.pipeline);
-    const resp = await pipeline(
+    const filePath = this.filePath.startsWith("/tmp")
+      ? this.filePath
+      : `/tmp/${this.filePath}`;
+    await pipeline(
       fileStream,
-      fs.createWriteStream(this.filePath.includes("/tmp")
-        ? this.filePath
-        : `/tmp/${this.filePath}`),
+      fs.createWriteStream(filePath),
     );
-    $.export("$summary", `Successfully downloaded the recording media file to "${this.filePath}"`);
-    return resp;
+    $.export("$summary", `Successfully downloaded the recording media file to "${filePath}"`);
+    return {
+      filePath,
+    };
   },
 };

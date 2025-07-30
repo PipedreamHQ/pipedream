@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/microsoft_outlook",
-  "version": "1.5.0",
+  "version": "1.5.3",
   "description": "Pipedream Microsoft Outlook Components",
   "main": "microsoft_outlook.app.mjs",
   "keywords": [
@@ -12,7 +12,7 @@
   "homepage": "https://pipedream.com/apps/microsoft_outlook",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^3.0.3",
+    "@pipedream/platform": "^3.1.0",
     "axios": "^0.21.1",
     "js-base64": "^3.7.2",
     "md5": "^2.3.0",

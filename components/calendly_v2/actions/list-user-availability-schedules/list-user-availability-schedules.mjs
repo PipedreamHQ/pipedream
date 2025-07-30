@@ -4,7 +4,7 @@ export default {
   key: "calendly_v2-list-user-availability-schedules",
   name: "List User Availability Schedules",
   description: "List the availability schedules of the given user. [See the documentation](https://developer.calendly.com/api-docs/8098de44af94c-list-user-availability-schedules)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     calendly,

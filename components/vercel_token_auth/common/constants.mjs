@@ -9,4 +9,6 @@ export default {
     "READY",
     "CANCELED",
   ],
+  WEBHOOK_ID: "webhookId",
+  WEBHOOK_SECRET: "webhookSecret",
 };

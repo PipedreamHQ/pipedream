@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/orderspace",
+  "version": "0.1.0",
+  "description": "Pipedream Orderspace Components",
+  "main": "orderspace.app.mjs",
+  "keywords": [
+    "pipedream",
+    "orderspace"
+  ],
+  "homepage": "https://pipedream.com/apps/orderspace",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
+  }
+}

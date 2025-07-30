@@ -29,6 +29,18 @@ export default {
       label: "Start URL",
       description: "The url to start running on",
     },
+    offset: {
+      type: "string",
+      label: "Offset",
+      description: "Specifies the offset from which to start listing the projects",
+      optional: true,
+    },
+    limit: {
+      type: "string",
+      label: "Limit",
+      description: "Specifies how many entries will be returned in the list",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
@@ -78,6 +90,24 @@ export default {
     async listProjects(args = {}) {
       return this._makeRequest({
         path: "/projects",
+        ...args,
+      });
+    },
+    async cancelRun({
+      runToken, ...args
+    }) {
+      return this._makeRequest({
+        path: `/runs/${runToken}/cancel`,
+        method: "post",
+        ...args,
+      });
+    },
+    async deleteRun({
+      runToken, ...args
+    }) {
+      return this._makeRequest({
+        path: `/runs/${runToken}`,
+        method: "delete",
         ...args,
       });
     },

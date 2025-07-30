@@ -23,6 +23,18 @@ export default {
       label: "View Id",
       description: "ID of the view to monitor. Can be found on your Google Analytics Dashboard -> Admin -> View Setting",
     },
+    property: {
+      type: "string",
+      label: "Property",
+      description: "A Google Analytics property ID",
+      async options() {
+        const response = await this.listProperties();
+        return response?.map((property) => ({
+          label: property.displayName,
+          value: property.property,
+        }));
+      },
+    },
   },
   methods: {
     _accessToken() {
@@ -78,6 +90,14 @@ export default {
         path: "/accounts",
         ...args,
       });
+    },
+    async listProperties(args = {}) {
+      const { accountSummaries } = await this.makeRequest({
+        path: "/accountSummaries",
+        ...args,
+      });
+      return accountSummaries.map(({ propertySummaries }) => propertySummaries).flat()
+        .filter((property) => property);
     },
     queryReportsGA4({
       property, ...args

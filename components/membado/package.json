@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/membado",
+  "version": "0.1.0",
+  "description": "Pipedream Membado Components",
+  "main": "membado.app.mjs",
+  "keywords": [
+    "pipedream",
+    "membado"
+  ],
+  "homepage": "https://pipedream.com/apps/membado",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}

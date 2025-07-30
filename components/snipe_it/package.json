@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/snipe_it",
+  "version": "0.0.1",
+  "description": "Pipedream Snipe-IT Components",
+  "main": "snipe_it.app.mjs",
+  "keywords": [
+    "pipedream",
+    "snipe_it"
+  ],
+  "homepage": "https://pipedream.com/apps/snipe_it",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

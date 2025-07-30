@@ -8,6 +8,7 @@ import {
   DEFAULT_PRODUCT_PROPERTIES,
   DEFAULT_LINE_ITEM_PROPERTIES,
   DEFAULT_LEAD_PROPERTIES,
+  DEFAULT_LIMIT,
 } from "../../common/constants.mjs";
 import common from "../common/common-create.mjs";
 import { ConfigurationError } from "@pipedream/platform";
@@ -16,7 +17,7 @@ export default {
   key: "hubspot-search-crm",
   name: "Search CRM",
   description: "Search companies, contacts, deals, feedback submissions, products, tickets, line-items, quotes, leads, or custom objects. [See the documentation](https://developers.hubspot.com/docs/api/crm/search)",
-  version: "1.0.2",
+  version: "1.0.4",
   type: "action",
   props: {
     hubspot,
@@ -32,6 +33,13 @@ export default {
         },
       ],
       reloadProps: true,
+    },
+    exactMatch: {
+      type: "boolean",
+      label: "Exact Match",
+      description: "Set to `true` to search for an exact match of the search value. If `false`, partial matches will be returned. Default: `true`",
+      default: true,
+      optional: true,
     },
     createIfNotFound: {
       type: "boolean",
@@ -97,7 +105,7 @@ export default {
     props.searchValue = {
       type: "string",
       label: "Search Value",
-      description: "Search for objects where the specified search field/property contains an exact match of the search value",
+      description: "Search for objects where the specified search field/property contains a match of the search value",
     };
     const defaultProperties = this.getDefaultProperties();
     if (defaultProperties?.length) {
@@ -201,6 +209,23 @@ export default {
         label: labels.plural,
       })) || [];
     },
+    async paginate(params) {
+      let results;
+      const items = [];
+      while (!results || params.after) {
+        results = await this.hubspot.searchCRM(params);
+        if (results.paging) {
+          params.after = results.paging.next.after;
+        } else {
+          delete params.after;
+        }
+        results = results.results;
+        for (const result of results) {
+          items.push(result);
+        }
+      }
+      return items;
+    },
   },
   async run({ $ }) {
     const {
@@ -210,6 +235,7 @@ export default {
       additionalProperties = [],
       searchProperty,
       searchValue,
+      exactMatch,
       /* eslint-disable no-unused-vars */
       info,
       createIfNotFound,
@@ -242,19 +268,29 @@ export default {
         ...defaultProperties,
         ...additionalProperties,
       ],
-      filters: [
+    };
+    if (exactMatch) {
+      data.filters = [
         {
           propertyName: searchProperty,
           operator: "EQ",
           value: searchValue,
         },
-      ],
-    };
-    const { results } = await hubspot.searchCRM({
+      ];
+    } else {
+      data.limit = DEFAULT_LIMIT;
+    }
+
+    let results = await this.paginate({
       object: actualObjectType,
       data,
-      $,
     });
+
+    if (!exactMatch) {
+      results = results.filter((result) =>
+        result.properties[searchProperty]
+        && result.properties[searchProperty].toLowerCase().includes(searchValue.toLowerCase()));
+    }
 
     if (!results?.length && createIfNotFound) {
       const response = await hubspot.createObject({

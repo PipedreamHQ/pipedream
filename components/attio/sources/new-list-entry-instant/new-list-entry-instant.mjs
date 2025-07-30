@@ -6,7 +6,7 @@ export default {
   key: "attio-new-list-entry-instant",
   name: "New List Entry (Instant)",
   description: "Emit new event when a record, such as person, company, or deal, is added to a list",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {
@@ -20,19 +20,21 @@ export default {
   },
   methods: {
     ...common.methods,
-    getEventType() {
-      return "list-entry.created";
-    },
-    getFilter() {
-      return {
-        "$and": [
-          {
-            field: "id.list_id",
-            operator: "equals",
-            value: this.listId,
+    getSubscriptions() {
+      return [
+        {
+          event_type: "list-entry.created",
+          filter: {
+            "$and": [
+              {
+                field: "id.list_id",
+                operator: "equals",
+                value: this.listId,
+              },
+            ],
           },
-        ],
-      };
+        },
+      ];
     },
     generateMeta(entry) {
       return {
