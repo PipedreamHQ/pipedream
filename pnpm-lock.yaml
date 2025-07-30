@@ -13688,6 +13688,9 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
+  components/templatedocs:
+    specifiers: {}
+
   components/tento8: {}
 
   components/terminus_app: {}
