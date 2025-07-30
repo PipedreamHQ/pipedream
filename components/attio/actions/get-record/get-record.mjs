@@ -16,8 +16,10 @@ export default {
       ],
     },
     recordId: {
-      label: "Person ID",
-      description: "The identifier of the contact to update.",
+    recordId: {
+      label: "Record ID",
+      description: "The identifier of the record to retrieve.",
+    },
       propDefinition: [
         attio,
         "recordId",
