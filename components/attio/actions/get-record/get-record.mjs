@@ -23,15 +23,8 @@ export default {
       propDefinition: [
         attio,
         "recordId",
-        () => ({
-          targetObject: constants.TARGET_OBJECT.PEOPLE,
-          mapper: ({
-            id: { record_id: value },
-            values: { name },
-          }) => ({
-            value,
-            label: name[0]?.full_name,
-          }),
+        (c) => ({
+          targetObject: c.objectId,
         }),
       ],
     },
