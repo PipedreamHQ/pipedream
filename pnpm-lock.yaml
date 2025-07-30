@@ -2196,7 +2196,11 @@ importers:
 
   components/captaindata: {}
 
-  components/capturekit: {}
+  components/capturekit:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/carbone: {}
 
@@ -10014,6 +10018,9 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
+  components/pdf_munk:
+    specifiers: {}
+
   components/pdffiller:
     dependencies:
       '@pipedream/platform':
@@ -11679,6 +11686,9 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
+  components/rocketskip:
+    specifiers: {}
+
   components/rockset:
     dependencies:
       '@pipedream/platform':
@@ -12281,6 +12291,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+
+  components/serenity_ai_hub:
+    specifiers: {}
 
   components/serpapi:
     dependencies:
@@ -13685,6 +13698,9 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
+  components/templatedocs:
+    specifiers: {}
+
   components/tento8: {}
 
   components/terminus_app: {}
@@ -14324,6 +14340,9 @@ importers:
         version: 3.0.3
 
   components/typebot: {}
+
+  components/typeflo:
+    specifiers: {}
 
   components/typeflowai:
     dependencies:

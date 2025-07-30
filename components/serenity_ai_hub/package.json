@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/serenity_ai_hub",
+  "version": "0.0.1",
+  "description": "Pipedream Serenity* AI Hub Components",
+  "main": "serenity_ai_hub.app.mjs",
+  "keywords": [
+    "pipedream",
+    "serenity_ai_hub"
+  ],
+  "homepage": "https://pipedream.com/apps/serenity_ai_hub",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

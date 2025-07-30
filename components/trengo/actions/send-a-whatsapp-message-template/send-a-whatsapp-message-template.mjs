@@ -4,7 +4,7 @@ import app from "../../trengo.app.mjs";
 export default {
   type: "action",
   key: "trengo-send-a-whatsapp-message-template",
-  version: "0.0.2",
+  version: "0.0.3",
   name: "Send A WhatsApp Message Template",
   description: "Sends a WhatsApp message template, [See the docs](https://developers.trengo.com/reference/start-a-conversation)",
   props: {
@@ -45,7 +45,7 @@ export default {
   },
   async run ({ $ }) {
     if (!this.recepientPhoneNumber && !this.ticketId) {
-      throw new ConfigurationError("Either `Receipent Phone Number` or `Ticket ID` should be set!");
+      throw new ConfigurationError("Either `Recipient Phone Number` or `Ticket ID` should be set!");
     }
     const params = [];
     if (this.whatsappTemplateParamsKeys && this.whatsappTemplateParamsValues) {
@@ -65,7 +65,8 @@ export default {
       data: {
         recipient_phone_number: this.recepientPhoneNumber,
         hsm_id: this.hsmId,
-        ticket_id: this.ticketId,
+        // the docs specify this as string for some reason
+        ticket_id: this.ticketId?.toString?.() || this.ticketId,
         params,
       },
     });
