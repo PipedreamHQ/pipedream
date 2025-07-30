@@ -15,10 +15,9 @@ export default {
       ],
     },
     recordId: {
-      recordId: {
-        label: "Record ID",
-        description: "The identifier of the record to retrieve.",
-      },
+      type: "string",
+      label: "Record ID",
+      description: "The identifier of the record to retrieve.",
       propDefinition: [
         attio,
         "recordId",
