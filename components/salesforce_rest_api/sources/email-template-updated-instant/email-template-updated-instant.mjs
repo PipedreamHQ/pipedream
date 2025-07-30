@@ -6,7 +6,7 @@ export default {
   type: "source",
   name: "Email Template Updated (Instant, of Selectable Type)",
   key: "salesforce_rest_api-email-template-updated-instant",
-  description: "Emit new event when a email template is updated. [See the documentation](https://sforce.co/3yPSJZy)",
+  description: "Emit new event when an email template is updated. [See the documentation](https://sforce.co/3yPSJZy)",
   version: "0.0.1",
   props: {
     salesforce: common.props.salesforce,

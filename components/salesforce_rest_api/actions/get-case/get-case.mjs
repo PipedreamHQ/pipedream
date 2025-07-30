@@ -30,7 +30,7 @@ export default {
       query,
     });
 
-    $.export("$summary", `Sucessfully retrieved case with ID ${this.caseId}`);
+    $.export("$summary", `Successfully retrieved case with ID ${this.caseId}`);
     return records[0];
   },
 };

@@ -6,7 +6,7 @@ export default {
   type: "source",
   name: "New Email Template (Instant, of Selectable Type)",
   key: "salesforce_rest_api-new-email-template-instant",
-  description: "Emit new event when a email template is created. [See the documentation](https://sforce.co/3yPSJZy)",
+  description: "Emit new event when an email template is created. [See the documentation](https://sforce.co/3yPSJZy)",
   version: "0.0.1",
   props: {
     salesforce: common.props.salesforce,
