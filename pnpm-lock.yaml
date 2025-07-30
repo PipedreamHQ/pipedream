@@ -1945,8 +1945,8 @@ importers:
   components/browserless:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       puppeteer-core:
         specifier: ^19.7.5
         version: 19.11.1(typescript@5.7.2)
@@ -10018,8 +10018,7 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/pdf_munk:
-    specifiers: {}
+  components/pdf_munk: {}
 
   components/pdffiller:
     dependencies:
@@ -11686,8 +11685,7 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/rocketskip:
-    specifiers: {}
+  components/rocketskip: {}
 
   components/rockset:
     dependencies:
@@ -12292,8 +12290,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/serenity_ai_hub:
-    specifiers: {}
+  components/serenity_ai_hub: {}
 
   components/serpapi:
     dependencies:
@@ -13698,8 +13695,7 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/templatedocs:
-    specifiers: {}
+  components/templatedocs: {}
 
   components/tento8: {}
 
@@ -14341,8 +14337,7 @@ importers:
 
   components/typebot: {}
 
-  components/typeflo:
-    specifiers: {}
+  components/typeflo: {}
 
   components/typeflowai:
     dependencies:
