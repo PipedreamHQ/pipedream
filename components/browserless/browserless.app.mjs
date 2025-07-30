@@ -6,7 +6,7 @@ export default {
   propDefinitions: {},
   methods: {
     _baseUrl() {
-      return "https://chrome.browserless.io";
+      return `https://${this.$auth.base_url}`;
     },
     _auth() {
       return {
@@ -45,6 +45,14 @@ export default {
     takeScreenshot(opts = {}) {
       return this._makeRequest({
         path: "/screenshot",
+        method: "post",
+        responseType: "arraybuffer",
+        ...opts,
+      });
+    },
+    convertHtmlToPdf(opts = {}) {
+      return this._makeRequest({
+        path: "/pdf",
         method: "post",
         responseType: "arraybuffer",
         ...opts,
