@@ -1,10 +1,10 @@
-const shortcut = require("../../shortcut.app");
+import shortcut from "../../shortcut.app.mjs";
 
-module.exports = {
+export default {
   key: "shortcut-search-stories",
   name: "Search Stories",
   description: "Searches for stories in your Shortcut account.",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   props: {
     shortcut,

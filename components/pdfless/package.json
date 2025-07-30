@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pdfless",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pipedream Pdfless Components",
   "main": "pdfless.app.mjs",
   "keywords": [
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pdfless/pdfless-js": "^1.0.510"
+    "@pipedream/platform": "^3.1.0"
   }
 }
