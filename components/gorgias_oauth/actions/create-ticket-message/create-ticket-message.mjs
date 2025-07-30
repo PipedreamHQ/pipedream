@@ -7,7 +7,7 @@ export default {
   key: "gorgias_oauth-create-ticket-message",
   name: "Create Ticket Message",
   description: "Create a message for a ticket in the Gorgias system. [See the documentation](https://developers.gorgias.com/reference/create-ticket-message)",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "action",
   props: {
     gorgiasOauth,
@@ -67,6 +67,15 @@ export default {
       label: "Message",
       description: "Message of the ticket. Accepts HTML",
     },
+    channel: {
+      propDefinition: [
+        gorgiasOauth,
+        "channel",
+      ],
+      optional: false,
+      default: "email",
+      reloadProps: true,
+    },
     via: {
       propDefinition: [
         gorgiasOauth,
@@ -101,13 +110,20 @@ export default {
     },
   },
   additionalProps(props) {
-    props.toUser.hidden = this.fromAgent;
-    props.fromCustomer.hidden = this.fromAgent;
-    props.toCustomer.hidden = !this.fromAgent;
+    const isInternalNote = this.channel === "internal-note";
+    props.toUser.hidden = this.fromAgent || isInternalNote;
+    props.fromCustomer.hidden = this.fromAgent || isInternalNote;
+    props.toCustomer.hidden = !this.fromAgent || isInternalNote;
     props.fromUser.hidden = !this.fromAgent;
     return {};
   },
   methods: {
+    /**
+     * Get attachment information from URL
+     * @param {object} $ - Step object
+     * @param {string} url - Attachment URL
+     * @returns {object} Content type and size information
+     */
     async getAttachmentInfo($, url) {
       const { headers } = await axios($, {
         method: "HEAD",
@@ -119,6 +135,13 @@ export default {
         size: headers["content-length"],
       };
     },
+    /**
+     * Get email address for user or customer
+     * @param {object} $ - Step object
+     * @param {string} id - User or customer ID
+     * @param {string} type - Type of email to get (from/to)
+     * @returns {string} Email address
+     */
     async getEmail($, id, type = "from") {
       const {
         gorgiasOauth: {
@@ -147,6 +170,12 @@ export default {
       throw new ConfigurationError("Must enter both Attachment URL and Attachment File Name");
     }
 
+    const isInternalNote = this.channel === "internal-note";
+
+    if (isInternalNote && this.fromAgent === false) {
+      throw new ConfigurationError("From Agent must be set to `true` when creating an internal note");
+    }
+
     let contentType, size;
     if (this.attachmentUrl) {
       ({
@@ -167,50 +196,61 @@ export default {
         ? "From User"
         : "From Customer"}" is required when "From Agent" is set to \`${this.fromAgent}\``);
     }
-    if (!toId) {
-      throw new ConfigurationError(`"${this.fromAgent
-        ? "To Customer"
-        : "To User"}" is required when "From Agent" is set to \`${this.fromAgent}\``);
+    // For internal notes, we don't need to validation
+    if (!isInternalNote) {
+      if (!toId) {
+        throw new ConfigurationError(`"${this.fromAgent
+          ? "To Customer"
+          : "To User"}" is required when "From Agent" is set to \`${this.fromAgent}\``);
+      }
+    }
+
+    const messageData = {
+      channel: this.channel,
+      body_html: this.message,
+      via: this.via,
+      subject: this.subject,
+      from_agent: this.fromAgent,
+      sent_datetime: this.sentDatetime,
+      attachments: this.attachmentUrl && [
+        {
+          url: this.attachmentUrl,
+          name: this.attachmentName,
+          content_type: contentType,
+          size,
+        },
+      ],
+      sender: {
+        id: fromId,
+      },
+    };
+
+    // Only add source and receiver for non-internal notes
+    if (!isInternalNote) {
+      messageData.source = {
+        from: {
+          address: await this.getEmail($, fromId, "from"),
+        },
+        to: [
+          {
+            address: await this.getEmail($, toId, "to"),
+          },
+        ],
+      };
+      messageData.receiver = {
+        id: toId,
+      };
     }
 
     const response = await this.gorgiasOauth.createMessage({
       $,
       ticketId: this.ticketId,
-      data: {
-        channel: "email",
-        source: {
-          from: {
-            address: await this.getEmail($, fromId, "from"),
-          },
-          to: [
-            {
-              address: await this.getEmail($, toId, "to"),
-            },
-          ],
-        },
-        body_html: this.message,
-        via: this.via,
-        subject: this.subject,
-        from_agent: this.fromAgent,
-        sent_datetime: this.sentDatetime,
-        attachments: this.attachmentUrl && [
-          {
-            url: this.attachmentUrl,
-            name: this.attachmentName,
-            content_type: contentType,
-            size,
-          },
-        ],
-        sender: {
-          id: fromId,
-        },
-        receiver: {
-          id: toId,
-        },
-      },
+      data: messageData,
     });
 
-    $.export("$summary", `Succesfully created ticket message with ID: ${response.id}`);
+    $.export("$summary", `Successfully created ${isInternalNote
+      ? "internal note"
+      : "ticket message"} with ID: ${response.id}`);
 
     return response;
   },

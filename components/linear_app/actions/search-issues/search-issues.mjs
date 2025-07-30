@@ -5,9 +5,9 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "linear_app-search-issues",
   name: "Search Issues",
-  description: "Search issues (API Key). See the docs [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api)",
+  description: "Searches Linear issues by team, project, assignee, labels, state, or text query. Supports pagination, ordering, and archived issues. Returns array of matching issues. Uses API Key authentication. See Linear docs for additional info [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api).",
   type: "action",
-  version: "0.2.8",
+  version: "0.2.10",
   props: {
     linearApp,
     teamId: {

@@ -1,6 +1,4 @@
 import { ConfigurationError } from "@pipedream/platform";
-import builder from "../../common/builder.mjs";
-import propsFragments from "../../common/props-fragments.mjs";
 import constants from "../common/constants.mjs";
 import common from "../common/task-props.mjs";
 
@@ -8,8 +6,8 @@ export default {
   ...common,
   key: "clickup-update-task",
   name: "Update Task",
-  description: "Update a task. See the docs [here](https://clickup.com/api) in **Tasks / Update Task** section.",
-  version: "0.0.11",
+  description: "Update a task. [See the documentation](https://clickup.com/api) in **Tasks / Update Task** section.",
+  version: "0.0.12",
   type: "action",
   props: {
     ...common.props,
@@ -54,29 +52,63 @@ export default {
       description: "The start date of task, please use `YYYY-MM-DD` format",
       optional: true,
     },
-    listWithFolder: {
-      optional: true,
+    folderId: {
       propDefinition: [
         common.props.clickup,
-        "listWithFolder",
+        "folderId",
+        (c) => ({
+          spaceId: c.spaceId,
+        }),
       ],
+      optional: true,
+    },
+    listId: {
+      propDefinition: [
+        common.props.clickup,
+        "listId",
+        (c) => ({
+          folderId: c.folderId,
+          spaceId: c.spaceId,
+        }),
+      ],
+      optional: true,
+    },
+    taskId: {
+      propDefinition: [
+        common.props.clickup,
+        "taskId",
+        (c) => ({
+          listId: c.listId,
+          useCustomTaskIds: c.useCustomTaskIds,
+          authorizedTeamId: c.authorizedTeamId,
+        }),
+      ],
+      description: "To show options please select a **List** first",
+    },
+    status: {
+      propDefinition: [
+        common.props.clickup,
+        "status",
+        (c) => ({
+          listId: c.listId,
+        }),
+      ],
+      optional: true,
+    },
+    parent: {
+      propDefinition: [
+        common.props.clickup,
+        "taskId",
+        (c) => ({
+          listId: c.listId,
+          useCustomTaskIds: c.useCustomTaskIds,
+          authorizedTeamId: c.authorizedTeamId,
+        }),
+      ],
+      label: "Parent Task ID",
+      optional: true,
     },
   },
-  additionalProps: builder.buildListProps({
-    listPropsOptional: true,
-    tailProps: {
-      taskId: {
-        ...propsFragments.taskId,
-        description: "To show options please select a **List** first",
-      },
-      status: propsFragments.status,
-      parent: {
-        ...propsFragments.taskId,
-        label: "Parent Task",
-        optional: true,
-      },
-    },
-  }),
   async run({ $ }) {
     const {
       taskId,

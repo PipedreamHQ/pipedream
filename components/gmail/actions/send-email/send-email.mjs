@@ -1,12 +1,12 @@
-import gmail from "../../gmail.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import utils from "../../common/utils.mjs";
+import gmail from "../../gmail.app.mjs";
 
 export default {
   key: "gmail-send-email",
   name: "Send Email",
   description: "Send an email from your Google Workspace email account. [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/send)",
-  version: "0.1.8",
+  version: "0.1.15",
   type: "action",
   props: {
     gmail,
@@ -84,6 +84,7 @@ export default {
       label: "In Reply To",
       description: "Specify the `message-id` this email is replying to.",
       optional: true,
+      reloadProps: true,
     },
     mimeType: {
       propDefinition: [
@@ -91,6 +92,22 @@ export default {
         "mimeType",
       ],
     },
+  },
+  additionalProps(existingProps) {
+    const props = {};
+    if (this.inReplyTo) {
+      props.replyAll = {
+        type: "boolean",
+        label: "Reply All",
+        description: "Set to `true` to send reply to emails in the \"From\", \"To\", \"CC\", and \"BCC\" (if available) of the original email",
+        optional: true,
+        reloadProps: true,
+      };
+    }
+    existingProps.to.hidden = !!this.replyAll;
+    existingProps.cc.hidden = !!this.replyAll;
+    existingProps.bcc.hidden = !!this.replyAll;
+    return props;
   },
   async run({ $ }) {
     this.attachmentFilenames = utils.parseArray(this.attachmentFilenames);
@@ -100,7 +117,7 @@ export default {
     }
     const opts = await this.gmail.getOptionsToSendEmail($, this);
     const response = await this.gmail.sendEmail(opts);
-    $.export("$summary", `Successfully sent email to ${this.to}`);
+    $.export("$summary", "Successfully sent the email");
     return response;
   },
 };

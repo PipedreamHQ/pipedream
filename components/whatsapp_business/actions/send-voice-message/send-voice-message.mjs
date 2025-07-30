@@ -1,12 +1,12 @@
 import whatsapp from "../../whatsapp_business.app.mjs";
 import FormData from "form-data";
-import fs from "fs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 
 export default {
   key: "whatsapp_business-send-voice-message",
   name: "Send Voice Message",
   description: "Sends a voice message. [See the documentation](https://developers.facebook.com/docs/whatsapp/cloud-api/messages/audio-messages)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     whatsapp,
@@ -24,8 +24,8 @@ export default {
     },
     filePath: {
       type: "string",
-      label: "File Path",
-      description: "The path to a media file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
+      label: "File Path or URL",
+      description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
     },
     type: {
       type: "string",
@@ -40,14 +40,24 @@ export default {
         "audio/opus",
       ],
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
     // upload media file
     const formData = new FormData();
-    const content = fs.createReadStream(this.filePath.includes("tmp/")
-      ? this.filePath
-      : `/tmp/${this.filePath}`);
-    formData.append("file", content);
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(this.filePath);
+    formData.append("file", stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
+    });
     formData.append("type", this.type);
     formData.append("messaging_product", "whatsapp");
     const { id: mediaId } = await this.whatsapp.uploadMedia({

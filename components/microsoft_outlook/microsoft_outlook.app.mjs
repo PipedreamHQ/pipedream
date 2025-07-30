@@ -1,8 +1,6 @@
-import { axios } from "@pipedream/platform";
-import fs from "fs";
-import path from "path";
-import { encode } from "js-base64";
-import mime from "mime-types";
+import {
+  axios, getFileStreamAndMetadata,
+} from "@pipedream/platform";
 const DEFAULT_LIMIT = 50;
 
 export default {
@@ -54,9 +52,9 @@ export default {
       optional: true,
     },
     files: {
-      label: "File paths",
-      description: "Absolute paths to the files (eg. `/tmp/my_file.pdf`)",
       type: "string[]",
+      label: "File Paths or URLs",
+      description: "Provide either an array of file URLs or an array of paths to a files in the /tmp directory (for example, /tmp/myFile.pdf).",
       optional: true,
     },
     contact: {
@@ -253,7 +251,19 @@ export default {
         ...args,
       });
     },
-    prepareMessageBody(self) {
+    async streamToBase64(stream) {
+      return new Promise((resolve, reject) => {
+        const chunks = [];
+
+        stream.on("data", (chunk) => chunks.push(chunk));
+        stream.on("end", () => {
+          const buffer = Buffer.concat(chunks);
+          resolve(buffer.toString("base64"));
+        });
+        stream.on("error", reject);
+      });
+    },
+    async prepareMessageBody(self) {
       const toRecipients = [];
       const ccRecipients = [];
       const bccRecipients = [];
@@ -285,15 +295,15 @@ export default {
 
       const attachments = [];
       for (let i = 0; self.files && i < self.files.length; i++) {
+        const {
+          stream, metadata,
+        } = await getFileStreamAndMetadata(self.files[i]);
+        const base64 = await this.streamToBase64(stream);
         attachments.push({
           "@odata.type": "#microsoft.graph.fileAttachment",
-          "name": path.basename(self.files[i]),
-          "contentType": mime.lookup(self.files[i]),
-          "contentBytes": encode([
-            ...fs.readFileSync(self.files[i], {
-              flag: "r",
-            }).values(),
-          ]),
+          "name": metadata.name,
+          "contentType": metadata.contentType,
+          "contentBytes": base64,
         });
       }
       const message = {

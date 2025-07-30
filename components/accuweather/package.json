@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/accuweather",
+  "version": "0.1.0",
+  "description": "Pipedream AccuWeather Components",
+  "main": "accuweather.app.mjs",
+  "keywords": [
+    "pipedream",
+    "accuweather"
+  ],
+  "homepage": "https://pipedream.com/apps/accuweather",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
+  }
+}

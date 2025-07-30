@@ -80,15 +80,22 @@ export default {
       label: "Test Run Id",
       description: "The test run identifier where this test result belongs to.",
       async options({
-        page, projectId,
+        page, projectId, testCaseId,
       }) {
-        const { data } = await this.getTestRuns({
-          page: page + 1,
-          params: {
-            project_id: projectId,
-          },
-        });
-        return data.map(({
+        let response;
+        if (testCaseId) {
+          response = await this.getTestRunsForTestCase({
+            testCaseId,
+          });
+        } else {
+          response = await this.getTestRuns({
+            page: page + 1,
+            params: {
+              project_id: projectId,
+            },
+          });
+        }
+        return response.data.map(({
           id: value, name: label,
         }) => ({
           label,
@@ -205,6 +212,14 @@ export default {
     getTestRuns(opts = {}) {
       return this._makeRequest({
         path: "test-runs",
+        ...opts,
+      });
+    },
+    getTestRunsForTestCase({
+      testCaseId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `test-case/${testCaseId}/test-runs`,
         ...opts,
       });
     },

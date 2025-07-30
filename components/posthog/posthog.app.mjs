@@ -60,6 +60,13 @@ export default {
         return results?.map(({ name }) => name ) || [];
       },
     },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "The maximum number of results to return",
+      default: 100,
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
@@ -101,6 +108,30 @@ export default {
         ...opts,
       });
     },
+    listPersons({
+      projectId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/api/projects/${projectId}/persons`,
+        ...opts,
+      });
+    },
+    listCohorts({
+      projectId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/api/projects/${projectId}/cohorts`,
+        ...opts,
+      });
+    },
+    listSurveys({
+      projectId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/api/projects/${projectId}/surveys`,
+        ...opts,
+      });
+    },
     createQuery({
       projectId, ...opts
     }) {
@@ -116,6 +147,40 @@ export default {
         path: "/capture",
         ...opts,
       });
+    },
+    async *paginate({
+      fn, args, max,
+    }) {
+      args = {
+        ...args,
+        params: {
+          ...args?.params,
+          limit: constants.DEFAULT_LIMIT,
+          offset: 0,
+        },
+      };
+      let hasMore, count = 0;
+      do {
+        const {
+          results, next,
+        } = await fn(args);
+        for (const result of results) {
+          yield result;
+          if (max && ++count >= max) {
+            return;
+          }
+        }
+        hasMore = next;
+        args.params.offset += args.params.limit;
+      } while (hasMore);
+    },
+    async iterateResults(opts = {}) {
+      const results = [];
+      const items = this.paginate(opts);
+      for await (const item of items) {
+        results.push(item);
+      }
+      return results;
     },
   },
 };

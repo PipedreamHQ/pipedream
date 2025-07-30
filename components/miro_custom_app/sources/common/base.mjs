@@ -11,8 +11,29 @@ export default {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
+    teamId: {
+      propDefinition: [
+        miro,
+        "teamId",
+      ],
+    },
+    boardId: {
+      propDefinition: [
+        miro,
+        "boardId",
+        ({ teamId }) => ({
+          teamId,
+        }),
+      ],
+    },
   },
   methods: {
+    _getLastTs() {
+      return this.db.get("lastTs") || 0;
+    },
+    _setLastTs(ts) {
+      this.db.set("lastTs", ts);
+    },
     async *paginate({
       resourceFn, args = {},
     }) {

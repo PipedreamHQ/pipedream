@@ -3,8 +3,8 @@ import klaviyo from "../../klaviyo.app.mjs";
 export default {
   key: "klaviyo-create-new-list",
   name: "Create New List",
-  description: "Creates a new list in an account. [See the docs here](https://developers.klaviyo.com/en/v1-2/reference/create-list)",
-  version: "0.0.2",
+  description: "Creates a new list in an account. [See the documentation](https://developers.klaviyo.com/en/reference/create_list)",
+  version: "0.0.4",
   type: "action",
   props: {
     klaviyo,

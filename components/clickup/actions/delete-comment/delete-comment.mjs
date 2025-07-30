@@ -4,18 +4,9 @@ export default {
   ...common,
   key: "clickup-delete-comment",
   name: "Delete Comment",
-  description: "Deletes a comment. See the docs [here](https://clickup.com/api) in **Comments / Deleet Comment** section.",
-  version: "0.0.9",
+  description: "Deletes a comment. [See the documentation](https://clickup.com/api) in **Comments / Deleet Comment** section.",
+  version: "0.0.10",
   type: "action",
-  props: {
-    ...common.props,
-    listWithFolder: {
-      propDefinition: [
-        common.props.clickup,
-        "listWithFolder",
-      ],
-    },
-  },
   async run({ $ }) {
     const { commentId } = this;
 

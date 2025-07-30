@@ -1,29 +1,20 @@
-import { ConfigurationError } from "@pipedream/platform";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import FormData from "form-data";
-import fs from "fs";
 import { LANGUAGE_OPTIONS } from "../../common/constants.mjs";
-import { checkTmp } from "../../common/utils.mjs";
 import sonix from "../../sonix.app.mjs";
 
 export default {
   key: "sonix-upload-media",
   name: "Upload Media",
   description: "Submits new media for processing. [See the documentation](https://sonix.ai/docs/api#new_media)",
-  version: "0.0.1",
+  version: "1.0.1",
   type: "action",
   props: {
     sonix,
     file: {
       type: "string",
-      label: "File",
-      description: "Path of the audio or video file in /tmp folder. The limit is 100MB using this parameter. For larger files, use **File URL**. `NOTE: Only one of **File** or **File URL** is required.` To upload a file to /tmp folder, please follow the [doc here](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
-      optional: true,
-    },
-    fileUrl: {
-      type: "string",
-      label: "File URL",
-      description: "URL pointing to the audio/video file. `NOTE: Only one of **File** or **File URL** is required.`",
-      optional: true,
+      label: "File Path or URL",
+      description: "The audio or video file to upload (max 100MB). Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
     },
     language: {
       type: "string",
@@ -68,20 +59,25 @@ export default {
       description: "URL for Sonix to make a POST request notifying of a change in transcript status (either failed or completed). The POST will include the media status JSON.",
       optional: true,
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
-    if (!this.file && !this.fileUrl) {
-      throw new ConfigurationError("You must provite whether **File** or **File URL**.");
-    }
-
     const formData = new FormData();
 
-    if (this.file) {
-      const filePath = checkTmp(this.file);
-      formData.append("file", fs.createReadStream(filePath));
-    }
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(this.file);
+    formData.append("file", stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
+    });
 
-    this.fileUrl && formData.append("file_url", this.fileUrl);
     this.language && formData.append("language", this.language);
     this.name && formData.append("name", this.name);
     this.transcriptText && formData.append("transcript_text", `${this.transcriptText}`);

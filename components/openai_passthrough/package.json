@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/openai_passthrough",
+  "version": "0.0.1",
+  "description": "Pipedream OpenAI Passthrough Components",
+  "main": "openai_passthrough.app.mjs",
+  "keywords": [
+    "pipedream",
+    "openai_passthrough"
+  ],
+  "homepage": "https://pipedream.com/apps/openai_passthrough",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

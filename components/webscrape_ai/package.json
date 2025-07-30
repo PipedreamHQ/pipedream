@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/webscrape_ai",
+  "version": "0.1.0",
+  "description": "Pipedream Webscrape AI Components",
+  "main": "webscrape_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "webscrape_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/webscrape_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
+  }
+}

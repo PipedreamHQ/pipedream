@@ -1,13 +1,12 @@
-import pick from "lodash.pick";
 import app from "../../stripe.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "stripe-list-customers",
   name: "List Customers",
   type: "action",
-  version: "0.1.1",
-  description: "Find or list customers. [See the " +
-    "docs](https://stripe.com/docs/api/customers/list) for more information",
+  version: "0.1.2",
+  description: "Find or list customers. [See the documentation](https://stripe.com/docs/api/customers/list).",
   props: {
     app,
     email: {
@@ -23,14 +22,74 @@ export default {
         "limit",
       ],
     },
+    createdGt: {
+      propDefinition: [
+        app,
+        "createdGt",
+      ],
+    },
+    createdGte: {
+      propDefinition: [
+        app,
+        "createdGte",
+      ],
+    },
+    createdLt: {
+      propDefinition: [
+        app,
+        "createdLt",
+      ],
+    },
+    createdLte: {
+      propDefinition: [
+        app,
+        "createdLte",
+      ],
+    },
+    endingBefore: {
+      propDefinition: [
+        app,
+        "endingBefore",
+      ],
+    },
+    startingAfter: {
+      propDefinition: [
+        app,
+        "startingAfter",
+      ],
+    },
   },
   async run({ $ }) {
-    const params = pick(this, [
-      "email",
-    ]);
-    const resp = await this.app.sdk().customers.list(params)
+    const {
+      app,
+      email,
+      limit,
+      createdGt,
+      createdGte,
+      createdLt,
+      createdLte,
+      endingBefore,
+      startingAfter,
+    } = this;
+
+    const resp = await app.sdk().customers.list({
+      email,
+      ...(createdGt || createdGte || createdLt || createdLte
+        ? {
+          created: {
+            gt: utils.fromDateToInteger(createdGt),
+            gte: utils.fromDateToInteger(createdGte),
+            lt: utils.fromDateToInteger(createdLt),
+            lte: utils.fromDateToInteger(createdLte),
+          },
+        }
+        : {}
+      ),
+      ending_before: endingBefore,
+      starting_after: startingAfter,
+    })
       .autoPagingToArray({
-        limit: this.limit,
+        limit,
       });
 
     $.export("$summary", "Successfully fetched customer info");

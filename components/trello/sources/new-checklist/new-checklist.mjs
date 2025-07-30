@@ -6,7 +6,7 @@ export default {
   key: "trello-new-checklist",
   name: "New Checklist (Instant)",
   description: "Emit new event for each new checklist added to a board.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "source",
   dedupe: "unique",
   props: {

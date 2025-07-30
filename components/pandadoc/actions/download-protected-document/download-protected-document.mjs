@@ -7,7 +7,7 @@ export default {
   description:
     "Download a completed document as a verifiable PDF. [See documentation here](https://developers.pandadoc.com/reference/download-protected-document)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   props: {
     app,
     id: {
@@ -27,6 +27,11 @@ export default {
         app,
         "separateFiles",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   async run({ $ }) {

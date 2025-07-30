@@ -1,14 +1,13 @@
 import FormData from "form-data";
-import fs from "fs";
 import urlExists from "url-exist";
 import claidAi from "../../claid_ai.app.mjs";
-import { checkTmp } from "../../common/utils.mjs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 
 export default {
   key: "claid_ai-correct-color-lighting",
   name: "Correct Color & Lighting",
   description: "Automatically adjusts the color and lighting of an image by applying HDR. The result is an enhancement of the dynamic range in dark or overexposed images. [See the documentation](https://docs.claid.ai/image-editing-api/image-operations/color-adjustments)",
-  version: "0.0.1",
+  version: "0.1.1",
   type: "action",
   props: {
     claidAi,
@@ -23,6 +22,12 @@ export default {
       label: "Is Automated",
       description: "Whether you want the automated adjustment or manual for fine-tuning.",
       reloadProps: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async additionalProps() {
@@ -100,8 +105,15 @@ export default {
     }
 
     if (!await urlExists(this.image)) {
+      const {
+        stream, metadata,
+      } = await getFileStreamAndMetadata(this.image);
       const formData = new FormData();
-      formData.append("file", fs.createReadStream(checkTmp(this.image)));
+      formData.append("file", stream, {
+        contentType: metadata.contentType,
+        knownLength: metadata.size,
+        filename: metadata.name,
+      });
       formData.append("data", JSON.stringify({
         operations,
       }));

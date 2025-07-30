@@ -27,6 +27,9 @@ export default {
     _getEventName() {
       throw new Error("_getEventName() is not implemented");
     },
+    generateMeta() {
+      throw new Error("generateMeta() is not implemented");
+    },
     _generateWebhookToken() {
       return uuidv4();
     },
@@ -61,5 +64,10 @@ export default {
         await this.app.deleteWebhook(id);
       }
     },
+  },
+  async run(event) {
+    this._checkHmac(event.bodyRaw, event.headers["x-projects-signature"]);
+    const meta = this.generateMeta(event.body);
+    this.$emit(event.body, meta);
   },
 };

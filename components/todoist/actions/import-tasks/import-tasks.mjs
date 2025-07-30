@@ -1,12 +1,12 @@
 import todoist from "../../todoist.app.mjs";
-import fs from "fs";
 import converter from "json-2-csv";
+import { getFileStream } from "@pipedream/platform";
 
 export default {
   key: "todoist-import-tasks",
   name: "Import Tasks",
   description: "Import tasks into a selected project. [See Docs](https://developer.todoist.com/sync/v9/#add-an-item)",
-  version: "0.0.3",
+  version: "0.1.1",
   type: "action",
   props: {
     todoist,
@@ -23,6 +23,12 @@ export default {
       ],
       description: "Project to import tasks into",
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   methods: {
     exportSummary($, tasks) {
@@ -37,8 +43,13 @@ export default {
       project,
     } = this;
 
-    const fileContents = (await fs.promises.readFile(path)).toString();
-    const tasks = await converter.csv2jsonAsync(fileContents);
+    const stream = await getFileStream(path);
+    const chunks = [];
+    for await (const chunk of stream) {
+      chunks.push(chunk);
+    }
+    const fileContents = Buffer.concat(chunks).toString();
+    const tasks = converter.csv2json(fileContents);
     // CREATE TASKS
     const data = tasks.map((task) => ({
       content: task.content,

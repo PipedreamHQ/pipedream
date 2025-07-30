@@ -166,11 +166,11 @@ export default {
     portalId: {
       type: "string",
       label: "Portal Id",
-      description: "The Id of the portal.",
+      description: "Select a portal or provide a portal ID",
       async options() {
         const { portals } = await this.listPortals();
 
-        return portals.map(({
+        return portals?.map(({
           id_string: value, name: label,
         }) => ({
           label,
@@ -181,7 +181,7 @@ export default {
     projectId: {
       type: "string",
       label: "Project Id",
-      description: "project.",
+      description: "Select a project or provide a project ID",
       async options({
         page, portalId,
       }) {
@@ -275,8 +275,8 @@ export default {
     },
     uploaddoc: {
       type: "string",
-      label: "Upload Doc",
-      description: "Please configure [Zoho Drive integration](https://help.zoho.com/portal/en/kb/projects/integration/zoho-apps/articles/zoho-workdrive-integration) to enable attachment for your Zoho BugTracker. The maximum size to upload a file is 128 MB. The path to the image file saved to the `/tmp` directory (e.g. `/tmp/image.png`). [see docs here](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      label: "Upload Doc File Path or URL",
+      description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`. Please configure [Zoho Drive integration](https://help.zoho.com/portal/en/kb/projects/integration/zoho-apps/articles/zoho-workdrive-integration) to enable attachment for your Zoho BugTracker. The maximum size to upload a file is 128 MB.",
     },
   },
   methods: {

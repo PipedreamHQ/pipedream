@@ -1,20 +1,19 @@
 import zerobounce from "../../zerobounce.app.mjs";
-import fs from "fs";
 import FormData from "form-data";
-import path from "path";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 
 export default {
   key: "zerobounce-file-validation",
   name: "Validate Emails in File",
   description: "Performs email validation on all the addresses contained in a provided file. [See the documentation](https://www.zerobounce.net/docs/email-validation-api-quickstart/)",
-  version: "0.0.1",
+  version: "0.1.2",
   type: "action",
   props: {
     zerobounce,
     filePath: {
       type: "string",
-      label: "File Path",
-      description: "The path to a csv or txt file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
+      label: "File Path or URL",
+      description: "The csv or txt file to validate. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.csv`)",
     },
     emailAddressColumn: {
       type: "integer",
@@ -60,28 +59,40 @@ export default {
     callbackWithRerun: {
       type: "boolean",
       label: "Callback With Rerun",
-      description: "Use the `$.flow.rerun` Node.js helper to rerun the step when the validation is completed. Overrides the `rerunUrl` prop. This will increase execution time and credit usage as a result. [See the documentation](https://pipedream.com/docs/code/nodejs/rerun/#flow-rerun)",
+      description: "Use the `$.flow.rerun` Node.js helper to rerun the step when the validation is completed. Overrides the `rerunUrl` prop. This will increase execution time and credit usage as a result. [See the documentation](https://pipedream.com/docs/code/nodejs/rerun/#flow-rerun). Not available in Pipedream Connect.",
+      optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
       optional: true,
     },
   },
   async run({ $ }) {
     let response, summary;
-    const { run } = $.context;
+    const context = $.context;
+    const run = context
+      ? context.run
+      : {
+        runs: 1,
+      };
 
     if (run.runs === 1) {
       let returnUrl  = this.returnUrl;
-      if (this.callbackWithRerun) {
+      if (context && this.callbackWithRerun) {
         ({ resume_url: returnUrl } = $.flow.rerun(600000, null, 1));
       }
 
-      const filePath = this.filePath.includes("tmp/")
-        ? this.filePath
-        : `/tmp/${this.filePath}`;
-      const fileName = path.basename(filePath);
-      const fileContent = fs.readFileSync(filePath);
-
+      const {
+        stream, metadata,
+      } = await getFileStreamAndMetadata(this.filePath);
       const formData = new FormData();
-      formData.append("file", fileContent, fileName);
+      formData.append("file", stream, {
+        contentType: metadata.contentType,
+        knownLength: metadata.size,
+        filename: metadata.name,
+      });
       formData.append("email_address_column", this.emailAddressColumn);
       formData.append("api_key", this.zerobounce.$auth.api_key);
       if (this.firstNameColumn) {

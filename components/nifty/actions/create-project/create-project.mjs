@@ -7,7 +7,7 @@ export default {
   key: "nifty-create-project",
   name: "Create Project",
   description: "Creates a new project in a designated portfolio. [See the documentation](https://openapi.niftypm.com/api#/Projects/ProjectAPIController_createProject)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     nifty,

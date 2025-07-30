@@ -118,7 +118,7 @@ export default {
     signature: {
       type: "string",
       label: "Signature",
-      description: "An HTML signature composed in the Gmail Web UI that will be included in the message",
+      description: "An HTML signature composed in the Gmail Web UI that will be included in the message. Only works with the `HTML` body type.",
       optional: true,
       async options() {
         const { sendAs } = await this.listSignatures();
@@ -303,6 +303,35 @@ export default {
           opts.inReplyTo = inReplyTo;
           opts.references = inReplyTo;
           opts.threadId = repliedMessage.threadId;
+          if (props.replyAll) {
+            const from = repliedMessage.payload.headers.find(({ name }) => name.toLowerCase() === "from");
+            const to = repliedMessage.payload.headers.find(({ name }) => name.toLowerCase() === "to");
+            const cc = repliedMessage.payload.headers.find(({ name }) => name.toLowerCase() === "cc");
+            const bcc = repliedMessage.payload.headers.find(({ name }) => name.toLowerCase() === "bcc");
+            opts.to = from.value.split(",");
+            opts.to.push(...to.value.split(","));
+
+            // Filter out the current user's email address
+            const currentUserEmail = email.toLowerCase().trim();
+            opts.to = opts.to.filter((addr) => {
+              // Extract email from possible format like "Name <email@example.com>"
+              const match = addr.match(/<(.+?)>/) || [
+                null,
+                addr.trim(),
+              ];
+              return match[1].toLowerCase() !== currentUserEmail;
+            });
+
+            opts.to = [
+              ...new Set(opts.to),
+            ];
+            if (cc) {
+              opts.cc = cc.value;
+            }
+            if (bcc) {
+              opts.bcc = bcc.value;
+            }
+          }
         } catch (err) {
           opts.threadId = props.inReplyTo;
         }
@@ -319,6 +348,10 @@ export default {
       }
 
       if (props.bodyType === constants.BODY_TYPES.HTML) {
+        if (props.signature) {
+          props.body += props.signature;
+        }
+
         opts.html = props.body;
       } else {
         opts.text = props.body;
@@ -364,18 +397,18 @@ export default {
       });
       return data;
     },
+    async getProfile() {
+      const { data } = await this._client().users.getProfile({
+        userId: constants.USER_ID,
+      });
+      return data;
+    },
     async getMessageSubject({ id }) {
       const message = await this.getMessage({
         id,
       });
       const { value: subject } = message.payload.headers.find(({ name }) => name === "Subject");
       return subject;
-    },
-    async getMessages(ids = []) {
-      const promises = ids.map((id) => this.getMessage({
-        id,
-      }));
-      return Promise.all(promises);
     },
     async *getAllMessages(ids = []) {
       for (const id of ids) {

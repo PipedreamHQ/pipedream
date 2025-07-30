@@ -1,10 +1,11 @@
 import postgresql from "../../postgresql.app.mjs";
+import { parseRowValues } from "../../common/utils.mjs";
 
 export default {
   name: "Insert Row",
   key: "postgresql-insert-row",
   description: "Adds a new row. [See the documentation](https://node-postgres.com/features/queries)",
-  version: "2.0.6",
+  version: "2.0.8",
   type: "action",
   props: {
     postgresql,
@@ -28,6 +29,7 @@ export default {
         postgresql,
         "rowValues",
       ],
+      description: "JSON representation of your table rows. Accept a single row (JSON Object) or multiple rows (JSON array). For example: `{ \"product_id\": 1, \"product_name\": \"Laptop Pro 15\", \"price\": 1200.50, \"stock_quantity\": 50, \"created_at\": \"2023-10-26T10:00:00Z\" }`",
     },
   },
   async run({ $ }) {
@@ -36,23 +38,31 @@ export default {
       table,
       rowValues,
     } = this;
-    const columns = Object.keys(rowValues);
-    const values = Object.values(rowValues);
-    try {
+    const results = [];
+    const parsedRowValues = parseRowValues(rowValues);
+    const parsedRowValuesArray = Array.isArray(parsedRowValues)
+      ? parsedRowValues
+      : [
+        parsedRowValues,
+      ];
+
+    const errorMsg = "New row(s) not inserted due to an error. ";
+
+    for (const row of parsedRowValuesArray) {
+      const columns = Object.keys(row);
+      const values = Object.values(row);
       const res = await this.postgresql.insertRow(
         schema,
         table,
         columns,
         values,
+        errorMsg,
       );
-      $.export("$summary", "New row inserted");
-      return res;
-    } catch (error) {
-      let errorMsg = "New row not inserted due to an error. ";
-      errorMsg += `${error}`.includes("SSL verification failed")
-        ? "This could be because SSL verification failed. To resolve this, reconnect your account and set SSL Verification Mode: Skip Verification, and try again."
-        : `${error}`;
-      throw new Error(errorMsg);
+      results.push(res);
     }
+    $.export("$summary", `Successfully inserted ${results.length} row${results.length === 1
+      ? ""
+      : "s"}`);
+    return results;
   },
 };

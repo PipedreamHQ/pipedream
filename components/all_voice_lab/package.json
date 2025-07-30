@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/all_voice_lab",
+  "version": "0.0.1",
+  "description": "Pipedream All Voice Lab Components",
+  "main": "all_voice_lab.app.mjs",
+  "keywords": [
+    "pipedream",
+    "all_voice_lab"
+  ],
+  "homepage": "https://pipedream.com/apps/all_voice_lab",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

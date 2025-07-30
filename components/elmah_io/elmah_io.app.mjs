@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -6,15 +8,15 @@ export default {
   propDefinitions: {
     logId: {
       label: "Log ID",
-      description: "The ID of the log",
+      description: "The ID of the log. Requires that your api key have the `logs_read` permission.",
       type: "string",
       async options() {
         const logs = await this.getLogs();
 
-        return logs.map((log) => ({
+        return logs?.map((log) => ({
           label: log.name,
           value: log.id,
-        }));
+        })) || [];
       },
     },
   },
@@ -28,14 +30,22 @@ export default {
     async _makeRequest({
       $ = this, path, ...args
     }) {
-      return axios($, {
-        ...args,
-        url: `${this._apiUrl()}${path}`,
-        params: {
-          ...args?.params,
-          api_key: this._apiKey(),
-        },
-      });
+      try {
+        return await axios($, {
+          ...args,
+          url: `${this._apiUrl()}${path}`,
+          params: {
+            ...args?.params,
+            api_key: this._apiKey(),
+          },
+        });
+      } catch (error) {
+        if (error.response?.status === 401) {
+          console.log(error);
+          throw new ConfigurationError(`${error.response.data.title} ${error.response.data.detail}`);
+        }
+        throw error;
+      }
     },
     async getLogs(args = {}) {
       return this._makeRequest({

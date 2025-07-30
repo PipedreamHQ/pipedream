@@ -1,7 +1,6 @@
 import {
-  ConfigurationError, axios,
+  ConfigurationError, axios, getFileStreamAndMetadata,
 } from "@pipedream/platform";
-import fs from "fs";
 import FormData from "form-data";
 import slack from "../../slack.app.mjs";
 
@@ -9,7 +8,7 @@ export default {
   key: "slack-upload-file",
   name: "Upload File",
   description: "Upload a file. [See the documentation](https://api.slack.com/messaging/files#uploading_files)",
-  version: "0.0.27",
+  version: "0.1.1",
   type: "action",
   props: {
     slack,
@@ -33,18 +32,24 @@ export default {
       ],
       optional: true,
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
-    if (!fs.existsSync(this.content)) {
-      throw new ConfigurationError(`\`${this.content}\` not found, a valid \`/tmp\` path is needed`);
-    }
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(this.content);
 
     const filename = this.content.split("/").pop();
 
     // Get an upload URL from Slack
     const getUploadUrlResponse = await this.slack.getUploadUrl({
       filename,
-      length: fs.statSync(this.content).size,
+      length: metadata.size,
     });
 
     if (!getUploadUrlResponse.ok) {
@@ -57,7 +62,11 @@ export default {
 
     // Upload the file to the provided URL
     const formData = new FormData();
-    formData.append("file", fs.createReadStream(this.content));
+    formData.append("file", stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
+    });
     formData.append("filename", filename);
 
     await axios($, {

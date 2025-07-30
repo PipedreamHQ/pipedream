@@ -4,7 +4,7 @@ import utils from "../../common/utils.mjs";
 
 export default {
   name: "Get Items",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "miro_custom_app-get-items",
   description: "Returns items on a Miro board. [See the docs](https://developers.miro.com/reference/get-items).",
   type: "action",

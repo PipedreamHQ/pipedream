@@ -6,7 +6,7 @@ export default {
   key: "docmosis-generate-document",
   name: "Generate Document",
   description: "Generates a document by merging data with a Docmosis template. [See the documentation](https://resources.docmosis.com/Documentation/Cloud/DWS4/Cloud-Web-Services-Guide-DWS4.pdf)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
@@ -33,6 +33,11 @@ export default {
         app,
         "outputFormat",
       ],
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   methods: {

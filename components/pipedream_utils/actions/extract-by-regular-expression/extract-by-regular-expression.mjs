@@ -4,10 +4,15 @@ export default {
   name: "Formatting - [Text] Extract by Regular Expression",
   description: "Find a match for a regular expression pattern. Returns all matched groups with start and end position.",
   key: "pipedream_utils-extract-by-regular-expression",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     pipedream_utils,
+    alert: {
+      type: "alert",
+      alertType: "info",
+      content: "Capture groups let you extract just the parts you need from regex matches.\nLearn more here: https://regexone.com/lesson/capturing_groups",
+    },
     input: {
       label: "Input",
       description: "Text you would like to find a pattern from",

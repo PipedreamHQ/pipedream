@@ -1,11 +1,11 @@
-import fs from "fs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import docsbotAi from "../../docsbot_ai.app.mjs";
 
 export default {
   key: "docsbot_ai-upload-source-file",
   name: "Upload Source File",
   description: "Upload a file to be used as a source. [See the documentation](https://docsbot.ai/documentation/developer/source-api#source-file-uploads)",
-  version: "0.0.1",
+  version: "0.1.1",
   type: "action",
   props: {
     docsbotAi,
@@ -30,14 +30,18 @@ export default {
         "filePath",
       ],
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
     const { filePath } = this;
-    const data = fs.createReadStream(filePath.startsWith("/tmp")
-      ? filePath
-      : `/tmp/${filePath}`.replace(/\/\//g, "/"));
-
-    const fileName = filePath.split("/").pop();
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(filePath);
 
     const {
       file, url,
@@ -46,16 +50,16 @@ export default {
       teamId: this.teamId,
       botId: this.botId,
       params: {
-        fileName,
+        fileName: metadata.name || filePath.split("/").pop(),
       },
     });
 
     await this.docsbotAi.uploadSourceFile({
       $,
       url,
-      data,
+      data: stream,
     });
-    $.export("$summary", `Successfully uploaded "${fileName}"`);
+    $.export("$summary", `Successfully uploaded "${metadata.name}"`);
     return {
       file,
     };

@@ -1,12 +1,12 @@
 import mapbox from "../../mapbox.app.mjs";
-import fs from "fs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import FormData from "form-data";
 
 export default {
   key: "mapbox-create-tileset",
   name: "Create Tileset",
   description: "Uploads and creates a new tileset from a data source. [See the documentation](https://docs.mapbox.com/api/maps/mapbox-tiling-service/)",
-  version: "0.0.1",
+  version: "0.1.1",
   type: "action",
   props: {
     mapbox,
@@ -22,8 +22,8 @@ export default {
     },
     filePath: {
       type: "string",
-      label: "File Path",
-      description: "The path to a tileset source file in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp)",
+      label: "File Path or URL",
+      description: "A tileset source file. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
     },
     recipe: {
       type: "object",
@@ -42,17 +42,25 @@ export default {
       description: "Describes whether the tileset must be used with an access token from your Mapbox account. Default is `true`.",
       optional: true,
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const filePath = this.filePath.includes("tmp/")
-      ? this.filePath
-      : `/tmp/${this.filePath}`;
-
     // Create Tileset Source
     try {
       const fileData = new FormData();
-      const content = fs.createReadStream(filePath);
-      fileData.append("file", content);
+      const {
+        stream, metadata,
+      } = await getFileStreamAndMetadata(this.filePath);
+      fileData.append("file", stream, {
+        contentType: metadata.contentType,
+        knownLength: metadata.size,
+        filename: metadata.name,
+      });
 
       await this.mapbox.createTilesetSource({
         $,
@@ -62,7 +70,7 @@ export default {
         headers: fileData.getHeaders(),
       });
     } catch (e) {
-      throw new Error(`Error uploading file: \`${filePath}\`. Error: ${e}`);
+      throw new Error(`Error uploading file: \`${this.filePath}\`. Error: ${e}`);
     }
 
     const recipe = typeof this.recipe === "string"

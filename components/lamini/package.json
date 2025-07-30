@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/lamini",
+  "version": "1.0.1",
+  "description": "Pipedream Lamini Components",
+  "main": "lamini.app.mjs",
+  "keywords": [
+    "pipedream",
+    "lamini"
+  ],
+  "homepage": "https://pipedream.com/apps/lamini",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
+  }
+}

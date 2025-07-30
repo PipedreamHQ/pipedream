@@ -5,9 +5,9 @@ import zoomAdmin from "../../zoom_admin.app.mjs";
 
 export default {
   name: "Add webinar registrant",
-  description: "Register a participant for a webinar. [See the docs here](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarregistrantcreate)",
+  description: "Register a participant for a webinar. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarregistrantcreate)",
   key: "zoom_admin-add-webinar-registrant",
-  version: "0.1.5",
+  version: "0.1.6",
   type: "action",
   props: {
     zoomAdmin,

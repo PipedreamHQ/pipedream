@@ -4,15 +4,30 @@ export default {
   key: "calendly_v2-list-events",
   name: "List Events",
   description: "List events for an user. [See the documentation](https://calendly.stoplight.io/docs/api-docs/b3A6NTkxNDEy-list-events)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     calendly,
+    alert: {
+      propDefinition: [
+        calendly,
+        "listEventsAlert",
+      ],
+    },
+    scope: {
+      propDefinition: [
+        calendly,
+        "listEventsScope",
+      ],
+      reloadProps: true,
+    },
     organization: {
       propDefinition: [
         calendly,
         "organization",
       ],
+      optional: true,
+      hidden: true,
     },
     user: {
       propDefinition: [
@@ -24,6 +39,19 @@ export default {
       ],
       description: "Returns events for a specified user",
       optional: true,
+      hidden: true,
+    },
+    group: {
+      propDefinition: [
+        calendly,
+        "groupId",
+        (c) => ({
+          organization: c.organization,
+        }),
+      ],
+      description: "Returns events for a specified group",
+      optional: true,
+      hidden: true,
     },
     inviteeEmail: {
       propDefinition: [
@@ -51,14 +79,26 @@ export default {
       ],
     },
   },
+  async additionalProps(props) {
+    return this.calendly.listEventsAdditionalProps(props, this.scope);
+  },
   async run({ $ }) {
     const params = {
-      organization: this.organization,
+      invitee_email: this.inviteeEmail,
+      status: this.status,
+      paginate: this.paginate,
+      maxResults: this.maxResults,
     };
-    if (this.inviteeEmail) params.invitee_email = this.inviteeEmail;
-    if (this.status) params.status = this.status;
-    if (this.paginate) params.paginate = this.paginate;
-    if (this.maxResults) params.maxResults = this.maxResults;
+
+    if (this.scope !== "authenticatedUser") {
+      params.organization = this.organization;
+    }
+    if (this.scope === "user") {
+      params.user = this.user;
+    }
+    if (this.scope === "group") {
+      params.group = this.group;
+    }
 
     const response = await this.calendly.listEvents(params, this.user, $);
     $.export("$summary", `Found ${response.pagination.count} event(s)`);

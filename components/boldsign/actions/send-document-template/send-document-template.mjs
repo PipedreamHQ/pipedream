@@ -1,17 +1,15 @@
-import { ConfigurationError } from "@pipedream/platform";
-import fs from "fs";
+import {
+  ConfigurationError, getFileStreamAndMetadata,
+} from "@pipedream/platform";
 import boldsign from "../../boldsign.app.mjs";
 import { DOCUMENT_DOWNLOAD_OPTIONS } from "../../common/constants.mjs";
-import {
-  checkTmp,
-  parseObject,
-} from "../../common/utils.mjs";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "boldsign-send-document-template",
   name: "Send Document Using Template",
   description: "Send documents for e-signature using a BoldSign template. [See the documentation](https://developers.boldsign.com/documents/send-document-from-template/?region=us)",
-  version: "0.0.1",
+  version: "0.1.1",
   type: "action",
   props: {
     boldsign,
@@ -155,8 +153,8 @@ export default {
     },
     files: {
       type: "string[]",
-      label: "Files",
-      description: "A list of paths to files in the `/tmp` directory. [See the documentation on working with files](https://pipedream.com/docs/code/nodejs/working-with-files/#writing-a-file-to-tmp).",
+      label: "File Paths or URLs",
+      description: "The files to upload. For each entry, provide either a file URL or path to a file in the `/tmp` directory (for example, `/tmp/myFile.txt`)",
       optional: true,
     },
     fileUrls: {
@@ -183,6 +181,12 @@ export default {
       description: "Enable localization for audit trail based on the signer's language. If null is provided, the value will be inherited from the Business Profile settings. Only one additional language can be specified in the signer's languages besides English.",
       optional: true,
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async additionalProps(props) {
     props.reminderDays.hidden = !this.enableAutoReminder;
@@ -194,8 +198,15 @@ export default {
       const files = [];
       if (this.files) {
         for (const file of parseObject(this.files)) {
-          const filePath = fs.readFileSync(checkTmp(file), "base64");
-          files.push(`data:application/${file.substr(file.length - 3)};base64,${filePath}`);
+          const {
+            stream, metadata,
+          } = await getFileStreamAndMetadata(file);
+          const chunks = [];
+          for await (const chunk of stream) {
+            chunks.push(chunk);
+          }
+          const buffer = Buffer.concat(chunks);
+          files.push(`data:${metadata.contentType};base64,${buffer.toString("base64")}`);
         }
       }
 

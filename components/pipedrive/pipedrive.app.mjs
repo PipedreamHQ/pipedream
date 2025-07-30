@@ -45,7 +45,7 @@ export default {
             value: id,
           })),
           context: {
-            cursor: additionalData.next_cursor,
+            cursor: additionalData.next_cursor || false,
           },
         };
       },
@@ -146,7 +146,7 @@ export default {
             value: id,
           })),
           context: {
-            cursor: additionalData.next_cursor,
+            cursor: additionalData.next_cursor || false,
           },
         };
       },
@@ -213,7 +213,7 @@ export default {
             value: id,
           })),
           context: {
-            cursor: additionalData.next_cursor,
+            cursor: additionalData.next_cursor || false,
           },
         };
       },
@@ -278,6 +278,34 @@ export default {
         };
       },
     },
+    leadLabelIds: {
+      type: "string[]",
+      label: "Lead Label IDs",
+      description: "The IDs of the lead labels to associate with the lead",
+      optional: true,
+      async options() {
+        const { data: leadLabels } = await this.getLeadLabels();
+
+        return leadLabels?.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        }));
+      },
+    },
+    emails: {
+      type: "string[]",
+      label: "Emails",
+      description: "Email addresses (one or more) associated with the person, presented in the same manner as received by GET request of a person. **Example: {\"value\":\"email1@email.com\", \"primary\":true, \"label\":\"work\"}**",
+      optional: true,
+    },
+    phones: {
+      type: "string[]",
+      label: "Phones",
+      description: "Phone numbers (one or more) associated with the person, presented in the same manner as received by GET request of a person. **Example: {\"value\":\"12345\", \"primary\":true, \"label\":\"work\"}**",
+      optional: true,
+    },
   },
   methods: {
     api(model, version = "v1") {
@@ -323,6 +351,22 @@ export default {
       const stagesApi = this.api("StagesApi", "v2");
       return stagesApi.getStages(opts);
     },
+    getLeadLabels(opts) {
+      const leadLabelsApi = this.api("LeadLabelsApi");
+      return leadLabelsApi.getLeadLabels(opts);
+    },
+    getNotes(opts = {}) {
+      const notesApi = this.api("NotesApi");
+      return notesApi.getNotes(opts);
+    },
+    getDealCustomFields(opts) {
+      const dealCustomFieldsApi = this.api("DealFieldsApi");
+      return dealCustomFieldsApi.getDealFields(opts);
+    },
+    getPersonCustomFields(opts) {
+      const personCustomFieldsApi = this.api("PersonFieldsApi");
+      return personCustomFieldsApi.getPersonFields(opts);
+    },
     addActivity(opts = {}) {
       const activityApi = this.api("ActivitiesApi", "v2");
       return activityApi.addActivity({
@@ -353,6 +397,12 @@ export default {
         AddPersonRequest: opts,
       });
     },
+    addLead(opts = {}) {
+      const leadApi = this.api("LeadsApi");
+      return leadApi.addLead({
+        AddLeadRequest: opts,
+      });
+    },
     addWebhook(opts = {}) {
       const webhooksApi = this.api("WebhooksApi");
       return webhooksApi.addWebhook({
@@ -377,6 +427,71 @@ export default {
         id: dealId,
         UpdateDealRequest: opts,
       });
+    },
+    updatePerson({
+      personId, ...opts
+    }) {
+      const personsApi = this.api("PersonsApi", "v2");
+      return personsApi.updatePerson({
+        id: personId,
+        UpdatePersonRequest: opts,
+      });
+    },
+    deleteNote(noteId) {
+      const notesApi = this.api("NotesApi");
+      return notesApi.deleteNote({
+        id: noteId,
+      });
+    },
+    getPerson(personId) {
+      const personsApi = this.api("PersonsApi", "v2");
+      return personsApi.getPerson({
+        id: personId,
+      });
+    },
+    getLead(leadId) {
+      const leadApi = this.api("LeadsApi");
+      return leadApi.getLead({
+        id: leadId,
+      });
+    },
+    searchLeads(opts = {}) {
+      const leadApi = this.api("LeadsApi", "v2");
+      return leadApi.searchLeads(opts);
+    },
+    async *paginate({
+      fn, params, max,
+    }) {
+      params = {
+        ...params,
+        start: 0,
+        limit: 100,
+      };
+      let hasMore, count = 0;
+      do {
+        const {
+          data, additional_data: additionalData,
+        } = await fn(params);
+        if (!data?.length) {
+          return;
+        }
+        for (const item of data) {
+          yield item;
+          if (max && ++count >= max) {
+            return;
+          }
+        }
+        params.start += params.limit;
+        hasMore = additionalData.pagination.more_items_in_collection;
+      } while (hasMore);
+    },
+    async getPaginatedResources(opts) {
+      const results = [];
+      const resources = this.paginate(opts);
+      for await (const resource of resources) {
+        results.push(resource);
+      }
+      return results;
     },
   },
 };

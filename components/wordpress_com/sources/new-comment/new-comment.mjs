@@ -1,12 +1,23 @@
 import wordpress from "../../wordpress_com.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "wordpress_com-new-comment",
   name: "New Comment",
   description: "Emit new event for each new comment added since the last run. If no new comments, emit nothing.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
+  methods: {
+    getWordpressComments($) {
+      return this.wordpress.getWordpressComments({
+        $,
+        site: this.site,
+        postId: this.postId,
+        number: this.number,
+      });
+    },
+  },
   props: {
     wordpress,
     db: "$.service.db",
@@ -36,52 +47,48 @@ export default {
       min: 1,
       max: 100,
     },
+    timer: {
+      type: "$.interface.timer",
+      label: "Timer",
+      description: "How often to poll WordPress for new comments.",
+      default: {
+        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+      },
+    },
   },
+  hooks: {
+    async activate() {
+
+      const {
+        wordpress,
+        db,
+      } = this;
+
+      await this.db.set("lastCommentId", null); //reset
+
+      const response = await this.getWordpressComments();
+
+      const comments = response.comments || [];
+
+      await wordpress.initialize(comments, db, "lastCommentId");
+    },
+  },
+
   async run({ $ }) {
-    const warnings = [];
 
     const {
       wordpress,
       db,
-      site,
-      postId,
-      number,
     } = this;
 
-    warnings.push(...wordpress.checkDomainOrId(site));
-
-    let response;
-    try {
-      response = await wordpress.getWordpressComments({
-        $,
-        site,
-        postId,
-        number,
-      });
-
-    } catch (error) {
-      wordpress.throwCustomError("Failed to fetch comments from WordPress:", error, warnings);
-    }
+    const response = await this.getWordpressComments({
+      $,
+    });
 
     const comments = response.comments || [];
     const lastCommentId = Number(await db.get("lastCommentId"));
 
-    // First run: Initialize cursor
-    if (!lastCommentId) {
-      if (!comments.length) {
-        console.log("No comments found on first run. Source initialized with no cursor.");
-        return;
-      }
-
-      const newest = comments[0]?.ID;
-      if (!newest) {
-        throw new Error("Failed to initialize: The latest comment does not have a valid ID.");
-      }
-
-      await db.set("lastCommentId", newest);
-      console.log(`Initialized lastCommentId on first run with comment ID ${newest}.`);
-      return;
-    }
+    if (!lastCommentId)  await wordpress.initialize(comments, db, "lastCommentId");
 
     let maxCommentIdTracker = lastCommentId;
     const newComments = [];
@@ -110,10 +117,6 @@ export default {
     } else {
       console.log("No new comments found.");
     }
-
-    if (warnings.length > 0) {
-      console.log("Warnings:\n- " + warnings.join("\n- "));
-    };
   },
 };
 

@@ -7,7 +7,7 @@ export default {
   propDefinitions: {
     appId: {
       type: "string",
-      label: "App Id",
+      label: "App ID",
       description: `The unique identifier for the App. On Nifty, a new app can be created by following these steps:
 1. Access Profile Settings > App Center > Integrate with API > Create a new App.
 2. In the Create App popup, add the following Pipedream Redirect URL to the Redirect URLs: \`https://api.pipedream.com/connect/oauth/oa_aWyi2m/callback\`.
@@ -20,7 +20,9 @@ export default {
           },
         });
 
-        return apps.map(({ id: value, name: label }) => ({
+        return apps.map(({
+          id: value, name: label,
+        }) => ({
           label,
           value,
         }));
@@ -28,13 +30,14 @@ export default {
     },
     memberId: {
       type: "string",
-      label: "Member Id",
-      description:
-        "The unique identifier for the member that the task will be assigned.",
+      label: "Member ID",
+      description: "The unique identifier for the member that the task will be assigned",
       async options() {
         const members = await this.listMembers();
 
-        return members.map(({ id: value, name: label }) => ({
+        return members.map(({
+          id: value, name: label,
+        }) => ({
           label,
           value,
         }));
@@ -42,8 +45,8 @@ export default {
     },
     projectId: {
       type: "string",
-      label: "Project Id",
-      description: "The unique identifier for the project.",
+      label: "Project ID",
+      description: "The unique identifier for the project",
       async options({ page }) {
         const { projects } = await this.listProjects({
           params: {
@@ -52,7 +55,9 @@ export default {
           },
         });
 
-        return projects.map(({ id: value, name: label }) => ({
+        return projects.map(({
+          id: value, name: label,
+        }) => ({
           label,
           value,
         }));
@@ -60,17 +65,22 @@ export default {
     },
     taskId: {
       type: "string",
-      label: "Task Id",
-      description: "The unique identifier for the task.",
-      async options({ page }) {
+      label: "Task ID",
+      description: "The unique identifier for the task",
+      async options({
+        page, projectId,
+      }) {
         const { tasks } = await this.listTasks({
           params: {
             limit: LIMIT,
             offset: LIMIT * page,
+            project_id: projectId,
           },
         });
 
-        return tasks.map(({ id: value, name: label }) => ({
+        return tasks.map(({
+          id: value, name: label,
+        }) => ({
           label,
           value,
         }));
@@ -78,8 +88,8 @@ export default {
     },
     templateId: {
       type: "string",
-      label: "Template Id",
-      description: "The unique identifier for the template.",
+      label: "Template ID",
+      description: "The unique identifier for the template",
       async options({ page }) {
         const { items } = await this.listTemplates({
           params: {
@@ -89,7 +99,79 @@ export default {
           },
         });
 
-        return items.map(({ id: value, name: label }) => ({
+        return items.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    milestoneId: {
+      type: "string",
+      label: "Milestone ID",
+      description: "The unique identifier of a milestone",
+      optional: true,
+      async options({
+        page, projectId,
+      }) {
+        const { items } = await this.listMilestones({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+            project_id: projectId,
+          },
+        });
+
+        return items.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+    taskGroupId: {
+      type: "string",
+      label: "Task Group ID",
+      description: "The unique identifier of a task group",
+      async options({
+        page, projectId,
+      }) {
+        const { items } = await this.listTaskGroups({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+            project_id: projectId,
+            archived: false,
+          },
+        });
+
+        return items?.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        })) || [];
+      },
+    },
+    labelIds: {
+      type: "string[]",
+      label: "Label IDs",
+      description: "An array of unique identifiers for the labels",
+      optional: true,
+      async options({ page }) {
+        const { items } = await this.listLabels({
+          params: {
+            limit: LIMIT,
+            offset: LIMIT * page,
+            type: "others",
+          },
+        });
+
+        return items.map(({
+          id: value, name: label,
+        }) => ({
           label,
           value,
         }));
@@ -105,7 +187,9 @@ export default {
         Authorization: `Bearer ${this.$auth.oauth_access_token}`,
       };
     },
-    _makeRequest({ $ = this, path, ...opts }) {
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
       return axios($, {
         url: this._baseUrl() + path,
         headers: this._headers(),
@@ -160,9 +244,27 @@ export default {
         ...opts,
       });
     },
+    listMilestones(opts = {}) {
+      return this._makeRequest({
+        path: "/milestones",
+        ...opts,
+      });
+    },
+    listTaskGroups(opts = {}) {
+      return this._makeRequest({
+        path: "/taskgroups",
+        ...opts,
+      });
+    },
     listTemplates(opts = {}) {
       return this._makeRequest({
         path: "/templates",
+        ...opts,
+      });
+    },
+    listLabels(opts = {}) {
+      return this._makeRequest({
+        path: "/labels",
         ...opts,
       });
     },
@@ -173,7 +275,9 @@ export default {
         ...opts,
       });
     },
-    deleteHook({ hookId, ...opts }) {
+    deleteHook({
+      hookId, ...opts
+    }) {
       return this._makeRequest({
         method: "DELETE",
         path: `/webhooks/${hookId}`,
@@ -187,7 +291,9 @@ export default {
         ...opts,
       });
     },
-    assignTask({ taskId, ...opts }) {
+    assignTask({
+      taskId, ...opts
+    }) {
       return this._makeRequest({
         method: "PUT",
         path: `/tasks/${taskId}/assignees`,
@@ -198,6 +304,13 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "/messages",
+        ...opts,
+      });
+    },
+    createTask(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/tasks",
         ...opts,
       });
     },

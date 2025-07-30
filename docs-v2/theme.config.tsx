@@ -16,6 +16,7 @@ const config: DocsThemeConfig = {
 
     return (
       <>
+        <title>{`${title} — Pipedream`}</title>
         <meta name="description" content="Workflow automation for developers" />
         {router && <link rel="canonical" href={`https://pipedream.com/docs${router.route === "/"
           ? ""
@@ -60,6 +61,16 @@ const config: DocsThemeConfig = {
   search: {
     component: DocSearch,
   },
+  // We can add banners to the docs for product announcements
+  // banner: {
+  //   key: "announcement-key", // Used for dismissible state in localStorage
+  //   dismissible: true, // Makes the banner dismissible
+  //   content: (
+  //     <a href="https://pipedream.com/connect/demo/" target="_blank" rel="noreferrer">
+  //       Check out the new Pipedream Connect SDK Playground →
+  //     </a>
+  //   ),
+  // },
 };
 
 export default config;

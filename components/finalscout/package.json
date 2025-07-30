@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/finalscout",
+  "version": "0.1.0",
+  "description": "Pipedream FinalScout Components",
+  "main": "finalscout.app.mjs",
+  "keywords": [
+    "pipedream",
+    "finalscout"
+  ],
+  "homepage": "https://pipedream.com/apps/finalscout",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
+  }
+}

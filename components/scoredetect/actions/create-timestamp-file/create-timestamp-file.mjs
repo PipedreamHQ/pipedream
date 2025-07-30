@@ -1,12 +1,11 @@
 import scoreDetect from "../../scoredetect.app.mjs";
-import fs from "fs";
-import { axios } from "@pipedream/platform";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 
 export default {
   key: "scoredetect-create-timestamp-file",
   name: "Create Certificate from File",
   description: "Creates a timestamped blockchain certificate using a provided file (local or URL). [See the documentation](https://api.scoredetect.com/docs/routes#create-certificate)",
-  version: "0.0.1",
+  version: "0.1.1",
   type: "action",
   props: {
     scoreDetect,
@@ -16,21 +15,21 @@ export default {
         "fileOrUrl",
       ],
     },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
+    },
   },
   async run({ $ }) {
-    const { fileOrUrl } = this;
-    const file = fileOrUrl.startsWith("http")
-      ? await axios($, {
-        url: fileOrUrl,
-        responseType: "arraybuffer",
-      })
-      : fs.createReadStream(fileOrUrl.includes("tmp/")
-        ? fileOrUrl
-        : `/tmp/${fileOrUrl}`);
-
+    const {
+      stream, metadata,
+    } = await getFileStreamAndMetadata(this.fileOrUrl);
     const response = await this.scoreDetect.createCertificate({
       $,
-      file,
+      file: stream,
+      metadata,
     });
 
     $.export("$summary", "Successfully created certificate");

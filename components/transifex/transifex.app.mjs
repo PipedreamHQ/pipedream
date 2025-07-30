@@ -6,8 +6,8 @@ export default {
   propDefinitions: {
     file: {
       type: "string",
-      label: "File",
-      description: "The path to the json file saved to the `/tmp` directory (e.g. `/tmp/example.json`). [See the documentation](https://pipedream.com/docs/workflows/steps/code/nodejs/working-with-files/#the-tmp-directory).",
+      label: "File Path or URL",
+      description: "Provide either a file URL or a path to a file in the /tmp directory (for example, /tmp/myFile.pdf).",
     },
     organizationId: {
       type: "string",
