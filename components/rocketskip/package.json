@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/rocketskip",
+  "version": "0.0.1",
+  "description": "Pipedream RocketSkip Components",
+  "main": "rocketskip.app.mjs",
+  "keywords": [
+    "pipedream",
+    "rocketskip"
+  ],
+  "homepage": "https://pipedream.com/apps/rocketskip",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
