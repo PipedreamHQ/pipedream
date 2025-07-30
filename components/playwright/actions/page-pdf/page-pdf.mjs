@@ -4,7 +4,7 @@ export default {
   key: "playwright-page-pdf",
   name: "Page PDF",
   description: "Generates a pdf of the page and store it on /tmp directory. [See the documentation](https://playwright.dev/docs/api/class-page#page-pdf)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     playwright,

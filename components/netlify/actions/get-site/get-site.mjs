@@ -4,7 +4,7 @@ export default {
   key: "netlify-get-site",
   name: "Get Site",
   description: "Get a specified site. [See docs](https://docs.netlify.com/api/get-started/#get-sites)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     netlify,
@@ -16,7 +16,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = this.netlify.getSite(this.siteId);
+    const response = await this.netlify.getSite(this.siteId);
     $.export("$summary", `Got site ${response.name}`);
     return response;
   },

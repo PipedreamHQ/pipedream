@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/netlify",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Pipedream Netlify Components",
   "main": "netlify.app.mjs",
   "keywords": [
@@ -10,9 +10,9 @@
   "homepage": "https://pipedream.com/apps/netlify",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^1.4.0",
+    "@pipedream/platform": "^3.1.0",
     "jwt-simple": "^0.5.6",
-    "netlify": "^6.0.9",
+    "netlify": "^23.0.0",
     "parse-link-header": "^2.0.0"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
