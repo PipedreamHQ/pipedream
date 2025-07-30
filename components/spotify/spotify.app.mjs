@@ -95,7 +95,6 @@ export default {
       type: "string",
       label: "Playlist ID",
       description: "Select an existing playlist or pass a custom expression to reference a specific [`playlist_id`](https://developer.spotify.com/documentation/web-api/#spotify-uris-and-ids) (for example, `3cEYpjA9oz9GiPac4AsH4n`).",
-      withLabel: true,
       async options({ page }) {
         const limit = 20;
         const playlists = await this.getPlaylists({
