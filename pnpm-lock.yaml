@@ -11894,6 +11894,9 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/sap_s_4hana_cloud:
+    specifiers: {}
+
   components/sapling: {}
 
   components/sapling_ai:
