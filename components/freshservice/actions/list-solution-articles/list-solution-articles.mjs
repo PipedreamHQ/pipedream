@@ -4,7 +4,7 @@ export default {
   key: "freshservice-list-solution-articles",
   name: "List Solution Articles",
   description: "List all solution articles. [See the documentation](https://api.freshservice.com/#view_all_solution_article)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     freshservice,
@@ -25,9 +25,11 @@ export default {
     },
   },
   async run({ $ }) {
-    const articles = await this.freshdesk.listSolutionArticles({
+    const { articles } = await this.freshservice.listSolutionArticles({
       $,
-      folder_id: this.solutionFolderId,
+      params: {
+        folder_id: this.solutionFolderId,
+      },
     });
     $.export("$summary", `Successfully listed ${articles.length} solution articles`);
     return articles;

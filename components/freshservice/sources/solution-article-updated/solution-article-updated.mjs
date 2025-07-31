@@ -3,7 +3,7 @@ import common from "../common/base.mjs";
 export default {
   ...common,
   name: "Solution Article Updated",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   key: "freshservice-solution-article-updated",
   description: "Emit new event for each updated solution article. [See documentation](https://api.freshservice.com/#view_all_solution_article)",
   type: "source",
@@ -29,7 +29,7 @@ export default {
   methods: {
     ...common.methods,
     getResourceFn() {
-      return this.freshdesk.listSolutionArticles;
+      return this.freshservice.listSolutionArticles;
     },
     getParams() {
       return {
@@ -43,10 +43,11 @@ export default {
       return "articles";
     },
     generateMeta(article) {
+      const ts = Date.parse(article.updated_at);
       return {
-        id: article.id,
+        id: `${article.id}-${ts}`,
         summary: `Updated solution article with ID ${article.id}`,
-        ts: Date.parse(article.updated_at),
+        ts,
       };
     },
   },

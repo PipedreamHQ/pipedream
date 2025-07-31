@@ -4,7 +4,7 @@ export default {
   key: "freshservice-update-ticket",
   name: "Update Ticket",
   description: "Update a ticket. [See the documentation](https://api.freshservice.com/#update_ticket_priority)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     freshservice,
@@ -55,9 +55,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const ticket = await this.freshdesk.updateTicket({
+    const { ticket } = await this.freshservice.updateTicket({
       $,
-      ticket_id: this.ticketId,
+      ticketId: this.ticketId,
       data: {
         source: this.source,
         status: this.status,

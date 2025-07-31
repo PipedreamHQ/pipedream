@@ -3,8 +3,7 @@ import common from "../common/base.mjs";
 export default {
   ...common,
   name: "New Ticket",
-  //version: "0.0.3",
-  version: "0.0.{{ts}}",
+  version: "0.0.3",
   key: "freshservice-new-ticket",
   description: "Emit new event for each created ticket. [See documentation](https://api.freshservice.com/#view_all_ticket)",
   type: "source",
@@ -12,11 +11,10 @@ export default {
   methods: {
     ...common.methods,
     getResourceFn() {
-      return this.freshdesk.listTickets;
+      return this.freshservice.listTickets;
     },
     getParams() {
       return {
-        filter: "new_and_my_open",
         order_type: "desc",
       };
     },

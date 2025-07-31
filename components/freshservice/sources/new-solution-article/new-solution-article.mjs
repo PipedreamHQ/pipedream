@@ -3,7 +3,7 @@ import common from "../common/base.mjs";
 export default {
   ...common,
   name: "New Solution Article",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   key: "freshservice-new-solution-article",
   description: "Emit new event for each created solution article. [See documentation](https://api.freshservice.com/#view_all_solution_article)",
   type: "source",
@@ -29,7 +29,7 @@ export default {
   methods: {
     ...common.methods,
     getResourceFn() {
-      return this.freshdesk.listSolutionArticles;
+      return this.freshservice.listSolutionArticles;
     },
     getParams() {
       return {

@@ -23,7 +23,9 @@ export default {
       description: "The ID of a solution folder",
       async options({ solutionCategoryId }) {
         const { folders } = await this.listSolutionFolders({
-          category_id: solutionCategoryId,
+          params: {
+            category_id: solutionCategoryId,
+          },
         });
         return folders.map((folder) => ({
           label: folder.name,
@@ -37,7 +39,9 @@ export default {
       description: "The ID of a solution article",
       async options({ solutionFolderId }) {
         const { articles } = await this.listSolutionArticles({
-          folder_id: solutionFolderId,
+          params: {
+            folder_id: solutionFolderId,
+          },
         });
         return articles.map((article) => ({
           label: article.title,
@@ -62,31 +66,31 @@ export default {
       },
     },
     ticketSourceType: {
-      type: "string",
+      type: "integer",
       label: "Ticket Source Type",
       description: "The source type of a ticket",
       options: constants.TICKET_SOURCE_TYPES,
     },
     ticketStatus: {
-      type: "string",
+      type: "integer",
       label: "Ticket Status",
       description: "The status of a ticket",
       options: constants.TICKET_STATUS,
     },
     ticketPriority: {
-      type: "string",
+      type: "integer",
       label: "Ticket Priority",
       description: "The priority of a ticket",
       options: constants.TICKET_PRIORITIES,
     },
     solutionArticleType: {
-      type: "string",
+      type: "integer",
       label: "Solution Article Type",
       description: "The type of a solution article",
       options: constants.SOLUTION_ARTICLE_TYPES,
     },
     solutionArticleStatus: {
-      type: "string",
+      type: "integer",
       label: "Solution Article Status",
       description: "The status of a solution article",
       options: constants.SOLUTION_ARTICLE_STATUS,

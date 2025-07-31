@@ -4,7 +4,7 @@ export default {
   key: "freshservice-update-solution-article",
   name: "Update Solution Article",
   description: "Update a solution article. [See the documentation](https://api.freshservice.com/#update_solution_article)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     freshservice,
@@ -44,23 +44,6 @@ export default {
       description: "The description of the solution article",
       optional: true,
     },
-    categoryId: {
-      propDefinition: [
-        freshservice,
-        "solutionCategoryId",
-      ],
-      optional: true,
-    },
-    folderId: {
-      propDefinition: [
-        freshservice,
-        "solutionFolderId",
-        (c) => ({
-          solutionCategoryId: c.solutionCategoryId,
-        }),
-      ],
-      optional: true,
-    },
     articleType: {
       propDefinition: [
         freshservice,
@@ -95,7 +78,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const article = await this.freshdesk.updateSolutionArticle({
+    const { article } = await this.freshservice.updateSolutionArticle({
       $,
       articleId: this.solutionArticleId,
       data: {

@@ -4,7 +4,7 @@ export default {
   key: "freshservice-delete-solution-article",
   name: "Delete Solution Article",
   description: "Delete a solution article. [See the documentation](https://api.freshservice.com/#delete_solution_article)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     freshservice,
@@ -34,7 +34,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const article = await this.freshdesk.deleteSolutionArticle({
+    const article = await this.freshservice.deleteSolutionArticle({
       $,
       articleId: this.solutionArticleId,
     });

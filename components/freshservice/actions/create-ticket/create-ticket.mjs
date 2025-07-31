@@ -4,7 +4,7 @@ export default {
   key: "freshservice-create-ticket",
   name: "Create Ticket",
   description: "Create a new ticket. [See the documentation](https://api.freshservice.com/#create_ticket)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     freshservice,
@@ -35,17 +35,15 @@ export default {
       type: "string",
       label: "Ticket Description",
       description: "The description of a ticket",
-      optional: true,
     },
     email: {
       type: "string",
       label: "Email",
       description: "The email address accociated with the ticket",
-      optional: true,
     },
   },
   async run({ $ }) {
-    const ticket = await this.freshdesk.createTicket({
+    const { ticket } = await this.freshservice.createTicket({
       $,
       data: {
         source: this.source,

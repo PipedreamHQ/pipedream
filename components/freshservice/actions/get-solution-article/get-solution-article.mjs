@@ -4,7 +4,7 @@ export default {
   key: "freshservice-get-solution-article",
   name: "Get Solution Article",
   description: "Get a solution article by ID. [See the documentation](https://api.freshservice.com/#view_solution_article)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     freshservice,
@@ -34,9 +34,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const article = await this.freshdesk.getSolutionArticle({
+    const { article } = await this.freshservice.getSolutionArticle({
       $,
-      article_id: this.solutionArticleId,
+      articleId: this.solutionArticleId,
     });
     $.export("$summary", `Successfully fetched solution article with ID ${article.id}`);
     return article;

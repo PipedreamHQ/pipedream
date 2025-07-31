@@ -4,7 +4,7 @@ export default {
   key: "freshservice-create-solution-article",
   name: "Create Solution Article",
   description: "Create a solution article. [See the documentation](https://api.freshservice.com/#create_solution_article)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     freshservice,
@@ -33,17 +33,16 @@ export default {
         }),
       ],
     },
-    articleType: {
-      propDefinition: [
-        freshservice,
-        "solutionArticleType",
-      ],
-      optional: true,
-    },
     status: {
       propDefinition: [
         freshservice,
         "solutionArticleStatus",
+      ],
+    },
+    articleType: {
+      propDefinition: [
+        freshservice,
+        "solutionArticleType",
       ],
       optional: true,
     },
@@ -67,7 +66,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const article = await this.freshdesk.createSolutionArticle({
+    const { article } = await this.freshservice.createSolutionArticle({
       $,
       data: {
         title: this.title,
