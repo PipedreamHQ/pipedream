@@ -5,7 +5,7 @@ export default {
   key: "clickup-get-view",
   name: "Get View",
   description: "Get a view. [See the documentation](https://clickup.com/api) in **Views / Get View** section.",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "action",
   props: {
     ...common.props,
