@@ -2196,7 +2196,11 @@ importers:
 
   components/captaindata: {}
 
-  components/capturekit: {}
+  components/capturekit:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/carbone: {}
 
@@ -11681,6 +11685,9 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
+  components/rocketskip:
+    specifiers: {}
+
   components/rockset:
     dependencies:
       '@pipedream/platform':
@@ -11885,6 +11892,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/sap_s_4hana_cloud:
+    specifiers: {}
 
   components/sapling: {}
 
@@ -12283,6 +12293,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+
+  components/serenity_ai_hub:
+    specifiers: {}
 
   components/serpapi:
     dependencies:
