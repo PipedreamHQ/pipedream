@@ -5857,8 +5857,8 @@ importers:
         specifier: ^1.0.3
         version: 1.0.3
       '@pipedream/platform':
-        specifier: ^0.9.0
-        version: 0.9.0
+        specifier: ^3.1.0
+        version: 3.1.0
       mime-db:
         specifier: ^1.51.0
         version: 1.53.0
