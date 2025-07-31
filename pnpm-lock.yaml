@@ -2436,6 +2436,9 @@ importers:
 
   components/chatrace: {}
 
+  components/chatsistant:
+    specifiers: {}
+
   components/chatsonic: {}
 
   components/chattermill:
