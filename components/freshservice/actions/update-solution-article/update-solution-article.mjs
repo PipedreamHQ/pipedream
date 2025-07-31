@@ -84,7 +84,7 @@ export default {
       data: {
         title: this.title,
         description: this.description,
-        folder_id: this.folderId,
+        folder_id: this.solutionFolderId,
         article_type: this.articleType,
         status: this.status,
         tags: this.tags,

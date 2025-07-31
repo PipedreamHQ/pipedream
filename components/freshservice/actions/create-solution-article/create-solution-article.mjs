@@ -29,7 +29,7 @@ export default {
         freshservice,
         "solutionFolderId",
         (c) => ({
-          solutionCategoryId: c.solutionCategoryId,
+          solutionCategoryId: c.categoryId,
         }),
       ],
     },
