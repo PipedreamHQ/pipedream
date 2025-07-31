@@ -120,5 +120,21 @@ export default {
         ...opts,
       });
     },
+    getSession({
+      sessionId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/sessions/${sessionId}`,
+        ...opts,
+      });
+    },
+    listSessionMemory({
+      sessionId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/sessions/${sessionId}/memory`,
+        ...opts,
+      });
+    },
   },
 };
