@@ -2436,8 +2436,7 @@ importers:
 
   components/chatrace: {}
 
-  components/chatsistant:
-    specifiers: {}
+  components/chatsistant: {}
 
   components/chatsonic: {}
 
@@ -11895,8 +11894,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/sap_s_4hana_cloud:
-    specifiers: {}
+  components/sap_s_4hana_cloud: {}
 
   components/sapling: {}
 
@@ -14760,8 +14758,7 @@ importers:
 
   components/virustotal: {}
 
-  components/visibot:
-    specifiers: {}
+  components/visibot: {}
 
   components/vision6:
     dependencies:
