@@ -2,11 +2,10 @@ import common from "../common/base.mjs";
 
 export default {
   ...common,
-  name: "New Ticket",
-  //version: "0.0.3",
+  name: "Ticket Updated",
   version: "0.0.{{ts}}",
-  key: "freshservice-new-ticket",
-  description: "Emit new event for each created ticket. [See documentation](https://api.freshservice.com/#view_all_ticket)",
+  key: "freshservice-ticket-updated",
+  description: "Emit new event for each updated ticket. [See documentation](https://api.freshservice.com/#view_all_ticket)",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -14,11 +13,14 @@ export default {
     getResourceFn() {
       return this.freshdesk.listTickets;
     },
-    getParams() {
+    getParams(lastTs) {
       return {
-        filter: "new_and_my_open",
+        updated_since: lastTs,
         order_type: "desc",
       };
+    },
+    getTsField() {
+      return "updated_at";
     },
     getResourceKey() {
       return "tickets";
@@ -26,8 +28,8 @@ export default {
     generateMeta(ticket) {
       return {
         id: ticket.id,
-        summary: `New ticket with ID ${ticket.id}`,
-        ts: Date.parse(ticket.created_at),
+        summary: `Updated ticket with ID ${ticket.id}`,
+        ts: Date.parse(ticket.updated_at),
       };
     },
   },
