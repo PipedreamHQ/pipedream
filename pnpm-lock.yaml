@@ -1106,8 +1106,8 @@ importers:
   components/attio:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/attractwell:
     dependencies:
@@ -2435,6 +2435,9 @@ importers:
         version: 3.0.3
 
   components/chatrace: {}
+
+  components/chatsistant:
+    specifiers: {}
 
   components/chatsonic: {}
 
@@ -11891,6 +11894,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/sap_s_4hana_cloud:
+    specifiers: {}
 
   components/sapling: {}
 
