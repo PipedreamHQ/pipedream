@@ -1106,8 +1106,8 @@ importers:
   components/attio:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/attractwell:
     dependencies:
@@ -10021,8 +10021,7 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/pdf_munk:
-    specifiers: {}
+  components/pdf_munk: {}
 
   components/pdffiller:
     dependencies:
@@ -11689,8 +11688,7 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/rocketskip:
-    specifiers: {}
+  components/rocketskip: {}
 
   components/rockset:
     dependencies:
@@ -12298,8 +12296,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/serenity_ai_hub:
-    specifiers: {}
+  components/serenity_ai_hub: {}
 
   components/serpapi:
     dependencies:
@@ -13704,8 +13701,7 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/templatedocs:
-    specifiers: {}
+  components/templatedocs: {}
 
   components/tento8: {}
 
@@ -14347,8 +14343,7 @@ importers:
 
   components/typebot: {}
 
-  components/typeflo:
-    specifiers: {}
+  components/typeflo: {}
 
   components/typeflowai:
     dependencies:
