@@ -14760,6 +14760,9 @@ importers:
 
   components/virustotal: {}
 
+  components/visibot:
+    specifiers: {}
+
   components/vision6:
     dependencies:
       '@pipedream/platform':
