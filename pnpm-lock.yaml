@@ -2436,8 +2436,7 @@ importers:
 
   components/chatrace: {}
 
-  components/chatsistant:
-    specifiers: {}
+  components/chatsistant: {}
 
   components/chatsonic: {}
 
@@ -5113,8 +5112,8 @@ importers:
   components/freshservice:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/freshstatus:
     dependencies:
@@ -11895,8 +11894,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/sap_s_4hana_cloud:
-    specifiers: {}
+  components/sap_s_4hana_cloud: {}
 
   components/sapling: {}
 
@@ -14760,8 +14758,7 @@ importers:
 
   components/virustotal: {}
 
-  components/visibot:
-    specifiers: {}
+  components/visibot: {}
 
   components/vision6:
     dependencies:
