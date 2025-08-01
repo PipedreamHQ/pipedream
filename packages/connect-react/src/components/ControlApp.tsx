@@ -29,7 +29,9 @@ type ControlAppProps = {
 
 export function ControlApp({ app }: ControlAppProps) {
   const client = useFrontendClient();
-  const { externalUserId, oauthAppConfig } = useFormContext();
+  const {
+    externalUserId, oauthAppConfig,
+  } = useFormContext();
   const formFieldCtx = useFormFieldContext<ConfigurablePropApp>();
   const {
     id, prop, value, onChange,
