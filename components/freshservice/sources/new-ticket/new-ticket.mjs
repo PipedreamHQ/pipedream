@@ -1,48 +1,32 @@
-import app from "../../freshservice.app.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import common from "../common/base.mjs";
 
 export default {
+  ...common,
   name: "New Ticket",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "freshservice-new-ticket",
   description: "Emit new event for each created ticket. [See documentation](https://api.freshservice.com/#view_all_ticket)",
   type: "source",
   dedupe: "unique",
-  props: {
-    app,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      static: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
-  },
   methods: {
-    emitEvent(data) {
-      this.$emit(data, {
-        id: data.id,
-        summary: `New ticket with ID ${data.id}`,
-        ts: Date.parse(data.created_at),
-      });
+    ...common.methods,
+    getResourceFn() {
+      return this.freshservice.listTickets;
     },
-    async emitEvents() {
-      const { tickets: resources } = await this.app.getTickets({
-        params: {
-          filter: "new_and_my_open",
-          order_type: "desc",
-        },
-      });
-
-      resources.reverse().forEach(this.emitEvent);
+    getParams() {
+      return {
+        order_type: "desc",
+      };
     },
-  },
-  hooks: {
-    async deploy() {
-      await this.emitEvents();
+    getResourceKey() {
+      return "tickets";
     },
-  },
-  async run() {
-    await this.emitEvents();
+    generateMeta(ticket) {
+      return {
+        id: ticket.id,
+        summary: `New ticket with ID ${ticket.id}`,
+        ts: Date.parse(ticket.created_at),
+      };
+    },
   },
 };
