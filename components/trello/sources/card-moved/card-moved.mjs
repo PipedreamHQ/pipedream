@@ -6,7 +6,7 @@ export default {
   key: "trello-card-moved",
   name: "Card Moved (Instant)", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event each time a card is moved to a list.",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "source",
   props: {
     ...common.props,
