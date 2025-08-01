@@ -11022,8 +11022,8 @@ importers:
   components/quickbooks_sandbox:
     dependencies:
       '@pipedream/quickbooks':
-        specifier: ^0.6.1
-        version: 0.6.1
+        specifier: ^0.7.0
+        version: 0.7.0
 
   components/quickemailverification:
     dependencies:
@@ -19335,8 +19335,8 @@ packages:
   '@pipedream/postgresql@2.2.3':
     resolution: {integrity: sha512-Co9r4UKvvimEPo9T4v+EfVn/Sqqw8+X7PtvsAF7tydq7CHpkmOT9eYAiD0Kuybg5WbuWuqDaXHHmhVtsAxgpBw==}
 
-  '@pipedream/quickbooks@0.6.1':
-    resolution: {integrity: sha512-17uGEBdLTUk7FkyCwuaNT1eQodvnS4xN+w1+kSdtMw2GV8guzQU9/oB/IjECDDyDvO4Ba0ulfm9xb544bKWf/w==}
+  '@pipedream/quickbooks@0.7.0':
+    resolution: {integrity: sha512-x9wDX90dDGw6mfWveMPWDwosm0KaZpxy2cs9Qt+mDPa4VPXYwnIh3EC+rqatnQTMrOWFh85deYJEb5A9xqUuiQ==}
 
   '@pipedream/ramp@0.1.2':
     resolution: {integrity: sha512-vYC5OPJo+kxhYYav5y0Mb7WihbLqNdoUO/CnOH1rHfKKNI4E23LLLLICn3VAl0gRc7xbWLHf4Nmcyjw7qf5k7Q==}
@@ -36957,7 +36957,7 @@ snapshots:
       - debug
       - pg-native
 
-  '@pipedream/quickbooks@0.6.1':
+  '@pipedream/quickbooks@0.7.0':
     dependencies:
       '@pipedream/platform': 3.1.0
     transitivePeerDependencies:
@@ -37391,6 +37391,8 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
+    transitivePeerDependencies:
+      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
