@@ -16070,14 +16070,6 @@ importers:
         specifier: ^6.0.0
         version: 6.2.0
 
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
-
   packages/ai:
     dependencies:
       '@pipedream/sdk':
@@ -17698,12 +17690,12 @@ packages:
   '@datadog/sketches-js@2.1.1':
     resolution: {integrity: sha512-d5RjycE+MObE/hU+8OM5Zp4VjTwiPLRa8299fj7muOmR16fb942z8byoMbCErnGh0lBevvgkGrLclQDvINbIyg==}
 
-  '@definitelytyped/header-parser@0.2.19':
-    resolution: {integrity: sha512-zu+RxQpUCgorYUQZoyyrRIn9CljL1CeM4qak3NDeMO1r7tjAkodfpAGnVzx/6JR2OUk0tAgwmZxNMSwd9LVgxw==}
+  '@definitelytyped/header-parser@0.2.20':
+    resolution: {integrity: sha512-97YPAlUo8XjWNtZ+6k+My+50/ljE2iX6KEPjOZ1Az1RsZdKwJ6taAX3F5g6SY1SJr50bzdm2RZzyQNdRmHcs4w==}
     engines: {node: '>=18.18.0'}
 
-  '@definitelytyped/typescript-versions@0.1.8':
-    resolution: {integrity: sha512-iz6q9aTwWW7CzN2g8jFQfZ955D63LA+wdIAKz4+2pCc/7kokmEHie1/jVWSczqLFOlmH+69bWQxIurryBP/sig==}
+  '@definitelytyped/typescript-versions@0.1.9':
+    resolution: {integrity: sha512-Qjalw9eNlcTjXhzx0Q6kHKuRCOUt/M5RGGRGKsiYlm/nveGvPX9liZSQlGXZVwyQ5I9qvq/GdaWiPchQ+ZXOrQ==}
     engines: {node: '>=18.18.0'}
 
   '@definitelytyped/utils@0.1.8':
@@ -30059,22 +30051,22 @@ packages:
   superagent@3.8.1:
     resolution: {integrity: sha512-VMBFLYgFuRdfeNQSMLbxGSLfmXL/xc+OO+BZp41Za/NRDBet/BNbkRJrYzCUu0u4GU0i/ml2dtT8b9qgkw9z6Q==}
     engines: {node: '>= 4.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@4.1.0:
     resolution: {integrity: sha512-FT3QLMasz0YyCd4uIi5HNe+3t/onxMyEho7C3PSqmti3Twgy2rXT4fmkTz6wRL6bTF4uzPcfkUCa8u4JWHw8Ag==}
     engines: {node: '>= 6.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@5.3.1:
     resolution: {integrity: sha512-wjJ/MoTid2/RuGCOFtlacyGNxN9QLMgcpYLDQlWFIhhdJ93kNscFonGvrpAHSCVjRVj++DGCglocF7Aej1KHvQ==}
     engines: {node: '>= 7.0.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@7.1.6:
     resolution: {integrity: sha512-gZkVCQR1gy/oUXr+kxJMLDjla434KmSOKbx5iGD30Ql+AkJQ/YlPKECJy2nhqOsHLjGHzoDTXNSjhnvWhzKk7g==}
     engines: {node: '>=6.4.0 <13 || >=14'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   supports-color@2.0.0:
     resolution: {integrity: sha512-KKNVtd6pCYgPIKU4cp2733HWYCpplQhddZLBUryaAHou723x+FRzQ5Df824Fj+IyyuiQTRoub4SnIFfIcrp70g==}
@@ -34929,13 +34921,13 @@ snapshots:
 
   '@datadog/sketches-js@2.1.1': {}
 
-  '@definitelytyped/header-parser@0.2.19':
+  '@definitelytyped/header-parser@0.2.20':
     dependencies:
-      '@definitelytyped/typescript-versions': 0.1.8
+      '@definitelytyped/typescript-versions': 0.1.9
       '@definitelytyped/utils': 0.1.8
       semver: 7.7.2
 
-  '@definitelytyped/typescript-versions@0.1.8': {}
+  '@definitelytyped/typescript-versions@0.1.9': {}
 
   '@definitelytyped/utils@0.1.8':
     dependencies:
@@ -42298,7 +42290,7 @@ snapshots:
 
   dts-critic@3.3.11(typescript@5.7.2):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.19
+      '@definitelytyped/header-parser': 0.2.20
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -42310,8 +42302,8 @@ snapshots:
 
   dtslint@4.2.1(typescript@5.7.2):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.19
-      '@definitelytyped/typescript-versions': 0.1.8
+      '@definitelytyped/header-parser': 0.2.20
+      '@definitelytyped/typescript-versions': 0.1.9
       '@definitelytyped/utils': 0.1.8
       dts-critic: 3.3.11(typescript@5.7.2)
       fs-extra: 6.0.1
