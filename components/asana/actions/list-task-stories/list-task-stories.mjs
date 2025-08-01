@@ -10,7 +10,7 @@ export default {
     ...common.props,
     taskId: {
       label: "Task GID",
-      description: "The ID of the task to delete.",
+      description: "The ID of the task to retrieve stories for",
       type: "string",
       propDefinition: [
         common.props.asana,
