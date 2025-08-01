@@ -9,11 +9,13 @@ export default {
       type: "string",
       label: "First Name",
       description: "The person's first name.",
+      optional: true,
     },
     lastName: {
       type: "string",
       label: "Last Name",
       description: "The person's last name.",
+      optional: true,
     },
     emailAddress: {
       type: "string",

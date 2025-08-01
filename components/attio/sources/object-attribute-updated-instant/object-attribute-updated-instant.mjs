@@ -6,7 +6,7 @@ export default {
   key: "attio-object-attribute-updated-instant",
   name: "New Object Attribute Updated (Instant)",
   description: "Emit new event when an object attribute is updated (e.g. when renaming the \"Rating\" attribute to \"Score\" on the company object)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {
