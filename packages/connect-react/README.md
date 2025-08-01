@@ -172,7 +172,7 @@ const oauthAppConfig = {
 
 <ComponentFormContainer
   userId={userId}
-  componentKey="github-create-issue"
+  componentKey="slack-send-message-to-channel"
   configuredProps={configuredProps}
   onUpdateConfiguredProps={setConfiguredProps}
   oauthAppConfig={oauthAppConfig}
@@ -180,6 +180,8 @@ const oauthAppConfig = {
 ```
 
 This allows you to use your own OAuth applications for specific integrations, providing better control over branding and permissions. Read how to configure OAuth clients in Pipedream here: [https://pipedream.com/docs/connect/managed-auth/oauth-clients](https://pipedream.com/docs/connect/managed-auth/oauth-clients).
+
+**Note**: OAuth app IDs are not sensitive, and are safe to expose in the client.
 
 ## Customization
 
@@ -189,7 +191,7 @@ Style individual components using the `CustomizeProvider` and a `CustomizationCo
 <FrontendClientProvider client={client}>
   <CustomizeProvider {...customizationConfig}>
     <ComponentFormContainer
-      key="slack-send-message"
+      key="slack-send-message-to-channel"
       configuredProps={configuredProps}
       onUpdateConfiguredProps={setConfiguredProps}
     />
