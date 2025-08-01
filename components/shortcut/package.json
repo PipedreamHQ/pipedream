@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/shortcut",
-  "version": "0.3.6",
+  "version": "1.0.0",
   "description": "Pipedream Shortcut Components",
   "main": "shortcut.app.mjs",
   "keywords": [
@@ -10,9 +10,8 @@
   "homepage": "https://pipedream.com/apps/shortcut",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
+    "@shortcut/client": "^2.2.0",
     "async-retry": "^1.3.1",
-    "axios": "^0.21.1",
-    "clubhouse-lib": "^0.12.0",
     "lodash": "^4.17.20",
     "validate.js": "^0.13.1"
   },

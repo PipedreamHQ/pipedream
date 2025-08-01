@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/playwright",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Playwright Components",
   "main": "playwright.app.mjs",
   "keywords": [
@@ -13,6 +13,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@pipedream/types": "^0.3.2",
     "@sparticuz/chromium": "121.0.0",
     "playwright-core": "1.41.2"
   }

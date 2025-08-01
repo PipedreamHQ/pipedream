@@ -1,10 +1,27 @@
-const { ShortcutClient } = require("@useshortcut/client");
-const get = require("lodash/get");
-const retry = require("async-retry");
+import { ShortcutClient } from "@shortcut/client";
+import lodash from "lodash";
+import retry from "async-retry";
 
-module.exports = {
+export default {
   type: "app",
   app: "shortcut",
+  propDefinitions: {
+    projectId: {
+      type: "string",
+      label: "Project ID",
+      description: "The ID of the project to use.",
+      async options() {
+        const projects = await this.api().listProjects();
+        return projects?.data?.map(({
+          name: label,
+          id: value,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+  },
   methods: {
     api() {
       return new ShortcutClient(this.$auth.api_key);
@@ -25,7 +42,7 @@ module.exports = {
         try {
           return await apiCall();
         } catch (err) {
-          const statusCode = get(err, [
+          const statusCode = lodash.get(err, [
             "response",
             "status",
           ]);
@@ -35,7 +52,8 @@ module.exports = {
               ${JSON.stringify(err.message)}
             `);
           }
-          console.warn(`Temporary error: ${err.message}`);
+          console.log("Error message", err.message);
+          console.log("Error response", JSON.stringify(err.response?.data, null, 2));
           throw err;
         }
       }, retryOpts);
@@ -54,7 +72,7 @@ module.exports = {
     async listMembersAsOptions() {
       let options = [];
       const members = await this.callWithRetry("listMembers");
-      const isMembersDataAvailable = get(members, [
+      const isMembersDataAvailable = lodash.get(members, [
         "data",
         "length",
       ]);
@@ -90,7 +108,7 @@ module.exports = {
             page_size: pageSize,
             next,
           }));
-        const isStoryDataAvailable = get(results, [
+        const isStoryDataAvailable = lodash.get(results, [
           "data",
           "data",
           "length",

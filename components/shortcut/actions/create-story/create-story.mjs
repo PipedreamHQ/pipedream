@@ -1,28 +1,39 @@
-const shortcut = require("../../shortcut.app");
-const get = require("lodash/get");
-const validate = require("validate.js");
-const utils = require("../../utils");
-const constants = require("../../constants");
+import shortcut from "../../shortcut.app.mjs";
+import lodash from "lodash";
+import validate from "validate.js";
+import utils from "../../common/utils.mjs";
+import constants from "../../common/constants.mjs";
 
-module.exports = {
+export default {
   key: "shortcut-create-story",
   name: "Create Story",
   description: "Creates a new story in your Shortcut account. See [Create Story](https://shortcut.com/api/rest/v3#Create-Story) in Shortcut Rest API, V3 reference for endpoint documentation.",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   props: {
     shortcut,
+    projectId: {
+      propDefinition: [
+        shortcut,
+        "projectId",
+      ],
+    },
+    name: {
+      type: "string",
+      label: "Name",
+      description: "The name of the story.",
+    },
     archived: {
       type: "boolean",
       label: "Archived",
       description: "Controls the story's archived state.",
-      default: false,
+      optional: true,
     },
     comment: {
       type: "object",
       label: "Comment",
       description:
-        "A comment object attached to the story must have the following structure: `author_id` which is the member ID of the Comment’s author  (defaults to the user identified by the API token), `created_at` which defaults to the time/date the comment is created, but can be set to reflect another date, `external_id` field that can be set to another unique ID. In the case that the comment has been imported from another tool, the ID in the other tool can be indicated here, `text` is the comment text, and `updated_at` which defaults to the time/date the comment is last updated in Shortcut but can be set to reflect another time/date. See [CreateStoryCommentParams](https://shortcut.com/api/rest/v3#CreateStoryCommentParams) for more info.",
+        "A comment object attached to the story must have the following structure: `author_id` which is the member ID of the Comment's author  (defaults to the user identified by the API token), `created_at` which defaults to the time/date the comment is created, but can be set to reflect another date, `external_id` field that can be set to another unique ID. In the case that the comment has been imported from another tool, the ID in the other tool can be indicated here, `text` is the comment text, and `updated_at` which defaults to the time/date the comment is last updated in Shortcut but can be set to reflect another time/date. See [CreateStoryCommentParams](https://shortcut.com/api/rest/v3#CreateStoryCommentParams) for more info.",
       optional: true,
     },
     completedAtOverride: {
@@ -58,7 +69,7 @@ module.exports = {
       async options() {
         let options = [];
         const epics = await this.shortcut.callWithRetry("listEpics");
-        const isEpicDataAvailable = get(epics, [
+        const isEpicDataAvailable = lodash.get(epics, [
           "data",
           "length",
         ]);
@@ -100,7 +111,7 @@ module.exports = {
       async options() {
         let options = [];
         const files = await this.shortcut.callWithRetry("listFiles");
-        const isFileDataAvailable = get(files, [
+        const isFileDataAvailable = lodash.get(files, [
           "data",
           "length",
         ]);
@@ -131,7 +142,7 @@ module.exports = {
       async options() {
         let options = [];
         const iterations = await this.shortcut.callWithRetry("listIterations");
-        const isIterationDataAvailable = get(iterations, [
+        const isIterationDataAvailable = lodash.get(iterations, [
           "data",
           "length",
         ]);
@@ -161,7 +172,7 @@ module.exports = {
       async options() {
         let options = [];
         const linkedFiles = await this.shortcut.callWithRetry("listLinkedFiles");
-        const isLinkedFilesDataAvailable = get(linkedFiles, [
+        const isLinkedFilesDataAvailable = lodash.get(linkedFiles, [
           "data",
           "length",
         ]);
@@ -176,11 +187,6 @@ module.exports = {
       },
       optional: true,
     },
-    name: {
-      type: "string",
-      label: "Name",
-      description: "The name of the story.",
-    },
     ownerIds: {
       type: "string[]",
       label: "Owner Ids",
@@ -189,27 +195,6 @@ module.exports = {
         return await this.shortcut.listMembersAsOptions();
       },
       optional: true,
-    },
-    projectId: {
-      type: "integer",
-      label: "Project Id",
-      description: "The ID of the project the story belongs to.",
-      async options() {
-        let options = [];
-        const projects = await this.shortcut.callWithRetry("listProjects");
-        const isProjectDataAvailable = get(projects, [
-          "data",
-          "length",
-        ]);
-        if (!isProjectDataAvailable) {
-          return options;
-        }
-        options = projects.data.map((project) => ({
-          label: project.name,
-          value: project.id,
-        }));
-        return options;
-      },
     },
     requestedById: {
       type: "string",
@@ -261,7 +246,7 @@ module.exports = {
       async options() {
         let options = [];
         const workflows = await this.shortcut.callWithRetry("listWorkflows");
-        const isWorkflowDataAvailable = get(workflows, [
+        const isWorkflowDataAvailable = lodash.get(workflows, [
           "data",
           "length",
         ]);
@@ -269,7 +254,7 @@ module.exports = {
           return options;
         }
         return workflows.data.reduce(function (options, workflow) {
-          const hasState = get(workflow, [
+          const hasState = lodash.get(workflow, [
             "states",
             "length",
           ]);
@@ -278,7 +263,7 @@ module.exports = {
           }
           const optionsToAdd = workflow.states.map((state) => ({
             label: `${state.name} (${workflow.name})`,
-            value: `${state.id}`,
+            value: state.id,
           }));
           return options.concat(optionsToAdd);
         }, []);
@@ -318,6 +303,7 @@ module.exports = {
     );
     utils.checkValidationResults(validationResult);
     const story = {
+      project_id: this.projectId,
       archived: this.archived,
       completed_at_override: this.completedAtOverride,
       created_at: this.createdAt,
@@ -333,37 +319,45 @@ module.exports = {
       linked_file_ids: this.linkedFileIds,
       name: this.name,
       owner_ids: this.ownerIds,
-      project_id: this.projectId,
       requested_by_id: this.requestedById,
       started_at_override: this.startedAtOverride,
       story_type: this.storyType,
       updated_at: this.updatedAt,
       workflow_state_id: this.workflowStateId,
+      ...(this.comment
+        ? {
+          comments: [
+            utils.parseJson(this.comment),
+          ],
+        }
+        : undefined
+      ),
+      ...(this.label
+        ? {
+          labels: [
+            utils.parseJson(this.label),
+          ],
+        }
+        : undefined
+      ),
+      ...(this.storyLink
+        ? {
+          story_links: [
+            utils.parseJson(this.storyLink),
+          ],
+        }
+        : undefined
+      ),
+      ...(this.task
+        ? {
+          tasks: [
+            utils.parseJson(this.task),
+          ],
+        }
+        : undefined
+      ),
     };
-    const comment = utils.convertEmptyStringToUndefined(this.comment);
-    if (comment) {
-      story.comments = [
-        comment,
-      ];
-    }
-    const label = utils.convertEmptyStringToUndefined(this.label);
-    if (label) {
-      story.labels = [
-        label,
-      ];
-    }
-    const storyLink = utils.convertEmptyStringToUndefined(this.storyLink);
-    if (storyLink) {
-      story.story_links = [
-        storyLink,
-      ];
-    }
-    const task = utils.convertEmptyStringToUndefined(this.task);
-    if (task) {
-      story.tasks = [
-        task,
-      ];
-    }
+
     const resp = await this.shortcut.callWithRetry("createStory", story);
     return resp.data;
   },
