@@ -45,6 +45,7 @@ export default {
     const screenshot = await this.browserless.takeScreenshot({
       data: {
         url: this.url,
+        bestAttempt: true,
         waitForSelector: this.waitForSelector
           ? `{ "selector": "${this.waitForSelector}" }`
           : undefined,
