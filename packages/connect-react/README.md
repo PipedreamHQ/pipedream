@@ -153,8 +153,33 @@ type ComponentFormProps = {
   sdkResponse: unknown[] | unknown | undefined;
   /** Whether to show show errors in the form. Requires sdkErrors to be set. */
   enableDebugging?: boolean;
+  /** OAuth app ID configuration for specific apps.
+   * Maps app name slugs to their corresponding OAuth app IDs. */
+  oauthAppConfig?: Record<string, string>;
 };
 ```
+
+### OAuth App Configuration
+
+To connect to an OAuth app using your own OAuth client, you can specify custom OAuth app IDs for each app using the `oauthAppConfig` prop:
+
+```tsx
+const oauthAppConfig = {
+  github: "oa_abc123",
+  google_sheets: "oa_def456",
+  slack: "oa_ghi789",
+};
+
+<ComponentFormContainer
+  userId={userId}
+  componentKey="github-create-issue"
+  configuredProps={configuredProps}
+  onUpdateConfiguredProps={setConfiguredProps}
+  oauthAppConfig={oauthAppConfig}
+/>;
+```
+
+This allows you to use your own OAuth applications for specific integrations, providing better control over branding and permissions. Read how to configure OAuth clients in Pipedream here: [https://pipedream.com/docs/connect/managed-auth/oauth-clients](https://pipedream.com/docs/connect/managed-auth/oauth-clients).
 
 ## Customization
 

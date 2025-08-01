@@ -2,6 +2,12 @@
 
 # Changelog
 
+## [1.4.0] - 2025-08-01
+
+### Added
+
+- Support for using custom OAuth clients
+
 ## [1.3.3] - 2025-07-22
 
 - Improved handling and sanitization of option objects in selection components.

@@ -29,6 +29,12 @@ export type ComponentFormProps<T extends ConfigurableProps, U = ConfiguredProps<
   hideOptionalProps?: boolean;
   sdkResponse?: unknown | undefined;
   enableDebugging?: boolean;
+  /**
+   * OAuth app ID configuration for specific apps.
+   * Maps app name slugs to their corresponding OAuth app IDs.
+   * Example: { 'github': 'oauth_app_123', 'google_sheets': 'oauth_app_456' }
+   */
+  oauthAppConfig?: Record<string, string>;
 } & (
   | { externalUserId: string; userId?: never }
   | { userId: string; externalUserId?: never }

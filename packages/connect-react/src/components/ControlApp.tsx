@@ -29,7 +29,7 @@ type ControlAppProps = {
 
 export function ControlApp({ app }: ControlAppProps) {
   const client = useFrontendClient();
-  const { externalUserId } = useFormContext();
+  const { externalUserId, oauthAppConfig } = useFormContext();
   const formFieldCtx = useFormFieldContext<ConfigurablePropApp>();
   const {
     id, prop, value, onChange,
@@ -67,7 +67,7 @@ export function ControlApp({ app }: ControlAppProps) {
   };
   const selectProps =  select.getProps("controlAppSelect", baseSelectProps);
 
-  const oauthAppId = undefined; // XXX allow customizing
+  const oauthAppId = oauthAppConfig?.[app.name_slug];
   const {
     isLoading: isLoadingAccounts,
     // TODO error
