@@ -1,0 +1,34 @@
+import slack from "../../slack_v2_test.app.mjs";
+
+export default {
+  key: "slack_v2_test-get-file",
+  name: "Get File",
+  description: "Return information about a file. [See the documentation](https://api.slack.com/methods/files.info)",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    slack,
+    conversation: {
+      propDefinition: [
+        slack,
+        "conversation",
+      ],
+    },
+    file: {
+      propDefinition: [
+        slack,
+        "file",
+        (c) => ({
+          channel: c.conversation,
+        }),
+      ],
+    },
+  },
+  async run({ $ }) {
+    const response = await this.slack.getFileInfo({
+      file: this.file,
+    });
+    $.export("$summary", `Successfully retrieved file with ID ${this.file}`);
+    return response;
+  },
+};
