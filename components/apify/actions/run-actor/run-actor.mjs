@@ -7,31 +7,53 @@ export default {
   key: "apify-run-actor",
   name: "Run Actor",
   description: "Performs an execution of a selected Actor in Apify. [See the documentation](https://docs.apify.com/api/v2#/reference/actors/run-collection/run-actor)",
-  version: "0.0.4",
+  version: "0.0.33",
   type: "action",
   props: {
     apify,
+    actorSource: {
+      type: "string",
+      label: "Search Actors from",
+      description: "Where to search for Actors. Valid options are Store and Recently used Actors.",
+      options: [
+        {
+          label: "Apify Store Actors",
+          value: "store",
+        },
+        {
+          label: "Recently used Actors",
+          value: "recently-used",
+        },
+      ],
+      reloadProps: true,
+      default: "recently-used",
+    },
     actorId: {
       propDefinition: [
         apify,
         "actorId",
+        (c) => ({
+          actorSource: c.actorSource,
+        }),
       ],
     },
-    buildId: {
+    buildTag: {
       propDefinition: [
         apify,
-        "buildId",
+        "buildTag",
         (c) => ({
           actorId: c.actorId,
         }),
       ],
       reloadProps: true,
+      optional: true,
     },
     runAsynchronously: {
       type: "boolean",
       label: "Run Asynchronously",
       description: "Set to `true` to run the Actor asynchronously",
       reloadProps: true,
+      default: true,
     },
     timeout: {
       type: "string",
@@ -76,19 +98,27 @@ export default {
         ? type
         : "string[]";
     },
-    async getSchema(buildId) {
-      const { data: { inputSchema } } = await this.apify.getBuild(buildId);
+    async getSchema(actorId, buildId) {
+      const { data: { inputSchema } } = await this.apify.getBuild(actorId, buildId);
       return JSON.parse(inputSchema);
     },
     async prepareData(data) {
       const newData = {};
 
-      const { properties } = await this.getSchema(this.buildId);
+      const { properties } = await this.getSchema(this.actorId, this.buildId);
       for (const [
         key,
         value,
       ] of Object.entries(data)) {
-        const editor = properties[key].editor;
+        let editor;
+
+        if (properties[key]) {
+          editor = properties[key].editor;
+        } else {
+          console.warn(`Property "${key}" is not defined in the schema`);
+          editor = "hidden"; // This will prevent it from showing up
+        }
+
         newData[key] = (Array.isArray(value))
           ? value.map((item) => this.setValue(editor, item))
           : value;
@@ -131,55 +161,47 @@ export default {
   },
   async additionalProps() {
     const props = {};
-    if (this.buildId) {
-      try {
-        const {
-          properties, required: requiredProps = [],
-        } = await this.getSchema(this.buildId);
 
-        for (const [
-          key,
-          value,
-        ] of Object.entries(properties)) {
-          if (value.editor === "hidden") continue;
+    try {
+      const {
+        properties, required: requiredProps = [],
+      } = await this.getSchema(this.actorId, this.buildId);
 
-          props[key] = {
-            type: this.getType(value.type),
-            label: value.title,
-            description: value.description,
-            optional: !requiredProps.includes(key),
-          };
-          const options = this.prepareOptions(value);
-          if (options) props[key].options = options;
-          if (value.default) {
-            props[key].description += ` Default: \`${JSON.stringify(value.default)}\``;
-            if (props[key].type !== "object") { // default values don't work properly for object props
-              props[key].default = value.default;
-            }
+      for (const [
+        key,
+        value,
+      ] of Object.entries(properties)) {
+        if (value.editor === "hidden") continue;
+
+        props[key] = {
+          type: this.getType(value.type),
+          label: value.title,
+          description: value.description,
+          optional: !requiredProps.includes(key),
+        };
+        const options = this.prepareOptions(value);
+        if (options) props[key].options = options;
+        if (value.default) {
+          props[key].description += ` Default: \`${JSON.stringify(value.default)}\``;
+          if (props[key].type !== "object") { // default values don't work properly for object props
+            props[key].default = value.default;
           }
         }
-      } catch {
-        props.properties = {
-          type: "object",
-          label: "Properties",
-          description: "Properties to set for this Actor",
-        };
       }
-      if (this.runAsynchronously) {
-        props.outputRecordKey = {
-          type: "string",
-          label: "Output Record Key",
-          description: "Key of the record from run's default key-value store to be returned in the response. By default, it is OUTPUT.",
-          optional: true,
-        };
-      } else {
-        props.waitForFinish = {
-          type: "string",
-          label: "Wait For Finish",
-          description: "The maximum number of seconds the server waits for the run to finish. By default, it is 0, the maximum value is 60. If the build finishes in time then the returned run object will have a terminal status (e.g. SUCCEEDED), otherwise it will have a transitional status (e.g. RUNNING).",
-          optional: true,
-        };
-      }
+    } catch {
+      props.properties = {
+        type: "object",
+        label: "Properties",
+        description: "Properties to set for this actor",
+      };
+    }
+    if (this.runAsynchronously) {
+      props.outputRecordKey = {
+        type: "string",
+        label: "Output Record Key",
+        description: "Key of the record from run's default key-value store to be returned in the response. By default, it is OUTPUT.",
+        optional: true,
+      };
     }
     if (this.webhook) {
       props.eventTypes = {
@@ -200,7 +222,7 @@ export default {
       prepareData,
       apify,
       actorId,
-      buildId,
+      buildTag,
       properties,
       runAsynchronously,
       outputRecordKey,
@@ -208,7 +230,6 @@ export default {
       memory,
       maxItems,
       maxTotalChargeUsd,
-      waitForFinish,
       webhook,
       eventTypes,
       ...data
@@ -229,7 +250,7 @@ export default {
         memory,
         maxItems,
         maxTotalChargeUsd,
-        waitForFinish,
+        build: buildTag,
         webhooks: webhook
           ? btoa(JSON.stringify([
             {

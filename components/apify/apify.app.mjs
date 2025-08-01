@@ -30,39 +30,23 @@ export default {
       type: "string",
       label: "Actor ID",
       description: "Actor ID or a tilde-separated owner's username and Actor name",
-      async options({ page }) {
-        const { data: { items } } = await this.listActors({
+      async options({
+        page, actorSource,
+      }) {
+        actorSource ??= "recently-used";
+        const listFn = actorSource === "store"
+          ? this.listActors
+          : this.listUserActors;
+        const { data: { items } } = await listFn({
           params: {
             offset: LIMIT * page,
             limit: LIMIT,
           },
         });
 
-        return items.map(({
-          id: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
-      },
-    },
-    userActorId: {
-      type: "string",
-      label: "Actor ID",
-      description: "The ID of the Actor to monitor.",
-      async options({ page }) {
-        const { data: { items } } = await this.listUserActors({
-          params: {
-            offset: LIMIT * page,
-            limit: LIMIT,
-          },
-        });
-
-        return items.map(({
-          id: value, name: label,
-        }) => ({
-          label,
-          value,
+        return items.map((actor) => ({
+          label: this.formatActorOrTaskLabel(actor),
+          value: actor.id,
         }));
       },
     },
@@ -78,11 +62,9 @@ export default {
           },
         });
 
-        return items.map(({
-          id: value, name: label,
-        }) => ({
-          label,
-          value,
+        return items.map((task) => ({
+          label: this.formatActorOrTaskLabel(task),
+          value: task.id,
         }));
       },
     },
@@ -105,21 +87,17 @@ export default {
         })) || [];
       },
     },
-    buildId: {
+    buildTag: {
       type: "string",
       label: "Build",
       description: "Specifies the Actor build to run. It can be either a build tag or build number.",
-      async options({
-        page, actorId,
-      }) {
-        const { data: { items } } = await this.listBuilds({
+      async options({ actorId }) {
+        const { data: { taggedBuilds } } = await this.getActor({
           actorId,
-          params: {
-            offset: LIMIT * page,
-            limit: LIMIT,
-          },
         });
-        return items?.map(({ id }) => id) || [];
+        return Object.entries(taggedBuilds).map(([
+          name,
+        ]) => name);
       },
     },
     clean: {
@@ -211,9 +189,20 @@ export default {
         path: `/actor-tasks/${taskId}/runs`,
       });
     },
-    getBuild(build) {
+    getActor({ actorId }) {
       return this._makeRequest({
-        path: `/actor-builds/${build}`,
+        path: `/acts/${actorId}`,
+      });
+    },
+    getBuild(actorId, buildId) {
+      if (buildId) {
+        return this._makeRequest({
+          path: `/actor-builds/${buildId}`,
+        });
+      }
+
+      return this._makeRequest({
+        path: `/acts/${actorId}/builds/default`,
       });
     },
     listActors(opts = {}) {
@@ -224,7 +213,7 @@ export default {
     },
     listUserActors(opts = {}) {
       return this._makeRequest({
-        path: "/acts",
+        path: "/acts?desc=1&sortBy=stats.lastRunStartedAt",
         ...opts,
       });
     },
@@ -275,6 +264,14 @@ export default {
         path: `/key-value-stores/${storeId}/records/${recordKey}`,
         ...opts,
       });
+    },
+    formatActorOrTaskLabel({
+      title, username, name,
+    }) {
+      if (title) {
+        return `${title} (${username}/${name})`;
+      }
+      return `${username}/${name}`;
     },
   },
 };
