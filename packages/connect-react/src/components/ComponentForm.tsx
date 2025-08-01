@@ -32,7 +32,7 @@ export type ComponentFormProps<T extends ConfigurableProps, U = ConfiguredProps<
   /**
    * OAuth app ID configuration for specific apps.
    * Maps app name slugs to their corresponding OAuth app IDs.
-   * Example: { 'github': 'oauth_app_123', 'google_sheets': 'oauth_app_456' }
+   * Example: { 'github': 'oa_xxxxxxx', 'google_sheets': 'oa_xxxxxxx' }
    */
   oauthAppConfig?: Record<string, string>;
 } & (

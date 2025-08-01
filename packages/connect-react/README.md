@@ -165,9 +165,9 @@ To connect to an OAuth app using your own OAuth client, you can specify custom O
 
 ```tsx
 const oauthAppConfig = {
-  github: "oa_abc123",
-  google_sheets: "oa_def456",
-  slack: "oa_ghi789",
+  github: "oa_xxxxxxx",
+  google_sheets: "oa_xxxxxxx",
+  slack: "oa_xxxxxxx",
 };
 
 <ComponentFormContainer
