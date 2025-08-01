@@ -28,10 +28,9 @@ export default {
     }
 
     const result = {};
-    const promises = [];
 
     for (const url of this.urls) {
-      promises.push(this.browserless.scrape({
+      const response = await this.browserless.scrape({
         $,
         data: {
           url,
@@ -39,12 +38,8 @@ export default {
             selector,
           })),
         },
-      }));
-    }
-
-    const responses = await Promise.all(promises);
-    for (let i = 0; i < promises.length; i++) {
-      result[this.urls[i]] = responses[i].data[0].results[0].text;
+      });
+      result[url] = response.data[0].results[0].text;
     }
 
     return result;

@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -6,6 +7,9 @@ export default {
   propDefinitions: {},
   methods: {
     _baseUrl() {
+      if (!this.$auth.base_url) {
+        throw new ConfigurationError("Please reconnect your Browserless account because there are recent changes in Browserless API");
+      }
       return `https://${this.$auth.base_url}`;
     },
     _auth() {
