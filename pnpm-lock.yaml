@@ -3039,12 +3039,12 @@ importers:
   components/concord:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
     devDependencies:
       '@pipedream/types':
-        specifier: ^0.1.4
-        version: 0.1.6
+        specifier: ^0.3.2
+        version: 0.3.2
 
   components/confection:
     dependencies:
@@ -13375,8 +13375,8 @@ importers:
   components/square:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.2.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       uuid:
         specifier: ^9.0.0
         version: 9.0.1
