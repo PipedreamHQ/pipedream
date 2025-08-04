@@ -16,7 +16,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@lob/lob-typescript-sdk": "^1.0.0"
+    "@lob/lob-typescript-sdk": "^1.0.0",
+    "@pipedream/platform": "^3.1.0"
   },
   "devDependencies": {
     "@pipedream/types": "^0.3.2"

@@ -21,7 +21,7 @@
     "openai": "^4.77.0"
   },
   "devDependencies": {
-    "@pipedream/types": "^0.1.4",
+    "@pipedream/types": "^0.3.2",
     "@types/node": "^17.0.45"
   }
 }

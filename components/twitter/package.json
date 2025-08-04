@@ -21,6 +21,6 @@
     "oauth-1.0a": "^2.2.6"
   },
   "devDependencies": {
-    "@pipedream/types": "^0.1.4"
+    "@pipedream/types": "^0.3.2"
   }
 }
