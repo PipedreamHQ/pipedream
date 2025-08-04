@@ -12826,8 +12826,8 @@ importers:
   components/signalwire:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.1.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/signaturely:
     dependencies:
