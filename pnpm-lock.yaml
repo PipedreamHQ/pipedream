@@ -16179,7 +16179,7 @@ importers:
         version: 3.1.7
       ts-jest:
         specifier: ^29.2.5
-        version: 29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0))(typescript@5.7.2)
+        version: 29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(esbuild@0.24.2)(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0))(typescript@5.7.2)
       tsup:
         specifier: ^8.3.6
         version: 8.3.6(@microsoft/api-extractor@7.47.12(@types/node@20.17.30))(jiti@2.4.2)(postcss@8.4.49)(tsx@4.19.4)(typescript@5.7.2)(yaml@2.6.1)
@@ -17647,12 +17647,12 @@ packages:
   '@datadog/sketches-js@2.1.1':
     resolution: {integrity: sha512-d5RjycE+MObE/hU+8OM5Zp4VjTwiPLRa8299fj7muOmR16fb942z8byoMbCErnGh0lBevvgkGrLclQDvINbIyg==}
 
-  '@definitelytyped/header-parser@0.2.19':
-    resolution: {integrity: sha512-zu+RxQpUCgorYUQZoyyrRIn9CljL1CeM4qak3NDeMO1r7tjAkodfpAGnVzx/6JR2OUk0tAgwmZxNMSwd9LVgxw==}
+  '@definitelytyped/header-parser@0.2.20':
+    resolution: {integrity: sha512-97YPAlUo8XjWNtZ+6k+My+50/ljE2iX6KEPjOZ1Az1RsZdKwJ6taAX3F5g6SY1SJr50bzdm2RZzyQNdRmHcs4w==}
     engines: {node: '>=18.18.0'}
 
-  '@definitelytyped/typescript-versions@0.1.8':
-    resolution: {integrity: sha512-iz6q9aTwWW7CzN2g8jFQfZ955D63LA+wdIAKz4+2pCc/7kokmEHie1/jVWSczqLFOlmH+69bWQxIurryBP/sig==}
+  '@definitelytyped/typescript-versions@0.1.9':
+    resolution: {integrity: sha512-Qjalw9eNlcTjXhzx0Q6kHKuRCOUt/M5RGGRGKsiYlm/nveGvPX9liZSQlGXZVwyQ5I9qvq/GdaWiPchQ+ZXOrQ==}
     engines: {node: '>=18.18.0'}
 
   '@definitelytyped/utils@0.1.8':
@@ -34875,13 +34875,13 @@ snapshots:
 
   '@datadog/sketches-js@2.1.1': {}
 
-  '@definitelytyped/header-parser@0.2.19':
+  '@definitelytyped/header-parser@0.2.20':
     dependencies:
-      '@definitelytyped/typescript-versions': 0.1.8
+      '@definitelytyped/typescript-versions': 0.1.9
       '@definitelytyped/utils': 0.1.8
       semver: 7.7.2
 
-  '@definitelytyped/typescript-versions@0.1.8': {}
+  '@definitelytyped/typescript-versions@0.1.9': {}
 
   '@definitelytyped/utils@0.1.8':
     dependencies:
@@ -42229,7 +42229,7 @@ snapshots:
 
   dts-critic@3.3.11(typescript@5.7.2):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.19
+      '@definitelytyped/header-parser': 0.2.20
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -42241,8 +42241,8 @@ snapshots:
 
   dtslint@4.2.1(typescript@5.7.2):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.19
-      '@definitelytyped/typescript-versions': 0.1.8
+      '@definitelytyped/header-parser': 0.2.20
+      '@definitelytyped/typescript-versions': 0.1.9
       '@definitelytyped/utils': 0.1.8
       dts-critic: 3.3.11(typescript@5.7.2)
       fs-extra: 6.0.1
@@ -51413,7 +51413,7 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0))(typescript@5.7.2):
+  ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(esbuild@0.24.2)(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0))(typescript@5.7.2):
     dependencies:
       bs-logger: 0.2.6
       ejs: 3.1.10
@@ -51431,6 +51431,7 @@ snapshots:
       '@jest/transform': 29.7.0
       '@jest/types': 29.6.3
       babel-jest: 29.7.0(@babel/core@7.26.0)
+      esbuild: 0.24.2
 
   ts-jest@29.2.5(@babel/core@8.0.0-alpha.13)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@8.0.0-alpha.13))(jest@29.7.0(@types/node@20.17.6)(babel-plugin-macros@3.1.0))(typescript@5.6.3):
     dependencies:
