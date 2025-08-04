@@ -4,7 +4,7 @@ export default {
   key: "trello-add-existing-label-to-card",
   name: "Add Existing Label to Card",
   description: "Adds an existing label to the specified card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idlabels-post).",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     app,
