@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/expensify",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Expensify Components",
   "main": "dist/app/expensify.app.mjs",
   "keywords": [
@@ -17,7 +17,9 @@
   },
   "dependencies": {
     "@pipedream/platform": "^1.1.0",
-    "@pipedream/types": "^0.1.3",
     "qs": "^6.11.0"
+  },
+  "devDependencies": {
+    "@pipedream/types": "^0.1.3"
   }
 }
