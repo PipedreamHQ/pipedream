@@ -5,7 +5,7 @@ import kustomer from "../../kustomer.app.mjs";
 export default {
   key: "kustomer-update-custom-object-by-id",
   name: "Update Custom Object by ID",
-  description: "Updates a custom object identified by ID in Kustomer. [See the documentation](https://developer.kustomer.com/kustomer-api-docs/reference/updatecustomobjectbyid)",
+  description: "Updates a custom object identified by ID in Kustomer. [See the documentation](https://developer.kustomer.com/kustomer-api-docs/reference/updatekobject)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -65,7 +65,7 @@ export default {
       optional: true,
     },
     rev: {
-      type: "string",
+      type: "integer",
       label: "Rev",
       description: "The rev of the custom object to update",
       optional: true,

@@ -4,7 +4,7 @@ import kustomer from "../../kustomer.app.mjs";
 export default {
   key: "kustomer-get-custom-object-by-external-id",
   name: "Get Custom Object by External ID",
-  description: "Gets a custom object by external ID in Kustomer. [See the documentation](https://developer.kustomer.com/kustomer-api-docs/reference/getcustomobjectbyexternalid)",
+  description: "Gets a custom object by external ID in Kustomer. [See the documentation](https://developer.kustomer.com/kustomer-api-docs/reference/get-klasses-name-externalid-externalid)",
   version: "0.0.1",
   type: "action",
   props: {
