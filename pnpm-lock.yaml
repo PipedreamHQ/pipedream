@@ -3153,8 +3153,7 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/countly:
-    specifiers: {}
+  components/countly: {}
 
   components/coupontools: {}
 
@@ -3492,8 +3491,7 @@ importers:
 
   components/deepl: {}
 
-  components/deeplogix:
-    specifiers: {}
+  components/deeplogix: {}
 
   components/deepseek:
     dependencies:
@@ -10561,8 +10559,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/polar:
-    specifiers: {}
+  components/polar: {}
 
   components/polly:
     dependencies:
