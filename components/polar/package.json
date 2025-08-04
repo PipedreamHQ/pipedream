@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/polar",
+  "version": "0.0.1",
+  "description": "Pipedream Polar Components",
+  "main": "polar.app.mjs",
+  "keywords": [
+    "pipedream",
+    "polar"
+  ],
+  "homepage": "https://pipedream.com/apps/polar",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
