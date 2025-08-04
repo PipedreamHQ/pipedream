@@ -3492,6 +3492,9 @@ importers:
 
   components/deepl: {}
 
+  components/deeplogix:
+    specifiers: {}
+
   components/deepseek:
     dependencies:
       '@pipedream/platform':
