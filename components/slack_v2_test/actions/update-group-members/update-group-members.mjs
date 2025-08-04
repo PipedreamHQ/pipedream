@@ -4,7 +4,7 @@ export default {
   key: "slack_v2_test-update-group-members",
   name: "Update Groups Members",
   description: "Update the list of users for a User Group. [See the documentation](https://api.slack.com/methods/usergroups.users.update)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     slack,
@@ -46,8 +46,8 @@ export default {
   async run({ $ }) {
     const {
       userGroup,
-      usersToAdd,
-      usersToRemove,
+      usersToAdd = [],
+      usersToRemove = [],
       team,
     } = this;
     let { users } = await this.slack.listGroupMembers({
