@@ -82,6 +82,7 @@ export default {
         short_version: this.shortVersion,
         slug: this.slug,
         tags: this.tags,
+        multilingual: this.multilingual,
       },
     });
 
