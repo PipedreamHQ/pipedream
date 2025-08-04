@@ -1,0 +1,1210 @@
+[
+  {
+      "app": "acelle_mail",
+      "packageName": "@pipedream/acelle_mail",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ],
+      "done": true
+  },
+  {
+      "app": "affinda",
+      "packageName": "@pipedream/affinda",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ],
+      "done": true
+  },
+  {
+      "app": "aircall",
+      "packageName": "@pipedream/aircall",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ],
+      "done": true
+  },
+  {
+      "app": "amazon_ses",
+      "packageName": "@pipedream/amazon_ses",
+      "failures": [
+          {
+              "check": "relativeImports",
+              "error": "Relative imports to app files should be avoided. Found: import aws from \"../aws/aws.app.mjs\" Consider using '@pipedream/aws' instead."
+          }
+      ]
+  },
+  {
+      "app": "amplenote",
+      "packageName": "@pipedream/amplenote",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/types (for import { defineApp } from \"@pipedream/types\")"
+          }
+      ],
+      "done": true
+  },
+  {
+      "app": "apitemplate_io",
+      "packageName": "@pipedream/apitemplate_io",
+      "failures": [
+          {
+              "check": "relativeImports",
+              "error": "Relative imports to app files should be avoided. Found: import constants from \"../common/constants.mjs\""
+          },
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/types (for import { defineApp } from \"@pipedream/types\")"
+          }
+      ],
+      "done": true
+  },
+  {
+      "app": "azure_storage",
+      "packageName": "@pipedream/azure_storage",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: fast-xml-parser (for import { XMLParser } from \"fast-xml-parser\")"
+          }
+      ],
+      "done": true
+  },
+  {
+      "app": "beanstalkapp",
+      "packageName": "@pipedream/beanstalkapp",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ],
+      "done": true
+  },
+  {
+      "app": "bingx",
+      "packageName": "@pipedream/bingx",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: crypto (for import crypto from \"crypto\")"
+          }
+      ],
+      "done": true
+  },
+  {
+      "app": "bitget",
+      "packageName": "@pipedream/bitget",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: crypto (for import { createHmac } from \"crypto\")"
+          }
+      ]
+  },
+  {
+      "app": "clientary",
+      "packageName": "@pipedream/clientary",
+      "failures": [
+          {
+              "check": "relativeImports",
+              "error": "Relative imports to app files should be avoided. Found: import utils from \"../common/utils.mjs\", import { requestMethodParams } from \"../common/constants.mjs\""
+          }
+      ]
+  },
+  {
+      "app": "clientify",
+      "packageName": "@pipedream/clientify",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "cloudtables",
+      "packageName": "@pipedream/cloudtables",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: qs (for import { stringify } from \"qs\")"
+          }
+      ]
+  },
+  {
+      "app": "coassemble",
+      "packageName": "@pipedream/coassemble",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\"), @pipedream/types (for import { defineApp } from \"@pipedream/types\")"
+          }
+      ]
+  },
+  {
+      "app": "codeq_natural_language_processing_api",
+      "packageName": "@pipedream/codeq_natural_language_processing_api",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "concord",
+      "packageName": "@pipedream/concord",
+      "failures": [
+          {
+              "check": "relativeImports",
+              "error": "Relative imports to app files should be avoided. Found: import { AGREEMENT_LIST_STATUSES } from \"../common/constants.mjs\""
+          }
+      ]
+  },
+  {
+      "app": "craftmypdf",
+      "packageName": "@pipedream/craftmypdf",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "crove_app",
+      "packageName": "@pipedream/crove_app",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "currencyscoop",
+      "packageName": "@pipedream/currencyscoop",
+      "failures": [
+          {
+              "check": "relativeImports",
+              "error": "Relative imports to app files should be avoided. Found: import { CURRENCIES } from \"../common/constants.mjs\""
+          }
+      ]
+  },
+  {
+      "app": "daffy",
+      "packageName": "@pipedream/daffy",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\"), @pipedream/types (for import { defineApp } from \"@pipedream/types\")"
+          }
+      ]
+  },
+  {
+      "app": "data_axle_platform",
+      "packageName": "@pipedream/data_axle_platform",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\"), @pipedream/types (for import { defineApp } from \"@pipedream/types\")"
+          }
+      ]
+  },
+  {
+      "app": "dialpad",
+      "packageName": "@pipedream/dialpad",
+      "failures": [
+          {
+              "check": "relativeImports",
+              "error": "Relative imports to app files should be avoided. Found: import constants from \"../common/constants.mjs\""
+          }
+      ]
+  },
+  {
+      "app": "eodhd_apis",
+      "packageName": "@pipedream/eodhd_apis",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "firmao",
+      "packageName": "@pipedream/firmao",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "formatting",
+      "packageName": "@pipedream/formatting",
+      "failures": [
+          {
+              "check": "relativeImports",
+              "error": "Relative imports to app files should be avoided. Found: import { DATE_FORMAT_OPTIONS } from \"../common/date-time/dateFormats.mjs\""
+          }
+      ]
+  },
+  {
+      "app": "fraudlabs_pro",
+      "packageName": "@pipedream/fraudlabs_pro",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: util (for import { promisify } from \"util\")"
+          }
+      ]
+  },
+  {
+      "app": "getemails",
+      "packageName": "@pipedream/getemails",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedreamhq/platform (for import { axios } from \"@pipedreamhq/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "gitlab_developer_app",
+      "packageName": "@pipedream/gitlab_developer_app",
+      "failures": [
+          {
+              "check": "relativeImports",
+              "error": "Relative imports to app files should be avoided. Found: import common from \"../gitlab/gitlab.app.mjs\" Consider using '@pipedream/gitlab' instead."
+          }
+      ]
+  },
+  {
+      "app": "godial",
+      "packageName": "@pipedream/godial",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "google_tag_manager",
+      "packageName": "@pipedream/google_tag_manager",
+      "failures": [
+          {
+              "check": "packageJson",
+              "error": "Missing required field: main"
+          },
+          {
+              "check": "mainFile",
+              "error": "The \"path\" argument must be of type string. Received undefined"
+          },
+          {
+              "check": "relativeImports",
+              "error": "The \"path\" argument must be of type string. Received undefined"
+          },
+          {
+              "check": "packageDependencies",
+              "error": "The \"path\" argument must be of type string. Received undefined"
+          },
+          {
+              "check": "import",
+              "error": "The \"paths[2]\" argument must be of type string. Received undefined"
+          }
+      ]
+  },
+  {
+      "app": "google_workspace",
+      "packageName": "@pipedream/google_workspace",
+      "failures": [
+          {
+              "check": "relativeImports",
+              "error": "Relative imports to app files should be avoided. Found: import constants from \"../common/constants.mjs\", import utils from \"../common/utils.mjs\""
+          }
+      ]
+  },
+  {
+      "app": "h_supertools_analytics_tool",
+      "packageName": "@pipedream/h_supertools_analytics_tool",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "imgur",
+      "packageName": "@pipedream/imgur",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: form-data (for import FormData from \"form-data\")"
+          }
+      ]
+  },
+  {
+      "app": "infinity",
+      "packageName": "@pipedream/infinity",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "ipbase",
+      "packageName": "@pipedream/ipbase",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "jvzoo",
+      "packageName": "@pipedream/jvzoo",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "kanbanflow",
+      "packageName": "@pipedream/kanbanflow",
+      "failures": [
+          {
+              "check": "relativeImports",
+              "error": "Relative imports to app files should be avoided. Found: import { getOptionsDescription } from \"../common/utils.mjs\""
+          }
+      ]
+  },
+  {
+      "app": "kiwihr",
+      "packageName": "@pipedream/kiwihr",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: graphql-request (for import { GraphQLClient } from \"graphql-request\")"
+          }
+      ]
+  },
+  {
+      "app": "kucoin_futures",
+      "packageName": "@pipedream/kucoin_futures",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\"), crypto (for import crypto from \"crypto\"), querystring (for import * as querystring from \"querystring\")"
+          }
+      ]
+  },
+  {
+      "app": "lamini",
+      "packageName": "@pipedream/lamini",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: fs (for import fs from \"fs\")"
+          }
+      ]
+  },
+  {
+      "app": "lemon_squeezy",
+      "packageName": "@pipedream/lemon_squeezy",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\"), @pipedream/types (for import { defineApp } from \"@pipedream/types\")"
+          }
+      ]
+  },
+  {
+      "app": "lettria",
+      "packageName": "@pipedream/lettria",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "listen_notes",
+      "packageName": "@pipedream/listen_notes",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "lob",
+      "packageName": "@pipedream/lob",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/types (for import { defineApp } from \"@pipedream/types\")"
+          }
+      ]
+  },
+  {
+      "app": "loop_returns",
+      "packageName": "@pipedream/loop_returns",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: url (for import url from \"url\")"
+          }
+      ]
+  },
+  {
+      "app": "mailbluster",
+      "packageName": "@pipedream/mailbluster",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\"), @pipedream/types (for import { defineApp } from \"@pipedream/types\")"
+          }
+      ]
+  },
+  {
+      "app": "mailwizz",
+      "packageName": "@pipedream/mailwizz",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: qs (for import qs from \"qs\")"
+          }
+      ]
+  },
+  {
+      "app": "mediatoolkit",
+      "packageName": "@pipedream/mediatoolkit",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/types (for import { defineApp } from \"@pipedream/types\")"
+          }
+      ]
+  },
+  {
+      "app": "mem",
+      "packageName": "@pipedream/mem",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "metaphor",
+      "packageName": "@pipedream/metaphor",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "nectar_crm",
+      "packageName": "@pipedream/nectar_crm",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/types (for import { defineApp } from \"@pipedream/types\")"
+          }
+      ]
+  },
+  {
+      "app": "netlify",
+      "packageName": "@pipedream/netlify",
+      "failures": [
+          {
+              "check": "import",
+              "error": "Import test failed: Command failed: node components/netlify/__import_test__.mjs\nImport failed for @pipedream/netlify: Named export 'NetlifyAPI' not found. The requested module 'netlify' is a CommonJS module, which may not support all module.exports as named exports.\nCommonJS modules can always be imported via the default export, for example using:\n\nimport pkg from 'netlify';\nconst { NetlifyAPI } = pkg;\n\n"
+          }
+      ]
+  },
+  {
+      "app": "ninox",
+      "packageName": "@pipedream/ninox",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/types (for import { defineApp } from \"@pipedream/types\")"
+          }
+      ]
+  },
+  {
+      "app": "notiff",
+      "packageName": "@pipedream/notiff",
+      "failures": [
+          {
+              "check": "relativeImports",
+              "error": "Relative imports to app files should be avoided. Found: import notiffIo from \"../notiff_io/notiff_io.app.mjs\" Consider using '@pipedream/notiff_io' instead."
+          }
+      ]
+  },
+  {
+      "app": "omnivore",
+      "packageName": "@pipedream/omnivore",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: graphql-request (for import { GraphQLClient } from \"graphql-request\")"
+          }
+      ]
+  },
+  {
+      "app": "one_ai",
+      "packageName": "@pipedream/one_ai",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "onfleet",
+      "packageName": "@pipedream/onfleet",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/types (for import { defineApp } from \"@pipedream/types\")"
+          }
+      ]
+  },
+  {
+      "app": "open_exchange_rates",
+      "packageName": "@pipedream/open_exchange_rates",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "opensrs",
+      "packageName": "@pipedream/opensrs",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: crypto (for import { createHash } from \"crypto\")"
+          }
+      ]
+  },
+  {
+      "app": "pdfless",
+      "packageName": "@pipedream/pdfless",
+      "failures": [
+          {
+              "check": "import",
+              "error": "Import test failed: Command failed: node components/pdfless/__import_test__.mjs\nImport failed for @pipedream/pdfless: require() of ES Module /home/runner/work/pipedream/pipedream/node_modules/@microsoft/kiota-abstractions/dist/es/src/index.js from /home/runner/work/pipedream/pipedream/node_modules/@pdfless/pdfless-js/index.js not supported.\nInstead change the require of /home/runner/work/pipedream/pipedream/node_modules/@microsoft/kiota-abstractions/dist/es/src/index.js in /home/runner/work/pipedream/pipedream/node_modules/@pdfless/pdfless-js/index.js to a dynamic import() which is available in all CommonJS modules.\n"
+          }
+      ]
+  },
+  {
+      "app": "persistiq",
+      "packageName": "@pipedream/persistiq",
+      "failures": [
+          {
+              "check": "relativeImports",
+              "error": "Relative imports to app files should be avoided. Found: import utils from \"../common/utils.mjs\""
+          }
+      ]
+  },
+  {
+      "app": "pikaso",
+      "packageName": "@pipedream/pikaso",
+      "failures": [
+          {
+              "check": "relativeImports",
+              "error": "Relative imports to app files should be avoided. Found: import constants from \"../actions/common/constants.mjs\""
+          },
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/types (for import { defineApp } from \"@pipedream/types\")"
+          }
+      ]
+  },
+  {
+      "app": "placid",
+      "packageName": "@pipedream/placid",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "playwright",
+      "packageName": "@pipedream/playwright",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/types (for import { defineApp } from \"@pipedream/types\"), playwright-core@1.41.2 (for import { chromium as playwright } from \"playwright-core@1.41.2\"), @sparticuz/chromium@121.0.0 (for import chromium from \"@sparticuz/chromium@121.0.0\")"
+          },
+          {
+              "check": "import",
+              "error": "Import test failed: Command failed: node components/playwright/__import_test__.mjs\nImport failed for @pipedream/playwright: Cannot find package 'playwright-core@1.41.2' imported from /home/runner/work/pipedream/pipedream/components/playwright/playwright.app.mjs\n"
+          }
+      ]
+  },
+  {
+      "app": "plecto",
+      "packageName": "@pipedream/plecto",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "procore_sandbox",
+      "packageName": "@pipedream/procore_sandbox",
+      "failures": [
+          {
+              "check": "relativeImports",
+              "error": "Relative imports to app files should be avoided. Found: import procore from \"../procore/procore.app.mjs\" Consider using '@pipedream/procore' instead., import constants from \"../procore/common/constants.mjs\""
+          }
+      ]
+  },
+  {
+      "app": "puppeteer",
+      "packageName": "@pipedream/puppeteer",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: puppeteer-core@21.11.0 (for import puppeteer from \"puppeteer-core@21.11.0\"), @sparticuz/chromium@121.0.0 (for import chromium from \"@sparticuz/chromium@121.0.0\")"
+          },
+          {
+              "check": "import",
+              "error": "Import test failed: Command failed: node components/puppeteer/__import_test__.mjs\nImport failed for @pipedream/puppeteer: Cannot find package 'puppeteer-core@21.11.0' imported from /home/runner/work/pipedream/pipedream/components/puppeteer/puppeteer.app.mjs\n"
+          }
+      ]
+  },
+  {
+      "app": "pushbullet",
+      "packageName": "@pipedream/pushbullet",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: form-data (for import FormData from \"form-data\")"
+          }
+      ]
+  },
+  {
+      "app": "qstash",
+      "packageName": "@pipedream/qstash",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "renderform",
+      "packageName": "@pipedream/renderform",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "rise",
+      "packageName": "@pipedream/rise",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/types (for import { defineApp } from \"@pipedream/types\")"
+          }
+      ]
+  },
+  {
+      "app": "rss",
+      "packageName": "@pipedream/rss",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/types (for import { defineApp } from \"@pipedream/types\")"
+          }
+      ]
+  },
+  {
+      "app": "salesmate",
+      "packageName": "@pipedream/salesmate",
+      "failures": [
+          {
+              "check": "relativeImports",
+              "error": "Relative imports to app files should be avoided. Found: import { ROWS } from \"../common/constants.mjs\", import queries from \"../common/queries.mjs\", import { clearObj, getUrl, } from \"../common/utils.mjs\""
+          },
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/types (for import { defineApp } from \"@pipedream/types\")"
+          }
+      ]
+  },
+  {
+      "app": "screenshotone",
+      "packageName": "@pipedream/screenshotone",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: fs (for import fs from \"fs\")"
+          }
+      ]
+  },
+  {
+      "app": "sentry",
+      "packageName": "@pipedream/sentry",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: crypto (for import { createHmac } from \"crypto\")"
+          }
+      ]
+  },
+  {
+      "app": "serveravatar",
+      "packageName": "@pipedream/serveravatar",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/types (for import { defineApp } from \"@pipedream/types\")"
+          }
+      ]
+  },
+  {
+      "app": "shipcloud",
+      "packageName": "@pipedream/shipcloud",
+      "failures": [
+          {
+              "check": "relativeImports",
+              "error": "Relative imports to app files should be avoided. Found: import { CARRIER_OPTIONS, SERVICE_OPTIONS, } from \"../common/constants.mjs\""
+          }
+      ]
+  },
+  {
+      "app": "signalwire",
+      "packageName": "@pipedream/signalwire",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "slack_bot",
+      "packageName": "@pipedream/slack_bot",
+      "failures": [
+          {
+              "check": "relativeImports",
+              "error": "Relative imports to app files should be avoided. Found: import slack from \"../slack/slack.app.mjs\" Consider using '@pipedream/slack' instead."
+          }
+      ]
+  },
+  {
+      "app": "smaily",
+      "packageName": "@pipedream/smaily",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/types (for import { defineApp } from \"@pipedream/types\")"
+          }
+      ]
+  },
+  {
+      "app": "snowflake",
+      "packageName": "@pipedream/snowflake",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: crypto (for import { createPrivateKey } from \"crypto\"), util (for import { promisify } from \"util\")"
+          }
+      ]
+  },
+  {
+      "app": "spotify",
+      "packageName": "@pipedream/spotify",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: util (for import { promisify } from \"util\")"
+          }
+      ]
+  },
+  {
+      "app": "spotlightr",
+      "packageName": "@pipedream/spotlightr",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: axios (for import axios from \"axios\")"
+          }
+      ]
+  },
+  {
+      "app": "square",
+      "packageName": "@pipedream/square",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: uuid (for import { v4 } from \"uuid\")"
+          }
+      ]
+  },
+  {
+      "app": "starshipit",
+      "packageName": "@pipedream/starshipit",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "stormboard",
+      "packageName": "@pipedream/stormboard",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "strava",
+      "packageName": "@pipedream/strava",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "supernotes",
+      "packageName": "@pipedream/supernotes",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "superphone",
+      "packageName": "@pipedream/superphone",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: graphql-request (for import { GraphQLClient } from \"graphql-request\")"
+          }
+      ]
+  },
+  {
+      "app": "teamwork_desk",
+      "packageName": "@pipedream/teamwork_desk",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "tolstoy",
+      "packageName": "@pipedream/tolstoy",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/types (for import { defineApp } from \"@pipedream/types\")"
+          }
+      ]
+  },
+  {
+      "app": "tookan",
+      "packageName": "@pipedream/tookan",
+      "failures": [
+          {
+              "check": "relativeImports",
+              "error": "Relative imports to app files should be avoided. Found: import timezoneOptions from \"../common/timezones.mjs\""
+          }
+      ]
+  },
+  {
+      "app": "trakt",
+      "packageName": "@pipedream/trakt",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "translate_com",
+      "packageName": "@pipedream/translate_com",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "trestle",
+      "packageName": "@pipedream/trestle",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "trustpilot",
+      "packageName": "@pipedream/trustpilot",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/types (for import { defineApp } from \"@pipedream/types\"), crypto (for import * as crypto from \"crypto\")"
+          }
+      ]
+  },
+  {
+      "app": "twitch_developer_app",
+      "packageName": "@pipedream/twitch_developer_app",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: crypto (for import crypto from \"crypto\")"
+          }
+      ]
+  },
+  {
+      "app": "twitter",
+      "packageName": "@pipedream/twitter",
+      "failures": [
+          {
+              "check": "relativeImports",
+              "error": "Relative imports to app files should be avoided. Found: import { ERROR_BY_TYPE } from \"../common/errorMessage.mjs\""
+          },
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: crypto (for import crypto from \"crypto\")"
+          }
+      ]
+  },
+  {
+      "app": "typebot",
+      "packageName": "@pipedream/typebot",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "uipath_automation_hub",
+      "packageName": "@pipedream/uipath_automation_hub",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "universal_summarizer_by_kagi",
+      "packageName": "@pipedream/universal_summarizer_by_kagi",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "upwave",
+      "packageName": "@pipedream/upwave",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "userflow",
+      "packageName": "@pipedream/userflow",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "verdict_as_a_service",
+      "packageName": "@pipedream/verdict_as_a_service",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: fs (for import { open } from \"fs/promises\")"
+          }
+      ]
+  },
+  {
+      "app": "visualping",
+      "packageName": "@pipedream/visualping",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "voice_monkey",
+      "packageName": "@pipedream/voice_monkey",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "wesupply",
+      "packageName": "@pipedream/wesupply",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "wildberries",
+      "packageName": "@pipedream/wildberries",
+      "failures": [
+          {
+              "check": "relativeImports",
+              "error": "Relative imports to app files should be avoided. Found: import constants from \"../actions/common/constants.mjs\""
+          },
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/types (for import { defineApp } from \"@pipedream/types\")"
+          }
+      ]
+  },
+  {
+      "app": "workflow_max",
+      "packageName": "@pipedream/workflow_max",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: xml2js (for import { parseStringPromise } from \"xml2js\")"
+          }
+      ]
+  },
+  {
+      "app": "xperiencify",
+      "packageName": "@pipedream/xperiencify",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/types (for import { defineApp } from \"@pipedream/types\")"
+          }
+      ]
+  },
+  {
+      "app": "yelp",
+      "packageName": "@pipedream/yelp",
+      "failures": [
+          {
+              "check": "relativeImports",
+              "error": "Relative imports to app files should be avoided. Found: import { DOCS } from \"../common/constants.mjs\""
+          }
+      ]
+  },
+  {
+      "app": "youtube_data_api_custom_app",
+      "packageName": "@pipedream/youtube_data_api_custom_app",
+      "failures": [
+          {
+              "check": "relativeImports",
+              "error": "Relative imports to app files should be avoided. Found: import commonApp from \"../youtube_data_api/common-app.mjs\""
+          }
+      ]
+  },
+  {
+      "app": "zoho_analytics",
+      "packageName": "@pipedream/zoho_analytics",
+      "failures": [
+          {
+              "check": "packageDependencies",
+              "error": "Package imports require corresponding dependencies. Missing dependencies: @pipedream/platform (for import { axios } from \"@pipedream/platform\")"
+          }
+      ]
+  },
+  {
+      "app": "zoho_people",
+      "packageName": "@pipedream/zoho_people",
+      "failures": [
+          {
+              "check": "packageJson",
+              "error": "Missing required field: main"
+          },
+          {
+              "check": "mainFile",
+              "error": "The \"path\" argument must be of type string. Received undefined"
+          },
+          {
+              "check": "relativeImports",
+              "error": "The \"path\" argument must be of type string. Received undefined"
+          },
+          {
+              "check": "packageDependencies",
+              "error": "The \"path\" argument must be of type string. Received undefined"
+          },
+          {
+              "check": "import",
+              "error": "The \"paths[2]\" argument must be of type string. Received undefined"
+          }
+      ]
+  }
+]
