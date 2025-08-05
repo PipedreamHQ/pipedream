@@ -1901,7 +1901,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/bright_data: {}
+  components/bright_data:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/brilliant_directories:
     dependencies:
@@ -6229,7 +6233,11 @@ importers:
 
   components/helpdesk: {}
 
-  components/helpdocs: {}
+  components/helpdocs:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/helper_functions:
     dependencies:
@@ -11262,6 +11270,9 @@ importers:
       qs:
         specifier: ^6.11.0
         version: 6.13.1
+
+  components/redis_cloud_rest_api:
+    specifiers: {}
 
   components/redmine: {}
 
