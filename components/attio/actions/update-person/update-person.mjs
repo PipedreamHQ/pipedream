@@ -5,7 +5,7 @@ export default {
   key: "attio-update-person",
   name: "Update Person",
   description: "Update an existing person. [See the documentation](https://developers.attio.com/reference/patch_v2-objects-people-records-record-id).",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     attio,

@@ -753,7 +753,11 @@ importers:
         specifier: ^3.0.3
         version: 3.1.0
 
-  components/alttextlab: {}
+  components/alttextlab:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/amara:
     dependencies:
@@ -1102,8 +1106,8 @@ importers:
   components/attio:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/attractwell:
     dependencies:
@@ -1901,7 +1905,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/bright_data: {}
+  components/bright_data:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/brilliant_directories:
     dependencies:
@@ -1945,8 +1953,8 @@ importers:
   components/browserless:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
       puppeteer-core:
         specifier: ^19.7.5
         version: 19.11.1(typescript@5.7.2)
@@ -2196,7 +2204,11 @@ importers:
 
   components/captaindata: {}
 
-  components/capturekit: {}
+  components/capturekit:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/carbone: {}
 
@@ -2431,6 +2443,8 @@ importers:
         version: 3.0.3
 
   components/chatrace: {}
+
+  components/chatsistant: {}
 
   components/chatsonic: {}
 
@@ -3147,6 +3161,8 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
+  components/countly: {}
+
   components/coupontools: {}
 
   components/covalent: {}
@@ -3482,6 +3498,8 @@ importers:
         version: 3.1.0
 
   components/deepl: {}
+
+  components/deeplogix: {}
 
   components/deepseek:
     dependencies:
@@ -5106,8 +5124,8 @@ importers:
   components/freshservice:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/freshstatus:
     dependencies:
@@ -5846,9 +5864,12 @@ importers:
       '@googleapis/slides':
         specifier: ^0.7.1
         version: 0.7.1
+      '@pipedream/google_drive':
+        specifier: ^1.0.3
+        version: 1.0.3
       '@pipedream/platform':
-        specifier: ^0.9.0
-        version: 0.9.0
+        specifier: ^3.1.0
+        version: 3.1.0
       mime-db:
         specifier: ^1.51.0
         version: 1.53.0
@@ -6216,7 +6237,11 @@ importers:
 
   components/helpdesk: {}
 
-  components/helpdocs: {}
+  components/helpdocs:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/helper_functions:
     dependencies:
@@ -10011,6 +10036,8 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
+  components/pdf_munk: {}
+
   components/pdffiller:
     dependencies:
       '@pipedream/platform':
@@ -10544,6 +10571,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/polar: {}
+
   components/polly:
     dependencies:
       '@pipedream/platform':
@@ -11011,8 +11040,8 @@ importers:
   components/quickbooks_sandbox:
     dependencies:
       '@pipedream/quickbooks':
-        specifier: ^0.6.1
-        version: 0.6.1
+        specifier: ^0.7.0
+        version: 0.7.0
 
   components/quickemailverification:
     dependencies:
@@ -11245,6 +11274,8 @@ importers:
       qs:
         specifier: ^6.11.0
         version: 6.13.1
+
+  components/redis_cloud_rest_api: {}
 
   components/redmine: {}
 
@@ -11676,6 +11707,8 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
+  components/rocketskip: {}
+
   components/rockset:
     dependencies:
       '@pipedream/platform':
@@ -11880,6 +11913,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/sap_s_4hana_cloud: {}
 
   components/sapling: {}
 
@@ -12278,6 +12313,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+
+  components/serenity_ai_hub: {}
 
   components/serpapi:
     dependencies:
@@ -13682,6 +13719,8 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
+  components/templatedocs: {}
+
   components/tento8: {}
 
   components/terminus_app: {}
@@ -14322,6 +14361,8 @@ importers:
 
   components/typebot: {}
 
+  components/typeflo: {}
+
   components/typeflowai:
     dependencies:
       '@pipedream/platform':
@@ -14736,6 +14777,8 @@ importers:
   components/virifi: {}
 
   components/virustotal: {}
+
+  components/visibot: {}
 
   components/vision6:
     dependencies:
@@ -15251,6 +15294,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.1.1
         version: 1.6.6
+
+  components/workday: {}
 
   components/workflow_max:
     dependencies:
@@ -17667,12 +17712,12 @@ packages:
   '@datadog/sketches-js@2.1.1':
     resolution: {integrity: sha512-d5RjycE+MObE/hU+8OM5Zp4VjTwiPLRa8299fj7muOmR16fb942z8byoMbCErnGh0lBevvgkGrLclQDvINbIyg==}
 
-  '@definitelytyped/header-parser@0.2.19':
-    resolution: {integrity: sha512-zu+RxQpUCgorYUQZoyyrRIn9CljL1CeM4qak3NDeMO1r7tjAkodfpAGnVzx/6JR2OUk0tAgwmZxNMSwd9LVgxw==}
+  '@definitelytyped/header-parser@0.2.20':
+    resolution: {integrity: sha512-97YPAlUo8XjWNtZ+6k+My+50/ljE2iX6KEPjOZ1Az1RsZdKwJ6taAX3F5g6SY1SJr50bzdm2RZzyQNdRmHcs4w==}
     engines: {node: '>=18.18.0'}
 
-  '@definitelytyped/typescript-versions@0.1.8':
-    resolution: {integrity: sha512-iz6q9aTwWW7CzN2g8jFQfZ955D63LA+wdIAKz4+2pCc/7kokmEHie1/jVWSczqLFOlmH+69bWQxIurryBP/sig==}
+  '@definitelytyped/typescript-versions@0.1.9':
+    resolution: {integrity: sha512-Qjalw9eNlcTjXhzx0Q6kHKuRCOUt/M5RGGRGKsiYlm/nveGvPX9liZSQlGXZVwyQ5I9qvq/GdaWiPchQ+ZXOrQ==}
     engines: {node: '>=18.18.0'}
 
   '@definitelytyped/utils@0.1.8':
@@ -19252,6 +19297,9 @@ packages:
   '@pipedream/google_drive@1.0.2':
     resolution: {integrity: sha512-C5L5mx3CiCsrv7tZTMOaLcAWgMIi/7Yu7F5z7DOSaCKY+xJRAtCB9AT63RYeAC3OqpIpEwTJPpDjQQfTsPHNzg==}
 
+  '@pipedream/google_drive@1.0.3':
+    resolution: {integrity: sha512-E7MF0E3f/RRyL5PsLaoL51IZtdoyWKNpUIT7RIpQDJ2wh00H0hrISfgugfKAVdv7Tl//BvJezu1FecSLTxhroQ==}
+
   '@pipedream/helper_functions@0.3.13':
     resolution: {integrity: sha512-67zXT5rMccSYEeQCEKjO0g/U2Wnc3q1ErRWt0sivqJEF/KYqAb3tWmznDYGACbC8L6ML0WWSWRy7nEGt5Vyuaw==}
 
@@ -19309,8 +19357,8 @@ packages:
   '@pipedream/postgresql@2.2.3':
     resolution: {integrity: sha512-Co9r4UKvvimEPo9T4v+EfVn/Sqqw8+X7PtvsAF7tydq7CHpkmOT9eYAiD0Kuybg5WbuWuqDaXHHmhVtsAxgpBw==}
 
-  '@pipedream/quickbooks@0.6.1':
-    resolution: {integrity: sha512-17uGEBdLTUk7FkyCwuaNT1eQodvnS4xN+w1+kSdtMw2GV8guzQU9/oB/IjECDDyDvO4Ba0ulfm9xb544bKWf/w==}
+  '@pipedream/quickbooks@0.7.0':
+    resolution: {integrity: sha512-x9wDX90dDGw6mfWveMPWDwosm0KaZpxy2cs9Qt+mDPa4VPXYwnIh3EC+rqatnQTMrOWFh85deYJEb5A9xqUuiQ==}
 
   '@pipedream/ramp@0.1.2':
     resolution: {integrity: sha512-vYC5OPJo+kxhYYav5y0Mb7WihbLqNdoUO/CnOH1rHfKKNI4E23LLLLICn3VAl0gRc7xbWLHf4Nmcyjw7qf5k7Q==}
@@ -29660,6 +29708,7 @@ packages:
   source-map@0.8.0-beta.0:
     resolution: {integrity: sha512-2ymg6oRBpebeZi9UUNsgQ89bhx01TcTkmNTGnNO88imTmbSgy4nfujrgVEFKWpMTEGA11EDkTt7mqObTPdigIA==}
     engines: {node: '>= 8'}
+    deprecated: The work that was done in this beta branch won't be included in future versions
 
   space-separated-tokens@2.0.2:
     resolution: {integrity: sha512-PEGlAwrG8yXGXRjW32fGbg66JAlOAwbObuqVoJpv/mRgoWDQfgH1wDPvtzWyUSNAXBGSk8h755YDbbcEy3SH2Q==}
@@ -34895,13 +34944,13 @@ snapshots:
 
   '@datadog/sketches-js@2.1.1': {}
 
-  '@definitelytyped/header-parser@0.2.19':
+  '@definitelytyped/header-parser@0.2.20':
     dependencies:
-      '@definitelytyped/typescript-versions': 0.1.8
+      '@definitelytyped/typescript-versions': 0.1.9
       '@definitelytyped/utils': 0.1.8
       semver: 7.7.2
 
-  '@definitelytyped/typescript-versions@0.1.8': {}
+  '@definitelytyped/typescript-versions@0.1.9': {}
 
   '@definitelytyped/utils@0.1.8':
     dependencies:
@@ -36746,6 +36795,21 @@ snapshots:
       - encoding
       - supports-color
 
+  '@pipedream/google_drive@1.0.3':
+    dependencies:
+      '@googleapis/drive': 2.4.0
+      '@pipedream/platform': 3.1.0
+      cron-parser: 4.9.0
+      google-docs-mustaches: 1.2.2
+      got: 13.0.0
+      lodash: 4.17.21
+      mime-db: 1.54.0
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - debug
+      - encoding
+      - supports-color
+
   '@pipedream/helper_functions@0.3.13':
     dependencies:
       '@pipedream/platform': 1.6.6
@@ -36916,7 +36980,7 @@ snapshots:
       - debug
       - pg-native
 
-  '@pipedream/quickbooks@0.6.1':
+  '@pipedream/quickbooks@0.7.0':
     dependencies:
       '@pipedream/platform': 3.1.0
     transitivePeerDependencies:
@@ -42249,7 +42313,7 @@ snapshots:
 
   dts-critic@3.3.11(typescript@5.7.2):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.19
+      '@definitelytyped/header-parser': 0.2.20
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -42261,8 +42325,8 @@ snapshots:
 
   dtslint@4.2.1(typescript@5.7.2):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.19
-      '@definitelytyped/typescript-versions': 0.1.8
+      '@definitelytyped/header-parser': 0.2.20
+      '@definitelytyped/typescript-versions': 0.1.9
       '@definitelytyped/utils': 0.1.8
       dts-critic: 3.3.11(typescript@5.7.2)
       fs-extra: 6.0.1

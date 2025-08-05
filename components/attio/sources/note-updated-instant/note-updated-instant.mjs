@@ -4,9 +4,9 @@ import sampleEmit from "./test-event.mjs";
 export default {
   ...common,
   key: "attio-note-updated-instant",
-  name: "Note Updated (Instant)",
+  name: "New Note Updated (Instant)",
   description: "Emit new event when the title of a note is modified. Body updates do not currently trigger webhooks.",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {
