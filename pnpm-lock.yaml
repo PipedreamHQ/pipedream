@@ -8117,6 +8117,9 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/lumin_pdf:
+    specifiers: {}
+
   components/luminous: {}
 
   components/luno: {}
