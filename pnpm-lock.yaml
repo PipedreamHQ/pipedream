@@ -6080,6 +6080,9 @@ importers:
 
   components/grab_your_reviews: {}
 
+  components/grabpenny:
+    specifiers: {}
+
   components/graceblocks: {}
 
   components/grade_us: {}
