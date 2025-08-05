@@ -1,4 +1,6 @@
 import app from "../../tableau.app.mjs";
+import fs from "fs";
+import path from "path";
 
 export default {
   key: "tableau-download-pdf",
@@ -71,31 +73,24 @@ export default {
     vizWidth: {
       type: "integer",
       label: "Viz Width",
-      description: "The width of the rendered PDF image in pixels that, along with vizHeight, determines its resolution and aspect ratio",
+      description: "The width of the rendered PDF image in pixels that, along with `Viz Height`, determines its resolution and aspect ratio",
       optional: true,
     },
     outputFilename: {
       type: "string",
       label: "Output Filename",
-      description: "The filename for the downloaded PDF file (will be saved to /tmp folder)",
+      description: "The filename for the downloaded PDF file, which will be saved to the `/tmp` folder",
       default: "workbook.pdf",
       optional: true,
     },
-  },
-  methods: {
-    downloadWorkbookPdf({
-      siteId, workbookId, ...args
-    } = {}) {
-      return this.app.downloadWorkbookPdf({
-        siteId,
-        workbookId,
-        ...args,
-      });
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   async run({ $ }) {
     const {
-      downloadWorkbookPdf,
       siteId,
       workbookId,
       maxAge,
@@ -106,26 +101,21 @@ export default {
       outputFilename,
     } = this;
 
-    const params = {
-      "max-age-minutes": maxAge,
-      orientation,
-      "page-type": pageType,
-      "viz-height": vizHeight,
-      "viz-width": vizWidth,
-    };
-
-    const response = await downloadWorkbookPdf({
+    const response = await this.app.downloadWorkbookPdf({
       $,
       siteId,
       workbookId,
-      params,
+      params: {
+        "max-age-minutes": maxAge,
+        orientation,
+        "page-type": pageType,
+        "viz-height": vizHeight,
+        "viz-width": vizWidth,
+      },
       responseType: "arraybuffer",
     });
 
     // Write the PDF to the /tmp folder
-    const fs = await import("fs");
-    const path = await import("path");
-
     const filename = outputFilename || "workbook.pdf";
     const filePath = path.join("/tmp", filename);
 
@@ -134,8 +124,7 @@ export default {
     $.export("$summary", `Successfully downloaded workbook PDF to \`${filePath}\``);
     return {
       filePath,
-      filename,
-      workbookId,
+      fileContent: response,
     };
   },
 };
