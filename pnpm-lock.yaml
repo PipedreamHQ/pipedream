@@ -11271,8 +11271,7 @@ importers:
         specifier: ^6.11.0
         version: 6.13.1
 
-  components/redis_cloud_rest_api:
-    specifiers: {}
+  components/redis_cloud_rest_api: {}
 
   components/redmine: {}
 
