@@ -1,6 +1,7 @@
 import hubspot from "../../hubspot.app.mjs";
 import { API_PATH } from "../../common/constants.mjs";
 import { parseObject } from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "hubspot-batch-create-companies",
@@ -27,13 +28,20 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.batchCreateCompanies({
-      $,
-      data: {
-        inputs: parseObject(this.inputs),
-      },
-    });
-    $.export("$summary", `Created ${response.results.length} companies`);
-    return response;
+    try {
+      const response = await this.batchCreateCompanies({
+        $,
+        data: {
+          inputs: parseObject(this.inputs),
+        },
+      });
+      $.export("$summary", `Created ${response.results.length} compan${response.results.length === 1
+        ? "y"
+        : "ies"}`);
+      return response;
+    } catch (error) {
+      const message = JSON.parse((JSON.parse(error.message).message).split(/:(.+)/)[1])[0].message;
+      throw new ConfigurationError(message.split(/:(.+)/)[0]);
+    }
   },
 };

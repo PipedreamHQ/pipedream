@@ -1,6 +1,7 @@
 import hubspot from "../../hubspot.app.mjs";
 import { API_PATH } from "../../common/constants.mjs";
 import { parseObject } from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "hubspot-batch-upsert-companies",
@@ -10,6 +11,11 @@ export default {
   type: "action",
   props: {
     hubspot,
+    infoAlert: {
+      type: "alert",
+      alertType: "info",
+      content: "Create or update companies identified by a unique property value as specified by the `idProperty` query parameter. `idProperty` query param refers to a property whose values are unique for the object. To manage properties in Hubspot, navigate to your Settings -> Data Management -> Properties.",
+    },
     inputs: {
       type: "string[]",
       label: "Inputs (Companies)",
@@ -27,13 +33,18 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.batchUpsertCompanies({
-      $,
-      data: {
-        inputs: parseObject(this.inputs),
-      },
-    });
-    $.export("$summary", `Upserted ${response.results.length} companies`);
-    return response;
+    try {
+      const response = await this.batchUpsertCompanies({
+        $,
+        data: {
+          inputs: parseObject(this.inputs),
+        },
+      });
+      $.export("$summary", `Upserted ${response.results.length} companies`);
+      return response;
+    } catch (error) {
+      const message = JSON.parse((JSON.parse(error.message).message).split(/:(.+)/)[1])[0].message;
+      throw new ConfigurationError(message.split(/:(.+)/)[0]);
+    }
   },
 };
