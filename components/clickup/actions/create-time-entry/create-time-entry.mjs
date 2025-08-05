@@ -55,12 +55,12 @@ export default {
       optional: true,
     },
     start: {
-      type: "integer",
+      type: "string",
       label: "Start Time",
       description: "Unix timestamp in milliseconds for the Start Time, e.g., `1595282645000`",
     },
     end: {
-      type: "integer",
+      type: "string",
       label: "End Time",
       description: "Unix timestamp in milliseconds, e.g., `1595283000000`. When there are values for both start and end, duration is ignored",
     },
@@ -80,8 +80,8 @@ export default {
       data: {
         tid: this.taskId,
         description: this.description,
-        start: this.start,
-        end: this.end,
+        start: new Date(this.start).getTime(),
+        end: new Date(this.end).getTime(),
         stop: this.end,
       },
     });
