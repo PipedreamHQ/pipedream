@@ -5,7 +5,7 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "rhombus-create-shared-live-video-stream",
   name: "Create Shared Live Video Stream",
-  description: "Create a shared live video stream and get the URL to access it. [See the documentation](https://apidocs.rhombus.com/reference/createsharedlivevideostream)",
+  description: "Create a shared live video stream and get the URL to access it. [See the documentation](https://apidocs.rhombus.com/reference/createcamerasharedlivevideostream))",
   version: "0.0.1",
   type: "action",
   props: {
@@ -73,7 +73,7 @@ export default {
       if (!this.cameraUuid) {
         throw new ConfigurationError("Camera UUID is required when device type is 'camera'");
       }
-      if (!this.includeAudio) {
+      if (this.includeAudio === undefined || this.includeAudio === null) {
         throw new ConfigurationError("Include Audio is required when device type is 'camera'");
       }
       deviceUuid = this.cameraUuid;
@@ -82,7 +82,6 @@ export default {
         $,
         data: {
           cameraUuid: this.cameraUuid,
-          streamName: this.streamName,
           includeAudio: this.includeAudio,
           vodEnabled: this.vodEnabled,
           streamType: this.streamType,
@@ -98,7 +97,6 @@ export default {
         $,
         data: {
           doorbellCameraUuid: this.doorbellCameraUuid,
-          streamName: this.streamName,
           includeAudio: this.includeAudio,
           vodEnabled: this.vodEnabled,
           streamType: this.streamType,

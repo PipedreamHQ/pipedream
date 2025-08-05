@@ -41,7 +41,7 @@ export default {
       description: "The start time for the clip (in milliseconds since the Unix epoch) - required for arbitrary clips",
       optional: true,
     },
-    duractionSec: {
+    durationSec: {
       type: "integer",
       label: "Duration (sec)",
       description: "The duration of the clip (in seconds)",
