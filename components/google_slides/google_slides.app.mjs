@@ -19,6 +19,49 @@ export default {
         return this.listPresentationsOptions(driveId, nextPageToken);
       },
     },
+    layoutId: {
+      type: "string",
+      label: "Layout ID",
+      description: "The ID of a slide layout",
+      optional: true,
+      async options({ presentationId }) {
+        const { layouts } = await this.getPresentation(presentationId);
+        return layouts.map((layout) => ({
+          label: layout.layoutProperties.name,
+          value: layout.objectId,
+        }));
+      },
+    },
+    slideId: {
+      type: "string",
+      label: "Slide ID",
+      description: "The ID of a slide",
+      async options({ presentationId }) {
+        const { slides } = await this.getPresentation(presentationId);
+        return slides.map((slide) => ({
+          label: slide.slideProperties.layoutObjectId,
+          value: slide.objectId,
+        }));
+      },
+    },
+    shapeId: {
+      type: "string",
+      label: "Shape ID",
+      description: "The ID of a shape",
+      async options({
+        presentationId, slideId, textOnly = false,
+      }) {
+        const { pageElements } = await this.getSlide(presentationId, slideId);
+        let shapes = pageElements;
+        if (textOnly) {
+          shapes = shapes.filter((element) => element?.shape?.shapeType === "TEXT_BOX");
+        }
+        return shapes.map((element) => ({
+          label: element.shape?.placeholder?.type || element?.shape?.shapeType || element.objectId,
+          value: element.objectId,
+        }));
+      },
+    },
   },
   methods: {
     ...googleDrive.methods,
@@ -32,8 +75,16 @@ export default {
         auth,
       });
     },
-    refreshChart(presentationId, chartId) {
+    batchUpdate(presentationId, requests) {
       const slides = this.slides();
+      return slides.presentations.batchUpdate({
+        presentationId,
+        requestBody: {
+          requests,
+        },
+      });
+    },
+    refreshChart(presentationId, chartId) {
       const requests = [
         {
           refreshSheetsChart: {
@@ -41,12 +92,57 @@ export default {
           },
         },
       ];
-      return slides.presentations.batchUpdate({
-        presentationId,
-        requestBody: {
-          requests,
+      return this.batchUpdate(presentationId, requests);
+    },
+    createSlide(presentationId, data) {
+      const requests = [
+        {
+          createSlide: {
+            ...data,
+          },
         },
-      });
+      ];
+      return this.batchUpdate(presentationId, requests);
+    },
+    createShape(presentationId, data) {
+      const requests = [
+        {
+          createShape: {
+            ...data,
+          },
+        },
+      ];
+      return this.batchUpdate(presentationId, requests);
+    },
+    insertText(presentationId, data) {
+      const requests = [
+        {
+          insertText: {
+            ...data,
+          },
+        },
+      ];
+      return this.batchUpdate(presentationId, requests);
+    },
+    createImage(presentationId, data) {
+      const requests = [
+        {
+          createImage: {
+            ...data,
+          },
+        },
+      ];
+      return this.batchUpdate(presentationId, requests);
+    },
+    deleteObject(presentationId, objectId) {
+      const requests = [
+        {
+          deleteObject: {
+            objectId,
+          },
+        },
+      ];
+      return this.batchUpdate(presentationId, requests);
     },
     async createPresentation(title) {
       const slides = this.slides();
@@ -78,6 +174,14 @@ export default {
         presentationId,
       };
       return (await slides.presentations.get(request)).data;
+    },
+    async getSlide(presentationId, slideId) {
+      const slides = this.slides();
+      const request = {
+        presentationId,
+        pageObjectId: slideId,
+      };
+      return (await slides.presentations.pages.get(request)).data;
     },
     async copyPresentation(fileId, name) {
       const drive = this.drive();

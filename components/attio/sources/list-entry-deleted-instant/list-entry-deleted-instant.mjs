@@ -4,9 +4,9 @@ import sampleEmit from "./test-event.mjs";
 export default {
   ...common,
   key: "attio-list-entry-deleted-instant",
-  name: "List Entry Deleted (Instant)",
+  name: "New List Entry Deleted (Instant)",
   description: "Emit new event when a list entry is deleted (i.e. when a record is removed from a list).",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {

@@ -7,7 +7,7 @@ export default {
   key: "google_calendar-create-event",
   name: "Create Event",
   description: "Create an event in a Google Calendar. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/insert)",
-  version: "0.2.5",
+  version: "0.2.6",
   type: "action",
   props: {
     googleCalendar,
@@ -144,14 +144,24 @@ export default {
         summary: this.summary,
         location: this.location,
         description: this.description,
-        start: this.getDateParam({
-          date: this.eventStartDate,
+        start: {
+          date: this.eventStartDate?.length <= 10
+            ? this.eventStartDate
+            : undefined,
+          dateTime: this.eventStartDate?.length > 10
+            ? this.eventStartDate
+            : undefined,
           timeZone,
-        }),
-        end: this.getDateParam({
-          date: this.eventEndDate,
+        },
+        end: {
+          date: this.eventEndDate?.length <= 10
+            ? this.eventEndDate
+            : undefined,
+          dateTime: this.eventEndDate?.length > 10
+            ? this.eventEndDate
+            : undefined,
           timeZone,
-        }),
+        },
         recurrence,
         attendees,
         colorId: this.colorId,
