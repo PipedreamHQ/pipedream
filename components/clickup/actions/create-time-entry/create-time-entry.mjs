@@ -6,7 +6,7 @@ export default {
   key: "clickup-create-time-entry",
   name: "Create Time Entry",
   description: "Create a new time entry. [See the documentation](https://developer.clickup.com/reference/createatimeentry)",
-  version: "0.0.1",
+  version: "0.0.{{ts}}",
   type: "action",
   props: {
     ...common.props,
@@ -57,12 +57,12 @@ export default {
     start: {
       type: "string",
       label: "Start Time",
-      description: "Unix timestamp in milliseconds for the Start Time, e.g., `1595282645000`",
+      description: "he Start Time, can be ISO 8601 Date (.e.g `2025-08-06T01:50:19Z`) or Unix timestamp in milliseconds (.e.g `1595282645000`)",
     },
     end: {
       type: "string",
       label: "End Time",
-      description: "Unix timestamp in milliseconds, e.g., `1595283000000`. When there are values for both start and end, duration is ignored",
+      description: "The End Time, can be ISO 8601 Date (.e.g `2025-08-06T01:50:19Z`) or Unix timestamp in milliseconds (.e.g `1595282645000`)",
     },
     description: {
       type: "string",
@@ -71,6 +71,9 @@ export default {
     },
   },
   async run({ $ }) {
+    const start = new Date(+this.start || this.start).getTime();
+    const end = new Date(+this.end || this.end).getTime();
+
     const response = await this.clickup.createTimeEntry({
       $,
       teamId: this.workspaceId,
@@ -80,8 +83,8 @@ export default {
       data: {
         tid: this.taskId,
         description: this.description,
-        start: new Date(this.start).getTime(),
-        end: new Date(this.end).getTime(),
+        start,
+        end,
         stop: this.end,
       },
     });
