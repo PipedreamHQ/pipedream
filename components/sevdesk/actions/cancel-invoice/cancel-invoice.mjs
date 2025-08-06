@@ -5,7 +5,7 @@ export default {
   key: "sevdesk-cancel-invoice",
   name: "Cancel Invoice",
   description: "Cancels an existing invoice in sevDesk. [See the documentation](https://api.sevdesk.de/#tag/Invoice/operation/cancelInvoice)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     sevdesk,

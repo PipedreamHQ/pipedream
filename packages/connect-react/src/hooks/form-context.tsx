@@ -44,6 +44,7 @@ export type FormContext<T extends ConfigurableProps> = {
   /** @deprecated Use externalUserId instead */
   userId: string;
   enableDebugging?: boolean;
+  oauthAppConfig?: Record<string, string>;
 };
 
 export const skippablePropTypes = [
@@ -81,7 +82,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const id = useId();
 
   const {
-    component, configuredProps: __configuredProps, propNames, externalUserId, userId, sdkResponse, enableDebugging,
+    component, configuredProps: __configuredProps, propNames, externalUserId, userId, sdkResponse, enableDebugging, oauthAppConfig,
   } = formProps;
 
   // Resolve user ID with deprecation warning
@@ -594,6 +595,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     submitting,
     sdkErrors,
     enableDebugging,
+    oauthAppConfig,
   };
   return <FormContext.Provider value={value}>{children}</FormContext.Provider>;
 };

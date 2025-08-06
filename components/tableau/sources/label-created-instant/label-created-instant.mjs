@@ -6,7 +6,7 @@ export default {
   key: "tableau-label-created-instant",
   name: "New Label Created (Instant)",
   description: "Emit new event when a label is created in Tableau. [See the documentation](https://help.tableau.com/current/developer/webhooks/en-us/docs/webhooks-events-payload.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

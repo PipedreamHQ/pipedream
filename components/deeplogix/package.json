@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/deeplogix",
+  "version": "0.0.1",
+  "description": "Pipedream Deeplogix Components",
+  "main": "deeplogix.app.mjs",
+  "keywords": [
+    "pipedream",
+    "deeplogix"
+  ],
+  "homepage": "https://pipedream.com/apps/deeplogix",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

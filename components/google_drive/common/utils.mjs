@@ -104,7 +104,9 @@ function truncatePath(pathArr) {
  */
 function buildFilePaths(files = [], folders = []) {
   const folderIdToFolder = folders.reduce((acc, cur) => {
-    acc[cur.id] = cur;
+    if (cur?.id) {
+      acc[cur.id] = cur;
+    }
     return acc;
   }, {});
   const paths = {};
@@ -112,7 +114,7 @@ function buildFilePaths(files = [], folders = []) {
   // requisite parent folders are available (in `file.parents`) to the requesting user, or an array
   // containing the file ID otherwise
   const pathToFile = (file) => {
-    if (!file) {
+    if (!file?.id) {
       // unretrieved folder or root folder
       return [];
     }
@@ -139,7 +141,9 @@ function buildFilePaths(files = [], folders = []) {
     ];
   };
   files.forEach((file) => {
-    paths[file.id] = pathToFile(file);
+    if (file?.id) {
+      paths[file.id] = pathToFile(file);
+    }
   });
   return paths;
 }
@@ -154,7 +158,9 @@ function buildFilePaths(files = [], folders = []) {
  */
 function buildFileNamePaths(files = [], folders = []) {
   const fileIdToFile = files.concat(folders).reduce((acc, cur) => {
-    acc[cur.id] = cur;
+    if (cur?.id) {
+      acc[cur.id] = cur;
+    }
     return acc;
   }, {});
   const fileIdToPath = buildFilePaths(files, folders);

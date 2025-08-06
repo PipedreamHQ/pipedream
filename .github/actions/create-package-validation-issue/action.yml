@@ -1,0 +1,69 @@
+name: 'Create Package Validation Issue'
+description: 'Creates or updates GitHub issues when package validation failures are detected'
+inputs:
+  github-token:
+    description: 'GitHub token for creating issues'
+    required: true
+  validation-report-json:
+    description: 'Path to the JSON validation report file'
+    required: true
+    default: 'validation-report.json'
+  validation-report-txt:
+    description: 'Path to the text validation report file'
+    required: false
+    default: 'validation-report.txt'
+  workflow-run-number:
+    description: 'GitHub workflow run number'
+    required: true
+  workflow-run-id:
+    description: 'GitHub workflow run ID'
+    required: true
+  server-url:
+    description: 'GitHub server URL'
+    required: true
+  repository:
+    description: 'Repository name in owner/repo format'
+    required: true
+
+outputs:
+  issue-created:
+    description: 'Whether a new issue was created'
+    value: ${{ steps.run_issue_creation.outputs.issue-created }}
+  issue-updated:
+    description: 'Whether an existing issue was updated'
+    value: ${{ steps.run_issue_creation.outputs.issue-updated }}
+  issue-url:
+    description: 'URL of the created/updated issue'
+    value: ${{ steps.run_issue_creation.outputs.issue-url }}
+  failed-count:
+    description: 'Number of failed packages'
+    value: ${{ steps.run_issue_creation.outputs.failed-count }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Node.js for action
+      uses: actions/setup-node@v4.0.3
+      with:
+        node-version: '20'
+    
+    - name: Install action dependencies
+      shell: bash
+      run: |
+        cd ${{ github.action_path }}
+        npm install
+    
+    - name: Run issue creation
+      id: run_issue_creation
+      shell: bash
+      run: |
+        cd ${{ github.action_path }}
+        node src/index.js
+      env:
+        INPUT_GITHUB_TOKEN: ${{ inputs.github-token }}
+        INPUT_VALIDATION_REPORT_JSON: ${{ inputs.validation-report-json }}
+        INPUT_VALIDATION_REPORT_TXT: ${{ inputs.validation-report-txt }}
+        INPUT_WORKFLOW_RUN_NUMBER: ${{ inputs.workflow-run-number }}
+        INPUT_WORKFLOW_RUN_ID: ${{ inputs.workflow-run-id }}
+        INPUT_SERVER_URL: ${{ inputs.server-url }}
+        INPUT_REPOSITORY: ${{ inputs.repository }}
