@@ -1872,7 +1872,11 @@ importers:
 
   components/brandmentions: {}
 
-  components/brave_search_api: {}
+  components/brave_search_api:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/braze: {}
 
