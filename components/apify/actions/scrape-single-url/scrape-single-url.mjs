@@ -1,5 +1,8 @@
 import apify from "../../apify.app.mjs";
 import { ACTOR_ID } from "../../common/constants.mjs";
+import {
+  ACTOR_JOB_STATUSES, ACTOR_JOB_TERMINAL_STATUSES,
+} from "@apify/consts";
 
 export default {
   key: "apify-scrape-single-url",
@@ -36,7 +39,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.apify.runActor({
+    const startActorResponse = await this.apify.runActorAsynchronously({
       $,
       actorId: ACTOR_ID,
       data: {
@@ -51,7 +54,46 @@ export default {
         ],
       },
     });
+
+    const {
+      data: {
+        id: runId, defaultDatasetId,
+      },
+    } = startActorResponse;
+
+    let actorRunStatus = null;
+    let retries = 0;
+    const maxRetries = 30;
+    const delay = 1000;
+
+    while ((!actorRunStatus || !ACTOR_JOB_TERMINAL_STATUSES.includes(actorRunStatus))
+          && retries < maxRetries
+    ) {
+      await new Promise((resolve) => setTimeout(resolve, delay));
+      const runDetails = await this.apify.getActorRun({
+        $,
+        runId,
+      });
+      actorRunStatus = runDetails.data.status;
+      retries++;
+    }
+
+    if (actorRunStatus !== ACTOR_JOB_STATUSES.SUCCEEDED) {
+      throw new Error(`Actor run did not succeed. Final status: ${actorRunStatus}`);
+    }
+
+    const datasetResponse = await this.apify.listDatasetItems({
+      $,
+      datasetId: defaultDatasetId,
+      params: {
+        limit: 1,
+        offset: 0,
+      },
+    });
+
+    console.log(datasetResponse);
+
     $.export("$summary", `Successfully scraped content from ${this.url}`);
-    return response;
+    return datasetResponse[0];
   },
 };

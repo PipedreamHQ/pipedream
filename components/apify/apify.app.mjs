@@ -174,6 +174,15 @@ export default {
         ...opts,
       });
     },
+    getActorRun({
+      runId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "GET",
+        path: `/actor-runs/${runId}`,
+        ...opts,
+      });
+    },
     runActorAsynchronously({
       actorId, ...opts
     }) {

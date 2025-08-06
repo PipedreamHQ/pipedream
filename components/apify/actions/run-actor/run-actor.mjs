@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import apify from "../../apify.app.mjs";
 import { parseObject } from "../../common/utils.mjs";
-import { EVENT_TYPES } from "../../common/constants.mjs";
+import { WEBHOOK_EVENT_TYPES } from "@apify/consts";
 
 export default {
   key: "apify-run-actor",
@@ -208,7 +208,7 @@ export default {
         type: "string[]",
         label: "Event Types",
         description: "The types of events to send to the webhook",
-        options: EVENT_TYPES,
+        options: Object.values(WEBHOOK_EVENT_TYPES),
       };
     }
     return props;
