@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/lemon_squeezy",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Lemon Squeezy Components",
   "main": "dist/app/lemon_squeezy.app.mjs",
   "keywords": [
@@ -16,6 +16,10 @@
     "access": "public"
   },
   "dependencies": {
-    "moment": "^2.29.4"
+    "moment": "^2.29.4",
+    "@pipedream/platform": "^3.1.0"
+  },
+  "devDependencies": {
+    "@pipedream/types": "^0.3.2"
   }
 }

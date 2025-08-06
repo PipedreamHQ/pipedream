@@ -1,16 +1,21 @@
 {
   "name": "@pipedream/kucoin_futures",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Kucoin Futures Components",
   "main": "kucoin_futures.app.mjs",
   "keywords": [
     "pipedream",
     "kucoin_futures"
   ],
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "homepage": "https://pipedream.com/apps/kucoin_futures",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
   }
 }
