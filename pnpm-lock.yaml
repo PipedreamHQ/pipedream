@@ -10964,6 +10964,9 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
+  components/prisma_management_api:
+    specifiers: {}
+
   components/prismic: {}
 
   components/pro_ledger:
