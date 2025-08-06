@@ -5,7 +5,7 @@ export default {
   key: "tableau-query-projects",
   name: "Query Projects",
   description: "Returns a list of projects on the specified site. [See the documentation](https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_projects.htm)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

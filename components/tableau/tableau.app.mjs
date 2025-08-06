@@ -47,6 +47,32 @@ export default {
         }));
       },
     },
+    workbookId: {
+      type: "string",
+      label: "Workbook ID",
+      description: "The ID of the workbook to download as PDF",
+      async options({
+        siteId, page,
+      }) {
+        if (!siteId) {
+          return [];
+        }
+        const { workbooks: { workbook: data } } =
+          await this.listWorkbooks({
+            siteId,
+            params: {
+              pageSize: constants.DEFAULT_LIMIT,
+              pageNumber: page + 1,
+            },
+          });
+        return data?.map(({
+          id: value, name: label,
+        }) => ({
+          label,
+          value,
+        })) || [];
+      },
+    },
   },
   methods: {
     getUrl(path) {
@@ -92,6 +118,22 @@ export default {
     }) {
       return this._makeRequest({
         path: `/sites/${siteId}/projects`,
+        ...args,
+      });
+    },
+    listWorkbooks({
+      siteId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/sites/${siteId}/workbooks`,
+        ...args,
+      });
+    },
+    downloadWorkbookPdf({
+      siteId, workbookId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/sites/${siteId}/workbooks/${workbookId}/pdf`,
         ...args,
       });
     },

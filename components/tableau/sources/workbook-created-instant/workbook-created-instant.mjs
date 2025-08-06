@@ -6,7 +6,7 @@ export default {
   key: "tableau-workbook-created-instant",
   name: "New Workbook Created (Instant)",
   description: "Emit new event each time a new workbook is created in Tableau. [See the documentation](https://help.tableau.com/current/developer/webhooks/en-us/docs/webhooks-events-payload.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
