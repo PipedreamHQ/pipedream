@@ -8982,6 +8982,9 @@ importers:
 
   components/mozilla_observatory: {}
 
+  components/mqtt:
+    specifiers: {}
+
   components/msg91:
     dependencies:
       '@pipedream/platform':

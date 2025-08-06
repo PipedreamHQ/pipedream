@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/mqtt",
+  "version": "0.0.1",
+  "description": "Pipedream MQTT Components",
+  "main": "mqtt.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mqtt"
+  ],
+  "homepage": "https://pipedream.com/apps/mqtt",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
