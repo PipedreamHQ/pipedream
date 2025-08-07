@@ -6,7 +6,7 @@ export default {
   key: "kustomer-new-conversation-instant",
   name: "New Conversation Created (Instant)",
   description: "Emit new event when a conversation is created in Kustomer.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

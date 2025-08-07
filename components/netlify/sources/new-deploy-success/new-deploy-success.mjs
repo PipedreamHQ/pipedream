@@ -7,16 +7,15 @@ export default {
   name: "New Deploy Success (Instant)",
   description: "Emit new event when a new deployment is completed",
   type: "source",
-  version: "0.1.0",
+  version: "0.1.1",
   dedupe: "unique",
   methods: {
     ...webhook.methods,
     getHookEvent() {
       return deployHooks.DEPLOY_CREATED;
     },
-    getMetaSummary(data) {
-      const { commit_ref: commitRef } = data;
-      return `Deploy succeeded for commit ${commitRef}`;
+    getMetaSummary() {
+      return "New Deployment Success";
     },
   },
 };

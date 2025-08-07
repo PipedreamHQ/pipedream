@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/krispcall",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Pipedream KrispCall Components",
   "main": "krispcall.app.mjs",
   "keywords": [

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/redis_cloud_rest_api",
+  "version": "0.0.1",
+  "description": "Pipedream Redis Cloud REST API Components",
+  "main": "redis_cloud_rest_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "redis_cloud_rest_api"
+  ],
+  "homepage": "https://pipedream.com/apps/redis_cloud_rest_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

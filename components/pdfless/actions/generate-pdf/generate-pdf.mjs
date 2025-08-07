@@ -2,7 +2,7 @@ import app from "../../pdfless.app.mjs";
 
 export default {
   name: "Create a PDF document",
-  version: "0.0.1",
+  version: "0.1.0",
   key: "pdfless-generate-pdf",
   description: "Create a PDF document based on selected template identifier and defined payload. [See the documentation](https://github.com/Pdfless/pdfless-js)",
   type: "action",
@@ -21,14 +21,27 @@ export default {
     },
   },
   async run({ $ }) {
-    const result = await this.app.generate({
-      templateId: this.templateId,
-      payload: this.payload,
+    const {
+      app,
+      templateId,
+      payload,
+    } = this;
+
+    const response = await app.generate({
+      $,
+      data: {
+        template_id: templateId,
+        payload,
+      },
     });
 
-    if (result?.status === "success") {
+    if (response?.status === "success") {
       $.export("$summary", "Successfully generated PDF");
+
+    } else {
+      $.export("$summary", "Failed to generate PDF");
     }
-    return result;
+
+    return response;
   },
 };
