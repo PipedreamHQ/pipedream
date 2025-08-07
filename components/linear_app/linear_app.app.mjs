@@ -1,4 +1,4 @@
-import { LinearClient } from "@linear/sdk";
+import { LinearClient } from "@linear/sdk@13.0.0";
 import constants from "./common/constants.mjs";
 import utils from "./common/utils.mjs";
 import { axios } from "@pipedream/platform";
