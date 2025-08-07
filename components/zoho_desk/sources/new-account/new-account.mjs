@@ -1,4 +1,4 @@
-import common from "../common/common-pollling.mjs";
+import common from "../common/common-polling.mjs";
 
 export default {
   ...common,
