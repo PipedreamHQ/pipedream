@@ -145,6 +145,22 @@ export default {
         throw error.response?.data;
       }
     },
+    createWebhook(args = {}) {
+      return this.makeRequest({
+        method: "post",
+        path: "/webhooks",
+        ...args,
+      });
+    },
+    deleteWebhook({
+      webhookId, ...args
+    }) {
+      return this.makeRequest({
+        method: "delete",
+        path: `/webhooks/${webhookId}`,
+        ...args,
+      });
+    },
     getOrganizations(args = {}) {
       return this.makeRequest({
         path: "/organizations",
