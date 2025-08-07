@@ -6,7 +6,7 @@
     "module": "ES2020",
     "target": "ES2020",
     "moduleResolution": "node",
-    "listEmittedFiles": true, // Used as a part of the build task, since we need to pass emitted files to our post-build script
+    "listEmittedFiles": true,
     "composite": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true
