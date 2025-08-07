@@ -9,7 +9,7 @@
     "listEmittedFiles": true,
     "composite": true,
     "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true
-  },
-  "allowJs": true,
+    "skipLibCheck": true,
+    "allowJs": true
+  }
 }
