@@ -101,6 +101,11 @@ export default {
       description: "The maximum number of results to return",
       optional: true,
     },
+    appId: {
+      type: "string",
+      label: "App ID",
+      description: "The Facebook App ID. You can find this in your Facebook App Dashboard.",
+    },
   },
   methods: {
     _baseUrl() {
@@ -138,6 +143,12 @@ export default {
       const { data } = await this.listPages();
       const page = data.find(({ id }) => id == pageId);
       return page.access_token;
+    },
+    getAppAccessToken(args = {}) {
+      return this._makeRequest({
+        path: "/oauth/access_token",
+        ...args,
+      });
     },
     getPost({
       pageId, postId, ...args
@@ -217,6 +228,44 @@ export default {
       return this._makeRequest({
         path: `/${commentId}`,
         method: "POST",
+        pageId,
+        ...args,
+      });
+    },
+    createSubscription({
+      appId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/${appId}/subscriptions`,
+        method: "POST",
+        ...args,
+      });
+    },
+    deleteSubscription({
+      appId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/${appId}/subscriptions`,
+        method: "DELETE",
+        ...args,
+      });
+    },
+    createPageSubscription({
+      pageId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/${pageId}/subscribed_apps`,
+        method: "POST",
+        pageId,
+        ...args,
+      });
+    },
+    deletePageSubscription({
+      pageId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/${pageId}/subscribed_apps`,
+        method: "DELETE",
         pageId,
         ...args,
       });
