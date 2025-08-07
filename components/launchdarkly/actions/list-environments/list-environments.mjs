@@ -47,9 +47,6 @@ export default {
     if (this.filter && !Array.isArray(this.filter)) {
       throw new ConfigurationError("Filter must be an array");
     }
-    if (this.expand && !Array.isArray(this.expand)) {
-      throw new ConfigurationError("Expand must be an array");
-    }
 
     const params = {
       filter: this.filter?.join(","),
