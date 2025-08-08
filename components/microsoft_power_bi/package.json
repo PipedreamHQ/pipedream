@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/microsoft_power_bi",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Pipedream Microsoft Power BI Components",
   "main": "microsoft_power_bi.app.mjs",
   "keywords": [
@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.5.1"
+    "@pipedream/platform": "^3.1.0"
   }
 }
