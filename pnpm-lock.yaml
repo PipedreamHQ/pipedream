@@ -7839,8 +7839,8 @@ importers:
   components/linear:
     dependencies:
       '@linear/sdk':
-        specifier: ^13.0.0
-        version: 13.0.0
+        specifier: ^55.1.0
+        version: 55.1.0
       '@pipedream/linear_app':
         specifier: ^0.7.3
         version: 0.7.3
@@ -7851,8 +7851,8 @@ importers:
   components/linear_app:
     dependencies:
       '@linear/sdk':
-        specifier: ^13.0.0
-        version: 13.0.0
+        specifier: ^55.1.0
+        version: 55.1.0
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
@@ -19421,6 +19421,10 @@ packages:
 
   '@linear/sdk@13.0.0':
     resolution: {integrity: sha512-Vn1qM+bP0lggPIPxHU7G2u0WrA/cGpvqjm9V0sNs+yazJDq7/9PLDnyUU+E97DneOPsekTA2H/Gw3CAfekpUlA==}
+    engines: {node: '>=12.x', yarn: 1.x}
+
+  '@linear/sdk@55.1.0':
+    resolution: {integrity: sha512-kDt7j0PdViMl1ldPB0pS5KhVegvloqmkP7rc+Hs89JeMJhNE89FxQSxYPE9x2MvSmD7ZWeRi4Nw1QJLpWEgITw==}
     engines: {node: '>=12.x', yarn: 1.x}
 
   '@livekit/protocol@1.38.0':
@@ -38503,6 +38507,14 @@ snapshots:
       - supports-color
 
   '@linear/sdk@13.0.0':
+    dependencies:
+      '@graphql-typed-document-node/core': 3.2.0(graphql@15.9.0)
+      graphql: 15.9.0
+      isomorphic-unfetch: 3.1.0
+    transitivePeerDependencies:
+      - encoding
+
+  '@linear/sdk@55.1.0':
     dependencies:
       '@graphql-typed-document-node/core': 3.2.0(graphql@15.9.0)
       graphql: 15.9.0
