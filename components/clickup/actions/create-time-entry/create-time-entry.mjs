@@ -57,7 +57,7 @@ export default {
     start: {
       type: "string",
       label: "Start Time",
-      description: "he Start Time, can be ISO 8601 Date (.e.g `2025-08-06T01:50:19Z`) or Unix timestamp in milliseconds (.e.g `1595282645000`)",
+      description: "The Start Time, can be ISO 8601 Date (.e.g `2025-08-06T01:50:19Z`) or Unix timestamp in milliseconds (.e.g `1595282645000`)",
     },
     end: {
       type: "string",
