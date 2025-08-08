@@ -1,0 +1,339 @@
+import {
+  COMPANY_SIZE_OPTIONS,
+  GEOGRAPHY_OPTIONS,
+  INDUSTRY_OPTIONS,
+  JOB_FUNCTION_OPTIONS,
+  SENIORITY_OPTIONS,
+  STAFF_COUNT_RANGE_OPTIONS,
+} from "../../common/constants.mjs";
+import { parseObject } from "../../common/utils.mjs";
+import hootsuite from "../../hootsuite.app.mjs";
+
+export default {
+  key: "hootsuite-schedule-message",
+  name: "Schedule Message",
+  description: "Schedules a message on your Hootsuite account. [See the documentation](https://apidocs.hootsuite.com/docs/api/index.html#operation/scheduleMessage)",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    hootsuite,
+    text: {
+      type: "string",
+      label: "Text",
+      description: "The message text to publish.",
+    },
+    socialProfileIds: {
+      propDefinition: [
+        hootsuite,
+        "socialProfileIds",
+      ],
+    },
+    scheduledSendTime: {
+      type: "string",
+      label: "Scheduled Send Time",
+      description: "The time the message is scheduled to be sent in UTC time, (ISO-8601)[https://en.wikipedia.org/wiki/ISO_8601] format. Missing or different timezones will not be accepted, to ensure there is no ambiguity about scheduled time. Dates must end with 'Z' to be accepted.",
+      optional: true,
+    },
+    webhookUrls: {
+      type: "string[]",
+      label: "Webhook URLs",
+      description: "The webhook URL(s) to call to when the message's state changes.",
+      optional: true,
+    },
+    tags: {
+      type: "string[]",
+      label: "Tags",
+      description: "The Hootsuite message tags to apply to the message. To set tags the social profile must belong to an organization. Tags are case sensitive. Limited permission members can only use the existing tags for organization and cannot create new ones. See more about message tags at the Hootsuite Help Center. Not supported by Pinterest.",
+      optional: true,
+    },
+    targetingFecabookPageAgeMin: {
+      type: "integer",
+      label: "Targeting Facebook Page - Age Min",
+      description: "Minimum age to target the message at.",
+      options: [
+        13,
+        17,
+        18,
+        19,
+        21,
+      ],
+      optional: true,
+    },
+    targetingFecabookPageEducation: {
+      type: "string",
+      label: "Targeting Facebook Page - Education",
+      description: "The education level of the Facebook page to target.",
+      options: [
+        "highSchool",
+        "college",
+        "collegeGrad",
+      ],
+      optional: true,
+    },
+    targetingFecabookPageInterestIn: {
+      type: "string[]",
+      label: "Targeting Facebook Page - Interests",
+      description: "Interested in preferences to target the message at.",
+      options: [
+        "male",
+        "female",
+      ],
+      optional: true,
+    },
+    targetingFecabookPageRelationshipStatus: {
+      type: "string",
+      label: "Targeting Facebook Page - Relationship Status",
+      description: "Relationship status to target the message at.",
+      options: [
+        "single",
+        "relationship",
+        "married",
+        "engaged",
+      ],
+      optional: true,
+    },
+    targetingFecabookPageCountry: {
+      type: "string[]",
+      label: "Targeting Facebook Page - Country",
+      description: "Country to target the message at. 2-digit ISO 3166 format code as provided by Facebook.",
+      optional: true,
+    },
+    targetingFecabookPageRegions: {
+      type: "string[]",
+      label: "Targeting Facebook Page - Regions",
+      description: "Region to target the message at. Note that regions can only be specified when there is exactly one country targeted. Limit 200.",
+      optional: true,
+    },
+    targetingFecabookPageCities: {
+      type: "string[]",
+      label: "Targeting Facebook Page - Cities",
+      description: "City to target the message at. Note that cities can only be specified when there is exactly one country targeted. Limit 250.",
+      optional: true,
+    },
+    targetingFecabookPageZips: {
+      type: "string[]",
+      label: "Targeting Facebook Page - Zip",
+      description: "Zip/Postal Code to target the message at. Limit 50,000.",
+      optional: true,
+    },
+    targetingLinkedInCompanySize: {
+      type: "string[]",
+      label: "Targeting LinkedIn Company - Size",
+      description: "Company size to target the message at.",
+      options: COMPANY_SIZE_OPTIONS,
+      optional: true,
+    },
+    targetingLinkedInCompanyGeography: {
+      type: "string[]",
+      label: "Targeting LinkedIn Company - Geography",
+      description: "Geography to target the message at.",
+      options: GEOGRAPHY_OPTIONS,
+      optional: true,
+    },
+    targetingLinkedInCompanyIndustry: {
+      type: "string[]",
+      label: "Targeting LinkedIn Company - Industry",
+      description: "Industry to target the message at.",
+      options: INDUSTRY_OPTIONS,
+      optional: true,
+    },
+    targetingLinkedInCompanyJobFunction: {
+      type: "string[]",
+      label: "Targeting LinkedIn Company - Job Function",
+      description: "Job function to target the message at.",
+      options: JOB_FUNCTION_OPTIONS,
+      optional: true,
+    },
+    targetingLinkedInCompanySeniority: {
+      type: "string[]",
+      label: "Targeting LinkedIn Company - Seniority",
+      description: "Seniority to target the message at.",
+      options: SENIORITY_OPTIONS,
+      optional: true,
+    },
+    targetingLinkedInV2CompanyLocations: {
+      type: "string[]",
+      label: "Targeting LinkedIn V2 Company - Locations",
+      description: "Locations to target the message at, expected format of urn:li:geo:{CODE}. (Geo Locations reference)[https://learn.microsoft.com/en-us/linkedin/shared/references/v2/standardized-data/locations/geo], (Geo Typeahead Locations reference)[https://learn.microsoft.com/en-us/linkedin/shared/references/v2/standardized-data/locations/geo-typeahead?tabs=http]",
+      optional: true,
+    },
+    targetingLinkedInV2CompanyStaffCountRange: {
+      type: "string[]",
+      label: "Targeting LinkedIn V2 Company - Staff Count Range",
+      description: "Staff count to target the message at, expected format of SIZE_{VALUES}. (Staff count codes reference)[https://learn.microsoft.com/en-us/linkedin/shared/references/reference-tables/company-size-codes]",
+      options: STAFF_COUNT_RANGE_OPTIONS,
+      optional: true,
+    },
+    targetingLinkedInV2CompanySeniorities: {
+      type: "string[]",
+      label: "Targeting LinkedIn V2 Company - Seniorities",
+      description: "Seniorities to target the message at, expected format of urn:li:seniority:{CODE}. (Seniorities codes reference)[https://learn.microsoft.com/en-us/linkedin/shared/references/reference-tables/seniority-codes]",
+      optional: true,
+    },
+    targetingLinkedInV2CompanyIndustries: {
+      type: "string[]",
+      label: "Targeting LinkedIn V2 Company - Industries",
+      description: "Industries to target the message at, expected format of urn:li:industry:{CODE}. (Industries codes reference)[https://learn.microsoft.com/en-us/linkedin/shared/references/reference-tables/industry-codes-v2]",
+      optional: true,
+    },
+    targetingLinkedInV2CompanyInterfaceLocations: {
+      type: "string[]",
+      label: "Targeting LinkedIn V2 Company - Interface Locations",
+      description: "Languages to target the message at, expected format of {\"country\":\"COUNTRY\",\"language\":\"language\"}. (Language codes reference)[https://learn.microsoft.com/en-us/linkedin/shared/references/reference-tables/language-codes] Languages can be interpreted as this format: language_COUNTRY, replace in request as necessary.",
+      optional: true,
+    },
+    privacyFacebookVisibility: {
+      type: "string",
+      label: "Privacy Facebook Visibility",
+      description: "Facebook visibility rule.",
+      options: [
+        "everyone",
+        "friends",
+        "friendsOfFriends",
+      ],
+      optional: true,
+    },
+    privacyLinkedInVisibility: {
+      type: "string",
+      label: "Privacy LinkedIn Visibility",
+      description: "LinkedIn visibility rule.",
+      options: [
+        "anyone",
+        "connectionsOnly",
+      ],
+      optional: true,
+    },
+    latitude: {
+      type: "string",
+      label: "Latitude",
+      description: "The latitude in decimal degrees. Must be between -90 to 90.",
+      optional: true,
+    },
+    longitude: {
+      type: "string",
+      label: "Longitude",
+      description: "The longitude in decimal degrees. Must be between -180 to 180.",
+      optional: true,
+    },
+    emailNotification: {
+      type: "boolean",
+      label: "Email Notification",
+      description: "A flag to determine whether email notifications are sent when the message is published.",
+      optional: true,
+    },
+    mediaUrls: {
+      type: "string[]",
+      label: "Media URLs",
+      description: "The ow.ly media to attach to the message",
+      optional: true,
+    },
+    media: {
+      type: "string[]",
+      label: "Media",
+      description: "The media id(s) returned at `Create Media Upload Job` action to attach to the message",
+      optional: true,
+    },
+  },
+  async run({ $ }) {
+    const facebookPage = {};
+
+    if (this.targetingFecabookPageAgeMin) {
+      facebookPage.ageMin = this.targetingFecabookPageAgeMin;
+    }
+    if (this.targetingFecabookPageEducation) {
+      facebookPage.education = parseObject(this.targetingFecabookPageEducation);
+    }
+    if (this.targetingFecabookPageInterestIn) {
+      facebookPage.interestIn = parseObject(this.targetingFecabookPageInterestIn);
+    }
+    if (this.targetingFecabookPageRelationshipStatus) {
+      facebookPage.relationshipStatus = parseObject(this.targetingFecabookPageRelationshipStatus);
+    }
+    if (this.targetingFecabookPageCountry) {
+      facebookPage.countries = parseObject(this.targetingFecabookPageCountry)?.map((country) => ({
+        v: country,
+      }));
+    }
+    if (this.targetingFecabookPageRegions) {
+      facebookPage.regions = parseObject(this.targetingFecabookPageRegions)?.map((region) => ({
+        v: region,
+      }));
+    }
+    if (this.targetingFecabookPageCities) {
+      facebookPage.cities = parseObject(this.targetingFecabookPageCities)?.map((city) => ({
+        v: city,
+      }));
+    }
+    if (this.targetingFecabookPageZips) {
+      facebookPage.zips = parseObject(this.targetingFecabookPageZips)?.map((zip) => ({
+        v: zip,
+      }));
+    }
+
+    const response = await this.hootsuite.scheduleMessage({
+      $,
+      data: {
+        text: this.text,
+        socialProfileIds: parseObject(this.socialProfileIds),
+        scheduledSendTime: this.scheduledSendTime,
+        webhookUrls: parseObject(this.webhookUrls),
+        tags: parseObject(this.tags),
+        targeting: {
+          ...(Object.keys(facebookPage).length > 0
+            ? {
+              facebookPage,
+            }
+            : {}),
+          linkedInCompany: {
+            companySize: parseObject(this.targetingLinkedInCompanySize),
+            geography: parseObject(this.targetingLinkedInCompanyGeography),
+            industry: parseObject(this.targetingLinkedInCompanyIndustry),
+            jobFunction: parseObject(this.targetingLinkedInCompanyJobFunction),
+            seniority: parseObject(this.targetingLinkedInCompanySeniority),
+          },
+          linkedInV2Company: {
+            locations: parseObject(this.targetingLinkedInV2CompanyLocations),
+            staffCountRange: parseObject(this.targetingLinkedInV2CompanyStaffCountRange),
+            seniorities: parseObject(this.targetingLinkedInV2CompanySeniorities),
+            industries: parseObject(this.targetingLinkedInV2CompanyIndustries),
+            interfaceLocations: parseObject(this.targetingLinkedInV2CompanyInterfaceLocations),
+          },
+        },
+        privacy: (this.privacyFacebookVisibility || this.privacyLinkedInVisibility) && {
+          ...(this.privacyFacebookVisibility
+            ? {
+              facebook: {
+                visibility: [
+                  this.privacyFacebookVisibility,
+                ],
+              },
+            }
+            : {}),
+          ...(this.privacyLinkedInVisibility
+            ? {
+              linkedIn: {
+                visibility: [
+                  this.privacyLinkedInVisibility,
+                ],
+              },
+            }
+            : {}),
+        },
+        location: {
+          latitude: this.latitude,
+          longitude: this.longitude,
+        },
+        emailNotification: this.emailNotification,
+        mediaUrls: parseObject(this.mediaUrls)?.map((mediaUrl) => ({
+          url: mediaUrl,
+        })),
+        media: parseObject(this.media)?.map((media) => ({
+          id: media,
+        })),
+      },
+    });
+
+    $.export("$summary", `Successfully scheduled message with ID: ${response.data[0].id}`);
+    return response;
+  },
+};
