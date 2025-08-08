@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/onesimpleapi",
+  "version": "0.0.1",
+  "description": "Pipedream OneSimpleApi Components",
+  "main": "onesimpleapi.app.mjs",
+  "keywords": [
+    "pipedream",
+    "onesimpleapi"
+  ],
+  "homepage": "https://pipedream.com/apps/onesimpleapi",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

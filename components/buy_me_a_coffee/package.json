@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/buy_me_a_coffee",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Pipedream Buy Me a Coffee Components",
   "main": "dist/app/buy_me_a_coffee.app.mjs",
   "keywords": [
@@ -16,7 +16,9 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.2.0",
-    "@pipedream/types": "^0.1.4"
+    "@pipedream/platform": "^3.1.0"
+  },
+  "devDependencies": {
+    "@pipedream/types": "^0.3.2"
   }
 }

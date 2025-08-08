@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/grabpenny",
+  "version": "0.0.1",
+  "description": "Pipedream GrabPenny Components",
+  "main": "grabpenny.app.mjs",
+  "keywords": [
+    "pipedream",
+    "grabpenny"
+  ],
+  "homepage": "https://pipedream.com/apps/grabpenny",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
