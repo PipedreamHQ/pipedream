@@ -1,5 +1,8 @@
 import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
+import {
+  FINE_TUNING_MODEL_OPTIONS, TTS_MODELS,
+} from "./common/models.mjs";
 
 export default {
   type: "app",
@@ -268,13 +271,13 @@ export default {
       type: "string",
       label: "Model",
       description: "One of the available [TTS models](https://platform.openai.com/docs/models/tts). `tts-1` is optimized for speed, while `tts-1-hd` is optimized for quality.",
-      options: constants.TTS_MODELS,
+      options: TTS_MODELS,
     },
     fineTuningModel: {
       type: "string",
       label: "Fine Tuning Model",
       description: "The name of the model to fine-tune. [See the supported models](https://platform.openai.com/docs/guides/fine-tuning/what-models-can-be-fine-tuned).",
-      options: constants.FINE_TUNING_MODEL_OPTIONS,
+      options: FINE_TUNING_MODEL_OPTIONS,
     },
     input: {
       type: "string",
