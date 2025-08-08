@@ -1,7 +1,7 @@
 import microsoftPowerBi from "../../microsoft_power_bi.app.mjs";
 
 export default {
-  key: "microsoft-power-bi-get-reports",
+  key: "microsoft_power_bi-get-reports",
   name: "Get Reports",
   description: "Get reports from a Power BI workspace. [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/reports/get-reports)",
   version: "0.0.1",
