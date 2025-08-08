@@ -7,7 +7,7 @@ export default {
   key: "hubspot-update-deal",
   name: "Update Deal",
   description: "Update a deal in Hubspot. [See the documentation](https://developers.hubspot.com/beta-docs/guides/api/crm/objects/deals#update-deals)",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   methods: {
     ...common.methods,
