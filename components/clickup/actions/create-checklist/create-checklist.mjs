@@ -5,7 +5,7 @@ export default {
   key: "clickup-create-checklist",
   name: "Create Checklist",
   description: "Creates a new checklist in a task. [See the documentation](https://clickup.com/api) in **Checklists / Create Checklist** section.",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "action",
   props: {
     ...common.props,

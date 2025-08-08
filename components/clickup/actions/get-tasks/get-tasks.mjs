@@ -6,7 +6,7 @@ export default {
   key: "clickup-get-tasks",
   name: "Get Tasks",
   description: "Get a list of tasks. [See the documentation](https://clickup.com/api) in **Tasks / Get Tasks** section.",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "action",
   props: {
     ...common.props,
