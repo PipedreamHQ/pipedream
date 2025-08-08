@@ -367,7 +367,7 @@ export default {
       },
     },
     associationType: {
-      type: "string",
+      type: "integer",
       label: "Association Type",
       description: "Type of the association",
       async options({
