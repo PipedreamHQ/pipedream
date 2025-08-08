@@ -3,10 +3,10 @@ import options from "../common/options.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
-  key: "yahoo_fantasy_sports-new-football-league-transactions",
-  name: "New Football League Transactions",
-  description: "Emit new event when a new football league transaction occurs",
-  version: "0.0.4",
+  key: "yahoo_fantasy_sports-new-baseball-league-transactions",
+  name: "New Baseball League Transactions",
+  description: "Emit new event when a new baseball league transaction occurs",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
@@ -15,6 +15,9 @@ export default {
       propDefinition: [
         yfs,
         "league",
+        () => ({
+          gameKey: "mlb",
+        }),
       ],
     },
     eventTypes: {
