@@ -1,4 +1,4 @@
-import common from "../common.mjs";
+import common from "../common/common-polling.mjs";
 
 export default {
   ...common,
@@ -6,7 +6,7 @@ export default {
   name: "New Contact",
   description: "Emit new event when a new contact is created. [See the docs here](https://desk.zoho.com/DeskAPIDocument#Contacts#Contacts_Listcontacts)",
   type: "source",
-  version: "0.0.3",
+  version: "0.0.4",
   dedupe: "unique",
   props: {
     ...common.props,

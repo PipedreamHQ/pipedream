@@ -1,0 +1,103 @@
+export default {
+  "modifiedTime" : "2020-09-02T07:53:28.000Z",
+  "attachments" : [ ],
+  "reviewedTime" : null,
+  "departmentId" : "112534000000394045",
+  "modifierId" : "112534000000192635",
+  "dislikeCount" : "0",
+  "creatorId" : "112534000000192635",
+  "likeCount" : "0",
+  "ownerId" : "112534000000192635",
+  "title" : "Zoho Desk - An Overview",
+  "locale" : "en",
+  "translationState" : "UP-TO-DATE",
+  "expiryDate" : null,
+  "isTrashed" : false,
+  "isLocked" : false,
+  "createdTime" : "2020-09-02T07:53:28.000Z",
+  "modifiedBy" : {
+    "photoURL" : "https://contacts.zoho.com/file?ID=53947797&t=user&API=true&fs=thumb",
+    "name" : "Zylker",
+    "id" : "112534000000192635",
+    "status" : "ACTIVE",
+    "zuid" : "53947797"
+  },
+  "id" : "112534000000396881",
+  "viewCount" : "0",
+  "translationSource" : null,
+  "seo" : {
+    "keywords" : null,
+    "description" : null,
+    "title" : null
+  },
+  "summary" : "Zoho Desk - An Overview",
+  "owner" : {
+    "photoURL" : "https://contacts.zoho.com/file?ID=53947797&t=user&API=true&fs=thumb",
+    "name" : "Zylker",
+    "id" : "112534000000192635",
+    "status" : "ACTIVE",
+    "zuid" : "53947797"
+  },
+  "latestVersionStatus" : "Published",
+  "author" : {
+    "photoURL" : "https://contacts.zoho.com/file?ID=53947797&t=user&API=true&fs=thumb",
+    "name" : "Zylker",
+    "id" : "112534000000192635",
+    "status" : "ACTIVE",
+    "zuid" : "53947797"
+  },
+  "permission" : "AGENTS",
+  "reviewedBy" : null,
+  "authorId" : "112534000000192635",
+  "usageCount" : "0",
+  "commentCount" : "0",
+  "tags" : [ ],
+  "rootCategoryId" : "112534000000397001",
+  "sourceLocale" : "en",
+  "translationId" : "112534000000396883",
+  "createdBy" : {
+    "photoURL" : "https://contacts.zoho.com/file?ID=53947797&t=user&API=true&fs=thumb",
+    "name" : "Zylker",
+    "id" : "112534000000192635",
+    "status" : "ACTIVE",
+    "zuid" : "53947797"
+  },
+  "latestVersion" : "1.0",
+  "webUrl" : "https://desk.zoho.com/support/zylker/ShowHomePage.do#Solutions/dv/112534000000396881/en",
+  "feedbackCount" : "0",
+  "portalUrl" : "https://desk.zoho.com/portal/zylker/en/kb/articles/asa",
+  "latestPublishedVersion" : "1.0",
+  "attachmentCount" : "0",
+  "metrics" : {
+    "feedbackCount" : "0",
+    "unlikeCount" : "0",
+    "dislikeCount" : "0",
+    "lastUsageTime" : null,
+    "likeCount" : "0",
+    "viewCount" : "0",
+    "lastActivityTime" : null,
+    "usageCount" : "0"
+  },
+  "position" : "3",
+  "availableLocaleTranslations" : [ {
+    "latestVersionStatus" : "Published",
+    "translationId" : "112534000000396883",
+    "isTrashed" : false,
+    "recycleBinEntityId" : "112534000000396881",
+    "latestVersion" : "1.0",
+    "latestPublishedVersion" : "1.0",
+    "href" : "https://desk.zoho.com/api/v1/articles/112534000000396881/translations/en?orgId=62366276",
+    "authorId" : "112534000000192635",
+    "locale" : "en",
+    "translationState" : "UP-TO-DATE",
+    "status" : "Published"
+  } ],
+  "permalink" : "zoho-desk-overview",
+  "category" : {
+    "name" : "General",
+    "id" : "112534000000397018",
+    "locale" : "en"
+  },
+  "categoryId" : "112534000000397018",
+  "status" : "Published"
+}
