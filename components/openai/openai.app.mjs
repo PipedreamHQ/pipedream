@@ -1,6 +1,8 @@
 import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
 import {
+  ASSISTANTS_MODEL_EXCLUDED,
+  ASSISTANTS_MODEL_INCLUDE_SUBSTRINGS,
   FINE_TUNING_MODEL_OPTIONS, TTS_MODELS,
 } from "./common/models.mjs";
 
@@ -24,7 +26,7 @@ export default {
       async options() {
         return (await this.getChatCompletionModels({})).map((model) => model.id);
       },
-      default: "gpt-4o-mini",
+      default: "gpt-5-mini",
     },
     embeddingsModelId: {
       label: "Model",
@@ -355,7 +357,7 @@ export default {
       const models = await this.models({
         $,
       });
-      return models.filter((model) => model.id.match(/4o|o[1-9]|4\.1/gi));
+      return models.filter((model) => model.id.match(/4o|o[1-9]|4\.1|gpt-5/gi));
     },
     async getCompletionModels({ $ }) {
       const models = await this.models({
@@ -383,7 +385,10 @@ export default {
       const models = await this.models({
         $,
       });
-      return models.filter(({ id }) => (id.includes("gpt-3.5-turbo") || id.includes("gpt-4-turbo") || id.includes("gpt-4o") || id.includes("gpt-4.1")) && (id !== "gpt-3.5-turbo-0301"));
+      return models.filter(({ id }) => (
+        ASSISTANTS_MODEL_INCLUDE_SUBSTRINGS.some((substring) => id.includes(substring))
+        && !ASSISTANTS_MODEL_EXCLUDED.includes(id)
+      ));
     },
     async _makeCompletion({
       path, ...args

@@ -50,6 +50,9 @@ export const ASSISTANTS_MODEL_INCLUDE_SUBSTRINGS = [
   "gpt-4-turbo",
   "gpt-4o",
   "gpt-4.1",
+  "gpt-5",
+  "gpt-5-mini",
+  "gpt-5-nano",
 ];
 
 // Exact model IDs to exclude from Assistants model options
