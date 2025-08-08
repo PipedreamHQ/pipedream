@@ -14117,6 +14117,9 @@ importers:
 
   components/the_official_board: {}
 
+  components/thehive:
+    specifiers: {}
+
   components/themarketer: {}
 
   components/thesportsdb: {}
