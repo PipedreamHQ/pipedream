@@ -6,7 +6,7 @@ export default {
   key: "openai-create-thread",
   name: "Create Thread (Assistants)",
   description: "Creates a thread with optional messages and metadata, and optionally runs the thread using the specified assistant. [See the documentation](https://platform.openai.com/docs/api-reference/threads/createThread)",
-  version: "0.0.15",
+  version: "0.0.16",
   type: "action",
   props: {
     openai,
@@ -88,7 +88,7 @@ export default {
       }));
     },
     async getAssistantModelPropOptions() {
-      const models = (await this.openai.models({})).filter(({ id }) => (id.includes("gpt-3.5-turbo") || id.includes("gpt-4-turbo")) && (id !== "gpt-3.5-turbo-0301"));
+      const models = await this.openai.getAssistantsModels({});
       return models.map(({ id }) => id);
     },
   },

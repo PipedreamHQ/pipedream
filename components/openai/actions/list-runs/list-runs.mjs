@@ -4,7 +4,7 @@ export default {
   key: "openai-list-runs",
   name: "List Runs (Assistants)",
   description: "Returns a list of runs belonging to a thread. [See the documentation](https://platform.openai.com/docs/api-reference/runs/list)",
-  version: "0.0.16",
+  version: "0.0.17",
   type: "action",
   props: {
     openai,

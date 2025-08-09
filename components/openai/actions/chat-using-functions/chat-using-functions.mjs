@@ -5,7 +5,7 @@ import constants from "../../common/constants.mjs";
 export default {
   ...common,
   name: "Chat using Functions",
-  version: "0.0.7",
+  version: "0.0.8",
   key: "openai-chat-using-functions",
   description: "Chat with your models and allow them to invoke functions. Optionally, you can build and invoke workflows as functions. [See the documentation](https://platform.openai.com/docs/guides/function-calling)",
   type: "action",
