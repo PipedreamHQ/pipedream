@@ -351,7 +351,7 @@ export default {
         $,
         path: "/models",
       });
-      return models.sort((a, b) => a?.id.localeCompare(b?.id));
+      return models.sort((a, b) => b?.created - a?.created);
     },
     async getChatCompletionModels({ $ }) {
       const models = await this.models({
