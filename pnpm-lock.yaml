@@ -12175,6 +12175,9 @@ importers:
 
   components/sap_s_4hana_cloud: {}
 
+  components/sap_s_4hana_cloud_sandbox:
+    specifiers: {}
+
   components/sapling: {}
 
   components/sapling_ai:
