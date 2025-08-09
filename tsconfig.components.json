@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "es2020"
+    ],
+    "module": "ES2020",
+    "target": "ES2020",
+    "moduleResolution": "node",
+    "listEmittedFiles": true,
+    "composite": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "allowJs": true
+  }
+}

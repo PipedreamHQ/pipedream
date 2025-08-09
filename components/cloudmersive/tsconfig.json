@@ -1,17 +1,5 @@
 {
-  "compilerOptions": {
-    "lib": [
-      "es2020"
-    ],
-    "module": "ES2020",
-    "target": "ES2020",
-    "moduleResolution": "node",
-    "listEmittedFiles": true, // Used as a part of the build task, since we need to pass emitted files to our post-build script
-    "composite": true,
-    "outDir": "dist",
-    "allowSyntheticDefaultImports": true,
-  },
-  "allowJs": true,
+  "extends": "../../tsconfig.components.json",
   "include": [
     "app",
     "actions",
@@ -19,6 +7,9 @@
     "common"
   ],
   "exclude": [
-    "dist",
-  ]
+    "dist"
+  ],
+  "compilerOptions": {
+    "outDir": "./dist"
+  }
 }
