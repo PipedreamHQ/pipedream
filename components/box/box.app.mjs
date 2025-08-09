@@ -319,5 +319,12 @@ export default {
         ...args,
       });
     },
+    async createSignRequest(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/sign_requests",
+        ...args,
+      });
+    },
   },
 };
