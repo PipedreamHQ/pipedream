@@ -8706,8 +8706,8 @@ importers:
   components/microsoft_power_bi:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/microsoft_sql_server:
     dependencies:
@@ -11883,8 +11883,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/rinkel:
-    specifiers: {}
+  components/rinkel: {}
 
   components/rippling:
     dependencies:
