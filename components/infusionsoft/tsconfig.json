@@ -1,16 +1,3 @@
 {
-  "extends": "../../tsconfig.components.json",
-  "include": [
-    "app",
-    "actions",
-    "sources",
-    "common",
-    "types"
-  ],
-  "exclude": [
-    "dist"
-  ],
-  "compilerOptions": {
-    "outDir": "./dist"
-  }
+  "extends": "../../tsconfig.components.json"
 }
