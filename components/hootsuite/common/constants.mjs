@@ -207,44 +207,8 @@ export const GEOGRAPHY_OPTIONS = [
     value: "as.in.hr",
   },
   {
-    label: "Daman & Diu",
-    value: "as.in.dd",
-  },
-  {
-    label: "Delhi",
-    value: "as.in.dl",
-  },
-  {
-    label: "New Delhi Area, India",
-    value: "as.in.dl.7151",
-  },
-  {
-    label: "Dadra & Nagar Haveli",
-    value: "as.in.dn",
-  },
-  {
-    label: "Goa",
-    value: "as.in.ga",
-  },
-  {
     label: "Gujarat",
     value: "as.in.gj",
-  },
-  {
-    label: "Vadodara Area, India",
-    value: "as.in.gj.6552",
-  },
-  {
-    label: "Ahmedabad Area, India",
-    value: "as.in.gj.7065",
-  },
-  {
-    label: "Himachal Pradesh",
-    value: "as.in.hp",
-  },
-  {
-    label: "Haryana",
-    value: "as.in.hr",
   },
   {
     label: "Gurgaon, India",

@@ -31,7 +31,7 @@ export default {
     scheduledSendTime: {
       type: "string",
       label: "Scheduled Send Time",
-      description: "The time the message is scheduled to be sent in UTC time, (ISO-8601)[https://en.wikipedia.org/wiki/ISO_8601] format. Missing or different timezones will not be accepted, to ensure there is no ambiguity about scheduled time. Dates must end with 'Z' to be accepted.",
+      description: "The time the message is scheduled to be sent in UTC time, [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) format. Missing or different timezones will not be accepted, to ensure there is no ambiguity about scheduled time. Dates must end with 'Z' to be accepted.",
       optional: true,
     },
     webhookUrls: {
@@ -46,7 +46,7 @@ export default {
       description: "The Hootsuite message tags to apply to the message. To set tags the social profile must belong to an organization. Tags are case sensitive. Limited permission members can only use the existing tags for organization and cannot create new ones. See more about message tags at the Hootsuite Help Center. Not supported by Pinterest.",
       optional: true,
     },
-    targetingFecabookPageAgeMin: {
+    targetingFacebookPageAgeMin: {
       type: "integer",
       label: "Targeting Facebook Page - Age Min",
       description: "Minimum age to target the message at.",
@@ -59,7 +59,7 @@ export default {
       ],
       optional: true,
     },
-    targetingFecabookPageEducation: {
+    targetingFacebookPageEducation: {
       type: "string",
       label: "Targeting Facebook Page - Education",
       description: "The education level of the Facebook page to target.",
@@ -70,7 +70,7 @@ export default {
       ],
       optional: true,
     },
-    targetingFecabookPageInterestIn: {
+    targetingFacebookPageInterestIn: {
       type: "string[]",
       label: "Targeting Facebook Page - Interests",
       description: "Interested in preferences to target the message at.",
@@ -80,7 +80,7 @@ export default {
       ],
       optional: true,
     },
-    targetingFecabookPageRelationshipStatus: {
+    targetingFacebookPageRelationshipStatus: {
       type: "string",
       label: "Targeting Facebook Page - Relationship Status",
       description: "Relationship status to target the message at.",
@@ -92,25 +92,25 @@ export default {
       ],
       optional: true,
     },
-    targetingFecabookPageCountry: {
+    targetingFacebookPageCountry: {
       type: "string[]",
       label: "Targeting Facebook Page - Country",
       description: "Country to target the message at. 2-digit ISO 3166 format code as provided by Facebook.",
       optional: true,
     },
-    targetingFecabookPageRegions: {
+    targetingFacebookPageRegions: {
       type: "string[]",
       label: "Targeting Facebook Page - Regions",
       description: "Region to target the message at. Note that regions can only be specified when there is exactly one country targeted. Limit 200.",
       optional: true,
     },
-    targetingFecabookPageCities: {
+    targetingFacebookPageCities: {
       type: "string[]",
       label: "Targeting Facebook Page - Cities",
       description: "City to target the message at. Note that cities can only be specified when there is exactly one country targeted. Limit 250.",
       optional: true,
     },
-    targetingFecabookPageZips: {
+    targetingFacebookPageZips: {
       type: "string[]",
       label: "Targeting Facebook Page - Zip",
       description: "Zip/Postal Code to target the message at. Limit 50,000.",
@@ -154,32 +154,32 @@ export default {
     targetingLinkedInV2CompanyLocations: {
       type: "string[]",
       label: "Targeting LinkedIn V2 Company - Locations",
-      description: "Locations to target the message at, expected format of urn:li:geo:{CODE}. (Geo Locations reference)[https://learn.microsoft.com/en-us/linkedin/shared/references/v2/standardized-data/locations/geo], (Geo Typeahead Locations reference)[https://learn.microsoft.com/en-us/linkedin/shared/references/v2/standardized-data/locations/geo-typeahead?tabs=http]",
+      description: "Locations to target the message at, expected format of `urn:li:geo:{CODE}`. [Geo Locations reference](https://learn.microsoft.com/en-us/linkedin/shared/references/v2/standardized-data/locations/geo), [Geo Typeahead Locations reference](https://learn.microsoft.com/en-us/linkedin/shared/references/v2/standardized-data/locations/geo-typeahead?tabs=http)",
       optional: true,
     },
     targetingLinkedInV2CompanyStaffCountRange: {
       type: "string[]",
       label: "Targeting LinkedIn V2 Company - Staff Count Range",
-      description: "Staff count to target the message at, expected format of SIZE_{VALUES}. (Staff count codes reference)[https://learn.microsoft.com/en-us/linkedin/shared/references/reference-tables/company-size-codes]",
+      description: "Staff count to target the message at, expected format of `SIZE_{VALUES}`. [Staff count codes reference](https://learn.microsoft.com/en-us/linkedin/shared/references/reference-tables/company-size-codes)",
       options: STAFF_COUNT_RANGE_OPTIONS,
       optional: true,
     },
     targetingLinkedInV2CompanySeniorities: {
       type: "string[]",
       label: "Targeting LinkedIn V2 Company - Seniorities",
-      description: "Seniorities to target the message at, expected format of urn:li:seniority:{CODE}. (Seniorities codes reference)[https://learn.microsoft.com/en-us/linkedin/shared/references/reference-tables/seniority-codes]",
+      description: "Seniorities to target the message at, expected format of `urn:li:seniority:{CODE}`. [Seniorities codes reference](https://learn.microsoft.com/en-us/linkedin/shared/references/reference-tables/seniority-codes)",
       optional: true,
     },
     targetingLinkedInV2CompanyIndustries: {
       type: "string[]",
       label: "Targeting LinkedIn V2 Company - Industries",
-      description: "Industries to target the message at, expected format of urn:li:industry:{CODE}. (Industries codes reference)[https://learn.microsoft.com/en-us/linkedin/shared/references/reference-tables/industry-codes-v2]",
+      description: "Industries to target the message at, expected format of `urn:li:industry:{CODE}`. [Industries codes reference](https://learn.microsoft.com/en-us/linkedin/shared/references/reference-tables/industry-codes-v2)",
       optional: true,
     },
     targetingLinkedInV2CompanyInterfaceLocations: {
       type: "string[]",
       label: "Targeting LinkedIn V2 Company - Interface Locations",
-      description: "Languages to target the message at, expected format of {\"country\":\"COUNTRY\",\"language\":\"language\"}. (Language codes reference)[https://learn.microsoft.com/en-us/linkedin/shared/references/reference-tables/language-codes] Languages can be interpreted as this format: language_COUNTRY, replace in request as necessary.",
+      description: "Languages to target the message at, expected format of `{\"country\":\"COUNTRY\",\"language\":\"language\"}`. [Language codes reference](https://learn.microsoft.com/en-us/linkedin/shared/references/reference-tables/language-codes) Languages can be interpreted as this format: language_COUNTRY, replace in request as necessary.",
       optional: true,
     },
     privacyFacebookVisibility: {
@@ -237,35 +237,35 @@ export default {
   async run({ $ }) {
     const facebookPage = {};
 
-    if (this.targetingFecabookPageAgeMin) {
-      facebookPage.ageMin = this.targetingFecabookPageAgeMin;
+    if (this.targetingFacebookPageAgeMin) {
+      facebookPage.ageMin = this.targetingFacebookPageAgeMin;
     }
-    if (this.targetingFecabookPageEducation) {
-      facebookPage.education = parseObject(this.targetingFecabookPageEducation);
+    if (this.targetingFacebookPageEducation) {
+      facebookPage.education = parseObject(this.targetingFacebookPageEducation);
     }
-    if (this.targetingFecabookPageInterestIn) {
-      facebookPage.interestIn = parseObject(this.targetingFecabookPageInterestIn);
+    if (this.targetingFacebookPageInterestIn) {
+      facebookPage.interestIn = parseObject(this.targetingFacebookPageInterestIn);
     }
-    if (this.targetingFecabookPageRelationshipStatus) {
-      facebookPage.relationshipStatus = parseObject(this.targetingFecabookPageRelationshipStatus);
+    if (this.targetingFacebookPageRelationshipStatus) {
+      facebookPage.relationshipStatus = parseObject(this.targetingFacebookPageRelationshipStatus);
     }
-    if (this.targetingFecabookPageCountry) {
-      facebookPage.countries = parseObject(this.targetingFecabookPageCountry)?.map((country) => ({
+    if (this.targetingFacebookPageCountry) {
+      facebookPage.countries = parseObject(this.targetingFacebookPageCountry)?.map((country) => ({
         v: country,
       }));
     }
-    if (this.targetingFecabookPageRegions) {
-      facebookPage.regions = parseObject(this.targetingFecabookPageRegions)?.map((region) => ({
+    if (this.targetingFacebookPageRegions) {
+      facebookPage.regions = parseObject(this.targetingFacebookPageRegions)?.map((region) => ({
         v: region,
       }));
     }
-    if (this.targetingFecabookPageCities) {
-      facebookPage.cities = parseObject(this.targetingFecabookPageCities)?.map((city) => ({
+    if (this.targetingFacebookPageCities) {
+      facebookPage.cities = parseObject(this.targetingFacebookPageCities)?.map((city) => ({
         v: city,
       }));
     }
-    if (this.targetingFecabookPageZips) {
-      facebookPage.zips = parseObject(this.targetingFecabookPageZips)?.map((zip) => ({
+    if (this.targetingFacebookPageZips) {
+      facebookPage.zips = parseObject(this.targetingFacebookPageZips)?.map((zip) => ({
         v: zip,
       }));
     }
