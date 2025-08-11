@@ -1,7 +1,4 @@
-import {
-  PdfService,
-  TemplateService,
-} from "@pdfless/pdfless-js";
+import { axios } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -11,36 +8,55 @@ export default {
       type: "string",
       label: "Template ID",
       description: "The unique identifier of the template.",
-      async options({ prevContext }) {
-        const page = prevContext?.page || 1;
-        return {
-          options: await this.listTemplatesOpts(page),
-          context: {
+      async options({ page }) {
+        const templates = await this.listTemplates({
+          params: {
             page: page + 1,
           },
-        };
+        });
+        return templates.map((template) => ({
+          label: template.name,
+          value: template.id,
+        }));
       },
     },
   },
   methods: {
-    async listTemplatesOpts(page) {
-      const templateService = new TemplateService(this.$auth.api_key);
-      const templates = await templateService.list(page);
-      return templates.map((template) => ({
-        label: template.name,
-        value: template.id,
-      }));
+    getUrl(path) {
+      return `https://api.pdfless.com/v1${path}`;
     },
-    generate({
-      templateId,
-      payload,
-    }) {
-      const pdfService = new PdfService(this.$auth.api_key);
-      const generatePDFCommand = {
-        template_id: templateId,
-        payload: JSON.stringify(payload),
+    getHeaders() {
+      return {
+        "apikey": this.$auth.api_key,
+        "Content-Type": "application/json",
       };
-      return pdfService.generate(generatePDFCommand);
+    },
+    makeRequest({
+      $ = this, path, ...args
+    } = {}) {
+      return axios($, {
+        url: this.getUrl(path),
+        headers: this.getHeaders(),
+        ...args,
+      });
+    },
+    post(args = {}) {
+      return this.makeRequest({
+        method: "POST",
+        ...args,
+      });
+    },
+    listTemplates(args = {}) {
+      return this.makeRequest({
+        path: "/document-templates",
+        ...args,
+      });
+    },
+    generate(args = {}) {
+      return this.post({
+        path: "/pdfs",
+        ...args,
+      });
     },
   },
 };

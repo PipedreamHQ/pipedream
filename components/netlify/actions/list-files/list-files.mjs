@@ -4,7 +4,7 @@ export default {
   key: "netlify-list-files",
   name: "List Files",
   description: "Returns a list of all the files in the current deploy. [See docs](https://docs.netlify.com/api/get-started/#get-files)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   props: {
     netlify,
@@ -16,7 +16,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = this.netlify.listFiles(this.siteId);
+    const response = await this.netlify.listFiles(this.siteId);
     $.export("$summary", "Got files for site");
     return response;
   },
