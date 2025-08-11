@@ -9960,6 +9960,9 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
+  components/outlign:
+    specifiers: {}
+
   components/outline: {}
 
   components/outreach:
