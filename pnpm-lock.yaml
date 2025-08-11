@@ -9410,11 +9410,11 @@ importers:
   components/notion:
     dependencies:
       '@notionhq/client':
-        specifier: ^2.2.3
-        version: 2.2.15
+        specifier: ^4.0.1
+        version: 4.0.1
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       '@tryfabric/martian':
         specifier: ^1.2.4
         version: 1.2.4
@@ -16525,7 +16525,7 @@ importers:
         version: 3.1.7
       ts-jest:
         specifier: ^29.2.5
-        version: 29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.30)(typescript@5.7.2)))(typescript@5.7.2)
+        version: 29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(esbuild@0.24.2)(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.30)(typescript@5.7.2)))(typescript@5.7.2)
       tsup:
         specifier: ^8.3.6
         version: 8.3.6(@microsoft/api-extractor@7.47.12(@types/node@20.17.30))(jiti@2.4.2)(postcss@8.5.6)(tsx@4.19.4)(typescript@5.7.2)(yaml@2.8.0)
@@ -19914,13 +19914,13 @@ packages:
     resolution: {integrity: sha512-m7zZ5l3RUktayf1lRBV1XMb8HSKsmWTv/LZPqP7UGC1NMzOlc+bbTOPNQ4CP/c1P4cP61VWLb/zBq7a3c0nMaw==}
     engines: {node: '>=12'}
 
-  '@notionhq/client@2.2.15':
-    resolution: {integrity: sha512-XhdSY/4B1D34tSco/GION+23GMjaS9S2zszcqYkMHo8RcWInymF6L1x+Gk7EmHdrSxNFva2WM8orhC4BwQCwgw==}
-    engines: {node: '>=12'}
-
   '@notionhq/client@2.3.0':
     resolution: {integrity: sha512-l7WqTCpQqC+HibkB9chghONQTYcxNQT0/rOJemBfmuKQRTu2vuV8B3yA395iKaUdDo7HI+0KvQaz9687Xskzkw==}
     engines: {node: '>=12'}
+
+  '@notionhq/client@4.0.1':
+    resolution: {integrity: sha512-SdILqiiThECLR2KDUOvl4JqRaJWBwDYaEw/f0qu+G6rKN/QUCkaJ84vN5MgBw1yKsMAsKxBlDazs3Jw6vv2ikA==}
+    engines: {node: '>=18'}
 
   '@octokit/auth-token@2.5.0':
     resolution: {integrity: sha512-r5FVUJCOLl19AxiuZD2VRZ/ORjp/4IN98Of6YJoJOkY75CIBuYfmiNHGrDwXr+aLGG55igl9QrxX3hbiXlLb+g==}
@@ -39165,19 +39165,14 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@notionhq/client@2.2.15':
-    dependencies:
-      '@types/node-fetch': 2.6.12
-      node-fetch: 2.7.0
-    transitivePeerDependencies:
-      - encoding
-
   '@notionhq/client@2.3.0':
     dependencies:
       '@types/node-fetch': 2.6.12
       node-fetch: 2.7.0
     transitivePeerDependencies:
       - encoding
+
+  '@notionhq/client@4.0.1': {}
 
   '@octokit/auth-token@2.5.0':
     dependencies:
@@ -55514,7 +55509,7 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.30)(typescript@5.7.2)))(typescript@5.7.2):
+  ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(esbuild@0.24.2)(jest@29.7.0(@types/node@20.17.30)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.30)(typescript@5.7.2)))(typescript@5.7.2):
     dependencies:
       bs-logger: 0.2.6
       ejs: 3.1.10
@@ -55532,6 +55527,7 @@ snapshots:
       '@jest/transform': 29.7.0
       '@jest/types': 29.6.3
       babel-jest: 29.7.0(@babel/core@7.26.0)
+      esbuild: 0.24.2
 
   ts-jest@29.2.5(@babel/core@8.0.0-alpha.13)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@8.0.0-alpha.13))(jest@29.7.0(@types/node@20.17.6)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@types/node@20.17.6)(typescript@5.6.3)))(typescript@5.6.3):
     dependencies:
