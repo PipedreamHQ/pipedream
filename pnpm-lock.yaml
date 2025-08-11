@@ -2965,6 +2965,9 @@ importers:
 
   components/coinbase_commerce: {}
 
+  components/coingecko:
+    specifiers: {}
+
   components/coinlore:
     dependencies:
       '@pipedream/platform':
