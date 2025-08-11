@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/notion",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "Pipedream Notion Components",
   "main": "notion.app.mjs",
   "keywords": [
@@ -10,8 +10,8 @@
   "homepage": "https://pipedream.com/apps/notion",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@notionhq/client": "^2.2.3",
-    "@pipedream/platform": "^3.0.3",
+    "@notionhq/client": "^4.0.1",
+    "@pipedream/platform": "^3.1.0",
     "@tryfabric/martian": "^1.2.4",
     "lodash-es": "^4.17.21",
     "notion-to-md": "3.1.8"

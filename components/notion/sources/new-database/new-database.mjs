@@ -1,13 +1,13 @@
 import base from "../common/base.mjs";
-import sampleEmit from "./test-event.mjs";
 import constants from "../common/constants.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...base,
   key: "notion-new-database",
   name: "New Database Created",
   description: "Emit new event when a database is created. [See the documentation](https://developers.notion.com/reference/database)",
-  version: "0.0.11",
+  version: "0.0.12",
   type: "source",
   props: {
     ...base.props,
