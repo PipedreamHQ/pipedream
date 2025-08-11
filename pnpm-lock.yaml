@@ -6045,6 +6045,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/gotify: {}
+
   components/goto_meeting: {}
 
   components/gotowebinar:
@@ -7630,6 +7632,9 @@ importers:
       '@pipedream/platform':
         specifier: 3.0.3
         version: 3.0.3
+      uuid:
+        specifier: ^11.1.0
+        version: 11.1.0
 
   components/launchnotes:
     dependencies:
@@ -7837,11 +7842,11 @@ importers:
   components/linear:
     dependencies:
       '@linear/sdk':
-        specifier: ^13.0.0
-        version: 13.0.0
+        specifier: ^55.1.0
+        version: 55.1.0
       '@pipedream/linear_app':
-        specifier: ^0.7.3
-        version: 0.7.3
+        specifier: ^0.7.5
+        version: 0.7.5
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
@@ -7849,8 +7854,8 @@ importers:
   components/linear_app:
     dependencies:
       '@linear/sdk':
-        specifier: ^13.0.0
-        version: 13.0.0
+        specifier: ^55.1.0
+        version: 55.1.0
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
@@ -8701,8 +8706,8 @@ importers:
   components/microsoft_power_bi:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/microsoft_sql_server:
     dependencies:
@@ -8768,6 +8773,9 @@ importers:
   components/mindstudio: {}
 
   components/minerstat: {}
+
+  components/minform:
+    specifiers: {}
 
   components/minio: {}
 
@@ -9951,6 +9959,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.6.6
+
+  components/outlign:
+    specifiers: {}
 
   components/outline: {}
 
@@ -11878,6 +11889,8 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/rinkel: {}
+
   components/rippling:
     dependencies:
       '@pipedream/platform':
@@ -12166,6 +12179,9 @@ importers:
         version: 3.0.3
 
   components/sap_s_4hana_cloud: {}
+
+  components/sap_s_4hana_cloud_sandbox:
+    specifiers: {}
 
   components/sapling: {}
 
@@ -13204,7 +13220,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/snipe_it: {}
+  components/snipe_it:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/snov:
     dependencies:
@@ -14114,6 +14134,8 @@ importers:
         version: 1.11.13
 
   components/the_official_board: {}
+
+  components/thehive: {}
 
   components/themarketer: {}
 
@@ -15689,8 +15711,8 @@ importers:
   components/yahoo_fantasy_sports:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.2.0
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/yahoo_finance_by_apidojo:
     dependencies:
@@ -19417,8 +19439,8 @@ packages:
     resolution: {integrity: sha512-lm5VlCq9J0zoqa3RfGor2g2hwZOBxK9xsBqWz5s0WZPlGaq+JhXBC/cAPbuEIS+YTpPn+F22K9C6VRYEO8WE9A==}
     engines: {node: '>=18'}
 
-  '@linear/sdk@13.0.0':
-    resolution: {integrity: sha512-Vn1qM+bP0lggPIPxHU7G2u0WrA/cGpvqjm9V0sNs+yazJDq7/9PLDnyUU+E97DneOPsekTA2H/Gw3CAfekpUlA==}
+  '@linear/sdk@55.1.0':
+    resolution: {integrity: sha512-kDt7j0PdViMl1ldPB0pS5KhVegvloqmkP7rc+Hs89JeMJhNE89FxQSxYPE9x2MvSmD7ZWeRi4Nw1QJLpWEgITw==}
     engines: {node: '>=12.x', yarn: 1.x}
 
   '@livekit/protocol@1.38.0':
@@ -20247,8 +20269,8 @@ packages:
   '@pipedream/helpers@1.3.12':
     resolution: {integrity: sha512-k305RiFddUBtKY11V9G2aqYD8ICgarHV+A0Isxh0j3il4asnht0q4+t6ykPOb+hl5uo9UV8WY+9eAWlj6VFt6Q==}
 
-  '@pipedream/linear_app@0.7.3':
-    resolution: {integrity: sha512-NCJNJwj+tv0jlj2hn2B7JIaH38oTY0r1eL59V7d4KVDEZ+vaT9pnjOtYwRQqA+SfAJ9mpg82y497PARs1MaQbQ==}
+  '@pipedream/linear_app@0.7.5':
+    resolution: {integrity: sha512-Y9JRcEYAFWHftWQ6uMtt2kxCBcLtCBgOXjEDY2XrqmDL36LBfWzcZFpr8GVZ91s/ftTW5gLqCWmNeuXeffqhhA==}
 
   '@pipedream/linkedin@0.1.1':
     resolution: {integrity: sha512-9pFjaohz/wnJMIRpPmDPqHeWiXUIJVWIPvQudE8TkUjaBbyieDpscy8reWMp96UK9aXz1Z2J2yiNh0msILAX9Q==}
@@ -23374,12 +23396,6 @@ packages:
 
   axios@1.7.7:
     resolution: {integrity: sha512-S4kL7XrjgBmvdGut0sN3yJxqYzrDOnivkBiN0OFs6hLiUam3UPvswUo0kqGyhqUZGEOytHyumEdXsAkgCOUf3Q==}
-
-  axios@1.8.4:
-    resolution: {integrity: sha512-eBSYY4Y68NNlHbHBMdeDmKNtDgXWhQsJcGqzO3iLUM0GraQFSS9cVgPX5I9b3lbdFKyYoAEGAZF1DwhTaljNAw==}
-
-  axios@1.9.0:
-    resolution: {integrity: sha512-re4CqKTJaURpzbLHtIi6XpDv20/CnpXOtjRY5/CU32L8gU8ek9UIivcfvSWvmKEngmVbrUtPpdDwWDWL7DNHvg==}
 
   axobject-query@4.1.0:
     resolution: {integrity: sha512-qIj0G9wZbMGNLjLmg1PT6v2mE9AH2zlnADJD/2tC6E00hgmhUOfEB6greHPAfLRSufHqROIUTkw6E+M3lH0PTQ==}
@@ -36822,7 +36838,7 @@ snapshots:
   '@bandwidth/messaging@4.1.7':
     dependencies:
       '@apimatic/schema': 0.6.0
-      axios: 1.8.4(debug@3.2.7)
+      axios: 1.10.0(debug@3.2.7)
       detect-node: 2.1.0
       form-data: 3.0.2
       json-bigint: 1.0.0
@@ -38492,7 +38508,7 @@ snapshots:
     dependencies:
       '@types/body-parser': 1.19.5
       '@types/node': 18.19.64
-      axios: 1.8.4(debug@3.2.7)
+      axios: 1.10.0(debug@3.2.7)
       body-parser: 1.20.3
       file-type: 16.5.4
       form-data: 4.0.3
@@ -38500,7 +38516,7 @@ snapshots:
       - debug
       - supports-color
 
-  '@linear/sdk@13.0.0':
+  '@linear/sdk@55.1.0':
     dependencies:
       '@graphql-typed-document-node/core': 3.2.0(graphql@15.9.0)
       graphql: 15.9.0
@@ -38514,7 +38530,7 @@ snapshots:
 
   '@lob/lob-typescript-sdk@1.3.5':
     dependencies:
-      axios: 1.8.4(debug@3.2.7)
+      axios: 1.10.0(debug@3.2.7)
       tslib: 2.8.1
     transitivePeerDependencies:
       - debug
@@ -39575,9 +39591,9 @@ snapshots:
       '@pipedream/types': 0.0.5
       lodash-es: 4.17.21
 
-  '@pipedream/linear_app@0.7.3':
+  '@pipedream/linear_app@0.7.5':
     dependencies:
-      '@linear/sdk': 13.0.0
+      '@linear/sdk': 55.1.0
       '@pipedream/platform': 3.1.0
     transitivePeerDependencies:
       - debug
@@ -39586,7 +39602,7 @@ snapshots:
   '@pipedream/linkedin@0.1.1':
     dependencies:
       '@pipedream/platform': 1.6.6
-      axios: 1.8.4(debug@3.2.7)
+      axios: 1.10.0(debug@3.2.7)
       form-data: 4.0.3
     transitivePeerDependencies:
       - debug
@@ -39642,7 +39658,7 @@ snapshots:
 
   '@pipedream/platform@1.6.0':
     dependencies:
-      axios: 1.8.4(debug@3.2.7)
+      axios: 1.10.0(debug@3.2.7)
       fp-ts: 2.16.9
       io-ts: 2.2.21(fp-ts@2.16.9)
       querystring: 0.2.1
@@ -39651,7 +39667,7 @@ snapshots:
 
   '@pipedream/platform@1.6.2':
     dependencies:
-      axios: 1.8.4(debug@3.2.7)
+      axios: 1.10.0(debug@3.2.7)
       fp-ts: 2.16.9
       io-ts: 2.2.21(fp-ts@2.16.9)
       querystring: 0.2.1
@@ -39660,7 +39676,7 @@ snapshots:
 
   '@pipedream/platform@1.6.4':
     dependencies:
-      axios: 1.8.4(debug@3.2.7)
+      axios: 1.10.0(debug@3.2.7)
       fp-ts: 2.16.9
       io-ts: 2.2.21(fp-ts@2.16.9)
       querystring: 0.2.1
@@ -39669,7 +39685,7 @@ snapshots:
 
   '@pipedream/platform@1.6.5':
     dependencies:
-      axios: 1.8.4(debug@3.2.7)
+      axios: 1.10.0(debug@3.2.7)
       fp-ts: 2.16.9
       io-ts: 2.2.21(fp-ts@2.16.9)
       querystring: 0.2.1
@@ -39678,7 +39694,7 @@ snapshots:
 
   '@pipedream/platform@1.6.6':
     dependencies:
-      axios: 1.8.4(debug@3.2.7)
+      axios: 1.10.0(debug@3.2.7)
       fp-ts: 2.16.9
       io-ts: 2.2.21(fp-ts@2.16.9)
       querystring: 0.2.1
@@ -39687,7 +39703,7 @@ snapshots:
 
   '@pipedream/platform@2.0.0':
     dependencies:
-      axios: 1.8.4(debug@3.2.7)
+      axios: 1.10.0(debug@3.2.7)
       fp-ts: 2.16.9
       io-ts: 2.2.21(fp-ts@2.16.9)
       querystring: 0.2.1
@@ -39696,7 +39712,7 @@ snapshots:
 
   '@pipedream/platform@3.0.1':
     dependencies:
-      axios: 1.8.4(debug@3.2.7)
+      axios: 1.10.0(debug@3.2.7)
       fp-ts: 2.16.9
       io-ts: 2.2.21(fp-ts@2.16.9)
       querystring: 0.2.1
@@ -39705,7 +39721,7 @@ snapshots:
 
   '@pipedream/platform@3.0.3':
     dependencies:
-      axios: 1.9.0
+      axios: 1.10.0(debug@3.2.7)
       fp-ts: 2.16.10
       io-ts: 2.2.22(fp-ts@2.16.10)
       querystring: 0.2.1
@@ -39714,7 +39730,7 @@ snapshots:
 
   '@pipedream/platform@3.1.0':
     dependencies:
-      axios: 1.10.0
+      axios: 1.10.0(debug@3.2.7)
       fp-ts: 2.16.10
       io-ts: 2.2.22(fp-ts@2.16.10)
       mime-types: 3.0.1
@@ -41124,7 +41140,7 @@ snapshots:
 
   '@shortcut/client@2.2.0':
     dependencies:
-      axios: 1.10.0
+      axios: 1.10.0(debug@3.2.7)
     transitivePeerDependencies:
       - debug
 
@@ -41196,7 +41212,7 @@ snapshots:
       '@slack/types': 2.14.0
       '@types/node': 20.17.6
       '@types/retry': 0.12.0
-      axios: 1.8.4(debug@3.2.7)
+      axios: 1.10.0(debug@3.2.7)
       eventemitter3: 5.0.1
       form-data: 4.0.3
       is-electron: 2.2.2
@@ -42136,7 +42152,7 @@ snapshots:
 
   '@types/axios@0.14.4':
     dependencies:
-      axios: 1.8.4(debug@3.2.7)
+      axios: 1.10.0(debug@3.2.7)
     transitivePeerDependencies:
       - debug
 
@@ -43401,7 +43417,7 @@ snapshots:
     dependencies:
       '@aws-sdk/util-utf8-browser': 3.259.0
       '@httptoolkit/websocket-stream': 6.0.1
-      axios: 1.10.0
+      axios: 1.10.0(debug@3.2.7)
       buffer: 6.0.3
       crypto-js: 4.2.0
       mqtt: 4.3.8
@@ -43459,7 +43475,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  axios@1.10.0:
+  axios@1.10.0(debug@3.2.7):
     dependencies:
       follow-redirects: 1.15.9(debug@3.2.7)
       form-data: 4.0.3
@@ -43503,22 +43519,6 @@ snapshots:
     dependencies:
       follow-redirects: 1.15.9(debug@3.2.7)
       form-data: 4.0.1
-      proxy-from-env: 1.1.0
-    transitivePeerDependencies:
-      - debug
-
-  axios@1.8.4(debug@3.2.7):
-    dependencies:
-      follow-redirects: 1.15.9(debug@3.2.7)
-      form-data: 4.0.3
-      proxy-from-env: 1.1.0
-    transitivePeerDependencies:
-      - debug
-
-  axios@1.9.0:
-    dependencies:
-      follow-redirects: 1.15.9(debug@3.2.7)
-      form-data: 4.0.3
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
@@ -44348,7 +44348,7 @@ snapshots:
 
   columns-sdk@0.0.6:
     dependencies:
-      axios: 1.8.4(debug@3.2.7)
+      axios: 1.10.0(debug@3.2.7)
       columns-graph-model: 1.1.4
       nebula-js-lib: 0.3.2
       pako: 2.1.0
@@ -48092,7 +48092,7 @@ snapshots:
   https-proxy-agent@5.0.1:
     dependencies:
       agent-base: 6.0.2
-      debug: 4.4.1(supports-color@10.0.0)
+      debug: 4.3.7(supports-color@9.4.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -49610,7 +49610,7 @@ snapshots:
 
   klaviyo-api@18.0.0:
     dependencies:
-      axios: 1.8.4(debug@3.2.7)
+      axios: 1.10.0(debug@3.2.7)
       form-data: 4.0.3
     transitivePeerDependencies:
       - debug
@@ -49759,7 +49759,7 @@ snapshots:
 
   linkup-sdk@1.0.3:
     dependencies:
-      axios: 1.8.4(debug@3.2.7)
+      axios: 1.10.0(debug@3.2.7)
       zod: 3.24.1
       zod-to-json-schema: 3.24.1(zod@3.24.1)
     transitivePeerDependencies:
@@ -52455,7 +52455,7 @@ snapshots:
 
   pipedrive@24.1.1:
     dependencies:
-      axios: 1.8.4(debug@3.2.7)
+      axios: 1.10.0(debug@3.2.7)
       qs: 6.14.0
     transitivePeerDependencies:
       - debug
@@ -52480,7 +52480,7 @@ snapshots:
 
   plaid@33.0.0:
     dependencies:
-      axios: 1.9.0
+      axios: 1.10.0(debug@3.2.7)
     transitivePeerDependencies:
       - debug
 
@@ -54541,7 +54541,7 @@ snapshots:
       agent-base: 6.0.2
       asn1.js-rfc2560: 5.0.1(asn1.js@5.4.1)
       asn1.js-rfc5280: 3.0.0
-      axios: 1.8.4(debug@3.2.7)
+      axios: 1.10.0(debug@3.2.7)
       big-integer: 1.6.52
       bignumber.js: 2.4.0
       binascii: 0.0.2
@@ -56300,7 +56300,7 @@ snapshots:
 
   utopianlabs@0.1.11:
     dependencies:
-      axios: 1.9.0
+      axios: 1.10.0(debug@3.2.7)
       zod: 3.24.4
     transitivePeerDependencies:
       - debug
