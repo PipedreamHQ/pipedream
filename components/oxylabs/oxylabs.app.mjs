@@ -33,6 +33,7 @@ export default {
       options: [
         "html",
       ],
+      optional: true,
     },
   },
   methods: {
