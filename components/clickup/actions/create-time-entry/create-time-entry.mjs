@@ -6,7 +6,7 @@ export default {
   key: "clickup-create-time-entry",
   name: "Create Time Entry",
   description: "Create a new time entry. [See the documentation](https://developer.clickup.com/reference/createatimeentry)",
-  version: "0.0.{{ts}}",
+  version: "0.0.1",
   type: "action",
   props: {
     ...common.props,
@@ -74,19 +74,23 @@ export default {
     const start = new Date(+this.start || this.start).getTime();
     const end = new Date(+this.end || this.end).getTime();
 
+    const data = {
+      tid: this.taskId,
+      description: this.description,
+      start,
+      end,
+      stop: end,
+    };
+
+    console.log(data);
+
     const response = await this.clickup.createTimeEntry({
       $,
       teamId: this.workspaceId,
       params: {
         custom_task_ids: this.useCustomTaskIds,
       },
-      data: {
-        tid: this.taskId,
-        description: this.description,
-        start,
-        end,
-        stop: this.end,
-      },
+      data,
     });
 
     $.export("$summary", "Successfully created a new time entry");
