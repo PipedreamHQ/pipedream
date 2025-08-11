@@ -8392,6 +8392,9 @@ importers:
         specifier: ^1.2.1
         version: 1.7.7
 
+  components/matrix:
+    specifiers: {}
+
   components/mattermost:
     dependencies:
       '@pipedream/platform':
