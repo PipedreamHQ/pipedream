@@ -1,4 +1,13 @@
 {
+  "include": [
+    "${configDir}/app",
+    "${configDir}/actions",
+    "${configDir}/sources",
+    "${configDir}/common"
+  ],
+  "exclude": [
+    "${configDir}/dist"
+  ],
   "compilerOptions": {
     "lib": [
       "es2020"
@@ -10,6 +19,7 @@
     "composite": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
-    "allowJs": true
+    "allowJs": true,
+    "outDir": "${configDir}/dist"
   }
 }
