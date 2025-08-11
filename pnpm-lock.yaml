@@ -8774,6 +8774,9 @@ importers:
 
   components/minerstat: {}
 
+  components/minform:
+    specifiers: {}
+
   components/minio: {}
 
   components/mintlify: {}
