@@ -1,7 +1,29 @@
 import constants from "./constants.mjs";
 import { getFileStreamAndMetadata } from "@pipedream/platform";
 
+function optionalParseAsJSON(value) {
+  try {
+    return JSON.parse(value);
+  } catch (e) {
+    return value;
+  }
+}
+
 export default {
+  parseObjectEntries(value = {}) {
+    const obj = typeof value === "string"
+      ? JSON.parse(value)
+      : value;
+    return Object.fromEntries(
+      Object.entries(obj).map(([
+        key,
+        value,
+      ]) => [
+        key,
+        optionalParseAsJSON(value),
+      ]),
+    );
+  },
   async getFileData(filePath) {
     const {
       stream, metadata,
