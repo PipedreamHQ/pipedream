@@ -4,7 +4,7 @@ export default {
   key: "openai-create-fine-tuning-job",
   name: "Create Fine Tuning Job",
   description: "Creates a job that fine-tunes a specified model from a given dataset. [See the documentation](https://platform.openai.com/docs/api-reference/fine-tuning/create)",
-  version: "0.0.14",
+  version: "0.0.15",
   type: "action",
   props: {
     openai,
