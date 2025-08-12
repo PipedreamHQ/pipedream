@@ -4,7 +4,7 @@ export default {
   key: "notion-retrieve-database-content",
   name: "Retrieve Database Content",
   description: "Get all content of a database. [See the documentation](https://developers.notion.com/reference/post-database-query)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     notion,
