@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/orufy_bookings",
+  "version": "0.0.1",
+  "description": "Pipedream Orufy Bookings Components",
+  "main": "orufy_bookings.app.mjs",
+  "keywords": [
+    "pipedream",
+    "orufy_bookings"
+  ],
+  "homepage": "https://pipedream.com/apps/orufy_bookings",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

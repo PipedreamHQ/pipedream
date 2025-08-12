@@ -1,16 +1,16 @@
-import frontApp from "../../frontapp.app.mjs";
+import frontapp from "../../frontapp.app.mjs";
 
 export default {
   key: "frontapp-get-conversation",
   name: "Get Conversation",
   description: "Retrieve a conversation by its ID from Front. [See the documentation](https://dev.frontapp.com/reference/get-conversation-by-id)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
-    frontApp,
+    frontapp,
     conversationId: {
       propDefinition: [
-        frontApp,
+        frontapp,
         "conversationId",
       ],
     },
@@ -23,7 +23,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const conversation = await this.frontApp.getConversation({
+    const conversation = await this.frontapp.getConversation({
       $,
       conversationId: this.conversationId,
     });

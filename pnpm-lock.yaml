@@ -115,7 +115,7 @@ importers:
         specifier: ^5.0.3
         version: 5.0.3(typescript@5.6.3)
       typescript:
-        specifier: '>=4.7.4 <5.7.0'
+        specifier: '>=5.5.0 <5.7.0'
         version: 5.6.3
       typescript-eslint:
         specifier: ^8.15.0
@@ -1122,6 +1122,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+
+  components/attentive:
+    specifiers: {}
 
   components/attio:
     dependencies:
@@ -2964,6 +2967,9 @@ importers:
         version: 1.6.6
 
   components/coinbase_commerce: {}
+
+  components/coingecko:
+    specifiers: {}
 
   components/coinlore:
     dependencies:
@@ -7623,6 +7629,9 @@ importers:
 
   components/launch_darkly_oauth:
     dependencies:
+      '@pipedream/launchdarkly':
+        specifier: ^0.1.1
+        version: 0.1.1
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
@@ -8392,6 +8401,9 @@ importers:
         specifier: ^1.2.1
         version: 1.7.7
 
+  components/matrix:
+    specifiers: {}
+
   components/mattermost:
     dependencies:
       '@pipedream/platform':
@@ -8706,8 +8718,8 @@ importers:
   components/microsoft_power_bi:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/microsoft_sql_server:
     dependencies:
@@ -8773,6 +8785,8 @@ importers:
   components/mindstudio: {}
 
   components/minerstat: {}
+
+  components/minform: {}
 
   components/minio: {}
 
@@ -9933,6 +9947,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/orufy_bookings: {}
+
   components/ory: {}
 
   components/osu: {}
@@ -9956,6 +9972,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.6.6
+
+  components/outlign: {}
 
   components/outline: {}
 
@@ -11883,6 +11901,8 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/rinkel: {}
+
   components/rippling:
     dependencies:
       '@pipedream/platform':
@@ -12171,6 +12191,8 @@ importers:
         version: 3.0.3
 
   components/sap_s_4hana_cloud: {}
+
+  components/sap_s_4hana_cloud_sandbox: {}
 
   components/sapling: {}
 
@@ -12685,6 +12707,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.2
         version: 1.6.6
+
+  components/sherpa:
+    specifiers: {}
 
   components/shift4:
     dependencies:
@@ -20257,6 +20282,9 @@ packages:
 
   '@pipedream/helpers@1.3.12':
     resolution: {integrity: sha512-k305RiFddUBtKY11V9G2aqYD8ICgarHV+A0Isxh0j3il4asnht0q4+t6ykPOb+hl5uo9UV8WY+9eAWlj6VFt6Q==}
+
+  '@pipedream/launchdarkly@0.1.1':
+    resolution: {integrity: sha512-RqW4cJ0CfCnCy/lCutIJNSlX3IXV3jxoyqxDgAeHx8Q8BUEjEl7T0+1vMLyNXhU+V4Kj38KVURnSKqCE59UVvg==}
 
   '@pipedream/linear_app@0.7.5':
     resolution: {integrity: sha512-Y9JRcEYAFWHftWQ6uMtt2kxCBcLtCBgOXjEDY2XrqmDL36LBfWzcZFpr8GVZ91s/ftTW5gLqCWmNeuXeffqhhA==}
@@ -39579,6 +39607,13 @@ snapshots:
     dependencies:
       '@pipedream/types': 0.0.5
       lodash-es: 4.17.21
+
+  '@pipedream/launchdarkly@0.1.1':
+    dependencies:
+      '@pipedream/platform': 3.0.3
+      uuid: 11.1.0
+    transitivePeerDependencies:
+      - debug
 
   '@pipedream/linear_app@0.7.5':
     dependencies:
