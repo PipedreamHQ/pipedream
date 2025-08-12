@@ -4,36 +4,36 @@ export const COMPANY_SIZE_OPTIONS =  [
     value: "self",
   },
   {
-    label: "1-10",
-    value: "1 to 10 employees",
+    label: "1 to 10 employees",
+    value: "1-10",
   },
   {
-    label: "11-50",
-    value: "11 to 50 employees",
+    label: "11 to 50 employees",
+    value: "11-50",
   },
   {
-    label: "51-200",
-    value: "51 to 200 employees",
+    label: "51 to 200 employees",
+    value: "51-200",
   },
   {
-    label: "201-500",
-    value: "201 to 500 employees",
+    label: "201 to 500 employees",
+    value: "201-500",
   },
   {
-    label: "501-1000",
-    value: "501 to 1000 employees",
+    label: "501 to 1000 employees",
+    value: "501-1000",
   },
   {
-    label: "1001-5000",
-    value: "1001 to 5000 employees",
+    label: "1001 to 5000 employees",
+    value: "1001-5000",
   },
   {
-    label: "5001-10000",
-    value: "5001 to 10000 employees",
+    label: "5001 to 10000 employees",
+    value: "5001-10000",
   },
   {
-    label: "10001",
-    value: "10001+ employees",
+    label: "10001+ employees",
+    value: "10001",
   },
 ];
 

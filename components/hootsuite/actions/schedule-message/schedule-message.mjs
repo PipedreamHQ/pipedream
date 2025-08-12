@@ -47,20 +47,20 @@ export default {
       optional: true,
     },
     targetingFacebookPageAgeMin: {
-      type: "integer",
+      type: "string",
       label: "Targeting Facebook Page - Age Min",
       description: "Minimum age to target the message at.",
       options: [
-        13,
-        17,
-        18,
-        19,
-        21,
+        "13",
+        "17",
+        "18",
+        "19",
+        "21",
       ],
       optional: true,
     },
     targetingFacebookPageEducation: {
-      type: "string",
+      type: "string[]",
       label: "Targeting Facebook Page - Education",
       description: "The education level of the Facebook page to target.",
       options: [
@@ -81,7 +81,7 @@ export default {
       optional: true,
     },
     targetingFacebookPageRelationshipStatus: {
-      type: "string",
+      type: "string[]",
       label: "Targeting Facebook Page - Relationship Status",
       description: "Relationship status to target the message at.",
       options: [
@@ -95,25 +95,25 @@ export default {
     targetingFacebookPageCountry: {
       type: "string[]",
       label: "Targeting Facebook Page - Country",
-      description: "Country to target the message at. 2-digit ISO 3166 format code as provided by Facebook.",
+      description: "Country to target the message at. 2-digit ISO 3166 format code as provided by Facebook. **Format: [{\"k\": \"Canada\", \"v\": \"CA\"}]** [See the documentation](https://apidocs.hootsuite.com/docs/api/index.html#operation/scheduleMessage) for more information.",
       optional: true,
     },
     targetingFacebookPageRegions: {
       type: "string[]",
       label: "Targeting Facebook Page - Regions",
-      description: "Region to target the message at. Note that regions can only be specified when there is exactly one country targeted. Limit 200.",
+      description: "Region to target the message at. Note that regions can only be specified when there is exactly one country targeted. Limit 200. **Format: [{\"k\": \"British Columbia\", \"v\": \"2\"}]** [See the documentation](https://apidocs.hootsuite.com/docs/api/index.html#operation/scheduleMessage) for more information.",
       optional: true,
     },
     targetingFacebookPageCities: {
       type: "string[]",
       label: "Targeting Facebook Page - Cities",
-      description: "City to target the message at. Note that cities can only be specified when there is exactly one country targeted. Limit 250.",
+      description: "City to target the message at. Note that cities can only be specified when there is exactly one country targeted. Limit 250. **Format: [{\"k\": \"Burnaby, BC\", \"v\": \"292466\"}]** [See the documentation](https://apidocs.hootsuite.com/docs/api/index.html#operation/scheduleMessage) for more information.",
       optional: true,
     },
     targetingFacebookPageZips: {
       type: "string[]",
       label: "Targeting Facebook Page - Zip",
-      description: "Zip/Postal Code to target the message at. Limit 50,000.",
+      description: "Zip/Postal Code to target the message at. Limit 50,000. **Format: [{\"k\": \"K1S\", \"v\": \"CA:K1S\"}]** [See the documentation](https://apidocs.hootsuite.com/docs/api/index.html#operation/scheduleMessage) for more information.",
       optional: true,
     },
     targetingLinkedInCompanySize: {
@@ -238,7 +238,7 @@ export default {
     const facebookPage = {};
 
     if (this.targetingFacebookPageAgeMin) {
-      facebookPage.ageMin = this.targetingFacebookPageAgeMin;
+      facebookPage.ageMin = parseInt(this.targetingFacebookPageAgeMin);
     }
     if (this.targetingFacebookPageEducation) {
       facebookPage.education = parseObject(this.targetingFacebookPageEducation);
@@ -250,24 +250,52 @@ export default {
       facebookPage.relationshipStatus = parseObject(this.targetingFacebookPageRelationshipStatus);
     }
     if (this.targetingFacebookPageCountry) {
-      facebookPage.countries = parseObject(this.targetingFacebookPageCountry)?.map((country) => ({
-        v: country,
-      }));
+      facebookPage.countries = parseObject(this.targetingFacebookPageCountry);
     }
     if (this.targetingFacebookPageRegions) {
-      facebookPage.regions = parseObject(this.targetingFacebookPageRegions)?.map((region) => ({
-        v: region,
-      }));
+      facebookPage.regions = parseObject(this.targetingFacebookPageRegions);
     }
     if (this.targetingFacebookPageCities) {
-      facebookPage.cities = parseObject(this.targetingFacebookPageCities)?.map((city) => ({
-        v: city,
-      }));
+      facebookPage.cities = parseObject(this.targetingFacebookPageCities);
     }
     if (this.targetingFacebookPageZips) {
-      facebookPage.zips = parseObject(this.targetingFacebookPageZips)?.map((zip) => ({
-        v: zip,
-      }));
+      facebookPage.zips = parseObject(this.targetingFacebookPageZips);
+    }
+    const linkedInCompany = {};
+    if (this.targetingLinkedInCompanySize) {
+      linkedInCompany.companySize = parseObject(this.targetingLinkedInCompanySize);
+    }
+    if (this.targetingLinkedInCompanyGeography) {
+      linkedInCompany.geography = parseObject(this.targetingLinkedInCompanyGeography);
+    }
+    if (this.targetingLinkedInCompanyIndustry) {
+      linkedInCompany.industry =
+        parseObject(this.targetingLinkedInCompanyIndustry)?.map((item) => String(item));
+    }
+    if (this.targetingLinkedInCompanyJobFunction) {
+      linkedInCompany.jobFunction = parseObject(this.targetingLinkedInCompanyJobFunction);
+    }
+    if (this.targetingLinkedInCompanySeniority) {
+      linkedInCompany.seniority = parseObject(this.targetingLinkedInCompanySeniority);
+    }
+
+    const linkedInV2Company = {};
+    if (this.targetingLinkedInV2CompanyLocations) {
+      linkedInV2Company.locations = parseObject(this.targetingLinkedInV2CompanyLocations);
+    }
+    if (this.targetingLinkedInV2CompanyStaffCountRange) {
+      linkedInV2Company.staffCountRange =
+        parseObject(this.targetingLinkedInV2CompanyStaffCountRange);
+    }
+    if (this.targetingLinkedInV2CompanySeniorities) {
+      linkedInV2Company.seniorities = parseObject(this.targetingLinkedInV2CompanySeniorities);
+    }
+    if (this.targetingLinkedInV2CompanyIndustries) {
+      linkedInV2Company.industries = parseObject(this.targetingLinkedInV2CompanyIndustries);
+    }
+    if (this.targetingLinkedInV2CompanyInterfaceLocations) {
+      linkedInV2Company.interfaceLocations =
+        parseObject(this.targetingLinkedInV2CompanyInterfaceLocations);
     }
 
     const response = await this.hootsuite.scheduleMessage({
@@ -284,20 +312,16 @@ export default {
               facebookPage,
             }
             : {}),
-          linkedInCompany: {
-            companySize: parseObject(this.targetingLinkedInCompanySize),
-            geography: parseObject(this.targetingLinkedInCompanyGeography),
-            industry: parseObject(this.targetingLinkedInCompanyIndustry),
-            jobFunction: parseObject(this.targetingLinkedInCompanyJobFunction),
-            seniority: parseObject(this.targetingLinkedInCompanySeniority),
-          },
-          linkedInV2Company: {
-            locations: parseObject(this.targetingLinkedInV2CompanyLocations),
-            staffCountRange: parseObject(this.targetingLinkedInV2CompanyStaffCountRange),
-            seniorities: parseObject(this.targetingLinkedInV2CompanySeniorities),
-            industries: parseObject(this.targetingLinkedInV2CompanyIndustries),
-            interfaceLocations: parseObject(this.targetingLinkedInV2CompanyInterfaceLocations),
-          },
+          ...(Object.keys(linkedInCompany).length > 0
+            ? {
+              linkedInCompany,
+            }
+            : {}),
+          ...(Object.keys(linkedInV2Company).length > 0
+            ? {
+              linkedInV2Company,
+            }
+            : {}),
         },
         privacy: (this.privacyFacebookVisibility || this.privacyLinkedInVisibility) && {
           ...(this.privacyFacebookVisibility
@@ -320,8 +344,8 @@ export default {
             : {}),
         },
         location: {
-          latitude: this.latitude,
-          longitude: this.longitude,
+          latitude: parseFloat(this.latitude),
+          longitude: parseFloat(this.longitude),
         },
         emailNotification: this.emailNotification,
         mediaUrls: parseObject(this.mediaUrls)?.map((mediaUrl) => ({
