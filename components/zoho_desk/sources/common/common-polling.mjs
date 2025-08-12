@@ -1,6 +1,6 @@
-import constants from "../common/constants.mjs";
-import utils from "../common/utils.mjs";
-import zohoDesk from "../zoho_desk.app.mjs";
+import constants from "../../common/constants.mjs";
+import utils from "../../common/utils.mjs";
+import zohoDesk from "../../zoho_desk.app.mjs";
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
