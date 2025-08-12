@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sherpa",
+  "version": "0.0.1",
+  "description": "Pipedream Sherpa Components",
+  "main": "sherpa.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sherpa"
+  ],
+  "homepage": "https://pipedream.com/apps/sherpa",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
