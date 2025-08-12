@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/ecologi",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Ecologi Components",
-  "main": "dist/app/ecologi.app.mjs",
+  "main": "ecologi.app.mjs",
   "keywords": [
     "pipedream",
     "ecologi"
