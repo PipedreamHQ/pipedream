@@ -5,7 +5,7 @@ export default {
   name: "Send E-Mail Reply",
   description: "Sends an email reply. [See the docs here](https://desk.zoho.com/DeskAPIDocument#Threads#Threads_SendEmailReply)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     zohoDesk,
     orgId: {

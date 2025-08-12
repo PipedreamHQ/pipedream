@@ -1,11 +1,12 @@
 import openai from "../../openai.app.mjs";
 import common from "../common/common.mjs";
 import constants from "../../common/constants.mjs";
+import { WEB_SEARCH_CHAT_MODELS } from "../../common/models.mjs";
 
 export default {
   ...common,
   name: "Chat using Web Search",
-  version: "0.0.6",
+  version: "0.0.7",
   key: "openai-chat-using-web-search",
   description: "Chat using the web search tool. [See the documentation](https://platform.openai.com/docs/guides/tools-web-search)",
   type: "action",
@@ -15,11 +16,8 @@ export default {
       type: "string",
       label: "Model",
       description: "Model used to generate the response",
-      default: "gpt-4o",
-      options: [
-        "gpt-4o",
-        "gpt-4o-mini",
-      ],
+      default: WEB_SEARCH_CHAT_MODELS[0],
+      options: WEB_SEARCH_CHAT_MODELS,
     },
     input: {
       type: "string",

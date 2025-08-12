@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sap_s_4hana_cloud_sandbox",
+  "version": "0.0.1",
+  "description": "Pipedream SAP S/4HANA Cloud (Sandbox) Components",
+  "main": "sap_s_4hana_cloud_sandbox.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sap_s_4hana_cloud_sandbox"
+  ],
+  "homepage": "https://pipedream.com/apps/sap_s_4hana_cloud_sandbox",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

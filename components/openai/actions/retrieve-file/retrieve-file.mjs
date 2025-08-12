@@ -4,7 +4,7 @@ export default {
   key: "openai-retrieve-file",
   name: "Retrieve File",
   description: "Retrieves a specific file from OpenAI. [See the documentation](https://platform.openai.com/docs/api-reference/files/retrieve)",
-  version: "0.0.15",
+  version: "0.0.16",
   type: "action",
   props: {
     openai,

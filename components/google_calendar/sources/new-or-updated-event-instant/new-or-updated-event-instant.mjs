@@ -8,7 +8,7 @@ export default {
   type: "source",
   name: "New Created or Updated Event (Instant)",
   description: "Emit new event when a Google Calendar events is created or updated (does not emit cancelled events)",
-  version: "0.1.15",
+  version: "0.1.16",
   dedupe: "unique",
   props: {
     googleCalendar,
@@ -48,6 +48,7 @@ export default {
       const params = {
         maxResults: 25,
         orderBy: "updated",
+        timeMin: new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString(), // 1 month ago
       };
       for (const calendarId of this.calendarIds) {
         params.calendarId = calendarId;
