@@ -52,7 +52,7 @@ export default {
       if (events.length === 0) {
         events = await this.getInitialEvents({
           timeMin: new Date(new Date().setFullYear(new Date().getFullYear() - 1)).toISOString(), // 1 year ago
-          maxResults: 2500,
+          maxResults: 250,
         });
       }
 
