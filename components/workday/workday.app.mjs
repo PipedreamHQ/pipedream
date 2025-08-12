@@ -138,7 +138,7 @@ export default {
       });
     },
     async *paginate({
-      fn, args, max,
+      fn, args = {}, max,
     }) {
       args = {
         ...args,
