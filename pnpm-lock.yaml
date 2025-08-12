@@ -8783,8 +8783,7 @@ importers:
 
   components/minerstat: {}
 
-  components/minform:
-    specifiers: {}
+  components/minform: {}
 
   components/minio: {}
 
@@ -9945,8 +9944,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/orufy_bookings:
-    specifiers: {}
+  components/orufy_bookings: {}
 
   components/ory: {}
 
@@ -9972,8 +9970,7 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
-  components/outlign:
-    specifiers: {}
+  components/outlign: {}
 
   components/outline: {}
 
@@ -12192,8 +12189,7 @@ importers:
 
   components/sap_s_4hana_cloud: {}
 
-  components/sap_s_4hana_cloud_sandbox:
-    specifiers: {}
+  components/sap_s_4hana_cloud_sandbox: {}
 
   components/sapling: {}
 
