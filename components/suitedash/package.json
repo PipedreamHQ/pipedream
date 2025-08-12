@@ -2,7 +2,7 @@
   "name": "@pipedream/suitedash",
   "version": "0.1.0",
   "description": "Pipedream SuiteDash Components",
-  "main": "dist/app/suitedash.app.mjs",
+  "main": "suitedash.app.mjs",
   "keywords": [
     "pipedream",
     "suitedash"
