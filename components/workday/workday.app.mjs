@@ -1,11 +1,23 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "workday",
   propDefinitions: {},
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return `https://${this.$auth.domain}/ccx/api/v1/${this.$auth.tenant_id}`;
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
+      return axios($, {
+        url: `${this._baseUrl()}${path}`,
+        headers: {
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+        },
+        ...opts,
+      });
     },
   },
 };
