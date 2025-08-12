@@ -8,7 +8,7 @@ export default {
   type: "source",
   name: "New Created or Updated Event (Instant)",
   description: "Emit new event when a Google Calendar events is created or updated (does not emit cancelled events)",
-  version: "0.1.16",
+  version: "0.2.0",
   dedupe: "unique",
   props: {
     googleCalendar,
@@ -44,21 +44,19 @@ export default {
   },
   hooks: {
     async deploy() {
-      const events = [];
-      const params = {
-        maxResults: 25,
-        orderBy: "updated",
+      let events = await this.getInitialEvents({
         timeMin: new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString(), // 1 month ago
-      };
-      for (const calendarId of this.calendarIds) {
-        params.calendarId = calendarId;
-        const { items } = await this.googleCalendar.listEvents(params);
-        events.push(...items);
+        maxResults: 250,
+      });
+
+      if (events.length === 0) {
+        events = await this.getInitialEvents({
+          timeMin: new Date(new Date().setFullYear(new Date().getFullYear() - 1)).toISOString(), // 1 year ago
+          maxResults: 2500,
+        });
       }
-      events.sort((a, b) => (Date.parse(a.updated) > Date.parse(b.updated))
-        ? 1
-        : -1);
-      for (const event of events.slice(-25)) {
+
+      for (const event of events) {
         const meta = this.generateMeta(event);
         this.$emit(event, meta);
       }
@@ -75,6 +73,24 @@ export default {
     },
   },
   methods: {
+    async getInitialEvents(params) {
+      const maxEvents = 25;
+      const events = [];
+
+      for (const calendarId of this.calendarIds) {
+        const { items } = await this.googleCalendar.listEvents({
+          orderBy: "updated",
+          calendarId,
+          ...params,
+        });
+        events.push(...items);
+        if (events.length >= maxEvents) {
+          break;
+        }
+      }
+
+      return events.slice(-maxEvents);
+    },
     setNextSyncToken(calendarId, nextSyncToken) {
       this.db.set(`${calendarId}.nextSyncToken`, nextSyncToken);
     },
