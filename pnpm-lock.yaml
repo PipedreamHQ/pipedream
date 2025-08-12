@@ -3722,7 +3722,11 @@ importers:
         specifier: ^17.0.36
         version: 17.0.45
 
-  components/dictionary_api: {}
+  components/dictionary_api:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/diffbot:
     dependencies:
@@ -14503,7 +14507,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/triggercmd: {}
+  components/triggercmd:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/triggre:
     dependencies:
