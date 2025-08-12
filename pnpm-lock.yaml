@@ -1123,8 +1123,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/attentive:
-    specifiers: {}
+  components/attentive: {}
 
   components/attio:
     dependencies:
@@ -2968,8 +2967,7 @@ importers:
 
   components/coinbase_commerce: {}
 
-  components/coingecko:
-    specifiers: {}
+  components/coingecko: {}
 
   components/coinlore:
     dependencies:
@@ -8401,8 +8399,7 @@ importers:
         specifier: ^1.2.1
         version: 1.7.7
 
-  components/matrix:
-    specifiers: {}
+  components/matrix: {}
 
   components/mattermost:
     dependencies:
@@ -12708,8 +12705,7 @@ importers:
         specifier: ^1.6.2
         version: 1.6.6
 
-  components/sherpa:
-    specifiers: {}
+  components/sherpa: {}
 
   components/shift4:
     dependencies:
