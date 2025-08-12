@@ -7629,6 +7629,9 @@ importers:
 
   components/launch_darkly_oauth:
     dependencies:
+      '@pipedream/launchdarkly':
+        specifier: ^0.1.1
+        version: 0.1.1
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
@@ -20279,6 +20282,9 @@ packages:
 
   '@pipedream/helpers@1.3.12':
     resolution: {integrity: sha512-k305RiFddUBtKY11V9G2aqYD8ICgarHV+A0Isxh0j3il4asnht0q4+t6ykPOb+hl5uo9UV8WY+9eAWlj6VFt6Q==}
+
+  '@pipedream/launchdarkly@0.1.1':
+    resolution: {integrity: sha512-RqW4cJ0CfCnCy/lCutIJNSlX3IXV3jxoyqxDgAeHx8Q8BUEjEl7T0+1vMLyNXhU+V4Kj38KVURnSKqCE59UVvg==}
 
   '@pipedream/linear_app@0.7.5':
     resolution: {integrity: sha512-Y9JRcEYAFWHftWQ6uMtt2kxCBcLtCBgOXjEDY2XrqmDL36LBfWzcZFpr8GVZ91s/ftTW5gLqCWmNeuXeffqhhA==}
@@ -39601,6 +39607,13 @@ snapshots:
     dependencies:
       '@pipedream/types': 0.0.5
       lodash-es: 4.17.21
+
+  '@pipedream/launchdarkly@0.1.1':
+    dependencies:
+      '@pipedream/platform': 3.0.3
+      uuid: 11.1.0
+    transitivePeerDependencies:
+      - debug
 
   '@pipedream/linear_app@0.7.5':
     dependencies:
