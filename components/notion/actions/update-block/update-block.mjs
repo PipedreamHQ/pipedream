@@ -23,7 +23,7 @@ export default {
     content: {
       type: "string",
       label: "Content",
-      description: "The content of the block. [See the documentation](https://developers.notion.com/reference/block#block-type-object)",
+      description: "The content of the block. **E.g. {\"code\": {\"rich_text\":[{\"type\":\"text\",\"text\":{\"content\":\"Updated content\"}]}}** [See the documentation](https://developers.notion.com/reference/update-a-block)",
     },
   },
   async run({ $ }) {
