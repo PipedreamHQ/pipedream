@@ -3722,7 +3722,11 @@ importers:
         specifier: ^17.0.36
         version: 17.0.45
 
-  components/dictionary_api: {}
+  components/dictionary_api:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/diffbot:
     dependencies:
@@ -7017,7 +7021,11 @@ importers:
         specifier: ^1.6.0
         version: 1.6.6
 
-  components/intuiface: {}
+  components/intuiface:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/invidious:
     dependencies:
@@ -8537,7 +8545,11 @@ importers:
 
   components/memento_database: {}
 
-  components/memix: {}
+  components/memix:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/mercury:
     dependencies:
@@ -13845,7 +13857,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/talend: {}
+  components/talend:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/talenox: {}
 
@@ -14495,7 +14511,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/triggercmd: {}
+  components/triggercmd:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/triggre:
     dependencies:
@@ -15022,7 +15042,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/vero: {}
+  components/vero:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/verticalresponse: {}
 
@@ -15261,7 +15285,11 @@ importers:
 
   components/watsonx_ai: {}
 
-  components/wave: {}
+  components/wave:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/wavecell:
     dependencies:
@@ -16025,7 +16053,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/zoho_campaigns: {}
+  components/zoho_campaigns:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/zoho_catalyst:
     dependencies:
