@@ -21,7 +21,10 @@ export default defineAction({
     locationNames: {
       propDefinition: [
         app,
-        "location"
+        "location",
+        ({ account }: { account: string; }) => ({
+          account,
+        }),
       ],
       type: "string[]",
       label: "Location Names",
@@ -65,7 +68,7 @@ export default defineAction({
       $,
       account,
       data: {
-        locationNames,
+        locationNames: locationNames?.map((locationName: string) => `accounts/${account}/locations/${locationName}`),
         pageSize,
         orderBy,
         ignoreRatingOnlyReviews,
