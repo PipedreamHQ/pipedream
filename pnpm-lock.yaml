@@ -7844,7 +7844,11 @@ importers:
         specifier: ^6.11.1
         version: 6.13.1
 
-  components/line_messaging_api: {}
+  components/line_messaging_api:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/linear:
     dependencies:
