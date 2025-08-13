@@ -14,7 +14,15 @@ export default {
       return "appointment.rescheduled";
     },
     getSummary(details) {
-      return `New appointment rescheduled with Id: ${details.id}`;
+      return `Appointment rescheduled with ID: ${details.id}`;
+    },
+    generateMeta(details) {
+      const ts = Date.parse(details.datetime) || Date.now();
+      return {
+        id: `${details.id}-${ts}`,
+        summary: this.getSummary(details),
+        ts,
+      };
     },
   },
   sampleEmit,
