@@ -13,7 +13,7 @@ export default {
       type: "$.interface.apphook",
       appProp: "zoomAdmin",
       eventNames: [
-        "recording.transcript.completed",
+        "recording.transcript_completed",
       ],
     },
   },
@@ -71,8 +71,8 @@ export default {
     },
   },
   async run(event) {
-    if (event.event !== "recording.transcript.completed") {
-      console.log("Not a recording.transcript.completed event. Exiting");
+    if (event.event !== "recording.transcript_completed") {
+      console.log("Not a recording.transcript_completed event. Exiting");
       return;
     }
     const { payload } = event;

@@ -27,12 +27,13 @@ export default {
     },
   },
   async run({ $ }) {
+    const meetingId = this.meetingId.value || this.meetingId;
     const { data: transcript } = await this.getMeetingTranscript({
       $,
-      meetingId: this.meetingId.value || this.meetingId,
+      meetingId,
     });
 
-    $.export("$summary", `Retrieved transcript for meeting ${this.meetingId}`);
+    $.export("$summary", `Retrieved transcript for meeting ${meetingId}`);
     return transcript;
   },
 };
