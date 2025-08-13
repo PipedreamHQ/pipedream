@@ -69,7 +69,7 @@ There are two ways to use this MCP server.
 
 1 - App specific
 `/{external_user_id}/{app}`
-This is currently available at [mcp.pipedream.com](mcp.pipedream.com). You can use an endpoint for each app.
+This is currently available at [mcp.pipedream.com](https://mcp.pipedream.com). You can use an endpoint for each app.
 All the tools available for that app will be available at that endpoint.
 
 2 - Dynamic
