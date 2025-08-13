@@ -7,10 +7,10 @@
 For the best experience, use Pipedream's hosted MCP server which provides:
 
 - **2,800+ APIs and 10,000+ tools** through a single server
-- **Built-in authentication** - no manual token management required
+- **Built-in authentication**: no manual token management required
 - **Multiple tool modes**: sub-agent and full configuration
 - **Automatic app discovery**
-- **Enterprise-grade reliability** and security
+- **Enterprise-grade reliability and security**
 
 **🚀 Get started**: [Pipedream MCP Documentation](https://pipedream.com/docs/connect/mcp/developers)
 
