@@ -46,17 +46,19 @@ export default {
     async deploy() {
       let events = await this.getInitialEvents({
         timeMin: new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString(), // 1 month ago
-        maxResults: 250,
       });
 
-      if (events.length === 0) {
+      if (!events?.length) {
         events = await this.getInitialEvents({
           timeMin: new Date(new Date().setFullYear(new Date().getFullYear() - 1)).toISOString(), // 1 year ago
-          maxResults: 250,
         });
       }
 
-      for (const event of events) {
+      events.sort((a, b) => (Date.parse(a.updated) > Date.parse(b.updated))
+        ? 1
+        : -1);
+
+      for (const event of events.slice(-25)) {
         const meta = this.generateMeta(event);
         this.$emit(event, meta);
       }
@@ -74,22 +76,19 @@ export default {
   },
   methods: {
     async getInitialEvents(params) {
-      const maxEvents = 25;
       const events = [];
 
       for (const calendarId of this.calendarIds) {
         const { items } = await this.googleCalendar.listEvents({
           orderBy: "updated",
           calendarId,
+          maxResults: 250,
           ...params,
         });
         events.push(...items);
-        if (events.length >= maxEvents) {
-          break;
-        }
       }
 
-      return events.slice(-maxEvents);
+      return events;
     },
     setNextSyncToken(calendarId, nextSyncToken) {
       this.db.set(`${calendarId}.nextSyncToken`, nextSyncToken);
