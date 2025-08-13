@@ -2,6 +2,13 @@
 
 # Changelog
 
+## [1.8.0] - 2025-08-13
+
+### Added
+
+- Added `categoryIds` parameter to `getApps` method for filtering apps by category IDs
+- Added `getAppCategories` method to retrieve available app categories
+
 ## [1.7.0] - 2025-07-03
 
 ### Added
