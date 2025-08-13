@@ -23,7 +23,7 @@ export default {
     file: {
       type: "string",
       label: "File",
-      description: "A single path to a file in the `/tmp` directory (for example, `/tmp/myFile.html`) to be sent for signature. This field is mutually exclusive with `File URL`, `Files`, and `File URLs`. Only one of these fields should be provided in the request.",
+      description: "A single path to a file in the `/tmp` directory (for example, `/tmp/myFile.pdf`) to be sent for signature. This field is mutually exclusive with `File URL`, `Files`, and `File URLs`. Only one of these fields should be provided in the request.",
       optional: true,
     },
     fileUrls: {
@@ -35,7 +35,7 @@ export default {
     files: {
       type: "string[]",
       label: "Files",
-      description: "An array of path to files in the `/tmp` directory (for example, `/tmp/myFile.html`) to be sent for signature. This field is mutually exclusive with `File URL`, `Files`, and `File URLs`. Only one of these fields should be provided in the request.",
+      description: "An array of path to files in the `/tmp` directory (for example, `/tmp/myFile.pdf`) to be sent for signature. This field is mutually exclusive with `File URL`, `Files`, and `File URLs`. Only one of these fields should be provided in the request.",
       optional: true,
     },
     signers: {
@@ -171,7 +171,7 @@ export default {
     }
     if (this.title) formData.append("title", this.title);
     if (this.expiresAt) formData.append("expires_at", Date.parse(this.expiresAt));
-    if (this.useTextTags) formData.append("use_text_tags", this.useTextTags);
+    if (this.useTextTags) formData.append("use_text_tags", `${this.useTextTags}`);
     if (this.signingType) formData.append("signing_type", this.signingType);
     const customEmail = {};
     if (this.senderEmail) customEmail.sender_email = this.senderEmail;
