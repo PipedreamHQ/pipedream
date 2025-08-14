@@ -140,6 +140,11 @@ export const ENDPOINTS = {
       "symbol",
     ],
   },
+  CRYPTO_INVESTORS: {
+    path: "/crypto-investors",
+    description: "Get the latest list of crypto investors and their scores",
+    filters: [],
+  },
 };
 
 // Common filter definitions that can be reused across endpoints

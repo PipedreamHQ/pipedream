@@ -201,5 +201,15 @@ export default {
         params,
       });
     },
+    async getCryptoInvestors({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/crypto-investors",
+        params,
+      });
+    },
   },
 };
