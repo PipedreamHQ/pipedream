@@ -17,6 +17,30 @@ const FIELD_KEY = {
   ASSIGNEE: "assignee",
   PARENT: "parent",
   LABELS: "labels",
+  ISSUELINKS: "issuelinks",
+};
+
+const AUTOCOMPLETE_KEY = {
+  assignee: {
+    getOptions: (response) => {
+      return response.map(({
+        displayName: label, accountId: value,
+      }) => ({
+        label,
+        value,
+      }));
+    },
+  },
+  issuelinks: {
+    getOptions: (response) => {
+      return response.sections.flatMap(({ issues }) => issues.map(({
+        summary: label, key: value,
+      }) => ({
+        label,
+        value,
+      })));
+    },
+  },
 };
 
 const FIELD_TYPE = {
@@ -42,4 +66,5 @@ export default {
   FIELD_TYPE,
   SCHEMA,
   DEFAULT_LIMIT,
+  AUTOCOMPLETE_KEY,
 };
