@@ -93,6 +93,17 @@ export const ENDPOINTS = {
       "symbol",
     ],
   },
+  FUNDAMENTAL_GRADES_HISTORICAL: {
+    path: "/fundamental-grade-history",
+    description: "Get historical Fundamental Grade insights for a token, including grade class, community score, exchange score, VC score, tokenomics score, and DeFi scanner score over time",
+    filters: [
+      "token_id",
+      "token_name",
+      "symbol",
+      "start_date",
+      "end_date",
+    ],
+  },
 };
 
 // Common filter definitions that can be reused across endpoints

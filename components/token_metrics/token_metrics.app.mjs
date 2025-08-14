@@ -151,5 +151,15 @@ export default {
         params,
       });
     },
+    async getFundamentalGradesHistorical({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/fundamental-grade-history",
+        params,
+      });
+    },
   },
 };
