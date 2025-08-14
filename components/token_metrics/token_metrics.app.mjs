@@ -111,5 +111,15 @@ export default {
         params,
       });
     },
+    async getMoonshotTokens({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/moonshot-tokens",
+        params,
+      });
+    },
   },
 };

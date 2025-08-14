@@ -57,6 +57,13 @@ export const ENDPOINTS = {
       "end_date",
     ],
   },
+  MOONSHOT_TOKENS: {
+    path: "/moonshot-tokens",
+    description: "Get the AI-curated token picks (Moonshots) with high breakout potential based on grades, sentiment, volume, and on-chain data to help users trade smarter and faster",
+    filters: [
+      "type",
+    ],
+  },
 };
 
 // Common filter definitions that can be reused across endpoints
@@ -146,6 +153,23 @@ export const FILTER_DEFINITIONS = {
         value: "-1",
       },
     ],
+  },
+  type: {
+    type: "string",
+    label: "Type",
+    description: "Accepts 'active' or 'past' to fetch respective moonshots. Defaults to 'active' if not provided",
+    optional: true,
+    options: [
+      {
+        label: "Active",
+        value: "active",
+      },
+      {
+        label: "Past",
+        value: "past",
+      },
+    ],
+    default: "active",
   },
 };
 
