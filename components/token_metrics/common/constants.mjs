@@ -132,6 +132,14 @@ export const ENDPOINTS = {
       "end_date",
     ],
   },
+  AI_REPORTS: {
+    path: "/ai-reports",
+    description: "Retrieve AI-generated reports providing comprehensive analyses of cryptocurrency tokens, including deep dives, investment analyses, and code reviews",
+    filters: [
+      "token_id",
+      "symbol",
+    ],
+  },
 };
 
 // Common filter definitions that can be reused across endpoints

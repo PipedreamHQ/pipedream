@@ -191,5 +191,15 @@ export default {
         params,
       });
     },
+    async getAiReports({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/ai-reports",
+        params,
+      });
+    },
   },
 };
