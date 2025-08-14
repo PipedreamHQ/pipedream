@@ -271,5 +271,15 @@ export default {
         params,
       });
     },
+    async getIndices({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/indices",
+        params,
+      });
+    },
   },
 };

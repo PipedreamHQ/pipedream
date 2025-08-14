@@ -198,6 +198,13 @@ export const ENDPOINTS = {
       "exchange",
     ],
   },
+  INDICES: {
+    path: "/indices",
+    description: "Get active and passive crypto indices with performance and market data",
+    filters: [
+      "indices_type",
+    ],
+  },
 };
 
 // Common filter definitions that can be reused across endpoints
@@ -310,6 +317,22 @@ export const FILTER_DEFINITIONS = {
     label: "Top K",
     description: "Specifies the number of top cryptocurrencies to retrieve, based on their market capitalization. Example: 100",
     optional: true,
+  },
+  indices_type: {
+    type: "string",
+    label: "Indices Type",
+    description: "Filter to return indices by type: 'active' for actively managed, 'passive' for passively managed",
+    optional: true,
+    options: [
+      {
+        label: "Active",
+        value: "active",
+      },
+      {
+        label: "Passive",
+        value: "passive",
+      },
+    ],
   },
 };
 
