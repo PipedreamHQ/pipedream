@@ -1142,5 +1142,56 @@ export default {
         ...opts,
       });
     },
+    listPages(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CMS,
+        endpoint: "/pages/site-pages",
+        ...opts,
+      });
+    },
+    listTemplates(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CONTENT,
+        endpoint: "/templates",
+        ...opts,
+      });
+    },
+    listCampaigns(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.MARKETINGV3,
+        endpoint: "/campaigns",
+        ...opts,
+      });
+    },
+    listMarketingEmails(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.MARKETINGV3,
+        endpoint: "/emails",
+        ...opts,
+      });
+    },
+    listMarketingEvents(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.MARKETINGV3,
+        endpoint: "/marketing-events/",
+        ...opts,
+      });
+    },
+    listMarketingForms(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.MARKETINGV3,
+        endpoint: "/forms",
+        ...opts,
+      });
+    },
+    getSubscriptionPreferences({
+      email, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.COMMUNICATION_PREFERENCES,
+        endpoint: `/statuses/${email}`,
+        ...opts,
+      });
+    },
   },
 };

@@ -1,16 +1,18 @@
 {
   "name": "@pipedream/memix",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Memix Components",
-  "main": "dist/app/memix.app.mjs",
+  "main": "memix.app.mjs",
   "keywords": [
     "pipedream",
     "memix"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/memix",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
   }
 }
