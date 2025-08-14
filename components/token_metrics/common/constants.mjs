@@ -28,6 +28,13 @@ export const ENDPOINTS = {
       "signal",
     ],
   },
+  PRICE: {
+    path: "/price",
+    description: "Get token prices based on the provided token IDs",
+    filters: [
+      "token_id",
+    ],
+  },
 };
 
 // Common filter definitions that can be reused across endpoints

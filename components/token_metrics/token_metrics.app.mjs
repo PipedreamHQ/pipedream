@@ -81,5 +81,15 @@ export default {
         params,
       });
     },
+    async getPrice({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/price",
+        params,
+      });
+    },
   },
 };
