@@ -124,6 +124,14 @@ export const ENDPOINTS = {
       "end_date",
     ],
   },
+  MARKET_METRICS: {
+    path: "/market-metrics",
+    description: "Get the Market Analytics from Token Metrics. They provide insight into the full Crypto Market, including the Bullish/Bearish Market indicator",
+    filters: [
+      "start_date",
+      "end_date",
+    ],
+  },
 };
 
 // Common filter definitions that can be reused across endpoints

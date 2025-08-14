@@ -181,5 +181,15 @@ export default {
         params,
       });
     },
+    async getMarketMetrics({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/market-metrics",
+        params,
+      });
+    },
   },
 };
