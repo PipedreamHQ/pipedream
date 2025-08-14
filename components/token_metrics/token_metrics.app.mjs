@@ -121,5 +121,15 @@ export default {
         params,
       });
     },
+    async getTmGrades({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/tm-grade",
+        params,
+      });
+    },
   },
 };

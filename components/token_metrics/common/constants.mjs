@@ -64,6 +64,15 @@ export const ENDPOINTS = {
       "type",
     ],
   },
+  TM_GRADES: {
+    path: "/tm-grade",
+    description: "Get the latest TM Grade for a token, including trader grade change, quant grade, signals, momentum, and 24-hour percentage changes for both TM Grade and Trader Grade",
+    filters: [
+      "token_id",
+      "token_name",
+      "symbol",
+    ],
+  },
 };
 
 // Common filter definitions that can be reused across endpoints
