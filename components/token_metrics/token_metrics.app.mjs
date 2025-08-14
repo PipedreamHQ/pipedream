@@ -251,5 +251,15 @@ export default {
         params,
       });
     },
+    async getScenarioAnalysis({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/scenario-analysis",
+        params,
+      });
+    },
   },
 };

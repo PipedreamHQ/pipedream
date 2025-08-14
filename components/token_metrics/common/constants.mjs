@@ -180,6 +180,14 @@ export const ENDPOINTS = {
       "fdv",
     ],
   },
+  SCENARIO_ANALYSIS: {
+    path: "/scenario-analysis",
+    description: "Get the price prediction based on different Crypto Market scenario",
+    filters: [
+      "token_id",
+      "symbol",
+    ],
+  },
 };
 
 // Common filter definitions that can be reused across endpoints
