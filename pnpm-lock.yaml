@@ -13014,8 +13014,7 @@ importers:
         specifier: ^1.4.0
         version: 1.6.6
 
-  components/siteglide:
-    specifiers: {}
+  components/siteglide: {}
 
   components/siteleaf:
     dependencies:
@@ -13371,8 +13370,7 @@ importers:
         specifier: ^4.0.0
         version: 4.0.1
 
-  components/sperse:
-    specifiers: {}
+  components/sperse: {}
 
   components/spider:
     dependencies:

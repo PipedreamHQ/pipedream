@@ -353,16 +353,23 @@ function validateRelativeImports(packageJson, app) {
   const content = fs.readFileSync(mainFile, 'utf8');
   
   // Find all relative imports to other app files or components
-  const relativeImportRegex = /import\s+.*\s+from\s+["'](\.\.\/[^"']+\.(?:app\.)?mjs)["']/g;
+  const relativeImportRegex = /import\s+.*\s+from\s+["']((?:\.\.\/)+([^"'/]+)\/[^"']*\.(?:app\.)?mjs)["']/g;
   const relativeImports = [];
   let match;
   
   while ((match = relativeImportRegex.exec(content)) !== null) {
     const relativePath = match[1];
+    const firstFolderName = match[2]; // Captured group for the first folder name
+    
+    // Skip if the first folder name is one of the standard app folders
+    if (['app', 'actions', 'sources', 'common'].includes(firstFolderName)) {
+      break;
+    }
+    
     let suggestion = '';
     
     // Check if it's an app import
-    if (relativePath.includes('.app.mjs')) {
+    if (relativePath.includes('.app.mjs') || relativePath.includes('.app.ts')) {
       const pathParts = relativePath.split('/');
       if (pathParts.length >= 2) {
         const importedApp = pathParts[1];
