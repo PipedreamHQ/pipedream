@@ -291,5 +291,15 @@ export default {
         params,
       });
     },
+    async getIndicesPerformance({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/indices-performance",
+        params,
+      });
+    },
   },
 };

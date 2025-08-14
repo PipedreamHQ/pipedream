@@ -212,6 +212,15 @@ export const ENDPOINTS = {
       "id",
     ],
   },
+  INDICES_PERFORMANCE: {
+    path: "/indices-performance",
+    description: "The Indices Performance endpoint provides historical performance data for a given index, including cumulative return on investment (ROI) over time. This data is useful for analyzing index trends and evaluating investment performance",
+    filters: [
+      "id",
+      "start_date",
+      "end_date",
+    ],
+  },
 };
 
 // Common filter definitions that can be reused across endpoints
