@@ -1,11 +1,36 @@
 # Overview
 
-The Token Metrics API offers access to a trove of cryptocurrency data, including analytics, rankings, and predictions that leverage artificial intelligence and expert insights. With this API, you can automate investment strategies, integrate up-to-date crypto data into your applications, and stay informed with the latest market trends. When used on Pipedream, it allows you to build robust, serverless workflows that can react to various triggers and integrate with numerous services for a seamless data handling experience.
+Token Metrics API on Pipedream allows you to access comprehensive cryptocurrency data and analytics. Integrate token metrics, market data, and analytics into your workflows to build powerful automation solutions for cryptocurrency trading, portfolio management, and market analysis.
 
 # Example Use Cases
 
-- **Crypto Alert System**: Build a workflow on Pipedream that monitors the Token Metrics API for significant changes in crypto ratings or predictions. When certain thresholds are met, use the integrated Twilio app to send SMS alerts, ensuring you or your audience stay up-to-date on important market movements.
+- **Automated Portfolio Tracking**: Monitor your cryptocurrency portfolio by fetching token data and sending alerts when prices hit certain thresholds. Integrate with email services or Slack to receive real-time notifications.
 
-- **Investment Tracker**: Create a Pipedream workflow that pulls daily investment insights and portfolio analytics from the Token Metrics API and logs them to a Google Sheets document. This allows for easy tracking and historical data analysis, helping to refine investment strategies over time.
+- **Market Analysis Dashboard**: Collect token metrics data on a schedule and send it to Google Sheets or Airtable to create comprehensive market analysis dashboards with historical data tracking.
 
-- **Market Dashboard Sync**: Use Pipedream to set up a workflow where market data and analytics from the Token Metrics API are fetched periodically and pushed to a real-time dashboard built with Geckoboard. This keeps your team or clients informed with the latest crypto market trends and forecasts.
+- **Trading Signal Automation**: Use token analytics data to trigger automated trading signals, sending buy/sell recommendations via webhooks to trading platforms or notification services.
+
+- **Research and Due Diligence**: Automatically fetch comprehensive token data for research purposes, combining it with other data sources to create detailed investment analysis reports.
+
+# Authentication
+
+To use the Token Metrics API, you'll need:
+
+1. A Token Metrics account
+2. An API key from your Token Metrics dashboard
+
+The API uses Bearer token authentication. Your API key should be kept secure and not shared publicly.
+
+# Available Actions
+
+- **Get Tokens**: Retrieve a list of tokens with comprehensive metrics and analytics data
+- **Get Token Details**: Fetch detailed information for a specific token
+- **Search Tokens**: Search for tokens by name, symbol, or other criteria
+
+# Rate Limits
+
+Please refer to the Token Metrics API documentation for current rate limits and usage guidelines.
+
+# Support
+
+For issues related to the Token Metrics API itself, please contact Token Metrics support. For Pipedream-specific issues, please reach out via the Pipedream community.

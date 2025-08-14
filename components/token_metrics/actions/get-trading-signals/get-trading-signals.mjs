@@ -2,23 +2,27 @@ import tokenMetrics from "../../token_metrics.app.mjs";
 import { ENDPOINTS, FILTER_DEFINITIONS } from "../../common/constants.mjs";
 import { buildParams, generateFilterSummary } from "../../common/utils.mjs";
 
-const endpoint = ENDPOINTS.TOKENS;
+const endpoint = ENDPOINTS.TRADING_SIGNALS;
 
 export default {
-  key: "token_metrics-get-tokens",
-  name: "Get Tokens",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/tokens)`,
+  key: "token_metrics-get-trading-signals",
+  name: "Get Trading Signals",
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/trading-signals)`,
   version: "0.0.1",
   type: "action",
   props: {
     tokenMetrics,
-    // Dynamically add filter props based on endpoint configuration
+    // Filter props based on endpoint configuration
     tokenId: FILTER_DEFINITIONS.token_id,
-    tokenName: FILTER_DEFINITIONS.token_name,
+    startDate: FILTER_DEFINITIONS.start_date,
+    endDate: FILTER_DEFINITIONS.end_date,
     symbol: FILTER_DEFINITIONS.symbol,
     category: FILTER_DEFINITIONS.category,
     exchange: FILTER_DEFINITIONS.exchange,
-    blockchainAddress: FILTER_DEFINITIONS.blockchain_address,
+    marketCap: FILTER_DEFINITIONS.market_cap,
+    volume: FILTER_DEFINITIONS.volume,
+    fdv: FILTER_DEFINITIONS.fdv,
+    signal: FILTER_DEFINITIONS.signal,
     // Pagination props
     limit: {
       propDefinition: [
@@ -38,7 +42,7 @@ export default {
     const params = buildParams(this, endpoint.filters);
 
     try {
-      const response = await this.tokenMetrics.getTokens({
+      const response = await this.tokenMetrics.getTradingSignals({
         $,
         params,
       });
@@ -48,7 +52,7 @@ export default {
       
       // Use $ context for export
       if ($ && $.export) {
-        $.export("$summary", `Successfully retrieved tokens list${filterSummary}`);
+        $.export("$summary", `Successfully retrieved trading signals${filterSummary}`);
       }
       
       return response;
