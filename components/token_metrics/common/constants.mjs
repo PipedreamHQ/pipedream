@@ -188,6 +188,16 @@ export const ENDPOINTS = {
       "symbol",
     ],
   },
+  CORRELATION: {
+    path: "/correlation",
+    description: "Get the Top 10 and Bottom 10 correlation of tokens with the top 100 market cap tokens",
+    filters: [
+      "token_id",
+      "symbol",
+      "category",
+      "exchange",
+    ],
+  },
 };
 
 // Common filter definitions that can be reused across endpoints

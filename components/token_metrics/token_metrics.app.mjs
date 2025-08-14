@@ -261,5 +261,15 @@ export default {
         params,
       });
     },
+    async getCorrelation({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/correlation",
+        params,
+      });
+    },
   },
 };
