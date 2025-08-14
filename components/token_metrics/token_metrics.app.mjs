@@ -161,5 +161,15 @@ export default {
         params,
       });
     },
+    async getTechnologyGrades({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/technology-grade",
+        params,
+      });
+    },
   },
 };

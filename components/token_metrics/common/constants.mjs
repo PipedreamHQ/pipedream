@@ -104,6 +104,15 @@ export const ENDPOINTS = {
       "end_date",
     ],
   },
+  TECHNOLOGY_GRADES: {
+    path: "/technology-grade",
+    description: "Get Technology Grade insights for a token, including activity score, security score, repository score, collaboration score, and DeFi scanner score",
+    filters: [
+      "token_id",
+      "token_name",
+      "symbol",
+    ],
+  },
 };
 
 // Common filter definitions that can be reused across endpoints
