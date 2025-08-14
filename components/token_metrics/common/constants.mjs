@@ -113,6 +113,17 @@ export const ENDPOINTS = {
       "symbol",
     ],
   },
+  TECHNOLOGY_GRADES_HISTORICAL: {
+    path: "/technology-grade-history",
+    description: "Get historical Technology Grade data for a token, including activity score, security score, repository score, collaboration score, and DeFi scanner score over time",
+    filters: [
+      "token_id",
+      "token_name",
+      "symbol",
+      "start_date",
+      "end_date",
+    ],
+  },
 };
 
 // Common filter definitions that can be reused across endpoints

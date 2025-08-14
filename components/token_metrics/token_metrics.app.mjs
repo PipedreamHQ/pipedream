@@ -171,5 +171,15 @@ export default {
         params,
       });
     },
+    async getTechnologyGradesHistorical({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/technology-grade-history",
+        params,
+      });
+    },
   },
 };
