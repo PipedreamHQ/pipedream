@@ -205,6 +205,13 @@ export const ENDPOINTS = {
       "indices_type",
     ],
   },
+  INDICES_HOLDINGS: {
+    path: "/indices-holdings",
+    description: "This endpoint returns the current holdings of the given Index, along with their respective weight in %",
+    filters: [
+      "id",
+    ],
+  },
 };
 
 // Common filter definitions that can be reused across endpoints
@@ -333,6 +340,12 @@ export const FILTER_DEFINITIONS = {
         value: "passive",
       },
     ],
+  },
+  id: {
+    type: "integer",
+    label: "ID",
+    description: "ID of the index. Example: 1",
+    optional: false,
   },
 };
 

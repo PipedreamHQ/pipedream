@@ -281,5 +281,15 @@ export default {
         params,
       });
     },
+    async getIndicesHoldings({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/indices-holdings",
+        params,
+      });
+    },
   },
 };
