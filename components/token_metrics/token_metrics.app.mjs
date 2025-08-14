@@ -101,5 +101,15 @@ export default {
         params,
       });
     },
+    async getDailyOhlcv({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/daily-ohlcv",
+        params,
+      });
+    },
   },
 };

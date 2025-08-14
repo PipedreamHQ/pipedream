@@ -46,6 +46,17 @@ export const ENDPOINTS = {
       "end_date",
     ],
   },
+  DAILY_OHLCV: {
+    path: "/daily-ohlcv",
+    description: "Get daily OHLCV (Open, High, Low, Close, Volume) data for tokens",
+    filters: [
+      "token_id",
+      "symbol",
+      "token_name",
+      "start_date",
+      "end_date",
+    ],
+  },
 };
 
 // Common filter definitions that can be reused across endpoints
