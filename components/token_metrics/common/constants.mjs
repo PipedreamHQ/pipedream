@@ -160,6 +160,13 @@ export const ENDPOINTS = {
       "symbol",
     ],
   },
+  HOURLY_TRADING_SIGNALS: {
+    path: "/hourly-trading-signals",
+    description: "Get the hourly AI generated trading signals for long and short positions for all tokens",
+    filters: [
+      "token_id",
+    ],
+  },
 };
 
 // Common filter definitions that can be reused across endpoints

@@ -231,5 +231,15 @@ export default {
         params,
       });
     },
+    async getHourlyTradingSignals({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/hourly-trading-signals",
+        params,
+      });
+    },
   },
 };
