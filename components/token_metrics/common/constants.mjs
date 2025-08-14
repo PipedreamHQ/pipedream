@@ -152,6 +152,14 @@ export const ENDPOINTS = {
       "top_k",
     ],
   },
+  RESISTANCE_SUPPORT: {
+    path: "/resistance-support",
+    description: "Get the historical levels of resistance and support for each token",
+    filters: [
+      "token_id",
+      "symbol",
+    ],
+  },
 };
 
 // Common filter definitions that can be reused across endpoints

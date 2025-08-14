@@ -221,5 +221,15 @@ export default {
         params,
       });
     },
+    async getResistanceSupport({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/resistance-support",
+        params,
+      });
+    },
   },
 };
