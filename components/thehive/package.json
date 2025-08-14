@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/thehive",
+  "version": "0.0.1",
+  "description": "Pipedream TheHive Components",
+  "main": "thehive.app.mjs",
+  "keywords": [
+    "pipedream",
+    "thehive"
+  ],
+  "homepage": "https://pipedream.com/apps/thehive",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

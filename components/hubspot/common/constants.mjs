@@ -23,6 +23,8 @@ const API_PATH = {
   DEAL: "/deals/v1",
   BUSINESS_UNITS: "/business-units/v3",
   MARKETINGV3: "/marketing/v3",
+  CONTENT: "/content/api/v2",
+  COMMUNICATION_PREFERENCES: "/communication-preferences/v4",
 };
 
 /** Association categories for association types, as defined by the [Hubspot API

@@ -127,6 +127,31 @@ export type App = AppInfo & {
 export type AppResponse = App;
 
 /**
+ * App category data returned from the API.
+ */
+export type AppCategory = {
+  /**
+   * The unique ID of the category.
+   */
+  id: string;
+
+  /**
+   * The name of the category.
+   */
+  name: string;
+
+  /**
+   * A description of the category.
+   */
+  description: string;
+};
+
+/**
+ * The response received when retrieving app categories.
+ */
+export type GetAppCategoriesResponse = AppCategory[];
+
+/**
  * A configuration option for a component's prop.
  */
 export type PropOption = {
@@ -255,6 +280,10 @@ export type GetAppsOpts = RelationOpts & {
    * Filter by whether apps have triggers in the component registry.
    */
   hasTriggers?: boolean;
+  /**
+   * Filter apps by category IDs (format: appcat_[a-zA-Z0-9]+).
+   */
+  categoryIds?: string[];
   /**
    * The key to sort the apps by.
    *
@@ -1190,6 +1219,9 @@ export abstract class BaseClient {
         ? "1"
         : "0";
     }
+    if (opts?.categoryIds && opts.categoryIds.length > 0) {
+      params.category_ids = opts.categoryIds.join(",");
+    }
     if (opts?.sortKey) {
       params.sort_key = opts.sortKey;
     }
@@ -1238,6 +1270,23 @@ export abstract class BaseClient {
    */
   public app(idOrNameSlug: string) {
     return this.getApp(idOrNameSlug);
+  }
+
+  /**
+   * Retrieves the list of app categories available in Pipedream.
+   *
+   * @returns A promise resolving to a list of app categories.
+   *
+   * @example
+   * ```typescript
+   * const categories = await client.getAppCategories();
+   * console.log(categories);
+   * ```
+   */
+  public getAppCategories() {
+    return this.makeAuthorizedRequest<GetAppCategoriesResponse>("/connect/app_categories", {
+      method: "GET",
+    });
   }
 
   /**

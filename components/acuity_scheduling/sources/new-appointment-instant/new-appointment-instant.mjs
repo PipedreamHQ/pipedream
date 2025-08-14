@@ -6,10 +6,11 @@ export default {
   key: "acuity_scheduling-new-appointment-instant",
   name: "New Appointment (Instant)",
   description: "Emit new event when an appointment is scheduled.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {
+    ...common.methods,
     getEvent() {
       return "appointment.scheduled";
     },

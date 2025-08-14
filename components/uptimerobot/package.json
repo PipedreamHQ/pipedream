@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/uptimerobot",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream UptimeRobot Components",
-  "main": "dist/app/uptimerobot.app.mjs",
+  "main": "uptimerobot.app.mjs",
   "keywords": [
     "pipedream",
     "uptimerobot"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/uptimerobot",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

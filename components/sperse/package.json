@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sperse",
+  "version": "0.0.1",
+  "description": "Pipedream Sperse Components",
+  "main": "sperse.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sperse"
+  ],
+  "homepage": "https://pipedream.com/apps/sperse",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
