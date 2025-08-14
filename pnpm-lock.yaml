@@ -2191,7 +2191,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/campaignhq: {}
+  components/campaignhq:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/campayn:
     dependencies:
@@ -3247,9 +3251,9 @@ importers:
 
   components/credit_repair_cloud:
     dependencies:
-      axios:
-        specifier: ^1.4.0
-        version: 1.7.7
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
       js2xmlparser:
         specifier: ^5.0.0
         version: 5.0.0
@@ -13439,6 +13443,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.0
         version: 3.1.0
+      axios:
+        specifier: ^1.11.0
+        version: 1.11.0(debug@3.2.7)
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -13577,7 +13584,11 @@ importers:
 
   components/storerocket: {}
 
-  components/stormboard: {}
+  components/stormboard:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/stormglass_io: {}
 
@@ -13595,9 +13606,9 @@ importers:
 
   components/strava:
     dependencies:
-      axios:
-        specifier: ^0.21.1
-        version: 0.21.4
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/streak:
     dependencies:
@@ -13693,13 +13704,20 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
 
-  components/supernotes: {}
+  components/supernotes:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/superphone:
     dependencies:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+      graphql-request:
+        specifier: ^7.2.0
+        version: 7.2.0(graphql@16.9.0)
 
   components/supersaas:
     dependencies:
@@ -14000,7 +14018,11 @@ importers:
         specifier: ^9.0.0
         version: 9.0.1
 
-  components/teamwork_desk: {}
+  components/teamwork_desk:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/telegram_bot_api:
     dependencies:
@@ -14425,7 +14447,11 @@ importers:
 
   components/trainual: {}
 
-  components/trakt: {}
+  components/trakt:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/transform:
     dependencies:
@@ -14451,7 +14477,11 @@ importers:
         specifier: ^4.0.0
         version: 4.0.1
 
-  components/translate_com: {}
+  components/translate_com:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/transloadit:
     dependencies:
@@ -14506,7 +14536,11 @@ importers:
         specifier: ^4.1.1
         version: 4.2.0
 
-  components/trestle: {}
+  components/trestle:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/tricentis_qtest:
     dependencies:
@@ -14683,7 +14717,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/typebot: {}
+  components/typebot:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/typeflo: {}
 
@@ -14744,7 +14782,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/uipath_automation_hub: {}
+  components/uipath_automation_hub:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/uk_gov_vehecle_enquiry_api: {}
 
@@ -14783,7 +14825,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/universal_summarizer_by_kagi: {}
+  components/universal_summarizer_by_kagi:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/unsplash:
     dependencies:
@@ -14869,7 +14915,11 @@ importers:
         specifier: ^4.0.0
         version: 4.0.1
 
-  components/upwave: {}
+  components/upwave:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/urlbae:
     dependencies:
@@ -14899,7 +14949,11 @@ importers:
 
   components/user_com: {}
 
-  components/userflow: {}
+  components/userflow:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/userlist:
     dependencies:
@@ -15126,7 +15180,11 @@ importers:
         specifier: ^2.29.4
         version: 2.30.1
 
-  components/visualping: {}
+  components/visualping:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/vitally:
     dependencies:
@@ -15166,7 +15224,11 @@ importers:
 
   components/voice: {}
 
-  components/voice_monkey: {}
+  components/voice_monkey:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/voicemaker: {}
 
@@ -15389,7 +15451,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/wesupply: {}
+  components/wesupply:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/weworkbook: {}
 
@@ -15639,6 +15705,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.0
         version: 3.1.0
+      xml2js:
+        specifier: ^0.6.2
+        version: 0.6.2
 
   components/workiom: {}
 
@@ -16011,7 +16080,11 @@ importers:
         specifier: ^1.6.4
         version: 1.6.6
 
-  components/zoho_analytics: {}
+  components/zoho_analytics:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/zoho_assist:
     dependencies:
@@ -16441,14 +16514,6 @@ importers:
       dotenv:
         specifier: ^6.0.0
         version: 6.2.0
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
 
   packages/ai:
     dependencies:
@@ -23448,6 +23513,9 @@ packages:
   axios@1.10.0:
     resolution: {integrity: sha512-/1xYAC4MP/HEG+3duIhFr4ZQXR4sQXOIe+o6sdqzeykGLx6Upp/1p8MHqhINOvGeP7xyNHe7tsiJByc4SSVUxw==}
 
+  axios@1.11.0:
+    resolution: {integrity: sha512-1Lx3WLFQWm3ooKDYZD1eXmoGO9fxYQjrycfHFC8P0sCfQVXyROp0p9PFWBehewBOdCwHc+f/b8I0fMto5eSfwA==}
+
   axios@1.6.0:
     resolution: {integrity: sha512-EZ1DYihju9pwVB+jg67ogm+Tmqc6JmhamRN6I4Zt8DfZu5lbcQGw3ozH9lFejSJgs/ibaef3A9PMXPLeefFGJg==}
 
@@ -26186,6 +26254,10 @@ packages:
     resolution: {integrity: sha512-qsITQPfmvMOSAdeyZ+12I1c+CKSstAFAwu+97zrnWAbIr5u8wfsExUzCesVLC8NgHuRUqNN4Zy6UPWUTRGslcA==}
     engines: {node: '>= 6'}
 
+  form-data@4.0.4:
+    resolution: {integrity: sha512-KrGhL9Q4zjj0kiUt5OO4Mr/A/jlI2jDYs5eHBpYHPcBEVSiipAvn2Ko2HnPe20rmcuuvMHNdZFp+4IlGTMF0Ow==}
+    engines: {node: '>= 6'}
+
   format-io@2.0.0:
     resolution: {integrity: sha512-iQz8w2qr4f+doWBV6LsfScHbu1gXhccByjbmA1wjBTaKRhweH2baJL96UGR4C7Fjpr8zSkK7EXiLmbzZWTyQIA==}
     engines: {node: '>=8'}
@@ -26680,6 +26752,11 @@ packages:
 
   graphql-request@7.1.2:
     resolution: {integrity: sha512-+XE3iuC55C2di5ZUrB4pjgwe+nIQBuXVIK9J98wrVwojzDW3GMdSBZfxUk8l4j9TieIpjpggclxhNEU9ebGF8w==}
+    peerDependencies:
+      graphql: 14 - 16
+
+  graphql-request@7.2.0:
+    resolution: {integrity: sha512-0GR7eQHBFYz372u9lxS16cOtEekFlZYB2qOyq8wDvzRmdRSJ0mgUVX1tzNcIzk3G+4NY+mGtSz411wZdeDF/+A==}
     peerDependencies:
       graphql: 14 - 16
 
@@ -31938,22 +32015,22 @@ packages:
   superagent@3.8.1:
     resolution: {integrity: sha512-VMBFLYgFuRdfeNQSMLbxGSLfmXL/xc+OO+BZp41Za/NRDBet/BNbkRJrYzCUu0u4GU0i/ml2dtT8b9qgkw9z6Q==}
     engines: {node: '>= 4.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@4.1.0:
     resolution: {integrity: sha512-FT3QLMasz0YyCd4uIi5HNe+3t/onxMyEho7C3PSqmti3Twgy2rXT4fmkTz6wRL6bTF4uzPcfkUCa8u4JWHw8Ag==}
     engines: {node: '>= 6.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@5.3.1:
     resolution: {integrity: sha512-wjJ/MoTid2/RuGCOFtlacyGNxN9QLMgcpYLDQlWFIhhdJ93kNscFonGvrpAHSCVjRVj++DGCglocF7Aej1KHvQ==}
     engines: {node: '>= 7.0.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@7.1.6:
     resolution: {integrity: sha512-gZkVCQR1gy/oUXr+kxJMLDjla434KmSOKbx5iGD30Ql+AkJQ/YlPKECJy2nhqOsHLjGHzoDTXNSjhnvWhzKk7g==}
     engines: {node: '>=6.4.0 <13 || >=14'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   supports-color@10.0.0:
     resolution: {integrity: sha512-HRVVSbCCMbj7/kdWF9Q+bbckjBHLtHMEoJWlkmYzzdwhYMkjkOwubLM6t7NbWKjgKamGDrWL1++KrjUO1t9oAQ==}
@@ -36904,7 +36981,7 @@ snapshots:
   '@bandwidth/messaging@4.1.7':
     dependencies:
       '@apimatic/schema': 0.6.0
-      axios: 1.10.0(debug@3.2.7)
+      axios: 1.10.0
       detect-node: 2.1.0
       form-data: 3.0.2
       json-bigint: 1.0.0
@@ -38574,7 +38651,7 @@ snapshots:
     dependencies:
       '@types/body-parser': 1.19.5
       '@types/node': 18.19.64
-      axios: 1.10.0(debug@3.2.7)
+      axios: 1.10.0
       body-parser: 1.20.3
       file-type: 16.5.4
       form-data: 4.0.3
@@ -38596,7 +38673,7 @@ snapshots:
 
   '@lob/lob-typescript-sdk@1.3.5':
     dependencies:
-      axios: 1.10.0(debug@3.2.7)
+      axios: 1.10.0
       tslib: 2.8.1
     transitivePeerDependencies:
       - debug
@@ -39675,7 +39752,7 @@ snapshots:
   '@pipedream/linkedin@0.1.1':
     dependencies:
       '@pipedream/platform': 1.6.6
-      axios: 1.10.0(debug@3.2.7)
+      axios: 1.10.0
       form-data: 4.0.3
     transitivePeerDependencies:
       - debug
@@ -39731,7 +39808,7 @@ snapshots:
 
   '@pipedream/platform@1.6.0':
     dependencies:
-      axios: 1.10.0(debug@3.2.7)
+      axios: 1.10.0
       fp-ts: 2.16.9
       io-ts: 2.2.21(fp-ts@2.16.9)
       querystring: 0.2.1
@@ -39740,7 +39817,7 @@ snapshots:
 
   '@pipedream/platform@1.6.2':
     dependencies:
-      axios: 1.10.0(debug@3.2.7)
+      axios: 1.10.0
       fp-ts: 2.16.9
       io-ts: 2.2.21(fp-ts@2.16.9)
       querystring: 0.2.1
@@ -39749,7 +39826,7 @@ snapshots:
 
   '@pipedream/platform@1.6.4':
     dependencies:
-      axios: 1.10.0(debug@3.2.7)
+      axios: 1.10.0
       fp-ts: 2.16.9
       io-ts: 2.2.21(fp-ts@2.16.9)
       querystring: 0.2.1
@@ -39758,7 +39835,7 @@ snapshots:
 
   '@pipedream/platform@1.6.5':
     dependencies:
-      axios: 1.10.0(debug@3.2.7)
+      axios: 1.10.0
       fp-ts: 2.16.9
       io-ts: 2.2.21(fp-ts@2.16.9)
       querystring: 0.2.1
@@ -39767,7 +39844,7 @@ snapshots:
 
   '@pipedream/platform@1.6.6':
     dependencies:
-      axios: 1.10.0(debug@3.2.7)
+      axios: 1.10.0
       fp-ts: 2.16.9
       io-ts: 2.2.21(fp-ts@2.16.9)
       querystring: 0.2.1
@@ -39776,7 +39853,7 @@ snapshots:
 
   '@pipedream/platform@2.0.0':
     dependencies:
-      axios: 1.10.0(debug@3.2.7)
+      axios: 1.10.0
       fp-ts: 2.16.9
       io-ts: 2.2.21(fp-ts@2.16.9)
       querystring: 0.2.1
@@ -39785,7 +39862,7 @@ snapshots:
 
   '@pipedream/platform@3.0.1':
     dependencies:
-      axios: 1.10.0(debug@3.2.7)
+      axios: 1.10.0
       fp-ts: 2.16.9
       io-ts: 2.2.21(fp-ts@2.16.9)
       querystring: 0.2.1
@@ -39794,7 +39871,7 @@ snapshots:
 
   '@pipedream/platform@3.0.3':
     dependencies:
-      axios: 1.10.0(debug@3.2.7)
+      axios: 1.10.0
       fp-ts: 2.16.10
       io-ts: 2.2.22(fp-ts@2.16.10)
       querystring: 0.2.1
@@ -39803,7 +39880,7 @@ snapshots:
 
   '@pipedream/platform@3.1.0':
     dependencies:
-      axios: 1.10.0(debug@3.2.7)
+      axios: 1.10.0
       fp-ts: 2.16.10
       io-ts: 2.2.22(fp-ts@2.16.10)
       mime-types: 3.0.1
@@ -41213,7 +41290,7 @@ snapshots:
 
   '@shortcut/client@2.2.0':
     dependencies:
-      axios: 1.10.0(debug@3.2.7)
+      axios: 1.10.0
     transitivePeerDependencies:
       - debug
 
@@ -41285,7 +41362,7 @@ snapshots:
       '@slack/types': 2.14.0
       '@types/node': 20.17.6
       '@types/retry': 0.12.0
-      axios: 1.10.0(debug@3.2.7)
+      axios: 1.10.0
       eventemitter3: 5.0.1
       form-data: 4.0.3
       is-electron: 2.2.2
@@ -42225,7 +42302,7 @@ snapshots:
 
   '@types/axios@0.14.4':
     dependencies:
-      axios: 1.10.0(debug@3.2.7)
+      axios: 1.10.0
     transitivePeerDependencies:
       - debug
 
@@ -43490,7 +43567,7 @@ snapshots:
     dependencies:
       '@aws-sdk/util-utf8-browser': 3.259.0
       '@httptoolkit/websocket-stream': 6.0.1
-      axios: 1.10.0(debug@3.2.7)
+      axios: 1.11.0(debug@3.2.7)
       buffer: 6.0.3
       crypto-js: 4.2.0
       mqtt: 4.3.8
@@ -43548,10 +43625,18 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  axios@1.10.0(debug@3.2.7):
+  axios@1.10.0:
     dependencies:
       follow-redirects: 1.15.9(debug@3.2.7)
       form-data: 4.0.3
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+
+  axios@1.11.0(debug@3.2.7):
+    dependencies:
+      follow-redirects: 1.15.9(debug@3.2.7)
+      form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
@@ -44421,7 +44506,7 @@ snapshots:
 
   columns-sdk@0.0.6:
     dependencies:
-      axios: 1.10.0(debug@3.2.7)
+      axios: 1.10.0
       columns-graph-model: 1.1.4
       nebula-js-lib: 0.3.2
       pako: 2.1.0
@@ -46958,6 +47043,14 @@ snapshots:
       hasown: 2.0.2
       mime-types: 2.1.35
 
+  form-data@4.0.4:
+    dependencies:
+      asynckit: 0.4.0
+      combined-stream: 1.0.8
+      es-set-tostringtag: 2.1.0
+      hasown: 2.0.2
+      mime-types: 2.1.35
+
   format-io@2.0.0:
     dependencies:
       currify: 4.0.0
@@ -47713,6 +47806,11 @@ snapshots:
       - encoding
 
   graphql-request@7.1.2(graphql@16.9.0):
+    dependencies:
+      '@graphql-typed-document-node/core': 3.2.0(graphql@16.9.0)
+      graphql: 16.9.0
+
+  graphql-request@7.2.0(graphql@16.9.0):
     dependencies:
       '@graphql-typed-document-node/core': 3.2.0(graphql@16.9.0)
       graphql: 16.9.0
@@ -49683,7 +49781,7 @@ snapshots:
 
   klaviyo-api@18.0.0:
     dependencies:
-      axios: 1.10.0(debug@3.2.7)
+      axios: 1.10.0
       form-data: 4.0.3
     transitivePeerDependencies:
       - debug
@@ -49832,7 +49930,7 @@ snapshots:
 
   linkup-sdk@1.0.3:
     dependencies:
-      axios: 1.10.0(debug@3.2.7)
+      axios: 1.10.0
       zod: 3.24.1
       zod-to-json-schema: 3.24.1(zod@3.24.1)
     transitivePeerDependencies:
@@ -52528,7 +52626,7 @@ snapshots:
 
   pipedrive@24.1.1:
     dependencies:
-      axios: 1.10.0(debug@3.2.7)
+      axios: 1.10.0
       qs: 6.14.0
     transitivePeerDependencies:
       - debug
@@ -52553,7 +52651,7 @@ snapshots:
 
   plaid@33.0.0:
     dependencies:
-      axios: 1.10.0(debug@3.2.7)
+      axios: 1.10.0
     transitivePeerDependencies:
       - debug
 
@@ -54614,7 +54712,7 @@ snapshots:
       agent-base: 6.0.2
       asn1.js-rfc2560: 5.0.1(asn1.js@5.4.1)
       asn1.js-rfc5280: 3.0.0
-      axios: 1.10.0(debug@3.2.7)
+      axios: 1.11.0(debug@3.2.7)
       big-integer: 1.6.52
       bignumber.js: 2.4.0
       binascii: 0.0.2
@@ -56373,7 +56471,7 @@ snapshots:
 
   utopianlabs@0.1.11:
     dependencies:
-      axios: 1.10.0(debug@3.2.7)
+      axios: 1.11.0(debug@3.2.7)
       zod: 3.24.4
     transitivePeerDependencies:
       - debug
