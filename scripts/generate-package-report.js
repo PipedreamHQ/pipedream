@@ -434,7 +434,10 @@ function validatePackageDependencies(packageJson, app) {
   
   uniquePackages.forEach((packageName) => {
     // Skip native Node.js modules
-    if (NATIVE_MODULES.has(packageName)) {
+    const normalizedName = packageName.startsWith('node:')
+      ? packageName.slice(5)
+      : packageName;
+    if (NATIVE_MODULES.has(normalizedName)) {
       return;
     }
     
