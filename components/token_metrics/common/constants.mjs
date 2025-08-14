@@ -167,6 +167,19 @@ export const ENDPOINTS = {
       "token_id",
     ],
   },
+  QUANTMETRICS: {
+    path: "/quantmetrics",
+    description: "Get the latest quantitative metrics for tokens. Note that Token Metrics pricing data starts on 2019-01-01 for most tokens. More historical data will be available soon",
+    filters: [
+      "token_id",
+      "symbol",
+      "category",
+      "exchange",
+      "market_cap",
+      "volume",
+      "fdv",
+    ],
+  },
 };
 
 // Common filter definitions that can be reused across endpoints

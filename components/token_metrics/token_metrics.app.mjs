@@ -241,5 +241,15 @@ export default {
         params,
       });
     },
+    async getQuantmetrics({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/quantmetrics",
+        params,
+      });
+    },
   },
 };
