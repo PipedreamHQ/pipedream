@@ -1,11 +1,12 @@
 import googleCalendar from "../../google_calendar.app.mjs";
 import createEventCommon from "../common/create-event-common.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "google_calendar-quick-add-event",
   name: "Add Quick Event",
   description: "Create a quick event to the Google Calendar. [See the documentation](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Events.html#quickAdd)",
-  version: "0.1.7",
+  version: "0.1.8",
   type: "action",
   props: {
     googleCalendar,
@@ -28,6 +29,10 @@ export default {
     },
   },
   async run({ $ }) {
+    if (!this.calendarId) {
+      throw new ConfigurationError("Calendar ID prop is missing or empty. Please provide a valid string representing the calendar's identifier. For example, 'primary' or an email address such as 'user@example.com'");
+    }
+
     const response = await this.googleCalendar.quickAddEvent({
       calendarId: this.calendarId,
       text: this.text,
