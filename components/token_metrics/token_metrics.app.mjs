@@ -131,5 +131,15 @@ export default {
         params,
       });
     },
+    async getTmGradesHistorical({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/tm-grade-history",
+        params,
+      });
+    },
   },
 };

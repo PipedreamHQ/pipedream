@@ -73,6 +73,17 @@ export const ENDPOINTS = {
       "symbol",
     ],
   },
+  TM_GRADES_HISTORICAL: {
+    path: "/tm-grade-history",
+    description: "Get historical TM Grade data for a token, including trader grade change, quant grade, signals, momentum, and 24-hour percentage changes for both TM Grade and Trader Grade over time",
+    filters: [
+      "token_id",
+      "token_name",
+      "symbol",
+      "start_date",
+      "end_date",
+    ],
+  },
 };
 
 // Common filter definitions that can be reused across endpoints
