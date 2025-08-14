@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/siteglide",
+  "version": "0.0.1",
+  "description": "Pipedream Siteglide Components",
+  "main": "siteglide.app.mjs",
+  "keywords": [
+    "pipedream",
+    "siteglide"
+  ],
+  "homepage": "https://pipedream.com/apps/siteglide",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
