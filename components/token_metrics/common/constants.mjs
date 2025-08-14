@@ -35,6 +35,17 @@ export const ENDPOINTS = {
       "token_id",
     ],
   },
+  HOURLY_OHLCV: {
+    path: "/hourly-ohlcv",
+    description: "Get hourly OHLCV (Open, High, Low, Close, Volume) data for tokens",
+    filters: [
+      "token_id",
+      "symbol",
+      "token_name",
+      "start_date",
+      "end_date",
+    ],
+  },
 };
 
 // Common filter definitions that can be reused across endpoints

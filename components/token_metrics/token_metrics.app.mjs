@@ -91,5 +91,15 @@ export default {
         params,
       });
     },
+    async getHourlyOhlcv({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/hourly-ohlcv",
+        params,
+      });
+    },
   },
 };
