@@ -141,5 +141,15 @@ export default {
         params,
       });
     },
+    async getFundamentalGrades({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/fundamental-grade",
+        params,
+      });
+    },
   },
 };
