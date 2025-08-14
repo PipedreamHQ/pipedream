@@ -211,5 +211,15 @@ export default {
         params,
       });
     },
+    async getTopMarketCapTokens({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/top-market-cap-tokens",
+        params,
+      });
+    },
   },
 };

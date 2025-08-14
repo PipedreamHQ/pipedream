@@ -145,6 +145,13 @@ export const ENDPOINTS = {
     description: "Get the latest list of crypto investors and their scores",
     filters: [],
   },
+  TOP_MARKET_CAP_TOKENS: {
+    path: "/top-market-cap-tokens",
+    description: "Get the list of coins for top market cap",
+    filters: [
+      "top_k",
+    ],
+  },
 };
 
 // Common filter definitions that can be reused across endpoints
@@ -251,6 +258,12 @@ export const FILTER_DEFINITIONS = {
       },
     ],
     default: "active",
+  },
+  top_k: {
+    type: "integer",
+    label: "Top K",
+    description: "Specifies the number of top cryptocurrencies to retrieve, based on their market capitalization. Example: 100",
+    optional: true,
   },
 };
 
