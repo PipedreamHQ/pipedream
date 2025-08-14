@@ -6,7 +6,7 @@ export default {
   key: "krispcall-new-contact-instant",
   name: "New Contact (Instant)",
   description: "Emit new event when a new contact is created.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   methods: {

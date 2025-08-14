@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/stack_exchange",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "description": "Pipedream Stack_exchange Components",
-  "main": "stack_exchange.app.mjs",
+  "main": "stack_exchange.app.js",
   "keywords": [
     "pipedream",
     "stack_exchange"
