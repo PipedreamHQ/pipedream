@@ -1,3 +1,4 @@
+import utils from "../../common/utils.mjs";
 import notion from "../../notion.app.mjs";
 import base from "../common/base-page-builder.mjs";
 
@@ -23,13 +24,13 @@ export default {
     content: {
       type: "string",
       label: "Content",
-      description: "The content of the block. **E.g. {\"code\": {\"rich_text\":[{\"type\":\"text\",\"text\":{\"content\":\"Updated content\"}]}}** [See the documentation](https://developers.notion.com/reference/update-a-block)",
+      description: "The content of the block. **E.g. {\"code\": {\"rich_text\":[{\"type\":\"text\",\"text\":{\"content\":\"Updated content\"}}]}}** [See the documentation](https://developers.notion.com/reference/update-a-block)",
     },
   },
   async run({ $ }) {
     const response = await this.notion.updateBlock({
       block_id: this.blockId,
-      data: this.content,
+      ...utils.parseObject(this.content),
     });
     $.export("$summary", `Successfully updated block with ID ${this.blockId}`);
     return response;
