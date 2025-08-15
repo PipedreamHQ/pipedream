@@ -1,10 +1,11 @@
 import linkedin from "../../linkedin.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "linkedin-create-text-post-user",
   name: "Create a Simple Post (User)",
-  description: "Create post on LinkedIn using text, URL or article. [See the docs](https://learn.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/posts-api?view=li-lms-2022-11&tabs=http#create-organic-posts) for more information",
-  version: "0.0.6",
+  description: "Create post on LinkedIn using text, URL or article. [See the documentation](https://learn.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/posts-api?view=li-lms-2022-11&tabs=http#create-organic-posts) for more information",
+  version: "0.0.8",
   type: "action",
   props: {
     linkedin,
@@ -28,23 +29,43 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = {
-      commentary: this.text,
-      visibility: this.visibility,
-    };
-    if (this.article) {
-      data.content = {
-        article: {
-          source: this.article,
-          title: this.article,
-        },
-      };
-    }
-    const response = await this.linkedin.createPost({
+    const {
+      linkedin,
+      visibility,
+      text,
+      article,
+    } = this;
+
+    const profile = await linkedin.getCurrentMemberProfile({
       $,
-      data,
+    });
+
+    const response = await linkedin.createPost({
+      $,
+      data: {
+        author: `urn:li:person:${profile?.id}`,
+        lifecycleState: "PUBLISHED",
+        distribution: {
+          feedDistribution: "MAIN_FEED",
+        },
+        commentary: utils.escapeText(text),
+        visibility,
+        ...(article
+          ? {
+            content: {
+              article: {
+                source: article,
+                title: article,
+              },
+            },
+          }
+          : {}
+        ),
+      },
     });
     $.export("$summary", "Successfully created a new Post as User");
-    return response;
+    return response || {
+      success: true,
+    };
   },
 };

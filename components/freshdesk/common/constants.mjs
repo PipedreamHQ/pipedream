@@ -37,4 +37,42 @@ export default {
       value: 4,
     },
   ],
+  TICKET_SCOPE: [
+    {
+      label: "Global Access",
+      value: 1,
+    },
+    {
+      label: "Group Access",
+      value: 2,
+    },
+    {
+      label: "Restricted Access",
+      value: 3,
+    },
+  ],
+  AGENT_TYPE: [
+    {
+      label: "Support Agent",
+      value: 1,
+    },
+    {
+      label: "Field Agent",
+      value: 2,
+    },
+    {
+      label: "Collaborator",
+      value: 3,
+    },
+  ],
+  ARTICLE_STATUS: [
+    {
+      label: "Draft",
+      value: 1,
+    },
+    {
+      label: "Published",
+      value: 2,
+    },
+  ],
 };

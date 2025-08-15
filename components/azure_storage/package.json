@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/azure_storage",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Pipedream Azure Storage Components",
   "main": "azure_storage.app.mjs",
   "keywords": [
@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@pipedream/platform": "^3.1.0",
-    "mime-types": "^2.1.35"
+    "mime-types": "^2.1.35",
+    "fast-xml-parser": "^4.2.5"
   }
 }

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/ionos_hosting_services",
+  "version": "0.0.1",
+  "description": "Pipedream IONOS Hosting Services Components",
+  "main": "ionos_hosting_services.app.mjs",
+  "keywords": [
+    "pipedream",
+    "ionos_hosting_services"
+  ],
+  "homepage": "https://pipedream.com/apps/ionos_hosting_services",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/walletap",
+  "version": "0.0.1",
+  "description": "Pipedream WalleTap Components",
+  "main": "walletap.app.mjs",
+  "keywords": [
+    "pipedream",
+    "walletap"
+  ],
+  "homepage": "https://pipedream.com/apps/walletap",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

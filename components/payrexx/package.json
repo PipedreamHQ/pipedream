@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/payrexx",
+  "version": "0.0.1",
+  "description": "Pipedream Payrexx Components",
+  "main": "payrexx.app.mjs",
+  "keywords": [
+    "pipedream",
+    "payrexx"
+  ],
+  "homepage": "https://pipedream.com/apps/payrexx",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

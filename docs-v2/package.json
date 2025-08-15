@@ -4,6 +4,7 @@
   "description": "Pipedream docs",
   "private": true,
   "scripts": {
+    "predev": "echo '' && echo '⚠️  WARNING: This docs-v2 project is DEPRECATED!' && echo '⚠️  Do not commit changes to this directory.' && echo '⚠️  The documentation has moved to a new location.' && echo ''",
     "dev": "next dev",
     "build": "next build",
     "postbuild": "next-sitemap",

@@ -6,7 +6,7 @@ export default {
   key: "sevdesk-new-voucher",
   name: "New Voucher Created",
   description: "Emit new event when a new voucher is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

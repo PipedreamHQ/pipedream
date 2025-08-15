@@ -20,6 +20,21 @@ export default {
       description: "The geo location to scrape from. [See the guide](https://developers.oxylabs.io/scraping-solutions/web-scraper-api/features/localization/e-commerce-localization) for using this property.",
       optional: true,
     },
+    parse: {
+      type: "boolean",
+      label: "Parse",
+      description: "Set to `true` to receive structured data",
+      optional: true,
+    },
+    render: {
+      type: "string",
+      label: "Render",
+      description: "Set to `html` to get the raw output of the rendered page",
+      options: [
+        "html",
+      ],
+      optional: true,
+    },
   },
   methods: {
     _getBaseUrl() {

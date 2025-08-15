@@ -9,6 +9,7 @@ export default {
       type: "string",
       label: "Trigger Category ID",
       description: "The ID of the trigger category. [See the docs here](https://developer.zendesk.com/api-reference/ticketing/business-rules/trigger_categories/#list-trigger-categories)",
+      optional: true,
       async options({ prevContext }) {
         const { afterCursor } = prevContext;
 
@@ -100,6 +101,77 @@ export default {
         };
       },
     },
+    userId: {
+      type: "string",
+      label: "User ID",
+      description: "The ID of the user",
+      async options({ prevContext }) {
+        const { afterCursor } = prevContext;
+
+        const {
+          users,
+          meta,
+        } = await this.listUsers({
+          params: {
+            [constants.PAGE_SIZE_PARAM]: constants.DEFAULT_LIMIT,
+            [constants.PAGE_AFTER_PARAM]: afterCursor,
+          },
+        });
+
+        return {
+          context: {
+            afterCursor: meta.after_cursor,
+          },
+          options: users.map(({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          })),
+        };
+      },
+    },
+    groupId: {
+      type: "string",
+      label: "Group ID",
+      description: "The ID of the group",
+      optional: true,
+      async options({ prevContext }) {
+        const { afterCursor } = prevContext;
+
+        const {
+          groups,
+          meta,
+        } = await this.listGroups({
+          params: {
+            [constants.PAGE_SIZE_PARAM]: constants.DEFAULT_LIMIT,
+            [constants.PAGE_AFTER_PARAM]: afterCursor,
+          },
+        });
+
+        return {
+          context: {
+            afterCursor: meta.after_cursor,
+          },
+          options: groups.map(({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          })),
+        };
+      },
+    },
+    macroCategory: {
+      type: "string",
+      label: "Macro Category",
+      description: "The category of the macro",
+      optional: true,
+      async options() {
+        const { categories } = await this.listMacroCategories();
+        return categories.map((category) => category);
+      },
+    },
     fields: {
       type: "string[]",
       label: "Fields",
@@ -124,6 +196,13 @@ export default {
       label: "Comment body",
       description: "The body of the comment.",
     },
+    ticketCommentBodyIsHTML: {
+      type: "boolean",
+      label: "Comment body is HTML",
+      description: "Whether the comment body is HTML. Default is `false`, which expects Markdown",
+      default: false,
+      optional: true,
+    },
     ticketPriority: {
       type: "string",
       label: "Ticket Priority",
@@ -143,6 +222,13 @@ export default {
       description: "The status of the ticket.",
       optional: true,
       options: Object.values(constants.TICKET_STATUS_OPTIONS),
+    },
+    ticketCommentPublic: {
+      type: "boolean",
+      label: "Comment Public",
+      description: "Whether the comment is public. Default is `true`",
+      default: true,
+      optional: true,
     },
     sortBy: {
       type: "string",
@@ -172,6 +258,12 @@ export default {
       type: "string",
       label: "Custom Subdomain",
       description: "For Enterprise Zendesk accounts: optionally specify the subdomain to use. This will override the subdomain that was provided when connecting your Zendesk account to Pipedream. For example, if you Zendesk URL is https://examplehelp.zendesk.com, your subdomain is `examplehelp`",
+      optional: true,
+    },
+    ticketTags: {
+      type: "string[]",
+      label: "Tags",
+      description: "Array of tags to apply to the ticket. These will replace any existing tags on the ticket.",
       optional: true,
     },
   },
@@ -210,6 +302,14 @@ export default {
     } = {}) {
       return this.makeRequest({
         path: `/tickets/${ticketId}`,
+        ...args,
+      });
+    },
+    getUserInfo({
+      userId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/users/${userId}`,
         ...args,
       });
     },
@@ -269,6 +369,44 @@ export default {
         ...args,
       });
     },
+    listTicketComments({
+      ticketId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}/comments`,
+        ...args,
+      });
+    },
+    listUsers(args = {}) {
+      return this.makeRequest({
+        path: "/users",
+        ...args,
+      });
+    },
+    listLocales(args = {}) {
+      return this.makeRequest({
+        path: "/locales",
+        ...args,
+      });
+    },
+    listMacros(args = {}) {
+      return this.makeRequest({
+        path: "/macros",
+        ...args,
+      });
+    },
+    listMacroCategories(args = {}) {
+      return this.makeRequest({
+        path: "/macros/categories",
+        ...args,
+      });
+    },
+    listGroups(args = {}) {
+      return this.makeRequest({
+        path: "/groups",
+        ...args,
+      });
+    },
     async *paginate({
       fn, args, resourceKey, max,
     }) {
@@ -299,6 +437,69 @@ export default {
         hasMore = !!response.next_page;
         args.params.page += 1;
       }
+    },
+    /**
+     * Set tags on a ticket (replaces all existing tags)
+     * @param {object} args - Arguments object
+     * @param {string} args.ticketId - The ticket ID
+     * @param {string[]} args.tags - Array of tags to set
+     * @param {string} args.customSubdomain - Optional custom subdomain
+     * @returns {Promise<object>} API response
+     */
+    setTicketTags({
+      ticketId, tags, customSubdomain, ...args
+    }) {
+      return this.makeRequest({
+        method: "POST",
+        path: `/tickets/${ticketId}/tags.json`,
+        customSubdomain,
+        data: {
+          tags,
+        },
+        ...args,
+      });
+    },
+    /**
+     * Add tags to a ticket (appends to existing tags)
+     * @param {object} args - Arguments object
+     * @param {string} args.ticketId - The ticket ID
+     * @param {string[]} args.tags - Array of tags to add
+     * @param {string} args.customSubdomain - Optional custom subdomain
+     * @returns {Promise<object>} API response
+     */
+    addTicketTags({
+      ticketId, tags, customSubdomain, ...args
+    }) {
+      return this.makeRequest({
+        method: "PUT",
+        path: `/tickets/${ticketId}/tags.json`,
+        customSubdomain,
+        data: {
+          tags,
+        },
+        ...args,
+      });
+    },
+    /**
+     * Remove specific tags from a ticket
+     * @param {object} args - Arguments object
+     * @param {string} args.ticketId - The ticket ID
+     * @param {string[]} args.tags - Array of tags to remove
+     * @param {string} args.customSubdomain - Optional custom subdomain
+     * @returns {Promise<object>} API response
+     */
+    removeTicketTags({
+      ticketId, tags, customSubdomain, ...args
+    }) {
+      return this.makeRequest({
+        method: "DELETE",
+        path: `/tickets/${ticketId}/tags.json`,
+        customSubdomain,
+        data: {
+          tags,
+        },
+        ...args,
+      });
     },
   },
 };

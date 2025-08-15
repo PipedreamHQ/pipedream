@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/bright_data",
+  "version": "0.1.0",
+  "description": "Pipedream Bright Data Components",
+  "main": "bright_data.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bright_data"
+  ],
+  "homepage": "https://pipedream.com/apps/bright_data",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
+  }
+}

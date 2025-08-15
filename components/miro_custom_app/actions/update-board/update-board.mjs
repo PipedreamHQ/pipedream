@@ -4,7 +4,7 @@ const { app } = common.props;
 
 export default {
   name: "Update Board",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "miro_custom_app-update-board",
   description: "Updates a Miro board. [See the docs](https://developers.miro.com/reference/update-board).",
   type: "action",

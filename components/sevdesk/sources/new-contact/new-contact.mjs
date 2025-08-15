@@ -6,7 +6,7 @@ export default {
   key: "sevdesk-new-contact",
   name: "New Contact Created",
   description: "Emit new event when a contact is created in SevDesk.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/channable",
+  "version": "0.1.0",
+  "description": "Pipedream Channable Components",
+  "main": "channable.app.mjs",
+  "keywords": [
+    "pipedream",
+    "channable"
+  ],
+  "homepage": "https://pipedream.com/apps/channable",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
+  }
+}

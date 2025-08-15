@@ -8,7 +8,7 @@ export default {
   key: "github-new-issue-comment",
   name: "New Issue Comment",
   description: "Emit new event when a new comment is added to an issue or pull request",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

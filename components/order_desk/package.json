@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/order_desk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Order Desk Components",
-  "main": "dist/app/order_desk.app.mjs",
+  "main": "order_desk.app.mjs",
   "keywords": [
     "pipedream",
     "order_desk"

@@ -364,6 +364,7 @@ export default {
         notionClient: notion,
         config: {
           separateChildPage: true,
+          parseChildPages: shouldRetrieveChildren,
         },
       });
       const blocks = await n2m.pageToMarkdown(pageId);

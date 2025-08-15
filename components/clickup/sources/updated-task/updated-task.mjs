@@ -7,7 +7,7 @@ export default {
   key: "clickup-updated-task",
   name: "New Updated Task (Instant)",
   description: "Emit new event when a new task is updated",
-  version: "0.0.12",
+  version: "0.0.13",
   dedupe: "unique",
   type: "source",
   props: {

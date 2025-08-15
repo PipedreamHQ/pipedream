@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/exact_mails",
+  "version": "0.0.1",
+  "description": "Pipedream Exact Mails Components",
+  "main": "exact_mails.app.mjs",
+  "keywords": [
+    "pipedream",
+    "exact_mails"
+  ],
+  "homepage": "https://pipedream.com/apps/exact_mails",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

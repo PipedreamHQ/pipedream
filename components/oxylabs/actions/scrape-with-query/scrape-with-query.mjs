@@ -5,7 +5,7 @@ export default {
   key: "oxylabs-scrape-with-query",
   name: "Scrape with Query",
   description: "Extract data using a search query. [See the documentation](https://developers.oxylabs.io/scraping-solutions/web-scraper-api)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     oxylabs,
@@ -26,6 +26,18 @@ export default {
         "geoLocation",
       ],
     },
+    parse: {
+      propDefinition: [
+        oxylabs,
+        "parse",
+      ],
+    },
+    render: {
+      propDefinition: [
+        oxylabs,
+        "render",
+      ],
+    },
   },
   async run({ $ }) {
     const response = await this.oxylabs.scrape({
@@ -34,6 +46,8 @@ export default {
         source: this.source,
         query: this.query,
         geo_location: this.geoLocation,
+        parse: this.parse,
+        render: this.render,
       },
     });
     $.export("$summary", `Successfully scraped using query: ${this.query}`);

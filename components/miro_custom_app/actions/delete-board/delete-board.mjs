@@ -3,7 +3,7 @@ import common from "../common/base.mjs";
 export default {
   ...common,
   name: "Delete Board",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "miro_custom_app-delete-board",
   description: "Deletes a Miro board. [See the docs](https://developers.miro.com/reference/delete-board).",
   type: "action",

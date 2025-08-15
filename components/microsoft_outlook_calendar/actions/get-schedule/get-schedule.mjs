@@ -1,16 +1,18 @@
+import { ConfigurationError } from "@pipedream/platform";
 import microsoftOutlook from "../../microsoft_outlook_calendar.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "microsoft_outlook_calendar-get-schedule",
   name: "Get Free/Busy Schedule",
   description: "Get the free/busy availability information for a collection of users, distributions lists, or resources (rooms or equipment) for a specified time period. [See the documentation](https://learn.microsoft.com/en-us/graph/api/calendar-getschedule)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     microsoftOutlook,
     schedules: {
       type: "string[]",
-      label: "Emails",
+      label: "Schedules",
       description: "A list of emails of users, distribution lists, or resources. For example: `[ \"adelev@contoso.com\" , \"meganb@contoso.com\" ]`",
     },
     start: {
@@ -48,10 +50,16 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.schedules === null || this.schedules === undefined || this.schedules?.length === 0) {
+      throw new ConfigurationError("The **Schedules** property is required");
+    }
+
+    const schedules = utils.parseArray(this.schedules);
+
     const { value } = await this.getSchedule({
       $,
       data: {
-        schedules: this.schedules,
+        schedules,
         startTime: {
           dateTime: this.start,
           timeZone: this.timeZone,
@@ -64,7 +72,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully retrieved schedules for \`${this.schedules.join("`, `")}\``);
+    $.export("$summary", `Successfully retrieved schedules for \`${schedules.join("`, `")}\``);
 
     return value;
   },

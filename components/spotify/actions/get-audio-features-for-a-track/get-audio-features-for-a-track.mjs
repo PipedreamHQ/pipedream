@@ -6,7 +6,7 @@ export default {
   name: "Get Audio Features for a Track",
   description: "Get audio feature information for a single track identified by its unique Spotify ID. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-audio-features).",
   key: "spotify-get-audio-features-for-a-track",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     spotify,

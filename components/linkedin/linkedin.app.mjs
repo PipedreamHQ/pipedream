@@ -157,23 +157,10 @@ export default {
         ...otherConfig,
       });
     },
-    async createPost({
-      data, ...args
-    }) {
-      data = {
-        ...data,
-        author: `urn:li:${data?.author
-          ? "organization"
-          : "person"}:${data.author || this.$auth.oauth_uid}`,
-        lifecycleState: "PUBLISHED",
-        distribution: {
-          feedDistribution: "MAIN_FEED",
-        },
-      };
+    createPost(args = {}) {
       return this._makeRequest({
         method: "POST",
         path: "/posts",
-        data,
         ...args,
       });
     },
@@ -234,9 +221,14 @@ export default {
         ...args,
       });
     },
-    async getAccessControl({ params }) {
+    async getAccessControl({
+      strParams, ...args
+    }) {
       return this._makeRequestAxios({
-        path: `/organizationAcls?${params}`,
+        path: `/organizationAcls${strParams
+          ? `?${strParams}`
+          : ""}`,
+        ...args,
       });
     },
     async queryAnaltyics(query, args = {} ) {

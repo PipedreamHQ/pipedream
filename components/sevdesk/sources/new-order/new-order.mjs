@@ -6,7 +6,7 @@ export default {
   key: "sevdesk-new-order",
   name: "New Order Created",
   description: "Emit new event for each new order created in SevDesk.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
