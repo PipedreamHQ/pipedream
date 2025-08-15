@@ -1,26 +1,26 @@
-import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
+import { defineApp } from "@pipedream/types";
 import * as crypto from "crypto";
 import {
   BASE_URL,
-  ENDPOINTS,
   DEFAULT_LIMIT,
+  ENDPOINTS,
+  HTTP_STATUS,
   MAX_LIMIT,
-  SORT_OPTIONS,
   RATING_SCALE,
   RETRY_CONFIG,
-  HTTP_STATUS,
+  SORT_OPTIONS,
 } from "./common/constants.mjs";
 import {
   buildUrl,
-  parseReview,
+  formatQueryParams,
   parseBusinessUnit,
+  parseReview,
   parseWebhookPayload,
+  sanitizeInput,
+  sleep,
   validateBusinessUnitId,
   validateReviewId,
-  formatQueryParams,
-  sleep,
-  sanitizeInput,
 } from "./common/utils.mjs";
 
 export default defineApp({
@@ -37,9 +37,11 @@ export default defineApp({
             query: "",
             limit: 20,
           });
-          return businessUnits.map((unit) => ({
-            label: unit.displayName,
-            value: unit.id,
+          return businessUnits.map(({
+            id, displayName, name: { identifying },
+          }) => ({
+            label: `${identifying || displayName}`,
+            value: id,
           }));
         } catch (error) {
           console.error("Error fetching business units:", error);
