@@ -55,9 +55,9 @@ export default {
       const items: EntityWithCreateTime[] = await this.getItems();
       this.setLastRun(currentRun);
 
-      const filteredItems = lastRun
-        ? items.filter(({ createTime }) => new Date(createTime) >= lastRun)
-        : items.slice(-10);
+      const filteredItems = (lastRun
+        ? items?.filter(({ createTime }) => new Date(createTime) >= lastRun)
+        : items?.slice(-10)) ?? [];
 
       filteredItems.reverse().forEach((item) => {
         this.$emit(item, {

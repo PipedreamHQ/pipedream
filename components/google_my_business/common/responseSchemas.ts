@@ -22,3 +22,9 @@ export interface Review extends EntityWithCreateTime {
 export interface LocalPost extends EntityWithCreateTime {
   summary: string;
 }
+
+export interface BatchGetReviewsResponse {
+  locationReviews: {
+    review: Review
+  }[];
+}
