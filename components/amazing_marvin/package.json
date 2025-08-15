@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/amazing_marvin",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Amazing Marvin Components",
-  "main": "dist/app/amazing_marvin.app.mjs",
+  "main": "amazing_marvin.app.mjs",
   "keywords": [
     "pipedream",
     "amazing_marvin"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/amazing_marvin",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

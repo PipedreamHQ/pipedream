@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/crowdpower",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream CrowdPower Components",
-  "main": "dist/app/crowdpower.app.mjs",
+  "main": "crowdpower.app.mjs",
   "keywords": [
     "pipedream",
     "crowdpower"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/crowdpower",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
