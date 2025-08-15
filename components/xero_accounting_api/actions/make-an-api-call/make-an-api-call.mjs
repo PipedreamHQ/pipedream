@@ -1,4 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
+import { parseObject } from "../../common/util.mjs";
 import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 
 export default {
@@ -60,7 +61,8 @@ export default {
       method: this.requestMethod,
       path: this.relativeUrl,
       params: this.queryString,
-      data: this.requestBody,
+      headers: parseObject(this.headers),
+      data: parseObject(this.requestBody),
     });
 
     $.export("$summary", `Successfully made API call to ${this.relativeUrl}`);

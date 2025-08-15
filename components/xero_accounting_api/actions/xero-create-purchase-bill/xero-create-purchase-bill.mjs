@@ -1,4 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
+import { formatLineItems } from "../../common/util.mjs";
 import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 
 export default {
@@ -116,22 +117,22 @@ export default {
       data: {
         Type: "ACCPAY", //ACCPAY = Purchase Bill
         Contact: {
-          ContactID: this.contact_id,
-          Name: this.contact_name,
+          ContactID: this.contactId,
+          Name: this.contactName,
         },
-        LineItems: this.line_items,
+        LineItems: formatLineItems(this.lineItems),
         Date: this.date,
-        DueDate: this.due_date,
-        LineAmountTypes: this.line_amount_type,
-        InvoiceNumber: this.purchase_bill_number,
+        DueDate: this.dueDate,
+        LineAmountTypes: this.lineAmountType,
+        InvoiceNumber: this.purchaseBillNumber,
         Reference: this.reference,
-        BrandingThemeID: this.branding_theme_id,
+        BrandingThemeID: this.brandingThemeId,
         Url: this.url,
-        CurrencyCode: this.currency_code,
-        CurrencyRate: this.currency_rate,
+        CurrencyCode: this.currencyCode,
+        CurrencyRate: this.currencyRate,
         Status: this.status,
-        SentToContact: this.sent_to_contact,
-        PlannedPaymentDate: this.planned_payment_date,
+        SentToContact: this.sentToContact,
+        PlannedPaymentDate: this.plannedPaymentDate,
       },
     });
 

@@ -1,4 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
+import { parseObject } from "../../common/util.mjs";
 import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 
 export default {
@@ -53,9 +54,9 @@ export default {
       tenantId: this.tenantId,
       data: {
         Status: this.status,
-        FirstName: this.first_name,
-        LastName: this.last_name,
-        ExternalLink: this.external_link,
+        FirstName: this.firstName,
+        LastName: this.lastName,
+        ExternalLink: parseObject(this.externalLink),
       },
     });
 

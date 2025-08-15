@@ -1,4 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
+import { formatLineItems } from "../../common/util.mjs";
 import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 
 export default {
@@ -139,7 +140,7 @@ export default {
         Date: this.date,
         Status: this.status,
         LineAmountTypes: this.lineAmountTypes,
-        LineItems: this.lineItems,
+        LineItems: formatLineItems(this.lineItems),
         CurrencyCode: this.currencyCode,
         CreditNoteNumber: this.creditNoteNumber,
         Reference: this.reference,
