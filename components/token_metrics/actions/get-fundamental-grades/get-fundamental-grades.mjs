@@ -2,24 +2,28 @@ import tokenMetrics from "../../token_metrics.app.mjs";
 import { ENDPOINTS, FILTER_DEFINITIONS } from "../../common/constants.mjs";
 import { buildParams, generateFilterSummary } from "../../common/utils.mjs";
 
-const endpoint = ENDPOINTS.MARKET_METRICS;
+const endpoint = ENDPOINTS.FUNDAMENTAL_GRADES;
 
 export default {
-  key: "token_metrics-get-market-metrics",
-  name: "Get Market Metrics",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/market-metrics)`,
+  key: "token_metrics-get-fundamental-grades",
+  name: "Get Fundamental Grades",
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/fundamental-grade)`,
   version: "0.0.1",
   type: "action",
   props: {
     tokenMetrics,
     // Filter props based on endpoint configuration and API documentation
-    startDate: {
-      ...FILTER_DEFINITIONS.start_date,
-      description: "Start Date accepts date as a string - YYYY-MM-DD format. Example: 2023-10-01",
+    tokenId: {
+      ...FILTER_DEFINITIONS.token_id,
+      description: "Click here to access the list of token IDs. Example: 3375",
     },
-    endDate: {
-      ...FILTER_DEFINITIONS.end_date,
-      description: "End Date accepts date as a string - YYYY-MM-DD format. Example: 2023-10-10",
+    tokenName: {
+      ...FILTER_DEFINITIONS.token_name,
+      description: "Crypto Asset Names (e.g., Bitcoin, Ethereum). Click here to access the list of token names.",
+    },
+    symbol: {
+      ...FILTER_DEFINITIONS.symbol,
+      description: "Click here to access the list of token symbols. Example: BTC,ETH",
     },
     // Pagination props
     limit: {
@@ -44,7 +48,7 @@ export default {
     const params = buildParams(this, endpoint.filters);
 
     try {
-      const response = await this.tokenMetrics.getMarketMetrics({
+      const response = await this.tokenMetrics.getFundamentalGrades({
         $,
         params,
       });
@@ -55,7 +59,7 @@ export default {
       // Use $ context for export
       if ($ && $.export) {
         const dataLength = response.data?.length || 0;
-        $.export("$summary", `Successfully retrieved market metrics for ${dataLength} records${filterSummary}`);
+        $.export("$summary", `Successfully retrieved fundamental grades for ${dataLength} tokens${filterSummary}`);
       }
       
       return response;

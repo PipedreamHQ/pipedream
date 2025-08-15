@@ -2,23 +2,21 @@ import tokenMetrics from "../../token_metrics.app.mjs";
 import { ENDPOINTS, FILTER_DEFINITIONS } from "../../common/constants.mjs";
 import { buildParams, generateFilterSummary } from "../../common/utils.mjs";
 
-const endpoint = ENDPOINTS.TOKENS;
+const endpoint = ENDPOINTS.PRICE;
 
 export default {
-  key: "token_metrics-get-tokens",
-  name: "Get Tokens",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/tokens)`,
+  key: "token_metrics-get-price",
+  name: "Get Price",
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/price)`,
   version: "0.0.1",
   type: "action",
   props: {
     tokenMetrics,
-    // Dynamically add filter props based on endpoint configuration
-    tokenId: FILTER_DEFINITIONS.token_id,
-    tokenName: FILTER_DEFINITIONS.token_name,
-    symbol: FILTER_DEFINITIONS.symbol,
-    category: FILTER_DEFINITIONS.category,
-    exchange: FILTER_DEFINITIONS.exchange,
-    blockchainAddress: FILTER_DEFINITIONS.blockchain_address,
+    // Filter props based on endpoint configuration
+    tokenId: {
+      ...FILTER_DEFINITIONS.token_id,
+      description: "Comma Separated Token IDs. Click here to access the list of token IDs. Example: 3375,3306",
+    },
     // Pagination props
     limit: {
       propDefinition: [
@@ -38,7 +36,7 @@ export default {
     const params = buildParams(this, endpoint.filters);
 
     try {
-      const response = await this.tokenMetrics.getTokens({
+      const response = await this.tokenMetrics.getPrice({
         $,
         params,
       });
@@ -48,7 +46,8 @@ export default {
       
       // Use $ context for export
       if ($ && $.export) {
-        $.export("$summary", `Successfully retrieved tokens list${filterSummary}`);
+        const dataLength = response.data?.length || 0;
+        $.export("$summary", `Successfully retrieved ${dataLength} price records${filterSummary}`);
       }
       
       return response;

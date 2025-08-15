@@ -2,35 +2,20 @@ import tokenMetrics from "../../token_metrics.app.mjs";
 import { ENDPOINTS, FILTER_DEFINITIONS } from "../../common/constants.mjs";
 import { buildParams, generateFilterSummary } from "../../common/utils.mjs";
 
-const endpoint = ENDPOINTS.TOKENS;
+const endpoint = ENDPOINTS.INDICES_HOLDINGS;
 
 export default {
-  key: "token_metrics-get-tokens",
-  name: "Get Tokens",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/tokens)`,
+  key: "token_metrics-get-indices-holdings",
+  name: "Get Indices Holdings",
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/indices-holdings)`,
   version: "0.0.1",
   type: "action",
   props: {
     tokenMetrics,
-    // Dynamically add filter props based on endpoint configuration
-    tokenId: FILTER_DEFINITIONS.token_id,
-    tokenName: FILTER_DEFINITIONS.token_name,
-    symbol: FILTER_DEFINITIONS.symbol,
-    category: FILTER_DEFINITIONS.category,
-    exchange: FILTER_DEFINITIONS.exchange,
-    blockchainAddress: FILTER_DEFINITIONS.blockchain_address,
-    // Pagination props
-    limit: {
-      propDefinition: [
-        tokenMetrics,
-        "limit",
-      ],
-    },
-    page: {
-      propDefinition: [
-        tokenMetrics,
-        "page",
-      ],
+    // Filter props based on endpoint configuration and API documentation
+    id: {
+      ...FILTER_DEFINITIONS.id,
+      description: "ID of the index. Example: 1",
     },
   },
   async run({ $ }) {
@@ -38,7 +23,7 @@ export default {
     const params = buildParams(this, endpoint.filters);
 
     try {
-      const response = await this.tokenMetrics.getTokens({
+      const response = await this.tokenMetrics.getIndicesHoldings({
         $,
         params,
       });
@@ -48,7 +33,8 @@ export default {
       
       // Use $ context for export
       if ($ && $.export) {
-        $.export("$summary", `Successfully retrieved tokens list${filterSummary}`);
+        const dataLength = response.data?.length || 0;
+        $.export("$summary", `Successfully retrieved holdings for index with ${dataLength} tokens${filterSummary}`);
       }
       
       return response;

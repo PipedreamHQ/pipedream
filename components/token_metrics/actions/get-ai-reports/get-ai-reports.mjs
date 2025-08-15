@@ -2,35 +2,41 @@ import tokenMetrics from "../../token_metrics.app.mjs";
 import { ENDPOINTS, FILTER_DEFINITIONS } from "../../common/constants.mjs";
 import { buildParams, generateFilterSummary } from "../../common/utils.mjs";
 
-const endpoint = ENDPOINTS.TOKENS;
+const endpoint = ENDPOINTS.AI_REPORTS;
 
 export default {
-  key: "token_metrics-get-tokens",
-  name: "Get Tokens",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/tokens)`,
+  key: "token_metrics-get-ai-reports",
+  name: "Get AI Reports",
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/ai-reports)`,
   version: "0.0.1",
   type: "action",
   props: {
     tokenMetrics,
-    // Dynamically add filter props based on endpoint configuration
-    tokenId: FILTER_DEFINITIONS.token_id,
-    tokenName: FILTER_DEFINITIONS.token_name,
-    symbol: FILTER_DEFINITIONS.symbol,
-    category: FILTER_DEFINITIONS.category,
-    exchange: FILTER_DEFINITIONS.exchange,
-    blockchainAddress: FILTER_DEFINITIONS.blockchain_address,
+    // Filter props based on endpoint configuration and API documentation
+    tokenId: {
+      ...FILTER_DEFINITIONS.token_id,
+      description: "Comma Separated Token IDs. Click here to access the list of token IDs. Example: 37493,3484",
+    },
+    symbol: {
+      ...FILTER_DEFINITIONS.symbol,
+      description: "Comma Separated Token Symbols. Click here to access the list of token symbols. Example: APX,PAAL",
+    },
     // Pagination props
     limit: {
       propDefinition: [
         tokenMetrics,
         "limit",
       ],
+      description: "Limit the number of items in response. Defaults to 50",
+      default: 50,
     },
     page: {
       propDefinition: [
         tokenMetrics,
         "page",
       ],
+      description: "Enables pagination and data retrieval control by skipping a specified number of items before fetching data. Page should be a non-negative integer, with 1 indicating the beginning of the dataset. Defaults to 1",
+      default: 1,
     },
   },
   async run({ $ }) {
@@ -38,7 +44,7 @@ export default {
     const params = buildParams(this, endpoint.filters);
 
     try {
-      const response = await this.tokenMetrics.getTokens({
+      const response = await this.tokenMetrics.getAiReports({
         $,
         params,
       });
@@ -48,7 +54,8 @@ export default {
       
       // Use $ context for export
       if ($ && $.export) {
-        $.export("$summary", `Successfully retrieved tokens list${filterSummary}`);
+        const dataLength = response.data?.length || 0;
+        $.export("$summary", `Successfully retrieved AI reports for ${dataLength} tokens${filterSummary}`);
       }
       
       return response;

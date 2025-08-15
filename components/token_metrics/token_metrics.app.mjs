@@ -1,67 +1,304 @@
 import { axios } from "@pipedream/platform";
+import { handleApiError } from "./common/utils.mjs";
 
 export default {
   type: "app",
   app: "token_metrics",
   propDefinitions: {
-    tokenId: {
-      type: "string",
-      label: "Token ID",
-      description: "The ID of the token",
-    },
-    startDate: {
-      type: "string",
-      label: "Start Date",
-      description: "Start date in the format YYYY-MM-DD",
-    },
-    endDate: {
-      type: "string",
-      label: "End Date",
-      description: "End date in the format YYYY-MM-DD",
-    },
     limit: {
-      type: "string",
+      type: "integer",
       label: "Limit",
       description: "Limit the number of items in response",
       optional: true,
+      default: 50,
+    },
+    page: {
+      type: "integer", 
+      label: "Page",
+      description: "Enables pagination and data retrieval control by skipping a specified number of items before fetching data",
+      optional: true,
+      default: 1,
     },
   },
   methods: {
     _baseUrl() {
       return "https://api.tokenmetrics.com/v2";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        path,
-        headers,
-        ...otherOpts
-      } = opts;
-      return axios($, {
-        ...otherOpts,
-        url: this._baseUrl() + path,
-        headers: {
-          ...headers,
-          "api_key": this.$auth.api_key,
-        },
+    _headers() {
+      return {
+        "x-api-key": this.$auth.api_key,
+        "Content-Type": "application/json",
+      };
+    },
+    async _makeRequest({
+      $ = this,
+      path,
+      ...args
+    }) {
+      const config = {
+        url: `${this._baseUrl()}${path}`,
+        headers: this._headers(),
+        ...args,
+      };
+      
+      try {
+        return await axios($, config);
+      } catch (error) {
+        handleApiError(error);
+      }
+    },
+    // Generic method for any endpoint
+    async makeApiCall({
+      $ = this,
+      endpoint,
+      params = {},
+    }) {
+      return this._makeRequest({
+        $,
+        path: endpoint,
+        method: "GET",
+        params,
       });
     },
-    async getTokens(args = {}) {
-      return this._makeRequest({
-        path: "/tokens",
-        ...args,
+    // Specific endpoint methods (can be generated automatically)
+    async getTokens({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/tokens",
+        params,
       });
     },
-    async getTraderGrades(args = {}) {
-      return this._makeRequest({
-        path: "/trader-grades",
-        ...args,
+    async getTradingSignals({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/trading-signals",
+        params,
       });
     },
-    async getMarketMetrics(args = {}) {
-      return this._makeRequest({
-        path: "/market-metrics",
-        ...args,
+    async getPrice({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/price",
+        params,
+      });
+    },
+    async getHourlyOhlcv({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/hourly-ohlcv",
+        params,
+      });
+    },
+    async getDailyOhlcv({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/daily-ohlcv",
+        params,
+      });
+    },
+    async getMoonshotTokens({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/moonshot-tokens",
+        params,
+      });
+    },
+    async getTmGrades({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/tm-grade",
+        params,
+      });
+    },
+    async getTmGradesHistorical({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/tm-grade-history",
+        params,
+      });
+    },
+    async getFundamentalGrades({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/fundamental-grade",
+        params,
+      });
+    },
+    async getFundamentalGradesHistorical({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/fundamental-grade-history",
+        params,
+      });
+    },
+    async getTechnologyGrades({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/technology-grade",
+        params,
+      });
+    },
+    async getTechnologyGradesHistorical({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/technology-grade-history",
+        params,
+      });
+    },
+    async getMarketMetrics({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/market-metrics",
+        params,
+      });
+    },
+    async getAiReports({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/ai-reports",
+        params,
+      });
+    },
+    async getCryptoInvestors({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/crypto-investors",
+        params,
+      });
+    },
+    async getTopMarketCapTokens({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/top-market-cap-tokens",
+        params,
+      });
+    },
+    async getResistanceSupport({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/resistance-support",
+        params,
+      });
+    },
+    async getHourlyTradingSignals({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/hourly-trading-signals",
+        params,
+      });
+    },
+    async getQuantmetrics({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/quantmetrics",
+        params,
+      });
+    },
+    async getScenarioAnalysis({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/scenario-analysis",
+        params,
+      });
+    },
+    async getCorrelation({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/correlation",
+        params,
+      });
+    },
+    async getIndices({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/indices",
+        params,
+      });
+    },
+    async getIndicesHoldings({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/indices-holdings",
+        params,
+      });
+    },
+    async getIndicesPerformance({
+      $ = this,
+      params = {},
+    }) {
+      return this.makeApiCall({
+        $,
+        endpoint: "/indices-performance",
+        params,
       });
     },
   },

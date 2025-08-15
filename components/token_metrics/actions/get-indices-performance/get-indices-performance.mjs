@@ -2,24 +2,28 @@ import tokenMetrics from "../../token_metrics.app.mjs";
 import { ENDPOINTS, FILTER_DEFINITIONS } from "../../common/constants.mjs";
 import { buildParams, generateFilterSummary } from "../../common/utils.mjs";
 
-const endpoint = ENDPOINTS.MARKET_METRICS;
+const endpoint = ENDPOINTS.INDICES_PERFORMANCE;
 
 export default {
-  key: "token_metrics-get-market-metrics",
-  name: "Get Market Metrics",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/market-metrics)`,
+  key: "token_metrics-get-indices-performance",
+  name: "Get Indices Performance",
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/indices-performance)`,
   version: "0.0.1",
   type: "action",
   props: {
     tokenMetrics,
     // Filter props based on endpoint configuration and API documentation
+    id: {
+      ...FILTER_DEFINITIONS.id,
+      description: "ID of the index. Example: 1",
+    },
     startDate: {
       ...FILTER_DEFINITIONS.start_date,
-      description: "Start Date accepts date as a string - YYYY-MM-DD format. Example: 2023-10-01",
+      description: "Start Date accepts date as a string - YYYY-MM-DD format. Example: 2025-01-01",
     },
     endDate: {
       ...FILTER_DEFINITIONS.end_date,
-      description: "End Date accepts date as a string - YYYY-MM-DD format. Example: 2023-10-10",
+      description: "End Date accepts date as a string - YYYY-MM-DD format. Example: 2025-06-01",
     },
     // Pagination props
     limit: {
@@ -44,7 +48,7 @@ export default {
     const params = buildParams(this, endpoint.filters);
 
     try {
-      const response = await this.tokenMetrics.getMarketMetrics({
+      const response = await this.tokenMetrics.getIndicesPerformance({
         $,
         params,
       });
@@ -55,7 +59,7 @@ export default {
       // Use $ context for export
       if ($ && $.export) {
         const dataLength = response.data?.length || 0;
-        $.export("$summary", `Successfully retrieved market metrics for ${dataLength} records${filterSummary}`);
+        $.export("$summary", `Successfully retrieved historical performance data for index with ${dataLength} data points${filterSummary}`);
       }
       
       return response;

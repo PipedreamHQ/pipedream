@@ -2,24 +2,44 @@ import tokenMetrics from "../../token_metrics.app.mjs";
 import { ENDPOINTS, FILTER_DEFINITIONS } from "../../common/constants.mjs";
 import { buildParams, generateFilterSummary } from "../../common/utils.mjs";
 
-const endpoint = ENDPOINTS.MARKET_METRICS;
+const endpoint = ENDPOINTS.QUANTMETRICS;
 
 export default {
-  key: "token_metrics-get-market-metrics",
-  name: "Get Market Metrics",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/market-metrics)`,
+  key: "token_metrics-get-quantmetrics",
+  name: "Get Quantmetrics",
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/quantmetrics)`,
   version: "0.0.1",
   type: "action",
   props: {
     tokenMetrics,
     // Filter props based on endpoint configuration and API documentation
-    startDate: {
-      ...FILTER_DEFINITIONS.start_date,
-      description: "Start Date accepts date as a string - YYYY-MM-DD format. Example: 2023-10-01",
+    tokenId: {
+      ...FILTER_DEFINITIONS.token_id,
+      description: "Comma Separated Token IDs. Click here to access the list of token IDs. Example: 3375,3306",
     },
-    endDate: {
-      ...FILTER_DEFINITIONS.end_date,
-      description: "End Date accepts date as a string - YYYY-MM-DD format. Example: 2023-10-10",
+    symbol: {
+      ...FILTER_DEFINITIONS.symbol,
+      description: "Comma Separated Token Symbols. Click here to access the list of token symbols. Example: BTC,ETH",
+    },
+    category: {
+      ...FILTER_DEFINITIONS.category,
+      description: "Comma separated category name. Click here to access the list of categories. Example: layer-1,nft",
+    },
+    exchange: {
+      ...FILTER_DEFINITIONS.exchange,
+      description: "Comma separated exchange name. Click here to access the list of exchanges. Example: binance,gate",
+    },
+    marketCap: {
+      ...FILTER_DEFINITIONS.market_cap,
+      description: "Minimum MarketCap in $. Example: 1000000000",
+    },
+    volume: {
+      ...FILTER_DEFINITIONS.volume,
+      description: "Minimum 24h trading volume in $. Example: 1000000000",
+    },
+    fdv: {
+      ...FILTER_DEFINITIONS.fdv,
+      description: "Minimum fully diluted valuation in $. Example: 1000000000",
     },
     // Pagination props
     limit: {
@@ -44,7 +64,7 @@ export default {
     const params = buildParams(this, endpoint.filters);
 
     try {
-      const response = await this.tokenMetrics.getMarketMetrics({
+      const response = await this.tokenMetrics.getQuantmetrics({
         $,
         params,
       });
@@ -55,7 +75,7 @@ export default {
       // Use $ context for export
       if ($ && $.export) {
         const dataLength = response.data?.length || 0;
-        $.export("$summary", `Successfully retrieved market metrics for ${dataLength} records${filterSummary}`);
+        $.export("$summary", `Successfully retrieved quantmetrics for ${dataLength} tokens${filterSummary}`);
       }
       
       return response;
