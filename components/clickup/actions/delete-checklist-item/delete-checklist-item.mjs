@@ -5,7 +5,7 @@ export default {
   key: "clickup-delete-checklist-item",
   name: "Delete Checklist Item",
   description: "Deletes item in a checklist. [See the documentation](https://clickup.com/api) in **Checklists / Delete Checklist Item** section.",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "action",
   props: {
     ...common.props,

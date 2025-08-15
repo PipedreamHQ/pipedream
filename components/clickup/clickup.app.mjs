@@ -206,7 +206,7 @@ export default {
       type: "string",
       label: "Task ID",
       description: "The ID of a task",
-      async options ({
+      async options({
         page, listId, useCustomTaskIds,
       }) {
         const tasks = await this.getTasks({
@@ -233,7 +233,7 @@ export default {
       type: "string",
       label: "Checklist ID",
       description: "To show options please select a **Task** first",
-      async options ({
+      async options({
         taskId, useCustomTaskIds, authorizedTeamId,
       }) {
         if (!taskId) {
@@ -270,7 +270,7 @@ export default {
       type: "string",
       label: "Comment ID",
       description: "The ID of a comment",
-      async options ({
+      async options({
         taskId, listId, viewId,
       }) {
         if (!taskId && !listId && !viewId) {
@@ -881,6 +881,15 @@ export default {
     }) {
       return this._makeRequest(`team/${teamId}/time_entries/stop`, {
         method: "post",
+      }, $);
+    },
+    async createTimeEntry({
+      $, teamId, data, params,
+    }) {
+      return this._makeRequest(`team/${teamId}/time_entries`, {
+        method: "post",
+        params,
+        data,
       }, $);
     },
   },
