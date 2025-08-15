@@ -1,6 +1,8 @@
 import { defineSource } from "@pipedream/types";
 import { BatchGetReviewsParams } from "../../common/requestParams";
-import { BatchGetReviewsResponse, Review } from "../../common/responseSchemas";
+import {
+  BatchGetReviewsResponse, Review,
+} from "../../common/responseSchemas";
 import app from "../../app/google_my_business.app";
 import common from "../common";
 

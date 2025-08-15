@@ -95,7 +95,8 @@ export default defineAction({
           ? JSON.parse(obj)
           : obj;
       } catch (err) {
-        throw new ConfigurationError(`**Invalid JSON string** for object prop: "${obj}"`);
+        throw new ConfigurationError(`**Invalid JSON string** for object prop: "${obj}"
+          Error: ${err}`);
       }
     },
   },

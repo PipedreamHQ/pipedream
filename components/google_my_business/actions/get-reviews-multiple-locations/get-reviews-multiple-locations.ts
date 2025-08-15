@@ -46,7 +46,7 @@ export default defineAction({
       optional: true,
       options: [
         "createTime desc",
-        "createTime asc", 
+        "createTime asc",
         "updateTime desc",
         "updateTime asc",
       ],
