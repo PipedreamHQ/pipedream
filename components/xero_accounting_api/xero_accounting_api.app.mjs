@@ -104,7 +104,7 @@ export default {
       headers,
       ...opts
     }) {
-      const config = {
+      return axios($, {
         url: `${BASE_URL}/api.xro/2.0${path}`,
         headers: this.getHeader({
           tenantId,
@@ -112,9 +112,7 @@ export default {
           headers,
         }),
         ...opts,
-      };
-      console.log("config: ", config);
-      return axios($, config);
+      });
     },
     getTenantConnections() {
       return this._makeRequest({
