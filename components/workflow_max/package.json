@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/workflow_max",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Workflow Max Components",
   "main": "workflow_max.app.mjs",
   "keywords": [
@@ -13,6 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.1.0"
+    "@pipedream/platform": "^3.1.0",
+    "xml2js": "^0.6.2"
   }
 }

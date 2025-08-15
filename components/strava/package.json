@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/strava",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Pipedream Strava Components",
   "main": "strava.app.mjs",
   "keywords": [
@@ -10,7 +10,7 @@
   "homepage": "https://pipedream.com/apps/strava",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "axios": "^0.21.1"
+    "@pipedream/platform": "^3.0.3"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",
   "publishConfig": {

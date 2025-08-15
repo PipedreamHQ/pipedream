@@ -3,29 +3,66 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "hootsuite",
-  propDefinitions: {},
+  propDefinitions: {
+    socialProfileIds: {
+      type: "string[]",
+      label: "Social Profile IDs",
+      description: "The social profiles that the message will be posted to.",
+      async options() {
+        const { data } = await this.listSocialProfiles();
+        return data.map(({
+          id: value, socialNetworkUsername: label,
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
+  },
   methods: {
-    _oauthAccessToken() {
-      return this.$auth.oauth_access_token;
+    _baseUrl() {
+      return "https://platform.hootsuite.com/v1";
     },
-    _apiUrl() {
-      return "https://platform.hootsuite.com";
+    _headers() {
+      return {
+        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
+      };
     },
-    async _makeRequest({
-      $ = this, path, ...args
+    _makeRequest({
+      $ = this, path, noHeaders = false, ...opts
     }) {
       return axios($, {
-        url: `${this._apiUrl()}${path}`,
-        headers: {
-          Authorization: `Bearer ${this._oauthAccessToken()}`,
-        },
-        ...args,
+        url: this._baseUrl() + path,
+        headers: noHeaders
+          ? {}
+          : this._headers(),
+        ...opts,
       });
     },
-    async getPosts({ ...args } = {}) {
+    listSocialProfiles() {
       return this._makeRequest({
-        path: "/v1/messages",
-        ...args,
+        path: "/socialProfiles",
+      });
+    },
+    getMediaUploadStatus({
+      fileId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/media/${fileId}`,
+        ...opts,
+      });
+    },
+    scheduleMessage(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/messages",
+        ...opts,
+      });
+    },
+    getPosts(opts = {}) {
+      return this._makeRequest({
+        path: "/messages",
+        ...opts,
       });
     },
   },
