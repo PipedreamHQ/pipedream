@@ -123,7 +123,6 @@ export default {
       const invoices = await this.getInvoice({
         tenantId,
       });
-      console.log(invoices);
       return invoices?.Invoices?.map((invoice) => ({
         label: invoice.InvoiceNumber,
         value: invoice.InvoiceID,
