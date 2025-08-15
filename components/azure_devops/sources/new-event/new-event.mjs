@@ -2,7 +2,7 @@ import azureDevops from "../../azure_devops.app.mjs";
 
 export default {
   name: "New Event (Instant)",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "azure_devops-new-event",
   description: "Emit new event for the specified event type.",
   type: "source",
@@ -11,6 +11,11 @@ export default {
     azureDevops,
     db: "$.service.db",
     http: "$.interface.http",
+    personalAccessToken: {
+      type: "string",
+      label: "Personal Access Token",
+      description: "The personal access token to use to authenticate with Azure DevOps",
+    },
     organization: {
       propDefinition: [
         azureDevops,
@@ -23,6 +28,7 @@ export default {
         "eventType",
         (c) => ({
           organization: c.organization,
+          personalAccessToken: c.personalAccessToken,
         }),
       ],
     },
@@ -40,14 +46,18 @@ export default {
         },
         eventType: this.eventType,
       };
-      const { id } = await this.azureDevops.createSubscription(this.organization, {
-        data,
-      });
+      const { id } = await this.azureDevops.createSubscription(
+        this.organization,
+        this.personalAccessToken,
+        {
+          data,
+        },
+      );
       this._setHookId(id);
     },
     async deactivate() {
       const id = this._getHookId();
-      await this.azureDevops.deleteSubscription(this.organization, id);
+      await this.azureDevops.deleteSubscription(this.organization, id, this.personalAccessToken);
     },
   },
   methods: {

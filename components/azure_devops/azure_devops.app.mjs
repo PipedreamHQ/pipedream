@@ -18,8 +18,10 @@ export default {
       type: "string",
       label: "Event Type",
       description: "Event type to receive events for",
-      async options({ organization }) {
-        const types = await this.listEventTypes(organization);
+      async options({
+        organization, personalAccessToken,
+      }) {
+        const types = await this.listEventTypes(organization, personalAccessToken);
         return types?.map((type) => type.id);
       },
     },
@@ -28,8 +30,8 @@ export default {
     _baseUrl() {
       return "https://dev.azure.com";
     },
-    _headers() {
-      const basicAuth = Buffer.from(`${this._oauthUid()}:${this._oauthAccessToken()}`).toString("base64");
+    _headers(personalAccessToken) {
+      const basicAuth = Buffer.from(`${this._oauthUid()}:${personalAccessToken || this._oauthAccessToken()}`).toString("base64");
       return {
         Authorization: `Basic ${basicAuth}`,
       };
@@ -45,11 +47,12 @@ export default {
         $ = this,
         url,
         path,
+        personalAccessToken,
         ...otherArgs
       } = args;
       const config = {
         url: url || `${this._baseUrl()}${path}`,
-        headers: this._headers(),
+        headers: this._headers(personalAccessToken),
         ...otherArgs,
       };
       config.url += config.url.includes("?")
@@ -65,24 +68,27 @@ export default {
       });
       return value;
     },
-    async listEventTypes(organization, args = {}) {
+    async listEventTypes(organization, personalAccessToken, args = {}) {
       const { value } = await this._makeRequest({
         path: `/${organization}/_apis/hooks/publishers/tfs/eventtypes`,
+        personalAccessToken,
         ...args,
       });
       return value;
     },
-    async createSubscription(organization, args = {}) {
+    async createSubscription(organization, personalAccessToken, args = {}) {
       return  this._makeRequest({
         method: "POST",
         path: `/${organization}/_apis/hooks/subscriptions`,
+        personalAccessToken,
         ...args,
       });
     },
-    async deleteSubscription(organization, subscriptionId, args = {}) {
+    async deleteSubscription(organization, subscriptionId, personalAccessToken, args = {}) {
       return this._makeRequest({
         method: "DELETE",
         path: `/${organization}/_apis/hooks/subscriptions/${subscriptionId}`,
+        personalAccessToken,
         ...args,
       });
     },
