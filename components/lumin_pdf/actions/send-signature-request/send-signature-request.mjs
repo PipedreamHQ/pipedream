@@ -88,7 +88,7 @@ export default {
     },
     customEmailTitle: {
       type: "string",
-      label: "Title",
+      label: "Custom Email Title",
       description: "The title of the email.",
       optional: true,
     },
@@ -173,11 +173,9 @@ export default {
     if (this.expiresAt) formData.append("expires_at", Date.parse(this.expiresAt));
     if (this.useTextTags) formData.append("use_text_tags", `${this.useTextTags}`);
     if (this.signingType) formData.append("signing_type", this.signingType);
-    const customEmail = {};
-    if (this.senderEmail) customEmail.sender_email = this.senderEmail;
-    if (this.subject) customEmail.subject_name = this.subject;
-    if (this.customEmailTitle) customEmail.title = this.customEmailTitle;
-    if (Object.keys(customEmail).length > 0) formData.append("custom_email", JSON.stringify(customEmail));
+    if (this.senderEmail) formData.append("custom_email[sender_email]", this.senderEmail);
+    if (this.senderEmail) formData.append("custom_email[subject_name]", this.subject);
+    if (this.senderEmail) formData.append("custom_email[title]", this.customEmailTitle);
 
     const response = await this.luminPdf.sendSignatureRequest({
       $,
