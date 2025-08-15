@@ -1,14 +1,15 @@
-import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import {
-  removeNullEntries, formatQueryString,
+  formatQueryString,
+  removeNullEntries,
 } from "../../common/util.mjs";
+import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 
 export default {
   key: "xero_accounting_api-find-or-create-contact",
   name: "Find or Create Contact",
   description: "Finds a contact by email address. Optionally, create one if none are found. [See the documentation](https://developer.xero.com/documentation/api/accounting/contacts/#get-contacts)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     xeroAccountingApi,
@@ -128,7 +129,11 @@ export default {
     const queryString = formatQueryString({
       EmailAddress: this.emailAddress,
     }, true);
-    const contactDetail = await this.xeroAccountingApi.getContact($, this.tenantId, queryString);
+    const contactDetail = await this.xeroAccountingApi.getContact({
+      $,
+      tenantId: this.tenantId,
+      queryParam: queryString,
+    });
     const found = contactDetail?.Contacts?.length;
 
     if (!this.createContactIfNotFound && !found) {
@@ -147,9 +152,9 @@ export default {
       || this.postalCode
       || this.country;
     if (addressEntered && !this.addressType) {
-      throw new ConfigurationError("Address Type is required when entering address information.");
+      throw new ConfigurationError("**Address Type** is required when entering address information.");
     } else if (!addressEntered && this.addressType) {
-      throw new ConfigurationError("Must enter address information along with Address Type.");
+      throw new ConfigurationError("Must enter address information along with **Address Type**.");
     }
 
     const createPayload = removeNullEntries({
@@ -182,7 +187,11 @@ export default {
         : undefined,
     });
 
-    const response = await this.xeroAccountingApi.createContact($, this.tenantId, createPayload);
+    const response = await this.xeroAccountingApi.createContact({
+      $,
+      tenantId: this.tenantId,
+      data: createPayload,
+    });
     if (response?.Contacts?.length) {
       $.export("$summary", `Successfully created new contact with ID ${response.Contacts[0].ContactID}.`);
     }

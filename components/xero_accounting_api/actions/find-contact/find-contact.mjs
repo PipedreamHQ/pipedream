@@ -1,6 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
 import {
-  removeNullEntries, formatQueryString,
+  formatQueryString,
+  removeNullEntries,
 } from "../../common/util.mjs";
 import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 
@@ -8,7 +9,7 @@ export default {
   key: "xero_accounting_api-find-contact",
   name: "Find contact.  Optionally, create one if none are found",
   description: "Finds a contact by name or account number. Optionally, create one if none are found. [See the docs here](https://developer.xero.com/documentation/api/accounting/contacts/#get-contacts)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     xeroAccountingApi,
@@ -112,13 +113,12 @@ export default {
       AccountNumber: accountNumber,
       ContactStatus: contactStatus,
     });
-    const queryString = formatQueryString(findPayload, true);
     try {
-      contactDetail = await this.xeroAccountingApi.getContact(
+      contactDetail = await this.xeroAccountingApi.getContact({
         $,
         tenantId,
-        queryString,
-      );
+        queryParam: formatQueryString(findPayload, true),
+      });
     } catch (error) {
       if (createContactIfNotFound === "Yes") {
         $.export("$summary", "Contact not found. Creating new contact");
@@ -131,11 +131,11 @@ export default {
       (!contactDetail || !contactDetail?.Contacts?.length) &&
       createContactIfNotFound === "Yes"
     ) {
-      return await this.xeroAccountingApi.createContact(
+      return await this.xeroAccountingApi.createContact({
         $,
         tenantId,
-        createPayload,
-      );
+        data: createPayload,
+      });
     }
     return contactDetail;
   },

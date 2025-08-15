@@ -1,67 +1,76 @@
-// legacy_hash_id: a_a4ivOG
-import { axios } from "@pipedream/platform";
+import { ConfigurationError } from "@pipedream/platform";
+import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 
 export default {
   key: "xero_accounting_api-create-item",
   name: "Create Item",
   description: "Creates a new item.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
-    xero_accounting_api: {
-      type: "app",
-      app: "xero_accounting_api",
-    },
-    tenant_id: {
-      type: "string",
-      description: "Id of the organization tenant to use on the Xero Accounting API. See [Get Tenant Connections](https://pipedream.com/@sergio/xero-accounting-api-get-tenant-connections-p_OKCzOgn/edit) for a workflow example on how to pull this data.",
+    xeroAccountingApi,
+    tenantId: {
+      propDefinition: [
+        xeroAccountingApi,
+        "tenantId",
+      ],
     },
     code: {
       type: "string",
+      label: "Code",
       description: "User defined item code (max length = 30)",
     },
-    inventory_asset_account_code: {
+    inventoryAssetAccountCode: {
       type: "string",
+      label: "Inventory Asset Account Code",
       description: "The inventory asset [account](https://developer.xero.com/documentation/api/accounts/) for the item. The account must be of type INVENTORY. The COGSAccountCode in PurchaseDetails is also required to create a tracked item",
       optional: true,
     },
     name: {
       type: "string",
+      label: "Name",
       description: "The name of the item (max length = 50)",
       optional: true,
     },
-    is_sold: {
+    isSold: {
       type: "boolean",
+      label: "Is Sold",
       description: "Boolean value, defaults to true. When IsSold is true the item will be available on sales transactions in the Xero UI. If IsSold is updated to false then Description and SalesDetails values will be nulled.",
       optional: true,
     },
-    is_purchased: {
+    isPurchased: {
       type: "boolean",
+      label: "Is Purchased",
       description: "Boolean value, defaults to true. When IsPurchased is true the item is available for purchase transactions in the Xero UI. If IsPurchased is updated to false then PurchaseDescription and PurchaseDetails values will be nulled.",
       optional: true,
     },
     description: {
       type: "string",
+      label: "Description",
       description: "The sales description of the item (max length = 4000)",
       optional: true,
     },
-    purchase_description: {
+    purchaseDescription: {
       type: "string",
+      label: "Purchase Description",
       description: "The purchase description of the item (max length = 4000)",
       optional: true,
     },
-    purchase_details: {
+    purchaseDetails: {
       type: "string",
+      label: "Purchase Details",
       description: "See Purchases & Sales. The [PurchaseDetails](https://developer.xero.com/documentation/api/items#PurchasesSales) element can contain a number of individual sub-elements.",
       optional: true,
     },
-    sales_details: {
+    salesDetails: {
       type: "string",
+      label: "Sales Details",
       description: "See Purchases & Sales. The [SalesDetails](https://developer.xero.com/documentation/api/items#PurchasesSales) element can contain a number of individual sub-elements.",
       optional: true,
     },
     unitdp: {
       type: "string",
+      label: "Unitdp",
       description: "By default UnitPrice is returned to two decimal places.",
       optional: true,
       options: [
@@ -71,34 +80,30 @@ export default {
     },
   },
   async run({ $ }) {
-  //See the API docs: https://developer.xero.com/documentation/api/items#POST
-
-    if (!this.tenant_id || !this.code) {
-      throw new Error("Must provide tenant_id, and code parameters.");
+    if (!this.tenantId || !this.code) {
+      throw new ConfigurationError("Must provide **Tenant ID**, and **Code** parameters.");
     }
 
-    return await axios($, {
-      method: "put",
-      url: "https://api.xero.com/api.xro/2.0/Items",
-      headers: {
-        "Authorization": `Bearer ${this.xero_accounting_api.$auth.oauth_access_token}`,
-        "Accept": "application/json",
-        "xero-tenant-id": this.tenant_id,
-      },
+    const response = await this.xeroAccountingApi.createItem({
+      $,
+      tenantId: this.tenantId,
       data: {
         Code: this.code,
-        InventoryAssetAccountCode: this.inventory_asset_account_code,
+        InventoryAssetAccountCode: this.inventoryAssetAccountCode,
         Name: this.name,
-        IsSold: this.is_sold,
-        IsPurchased: this.is_purchased,
+        IsSold: this.isSold,
+        IsPurchased: this.isPurchased,
         Description: this.description,
-        PurchaseDescription: this.purchase_description,
-        PurchaseDetails: this.purchase_details,
-        SalesDetails: this.sales_details,
+        PurchaseDescription: this.purchaseDescription,
+        PurchaseDetails: this.purchaseDetails,
+        SalesDetails: this.salesDetails,
       },
       params: {
         unitdp: this.unitdp,
       },
     });
+
+    $.export("$summary", `Successfully created item with code: ${this.code}`);
+    return response;
   },
 };

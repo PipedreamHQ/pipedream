@@ -1,15 +1,12 @@
-// legacy_hash_id: a_B0i8rE
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import FormData from "form-data";
-import {
-  axios, getFileStreamAndMetadata,
-} from "@pipedream/platform";
 import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 
 export default {
   key: "xero_accounting_api-upload-file",
   name: "Upload File",
   description: "Uploads a file to the specified document. [See the documentation](https://developer.xero.com/documentation/api/accounting/invoices#upload-attachment)",
-  version: "1.0.1",
+  version: "1.0.2",
   type: "action",
   props: {
     xeroAccountingApi,
@@ -63,16 +60,19 @@ export default {
       filename: metadata.name,
     });
 
-    //Sends the request against Xero Accounting API
-    return await axios($, {
-      method: "post",
-      url: `https://api.xero.com/api.xro/2.0/${this.documentType}/${this.documentId}/Attachments/${metadata.name}`,
+    const response = await this.xeroAccountingApi.uploadFile({
+      $,
+      tenantId: this.tenantId,
+      documentType: this.documentType,
+      documentId: this.documentId,
+      fileName: metadata.name,
       headers: {
-        "Authorization": `Bearer ${this.xeroAccountingApi.$auth.oauth_access_token}`,
-        "xero-tenant-id": this.tenantId,
         ...data.getHeaders(),
       },
       data,
     });
+
+    $.export("$summary", `Successfully uploaded file to ${this.documentType} with ID: ${this.documentId}`);
+    return response;
   },
 };
