@@ -84,7 +84,7 @@ export default {
         .map((property) => ({
           type: properties[property]?.type ?? property,
           label: property,
-          value: this[property] || this.properties[property],
+          value: this[property] || this.properties?.[property],
         }));
     },
     /**

@@ -1,15 +1,15 @@
+import zlib from "zlib";
 import notion from "../../notion.app.mjs";
-import sampleEmit from "./test-event.mjs";
 import base from "../common/base.mjs";
 import constants from "../common/constants.mjs";
-import zlib from "zlib";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...base,
   key: "notion-updated-page",
   name: "New or Updated Page in Database (By Property)",
   description: "Emit new event when a page is created or updated in the selected database. [See the documentation](https://developers.notion.com/reference/page)",
-  version: "0.1.9",
+  version: "0.1.10",
   type: "source",
   dedupe: "unique",
   props: {

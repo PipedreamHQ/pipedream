@@ -1,13 +1,13 @@
+import utils from "../../common/utils.mjs";
 import notion from "../../notion.app.mjs";
 import base from "../common/base-page-builder.mjs";
-import utils from "../../common/utils.mjs";
 
 export default {
   ...base,
   key: "notion-duplicate-page",
   name: "Duplicate Page",
   description: "Create a new page copied from an existing page block. [See the documentation](https://developers.notion.com/reference/post-page)",
-  version: "0.0.15",
+  version: "0.0.16",
   type: "action",
   props: {
     notion,

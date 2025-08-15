@@ -1,7 +1,7 @@
 import notion from "@notionhq/client";
-import NOTION_META from "./common/notion-meta-selection.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import { NotionToMarkdown } from "notion-to-md";
+import NOTION_META from "./common/notion-meta-selection.mjs";
 
 export default {
   type: "app",
@@ -127,17 +127,45 @@ export default {
       description: "The page title (defaults to `Untitled`)",
       optional: true,
     },
-    userIds: {
-      type: "string[]",
-      label: "Users",
-      description: "Select one or more users, or provide user IDs",
+    userId: {
+      type: "string",
+      label: "User ID",
+      description: "Select a user, or provide a user ID",
       async options() {
-        const users = await this.getUsers();
+        const { results: users } = await this.getUsers();
 
         return users.map((user) => ({
           label: user.name,
           value: user.id,
         }));
+      },
+    },
+    fileUploadId: {
+      type: "string",
+      label: "File Upload ID",
+      description: "The ID of the file upload to send.",
+      async options({
+        prevContext, status,
+      }) {
+        const {
+          results, next_cursor: nextCursor,
+        } = await this.listFileUploads({
+          status,
+          page_size: 100,
+          start_cursor: prevContext.nextPageParameters ?? undefined,
+        });
+
+        return {
+          options: results.map(({
+            id: value, filename: label,
+          }) => ({
+            label,
+            value,
+          })),
+          context: {
+            nextPageParameters: nextCursor,
+          },
+        };
       },
     },
     sortDirection: {
@@ -258,6 +286,35 @@ export default {
         database_id: databaseId,
       });
     },
+    async createDatabase(database) {
+      return this._getNotionClient().databases.create(database);
+    },
+    async updateDatabase(database) {
+      return this._getNotionClient().databases.update(database);
+    },
+    async createFileUpload(file) {
+      return this._getNotionClient().fileUploads.create(file);
+    },
+    async listFileUploads(params = {}) {
+      return this._getNotionClient().fileUploads.list(params);
+    },
+    async sendFileUpload(file) {
+      return this._getNotionClient().fileUploads.send(file);
+    },
+    async completeFileUpload(file) {
+      return this._getNotionClient().fileUploads.complete(file);
+    },
+    async retrieveFileUpload(params) {
+      return this._getNotionClient().fileUploads.retrieve(params);
+    },
+    async updateBlock(block) {
+      return this._getNotionClient().blocks.update(block);
+    },
+    async deleteBlock(blockId) {
+      return this._getNotionClient().blocks.delete({
+        block_id: blockId,
+      });
+    },
     async createPage(page) {
       return this._getNotionClient().pages.create(page);
     },
@@ -352,10 +409,13 @@ export default {
         block_id: blockId,
       });
     },
-    async getUsers() {
-      const response = await this._getNotionClient().users.list();
-
-      return response.results;
+    async getUsers(opts = {}) {
+      return this._getNotionClient().users.list(opts);
+    },
+    async getUser(userId) {
+      return this._getNotionClient().users.retrieve({
+        user_id: userId,
+      });
     },
     async getPageAsMarkdown(pageId, shouldRetrieveChildren) {
       const notion = this._getNotionClient();
@@ -372,6 +432,37 @@ export default {
       return shouldRetrieveChildren
         ? output
         : output.parent;
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let cursor = null;
+
+      do {
+        params.start_cursor = cursor;
+        const {
+          results,
+          next_cursor: nextCursor,
+          has_more: hasMoreResults,
+        } = await fn({
+          params,
+          ...opts,
+        });
+
+        for (const d of results) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = hasMoreResults;
+        cursor = nextCursor;
+
+      } while (hasMore);
     },
   },
 };
