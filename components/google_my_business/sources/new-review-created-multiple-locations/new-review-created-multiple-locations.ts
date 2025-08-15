@@ -16,7 +16,7 @@ export default defineSource({
   dedupe: "unique",
   props: {
     ...common.props,
-    locationNames: {
+    location: {
       propDefinition: [
         app,
         "location",
@@ -35,15 +35,16 @@ export default defineSource({
     },
   },
   methods: {
+    ...common.methods,
     async getItems(): Promise<Review[]> {
       const {
-        account, locationNames,
+        account, location,
       } = this;
 
       const params: BatchGetReviewsParams = {
         account,
         data: {
-          locationNames: locationNames?.map((locationName: string) => `accounts/${account}/locations/${locationName}`),
+          locationNames: location?.map((locationName: string) => `accounts/${account}/locations/${locationName}`),
         },
       };
 
