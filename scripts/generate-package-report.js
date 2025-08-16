@@ -2,6 +2,16 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
+// Native Node.js modules that don't need to be in package.json
+const NATIVE_MODULES = new Set([
+  'assert', 'buffer', 'child_process', 'cluster', 'console', 'constants',
+  'crypto', 'dgram', 'dns', 'domain', 'events', 'fs', 'http', 'https',
+  'module', 'net', 'os', 'path', 'perf_hooks', 'process', 'punycode',
+  'querystring', 'readline', 'repl', 'stream', 'string_decoder', 'sys',
+  'timers', 'tls', 'tty', 'url', 'util', 'v8', 'vm', 'wasi', 'worker_threads',
+  'zlib', 'async_hooks', 'inspector', 'trace_events', 'http2'
+]);
+
 // Parse command line arguments
 const args = process.argv.slice(2);
 const isReportOnly = args.includes('--report-only');
@@ -423,6 +433,14 @@ function validatePackageDependencies(packageJson, app) {
   const uniquePackages = [...new Set(packageImports.map(imp => imp.packageName))];
   
   uniquePackages.forEach((packageName) => {
+    // Skip native Node.js modules
+    const normalizedName = packageName.startsWith('node:')
+      ? packageName.slice(5)
+      : packageName;
+    if (NATIVE_MODULES.has(normalizedName)) {
+      return;
+    }
+    
     if (!allDependencies[packageName]) {
       const exampleImport = packageImports.find(imp => imp.packageName === packageName);
       missingDependencies.push({

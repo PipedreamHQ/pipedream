@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/shiphero",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream ShipHero Components",
-  "main": "dist/app/shiphero.app.mjs",
+  "main": "shiphero.app.mjs",
   "keywords": [
     "pipedream",
     "shiphero"
