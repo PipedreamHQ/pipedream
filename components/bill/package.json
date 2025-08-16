@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/bill",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream BILL Components",
-  "main": "dist/app/bill.app.mjs",
+  "main": "bill.app.mjs",
   "keywords": [
     "pipedream",
     "bill"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/bill",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

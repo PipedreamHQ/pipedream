@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/commcare",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream CommCare Components",
-  "main": "dist/app/commcare.app.mjs",
+  "main": "commcare.app.mjs",
   "keywords": [
     "pipedream",
     "commcare"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/commcare",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

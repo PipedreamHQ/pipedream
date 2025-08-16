@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/crisp",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Crisp Components",
-  "main": "dist/app/crisp.app.mjs",
+  "main": "crisp.app.mjs",
   "keywords": [
     "pipedream",
     "crisp"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/crisp",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

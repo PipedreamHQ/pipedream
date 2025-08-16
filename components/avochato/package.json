@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/avochato",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Avochato Components",
-  "main": "dist/app/avochato.app.mjs",
+  "main": "avochato.app.mjs",
   "keywords": [
     "pipedream",
     "avochato"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/avochato",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

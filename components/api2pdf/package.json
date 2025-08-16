@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/api2pdf",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Api2pdf Components",
-  "main": "dist/app/api2pdf.app.mjs",
+  "main": "api2pdf.app.mjs",
   "keywords": [
     "pipedream",
     "api2pdf"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/api2pdf",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

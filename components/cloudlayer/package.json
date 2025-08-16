@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/cloudlayer",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Cloudlayer Components",
-  "main": "dist/app/cloudlayer.app.mjs",
+  "main": "cloudlayer.app.mjs",
   "keywords": [
     "pipedream",
     "cloudlayer"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/cloudlayer",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

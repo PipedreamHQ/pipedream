@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/budgets_ai",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Budgets.ai Components",
-  "main": "dist/app/budgets_ai.app.mjs",
+  "main": "budgets_ai.app.mjs",
   "keywords": [
     "pipedream",
     "budgets_ai"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/budgets_ai",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

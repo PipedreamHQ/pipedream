@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/cartes",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Cartes Components",
-  "main": "dist/app/cartes.app.mjs",
+  "main": "cartes.app.mjs",
   "keywords": [
     "pipedream",
     "cartes"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/cartes",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

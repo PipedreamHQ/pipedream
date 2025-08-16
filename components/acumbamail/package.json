@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/acumbamail",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Acumbamail  Components",
-  "main": "dist/app/acumbamail.app.mjs",
+  "main": "acumbamail.app.mjs",
   "keywords": [
     "pipedream",
     "acumbamail"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/acumbamail",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

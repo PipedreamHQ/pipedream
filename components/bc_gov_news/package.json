@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/bc_gov_news",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream BC Gov News Components",
-  "main": "dist/app/bc_gov_news.app.mjs",
+  "main": "bc_gov_news.app.mjs",
   "keywords": [
     "pipedream",
     "bc_gov_news"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/bc_gov_news",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

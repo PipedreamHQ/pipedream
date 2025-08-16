@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/autoklose",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Autoklose Components",
-  "main": "dist/app/autoklose.app.mjs",
+  "main": "autoklose.app.mjs",
   "keywords": [
     "pipedream",
     "autoklose"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/autoklose",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/currencyapi",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream currencyapi Components",
-  "main": "dist/app/currencyapi.app.mjs",
+  "main": "currencyapi.app.mjs",
   "keywords": [
     "pipedream",
     "currencyapi"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/currencyapi",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/coinbase_commerce",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Coinbase Commerce Components",
-  "main": "dist/app/coinbase_commerce.app.mjs",
+  "main": "coinbase_commerce.app.mjs",
   "keywords": [
     "pipedream",
     "coinbase_commerce"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/coinbase_commerce",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

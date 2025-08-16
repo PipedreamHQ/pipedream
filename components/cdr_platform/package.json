@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/cdr_platform",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream CDR Platform Components",
-  "main": "dist/app/cdr_platform.app.mjs",
+  "main": "cdr_platform.app.mjs",
   "keywords": [
     "pipedream",
     "cdr_platform"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/cdr_platform",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/cdc_national_environmental_public_health_tracking",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream CDC - National Environmental Public Health Tracking Components",
-  "main": "dist/app/cdc_national_environmental_public_health_tracking.app.mjs",
+  "main": "cdc_national_environmental_public_health_tracking.app.mjs",
   "keywords": [
     "pipedream",
     "cdc_national_environmental_public_health_tracking"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/cdc_national_environmental_public_health_tracking",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/call_fire",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream CallFire Components",
-  "main": "dist/app/call_fire.app.mjs",
+  "main": "call_fire.app.mjs",
   "keywords": [
     "pipedream",
     "call_fire"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/call_fire",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

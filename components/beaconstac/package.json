@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/beaconstac",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Beaconstac Components",
-  "main": "dist/app/beaconstac.app.mjs",
+  "main": "beaconstac.app.mjs",
   "keywords": [
     "pipedream",
     "beaconstac"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/beaconstac",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

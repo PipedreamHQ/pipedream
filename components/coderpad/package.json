@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/coderpad",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream CoderPad Components",
-  "main": "dist/app/coderpad.app.mjs",
+  "main": "coderpad.app.mjs",
   "keywords": [
     "pipedream",
     "coderpad"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/coderpad",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

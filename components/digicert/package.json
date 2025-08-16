@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/digicert",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream DigiCert Components",
-  "main": "dist/app/digicert.app.mjs",
+  "main": "digicert.app.mjs",
   "keywords": [
     "pipedream",
     "digicert"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/digicert",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

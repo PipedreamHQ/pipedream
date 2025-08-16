@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/clubworx",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Clubworx Components",
-  "main": "dist/app/clubworx.app.mjs",
+  "main": "clubworx.app.mjs",
   "keywords": [
     "pipedream",
     "clubworx"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/clubworx",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

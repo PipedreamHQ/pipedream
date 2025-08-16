@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/astrology_api",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Astrology API Components",
-  "main": "dist/app/astrology_api.app.mjs",
+  "main": "astrology_api.app.mjs",
   "keywords": [
     "pipedream",
     "astrology_api"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/astrology_api",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

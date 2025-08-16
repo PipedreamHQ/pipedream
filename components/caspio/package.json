@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/caspio",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Caspio Components",
-  "main": "dist/app/caspio.app.mjs",
+  "main": "caspio.app.mjs",
   "keywords": [
     "pipedream",
     "caspio"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/caspio",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

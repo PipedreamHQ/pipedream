@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/airnow",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream AirNow Components",
-  "main": "dist/app/airnow.app.mjs",
+  "main": "airnow.app.mjs",
   "keywords": [
     "pipedream",
     "airnow"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/airnow",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

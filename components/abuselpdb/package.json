@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/abuselpdb",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream AbuselPDB Components",
-  "main": "dist/app/abuselpdb.app.mjs",
+  "main": "abuselpdb.app.mjs",
   "keywords": [
     "pipedream",
     "abuselpdb"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/abuselpdb",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/congress_gov",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Congress.gov Components",
-  "main": "dist/app/congress_gov.app.mjs",
+  "main": "congress_gov.app.mjs",
   "keywords": [
     "pipedream",
     "congress_gov"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/congress_gov",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
