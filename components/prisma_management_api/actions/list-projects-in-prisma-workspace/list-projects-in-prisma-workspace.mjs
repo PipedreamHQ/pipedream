@@ -1,0 +1,24 @@
+import app from "../../prisma_management_api.app.mjs";
+
+export default {
+  name: "List Projects in Prisma Workspace",
+  version: "0.1.0",
+  key: "prisma_management_api-list-projects-in-prisma-workspace",
+  description: "List Projects in a Prisma Workspace via Prisma Management API. Supports pagination for large result sets. [See docs here](https://www.prisma.io/docs/postgres/introduction/management-api)",
+  type: "action",
+  props: {
+    app,
+  },
+  async run({ $ }) {
+    const response = await this.app.listProjects({
+      $,
+    });
+
+    if (response) {
+      const count = response.data?.length || 0;
+      $.export("$summary", `Successfully retrieved ${count} project${count !== 1 ? "s" : ""}`);
+    }
+
+    return response;
+  },
+};
