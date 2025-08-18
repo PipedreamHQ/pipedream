@@ -9,7 +9,7 @@ export default {
   key: "quickbooks-create-purchase-order",
   name: "Create Purchase Order",
   description: "Creates a purchase order. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/purchaseorder#create-a-purchaseorder)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     quickbooks,

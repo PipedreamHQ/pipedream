@@ -6,7 +6,7 @@ export default {
   key: "quickbooks-new-purchase-updated",
   name: "New Purchase Updated",
   description: "Emit new event when a purchase is updated.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
