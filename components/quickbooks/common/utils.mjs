@@ -55,11 +55,14 @@ export async function retryWithExponentialBackoff(
   } catch (error) {
     const status = error.response?.status;
     const errorCode = error.response?.data?.Fault?.Error?.[0]?.code;
+    const errorCodeStr = errorCode == null
+      ? undefined
+      : String(errorCode);
 
     const isRateLimit = status === 429 ||
       status === 503 ||
-      errorCode === "3200" || // Rate limit exceeded
-      errorCode === "10001";   // Throttle limit exceeded
+      errorCodeStr === "3200" || // Rate limit exceeded
+      errorCodeStr === "10001";   // Throttle limit exceeded
 
     if (retries > 0 && isRateLimit) {
       const retryAfter = error.response?.headers?.["retry-after"];

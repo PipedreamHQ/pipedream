@@ -37,7 +37,7 @@ export default {
   },
   async run({ $ }) {
     if (!this.whereClause) {
-      throw new ConfigurationError("Must provide includeClause, whereClause parameters.");
+      throw new ConfigurationError("Must provide whereClause parameter.");
     }
 
     const orderClause = this.orderClause
