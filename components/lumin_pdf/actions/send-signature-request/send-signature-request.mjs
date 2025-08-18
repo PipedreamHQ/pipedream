@@ -38,6 +38,12 @@ export default {
       description: "An array of path to files in the `/tmp` directory (for example, `/tmp/myFile.pdf`) to be sent for signature. This field is mutually exclusive with `File URL`, `Files`, and `File URLs`. Only one of these fields should be provided in the request.",
       optional: true,
     },
+    signers: {
+      type: "string[]",
+      label: "Signers",
+      description: "A list of objects of signers to add to your Signature Request. Format: `[{'email_address': 'email@example.com', 'name': 'John Doe', 'group': 1}, {'email_address': 'email2@example.com', 'name': 'Jane Doe', 'group': 2}]`. [See the documentation](https://developers.luminpdf.com/api/send-signature-request/) for more information.",
+      optional: true,
+    },
     viewers: {
       type: "string[]",
       label: "Viewers",
