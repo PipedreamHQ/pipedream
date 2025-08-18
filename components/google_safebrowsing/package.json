@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/google_safebrowsing",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Google Safe Browsing Components",
-  "main": "dist/app/google_safebrowsing.app.mjs",
+  "main": "google_safebrowsing.app.mjs",
   "keywords": [
     "pipedream",
     "google_safebrowsing"
