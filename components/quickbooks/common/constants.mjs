@@ -1,6 +1,6 @@
 export const LIMIT = 100;
 export const MAX_RETRIES = 5;
-export const INITIAL_BACKOFF_MILLISECONDS = 1500;
+export const INITIAL_BACKOFF_MILLISECONDS = 2000;
 
 export const AP_AGING_REPORT_COLUMNS = [
   "create_by",
