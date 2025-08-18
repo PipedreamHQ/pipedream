@@ -8624,8 +8624,7 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
-  components/mexc:
-    specifiers: {}
+  components/mexc: {}
 
   components/mezmo: {}
 
@@ -9454,11 +9453,11 @@ importers:
   components/notion:
     dependencies:
       '@notionhq/client':
-        specifier: ^2.2.3
-        version: 2.2.15
+        specifier: ^4.0.1
+        version: 4.0.1
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       '@tryfabric/martian':
         specifier: ^1.2.4
         version: 1.2.4
@@ -13024,8 +13023,7 @@ importers:
         specifier: ^1.4.0
         version: 1.6.6
 
-  components/siteglide:
-    specifiers: {}
+  components/siteglide: {}
 
   components/siteleaf:
     dependencies:
@@ -20071,13 +20069,13 @@ packages:
     resolution: {integrity: sha512-m7zZ5l3RUktayf1lRBV1XMb8HSKsmWTv/LZPqP7UGC1NMzOlc+bbTOPNQ4CP/c1P4cP61VWLb/zBq7a3c0nMaw==}
     engines: {node: '>=12'}
 
-  '@notionhq/client@2.2.15':
-    resolution: {integrity: sha512-XhdSY/4B1D34tSco/GION+23GMjaS9S2zszcqYkMHo8RcWInymF6L1x+Gk7EmHdrSxNFva2WM8orhC4BwQCwgw==}
-    engines: {node: '>=12'}
-
   '@notionhq/client@2.3.0':
     resolution: {integrity: sha512-l7WqTCpQqC+HibkB9chghONQTYcxNQT0/rOJemBfmuKQRTu2vuV8B3yA395iKaUdDo7HI+0KvQaz9687Xskzkw==}
     engines: {node: '>=12'}
+
+  '@notionhq/client@4.0.1':
+    resolution: {integrity: sha512-SdILqiiThECLR2KDUOvl4JqRaJWBwDYaEw/f0qu+G6rKN/QUCkaJ84vN5MgBw1yKsMAsKxBlDazs3Jw6vv2ikA==}
+    engines: {node: '>=18'}
 
   '@octokit/auth-token@2.5.0':
     resolution: {integrity: sha512-r5FVUJCOLl19AxiuZD2VRZ/ORjp/4IN98Of6YJoJOkY75CIBuYfmiNHGrDwXr+aLGG55igl9QrxX3hbiXlLb+g==}
@@ -39337,19 +39335,14 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@notionhq/client@2.2.15':
-    dependencies:
-      '@types/node-fetch': 2.6.12
-      node-fetch: 2.7.0
-    transitivePeerDependencies:
-      - encoding
-
   '@notionhq/client@2.3.0':
     dependencies:
       '@types/node-fetch': 2.6.12
       node-fetch: 2.7.0
     transitivePeerDependencies:
       - encoding
+
+  '@notionhq/client@4.0.1': {}
 
   '@octokit/auth-token@2.5.0':
     dependencies:
