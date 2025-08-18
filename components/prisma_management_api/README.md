@@ -97,16 +97,16 @@ Removes a specific connection string.
 ### Utilities
 
 #### Get Prisma Postgres Regions
-Retrieves the list of available AWS regions for Prisma Postgres deployment.
+Retrieves the list of available regions for Prisma Postgres deployment.
 
 ## Authentication
 
-This integration uses API Token authentication. You'll need to provide your Prisma Management API integration token when configuring the connection in Pipedream.
+This integration uses API Token authentication. You'll need to provide your Prisma Management API Service token when configuring the connection in Pipedream.
 
 To obtain your API token:
 1. Log in to your Prisma account
 2. Navigate to your workspace settings
-3. Generate a new Management API integration token
+3. Generate a new Service Token 
 4. Copy the token for use in Pipedream
 
 ## API Documentation
