@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sanity",
+  "version": "0.0.1",
+  "description": "Pipedream Sanity Components",
+  "main": "sanity.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sanity"
+  ],
+  "homepage": "https://pipedream.com/apps/sanity",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

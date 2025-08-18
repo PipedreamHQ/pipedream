@@ -12216,6 +12216,9 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/sanity:
+    specifiers: {}
+
   components/sap_s_4hana_cloud: {}
 
   components/sap_s_4hana_cloud_sandbox: {}
