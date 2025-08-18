@@ -12,12 +12,12 @@ export default {
     dateTimeFrom: {
       type: "string",
       label: "Date Time From",
-      description: "The start time for filtering results in the format \"yyyy-mm-dd hh-mm-ss +00:00\". Exampple: `2023-01-15 12:57:46 +00:00`. If include_metadata is set to true, maximum value: a month from current datetime. If include_metadata is set to false, maximum value: six months from current datetime",
+      description: "The start time for filtering results in the format \"yyyy-mm-dd hh-mm-ss +00:00\". Example: `2023-01-15 12:57:46 +00:00`. If include_metadata is set to true, maximum value: a month from current datetime. If include_metadata is set to false, maximum value: six months from current datetime",
     },
     dateTimeTo: {
       type: "string",
       label: "Date Time To",
-      description: "The finish time for filtering results in the format \"yyyy-mm-dd hh-mm-ss +00:00\". Exampple: `2023-01-15 12:57:46 +00:00`",
+      description: "The finish time for filtering results in the format \"yyyy-mm-dd hh-mm-ss +00:00\". Example: `2023-01-15 12:57:46 +00:00`",
     },
     includeMetadata: {
       type: "boolean",

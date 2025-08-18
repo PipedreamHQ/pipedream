@@ -12,12 +12,12 @@ export default {
     dateTimeFrom: {
       type: "string",
       label: "Date Time From",
-      description: "The start time for filtering results in the format \"yyyy-mm-dd hh-mm-ss +00:00\". Exampple: `2023-01-15 12:57:46 +00:00`. Allows filtering results by the datetime parameter within the range of the last 7 days.",
+      description: "The start time for filtering results in the format \"yyyy-mm-dd hh-mm-ss +00:00\". Example: `2023-01-15 12:57:46 +00:00`. Allows filtering results by the datetime parameter within the range of the last 7 days.",
     },
     dateTimeTo: {
       type: "string",
       label: "Date Time To",
-      description: "The finish time for filtering results in the format \"yyyy-mm-dd hh-mm-ss +00:00\". Exampple: `2023-01-15 12:57:46 +00:00`. Allows filtering results by the datetime parameter within the range of the last 7 days.",
+      description: "The finish time for filtering results in the format \"yyyy-mm-dd hh-mm-ss +00:00\". Example: `2023-01-15 12:57:46 +00:00`. Allows filtering results by the datetime parameter within the range of the last 7 days.",
     },
     limit: {
       propDefinition: [

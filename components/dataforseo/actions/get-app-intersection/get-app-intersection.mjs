@@ -12,7 +12,7 @@ export default {
     appIds: {
       type: "string[]",
       label: "App IDs",
-      description: "IDs of the target mobile applications on App Store; you can find the ID in the URL of every app listed on App Store",
+      description: "Package names (IDs) of target Android apps on Google Play; you can find the package name in the app page URL (e.g., com.example.app)",
     },
     locationCode: {
       propDefinition: [
