@@ -1,4 +1,3 @@
-import { ConfigurationError } from "@pipedream/platform";
 import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 
 export default {
@@ -22,17 +21,18 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.tenantId || !this.contactIdentifier) {
-      throw new ConfigurationError("Must provide **Tenant ID**, and **Contact Identifier** parameters.");
+    try {
+      const response = await this.xeroAccountingApi.getContactById({
+        $,
+        tenantId: this.tenantId,
+        contactIdentifier: this.contactIdentifier,
+      });
+
+      $.export("$summary", `Contact retrieved successfully: ${this.contactIdentifier}`);
+      return response;
+    } catch (e) {
+      $.export("$summary", `No contact found with identifier: ${this.contactIdentifier}`);
+      return {};
     }
-
-    const response = await this.xeroAccountingApi.getContactById({
-      $,
-      tenantId: this.tenantId,
-      contactIdentifier: this.contactIdentifier,
-    });
-
-    $.export("$summary", `Contact retrieved successfully: ${this.contactIdentifier}`);
-    return response;
   },
 };

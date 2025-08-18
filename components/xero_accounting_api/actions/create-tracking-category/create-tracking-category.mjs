@@ -38,18 +38,20 @@ export default {
         },
       });
 
-      const parsedOptions = parseObject(this.options);
+      if (this.options) {
+        const parsedOptions = parseObject(this.options);
 
-      for (const option of parsedOptions) {
-        const optionResponse = await this.xeroAccountingApi.createTrackingOption({
-          $,
-          tenantId: this.tenantId,
-          trackingCategoryId: response.TrackingCategories[0].TrackingCategoryID,
-          data: {
-            Name: option,
-          },
-        });
-        response.TrackingCategories[0].Options.push(optionResponse.Options[0]);
+        for (const option of parsedOptions) {
+          const optionResponse = await this.xeroAccountingApi.createTrackingOption({
+            $,
+            tenantId: this.tenantId,
+            trackingCategoryId: response.TrackingCategories[0].TrackingCategoryID,
+            data: {
+              Name: option,
+            },
+          });
+          response.TrackingCategories[0].Options.push(optionResponse.Options[0]);
+        }
       }
 
       $.export("$summary", `Successfully created tracking category with ID: ${response.TrackingCategories[0].TrackingCategoryID}`);

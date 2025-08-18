@@ -4,7 +4,7 @@ export default {
   key: "xero_accounting_api-list-manual-journals",
   name: "List Manual Journals",
   description: "Lists information from manual journals in the given tenant id as per filter parameters.",
-  version: "0.1.2",
+  version: "0.2.0",
   type: "action",
   props: {
     xeroAccountingApi,
@@ -13,12 +13,6 @@ export default {
         xeroAccountingApi,
         "tenantId",
       ],
-    },
-    manualJournalId: {
-      label: "Manual Journal ID",
-      type: "string",
-      description: "You can specify an individual record by appending the ManualJournalID to the endpoint, i.e. **GET https://.../ManualJournals/{identifier}**",
-      optional: true,
     },
     modifiedAfter: {
       label: "Modified After",
@@ -46,19 +40,23 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.xeroAccountingApi.listManualJournals({
-      $,
-      tenantId: this.tenantId,
-      manualJournalId: this.manualJournalId,
-      modifiedAfter: this.modifiedAfter,
-      params: {
-        Where: this.where,
-        order: this.order,
-        page: this.page,
-      },
-    });
+    try {
+      const response = await this.xeroAccountingApi.listManualJournals({
+        $,
+        tenantId: this.tenantId,
+        modifiedAfter: this.modifiedAfter,
+        params: {
+          Where: this.where,
+          order: this.order,
+          page: this.page,
+        },
+      });
 
-    $.export("$summary", `Successfully fetched manual journals with ID: ${this.manualJournalId}`);
-    return response;
+      $.export("$summary", `Successfully fetched ${response.ManualJournals.length} manual journals`);
+      return response;
+    } catch (e) {
+      $.export("$summary", "No manual journals found");
+      return {};
+    }
   },
 };

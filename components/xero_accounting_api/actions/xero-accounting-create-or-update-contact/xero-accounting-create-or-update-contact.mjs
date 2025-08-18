@@ -176,16 +176,34 @@ export default {
       description: "The name of the Tracking Option assigned to the contact under SalesTrackingCategories and PurchasesTrackingCategories",
       optional: true,
     },
-    paymentTerms: {
-      label: "Payment Terms",
+    paymentTermsBillDay: {
+      label: "Payment Terms Bill Day",
+      type: "integer",
+      description: "The default payment terms bill day",
+      optional: true,
+    },
+    paymentTermsBillType: {
       type: "string",
-      description: "The default payment terms for the contact - see Payment Terms",
+      label: "Payment Terms Bill Type",
+      description: "The default payment terms bill type",
       optional: true,
       options: [
-        "DAYSAFTERBILLDATE",
-        "DAYSAFTERBILLMONTH",
-        "OFCURRENTMONTH",
-        "OFFOLLOWINGMONTH",
+        {
+          "label": "day(s) after bill date",
+          "value": "DAYSAFTERBILLDATE",
+        },
+        {
+          "label": "day(s) after bill month",
+          "value": "DAYSAFTERBILLMONTH",
+        },
+        {
+          "label": "of the current month",
+          "value": "OFCURRENTMONTH",
+        },
+        {
+          "label": "of the following month",
+          "value": "OFFOLLOWINGMONTH",
+        },
       ],
     },
   },
@@ -220,7 +238,12 @@ export default {
         PurchasesTrackingCategories: this.puechasesTrackingCategories,
         TrackingCategoryName: this.trackingCategoryName,
         TrackingOptionName: this.trackingOptionName,
-        PaymentTerms: this.paymentTerms,
+        PaymentTerms: {
+          Bills: {
+            Day: this.paymentTermsBillDay,
+            Type: this.paymentTermsBillType,
+          },
+        },
       },
     });
 

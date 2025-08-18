@@ -116,10 +116,11 @@ export default {
     },
   },
   async run({ $ }) {
-    if ((!this.bankAccountCode && !this.bankAccountId)
-    || (!this.contactId && !this.contactName)
-    || !this.tenantId || !this.type || !this.lineItems) {
-      throw new ConfigurationError("Must provide one of **Bank Account Code** or **Bank Account ID**, **Contact ID** or **Contact Name**, **Tenant ID**, **Type**, and **Line Items** parameters.");
+    if (!this.bankAccountCode && !this.bankAccountId) {
+      throw new ConfigurationError("Must provide one of **Bank Account Code** or **Bank Account ID** parameters.");
+    }
+    if (!this.contactId && !this.contactName) {
+      throw new ConfigurationError("Must provide one of **Contact ID** or **Contact Name** parameters.");
     }
 
     const response = await this.xeroAccountingApi.createBankTransaction({

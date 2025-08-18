@@ -16,12 +16,17 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.xeroAccountingApi.getTrackingCategories({
-      $,
-      tenantId: this.tenantId,
-    });
+    try {
+      const response = await this.xeroAccountingApi.getTrackingCategories({
+        $,
+        tenantId: this.tenantId,
+      });
 
-    $.export("$summary", `Successfully listed ${response.TrackingCategories.length} tracking categories`);
-    return response;
+      $.export("$summary", `Successfully fetched ${response.TrackingCategories.length} tracking categories`);
+      return response;
+    } catch (e) {
+      $.export("$summary", "No tracking categories found");
+      return {};
+    }
   },
 };

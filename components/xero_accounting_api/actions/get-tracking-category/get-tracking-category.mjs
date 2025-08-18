@@ -25,13 +25,18 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.xeroAccountingApi.getTrackingCategory({
-      $,
-      tenantId: this.tenantId,
-      trackingCategoryId: this.trackingCategoryId,
-    });
+    try {
+      const response = await this.xeroAccountingApi.getTrackingCategory({
+        $,
+        tenantId: this.tenantId,
+        trackingCategoryId: this.trackingCategoryId,
+      });
 
-    $.export("$summary", `Successfully fetched tracking category with ID: ${this.trackingCategoryId}`);
-    return response;
+      $.export("$summary", `Successfully fetched tracking category with ID: ${this.trackingCategoryId}`);
+      return response;
+    } catch (e) {
+      $.export("$summary", `No tracking category found with identifier: ${this.trackingCategoryId}`);
+      return {};
+    }
   },
 };

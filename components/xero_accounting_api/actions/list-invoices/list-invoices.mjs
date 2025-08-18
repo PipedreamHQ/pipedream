@@ -4,7 +4,7 @@ export default {
   key: "xero_accounting_api-list-invoices",
   name: "List Invoices",
   description: "Lists information from invoices in the given tenant id as per filter parameters.",
-  version: "0.2.2",
+  version: "0.3.0",
   type: "action",
   props: {
     xeroAccountingApi,
@@ -13,12 +13,6 @@ export default {
         xeroAccountingApi,
         "tenantId",
       ],
-    },
-    invoiceIdentifier: {
-      label: "Invoice Identifier",
-      type: "string",
-      description: "An invoice identifier. Possible values:\n\n* **InvoiceID** - The Xero identifier for an Invoice e.g. 297c2dc5-cc47-4afd-8ec8-74990b8761e9\n* **InvoiceNumber** - The InvoiceNumber e.g. INV-01514",
-      optional: true,
     },
     modifiedAfter: {
       label: "Modified After",
@@ -76,24 +70,28 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.xeroAccountingApi.listInvoices({
-      $,
-      tenantId: this.tenantId,
-      invoiceIdentifier: this.invoiceIdentifier,
-      modifiedAfter: this.modifiedAfter,
-      params: {
-        IDs: this.ids,
-        InvoiceNumbers: this.invoiceNumbers,
-        ContactIDs: this.contactIds,
-        Statuses: this.statuses,
-        Where: this.where,
-        createdByMyApp: this.createdByMyApp,
-        order: this.order,
-        page: this.page,
-      },
-    });
+    try {
+      const response = await this.xeroAccountingApi.listInvoices({
+        $,
+        tenantId: this.tenantId,
+        modifiedAfter: this.modifiedAfter,
+        params: {
+          IDs: this.ids,
+          InvoiceNumbers: this.invoiceNumbers,
+          ContactIDs: this.contactIds,
+          Statuses: this.statuses,
+          Where: this.where,
+          createdByMyApp: this.createdByMyApp,
+          order: this.order,
+          page: this.page,
+        },
+      });
 
-    $.export("$summary", `Successfully fetched invoices with ID: ${this.invoiceIdentifier}`);
-    return response;
+      $.export("$summary", `Successfully fetched ${response.Invoices.length} invoices`);
+      return response;
+    } catch (e) {
+      $.export("$summary", "No invoices found");
+      return {};
+    }
   },
 };

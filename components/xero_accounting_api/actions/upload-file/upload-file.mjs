@@ -1,5 +1,4 @@
 import { getFileStreamAndMetadata } from "@pipedream/platform";
-import FormData from "form-data";
 import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 
 export default {
@@ -49,16 +48,21 @@ export default {
       optional: true,
     },
   },
+  methods: {
+    streamToBuffer(stream) {
+      return new Promise((resolve, reject) => {
+        const chunks = [];
+        stream.on("data", (chunk) => chunks.push(chunk));
+        stream.on("end", () => resolve(Buffer.concat(chunks)));
+        stream.on("error", reject);
+      });
+    },
+  },
   async run({ $ }) {
     const {
       stream, metadata,
     } = await getFileStreamAndMetadata(this.filePathOrUrl);
-    const data = new FormData();
-    data.append("file", stream, {
-      contentType: metadata.contentType,
-      knownLength: metadata.size,
-      filename: metadata.name,
-    });
+    const fileBinary = await this.streamToBuffer(stream);
 
     const response = await this.xeroAccountingApi.uploadFile({
       $,
@@ -67,9 +71,11 @@ export default {
       documentId: this.documentId,
       fileName: metadata.name,
       headers: {
-        ...data.getHeaders(),
+        "Content-Type": metadata.contentType,
+        "Content-Length": metadata.size,
+        "Accept": "application/json",
       },
-      data,
+      data: Buffer.from(fileBinary, "binary"),
     });
 
     $.export("$summary", `Successfully uploaded file to ${this.documentType} with ID: ${this.documentId}`);

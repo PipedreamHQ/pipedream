@@ -165,19 +165,12 @@ export default {
         ...opts,
       });
     },
-    createContact(opts = {}) {
-      return this._makeRequest({
-        method: "post",
-        path: "/contacts",
-        ...opts,
-      });
-    },
     getContact({
       queryParam, ...opts
     }) {
       const where = chainQueryString(queryParam);
       return this._makeRequest({
-        path: "/contacts",
+        path: "/Contacts",
         params: where && {
           Where: where,
         },
@@ -186,7 +179,7 @@ export default {
     },
     createInvoice(opts = {}) {
       return this._makeRequest({
-        method: "post",
+        method: "POST",
         path: "/Invoices",
         ...opts,
       });
@@ -204,7 +197,7 @@ export default {
       invoiceId, ...opts
     }) {
       return this._makeRequest({
-        method: "post",
+        method: "POST",
         path: `/Invoices/${invoiceId}/Email`,
         ...opts,
       });
@@ -339,19 +332,15 @@ export default {
         ...opts,
       });
     },
-    listContacts({
-      contactIdentifier, ...opts
-    }) {
+    listContacts(opts = {}) {
       return this._makeRequest({
-        path: `/Contacts/${contactIdentifier}`,
+        path: "/Contacts",
         ...opts,
       });
     },
-    listCreditNotes({
-      creditNoteIdentifier, ...opts
-    }) {
+    listCreditNotes(opts = {}) {
       return this._makeRequest({
-        path: `/CreditNotes/${creditNoteIdentifier}`,
+        path: "/CreditNotes",
         ...opts,
       });
     },
@@ -375,7 +364,7 @@ export default {
       documentType, documentId, fileName, ...opts
     }) {
       return this._makeRequest({
-        method: "post",
+        method: "POST",
         path: `/${documentType}/${documentId}/Attachments/${fileName}`,
         ...opts,
       });

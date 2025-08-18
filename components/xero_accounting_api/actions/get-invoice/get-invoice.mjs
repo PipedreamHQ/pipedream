@@ -1,4 +1,3 @@
-import { ConfigurationError } from "@pipedream/platform";
 import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 
 export default {
@@ -22,17 +21,18 @@ export default {
     },
   },
   async run({ $ }) {
-    if (!this.tenantId || !this.invoiceId) {
-      throw new ConfigurationError("Must provide **Tenant ID**, and **Invoice ID** parameters.");
+    try {
+      const response = await this.xeroAccountingApi.getInvoiceById({
+        $,
+        tenantId: this.tenantId,
+        invoiceId: this.invoiceId,
+      });
+
+      $.export("$summary", `Invoice retrieved successfully: ${this.invoiceId}`);
+      return response;
+    } catch (e) {
+      $.export("$summary", `No invoice found with identifier: ${this.invoiceId}`);
+      return {};
     }
-
-    const response = await this.xeroAccountingApi.getInvoiceById({
-      $,
-      tenantId: this.tenantId,
-      invoiceId: this.invoiceId,
-    });
-
-    $.export("$summary", `Invoice retrieved successfully: ${this.invoiceId}`);
-    return response;
   },
 };

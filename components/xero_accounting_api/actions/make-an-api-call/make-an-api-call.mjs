@@ -39,11 +39,6 @@ export default {
       description: "Query string of the request.",
       optional: true,
     },
-    headers: {
-      label: "Headers",
-      type: "object",
-      description: "Headers to send in the request. Must include header `xero-tenant-id` with Id of the organization tenant to use on the Xero Accounting API. See [Get Tenant Connections](https://pipedream.com/@sergio/xero-accounting-api-get-tenant-connections-p_OKCzOgn/edit) for a workflow example on how to pull this data.",
-    },
     requestBody: {
       label: "Request Body",
       type: "object",
@@ -61,7 +56,6 @@ export default {
       method: this.requestMethod,
       path: this.relativeUrl,
       params: this.queryString,
-      headers: parseObject(this.headers),
       data: parseObject(this.requestBody),
     });
 

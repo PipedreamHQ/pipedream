@@ -37,6 +37,9 @@ export default {
       tenantId: this.tenantId,
       invoiceId: this.invoiceId,
       responseType: "arraybuffer",
+      headers: {
+        Accept: "application/pdf",
+      },
     });
 
     const invoicePdf = data.toString("base64");

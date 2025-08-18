@@ -4,7 +4,7 @@ export default {
   key: "xero_accounting_api-list-contacts",
   name: "List Contacts",
   description: "Lists information from contacts in the given tenant id as per filter parameters.",
-  version: "0.1.2",
+  version: "0.2.0",
   type: "action",
   props: {
     xeroAccountingApi,
@@ -13,12 +13,6 @@ export default {
         xeroAccountingApi,
         "tenantId",
       ],
-    },
-    contactIdentifier: {
-      label: "Contact Identifier",
-      type: "string",
-      description: "A contact identifier. Possible values: \n* **ContactID** - The Xero identifier for a contact e.g. 297c2dc5-cc47-4afd-8ec8-74990b8761e9\n* **ContactNumber** -  A custom identifier specified from another system e.g. a CRM system has a contact number of CUST100",
-      optional: true,
     },
     modifiedAfter: {
       label: "Modified After",
@@ -58,21 +52,25 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.xeroAccountingApi.listContacts({
-      $,
-      tenantId: this.tenantId,
-      contactIdentifier: this.contactIdentifier,
-      modifiedAfter: this.modifiedAfter,
-      params: {
-        IDs: this.ids,
-        Where: this.where,
-        order: this.order,
-        page: this.page,
-        includeArchived: this.includeArchived,
-      },
-    });
+    try {
+      const response = await this.xeroAccountingApi.listContacts({
+        $,
+        tenantId: this.tenantId,
+        modifiedAfter: this.modifiedAfter,
+        params: {
+          IDs: this.ids,
+          Where: this.where,
+          order: this.order,
+          page: this.page,
+          includeArchived: this.includeArchived,
+        },
+      });
 
-    $.export("$summary", `Successfully fetched contacts with ID: ${this.contactIdentifier}`);
-    return response;
+      $.export("$summary", `Successfully fetched ${response.Contacts.length} contacts`);
+      return response;
+    } catch (e) {
+      $.export("$summary", "No contacts found");
+      return {};
+    }
   },
 };
