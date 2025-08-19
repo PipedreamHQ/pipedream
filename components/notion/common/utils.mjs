@@ -32,7 +32,7 @@ function parseArray(value) {
 
 function parseObject(obj) {
   if (!obj) {
-    return {};
+    return null;
   }
   if (typeof obj === "string") {
     try {

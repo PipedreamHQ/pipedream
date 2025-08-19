@@ -1,11 +1,11 @@
-import googleDrive from "../../google_drive.app.mjs";
 import { GOOGLE_DRIVE_FOLDER_MIME_TYPE } from "../../common/constants.mjs";
+import googleDrive from "../../google_drive.app.mjs";
 
 export default {
   key: "google_drive-move-file-to-trash",
   name: "Move File to Trash",
   description: "Move a file or folder to trash. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/update) for more information",
-  version: "0.1.10",
+  version: "0.1.11",
   type: "action",
   props: {
     googleDrive,
