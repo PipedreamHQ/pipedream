@@ -1,6 +1,7 @@
 import app from "../../gong.app.mjs";
 import constants from "../../common/constants.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "gong-get-extensive-data",
@@ -57,7 +58,7 @@ export default {
     context: {
       type: "string",
       label: "Context",
-      description: "Allowed: None, Basic, Extended. If 'Basic', add links to external systems (context objects) such as CRM, Telephony System, Case Management. If 'Extended' include also data (context fields) for these links. Default value 'None'",
+      description: "If 'Basic', add links to external systems (context objects) such as CRM, Telephony System, Case Management. If 'Extended' include also data (context fields) for these links.",
       options: [
         "None",
         "Basic",
@@ -70,7 +71,6 @@ export default {
       type: "string[]",
       label: "Context Timing",
       description: "Allowed: Now, TimeOfCall. Timing for the context data. The field is optional and can contain either 'Now' or 'TimeOfCall' or both. The default value is ['Now']. Can be provided only when the context field is set to 'Extended'",
-      default: [],
       optional: true,
     },
     includeParties: {
@@ -85,16 +85,16 @@ export default {
       label: "Exposed Fields Content",
       description: "Specify which fields to include in the response for the content",
       default: {
-        "structure": false,
-        "topics": false,
-        "trackers": false,
-        "trackerOccurrences": false,
-        "pointsOfInterest": false,
-        "brief": false,
-        "outline": false,
-        "highlights": false,
-        "callOutcome": false,
-        "keyPoints": false,
+        "structure": "false",
+        "topics": "false",
+        "trackers": "false",
+        "trackerOccurrences": "false",
+        "pointsOfInterest": "false",
+        "brief": "false",
+        "outline": "false",
+        "highlights": "false",
+        "callOutcome": "false",
+        "keyPoints": "false",
       },
       optional: true,
     },
@@ -103,10 +103,10 @@ export default {
       label: "Exposed Fields Interaction",
       description: "Specify which fields to include in the response for the interaction",
       default: {
-        "speakers": false,
-        "video": false,
-        "personInteractionStats": false,
-        "questions": false,
+        "speakers": "false",
+        "video": "false",
+        "personInteractionStats": "false",
+        "questions": "false",
       },
       optional: true,
     },
@@ -152,6 +152,9 @@ export default {
       throw new ConfigurationError("Must not provide both `callIds` and `workspaceId`");
     }
 
+    const exposedFieldsContentObj = utils.parseObject(exposedFieldsContent);
+    const exposedFieldsInteractionObj = utils.parseObject(exposedFieldsInteraction);
+
     const contentSelector = {
       "context": context || "None",
       ...(contextTiming.length > 0 && {
@@ -160,22 +163,22 @@ export default {
       "exposedFields": {
         "parties": includeParties || false,
         "content": {
-          "structure": exposedFieldsContent.structure || false,
-          "topics": exposedFieldsContent.topics || false,
-          "trackers": exposedFieldsContent.trackers || false,
-          "trackerOccurrences": exposedFieldsContent.trackerOccurrences || false,
-          "pointsOfInterest": exposedFieldsContent.pointsOfInterest || false,
-          "brief": exposedFieldsContent.brief || false,
-          "outline": exposedFieldsContent.outline || false,
-          "highlights": exposedFieldsContent.highlights || false,
-          "callOutcome": exposedFieldsContent.callOutcome || false,
-          "keyPoints": exposedFieldsContent.keyPoints || false,
+          "structure": exposedFieldsContentObj?.structure || false,
+          "topics": exposedFieldsContentObj?.topics || false,
+          "trackers": exposedFieldsContentObj?.trackers || false,
+          "trackerOccurrences": exposedFieldsContentObj?.trackerOccurrences || false,
+          "pointsOfInterest": exposedFieldsContentObj?.pointsOfInterest || false,
+          "brief": exposedFieldsContentObj?.brief || false,
+          "outline": exposedFieldsContentObj?.outline || false,
+          "highlights": exposedFieldsContentObj?.highlights || false,
+          "callOutcome": exposedFieldsContentObj?.callOutcome || false,
+          "keyPoints": exposedFieldsContentObj?.keyPoints || false,
         },
         "interaction": {
-          "speakers": exposedFieldsInteraction.speakers || false,
-          "video": exposedFieldsInteraction.video || false,
-          "personInteractionStats": exposedFieldsInteraction.personInteractionStats || false,
-          "questions": exposedFieldsInteraction.questions || false,
+          "speakers": exposedFieldsInteractionObj?.speakers || false,
+          "video": exposedFieldsInteractionObj?.video || false,
+          "personInteractionStats": exposedFieldsInteractionObj?.personInteractionStats || false,
+          "questions": exposedFieldsInteractionObj?.questions || false,
         },
         "collaboration": {
           "publicComments": includePublicComments || false,
