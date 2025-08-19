@@ -3,7 +3,9 @@ import {
 } from "react";
 import Select, { components } from "react-select";
 import { useApps } from "../hooks/use-apps";
-import { AppResponse, GetAppsOpts } from "@pipedream/sdk";
+import {
+  AppResponse, GetAppsOpts,
+} from "@pipedream/sdk";
 
 type SelectAppProps = {
   value?: Partial<AppResponse> & { name_slug: string; };
@@ -11,7 +13,7 @@ type SelectAppProps = {
   /**
    * Additional options for fetching apps (sorting, filtering, etc.)
    */
-  appsOptions?: Omit<GetAppsOpts, 'q'>;
+  appsOptions?: Omit<GetAppsOpts, "q">;
 };
 
 export function SelectApp({
