@@ -5,8 +5,9 @@ export default {
   name: "Reservation Updated",
   description: "Emit new reservations as they are updated (polling)",
   key: "mews-reservation-updated",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
+  dedupe: "unique",
   methods: {
     ...base.methods,
     getRequester() {

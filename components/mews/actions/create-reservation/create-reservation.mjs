@@ -5,7 +5,7 @@ export default {
   name: "Create Reservation",
   description: "Create a reservation in Mews. See reservation parameters in the docs. [See the documentation](https://mews-systems.gitbook.io/connector-api/operations/reservations#add-reservations)",
   key: "mews-create-reservation",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
@@ -15,56 +15,96 @@ export default {
         "serviceId",
       ],
     },
-    customerId: {
-      propDefinition: [
-        app,
-        "customerId",
-      ],
-    },
     startUtc: {
+      optional: false,
       propDefinition: [
         app,
         "startUtc",
       ],
     },
     endUtc: {
+      optional: false,
       propDefinition: [
         app,
         "endUtc",
       ],
     },
+    personCounts: {
+      type: "string[]",
+      label: "Person Counts",
+      description: `Number of people per age category the reservation was booked for. At least one category with valid count must be provided.
+
+**Parameters:**
+- **AgeCategoryId** (string, required): Unique identifier of the Age category
+- **Count** (integer, required): Number of people of a given age category. Only positive value is accepted
+
+**Example:**
+\`\`\`json
+[
+  {
+    "AgeCategoryId": "3ed9e2f3-4bba-4df6-8d41-ab1400b21942",
+    "Count": 2
+  },
+  {
+    "AgeCategoryId": "ab7e1cf3-5fda-4cd2-8f41-ab1400b21943",
+    "Count": 1
+  }
+]
+\`\`\``,
+    },
+    customerId: {
+      propDefinition: [
+        app,
+        "customerId",
+      ],
+    },
+    requestedCategoryId: {
+      label: "Requested Category ID",
+      description: "The category of the resource requested for the reservation.",
+      optional: false,
+      propDefinition: [
+        app,
+        "resourceCategoryId",
+        ({ serviceId }) => ({
+          data: {
+            ServiceIds: [
+              serviceId,
+            ],
+          },
+        }),
+      ],
+    },
+    rateId: {
+      optional: false,
+      propDefinition: [
+        app,
+        "rateId",
+        ({ serviceId }) => ({
+          data: {
+            ServiceIds: [
+              serviceId,
+            ],
+          },
+        }),
+      ],
+    },
     state: {
+      optional: true,
       propDefinition: [
         app,
         "state",
       ],
-      optional: true,
     },
-    resourceId: {
-      propDefinition: [
-        app,
-        "resourceId",
-      ],
-      optional: true,
-    },
-    number: {
-      propDefinition: [
-        app,
-        "number",
-      ],
+    channelNumber: {
+      type: "string",
+      label: "Channel Number",
+      description: "The number of the channel that made the reservation.",
       optional: true,
     },
     notes: {
       propDefinition: [
         app,
         "notes",
-      ],
-      optional: true,
-    },
-    rateId: {
-      propDefinition: [
-        app,
-        "rateId",
       ],
       optional: true,
     },
@@ -76,9 +116,16 @@ export default {
       optional: true,
     },
     travelAgencyId: {
+      label: "Travel Agency ID",
+      description: "Identifier of the Travel Agency. (Company with a TravelAgencyContract)",
       propDefinition: [
         app,
-        "travelAgencyId",
+        "companyId",
+        () => ({
+          filter: (company) => {
+            return company.NchClassifications?.OnlineTravelAgency === true;
+          },
+        }),
       ],
       optional: true,
     },
@@ -101,61 +148,48 @@ export default {
     const {
       app,
       serviceId,
-      customerId,
+      channelNumber,
+      state,
       startUtc,
       endUtc,
-      state,
-      resourceId,
-      number,
-      notes,
+      personCounts,
+      customerId,
+      requestedCategoryId,
       rateId,
-      companyId,
       travelAgencyId,
+      companyId,
       businessSegmentId,
+      notes,
       additionalFields,
     } = this;
 
     const response = await app.reservationsCreate({
+      $,
       data: {
+        ServiceId: serviceId,
         Reservations: [
           {
-            ServiceId: serviceId,
-            CustomerId: customerId,
+            ChannelNumber: channelNumber,
+            State: state,
             StartUtc: startUtc,
             EndUtc: endUtc,
-            ...(state && {
-              State: state,
-            }),
-            ...(resourceId && {
-              ResourceId: resourceId,
-            }),
-            ...(number && {
-              Number: number,
-            }),
-            ...(notes && {
-              Notes: notes,
-            }),
-            ...(rateId && {
-              RateId: rateId,
-            }),
-            ...(companyId && {
-              CompanyId: companyId,
-            }),
-            ...(travelAgencyId && {
-              TravelAgencyId: travelAgencyId,
-            }),
-            ...(businessSegmentId && {
-              BusinessSegmentId: businessSegmentId,
-            }),
+            PersonCounts: utils.parseArray(personCounts),
+            CustomerId: customerId,
+            RequestedCategoryId: requestedCategoryId,
+            RateId: rateId,
+            TravelAgencyId: travelAgencyId,
+            CompanyId: companyId,
+            BusinessSegmentId: businessSegmentId,
+            Notes: notes,
             ...(additionalFields && {
               ...utils.parseJson(additionalFields),
             }),
           },
         ],
       },
-      $,
     });
-    $.export("summary", "Successfully created reservation");
+
+    $.export("$summary", "Successfully created reservation");
     return response;
   },
 };

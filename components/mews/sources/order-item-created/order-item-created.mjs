@@ -5,8 +5,9 @@ export default {
   name: "Order Item Created",
   description: "Emit new order items as they are created (polling)",
   key: "mews-order-item-created",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
+  dedupe: "unique",
   methods: {
     ...base.methods,
     getRequester() {
