@@ -32,8 +32,7 @@ export function Control<T extends ConfigurableProps, U extends ConfigurableProp>
   const app = "app" in field.extra
     ? field.extra.app
     : undefined;
-
-  if (prop.remoteOptions || prop.type === "$.discord.channel") {
+  if (prop.remoteOptions || prop.type === "$.discord.channel" || prop.type === "$.discord.channel[]") {
     return <RemoteOptionsContainer queryEnabled={queryDisabledIdx == null || queryDisabledIdx >= idx} />;
   }
 
