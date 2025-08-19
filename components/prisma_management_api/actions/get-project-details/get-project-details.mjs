@@ -2,7 +2,7 @@ import app from "../../prisma_management_api.app.mjs";
 
 export default {
   name: "Get Project details",
-  version: "0.1.0",
+  version: "1.0.0",
   key: "prisma_management_api-get-project-details",
   description: "Get project details of a particular project in Prisma Workspace via Prisma Management API. [See docs here](https://www.prisma.io/docs/postgres/introduction/management-api)",
   type: "action",

@@ -21,7 +21,7 @@ To use the Prisma Management API with Pipedream, you'll need to connect your Pri
 
 ### Project Management
 
-#### Create Postgres Database
+#### Create Database
 Creates a new Postgres database project via Prisma Management API. This action creates a complete project with database and provides connection string details in the response for immediate use.
 
 **Parameters:**
@@ -39,7 +39,7 @@ Retrieves detailed information about a specific project including associated dat
 **Parameters:**
 - `projectId` (string, required): The ID of the project to retrieve
 
-#### Delete Postgres Database
+#### Delete Database
 Removes an entire Postgres database project and all associated resources.
 
 **Parameters:**

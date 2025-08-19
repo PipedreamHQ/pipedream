@@ -2,7 +2,7 @@ import app from "../../prisma_management_api.app.mjs";
 
 export default {
   name: "Create New Database in Existing Project",
-  version: "0.1.0",
+  version: "1.0.0",
   key: "prisma_management_api-create-new-database-in-existing-project",
   description: "Create a new database in an existing Prisma project. Requires Project ID. [See docs here](https://www.prisma.io/docs/postgres/introduction/management-api)",
   type: "action",
@@ -14,18 +14,10 @@ export default {
       description: "The ID of the project where the database should be created",
     },
     region: {
-      type: "string",
-      label: "Region",
-      description: "The AWS region where the database should be created",
-      options: [
-        "us-east-1",
-        "us-west-1",
-        "eu-west-3",
-        "eu-central-1",
-        "ap-northeast-1",
-        "ap-southeast-1",
+      propDefinition: [
+        app,
+        "region",
       ],
-      optional: true,
     },
     isDefault: {
       type: "boolean",
@@ -36,8 +28,13 @@ export default {
     },
   },
   async run({ $ }) {
-    const data = {};
-    if (this.region) data.region = this.region;
+    if (!this.region) {
+      throw new Error("Region is required for creating a database");
+    }
+    
+    const data = {
+      region: this.region,
+    };
     if (this.isDefault !== undefined) data.default = this.isDefault;
 
     const response = await this.app.createDatabase({

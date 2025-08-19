@@ -1,9 +1,9 @@
 import app from "../../prisma_management_api.app.mjs";
 
 export default {
-  name: "Create Postgres Database",
-  version: "0.1.0",
-  key: "prisma_management_api-create-postgres-database",
+  name: "Create Database",
+  version: "1.0.0",
+  key: "prisma_management_api-create-database",
   description: "Creates a new Postgres database project via Prisma Management API. [See docs here](https://www.prisma.io/docs/postgres/introduction/management-api)",
   type: "action",
   props: {
@@ -14,16 +14,9 @@ export default {
       description: "The name of the Postgres database project to create",
     },
     region: {
-      type: "string",
-      label: "Region",
-      description: "The region where the database should be created",
-      options: [
-        "us-east-1",
-        "us-west-1",
-        "eu-west-3",
-        "eu-central-1",
-        "ap-northeast-1",
-        "ap-southeast-1",
+      propDefinition: [
+        app,
+        "region",
       ],
       default: "us-east-1",
     },

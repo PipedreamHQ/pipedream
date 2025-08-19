@@ -3,7 +3,23 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "prisma_management_api",
-  propDefinitions: {},
+  propDefinitions: {
+    region: {
+      type: "string",
+      label: "Region",
+      description: "The region where the database should be created",
+      async options() {
+        const response = await this.listRegions();
+        const regions = response?.data || [];
+        return regions
+          .filter((region) => !region.status || region.status === "available")
+          .map((region) => ({
+            label: region.name || region.id,
+            value: region.id,
+          }));
+      },
+    },
+  },
   methods: {
     _baseUrl() {
       return "https://api.prisma.io/v1";
