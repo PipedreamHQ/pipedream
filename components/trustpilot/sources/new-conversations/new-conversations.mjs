@@ -9,7 +9,7 @@ export default {
   key: "trustpilot-new-conversations",
   name: "New Conversations",
   description: "Emit new event when a new conversation is started on Trustpilot. This source periodically polls the Trustpilot API to detect new customer-business conversations. Each event contains conversation details including participants, subject, business unit, and creation timestamp. Useful for tracking customer inquiries, support requests, and maintaining real-time communication with customers.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {
