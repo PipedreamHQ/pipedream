@@ -2,22 +2,22 @@ import base from "../common/polling.mjs";
 
 export default {
   ...base,
-  name: "New Order Item Created",
-  description: "Emit new order items as they are created (polling). [See the documentation](https://mews-systems.gitbook.io/connector-api/operations/orderitems#get-all-order-items)",
-  key: "mews-order-item-created",
-  version: "0.0.2",
+  name: "New Customer",
+  description: "Emit new event when a customer is created. [See the documentation](https://mews-systems.gitbook.io/connector-api/operations/customers#get-all-customers)",
+  key: "mews-customer-created",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   methods: {
     ...base.methods,
     getRequester() {
-      return this.app.orderItemsGetAll;
+      return this.app.customersGetAll;
     },
     getResultKey() {
-      return "OrderItems";
+      return "Customers";
     },
     getResourceName() {
-      return "Order Item";
+      return "Customer";
     },
     getId(resource) {
       return resource?.Id || resource?.id;
@@ -30,4 +30,3 @@ export default {
     },
   },
 };
-
