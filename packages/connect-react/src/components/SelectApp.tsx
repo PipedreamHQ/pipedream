@@ -3,7 +3,7 @@ import {
 } from "react";
 import Select, { components } from "react-select";
 import { useApps } from "../hooks/use-apps";
-import {
+import type {
   AppResponse, GetAppsOpts,
 } from "@pipedream/sdk";
 
