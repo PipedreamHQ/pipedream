@@ -16,6 +16,12 @@ export default {
       optional: true,
       default: 1,
     },
+    date: {
+      type: "string",
+      label: "Date",
+      description: "Enter a calendar date. Format: YYYY-MM-DD",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl() {
@@ -188,6 +194,43 @@ export default {
     getOptionsFlow(opts = {}) {
       return this._makeRequest({
         path: "/v1/markets/options/options-flow",
+        ...opts,
+      });
+    },
+    // Calendar Events API
+    getEarnings(opts = {}) {
+      return this._makeRequest({
+        path: "/v2/markets/calendar/earnings",
+        ...opts,
+      });
+    },
+    getDividends(opts = {}) {
+      return this._makeRequest({
+        path: "/v2/markets/calendar/dividends",
+        ...opts,
+      });
+    },
+    getEconomicEvents(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/markets/calendar/economic_events",
+        ...opts,
+      });
+    },
+    getIpoData(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/markets/calendar/ipo",
+        ...opts,
+      });
+    },
+    getPublicOfferings(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/markets/calendar/public_offerings",
+        ...opts,
+      });
+    },
+    getStockSplits(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/markets/calendar/stock-splits",
         ...opts,
       });
     },
