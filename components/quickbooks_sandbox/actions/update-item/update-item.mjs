@@ -11,7 +11,7 @@ const props = adjustPropDefinitions(others.props, app);
 export default {
   ...others,
   key: "quickbooks_sandbox-update-item",
-  version: "0.2.4",
+  version: "0.2.5",
   name,
   description,
   type,
