@@ -4,7 +4,7 @@ export default {
   name: "List Projects in Prisma Workspace",
   version: "1.0.0",
   key: "prisma_management_api-list-projects-in-prisma-workspace",
-  description: "List Projects in a Prisma Workspace via Prisma Management API. Supports pagination for large result sets. [See docs here](https://www.prisma.io/docs/postgres/introduction/management-api)",
+  description: "List Projects in a Prisma Workspace via Prisma Management API. [See docs here](https://www.prisma.io/docs/postgres/introduction/management-api)",
   type: "action",
   props: {
     app,
