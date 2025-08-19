@@ -1,4 +1,6 @@
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 const API_VERSION = "5.0";
 
 export default {
@@ -29,9 +31,13 @@ export default {
       return "https://dev.azure.com";
     },
     _headers(useOAuth) {
-      const basicAuth = Buffer.from(`${this._oauthUid()}:${useOAuth
+      const token = useOAuth
         ? this._oauthAccessToken()
-        : this._personalAccessToken()}`).toString("base64");
+        : this._personalAccessToken();
+      if (!token && !useOAuth) {
+        throw new ConfigurationError("Azure DevOps Personal Access Token is required for this operation. Add it to your Azure DevOps connection.");
+      }
+      const basicAuth = Buffer.from(`${this._oauthUid()}:${token}`).toString("base64");
       return {
         Authorization: `Basic ${basicAuth}`,
       };
