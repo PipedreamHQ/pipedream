@@ -4,7 +4,7 @@ export default {
   key: "trustpilot-fetch-service-reviews",
   name: "Fetch Service Reviews",
   description: "Fetches service reviews for a specific business unit from Trustpilot with support for filtering by star rating, tags, language, and more. [See the documentation](https://developers.trustpilot.com/business-units-api#get-business-unit-reviews)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     trustpilot,
