@@ -11,11 +11,6 @@ export default {
     azureDevops,
     db: "$.service.db",
     http: "$.interface.http",
-    personalAccessToken: {
-      type: "string",
-      label: "Personal Access Token",
-      description: "The personal access token to use to authenticate with Azure DevOps",
-    },
     organization: {
       propDefinition: [
         azureDevops,
@@ -28,7 +23,6 @@ export default {
         "eventType",
         (c) => ({
           organization: c.organization,
-          personalAccessToken: c.personalAccessToken,
         }),
       ],
     },
@@ -48,7 +42,6 @@ export default {
       };
       const { id } = await this.azureDevops.createSubscription(
         this.organization,
-        this.personalAccessToken,
         {
           data,
         },
@@ -57,7 +50,7 @@ export default {
     },
     async deactivate() {
       const id = this._getHookId();
-      await this.azureDevops.deleteSubscription(this.organization, id, this.personalAccessToken);
+      await this.azureDevops.deleteSubscription(this.organization, id);
     },
   },
   methods: {
