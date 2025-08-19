@@ -5,7 +5,7 @@ export default {
   key: "quickbooks-create-customer",
   name: "Create Customer",
   description: "Creates a customer. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/customer#create-a-customer)",
-  version: "0.1.10",
+  version: "0.1.11",
   type: "action",
   props: {
     quickbooks,

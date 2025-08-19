@@ -6,7 +6,7 @@ export default {
   key: "quickbooks-new-employee-created",
   name: "New Employee Created",
   description: "Emit new event when a new employee is created.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   methods: {

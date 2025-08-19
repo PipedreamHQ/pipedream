@@ -2,6 +2,16 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
+// Native Node.js modules that don't need to be in package.json
+const NATIVE_MODULES = new Set([
+  'assert', 'buffer', 'child_process', 'cluster', 'console', 'constants',
+  'crypto', 'dgram', 'dns', 'domain', 'events', 'fs', 'http', 'https',
+  'module', 'net', 'os', 'path', 'perf_hooks', 'process', 'punycode',
+  'querystring', 'readline', 'repl', 'stream', 'string_decoder', 'sys',
+  'timers', 'tls', 'tty', 'url', 'util', 'v8', 'vm', 'wasi', 'worker_threads',
+  'zlib', 'async_hooks', 'inspector', 'trace_events', 'http2'
+]);
+
 // Parse command line arguments
 const args = process.argv.slice(2);
 const isReportOnly = args.includes('--report-only');
@@ -343,16 +353,23 @@ function validateRelativeImports(packageJson, app) {
   const content = fs.readFileSync(mainFile, 'utf8');
   
   // Find all relative imports to other app files or components
-  const relativeImportRegex = /import\s+.*\s+from\s+["'](\.\.\/[^"']+\.(?:app\.)?mjs)["']/g;
+  const relativeImportRegex = /import\s+.*\s+from\s+["']((?:\.\.\/)+([^"'/]+)\/[^"']*\.(?:app\.)?mjs)["']/g;
   const relativeImports = [];
   let match;
-  
+
   while ((match = relativeImportRegex.exec(content)) !== null) {
     const relativePath = match[1];
+    const firstFolderName = match[2]; // Captured group for the first folder name
+
+    // Skip if the first folder name is one of the standard app folders
+    if (['app', 'actions', 'sources', 'common'].includes(firstFolderName)) {
+      break;
+    }
+
     let suggestion = '';
-    
+
     // Check if it's an app import
-    if (relativePath.includes('.app.mjs')) {
+    if (relativePath.includes('.app.mjs') || relativePath.includes('.app.ts')) {
       const pathParts = relativePath.split('/');
       if (pathParts.length >= 2) {
         const importedApp = pathParts[1];
@@ -423,6 +440,14 @@ function validatePackageDependencies(packageJson, app) {
   const uniquePackages = [...new Set(packageImports.map(imp => imp.packageName))];
   
   uniquePackages.forEach((packageName) => {
+    // Skip native Node.js modules
+    const normalizedName = packageName.startsWith('node:')
+      ? packageName.slice(5)
+      : packageName;
+    if (NATIVE_MODULES.has(normalizedName)) {
+      return;
+    }
+    
     if (!allDependencies[packageName]) {
       const exampleImport = packageImports.find(imp => imp.packageName === packageName);
       missingDependencies.push({

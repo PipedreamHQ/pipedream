@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/cascade_strategy",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Cascade Strategy Components",
-  "main": "dist/app/cascade_strategy.app.mjs",
+  "main": "cascade_strategy.app.mjs",
   "keywords": [
     "pipedream",
     "cascade_strategy"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/cascade_strategy",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

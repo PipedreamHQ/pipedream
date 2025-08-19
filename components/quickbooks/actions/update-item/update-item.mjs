@@ -5,7 +5,7 @@ export default {
   key: "quickbooks-update-item",
   name: "Update Item",
   description: "Updates an item. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/item#full-update-an-item)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     quickbooks,
