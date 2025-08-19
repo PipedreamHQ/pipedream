@@ -1,11 +1,150 @@
+import { axios } from "@pipedream/platform";
+
 export default {
   type: "app",
   app: "mboum",
-  propDefinitions: {},
+  propDefinitions: {
+    ticker: {
+      type: "string",
+      label: "Ticker",
+      description: "Ticker symbol to get data for. (e.g., AAPL, MSFT)",
+    },
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "Page number to return",
+      optional: true,
+      default: 1,
+    },
+  },
   methods: {
-    // this.$auth contains connected account data
-    authKeys() {
-      console.log(Object.keys(this.$auth));
+    _baseUrl() {
+      return "https://api.mboum.com/";
+    },
+    _makeRequest({
+      $ = this, path, ...opts
+    }) {
+      return axios($, {
+        url: `${this._baseUrl()}${path}`,
+        headers: {
+          Authorization: `Bearer ${this.$auth.api_key}`,
+        },
+        ...opts,
+      });
+    },
+    search(opts = {}) {
+      return this._makeRequest({
+        path: "/v2/markets/search",
+        ...opts,
+      });
+    },
+    getMovers(opts = {}) {
+      return this._makeRequest({
+        path: "/v2/markets/movers",
+        ...opts,
+      });
+    },
+    getScreener(opts = {}) {
+      return this._makeRequest({
+        path: "/v2/markets/screener",
+        ...opts,
+      });
+    },
+    getInsiderTrading(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/markets/insider-trades",
+        ...opts,
+      });
+    },
+    getNews(opts = {}) {
+      return this._makeRequest({
+        path: "/v2/markets/news",
+        ...opts,
+      });
+    },
+    getTickers(opts = {}) {
+      return this._makeRequest({
+        path: "/v2/markets/tickers",
+        ...opts,
+      });
+    },
+    getMarketInfo(opts = {}) {
+      return this._makeRequest({
+        path: "/v2/markets/market-info",
+        ...opts,
+      });
+    },
+    getRealtimeQuote(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/markets/quote",
+        ...opts,
+      });
+    },
+    getHistory(opts = {}) {
+      return this._makeRequest({
+        path: "/v2/markets/stock/history",
+        ...opts,
+      });
+    },
+    getModules(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/markets/stock/modules",
+        ...opts,
+      });
+    },
+    getAnalystRatings(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/markets/stock/analyst-ratings",
+        ...opts,
+      });
+    },
+    getTickerSummary(opts = {}) {
+      return this._makeRequest({
+        path: "/v2/markets/stock/ticker-summary",
+        ...opts,
+      });
+    },
+    getPriceTargets(opts = {}) {
+      return this._makeRequest({
+        path: "/v2/markets/stock/price-targets",
+        ...opts,
+      });
+    },
+    getFinancials(opts = {}) {
+      return this._makeRequest({
+        path: "/v2/markets/stock/financials",
+        ...opts,
+      });
+    },
+    getRevenue(opts = {}) {
+      return this._makeRequest({
+        path: "/v2/markets/stock/revenue",
+        ...opts,
+      });
+    },
+    getShortInterest(opts = {}) {
+      return this._makeRequest({
+        path: "/v2/markets/stock/short-interest",
+        ...opts,
+      });
+    },
+    getInstitutionalHoldings(opts = {}) {
+      return this._makeRequest({
+        path: "/v2/markets/stock/institutional-holdings",
+        ...opts,
+      });
+    },
+    getSecFilings(opts = {}) {
+      return this._makeRequest({
+        path: "/v2/markets/stock/sec-filings",
+        ...opts,
+      });
+    },
+    getHistoricalData(opts = {}) {
+      return this._makeRequest({
+        path: "/v2/markets/stock/historical",
+        ...opts,
+      });
     },
   },
 };
