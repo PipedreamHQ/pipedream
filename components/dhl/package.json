@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/dhl",
+  "version": "0.0.1",
+  "description": "Pipedream DHL Components",
+  "main": "dhl.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dhl"
+  ],
+  "homepage": "https://pipedream.com/apps/dhl",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
