@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/deepl",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream DeepL Components",
-  "main": "dist/app/deepl.app.mjs",
+  "main": "deepl.app.mjs",
   "keywords": [
     "pipedream",
     "deepl"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/deepl",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

@@ -12,7 +12,7 @@ export default defineAction({
   key: "google_my_business-create-post",
   name: "Create Post",
   description: `Create a new local post associated with a location. [See the documentation](${DOCS_LINK})`,
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     app,
@@ -95,7 +95,8 @@ export default defineAction({
           ? JSON.parse(obj)
           : obj;
       } catch (err) {
-        throw new ConfigurationError(`**Invalid JSON string** for object prop: "${obj}"`);
+        throw new ConfigurationError(`**Invalid JSON string** for object prop: "${obj}"
+          Error: ${err}`);
       }
     },
   },

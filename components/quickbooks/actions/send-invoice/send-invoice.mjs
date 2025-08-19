@@ -4,7 +4,7 @@ export default {
   key: "quickbooks-send-invoice",
   name: "Send Invoice",
   description: "Sends an invoice by email. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/invoice#send-an-invoice)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     quickbooks,

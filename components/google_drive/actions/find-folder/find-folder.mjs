@@ -1,5 +1,5 @@
-import googleDrive from "../../google_drive.app.mjs";
 import { getListFilesOpts } from "../../common/utils.mjs";
+import googleDrive from "../../google_drive.app.mjs";
 
 import { GOOGLE_DRIVE_FOLDER_MIME_TYPE } from "../../common/constants.mjs";
 
@@ -7,7 +7,7 @@ export default {
   key: "google_drive-find-folder",
   name: "Find Folder",
   description: "Search for a specific folder by name. [See the documentation](https://developers.google.com/drive/api/v3/search-files) for more information",
-  version: "0.1.10",
+  version: "0.1.11",
   type: "action",
   props: {
     googleDrive,

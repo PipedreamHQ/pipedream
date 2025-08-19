@@ -183,6 +183,34 @@ This allows you to use your own OAuth applications for specific integrations, pr
 
 **Note**: OAuth app IDs are not sensitive, and are safe to expose in the client.
 
+### App Sorting and Filtering
+
+When using the `SelectApp` component or `useApps` hook, you can control how apps are sorted and filtered:
+
+```tsx
+<SelectApp
+  value={selectedApp}
+  onChange={setSelectedApp}
+  appsOptions={{
+    sortKey: "featured_weight", // Sort by: "name" | "featured_weight" | "name_slug"
+    sortDirection: "desc", // "asc" | "desc"
+    hasActions: true, // Only show apps with actions
+    hasTriggers: false, // Exclude apps with triggers
+  }}
+/>
+```
+
+The `useApps` hook accepts the same options:
+
+```tsx
+const { apps, isLoading } = useApps({
+  q: "slack", // Search query
+  sortKey: "featured_weight",
+  sortDirection: "desc",
+  hasActions: true,
+});
+```
+
 ## Customization
 
 Style individual components using the `CustomizeProvider` and a `CustomizationConfig`.
@@ -454,7 +482,7 @@ customization options available.
 - `useFrontendClient` — _allows use of provided Pipedream frontendClient_
 - `useAccounts` — _react-query wrapper to list Pipedream connect accounts (for app, external user, etc.)_
 - `useApp` — _react-query wrapper to retrieve a Pipedream app_
-- `useApps` — _react-query wrapper to list Pipedream apps_
+- `useApps` — _react-query wrapper to list Pipedream apps with support for sorting and filtering_
 - `useComponent` — _react-query wrapper to retrieve a Pipedream component (action or trigger)_
 - `useComponents` — _react-query wrapper to list Pipedream components (actions or triggers)_
 
