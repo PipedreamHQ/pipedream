@@ -1,18 +1,19 @@
-import googleDrive from "../../google_drive.app.mjs";
+import {
+  ConfigurationError,
+  getFileStreamAndMetadata,
+} from "@pipedream/platform";
+import { GOOGLE_DRIVE_UPLOAD_TYPE_MULTIPART } from "../../common/constants.mjs";
 import {
   omitEmptyStringValues,
   parseObjectEntries,
 } from "../../common/utils.mjs";
-import { GOOGLE_DRIVE_UPLOAD_TYPE_MULTIPART } from "../../common/constants.mjs";
-import {
-  getFileStreamAndMetadata, ConfigurationError,
-} from "@pipedream/platform";
+import googleDrive from "../../google_drive.app.mjs";
 
 export default {
   key: "google_drive-upload-file",
   name: "Upload File",
   description: "Upload a file to Google Drive. [See the documentation](https://developers.google.com/drive/api/v3/manage-uploads) for more information",
-  version: "2.0.3",
+  version: "2.0.4",
   type: "action",
   props: {
     googleDrive,

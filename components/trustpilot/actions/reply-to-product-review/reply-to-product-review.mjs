@@ -1,11 +1,11 @@
-import trustpilot from "../../trustpilot.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import trustpilot from "../../trustpilot.app.mjs";
 
 export default {
   key: "trustpilot-reply-to-product-review",
   name: "Reply to Product Review",
   description: "Posts a public reply to a product review on Trustpilot on behalf of your business. This action allows you to respond to customer feedback, address concerns, thank customers for positive reviews, or provide additional information about products. Replies help demonstrate your commitment to customer satisfaction and can improve your overall reputation. Note that replies are publicly visible and cannot be edited once posted. [See the documentation](https://developers.trustpilot.com/product-reviews-api#reply-to-product-review)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     trustpilot,

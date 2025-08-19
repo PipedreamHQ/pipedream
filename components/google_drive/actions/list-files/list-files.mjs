@@ -1,11 +1,11 @@
-import googleDrive from "../../google_drive.app.mjs";
 import { getListFilesOpts } from "../../common/utils.mjs";
+import googleDrive from "../../google_drive.app.mjs";
 
 export default {
   key: "google_drive-list-files",
   name: "List Files",
   description: "List files from a specific folder. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/list) for more information",
-  version: "0.1.14",
+  version: "0.1.15",
   type: "action",
   props: {
     googleDrive,
