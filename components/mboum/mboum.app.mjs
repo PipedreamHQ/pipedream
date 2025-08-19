@@ -32,6 +32,7 @@ export default {
         ...opts,
       });
     },
+    // General API
     search(opts = {}) {
       return this._makeRequest({
         path: "/v2/markets/search",
@@ -74,6 +75,7 @@ export default {
         ...opts,
       });
     },
+    // Stocks API
     getRealtimeQuote(opts = {}) {
       return this._makeRequest({
         path: "/v1/markets/quote",
@@ -143,6 +145,49 @@ export default {
     getHistoricalData(opts = {}) {
       return this._makeRequest({
         path: "/v2/markets/stock/historical",
+        ...opts,
+      });
+    },
+    // Options API
+    getOptions(opts = {}) {
+      return this._makeRequest({
+        path: "/v3/markets/options",
+        ...opts,
+      });
+    },
+    getUnusualOptionsActivity(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/markets/options/unusual-options-activity",
+        ...opts,
+      });
+    },
+    getIvRankPercentile(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/markets/options/iv-rank-percentile",
+        ...opts,
+      });
+    },
+    getIvChange(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/markets/options/iv-change",
+        ...opts,
+      });
+    },
+    getMostActive(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/markets/options/most-active",
+        ...opts,
+      });
+    },
+    getHighestIv(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/markets/options/highest-iv",
+        ...opts,
+      });
+    },
+    getOptionsFlow(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/markets/options/options-flow",
         ...opts,
       });
     },
