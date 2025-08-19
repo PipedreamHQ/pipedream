@@ -46,16 +46,35 @@ export function parseObject(obj) {
 }
 
 export async function retryWithExponentialBackoff(
-  requestFn, retries = MAX_RETRIES, backoff = INITIAL_BACKOFF_MILLISECONDS,
+  requestFn,
+  retries = MAX_RETRIES,
+  backoff = INITIAL_BACKOFF_MILLISECONDS,
 ) {
   try {
     return await requestFn();
   } catch (error) {
-    if (retries > 0 && error.response?.status === 429) {
-      console.warn(`Rate limit exceeded. Retrying in ${backoff}ms...`);
-      await new Promise((resolve) => setTimeout(resolve, backoff));
-      return retryWithExponentialBackoff(requestFn, retries - 1, backoff * 2);
+    const status = error.response?.status;
+    const errorCode = error.response?.data?.Fault?.Error?.[0]?.code;
+    const errorCodeStr = errorCode == null
+      ? undefined
+      : String(errorCode);
+
+    const isRateLimit = status === 429 ||
+      status === 503 ||
+      errorCodeStr === "3200" || // Rate limit exceeded
+      errorCodeStr === "10001";   // Throttle limit exceeded
+
+    if (retries > 0 && isRateLimit) {
+      const retryAfter = error.response?.headers?.["retry-after"];
+      const delay = retryAfter
+        ? parseInt(retryAfter) * 1000
+        : backoff;
+
+      console.warn(`QuickBooks rate limit exceeded. Retrying in ${delay}ms... (${retries} retries left)`);
+      await new Promise((resolve) => setTimeout(resolve, delay));
+      return retryWithExponentialBackoff(requestFn, retries - 1, Math.min(backoff * 2, 60000));
     }
+
     throw error;
   }
 }
