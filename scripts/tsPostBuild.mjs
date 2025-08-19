@@ -35,7 +35,11 @@ import { fix } from 'tsc-esm-fix';
       // `components/rss/dist/**/*.{js,mjs,d.ts}`
       const dir = path.dirname(filename);
       // XXX we should really read the tsconfig for the given package and get the outDir from there
-      const outDir = dir.match(/(.*dist\/).*/)[1];
+      const match = dir.match(/(.*dist\/).*/);
+      if (!match) {
+        console.log('dist match not found for:', dir);
+      }
+      const outDir = match?.[1];
       if (outDir && !outDirs.includes(outDir)) {
         outDirs.push(outDir);
       } 

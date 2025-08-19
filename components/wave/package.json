@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/wave",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Wave Components",
-  "main": "dist/app/wave.app.mjs",
+  "main": "wave.app.mjs",
   "keywords": [
     "pipedream",
     "wave"
@@ -11,5 +11,8 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
   }
 }

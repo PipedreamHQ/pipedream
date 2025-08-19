@@ -2,6 +2,14 @@
 
 # Changelog
 
+## [1.8.0] - 2025-08-13
+
+### Added
+
+- Added `categoryIds` parameter to `getApps` method for filtering
+  apps by category IDs
+- Added `getAppCategories` method to retrieve available app categories
+
 ## [1.7.0] - 2025-07-03
 
 ### Added
@@ -41,7 +49,7 @@
 
 - Added `endpoint_url` field to the component metadata, providing the URL to the
   HTTP interface of the component.
-- Added missing pagination fields to the `GetComponentsResponse`  and
+- Added missing pagination fields to the `GetComponentsResponse` and
   `GetAccountsResponse` types.
 
 ## [1.6.7] - 2025-06-06

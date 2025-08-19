@@ -1,13 +1,13 @@
 import base from "../common/base.mjs";
-import sampleEmit from "./test-event.mjs";
 import constants from "../common/constants.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...base,
   key: "notion-page-or-subpage-updated",
   name: "Page or Subpage Updated", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event when the selected page or one of its sub-pages is updated. [See the documentation](https://developers.notion.com/reference/page)",
-  version: "0.0.9",
+  version: "0.0.11",
   type: "source",
   dedupe: "unique",
   props: {

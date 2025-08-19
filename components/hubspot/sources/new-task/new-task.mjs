@@ -8,7 +8,7 @@ export default {
   key: "hubspot-new-task",
   name: "New Task Created",
   description: "Emit new event for each new task created. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/engagements/tasks#get-%2Fcrm%2Fv3%2Fobjects%2Ftasks)",
-  version: "1.0.5",
+  version: "1.0.6",
   type: "source",
   dedupe: "unique",
   methods: {
