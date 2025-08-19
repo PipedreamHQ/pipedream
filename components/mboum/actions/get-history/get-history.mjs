@@ -1,4 +1,5 @@
 import mboum from "../../mboum.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "mboum-get-history",
@@ -18,44 +19,7 @@ export default {
       type: "string",
       label: "Interval",
       description: "Time interval between two consecutive data points in the time series",
-      options: [
-        {
-          value: "1m",
-          label: "1 min candles",
-        },
-        {
-          value: "2m",
-          label: "2 min candles",
-        },
-        {
-          value: "3m",
-          label: "3 min candles",
-        },
-        {
-          value: "5m",
-          label: "5 mins candles",
-        },
-        {
-          value: "15m",
-          label: "15 mins candles",
-        },
-        {
-          value: "30m",
-          label: "30 mins candles",
-        },
-        {
-          value: "1wk",
-          label: "weekly candles",
-        },
-        {
-          value: "1mo",
-          label: "monthly candles",
-        },
-        {
-          value: "1qty",
-          label: "quarterly candles",
-        },
-      ],
+      options: constants.HISTORICAL_DATA_INTERVALS,
     },
     limit: {
       type: "integer",

@@ -1,4 +1,5 @@
 import mboum from "../../mboum.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "mboum-get-screener",
@@ -23,26 +24,7 @@ export default {
       type: "string",
       label: "Filter",
       description: "Filter to apply to the screener. [See the documentation](https://docs.mboum.com/#stocks-options-small-stylecolor-f8f2f2background-fa256fpadding-1px-4pxborder-radius-3pxhotsmall-GETapi-v2-markets-screener) for more information about screeners",
-      options: [
-        "high_volume",
-        "hot_stocks",
-        "top_under_10",
-        "dividend",
-        "top_fundamentals",
-        "top_tech",
-        "j_pattern",
-        "golden_cross",
-        "death_cross",
-        "consolidation",
-        "rsi_overbought",
-        "rsi_oversold",
-        "52wk_toppicks",
-        "penny_gap",
-        "defensive_stock",
-        "income_growth",
-        "buy_longterm",
-        "sell_growth",
-      ],
+      options: constants.SCREENER_FILTERS,
     },
     page: {
       propDefinition: [

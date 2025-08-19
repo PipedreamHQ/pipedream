@@ -1,4 +1,5 @@
 import mboum from "../../mboum.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "mboum-get-modules",
@@ -18,29 +19,7 @@ export default {
       type: "string",
       label: "Module",
       description: "Specific module to retrieve data for",
-      options: [
-        "profile",
-        "income-statement",
-        "income-statement-v2",
-        "balance-sheet",
-        "balance-sheet-v2",
-        "cashflow-statement",
-        "cashflow-statement-v2",
-        "financial-data",
-        "statistics",
-        "ratios",
-        "calendar-events",
-        "sec-filings",
-        "recommendation-trend",
-        "upgrade-downgrade-history",
-        "insider-transactions",
-        "insider-holders",
-        "net-share-purchase-activity",
-        "earnings",
-        "index-trend",
-        "industry-trend",
-        "sector-trend",
-      ],
+      options: constants.STOCK_MODULES,
     },
     timeframe: {
       type: "string",

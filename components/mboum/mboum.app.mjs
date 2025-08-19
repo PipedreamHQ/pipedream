@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import constants from "./common/constants.mjs";
 
 export default {
   type: "app",
@@ -21,6 +22,24 @@ export default {
       label: "Date",
       description: "Enter a calendar date. Format: YYYY-MM-DD",
       optional: true,
+    },
+    interval: {
+      type: "string",
+      label: "Interval",
+      description: "Time interval between two consecutive data points in the time series",
+      options: constants.INTERVALS,
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Maximum number of results to return (default: 50)",
+      optional: true,
+    },
+    seriesType: {
+      type: "string",
+      label: "Series Type",
+      description: "The price series to use for calculation",
+      options: constants.SERIES_TYPES,
     },
   },
   methods: {
@@ -231,6 +250,60 @@ export default {
     getStockSplits(opts = {}) {
       return this._makeRequest({
         path: "/v1/markets/calendar/stock-splits",
+        ...opts,
+      });
+    },
+    getSMA(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/markets/indicators/sma",
+        ...opts,
+      });
+    },
+    getRSI(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/markets/indicators/rsi",
+        ...opts,
+      });
+    },
+    getMACD(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/markets/indicators/macd",
+        ...opts,
+      });
+    },
+    getCCI(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/markets/indicators/cci",
+        ...opts,
+      });
+    },
+    getADX(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/markets/indicators/adx",
+        ...opts,
+      });
+    },
+    getEMA(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/markets/indicators/ema",
+        ...opts,
+      });
+    },
+    getSTOCH(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/markets/indicators/stoch",
+        ...opts,
+      });
+    },
+    getADOSC(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/markets/indicators/adosc",
+        ...opts,
+      });
+    },
+    getAD(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/markets/indicators/ad",
         ...opts,
       });
     },

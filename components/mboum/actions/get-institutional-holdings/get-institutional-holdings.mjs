@@ -1,4 +1,5 @@
 import mboum from "../../mboum.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "mboum-get-institutional-holdings",
@@ -18,14 +19,7 @@ export default {
       type: "string",
       label: "Type",
       description: "Type of institutional holdings to retrieve",
-      options: [
-        "TOTAL",
-        "INCREASED",
-        "NEW",
-        "DECREASED",
-        "SOLDOUT",
-        "ACTIVITY",
-      ],
+      options: constants.INTERNATIONAL_HOLDINGS_TYPES,
     },
     limit: {
       type: "integer",
