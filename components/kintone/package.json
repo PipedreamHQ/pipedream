@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/kintone",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Kintone Components",
-  "main": "dist/app/kintone.app.mjs",
+  "main": "kintone.app.mjs",
   "keywords": [
     "pipedream",
     "kintone"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/kintone",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

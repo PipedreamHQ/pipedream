@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/iqair_airvisual",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream IQAir AirVisual Components",
-  "main": "dist/app/iqair_airvisual.app.mjs",
+  "main": "iqair_airvisual.app.mjs",
   "keywords": [
     "pipedream",
     "iqair_airvisual"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/iqair_airvisual",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

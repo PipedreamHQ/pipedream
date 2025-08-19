@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/grade_us",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Grade.us Components",
-  "main": "dist/app/grade_us.app.mjs",
+  "main": "grade_us.app.mjs",
   "keywords": [
     "pipedream",
     "grade_us"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/grade_us",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

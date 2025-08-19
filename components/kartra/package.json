@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/kartra",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Kartra Components",
-  "main": "dist/app/kartra.app.mjs",
+  "main": "kartra.app.mjs",
   "keywords": [
     "pipedream",
     "kartra"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/kartra",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

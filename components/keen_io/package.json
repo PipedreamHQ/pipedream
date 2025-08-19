@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/keen_io",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Keen.io Components",
-  "main": "dist/app/keen_io.app.mjs",
+  "main": "keen_io.app.mjs",
   "keywords": [
     "pipedream",
     "keen_io"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/keen_io",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
