@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/cflow",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Cflow Components",
-  "main": "dist/app/cflow.app.mjs",
+  "main": "cflow.app.mjs",
   "keywords": [
     "pipedream",
     "cflow"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/cflow",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
