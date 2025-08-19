@@ -189,6 +189,12 @@ export default {
       description: "For Enterprise Zendesk accounts: optionally specify the subdomain to use. This will override the subdomain that was provided when connecting your Zendesk account to Pipedream. For example, if you Zendesk URL is https://examplehelp.zendesk.com, your subdomain is `examplehelp`",
       optional: true,
     },
+    attachments: {
+      type: "string[]",
+      label: "Attachments",
+      description: "File paths or URLs to attach to the ticket. Multiple files can be attached.",
+      optional: true,
+    },
   },
   methods: {
     getUrl(path, customSubdomain) {
@@ -283,6 +289,71 @@ export default {
         path: "/ticket_fields",
         ...args,
       });
+    },
+    async uploadFile({
+      filePath, filename, customSubdomain, step,
+    } = {}) {
+      const fs = await import("fs");
+      const path = await import("path");
+      
+      // If filename not provided, extract from filePath
+      if (!filename && filePath) {
+        filename = path.basename(filePath);
+      }
+      
+      // Read file content
+      const fileContent = fs.readFileSync(filePath);
+      
+      // Get file extension to determine Content-Type
+      const ext = path.extname(filename).toLowerCase();
+      const contentTypeMap = {
+        ".pdf": "application/pdf",
+        ".png": "image/png",
+        ".jpg": "image/jpeg",
+        ".jpeg": "image/jpeg",
+        ".gif": "image/gif",
+        ".txt": "text/plain",
+        ".doc": "application/msword",
+        ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        ".xls": "application/vnd.ms-excel",
+        ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        ".zip": "application/zip",
+      };
+      const contentType = contentTypeMap[ext] || "application/octet-stream";
+      
+      return this.makeRequest({
+        step,
+        method: "post",
+        path: `/uploads?filename=${encodeURIComponent(filename)}`,
+        customSubdomain,
+        headers: {
+          "Content-Type": contentType,
+        },
+        data: fileContent,
+      });
+    },
+    async uploadFiles({
+      attachments, customSubdomain, step,
+    } = {}) {
+      if (!attachments || !attachments.length) {
+        return [];
+      }
+      
+      const uploadResults = [];
+      for (const attachment of attachments) {
+        try {
+          const result = await this.uploadFile({
+            filePath: attachment,
+            customSubdomain,
+            step,
+          });
+          uploadResults.push(result.upload.token);
+        } catch (error) {
+          step.export("$summary", `Failed to upload file ${attachment}: ${error.message}`);
+          throw error;
+        }
+      }
+      return uploadResults;
     },
     async *paginate({
       fn, args, resourceKey, max,
