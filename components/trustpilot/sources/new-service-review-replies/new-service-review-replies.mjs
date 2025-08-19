@@ -9,7 +9,7 @@ export default {
   key: "trustpilot-new-service-review-replies",
   name: "New Service Review Replies",
   description: "Emit new event when a business replies to a service review on Trustpilot. This source periodically polls the Trustpilot API to detect new replies to service reviews. Each event includes the reply text, creation timestamp, and associated review details (star rating, review title, consumer info). Essential for tracking business engagement with customer feedback, monitoring response times, and ensuring all service reviews receive appropriate attention.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {
