@@ -46,8 +46,8 @@ export function SelectApp({
     // TODO error
     apps,
   } = useApps({
+    ...appsOptions ?? {},
     q,
-    ...appsOptions,
   });
   const {
     Option,
