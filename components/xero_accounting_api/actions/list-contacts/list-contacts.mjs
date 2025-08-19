@@ -56,7 +56,7 @@ export default {
       const response = await this.xeroAccountingApi.listContacts({
         $,
         tenantId: this.tenantId,
-        modifiedAfter: this.modifiedAfter,
+        modifiedSince: this.modifiedAfter,
         params: {
           IDs: this.ids,
           Where: this.where,

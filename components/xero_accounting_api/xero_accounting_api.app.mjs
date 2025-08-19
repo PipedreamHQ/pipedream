@@ -344,19 +344,15 @@ export default {
         ...opts,
       });
     },
-    listInvoices({
-      invoiceIdentifier, ...opts
-    }) {
+    listInvoices(opts = {}) {
       return this._makeRequest({
-        path: `/Invoices/${invoiceIdentifier}`,
+        path: "/Invoices",
         ...opts,
       });
     },
-    listManualJournals({
-      manualJournalId, ...opts
-    }) {
+    listManualJournals(opts = {}) {
       return this._makeRequest({
-        path: `/ManualJournals/${manualJournalId}`,
+        path: "/ManualJournals",
         ...opts,
       });
     },

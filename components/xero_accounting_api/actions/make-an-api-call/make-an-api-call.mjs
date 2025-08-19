@@ -56,6 +56,7 @@ export default {
       method: this.requestMethod,
       path: this.relativeUrl,
       params: this.queryString,
+      tenantId: this.tenantId,
       data: parseObject(this.requestBody),
     });
 

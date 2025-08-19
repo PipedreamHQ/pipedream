@@ -74,7 +74,7 @@ export default {
       const response = await this.xeroAccountingApi.listInvoices({
         $,
         tenantId: this.tenantId,
-        modifiedAfter: this.modifiedAfter,
+        modifiedSince: this.modifiedSince,
         params: {
           IDs: this.ids,
           InvoiceNumbers: this.invoiceNumbers,

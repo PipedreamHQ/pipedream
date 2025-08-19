@@ -44,7 +44,7 @@ export default {
       const response = await this.xeroAccountingApi.listManualJournals({
         $,
         tenantId: this.tenantId,
-        modifiedAfter: this.modifiedAfter,
+        modifiedSince: this.modifiedAfter,
         params: {
           Where: this.where,
           order: this.order,
