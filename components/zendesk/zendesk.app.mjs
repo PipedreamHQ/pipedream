@@ -347,9 +347,12 @@ export default {
             customSubdomain,
             step,
           });
-          uploadResults.push(result.upload.token);
+          const token = result?.upload?.token;
+          if (!token) {
+            throw new Error(`Upload API returned no token for ${attachment}`);
+          }
+          uploadResults.push(token);
         } catch (error) {
-          step.export("$summary", `Failed to upload file ${attachment}: ${error.message}`);
           throw error;
         }
       }

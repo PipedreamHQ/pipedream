@@ -128,7 +128,7 @@ export default {
       },
     });
 
-    const attachmentCount = attachments?.length || 0;
+    const attachmentCount = ticketComment.uploads?.length || 0;
     const summary = attachmentCount > 0 
       ? `Successfully updated ticket with ID ${response.ticket.id} with ${attachmentCount} attachment(s)`
       : `Successfully updated ticket with ID ${response.ticket.id}`;
