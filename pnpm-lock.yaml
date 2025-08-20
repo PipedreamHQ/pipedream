@@ -14584,8 +14584,7 @@ importers:
         specifier: ^1.6.2
         version: 1.6.6
 
-  components/trunkrs:
-    specifiers: {}
+  components/trunkrs: {}
 
   components/truss: {}
 

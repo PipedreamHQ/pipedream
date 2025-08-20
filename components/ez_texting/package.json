@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/ez_texting",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream iHomefinder Components",
-  "main": "dist/app/ez_texting.app.mjs",
+  "main": "ez_texting.app.mjs",
   "keywords": [
     "pipedream",
     "ez_texting"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/ez_texting",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
