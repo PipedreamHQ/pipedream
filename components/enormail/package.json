@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/enormail",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Enormail Components",
-  "main": "dist/app/enormail.app.mjs",
+  "main": "enormail.app.mjs",
   "keywords": [
     "pipedream",
     "enormail"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/enormail",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/funnelcockpit",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream FunnelCockpit Components",
-  "main": "dist/app/funnelcockpit.app.mjs",
+  "main": "funnelcockpit.app.mjs",
   "keywords": [
     "pipedream",
     "funnelcockpit"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/funnelcockpit",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/apex_27",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Apex 27 Components",
-  "main": "dist/app/apex_27.app.mjs",
+  "main": "apex_27.app.mjs",
   "keywords": [
     "pipedream",
     "apex_27"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/apex_27",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

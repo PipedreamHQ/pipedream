@@ -1,14 +1,14 @@
 import notion from "../../notion.app.mjs";
-import sampleEmit from "./test-event.mjs";
 import base from "../common/base.mjs";
 import constants from "../common/constants.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...base,
   key: "notion-new-page",
   name: "New Page in Database",
   description: "Emit new event when a page is created in the selected database. [See the documentation](https://developers.notion.com/reference/page)",
-  version: "0.0.14",
+  version: "0.0.15",
   type: "source",
   props: {
     ...base.props,

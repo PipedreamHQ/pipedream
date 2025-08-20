@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/levity",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Levity Components",
-  "main": "dist/app/levity.app.mjs",
+  "main": "levity.app.mjs",
   "keywords": [
     "pipedream",
     "levity"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/levity",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

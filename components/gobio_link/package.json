@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/gobio_link",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream gobio.link Components",
-  "main": "dist/app/gobio_link.app.mjs",
+  "main": "gobio_link.app.mjs",
   "keywords": [
     "pipedream",
     "gobio_link"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/gobio_link",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

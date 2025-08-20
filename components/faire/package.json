@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/faire",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Faire Components",
-  "main": "dist/app/faire.app.mjs",
+  "main": "faire.app.mjs",
   "keywords": [
     "pipedream",
     "faire"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/faire",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/emelia",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Emelia Components",
-  "main": "dist/app/emelia.app.mjs",
+  "main": "emelia.app.mjs",
   "keywords": [
     "pipedream",
     "emelia"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/emelia",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
