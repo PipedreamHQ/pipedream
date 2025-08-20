@@ -49,7 +49,7 @@ export default {
         type: this.type,
         ticker: this.ticker,
         date: this.date,
-        priceMin: this.priceMin,
+        price_min: this.priceMin,
         page: this.page,
       },
     });

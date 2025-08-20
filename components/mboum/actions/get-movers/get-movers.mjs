@@ -46,7 +46,7 @@ export default {
       params: {
         type: this.type,
         direction: this.direction,
-        priceMin: this.priceMin,
+        price_min: this.priceMin,
         page: this.page,
       },
     });

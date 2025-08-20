@@ -17,7 +17,7 @@ export default {
     expiration: {
       type: "string",
       label: "Expiration Date",
-      description: "Enter an expration date, format: YYYY-MM-DD",
+      description: "Enter an expiration date, format: YYYY-MM-DD",
       optional: true,
     },
   },

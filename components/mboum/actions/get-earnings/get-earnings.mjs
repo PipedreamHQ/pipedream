@@ -11,7 +11,7 @@ export default {
     startDate: {
       type: "string",
       label: "Start Date",
-      description: "Get companies reporting earnings on the specified start date: YYYY-MM-DDD",
+      description: "Get companies reporting earnings on the specified start date: YYYY-MM-DD",
     },
     endDate: {
       type: "string",

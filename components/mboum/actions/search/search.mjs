@@ -22,7 +22,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully searched for "${this.search}" and found ${response.body?.length || 0} results`);
+    $.export("$summary", `Successfully searched for "${this.search}"`);
     return response;
   },
 };
