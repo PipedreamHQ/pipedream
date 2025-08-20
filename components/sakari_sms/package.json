@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/sakari_sms",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Sakari SMS Components",
-  "main": "dist/app/sakari_sms.app.mjs",
+  "main": "sakari_sms.app.mjs",
   "keywords": [
     "pipedream",
     "sakari_sms"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/sakari_sms",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/schedule_it",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Schedule it Components",
-  "main": "dist/app/schedule_it.app.mjs",
+  "main": "schedule_it.app.mjs",
   "keywords": [
     "pipedream",
     "schedule_it"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/schedule_it",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

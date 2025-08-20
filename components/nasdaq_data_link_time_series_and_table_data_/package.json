@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/nasdaq_data_link_time_series_and_table_data_",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Nasdaq Data Link (Time Series and Table data) Components",
-  "main": "dist/app/nasdaq_data_link_time_series_and_table_data_.app.mjs",
+  "main": "nasdaq_data_link_time_series_and_table_data_.app.mjs",
   "keywords": [
     "pipedream",
     "nasdaq_data_link_time_series_and_table_data_"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/nasdaq_data_link_time_series_and_table_data_",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
