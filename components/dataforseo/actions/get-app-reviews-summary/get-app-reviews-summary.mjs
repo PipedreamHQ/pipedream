@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "dataforseo-get-app-reviews-summary",
   name: "Get App Reviews Summary",
-  description: "Get app reviews and ratings summary for mobile app reputation analysis. [See the documentation](https://docs.dataforseo.com/v3/app_data/apple/app_reviews/live/?bash)",
+  description: "Get app reviews and ratings summary for mobile app reputation analysis. [See the documentation](https://docs.dataforseo.com/v3/app_data/apple/app_reviews/task_post/?bash)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -12,7 +12,7 @@ export default {
     appId: {
       type: "string",
       label: "App ID",
-      description: "App ID or package name for the mobile app",
+      description: "The ID of the mobile application on App Store. Yyou can find the ID in the URL of every app listed on App Store. Example: in the URL https://apps.apple.com/us/app/id835599320, the id is `835599320`",
     },
     locationCode: {
       propDefinition: [

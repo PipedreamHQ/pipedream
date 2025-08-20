@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "dataforseo-get-google-my-business-info",
   name: "Get Google My Business Info",
-  description: "Get detailed Google My Business listing information for local SEO analysis. [See the documentation](https://docs.dataforseo.com/v3/business_data/google/my_business/info/live/?bash)",
+  description: "Get detailed Google My Business listing information for local SEO analysis. [See the documentation](https://docs.dataforseo.com/v3/business_data/google/my_business_info/live/?bash)",
   version: "0.0.1",
   type: "action",
   props: {

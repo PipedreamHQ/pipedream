@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "dataforseo-get-google-organic-results",
   name: "Get Google Organic Results",
-  description: "Retrieve Google organic search results for specified keywords. [See the documentation](https://docs.dataforseo.com/v3/serp/google/organic/live/?bash)",
+  description: "Retrieve Google organic search results for specified keywords. [See the documentation](https://docs.dataforseo.com/v3/serp/google/organic/live/regular/?bash)",
   version: "0.0.1",
   type: "action",
   props: {

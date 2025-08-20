@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "dataforseo-get-trustpilot-reviews",
   name: "Get Trustpilot Reviews",
-  description: "Get Trustpilot business reviews and ratings for reputation management. [See the documentation](https://docs.dataforseo.com/v3/business_data/trustpilot/reviews/live/?bash)",
+  description: "Get Trustpilot business reviews and ratings for reputation management. [See the documentation](https://docs.dataforseo.com/v3/business_data/trustpilot/reviews/task_post/?bash)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -40,7 +40,7 @@ export default {
       throw new ConfigurationError(`Error: ${response.status_message}`);
     }
 
-    if (response.tasks[0].status_code !== 20000) {
+    if (response.tasks[0].status_code !== 20000 && response.tasks[0].status_code !== 20100) {
       throw new ConfigurationError(`Error: ${response.tasks[0].status_message}`);
     }
 

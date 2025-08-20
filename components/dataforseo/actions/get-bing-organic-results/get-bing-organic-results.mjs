@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "dataforseo-get-bing-organic-results",
   name: "Get Bing Organic Results",
-  description: "Retrieve Bing organic search results for specified keywords. [See the documentation](https://docs.dataforseo.com/v3/serp/bing/organic/live/?bash)",
+  description: "Retrieve Bing organic search results for specified keywords. [See the documentation](https://docs.dataforseo.com/v3/serp/bing/organic/live/regular/?bash)",
   version: "0.0.1",
   type: "action",
   props: {

@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "dataforseo-get-google-news-results",
   name: "Get Google News Results",
-  description: "Retrieve Google News search results for specified keywords. [See the documentation](https://docs.dataforseo.com/v3/serp/google/news/live/?bash)",
+  description: "Retrieve Google News search results for specified keywords. [See the documentation](https://docs.dataforseo.com/v3/serp/google/news/live/advanced/?bash)",
   version: "0.0.1",
   type: "action",
   props: {

@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "dataforseo-get-tripadvisor-reviews",
   name: "Get TripAdvisor Reviews",
-  description: "Get TripAdvisor business reviews and ratings, especially useful for hospitality businesses. [See the documentation](https://docs.dataforseo.com/v3/business_data/tripadvisor/reviews/live/?bash)",
+  description: "Get TripAdvisor business reviews and ratings, especially useful for hospitality businesses. [See the documentation](https://docs.dataforseo.com/v3/business_data/tripadvisor/reviews/task_post/?bash)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -54,7 +54,7 @@ export default {
       throw new ConfigurationError(`Error: ${response.status_message}`);
     }
 
-    if (response.tasks[0].status_code !== 20000) {
+    if (response.tasks[0].status_code !== 20000 && response.tasks[0].status_code !== 20100) {
       throw new ConfigurationError(`Error: ${response.tasks[0].status_message}`);
     }
 

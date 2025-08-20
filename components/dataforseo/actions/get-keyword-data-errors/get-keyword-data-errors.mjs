@@ -26,7 +26,32 @@ export default {
       ],
     },
   },
+  methods: {
+    validateDateRange(dateTimeFrom, dateTimeTo) {
+      const from = new Date(dateTimeFrom);
+      const to = new Date(dateTimeTo);
+      const now = new Date();
+
+      if (isNaN(from) || isNaN(to)) {
+        throw new ConfigurationError("Invalid date format. Use yyyy-mm-dd hh:mm:ss +00:00");
+      }
+
+      if (from >= to) {
+        throw new ConfigurationError("DateTimeFrom must be before DateTimeTo");
+      }
+
+      const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+      if (from < sevenDaysAgo || from > now) {
+        throw new ConfigurationError("DateTimeFrom must be within the last 7 days");
+      }
+      if (to < sevenDaysAgo || to > now) {
+        throw new ConfigurationError("DateTimeTo must be within the last 7 days");
+      }
+    },
+  },
   async run({ $ }) {
+    this.validateDateRange(this.dateTimeFrom, this.dateTimeTo);
+
     const response = await this.dataforseo.getKeywordDataErrors({
       $,
       data: [

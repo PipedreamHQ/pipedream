@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "dataforseo-get-google-play-search",
   name: "Get Google Play Search",
-  description: "Search Google Play Store apps by keywords for app store optimization (ASO) analysis. [See the documentation](https://docs.dataforseo.com/v3/app_data/google/app_searches/live/?bash)",
+  description: "Search Google Play Store apps by keywords for app store optimization (ASO) analysis. [See the documentation](https://docs.dataforseo.com/v3/app_data/google/app_searches/task_post/?bash)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -43,7 +43,7 @@ export default {
       throw new ConfigurationError(`Error: ${response.status_message}`);
     }
 
-    if (response.tasks[0].status_code !== 20000) {
+    if (response.tasks[0].status_code !== 20000 && response.tasks[0].status_code !== 20100) {
       throw new ConfigurationError(`Error: ${response.tasks[0].status_message}`);
     }
 

@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "dataforseo-get-google-reviews",
   name: "Get Google Reviews",
-  description: "Get Google business reviews and ratings for local SEO and reputation management. [See the documentation](https://docs.dataforseo.com/v3/business_data/google/reviews/live/?bash)",
+  description: "Get Google business reviews and ratings for local SEO and reputation management. [See the documentation](https://docs.dataforseo.com/v3/business_data/google/reviews/task_post/?bash)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -43,7 +43,7 @@ export default {
       throw new ConfigurationError(`Error: ${response.status_message}`);
     }
 
-    if (response.tasks[0].status_code !== 20000) {
+    if (response.tasks[0].status_code !== 20000 && response.tasks[0].status_code !== 20100) {
       throw new ConfigurationError(`Error: ${response.tasks[0].status_message}`);
     }
 

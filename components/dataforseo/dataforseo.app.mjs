@@ -6,7 +6,7 @@ export default {
   app: "dataforseo",
   propDefinitions: {
     locationCode: {
-      type: "string",
+      type: "integer",
       label: "Location Code",
       description: "The code of the target location",
       async options() {
@@ -419,7 +419,7 @@ export default {
     },
     getGoogleMyBusinessInfo(args = {}) {
       return this._makeRequest({
-        path: "/business_data/google/my_business/info/live",
+        path: "/business_data/google/my_business_info/live",
         method: "post",
         ...args,
       });
@@ -455,6 +455,14 @@ export default {
       return this._makeRequest({
         path: "/app_data/apple/app_searches/task_post",
         method: "post",
+        ...args,
+      });
+    },
+    getAppStoreSearchResults({
+      id, ...args
+    }) {
+      return this._makeRequest({
+        path: `/app_data/apple/app_searches/task_get/advanced/${id}`,
         ...args,
       });
     },

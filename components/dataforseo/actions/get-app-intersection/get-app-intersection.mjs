@@ -1,5 +1,6 @@
 import dataforseo from "../../dataforseo.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import { parseArray } from "../../common/utils.mjs";
 
 export default {
   key: "dataforseo-get-app-intersection",
@@ -35,8 +36,10 @@ export default {
   },
   async run({ $ }) {
     const appIds = {};
-    for (let i = 0; i < this.appIds.length; i++) {
-      appIds[`${i + 1}`] = this.appIds[i];
+    const parsedAppIds = parseArray(this.appIds);
+
+    for (let i = 0; i < parsedAppIds.length; i++) {
+      appIds[`${i + 1}`] = parsedAppIds[i];
     }
 
     const response = await this.dataforseo.getAppIntersection({

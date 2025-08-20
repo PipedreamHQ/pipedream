@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "dataforseo-get-google-images-results",
   name: "Get Google Images Results",
-  description: "Retrieve Google Images search results for specified keywords. [See the documentation](https://docs.dataforseo.com/v3/serp/google/images/live/?bash)",
+  description: "Retrieve Google Images search results for specified keywords. [See the documentation](https://docs.dataforseo.com/v3/serp/google/images/live/advanced/?bash)",
   version: "0.0.1",
   type: "action",
   props: {
