@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/amentum_aerospace",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Amentum Aerospace Components",
-  "main": "dist/app/amentum_aerospace.app.mjs",
+  "main": "amentum_aerospace.app.mjs",
   "keywords": [
     "pipedream",
     "amentum_aerospace"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/amentum_aerospace",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

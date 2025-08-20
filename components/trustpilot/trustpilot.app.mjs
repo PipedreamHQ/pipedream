@@ -308,7 +308,7 @@ export default defineApp({
 
     // Private Service Review methods
     async getServiceReviews(options = {}) {
-      const endpoint = buildUrl(ENDPOINTS.PRIVATE_SERVICE_REVIEWS, {
+      const endpoint = buildUrl(ENDPOINTS.PUBLIC_REVIEWS, {
         businessUnitId: options.businessUnitId,
       });
       return this._getReviews({
@@ -372,7 +372,7 @@ export default defineApp({
 
     // Product Review methods
     async getProductReviews(options = {}) {
-      const endpoint = buildUrl(ENDPOINTS.PRIVATE_PRODUCT_REVIEWS, {
+      const endpoint = buildUrl(ENDPOINTS.PUBLIC_PRODUCT_REVIEWS, {
         businessUnitId: options.businessUnitId,
       });
       return this._getReviews({

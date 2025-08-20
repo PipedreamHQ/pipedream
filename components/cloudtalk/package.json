@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/cloudtalk",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream CloudTalk Components",
-  "main": "dist/app/cloudtalk.app.mjs",
+  "main": "cloudtalk.app.mjs",
   "keywords": [
     "pipedream",
     "cloudtalk"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/cloudtalk",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

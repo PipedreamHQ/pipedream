@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/cloudfill",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream CloudFill Components",
-  "main": "dist/app/cloudfill.app.mjs",
+  "main": "cloudfill.app.mjs",
   "keywords": [
     "pipedream",
     "cloudfill"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/cloudfill",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

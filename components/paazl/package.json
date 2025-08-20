@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/paazl",
+  "version": "0.0.1",
+  "description": "Pipedream Paazl Components",
+  "main": "paazl.app.mjs",
+  "keywords": [
+    "pipedream",
+    "paazl"
+  ],
+  "homepage": "https://pipedream.com/apps/paazl",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
