@@ -16051,8 +16051,8 @@ importers:
   components/zep:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/zerobounce:
     dependencies:
