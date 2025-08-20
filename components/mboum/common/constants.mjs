@@ -159,6 +159,33 @@ const SCREENER_FILTERS = [
   "sell_growth",
 ];
 
+const CRYPTO_MODULES = [
+  {
+    value: "global_matric",
+    label: "Global Metric data",
+  },
+  {
+    value: "trending",
+    label: "Top Trending cryptocurrencies",
+  },
+  {
+    value: "most_visited",
+    label: "Most visited cryptocurrencies sites",
+  },
+  {
+    value: "new_coins",
+    label: "Newly launched cryptocurrencies",
+  },
+  {
+    value: "gainer",
+    label: "Top cryptocurrency gainers",
+  },
+  {
+    value: "loser",
+    label: "Top cryptocurrency losers",
+  },
+];
+
 export default {
   INTERVALS,
   MA_TYPES,
@@ -167,4 +194,5 @@ export default {
   INTERNATIONAL_HOLDINGS_TYPES,
   STOCK_MODULES,
   SCREENER_FILTERS,
+  CRYPTO_MODULES,
 };

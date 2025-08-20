@@ -307,5 +307,36 @@ export default {
         ...opts,
       });
     },
+    // Crypto API
+    getCryptoProfile(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/crypto/profile",
+        ...opts,
+      });
+    },
+    getCryptoHolders(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/crypto/holders",
+        ...opts,
+      });
+    },
+    getCryptoQuotes(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/crypto/quotes",
+        ...opts,
+      });
+    },
+    getCryptoCurrencies(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/crypto/coins",
+        ...opts,
+      });
+    },
+    getCryptoModules(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/crypto/modules",
+        ...opts,
+      });
+    },
   },
 };
