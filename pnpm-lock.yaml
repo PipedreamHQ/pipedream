@@ -15989,6 +15989,9 @@ importers:
 
   components/zagomail: {}
 
+  components/zammad:
+    specifiers: {}
+
   components/zamzar:
     dependencies:
       '@pipedream/platform':

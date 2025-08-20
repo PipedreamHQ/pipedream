@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/zammad",
+  "version": "0.0.1",
+  "description": "Pipedream Zammad Components",
+  "main": "zammad.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zammad"
+  ],
+  "homepage": "https://pipedream.com/apps/zammad",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
