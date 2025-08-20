@@ -458,14 +458,6 @@ export default {
         ...args,
       });
     },
-    getAppStoreSearchResults({
-      id, ...args
-    }) {
-      return this._makeRequest({
-        path: `/app_data/apple/app_searches/task_get/advanced/${id}`,
-        ...args,
-      });
-    },
     getGooglePlaySearch(args = {}) {
       return this._makeRequest({
         path: "/app_data/google/app_searches/task_post",
