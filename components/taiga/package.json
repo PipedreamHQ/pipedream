@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/taiga",
+  "version": "0.0.1",
+  "description": "Pipedream Taiga Components",
+  "main": "taiga.app.mjs",
+  "keywords": [
+    "pipedream",
+    "taiga"
+  ],
+  "homepage": "https://pipedream.com/apps/taiga",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

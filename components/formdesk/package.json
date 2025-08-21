@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/formdesk",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Formdesk Components",
-  "main": "dist/app/formdesk.app.mjs",
+  "main": "formdesk.app.mjs",
   "keywords": [
     "pipedream",
     "formdesk"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/formdesk",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

@@ -1,12 +1,12 @@
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import { formatJsonDate } from "../../common/util.mjs";
 import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "xero_accounting_api-new-updated-contact",
   name: "New or updated contact",
   description: "Emit new notifications when you create a new or update existing contact",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   props: {
     xeroAccountingApi,
@@ -35,12 +35,10 @@ export default {
       this.xeroAccountingApi.setLastDateChecked(this.db, lastDateChecked);
     }
     const contacts = (
-      await this.xeroAccountingApi.getContact(
-        null,
-        this.tenantId,
-        null,
-        lastDateChecked,
-      )
+      await this.xeroAccountingApi.getContact({
+        tenantId: this.tenantId,
+        modifiedSince: lastDateChecked,
+      })
     )?.Contacts;
     contacts && contacts.reverse().forEach((contact) => {
       const formattedDate = formatJsonDate(contact.UpdatedDateUTC);

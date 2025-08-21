@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/idealspot",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream IdealSpot Components",
-  "main": "dist/app/idealspot.app.mjs",
+  "main": "idealspot.app.mjs",
   "keywords": [
     "pipedream",
     "idealspot"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/idealspot",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

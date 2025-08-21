@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/cabinpanda",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream CabinPanda Components",
-  "main": "dist/app/cabinpanda.app.mjs",
+  "main": "cabinpanda.app.mjs",
   "keywords": [
     "pipedream",
     "cabinpanda"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/cabinpanda",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

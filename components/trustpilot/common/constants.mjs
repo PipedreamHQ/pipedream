@@ -23,6 +23,10 @@ export const ENDPOINTS = {
   PRIVATE_SERVICE_REVIEW_BY_ID: "/private/business-units/{businessUnitId}/reviews/{reviewId}",
   REPLY_TO_SERVICE_REVIEW: "/private/business-units/{businessUnitId}/reviews/{reviewId}/reply",
 
+  // Public Reviews (Product)
+  PUBLIC_PRODUCT_REVIEWS: "/product-reviews/business-units/{businessUnitId}/reviews",
+  PUBLIC_PRODUCT_REVIEW_BY_ID: "/product-reviews/{reviewId}",
+
   // Private Reviews (Product)
   PRIVATE_PRODUCT_REVIEWS: "/private/product-reviews/business-units/{businessUnitId}/reviews",
   PRIVATE_PRODUCT_REVIEW_BY_ID: "/private/product-reviews/{reviewId}",

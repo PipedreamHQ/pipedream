@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/focuster",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Focuster Components",
-  "main": "dist/app/focuster.app.mjs",
+  "main": "focuster.app.mjs",
   "keywords": [
     "pipedream",
     "focuster"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/focuster",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

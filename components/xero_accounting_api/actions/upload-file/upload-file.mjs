@@ -1,15 +1,11 @@
-// legacy_hash_id: a_B0i8rE
-import FormData from "form-data";
-import {
-  axios, getFileStreamAndMetadata,
-} from "@pipedream/platform";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 
 export default {
   key: "xero_accounting_api-upload-file",
   name: "Upload File",
   description: "Uploads a file to the specified document. [See the documentation](https://developer.xero.com/documentation/api/accounting/invoices#upload-attachment)",
-  version: "1.0.1",
+  version: "1.0.2",
   type: "action",
   props: {
     xeroAccountingApi,
@@ -52,27 +48,37 @@ export default {
       optional: true,
     },
   },
+  methods: {
+    streamToBuffer(stream) {
+      return new Promise((resolve, reject) => {
+        const chunks = [];
+        stream.on("data", (chunk) => chunks.push(chunk));
+        stream.on("end", () => resolve(Buffer.concat(chunks)));
+        stream.on("error", reject);
+      });
+    },
+  },
   async run({ $ }) {
     const {
       stream, metadata,
     } = await getFileStreamAndMetadata(this.filePathOrUrl);
-    const data = new FormData();
-    data.append("file", stream, {
-      contentType: metadata.contentType,
-      knownLength: metadata.size,
-      filename: metadata.name,
+    const fileBinary = await this.streamToBuffer(stream);
+
+    const response = await this.xeroAccountingApi.uploadFile({
+      $,
+      tenantId: this.tenantId,
+      documentType: this.documentType,
+      documentId: this.documentId,
+      fileName: metadata.name,
+      headers: {
+        "Content-Type": metadata.contentType,
+        "Content-Length": metadata.size,
+        "Accept": "application/json",
+      },
+      data: Buffer.from(fileBinary, "binary"),
     });
 
-    //Sends the request against Xero Accounting API
-    return await axios($, {
-      method: "post",
-      url: `https://api.xero.com/api.xro/2.0/${this.documentType}/${this.documentId}/Attachments/${metadata.name}`,
-      headers: {
-        "Authorization": `Bearer ${this.xeroAccountingApi.$auth.oauth_access_token}`,
-        "xero-tenant-id": this.tenantId,
-        ...data.getHeaders(),
-      },
-      data,
-    });
+    $.export("$summary", `Successfully uploaded file to ${this.documentType} with ID: ${this.documentId}`);
+    return response;
   },
 };
