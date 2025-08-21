@@ -1340,6 +1340,9 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
+  components/azure_devops_microsoft_entra_id_oauth:
+    specifiers: {}
+
   components/azure_openai_service:
     dependencies:
       '@pipedream/platform':
