@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/tolstoy",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Tolstoy Components",
-  "main": "dist/app/tolstoy.app.mjs",
+  "main": "tolstoy.app.mjs",
   "keywords": [
     "pipedream",
     "tolstoy"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/tolstoy",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

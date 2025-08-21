@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/vosfactures",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Vosfactures Components",
-  "main": "dist/app/vosfactures.app.mjs",
+  "main": "vosfactures.app.mjs",
   "keywords": [
     "pipedream",
     "vosfactures"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/vosfactures",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
