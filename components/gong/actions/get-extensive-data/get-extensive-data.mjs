@@ -83,7 +83,7 @@ export default {
     exposedFieldsContent: {
       type: "object",
       label: "Exposed Fields Content",
-      description: "Specify which fields to include in the response for the content",
+      description: "Specify which fields to include in the response for the content. Example object: {'structure': false, 'topics': false, 'trackers': false, 'trackerOccurrences': false, 'pointsOfInterest': false, 'brief': true, 'outline': true, 'highlights': true, 'callOutcome': true, 'keyPoints': true}",
       default: {
         "structure": "false",
         "topics": "false",
@@ -101,7 +101,7 @@ export default {
     exposedFieldsInteraction: {
       type: "object",
       label: "Exposed Fields Interaction",
-      description: "Specify which fields to include in the response for the interaction",
+      description: "Specify which fields to include in the response for the interaction. Example object: {'speakers': true, 'video': true, 'personInteractionStats': true, 'questions': true}",
       default: {
         "speakers": "false",
         "video": "false",
@@ -157,7 +157,7 @@ export default {
 
     const contentSelector = {
       "context": context || "None",
-      ...(contextTiming.length > 0 && {
+      ...(contextTiming?.length > 0 && {
         "contextTiming": contextTiming,
       }),
       "exposedFields": {
