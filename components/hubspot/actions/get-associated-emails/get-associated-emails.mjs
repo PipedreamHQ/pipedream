@@ -87,16 +87,16 @@ export default {
     });
 
     // Sort emails by timestamp in descending order (most recent first)
-    const sortedEmails = emails?.sort((a, b) => {
+    emails?.sort((a, b) => {
       const timestampA = new Date(a.properties?.hs_timestamp || 0).getTime();
       const timestampB = new Date(b.properties?.hs_timestamp || 0).getTime();
       return timestampB - timestampA;
     }) || [];
 
-    const summary = `Successfully retrieved ${sortedEmails?.length || 0} email(s)`;
+    const summary = `Successfully retrieved ${emails.length} email(s)`;
 
     $.export("$summary", summary);
 
-    return sortedEmails;
+    return emails;
   },
 };
