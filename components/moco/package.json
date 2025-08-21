@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/moco",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream MOCO Components",
-  "main": "dist/app/moco.app.mjs",
+  "main": "moco.app.mjs",
   "keywords": [
     "pipedream",
     "moco"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/moco",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

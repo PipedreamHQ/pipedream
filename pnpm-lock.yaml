@@ -11193,8 +11193,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/pulumi:
-    specifiers: {}
+  components/pulumi: {}
 
   components/pumble:
     dependencies:
@@ -16010,8 +16009,7 @@ importers:
 
   components/zagomail: {}
 
-  components/zammad:
-    specifiers: {}
+  components/zammad: {}
 
   components/zamzar:
     dependencies:
