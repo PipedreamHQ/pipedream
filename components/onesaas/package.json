@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/onesaas",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream 1SaaS Components",
-  "main": "dist/app/onesaas.app.mjs",
+  "main": "onesaas.app.mjs",
   "keywords": [
     "pipedream",
     "onesaas"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/onesaas",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

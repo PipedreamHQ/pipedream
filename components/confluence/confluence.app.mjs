@@ -146,7 +146,15 @@ export default {
     _extractCursorFromLink(link) {
       if (!link) return null;
       try {
-        const url = new URL(link);
+        // Handle cases where link might be just a path or relative URL
+        let url;
+        if (link.startsWith("http")) {
+          url = new URL(link);
+        } else {
+          // If it's a path or relative URL, construct a full URL
+          const baseUrl = "https://api.atlassian.com";
+          url = new URL(link, baseUrl);
+        }
         return url.searchParams.get("cursor");
       } catch (e) {
         console.log("Error extracting cursor from link:", e);

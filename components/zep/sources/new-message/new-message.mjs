@@ -5,7 +5,7 @@ export default {
   key: "zep-new-message",
   name: "New Message in Session",
   description: "Emit new event when a message is added to a session. [See the documentation](https://help.getzep.com/api-reference/memory/get-session-messages)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

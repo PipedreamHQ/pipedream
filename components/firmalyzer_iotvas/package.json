@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/firmalyzer_iotvas",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Firmalyzer IoTVAS API Components",
-  "main": "dist/app/firmalyzer_iotvas.app.mjs",
+  "main": "firmalyzer_iotvas.app.mjs",
   "keywords": [
     "pipedream",
     "firmalyzer_iotvas"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/firmalyzer_iotvas",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

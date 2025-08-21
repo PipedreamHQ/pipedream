@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/pilvio",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Pilvio Components",
-  "main": "dist/app/pilvio.app.mjs",
+  "main": "pilvio.app.mjs",
   "keywords": [
     "pipedream",
     "pilvio"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/pilvio",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

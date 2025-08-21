@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/radar",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Radar Components",
-  "main": "dist/app/radar.app.mjs",
+  "main": "radar.app.mjs",
   "keywords": [
     "pipedream",
     "radar"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/radar",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

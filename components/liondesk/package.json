@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/liondesk",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Liondesk Components",
-  "main": "dist/app/liondesk.app.mjs",
+  "main": "liondesk.app.mjs",
   "keywords": [
     "pipedream",
     "liondesk"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/liondesk",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

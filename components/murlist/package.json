@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/murlist",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream MurList Components",
-  "main": "dist/app/murlist.app.mjs",
+  "main": "murlist.app.mjs",
   "keywords": [
     "pipedream",
     "murlist"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/murlist",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

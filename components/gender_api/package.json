@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/gender_api",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Gender API Components",
-  "main": "dist/app/gender_api.app.mjs",
+  "main": "gender_api.app.mjs",
   "keywords": [
     "pipedream",
     "gender_api"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/gender_api",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

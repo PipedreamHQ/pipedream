@@ -39,6 +39,20 @@ export default {
         })) || [];
       },
     },
+    threadId: {
+      type: "string",
+      label: "Thread ID",
+      description: "The ID of the thread",
+      async options({ page }) {
+        const { threads } = await this.getThreads({
+          params: {
+            page_number: page,
+          },
+        });
+
+        return threads?.map(({ thread_id }) => thread_id) || [];
+      },
+    },
     factRatingInstructions: {
       type: "object",
       label: "Fact Rating Instructions",
@@ -58,10 +72,11 @@ export default {
     _makeRequest({
       $ = this,
       path,
+      version,
       ...otherOpts
     }) {
       return axios($, {
-        url: `${this._baseUrl()}${path}`,
+        url: `${this._baseUrl(version)}${path}`,
         headers: {
           "authorization": `Api-Key ${this.$auth.api_key}`,
         },
@@ -117,6 +132,36 @@ export default {
       return this._makeRequest({
         method: "PATCH",
         path: `/sessions/${sessionId}`,
+        ...opts,
+      });
+    },
+    getSession({
+      sessionId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/sessions/${sessionId}`,
+        ...opts,
+      });
+    },
+    listSessionMemory({
+      sessionId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/sessions/${sessionId}/memory`,
+        ...opts,
+      });
+    },
+    getThreads(opts = {}) {
+      return this._makeRequest({
+        path: "/threads",
+        ...opts,
+      });
+    },
+    getThreadMessages({
+      threadId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/threads/${threadId}/messages`,
         ...opts,
       });
     },
