@@ -3,12 +3,12 @@
   "version": "0.0.6",
   "description": "Pipedream Xperiencify Components",
   "main": "dist/app/xperiencify.app.mjs",
-  "files": [
-    "dist"
-  ],
   "keywords": [
     "pipedream",
     "xperiencify"
+  ],
+  "files": [
+    "dist"
   ],
   "homepage": "https://pipedream.com/apps/xperiencify",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
