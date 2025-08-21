@@ -45,7 +45,7 @@ export default {
       optional: true,
       default: 20,
       min: 1,
-      max: 200,
+      max: 100,
     },
   },
   async run({ $ }) {
