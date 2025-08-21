@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/lodgify",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Lodgify Components",
-  "main": "dist/app/lodgify.app.mjs",
+  "main": "lodgify.app.mjs",
   "keywords": [
     "pipedream",
     "lodgify"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/lodgify",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/mobile_text_alerts",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Mobile Text Alerts Components",
-  "main": "dist/app/mobile_text_alerts.app.mjs",
+  "main": "mobile_text_alerts.app.mjs",
   "keywords": [
     "pipedream",
     "mobile_text_alerts"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/mobile_text_alerts",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

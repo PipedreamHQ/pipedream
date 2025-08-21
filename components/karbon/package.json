@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/karbon",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Karbon Components",
-  "main": "dist/app/karbon.app.mjs",
+  "main": "karbon.app.mjs",
   "keywords": [
     "pipedream",
     "karbon"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/karbon",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

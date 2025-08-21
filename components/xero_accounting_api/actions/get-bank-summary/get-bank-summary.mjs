@@ -1,49 +1,54 @@
-// legacy_hash_id: a_K5i5rd
-import { axios } from "@pipedream/platform";
+import { ConfigurationError } from "@pipedream/platform";
+import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 
 export default {
   key: "xero_accounting_api-get-bank-summary",
   name: "Get Bank Summary",
   description: "Gets the balances and cash movements for each bank account.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
-    xero_accounting_api: {
-      type: "app",
-      app: "xero_accounting_api",
+    xeroAccountingApi,
+    tenantId: {
+      propDefinition: [
+        xeroAccountingApi,
+        "tenantId",
+      ],
     },
-    tenant_id: {
+    bankAccountId: {
+      label: "Bank Account ID",
       type: "string",
-      description: "Id of the organization tenant to use on the Xero Accounting API. See [Get Tenant Connections](https://pipedream.com/@sergio/xero-accounting-api-get-tenant-connections-p_OKCzOgn/edit) for a workflow example on how to pull this data.",
+      description: "Id of the bank account to get the summary for.",
     },
-    form_date: {
+    fromDate: {
+      label: "From Date",
       type: "string",
-      description: "Get the balances and cash movements for each bank account from this date",
+      description: "Get the balances and cash movements for the specified bank account from this date",
       optional: true,
     },
-    to_date: {
+    toDate: {
+      label: "To Date",
       type: "string",
-      description: "Get the balances and cash movements for each bank account to this date",
+      description: "Get the balances and cash movements for the specified bank account to this date",
       optional: true,
     },
   },
   async run({ $ }) {
-  //See the API docs: https://developer.xero.com/documentation/api/reports#BankSummary
-
-    if (!this.tenant_id) {
-      throw new Error("Must provide tenant_id parameter.");
+    if (!this.tenantId || !this.bankAccountId) {
+      throw new ConfigurationError("Must provide **Tenant ID**, and **Bank Account ID** parameters.");
     }
 
-    return await axios($, {
-      url: "https://api.xero.com/api.xro/2.0/Reports/BankSummary",
-      headers: {
-        "Authorization": `Bearer ${this.xero_accounting_api.$auth.oauth_access_token}`,
-        "xero-tenant-id": this.tenant_id,
-      },
+    const response = await this.xeroAccountingApi.getBankSummary({
+      $,
+      tenantId: this.tenantId,
+      bankAccountId: this.bankAccountId,
       params: {
-        fromDate: this.form_date,
-        toDate: this.to_date,
+        fromDate: this.fromDate,
+        toDate: this.toDate,
       },
     });
+
+    $.export("$summary", `Bank summary retrieved successfully: ${this.bankAccountId}`);
+    return response;
   },
 };

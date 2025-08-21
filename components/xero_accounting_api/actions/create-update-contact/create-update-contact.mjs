@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import { removeNullEntries } from "../../common/util.mjs";
 import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 
@@ -5,7 +6,7 @@ export default {
   key: "xero_accounting_api-create-update-contact",
   name: "Create or update contact ",
   description: "Creates a new contact or updates a contact if a contact already exists. [See the docs here](https://developer.xero.com/documentation/api/accounting/contacts)",
-  version: "0.0.2",
+  version: "0.1.0",
   type: "action",
   props: {
     xeroAccountingApi,
@@ -15,15 +16,11 @@ export default {
         "tenantId",
       ],
     },
-    actionType: {
-      label: "Type of action",
-      description: "This triggers an update if UPDATE is selected",
+    contactID: {
       type: "string",
-      options: [
-        "NEW",
-        "UPDATE",
-      ],
-      reloadProps: true,
+      label: "Contact ID",
+      description: "ID of the contact that requires update.",
+      optional: true,
     },
     name: {
       type: "string",
@@ -68,18 +65,10 @@ export default {
       default: "ACTIVE",
     },
   },
-  async additionalProps() {
-    const props = {};
-    if (this.actionType === "UPDATE") {
-      props.contactID = {
-        type: "string",
-        label: "Contact ID",
-        description: "ID of the contact that requires update.",
-      };
-    }
-    return props;
-  },
   async run({ $ }) {
+    if (!this.contactID && !this.name) {
+      throw new ConfigurationError("Must provide **Contact ID** or **Contact Name** parameter.");
+    }
     const {
       contactID,
       tenantId,
@@ -99,7 +88,11 @@ export default {
       ContactStatus: contactStatus,
     });
     contactID && (data.ContactID = contactID);
-    const response = await this.xeroAccountingApi.createContact($, tenantId, data);
+    const response = await this.xeroAccountingApi.createOrUpdateContact({
+      $,
+      tenantId,
+      data,
+    });
     response && $.export("$summary", "Contact created successfully");
     return response;
   },

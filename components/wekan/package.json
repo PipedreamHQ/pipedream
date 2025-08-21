@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/wekan",
+  "version": "0.0.1",
+  "description": "Pipedream WeKan Components",
+  "main": "wekan.app.mjs",
+  "keywords": [
+    "pipedream",
+    "wekan"
+  ],
+  "homepage": "https://pipedream.com/apps/wekan",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

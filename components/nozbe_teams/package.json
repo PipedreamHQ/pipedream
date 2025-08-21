@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/nozbe_teams",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Nozbe Teams Components",
-  "main": "dist/app/nozbe_teams.app.mjs",
+  "main": "nozbe_teams.app.mjs",
   "keywords": [
     "pipedream",
     "nozbe_teams"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/nozbe_teams",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

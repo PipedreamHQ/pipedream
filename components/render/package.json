@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/render",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Render Components",
-  "main": "dist/app/render.app.mjs",
+  "main": "render.app.mjs",
   "keywords": [
     "pipedream",
     "render"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/render",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/referralrock",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream ReferralRock Components",
-  "main": "dist/app/referralrock.app.mjs",
+  "main": "referralrock.app.mjs",
   "keywords": [
     "pipedream",
     "referralrock"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/referralrock",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

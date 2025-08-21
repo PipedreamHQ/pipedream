@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/revamp_crm",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Revamp CRM Components",
-  "main": "dist/app/revamp_crm.app.mjs",
+  "main": "revamp_crm.app.mjs",
   "keywords": [
     "pipedream",
     "revamp_crm"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/revamp_crm",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

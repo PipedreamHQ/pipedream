@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/fedex",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream FedEx Components",
-  "main": "dist/app/fedex.app.mjs",
+  "main": "fedex.app.mjs",
   "keywords": [
     "pipedream",
     "fedex"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/fedex",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/salestown",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Salestown Components",
-  "main": "dist/app/salestown.app.mjs",
+  "main": "salestown.app.mjs",
   "keywords": [
     "pipedream",
     "salestown"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/salestown",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

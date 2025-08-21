@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/kakao",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Kakao Components",
-  "main": "dist/app/kakao.app.mjs",
+  "main": "kakao.app.mjs",
   "keywords": [
     "pipedream",
     "kakao"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/kakao",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
