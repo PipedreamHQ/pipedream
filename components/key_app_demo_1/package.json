@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/key_app_demo_1",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Key App Demo 1 Components",
-  "main": "dist/app/key_app_demo_1.app.mjs",
+  "main": "key_app_demo_1.app.mjs",
   "keywords": [
     "pipedream",
     "key_app_demo_1"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/key_app_demo_1",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

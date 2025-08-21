@@ -8,7 +8,7 @@ export default {
   key: "xero_accounting_api-find-invoice",
   name: "Find Invoice",
   description: "Finds an invoice by number or reference.[See the docs here](https://developer.xero.com/documentation/api/accounting/invoices/#get-invoices)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     xeroAccountingApi,
@@ -38,14 +38,18 @@ export default {
       tenantId,
     } = this;
     if ((invoiceNumber && reference) || (!invoiceNumber && !reference)) {
-      throw new ConfigurationError("Choose exclusively between Invoice Number or Reference to find an invoice.");
+      throw new ConfigurationError("Choose exclusively between **Invoice Number** or **Reference** to find an invoice.");
     }
     const payload = removeNullEntries({
       InvoiceNumber: invoiceNumber,
       Reference: reference,
     });
     const queryString = formatQueryString(payload, true);
-    const response = await this.xeroAccountingApi.getInvoice($, tenantId, queryString);
+    const response = await this.xeroAccountingApi.getInvoice({
+      $,
+      tenantId,
+      queryParam: queryString,
+    });
     response && $.export("$summary", "Invoice loaded successfully");
     return response;
   },

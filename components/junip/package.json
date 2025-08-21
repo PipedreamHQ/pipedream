@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/junip",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Junip Components",
-  "main": "dist/app/junip.app.mjs",
+  "main": "junip.app.mjs",
   "keywords": [
     "pipedream",
     "junip"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/junip",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

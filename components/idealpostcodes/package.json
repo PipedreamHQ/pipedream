@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/idealpostcodes",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream IdealPostcodes Components",
-  "main": "dist/app/idealpostcodes.app.mjs",
+  "main": "idealpostcodes.app.mjs",
   "keywords": [
     "pipedream",
     "idealpostcodes"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/idealpostcodes",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

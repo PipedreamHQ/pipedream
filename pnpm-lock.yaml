@@ -1340,6 +1340,9 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
+  components/azure_devops_microsoft_entra_id_oauth:
+    specifiers: {}
+
   components/azure_openai_service:
     dependencies:
       '@pipedream/platform':
@@ -3216,6 +3219,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/cortex:
+    specifiers: {}
 
   components/countdown_api:
     dependencies:
@@ -10067,8 +10073,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/paazl:
-    specifiers: {}
+  components/paazl: {}
 
   components/paddle: {}
 
@@ -10793,6 +10798,9 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
+  components/plentyone:
+    specifiers: {}
+
   components/plisio: {}
 
   components/plivo:
@@ -11184,6 +11192,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+
+  components/pulumi:
+    specifiers: {}
 
   components/pumble:
     dependencies:
@@ -12008,7 +12019,11 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/rocketskip: {}
+  components/rocketskip:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/rockset:
     dependencies:
@@ -13618,6 +13633,9 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/strapi:
+    specifiers: {}
+
   components/strava:
     dependencies:
       '@pipedream/platform':
@@ -13883,6 +13901,9 @@ importers:
         version: 1.6.6
 
   components/taggun: {}
+
+  components/taiga:
+    specifiers: {}
 
   components/tailscale: {}
 
@@ -14584,8 +14605,7 @@ importers:
         specifier: ^1.6.2
         version: 1.6.6
 
-  components/trunkrs:
-    specifiers: {}
+  components/trunkrs: {}
 
   components/truss: {}
 
@@ -15464,6 +15484,9 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/wekan:
+    specifiers: {}
+
   components/welcome:
     dependencies:
       '@pipedream/platform':
@@ -15986,6 +16009,9 @@ importers:
         version: 3.0.3
 
   components/zagomail: {}
+
+  components/zammad:
+    specifiers: {}
 
   components/zamzar:
     dependencies:
