@@ -1,9 +1,9 @@
 import googleSlides from "../../google_slides.app.mjs";
 
 export default {
-  key: "google_slides-delete-table-columns",
-  name: "Delete Table Columns",
-  description: "Delete columns from a table. [See the documentation](https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations/request#DeleteTableColumnsRequest)",
+  key: "google_slides-delete-table-column",
+  name: "Delete Table Column",
+  description: "Delete column from a table. [See the documentation](https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations/request#DeleteTableColumnRequest)",
   version: "0.0.1",
   type: "action",
   props: {

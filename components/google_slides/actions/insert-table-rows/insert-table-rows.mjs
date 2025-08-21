@@ -36,7 +36,7 @@ export default {
     rowIndex: {
       type: "integer",
       label: "Row Index",
-      description: "The index of the row to insert",
+      description: "The row index of an existing cell used as the insertion reference point",
       optional: true,
     },
     insertBelow: {

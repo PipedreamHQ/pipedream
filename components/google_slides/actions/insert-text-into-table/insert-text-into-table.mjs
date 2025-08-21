@@ -36,13 +36,13 @@ export default {
     rowIndex: {
       type: "integer",
       label: "Row Index",
-      description: "The table row index to insert the text into",
+      description: "The 0-based table row index of the target cell",
       optional: true,
     },
     columnIndex: {
       type: "integer",
       label: "Column Index",
-      description: "The table column index to insert the text into",
+      description: "The 0-based table column index of the target cell",
       optional: true,
     },
     text: {

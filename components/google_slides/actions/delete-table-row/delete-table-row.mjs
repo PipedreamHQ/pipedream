@@ -1,9 +1,9 @@
 import googleSlides from "../../google_slides.app.mjs";
 
 export default {
-  key: "google_slides-delete-table-rows",
-  name: "Delete Table Rows",
-  description: "Delete rows from a table. [See the documentation](https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations/request#DeleteTableRowsRequest)",
+  key: "google_slides-delete-table-row",
+  name: "Delete Table Row",
+  description: "Delete row from a table. [See the documentation](https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations/request#DeleteTableRowRequest)",
   version: "0.0.1",
   type: "action",
   props: {

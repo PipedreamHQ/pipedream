@@ -36,7 +36,7 @@ export default {
     columnIndex: {
       type: "integer",
       label: "Column Index",
-      description: "The index of the column to insert",
+      description: "The column index of an existing cell used as the insertion reference point",
       optional: true,
     },
     insertRight: {
