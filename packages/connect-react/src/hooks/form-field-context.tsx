@@ -4,10 +4,11 @@ import {
 import type {
   AppResponse, ConfigurableProp, ConfigurablePropApp, PropValue,
 } from "@pipedream/sdk";
+import { App } from "@pipedream/sdk/browser";
 
 export type FormFieldContextExtra<T extends ConfigurableProp> = T extends ConfigurablePropApp ? {
-  app?: AppResponse;
-} : Record<string, never>;
+  app?: App;
+} : {};
 
 export type FormFieldContext<T extends ConfigurableProp> = {
   id: string;

@@ -1,4 +1,4 @@
-import type { ConfigurableProp } from "@pipedream/sdk";
+import type { ConfigurableProp, ConfigurablePropApp } from "@pipedream/sdk";
 import { FormFieldContext } from "../hooks/form-field-context";
 import { useFormContext } from "../hooks/form-context";
 import { Field } from "./Field";
@@ -27,7 +27,10 @@ export function InternalField<T extends ConfigurableProp>({
   } = useApp(appSlug || "", {
     useQueryOpts: {
       enabled: !!appSlug,
-      suspense: !!appSlug, // this seems to work (this overrides enabled so don't just set to true)
+
+      // this seems to work (this overrides enabled so don't just set to true)
+      // @ts-ignore
+      suspense: !!appSlug,
     },
   });
 
@@ -42,7 +45,7 @@ export function InternalField<T extends ConfigurableProp>({
       setConfiguredProp(idx, value);
     },
     extra: {
-      app, // XXX fix ts
+      app,
     },
     errors,
     enableDebugging,

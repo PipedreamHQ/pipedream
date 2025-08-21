@@ -9,10 +9,12 @@ import { useMemo } from "react";
 import type { CSSProperties } from "react";
 import type { OptionProps } from "react-select";
 import type {
-  AppResponse, ConfigurablePropApp,
-} from "@pipedream/sdk";
+  Account,
+  App,
+  ConfigurablePropApp,
+} from "@pipedream/sdk/browser";
 
-const BaseOption = (props: OptionProps<AppResponse>) => {
+const BaseOption = (props: OptionProps<SelectValue>) => {
   // const imgSrc =
   //   props.data.img_src ?? `https://pipedream.com/s.v0/${props.data.id}/logo/48`
   return (
@@ -23,8 +25,14 @@ const BaseOption = (props: OptionProps<AppResponse>) => {
   );
 };
 
+type AccountPlaceholder = {
+  id: "_new";
+  name: string;
+}
+type SelectValue = Account | AccountPlaceholder;
+
 type ControlAppProps = {
-  app: AppResponse;
+  app: App;
 };
 
 export function ControlApp({ app }: ControlAppProps) {
@@ -55,7 +63,7 @@ export function ControlApp({ app }: ControlAppProps) {
     gridArea: "control",
   };
 
-  const baseSelectProps: BaseReactSelectProps = {
+  const baseSelectProps: BaseReactSelectProps<SelectValue> = {
     components: {
       Option: BaseOption,
     },
@@ -67,7 +75,7 @@ export function ControlApp({ app }: ControlAppProps) {
       }),
     },
   };
-  const selectProps =  select.getProps("controlAppSelect", baseSelectProps);
+  const selectProps = select.getProps("controlAppSelect", baseSelectProps);
 
   const oauthAppId = oauthAppConfig?.[app.name_slug];
   const {
@@ -77,13 +85,16 @@ export function ControlApp({ app }: ControlAppProps) {
     refetch: refetchAccounts,
   } = useAccounts(
     {
-      externalUserId,
+      external_user_id: externalUserId,
       app: app.name_slug,
       oauth_app_id: oauthAppId,
     },
     {
       useQueryOpts: {
         enabled: !!app,
+
+        // this seems to work (this overrides enabled so don't just set to true)
+        // @ts-ignore
         suspense: !!app,
       },
     },
@@ -105,17 +116,26 @@ export function ControlApp({ app }: ControlAppProps) {
     });
   };
 
-  const selectValue = useMemo(() => {
-    let ret = value;
-    if (ret != null) {
+  const newAccountPlaceholder: AccountPlaceholder = {
+    id: "_new",
+    name: `Connect new ${app.name} account...`,
+  };
+
+  const selectOptions = useMemo<SelectValue[]>(() => [
+    ...accounts,
+    newAccountPlaceholder,
+  ], [accounts]);
+
+  const selectValue = useMemo<SelectValue>(() => {
+    if (value?.authProvisionId) {
       for (const item of accounts) {
-        if (ret.authProvisionId === item.id) {
-          ret = item;
-          break;
+        if (value.authProvisionId === item.id) {
+          return item;
         }
       }
     }
-    return ret;
+
+    return newAccountPlaceholder;
   }, [
     accounts,
     value,
@@ -133,13 +153,7 @@ export function ControlApp({ app }: ControlAppProps) {
           <Select
             instanceId={id}
             value={selectValue}
-            options={[
-              ...accounts,
-              {
-                id: "_new",
-                name: `Connect new ${app.name} account...`,
-              },
-            ]}
+            options={selectOptions}
             {...selectProps}
             required={true}
             placeholder={`Select ${app.name} account...`}
@@ -151,8 +165,8 @@ export function ControlApp({ app }: ControlAppProps) {
             onChange={(a) => {
               if (a) {
                 if (a.id === "_new") {
-                // start connect account and then select it, etc.
-                // TODO unset / put in loading state
+                  // start connect account and then select it, etc.
+                  // TODO unset / put in loading state
                   startConnectAccount();
                 } else {
                   onChange({
@@ -169,7 +183,7 @@ export function ControlApp({ app }: ControlAppProps) {
             app,
             ...formFieldCtx,
           })} onClick={() => startConnectAccount()}>
-          Connect {app.name}
+            Connect {app.name}
           </button>
       }
     </div>
