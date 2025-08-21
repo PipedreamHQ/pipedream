@@ -44,66 +44,60 @@ export default {
       label: "Limit",
       description: "Maximum number of emails to retrieve",
       optional: true,
-      default: 100,
+      default: 20,
       min: 1,
       max: 200,
     },
   },
-  methods: {
-    async getAssociatedEmails({
+  async run({ $ }) {
+    const properties = [
+      ...DEFAULT_EMAIL_PROPERTIES,
+      ...(this.additionalProperties || []),
+    ];
+
+    const {
+      objectType, objectId, limit,
+    } = this;
+
+    const { results } = await this.hubspot.getAssociations({
+      $,
       objectType,
       objectId,
-      additionalProperties = [],
-      limit = 100,
-    }) {
-      const properties = [
-        ...DEFAULT_EMAIL_PROPERTIES,
-        ...additionalProperties,
-      ];
-
-      const { results } = await this.hubspot.searchCRM({
-        object: "emails",
-        data: {
-          filterGroups: [
-            {
-              filters: [
-                {
-                  propertyName: `associations.${objectType}`,
-                  operator: "EQ",
-                  value: objectId,
-                },
-              ],
-            },
-          ],
-          properties,
-          associations: [
-            objectType,
-          ],
-          sorts: [
-            {
-              propertyName: "hs_timestamp",
-              direction: "DESCENDING",
-            },
-          ],
-          limit,
-        },
-      });
-
-      return results;
-    },
-  },
-  async run({ $ }) {
-    const emails = await this.getAssociatedEmails({
-      objectType: this.objectType,
-      objectId: this.objectId,
-      additionalProperties: this.additionalProperties,
-      limit: this.limit,
+      toObjectType: "emails",
+      params: {
+        limit,
+      },
     });
 
-    const summary = `Successfully retrieved ${emails?.length || 0} email(s)`;
+    if (!results?.length > 0) {
+      $.export("$summary", "No emails found");
+      return [];
+    }
+
+    const emailIds = results.map((association) => ({
+      id: association.toObjectId,
+    }));
+
+    const { results: emails } = await this.hubspot.batchGetObjects({
+      $,
+      objectType: "emails",
+      data: {
+        properties,
+        inputs: emailIds,
+      },
+    });
+
+    // Sort emails by timestamp in descending order (most recent first)
+    const sortedEmails = emails?.sort((a, b) => {
+      const timestampA = new Date(a.properties?.hs_timestamp || 0).getTime();
+      const timestampB = new Date(b.properties?.hs_timestamp || 0).getTime();
+      return timestampB - timestampA;
+    }) || [];
+
+    const summary = `Successfully retrieved ${sortedEmails?.length || 0} email(s)`;
 
     $.export("$summary", summary);
 
-    return emails || [];
+    return sortedEmails;
   },
 };
