@@ -20,6 +20,23 @@ export default {
         }));
       },
     },
+    tripAdvisorLocationCode: {
+      type: "integer",
+      label: "Location Code",
+      description: "The code of the target location",
+      async options({ countryCode }) {
+        const response = await this.getTripadvisorLocations({
+          countryCode,
+        });
+        const locationCodes = response.tasks[0].result;
+        return locationCodes?.map(({
+          location_name, location_code,
+        }) => ({
+          value: location_code,
+          label: location_name,
+        })) || [];
+      },
+    },
     locationCoordinate: {
       type: "string",
       label: "Location Coordinate",
@@ -244,6 +261,14 @@ export default {
     }) {
       return this._makeRequest({
         path: `/keywords_data/google_ads/locations/${countryCode}`,
+        ...args,
+      });
+    },
+    getTripadvisorLocations({
+      countryCode, ...args
+    }) {
+      return this._makeRequest({
+        path: `/business_data/tripadvisor/locations/${countryCode}`,
         ...args,
       });
     },
