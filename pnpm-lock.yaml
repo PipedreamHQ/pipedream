@@ -1782,8 +1782,7 @@ importers:
 
   components/bolt_iot: {}
 
-  components/booking_experts:
-    specifiers: {}
+  components/booking_experts: {}
 
   components/bookingmood: {}
 
@@ -8812,8 +8811,7 @@ importers:
 
   components/mindbody: {}
 
-  components/mindee:
-    specifiers: {}
+  components/mindee: {}
 
   components/mindmeister: {}
 
@@ -9134,7 +9132,11 @@ importers:
 
   components/nasa: {}
 
-  components/nasdaq_data_link_time_series_and_table_data_: {}
+  components/nasdaq_data_link_time_series_and_table_data_:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/nationbuilder:
     dependencies:
@@ -11033,7 +11035,11 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
-  components/prisma_management_api: {}
+  components/prisma_management_api:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.6.6
 
   components/prismic: {}
 
@@ -16031,8 +16037,7 @@ importers:
         specifier: ^4.0.0
         version: 4.0.1
 
-  components/zapr_link:
-    specifiers: {}
+  components/zapr_link: {}
 
   components/zendesk:
     dependencies:
