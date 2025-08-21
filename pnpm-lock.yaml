@@ -8811,6 +8811,9 @@ importers:
 
   components/mindbody: {}
 
+  components/mindee:
+    specifiers: {}
+
   components/mindmeister: {}
 
   components/mindstudio: {}
