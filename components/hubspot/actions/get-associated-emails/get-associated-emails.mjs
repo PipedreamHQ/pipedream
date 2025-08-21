@@ -1,6 +1,4 @@
-import {
-  DEFAULT_EMAIL_PROPERTIES, OBJECT_TYPE, OBJECT_TYPES,
-} from "../../common/constants.mjs";
+import { DEFAULT_EMAIL_PROPERTIES } from "../../common/constants.mjs";
 import hubspot from "../../hubspot.app.mjs";
 
 export default {
@@ -12,14 +10,15 @@ export default {
   props: {
     hubspot,
     objectType: {
-      type: "string",
+      propDefinition: [
+        hubspot,
+        "objectType",
+        () => ({
+          includeCustom: true,
+        }),
+      ],
       label: "Associated Object Type",
       description: "The type of the object the emails are associated with",
-      options: OBJECT_TYPES.filter(({ value }) => [
-        OBJECT_TYPE.CONTACT,
-        OBJECT_TYPE.COMPANY,
-        OBJECT_TYPE.DEAL,
-      ].includes(value)),
     },
     objectId: {
       type: "string",
@@ -70,7 +69,7 @@ export default {
     });
 
     if (!results?.length > 0) {
-      $.export("$summary", "No emails found");
+      $.export("$summary", "No emails found with this association");
       return [];
     }
 
