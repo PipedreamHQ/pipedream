@@ -1340,8 +1340,7 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
-  components/azure_devops_microsoft_entra_id_oauth:
-    specifiers: {}
+  components/azure_devops_microsoft_entra_id_oauth: {}
 
   components/azure_openai_service:
     dependencies:
@@ -3220,8 +3219,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/cortex:
-    specifiers: {}
+  components/cortex: {}
 
   components/countdown_api:
     dependencies:
@@ -10801,8 +10799,7 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
-  components/plentyone:
-    specifiers: {}
+  components/plentyone: {}
 
   components/plisio: {}
 
@@ -13635,8 +13632,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/strapi:
-    specifiers: {}
+  components/strapi: {}
 
   components/strava:
     dependencies:
@@ -13904,8 +13900,7 @@ importers:
 
   components/taggun: {}
 
-  components/taiga:
-    specifiers: {}
+  components/taiga: {}
 
   components/tailscale: {}
 
@@ -15486,8 +15481,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/wekan:
-    specifiers: {}
+  components/wekan: {}
 
   components/welcome:
     dependencies:
