@@ -1337,8 +1337,11 @@ importers:
   components/azure_devops:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.2.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
+
+  components/azure_devops_microsoft_entra_id_oauth:
+    specifiers: {}
 
   components/azure_openai_service:
     dependencies:
@@ -3216,6 +3219,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/cortex:
+    specifiers: {}
 
   components/countdown_api:
     dependencies:
@@ -10067,6 +10073,8 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/paazl: {}
+
   components/paddle: {}
 
   components/page_x:
@@ -10790,6 +10798,9 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
+  components/plentyone:
+    specifiers: {}
+
   components/plisio: {}
 
   components/plivo:
@@ -11182,6 +11193,8 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/pulumi: {}
+
   components/pumble:
     dependencies:
       '@pipedream/platform':
@@ -11320,8 +11333,8 @@ importers:
   components/quickbooks_sandbox:
     dependencies:
       '@pipedream/quickbooks':
-        specifier: ^0.7.0
-        version: 0.7.0
+        specifier: ^0.7.1
+        version: 0.7.1
 
   components/quickemailverification:
     dependencies:
@@ -12005,7 +12018,11 @@ importers:
         specifier: ^0.10.0
         version: 0.10.0
 
-  components/rocketskip: {}
+  components/rocketskip:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/rockset:
     dependencies:
@@ -13615,6 +13632,9 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/strapi:
+    specifiers: {}
+
   components/strava:
     dependencies:
       '@pipedream/platform':
@@ -13880,6 +13900,9 @@ importers:
         version: 1.6.6
 
   components/taggun: {}
+
+  components/taiga:
+    specifiers: {}
 
   components/tailscale: {}
 
@@ -14580,6 +14603,8 @@ importers:
       '@pipedream/platform':
         specifier: ^1.6.2
         version: 1.6.6
+
+  components/trunkrs: {}
 
   components/truss: {}
 
@@ -15458,6 +15483,9 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/wekan:
+    specifiers: {}
+
   components/welcome:
     dependencies:
       '@pipedream/platform':
@@ -15981,6 +16009,8 @@ importers:
 
   components/zagomail: {}
 
+  components/zammad: {}
+
   components/zamzar:
     dependencies:
       '@pipedream/platform':
@@ -15989,6 +16019,9 @@ importers:
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
+
+  components/zapr_link:
+    specifiers: {}
 
   components/zendesk:
     dependencies:
@@ -16045,8 +16078,8 @@ importers:
   components/zep:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/zerobounce:
     dependencies:
@@ -16527,14 +16560,6 @@ importers:
       dotenv:
         specifier: ^6.0.0
         version: 6.2.0
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
 
   packages/ai:
     dependencies:
@@ -20472,8 +20497,8 @@ packages:
   '@pipedream/postgresql@2.2.3':
     resolution: {integrity: sha512-Co9r4UKvvimEPo9T4v+EfVn/Sqqw8+X7PtvsAF7tydq7CHpkmOT9eYAiD0Kuybg5WbuWuqDaXHHmhVtsAxgpBw==}
 
-  '@pipedream/quickbooks@0.7.0':
-    resolution: {integrity: sha512-x9wDX90dDGw6mfWveMPWDwosm0KaZpxy2cs9Qt+mDPa4VPXYwnIh3EC+rqatnQTMrOWFh85deYJEb5A9xqUuiQ==}
+  '@pipedream/quickbooks@0.7.1':
+    resolution: {integrity: sha512-N1+aZZRPSFiUSSrXWAQ+5zROhKwwkkXZ4S88cH4XZYqXehTpDPIOsHwMMhxnLmsQtzslb2DisShLZRQuWSxRww==}
 
   '@pipedream/ramp@0.1.2':
     resolution: {integrity: sha512-vYC5OPJo+kxhYYav5y0Mb7WihbLqNdoUO/CnOH1rHfKKNI4E23LLLLICn3VAl0gRc7xbWLHf4Nmcyjw7qf5k7Q==}
@@ -32036,22 +32061,22 @@ packages:
   superagent@3.8.1:
     resolution: {integrity: sha512-VMBFLYgFuRdfeNQSMLbxGSLfmXL/xc+OO+BZp41Za/NRDBet/BNbkRJrYzCUu0u4GU0i/ml2dtT8b9qgkw9z6Q==}
     engines: {node: '>= 4.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@4.1.0:
     resolution: {integrity: sha512-FT3QLMasz0YyCd4uIi5HNe+3t/onxMyEho7C3PSqmti3Twgy2rXT4fmkTz6wRL6bTF4uzPcfkUCa8u4JWHw8Ag==}
     engines: {node: '>= 6.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@5.3.1:
     resolution: {integrity: sha512-wjJ/MoTid2/RuGCOFtlacyGNxN9QLMgcpYLDQlWFIhhdJ93kNscFonGvrpAHSCVjRVj++DGCglocF7Aej1KHvQ==}
     engines: {node: '>= 7.0.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@7.1.6:
     resolution: {integrity: sha512-gZkVCQR1gy/oUXr+kxJMLDjla434KmSOKbx5iGD30Ql+AkJQ/YlPKECJy2nhqOsHLjGHzoDTXNSjhnvWhzKk7g==}
     engines: {node: '>=6.4.0 <13 || >=14'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   supports-color@10.0.0:
     resolution: {integrity: sha512-HRVVSbCCMbj7/kdWF9Q+bbckjBHLtHMEoJWlkmYzzdwhYMkjkOwubLM6t7NbWKjgKamGDrWL1++KrjUO1t9oAQ==}
@@ -39914,7 +39939,7 @@ snapshots:
       - debug
       - pg-native
 
-  '@pipedream/quickbooks@0.7.0':
+  '@pipedream/quickbooks@0.7.1':
     dependencies:
       '@pipedream/platform': 3.1.0
     transitivePeerDependencies:

@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/formsite",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Formsite Components",
-  "main": "dist/app/formsite.app.mjs",
+  "main": "formsite.app.mjs",
   "keywords": [
     "pipedream",
     "formsite"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/formsite",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

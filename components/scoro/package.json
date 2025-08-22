@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/scoro",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Scoro Components",
-  "main": "dist/app/scoro.app.mjs",
+  "main": "scoro.app.mjs",
   "keywords": [
     "pipedream",
     "scoro"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/scoro",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

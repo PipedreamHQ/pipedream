@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/octopus_deploy",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Octopus Deploy Components",
-  "main": "dist/app/octopus_deploy.app.mjs",
+  "main": "octopus_deploy.app.mjs",
   "keywords": [
     "pipedream",
     "octopus_deploy"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/octopus_deploy",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

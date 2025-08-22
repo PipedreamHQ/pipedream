@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/orbisx",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream OrbisX Components",
-  "main": "dist/app/orbisx.app.mjs",
+  "main": "orbisx.app.mjs",
   "keywords": [
     "pipedream",
     "orbisx"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/orbisx",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

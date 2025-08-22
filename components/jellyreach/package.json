@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/jellyreach",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Jellyreach Components",
-  "main": "dist/app/jellyreach.app.mjs",
+  "main": "jellyreach.app.mjs",
   "keywords": [
     "pipedream",
     "jellyreach"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/jellyreach",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/plasmic",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Plasmic Components",
-  "main": "dist/app/plasmic.app.mjs",
+  "main": "plasmic.app.mjs",
   "keywords": [
     "pipedream",
     "plasmic"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/plasmic",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

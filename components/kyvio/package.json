@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/kyvio",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Kyvio Components",
-  "main": "dist/app/kyvio.app.mjs",
+  "main": "kyvio.app.mjs",
   "keywords": [
     "pipedream",
     "kyvio"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/kyvio",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

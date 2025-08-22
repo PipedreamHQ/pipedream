@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/godaddy",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream GoDaddy Components",
-  "main": "dist/app/godaddy.app.mjs",
+  "main": "godaddy.app.mjs",
   "keywords": [
     "pipedream",
     "godaddy"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/godaddy",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

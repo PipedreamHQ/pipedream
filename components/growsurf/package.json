@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/growsurf",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Growsurf Components",
-  "main": "dist/app/growsurf.app.mjs",
+  "main": "growsurf.app.mjs",
   "keywords": [
     "pipedream",
     "growsurf"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/growsurf",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

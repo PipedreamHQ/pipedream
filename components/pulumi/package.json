@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/pulumi",
+  "version": "0.0.1",
+  "description": "Pipedream Pulumi Cloud Components",
+  "main": "pulumi.app.mjs",
+  "keywords": [
+    "pipedream",
+    "pulumi"
+  ],
+  "homepage": "https://pipedream.com/apps/pulumi",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
