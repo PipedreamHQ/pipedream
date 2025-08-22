@@ -31,7 +31,7 @@ export default {
   async run({ $ }) {
     const response = await this.googleDocs.getDocument(this.docId, true);
     const tabs = response.tabs.filter((tab) => this.tabIds.includes(tab.tabProperties.tabId));
-    $.export("$summary", `Successfully retrieved tab content fordocument with ID: ${this.docId}`);
+    $.export("$summary", `Successfully retrieved tab content for document with ID: ${this.docId}`);
     return tabs;
   },
 };
