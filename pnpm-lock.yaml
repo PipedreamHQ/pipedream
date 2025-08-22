@@ -12660,9 +12660,12 @@ importers:
         specifier: ^1.3.9
         version: 1.3.12
       '@pipedream/platform':
-        specifier: ^0.10.0
-        version: 0.10.0
+        specifier: ^3.1.0
+        version: 3.1.0
     devDependencies:
+      '@pipedream/types':
+        specifier: ^0.3.2
+        version: 0.3.2
       '@types/node':
         specifier: ^17.0.36
         version: 17.0.45
@@ -14440,6 +14443,10 @@ importers:
       '@pipedream/platform':
         specifier: ^1.1.0
         version: 1.6.6
+    devDependencies:
+      '@pipedream/types':
+        specifier: ^0.3.2
+        version: 0.3.2
 
   components/tomba: {}
 
@@ -15851,6 +15858,10 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.6.6
+    devDependencies:
+      '@pipedream/types':
+        specifier: ^0.3.2
+        version: 0.3.2
 
   components/xverify:
     dependencies:

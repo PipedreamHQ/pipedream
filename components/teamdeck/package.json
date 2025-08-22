@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/teamdeck",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Teamdeck Components",
-  "main": "dist/app/teamdeck.app.mjs",
+  "main": "teamdeck.app.mjs",
   "keywords": [
     "pipedream",
     "teamdeck"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/teamdeck",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

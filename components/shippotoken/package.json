@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/shippotoken",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream ShippoToken Components",
-  "main": "dist/app/shippotoken.app.mjs",
+  "main": "shippotoken.app.mjs",
   "keywords": [
     "pipedream",
     "shippotoken"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/shippotoken",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
