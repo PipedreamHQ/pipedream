@@ -1,7 +1,9 @@
-import common from "../common/common.mjs";
 import {
-  DEFAULT_LIMIT, DEFAULT_DEAL_PROPERTIES, API_PATH,
+  API_PATH,
+  DEFAULT_DEAL_PROPERTIES,
+  DEFAULT_LIMIT,
 } from "../../common/constants.mjs";
+import common from "../common/common.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
@@ -9,7 +11,7 @@ export default {
   key: "hubspot-new-deal-in-stage",
   name: "New Deal In Stage",
   description: "Emit new event for each new deal in a stage.",
-  version: "0.0.31",
+  version: "0.0.32",
   dedupe: "unique",
   type: "source",
   props: {

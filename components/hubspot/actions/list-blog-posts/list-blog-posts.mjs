@@ -4,7 +4,7 @@ export default {
   key: "hubspot-list-blog-posts",
   name: "List Blog Posts",
   description: "Retrieves a list of blog posts. [See the documentation](https://developers.hubspot.com/docs/reference/api/cms/blogs/blog-posts)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     hubspot,

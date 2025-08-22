@@ -1,12 +1,12 @@
-import common from "../common/common.mjs";
 import { DEFAULT_LIMIT } from "../../common/constants.mjs";
+import common from "../common/common.mjs";
 
 export default {
   ...common,
   key: "hubspot-new-custom-object-property-change",
   name: "New Custom Object Property Change",
   description: "Emit new event when a specified property is provided or updated on a custom object.",
-  version: "0.0.10",
+  version: "0.0.11",
   dedupe: "unique",
   type: "source",
   props: {
