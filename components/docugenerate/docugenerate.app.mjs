@@ -66,5 +66,11 @@ export default {
         path: `/document?template_id=${templateId}`,
       });
     },
+    async getDocument($ = this, documentId) {
+      return this.makeRequest({
+        $,
+        path: `/document/${documentId}`,
+      });
+    },
   },
 };
