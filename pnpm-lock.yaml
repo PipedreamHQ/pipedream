@@ -1785,6 +1785,9 @@ importers:
 
   components/bolt_iot: {}
 
+  components/booking_experts:
+    specifiers: {}
+
   components/bookingmood: {}
 
   components/boomtrain:

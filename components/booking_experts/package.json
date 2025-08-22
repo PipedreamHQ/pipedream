@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/booking_experts",
+  "version": "0.0.1",
+  "description": "Pipedream Booking Experts Components",
+  "main": "booking_experts.app.mjs",
+  "keywords": [
+    "pipedream",
+    "booking_experts"
+  ],
+  "homepage": "https://pipedream.com/apps/booking_experts",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
