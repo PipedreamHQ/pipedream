@@ -3,7 +3,7 @@ import databricks from "../../databricks.app.mjs";
 export default {
   key: "databricks-edit-sql-warehouse",
   name: "Edit SQL Warehouse",
-  description: "Edits the configuration of an existing SQL Warehouse. [See docs](https://docs.databricks.com/api/workspace/warehouse/edit)",
+  description: "Edits the configuration of an existing SQL Warehouse. [See docs](https://docs.databricks.com/api/workspace/warehouses/edit)",
   version: "0.0.1",
   type: "action",
   props: {

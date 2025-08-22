@@ -3,7 +3,7 @@ import databricks from "../../databricks.app.mjs";
 export default {
   key: "databricks-get-sql-warehouse",
   name: "Get SQL Warehouse",
-  description: "Retrieves details for a specific SQL Warehouse. [See docs](https://docs.databricks.com/api/workspace/warehouse/get)",
+  description: "Retrieves details for a specific SQL Warehouse. [See docs](https://docs.databricks.com/api/workspace/warehouses/get)",
   version: "0.0.1",
   type: "action",
   props: {

@@ -3,7 +3,7 @@ import databricks from "../../databricks.app.mjs";
 export default {
   key: "databricks-start-sql-warehouse",
   name: "Start SQL Warehouse",
-  description: "Starts a SQL Warehouse by ID. [See the documentation](https://docs.databricks.com/api/workspace/warehouse/start)",
+  description: "Starts a SQL Warehouse by ID. [See the documentation](https://docs.databricks.com/api/workspace/warehouses/start)",
   version: "0.0.1",
   type: "action",
   props: {

@@ -3,7 +3,7 @@ import databricks from "../../databricks.app.mjs";
 export default {
   key: "databricks-list-sql-warehouses",
   name: "List SQL Warehouses",
-  description: "Lists all SQL Warehouses available in the Databricks workspace. [See the documentation](https://docs.databricks.com/api/workspace/warehouse/list)",
+  description: "Lists all SQL Warehouses available in the Databricks workspace. [See the documentation](https://docs.databricks.com/api/workspace/warehouses/list)",
   version: "0.0.1",
   type: "action",
   props: {

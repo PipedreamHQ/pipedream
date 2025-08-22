@@ -3,7 +3,7 @@ import databricks from "../../databricks.app.mjs";
 export default {
   key: "databricks-stop-sql-warehouse",
   name: "Stop SQL Warehouse",
-  description: "Stops a SQL Warehouse by ID. [See the documentation](https://docs.databricks.com/api/workspace/warehouse/stop)",
+  description: "Stops a SQL Warehouse by ID. [See the documentation](https://docs.databricks.com/api/workspace/warehouses/stop)",
   version: "0.0.1",
   type: "action",
   props: {

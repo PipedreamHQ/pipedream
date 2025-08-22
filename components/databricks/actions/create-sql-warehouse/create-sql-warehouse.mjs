@@ -3,7 +3,7 @@ import databricks from "../../databricks.app.mjs";
 export default {
   key: "databricks-create-sql-warehouse",
   name: "Create SQL Warehouse",
-  description: "Creates a new SQL Warehouse in Databricks. [See the documentation](https://docs.databricks.com/api/workspace/warehouse/create)",
+  description: "Creates a new SQL Warehouse in Databricks. [See the documentation](https://docs.databricks.com/api/workspace/warehouses/create)",
   version: "0.0.1",
   type: "action",
   props: {
