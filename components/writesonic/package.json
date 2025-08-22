@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/writesonic",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Writesonic Components",
-  "main": "dist/app/writesonic.app.mjs",
+  "main": "writesonic.app.mjs",
   "keywords": [
     "pipedream",
     "writesonic"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/writesonic",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

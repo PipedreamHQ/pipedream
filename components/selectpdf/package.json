@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/selectpdf",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream SelectPdf Components",
-  "main": "dist/app/selectpdf.app.mjs",
+  "main": "selectpdf.app.mjs",
   "keywords": [
     "pipedream",
     "selectpdf"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/selectpdf",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

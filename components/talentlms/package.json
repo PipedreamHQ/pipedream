@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/talentlms",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream TalentLMS Components",
-  "main": "dist/app/talentlms.app.mjs",
+  "main": "talentlms.app.mjs",
   "keywords": [
     "pipedream",
     "talentlms"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/talentlms",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

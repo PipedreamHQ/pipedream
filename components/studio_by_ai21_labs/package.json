@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/studio_by_ai21_labs",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Studio by AI21 Labs Components",
-  "main": "dist/app/studio_by_ai21_labs.app.mjs",
+  "main": "studio_by_ai21_labs.app.mjs",
   "keywords": [
     "pipedream",
     "studio_by_ai21_labs"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/studio_by_ai21_labs",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

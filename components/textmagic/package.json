@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/textmagic",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream TextMagic Components",
-  "main": "dist/app/textmagic.app.mjs",
+  "main": "textmagic.app.mjs",
   "keywords": [
     "pipedream",
     "textmagic"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/textmagic",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

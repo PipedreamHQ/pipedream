@@ -4,7 +4,7 @@ export default {
   key: "google_slides-delete-slide",
   name: "Delete Slide",
   description: "Deletes a slide from a presentation. [See the documentation](https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations/request#DeleteObjectRequest)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleSlides,

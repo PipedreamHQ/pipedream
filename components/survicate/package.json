@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/survicate",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Survicate Components",
-  "main": "dist/app/survicate.app.mjs",
+  "main": "survicate.app.mjs",
   "keywords": [
     "pipedream",
     "survicate"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/survicate",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

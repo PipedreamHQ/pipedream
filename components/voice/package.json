@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/voice",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Voiceflow Components",
-  "main": "dist/app/voice.app.mjs",
+  "main": "voice.app.mjs",
   "keywords": [
     "pipedream",
     "voice"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/voice",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/sendlane",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Sendlane Components",
-  "main": "dist/app/sendlane.app.mjs",
+  "main": "sendlane.app.mjs",
   "keywords": [
     "pipedream",
     "sendlane"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/sendlane",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

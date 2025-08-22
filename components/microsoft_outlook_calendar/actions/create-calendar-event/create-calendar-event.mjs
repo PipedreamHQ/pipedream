@@ -73,7 +73,7 @@ export default {
   async run({ $ }) {
     //RegExp to check time strings(yyyy-MM-ddThh:mm:ss)
     const re = /^(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d):(\d\d)$/;
-    if (!re.test(this.start) || !re.test(this.start)) {
+    if (!re.test(this.start) || !re.test(this.end)) {
       throw new Error("Please provide both start and end props in 'yyyy-MM-ddThh:mm:ss'");
     }
     const data = {

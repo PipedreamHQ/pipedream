@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/vk",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream vk Components",
-  "main": "dist/app/vk.app.mjs",
+  "main": "vk.app.mjs",
   "keywords": [
     "pipedream",
     "vk"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/vk",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

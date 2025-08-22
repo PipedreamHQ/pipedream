@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/tmetric",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream TMetric Components",
-  "main": "dist/app/tmetric.app.mjs",
+  "main": "tmetric.app.mjs",
   "keywords": [
     "pipedream",
     "tmetric"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/tmetric",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

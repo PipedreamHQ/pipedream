@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/tomba",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Tomba  Components",
-  "main": "dist/app/tomba.app.mjs",
+  "main": "tomba.app.mjs",
   "keywords": [
     "pipedream",
     "tomba"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/tomba",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

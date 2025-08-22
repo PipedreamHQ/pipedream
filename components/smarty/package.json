@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/smarty",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Smarty Components",
-  "main": "dist/app/smarty.app.mjs",
+  "main": "smarty.app.mjs",
   "keywords": [
     "pipedream",
     "smarty"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/smarty",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

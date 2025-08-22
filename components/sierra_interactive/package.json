@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/sierra_interactive",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Sierra Interactive Components",
-  "main": "dist/app/sierra_interactive.app.mjs",
+  "main": "sierra_interactive.app.mjs",
   "keywords": [
     "pipedream",
     "sierra_interactive"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/sierra_interactive",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

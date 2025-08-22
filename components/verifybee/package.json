@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/verifybee",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream VerifyBee Components",
-  "main": "dist/app/verifybee.app.mjs",
+  "main": "verifybee.app.mjs",
   "keywords": [
     "pipedream",
     "verifybee"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/verifybee",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

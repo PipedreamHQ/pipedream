@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/solarwinds_service_desk",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream SolarWinds Service Desk Components",
-  "main": "dist/app/solarwinds_service_desk.app.mjs",
+  "main": "solarwinds_service_desk.app.mjs",
   "keywords": [
     "pipedream",
     "solarwinds_service_desk"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/solarwinds_service_desk",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

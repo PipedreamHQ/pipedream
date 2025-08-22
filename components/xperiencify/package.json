@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/xperiencify",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Pipedream Xperiencify Components",
   "main": "dist/app/xperiencify.app.mjs",
   "keywords": [
@@ -17,5 +17,8 @@
   },
   "dependencies": {
     "@pipedream/platform": "^1.2.0"
+  },
+  "devDependencies": {
+    "@pipedream/types": "^0.3.2"
   }
 }

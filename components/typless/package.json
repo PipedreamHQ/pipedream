@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/typless",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Typless Components",
-  "main": "dist/app/typless.app.mjs",
+  "main": "typless.app.mjs",
   "keywords": [
     "pipedream",
     "typless"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/typless",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

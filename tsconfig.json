@@ -26,9 +26,6 @@
       "path": "components/tookan"
     },
     {
-      "path": "components/snapchat_marketing"
-    },
-    {
       "path": "components/nectar_crm"
     },
     {
@@ -38,37 +35,7 @@
       "path": "components/dialpad"
     },
     {
-      "path": "components/render"
-    },
-    {
-      "path": "components/propelauth"
-    },
-    {
-      "path": "components/nextdns"
-    },
-    {
-      "path": "components/scopemaster"
-    },
-    {
-      "path": "components/phone_com"
-    },
-    {
-      "path": "components/paypro"
-    },
-    {
       "path": "components/detrack"
-    },
-    {
-      "path": "components/stormglass_io"
-    },
-    {
-      "path": "components/onesaas"
-    },
-    {
-      "path": "components/threescribe"
-    },
-    {
-      "path": "components/sellix"
     },
     {
       "path": "components/xperiencify"
@@ -80,9 +47,6 @@
       "path": "components/tolstoy"
     },
     {
-      "path": "components/enormail"
-    },
-    {
       "path": "components/pikaso"
     },
     {
@@ -90,15 +54,6 @@
     },
     {
       "path": "components/apitemplate_io"
-    },
-    {
-      "path": "components/gobio_link"
-    },
-    {
-      "path": "components/linqs_cc"
-    },
-    {
-      "path": "components/tomba"
     },
     {
       "path": "components/niftyimages"
@@ -113,67 +68,13 @@
       "path": "components/mediatoolkit"
     },
     {
-      "path": "components/qwilr"
-    },
-    {
-      "path": "components/heartbeat"
-    },
-    {
-      "path": "components/realphonevalidation"
-    },
-    {
-      "path": "components/murlist"
-    },
-    {
-      "path": "components/mailify"
-    },
-    {
-      "path": "components/mailrefine"
-    },
-    {
-      "path": "components/jellyreach"
-    },
-    {
       "path": "components/workast"
-    },
-    {
-      "path": "components/uchat"
-    },
-    {
-      "path": "components/marketing_master_io"
     },
     {
       "path": "components/quickemailverification"
     },
     {
-      "path": "components/typless"
-    },
-    {
       "path": "components/profitwell"
-    },
-    {
-      "path": "components/helcim"
-    },
-    {
-      "path": "components/virustotal"
-    },
-    {
-      "path": "components/getprospect"
-    },
-    {
-      "path": "components/sales_simplify"
-    },
-    {
-      "path": "components/junip"
-    },
-    {
-      "path": "components/e_conomic"
-    },
-    {
-      "path": "components/salesblink"
-    },
-    {
-      "path": "components/signwell"
     },
     {
       "path": "components/smaily"
@@ -182,22 +83,10 @@
       "path": "components/rise"
     },
     {
-      "path": "components/referralrock"
-    },
-    {
-      "path": "components/shippotoken"
-    },
-    {
       "path": "components/amplenote"
     },
     {
       "path": "components/wildberries"
-    },
-    {
-      "path": "components/yr"
-    },
-    {
-      "path": "components/fedex"
     },
     {
       "path": "components/infusionsoft"
@@ -212,118 +101,16 @@
       "path": "components/namely"
     },
     {
-      "path": "components/propeller"
-    },
-    {
       "path": "components/twitch_developer_app"
-    },
-    {
-      "path": "components/vectera"
-    },
-    {
-      "path": "components/isn"
-    },
-    {
-      "path": "components/dots_"
-    },
-    {
-      "path": "components/looker"
-    },
-    {
-      "path": "components/ethereum"
-    },
-    {
-      "path": "components/sendle"
     },
     {
       "path": "components/google_workspace"
     },
     {
-      "path": "components/foxy"
-    },
-    {
       "path": "components/lob"
     },
     {
-      "path": "components/voice"
-    },
-    {
-      "path": "components/switchboard"
-    },
-    {
-      "path": "components/rewardful"
-    },
-    {
-      "path": "components/membervault"
-    },
-    {
-      "path": "components/radar"
-    },
-    {
-      "path": "components/godaddy"
-    },
-    {
-      "path": "components/sender"
-    },
-    {
-      "path": "components/syncro"
-    },
-    {
-      "path": "components/teamdeck"
-    },
-    {
-      "path": "components/verifybee"
-    },
-    {
-      "path": "components/oksign"
-    },
-    {
-      "path": "components/helpwise"
-    },
-    {
-      "path": "components/showpad"
-    },
-    {
-      "path": "components/user_com"
-    },
-    {
-      "path": "components/tmetric"
-    },
-    {
-      "path": "components/vivifyscrum"
-    },
-    {
-      "path": "components/workiom"
-    },
-    {
-      "path": "components/worksnaps"
-    },
-    {
-      "path": "components/vosfactures"
-    },
-    {
-      "path": "components/pointerpro"
-    },
-    {
-      "path": "components/turbohire"
-    },
-    {
-      "path": "components/knowbe4"
-    },
-    {
-      "path": "components/salestown"
-    },
-    {
-      "path": "components/iqair_airvisual"
-    },
-    {
       "path": "components/waitwhile"
-    },
-    {
-      "path": "components/meetup"
-    },
-    {
-      "path": "components/vk"
     },
     {
       "path": "components/google_recaptcha"
@@ -332,31 +119,10 @@
       "path": "components/shipcloud"
     },
     {
-      "path": "components/growsurf"
-    },
-    {
-      "path": "components/sailpoint"
-    },
-    {
-      "path": "components/snapdocs"
-    },
-    {
-      "path": "components/lodgify"
-    },
-    {
-      "path": "components/sailpoint_personal_token"
-    },
-    {
-      "path": "components/twelve_data"
-    },
-    {
       "path": "components/docupilot"
     },
     {
       "path": "components/repuso"
-    },
-    {
-      "path": "components/razorpay"
     },
     {
       "path": "components/neverbounce"
@@ -365,403 +131,46 @@
       "path": "components/verdict_as_a_service"
     },
     {
-      "path": "components/wix"
-    },
-    {
-      "path": "components/wishpond"
-    },
-    {
-      "path": "components/nusii_proposals"
-    },
-    {
-      "path": "components/sendblue"
-    },
-    {
-      "path": "components/zuora"
-    },
-    {
       "path": "components/mailboxvalidator"
-    },
-    {
-      "path": "components/freshbooks"
     },
     {
       "path": "components/mattermost"
     },
     {
-      "path": "components/karbon"
-    },
-    {
-      "path": "components/dynatrace_api"
-    },
-    {
-      "path": "components/gender_api"
-    },
-    {
-      "path": "components/sms_magic"
-    },
-    {
-      "path": "components/mailcoach"
-    },
-    {
-      "path": "components/mozilla_observatory"
-    },
-    {
-      "path": "components/mx_toolbox"
-    },
-    {
-      "path": "components/nano_nets"
-    },
-    {
-      "path": "components/dispatch"
-    },
-    {
-      "path": "components/edapp"
-    },
-    {
-      "path": "components/nozbe_teams"
-    },
-    {
-      "path": "components/elopage"
-    },
-    {
-      "path": "components/simpletexting"
-    },
-    {
-      "path": "components/pilvio"
-    },
-    {
-      "path": "components/logoraisr"
-    },
-    {
-      "path": "components/firmalyzer_iotvas"
-    },
-    {
-      "path": "components/rat_genome_database"
-    },
-    {
-      "path": "components/samcart"
-    },
-    {
-      "path": "components/textmagic"
-    },
-    {
-      "path": "components/talentlms"
-    },
-    {
       "path": "components/buy_me_a_coffee"
-    },
-    {
-      "path": "components/idealpostcodes"
-    },
-    {
-      "path": "components/enigma"
-    },
-    {
-      "path": "components/graphhopper"
-    },
-    {
-      "path": "components/humanitix"
-    },
-    {
-      "path": "components/manifestly_checklists"
-    },
-    {
-      "path": "components/sportsdata"
-    },
-    {
-      "path": "components/labs64_netlicensing"
-    },
-    {
-      "path": "components/idealspot"
-    },
-    {
-      "path": "components/rawg_video_games_database"
-    },
-    {
-      "path": "components/neutrino"
-    },
-    {
-      "path": "components/uk_gov_vehecle_enquiry_api"
-    },
-    {
-      "path": "components/facturadirecta"
-    },
-    {
-      "path": "components/plasmic"
-    },
-    {
-      "path": "components/orbisx"
-    },
-    {
-      "path": "components/simplehash"
-    },
-    {
-      "path": "components/hygraph"
-    },
-    {
-      "path": "components/td_ameritrade"
-    },
-    {
-      "path": "components/you_can_book_me"
-    },
-    {
-      "path": "components/mobile_text_alerts"
-    },
-    {
-      "path": "components/snyk"
     },
     {
       "path": "components/kanbanflow"
     },
     {
-      "path": "components/terminus_app"
-    },
-    {
-      "path": "components/nightfall_ai"
-    },
-    {
-      "path": "components/octopus_deploy"
-    },
-    {
-      "path": "components/kartra"
-    },
-    {
       "path": "components/clientary"
-    },
-    {
-      "path": "components/faire"
-    },
-    {
-      "path": "components/talenox"
-    },
-    {
-      "path": "components/rudderstack"
     },
     {
       "path": "components/baserow"
     },
     {
-      "path": "components/rudderstack_transformation"
-    },
-    {
-      "path": "components/loqate"
-    },
-    {
       "path": "components/yelp"
-    },
-    {
-      "path": "components/mav"
-    },
-    {
-      "path": "components/n8n_io"
-    },
-    {
-      "path": "components/mode"
-    },
-    {
-      "path": "components/levity"
-    },
-    {
-      "path": "components/kakao"
-    },
-    {
-      "path": "components/smartrmail"
-    },
-    {
-      "path": "components/rapid7_insight_platform"
-    },
-    {
-      "path": "components/route4me"
     },
     {
       "path": "components/cloudmersive"
     },
     {
-      "path": "components/keen_io"
-    },
-    {
-      "path": "components/ryver"
-    },
-    {
       "path": "components/practitest"
-    },
-    {
-      "path": "components/revamp_crm"
-    },
-    {
-      "path": "components/easy_projects"
-    },
-    {
-      "path": "components/formsite"
-    },
-    {
-      "path": "components/forms_on_fire"
-    },
-    {
-      "path": "components/oneuptime"
-    },
-    {
-      "path": "components/kyvio"
-    },
-    {
-      "path": "components/softledger"
     },
     {
       "path": "components/raven_tools"
     },
     {
-      "path": "components/mobilemonkey"
-    },
-    {
-      "path": "components/pirate_weather"
-    },
-    {
-      "path": "components/hubspot_developer_app"
-    },
-    {
-      "path": "components/newslit"
-    },
-    {
-      "path": "components/gatekeeper"
-    },
-    {
       "path": "components/salesmate"
-    },
-    {
-      "path": "components/grafbase"
-    },
-    {
-      "path": "components/getswift"
-    },
-    {
-      "path": "components/lahar"
-    },
-    {
-      "path": "components/questionpro"
-    },
-    {
-      "path": "components/float"
-    },
-    {
-      "path": "components/givingfuel"
-    },
-    {
-      "path": "components/formdesk"
-    },
-    {
-      "path": "components/hub_planner"
-    },
-    {
-      "path": "components/pobuca_connect"
-    },
-    {
-      "path": "components/processplan"
-    },
-    {
-      "path": "components/leadboxer"
     },
     {
       "path": "components/reversecontact"
     },
     {
-      "path": "components/gupshup"
-    },
-    {
-      "path": "components/follow_up_boss"
-    },
-    {
-      "path": "components/lexoffice"
-    },
-    {
-      "path": "components/remarkety"
-    },
-    {
-      "path": "components/lessaccounting"
-    },
-    {
-      "path": "components/schedule_it"
-    },
-    {
-      "path": "components/trainual"
-    },
-    {
-      "path": "components/time_tracker_by_ebillity"
-    },
-    {
-      "path": "components/trint"
-    },
-    {
-      "path": "components/whosonlocation"
-    },
-    {
-      "path": "components/yumpu"
-    },
-    {
-      "path": "components/reviews_io"
-    },
-    {
-      "path": "components/sendlane"
-    },
-    {
-      "path": "components/emelia"
-    },
-    {
-      "path": "components/scoro"
-    },
-    {
-      "path": "components/tapfiliate"
-    },
-    {
-      "path": "components/smartreach"
-    },
-    {
-      "path": "components/serwersms_pl"
-    },
-    {
-      "path": "components/moco"
-    },
-    {
       "path": "components/coassemble"
     },
     {
-      "path": "components/solarwinds_service_desk"
-    },
-    {
-      "path": "components/sms_it"
-    },
-    {
-      "path": "components/swiftype"
-    },
-    {
-      "path": "components/talkspirit"
-    },
-    {
-      "path": "components/teamwave"
-    },
-    {
-      "path": "components/wire2air"
-    },
-    {
-      "path": "components/ones2u"
-    },
-    {
-      "path": "components/onesec_mail"
-    },
-    {
-      "path": "components/moonmail"
-    },
-    {
       "path": "components/lemon_squeezy"
-    },
-    {
-      "path": "components/simple_analytics"
-    },
-    {
-      "path": "components/planso_forms"
-    },
-    {
-      "path": "components/learndash"
     },
     {
       "path": "components/mailbluster"
@@ -770,109 +179,7 @@
       "path": "components/formatting"
     },
     {
-      "path": "components/t2m_url_shortener"
-    },
-    {
-      "path": "components/groundhogg"
-    },
-    {
       "path": "components/resend"
-    },
-    {
-      "path": "components/grab_your_reviews"
-    },
-    {
-      "path": "components/platform_ly"
-    },
-    {
-      "path": "components/freedcamp"
-    },
-    {
-      "path": "components/docraptor"
-    },
-    {
-      "path": "components/oxford_dictionaries"
-    },
-    {
-      "path": "components/fivetran"
-    },
-    {
-      "path": "components/successeve"
-    },
-    {
-      "path": "components/form_io"
-    },
-    {
-      "path": "components/fluent_support"
-    },
-    {
-      "path": "components/mainwp"
-    },
-    {
-      "path": "components/tutor_lms"
-    },
-    {
-      "path": "components/newsletter"
-    },
-    {
-      "path": "components/dokan"
-    },
-    {
-      "path": "components/yoast_seo"
-    },
-    {
-      "path": "components/woopra"
-    },
-    {
-      "path": "components/lifterlms"
-    },
-    {
-      "path": "components/simplekpi"
-    },
-    {
-      "path": "components/writesonic"
-    },
-    {
-      "path": "components/grade_us"
-    },
-    {
-      "path": "components/telesign"
-    },
-    {
-      "path": "components/go_upc"
-    },
-    {
-      "path": "components/warpcast"
-    },
-    {
-      "path": "components/logsnag"
-    },
-    {
-      "path": "components/studio_by_ai21_labs"
-    },
-    {
-      "path": "components/luminous"
-    },
-    {
-      "path": "components/scrapingbee"
-    },
-    {
-      "path": "components/saucelabs"
-    },
-    {
-      "path": "components/humanloop"
-    },
-    {
-      "path": "components/smarty"
-    },
-    {
-      "path": "components/watchsignals"
-    },
-    {
-      "path": "components/idx_broker"
-    },
-    {
-      "path": "components/rytr"
     },
     {
       "path": "components/team_up"
@@ -884,124 +191,10 @@
       "path": "components/twitter"
     },
     {
-      "path": "components/perry_github_test"
-    },
-    {
-      "path": "components/mindmeister"
-    },
-    {
-      "path": "components/key_app_demo_1"
-    },
-    {
-      "path": "components/slack_demo_app"
-    },
-    {
-      "path": "components/slack_demo_app_1"
-    },
-    {
-      "path": "components/oauth_app_demo"
-    },
-    {
-      "path": "components/oauth_app_demo_1"
-    },
-    {
-      "path": "components/signrequest"
-    },
-    {
-      "path": "components/utradea"
-    },
-    {
       "path": "components/currencyscoop"
     },
     {
-      "path": "components/selectpdf"
-    },
-    {
-      "path": "components/nasdaq_data_link_time_series_and_table_data_"
-    },
-    {
-      "path": "components/metatext_ai_inference_api"
-    },
-    {
-      "path": "components/textgain"
-    },
-    {
-      "path": "components/marketstack"
-    },
-    {
-      "path": "components/plisio"
-    },
-    {
       "path": "components/concord"
-    },
-    {
-      "path": "components/portfolio_optimizer"
-    },
-    {
-      "path": "components/liondesk"
-    },
-    {
-      "path": "components/implisense_api"
-    },
-    {
-      "path": "components/digistore24"
-    },
-    {
-      "path": "components/kintone"
-    },
-    {
-      "path": "components/stealthseminar"
-    },
-    {
-      "path": "components/survicate"
-    },
-    {
-      "path": "components/finmo"
-    },
-    {
-      "path": "components/sierra_interactive"
-    },
-    {
-      "path": "components/thankster"
-    },
-    {
-      "path": "components/ez_texting"
-    },
-    {
-      "path": "components/handwrytten"
-    },
-    {
-      "path": "components/focuster"
-    },
-    {
-      "path": "components/retool"
-    },
-    {
-      "path": "components/hotjar"
-    },
-    {
-      "path": "components/respond_io"
-    },
-    {
-      "path": "components/sakari_sms"
-    },
-    {
-      "path": "components/encharge"
-    },
-    {
-      "path": "components/fastfield_mobile_forms"
-    },
-    {
-      "path": "components/facebook_conversions"
-    },
-    {
-      "path": "components/facebook_lead_ads"
-    },
-    {
-      "path": "components/funnelcockpit"
-    },
-    {
-      "path": "components/pendo"
     },
     {
       "path": "components/google_my_business"
@@ -1011,39 +204,6 @@
     },
     {
       "path": "components/zoho_assist"
-    },
-    {
-      "path": "components/google_fit_developer_app"
-    },
-    {
-      "path": "components/sugarcrm_"
-    },
-    {
-      "path": "components/wicked_reports"
-    },
-    {
-      "path": "components/placetel"
-    },
-    {
-      "path": "components/popupsmart"
-    },
-    {
-      "path": "components/survey2connect"
-    },
-    {
-      "path": "components/starton"
-    },
-    {
-      "path": "components/httpsms"
-    },
-    {
-      "path": "components/quickmail_io"
-    },
-    {
-      "path": "components/onepage"
-    },
-    {
-      "path": "components/ez_texting_"
     }
   ]
 }

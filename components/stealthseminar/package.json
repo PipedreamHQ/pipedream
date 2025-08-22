@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/stealthseminar",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream StealthSeminar Components",
-  "main": "dist/app/stealthseminar.app.mjs",
+  "main": "stealthseminar.app.mjs",
   "keywords": [
     "pipedream",
     "stealthseminar"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/stealthseminar",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

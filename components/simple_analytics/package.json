@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/simple_analytics",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Simple Analytics Components",
-  "main": "dist/app/simple_analytics.app.mjs",
+  "main": "simple_analytics.app.mjs",
   "keywords": [
     "pipedream",
     "simple_analytics"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/simple_analytics",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

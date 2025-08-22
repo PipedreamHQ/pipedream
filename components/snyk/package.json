@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/snyk",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Snyk Components",
-  "main": "dist/app/snyk.app.mjs",
+  "main": "snyk.app.mjs",
   "keywords": [
     "pipedream",
     "snyk"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/snyk",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

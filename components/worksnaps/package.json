@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/worksnaps",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Worksnaps Components",
-  "main": "dist/app/worksnaps.app.mjs",
+  "main": "worksnaps.app.mjs",
   "keywords": [
     "pipedream",
     "worksnaps"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/worksnaps",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

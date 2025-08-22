@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/simplekpi",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream SimpleKPI Components",
-  "main": "dist/app/simplekpi.app.mjs",
+  "main": "simplekpi.app.mjs",
   "keywords": [
     "pipedream",
     "simplekpi"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/simplekpi",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

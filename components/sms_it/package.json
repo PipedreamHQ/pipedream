@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/sms_it",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream SMS-IT Components",
-  "main": "dist/app/sms_it.app.mjs",
+  "main": "sms_it.app.mjs",
   "keywords": [
     "pipedream",
     "sms_it"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/sms_it",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/you_can_book_me",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream You Can Book Me Components",
-  "main": "dist/app/you_can_book_me.app.mjs",
+  "main": "you_can_book_me.app.mjs",
   "keywords": [
     "pipedream",
     "you_can_book_me"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/you_can_book_me",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
