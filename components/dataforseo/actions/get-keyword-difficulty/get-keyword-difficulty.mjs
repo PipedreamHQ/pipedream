@@ -4,7 +4,7 @@ export default {
   key: "dataforseo-get-keyword-difficulty",
   name: "Get Keyword Difficulty",
   description: "Get Keyword Difficulty. [See the documentation](https://docs.dataforseo.com/v3/dataforseo_labs/google/bulk_keyword_difficulty/live/?bash)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     dataforseo,

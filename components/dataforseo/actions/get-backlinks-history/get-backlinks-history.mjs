@@ -5,7 +5,7 @@ export default {
   name: "Get Backlinks History",
   description:
     "Get historical backlinks data back to the beginning of 2019. [See the documentation](https://docs.dataforseo.com/v3/backlinks/history/live/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   methods: {
     getBacklinksHistory(args = {}) {
