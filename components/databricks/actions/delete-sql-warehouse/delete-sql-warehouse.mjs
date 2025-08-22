@@ -1,0 +1,26 @@
+import databricks from "../../databricks.app.mjs";
+
+export default {
+  key: "databricks-delete-sql-warehouse",
+  name: "Delete SQL Warehouse",
+  description: "Deletes a SQL Warehouse by ID. [See the documentation](https://docs.databricks.com/api/workspace/warehouse/delete)",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    databricks,
+    warehouseId: {
+      type: "string",
+      label: "Warehouse ID",
+      description: "The ID of the SQL Warehouse to delete",
+    },
+  },
+  async run({ $ }) {
+    await this.databricks.deleteSQLWarehouse({
+      warehouseId: this.warehouseId,
+      $,
+    });
+
+    $.export("$summary", `Successfully deleted SQL Warehouse with ID ${this.warehouseId}`);
+    return { success: true };
+  },
+};
