@@ -1785,8 +1785,7 @@ importers:
 
   components/bolt_iot: {}
 
-  components/booking_experts:
-    specifiers: {}
+  components/booking_experts: {}
 
   components/bookingmood: {}
 
@@ -16035,6 +16034,9 @@ importers:
       '@googleapis/youtube':
         specifier: ^6.0.0
         version: 6.0.0
+      '@pipedream/youtube_data_api':
+        specifier: ^1.0.1
+        version: 1.0.1
       got:
         specifier: ^12.5.1
         version: 12.6.1
@@ -20591,6 +20593,9 @@ packages:
 
   '@pipedream/types@0.3.2':
     resolution: {integrity: sha512-sX4UUdEbgCs7JkvyWPLqdtiJkGJ8ishKfo/V4CjH7AhTRuI0oStspphUJI+rj8jqp8nCviw+ba0mRGWlCk+iZQ==}
+
+  '@pipedream/youtube_data_api@1.0.1':
+    resolution: {integrity: sha512-yEh7+PJgzuOY+L8rWjxgb6vIQf+6wL7QyfQLEQ3KTn6dnDdhTTO8+93og7W83FhgmOd1lhUG2jfrmfuSFqHKpg==}
 
   '@pipedreamhq/platform@0.8.1':
     resolution: {integrity: sha512-VMSEi4i5gUXfcbmmXkntTXNCu8uq02lmENh5KHW+PLUHDjX259w5BahdGdD7KWanQSJsyf2BaWXjnEMf9YVEaA==}
@@ -40149,6 +40154,17 @@ snapshots:
   '@pipedream/types@0.3.2':
     dependencies:
       typescript: 5.6.3
+
+  '@pipedream/youtube_data_api@1.0.1':
+    dependencies:
+      '@googleapis/youtube': 6.0.0
+      '@pipedream/platform': 3.1.0
+      got: 14.4.6
+      util: 0.12.5
+    transitivePeerDependencies:
+      - debug
+      - encoding
+      - supports-color
 
   '@pipedreamhq/platform@0.8.1':
     dependencies:
