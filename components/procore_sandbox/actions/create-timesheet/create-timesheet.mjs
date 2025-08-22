@@ -1,4 +1,4 @@
-import component from "../../../procore/actions/create-timesheet/create-timesheet.mjs";
+import component from "@pipedream/procore/actions/create-timesheet/create-timesheet.mjs";
 import utils from "../../common/utils.mjs";
 
 /* eslint-disable pipedream/required-properties-type */

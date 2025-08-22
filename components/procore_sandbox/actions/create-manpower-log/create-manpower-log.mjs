@@ -1,4 +1,4 @@
-import component from "../../../procore/actions/create-manpower-log/create-manpower-log.mjs";
+import component from "@pipedream/procore/actions/create-manpower-log/create-manpower-log.mjs";
 import utils from "../../common/utils.mjs";
 
 /* eslint-disable pipedream/required-properties-type */

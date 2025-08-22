@@ -1,4 +1,4 @@
-import component from "../../../procore/sources/new-budget-snapshot-event-instant/new-budget-snapshot-event-instant.mjs";
+import component from "@pipedream/procore/sources/new-budget-snapshot-event-instant/new-budget-snapshot-event-instant.mjs";
 import utils from "../../common/utils.mjs";
 
 /* eslint-disable pipedream/required-properties-type */

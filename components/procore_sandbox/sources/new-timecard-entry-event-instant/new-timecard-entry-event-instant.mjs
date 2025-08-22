@@ -1,4 +1,4 @@
-import component from "../../../procore/sources/new-timecard-entry-event-instant/new-timecard-entry-event-instant.mjs";
+import component from "@pipedream/procore/sources/new-timecard-entry-event-instant/new-timecard-entry-event-instant.mjs";
 import utils from "../../common/utils.mjs";
 
 /* eslint-disable pipedream/required-properties-type */

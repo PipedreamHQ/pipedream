@@ -1,4 +1,4 @@
-import component from "../../../procore/actions/create-submittal/create-submittal.mjs";
+import component from "@pipedream/procore/actions/create-submittal/create-submittal.mjs";
 import utils from "../../common/utils.mjs";
 
 /* eslint-disable pipedream/required-properties-type */

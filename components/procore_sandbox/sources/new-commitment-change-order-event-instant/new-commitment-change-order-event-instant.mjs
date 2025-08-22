@@ -1,4 +1,4 @@
-import component from "../../../procore/sources/new-commitment-change-order-event-instant/new-commitment-change-order-event-instant.mjs";
+import component from "@pipedream/procore/sources/new-commitment-change-order-event-instant/new-commitment-change-order-event-instant.mjs";
 import utils from "../../common/utils.mjs";
 
 /* eslint-disable pipedream/required-properties-type */
