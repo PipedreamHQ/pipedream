@@ -6,8 +6,8 @@ export default {
   propDefinitions: {
     templateId: {
       type: "string",
-      label: "Template ID",
-      description: "The ID of the template you want to use",
+      label: "Template",
+      description: "The selected template",
       async options() {
         const response = await this.listTemplates();
         return response.map(template => ({
@@ -45,6 +45,19 @@ export default {
       return this.makeRequest({
         $,
         path: "/template",
+      });
+    },
+    async getTemplate($ = this, templateId) {
+      return this.makeRequest({
+        $,
+        path: `/template/${templateId}`,
+      });
+    },
+    async deleteTemplate($ = this, templateId) {
+      return this.makeRequest({
+        $,
+        method: "DELETE",
+        path: `/template/${templateId}`,
       });
     },
   },
