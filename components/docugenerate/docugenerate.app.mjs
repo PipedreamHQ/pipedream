@@ -10,7 +10,7 @@ export default {
       description: "The ID of the template you want to use",
       async options() {
         const response = await this.listTemplates();
-        return response.data.map(template => ({
+        return response.map(template => ({
           label: template.name,
           value: template.id,
         }));
