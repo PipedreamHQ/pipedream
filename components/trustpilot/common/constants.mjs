@@ -18,10 +18,10 @@ export const ENDPOINTS = {
   PUBLIC_REVIEWS: "/business-units/{businessUnitId}/reviews",
   PUBLIC_REVIEW_BY_ID: "/business-units/{businessUnitId}/reviews/{reviewId}",
 
-  // Private Reviews (Service)
-  PRIVATE_SERVICE_REVIEWS: "/private/business-units/{businessUnitId}/reviews",
-  PRIVATE_SERVICE_REVIEW_BY_ID: "/private/business-units/{businessUnitId}/reviews/{reviewId}",
-  REPLY_TO_SERVICE_REVIEW: "/private/business-units/{businessUnitId}/reviews/{reviewId}/reply",
+  // Service Reviews
+  SERVICE_REVIEWS: "/reviews",
+  SERVICE_REVIEW_BY_ID: "/reviews/{reviewId}",
+  REPLY_TO_SERVICE_REVIEW: "/private/reviews/{reviewId}/reply",
 
   // Public Reviews (Product)
   PUBLIC_PRODUCT_REVIEWS: "/product-reviews/business-units/{businessUnitId}/reviews",
@@ -30,12 +30,12 @@ export const ENDPOINTS = {
   // Private Reviews (Product)
   PRIVATE_PRODUCT_REVIEWS: "/private/product-reviews/business-units/{businessUnitId}/reviews",
   PRIVATE_PRODUCT_REVIEW_BY_ID: "/private/product-reviews/{reviewId}",
-  REPLY_TO_PRODUCT_REVIEW: "/private/product-reviews/{reviewId}/reply",
+  CREATE_CONVERSATION_FOR_REVIEW: "/private/product-reviews/{reviewId}/create-conversation",
 
   // Conversations
   CONVERSATIONS: "/private/conversations",
   CONVERSATION_BY_ID: "/private/conversations/{conversationId}",
-  REPLY_TO_CONVERSATION: "/private/conversations/{conversationId}/reply",
+  REPLY_TO_CONVERSATION: "/private/conversations/{conversationId}/comments",
 
   // Invitations
   EMAIL_INVITATIONS: "/private/business-units/{businessUnitId}/email-invitations",

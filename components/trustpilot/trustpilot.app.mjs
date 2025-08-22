@@ -335,7 +335,7 @@ export default defineApp({
       }
 
       const response = await this._makeRequestWithRetry({
-        endpoint: endpoint || ENDPOINTS.PRIVATE_SERVICE_REVIEWS,
+        endpoint: endpoint || ENDPOINTS.SERVICE_REVIEWS,
         params,
       });
 
@@ -371,7 +371,7 @@ export default defineApp({
         throw new Error("Invalid review ID");
       }
 
-      const endpoint = buildUrl(ENDPOINTS.PRIVATE_SERVICE_REVIEW_BY_ID, {
+      const endpoint = buildUrl(ENDPOINTS.SERVICE_REVIEW_BY_ID, {
         businessUnitId,
         reviewId,
       });
@@ -455,11 +455,28 @@ export default defineApp({
         throw new Error("Reply message cannot be empty after sanitization");
       }
 
-      const endpoint = buildUrl(ENDPOINTS.REPLY_TO_PRODUCT_REVIEW, {
+      const review = await this.getProductReviewById({
         reviewId,
       });
+
+      let conversationId = review.conversationId;
+
+      if (!conversationId) {
+        const createConversationEndpoint = buildUrl(ENDPOINTS.CREATE_CONVERSATION_FOR_REVIEW, {
+          reviewId,
+        });
+        const createConversationResponse = await this._makeRequest({
+          endpoint: createConversationEndpoint,
+          method: "POST",
+        });
+        conversationId = createConversationResponse.conversationId;
+      }
+
+      const replyToConversationEndpoint = buildUrl(ENDPOINTS.REPLY_TO_CONVERSATION, {
+        conversationId,
+      });
       const response = await this._makeRequest({
-        endpoint,
+        endpoint: replyToConversationEndpoint,
         method: "POST",
         data: {
           message: sanitizedMessage,
