@@ -131,7 +131,7 @@ export default {
     theme: {
       type: "string",
       label: "Theme",
-      description: "The theme used for styling the input fields. This will not apply if the form is added to a HubSpot CMS page`.",
+      description: "The theme used for styling the input fields. This will not apply if the form is added to a HubSpot CMS page.",
       options: [
         "default_style",
         "canvas",
