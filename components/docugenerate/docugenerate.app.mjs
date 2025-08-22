@@ -60,5 +60,11 @@ export default {
         path: `/template/${templateId}`,
       });
     },
+    async listDocuments($ = this, templateId) {
+      return this.makeRequest({
+        $,
+        path: `/document?template_id=${templateId}`,
+      });
+    },
   },
 };

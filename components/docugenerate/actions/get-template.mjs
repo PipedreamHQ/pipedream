@@ -3,7 +3,7 @@ import app from "../docugenerate.app.mjs";
 export default {
   key: "docugenerate-get-template",
   name: "Get Template",
-  description: "Retrieves a specific template from your DocuGenerate account",
+  description: "Retrieves a specific template",
   version: "0.0.3",
   type: "action",
   props: {
