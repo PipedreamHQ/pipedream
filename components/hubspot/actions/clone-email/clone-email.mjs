@@ -4,7 +4,7 @@ import hubspot from "../../hubspot.app.mjs";
 export default {
   key: "hubspot-clone-email",
   name: "Clone Marketing Email",
-  description: "Clone a marketing email in Hubspot. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/emails/marketing-emails#post-%2Fmarketing%2Fv3%2Femails%2Fclone)",
+  description: "Clone a marketing email in HubSpot. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/emails/marketing-emails#post-%2Fmarketing%2Fv3%2Femails%2Fclone)",
   version: "0.0.1",
   type: "action",
   props: {
