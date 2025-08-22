@@ -6,7 +6,7 @@ export default {
   key: "youtube_data_api-reply-to-comment",
   name: "Reply To Comment",
   description: "Creates a reply to an existing comment. [See the documentation](https://developers.google.com/youtube/v3/docs/comments/insert) for more information",
-  version: "0.0.3",
+  version: "0.0.2",
   type: "action",
   props: {
     youtubeDataApi,

@@ -6,7 +6,7 @@ export default {
   key: "youtube_data_api-add-playlist-items",
   name: "Add Playlist Items",
   description: "Adds resources to a playlist. [See the documentation](https://developers.google.com/youtube/v3/docs/playlistItems/insert) for more information",
-  version: "0.0.3",
+  version: "0.0.2",
   type: "action",
   props: {
     youtubeDataApi,

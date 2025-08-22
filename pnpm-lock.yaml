@@ -5528,6 +5528,9 @@ importers:
 
   components/gitlab_developer_app:
     dependencies:
+      '@pipedream/gitlab':
+        specifier: ^0.5.6
+        version: 0.5.6
       '@pipedream/platform':
         specifier: ^1.6.4
         version: 1.6.6
@@ -20465,6 +20468,9 @@ packages:
 
   '@pipedream/eslint-plugin-pipedream@0.2.5':
     resolution: {integrity: sha512-99e88TuaQM9VGc64JlJueuk+3dCyuNuxOqTPCVg+QLbfzqovHnDHZ5cHqkzPjDLtFsFrAucIANIcgKcb0YAoxg==}
+
+  '@pipedream/gitlab@0.5.6':
+    resolution: {integrity: sha512-HoGZjfI5z5cUU4KPo9f0QJ4pLS+jMaK5132OQwlnzJ3FbqH+MSBxqQoRNoOcBfjGfEYfRRbs1wId592uC6nVmg==}
 
   '@pipedream/google_drive@0.8.8':
     resolution: {integrity: sha512-cwRCfFv86+GW0G3huAzhXCPvZ+BWaQ+KAeOlGUJBCK1sPsHzNWY1sOAOvDKDVPh1xiSyCzO29+e9UynCfcCSrw==}
@@ -39801,6 +39807,14 @@ snapshots:
       - debug
 
   '@pipedream/eslint-plugin-pipedream@0.2.5': {}
+
+  '@pipedream/gitlab@0.5.6':
+    dependencies:
+      '@pipedream/platform': 1.6.6
+      lodash: 4.17.21
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - debug
 
   '@pipedream/google_drive@0.8.8':
     dependencies:

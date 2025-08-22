@@ -7,7 +7,7 @@ export default {
   key: "youtube_data_api-new-subscriber",
   name: "New Subscriber",
   description: "Emit new event for each new Youtube subscriber to a user Channel.",
-  version: "0.0.6",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     youtubeDataApi,
