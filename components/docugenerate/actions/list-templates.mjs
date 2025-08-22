@@ -11,8 +11,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.app.listTemplates($);
-    
-    $.export("$summary", `Successfully retrieved ${response.data?.length || 0} templates`);
+    console.log(response);
     return response;
   },
 };

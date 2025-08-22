@@ -44,7 +44,7 @@ export default {
     async listTemplates($ = this) {
       return this.makeRequest({
         $,
-        path: "/templates",
+        path: "/template",
       });
     },
   },
