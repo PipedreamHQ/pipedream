@@ -6,7 +6,7 @@ export default {
   app: "dataforseo",
   propDefinitions: {
     locationCode: {
-      type: "string",
+      type: "integer",
       label: "Location Code",
       description: "The code of the target location",
       async options() {
@@ -20,12 +20,27 @@ export default {
         }));
       },
     },
+    tripAdvisorLocationCode: {
+      type: "integer",
+      label: "Location Code",
+      description: "The code of the target location",
+      async options({ countryCode }) {
+        const response = await this.getTripadvisorLocations({
+          countryCode,
+        });
+        const locationCodes = response.tasks[0].result;
+        return locationCodes?.map(({
+          location_name, location_code,
+        }) => ({
+          value: location_code,
+          label: location_name,
+        })) || [];
+      },
+    },
     locationCoordinate: {
       type: "string",
       label: "Location Coordinate",
-      description:
-        "The location to search, in the format `latitude,longitude,radius` where radius is specified in kilometers. Example: `53.476225,-2.243572,200`",
-
+      description: "The location to search, in the format `latitude,longitude,radius` where radius is specified in kilometers. Example: `53.476225,-2.243572,200`",
     },
     targetType: {
       type: "string",
@@ -36,13 +51,12 @@ export default {
     target: {
       type: "string",
       label: "Target",
-      description: "The domain name or the url of the target website or page",
+      description: "The domain name or the url of the target website or page. The domain should be specified without https:// and www.",
     },
     backlinksTarget: {
       type: "string",
       label: "Target",
-      description:
-        "Domain, subdomain or webpage to get data for. A domain or a subdomain should be specified without `https://` and `www`. A page should be specified with absolute URL (including `http://` or `https://`",
+      description: "Domain, subdomain or webpage to get data for. A domain or a subdomain should be specified without `https://` and `www`. A page should be specified with absolute URL (including `http://` or `https://`)",
     },
     categories: {
       type: "string[]",
@@ -69,9 +83,9 @@ export default {
       optional: true,
     },
     limit: {
-      type: "string",
+      type: "integer",
       label: "Limit",
-      description: "The maximum number of returned businesses",
+      description: "The maximum number of results to return. Maximum: 1000",
       optional: true,
     },
     languageCode: {
@@ -104,8 +118,7 @@ export default {
     rankScale: {
       type: "string",
       label: "Rank Scale",
-      description:
-        "Whether rank values are presented on a 0-100 or 0-1000 scale",
+      description: "Whether rank values are presented on a 0-100 or 0-1000 scale",
       optional: true,
       options: [
         "one_hundred",
@@ -116,36 +129,31 @@ export default {
     tag: {
       type: "string",
       label: "Tag",
-      description:
-        "You can use this parameter to identify the task and match it with the result.",
+      description: "You can use this parameter to identify the task and match it with the result.",
       optional: true,
     },
     includeSubdomains: {
       type: "boolean",
       label: "Include Subdomains",
-      description:
-        "Whether the subdomains of the `target` will be included in the search. Default is `true`",
+      description: "Whether the subdomains of the `target` will be included in the search. Default is `true`",
       optional: true,
     },
     includeIndirectLinks: {
       type: "boolean",
       label: "Include Indirect Links",
-      description:
-        "Whether indirect links to the target will be included in the results. Default is `true`",
+      description: "Whether indirect links to the target will be included in the results. Default is `true`",
       optional: true,
     },
     excludeInternalBacklinks: {
       type: "boolean",
       label: "Exclude Internal Backlinks",
-      description:
-        "Indicates if internal backlinks from subdomains to the target will be excluded from the results. Default is `true`",
+      description: "Indicates if internal backlinks from subdomains to the target will be excluded from the results. Default is `true`",
       optional: true,
     },
     backlinksStatusType: {
       type: "string",
       label: "Backlinks Status Type",
-      description:
-        "You can use this field to choose what backlinks will be returned and used for aggregated metrics for your target",
+      description: "You can use this field to choose what backlinks will be returned and used for aggregated metrics for your target",
       optional: true,
       options: [
         {
@@ -180,7 +188,7 @@ export default {
     _baseUrl() {
       return "https://api.dataforseo.com/v3";
     },
-    async _makeRequest(opts = {}) {
+    _makeRequest(opts = {}) {
       const {
         $ = this,
         path,
@@ -195,36 +203,318 @@ export default {
         },
       });
     },
-    async getKeywordDifficulty(args = {}) {
+    getKeywordDifficulty(args = {}) {
       return this._makeRequest({
         path: "/dataforseo_labs/google/bulk_keyword_difficulty/live",
         method: "post",
         ...args,
       });
     },
-    async getBusinessListings(args = {}) {
+    getBusinessListings(args = {}) {
       return this._makeRequest({
         path: "/business_data/business_listings/search/live",
         method: "post",
         ...args,
       });
     },
-    async getRankedKeywords(args = {}) {
+    getRankedKeywords(args = {}) {
       return this._makeRequest({
         path: "/keywords_data/google_ads/keywords_for_site/live",
         method: "post",
         ...args,
       });
     },
-    async getLanguageCode(args = {}) {
+    getLanguageCode(args = {}) {
       return this._makeRequest({
         path: "/keywords_data/google_ads/languages",
         ...args,
       });
     },
-    async getLocations(args = {}) {
+    getLocations(args = {}) {
       return this._makeRequest({
         path: "/serp/google/ads_search/locations",
+        ...args,
+      });
+    },
+    getKeywordDataIdList(args = {}) {
+      return this._makeRequest({
+        path: "/keywords_data/id_list",
+        method: "post",
+        ...args,
+      });
+    },
+    getKeywordDataErrors(args = {}) {
+      return this._makeRequest({
+        path: "/keywords_data/errors",
+        method: "post",
+        ...args,
+      });
+    },
+    getGoogleAdsStatus(args = {}) {
+      return this._makeRequest({
+        path: "/keywords_data/google_ads/status",
+        ...args,
+      });
+    },
+    getGoogleAdsLocations({
+      countryCode, ...args
+    }) {
+      return this._makeRequest({
+        path: `/keywords_data/google_ads/locations/${countryCode}`,
+        ...args,
+      });
+    },
+    getTripadvisorLocations({
+      countryCode, ...args
+    }) {
+      return this._makeRequest({
+        path: `/business_data/tripadvisor/locations/${countryCode}`,
+        ...args,
+      });
+    },
+    getGoogleAdsLanguages(args = {}) {
+      return this._makeRequest({
+        path: "/keywords_data/google_ads/languages",
+        ...args,
+      });
+    },
+    getGoogleAdsSearchVolume(args = {}) {
+      return this._makeRequest({
+        path: "/keywords_data/google_ads/search_volume/live",
+        method: "post",
+        ...args,
+      });
+    },
+    getGoogleAdsSearchVolumeCompletedTasks(args = {}) {
+      return this._makeRequest({
+        path: "/keywords_data/google_ads/search_volume/tasks_ready",
+        ...args,
+      });
+    },
+    getGoogleAdsKeywordsForSiteCompletedTasks(args = {}) {
+      return this._makeRequest({
+        path: "/keywords_data/google_ads/keywords_for_site/tasks_ready",
+        ...args,
+      });
+    },
+    getGoogleAdsKeywordsForKeywords(args = {}) {
+      return this._makeRequest({
+        path: "/keywords_data/google_ads/keywords_for_keywords/live",
+        method: "post",
+        ...args,
+      });
+    },
+    getGoogleAdsKeywordsForKeywordsCompletedTasks(args = {}) {
+      return this._makeRequest({
+        path: "/keywords_data/google_ads/keywords_for_keywords/tasks_ready",
+        ...args,
+      });
+    },
+    getGoogleAdsAdTrafficByKeywords(args = {}) {
+      return this._makeRequest({
+        path: "/keywords_data/google_ads/ad_traffic_by_keywords/live",
+        method: "post",
+        ...args,
+      });
+    },
+    getGoogleAdsAdTrafficByKeywordsCompletedTasks(args = {}) {
+      return this._makeRequest({
+        path: "/keywords_data/google_ads/ad_traffic_by_keywords/tasks_ready",
+        ...args,
+      });
+    },
+    getGoogleOrganicResults(args = {}) {
+      return this._makeRequest({
+        path: "/serp/google/organic/live/regular",
+        method: "post",
+        ...args,
+      });
+    },
+    getGoogleImagesResults(args = {}) {
+      return this._makeRequest({
+        path: "/serp/google/images/live/advanced",
+        method: "post",
+        ...args,
+      });
+    },
+    getGoogleNewsResults(args = {}) {
+      return this._makeRequest({
+        path: "/serp/google/news/live/advanced",
+        method: "post",
+        ...args,
+      });
+    },
+    getBingOrganicResults(args = {}) {
+      return this._makeRequest({
+        path: "/serp/bing/organic/live/regular",
+        method: "post",
+        ...args,
+      });
+    },
+    getYahooOrganicResults(args = {}) {
+      return this._makeRequest({
+        path: "/serp/yahoo/organic/live/regular",
+        method: "post",
+        ...args,
+      });
+    },
+    getDomainRankOverview(args = {}) {
+      return this._makeRequest({
+        path: "/dataforseo_labs/google/domain_rank_overview/live",
+        method: "post",
+        ...args,
+      });
+    },
+    getCompetitorDomains(args = {}) {
+      return this._makeRequest({
+        path: "/dataforseo_labs/google/competitors_domain/live",
+        method: "post",
+        ...args,
+      });
+    },
+    getDomainKeywords(args = {}) {
+      return this._makeRequest({
+        path: "/dataforseo_labs/google/ranked_keywords/live",
+        method: "post",
+        ...args,
+      });
+    },
+    getKeywordSuggestions(args = {}) {
+      return this._makeRequest({
+        path: "/dataforseo_labs/google/keyword_suggestions/live",
+        method: "post",
+        ...args,
+      });
+    },
+    getHistoricalSerpData(args = {}) {
+      return this._makeRequest({
+        path: "/dataforseo_labs/google/historical_serps/live",
+        method: "post",
+        ...args,
+      });
+    },
+    getDomainIntersection(args = {}) {
+      return this._makeRequest({
+        path: "/dataforseo_labs/google/domain_intersection/live",
+        method: "post",
+        ...args,
+      });
+    },
+    getTopSerpResults(args = {}) {
+      return this._makeRequest({
+        path: "/dataforseo_labs/google/serp_competitors/live",
+        method: "post",
+        ...args,
+      });
+    },
+    getKeywordIdeasLive(args = {}) {
+      return this._makeRequest({
+        path: "/dataforseo_labs/google/keyword_ideas/live",
+        method: "post",
+        ...args,
+      });
+    },
+    getDomainWhoisOverview(args = {}) {
+      return this._makeRequest({
+        path: "/domain_analytics/whois/overview/live",
+        method: "post",
+        ...args,
+      });
+    },
+    getTechnologiesDomainList(args = {}) {
+      return this._makeRequest({
+        path: "/domain_analytics/technologies/domain_technologies/live",
+        method: "post",
+        ...args,
+      });
+    },
+    getAppIntersection(args = {}) {
+      return this._makeRequest({
+        path: "/dataforseo_labs/google/app_intersection/live",
+        method: "post",
+        ...args,
+      });
+    },
+    getBulkTrafficAnalytics(args = {}) {
+      return this._makeRequest({
+        path: "/dataforseo_labs/google/bulk_traffic_estimation/live",
+        method: "post",
+        ...args,
+      });
+    },
+    getGoogleMyBusinessInfo(args = {}) {
+      return this._makeRequest({
+        path: "/business_data/google/my_business_info/live",
+        method: "post",
+        ...args,
+      });
+    },
+    getTrustpilotReviews(args = {}) {
+      return this._makeRequest({
+        path: "/business_data/trustpilot/reviews/task_post",
+        method: "post",
+        ...args,
+      });
+    },
+    getTripadvisorReviews(args = {}) {
+      return this._makeRequest({
+        path: "/business_data/tripadvisor/reviews/task_post",
+        method: "post",
+        ...args,
+      });
+    },
+    getGoogleReviews(args = {}) {
+      return this._makeRequest({
+        path: "/business_data/google/reviews/task_post",
+        method: "post",
+        ...args,
+      });
+    },
+    getBusinessListingsCategories(args = {}) {
+      return this._makeRequest({
+        path: "/business_data/business_listings/categories",
+        ...args,
+      });
+    },
+    getAppStoreSearch(args = {}) {
+      return this._makeRequest({
+        path: "/app_data/apple/app_searches/task_post",
+        method: "post",
+        ...args,
+      });
+    },
+    getGooglePlaySearch(args = {}) {
+      return this._makeRequest({
+        path: "/app_data/google/app_searches/task_post",
+        method: "post",
+        ...args,
+      });
+    },
+    getAppReviewsSummary(args = {}) {
+      return this._makeRequest({
+        path: "/app_data/apple/app_reviews/task_post",
+        method: "post",
+        ...args,
+      });
+    },
+    getContentCitations(args = {}) {
+      return this._makeRequest({
+        path: "/content_analysis/search/live",
+        method: "post",
+        ...args,
+      });
+    },
+    getSentimentAnalysis(args = {}) {
+      return this._makeRequest({
+        path: "/content_analysis/sentiment_analysis/live",
+        method: "post",
+        ...args,
+      });
+    },
+    getContentSummary(args = {}) {
+      return this._makeRequest({
+        path: "/content_analysis/summary/live",
+        method: "post",
         ...args,
       });
     },
