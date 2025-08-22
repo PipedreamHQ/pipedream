@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/signrequest",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream SignRequest Components",
-  "main": "dist/app/signrequest.app.mjs",
+  "main": "signrequest.app.mjs",
   "keywords": [
     "pipedream",
     "signrequest"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/signrequest",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

@@ -5,7 +5,7 @@ export default {
   key: "zep-new-session",
   name: "New Session Created",
   description: "Emit new event when a new session is created in Zep. [See the documentation](https://help.getzep.com/api-reference/memory/list-sessions)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

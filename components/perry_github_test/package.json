@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/perry_github_test",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream github test app Components",
-  "main": "dist/app/perry_github_test.app.mjs",
+  "main": "perry_github_test.app.mjs",
   "keywords": [
     "pipedream",
     "perry_github_test"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/perry_github_test",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

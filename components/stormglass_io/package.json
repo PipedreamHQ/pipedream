@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/stormglass_io",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream stormglass.io Components",
-  "main": "dist/app/stormglass_io.app.mjs",
+  "main": "stormglass_io.app.mjs",
   "keywords": [
     "pipedream",
     "stormglass_io"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/stormglass_io",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

@@ -3,9 +3,9 @@ import common from "../common/base.mjs";
 export default {
   ...common,
   key: "zep-session-updated",
-  name: "Session Updated",
+  name: "New Session Updated",
   description: "Emit new event when an existing session is updated. [See the documentation](https://help.getzep.com/api-reference/memory/list-sessions)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

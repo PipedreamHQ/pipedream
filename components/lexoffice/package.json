@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/lexoffice",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Lexoffice Components",
-  "main": "dist/app/lexoffice.app.mjs",
+  "main": "lexoffice.app.mjs",
   "keywords": [
     "pipedream",
     "lexoffice"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/lexoffice",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

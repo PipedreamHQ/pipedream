@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/mailrefine",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Mailrefine Components",
-  "main": "dist/app/mailrefine.app.mjs",
+  "main": "mailrefine.app.mjs",
   "keywords": [
     "pipedream",
     "mailrefine"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/mailrefine",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

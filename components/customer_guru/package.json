@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/customer_guru",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Customer.guru Components",
-  "main": "dist/app/customer_guru.app.mjs",
+  "main": "customer_guru.app.mjs",
   "keywords": [
     "pipedream",
     "customer_guru"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/customer_guru",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

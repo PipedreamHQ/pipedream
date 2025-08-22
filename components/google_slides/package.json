@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_slides",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Pipedream Google Slides Components",
   "main": "google_slides.app.mjs",
   "keywords": [

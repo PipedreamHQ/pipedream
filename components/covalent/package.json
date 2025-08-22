@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/covalent",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Covalent Components",
-  "main": "dist/app/covalent.app.mjs",
+  "main": "covalent.app.mjs",
   "keywords": [
     "pipedream",
     "covalent"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/covalent",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

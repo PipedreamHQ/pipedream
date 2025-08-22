@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/form_io",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Form.io Components",
-  "main": "dist/app/form_io.app.mjs",
+  "main": "form_io.app.mjs",
   "keywords": [
     "pipedream",
     "form_io"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/form_io",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

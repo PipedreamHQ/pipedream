@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/strapi",
+  "version": "0.0.1",
+  "description": "Pipedream Strapi Components",
+  "main": "strapi.app.mjs",
+  "keywords": [
+    "pipedream",
+    "strapi"
+  ],
+  "homepage": "https://pipedream.com/apps/strapi",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

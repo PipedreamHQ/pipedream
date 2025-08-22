@@ -5,7 +5,7 @@ export default {
   name: "Get Bulk Referring Domains",
   description:
     "Get the number of referring domains pointing to the specified domains, subdomains, and pages. [See the documentation](https://docs.dataforseo.com/v3/backlinks/bulk_referring_domains/live/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   methods: {
     getBulkReferringDomains(args = {}) {

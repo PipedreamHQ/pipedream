@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/announcekit",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream AnnounceKit Components",
-  "main": "dist/app/announcekit.app.mjs",
+  "main": "announcekit.app.mjs",
   "keywords": [
     "pipedream",
     "announcekit"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/announcekit",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

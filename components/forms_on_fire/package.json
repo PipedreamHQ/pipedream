@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/forms_on_fire",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Forms On Fire Components",
-  "main": "dist/app/forms_on_fire.app.mjs",
+  "main": "forms_on_fire.app.mjs",
   "keywords": [
     "pipedream",
     "forms_on_fire"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/forms_on_fire",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

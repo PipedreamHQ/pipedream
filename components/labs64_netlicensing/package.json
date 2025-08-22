@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/labs64_netlicensing",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Labs64 NetLicensing Components",
-  "main": "dist/app/labs64_netlicensing.app.mjs",
+  "main": "labs64_netlicensing.app.mjs",
   "keywords": [
     "pipedream",
     "labs64_netlicensing"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/labs64_netlicensing",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
