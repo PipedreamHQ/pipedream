@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/snapchat_marketing",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Snapchat Marketing Components",
-  "main": "dist/app/snapchat_marketing.app.mjs",
+  "main": "snapchat_marketing.app.mjs",
   "keywords": [
     "pipedream",
     "snapchat_marketing"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/snapchat_marketing",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

@@ -4,7 +4,7 @@ export default {
   key: "google_slides-merge-data",
   name: "Merge Data",
   description: "Merge data into a presentation. [See the docs here](https://developers.google.com/slides/api/guides/merge)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     app,

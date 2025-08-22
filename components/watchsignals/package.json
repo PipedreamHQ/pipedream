@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/watchsignals",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream WatchSignals Components",
-  "main": "dist/app/watchsignals.app.mjs",
+  "main": "watchsignals.app.mjs",
   "keywords": [
     "pipedream",
     "watchsignals"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/watchsignals",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
