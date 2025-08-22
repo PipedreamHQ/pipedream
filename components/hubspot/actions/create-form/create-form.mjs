@@ -8,7 +8,7 @@ import hubspot from "../../hubspot.app.mjs";
 export default {
   key: "hubspot-create-form",
   name: "Create Form",
-  description: "Create a form in Hubspot. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/forms#post-%2Fmarketing%2Fv3%2Fforms%2F)",
+  description: "Create a form in HubSpot. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/forms#post-%2Fmarketing%2Fv3%2Fforms%2F)",
   version: "0.0.1",
   type: "action",
   props: {
