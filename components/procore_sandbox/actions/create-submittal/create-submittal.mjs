@@ -9,5 +9,5 @@ export default {
   ...utils.getAppProps(component),
   key: "procore_sandbox-create-submittal",
   description: "Create a new submittal. [See the documentation](https://developers.procore.com/reference/rest/submittals?version=latest#create-submittal).",
-  version: "0.0.1",
+  version: "0.0.2",
 };

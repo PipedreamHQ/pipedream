@@ -9,7 +9,7 @@ export default {
   key: "notiff-create-notification",
   name: "Create Notification",
   description: "Send a new notification to a user or system via notiff.io. [See the documentation](https://notiff.io/articles/welcome-to-notiff-getting-started-with-your-notification-center)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   methods: {
     getNotificationSourceId() {

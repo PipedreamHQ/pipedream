@@ -9,5 +9,5 @@ export default {
   ...utils.getAppProps(component),
   key: "procore_sandbox-create-incident",
   description: "Create a new incident. [See the documentation](https://developers.procore.com/reference/rest/incidents?version=latest#create-incident).",
-  version: "0.0.1",
+  version: "0.0.2",
 };

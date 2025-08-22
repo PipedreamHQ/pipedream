@@ -9,5 +9,5 @@ export default {
   ...utils.getAppProps(component),
   key: "procore_sandbox-create-manpower-log",
   description: "Create a new manpower log. [See the documentation](https://developers.procore.com/reference/rest/manpower-logs?version=latest#create-manpower-log).",
-  version: "0.0.1",
+  version: "0.0.2",
 };

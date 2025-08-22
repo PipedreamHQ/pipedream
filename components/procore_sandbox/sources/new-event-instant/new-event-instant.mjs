@@ -9,5 +9,5 @@ export default {
   ...utils.getAppProps(component),
   key: "procore_sandbox-new-event-instant",
   description: "Emit new event depending on the resource name selected. [See the documentation](https://developers.procore.com/reference/rest/hooks?version=latest).",
-  version: "0.0.1",
+  version: "0.0.2",
 };
