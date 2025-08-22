@@ -8809,8 +8809,7 @@ importers:
 
   components/mindbody: {}
 
-  components/mindee:
-    specifiers: {}
+  components/mindee: {}
 
   components/mindmeister: {}
 
@@ -10502,6 +10501,10 @@ importers:
       '@pipedream/platform':
         specifier: ^1.1.1
         version: 1.6.6
+    devDependencies:
+      '@pipedream/types':
+        specifier: ^0.3.2
+        version: 0.3.2
 
   components/piloterr:
     dependencies:
@@ -11030,7 +11033,11 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
-  components/prisma_management_api: {}
+  components/prisma_management_api:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.6.6
 
   components/prismic: {}
 
@@ -12198,6 +12205,10 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.1
         version: 1.6.6
+    devDependencies:
+      '@pipedream/types':
+        specifier: ^0.3.2
+        version: 0.3.2
 
   components/salesmsg:
     dependencies:
@@ -15585,6 +15596,10 @@ importers:
       '@pipedream/platform':
         specifier: ^1.1.1
         version: 1.6.6
+    devDependencies:
+      '@pipedream/types':
+        specifier: ^0.3.2
+        version: 0.3.2
 
   components/winston_ai:
     dependencies:
@@ -16028,8 +16043,7 @@ importers:
         specifier: ^4.0.0
         version: 4.0.1
 
-  components/zapr_link:
-    specifiers: {}
+  components/zapr_link: {}
 
   components/zendesk:
     dependencies:
@@ -40402,6 +40416,8 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
+    transitivePeerDependencies:
+      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
