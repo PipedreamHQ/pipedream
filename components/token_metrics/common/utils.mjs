@@ -1,4 +1,4 @@
-import { ERROR_MESSAGES } from "./constants.mjs";
+
 
 // Build parameters object from props, filtering out undefined values
 export function buildParams(props, filterKeys) {
@@ -8,7 +8,12 @@ export function buildParams(props, filterKeys) {
   filterKeys.forEach(key => {
     const propKey = toCamelCase(key);
     if (props[propKey]) {
-      params[key] = props[propKey];
+      // Handle arrays by joining them with commas for the API
+      if (Array.isArray(props[propKey])) {
+        params[key] = props[propKey].join(",");
+      } else {
+        params[key] = props[propKey];
+      }
     }
   });
   
@@ -42,34 +47,16 @@ export function generateFilterSummary(props, filterKeys) {
     const value = props[propKey];
     if (value) {
       const label = key.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase());
-      appliedFilters.push(`${label}: ${value}`);
+      // Handle arrays by joining them for display
+      const displayValue = Array.isArray(value) ? value.join(", ") : value;
+      appliedFilters.push(`${label}: ${displayValue}`);
     }
   });
   
   return appliedFilters.length > 0 ? ` with filters: ${appliedFilters.join(", ")}` : "";
 }
 
-// Standardized error handling
-export function handleApiError(error) {
-  const statusCode = error.response?.status;
-  const errorMessage = error.response?.data?.message || error.message;
-  
-  switch (statusCode) {
-    case 401:
-      throw new Error(ERROR_MESSAGES.AUTHENTICATION_FAILED);
-    case 403:
-      throw new Error(ERROR_MESSAGES.ACCESS_FORBIDDEN);
-    case 429:
-      throw new Error(ERROR_MESSAGES.RATE_LIMIT_EXCEEDED);
-    case 500:
-    case 502:
-    case 503:
-    case 504:
-      throw new Error(ERROR_MESSAGES.SERVER_ERROR);
-    default:
-      throw new Error(`${ERROR_MESSAGES.GENERIC_ERROR}: ${errorMessage}`);
-  }
-}
+
 
 // Generate props object for an endpoint
 export function generateEndpointProps(app, endpoint) {

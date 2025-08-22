@@ -1,5 +1,4 @@
 import { axios } from "@pipedream/platform";
-import { handleApiError } from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -18,6 +17,137 @@ export default {
       description: "Enables pagination and data retrieval control by skipping a specified number of items before fetching data",
       optional: true,
       default: 1,
+    },
+    tokenId: {
+      type: "string[]",
+      label: "Token IDs",
+      description: "Select one or more Token IDs to filter results. Example: `3375,3306`",
+      optional: true,
+    },
+    symbol: {
+      type: "string[]",
+      label: "Token Symbols", 
+      description: "Select one or more token symbols to filter results. Example: `BTC,ETH`",
+      optional: true,
+    },
+    tokenName: {
+      type: "string[]",
+      label: "Token Names",
+      description: "Select one or more crypto asset names to filter results. Example: `Bitcoin,Ethereum`",
+      optional: true,
+    },
+    category: {
+      type: "string[]",
+      label: "Categories",
+      description: "Select one or more categories to filter results. Example: `defi,layer-1`",
+      optional: true,
+    },
+    exchange: {
+      type: "string[]",
+      label: "Exchanges",
+      description: "Select one or more exchanges to filter results. Example: `binance,gate`",
+      optional: true,
+    },
+    startDate: {
+      type: "string",
+      label: "Start Date",
+      description: "Start date in `YYYY-MM-DD` format. Example: `2023-10-01`",
+      optional: true,
+    },
+    endDate: {
+      type: "string",
+      label: "End Date",
+      description: "End date in `YYYY-MM-DD` format. Example: `2023-10-10`", 
+      optional: true,
+    },
+    marketCap: {
+      type: "string",
+      label: "Minimum Market Cap",
+      description: "Minimum market cap in USD. Example: `100000000`",
+      optional: true,
+    },
+    volume: {
+      type: "string",
+      label: "Minimum Volume",
+      description: "Minimum 24h trading volume in USD. Example: `100000000`",
+      optional: true,
+    },
+    fdv: {
+      type: "string",
+      label: "Minimum FDV",
+      description: "Minimum fully diluted valuation in USD. Example: `100000000`",
+      optional: true,
+    },
+    signal: {
+      type: "string",
+      label: "Signal Type",
+      description: "Filter by trading signal type",
+      optional: true,
+      options: [
+        {
+          label: "Bullish (1)",
+          value: "1",
+        },
+        {
+          label: "No Signal (0)",
+          value: "0",
+        },
+        {
+          label: "Bearish (-1)",
+          value: "-1",
+        },
+      ],
+    },
+    blockchainAddress: {
+      type: "string[]",
+      label: "Blockchain Addresses",
+      description: "Select one or more blockchain addresses to filter results. Example: `binance-smart-chain:0x8076c74c5e3f5852037f31ff0093eeb8c8add8d3`",
+      optional: true,
+    },
+    topK: {
+      type: "integer",
+      label: "Top K",
+      description: "Number of top cryptocurrencies to retrieve based on market capitalization. Example: `100`",
+      optional: true,
+    },
+    type: {
+      type: "string",
+      label: "Type",
+      description: "Filter by type",
+      optional: true,
+      options: [
+        {
+          label: "Active",
+          value: "active",
+        },
+        {
+          label: "Past",
+          value: "past",
+        },
+      ],
+      default: "active",
+    },
+    indicesType: {
+      type: "string",
+      label: "Indices Type",
+      description: "Filter indices by type: 'active' for actively managed, 'passive' for passively managed",
+      optional: true,
+      options: [
+        {
+          label: "Active",
+          value: "active",
+        },
+        {
+          label: "Passive",
+          value: "passive",
+        },
+      ],
+    },
+    id: {
+      type: "integer",
+      label: "ID",
+      description: "ID of the index. Example: `1`",
+      optional: false,
     },
   },
   methods: {
@@ -41,11 +171,7 @@ export default {
         ...args,
       };
       
-      try {
-        return await axios($, config);
-      } catch (error) {
-        handleApiError(error);
-      }
+      return await axios($, config);
     },
     // Generic method for any endpoint
     async makeApiCall({

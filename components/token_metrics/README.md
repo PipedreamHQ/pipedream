@@ -30,102 +30,17 @@ The API uses API key authentication via the `x-api-key` header. Your API key sho
 3. In Pipedream, connect the Token Metrics app using your API key
 4. The API key will be automatically included in all requests via the `x-api-key` header
 
-# Available Actions
+# Available Components
 
-## Core Data Actions
-- **Get Tokens**: Retrieve comprehensive token listings with metadata and analytics
-- **Get Price**: Fetch current token prices for specified assets
-- **Get Top Market Cap Tokens**: Access tokens ranked by market capitalization
-
-## Trading & Signals
-- **Get Trading Signals**: AI-generated long/short trading signals for all tokens
-- **Get Hourly Trading Signals**: Real-time hourly trading signals
-- **Get Moonshot Tokens**: AI-curated high-potential token picks
-
-## Market Analysis
-- **Get Market Metrics**: Comprehensive crypto market analytics and sentiment indicators
-- **Get Correlation**: Token correlation analysis with top 100 market cap assets
-- **Get Scenario Analysis**: Price predictions based on different market scenarios
-- **Get Resistance Support**: Historical resistance and support levels
-
-## OHLCV Data
-- **Get Hourly OHLCV**: Hourly Open, High, Low, Close, Volume data
-- **Get Daily OHLCV**: Daily OHLCV data for historical analysis
-
-## Grading Systems
-- **Get TM Grades**: Latest Token Metrics grades with trader and quant scores
-- **Get TM Grades Historical**: Historical TM Grade data over time
-- **Get Fundamental Grades**: Fundamental analysis scores (community, exchange, VC, tokenomics)
-- **Get Fundamental Grades Historical**: Historical fundamental grade data
-- **Get Technology Grades**: Technology assessment scores (activity, security, repository)
-- **Get Technology Grades Historical**: Historical technology grade data
-
-## Advanced Analytics
-- **Get AI Reports**: Comprehensive AI-generated token analysis reports
-- **Get Quantmetrics**: Advanced quantitative metrics and analysis
-- **Get Crypto Investors**: Latest crypto investor data and scores
-
-## Indices & Performance
-- **Get Indices**: Access active and passive crypto indices
-- **Get Indices Holdings**: Current holdings and weightings for specific indices
-- **Get Indices Performance**: Historical performance data for crypto indices
+This component provides pre-built actions for all major Token Metrics API endpoints, covering token data, AI-powered analytics, market metrics, trading signals, grading systems, and more. All actions support filtering, pagination, and use API key authentication.
 
 # Example Use Cases
 
-## Automated Trading Systems
-```javascript
-// Monitor trading signals and execute automated trades
-const signals = await steps.token_metrics.getTradingSignals({
-  symbol: "BTC,ETH",
-  signal: "1" // Bullish signals only
-});
-
-// Process signals and trigger trading actions
-```
-
-## Portfolio Management Dashboard
-```javascript
-// Create comprehensive portfolio tracking
-const tokens = await steps.token_metrics.getTokens({
-  category: "defi,layer-1",
-  limit: 100
-});
-
-const grades = await steps.token_metrics.getTmGrades({
-  token_id: tokens.data.map(t => t.token_id).join(",")
-});
-
-// Combine data for portfolio analysis
-```
-
-## Market Research Automation
-```javascript
-// Generate detailed investment research
-const aiReports = await steps.token_metrics.getAiReports({
-  symbol: "SOL,AVAX"
-});
-
-const fundamentals = await steps.token_metrics.getFundamentalGrades({
-  symbol: "SOL,AVAX"
-});
-
-// Create comprehensive research reports
-```
-
-## Risk Management System
-```javascript
-// Monitor market conditions and correlations
-const marketMetrics = await steps.token_metrics.getMarketMetrics({
-  start_date: "2025-07-01",
-  end_date: "2025-07-10"
-});
-
-const correlations = await steps.token_metrics.getCorrelation({
-  symbol: "BTC"
-});
-
-// Implement risk management strategies
-```
+- **Automated Trading Systems**: Monitor AI-generated trading signals and execute automated trades
+- **Portfolio Management**: Track cryptocurrency portfolios with comprehensive token metrics and grades  
+- **Market Research**: Generate detailed investment analysis using AI reports and fundamental data
+- **Risk Management**: Monitor market conditions, correlations, and implement risk strategies
+- **Price Monitoring**: Track token prices and receive alerts on significant market movements
 
 # API Endpoint
 
@@ -139,12 +54,7 @@ Please refer to the [Token Metrics API documentation](https://developers.tokenme
 
 # Data Filtering & Pagination
 
-Most actions support comprehensive filtering options:
-
-- **Token Identification**: Filter by `token_id`, `symbol`, or `token_name`
-- **Market Filters**: Filter by `category`, `exchange`, `market_cap`, `volume`, `fdv`
-- **Date Ranges**: Use `start_date` and `end_date` for historical data
-- **Pagination**: Control results with `limit` (default: 50) and `page` (default: 1) parameters
+Actions support comprehensive filtering by token identifiers, market criteria, date ranges, and standard pagination controls. See the [Token Metrics API documentation](https://developers.tokenmetrics.com/) for specific filter options.
 
 # Error Handling
 
@@ -170,9 +80,3 @@ The component includes comprehensive error handling for common scenarios:
 - **Pipedream Community**: For integration and workflow assistance
 - **Component Issues**: Report bugs or request features via the Pipedream platform
 - **Email Support**: support@tokenmetrics.com for API-related issues
-
-# Version
-
-Current version: 0.0.1
-
-Built with Pipedream Platform v3.0.3

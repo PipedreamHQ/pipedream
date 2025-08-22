@@ -1,5 +1,5 @@
 import tokenMetrics from "../../token_metrics.app.mjs";
-import { ENDPOINTS, FILTER_DEFINITIONS } from "../../common/constants.mjs";
+import { ENDPOINTS } from "../../common/constants.mjs";
 import { buildParams, generateFilterSummary } from "../../common/utils.mjs";
 
 const endpoint = ENDPOINTS.TOKENS;
@@ -13,12 +13,42 @@ export default {
   props: {
     tokenMetrics,
     // Dynamically add filter props based on endpoint configuration
-    tokenId: FILTER_DEFINITIONS.token_id,
-    tokenName: FILTER_DEFINITIONS.token_name,
-    symbol: FILTER_DEFINITIONS.symbol,
-    category: FILTER_DEFINITIONS.category,
-    exchange: FILTER_DEFINITIONS.exchange,
-    blockchainAddress: FILTER_DEFINITIONS.blockchain_address,
+    tokenId: {
+      propDefinition: [
+        tokenMetrics,
+        "tokenId",
+      ],
+    },
+    tokenName: {
+      propDefinition: [
+        tokenMetrics,
+        "tokenName",
+      ],
+    },
+    symbol: {
+      propDefinition: [
+        tokenMetrics,
+        "symbol",
+      ],
+    },
+    category: {
+      propDefinition: [
+        tokenMetrics,
+        "category",
+      ],
+    },
+    exchange: {
+      propDefinition: [
+        tokenMetrics,
+        "exchange",
+      ],
+    },
+    blockchainAddress: {
+      propDefinition: [
+        tokenMetrics,
+        "blockchainAddress",
+      ],
+    },
     // Pagination props
     limit: {
       propDefinition: [
@@ -37,32 +67,17 @@ export default {
     // Build parameters using utility function
     const params = buildParams(this, endpoint.filters);
 
-    try {
-      const response = await this.tokenMetrics.getTokens({
-        $,
-        params,
-      });
+    const response = await this.tokenMetrics.getTokens({
+      $,
+      params,
+    });
 
-      // Generate summary using utility function
-      const filterSummary = generateFilterSummary(this, endpoint.filters);
-      
-      // Use $ context for export
-      if ($ && $.export) {
-        $.export("$summary", `Successfully retrieved tokens list${filterSummary}`);
-      }
-      
-      return response;
-    } catch (error) {
-      // Enhanced error handling
-      const errorMessage = error.response?.data?.message || error.message || "An error occurred";
-      const statusCode = error.response?.status;
-      
-      if ($ && $.export) {
-        $.export("$summary", `Error: ${errorMessage}`);
-      }
-      
-      // Throw a more descriptive error
-      throw new Error(`Token Metrics API Error (${statusCode || 'Unknown'}): ${errorMessage}`);
-    }
+    // Generate summary using utility function
+    const filterSummary = generateFilterSummary(this, endpoint.filters);
+    
+    // Use $ context for export
+    $.export("$summary", `Successfully retrieved tokens list${filterSummary}`);
+    
+    return response;
   },
 };
