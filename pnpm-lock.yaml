@@ -13113,6 +13113,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+      '@pipedream/slack':
+        specifier: ^0.10.2
+        version: 0.10.2
       '@slack/web-api':
         specifier: ^5.15.0
         version: 5.15.0
@@ -20561,6 +20564,9 @@ packages:
 
   '@pipedream/shopify@0.7.0':
     resolution: {integrity: sha512-bZoTDxcwBIepWhT8LVXzOxAO3S9NM8U1NEfS5106aDHFizr6L7lg/78+GaPdishK12oce0B/fCFY0ssd5AQxWA==}
+
+  '@pipedream/slack@0.10.2':
+    resolution: {integrity: sha512-hzOsyiwM+QqdVdgmc/aZhUmNKHGv7gPbo5JbFVkIQxb2C0WsK4V1in6JYbylkA9TR4/QLFpOlXyuKm14d6L0ZQ==}
 
   '@pipedream/snowflake-sdk@1.0.8':
     resolution: {integrity: sha512-/nLCQNjlSCz71MUnOUZqWmnjZTbEX7mie91mstPspb8uDG/GvaDk/RynLGhhYfgEP5d1KWj+OPaI71hmPSxReg==}
@@ -40090,6 +40096,15 @@ snapshots:
       lodash.get: 4.4.2
       lodash.topath: 4.5.2
       shopify-api-node: 3.14.2
+    transitivePeerDependencies:
+      - debug
+
+  '@pipedream/slack@0.10.2':
+    dependencies:
+      '@pipedream/platform': 3.1.0
+      '@slack/web-api': 7.9.1
+      async-retry: 1.3.3
+      lodash: 4.17.21
     transitivePeerDependencies:
       - debug
 

@@ -1,5 +1,5 @@
 import youtubeDataApi from "../../youtube_data_api_custom_app.app.mjs";
-import common from "../../../youtube_data_api/sources/new-videos-in-subscribed-channels/common.mjs";
+import common from "../../@pipedream/youtube_data_api/sources/new-videos-in-subscribed-channels/common.mjs";
 
 export default {
   ...common,

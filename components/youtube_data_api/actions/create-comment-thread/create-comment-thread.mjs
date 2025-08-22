@@ -6,7 +6,7 @@ export default {
   key: "youtube_data_api-create-comment-thread",
   name: "Create Comment Thread",
   description: "Creates a new top-level comment in a video. [See the documentation](https://developers.google.com/youtube/v3/docs/commentThreads/insert) for more information",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     youtubeDataApi,

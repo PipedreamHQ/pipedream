@@ -6,7 +6,7 @@ export default {
   key: "youtube_data_api-delete-playlist",
   name: "Delete Playlist",
   description: "Deletes a playlist. [See the documentation](https://developers.google.com/youtube/v3/docs/playlists/delete) for more information",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     youtubeDataApi,

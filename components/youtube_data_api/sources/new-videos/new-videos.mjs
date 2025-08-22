@@ -7,7 +7,7 @@ export default {
   key: "youtube_data_api-new-videos",
   name: "New Videos",
   description: "Emit new event for each new Youtube video the user posts.",
-  version: "0.0.9",
+  version: "0.0.10",
   dedupe: "unique",
   props: {
     youtubeDataApi,

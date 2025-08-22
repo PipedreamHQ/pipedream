@@ -7,7 +7,7 @@ export default {
   key: "youtube_data_api-new-videos-by-search",
   name: "New Videos by Search",
   description: "Emit new event for each new YouTube video matching the search criteria.",
-  version: "0.0.10",
+  version: "0.0.11",
   dedupe: "unique",
   props: {
     youtubeDataApi,
