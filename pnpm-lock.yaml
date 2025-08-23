@@ -1941,6 +1941,9 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/bridge_interactive_platform:
+    specifiers: {}
+
   components/bright_data:
     dependencies:
       '@pipedream/platform':
