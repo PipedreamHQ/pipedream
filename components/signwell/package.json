@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/signwell",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream SignWell  Components",
-  "main": "dist/app/signwell.app.mjs",
+  "main": "signwell.app.mjs",
   "keywords": [
     "pipedream",
     "signwell"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/signwell",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

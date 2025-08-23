@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/newsletter",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Newsletter Components",
-  "main": "dist/app/newsletter.app.mjs",
+  "main": "newsletter.app.mjs",
   "keywords": [
     "pipedream",
     "newsletter"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/newsletter",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

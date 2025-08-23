@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/tolstoy",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Tolstoy Components",
   "main": "dist/app/tolstoy.app.mjs",
   "keywords": [
@@ -17,5 +17,8 @@
   },
   "dependencies": {
     "@pipedream/platform": "^1.1.0"
+  },
+  "devDependencies": {
+    "@pipedream/types": "^0.3.2"
   }
 }

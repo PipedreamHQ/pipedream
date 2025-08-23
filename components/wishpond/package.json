@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/wishpond",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Wishpond Components",
-  "main": "dist/app/wishpond.app.mjs",
+  "main": "wishpond.app.mjs",
   "keywords": [
     "pipedream",
     "wishpond"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/wishpond",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/mx_toolbox",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Mx Toolbox Components",
-  "main": "dist/app/mx_toolbox.app.mjs",
+  "main": "mx_toolbox.app.mjs",
   "keywords": [
     "pipedream",
     "mx_toolbox"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/mx_toolbox",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

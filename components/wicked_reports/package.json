@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/wicked_reports",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Wicked Reports Components",
-  "main": "dist/app/wicked_reports.app.mjs",
+  "main": "wicked_reports.app.mjs",
   "keywords": [
     "pipedream",
     "wicked_reports"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/wicked_reports",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

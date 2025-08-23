@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/moonmail",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream MoonMail Components",
-  "main": "dist/app/moonmail.app.mjs",
+  "main": "moonmail.app.mjs",
   "keywords": [
     "pipedream",
     "moonmail"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/moonmail",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

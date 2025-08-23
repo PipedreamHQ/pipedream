@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/rawg_video_games_database",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream RAWG Video Games Database Components",
-  "main": "dist/app/rawg_video_games_database.app.mjs",
+  "main": "rawg_video_games_database.app.mjs",
   "keywords": [
     "pipedream",
     "rawg_video_games_database"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/rawg_video_games_database",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

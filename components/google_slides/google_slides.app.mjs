@@ -62,6 +62,21 @@ export default {
         }));
       },
     },
+    tableId: {
+      type: "string",
+      label: "Table ID",
+      description: "The ID of a table",
+      async options({
+        presentationId, slideId,
+      }) {
+        const { pageElements } = await this.getSlide(presentationId, slideId);
+        let tables = pageElements.filter((element) => element?.table);
+        return tables.map((element) => ({
+          label: `${element.table.rows} x ${element.table.columns} Table`,
+          value: element.objectId,
+        }));
+      },
+    },
   },
   methods: {
     ...googleDrive.methods,
@@ -118,6 +133,66 @@ export default {
       const requests = [
         {
           insertText: {
+            ...data,
+          },
+        },
+      ];
+      return this.batchUpdate(presentationId, requests);
+    },
+    replaceAllText(presentationId, data) {
+      const requests = [
+        {
+          replaceAllText: {
+            ...data,
+          },
+        },
+      ];
+      return this.batchUpdate(presentationId, requests);
+    },
+    createTable(presentationId, data) {
+      const requests = [
+        {
+          createTable: {
+            ...data,
+          },
+        },
+      ];
+      return this.batchUpdate(presentationId, requests);
+    },
+    insertTableRows(presentationId, data) {
+      const requests = [
+        {
+          insertTableRows: {
+            ...data,
+          },
+        },
+      ];
+      return this.batchUpdate(presentationId, requests);
+    },
+    insertTableColumns(presentationId, data) {
+      const requests = [
+        {
+          insertTableColumns: {
+            ...data,
+          },
+        },
+      ];
+      return this.batchUpdate(presentationId, requests);
+    },
+    deleteTableRow(presentationId, data) {
+      const requests = [
+        {
+          deleteTableRow: {
+            ...data,
+          },
+        },
+      ];
+      return this.batchUpdate(presentationId, requests);
+    },
+    deleteTableColumn(presentationId, data) {
+      const requests = [
+        {
+          deleteTableColumn: {
             ...data,
           },
         },
