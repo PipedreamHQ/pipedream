@@ -50,7 +50,7 @@ export default {
 
     const response = await this.app.generateDocument($, body);
     
-    $.export("$summary", `Successfully generated document with ID: ${response.id}`);
+    $.export("$summary", `Successfully generated the document ${response.id}`);
     return response;
   },
 };
