@@ -4,7 +4,7 @@ export default {
   key: "docugenerate-generate-document",
   name: "Generate Document",
   description: "Generates a document from a template",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
