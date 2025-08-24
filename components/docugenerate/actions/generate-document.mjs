@@ -4,7 +4,7 @@ export default {
   key: "docugenerate-generate-document",
   name: "Generate Document",
   description: "Generates a document from a template",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     app,
@@ -26,17 +26,17 @@ export default {
       description: "Output format of the generated document. Defaults to .docx.",
       optional: true,
       options: [
+        { label: 'PDF (.pdf)', value: '.pdf' },
         { label: 'Microsoft Word (.docx)', value: '.docx' },
         { label: 'Microsoft Word 2007 (.doc)', value: '.doc' },
         { label: 'OpenDocument Format (.odt)', value: '.odt' },
-        { label: 'PDF (.pdf)', value: '.pdf' },
         { label: 'Plain Text (.txt)', value: '.txt' },
         { label: 'PNG (.png)', value: '.png' },
       ],
     },
     data: {
       type: "object",
-      label: "Template Data",
+      label: "Data",
       description: "Data that is used to generate the document.",
     },
   },
@@ -44,7 +44,7 @@ export default {
     const body = {
       template_id: this.templateId,
       name: this.name,
-      format: this.format,
+      output_format: this.format,
       data: this.data,
     };
 
