@@ -4,7 +4,7 @@ export default {
   key: "docugenerate-list-documents",
   name: "List Documents",
   description: "Retrieves a list of documents generated from a template",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   props: {
     app,

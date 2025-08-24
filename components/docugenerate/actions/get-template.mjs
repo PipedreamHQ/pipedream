@@ -4,7 +4,7 @@ export default {
   key: "docugenerate-get-template",
   name: "Get Template",
   description: "Retrieves a specific template",
-  version: "0.0.3",
+  version: "1.0.0",
   type: "action",
   props: {
     app,

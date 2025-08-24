@@ -4,7 +4,7 @@ export default {
   key: "docugenerate-list-templates",
   name: "List Templates",
   description: "Retrieves a list of all templates",
-  version: "0.0.3",
+  version: "1.0.0",
   type: "action",
   props: {
     app,

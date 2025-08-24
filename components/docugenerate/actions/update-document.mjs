@@ -4,7 +4,7 @@ export default {
   key: "docugenerate-update-document",
   name: "Update Document",
   description: "Updates a specific document",
-  version: "0.0.2",
+  version: "1.0.0",
   type: "action",
   props: {
     app,

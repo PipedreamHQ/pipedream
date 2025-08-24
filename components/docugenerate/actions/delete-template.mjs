@@ -4,7 +4,7 @@ export default {
   key: "docugenerate-delete-template",
   name: "Delete Template",
   description: "Deletes a specific template",
-  version: "0.0.3",
+  version: "1.0.0",
   type: "action",
   props: {
     app,

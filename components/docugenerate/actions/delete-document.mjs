@@ -4,7 +4,7 @@ export default {
   key: "docugenerate-delete-document",
   name: "Delete Document",
   description: "Deletes a specific document",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   props: {
     app,

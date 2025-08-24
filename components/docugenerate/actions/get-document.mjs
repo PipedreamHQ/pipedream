@@ -4,7 +4,7 @@ export default {
   key: "docugenerate-get-document",
   name: "Get Document",
   description: "Retrieves a specific document",
-  version: "0.0.3",
+  version: "1.0.0",
   type: "action",
   props: {
     app,
