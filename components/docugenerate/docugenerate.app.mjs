@@ -80,5 +80,12 @@ export default {
         data: body,
       });
     },
+    async deleteDocument($ = this, documentId) {
+      return this.makeRequest({
+        $,
+        method: "DELETE",
+        path: `/document/${documentId}`,
+      });
+    },
   },
 };
