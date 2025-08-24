@@ -87,5 +87,13 @@ export default {
         path: `/document/${documentId}`,
       });
     },
+    async generateDocument($ = this, body) {
+      return this.makeRequest({
+        $,
+        method: "POST",
+        path: "/document",
+        data: body,
+      });
+    },
   },
 };
