@@ -4,14 +4,14 @@ export default {
   key: "docugenerate-get-document",
   name: "Get Document",
   description: "Retrieves a specific document",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     app,
     documentId: {
       type: "string",
       label: "Document",
-      description: "ID of the document",
+      description: "The ID of the document",
     },
   },
   async run({ $ }) {
