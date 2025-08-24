@@ -72,5 +72,13 @@ export default {
         path: `/document/${documentId}`,
       });
     },
+    async updateDocument($ = this, documentId, body) {
+      return this.makeRequest({
+        $,
+        method: "PUT",
+        path: `/document/${documentId}`,
+        data: body,
+      });
+    },
   },
 };
