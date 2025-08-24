@@ -18,11 +18,13 @@ export default {
       type: "string",
       label: "Name",
       description: "Name of the generated document. Defaults to the template’s name.",
+      optional: true,
     },
     format: {
       type: "string",
       label: "Format",
       description: "Output format of the generated document. Defaults to .docx.",
+      optional: true,
       options: [
         { label: 'Microsoft Word (.docx)', value: '.docx' },
         { label: 'Microsoft Word 2007 (.doc)', value: '.doc' },
