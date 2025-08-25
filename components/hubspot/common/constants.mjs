@@ -173,6 +173,17 @@ const DEFAULT_LEAD_PROPERTIES = [
   "hs_associated_company_name",
 ];
 
+const DEFAULT_EMAIL_PROPERTIES = [
+  "hs_timestamp",
+  "hs_email_direction",
+  "hs_email_html",
+  "hs_email_status",
+  "hs_email_subject",
+  "hs_email_text",
+  "hs_attachment_ids",
+  "hs_email_headers",
+];
+
 const DEFAULT_MEETING_PROPERTIES = [
   "hs_timestamp",
   "hubspot_owner_id",
@@ -375,13 +386,17 @@ export {
   DEFAULT_COMPANY_PROPERTIES,
   DEFAULT_CONTACT_PROPERTIES,
   DEFAULT_DEAL_PROPERTIES,
+  DEFAULT_EMAIL_PROPERTIES,
   DEFAULT_LEAD_PROPERTIES,
   DEFAULT_LIMIT,
   DEFAULT_LINE_ITEM_PROPERTIES,
   DEFAULT_MEETING_PROPERTIES,
   DEFAULT_PRODUCT_PROPERTIES,
   DEFAULT_TICKET_PROPERTIES,
-  ENGAGEMENT_TYPE_OPTIONS, HUBSPOT_OWNER, LANGUAGE_OPTIONS, OBJECT_TYPE,
+  ENGAGEMENT_TYPE_OPTIONS,
+  HUBSPOT_OWNER,
+  LANGUAGE_OPTIONS,
+  OBJECT_TYPE,
   OBJECT_TYPES,
   SEARCHABLE_OBJECT_TYPES,
 };
