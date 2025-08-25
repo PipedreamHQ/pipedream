@@ -1,7 +1,7 @@
-import common from "../common/common.mjs";
 import {
   DEFAULT_LIMIT, DEFAULT_TICKET_PROPERTIES,
 } from "../../common/constants.mjs";
+import common from "../common/common.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
@@ -9,7 +9,7 @@ export default {
   key: "hubspot-new-ticket",
   name: "New Ticket",
   description: "Emit new event for each new ticket created.",
-  version: "0.0.25",
+  version: "0.0.26",
   dedupe: "unique",
   type: "source",
   props: {

@@ -1,19 +1,19 @@
 import { axios } from "@pipedream/platform";
+import Bottleneck from "bottleneck";
 import {
   API_PATH,
   BASE_URL,
+  DEFAULT_COMPANY_PROPERTIES,
+  DEFAULT_CONTACT_PROPERTIES,
+  DEFAULT_DEAL_PROPERTIES,
+  DEFAULT_LIMIT,
+  DEFAULT_LINE_ITEM_PROPERTIES,
+  DEFAULT_PRODUCT_PROPERTIES,
+  DEFAULT_TICKET_PROPERTIES,
   HUBSPOT_OWNER,
   OBJECT_TYPE,
   OBJECT_TYPES,
-  DEFAULT_LIMIT,
-  DEFAULT_CONTACT_PROPERTIES,
-  DEFAULT_COMPANY_PROPERTIES,
-  DEFAULT_DEAL_PROPERTIES,
-  DEFAULT_TICKET_PROPERTIES,
-  DEFAULT_PRODUCT_PROPERTIES,
-  DEFAULT_LINE_ITEM_PROPERTIES,
 } from "./common/constants.mjs";
-import Bottleneck from "bottleneck";
 const limiter = new Bottleneck({
   minTime: 250, // 4 requests per second
   maxConcurrent: 1,
@@ -498,6 +498,184 @@ export default {
         return results.map(({ id }) => id);
       },
     },
+    formId: {
+      type: "string",
+      label: "Form ID",
+      description: "The ID of the form to update.",
+      async options({ prevContext }) {
+        const { nextAfter } = prevContext;
+        const {
+          results, paging,
+        } = await this.listForms({
+          data: {
+            after: nextAfter,
+          },
+        });
+
+        return {
+          options: results?.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            nextAfter: paging?.next.after,
+          },
+        };
+      },
+    },
+    pageId: {
+      type: "string",
+      label: "Page ID",
+      description: "The ID of the page to clone.",
+      async options({ prevContext }) {
+        const { nextAfter } = prevContext;
+        const {
+          results, paging,
+        } = await this.listSitePages({
+          data: {
+            after: nextAfter,
+          },
+        });
+
+        return {
+          options: results?.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            nextAfter: paging?.next.after,
+          },
+        };
+      },
+    },
+    landingPageId: {
+      type: "string",
+      label: "Landing Page ID",
+      description: "The ID of the landing page to clone.",
+      async options({ prevContext }) {
+        const { nextAfter } = prevContext;
+        const {
+          results, paging,
+        } = await this.listLandingPages({
+          data: {
+            after: nextAfter,
+          },
+        });
+
+        return {
+          options: results?.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            nextAfter: paging?.next.after,
+          },
+        };
+      },
+    },
+    templatePath: {
+      type: "string",
+      label: "Template Path",
+      description: "The template path of the page.",
+      async options({ page }) {
+        const { objects } = await this.listTemplates({
+          params: {
+            limit: DEFAULT_LIMIT,
+            offset: page * DEFAULT_LIMIT,
+          },
+        });
+        return objects?.map(({
+          path: value, label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
+    pageName: {
+      type: "string",
+      label: "Page Name",
+      description: "The name of the page.",
+    },
+    landingFolderId: {
+      type: "string",
+      label: "Folder ID",
+      description: "The ID of the folder to create the landing page in.",
+      async options({ prevContext }) {
+        const { nextAfter } = prevContext;
+        const {
+          results, paging,
+        } = await this.listLandingFolders({
+          data: {
+            after: nextAfter,
+          },
+        });
+        return {
+          options: results?.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            nextAfter: paging?.next.after,
+          },
+        };
+      },
+    },
+    campaignId: {
+      type: "string",
+      label: "Campaign ID",
+      description: "The ID of the campaign to create the email in.",
+      async options({ prevContext }) {
+        const { nextAfter } = prevContext;
+        const {
+          results, paging,
+        } = await this.listCampaigns({
+          data: {
+            after: nextAfter,
+          },
+        });
+        return {
+          options: results?.map(({ id }) => id) || [],
+          context: {
+            nextAfter: paging?.next.after,
+          },
+        };
+      },
+    },
+    emailId: {
+      type: "string",
+      label: "Marketing Email ID",
+      description: "The ID of the marketing email to clone.",
+      async options({ prevContext }) {
+        const { nextAfter } = prevContext;
+        const {
+          results, paging,
+        } = await this.listMarketingEmails({
+          data: {
+            after: nextAfter,
+          },
+        });
+        return {
+          options: results?.map(({
+            id: value, name: label,
+          }) => ({
+            value,
+            label,
+          })) || [],
+          context: {
+            nextAfter: paging?.next.after,
+          },
+        };
+      },
+    },
   },
   methods: {
     _getHeaders() {
@@ -790,13 +968,11 @@ export default {
     getLists({
       listType, ...opts
     }) {
-      const basePath = "/lists";
-      const path = listType
-        ? `${basePath}/${listType}`
-        : basePath;
       return this.makeRequest({
         api: API_PATH.CONTACTS,
-        endpoint: path,
+        endpoint: `/lists${listType
+          ? `/${listType}`
+          : ""}`,
         ...opts,
       });
     },
@@ -1190,6 +1366,120 @@ export default {
       return this.makeRequest({
         api: API_PATH.COMMUNICATION_PREFERENCES,
         endpoint: `/statuses/${email}`,
+        ...opts,
+      });
+    },
+    createForm(opts = {}) {
+      return this.makeRequest({
+        method: "POST",
+        api: API_PATH.MARKETINGV3,
+        endpoint: "/forms",
+        ...opts,
+      });
+    },
+    updateForm({
+      formId, ...opts
+    }) {
+      return this.makeRequest({
+        method: "PATCH",
+        api: API_PATH.MARKETINGV3,
+        endpoint: `/forms/${formId}`,
+        ...opts,
+      });
+    },
+    listForms(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.MARKETINGV3,
+        endpoint: "/forms",
+        ...opts,
+      });
+    },
+    listSitePages(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CMS,
+        endpoint: "/pages/site-pages",
+        ...opts,
+      });
+    },
+    listLandingPages(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CMS,
+        endpoint: "/pages/landing-pages",
+        ...opts,
+      });
+    },
+    cloneSitePage(opts = {}) {
+      return this.makeRequest({
+        method: "POST",
+        api: API_PATH.CMS,
+        endpoint: "/pages/site-pages/clone",
+        ...opts,
+      });
+    },
+    createPage(opts = {}) {
+      return this.makeRequest({
+        method: "POST",
+        api: API_PATH.CMS,
+        endpoint: "/pages/site-pages",
+        ...opts,
+      });
+    },
+    updatePage({
+      pageId, ...opts
+    }) {
+      return this.makeRequest({
+        method: "PATCH",
+        api: API_PATH.CMS,
+        endpoint: `/pages/site-pages/${pageId}`,
+        ...opts,
+      });
+    },
+    createLandingPage(opts = {}) {
+      return this.makeRequest({
+        method: "POST",
+        api: API_PATH.CMS,
+        endpoint: "/pages/landing-pages",
+        ...opts,
+      });
+    },
+    updateLandingPage({
+      pageId, ...opts
+    }) {
+      return this.makeRequest({
+        method: "PATCH",
+        api: API_PATH.CMS,
+        endpoint: `/pages/landing-pages/${pageId}`,
+        ...opts,
+      });
+    },
+    listLandingFolders(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.CMS,
+        endpoint: "/pages/landing-pages/folders",
+        ...opts,
+      });
+    },
+    createEmail(opts = {}) {
+      return this.makeRequest({
+        method: "POST",
+        api: API_PATH.MARKETINGV3,
+        endpoint: "/emails",
+        ...opts,
+      });
+    },
+    cloneEmail(opts = {}) {
+      return this.makeRequest({
+        method: "POST",
+        api: API_PATH.MARKETINGV3,
+        endpoint: "/emails/clone",
+        ...opts,
+      });
+    },
+    createContactWorkflow(opts = {}) {
+      return this.makeRequest({
+        method: "POST",
+        api: API_PATH.AUTOMATIONV4,
+        endpoint: "/flows",
         ...opts,
       });
     },

@@ -1,15 +1,16 @@
 import {
-  OBJECT_TYPE, ASSOCIATION_CATEGORY,
+  ASSOCIATION_CATEGORY,
+  OBJECT_TYPE,
 } from "../../common/constants.mjs";
-import common from "../common/common-create-object.mjs";
 import appProp from "../common/common-app-prop.mjs";
+import common from "../common/common-create-object.mjs";
 
 export default {
   ...common,
   key: "hubspot-create-lead",
   name: "Create Lead",
   description: "Create a lead in Hubspot. [See the documentation](https://developers.hubspot.com/beta-docs/guides/api/crm/objects/leads#create-leads)",
-  version: "0.0.11",
+  version: "0.0.12",
   type: "action",
   props: {
     ...appProp.props,

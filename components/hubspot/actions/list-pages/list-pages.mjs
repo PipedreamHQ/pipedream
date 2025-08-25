@@ -4,7 +4,7 @@ export default {
   key: "hubspot-list-pages",
   name: "List Pages",
   description: "Retrieves a list of site pages. [See the documentation](https://developers.hubspot.com/docs/reference/api/cms/pages)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     hubspot,

@@ -1,5 +1,5 @@
-import common from "../common/common.mjs";
 import { DEFAULT_LIMIT } from "../../common/constants.mjs";
+import common from "../common/common.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
@@ -7,7 +7,7 @@ export default {
   key: "hubspot-new-contact-property-change",
   name: "New Contact Property Change",
   description: "Emit new event when a specified property is provided or updated on a contact. [See the documentation](https://developers.hubspot.com/docs/api/crm/contacts)",
-  version: "0.0.20",
+  version: "0.0.21",
   dedupe: "unique",
   type: "source",
   props: {

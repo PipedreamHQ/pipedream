@@ -4,7 +4,7 @@ export default {
   key: "hubspot-list-marketing-emails",
   name: "List Marketing Emails",
   description: "Retrieves a list of marketing emails. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/emails/marketing-emails#get-%2Fmarketing%2Fv3%2Femails%2F)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     hubspot,

@@ -1,13 +1,13 @@
 import { OBJECT_TYPE } from "../../common/constants.mjs";
-import common from "../common/common-update-object.mjs";
 import appProp from "../common/common-app-prop.mjs";
+import common from "../common/common-update-object.mjs";
 
 export default {
   ...common,
   key: "hubspot-update-deal",
   name: "Update Deal",
   description: "Update a deal in Hubspot. [See the documentation](https://developers.hubspot.com/beta-docs/guides/api/crm/objects/deals#update-deals)",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "action",
   methods: {
     ...common.methods,

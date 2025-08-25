@@ -1,13 +1,13 @@
-import hubspot from "../../hubspot.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 import { API_PATH } from "../../common/constants.mjs";
 import { parseObject } from "../../common/utils.mjs";
-import { ConfigurationError } from "@pipedream/platform";
+import hubspot from "../../hubspot.app.mjs";
 
 export default {
   key: "hubspot-batch-update-companies",
   name: "Batch Update Companies",
   description: "Update a batch of companies in Hubspot. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/objects/companies#post-%2Fcrm%2Fv3%2Fobjects%2Fcompanies%2Fbatch%2Fupdate)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     hubspot,

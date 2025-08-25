@@ -1,16 +1,16 @@
 /* eslint-disable no-unused-vars */
-import common from "../common/common-create.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import {
   ASSOCIATION_CATEGORY, OBJECT_TYPE,
 } from "../../common/constants.mjs";
+import common from "../common/common-create.mjs";
 
 export default {
   ...common,
   key: "hubspot-create-meeting",
   name: "Create Meeting",
   description: "Creates a new meeting with optional associations to other objects. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/engagements/meetings#post-%2Fcrm%2Fv3%2Fobjects%2Fmeetings)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     ...common.props,

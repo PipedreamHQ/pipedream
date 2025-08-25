@@ -1,15 +1,15 @@
-import common from "../common/common-create.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import {
   ASSOCIATION_CATEGORY, ENGAGEMENT_TYPE_OPTIONS,
 } from "../../common/constants.mjs";
+import common from "../common/common-create.mjs";
 
 export default {
   ...common,
   key: "hubspot-create-engagement",
   name: "Create Engagement",
   description: "Create a new engagement for a contact. [See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
-  version: "0.0.22",
+  version: "0.0.23",
   type: "action",
   props: {
     ...common.props,
