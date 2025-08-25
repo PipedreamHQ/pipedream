@@ -9,7 +9,7 @@ export default {
   key: "notion-updated-page",
   name: "New or Updated Page in Database (By Property)",
   description: "Emit new event when a page is created or updated in the selected database. [See the documentation](https://developers.notion.com/reference/page)",
-  version: "0.1.10",
+  version: "0.1.11",
   type: "source",
   dedupe: "unique",
   props: {
@@ -166,6 +166,10 @@ export default {
         break;
       }
 
+      // Check if this is a new page first
+      const pageExistsInDB = propertyValues[page.id] != null;
+      isNewPage = !pageExistsInDB;
+
       for (const propertyName of propertiesToCheck) {
         const previousValue = structuredClone(propertyValues[page.id]?.[propertyName]);
         // value used to compare and to save to this.db
@@ -173,7 +177,6 @@ export default {
         // (unmodified) value that should be emitted
         const currentValueToEmit = page.properties[propertyName];
 
-        const pageExistsInDB = propertyValues[page.id] != null;
         const propertyChanged =
           JSON.stringify(previousValue) !== JSON.stringify(currentValueToSave);
 
@@ -191,25 +194,28 @@ export default {
         }
 
         if (!pageExistsInDB) {
-          isNewPage = true;
-          propertyHasChanged = true;
-          propertyValues[page.id] = {
-            [propertyName]: currentValueToSave,
-          };
-          changes.push({
-            property: propertyName,
-            previousValue,
-            currentValue: currentValueToEmit,
-          });
+          // For new pages, always track the properties
+          if (!propertyValues[page.id]) {
+            propertyValues[page.id] = {};
+          }
+          propertyValues[page.id][propertyName] = currentValueToSave;
+
+          // Only mark as changed (to emit event) if includeNewPages is true
+          if (this.includeNewPages) {
+            propertyHasChanged = true;
+            changes.push({
+              property: propertyName,
+              previousValue,
+              currentValue: currentValueToEmit,
+            });
+          }
         }
       }
 
-      if (isNewPage && !this.includeNewPages) {
-        console.log(`Ignoring new page: ${page.id}`);
-        continue;
-      }
-
-      if (propertyHasChanged) {
+      // Only emit events if:
+      // 1. It's an existing page with changes, OR
+      // 2. It's a new page and includeNewPages is true
+      if (propertyHasChanged && (!isNewPage || this.includeNewPages)) {
         this._emitEvent(page, changes, isNewPage);
       }
     }

@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/sms_magic",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream SMS Magic Components",
-  "main": "dist/app/sms_magic.app.mjs",
+  "main": "sms_magic.app.mjs",
   "keywords": [
     "pipedream",
     "sms_magic"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/sms_magic",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

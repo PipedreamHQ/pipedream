@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/softledger",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream SoftLedger Components",
-  "main": "dist/app/softledger.app.mjs",
+  "main": "softledger.app.mjs",
   "keywords": [
     "pipedream",
     "softledger"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/softledger",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

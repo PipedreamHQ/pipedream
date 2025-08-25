@@ -960,6 +960,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/apify_oauth: {}
+
   components/apilio: {}
 
   components/apipie_ai: {}
@@ -1782,6 +1784,8 @@ importers:
 
   components/bolt_iot: {}
 
+  components/booking_experts: {}
+
   components/bookingmood: {}
 
   components/boomtrain:
@@ -1937,6 +1941,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+
+  components/bridge_interactive_platform: {}
 
   components/bright_data:
     dependencies:
@@ -8454,7 +8460,11 @@ importers:
 
   components/maxmind_minfraud: {}
 
-  components/mboum: {}
+  components/mboum:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/mctime:
     dependencies:
@@ -8808,6 +8818,8 @@ importers:
   components/milvus: {}
 
   components/mindbody: {}
+
+  components/mindee: {}
 
   components/mindmeister: {}
 
@@ -11027,7 +11039,11 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
-  components/prisma_management_api: {}
+  components/prisma_management_api:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^1.5.1
+        version: 1.6.6
 
   components/prismic: {}
 
@@ -12657,9 +12673,12 @@ importers:
         specifier: ^1.3.9
         version: 1.3.12
       '@pipedream/platform':
-        specifier: ^0.10.0
-        version: 0.10.0
+        specifier: ^3.1.0
+        version: 3.1.0
     devDependencies:
+      '@pipedream/types':
+        specifier: ^0.3.2
+        version: 0.3.2
       '@types/node':
         specifier: ^17.0.36
         version: 17.0.45
@@ -14437,6 +14456,10 @@ importers:
       '@pipedream/platform':
         specifier: ^1.1.0
         version: 1.6.6
+    devDependencies:
+      '@pipedream/types':
+        specifier: ^0.3.2
+        version: 0.3.2
 
   components/tomba: {}
 
@@ -14599,7 +14622,11 @@ importers:
         specifier: ^1.6.2
         version: 1.6.6
 
-  components/trunkrs: {}
+  components/trunkrs:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/truss: {}
 
@@ -15848,6 +15875,10 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.0
         version: 1.6.6
+    devDependencies:
+      '@pipedream/types':
+        specifier: ^0.3.2
+        version: 0.3.2
 
   components/xverify:
     dependencies:
@@ -16553,6 +16584,14 @@ importers:
       dotenv:
         specifier: ^6.0.0
         version: 6.2.0
+
+  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
+
+  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
+
+  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
+
+  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
 
   packages/ai:
     dependencies:
