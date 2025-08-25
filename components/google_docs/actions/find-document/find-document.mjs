@@ -14,7 +14,7 @@ export default {
   ...others,
   key: "google_docs-find-document",
   name: "Find Document",
-  version: "0.0.2",
+  version: "0.0.3",
   description,
   type,
   props: {

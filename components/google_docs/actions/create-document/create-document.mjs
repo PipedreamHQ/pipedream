@@ -4,7 +4,7 @@ export default {
   key: "google_docs-create-document",
   name: "Create a New Document",
   description: "Create a new document. [See the documentation](https://developers.google.com/docs/api/reference/rest/v1/documents/create)",
-  version: "0.1.6",
+  version: "0.1.7",
   type: "action",
   props: {
     googleDocs,

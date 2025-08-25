@@ -34,6 +34,19 @@ export default {
           .filter((image) => image.label);
       },
     },
+    tabId: {
+      type: "string",
+      label: "Tab ID",
+      description: "The Tab ID",
+      optional: true,
+      async options({ documentId }) {
+        const { tabs } = await this.getDocument(documentId, true);
+        return Object.values(tabs).map(({ tabProperties }) => ({
+          label: tabProperties.title,
+          value: tabProperties.tabId,
+        }));
+      },
+    },
     imageUri: {
       type: "string",
       label: "Image URL",
@@ -133,6 +146,18 @@ export default {
     },
     async replaceImage(documentId, image) {
       return this._batchUpdate(documentId, "replaceImage", image);
+    },
+    async insertTable(documentId, table) {
+      return this._batchUpdate(documentId, "insertTable", table);
+    },
+    async insertPageBreak(documentId, request) {
+      return this._batchUpdate(documentId, "insertPageBreak", request);
+    },
+    async createDocument(request) {
+      const { data } = await this.docs().documents.create({
+        requestBody: request,
+      });
+      return data;
     },
     async listDocsOptions(driveId, query, pageToken = null) {
       let q = "mimeType='application/vnd.google-apps.document'";
