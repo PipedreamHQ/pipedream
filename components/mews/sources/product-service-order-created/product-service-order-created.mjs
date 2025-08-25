@@ -5,8 +5,9 @@ export default {
   name: "Product Service Order Created",
   description: "Emit new product service orders as they are created (polling)",
   key: "mews-product-service-order-created",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
+  dedupe: "unique",
   methods: {
     ...base.methods,
     getRequester() {

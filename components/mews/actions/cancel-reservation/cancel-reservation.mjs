@@ -4,7 +4,7 @@ export default {
   name: "Cancel Reservation",
   description: "Cancel a reservation in Mews.",
   key: "mews-cancel-reservation",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
@@ -14,11 +14,19 @@ export default {
         "reservationId",
       ],
     },
+    notes: {
+      description: "Reason for cancellation.",
+      propDefinition: [
+        app,
+        "notes",
+      ],
+    },
   },
   async run({ $ }) {
     const {
       app,
       reservationId,
+      notes,
     } = this;
     const response = await app.reservationsCancel({
       $,
@@ -26,9 +34,10 @@ export default {
         ReservationIds: [
           reservationId,
         ],
+        Notes: notes,
       },
     });
-    $.export("summary", "Successfully cancelled reservation");
+    $.export("$summary", "Successfully cancelled reservation");
     return response;
   },
 };

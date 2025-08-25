@@ -5,8 +5,9 @@ export default {
   name: "Reservation Cancelled",
   description: "Emit new reservations as they are cancelled (polling)",
   key: "mews-reservation-cancelled",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
+  dedupe: "unique",
   methods: {
     ...base.methods,
     getRequester() {

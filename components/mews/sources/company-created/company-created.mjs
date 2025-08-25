@@ -2,22 +2,22 @@ import base from "../common/polling.mjs";
 
 export default {
   ...base,
-  name: "New Reservation Created",
-  description: "Emit new reservations as they are created (polling)",
-  key: "mews-reservation-created",
-  version: "0.0.2",
+  name: "New Company",
+  description: "Emit new event when a company is created",
+  key: "mews-company-created",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   methods: {
     ...base.methods,
     getRequester() {
-      return this.app.reservationsGetAll;
+      return this.app.companiesGetAll;
     },
     getResultKey() {
-      return "Reservations";
+      return "Companies";
     },
     getResourceName() {
-      return "Reservation";
+      return "Company";
     },
     getId(resource) {
       return resource?.Id || resource?.id;
