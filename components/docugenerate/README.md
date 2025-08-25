@@ -16,7 +16,7 @@ The DocuGenerate API lets you automate document creation and management tasks wi
 
 1. Sign up for a [DocuGenerate](https://www.docugenerate.com/) account
 2. Get your unique API Key from the Developers tab in the [Settings](https://app.docugenerate.com/settings/developers) page
-5. Copy the API Key for use in Pipedream
+3. Copy the API Key for use in Pipedream
 
 ## Connecting to Pipedream
 
