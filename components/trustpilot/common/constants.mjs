@@ -11,7 +11,7 @@ export const WEBHOOK_EVENTS = {
 
 export const ENDPOINTS = {
   // Business Units
-  BUSINESS_UNITS: "/business-units",
+  BUSINESS_UNITS: "/business-units/search",
   BUSINESS_UNIT_BY_ID: "/business-units/{businessUnitId}",
 
   // Public Reviews

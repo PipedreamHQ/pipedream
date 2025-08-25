@@ -14,6 +14,18 @@ export default {
         "businessUnitId",
       ],
     },
+    sku: {
+      propDefinition: [
+        trustpilot,
+        "sku",
+      ],
+    },
+    productUrl: {
+      propDefinition: [
+        trustpilot,
+        "productUrl",
+      ],
+    },
     stars: {
       propDefinition: [
         trustpilot,
@@ -62,6 +74,8 @@ export default {
   async run({ $ }) {
     const {
       businessUnitId,
+      sku,
+      productUrl,
       stars,
       sortBy,
       limit,
@@ -74,6 +88,8 @@ export default {
     try {
       const result = await this.trustpilot.getProductReviews({
         businessUnitId,
+        sku,
+        productUrl,
         stars,
         sortBy,
         limit,
