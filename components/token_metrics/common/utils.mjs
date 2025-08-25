@@ -1,11 +1,9 @@
-
-
 // Build parameters object from props, filtering out undefined values
 export function buildParams(props, filterKeys) {
   const params = {};
-  
+
   // Add filter parameters
-  filterKeys.forEach(key => {
+  filterKeys.forEach((key) => {
     const propKey = toCamelCase(key);
     if (props[propKey]) {
       // Handle arrays by joining them with commas for the API
@@ -16,7 +14,7 @@ export function buildParams(props, filterKeys) {
       }
     }
   });
-  
+
   // Add pagination parameters
   if (props.limit !== undefined) {
     params.limit = props.limit;
@@ -24,7 +22,7 @@ export function buildParams(props, filterKeys) {
   if (props.page !== undefined) {
     params.page = props.page;
   }
-  
+
   return params;
 }
 
@@ -35,53 +33,28 @@ export function toCamelCase(str) {
 
 // Convert camelCase to snake_case for API parameters
 export function toSnakeCase(str) {
-  return str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
+  return str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
 }
 
 // Generate filter summary for execution summary
 export function generateFilterSummary(props, filterKeys) {
   const appliedFilters = [];
-  
-  filterKeys.forEach(key => {
+
+  filterKeys.forEach((key) => {
     const propKey = toCamelCase(key);
     const value = props[propKey];
     if (value) {
-      const label = key.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase());
+      const label = key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
       // Handle arrays by joining them for display
-      const displayValue = Array.isArray(value) ? value.join(", ") : value;
+      const displayValue = Array.isArray(value)
+        ? value.join(", ")
+        : value;
       appliedFilters.push(`${label}: ${displayValue}`);
     }
   });
-  
-  return appliedFilters.length > 0 ? ` with filters: ${appliedFilters.join(", ")}` : "";
+
+  return appliedFilters.length > 0
+    ? ` with filters: ${appliedFilters.join(", ")}`
+    : "";
 }
 
-
-
-// Generate props object for an endpoint
-export function generateEndpointProps(app, endpoint) {
-  const props = {
-    [app.app]: app, // Add the app reference
-  };
-  
-  // Add filter props based on endpoint configuration
-  endpoint.filters.forEach(filterKey => {
-    const propKey = toCamelCase(filterKey);
-    props[propKey] = {
-      type: "string",
-      label: filterKey.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase()),
-      description: `Filter by ${filterKey.replace(/_/g, " ")}`,
-      optional: true,
-    };
-  });
-  
-  // Add common pagination props
-  props.limit = {
-    propDefinition: [app, "limit"],
-  };
-  props.page = {
-    propDefinition: [app, "page"], 
-  };
-  
-  return props;
-}

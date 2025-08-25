@@ -1,6 +1,8 @@
 import tokenMetrics from "../../token_metrics.app.mjs";
 import { ENDPOINTS } from "../../common/constants.mjs";
-import { buildParams, generateFilterSummary } from "../../common/utils.mjs";
+import {
+  buildParams, generateFilterSummary,
+} from "../../common/utils.mjs";
 
 const endpoint = ENDPOINTS.TOKENS;
 
@@ -8,7 +10,7 @@ export default {
   key: "token_metrics-get-tokens",
   name: "Get Tokens",
   description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/tokens)`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     tokenMetrics,
@@ -74,10 +76,10 @@ export default {
 
     // Generate summary using utility function
     const filterSummary = generateFilterSummary(this, endpoint.filters);
-    
+
     // Use $ context for export
     $.export("$summary", `Successfully retrieved tokens list${filterSummary}`);
-    
+
     return response;
   },
 };
