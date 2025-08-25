@@ -1,4 +1,4 @@
-import notiffIo from "../notiff_io/notiff_io.app.mjs";
+import notiffIo from "@pipedream/notiff_io";
 
 export default {
   ...notiffIo,

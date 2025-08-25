@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/procore_sandbox",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Procore Sandbox Components",
   "main": "procore_sandbox.app.mjs",
   "keywords": [
@@ -11,5 +11,8 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/procore": "^0.1.0"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/gitlab_developer_app",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream GitLab (Developer App) Components",
   "main": "gitlab_developer_app.app.mjs",
   "keywords": [
@@ -12,7 +12,8 @@
   "dependencies": {
     "@pipedream/platform": "^1.6.4",
     "lodash": "^4.17.21",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "@pipedream/gitlab": "^0.5.6"
   },
   "publishConfig": {
     "access": "public"

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/wildberries",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Wildberries Components",
   "main": "dist/app/wildberries.app.mjs",
   "keywords": [
@@ -17,5 +17,8 @@
   },
   "dependencies": {
     "@pipedream/platform": "^1.1.1"
+  },
+  "devDependencies": {
+    "@pipedream/types": "^0.3.2"
   }
 }

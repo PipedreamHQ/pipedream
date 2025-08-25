@@ -1,4 +1,4 @@
-import aws from "../aws/aws.app.mjs";
+import aws from "@pipedream/aws";
 import {
   SESClient,
   SendTemplatedEmailCommand,

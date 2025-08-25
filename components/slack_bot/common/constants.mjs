@@ -1,4 +1,4 @@
-import constants from "../../slack/common/constants.mjs";
+import constants from "@pipedream/slack/common/constants.mjs";
 
 const LAST_TIMESTAMP = "lastTimestamp";
 

@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/pikaso",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Pikaso Components",
   "main": "dist/app/pikaso.app.mjs",
   "keywords": [
@@ -17,5 +17,8 @@
   },
   "dependencies": {
     "@pipedream/platform": "^1.1.1"
+  },
+  "devDependencies": {
+    "@pipedream/types": "^0.3.2"
   }
 }

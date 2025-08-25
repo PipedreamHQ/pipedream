@@ -1,4 +1,4 @@
-import component from "../../../slack/actions/set-channel-topic/set-channel-topic.mjs";
+import component from "@pipedream/slack/actions/set-channel-topic/set-channel-topic.mjs";
 import utils from "../../common/utils.mjs";
 
 /* eslint-disable pipedream/required-properties-type */
@@ -11,5 +11,5 @@ export default {
   }),
   key: "slack_bot-set-channel-topic",
   description: "Set the topic on a selected channel (Bot). [See the documentation](https://api.slack.com/methods/conversations.setTopic)",
-  version: "0.0.4",
+  version: "0.0.5",
 };

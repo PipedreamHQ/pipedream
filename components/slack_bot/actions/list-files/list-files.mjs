@@ -1,4 +1,4 @@
-import component from "../../../slack/actions/list-files/list-files.mjs";
+import component from "@pipedream/slack/actions/list-files/list-files.mjs";
 import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
 
@@ -30,5 +30,5 @@ export default {
   }),
   key: "slack_bot-list-files",
   description: "Return a list of files within a team (Bot). [See the documentation](https://api.slack.com/methods/files.list)",
-  version: "0.0.4",
+  version: "0.0.5",
 };

@@ -1,5 +1,4 @@
 import { axios } from "@pipedream/platform";
-import { defineApp } from "@pipedream/types";
 import * as crypto from "crypto";
 import {
   BASE_URL,
@@ -23,7 +22,7 @@ import {
   validateReviewId,
 } from "./common/utils.mjs";
 
-export default defineApp({
+export default {
   type: "app",
   app: "trustpilot",
   propDefinitions: {
@@ -578,4 +577,4 @@ export default defineApp({
     },
 
   },
-});
+};

@@ -1,4 +1,4 @@
-import slack from "../slack/slack.app.mjs";
+import slack from "@pipedream/slack";
 
 export default {
   ...slack,

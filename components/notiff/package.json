@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/notiff",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Notiff Components",
   "main": "notiff.app.mjs",
   "keywords": [
@@ -13,6 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.0.3"
+    "@pipedream/platform": "^3.0.3",
+    "@pipedream/notiff_io": "^0.1.0"
   }
 }
