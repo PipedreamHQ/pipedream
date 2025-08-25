@@ -4,7 +4,7 @@ export default {
   key: "mboum-get-earnings",
   name: "Get Earnings Calendar",
   description: "Get upcoming and historical earnings announcements and reports. [See the documentation](https://docs.mboum.com/#stocks-options-small-stylecolor-f8f2f2background-fa256fpadding-1px-4pxborder-radius-3pxhotsmall-GETapi-v2-markets-calendar-earnings)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     mboum,
@@ -19,7 +19,7 @@ export default {
       description: "Enter a calendar date. Format: YYYY-MM-DD",
     },
     priceMin: {
-      type: "number",
+      type: "string",
       label: "Price Min",
       description: "Filter results by min price of the stock per share value",
       optional: true,
