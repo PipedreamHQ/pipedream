@@ -18,7 +18,7 @@ export default {
       type: "string",
       label: "Service",
       description: "The service of the shipment to get tracking information for",
-      options: constants.SHIPPIMG_SERVICES,
+      options: constants.SHIPPING_SERVICES,
       optional: true,
     },
     requesterCountryCode: {

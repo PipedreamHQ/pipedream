@@ -1,4 +1,4 @@
-const SHIPPIMG_SERVICES = [
+const SHIPPING_SERVICES = [
   "dgf",
   "dsc",
   "ecommerce",
@@ -37,7 +37,7 @@ const MODE_OF_TRANSPORT = [
 ];
 
 export default {
-  SHIPPIMG_SERVICES,
+  SHIPPING_SERVICES,
   STATUS_OPTIONS,
   SUBSCRIPTION_TYPES,
   MODE_OF_TRANSPORT,
