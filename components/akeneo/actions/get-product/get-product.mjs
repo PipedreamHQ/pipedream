@@ -33,10 +33,10 @@ export default {
         "withQualityScores",
       ],
     },
-    withCompleteness: {
+    withCompletenesses: {
       propDefinition: [
         akeneo,
-        "withCompleteness",
+        "withCompletenesses",
       ],
     },
   },
@@ -48,7 +48,7 @@ export default {
         with_attribute_options: this.withAttributeOptions,
         with_asset_share_links: this.withAssetShareLinks,
         with_quality_scores: this.withQualityScores,
-        with_completeness: this.withCompleteness,
+        with_completenesses: this.withCompletenesses,
       },
     });
 

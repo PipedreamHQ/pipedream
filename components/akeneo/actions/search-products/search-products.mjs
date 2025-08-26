@@ -50,7 +50,7 @@ export default {
     withCount: {
       type: "boolean",
       label: "With Count",
-      description: "Return the count of items in the response. Be carefull with that, on a big catalog, it can decrease performance in a significative way",
+      description: "Return the count of items in the response. Be careful: on large catalogs, enabling counts can significantly impact performance.",
       optional: true,
     },
     withAttributeOptions: {
@@ -71,10 +71,10 @@ export default {
         "withQualityScores",
       ],
     },
-    withCompleteness: {
+    withCompletenesses: {
       propDefinition: [
         akeneo,
-        "withCompleteness",
+        "withCompletenesses",
       ],
     },
     page: {
@@ -107,7 +107,7 @@ export default {
         with_attribute_options: this.withAttributeOptions,
         with_asset_share_links: this.withAssetShareLinks,
         with_quality_scores: this.withQualityScores,
-        with_completeness: this.withCompleteness,
+        with_completenesses: this.withCompletenesses,
         page: this.page,
         limit: this.limit,
       },

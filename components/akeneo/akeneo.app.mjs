@@ -116,7 +116,6 @@ export default {
       label: "Attribute",
       description: "A code identifying the attribute",
       async options({ page }) {
-        page++;
         const { _embedded: { items } } = await this.getAttributes({
           params: {
             limit: PAGE_SIZE,
@@ -144,7 +143,7 @@ export default {
       description: "Return product quality scores in the response",
       optional: true,
     },
-    withCompleteness: {
+    withCompletenesses: {
       type: "boolean",
       label: "With Completeness",
       description: "Return product completenesses in the response",
