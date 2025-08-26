@@ -8,7 +8,7 @@ export default {
   key: "token_metrics-get-market-metrics",
   name: "Get Market Metrics",
   description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/market-metrics)`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     tokenMetrics,
