@@ -3449,6 +3449,9 @@ importers:
 
   components/danny_test_app: {}
 
+  components/dante_ai:
+    specifiers: {}
+
   components/dappier: {}
 
   components/darksky_api:
