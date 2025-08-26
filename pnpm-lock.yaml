@@ -818,6 +818,9 @@ importers:
       '@aws-sdk/client-sesv2':
         specifier: ^3.87.0
         version: 3.696.0(aws-crt@1.25.0)
+      '@pipedream/aws':
+        specifier: ^1.1.0
+        version: 1.1.0(aws-crt@1.25.0)(babel-plugin-macros@3.1.0)
       '@pipedream/platform':
         specifier: ^0.10.0
         version: 0.10.0
@@ -5531,6 +5534,9 @@ importers:
 
   components/gitlab_developer_app:
     dependencies:
+      '@pipedream/gitlab':
+        specifier: ^0.5.6
+        version: 0.5.6
       '@pipedream/platform':
         specifier: ^1.6.4
         version: 1.6.6
@@ -9455,6 +9461,9 @@ importers:
 
   components/notiff:
     dependencies:
+      '@pipedream/notiff_io':
+        specifier: ^0.1.0
+        version: 0.1.0
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
@@ -10511,6 +10520,10 @@ importers:
       '@pipedream/platform':
         specifier: ^1.1.1
         version: 1.6.6
+    devDependencies:
+      '@pipedream/types':
+        specifier: ^0.3.2
+        version: 0.3.2
 
   components/piloterr:
     dependencies:
@@ -11081,7 +11094,11 @@ importers:
         specifier: ^11.1.0
         version: 11.1.0
 
-  components/procore_sandbox: {}
+  components/procore_sandbox:
+    dependencies:
+      '@pipedream/procore':
+        specifier: ^0.1.0
+        version: 0.1.0
 
   components/prodatakey: {}
 
@@ -12215,6 +12232,10 @@ importers:
       '@pipedream/platform':
         specifier: ^1.2.1
         version: 1.6.6
+    devDependencies:
+      '@pipedream/types':
+        specifier: ^0.3.2
+        version: 0.3.2
 
   components/salesmsg:
     dependencies:
@@ -13109,6 +13130,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
+      '@pipedream/slack':
+        specifier: ^0.10.2
+        version: 0.10.2
       '@slack/web-api':
         specifier: ^5.15.0
         version: 5.15.0
@@ -15606,6 +15630,10 @@ importers:
       '@pipedream/platform':
         specifier: ^1.1.1
         version: 1.6.6
+    devDependencies:
+      '@pipedream/types':
+        specifier: ^0.3.2
+        version: 0.3.2
 
   components/winston_ai:
     dependencies:
@@ -16022,6 +16050,9 @@ importers:
       '@googleapis/youtube':
         specifier: ^6.0.0
         version: 6.0.0
+      '@pipedream/youtube_data_api':
+        specifier: ^1.0.1
+        version: 1.0.1
       got:
         specifier: ^12.5.1
         version: 12.6.1
@@ -16588,14 +16619,6 @@ importers:
       dotenv:
         specifier: ^6.0.0
         version: 6.2.0
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
 
   packages/ai:
     dependencies:
@@ -20443,6 +20466,9 @@ packages:
     resolution: {integrity: sha512-dfUnCxiN9H4ap84DvD2ubjw+3vUNpstxa0TneY/Paat8a3R4uQZDLSvWjmznAY/DoahqTHl9V46HF/Zs3F29pg==}
     engines: {node: '>= 10.0.0'}
 
+  '@pipedream/aws@1.1.0':
+    resolution: {integrity: sha512-1v/AcyW72RgAd6ZSQ6odj6VN9dy0w1JQZPc97s2+JuIEkfgxrH/o/djkdyMAPSwGx+8uU9EMKIXMQdNDyLdlSA==}
+
   '@pipedream/brex@0.1.0':
     resolution: {integrity: sha512-Cq/A6fwVEb9kAGiAtcPlNpL1JJhBevMxOnMhQzUkUxzQTBNedsmvMzW963cNxqG45V4fyOBuHEPoXl3meH4ATg==}
 
@@ -20463,6 +20489,9 @@ packages:
 
   '@pipedream/eslint-plugin-pipedream@0.2.5':
     resolution: {integrity: sha512-99e88TuaQM9VGc64JlJueuk+3dCyuNuxOqTPCVg+QLbfzqovHnDHZ5cHqkzPjDLtFsFrAucIANIcgKcb0YAoxg==}
+
+  '@pipedream/gitlab@0.5.6':
+    resolution: {integrity: sha512-HoGZjfI5z5cUU4KPo9f0QJ4pLS+jMaK5132OQwlnzJ3FbqH+MSBxqQoRNoOcBfjGfEYfRRbs1wId592uC6nVmg==}
 
   '@pipedream/google_drive@0.8.8':
     resolution: {integrity: sha512-cwRCfFv86+GW0G3huAzhXCPvZ+BWaQ+KAeOlGUJBCK1sPsHzNWY1sOAOvDKDVPh1xiSyCzO29+e9UynCfcCSrw==}
@@ -20490,6 +20519,9 @@ packages:
 
   '@pipedream/monday@0.7.0':
     resolution: {integrity: sha512-ovVtLhKMJpOTSoc7JcVLrbVrJxW4BT96eW79TiiPc+DgMSM7ouRmCk5lHL2xCAtrqDForXSrXXGjHOAzhJsytA==}
+
+  '@pipedream/notiff_io@0.1.0':
+    resolution: {integrity: sha512-jgt5JJGxI9SM6chDeQpxbaS/NSuUUxhe/PeAXRdZKx28Gp0QCxW7egIImC3pqQ9aMSubaeygRyR0ELhKhmbtPg==}
 
   '@pipedream/notion@0.6.2':
     resolution: {integrity: sha512-xA2oh2eVwUrQ/pvAAtlLjWaWJsYaDhNQ00W3xkv5RcAMYKA0EbUQzSjL6ljSWlWiye3CftoFxK/L56Mld38iOQ==}
@@ -20533,6 +20565,9 @@ packages:
   '@pipedream/postgresql@2.2.3':
     resolution: {integrity: sha512-Co9r4UKvvimEPo9T4v+EfVn/Sqqw8+X7PtvsAF7tydq7CHpkmOT9eYAiD0Kuybg5WbuWuqDaXHHmhVtsAxgpBw==}
 
+  '@pipedream/procore@0.1.0':
+    resolution: {integrity: sha512-9AD+MfV/PrgvZN5BJkTiDXZh8ymcjBLd1coTIVFOAfRFvU8Iz1dHfIn40OpgdylEo8bsqJLJHN0V8d4pAk1Byg==}
+
   '@pipedream/quickbooks@0.7.1':
     resolution: {integrity: sha512-N1+aZZRPSFiUSSrXWAQ+5zROhKwwkkXZ4S88cH4XZYqXehTpDPIOsHwMMhxnLmsQtzslb2DisShLZRQuWSxRww==}
 
@@ -20557,6 +20592,9 @@ packages:
   '@pipedream/shopify@0.7.0':
     resolution: {integrity: sha512-bZoTDxcwBIepWhT8LVXzOxAO3S9NM8U1NEfS5106aDHFizr6L7lg/78+GaPdishK12oce0B/fCFY0ssd5AQxWA==}
 
+  '@pipedream/slack@0.10.2':
+    resolution: {integrity: sha512-hzOsyiwM+QqdVdgmc/aZhUmNKHGv7gPbo5JbFVkIQxb2C0WsK4V1in6JYbylkA9TR4/QLFpOlXyuKm14d6L0ZQ==}
+
   '@pipedream/snowflake-sdk@1.0.8':
     resolution: {integrity: sha512-/nLCQNjlSCz71MUnOUZqWmnjZTbEX7mie91mstPspb8uDG/GvaDk/RynLGhhYfgEP5d1KWj+OPaI71hmPSxReg==}
 
@@ -20571,6 +20609,9 @@ packages:
 
   '@pipedream/types@0.3.2':
     resolution: {integrity: sha512-sX4UUdEbgCs7JkvyWPLqdtiJkGJ8ishKfo/V4CjH7AhTRuI0oStspphUJI+rj8jqp8nCviw+ba0mRGWlCk+iZQ==}
+
+  '@pipedream/youtube_data_api@1.0.1':
+    resolution: {integrity: sha512-yEh7+PJgzuOY+L8rWjxgb6vIQf+6wL7QyfQLEQ3KTn6dnDdhTTO8+93og7W83FhgmOd1lhUG2jfrmfuSFqHKpg==}
 
   '@pipedreamhq/platform@0.8.1':
     resolution: {integrity: sha512-VMSEi4i5gUXfcbmmXkntTXNCu8uq02lmENh5KHW+PLUHDjX259w5BahdGdD7KWanQSJsyf2BaWXjnEMf9YVEaA==}
@@ -32097,22 +32138,22 @@ packages:
   superagent@3.8.1:
     resolution: {integrity: sha512-VMBFLYgFuRdfeNQSMLbxGSLfmXL/xc+OO+BZp41Za/NRDBet/BNbkRJrYzCUu0u4GU0i/ml2dtT8b9qgkw9z6Q==}
     engines: {node: '>= 4.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@4.1.0:
     resolution: {integrity: sha512-FT3QLMasz0YyCd4uIi5HNe+3t/onxMyEho7C3PSqmti3Twgy2rXT4fmkTz6wRL6bTF4uzPcfkUCa8u4JWHw8Ag==}
     engines: {node: '>= 6.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@5.3.1:
     resolution: {integrity: sha512-wjJ/MoTid2/RuGCOFtlacyGNxN9QLMgcpYLDQlWFIhhdJ93kNscFonGvrpAHSCVjRVj++DGCglocF7Aej1KHvQ==}
     engines: {node: '>= 7.0.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@7.1.6:
     resolution: {integrity: sha512-gZkVCQR1gy/oUXr+kxJMLDjla434KmSOKbx5iGD30Ql+AkJQ/YlPKECJy2nhqOsHLjGHzoDTXNSjhnvWhzKk7g==}
     engines: {node: '>=6.4.0 <13 || >=14'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   supports-color@10.0.0:
     resolution: {integrity: sha512-HRVVSbCCMbj7/kdWF9Q+bbckjBHLtHMEoJWlkmYzzdwhYMkjkOwubLM6t7NbWKjgKamGDrWL1++KrjUO1t9oAQ==}
@@ -39712,6 +39753,44 @@ snapshots:
       '@parcel/watcher-win32-ia32': 2.5.1
       '@parcel/watcher-win32-x64': 2.5.1
 
+  '@pipedream/aws@1.1.0(aws-crt@1.25.0)(babel-plugin-macros@3.1.0)':
+    dependencies:
+      '@aws-sdk/client-cloudwatch-logs': 3.698.0(aws-crt@1.25.0)
+      '@aws-sdk/client-dynamodb': 3.696.0(aws-crt@1.25.0)
+      '@aws-sdk/client-dynamodb-streams': 3.696.0(aws-crt@1.25.0)
+      '@aws-sdk/client-ec2': 3.698.0(aws-crt@1.25.0)
+      '@aws-sdk/client-eventbridge': 3.696.0(aws-crt@1.25.0)
+      '@aws-sdk/client-iam': 3.696.0(aws-crt@1.25.0)
+      '@aws-sdk/client-lambda': 3.698.0(aws-crt@1.25.0)
+      '@aws-sdk/client-rds': 3.697.0(aws-crt@1.25.0)
+      '@aws-sdk/client-redshift-data': 3.840.0(aws-crt@1.25.0)
+      '@aws-sdk/client-redshift-serverless': 3.840.0(aws-crt@1.25.0)
+      '@aws-sdk/client-s3': 3.698.0(aws-crt@1.25.0)
+      '@aws-sdk/client-ses': 3.696.0(aws-crt@1.25.0)
+      '@aws-sdk/client-sfn': 3.696.0(aws-crt@1.25.0)
+      '@aws-sdk/client-sns': 3.696.0(aws-crt@1.25.0)
+      '@aws-sdk/client-sqs': 3.696.0(aws-crt@1.25.0)
+      '@aws-sdk/client-ssm': 3.698.0(aws-crt@1.25.0)
+      '@aws-sdk/client-sts': 3.696.0(aws-crt@1.25.0)
+      '@aws-sdk/lib-storage': 3.734.0(@aws-sdk/client-s3@3.698.0(aws-crt@1.25.0))
+      '@aws-sdk/s3-request-presigner': 3.698.0
+      '@aws-sdk/signature-v4-crt': 3.731.0
+      '@pipedream/helper_functions': 0.3.13
+      '@pipedream/platform': 3.1.0
+      adm-zip: 0.5.16
+      dedent: 1.5.3(babel-plugin-macros@3.1.0)
+      mailparser: 3.7.1
+      mailparser-mit: 1.0.0
+      nanoid: 5.0.8
+      uuid: 9.0.1
+    transitivePeerDependencies:
+      - aws-crt
+      - babel-plugin-macros
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+
   '@pipedream/brex@0.1.0':
     dependencies:
       '@pipedream/platform': 1.6.6
@@ -39752,6 +39831,14 @@ snapshots:
       - debug
 
   '@pipedream/eslint-plugin-pipedream@0.2.5': {}
+
+  '@pipedream/gitlab@0.5.6':
+    dependencies:
+      '@pipedream/platform': 1.6.6
+      lodash: 4.17.21
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - debug
 
   '@pipedream/google_drive@0.8.8':
     dependencies:
@@ -39845,6 +39932,12 @@ snapshots:
     transitivePeerDependencies:
       - debug
       - encoding
+
+  '@pipedream/notiff_io@0.1.0':
+    dependencies:
+      '@pipedream/platform': 3.1.0
+    transitivePeerDependencies:
+      - debug
 
   '@pipedream/notion@0.6.2':
     dependencies:
@@ -39975,6 +40068,13 @@ snapshots:
       - debug
       - pg-native
 
+  '@pipedream/procore@0.1.0':
+    dependencies:
+      '@pipedream/platform': 3.1.0
+      uuid: 11.1.0
+    transitivePeerDependencies:
+      - debug
+
   '@pipedream/quickbooks@0.7.1':
     dependencies:
       '@pipedream/platform': 3.1.0
@@ -40037,6 +40137,15 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+  '@pipedream/slack@0.10.2':
+    dependencies:
+      '@pipedream/platform': 3.1.0
+      '@slack/web-api': 7.9.1
+      async-retry: 1.3.3
+      lodash: 4.17.21
+    transitivePeerDependencies:
+      - debug
+
   '@pipedream/snowflake-sdk@1.0.8(asn1.js@5.4.1)':
     dependencies:
       snowflake-sdk: 1.9.0(asn1.js@5.4.1)
@@ -40061,6 +40170,17 @@ snapshots:
   '@pipedream/types@0.3.2':
     dependencies:
       typescript: 5.6.3
+
+  '@pipedream/youtube_data_api@1.0.1':
+    dependencies:
+      '@googleapis/youtube': 6.0.0
+      '@pipedream/platform': 3.1.0
+      got: 14.4.6
+      util: 0.12.5
+    transitivePeerDependencies:
+      - debug
+      - encoding
+      - supports-color
 
   '@pipedreamhq/platform@0.8.1':
     dependencies:
