@@ -93,8 +93,7 @@ export function ControlApp({ app }: ControlAppProps) {
       useQueryOpts: {
         enabled: !!app,
 
-        // this seems to work (this overrides enabled so don't just set to true)
-        // @ts-ignore
+        // @ts-expect-error this seems to work (this overrides enabled so don't just set to true)
         suspense: !!app,
       },
     },
@@ -124,7 +123,9 @@ export function ControlApp({ app }: ControlAppProps) {
   const selectOptions = useMemo<SelectValue[]>(() => [
     ...accounts,
     newAccountPlaceholder,
-  ], [accounts]);
+  ], [
+    accounts,
+  ]);
 
   const selectValue = useMemo<SelectValue>(() => {
     if (value?.authProvisionId) {

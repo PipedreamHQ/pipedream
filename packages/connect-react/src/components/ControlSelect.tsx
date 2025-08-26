@@ -3,7 +3,9 @@ import {
   useMemo,
   useState,
 } from "react";
-import type { CSSObjectWithLabel, MenuListProps } from "react-select";
+import type {
+  CSSObjectWithLabel, MenuListProps,
+} from "react-select";
 import Select, {
   components,
   Props as ReactSelectProps,
@@ -12,7 +14,7 @@ import CreatableSelect from "react-select/creatable";
 import type { BaseReactSelectProps } from "../hooks/customization-context";
 import { useCustomize } from "../hooks/customization-context";
 import { useFormFieldContext } from "../hooks/form-field-context";
-import { LabelValueOption, RawPropOption } from "../types";
+import { LabelValueOption } from "../types";
 import {
   isOptionWithLabel,
   sanitizeOption,
@@ -26,7 +28,7 @@ type ControlSelectProps<T> = {
   selectProps?: ReactSelectProps<LabelValueOption<T>, boolean>;
   showLoadMoreButton?: boolean;
   onLoadMore?: () => void;
-  components?: ReactSelectProps<LabelValueOption<T>, boolean>['components'];
+  components?: ReactSelectProps<LabelValueOption<T>, boolean>["components"];
 };
 
 export function ControlSelect<T>({
@@ -89,8 +91,7 @@ export function ControlSelect<T>({
           selectOptions.find((item) => item.value === o) || {
             label: String(o),
             value: o,
-          }
-        );
+          });
       }
     } else if (ret && typeof ret === "object" && "__lv" in ret) {
       // Extract the actual option from __lv wrapper

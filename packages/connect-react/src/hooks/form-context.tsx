@@ -252,7 +252,9 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     if (prop.type === "app") {
       const field = fields[prop.name]
       if (field) {
-        const app = "app" in field.extra ? field.extra.app : undefined
+        const app = "app" in field.extra
+          ? field.extra.app
+          : undefined
         errs.push(...(appPropErrors({
           prop,
           value,
@@ -529,6 +531,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       }
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const errorFromDetails = (data: any, ret: SdkError[]) => {
       ret.push({
         name: data.error,

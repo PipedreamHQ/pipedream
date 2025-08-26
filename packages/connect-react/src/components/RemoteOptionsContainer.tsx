@@ -4,8 +4,12 @@ import { useState } from "react";
 import { useFormContext } from "../hooks/form-context";
 import { useFormFieldContext } from "../hooks/form-field-context";
 import { useFrontendClient } from "../hooks/frontend-client-context";
-import { ConfigureComponentContext, RawPropOption } from "../types";
-import { isString, sanitizeOption } from "../utils/type-guards";
+import {
+  ConfigureComponentContext, RawPropOption,
+} from "../types";
+import {
+  isString, sanitizeOption,
+} from "../utils/type-guards";
 import { ControlSelect } from "./ControlSelect";
 
 export type RemoteOptionsContainerProps = {

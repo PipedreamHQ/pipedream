@@ -39,6 +39,7 @@ export function Control<T extends ConfigurableProps, U extends ConfigurableProp>
   }
 
   if ("options" in prop && prop.options) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const options: LabelValueOption<any>[] = prop.options.map(sanitizeOption);
     return <ControlSelect options={options} components={{
       IndicatorSeparator: () => null,

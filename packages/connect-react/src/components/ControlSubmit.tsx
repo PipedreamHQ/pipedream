@@ -38,13 +38,15 @@ export function ControlSubmit<T extends ConfigurableProps>(props: ControlSubmitP
 
   return <input
     type="submit"
-    value={submitting ? "Submitting..." : "Submit"}
+    value={submitting
+      ? "Submitting..."
+      : "Submit"}
     {
-    ...getProps(
-      "controlSubmit",
-      baseStyles(!!propsNeedConfiguring.length || submitting),
-      props as ControlSubmitProps<ConfigurableProps>
-    )
+      ...getProps(
+        "controlSubmit",
+        baseStyles(!!propsNeedConfiguring.length || submitting),
+      props as ControlSubmitProps<ConfigurableProps>,
+      )
     }
     disabled={!!propsNeedConfiguring.length || submitting}
   />;
