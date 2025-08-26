@@ -1,10 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { createFrontendClient } from "@pipedream/sdk/browser";
 import {
   ComponentFormContainer, FrontendClientProvider,
 } from "@pipedream/connect-react";
+import {
+  createFrontendClient,
+  type ConfigurableProp,
+  type ConfiguredProps,
+} from "@pipedream/sdk/browser";
+import { useState } from "react";
 import { fetchToken } from "./actions";
 
 export default function Home() {
@@ -16,7 +20,7 @@ export default function Home() {
   const [
     configuredProps,
     setConfiguredProps,
-  ] = useState({
+  ] = useState<ConfiguredProps<ConfigurableProp[]>>({
     text: "hello slack!",
   });
 
@@ -28,7 +32,7 @@ export default function Home() {
   const [
     sdkResponse,
     setSdkResponse,
-  ] = useState<unknown | undefined>(undefined);
+  ] = useState<ConfiguredProps<ConfigurableProp[]> | undefined>(undefined);
 
   const handleDynamicProps = (dynamicProps: { id: string | undefined }) => {
     setDynamicPropsId(dynamicProps.id)
