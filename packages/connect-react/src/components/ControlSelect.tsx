@@ -121,7 +121,7 @@ export function ControlSelect<T>({
   const LoadMore = ({
     // eslint-disable-next-line react/prop-types
     children, ...props
-  }: any) => {
+  }: MenuListProps<LabelValueOption<T>, boolean>) => {
     return (
       <components.MenuList  {...props}>
         {children}
