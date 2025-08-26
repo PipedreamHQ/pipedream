@@ -97,6 +97,10 @@ npm i --save @pipedream/sdk
 
 When the user connects an account in your product, [pass the token from your backend](#generate-a-short-lived-token) and call `connectAccount`. This opens a Pipedream iFrame that guides the user through the account connection.
 
+<Callout type="info">
+If the Connect popup window doesn't open when users try to connect their accounts, set your `Cross-Origin-Opener-Policy` header to `same-origin-allow-popups`. This fixes cases where the Connect popup can't open because a default "same-origin" policy blocks popups from iframes.
+</Callout>
+
 Try the interactive demo below to connect an account after generating a token in the previous step:
 
 <div className="not-prose">

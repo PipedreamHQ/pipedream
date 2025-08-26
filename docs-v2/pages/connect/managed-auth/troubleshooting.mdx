@@ -46,6 +46,12 @@ Double-check the app slug you're passing [when connecting your user's account](/
 
 The user may have closed the OAuth popup window without completing authorization.
 
+### Connect popup doesn't open
+
+If the Connect popup window doesn't open when users try to connect their accounts, this is often due to the browser's Cross-Origin-Opener-Policy blocking popups from iframes.
+
+Set your `Cross-Origin-Opener-Policy` header to `same-origin-allow-popups` on the page hosting Connect. This fixes cases where the Connect popup can't open because a default `"same-origin"` policy blocks popups from iframes.
+
 <Callout type="info">
 If you're still have trouble or hitting an error that isn't listed here, [get in touch with us](https://pipedream.com/support). We'd love to help.
 </Callout>
