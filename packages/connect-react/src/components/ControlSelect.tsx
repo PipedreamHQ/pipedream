@@ -3,7 +3,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import type { CSSObjectWithLabel } from "react-select";
+import type { CSSObjectWithLabel, MenuListProps } from "react-select";
 import Select, {
   components,
   Props as ReactSelectProps,
