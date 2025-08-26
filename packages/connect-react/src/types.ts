@@ -39,7 +39,7 @@ export type LabelValueOption<T> = {
 }
 
 export type NestedLabelValueOption<T> = {
-  __lv: LabelValueOption<T> | T[];
+  __lv: LabelValueOption<T> | T;
 }
 
 export type RawPropOption<T> =
