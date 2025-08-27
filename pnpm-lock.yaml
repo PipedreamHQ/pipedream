@@ -963,7 +963,11 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/apify_oauth: {}
+  components/apify_oauth:
+    dependencies:
+      '@pipedream/apify':
+        specifier: ^0.2.2
+        version: 0.2.2
 
   components/apilio: {}
 
@@ -1626,8 +1630,7 @@ importers:
 
   components/bill: {}
 
-  components/billbee:
-    specifiers: {}
+  components/billbee: {}
 
   components/billplz: {}
 
@@ -3456,8 +3459,7 @@ importers:
 
   components/danny_test_app: {}
 
-  components/dante_ai:
-    specifiers: {}
+  components/dante_ai: {}
 
   components/dappier: {}
 
@@ -20153,6 +20155,9 @@ packages:
   '@parcel/watcher@2.5.1':
     resolution: {integrity: sha512-dfUnCxiN9H4ap84DvD2ubjw+3vUNpstxa0TneY/Paat8a3R4uQZDLSvWjmznAY/DoahqTHl9V46HF/Zs3F29pg==}
     engines: {node: '>= 10.0.0'}
+
+  '@pipedream/apify@0.2.2':
+    resolution: {integrity: sha512-w5jP/HxFIn9SRvGgb5YBFGvHM2Lop0yCPG+knqsrdQW/AsM8QNZv7034C+HLYU1ddbAsnoxtjAPqa6OzdgxMCA==}
 
   '@pipedream/aws@1.1.0':
     resolution: {integrity: sha512-1v/AcyW72RgAd6ZSQ6odj6VN9dy0w1JQZPc97s2+JuIEkfgxrH/o/djkdyMAPSwGx+8uU9EMKIXMQdNDyLdlSA==}
@@ -38106,6 +38111,13 @@ snapshots:
       '@parcel/watcher-win32-arm64': 2.5.1
       '@parcel/watcher-win32-ia32': 2.5.1
       '@parcel/watcher-win32-x64': 2.5.1
+
+  '@pipedream/apify@0.2.2':
+    dependencies:
+      '@apify/consts': 2.43.0
+      '@pipedream/platform': 3.1.0
+    transitivePeerDependencies:
+      - debug
 
   '@pipedream/aws@1.1.0(aws-crt@1.25.0)(babel-plugin-macros@3.1.0)':
     dependencies:
