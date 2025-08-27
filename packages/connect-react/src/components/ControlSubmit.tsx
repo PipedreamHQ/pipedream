@@ -1,7 +1,7 @@
 import { FormContext } from "../hooks/form-context";
 import { useCustomize } from "../hooks/customization-context";
 import type { CSSProperties } from "react";
-import { ConfigurableProps } from "@pipedream/sdk/browser";
+import type { ConfigurableProps } from "@pipedream/sdk";
 
 export type ControlSubmitProps<T extends ConfigurableProps> = {
   form: FormContext<T>;

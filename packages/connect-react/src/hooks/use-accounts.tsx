@@ -1,9 +1,12 @@
 import {
-  useQuery, UseQueryOptions,
+  useQuery,
+  UseQueryOptions,
 } from "@tanstack/react-query";
-import type { GetAccountOpts } from "@pipedream/sdk";
 import { useFrontendClient } from "./frontend-client-context";
-import { GetAccountsResponse } from "@pipedream/sdk/browser";
+import type {
+  GetAccountOpts,
+  GetAccountsResponse,
+} from "@pipedream/sdk";
 
 /**
  * Retrieves the list of accounts associated with the project.

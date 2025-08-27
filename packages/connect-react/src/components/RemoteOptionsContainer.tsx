@@ -1,4 +1,4 @@
-import { ConfigureComponentOpts } from "@pipedream/sdk/browser";
+import type { ConfigureComponentOpts } from "@pipedream/sdk";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useFormContext } from "../hooks/form-context";

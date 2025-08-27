@@ -1,7 +1,7 @@
 import type {
   ConfigureComponentResponse as SdkConfigureComponentResponse,
   ReloadComponentPropsResponse as SdkReloadComponentPropsResponse,
-} from "@pipedream/sdk/browser";
+} from "@pipedream/sdk";
 
 export type SdkError = {
     name: string;

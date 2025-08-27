@@ -12,7 +12,7 @@ import type {
   Account,
   App,
   ConfigurablePropApp,
-} from "@pipedream/sdk/browser";
+} from "@pipedream/sdk";
 
 const BaseOption = (props: OptionProps<SelectValue>) => {
   // const imgSrc =
