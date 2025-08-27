@@ -14993,6 +14993,9 @@ importers:
 
   components/upollo: {}
 
+  components/uproc:
+    specifiers: {}
+
   components/upstash_redis:
     dependencies:
       '@pipedream/platform':
