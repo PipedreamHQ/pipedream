@@ -43,12 +43,20 @@ export default {
   },
   methods: {
     ...common.methods,
-    _getLastProcessedRecord(listId) {
-      const key = `list_${listId}_last_record`;
+    _getAfterToken(listId) {
+      const key = `list_${listId}_after_token`;
       return this.db.get(key);
     },
-    _setLastProcessedRecord(listId, recordId) {
-      const key = `list_${listId}_last_record`;
+    _setAfterToken(listId, afterToken) {
+      const key = `list_${listId}_after_token`;
+      this.db.set(key, afterToken);
+    },
+    _getLastRecordId(listId) {
+      const key = `list_${listId}_last_record_id`;
+      return this.db.get(key);
+    },
+    _setLastRecordId(listId, recordId) {
+      const key = `list_${listId}_last_record_id`;
       this.db.set(key, recordId);
     },
     getTs() {
@@ -67,48 +75,76 @@ export default {
     async getContactDetails(contactIds) {
       if (!contactIds.length) return {};
 
-      const { properties = [] } = this;
-      const allProperties = [
-        ...DEFAULT_CONTACT_PROPERTIES,
-        ...properties,
+      const uniqueContactIds = [
+        ...new Set(contactIds),
       ];
 
+      const { properties = [] } = this;
+      const allProperties = [
+        ...new Set([
+          ...DEFAULT_CONTACT_PROPERTIES,
+          ...properties,
+        ]),
+      ];
+
+      const chunks = [];
+      const chunkSize = 100;
+      for (let i = 0; i < uniqueContactIds.length; i += chunkSize) {
+        chunks.push(uniqueContactIds.slice(i, i + chunkSize));
+      }
+
+      const contactMap = {};
+
+      const chunkPromises = chunks.map(async (chunk) => {
+        try {
+          const { results } = await this.hubspot.batchGetObjects({
+            objectType: "contacts",
+            data: {
+              inputs: chunk.map((id) => ({
+                id,
+              })),
+              properties: allProperties,
+            },
+          });
+          return results;
+        } catch (error) {
+          console.warn("Error fetching contact details for chunk:", error);
+          return [];
+        }
+      });
+
       try {
-        const { results } = await this.hubspot.batchGetObjects({
-          objectType: "contacts",
-          data: {
-            inputs: contactIds.map((id) => ({
-              id,
-            })),
-            properties: allProperties,
-          },
+        const chunkResults = await Promise.all(chunkPromises);
+
+        chunkResults.forEach((results) => {
+          results.forEach((contact) => {
+            contactMap[contact.id] = contact;
+          });
         });
 
-        const contactMap = {};
-        results.forEach((contact) => {
-          contactMap[contact.id] = contact;
-        });
         return contactMap;
       } catch (error) {
-        console.warn("Error fetching contact details:", error);
+        console.warn("Error processing contact details:", error);
         return {};
       }
     },
     async processListMemberships(listId, listInfo) {
-      const lastProcessedRecord = this._getLastProcessedRecord(listId);
+      const afterToken = this._getAfterToken(listId);
+      const lastRecordId = this._getLastRecordId(listId);
       const newMemberships = [];
 
       let params = {
         limit: DEFAULT_LIMIT,
       };
 
-      if (lastProcessedRecord) {
-        params.after = lastProcessedRecord;
+      if (afterToken) {
+        params.after = afterToken;
       }
 
       try {
         let hasMore = true;
-        let latestRecordId = lastProcessedRecord;
+        let latestAfterToken = afterToken;
+        let latestRecordId = lastRecordId;
 
         while (hasMore) {
           const {
@@ -124,6 +160,10 @@ export default {
           }
 
           for (const membership of results) {
+            if (lastRecordId && membership.recordId === lastRecordId) {
+              continue;
+            }
+
             newMemberships.push({
               membership,
               listInfo,
@@ -132,14 +172,18 @@ export default {
           }
 
           if (paging?.next?.after) {
+            latestAfterToken = paging.next.after;
             params.after = paging.next.after;
           } else {
             hasMore = false;
           }
         }
 
+        if (latestAfterToken !== afterToken) {
+          this._setAfterToken(listId, latestAfterToken);
+        }
         if (latestRecordId) {
-          this._setLastProcessedRecord(listId, latestRecordId);
+          this._setLastRecordId(listId, latestRecordId);
         }
       } catch (error) {
         console.error(`Error processing list ${listId}:`, error);
