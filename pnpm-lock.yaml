@@ -1626,8 +1626,7 @@ importers:
 
   components/bill: {}
 
-  components/billbee:
-    specifiers: {}
+  components/billbee: {}
 
   components/billplz: {}
 
@@ -3456,8 +3455,7 @@ importers:
 
   components/danny_test_app: {}
 
-  components/dante_ai:
-    specifiers: {}
+  components/dante_ai: {}
 
   components/dappier: {}
 
