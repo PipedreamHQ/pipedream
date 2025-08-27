@@ -1,4 +1,4 @@
-import component from "../../../slack/actions/archive-channel/archive-channel.mjs";
+import component from "@pipedream/slack/actions/archive-channel/archive-channel.mjs";
 import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
 
@@ -27,5 +27,5 @@ export default {
   }),
   key: "slack_bot-archive-channel",
   description: "Archive a channel (Bot). [See the documentation](https://api.slack.com/methods/conversations.archive)",
-  version: "0.0.4",
+  version: "0.0.5",
 };

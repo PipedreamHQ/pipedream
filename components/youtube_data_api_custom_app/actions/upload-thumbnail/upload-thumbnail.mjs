@@ -1,12 +1,12 @@
 import youtubeDataApi from "../../youtube_data_api_custom_app.app.mjs";
-import common from "../../../youtube_data_api/actions/upload-thumbnail/common.mjs";
+import common from "@pipedream/youtube_data_api/actions/upload-thumbnail/common.mjs";
 
 export default {
   ...common,
   key: "youtube_data_api_custom_app-upload-thumbnail",
   name: "Upload Thumbnail",
   description: "Uploads a custom video thumbnail to YouTube and sets it for a video. [See the docs](https://developers.google.com/youtube/v3/docs/thumbnails/set) for more information",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     youtubeDataApi,

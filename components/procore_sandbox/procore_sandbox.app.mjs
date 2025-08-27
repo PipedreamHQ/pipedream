@@ -1,5 +1,5 @@
-import procore from "../procore/procore.app.mjs";
-import constants from "../procore/common/constants.mjs";
+import procore from "@pipedream/procore";
+import constants from "@pipedream/procore/common/constants.mjs";
 
 export default {
   ...procore,

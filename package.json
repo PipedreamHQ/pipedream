@@ -36,7 +36,6 @@
     "platform-test": "cd platform && npm test",
     "types-test": "cd types && npm test",
     "helpers-test": "cd helpers && npm test",
-    "build:docs": "cd docs-v2 && pnpm install --ignore-engines && pnpm build",
     "validate:packages": "node scripts/generate-package-report.js",
     "validate:packages:verbose": "node scripts/generate-package-report.js --verbose",
     "validate:packages:report": "node scripts/generate-package-report.js --report-only --output=package-validation-report.json",

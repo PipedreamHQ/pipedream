@@ -1,12 +1,12 @@
 import youtubeDataApi from "../../youtube_data_api_custom_app.app.mjs";
-import common from "../../../youtube_data_api/actions/delete-playlist-items/common.mjs";
+import common from "@pipedream/youtube_data_api/actions/delete-playlist-items/common.mjs";
 
 export default {
   ...common,
   key: "youtube_data_api_custom_app-delete-playlist-items",
   name: "Delete Playlist Items",
   description: "Deletes a playlist item. [See the docs](https://developers.google.com/youtube/v3/docs/playlistItems/delete) for more information",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     youtubeDataApi,

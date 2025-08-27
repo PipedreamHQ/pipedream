@@ -1,5 +1,5 @@
 import app from "../../gitlab_developer_app.app.mjs";
-import common from "../../../gitlab/actions/update-epic/update-epic.mjs";
+import common from "@pipedream/gitlab/actions/update-epic/update-epic.mjs";
 
 import { adjustPropDefinitions } from "../../common/utils.mjs";
 
@@ -11,7 +11,7 @@ const props = adjustPropDefinitions(others.props, app);
 export default {
   ...others,
   key: "gitlab_developer_app-update-epic",
-  version: "0.0.1",
+  version: "0.0.2",
   name,
   description,
   type,

@@ -6,7 +6,7 @@ export default {
   ...common,
   key: "slack_bot-new-message-in-channel",
   name: "New Message In Channel",
-  version: "0.0.4",
+  version: "0.0.5",
   description: "Emit new event when a new message is posted to a public, private or group channel (Bot)",
   type: "source",
   dedupe: "unique",
