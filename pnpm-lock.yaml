@@ -3414,7 +3414,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/dachser: {}
+  components/dachser:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/dadata_ru:
     dependencies:
@@ -3456,8 +3460,7 @@ importers:
 
   components/danny_test_app: {}
 
-  components/dante_ai:
-    specifiers: {}
+  components/dante_ai: {}
 
   components/dappier: {}
 
