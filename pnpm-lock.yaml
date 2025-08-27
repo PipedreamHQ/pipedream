@@ -1626,6 +1626,9 @@ importers:
 
   components/bill: {}
 
+  components/billbee:
+    specifiers: {}
+
   components/billplz: {}
 
   components/billsby: {}
@@ -1945,7 +1948,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/bridge_interactive_platform: {}
+  components/bridge_interactive_platform:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/bright_data:
     dependencies:
@@ -3407,7 +3414,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/dachser: {}
+  components/dachser:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/dadata_ru:
     dependencies:
@@ -9148,7 +9159,11 @@ importers:
 
   components/nasa: {}
 
-  components/nasdaq_data_link_time_series_and_table_data_: {}
+  components/nasdaq_data_link_time_series_and_table_data_:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/nationbuilder:
     dependencies:
@@ -14478,8 +14493,8 @@ importers:
   components/token_metrics:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.0
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/tolstoy:
     dependencies:
@@ -38884,8 +38899,6 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
-    transitivePeerDependencies:
-      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
