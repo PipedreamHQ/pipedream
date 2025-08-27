@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/nightfall_ai",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Nightfall.ai Components",
-  "main": "dist/app/nightfall_ai.app.mjs",
+  "main": "nightfall_ai.app.mjs",
   "keywords": [
     "pipedream",
     "nightfall_ai"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/nightfall_ai",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

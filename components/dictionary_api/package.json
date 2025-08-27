@@ -1,18 +1,18 @@
 {
   "name": "@pipedream/dictionary_api",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Free Dictionary Components",
-  "main": "dist/app/dictionary_api.app.mjs",
+  "main": "dictionary_api.app.mjs",
   "keywords": [
     "pipedream",
     "dictionary_api"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/dictionary_api",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
   }
 }

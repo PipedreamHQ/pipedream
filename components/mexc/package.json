@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/mexc",
+  "version": "0.0.1",
+  "description": "Pipedream MEXC Components",
+  "main": "mexc.app.mjs",
+  "keywords": [
+    "pipedream",
+    "mexc"
+  ],
+  "homepage": "https://pipedream.com/apps/mexc",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

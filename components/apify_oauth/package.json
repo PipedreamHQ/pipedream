@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/apify_oauth",
+  "version": "0.0.1",
+  "description": "Pipedream Apify (OAuth) Components",
+  "main": "apify_oauth.app.mjs",
+  "keywords": [
+    "pipedream",
+    "apify_oauth"
+  ],
+  "homepage": "https://pipedream.com/apps/apify_oauth",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

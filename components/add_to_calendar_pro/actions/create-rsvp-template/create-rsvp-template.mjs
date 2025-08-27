@@ -5,7 +5,7 @@ export default {
   key: "add_to_calendar_pro-create-rsvp-template",
   name: "Create RSVP Template",
   description: "Create an RSVP template. [See the documentation](https://docs.add-to-calendar-pro.com/api/rsvp#add-an-rsvp-template)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     addToCalendarPro,

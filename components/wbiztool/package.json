@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/wbiztool",
+  "version": "0.0.1",
+  "description": "Pipedream WbizTool Components",
+  "main": "wbiztool.app.mjs",
+  "keywords": [
+    "pipedream",
+    "wbiztool"
+  ],
+  "homepage": "https://pipedream.com/apps/wbiztool",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

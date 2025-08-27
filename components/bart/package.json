@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/bart",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream BART Components",
-  "main": "dist/app/bart.app.mjs",
+  "main": "bart.app.mjs",
   "keywords": [
     "pipedream",
     "bart"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/bart",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

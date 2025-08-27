@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/upgrade_chat",
+  "version": "0.0.1",
+  "description": "Pipedream Upgrade.chat Components",
+  "main": "upgrade_chat.app.mjs",
+  "keywords": [
+    "pipedream",
+    "upgrade_chat"
+  ],
+  "homepage": "https://pipedream.com/apps/upgrade_chat",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/lemlist",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Lemlist Components",
-  "main": "dist/app/lemlist.app.mjs",
+  "main": "lemlist.app.mjs",
   "keywords": [
     "pipedream",
     "lemlist"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/lemlist",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

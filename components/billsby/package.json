@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/billsby",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Billsby Components",
-  "main": "dist/app/billsby.app.mjs",
+  "main": "billsby.app.mjs",
   "keywords": [
     "pipedream",
     "billsby"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/billsby",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/hospitable",
+  "version": "0.0.1",
+  "description": "Pipedream Hospitable Components",
+  "main": "hospitable.app.mjs",
+  "keywords": [
+    "pipedream",
+    "hospitable"
+  ],
+  "homepage": "https://pipedream.com/apps/hospitable",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

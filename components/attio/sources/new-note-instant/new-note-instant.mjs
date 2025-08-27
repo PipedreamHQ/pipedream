@@ -6,7 +6,7 @@ export default {
   key: "attio-new-note-instant",
   name: "New Note (Instant)",
   description: "Emit new event when a new note is created.",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {

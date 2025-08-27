@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/credit_repair_cloud",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Pipedream Credit Repair Cloud Components",
-  "main": "dist/app/credit_repair_cloud.app.mjs",
+  "main": "credit_repair_cloud.app.mjs",
   "keywords": [
     "pipedream",
     "credit_repair_cloud"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/credit_repair_cloud",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
@@ -16,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "axios": "^1.4.0",
+    "@pipedream/platform": "^3.0.3",
     "js2xmlparser": "^5.0.0",
     "xml2js": "^0.6.0"
   }

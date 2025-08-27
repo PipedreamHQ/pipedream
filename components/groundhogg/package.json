@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/groundhogg",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream GroundHogg Components",
-  "main": "dist/app/groundhogg.app.mjs",
+  "main": "groundhogg.app.mjs",
   "keywords": [
     "pipedream",
     "groundhogg"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/groundhogg",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

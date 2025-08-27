@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/templatedocs",
+  "version": "0.0.1",
+  "description": "Pipedream TemplateDocs Components",
+  "main": "templatedocs.app.mjs",
+  "keywords": [
+    "pipedream",
+    "templatedocs"
+  ],
+  "homepage": "https://pipedream.com/apps/templatedocs",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

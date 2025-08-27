@@ -1,11 +1,11 @@
-import notion from "../../notion.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import notion from "../../notion.app.mjs";
 
 export default {
   key: "notion-create-comment",
   name: "Create Comment",
   description: "Create a comment in a page or existing discussion thread. [See the documentation](https://developers.notion.com/reference/create-a-comment)",
-  version: "0.0.4",
+  version: "0.0.6",
   type: "action",
   props: {
     notion,

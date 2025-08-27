@@ -1,18 +1,23 @@
-// legacy_hash_id: a_YEi2rp
-import { axios } from "@pipedream/platform";
+import { ConfigurationError } from "@pipedream/platform";
+import { parseObject } from "../../common/util.mjs";
+import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 
 export default {
   key: "xero_accounting_api-make-an-api-call",
   name: "Make API Call",
   description: "Makes an aribitrary call to Xero Accounting API.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
-    xero_accounting_api: {
-      type: "app",
-      app: "xero_accounting_api",
+    xeroAccountingApi,
+    tenantId: {
+      propDefinition: [
+        xeroAccountingApi,
+        "tenantId",
+      ],
     },
-    request_method: {
+    requestMethod: {
+      label: "Request Method",
       type: "string",
       description: "Http method to use in the request.",
       options: [
@@ -23,39 +28,39 @@ export default {
         "delete",
       ],
     },
-    relative_url: {
+    relativeUrl: {
+      label: "Relative URL",
       type: "string",
       description: "A path relative to Xero Accounting API to send the request against.",
     },
-    query_string: {
+    queryString: {
+      label: "Query String",
       type: "string",
       description: "Query string of the request.",
       optional: true,
     },
-    headers: {
-      type: "object",
-      description: "Headers to send in the request. Must include header `xero-tenant-id` with Id of the organization tenant to use on the Xero Accounting API. See [Get Tenant Connections](https://pipedream.com/@sergio/xero-accounting-api-get-tenant-connections-p_OKCzOgn/edit) for a workflow example on how to pull this data.",
-    },
-    request_body: {
+    requestBody: {
+      label: "Request Body",
       type: "object",
       description: "Body of the request.",
       optional: true,
     },
   },
   async run({ $ }) {
-  // See Xero's Rest Accounting API docs at: https://developer.xero.com/documentation/api/api-overview
-
-    if (!this.request_method || !this.relative_url) {
-      throw new Error("Must provide request_method, and relative_url parameters.");
+    if (!this.tenantId || !this.requestMethod || !this.relativeUrl) {
+      throw new ConfigurationError("Must provide **Tenant ID**, **Request Method**, and **Relative URL** parameters.");
     }
 
-    this.query_string = this.query_string || "";
-
-    return await axios($, {
-      method: this.request_method,
-      url: `https://api.xero.com/${this.relative_url}${this.query_string}`,
-      headers: this.headers,
-      data: this.request_body,
+    const response = await this.xeroAccountingApi._makeRequest({
+      $,
+      method: this.requestMethod,
+      path: this.relativeUrl,
+      params: this.queryString,
+      tenantId: this.tenantId,
+      data: parseObject(this.requestBody),
     });
+
+    $.export("$summary", `Successfully made API call to ${this.relativeUrl}`);
+    return response;
   },
 };

@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/pirate_weather",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Pirate Weather Components",
-  "main": "dist/app/pirate_weather.app.mjs",
+  "main": "pirate_weather.app.mjs",
   "keywords": [
     "pipedream",
     "pirate_weather"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/pirate_weather",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

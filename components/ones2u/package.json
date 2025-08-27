@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/ones2u",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream 1S2U Components",
-  "main": "dist/app/ones2u.app.mjs",
+  "main": "ones2u.app.mjs",
   "keywords": [
     "pipedream",
     "ones2u"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/ones2u",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

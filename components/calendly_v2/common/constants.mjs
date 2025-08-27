@@ -7,4 +7,10 @@ export default {
     "active",
     "canceled",
   ],
+  listEventsScopes: [
+    "authenticatedUser",
+    "organization",
+    "user",
+    "group",
+  ],
 };

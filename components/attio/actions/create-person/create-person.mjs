@@ -5,7 +5,7 @@ export default {
   key: "attio-create-person",
   name: "Create Person",
   description: "Creates a new person. [See the documentation](https://developers.attio.com/reference/post_v2-objects-people-records).",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     attio,

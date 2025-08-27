@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/blue",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Blue Components",
-  "main": "dist/app/blue.app.mjs",
+  "main": "blue.app.mjs",
   "keywords": [
     "pipedream",
     "blue"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/blue",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

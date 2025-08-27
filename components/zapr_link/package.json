@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/zapr_link",
+  "version": "0.0.1",
+  "description": "Pipedream zapr.link Components",
+  "main": "zapr_link.app.mjs",
+  "keywords": [
+    "pipedream",
+    "zapr_link"
+  ],
+  "homepage": "https://pipedream.com/apps/zapr_link",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

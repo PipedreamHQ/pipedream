@@ -6,7 +6,7 @@ export default {
   key: "trello-card-archived",
   name: "Card Archived (Instant)", /* eslint-disable-line pipedream/source-name */
   description: "Emit new event for each card archived.",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "source",
   props: {
     ...common.props,

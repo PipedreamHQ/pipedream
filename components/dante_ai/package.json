@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/dante_ai",
+  "version": "0.0.1",
+  "description": "Pipedream Dante AI Components",
+  "main": "dante_ai.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dante_ai"
+  ],
+  "homepage": "https://pipedream.com/apps/dante_ai",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

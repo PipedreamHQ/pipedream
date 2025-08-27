@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/rewardful",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Rewardful Components",
-  "main": "dist/app/rewardful.app.mjs",
+  "main": "rewardful.app.mjs",
   "keywords": [
     "pipedream",
     "rewardful"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/rewardful",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

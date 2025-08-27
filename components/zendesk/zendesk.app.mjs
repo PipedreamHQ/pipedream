@@ -101,6 +101,77 @@ export default {
         };
       },
     },
+    userId: {
+      type: "string",
+      label: "User ID",
+      description: "The ID of the user",
+      async options({ prevContext }) {
+        const { afterCursor } = prevContext;
+
+        const {
+          users,
+          meta,
+        } = await this.listUsers({
+          params: {
+            [constants.PAGE_SIZE_PARAM]: constants.DEFAULT_LIMIT,
+            [constants.PAGE_AFTER_PARAM]: afterCursor,
+          },
+        });
+
+        return {
+          context: {
+            afterCursor: meta.after_cursor,
+          },
+          options: users.map(({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          })),
+        };
+      },
+    },
+    groupId: {
+      type: "string",
+      label: "Group ID",
+      description: "The ID of the group",
+      optional: true,
+      async options({ prevContext }) {
+        const { afterCursor } = prevContext;
+
+        const {
+          groups,
+          meta,
+        } = await this.listGroups({
+          params: {
+            [constants.PAGE_SIZE_PARAM]: constants.DEFAULT_LIMIT,
+            [constants.PAGE_AFTER_PARAM]: afterCursor,
+          },
+        });
+
+        return {
+          context: {
+            afterCursor: meta.after_cursor,
+          },
+          options: groups.map(({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          })),
+        };
+      },
+    },
+    macroCategory: {
+      type: "string",
+      label: "Macro Category",
+      description: "The category of the macro",
+      optional: true,
+      async options() {
+        const { categories } = await this.listMacroCategories();
+        return categories.map((category) => category);
+      },
+    },
     fields: {
       type: "string[]",
       label: "Fields",
@@ -193,6 +264,10 @@ export default {
       type: "string[]",
       label: "Attachments",
       description: "File paths or URLs to attach to the ticket. Multiple files can be attached.",
+    ticketTags: {
+      type: "string[]",
+      label: "Tags",
+      description: "Array of tags to apply to the ticket. These will replace any existing tags on the ticket.",
       optional: true,
     },
   },
@@ -231,6 +306,14 @@ export default {
     } = {}) {
       return this.makeRequest({
         path: `/tickets/${ticketId}`,
+        ...args,
+      });
+    },
+    getUserInfo({
+      userId, ...args
+    }) {
+      return this.makeRequest({
+        path: `/users/${userId}`,
         ...args,
       });
     },
@@ -411,6 +494,43 @@ export default {
         throw new Error(`Failed to upload ${errors.length}/${files.length} attachment(s): ${errors.join("; ")}`);
       }
       return tokens;
+    listTicketComments({
+      ticketId, ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `/tickets/${ticketId}/comments`,
+        ...args,
+      });
+    },
+    listUsers(args = {}) {
+      return this.makeRequest({
+        path: "/users",
+        ...args,
+      });
+    },
+    listLocales(args = {}) {
+      return this.makeRequest({
+        path: "/locales",
+        ...args,
+      });
+    },
+    listMacros(args = {}) {
+      return this.makeRequest({
+        path: "/macros",
+        ...args,
+      });
+    },
+    listMacroCategories(args = {}) {
+      return this.makeRequest({
+        path: "/macros/categories",
+        ...args,
+      });
+    },
+    listGroups(args = {}) {
+      return this.makeRequest({
+        path: "/groups",
+        ...args,
+      });
     },
     async *paginate({
       fn, args, resourceKey, max,
@@ -442,6 +562,69 @@ export default {
         hasMore = !!response.next_page;
         args.params.page += 1;
       }
+    },
+    /**
+     * Set tags on a ticket (replaces all existing tags)
+     * @param {object} args - Arguments object
+     * @param {string} args.ticketId - The ticket ID
+     * @param {string[]} args.tags - Array of tags to set
+     * @param {string} args.customSubdomain - Optional custom subdomain
+     * @returns {Promise<object>} API response
+     */
+    setTicketTags({
+      ticketId, tags, customSubdomain, ...args
+    }) {
+      return this.makeRequest({
+        method: "POST",
+        path: `/tickets/${ticketId}/tags.json`,
+        customSubdomain,
+        data: {
+          tags,
+        },
+        ...args,
+      });
+    },
+    /**
+     * Add tags to a ticket (appends to existing tags)
+     * @param {object} args - Arguments object
+     * @param {string} args.ticketId - The ticket ID
+     * @param {string[]} args.tags - Array of tags to add
+     * @param {string} args.customSubdomain - Optional custom subdomain
+     * @returns {Promise<object>} API response
+     */
+    addTicketTags({
+      ticketId, tags, customSubdomain, ...args
+    }) {
+      return this.makeRequest({
+        method: "PUT",
+        path: `/tickets/${ticketId}/tags.json`,
+        customSubdomain,
+        data: {
+          tags,
+        },
+        ...args,
+      });
+    },
+    /**
+     * Remove specific tags from a ticket
+     * @param {object} args - Arguments object
+     * @param {string} args.ticketId - The ticket ID
+     * @param {string[]} args.tags - Array of tags to remove
+     * @param {string} args.customSubdomain - Optional custom subdomain
+     * @returns {Promise<object>} API response
+     */
+    removeTicketTags({
+      ticketId, tags, customSubdomain, ...args
+    }) {
+      return this.makeRequest({
+        method: "DELETE",
+        path: `/tickets/${ticketId}/tags.json`,
+        customSubdomain,
+        data: {
+          tags,
+        },
+        ...args,
+      });
     },
   },
 };

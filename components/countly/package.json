@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/countly",
+  "version": "0.0.1",
+  "description": "Pipedream Countly Components",
+  "main": "countly.app.mjs",
+  "keywords": [
+    "pipedream",
+    "countly"
+  ],
+  "homepage": "https://pipedream.com/apps/countly",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

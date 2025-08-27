@@ -10,7 +10,7 @@ export default {
   name: "Screenshot a Page",
   description:
     "Captures a screenshot of a page using Puppeteer. [See the documentation](https://pptr.dev/api/puppeteer.page.screenshot)",
-  version: "1.0.3",
+  version: "1.0.4",
   type: "action",
   props: {
     puppeteer,
@@ -118,8 +118,21 @@ export default {
       accessMode: "write",
       sync: true,
     },
+    browserTimeout: {
+      type: "integer",
+      label: "Browser Timeout",
+      description: "Maximum time in seconds to wait for the browser to start. Default is `30` seconds.",
+      optional: true,
+    },
+    pageTimeout: {
+      type: "integer",
+      label: "Page Timeout",
+      description: "Maximum time in seconds to wait for the page to load. Default is `30` seconds.",
+      optional: true,
+    },
   },
   methods: {
+    ...common.methods,
     async downloadToTMP(screenshot) {
       const path = this.downloadPath.includes("/tmp")
         ? this.downloadPath
@@ -162,8 +175,21 @@ export default {
     };
 
     const url = this.normalizeUrl();
-    const browser = await this.puppeteer.launch();
+
+    const browserOptions = this.browserTimeout
+      ? {
+        timeout: this.browserTimeout * 1000,
+      }
+      : undefined;
+
+    const browser = await this.puppeteer.launch(browserOptions);
+
     const page = await browser.newPage();
+
+    if (this.pageTimeout) {
+      page.setDefaultTimeout(this.pageTimeout * 1000);
+    }
+
     await page.goto(url);
     const screenshot = await page.screenshot(options);
     await browser.close();
@@ -178,10 +204,7 @@ export default {
     }
 
     return filePath
-      ? {
-        screenshot: screenshot.toString("base64"),
-        filePath,
-      }
+      ? filePath
       : screenshot.toString("base64");
   },
 };

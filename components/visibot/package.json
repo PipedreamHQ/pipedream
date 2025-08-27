@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/visibot",
+  "version": "0.0.1",
+  "description": "Pipedream Visibot Components",
+  "main": "visibot.app.mjs",
+  "keywords": [
+    "pipedream",
+    "visibot"
+  ],
+  "homepage": "https://pipedream.com/apps/visibot",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

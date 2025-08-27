@@ -8,23 +8,44 @@
 // 1) The HTTP requests tied to changes in the user's Google Drive
 // 2) A timer that runs on regular intervals, renewing the notification channel as needed
 
-import common from "../common-webhook.mjs";
 import {
   GOOGLE_DRIVE_NOTIFICATION_ADD,
   GOOGLE_DRIVE_NOTIFICATION_CHANGE,
   GOOGLE_DRIVE_NOTIFICATION_UPDATE,
 } from "../../common/constants.mjs";
+import common from "../common-webhook.mjs";
 
 export default {
   ...common,
   key: "google_drive-new-or-modified-folders",
   name: "New or Modified Folders (Instant)",
   description: "Emit new event when a folder is created or modified in the selected Drive",
-  version: "0.1.11",
+  version: "0.2.0",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
   dedupe: "unique",
+  props: {
+    ...common.props,
+    folderId: {
+      propDefinition: [
+        common.props.googleDrive,
+        "folderId",
+        (c) => ({
+          drive: c.drive,
+        }),
+      ],
+      label: "Parent Folder",
+      description: "The ID of the parent folder which contains the folders. If not specified, it will watch all folders from the drive's top-level folder.",
+      optional: true,
+    },
+    includeSubfolders: {
+      type: "boolean",
+      label: "Include Subfolders",
+      description: "Whether to include subfolders of the parent folder in the changes.",
+      optional: true,
+    },
+  },
   hooks: {
     async deploy() {
       const daysAgo = new Date();
@@ -34,12 +55,11 @@ export default {
       const args = this.getListFilesOpts({
         q: `mimeType = "application/vnd.google-apps.folder" and modifiedTime > "${timeString}" and trashed = false`,
         fields: "files(id, mimeType)",
-        pageSize: 5,
       });
 
       const { files } = await this.googleDrive.listFilesInPage(null, args);
 
-      await this.processChanges(files);
+      await this.processChanges(files, null, 5);
     },
     ...common.hooks,
   },
@@ -57,6 +77,24 @@ export default {
         GOOGLE_DRIVE_NOTIFICATION_CHANGE,
         GOOGLE_DRIVE_NOTIFICATION_UPDATE,
       ];
+    },
+    async getAllParents(folderId) {
+      const allParents = [];
+      let currentId = folderId;
+
+      while (currentId) {
+        const folder = await this.googleDrive.getFile(currentId, {
+          fields: "parents",
+        });
+        const parents = folder.parents;
+
+        if (parents && parents.length > 0) {
+          allParents.push(parents[0]);
+        }
+        currentId = parents?.[0];
+      }
+
+      return allParents;
     },
     generateMeta(data, ts) {
       const {
@@ -86,29 +124,51 @@ export default {
         },
       };
     },
-    async processChanges(changedFiles, headers) {
+    async processChanges(changedFiles, headers, maxResults) {
       const files = changedFiles.filter(
         // API docs that define Google Drive folders:
         // https://developers.google.com/drive/api/v3/folder
         (file) => file.mimeType === "application/vnd.google-apps.folder",
       );
 
+      const filteredFiles = [];
       for (const file of files) {
         // The changelog is updated each time a folder is opened. Check the
         // folder's `modifiedTime` to see if the folder has been modified.
         const fileInfo = await this.googleDrive.getFile(file.id);
+        const root = await this.googleDrive.getFile(this.drive === "My Drive"
+          ? "root"
+          : this.drive);
 
+        const allParents = [];
+        if (this.includeSubfolders) {
+          allParents.push(...(await this.getAllParents(file.id)));
+        } else {
+          allParents.push(fileInfo.parents[0]);
+        }
+
+        if (!allParents.includes(this.folderId || root.id)) {
+          continue;
+        }
+
+        filteredFiles.push(fileInfo);
+      }
+
+      if (maxResults && filteredFiles.length >= maxResults) {
+        filteredFiles.length = maxResults;
+      }
+      for (const file of filteredFiles) {
         const lastModifiedTimeForFile = this._getLastModifiedTimeForFile(file.id);
-        const modifiedTime = Date.parse(fileInfo.modifiedTime);
+        const modifiedTime = Date.parse(file.modifiedTime);
         if (lastModifiedTimeForFile == modifiedTime) continue;
 
         const changes = await this.getChanges(headers);
 
         const eventToEmit = {
-          file: fileInfo,
+          file,
           ...changes,
         };
-        const meta = this.generateMeta(fileInfo, modifiedTime);
+        const meta = this.generateMeta(file, modifiedTime);
 
         this.$emit(eventToEmit, meta);
 

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/yourls",
+  "version": "0.0.1",
+  "description": "Pipedream YOURLS Components",
+  "main": "yourls.app.mjs",
+  "keywords": [
+    "pipedream",
+    "yourls"
+  ],
+  "homepage": "https://pipedream.com/apps/yourls",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

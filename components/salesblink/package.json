@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/salesblink",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream SalesBlink Components",
-  "main": "dist/app/salesblink.app.mjs",
+  "main": "salesblink.app.mjs",
   "keywords": [
     "pipedream",
     "salesblink"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/salesblink",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

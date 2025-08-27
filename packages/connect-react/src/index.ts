@@ -31,3 +31,9 @@ export * from "./hooks/use-app";
 export * from "./hooks/use-apps";
 export * from "./hooks/use-component";
 export * from "./hooks/use-components";
+
+// Debug info for development - consumers can choose to log this if needed
+export const DEBUG_INFO = {
+  buildTime: new Date().toISOString(),
+  source: "local-development",
+};

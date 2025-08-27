@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/callingly",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Callingly Components",
-  "main": "dist/app/callingly.app.mjs",
+  "main": "callingly.app.mjs",
   "keywords": [
     "pipedream",
     "callingly"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/callingly",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

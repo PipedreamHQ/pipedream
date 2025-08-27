@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/laposta",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Laposta Components",
-  "main": "dist/app/laposta.app.mjs",
+  "main": "laposta.app.mjs",
   "keywords": [
     "pipedream",
     "laposta"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/laposta",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

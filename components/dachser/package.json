@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/dachser",
+  "version": "0.0.1",
+  "description": "Pipedream Dachser Components",
+  "main": "dachser.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dachser"
+  ],
+  "homepage": "https://pipedream.com/apps/dachser",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

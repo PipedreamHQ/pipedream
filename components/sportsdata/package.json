@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/sportsdata",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream SportsData Components",
-  "main": "dist/app/sportsdata.app.mjs",
+  "main": "sportsdata.app.mjs",
   "keywords": [
     "pipedream",
     "sportsdata"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/sportsdata",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

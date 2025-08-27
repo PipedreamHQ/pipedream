@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/implisense_api",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Implisense API Components",
-  "main": "dist/app/implisense_api.app.mjs",
+  "main": "implisense_api.app.mjs",
   "keywords": [
     "pipedream",
     "implisense_api"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/implisense_api",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/sailpoint_personal_token",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream sailpoint-personal-token Components",
-  "main": "dist/app/sailpoint_personal_token.app.mjs",
+  "main": "sailpoint_personal_token.app.mjs",
   "keywords": [
     "pipedream",
     "sailpoint_personal_token"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/sailpoint_personal_token",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

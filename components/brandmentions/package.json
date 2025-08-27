@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/brandmentions",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream BrandMentions Components",
-  "main": "dist/app/brandmentions.app.mjs",
+  "main": "brandmentions.app.mjs",
   "keywords": [
     "pipedream",
     "brandmentions"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/brandmentions",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
