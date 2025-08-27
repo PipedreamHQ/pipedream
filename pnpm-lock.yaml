@@ -3453,8 +3453,7 @@ importers:
 
   components/danny_test_app: {}
 
-  components/dante_ai:
-    specifiers: {}
+  components/dante_ai: {}
 
   components/dappier: {}
 
