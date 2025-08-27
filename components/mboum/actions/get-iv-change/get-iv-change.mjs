@@ -4,7 +4,7 @@ export default {
   key: "mboum-get-iv-change",
   name: "Get IV Change",
   description: "Get Implied Volatility (IV) change data showing volatility movements and trends over time. [See the documentation](https://docs.mboum.com/#stocks-options-small-stylecolor-f8f2f2background-fa256fpadding-1px-4pxborder-radius-3pxhotsmall-GETapi-v1-markets-options-iv-change)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     mboum,
@@ -29,7 +29,7 @@ export default {
       optional: true,
     },
     priceMin: {
-      type: "number",
+      type: "string",
       label: "Price Min",
       description: "Filter results by min price of the stock per share value",
       optional: true,
