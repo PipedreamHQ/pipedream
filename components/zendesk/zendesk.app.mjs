@@ -290,22 +290,23 @@ export default {
         ...args,
       });
     },
+    /**
+     * Upload a single file (local path or http(s) URL) to Zendesk Uploads API.
+     * @param {Object} params
+     * @param {string} params.filePath - Local filesystem path or http(s) URL.
+     * @param {string} [params.filename] - Optional filename override for the upload.
+     * @param {string} [params.customSubdomain]
+     * @param {*} [params.step]
+     */
     async uploadFile({
       filePath, filename, customSubdomain, step,
     } = {}) {
+      if (!filePath || typeof filePath !== "string") {
+        throw new Error("uploadFile: 'filePath' (string) is required");
+      }
       const fs = await import("fs");
       const path = await import("path");
-      
-      // If filename not provided, extract from filePath
-      if (!filename && filePath) {
-        filename = path.basename(filePath);
-      }
-      
-      // Read file content
-      const fileContent = fs.readFileSync(filePath);
-      
-      // Get file extension to determine Content-Type
-      const ext = path.extname(filename).toLowerCase();
+
       const contentTypeMap = {
         ".pdf": "application/pdf",
         ".png": "image/png",
@@ -319,8 +320,49 @@ export default {
         ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         ".zip": "application/zip",
       };
-      const contentType = contentTypeMap[ext] || "application/octet-stream";
-      
+
+      let fileContent;
+      let contentType;
+
+      const isHttp = /^https?:\/\//i.test(filePath);
+      if (isHttp) {
+        // Fetch remote file as arraybuffer to preserve bytes
+        const res = await axios(step, {
+          method: "get",
+          url: filePath,
+          responseType: "arraybuffer",
+          returnFullResponse: true,
+          timeout: 60_000,
+        });
+        fileContent = res.data;
+
+        const headerCT = res.headers?.["content-type"];
+        const cd = res.headers?.["content-disposition"];
+
+        if (!filename) {
+          const cdMatch = cd?.match(/filename\*?=(?:UTF-8''|")?([^\";]+)/i);
+          filename = cdMatch?.[1]
+            ? decodeURIComponent(cdMatch[1].replace(/(^"|"$)/g, ""))
+            : (() => {
+                try {
+                  return path.basename(new URL(filePath).pathname);
+                } catch {
+                  return "attachment";
+                }
+              })();
+        }
+        const ext = path.extname(filename || "").toLowerCase();
+        contentType = headerCT || contentTypeMap[ext] || "application/octet-stream";
+      } else {
+        // Local file: non-blocking read
+        if (!filename) {
+          filename = path.basename(filePath);
+        }
+        fileContent = await fs.promises.readFile(filePath);
+        const ext = path.extname(filename || "").toLowerCase();
+        contentType = contentTypeMap[ext] || "application/octet-stream";
+      }
+
       return this.makeRequest({
         step,
         method: "post",
@@ -338,25 +380,37 @@ export default {
       if (!attachments || !attachments.length) {
         return [];
       }
-      
-      const uploadResults = [];
-      for (const attachment of attachments) {
-        try {
-          const result = await this.uploadFile({
-            filePath: attachment,
-            customSubdomain,
-            step,
-          });
-          const token = result?.upload?.token;
+      const files = attachments
+        .map((a) => (typeof a === "string" ? a.trim() : a))
+        .filter(Boolean);
+
+      const settled = await Promise.allSettled(
+        files.map((attachment) =>
+          this.uploadFile({ filePath: attachment, customSubdomain, step }),
+        ),
+      );
+
+      const tokens = [];
+      const errors = [];
+      settled.forEach((res, i) => {
+        const attachment = files[i];
+        if (res.status === "fulfilled") {
+          const token = res.value?.upload?.token;
           if (!token) {
-            throw new Error(`Upload API returned no token for ${attachment}`);
+            errors.push(`Upload API returned no token for ${attachment}`);
+          } else {
+            tokens.push(token);
           }
-          uploadResults.push(token);
-        } catch (error) {
-          throw error;
+        } else {
+          const reason = res.reason?.message || String(res.reason || "Unknown error");
+          errors.push(`${attachment}: ${reason}`);
         }
+      });
+
+      if (errors.length) {
+        throw new Error(`Failed to upload ${errors.length}/${files.length} attachment(s): ${errors.join("; ")}`);
       }
-      return uploadResults;
+      return tokens;
     },
     async *paginate({
       fn, args, resourceKey, max,
