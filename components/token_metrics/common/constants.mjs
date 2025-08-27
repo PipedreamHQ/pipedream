@@ -5,7 +5,7 @@ export const ENDPOINTS = {
     description: "Get the list of coins and their associated TOKEN_ID supported by Token Metrics",
     filters: [
       "token_id",
-      "token_name", 
+      "token_name",
       "symbol",
       "category",
       "exchange",
@@ -232,21 +232,21 @@ export const FILTER_DEFINITIONS = {
     optional: true,
   },
   token_name: {
-    type: "string", 
+    type: "string",
     label: "Token Name",
     description: "Comma Separated Crypto Asset Names (e.g., Bitcoin, Ethereum)",
     optional: true,
   },
   symbol: {
     type: "string",
-    label: "Symbol", 
+    label: "Symbol",
     description: "Comma Separated Token Symbols. Example: BTC,ETH",
     optional: true,
   },
   category: {
     type: "string",
     label: "Category",
-    description: "Comma Separated category name. Example: yield farming,defi", 
+    description: "Comma Separated category name. Example: yield farming,defi",
     optional: true,
   },
   exchange: {
@@ -257,7 +257,7 @@ export const FILTER_DEFINITIONS = {
   },
   blockchain_address: {
     type: "string",
-    label: "Blockchain Address", 
+    label: "Blockchain Address",
     description: "Token addresses separated by colon. Example: binance-smart-chain:0x8076c74c5e3f5852037f31ff0093eeb8c8add8d3",
     optional: true,
   },
@@ -269,7 +269,7 @@ export const FILTER_DEFINITIONS = {
   },
   end_date: {
     type: "string",
-    label: "End Date", 
+    label: "End Date",
     description: "End Date accepts date as a string - YYYY-MM-DD format. Example: 2023-10-10",
     optional: true,
   },
@@ -282,7 +282,7 @@ export const FILTER_DEFINITIONS = {
   volume: {
     type: "string",
     label: "Volume",
-    description: "Minimum 24h trading volume in $. Example: 100000000", 
+    description: "Minimum 24h trading volume in $. Example: 100000000",
     optional: true,
   },
   fdv: {
@@ -302,7 +302,7 @@ export const FILTER_DEFINITIONS = {
         value: "1",
       },
       {
-        label: "No Signal (0)", 
+        label: "No Signal (0)",
         value: "0",
       },
       {
@@ -361,7 +361,7 @@ export const FILTER_DEFINITIONS = {
 // Common error messages
 export const ERROR_MESSAGES = {
   AUTHENTICATION_FAILED: "Authentication failed. Please check your API key.",
-  ACCESS_FORBIDDEN: "Access forbidden. Please check your API key permissions.", 
+  ACCESS_FORBIDDEN: "Access forbidden. Please check your API key permissions.",
   RATE_LIMIT_EXCEEDED: "Rate limit exceeded. Please try again later.",
   SERVER_ERROR: "Token Metrics API server error. Please try again later.",
   GENERIC_ERROR: "An error occurred while making the API request",

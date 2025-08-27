@@ -12,7 +12,7 @@ export default {
       default: 50,
     },
     page: {
-      type: "integer", 
+      type: "integer",
       label: "Page",
       description: "Enables pagination and data retrieval control by skipping a specified number of items before fetching data",
       optional: true,
@@ -26,7 +26,7 @@ export default {
     },
     symbol: {
       type: "string[]",
-      label: "Token Symbols", 
+      label: "Token Symbols",
       description: "Select one or more token symbols to filter results. Example: `BTC,ETH`",
       optional: true,
     },
@@ -57,7 +57,7 @@ export default {
     endDate: {
       type: "string",
       label: "End Date",
-      description: "End date in `YYYY-MM-DD` format. Example: `2023-10-10`", 
+      description: "End date in `YYYY-MM-DD` format. Example: `2023-10-10`",
       optional: true,
     },
     marketCap: {
@@ -170,7 +170,7 @@ export default {
         headers: this._headers(),
         ...args,
       };
-      
+
       return await axios($, config);
     },
     // Generic method for any endpoint

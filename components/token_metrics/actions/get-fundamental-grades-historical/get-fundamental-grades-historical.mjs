@@ -1,6 +1,8 @@
 import tokenMetrics from "../../token_metrics.app.mjs";
 import { ENDPOINTS } from "../../common/constants.mjs";
-import { buildParams, generateFilterSummary } from "../../common/utils.mjs";
+import {
+  buildParams, generateFilterSummary,
+} from "../../common/utils.mjs";
 
 const endpoint = ENDPOINTS.FUNDAMENTAL_GRADES_HISTORICAL;
 
@@ -75,11 +77,11 @@ export default {
 
     // Generate summary using utility function
     const filterSummary = generateFilterSummary(this, endpoint.filters);
-    
+
     // Use $ context for export
     const dataLength = response.data?.length || 0;
     $.export("$summary", `Successfully retrieved historical fundamental grades for ${dataLength} records${filterSummary}`);
-    
+
     return response;
   },
 };

@@ -1,6 +1,8 @@
 import tokenMetrics from "../../token_metrics.app.mjs";
 import { ENDPOINTS } from "../../common/constants.mjs";
-import { buildParams, generateFilterSummary } from "../../common/utils.mjs";
+import {
+  buildParams, generateFilterSummary,
+} from "../../common/utils.mjs";
 
 const endpoint = ENDPOINTS.TRADING_SIGNALS;
 
@@ -98,10 +100,10 @@ export default {
 
     // Generate summary using utility function
     const filterSummary = generateFilterSummary(this, endpoint.filters);
-    
+
     // Use $ context for export
     $.export("$summary", `Successfully retrieved trading signals${filterSummary}`);
-    
+
     return response;
   },
 };
