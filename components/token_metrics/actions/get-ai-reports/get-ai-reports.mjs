@@ -4,52 +4,30 @@ import {
   buildParams, generateFilterSummary,
 } from "../../common/utils.mjs";
 
-const endpoint = ENDPOINTS.TOKENS;
+const endpoint = ENDPOINTS.AI_REPORTS;
 
 export default {
-  key: "token_metrics-get-tokens",
-  name: "Get Tokens",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/tokens)`,
-  version: "0.0.2",
+  key: "token_metrics-get-ai-reports",
+  name: "Get AI Reports",
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/ai-reports)`,
+  version: "0.0.1",
   type: "action",
   props: {
     tokenMetrics,
-    // Dynamically add filter props based on endpoint configuration
+    // Filter props using propDefinitions from the app
     tokenId: {
       propDefinition: [
         tokenMetrics,
         "tokenId",
       ],
-    },
-    tokenName: {
-      propDefinition: [
-        tokenMetrics,
-        "tokenName",
-      ],
+      description: "Select Token IDs to get AI reports for. Example: `37493,3484`",
     },
     symbol: {
       propDefinition: [
         tokenMetrics,
         "symbol",
       ],
-    },
-    category: {
-      propDefinition: [
-        tokenMetrics,
-        "category",
-      ],
-    },
-    exchange: {
-      propDefinition: [
-        tokenMetrics,
-        "exchange",
-      ],
-    },
-    blockchainAddress: {
-      propDefinition: [
-        tokenMetrics,
-        "blockchainAddress",
-      ],
+      description: "Select token symbols to get AI reports for. Example: `APX,PAAL`",
     },
     // Pagination props
     limit: {
@@ -57,19 +35,23 @@ export default {
         tokenMetrics,
         "limit",
       ],
+      description: "Limit the number of items in response. Defaults to 50",
+      default: 50,
     },
     page: {
       propDefinition: [
         tokenMetrics,
         "page",
       ],
+      min: 1,
+      default: 1,
     },
   },
   async run({ $ }) {
     // Build parameters using utility function
     const params = buildParams(this, endpoint.filters);
 
-    const response = await this.tokenMetrics.getTokens({
+    const response = await this.tokenMetrics.getAiReports({
       $,
       params,
     });
@@ -78,7 +60,8 @@ export default {
     const filterSummary = generateFilterSummary(this, endpoint.filters);
 
     // Use $ context for export
-    $.export("$summary", `Successfully retrieved tokens list${filterSummary}`);
+    const dataLength = response.data?.length || 0;
+    $.export("$summary", `Successfully retrieved AI reports for ${dataLength} tokens${filterSummary}`);
 
     return response;
   },

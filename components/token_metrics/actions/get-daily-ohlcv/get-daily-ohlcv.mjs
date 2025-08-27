@@ -4,27 +4,21 @@ import {
   buildParams, generateFilterSummary,
 } from "../../common/utils.mjs";
 
-const endpoint = ENDPOINTS.TOKENS;
+const endpoint = ENDPOINTS.DAILY_OHLCV;
 
 export default {
-  key: "token_metrics-get-tokens",
-  name: "Get Tokens",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/tokens)`,
-  version: "0.0.2",
+  key: "token_metrics-get-daily-ohlcv",
+  name: "Get Daily OHLCV",
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/daily-ohlcv)`,
+  version: "0.0.1",
   type: "action",
   props: {
     tokenMetrics,
-    // Dynamically add filter props based on endpoint configuration
+    // Filter props based on endpoint configuration and screenshot
     tokenId: {
       propDefinition: [
         tokenMetrics,
         "tokenId",
-      ],
-    },
-    tokenName: {
-      propDefinition: [
-        tokenMetrics,
-        "tokenName",
       ],
     },
     symbol: {
@@ -33,23 +27,26 @@ export default {
         "symbol",
       ],
     },
-    category: {
+    tokenName: {
       propDefinition: [
         tokenMetrics,
-        "category",
+        "tokenName",
       ],
+      description: "Select crypto asset names to filter results. Example: `Bitcoin`",
     },
-    exchange: {
+    startDate: {
       propDefinition: [
         tokenMetrics,
-        "exchange",
+        "startDate",
       ],
+      description: "Start Date accepts date as a string - `YYYY-MM-DD` format. Note: The Start Date cannot be earlier than the past 30 days from the current date. Example: `2025-01-01`",
     },
-    blockchainAddress: {
+    endDate: {
       propDefinition: [
         tokenMetrics,
-        "blockchainAddress",
+        "endDate",
       ],
+      description: "End Date accepts date as a string - `YYYY-MM-DD` format. Example: `2025-01-23`",
     },
     // Pagination props
     limit: {
@@ -57,19 +54,23 @@ export default {
         tokenMetrics,
         "limit",
       ],
+      description: "Limit the number of items in response. Defaults to 50",
+      default: 50,
     },
     page: {
       propDefinition: [
         tokenMetrics,
         "page",
       ],
+      min: 1,
+      default: 1,
     },
   },
   async run({ $ }) {
     // Build parameters using utility function
     const params = buildParams(this, endpoint.filters);
 
-    const response = await this.tokenMetrics.getTokens({
+    const response = await this.tokenMetrics.getDailyOhlcv({
       $,
       params,
     });
@@ -78,7 +79,8 @@ export default {
     const filterSummary = generateFilterSummary(this, endpoint.filters);
 
     // Use $ context for export
-    $.export("$summary", `Successfully retrieved tokens list${filterSummary}`);
+    const dataLength = response.data?.length || 0;
+    $.export("$summary", `Successfully retrieved ${dataLength} daily OHLCV records${filterSummary}`);
 
     return response;
   },

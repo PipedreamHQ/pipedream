@@ -4,30 +4,22 @@ import {
   buildParams, generateFilterSummary,
 } from "../../common/utils.mjs";
 
-const endpoint = ENDPOINTS.MARKET_METRICS;
+const endpoint = ENDPOINTS.MOONSHOT_TOKENS;
 
 export default {
-  key: "token_metrics-get-market-metrics",
-  name: "Get Market Metrics",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/market-metrics)`,
-  version: "0.0.2",
+  key: "token_metrics-get-moonshot-tokens",
+  name: "Get Moonshot Tokens",
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/moonshot-tokens)`,
+  version: "0.0.1",
   type: "action",
   props: {
     tokenMetrics,
-    // Filter props based on endpoint configuration and API documentation
-    startDate: {
+    // Filter props based on endpoint configuration and screenshot
+    type: {
       propDefinition: [
         tokenMetrics,
-        "startDate",
+        "type",
       ],
-      description: "Start Date accepts date as a string - `YYYY-MM-DD` format. Example: `2023-10-01`",
-    },
-    endDate: {
-      propDefinition: [
-        tokenMetrics,
-        "endDate",
-      ],
-      description: "End Date accepts date as a string - `YYYY-MM-DD` format. Example: `2023-10-10`",
     },
     // Pagination props
     limit: {
@@ -51,7 +43,7 @@ export default {
     // Build parameters using utility function
     const params = buildParams(this, endpoint.filters);
 
-    const response = await this.tokenMetrics.getMarketMetrics({
+    const response = await this.tokenMetrics.getMoonshotTokens({
       $,
       params,
     });
@@ -61,7 +53,8 @@ export default {
 
     // Use $ context for export
     const dataLength = response.data?.length || 0;
-    $.export("$summary", `Successfully retrieved market metrics for ${dataLength} records${filterSummary}`);
+    const moonshotType = this.type || "active";
+    $.export("$summary", `Successfully retrieved ${dataLength} ${moonshotType} moonshot tokens${filterSummary}`);
 
     return response;
   },

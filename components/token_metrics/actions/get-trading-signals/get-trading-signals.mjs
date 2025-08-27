@@ -4,27 +4,33 @@ import {
   buildParams, generateFilterSummary,
 } from "../../common/utils.mjs";
 
-const endpoint = ENDPOINTS.TOKENS;
+const endpoint = ENDPOINTS.TRADING_SIGNALS;
 
 export default {
-  key: "token_metrics-get-tokens",
-  name: "Get Tokens",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/tokens)`,
-  version: "0.0.2",
+  key: "token_metrics-get-trading-signals",
+  name: "Get Trading Signals",
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/trading-signals)`,
+  version: "0.0.1",
   type: "action",
   props: {
     tokenMetrics,
-    // Dynamically add filter props based on endpoint configuration
+    // Filter props based on endpoint configuration
     tokenId: {
       propDefinition: [
         tokenMetrics,
         "tokenId",
       ],
     },
-    tokenName: {
+    startDate: {
       propDefinition: [
         tokenMetrics,
-        "tokenName",
+        "startDate",
+      ],
+    },
+    endDate: {
+      propDefinition: [
+        tokenMetrics,
+        "endDate",
       ],
     },
     symbol: {
@@ -45,10 +51,28 @@ export default {
         "exchange",
       ],
     },
-    blockchainAddress: {
+    marketCap: {
       propDefinition: [
         tokenMetrics,
-        "blockchainAddress",
+        "marketCap",
+      ],
+    },
+    volume: {
+      propDefinition: [
+        tokenMetrics,
+        "volume",
+      ],
+    },
+    fdv: {
+      propDefinition: [
+        tokenMetrics,
+        "fdv",
+      ],
+    },
+    signal: {
+      propDefinition: [
+        tokenMetrics,
+        "signal",
       ],
     },
     // Pagination props
@@ -69,7 +93,7 @@ export default {
     // Build parameters using utility function
     const params = buildParams(this, endpoint.filters);
 
-    const response = await this.tokenMetrics.getTokens({
+    const response = await this.tokenMetrics.getTradingSignals({
       $,
       params,
     });
@@ -78,7 +102,7 @@ export default {
     const filterSummary = generateFilterSummary(this, endpoint.filters);
 
     // Use $ context for export
-    $.export("$summary", `Successfully retrieved tokens list${filterSummary}`);
+    $.export("$summary", `Successfully retrieved trading signals${filterSummary}`);
 
     return response;
   },

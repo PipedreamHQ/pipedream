@@ -4,17 +4,17 @@ import {
   buildParams, generateFilterSummary,
 } from "../../common/utils.mjs";
 
-const endpoint = ENDPOINTS.TOKENS;
+const endpoint = ENDPOINTS.FUNDAMENTAL_GRADES_HISTORICAL;
 
 export default {
-  key: "token_metrics-get-tokens",
-  name: "Get Tokens",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/tokens)`,
-  version: "0.0.2",
+  key: "token_metrics-get-fundamental-grades-historical",
+  name: "Get Fundamental Grades Historical",
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/fundamental-grade-history)`,
+  version: "0.0.1",
   type: "action",
   props: {
     tokenMetrics,
-    // Dynamically add filter props based on endpoint configuration
+    // Filter props based on endpoint configuration and API documentation
     tokenId: {
       propDefinition: [
         tokenMetrics,
@@ -26,6 +26,7 @@ export default {
         tokenMetrics,
         "tokenName",
       ],
+      description: "Crypto Asset Names (e.g., Bitcoin, Ethereum) to filter results. Select token names.",
     },
     symbol: {
       propDefinition: [
@@ -33,23 +34,19 @@ export default {
         "symbol",
       ],
     },
-    category: {
+    startDate: {
       propDefinition: [
         tokenMetrics,
-        "category",
+        "startDate",
       ],
+      description: "Start Date accepts date as a string - `YYYY-MM-DD` format. Example: `2025-07-01`",
     },
-    exchange: {
+    endDate: {
       propDefinition: [
         tokenMetrics,
-        "exchange",
+        "endDate",
       ],
-    },
-    blockchainAddress: {
-      propDefinition: [
-        tokenMetrics,
-        "blockchainAddress",
-      ],
+      description: "End Date accepts date as a string - `YYYY-MM-DD` format. Example: `2025-07-05`",
     },
     // Pagination props
     limit: {
@@ -57,19 +54,23 @@ export default {
         tokenMetrics,
         "limit",
       ],
+      description: "Limit the number of items in response. Defaults to 50",
+      default: 50,
     },
     page: {
       propDefinition: [
         tokenMetrics,
         "page",
       ],
+      min: 1,
+      default: 1,
     },
   },
   async run({ $ }) {
     // Build parameters using utility function
     const params = buildParams(this, endpoint.filters);
 
-    const response = await this.tokenMetrics.getTokens({
+    const response = await this.tokenMetrics.getFundamentalGradesHistorical({
       $,
       params,
     });
@@ -78,7 +79,8 @@ export default {
     const filterSummary = generateFilterSummary(this, endpoint.filters);
 
     // Use $ context for export
-    $.export("$summary", `Successfully retrieved tokens list${filterSummary}`);
+    const dataLength = response.data?.length || 0;
+    $.export("$summary", `Successfully retrieved historical fundamental grades for ${dataLength} records${filterSummary}`);
 
     return response;
   },
