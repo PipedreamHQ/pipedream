@@ -31,7 +31,9 @@ export default {
       return [];
     }
 
-    $.export("$summary", `Successfully retrieved ${warehouses.length} warehouse${warehouses.length === 1 ? "" : "s"}.`);
+    $.export("$summary", `Successfully retrieved ${warehouses.length} warehouse${warehouses.length === 1
+      ? ""
+      : "s"}.`);
 
     return warehouses;
   },

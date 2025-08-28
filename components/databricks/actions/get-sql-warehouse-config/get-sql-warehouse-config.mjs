@@ -10,7 +10,9 @@ export default {
     databricks,
   },
   async run({ $ }) {
-    const response = await this.databricks.getSQLWarehouseConfig({ $ });
+    const response = await this.databricks.getSQLWarehouseConfig({
+      $,
+    });
     $.export("$summary", "Successfully retrieved SQL Warehouse configuration");
     return response;
   },

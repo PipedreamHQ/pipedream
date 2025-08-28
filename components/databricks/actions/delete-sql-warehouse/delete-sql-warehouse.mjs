@@ -21,6 +21,8 @@ export default {
     });
 
     $.export("$summary", `Successfully deleted SQL Warehouse with ID ${this.warehouseId}`);
-    return { success: true };
+    return {
+      success: true,
+    };
   },
 };

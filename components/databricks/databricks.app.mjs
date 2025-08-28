@@ -97,14 +97,18 @@ export default {
         ...args,
       });
     },
-    deleteSQLWarehouse({ warehouseId, ...args }) {
+    deleteSQLWarehouse({
+      warehouseId, ...args
+    }) {
       return this._makeRequest({
         path: `/sql/warehouses/${warehouseId}`,
         method: "DELETE",
         ...args,
       });
     },
-    getSQLWarehouse({ warehouseId, ...args }) {
+    getSQLWarehouse({
+      warehouseId, ...args
+    }) {
       return this._makeRequest({
         path: `/sql/warehouses/${warehouseId}`,
         method: "GET",
@@ -117,14 +121,18 @@ export default {
         ...args,
       });
     },
-    editSQLWarehouse({ warehouseId, ...args }) {
+    editSQLWarehouse({
+      warehouseId, ...args
+    }) {
       return this._makeRequest({
         path: `/sql/warehouses/${warehouseId}/edit`,
         method: "POST",
         ...args,
       });
     },
-    startSQLWarehouse({ warehouseId, ...args }) {
+    startSQLWarehouse({
+      warehouseId, ...args
+    }) {
       return this._makeRequest({
         path: `/sql/warehouses/${warehouseId}/start`,
         method: "POST",
@@ -132,14 +140,16 @@ export default {
       });
     },
 
-    stopSQLWarehouse({ warehouseId, ...args }) {
+    stopSQLWarehouse({
+      warehouseId, ...args
+    }) {
       return this._makeRequest({
         path: `/sql/warehouses/${warehouseId}/stop`,
         method: "POST",
         ...args,
       });
     },
-    
+
     getSQLWarehouseConfig(args = {}) {
       return this._makeRequest({
         path: "/sql/config/warehouses",
@@ -155,7 +165,9 @@ export default {
         ...args,
       });
     },
-    getSQLWarehousePermissions({ warehouseId, ...args }) {
+    getSQLWarehousePermissions({
+      warehouseId, ...args
+    }) {
       return this._makeRequest({
         path: `/permissions/warehouses/${warehouseId}`,
         method: "GET",
@@ -163,12 +175,14 @@ export default {
       });
     },
 
-    setSQLWarehousePermissions({ warehouseId, ...args }) {
+    setSQLWarehousePermissions({
+      warehouseId, ...args
+    }) {
       return this._makeRequest({
         path: `/permissions/warehouses/${warehouseId}`,
         method: "PUT",
         ...args,
       });
-    }
+    },
   },
 };
