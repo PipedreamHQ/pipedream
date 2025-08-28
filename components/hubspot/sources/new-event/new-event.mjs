@@ -1,6 +1,6 @@
-import common from "../common/common.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import { DEFAULT_LIMIT } from "../../common/constants.mjs";
+import common from "../common/common.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {

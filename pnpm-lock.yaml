@@ -1626,6 +1626,8 @@ importers:
 
   components/bill: {}
 
+  components/billbee: {}
+
   components/billplz: {}
 
   components/billsby: {}
@@ -1945,7 +1947,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/bridge_interactive_platform: {}
+  components/bridge_interactive_platform:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/bright_data:
     dependencies:
@@ -3407,7 +3413,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/dachser: {}
+  components/dachser:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/dadata_ru:
     dependencies:
@@ -3448,6 +3458,8 @@ importers:
         version: 3.0.3
 
   components/danny_test_app: {}
+
+  components/dante_ai: {}
 
   components/dappier: {}
 
@@ -6642,8 +6654,8 @@ importers:
   components/hubspot:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       bottleneck:
         specifier: ^2.19.5
         version: 2.19.5
@@ -9146,7 +9158,11 @@ importers:
 
   components/nasa: {}
 
-  components/nasdaq_data_link_time_series_and_table_data_: {}
+  components/nasdaq_data_link_time_series_and_table_data_:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/nationbuilder:
     dependencies:
@@ -10921,6 +10937,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+
+  components/postbin:
+    specifiers: {}
 
   components/postgresql:
     dependencies:
@@ -14476,8 +14495,8 @@ importers:
   components/token_metrics:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.0
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/tolstoy:
     dependencies:
@@ -14975,6 +14994,9 @@ importers:
         version: 6.13.1
 
   components/upollo: {}
+
+  components/uproc:
+    specifiers: {}
 
   components/upstash_redis:
     dependencies:

@@ -1,7 +1,7 @@
-import hubspot from "../../hubspot.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 import { API_PATH } from "../../common/constants.mjs";
 import { parseObject } from "../../common/utils.mjs";
-import { ConfigurationError } from "@pipedream/platform";
+import hubspot from "../../hubspot.app.mjs";
 
 export default {
   key: "hubspot-batch-upsert-companies",

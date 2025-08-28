@@ -1,8 +1,9 @@
 import {
-  OBJECT_TYPE, ASSOCIATION_CATEGORY,
+  ASSOCIATION_CATEGORY,
+  OBJECT_TYPE,
 } from "../../common/constants.mjs";
-import common from "../common/common-create-object.mjs";
 import appProp from "../common/common-app-prop.mjs";
+import common from "../common/common-create-object.mjs";
 
 export default {
   ...common,

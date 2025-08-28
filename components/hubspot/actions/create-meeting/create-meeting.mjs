@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
-import common from "../common/common-create.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import {
   ASSOCIATION_CATEGORY, OBJECT_TYPE,
 } from "../../common/constants.mjs";
+import common from "../common/common-create.mjs";
 
 export default {
   ...common,

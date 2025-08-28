@@ -1,8 +1,8 @@
-import common from "../common/common-create.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import {
   ASSOCIATION_CATEGORY, ENGAGEMENT_TYPE_OPTIONS,
 } from "../../common/constants.mjs";
+import common from "../common/common-create.mjs";
 
 export default {
   ...common,

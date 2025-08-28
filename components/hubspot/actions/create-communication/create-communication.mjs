@@ -1,7 +1,7 @@
-import common from "../common/common-create.mjs";
-import appProp from "../common/common-app-prop.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import { ASSOCIATION_CATEGORY } from "../../common/constants.mjs";
+import appProp from "../common/common-app-prop.mjs";
+import common from "../common/common-create.mjs";
 
 export default {
   ...common,

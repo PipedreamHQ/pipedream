@@ -1,17 +1,17 @@
-import hubspot from "../../hubspot.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 import {
-  SEARCHABLE_OBJECT_TYPES,
-  DEFAULT_CONTACT_PROPERTIES,
   DEFAULT_COMPANY_PROPERTIES,
+  DEFAULT_CONTACT_PROPERTIES,
   DEFAULT_DEAL_PROPERTIES,
-  DEFAULT_TICKET_PROPERTIES,
-  DEFAULT_PRODUCT_PROPERTIES,
-  DEFAULT_LINE_ITEM_PROPERTIES,
   DEFAULT_LEAD_PROPERTIES,
   DEFAULT_LIMIT,
+  DEFAULT_LINE_ITEM_PROPERTIES,
+  DEFAULT_PRODUCT_PROPERTIES,
+  DEFAULT_TICKET_PROPERTIES,
+  SEARCHABLE_OBJECT_TYPES,
 } from "../../common/constants.mjs";
+import hubspot from "../../hubspot.app.mjs";
 import common from "../common/common-create.mjs";
-import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "hubspot-search-crm",

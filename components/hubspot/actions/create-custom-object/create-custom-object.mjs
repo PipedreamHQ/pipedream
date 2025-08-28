@@ -1,5 +1,5 @@
-import common from "../common/common-create-object.mjs";
 import appProp from "../common/common-app-prop.mjs";
+import common from "../common/common-create-object.mjs";
 
 export default {
   ...common,

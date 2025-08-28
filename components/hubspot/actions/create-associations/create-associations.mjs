@@ -1,5 +1,5 @@
-import hubspot from "../../hubspot.app.mjs";
 import { ConfigurationError } from "@pipedream/platform";
+import hubspot from "../../hubspot.app.mjs";
 
 export default {
   key: "hubspot-create-associations",
