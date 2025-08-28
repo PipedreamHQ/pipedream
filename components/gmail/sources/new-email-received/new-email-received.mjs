@@ -734,9 +734,9 @@ export default {
 
       this._setLastReceivedTime(Date.now());
 
-      messageDetails.forEach((message) => {
+      messageDetails.forEach(async (message) => {
         if (message?.id) {
-          this.emitEvent(message);
+          await this.emitEvent(message);
         }
       });
     }

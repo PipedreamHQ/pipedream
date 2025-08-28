@@ -187,7 +187,7 @@ export default {
         console.log(`Message ${id} not found: ${error.message}`);
         return;
       }
-      this.emitEvent(message);
+      await this.emitEvent(message);
     },
   },
   async run() {
