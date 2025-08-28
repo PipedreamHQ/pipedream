@@ -1626,6 +1626,8 @@ importers:
 
   components/bill: {}
 
+  components/billbee: {}
+
   components/billplz: {}
 
   components/billsby: {}
@@ -3411,7 +3413,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/dachser: {}
+  components/dachser:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/dadata_ru:
     dependencies:
@@ -3453,8 +3459,7 @@ importers:
 
   components/danny_test_app: {}
 
-  components/dante_ai:
-    specifiers: {}
+  components/dante_ai: {}
 
   components/dappier: {}
 
@@ -9153,7 +9158,11 @@ importers:
 
   components/nasa: {}
 
-  components/nasdaq_data_link_time_series_and_table_data_: {}
+  components/nasdaq_data_link_time_series_and_table_data_:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/nationbuilder:
     dependencies:
@@ -10928,6 +10937,9 @@ importers:
       '@pipedream/platform':
         specifier: ^1.5.1
         version: 1.6.6
+
+  components/postbin:
+    specifiers: {}
 
   components/postgresql:
     dependencies:
@@ -14483,8 +14495,8 @@ importers:
   components/token_metrics:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.0
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/tolstoy:
     dependencies:
@@ -14982,6 +14994,9 @@ importers:
         version: 6.13.1
 
   components/upollo: {}
+
+  components/uproc:
+    specifiers: {}
 
   components/upstash_redis:
     dependencies:
