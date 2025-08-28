@@ -12,7 +12,9 @@ export default {
     info: {
       type: "alert",
       alertType: "info",
-      content: "Webhooks must be created and verified in Notion. [See the documentation](https://developers.notion.com/reference/webhooks#step-1-creating-a-webhook-subscription). Upon webhook creation, the source logs will display a verification token. Enter this in your Notion webhook settings.",
+      content: `1. Create this Pipedream source and copy the Source Endpoint URL.
+2. In Notion, create a webhook subscription and paste the Source Endpoint URL as the webhook URL. See Notion's guide: https://developers.notion.com/reference/webhooks#step-1-creating-a-webhook-subscription
+3. After adding the subscription in Notion, you'll be prompted to verify the webhook using a secret. Open the Source Logs tab in this Pipedream source to find the verification secret (token) and enter it in Notion to complete verification.`,
     },
   },
   methods: {
