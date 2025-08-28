@@ -56,7 +56,8 @@ export default {
       return {};
     },
     getInitialLookbackMs() {
-      return 60 * 60 * 1000; // 1 hour
+      // three months ago
+      return 3 * 30 * 24 * 60 * 60 * 1000;
     },
     getMaxRequests() {
       return 3;
@@ -101,6 +102,7 @@ export default {
           ...getStaticFilters(),
           [getDateFilterField()]: {
             StartUtc: lastDateAt,
+            EndUtc: new Date().toISOString(),
           },
         },
       },

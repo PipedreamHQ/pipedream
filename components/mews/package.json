@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/mews",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Pipedream mews Components",
   "main": "mews.app.mjs",
   "keywords": [

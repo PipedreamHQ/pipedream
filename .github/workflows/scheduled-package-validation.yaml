@@ -2,8 +2,8 @@ name: Scheduled Package Validation Report
 
 on:
   schedule:
-    # Run every three days at midnight UTC
-    - cron: '0 0 */3 * *'
+    # Run weekly on Mondays at 2:00 PM UTC
+    - cron: '0 14 * * 1'
   workflow_dispatch: # Allow manual triggering for testing
 
 jobs:

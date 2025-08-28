@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/uproc",
+  "version": "0.0.1",
+  "description": "Pipedream uProc Components",
+  "main": "uproc.app.mjs",
+  "keywords": [
+    "pipedream",
+    "uproc"
+  ],
+  "homepage": "https://pipedream.com/apps/uproc",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
