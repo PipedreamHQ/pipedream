@@ -18,27 +18,6 @@ const SHIPPING_SERVICES = [
   "svb",
 ];
 
-const STATUS_OPTIONS = [
-  "ACTIVE",
-  "INACTIVE",
-];
-
-const SUBSCRIPTION_TYPES = [
-  "timestamp-notification",
-  "tracking-notification",
-  "tracking-notification-v2",
-];
-
-const MODE_OF_TRANSPORT = [
-  "Air",
-  "Ocean",
-  "Road",
-  "Rail",
-];
-
 export default {
   SHIPPING_SERVICES,
-  STATUS_OPTIONS,
-  SUBSCRIPTION_TYPES,
-  MODE_OF_TRANSPORT,
 };
