@@ -190,27 +190,25 @@ export default {
     },
   },
 
-  async hooks() {
-    return {
-      async deploy() {
+  hooks: {
+    async deploy() {
 
-        // Unmittelbar Sample-Daten laden und emittieren
-        await this.fetchAndEmitSamples();
-      },
-      async activate() {
+      // Unmittelbar Sample-Daten laden und emittieren
+      await this.fetchAndEmitSamples();
+    },
+    async activate() {
 
-        // Webhook frisch registrieren
-        const res = await this.registerWebhook();
-        console.log("Webhook registriert:", res);
-      },
-      async deactivate() {
-        try {
-          await this.deleteWebhook();
-        } catch (err) {
-          console.warn("Fehler beim Entfernen des Webhooks:", err.message);
-        }
-      },
-    };
+      // Webhook frisch registrieren
+      const res = await this.registerWebhook();
+      console.log("Webhook registriert:", res);
+    },
+    async deactivate() {
+      try {
+        await this.deleteWebhook();
+      } catch (err) {
+        console.warn("Fehler beim Entfernen des Webhooks:", err.message);
+      }
+    },
   },
 
   async run(event) {
