@@ -6,7 +6,7 @@ export default {
   key: "hubspot-create-or-update-contact",
   name: "Create or Update Contact",
   description: "Create or update a contact in Hubspot. [See the documentation](https://developers.hubspot.com/docs/api/crm/contacts#endpoint?spec=POST-/crm/v3/objects/contacts)",
-  version: "0.0.22",
+  version: "0.0.23",
   type: "action",
   props: {
     ...common.props,

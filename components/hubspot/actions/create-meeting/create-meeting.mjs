@@ -10,7 +10,7 @@ export default {
   key: "hubspot-create-meeting",
   name: "Create Meeting",
   description: "Creates a new meeting with optional associations to other objects. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/engagements/meetings#post-%2Fcrm%2Fv3%2Fobjects%2Fmeetings)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     ...common.props,

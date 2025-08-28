@@ -7,7 +7,7 @@ export default {
   key: "hubspot-update-lead",
   name: "Update Lead",
   description: "Update a lead in Hubspot. [See the documentation](https://developers.hubspot.com/beta-docs/guides/api/crm/objects/leads#update-leads)",
-  version: "0.0.12",
+  version: "0.0.13",
   type: "action",
   methods: {
     ...common.methods,

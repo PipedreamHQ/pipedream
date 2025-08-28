@@ -7,7 +7,7 @@ export default {
   key: "hubspot-new-deal-property-change",
   name: "New Deal Property Change",
   description: "Emit new event when a specified property is provided or updated on a deal. [See the documentation](https://developers.hubspot.com/docs/api/crm/deals)",
-  version: "0.0.20",
+  version: "0.0.21",
   dedupe: "unique",
   type: "source",
   props: {

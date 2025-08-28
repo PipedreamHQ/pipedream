@@ -6,7 +6,7 @@ export default {
   key: "hubspot-new-custom-object-property-change",
   name: "New Custom Object Property Change",
   description: "Emit new event when a specified property is provided or updated on a custom object.",
-  version: "0.0.11",
+  version: "0.0.12",
   dedupe: "unique",
   type: "source",
   props: {
