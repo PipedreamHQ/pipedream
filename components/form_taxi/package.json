@@ -2,7 +2,7 @@
     "name": "@pipedream/form_taxi",
     "version": "0.0.1",
     "description": "Pipedream Form.taxi Components",
-    "main": "form_taxi.app.js",
+    "main": "form_taxi.app.mjs",
     "keywords": [
         "pipedream",
         "form_taxi"
