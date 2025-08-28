@@ -9,7 +9,7 @@ export default {
   key: "hubspot-update-fields-on-the-form",
   name: "Update Fields on the Form",
   description: "Update some of the form definition components. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/forms#patch-%2Fmarketing%2Fv3%2Fforms%2F%7Bformid%7D)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     hubspot,

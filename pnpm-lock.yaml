@@ -10938,8 +10938,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/postbin:
-    specifiers: {}
+  components/postbin: {}
 
   components/postgresql:
     dependencies:
@@ -14995,8 +14994,7 @@ importers:
 
   components/upollo: {}
 
-  components/uproc:
-    specifiers: {}
+  components/uproc: {}
 
   components/upstash_redis:
     dependencies:
