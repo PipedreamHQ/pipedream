@@ -1068,6 +1068,15 @@ export default {
         ...opts,
       });
     },
+    getListMembershipsByJoinOrder({
+      listId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: `/lists/${listId}/memberships/join-order`,
+        ...opts,
+      });
+    },
     batchGetObjects({
       objectType, ...opts
     }) {
