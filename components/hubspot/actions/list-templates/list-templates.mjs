@@ -4,7 +4,7 @@ export default {
   key: "hubspot-list-templates",
   name: "List Templates",
   description: "Retrieves a list of templates. [See the documentation](https://developers.hubspot.com/docs/reference/api/cms/templates)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     hubspot,

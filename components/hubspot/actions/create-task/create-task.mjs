@@ -1,13 +1,13 @@
-import common from "../common/common-create.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import { ASSOCIATION_CATEGORY } from "../../common/constants.mjs";
+import common from "../common/common-create.mjs";
 
 export default {
   ...common,
   key: "hubspot-create-task",
   name: "Create Task",
   description: "Create a new task. [See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     ...common.props,

@@ -1,6 +1,6 @@
-import common from "../common/common.mjs";
 import { DEFAULT_LIMIT } from "../../common/constants.mjs";
 import { EMAIL_EVENT_TYPES } from "../../common/object-types.mjs";
+import common from "../common/common.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
@@ -8,7 +8,7 @@ export default {
   key: "hubspot-new-email-event",
   name: "New Email Event",
   description: "Emit new event for each new Hubspot email event.",
-  version: "0.0.28",
+  version: "0.0.29",
   dedupe: "unique",
   type: "source",
   props: {

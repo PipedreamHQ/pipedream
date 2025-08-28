@@ -4,7 +4,7 @@ export default {
   key: "hubspot-list-marketing-events",
   name: "List Marketing Events",
   description: "Retrieves a list of marketing events. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/marketing-events#get-%2Fmarketing%2Fv3%2Fmarketing-events%2F)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     hubspot,
