@@ -124,7 +124,7 @@ export default {
         }
 
         console.log(
-          `Webhook erstellt/erneuert. Neue ID: ${res?.id || "unbekannt"}, läuft bis: ${res?.expires_at || "unbekannt"}`
+          `Webhook erneuert. Neue ID: ${res?.id || "unbekannt"}, läuft bis: ${res?.expires_at || "unbekannt"}`
         );
       } catch (err) {
         console.error(`Automatische Erneuerung fehlgeschlagen: ${err.message}`);
@@ -191,24 +191,24 @@ export default {
   },
 
   hooks: {
-    async deploy() {
+      async deploy() {
 
-      // Unmittelbar Sample-Daten laden und emittieren
-      await this.fetchAndEmitSamples();
-    },
-    async activate() {
+        // Unmittelbar Sample-Daten laden und emittieren
+        await this.fetchAndEmitSamples();
+      },
+      async activate() {
 
-      // Webhook frisch registrieren
-      const res = await this.registerWebhook();
-      console.log("Webhook registriert:", res);
-    },
-    async deactivate() {
-      try {
-        await this.deleteWebhook();
-      } catch (err) {
-        console.warn("Fehler beim Entfernen des Webhooks:", err.message);
-      }
-    },
+        // Webhook frisch registrieren
+        const res = await this.registerWebhook();
+        console.log("Webhook registriert:", res);
+      },
+      async deactivate() {
+        try {
+          await this.deleteWebhook();
+        } catch (err) {
+          console.warn("Fehler beim Entfernen des Webhooks:", err.message);
+        }
+      },
   },
 
   async run(event) {
