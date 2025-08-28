@@ -1626,6 +1626,9 @@ importers:
 
   components/bill: {}
 
+  components/billbee:
+    specifiers: {}
+
   components/billplz: {}
 
   components/billsby: {}
@@ -3411,7 +3414,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/dachser: {}
+  components/dachser:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/dadata_ru:
     dependencies:
@@ -3453,8 +3460,7 @@ importers:
 
   components/danny_test_app: {}
 
-  components/dante_ai:
-    specifiers: {}
+  components/dante_ai: {}
 
   components/dappier: {}
 
@@ -10933,6 +10939,9 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/postbin:
+    specifiers: {}
+
   components/postgresql:
     dependencies:
       '@pipedream/platform':
@@ -14487,8 +14496,8 @@ importers:
   components/token_metrics:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.6.0
-        version: 1.6.6
+        specifier: ^3.0.3
+        version: 3.1.0
 
   components/tolstoy:
     dependencies:
@@ -14986,6 +14995,9 @@ importers:
         version: 6.13.1
 
   components/upollo: {}
+
+  components/uproc:
+    specifiers: {}
 
   components/upstash_redis:
     dependencies:
@@ -38891,8 +38903,6 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
-    transitivePeerDependencies:
-      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
