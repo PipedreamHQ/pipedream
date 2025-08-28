@@ -1,13 +1,13 @@
-import common from "../common/common-create.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 import { ASSOCIATION_CATEGORY } from "../../common/constants.mjs";
+import common from "../common/common-create.mjs";
 
 export default {
   ...common,
   key: "hubspot-create-note",
   name: "Create Note",
   description: "Create a new note. [See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     ...common.props,
