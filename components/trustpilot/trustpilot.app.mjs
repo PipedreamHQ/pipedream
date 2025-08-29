@@ -30,11 +30,11 @@ export default {
       type: "string",
       label: "Business Unit ID",
       description: "The unique identifier for your business unit on Trustpilot",
-      async options() {
+      async options(page, prevContext, query) {
         try {
           const businessUnits = await this.searchBusinessUnits({
-            query: "",
-            limit: 20,
+            query,
+            page,
           });
           return businessUnits.map(({
             id, displayName, name: { identifying },
@@ -52,6 +52,18 @@ export default {
       type: "string",
       label: "Review ID",
       description: "The unique identifier for a review",
+    },
+    sku: {
+      type: "string",
+      label: "SKU",
+      description: "Filter by SKU",
+      optional: true,
+    },
+    productUrl: {
+      type: "string",
+      label: "Product URL",
+      description: "Filter by product URL",
+      optional: true,
     },
     stars: {
       type: "integer",
@@ -105,25 +117,50 @@ export default {
   },
   methods: {
     // Authentication and base request methods
-    _getAuthHeaders() {
+    _isPrivateURL(url) {
+      return url.includes("private");
+    },
+
+    _getAuthHeadersForPrivateURL() {
+      if (!this.$auth?.oauth_access_token) {
+        throw new Error("Authentication required: OAuth token is required for private requests");
+      } else {
+        return {
+          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
+        };
+      }
+    },
+
+    _getAuthHeadersForPublicURL() {
+      if (!this.$auth?.api_key) {
+        throw new Error("Authentication required: API key is required for public requests");
+      } else {
+        return {
+          "apikey": this.$auth.api_key,
+        };
+      }
+    },
+
+    _getAuthHeaders(url) {
       const headers = {
         "Content-Type": "application/json",
         "User-Agent": "Pipedream/1.0",
       };
 
-      if (!this.$auth?.api_key && !this.$auth?.oauth_access_token) {
-        throw new Error("Authentication required: Configure either API key or OAuth token");
-      }
+      const isPrivate = this._isPrivateURL(url);
+      console.log("isPrivate", isPrivate);
 
-      if (this.$auth?.api_key) {
-        headers["apikey"] = this.$auth.api_key;
+      if (isPrivate) {
+        return {
+          ...headers,
+          ...this._getAuthHeadersForPrivateURL(),
+        };
+      } else {
+        return {
+          ...headers,
+          ...this._getAuthHeadersForPublicURL(),
+        };
       }
-
-      if (this.$auth?.oauth_access_token) {
-        headers["Authorization"] = `Bearer ${this.$auth.oauth_access_token}`;
-      }
-
-      return headers;
     },
 
     async _makeRequest({
@@ -181,14 +218,13 @@ export default {
     },
 
     async searchBusinessUnits({
-      query = "", limit = DEFAULT_LIMIT, offset = 0,
+      query = "", page = 1,
     } = {}) {
       const response = await this._makeRequest({
         endpoint: ENDPOINTS.BUSINESS_UNITS,
         params: {
           query,
-          limit,
-          offset,
+          page,
         },
       });
 
@@ -264,6 +300,8 @@ export default {
     async _getReviews({
       endpoint,
       businessUnitId,
+      sku = null,
+      productUrl = null,
       stars = null,
       sortBy = SORT_OPTIONS.CREATED_AT_DESC,
       limit = DEFAULT_LIMIT,
@@ -276,7 +314,13 @@ export default {
         throw new Error("Invalid business unit ID");
       }
 
+      if (sku === null && productUrl === null) {
+        throw new Error("Either SKU or product URL is required");
+      }
+
       const params = {
+        sku,
+        productUrl,
         stars,
         orderBy: sortBy,
         perPage: limit,
@@ -290,7 +334,7 @@ export default {
       }
 
       const response = await this._makeRequestWithRetry({
-        endpoint: endpoint || ENDPOINTS.PRIVATE_SERVICE_REVIEWS,
+        endpoint: endpoint || ENDPOINTS.SERVICE_REVIEWS,
         params,
       });
 
@@ -326,7 +370,7 @@ export default {
         throw new Error("Invalid review ID");
       }
 
-      const endpoint = buildUrl(ENDPOINTS.PRIVATE_SERVICE_REVIEW_BY_ID, {
+      const endpoint = buildUrl(ENDPOINTS.SERVICE_REVIEW_BY_ID, {
         businessUnitId,
         reviewId,
       });
@@ -410,11 +454,28 @@ export default {
         throw new Error("Reply message cannot be empty after sanitization");
       }
 
-      const endpoint = buildUrl(ENDPOINTS.REPLY_TO_PRODUCT_REVIEW, {
+      const review = await this.getProductReviewById({
         reviewId,
       });
+
+      let conversationId = review.conversationId;
+
+      if (!conversationId) {
+        const createConversationEndpoint = buildUrl(ENDPOINTS.CREATE_CONVERSATION_FOR_REVIEW, {
+          reviewId,
+        });
+        const createConversationResponse = await this._makeRequest({
+          endpoint: createConversationEndpoint,
+          method: "POST",
+        });
+        conversationId = createConversationResponse.conversationId;
+      }
+
+      const replyToConversationEndpoint = buildUrl(ENDPOINTS.REPLY_TO_CONVERSATION, {
+        conversationId,
+      });
       const response = await this._makeRequest({
-        endpoint,
+        endpoint: replyToConversationEndpoint,
         method: "POST",
         data: {
           message: sanitizedMessage,
