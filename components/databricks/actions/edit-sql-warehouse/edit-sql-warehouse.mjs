@@ -144,10 +144,16 @@ export default {
     if (this.autoStopMins !== undefined && this.autoStopMins !== 0 && this.autoStopMins < 10) {
       throw new Error("autoStopMins must be 0 or >= 10.");
     }
-    if (this.minNumClusters !== undefined && (this.minNumClusters < 1 || this.minNumClusters > 30)) {
+    if (
+      this.minNumClusters !== undefined &&
+      (this.minNumClusters < 1 || this.minNumClusters > 30)
+    ) {
       throw new Error("minNumClusters must be between 1 and 30.");
     }
-    if (this.maxNumClusters !== undefined && (this.maxNumClusters < 1 || this.maxNumClusters > 30)) {
+    if (
+      this.maxNumClusters !== undefined &&
+      (this.maxNumClusters < 1 || this.maxNumClusters > 30)
+    ) {
       throw new Error("maxNumClusters must be between 1 and 30.");
     }
     if (this.minNumClusters !== undefined &&
@@ -167,6 +173,6 @@ export default {
 
     $.export("$summary", `Successfully edited SQL Warehouse ID ${this.warehouseId}`);
     return response;
-  }
+  },
 
 };
