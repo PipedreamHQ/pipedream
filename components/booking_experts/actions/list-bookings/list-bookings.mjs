@@ -43,31 +43,19 @@ export default {
         }),
       ],
       description: "Filter by reservation",
-    },
-    createdAt: {
-      type: "string",
-      label: "Created At",
-      description: "Filter by created at date. Example: `2025-08-28`",
-      optional: true,
-    },
-    updatedAt: {
-      type: "string",
-      label: "Updated At",
-      description: "Filter by updated at date. Example: `2025-08-28`",
       optional: true,
     },
     page: {
-      type: "integer",
-      label: "Page",
-      description: "Page number",
-      optional: true,
+      propDefinition: [
+        bookingExperts,
+        "page",
+      ],
     },
     perPage: {
-      type: "integer",
-      label: "Per Page",
-      description: "Number of items per page",
-      max: 100,
-      optional: true,
+      propDefinition: [
+        bookingExperts,
+        "perPage",
+      ],
     },
   },
   async run({ $ }) {
