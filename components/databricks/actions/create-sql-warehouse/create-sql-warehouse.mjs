@@ -17,6 +17,11 @@ export default {
       type: "string",
       label: "Cluster Size",
       description: "Size of the cluster (e.g., `Small`, `Medium`, `Large`)",
+      options: [
+        "Small",
+        "Medium",
+        "Large",
+      ],
     },
     autoStopMinutes: {
       type: "integer",

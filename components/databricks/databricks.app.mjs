@@ -44,6 +44,21 @@ export default {
         })) || [];
       },
     },
+    warehouseId: {
+      type: "string",
+      label: "Warehouse ID",
+      description: "The ID of the SQL Warehouse to get runs from",
+      async options() {
+        const { warehouses } = await this.listSQLWarehouses();
+        return warehouses?.map(({
+          id: value,
+          name: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+      },
+    },
   },
   methods: {
     _baseUrl() {

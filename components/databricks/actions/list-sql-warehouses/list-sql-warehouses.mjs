@@ -8,21 +8,9 @@ export default {
   type: "action",
   props: {
     databricks,
-    maxResults: {
-      type: "integer",
-      label: "Max Results",
-      description: "Maximum number of warehouses to return",
-      default: 50,
-      optional: true,
-    },
   },
   async run({ $ }) {
-    const params = {
-      limit: this.maxResults || 50,
-    };
-
     const { warehouses } = await this.databricks.listSQLWarehouses({
-      params,
       $,
     });
 

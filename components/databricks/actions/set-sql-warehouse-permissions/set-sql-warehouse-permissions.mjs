@@ -9,44 +9,33 @@ export default {
   props: {
     databricks,
     warehouseId: {
-      type: "string",
-      label: "Warehouse ID",
       description: "The ID of the SQL Warehouse to update permissions for",
+      propDefinition: [
+        databricks,
+        "warehouseId",
+      ],
     },
     accessControlList: {
-      type: "object[]",
+      type: "string[]",
       label: "Access Control List",
       description: "List of access control entries. Each entry must include one of `user_name`, `group_name`, or `service_principal_name`, and a `permission_level` (`CAN_VIEW`, `CAN_MONITOR`, `CAN_USE`, `CAN_MANAGE`).",
-      properties: {
-        user_name: {
-          type: "string",
-          optional: true,
-        },
-        group_name: {
-          type: "string",
-          optional: true,
-        },
-        service_principal_name: {
-          type: "string",
-          optional: true,
-        },
-        permission_level: {
-          type: "string",
-          options: [
-            "CAN_VIEW",
-            "CAN_MONITOR",
-            "CAN_USE",
-            "CAN_MANAGE",
-          ],
-        },
-      },
     },
   },
   async run({ $ }) {
+    let acl = [];
+    try {
+      acl = (this.accessControlList || []).map((entry) =>
+        typeof entry === "string"
+          ? JSON.parse(entry)
+          : entry);
+    } catch (err) {
+      throw new Error(`Invalid JSON in Access Control List: ${err.message}`);
+    }
+
     const response = await this.databricks.setSQLWarehousePermissions({
       warehouseId: this.warehouseId,
       data: {
-        access_control_list: this.accessControlList,
+        access_control_list: acl,
       },
       $,
     });
@@ -54,4 +43,5 @@ export default {
     $.export("$summary", `Successfully updated permissions for SQL Warehouse ID ${this.warehouseId}`);
     return response;
   },
+
 };

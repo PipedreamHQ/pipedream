@@ -9,9 +9,11 @@ export default {
   props: {
     databricks,
     warehouseId: {
-      type: "string",
-      label: "Warehouse ID",
       description: "The ID of the SQL Warehouse to fetch permissions for",
+      propDefinition: [
+        databricks,
+        "warehouseId",
+      ],
     },
   },
   async run({ $ }) {
