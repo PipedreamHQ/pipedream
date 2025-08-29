@@ -4,7 +4,7 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "booking_experts-search-contacts",
   name: "Search Contacts",
-  description: "Search for contacts by name or email. [See the documentation](https://developers.bookingexperts.com/reference/contact-search-first)",
+  description: "Search for contacts by email or phone. [See the documentation](https://developers.bookingexperts.com/reference/contact-search-first)",
   version: "0.0.1",
   type: "action",
   props: {
