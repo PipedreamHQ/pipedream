@@ -23,7 +23,7 @@ export default {
     shortenURLs: {
       type: "boolean",
       label: "Shorten URLs",
-      description: "Description for shorten URLs",
+      description: "Indicates whether HTTPS URLs in the text should be replaced with shortened URLs",
       optional: true,
     },
     templateId: {
@@ -35,7 +35,7 @@ export default {
     channel: {
       type: "string",
       label: "Channel",
-      description: "The communication channel your message sent through",
+      description: "The communication channel your message will be sent through",
       options: constants.CHANNEL_OPTIONS,
       optional: true,
     },
