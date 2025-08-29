@@ -14523,7 +14523,11 @@ importers:
         specifier: ^0.1.4
         version: 0.1.6
 
-  components/topmessage: {}
+  components/topmessage:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/totango:
     dependencies:
