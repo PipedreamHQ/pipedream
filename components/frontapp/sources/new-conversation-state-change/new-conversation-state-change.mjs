@@ -7,7 +7,7 @@ export default {
   key: "frontapp-new-conversation-state-change",
   name: "New Conversation State Change",
   description: "Emit new event when a conversation reaches a specific state. [See the documentation](https://dev.frontapp.com/reference/list-conversations)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {

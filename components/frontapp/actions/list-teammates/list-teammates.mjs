@@ -4,7 +4,7 @@ export default {
   key: "frontapp-list-teammates",
   name: "List Teammate",
   description: "List teammates in the company. [See the documentation](https://dev.frontapp.com/reference/list-teammates)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     frontApp,

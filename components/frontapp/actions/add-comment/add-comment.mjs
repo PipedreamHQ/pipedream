@@ -5,7 +5,7 @@ export default {
   key: "frontapp-add-comment",
   name: "Add Comment",
   description: "Add a comment to a conversation. [See the documentation](https://dev.frontapp.com/reference/add-comment)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     frontApp,
