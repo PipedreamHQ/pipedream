@@ -7,7 +7,7 @@ export default {
   key: "hubspot-create-note",
   name: "Create Note",
   description: "Create a new note. [See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     ...common.props,

@@ -4,7 +4,7 @@ export default {
   key: "hubspot-get-subscription-preferences",
   name: "Get Subscription Preferences",
   description: "Retrieves the subscription preferences for a contact. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/subscriptions#get-%2Fcommunication-preferences%2Fv4%2Fstatuses%2F%7Bsubscriberidstring%7D)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     hubspot,

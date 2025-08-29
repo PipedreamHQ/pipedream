@@ -10,7 +10,7 @@ export default {
   key: "hubspot-create-lead",
   name: "Create Lead",
   description: "Create a lead in Hubspot. [See the documentation](https://developers.hubspot.com/beta-docs/guides/api/crm/objects/leads#create-leads)",
-  version: "0.0.12",
+  version: "0.0.13",
   type: "action",
   props: {
     ...appProp.props,

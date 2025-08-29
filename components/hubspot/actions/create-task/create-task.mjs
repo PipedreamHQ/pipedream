@@ -7,7 +7,7 @@ export default {
   key: "hubspot-create-task",
   name: "Create Task",
   description: "Create a new task. [See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     ...common.props,

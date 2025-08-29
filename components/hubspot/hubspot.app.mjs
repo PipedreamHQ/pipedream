@@ -15,7 +15,7 @@ import {
   OBJECT_TYPES,
 } from "./common/constants.mjs";
 const limiter = new Bottleneck({
-  minTime: 250, // 4 requests per second
+  minTime: 500, // 2 requests per second
   maxConcurrent: 1,
 });
 const axiosRateLimiter = limiter.wrap(axios);
@@ -872,15 +872,35 @@ export default {
         value: unit.id,
       })) || [];
     },
-    searchCRM({
+    async searchCRM({
       object, ...opts
     }) {
-      return this.makeRequest({
-        api: API_PATH.CRMV3,
-        method: "POST",
-        endpoint: `/objects/${object}/search`,
-        ...opts,
-      });
+      // Adding retry logic here since the search endpoint specifically has a per-second rate limit
+      const MAX_RETRIES = 5;
+      const BASE_RETRY_DELAY = 500;
+      let success = false;
+      let retries = 0;
+      while (!success) {
+        try {
+          const response = await this.makeRequest({
+            api: API_PATH.CRMV3,
+            method: "POST",
+            endpoint: `/objects/${object}/search`,
+            ...opts,
+          });
+          return response;
+        } catch (error) {
+          if (error.status === 429 && ++retries < MAX_RETRIES) {
+            // Retry delays basically amount to:
+            // 1000-1500 ms, 2000-2500 ms, 4000-4500 ms, 8000-8500 ms
+            const randomDelay = Math.floor(Math.random() * BASE_RETRY_DELAY);
+            const delay = BASE_RETRY_DELAY * (2 ** retries) + randomDelay;
+            await new Promise((resolve) => setTimeout(resolve, delay));
+          } else {
+            throw error;
+          }
+        }
+      }
     },
     getBlogPosts(opts = {}) {
       return this.makeRequest({

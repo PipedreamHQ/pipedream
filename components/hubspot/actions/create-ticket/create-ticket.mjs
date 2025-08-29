@@ -6,7 +6,7 @@ export default {
   key: "hubspot-create-ticket",
   name: "Create Ticket",
   description: "Create a ticket in Hubspot. [See the documentation](https://developers.hubspot.com/docs/api/crm/tickets)",
-  version: "0.0.15",
+  version: "0.0.16",
   type: "action",
   props: {
     ...common.props,

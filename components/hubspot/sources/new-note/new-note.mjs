@@ -8,7 +8,7 @@ export default {
   key: "hubspot-new-note",
   name: "New Note Created",
   description: "Emit new event for each new note created. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/engagements/notes#get-%2Fcrm%2Fv3%2Fobjects%2Fnotes)",
-  version: "1.0.7",
+  version: "1.0.8",
   type: "source",
   dedupe: "unique",
   methods: {

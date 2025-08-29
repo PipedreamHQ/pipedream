@@ -7,7 +7,7 @@ export default {
   key: "hubspot-update-contact",
   name: "Update Contact",
   description: "Update a contact in Hubspot. [See the documentation](https://developers.hubspot.com/docs/api/crm/contacts#endpoint?spec=POST-/crm/v3/objects/contacts)",
-  version: "0.0.21",
+  version: "0.0.22",
   type: "action",
   methods: {
     ...common.methods,
