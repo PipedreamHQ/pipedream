@@ -1,5 +1,7 @@
 import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
+import path from "path";
 
 export default {
   type: "app",
@@ -264,6 +266,8 @@ export default {
       type: "string[]",
       label: "Attachments",
       description: "File paths or URLs to attach to the ticket. Multiple files can be attached.",
+      optional: true,
+    },
     ticketTags: {
       type: "string[]",
       label: "Tags",
@@ -373,6 +377,14 @@ export default {
         ...args,
       });
     },
+    streamToBuffer(stream) {
+      return new Promise((resolve, reject) => {
+        const chunks = [];
+        stream.on("data", (chunk) => chunks.push(chunk));
+        stream.on("end", () => resolve(Buffer.concat(chunks)));
+        stream.on("error", reject);
+      });
+    },
     /**
      * Upload a single file (local path or http(s) URL) to Zendesk Uploads API.
      * @param {Object} params
@@ -383,67 +395,18 @@ export default {
      */
     async uploadFile({
       filePath, filename, customSubdomain, step,
-    } = {}) {
+    }) {
       if (!filePath || typeof filePath !== "string") {
         throw new Error("uploadFile: 'filePath' (string) is required");
       }
-      const fs = await import("fs");
-      const path = await import("path");
 
-      const contentTypeMap = {
-        ".pdf": "application/pdf",
-        ".png": "image/png",
-        ".jpg": "image/jpeg",
-        ".jpeg": "image/jpeg",
-        ".gif": "image/gif",
-        ".txt": "text/plain",
-        ".doc": "application/msword",
-        ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        ".xls": "application/vnd.ms-excel",
-        ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        ".zip": "application/zip",
-      };
+      const {
+        stream, metadata,
+      } = await getFileStreamAndMetadata(filePath);
+      const fileBinary = await this.streamToBuffer(stream);
 
-      let fileContent;
-      let contentType;
-
-      const isHttp = /^https?:\/\//i.test(filePath);
-      if (isHttp) {
-        // Fetch remote file as arraybuffer to preserve bytes
-        const res = await axios(step, {
-          method: "get",
-          url: filePath,
-          responseType: "arraybuffer",
-          returnFullResponse: true,
-          timeout: 60_000,
-        });
-        fileContent = res.data;
-
-        const headerCT = res.headers?.["content-type"];
-        const cd = res.headers?.["content-disposition"];
-
-        if (!filename) {
-          const cdMatch = cd?.match(/filename\*?=(?:UTF-8''|")?([^\";]+)/i);
-          filename = cdMatch?.[1]
-            ? decodeURIComponent(cdMatch[1].replace(/(^"|"$)/g, ""))
-            : (() => {
-                try {
-                  return path.basename(new URL(filePath).pathname);
-                } catch {
-                  return "attachment";
-                }
-              })();
-        }
-        const ext = path.extname(filename || "").toLowerCase();
-        contentType = headerCT || contentTypeMap[ext] || "application/octet-stream";
-      } else {
-        // Local file: non-blocking read
-        if (!filename) {
-          filename = path.basename(filePath);
-        }
-        fileContent = await fs.promises.readFile(filePath);
-        const ext = path.extname(filename || "").toLowerCase();
-        contentType = contentTypeMap[ext] || "application/octet-stream";
+      if (!filename) {
+        filename = path.basename(filePath);
       }
 
       return this.makeRequest({
@@ -452,9 +415,11 @@ export default {
         path: `/uploads?filename=${encodeURIComponent(filename)}`,
         customSubdomain,
         headers: {
-          "Content-Type": contentType,
+          "Content-Type": metadata.contentType,
+          "Content-Length": metadata.size,
+          "Accept": "application/json",
         },
-        data: fileContent,
+        data: Buffer.from(fileBinary, "binary"),
       });
     },
     async uploadFiles({
@@ -464,13 +429,18 @@ export default {
         return [];
       }
       const files = attachments
-        .map((a) => (typeof a === "string" ? a.trim() : a))
+        .map((a) => (typeof a === "string"
+          ? a.trim()
+          : a))
         .filter(Boolean);
 
       const settled = await Promise.allSettled(
         files.map((attachment) =>
-          this.uploadFile({ filePath: attachment, customSubdomain, step }),
-        ),
+          this.uploadFile({
+            filePath: attachment,
+            customSubdomain,
+            step,
+          })),
       );
 
       const tokens = [];
@@ -494,6 +464,7 @@ export default {
         throw new Error(`Failed to upload ${errors.length}/${files.length} attachment(s): ${errors.join("; ")}`);
       }
       return tokens;
+    },
     listTicketComments({
       ticketId, ...args
     } = {}) {

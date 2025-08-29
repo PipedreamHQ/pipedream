@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@pipedream/platform": "^3.0.3",
-    "crypto": "^1.0.1"
+    "crypto": "^1.0.1",
+    "path": "^0.12.7"
   }
 }

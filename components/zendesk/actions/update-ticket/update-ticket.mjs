@@ -133,7 +133,7 @@ export default {
           customSubdomain,
           step,
         });
-        
+
         if (uploadTokens.length > 0) {
           ticketComment.uploads = uploadTokens;
         }
@@ -158,10 +158,10 @@ export default {
     });
 
     const attachmentCount = ticketComment.uploads?.length || 0;
-    const summary = attachmentCount > 0 
+    const summary = attachmentCount > 0
       ? `Successfully updated ticket with ID ${response.ticket.id} with ${attachmentCount} attachment(s)`
       : `Successfully updated ticket with ID ${response.ticket.id}`;
-    
+
     step.export("$summary", summary);
 
     // Handle tag operations if tags are provided
