@@ -16100,6 +16100,9 @@ importers:
       crypto:
         specifier: ^1.0.1
         version: 1.0.1
+      path:
+        specifier: ^0.12.7
+        version: 0.12.7
 
   components/zendesk_sell:
     dependencies:
