@@ -151,7 +151,7 @@ export default {
     },
     async createUserList(args) {
       const response = await this._makeRequest({
-        path: "v21/customers/{customerClientId}/userLists:mutate",
+        path: "/v21/customers/{customerClientId}/userLists:mutate",
         method: "post",
         ...args,
       });
