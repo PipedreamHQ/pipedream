@@ -1,6 +1,7 @@
 import type {
   App, ConfigurableProp, ConfigurablePropApp, ConfigurablePropBoolean, ConfigurablePropInteger, ConfigurablePropString, ConfigurablePropStringArray, PropValue,
 } from "@pipedream/sdk";
+import { NestedLabelValueOption } from "../types";
 
 export type PropOptionValue<T> = {
   __lv: {
@@ -40,8 +41,8 @@ export function valuesFromOptions<T>(value: unknown | T[] | PropOptions<T>): T[]
     }
     return results
   }
-  if (value && typeof value === "object" && Array.isArray(value.__lv)) {
-    return value.__lv as T[]
+  if (value && typeof value === "object" && Array.isArray((value as NestedLabelValueOption<T>).__lv)) {
+    return (value as NestedLabelValueOption<T>).__lv as T[]
   }
   if (!Array.isArray(value))
     return []

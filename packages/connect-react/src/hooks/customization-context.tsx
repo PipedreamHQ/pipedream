@@ -123,9 +123,13 @@ export type CustomizationProps = {
   className: string;
   style: CSSProperties;
 };
-export type BaseReactSelectProps<Option, IsMulti extends boolean, Group extends GroupBase<Option>> = {
+export type BaseReactSelectProps<
+  Option,
+  IsMulti extends boolean = false,
+  Group extends GroupBase<Option> = GroupBase<Option>
+> = {
   components?: ReactSelectComponentsConfig<Option, IsMulti, Group>;
-  styles?: ReactSelectStylesConfig;
+  styles?: ReactSelectStylesConfig<Option, IsMulti, Group>;
 };
 
 // XXX refactor generics in this file to fix relationship between Key and other generics, etc.
@@ -137,12 +141,32 @@ export type Customization = {
   theme: Theme;
   select: {
     getClassNamePrefix: <Key extends keyof ReactSelectComponents>(name: Key) => string;
-    getClassNames: <Key extends keyof ReactSelectComponents>(name: Key) => ReactSelectClassNamesConfig;
+    getClassNames: <
+      Key extends keyof ReactSelectComponents,
+      Option,
+      IsMulti extends boolean = false,
+      Group extends GroupBase<Option> = GroupBase<Option>
+    >(name: Key) => ReactSelectClassNamesConfig<Option, IsMulti, Group>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    getComponents: <Key extends keyof ReactSelectComponents>(name: Key, baseComponents?: ReactSelectComponentsConfig<any, any, any>) => ReactSelectComponentsConfig<any, any, any>;
-    getStyles: <Key extends keyof ReactSelectComponents>(name: Key, baseStyles?: ReactSelectStylesConfig) => ReactSelectStylesConfig;
+    getComponents: <
+      Key extends keyof ReactSelectComponents,
+      Option,
+      IsMulti extends boolean = false,
+      Group extends GroupBase<Option> = GroupBase<Option>
+    >(name: Key, baseComponents?: ReactSelectComponentsConfig<Option, IsMulti, Group>) => ReactSelectComponentsConfig<Option, IsMulti, Group>;
+    getStyles: <
+      Key extends keyof ReactSelectComponents,
+      Option,
+      IsMulti extends boolean = false,
+      Group extends GroupBase<Option> = GroupBase<Option>
+    >(name: Key, baseStyles?: ReactSelectStylesConfig<Option, IsMulti, Group>) => ReactSelectStylesConfig<Option, IsMulti, Group>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    getProps: <Key extends keyof ReactSelectComponents>(name: Key, baseProps?: BaseReactSelectProps<any, any, any>) => ReactSelectCustomizationProps;
+    getProps: <
+      Key extends keyof ReactSelectComponents,
+      Option,
+      IsMulti extends boolean = false,
+      Group extends GroupBase<Option> = GroupBase<Option>
+    >(name: Key, baseProps?: BaseReactSelectProps<Option, IsMulti, Group>) => Partial<ReactSelectCustomizationProps<Option, IsMulti, Group>>;
     theme: ReactSelectTheme;
   };
 };
@@ -154,11 +178,16 @@ function createSelectCustomization(): Customization["select"] {
     return context.classNamePrefix ?? "";
   }
 
-  function getClassNames<Key extends keyof ReactSelectComponents>(name: Key): ReactSelectClassNamesConfig {
+  function getClassNames<
+    Key extends keyof ReactSelectComponents,
+    Option,
+    IsMulti extends boolean = false,
+    Group extends GroupBase<Option> = GroupBase<Option>
+  >(name: Key): ReactSelectClassNamesConfig<Option, IsMulti, Group> {
     const baseClassName = `${context?.classNamePrefix ?? "pd-"}${name}`;
-    const classNames: ReactSelectClassNamesConfig = {
+    const classNames = {
       ...(context.classNames?.[name] ?? {}),
-    };
+    } as ReactSelectClassNamesConfig<Option, IsMulti, Group>;
     if (typeof classNames?.container == "function") {
       classNames.container = typeof classNames?.container == "function"
         ? (...args) => ([
@@ -171,25 +200,40 @@ function createSelectCustomization(): Customization["select"] {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function getComponents<Key extends keyof ReactSelectComponents>(name: Key, baseComponents?: ReactSelectComponentsConfig<any, any, any>): ReactSelectComponentsConfig<any, any, any> {
+  function getComponents<
+    Key extends keyof ReactSelectComponents,
+    Option,
+    IsMulti extends boolean = false,
+    Group extends GroupBase<Option> = GroupBase<Option>
+  >(name: Key, baseComponents?: ReactSelectComponentsConfig<Option, IsMulti, Group>): ReactSelectComponentsConfig<Option, IsMulti, Group> {
     return {
       ...ReactSelectComponents,
       ...(baseComponents ?? {}),
-      ...(context?.components?.[name] ?? {}),
+      ...(context?.components?.[name] as ReactSelectComponentsConfig<Option, IsMulti, Group> ?? {}),
     };
   }
 
-  function getStyles<Key extends keyof ReactSelectComponents>(name: Key, baseStyles?: ReactSelectStylesConfig): ReactSelectStylesConfig {
-    return mergeReactSelectStyles(context.styles?.[name] ?? {}, baseStyles ?? {});
+  function getStyles<
+    Key extends keyof ReactSelectComponents,
+    Option,
+    IsMulti extends boolean = false,
+    Group extends GroupBase<Option> = GroupBase<Option>
+  >(name: Key, baseStyles?: ReactSelectStylesConfig<Option, IsMulti, Group>): ReactSelectStylesConfig<Option, IsMulti, Group> {
+    return mergeReactSelectStyles(context.styles?.[name] as unknown as ReactSelectStylesConfig<Option, IsMulti, Group> ?? {}, baseStyles ?? {});
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function getProps<Key extends keyof ReactSelectComponents>(name: Key, baseProps?: BaseReactSelectProps<any, any, any>): ReactSelectCustomizationProps {
+  function getProps<
+    Key extends keyof ReactSelectComponents,
+    Option,
+    IsMulti extends boolean = false,
+    Group extends GroupBase<Option> = GroupBase<Option>
+  >(name: Key, baseProps?: BaseReactSelectProps<Option, IsMulti, Group>): Partial<ReactSelectCustomizationProps<Option, IsMulti, Group>> {
     return {
       classNamePrefix: getClassNamePrefix(),
-      classNames: getClassNames(name),
-      components: getComponents(name, baseProps?.components),
-      styles: getStyles(name, baseProps?.styles),
+      classNames: getClassNames<Key, Option, IsMulti, Group>(name),
+      components: getComponents<Key, Option, IsMulti, Group>(name, baseProps?.components),
+      styles: getStyles<Key, Option, IsMulti, Group>(name, baseProps?.styles),
       theme,
     };
   }
