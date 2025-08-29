@@ -163,9 +163,29 @@ function buildSingleCollaboratorField(value) {
     };
 }
 
+function sleep(ms) {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
+async function withRetry(fn, {
+  retries = 2, baseDelay = 500,
+} = {}) {
+  let attempt = 0;
+  while (attempt <= retries) {
+    try {
+      return await fn();
+    } catch (err) {
+      if (attempt === retries) throw err;
+      await sleep(baseDelay * (2 ** attempt));
+      attempt += 1;
+    }
+  }
+}
+
 export {
   fieldTypeToPropType,
   fieldToProp,
   makeFieldProps,
   makeRecord,
+  withRetry,
 };
