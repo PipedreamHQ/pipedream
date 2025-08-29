@@ -1789,7 +1789,11 @@ importers:
 
   components/bolt_iot: {}
 
-  components/booking_experts: {}
+  components/booking_experts:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/bookingmood: {}
 
@@ -10938,8 +10942,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/postbin:
-    specifiers: {}
+  components/postbin: {}
 
   components/postgresql:
     dependencies:
@@ -14995,8 +14998,7 @@ importers:
 
   components/upollo: {}
 
-  components/uproc:
-    specifiers: {}
+  components/uproc: {}
 
   components/upstash_redis:
     dependencies:
