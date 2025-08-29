@@ -13,6 +13,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/apify": "^0.2.2"
+    "@pipedream/apify": "^0.3.0"
   }
 }
