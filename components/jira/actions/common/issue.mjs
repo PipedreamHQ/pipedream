@@ -118,18 +118,20 @@ export default {
     async getDynamicFields({
       fields, predicate = (field) => field,
     } = {}) {
-      const schemaTypes = Object.keys(constants.SCHEMA);
-
       const keysForResourceRequest = [
         constants.FIELD_KEY.PARENT,
         constants.FIELD_KEY.LABELS,
         constants.FIELD_KEY.ISSUETYPE,
       ];
+      const keysForAutoCompleteRequest = [
+        constants.FIELD_KEY.ASSIGNEE,
+        constants.FIELD_KEY.ISSUELINKS,
+      ];
 
       return Object.values(fields)
         .filter(predicate)
         .reduce(async (props, {
-          schema, name: label, key, autoCompleteUrl, required,
+          schema, name: label, key, autoCompleteUrl, required, allowedValues,
         }) => {
           const reduction = await props;
 
@@ -150,10 +152,25 @@ export default {
             optional: !required,
           };
 
+          if (schemaType === "array" && Array.isArray(allowedValues)) {
+            return Promise.resolve({
+              ...reduction,
+              [newKey]: {
+                ...value,
+                options: allowedValues.map(({
+                  value: label, id: value,
+                }) => ({
+                  label,
+                  value,
+                })),
+              },
+            });
+          }
+
           // Requests by URL
-          if (schemaTypes.includes(schemaType)) {
+          if (keysForAutoCompleteRequest.includes(key)) {
             try {
-              const resources = await this.app._makeRequest({
+              const response = await this.app._makeRequest({
                 url: autoCompleteUrl,
               });
 
@@ -161,13 +178,16 @@ export default {
                 ...reduction,
                 [newKey]: {
                   ...value,
-                  options: resources.map(constants.SCHEMA[schemaType].mapping),
+                  options: constants.AUTOCOMPLETE_KEY[key].getOptions(response),
                 },
               });
 
             } catch (error) {
-              console.log("Error fetching resources requested by URL", autoCompleteUrl, error);
-              return Promise.resolve(reduction);
+              console.log("Error fetching resources requested by URL", autoCompleteUrl);
+              return Promise.resolve({
+                ...reduction,
+                [newKey]: value,
+              });
             }
           }
 
