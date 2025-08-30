@@ -1,7 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
 
 function emptyStrToUndefined(value) {
-  const trimmed = typeof(value) === "string" && value.trim();
+  const trimmed = typeof (value) === "string" && value.trim();
   return trimmed === ""
     ? undefined
     : value;
@@ -9,7 +9,7 @@ function emptyStrToUndefined(value) {
 
 function parse(value) {
   const valueToParse = emptyStrToUndefined(value);
-  if (typeof(valueToParse) === "object" || valueToParse === undefined) {
+  if (typeof (valueToParse) === "object" || valueToParse === undefined) {
     return valueToParse;
   }
   try {
@@ -42,6 +42,31 @@ function parseArray(value) {
   }
 }
 
+function parseObject(obj) {
+  if (!obj) return undefined;
+
+  if (Array.isArray(obj)) {
+    return obj.map((item) => {
+      if (typeof item === "string") {
+        try {
+          return JSON.parse(item);
+        } catch (e) {
+          return item;
+        }
+      }
+      return item;
+    });
+  }
+  if (typeof obj === "string") {
+    try {
+      return JSON.parse(obj);
+    } catch (e) {
+      return obj;
+    }
+  }
+  return obj;
+};
+
 async function streamIterator(stream) {
   const resources = [];
   for await (const resource of stream) {
@@ -52,6 +77,7 @@ async function streamIterator(stream) {
 
 export default {
   parseArray,
+  parseObject,
   parse,
   streamIterator,
 };
