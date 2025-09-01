@@ -1223,6 +1223,69 @@ export default {
         ...opts,
       });
     },
+    getWorkflowEmails({
+      workflowId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.AUTOMATIONV4,
+        endpoint: `/workflows/${workflowId}/emails`,
+        ...opts,
+      });
+    },
+    getWorkflowDetails({
+      workflowId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.AUTOMATIONV4,
+        endpoint: `/workflows/${workflowId}`,
+        ...opts,
+      });
+    },
+    createWorkflow(opts = {}) {
+      return this.makeRequest({
+        method: "POST",
+        api: API_PATH.AUTOMATIONV4,
+        endpoint: "/workflows",
+        ...opts,
+      });
+    },
+    getBatchWorkflows(opts = {}) {
+      return this.makeRequest({
+        method: "POST",
+        api: API_PATH.AUTOMATIONV4,
+        endpoint: "/workflows/batch",
+        ...opts,
+      });
+    },
+    updateWorkflow({
+      workflowId, ...opts
+    }) {
+      return this.makeRequest({
+        method: "PUT",
+        api: API_PATH.AUTOMATIONV4,
+        endpoint: `/workflows/${workflowId}`,
+        ...opts,
+      });
+    },
+    deleteWorkflow({
+      workflowId, ...opts
+    }) {
+      return this.makeRequest({
+        method: "DELETE",
+        api: API_PATH.AUTOMATIONV4,
+        endpoint: `/workflows/${workflowId}`,
+        ...opts,
+      });
+    },
+    getMigratedWorkflowMappings({
+      workflowId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.AUTOMATIONV4,
+        endpoint: `/workflows/${workflowId}/mappings`,
+        ...opts,
+      });
+    },
     batchCreateContacts(opts = {}) {
       return this.makeRequest({
         api: API_PATH.CRMV3,
