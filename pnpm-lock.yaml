@@ -16115,11 +16115,14 @@ importers:
   components/zendesk:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       crypto:
         specifier: ^1.0.1
         version: 1.0.1
+      path:
+        specifier: ^0.12.7
+        version: 0.12.7
 
   components/zendesk_sell:
     dependencies:
