@@ -968,7 +968,11 @@ importers:
         specifier: ^4.1.2
         version: 4.1.2
 
-  components/apify_oauth: {}
+  components/apify_oauth:
+    dependencies:
+      '@pipedream/apify':
+        specifier: ^0.3.0
+        version: 0.3.0
 
   components/apilio: {}
 
@@ -20176,6 +20180,9 @@ packages:
     resolution: {integrity: sha512-dfUnCxiN9H4ap84DvD2ubjw+3vUNpstxa0TneY/Paat8a3R4uQZDLSvWjmznAY/DoahqTHl9V46HF/Zs3F29pg==}
     engines: {node: '>= 10.0.0'}
 
+  '@pipedream/apify@0.3.0':
+    resolution: {integrity: sha512-FDzYOGiD97brfl6IsfuIZyPzbVYiSoqMHi0/syQdNtYfxQZz7rwtc7OL2D+HJO6gH6gWAoHZlRHW0N9hd+8cow==}
+
   '@pipedream/aws@1.1.0':
     resolution: {integrity: sha512-1v/AcyW72RgAd6ZSQ6odj6VN9dy0w1JQZPc97s2+JuIEkfgxrH/o/djkdyMAPSwGx+8uU9EMKIXMQdNDyLdlSA==}
 
@@ -38167,6 +38174,14 @@ snapshots:
       '@parcel/watcher-win32-arm64': 2.5.1
       '@parcel/watcher-win32-ia32': 2.5.1
       '@parcel/watcher-win32-x64': 2.5.1
+
+  '@pipedream/apify@0.3.0':
+    dependencies:
+      '@apify/consts': 2.43.0
+      '@pipedream/platform': 3.1.0
+      got-scraping: 4.1.2
+    transitivePeerDependencies:
+      - debug
 
   '@pipedream/aws@1.1.0(aws-crt@1.25.0)(babel-plugin-macros@3.1.0)':
     dependencies:
