@@ -153,10 +153,14 @@ export default {
     }
 
     if (this.warehouseType !== undefined) payload.warehouse_type = this.warehouseType;
-    if (this.spotInstancePolicy !== undefined) payload.spot_instance_policy = this.spotInstancePolicy;
+    if (this.spotInstancePolicy !== undefined) {
+      payload.spot_instance_policy = this.spotInstancePolicy;
+    }
     if (this.tags !== undefined) payload.tags = this.tags;
     if (this.channel !== undefined) payload.channel = this.channel;
-    if (this.instanceProfileArn !== undefined) payload.instance_profile_arn = this.instanceProfileArn;
+    if (this.instanceProfileArn !== undefined) {
+      payload.instance_profile_arn = this.instanceProfileArn;
+    }
 
     if (!Object.keys(payload).length) {
       throw new Error("No fields to update. Provide at least one property.");
@@ -171,6 +175,6 @@ export default {
     $.export("$summary", `Successfully edited SQL Warehouse ID ${this.warehouseId}`);
     return response;
   }
-,
+  ,
 
 };

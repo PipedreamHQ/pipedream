@@ -109,8 +109,12 @@ export default {
     },
   },
   async run({ $ }) {
-    const current = await this.databricks.getSQLWarehouseConfig({ $ });
-    const payload = { ...current };
+    const current = await this.databricks.getSQLWarehouseConfig({
+      $,
+    });
+    const payload = {
+      ...current,
+    };
 
     if (typeof this.enableServerlessCompute === "boolean") {
       payload.enable_serverless_compute = this.enableServerlessCompute;
@@ -131,13 +135,19 @@ export default {
       payload.enabled_warehouse_types = this.enabledWarehouseTypes;
     }
     if (Array.isArray(this.configParam) && this.configParam.length) {
-      payload.config_param = { configuration_pairs: this.configParam };
+      payload.config_param = {
+        configuration_pairs: this.configParam,
+      };
     }
     if (Array.isArray(this.globalParam) && this.globalParam.length) {
-      payload.global_param = { configuration_pairs: this.globalParam };
+      payload.global_param = {
+        configuration_pairs: this.globalParam,
+      };
     }
     if (Array.isArray(this.sqlConfigurationParameters) && this.sqlConfigurationParameters.length) {
-      payload.sql_configuration_parameters = { configuration_pairs: this.sqlConfigurationParameters };
+      payload.sql_configuration_parameters = {
+        configuration_pairs: this.sqlConfigurationParameters,
+      };
     }
     if (Array.isArray(this.dataAccessConfig) && this.dataAccessConfig.length) {
       payload.data_access_config = this.dataAccessConfig;
