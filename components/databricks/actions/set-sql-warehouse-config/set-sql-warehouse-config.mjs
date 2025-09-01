@@ -132,7 +132,27 @@ export default {
       payload.channel = this.channel;
     }
     if (Array.isArray(this.enabledWarehouseTypes) && this.enabledWarehouseTypes.length) {
-      payload.enabled_warehouse_types = this.enabledWarehouseTypes;
+      payload.enabled_warehouse_types = this.enabledWarehouseTypes.map((item, idx) => {
+        let obj = item;
+        if (typeof item === "string") {
+          try { obj = JSON.parse(item); } catch (e) {
+            throw new Error(`enabledWarehouseTypes[${idx}] must be valid JSON: ${e.message}`);
+          }
+        }
+        if (!obj || typeof obj !== "object") {
+          throw new Error(`enabledWarehouseTypes[${idx}] must be an object with { "warehouse_type": string, "enabled": boolean }`);
+        }
+        const {
+          warehouse_type, enabled,
+        } = obj;
+        if (typeof warehouse_type !== "string" || typeof enabled !== "boolean") {
+          throw new Error(`enabledWarehouseTypes[${idx}] invalid shape; expected { "warehouse_type": string, "enabled": boolean }`);
+        }
+        return {
+          warehouse_type,
+          enabled: Boolean(enabled),
+        };
+      });
     }
     if (Array.isArray(this.configParam) && this.configParam.length) {
       payload.config_param = {
