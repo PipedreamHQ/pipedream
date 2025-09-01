@@ -1,3 +1,4 @@
+import { createHmac } from "crypto";
 import airtable from "../../airtable_oauth.app.mjs";
 import constants from "../common/constants.mjs";
 
@@ -48,7 +49,9 @@ export default {
   },
   hooks: {
     async activate() {
-      const { id } = await this.airtable.createWebhook({
+      const {
+        id, macSecretBase64,
+      } = await this.airtable.createWebhook({
         baseId: this.baseId,
         data: {
           notificationUrl: `${this.http.endpoint}/`,
@@ -76,6 +79,7 @@ export default {
         },
       });
       this._setHookId(id);
+      this._setMacSecretBase64(macSecretBase64);
     },
     async deactivate() {
       const webhookId = this._getHookId();
@@ -94,28 +98,17 @@ export default {
     _setHookId(hookId) {
       this.db.set("hookId", hookId);
     },
-    _getLastObjectId() {
-      return this.db.get("lastObjectId");
+    _getMacSecretBase64() {
+      return this.db.get("macSecretBase64");
     },
-    async _setLastObjectId(id) {
-      this.db.set("lastObjectId", id);
+    _setMacSecretBase64(value) {
+      this.db.set("macSecretBase64", value);
     },
-    _getLastTimestamp() {
-      return this.db.get("lastTimestamp");
+    _setLastCursor(cursor) {
+      this.db.set("lastCursor", cursor);
     },
-    async _setLastTimestamp(ts) {
-      this.db.set("lastTimestamp", ts);
-    },
-    isDuplicateEvent(id, ts) {
-      const lastId = this._getLastObjectId();
-      const lastTs = this._getLastTimestamp();
-
-      if (id === lastId && (ts - lastTs < 5000 )) {
-        console.log("Skipping trigger: another event was emitted for the same object within the last 5 seconds");
-        return true;
-      }
-
-      return false;
+    _getLastCursor() {
+      return this.db.get("lastCursor");
     },
     getSpecificationOptions() {
       throw new Error("getSpecificationOptions is not implemented");
@@ -135,7 +128,9 @@ export default {
     },
     emitDefaultEvent(payload) {
       const meta = this.generateMeta(payload);
-      this.$emit(payload, meta);
+      this.$emit({
+        originalPayload: payload,
+      }, meta);
     },
     async emitEvent(payload) {
       // sources may call this to customize event emission, but it is
@@ -147,30 +142,60 @@ export default {
       // and it can be silently ignored when not required
       return true;
     },
+    isSignatureValid(signature, bodyRaw) {
+      const macSecretBase64FromCreate = this._getMacSecretBase64();
+      const macSecretDecoded = Buffer.from(macSecretBase64FromCreate, "base64");
+      const body = Buffer.from(bodyRaw, "utf8");
+      const hmac = createHmac("sha256", macSecretDecoded)
+        .update(body.toString(), "ascii")
+        .digest("hex");
+      const expectedContentHmac = "hmac-sha256=" + hmac;
+      return signature === expectedContentHmac;
+    },
+    payloadFilter() {
+      return true;
+    },
   },
-  async run() {
+  async run({
+    bodyRaw, headers: { ["x-airtable-content-mac"]: signature },
+  }) {
+    const isValid = this.isSignatureValid(signature, bodyRaw);
+    if (!isValid) {
+      return this.http.respond({
+        status: 401,
+      });
+    }
+
     this.http.respond({
       status: 200,
     });
     // webhook pings source, we then fetch webhook events to emit
     const webhookId = this._getHookId();
     let hasMore = false;
-    const params = {};
+
     try {
       await this.saveAdditionalData();
     } catch (err) {
       console.log("Error fetching additional data, proceeding to event emission");
       console.log(err);
     }
+    const params = {
+      cursor: this._getLastCursor(),
+    };
+
     do {
       const {
         cursor, mightHaveMore, payloads,
       } = await this.airtable.listWebhookPayloads({
+        debug: true,
         baseId: this.baseId,
         webhookId,
         params,
       });
-      for (const payload of payloads) {
+
+      const filteredPayloads = payloads.filter(this.payloadFilter);
+
+      for (const payload of filteredPayloads) {
         try {
           await this.emitEvent(payload);
         } catch (err) {
@@ -182,5 +207,7 @@ export default {
       params.cursor = cursor;
       hasMore = mightHaveMore;
     } while (hasMore);
+
+    this._setLastCursor(params.cursor);
   },
 };

@@ -5,11 +5,14 @@ export default {
   name: "New Record(s) Created (Instant)",
   description: "Emit new event for each new record in a table",
   key: "airtable_oauth-new-records",
-  version: "1.0.3",
+  version: "1.0.4",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
+    payloadFilter(payload) {
+      return !!payload.changedTablesById;
+    },
     getChangeTypes() {
       return [
         "add",

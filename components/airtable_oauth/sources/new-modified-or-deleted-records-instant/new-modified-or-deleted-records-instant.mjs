@@ -1,14 +1,13 @@
 import common from "../common/common-webhook-record.mjs";
 import constants from "../common/constants.mjs";
 import sampleEmit from "./test-event.mjs";
-import airtable from "../../airtable_oauth.app.mjs";
 
 export default {
   ...common,
   name: "New Record Created, Updated or Deleted (Instant)",
   description: "Emit new event when a record is added, updated, or deleted in a table or selected view.",
   key: "airtable_oauth-new-modified-or-deleted-records-instant",
-  version: "0.1.3",
+  version: "0.1.4",
   type: "source",
   dedupe: "unique",
   props: {
@@ -27,7 +26,7 @@ export default {
     },
     watchDataInFieldIds: {
       propDefinition: [
-        airtable,
+        common.props.airtable,
         "sortFieldId",
         (c) => ({
           baseId: c.baseId,
@@ -42,6 +41,9 @@ export default {
   },
   methods: {
     ...common.methods,
+    payloadFilter(payload) {
+      return !!payload.changedTablesById;
+    },
     getDataTypes() {
       return [
         "tableData",

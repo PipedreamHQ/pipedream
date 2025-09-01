@@ -1,16 +1,18 @@
 import common from "../common/common-webhook-record.mjs";
-import airtable from "../../airtable_oauth.app.mjs";
 
 export default {
   ...common,
   name: "New or Modified Records (Instant)",
   key: "airtable_oauth-new-or-modified-records",
   description: "Emit new event for each new or modified record in a table or view",
-  version: "1.0.3",
+  version: "1.0.4",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
+    payloadFilter(payload) {
+      return !!payload.changedTablesById;
+    },
     getChangeTypes() {
       return [
         "add",
@@ -22,7 +24,7 @@ export default {
     ...common.props,
     watchDataInFieldIds: {
       propDefinition: [
-        airtable,
+        common.props.airtable,
         "sortFieldId",
         (c) => ({
           baseId: c.baseId,
