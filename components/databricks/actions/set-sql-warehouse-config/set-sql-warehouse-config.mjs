@@ -112,13 +112,22 @@ export default {
     const current = await this.databricks.getSQLWarehouseConfig({
       $,
     });
-    const payload = {
-      ...current,
-    };
+    const allowed = [
+      "enable_serverless_compute",
+      "instance_profile_arn",
+      "google_service_account",
+      "security_policy",
+      "channel",
+      "enabled_warehouse_types",
+      "config_param",
+      "global_param",
+      "sql_configuration_parameters",
+      "data_access_config",
+    ];
+    const payload = Object.fromEntries(
+      Object.entries(current || {}).filter(([k]) => allowed.includes(k)),
+    );
 
-    if (typeof this.enableServerlessCompute === "boolean") {
-      payload.enable_serverless_compute = this.enableServerlessCompute;
-    }
     if (this.instanceProfileArn !== undefined) {
       payload.instance_profile_arn = this.instanceProfileArn;
     }
