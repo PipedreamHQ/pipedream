@@ -125,7 +125,9 @@ export default {
       "data_access_config",
     ];
     const payload = Object.fromEntries(
-      Object.entries(current || {}).filter(([k]) => allowed.includes(k)),
+      Object.entries(current || {}).filter(([
+        k,
+      ]) => allowed.includes(k)),
     );
 
     if (this.instanceProfileArn !== undefined) {
