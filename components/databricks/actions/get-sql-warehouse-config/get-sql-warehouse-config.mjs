@@ -3,7 +3,7 @@ import databricks from "../../databricks.app.mjs";
 export default {
   key: "databricks-get-sql-warehouse-config",
   name: "Get SQL Warehouse Config",
-  description: "Retrieves the global configuration for SQL Warehouses. [See docs](https://docs.databricks.com/api/workspace/warehouses/getworkspacewarehouseconfig)",
+  description: "Retrieves the global configuration for SQL Warehouses. [See the documentation](https://docs.databricks.com/api/workspace/warehouses/getworkspacewarehouseconfig)",
   version: "0.0.1",
   type: "action",
   props: {

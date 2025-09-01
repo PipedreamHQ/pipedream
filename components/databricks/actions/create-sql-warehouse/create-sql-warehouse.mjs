@@ -1,4 +1,7 @@
 import databricks from "../../databricks.app.mjs";
+import constants from "../../common/constants.mjs";
+import utils from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "databricks-create-sql-warehouse",
@@ -17,17 +20,7 @@ export default {
       type: "string",
       label: "Cluster Size",
       description: "Size of the cluster",
-      options: [
-        "2X-Small",
-        "X-Small",
-        "Small",
-        "Medium",
-        "Large",
-        "X-Large",
-        "2X-Large",
-        "3X-Large",
-        "4X-Large",
-      ],
+      options: constants.CLUSTER_SIZES,
     },
     autoStopMinutes: {
       type: "integer",
@@ -93,20 +86,10 @@ export default {
       optional: true,
     },
     tags: {
-      type: "object[]",
+      type: "object",
       label: "Tags",
       description:
         "Custom key-value tags for resources associated with this SQL Warehouse.",
-      properties: {
-        key: {
-          type: "string",
-          label: "Key",
-        },
-        value: {
-          type: "string",
-          label: "Value",
-        },
-      },
       optional: true,
     },
     instanceProfileArn: {
@@ -125,14 +108,14 @@ export default {
 
     if (this.autoStopMinutes !== undefined) {
       if (this.autoStopMinutes !== 0 && this.autoStopMinutes < 10) {
-        throw new Error("autoStopMinutes must be 0 or ≥ 10.");
+        throw new ConfigurationError("autoStopMinutes must be 0 or ≥ 10.");
       }
       payload.auto_stop_mins = this.autoStopMinutes;
     }
 
     const minNumClusters = this.minNumClusters ?? 1;
     if (minNumClusters < 1 || minNumClusters > 30) {
-      throw new Error("minNumClusters must be between 1 and 30.");
+      throw new ConfigurationError("minNumClusters must be between 1 and 30.");
     }
     payload.min_num_clusters = minNumClusters;
 
@@ -141,12 +124,21 @@ export default {
         this.maxNumClusters < payload.min_num_clusters ||
         this.maxNumClusters > 30
       ) {
-        throw new Error(
+        throw new ConfigurationError(
           `maxNumClusters must be ≥ minNumClusters (${payload.min_num_clusters}) and ≤ 30.`,
         );
       }
       payload.max_num_clusters = this.maxNumClusters;
     }
+
+    const parsedTags = utils.parseObject(this.tags);
+    const tags = Object.entries(parsedTags).map(([
+      key,
+      value,
+    ]) => ({
+      key,
+      value,
+    }));
 
     if (this.enablePhoton !== undefined)
       payload.enable_photon = this.enablePhoton;
@@ -155,10 +147,8 @@ export default {
     if (this.warehouseType) payload.warehouse_type = this.warehouseType;
     if (this.spotInstancePolicy)
       payload.spot_instance_policy = this.spotInstancePolicy;
-    if (this.channel) payload.channel = this.channel;
-    if (this.tags?.length) payload.tags = {
-      custom_tags: this.tags,
-    };
+    if (this.channel) payload.channel = utils.parseObject(this.channel);
+    if (tags.length) payload.tags = tags;
     if (this.instanceProfileArn)
       payload.instance_profile_arn = this.instanceProfileArn;
 

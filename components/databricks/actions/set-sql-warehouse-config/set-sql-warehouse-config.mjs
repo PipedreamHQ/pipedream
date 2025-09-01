@@ -1,9 +1,11 @@
 import databricks from "../../databricks.app.mjs";
+import utils from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "databricks-set-sql-warehouse-config",
   name: "Set SQL Warehouse Config",
-  description: "Updates the global configuration for SQL Warehouses. [See docs](https://docs.databricks.com/api/workspace/warehouses/setworkspacewarehouseconfig)",
+  description: "Updates the global configuration for SQL Warehouses. [See the documentation](https://docs.databricks.com/api/workspace/warehouses/setworkspacewarehouseconfig)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -44,67 +46,27 @@ export default {
       optional: true,
     },
     configParam: {
-      type: "object[]",
+      type: "object",
       label: "Config Parameters",
       description: "General config key/value pairs. Example item: `{ \"key\": \"some.config\", \"value\": \"true\" }`",
-      properties: {
-        key: {
-          type: "string",
-          label: "Key",
-        },
-        value: {
-          type: "string",
-          label: "Value",
-        },
-      },
       optional: true,
     },
     globalParam: {
-      type: "object[]",
+      type: "object",
       label: "Global Parameters",
       description: "Global config key/value pairs applied to all warehouses.",
-      properties: {
-        key: {
-          type: "string",
-          label: "Key",
-        },
-        value: {
-          type: "string",
-          label: "Value",
-        },
-      },
       optional: true,
     },
     sqlConfigurationParameters: {
-      type: "object[]",
+      type: "object",
       label: "SQL Configuration Parameters",
       description: "SQL-specific configuration key/value pairs.",
-      properties: {
-        key: {
-          type: "string",
-          label: "Key",
-        },
-        value: {
-          type: "string",
-          label: "Value",
-        },
-      },
       optional: true,
     },
     dataAccessConfig: {
-      type: "object[]",
+      type: "object",
       label: "Data Access Config",
       description: "Key/value pairs for data access configuration (e.g., credentials passthrough, external storage access).",
-      properties: {
-        key: {
-          type: "string",
-          label: "Key",
-        },
-        value: {
-          type: "string",
-          label: "Value",
-        },
-      },
       optional: true,
     },
   },
@@ -140,24 +102,25 @@ export default {
       payload.security_policy = this.securityPolicy;
     }
     if (this.channel !== undefined) {
-      payload.channel = this.channel;
+      payload.channel = utils.parseObject(this.channel);
     }
-    if (Array.isArray(this.enabledWarehouseTypes) && this.enabledWarehouseTypes.length) {
-      payload.enabled_warehouse_types = this.enabledWarehouseTypes.map((item, idx) => {
+    const enabledWarehouseTypes = utils.parseObject(this.enabledWarehouseTypes);
+    if (Array.isArray(enabledWarehouseTypes) && enabledWarehouseTypes.length) {
+      payload.enabled_warehouse_types = enabledWarehouseTypes.map((item, idx) => {
         let obj = item;
         if (typeof item === "string") {
           try { obj = JSON.parse(item); } catch (e) {
-            throw new Error(`enabledWarehouseTypes[${idx}] must be valid JSON: ${e.message}`);
+            throw new ConfigurationError(`enabledWarehouseTypes[${idx}] must be valid JSON: ${e.message}`);
           }
         }
         if (!obj || typeof obj !== "object") {
-          throw new Error(`enabledWarehouseTypes[${idx}] must be an object with { "warehouse_type": string, "enabled": boolean }`);
+          throw new ConfigurationError(`enabledWarehouseTypes[${idx}] must be an object with { "warehouse_type": string, "enabled": boolean }`);
         }
         const {
           warehouse_type, enabled,
         } = obj;
         if (typeof warehouse_type !== "string" || typeof enabled !== "boolean") {
-          throw new Error(`enabledWarehouseTypes[${idx}] invalid shape; expected { "warehouse_type": string, "enabled": boolean }`);
+          throw new ConfigurationError(`enabledWarehouseTypes[${idx}] invalid shape; expected { "warehouse_type": string, "enabled": boolean }`);
         }
         return {
           warehouse_type,
@@ -165,23 +128,27 @@ export default {
         };
       });
     }
-    if (Array.isArray(this.configParam) && this.configParam.length) {
+    const configParam = utils.parseObject(this.configParam);
+    if (Array.isArray(configParam) && configParam.length) {
       payload.config_param = {
-        configuration_pairs: this.configParam,
+        configuration_pairs: configParam,
       };
     }
-    if (Array.isArray(this.globalParam) && this.globalParam.length) {
+    const globalParam = utils.parseObject(this.globalParam);
+    if (Array.isArray(globalParam) && globalParam.length) {
       payload.global_param = {
-        configuration_pairs: this.globalParam,
+        configuration_pairs: globalParam,
       };
     }
-    if (Array.isArray(this.sqlConfigurationParameters) && this.sqlConfigurationParameters.length) {
+    const sqlConfigurationParameters = utils.parseObject(this.sqlConfigurationParameters);
+    if (Array.isArray(sqlConfigurationParameters) && sqlConfigurationParameters.length) {
       payload.sql_configuration_parameters = {
-        configuration_pairs: this.sqlConfigurationParameters,
+        configuration_pairs: sqlConfigurationParameters,
       };
     }
-    if (Array.isArray(this.dataAccessConfig) && this.dataAccessConfig.length) {
-      payload.data_access_config = this.dataAccessConfig;
+    const dataAccessConfig = utils.parseObject(this.dataAccessConfig);
+    if (Array.isArray(dataAccessConfig) && dataAccessConfig.length) {
+      payload.data_access_config = dataAccessConfig;
     }
     const response = await this.databricks.setSQLWarehouseConfig({
       data: payload,

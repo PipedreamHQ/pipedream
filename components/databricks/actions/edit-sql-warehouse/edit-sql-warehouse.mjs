@@ -1,9 +1,12 @@
 import databricks from "../../databricks.app.mjs";
+import constants from "../../common/constants.mjs";
+import utils from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "databricks-edit-sql-warehouse",
   name: "Edit SQL Warehouse",
-  description: "Edits the configuration of an existing SQL Warehouse. [See docs](https://docs.databricks.com/api/workspace/warehouses/edit)",
+  description: "Edits the configuration of an existing SQL Warehouse. [See the documentation](https://docs.databricks.com/api/workspace/warehouses/edit)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -25,17 +28,7 @@ export default {
       type: "string",
       label: "Cluster Size",
       description: "Size of clusters allocated for this warehouse.",
-      options: [
-        "2X-Small",
-        "X-Small",
-        "Small",
-        "Medium",
-        "Large",
-        "X-Large",
-        "2X-Large",
-        "3X-Large",
-        "4X-Large",
-      ],
+      options: constants.CLUSTER_SIZES,
       optional: true,
     },
     autoStopMins: {
@@ -114,7 +107,7 @@ export default {
 
     if (this.name !== undefined) {
       if (typeof this.name !== "string" || this.name.length >= 100) {
-        throw new Error("name must be a string with fewer than 100 characters.");
+        throw new ConfigurationError("name must be a string with fewer than 100 characters.");
       }
       payload.name = this.name;
     }
@@ -122,24 +115,24 @@ export default {
 
     if (this.autoStopMins !== undefined) {
       if (this.autoStopMins !== 0 && this.autoStopMins < 10) {
-        throw new Error("autoStopMins must be 0 or >= 10.");
+        throw new ConfigurationError("autoStopMins must be 0 or >= 10.");
       }
       payload.auto_stop_mins = this.autoStopMins;
     }
 
     if (this.minNumClusters !== undefined) {
       if (this.minNumClusters < 1 || this.minNumClusters > 30) {
-        throw new Error("minNumClusters must be between 1 and 30.");
+        throw new ConfigurationError("minNumClusters must be between 1 and 30.");
       }
       payload.min_num_clusters = this.minNumClusters;
     }
 
     if (this.maxNumClusters !== undefined) {
       if (this.maxNumClusters < 1 || this.maxNumClusters > 30) {
-        throw new Error("maxNumClusters must be between 1 and 30.");
+        throw new ConfigurationError("maxNumClusters must be between 1 and 30.");
       }
       if (this.minNumClusters !== undefined && this.maxNumClusters < this.minNumClusters) {
-        throw new Error("maxNumClusters must be >= minNumClusters.");
+        throw new ConfigurationError("maxNumClusters must be >= minNumClusters.");
       }
       payload.max_num_clusters = this.maxNumClusters;
     }
@@ -147,23 +140,32 @@ export default {
     if (this.enablePhoton !== undefined) payload.enable_photon = this.enablePhoton;
     if (this.enableServerlessCompute !== undefined) {
       if (this.warehouseType === "CLASSIC" && this.enableServerlessCompute) {
-        throw new Error("Serverless compute requires warehouseType = PRO.");
+        throw new ConfigurationError("Serverless compute requires warehouseType = PRO.");
       }
       payload.enable_serverless_compute = this.enableServerlessCompute;
     }
+
+    const parsedTags = utils.parseObject(this.tags);
+    const tags = Object.entries(parsedTags).map(([
+      key,
+      value,
+    ]) => ({
+      key,
+      value,
+    }));
 
     if (this.warehouseType !== undefined) payload.warehouse_type = this.warehouseType;
     if (this.spotInstancePolicy !== undefined) {
       payload.spot_instance_policy = this.spotInstancePolicy;
     }
-    if (this.tags !== undefined) payload.tags = this.tags;
-    if (this.channel !== undefined) payload.channel = this.channel;
+    if (tags.length) payload.tags = tags;
+    if (this.channel !== undefined) payload.channel = utils.parseObject(this.channel);
     if (this.instanceProfileArn !== undefined) {
       payload.instance_profile_arn = this.instanceProfileArn;
     }
 
     if (!Object.keys(payload).length) {
-      throw new Error("No fields to update. Provide at least one property.");
+      throw new ConfigurationError("No fields to update. Provide at least one property.");
     }
 
     const response = await this.databricks.editSQLWarehouse({
