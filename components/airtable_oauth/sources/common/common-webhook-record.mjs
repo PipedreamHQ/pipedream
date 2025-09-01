@@ -1,4 +1,5 @@
 import common from "./common-webhook.mjs";
+import retry from "async-retry";
 
 export default {
   ...common,
@@ -8,6 +9,17 @@ export default {
       return [
         "tableData",
       ];
+    },
+    withRetries(apiCall, retries = 3) {
+      return retry(async (bail) => {
+        try {
+          return await apiCall();
+        } catch (err) {
+          return bail(err);
+        }
+      }, {
+        retries,
+      });
     },
     async emitEvent(payload) {
       const [
@@ -43,20 +55,20 @@ export default {
         recordUpdateInfo,
       ] = Object.entries(recordObj)[0];
 
-      const timestamp = Date.parse(payload.timestamp);
-      if (this.isDuplicateEvent(recordId, timestamp)) return;
-      this._setLastObjectId(recordId);
-      this._setLastTimestamp(timestamp);
-
       let updateType = operation === "createdRecordsById"
         ? "created"
         : "updated";
 
-      const { fields } = await this.airtable.getRecord({
-        baseId: this.baseId,
-        tableId,
-        recordId,
-      });
+      let fields = {};
+      try {
+        ({ fields } = await this.withRetries(() => this.airtable.getRecord({
+          baseId: this.baseId,
+          tableId,
+          recordId,
+        })));
+      } catch (e) {
+        fields = {};
+      }
 
       const summary = `Record ${updateType}: ${fields?.name ?? recordId}`;
 

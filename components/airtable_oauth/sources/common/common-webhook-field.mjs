@@ -38,11 +38,6 @@ export default {
         fieldUpdateInfo,
       ] = Object.entries(fieldObj)[0];
 
-      const timestamp = Date.parse(payload.timestamp);
-      if (this.isDuplicateEvent(fieldId, timestamp)) return;
-      this._setLastObjectId(fieldId);
-      this._setLastTimestamp(timestamp);
-
       const updateType = operation === "createdFieldsById"
         ? "created"
         : "updated";
