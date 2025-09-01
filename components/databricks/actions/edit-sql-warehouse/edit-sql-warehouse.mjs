@@ -102,12 +102,6 @@ export default {
       description: "Channel details. Example: `{ \"name\": \"CHANNEL_NAME_CURRENT\", \"dbsql_version\": \"2023.35\" }`",
       optional: true,
     },
-    creatorName: {
-      type: "string",
-      label: "Creator Name",
-      description: "Warehouse creator name.",
-      optional: true,
-    },
     instanceProfileArn: {
       type: "string",
       label: "Instance Profile ARN (Deprecated)",
@@ -121,48 +115,46 @@ export default {
     if (this.name) payload.name = this.name;
     if (this.clusterSize) payload.cluster_size = this.clusterSize;
 
-    if (this.autoStopMins !== undefined) payload.auto_stop_mins = this.autoStopMins;
-    if (this.minNumClusters !== undefined) payload.min_num_clusters = this.minNumClusters;
-    if (this.maxNumClusters !== undefined) payload.max_num_clusters = this.maxNumClusters;
+    if (this.autoStopMins !== undefined) {
+      if (this.autoStopMins !== 0 && this.autoStopMins < 10) {
+        throw new Error("autoStopMins must be 0 or >= 10.");
+      }
+      payload.auto_stop_mins = this.autoStopMins;
+    }
+
+    if (this.minNumClusters !== undefined) {
+      if (this.minNumClusters < 1 || this.minNumClusters > 30) {
+        throw new Error("minNumClusters must be between 1 and 30.");
+      }
+      payload.min_num_clusters = this.minNumClusters;
+    }
+
+    if (this.maxNumClusters !== undefined) {
+      if (this.maxNumClusters < 1 || this.maxNumClusters > 30) {
+        throw new Error("maxNumClusters must be between 1 and 30.");
+      }
+      if (this.minNumClusters !== undefined && this.maxNumClusters < this.minNumClusters) {
+        throw new Error("maxNumClusters must be >= minNumClusters.");
+      }
+      payload.max_num_clusters = this.maxNumClusters;
+    }
 
     if (this.enablePhoton !== undefined) payload.enable_photon = this.enablePhoton;
     if (this.enableServerlessCompute !== undefined) {
+      if (this.warehouseType === "CLASSIC" && this.enableServerlessCompute) {
+        throw new Error("Serverless compute requires warehouseType = PRO.");
+      }
       payload.enable_serverless_compute = this.enableServerlessCompute;
     }
 
     if (this.warehouseType) payload.warehouse_type = this.warehouseType;
     if (this.spotInstancePolicy) payload.spot_instance_policy = this.spotInstancePolicy;
-
     if (this.tags) payload.tags = this.tags;
     if (this.channel) payload.channel = this.channel;
-    if (this.creatorName) payload.creator_name = this.creatorName;
     if (this.instanceProfileArn) payload.instance_profile_arn = this.instanceProfileArn;
 
     if (!Object.keys(payload).length) {
       throw new Error("No fields to update. Provide at least one property.");
-    }
-    if (this.autoStopMins !== undefined && this.autoStopMins !== 0 && this.autoStopMins < 10) {
-      throw new Error("autoStopMins must be 0 or >= 10.");
-    }
-    if (
-      this.minNumClusters !== undefined &&
-      (this.minNumClusters < 1 || this.minNumClusters > 30)
-    ) {
-      throw new Error("minNumClusters must be between 1 and 30.");
-    }
-    if (
-      this.maxNumClusters !== undefined &&
-      (this.maxNumClusters < 1 || this.maxNumClusters > 30)
-    ) {
-      throw new Error("maxNumClusters must be between 1 and 30.");
-    }
-    if (this.minNumClusters !== undefined &&
-      this.maxNumClusters !== undefined &&
-      this.minNumClusters > this.maxNumClusters) {
-      throw new Error("minNumClusters must be <= maxNumClusters.");
-    }
-    if (this.enableServerlessCompute === true && this.warehouseType === "CLASSIC") {
-      throw new Error("Serverless compute requires warehouseType = PRO.");
     }
 
     const response = await this.databricks.editSQLWarehouse({
@@ -173,6 +165,7 @@ export default {
 
     $.export("$summary", `Successfully edited SQL Warehouse ID ${this.warehouseId}`);
     return response;
-  },
+  }
+,
 
 };

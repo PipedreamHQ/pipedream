@@ -38,24 +38,9 @@ export default {
       optional: true,
     },
     enabledWarehouseTypes: {
-      type: "object[]",
+      type: "string[]",
       label: "Enabled Warehouse Types",
       description: "Specify which warehouse types are enabled. Example item: `{ \"warehouse_type\": \"PRO\", \"enabled\": true }`",
-      properties: {
-        warehouse_type: {
-          type: "string",
-          label: "Warehouse Type",
-          options: [
-            "TYPE_UNSPECIFIED",
-            "CLASSIC",
-            "PRO",
-          ],
-        },
-        enabled: {
-          type: "boolean",
-          label: "Enabled",
-        },
-      },
       optional: true,
     },
     configParam: {
@@ -132,10 +117,14 @@ export default {
     if (this.channel) payload.channel = this.channel;
 
     if (Array.isArray(this.enabledWarehouseTypes) && this.enabledWarehouseTypes.length) {
-      payload.enabled_warehouse_types = this.enabledWarehouseTypes.map((item) => ({
-        warehouse_type: item.warehouse_type,
-        enabled: Boolean(item.enabled),
-      }));
+      try {
+        payload.enabled_warehouse_types = this.enabledWarehouseTypes.map((item) =>
+          typeof item === "string"
+            ? JSON.parse(item)
+            : item);
+      } catch (err) {
+        throw new Error(`Invalid JSON in enabledWarehouseTypes: ${err.message}`);
+      }
     }
     if (Array.isArray(this.configParam) && this.configParam.length) {
       payload.config_param = {

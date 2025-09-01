@@ -24,10 +24,12 @@ export default {
   async run({ $ }) {
     let acl = [];
     try {
-      acl = (this.accessControlList || []).map((entry) =>
-        typeof entry === "string"
-          ? JSON.parse(entry)
-          : entry);
+      acl = (this.accessControlList || [])
+        .map((entry) =>
+          typeof entry === "string"
+            ? JSON.parse(entry)
+            : entry)
+        .filter((entry) => entry && Object.keys(entry).length > 0);
     } catch (err) {
       throw new Error(`Invalid JSON in Access Control List: ${err.message}`);
     }
