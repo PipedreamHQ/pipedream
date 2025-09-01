@@ -112,8 +112,13 @@ export default {
   async run({ $ }) {
     const payload = {};
 
-    if (this.name) payload.name = this.name;
-    if (this.clusterSize) payload.cluster_size = this.clusterSize;
+    if (this.name !== undefined) {
+      if (typeof this.name !== "string" || this.name.length >= 100) {
+        throw new Error("name must be a string with fewer than 100 characters.");
+      }
+      payload.name = this.name;
+    }
+    if (this.clusterSize !== undefined) payload.cluster_size = this.clusterSize;
 
     if (this.autoStopMins !== undefined) {
       if (this.autoStopMins !== 0 && this.autoStopMins < 10) {
@@ -147,11 +152,11 @@ export default {
       payload.enable_serverless_compute = this.enableServerlessCompute;
     }
 
-    if (this.warehouseType) payload.warehouse_type = this.warehouseType;
-    if (this.spotInstancePolicy) payload.spot_instance_policy = this.spotInstancePolicy;
-    if (this.tags) payload.tags = this.tags;
-    if (this.channel) payload.channel = this.channel;
-    if (this.instanceProfileArn) payload.instance_profile_arn = this.instanceProfileArn;
+    if (this.warehouseType !== undefined) payload.warehouse_type = this.warehouseType;
+    if (this.spotInstancePolicy !== undefined) payload.spot_instance_policy = this.spotInstancePolicy;
+    if (this.tags !== undefined) payload.tags = this.tags;
+    if (this.channel !== undefined) payload.channel = this.channel;
+    if (this.instanceProfileArn !== undefined) payload.instance_profile_arn = this.instanceProfileArn;
 
     if (!Object.keys(payload).length) {
       throw new Error("No fields to update. Provide at least one property.");

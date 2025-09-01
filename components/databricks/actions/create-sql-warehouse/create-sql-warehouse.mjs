@@ -130,10 +130,11 @@ export default {
       payload.auto_stop_mins = this.autoStopMinutes;
     }
 
-    payload.min_num_clusters = this.minNumClusters || 1;
-    if (payload.min_num_clusters < 1) {
-      throw new Error("minNumClusters must be ≥ 1.");
+    const minNumClusters = this.minNumClusters ?? 1;
+    if (minNumClusters < 1 || minNumClusters > 30) {
+      throw new Error("minNumClusters must be between 1 and 30.");
     }
+    payload.min_num_clusters = minNumClusters;
 
     if (this.maxNumClusters !== undefined) {
       if (

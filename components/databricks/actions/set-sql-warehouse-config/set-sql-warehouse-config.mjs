@@ -109,37 +109,35 @@ export default {
     },
   },
   async run({ $ }) {
-    const payload = {};
+    const current = await this.databricks.getSQLWarehouseConfig({ $ });
+    const payload = { ...current };
 
-    if (this.instanceProfileArn) payload.instance_profile_arn = this.instanceProfileArn;
-    if (this.googleServiceAccount) payload.google_service_account = this.googleServiceAccount;
-    if (this.securityPolicy) payload.security_policy = this.securityPolicy;
-    if (this.channel) payload.channel = this.channel;
-
+    if (typeof this.enableServerlessCompute === "boolean") {
+      payload.enable_serverless_compute = this.enableServerlessCompute;
+    }
+    if (this.instanceProfileArn !== undefined) {
+      payload.instance_profile_arn = this.instanceProfileArn;
+    }
+    if (this.googleServiceAccount !== undefined) {
+      payload.google_service_account = this.googleServiceAccount;
+    }
+    if (this.securityPolicy !== undefined) {
+      payload.security_policy = this.securityPolicy;
+    }
+    if (this.channel !== undefined) {
+      payload.channel = this.channel;
+    }
     if (Array.isArray(this.enabledWarehouseTypes) && this.enabledWarehouseTypes.length) {
-      try {
-        payload.enabled_warehouse_types = this.enabledWarehouseTypes.map((item) =>
-          typeof item === "string"
-            ? JSON.parse(item)
-            : item);
-      } catch (err) {
-        throw new Error(`Invalid JSON in enabledWarehouseTypes: ${err.message}`);
-      }
+      payload.enabled_warehouse_types = this.enabledWarehouseTypes;
     }
     if (Array.isArray(this.configParam) && this.configParam.length) {
-      payload.config_param = {
-        configuration_pairs: this.configParam,
-      };
+      payload.config_param = { configuration_pairs: this.configParam };
     }
     if (Array.isArray(this.globalParam) && this.globalParam.length) {
-      payload.global_param = {
-        configuration_pairs: this.globalParam,
-      };
+      payload.global_param = { configuration_pairs: this.globalParam };
     }
     if (Array.isArray(this.sqlConfigurationParameters) && this.sqlConfigurationParameters.length) {
-      payload.sql_configuration_parameters = {
-        configuration_pairs: this.sqlConfigurationParameters,
-      };
+      payload.sql_configuration_parameters = { configuration_pairs: this.sqlConfigurationParameters };
     }
     if (Array.isArray(this.dataAccessConfig) && this.dataAccessConfig.length) {
       payload.data_access_config = this.dataAccessConfig;
