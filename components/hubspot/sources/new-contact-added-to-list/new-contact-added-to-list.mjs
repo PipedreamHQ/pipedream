@@ -11,7 +11,7 @@ export default {
   name: "New Contact Added to List",
   description:
     "Emit new event when a contact is added to a HubSpot list. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/lists#get-%2Fcrm%2Fv3%2Flists%2F%7Blistid%7D%2Fmemberships%2Fjoin-order)",
-  version: "0.0.10",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
@@ -44,13 +44,14 @@ export default {
   },
   methods: {
     ...common.methods,
+    _getKey(listId) {
+      return `list_${listId}_last_timestamp`;
+    },
     _getLastMembershipTimestamp(listId) {
-      const key = `list_${listId}_last_timestamp`;
-      return this.db.get(key);
+      return this.db.get(this._getKey(listId));
     },
     _setLastMembershipTimestamp(listId, timestamp) {
-      const key = `list_${listId}_last_timestamp`;
-      this.db.set(key, timestamp);
+      this.db.set(this._getKey(listId), timestamp);
     },
     getTs() {
       return Date.now();
@@ -78,24 +79,41 @@ export default {
         ...properties,
       ];
 
-      try {
-        const { results } = await this.hubspot.batchGetObjects({
-          objectType: "contacts",
-          data: {
-            inputs: contactIds.map((id) => ({
-              id,
-            })),
-            properties: allProperties,
-          },
-        });
+      const chunks = [];
+      const chunkSize = 100;
+      for (let i = 0; i < contactIds.length; i += chunkSize) {
+        chunks.push(contactIds.slice(i, i + chunkSize));
+      }
 
-        const contactMap = {};
-        results.forEach((contact) => {
-          contactMap[contact.id] = contact;
-        });
+      const contactMap = {};
+
+      try {
+        for (const chunk of chunks) {
+          try {
+            const { results } = await this.hubspot.batchGetObjects({
+              objectType: "contacts",
+              data: {
+                inputs: chunk.map((id) => ({
+                  id,
+                })),
+                properties: allProperties,
+              },
+            });
+
+            results.forEach((contact) => {
+              contactMap[contact.id] = contact;
+            });
+          } catch (error) {
+            console.warn(
+              `Error fetching contact details for chunk of ${chunk.length} contacts:`,
+              error,
+            );
+          }
+        }
+
         return contactMap;
       } catch (error) {
-        console.warn("Error fetching contact details:", error);
+        console.warn("Error processing contact details:", error);
         return {};
       }
     },
@@ -126,16 +144,21 @@ export default {
               params,
             });
 
-          if (!results || results.length === 0) {
+          if (!results) {
+            console.warn(
+              `No results returned from API for list ${listId} - possible API issue`,
+            );
+            break;
+          }
+
+          if (results.length === 0) {
             break;
           }
 
           for (const membership of results) {
             const { membershipTimestamp } = membership;
 
-            if (
-              new Date(membershipTimestamp) > new Date(lastMembershipTimestamp)
-            ) {
+            if (membershipTimestamp > lastMembershipTimestamp) {
               newMemberships.push({
                 membership,
                 listInfo,
@@ -143,8 +166,7 @@ export default {
 
               if (
                 !latestMembershipTimestamp ||
-                new Date(membershipTimestamp) >
-                  new Date(latestMembershipTimestamp)
+                membershipTimestamp > latestMembershipTimestamp
               ) {
                 latestMembershipTimestamp = membershipTimestamp;
               }
@@ -168,7 +190,10 @@ export default {
       return newMemberships;
     },
     async processResults() {
-      const { listId } = this;
+      const {
+        listId,
+        listInfo: { name },
+      } = this;
 
       if (!listId) {
         console.warn("No list selected to monitor");
@@ -177,7 +202,7 @@ export default {
 
       const listInfo = {
         listId,
-        name: `List ${listId}`,
+        name: `List ${name}`,
       };
 
       try {
@@ -203,7 +228,7 @@ export default {
               contactId: membership.recordId,
               contact: contactDetail,
               membership,
-              addedAt: new Date().toISOString(),
+              addedAt: membership.membershipTimestamp,
             };
 
             const meta = this.generateMeta(membership, listInfo);

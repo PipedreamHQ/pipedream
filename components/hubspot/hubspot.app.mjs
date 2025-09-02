@@ -1264,24 +1264,58 @@ export default {
         ...opts,
       });
     },
-    getListMembershipsByJoinOrder({
+    async getListMembershipsByJoinOrder({
       listId, ...opts
     }) {
-      return this.makeRequest({
-        api: API_PATH.CRMV3,
-        endpoint: `/lists/${listId}/memberships/join-order`,
-        ...opts,
-      });
+      const MAX_RETRIES = 5;
+      const BASE_RETRY_DELAY = 500;
+      let success = false;
+      let retries = 0;
+      while (!success) {
+        try {
+          const response = await this.makeRequest({
+            api: API_PATH.CRMV3,
+            endpoint: `/lists/${listId}/memberships/join-order`,
+            ...opts,
+          });
+          return response;
+        } catch (error) {
+          if (error.status === 429 && ++retries < MAX_RETRIES) {
+            const randomDelay = Math.floor(Math.random() * BASE_RETRY_DELAY);
+            const delay = BASE_RETRY_DELAY * (2 ** retries) + randomDelay;
+            await new Promise((resolve) => setTimeout(resolve, delay));
+          } else {
+            throw error;
+          }
+        }
+      }
     },
-    batchGetObjects({
+    async batchGetObjects({
       objectType, ...opts
     }) {
-      return this.makeRequest({
-        api: API_PATH.CRMV3,
-        endpoint: `/objects/${objectType}/batch/read`,
-        method: "POST",
-        ...opts,
-      });
+      const MAX_RETRIES = 5;
+      const BASE_RETRY_DELAY = 500;
+      let success = false;
+      let retries = 0;
+      while (!success) {
+        try {
+          const response = await this.makeRequest({
+            api: API_PATH.CRMV3,
+            endpoint: `/objects/${objectType}/batch/read`,
+            method: "POST",
+            ...opts,
+          });
+          return response;
+        } catch (error) {
+          if (error.status === 429 && ++retries < MAX_RETRIES) {
+            const randomDelay = Math.floor(Math.random() * BASE_RETRY_DELAY);
+            const delay = BASE_RETRY_DELAY * (2 ** retries) + randomDelay;
+            await new Promise((resolve) => setTimeout(resolve, delay));
+          } else {
+            throw error;
+          }
+        }
+      }
     },
     listNotes(opts = {}) {
       return this.makeRequest({
