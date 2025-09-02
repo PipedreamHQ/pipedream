@@ -46,7 +46,6 @@ export default {
         headers: this._headers(),
         ...opts,
       };
-      console.log("config: ", config);
       return axios($, config);
     },
     getOrderShipments({
