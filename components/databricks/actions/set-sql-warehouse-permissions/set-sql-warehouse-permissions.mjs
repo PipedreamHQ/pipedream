@@ -1,4 +1,6 @@
 import databricks from "../../databricks.app.mjs";
+import utils from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "databricks-set-sql-warehouse-permissions",
@@ -22,17 +24,11 @@ export default {
     },
   },
   async run({ $ }) {
-    let acl = [];
-    try {
-      acl = (this.accessControlList || [])
-        .map((entry) =>
-          typeof entry === "string"
-            ? JSON.parse(entry)
-            : entry)
-        .filter((entry) => entry && Object.keys(entry).length > 0);
-    } catch (err) {
-      throw new Error(`Invalid JSON in Access Control List: ${err.message}`);
+    let acl = utils.parseObject(this.accessControlList);
+    if (!Array.isArray(acl)) {
+      throw new ConfigurationError("Access Control List must be an array");
     }
+    acl = acl.filter((entry) => entry && Object.keys(entry).length > 0);
 
     const response = await this.databricks.setSQLWarehousePermissions({
       warehouseId: this.warehouseId,

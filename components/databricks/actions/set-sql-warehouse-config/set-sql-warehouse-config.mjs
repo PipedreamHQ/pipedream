@@ -36,7 +36,7 @@ export default {
     channel: {
       type: "object",
       label: "Channel",
-      description: "Channel details. Example: `{ \"name\": \"CHANNEL_NAME_PREVIEW\", \"dbsql_version\": \"2023.35\" }`",
+      description: "Channel details. Example: `{ \"name\": \"CHANNEL_NAME_CUSTOM\", \"dbsql_version\": \"2023.35\" }`",
       optional: true,
     },
     enabledWarehouseTypes: {
