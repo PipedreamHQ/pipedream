@@ -42,6 +42,7 @@ export default {
       label: "Max Number of Clusters",
       description: "Maximum number of clusters for autoscaler (≥ min_num_clusters and ≤ 30).",
       optional: true,
+      default: 1,
     },
     enablePhoton: {
       type: "boolean",
