@@ -44,6 +44,27 @@ export default {
         })) || [];
       },
     },
+    endpointName: {
+      type: "string",
+      label: "Endpoint Name",
+      description: "The name of the vector search endpoint",
+      async options({ prevContext }) {
+        const {
+          endpoints, next_page_token,
+        } = await this.listEndpoints({
+          params: {
+            page_token: prevContext.page_token,
+          },
+        });
+
+        return {
+          options: endpoints.map(({ name }) => name),
+          context: {
+            page_token: next_page_token,
+          },
+        };
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -88,6 +109,36 @@ export default {
         path: "/jobs/run-now",
         method: "POST",
         ...args,
+      });
+    },
+    createEndpoint(args = {}) {
+      return this._makeRequest({
+        path: "/vector-search/endpoints",
+        method: "POST",
+        ...args,
+      });
+    },
+    getEndpoint({
+      endpointName, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/vector-search/endpoints/${endpointName}`,
+        ...opts,
+      });
+    },
+    listEndpoints(args = {}) {
+      return this._makeRequest({
+        path: "/vector-search/endpoints",
+        ...args,
+      });
+    },
+    deleteEndpoint({
+      endpointName, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/vector-search/endpoints/${endpointName}`,
+        method: "DELETE",
+        ...opts,
       });
     },
   },
