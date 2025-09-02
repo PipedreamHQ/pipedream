@@ -11389,6 +11389,9 @@ importers:
         specifier: ^1.2.1
         version: 1.6.6
 
+  components/questdb:
+    specifiers: {}
+
   components/questionpro: {}
 
   components/quickbase:
