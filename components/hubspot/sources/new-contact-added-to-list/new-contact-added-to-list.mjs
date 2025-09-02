@@ -72,56 +72,30 @@ export default {
     async getContactDetails(contactIds) {
       if (!contactIds.length) return {};
 
-      const uniqueContactIds = [
-        ...new Set(contactIds),
-      ];
-
       const { properties = [] } = this;
       const allProperties = [
-        ...new Set([
-          ...DEFAULT_CONTACT_PROPERTIES,
-          ...properties,
-        ]),
+        ...DEFAULT_CONTACT_PROPERTIES,
+        ...properties,
       ];
 
-      const chunks = [];
-      const chunkSize = 100;
-      for (let i = 0; i < uniqueContactIds.length; i += chunkSize) {
-        chunks.push(uniqueContactIds.slice(i, i + chunkSize));
-      }
-
-      const contactMap = {};
-
-      const chunkPromises = chunks.map(async (chunk) => {
-        try {
-          const { results } = await this.hubspot.batchGetObjects({
-            objectType: "contacts",
-            data: {
-              inputs: chunk.map((id) => ({
-                id,
-              })),
-              properties: allProperties,
-            },
-          });
-          return results;
-        } catch (error) {
-          console.warn("Error fetching contact details for chunk:", error);
-          return [];
-        }
-      });
-
       try {
-        const chunkResults = await Promise.all(chunkPromises);
-
-        chunkResults.forEach((results) => {
-          results.forEach((contact) => {
-            contactMap[contact.id] = contact;
-          });
+        const { results } = await this.hubspot.batchGetObjects({
+          objectType: "contacts",
+          data: {
+            inputs: contactIds.map((id) => ({
+              id,
+            })),
+            properties: allProperties,
+          },
         });
 
+        const contactMap = {};
+        results.forEach((contact) => {
+          contactMap[contact.id] = contact;
+        });
         return contactMap;
       } catch (error) {
-        console.warn("Error processing contact details:", error);
+        console.warn("Error fetching contact details:", error);
         return {};
       }
     },
