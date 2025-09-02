@@ -154,7 +154,9 @@ export default {
       value,
     }));
     if (tagArray.length) {
-      payload.tags = { custom_tags: tagArray };
+      payload.tags = {
+        custom_tags: tagArray,
+      };
     }
     if (this.warehouseType !== undefined) payload.warehouse_type = this.warehouseType;
     if (this.spotInstancePolicy !== undefined) {
