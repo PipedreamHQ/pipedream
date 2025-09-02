@@ -47,7 +47,7 @@ export default {
       ],
     },
     revisionId: {
-      type: "string",
+      type: "integer",
       label: "Revision ID",
       description: "The revision ID of the workflow",
       optional: true,
