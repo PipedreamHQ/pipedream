@@ -1,9 +1,10 @@
+import { parseObject } from "../../common/utils.mjs";
 import hubspot from "../../hubspot.app.mjs";
 
 export default {
   key: "hubspot-update-workflow",
   name: "Update a Workflow",
-  description: "Update an existing workflow. [See the documentation](https://developers.hubspot.com/docs/api-reference/legacy/create-manage-workflows-v3/get-automation-v3-workflows)",
+  description: "Update an existing workflow. [See the documentation](https://developers.hubspot.com/docs/api-reference/automation-automation-v4-v4/workflows/put-automation-v4-flows-flowId)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -11,8 +12,9 @@ export default {
     workflowId: {
       propDefinition: [
         hubspot,
-        "workflowId",
+        "workflow",
       ],
+      description: "The ID of the workflow to update",
     },
     name: {
       type: "string",
@@ -20,53 +22,57 @@ export default {
       description: "The new name of the workflow",
       optional: true,
     },
-    description: {
-      type: "string",
-      label: "Description",
-      description: "The new description of the workflow",
-      optional: true,
-    },
     type: {
-      type: "string",
-      label: "Workflow Type",
-      description: "The new type of workflow",
-      optional: true,
-      options: [
-        {
-          label: "DRIP",
-          value: "DRIP",
-        },
-        {
-          label: "SIMPLE",
-          value: "SIMPLE",
-        },
-        {
-          label: "COMPLEX",
-          value: "COMPLEX",
-        },
+      propDefinition: [
+        hubspot,
+        "type",
       ],
     },
-    triggerType: {
+    isEnabled: {
+      propDefinition: [
+        hubspot,
+        "isEnabled",
+      ],
+    },
+    actions: {
+      propDefinition: [
+        hubspot,
+        "actions",
+      ],
+    },
+    enrollmentCriteria: {
+      propDefinition: [
+        hubspot,
+        "enrollmentCriteria",
+      ],
+    },
+    revisionId: {
       type: "string",
-      label: "Trigger Type",
-      description: "The new trigger type for the workflow",
+      label: "Revision ID",
+      description: "The revision ID of the workflow",
       optional: true,
     },
   },
   async run({ $ }) {
-    const {
-      name, type, description, triggerType,
-    } = this;
+    const data = {};
 
-    const updateData = {};
-    if (name) updateData.name = name;
-    if (description) updateData.description = description;
-    if (type) updateData.type = type;
-    if (triggerType) updateData.triggerType = triggerType;
+    if (this.name) data.name = this.name;
+    if (this.type) data.type = this.type;
+    if (Object.hasOwn(this, "isEnabled")) data.isEnabled = this.isEnabled;
+    if (this.actions) data.actions = parseObject(this.actions);
+    if (this.enrollmentCriteria) data.enrollmentCriteria = parseObject(this.enrollmentCriteria);
+    if (!this.revisionId) {
+      const workflow = await this.hubspot.getWorkflowDetails({
+        workflowId: this.workflowId,
+      });
+      data.revisionId = workflow.revisionId + 1;
+    } else {
+      data.revisionId = this.revisionId;
+    }
 
     const response = await this.hubspot.updateWorkflow({
       workflowId: this.workflowId,
-      data: updateData,
+      data,
       $,
     });
 

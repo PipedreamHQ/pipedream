@@ -1,10 +1,11 @@
+import { parseObject } from "../../common/utils.mjs";
 import hubspot from "../../hubspot.app.mjs";
 
 export default {
   key: "hubspot-create-workflow",
   name: "Create a New Workflow",
-  description: "Create a new workflow. [See the documentation](https://developers.hubspot.com/docs/api-reference/legacy/create-manage-workflows-v3/get-automation-v3-workflows)",
-  version: "0.0.21",
+  description: "Create a new workflow. [See the documentation](https://developers.hubspot.com/docs/api-reference/automation-automation-v4-v4/workflows/post-automation-v4-flows)",
+  version: "0.0.1",
   type: "action",
   props: {
     hubspot,
@@ -13,60 +14,46 @@ export default {
       label: "Workflow Name",
       description: "The name of the workflow to create",
     },
-    type: {
-      type: "string",
-      label: "Workflow Type",
-      description: "The type of workflow to create",
-      options: [
-        {
-          label: "DRIP",
-          value: "DRIP",
-        },
-        {
-          label: "SIMPLE",
-          value: "SIMPLE",
-        },
-        {
-          label: "COMPLEX",
-          value: "COMPLEX",
-        },
+    isEnabled: {
+      propDefinition: [
+        hubspot,
+        "isEnabled",
       ],
     },
-    description: {
-      type: "string",
-      label: "Description",
-      description: "Description of the workflow",
-      optional: true,
+    type: {
+      propDefinition: [
+        hubspot,
+        "type",
+      ],
     },
-    triggerType: {
-      type: "string",
-      label: "Trigger Type",
-      description: "The type of trigger for the workflow",
-      optional: true,
+    actions: {
+      propDefinition: [
+        hubspot,
+        "actions",
+      ],
+    },
+    enrollmentCriteria: {
+      propDefinition: [
+        hubspot,
+        "enrollmentCriteria",
+      ],
     },
   },
   async run({ $ }) {
-    const {
-      name, type, description, triggerType,
-    } = this;
-
-    const workflowData = {
-      name,
-      type,
-      ...(description && {
-        description,
-      }),
-      ...(triggerType && {
-        triggerType,
-      }),
-    };
-
     const response = await this.hubspot.createWorkflow({
-      data: workflowData,
+      data: {
+        name: this.name,
+        type: this.type,
+        isEnabled: this.isEnabled,
+        objectTypeId: "0-1",
+        flowType: "WORKFLOW",
+        actions: parseObject(this.actions),
+        enrollmentCriteria: parseObject(this.enrollmentCriteria),
+      },
       $,
     });
 
-    $.export("$summary", `Successfully created workflow: ${name}`);
+    $.export("$summary", `Successfully created workflow: ${this.name}`);
     return response;
   },
 };
