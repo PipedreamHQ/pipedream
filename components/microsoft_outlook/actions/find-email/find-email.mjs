@@ -4,7 +4,7 @@ export default {
   key: "microsoft_outlook-find-email",
   name: "Find Email",
   description: "Search for an email in Microsoft Outlook. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-messages)",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     microsoftOutlook,
@@ -12,6 +12,12 @@ export default {
       type: "alert",
       alertType: "info",
       content: "When you specify `$filter`, the service infers a sort order for the results. If you use both `$orderby` and `$filter` to get messages, because the server always infers a sort order for the results of a `$filter`, you must [specify properties in certain ways](https://learn.microsoft.com/en-us/graph/api/user-list-messages#using-filter-and-orderby-in-the-same-query).",
+    },
+    search: {
+      type: "string",
+      label: "Search",
+      description: "Search for an email in Microsoft Outlook. Can search for specific message properties such as `to:example@example.com` or `subject:example`. If the property is excluded, the search targets the default propertes `from`, `subject`, and `body`. For example, `pizza` will search for messages with the word `pizza` in the subject, body, or from address, but `to:example@example.com` will only search for messages to `example@example.com`.",
+      optional: true,
     },
     filter: {
       type: "string",
@@ -38,6 +44,7 @@ export default {
       args: {
         $,
         params: {
+          "$search": this.search,
           "$filter": this.filter,
           "$orderby": this.orderBy,
         },

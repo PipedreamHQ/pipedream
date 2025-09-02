@@ -3,10 +3,11 @@ import base from "../common/polling.mjs";
 export default {
   ...base,
   name: "Order Item Updated",
-  description: "Emit new order items as they are updated (polling)",
+  description: "Emit new order items as they are updated (polling). [See the documentation](https://mews-systems.gitbook.io/connector-api/operations/orderitems#get-all-order-items)",
   key: "mews-order-item-updated",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
+  dedupe: "unique",
   methods: {
     ...base.methods,
     getRequester() {
