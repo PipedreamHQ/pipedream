@@ -133,13 +133,18 @@ export default {
     }
 
     const parsedTags = utils.parseObject(this.tags);
-    const tags = Object.entries(parsedTags).map(([
+    const tagArray = Object.entries(parsedTags).map(([
       key,
       value,
     ]) => ({
       key,
       value,
     }));
+    if (tagArray.length) {
+      payload.tags = {
+        custom_tags: tagArray,
+      };
+    }
 
     if (this.enablePhoton !== undefined)
       payload.enable_photon = this.enablePhoton;
@@ -149,7 +154,6 @@ export default {
     if (this.spotInstancePolicy)
       payload.spot_instance_policy = this.spotInstancePolicy;
     if (this.channel) payload.channel = utils.parseObject(this.channel);
-    if (tags.length) payload.tags = tags;
     if (this.instanceProfileArn)
       payload.instance_profile_arn = this.instanceProfileArn;
 

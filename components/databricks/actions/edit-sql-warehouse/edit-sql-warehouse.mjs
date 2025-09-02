@@ -146,19 +146,20 @@ export default {
     }
 
     const parsedTags = utils.parseObject(this.tags);
-    const tags = Object.entries(parsedTags).map(([
+    const tagArray = Object.entries(parsedTags).map(([
       key,
       value,
     ]) => ({
       key,
       value,
     }));
-
+    if (tagArray.length) {
+      payload.tags = { custom_tags: tagArray };
+    }
     if (this.warehouseType !== undefined) payload.warehouse_type = this.warehouseType;
     if (this.spotInstancePolicy !== undefined) {
       payload.spot_instance_policy = this.spotInstancePolicy;
     }
-    if (tags.length) payload.tags = tags;
     if (this.channel !== undefined) payload.channel = utils.parseObject(this.channel);
     if (this.instanceProfileArn !== undefined) {
       payload.instance_profile_arn = this.instanceProfileArn;
