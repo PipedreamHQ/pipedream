@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import { parseObject } from "../../common/utils.mjs";
 import paazl from "../../paazl.app.mjs";
 
@@ -41,7 +42,7 @@ export default {
     quantity: {
       type: "integer",
       label: "Quantity",
-      description: " If quantity == 1 -> one extra label is generated. The default quantity value == 1. If quantity > 1 , extra labels are generated. It replaces packageCount in the POST order, if set. Extra labels are generated under 1 new shipment for each label. Mutually exclusive with `parcels`.",
+      description: "If quantity == 1 -> one extra label is generated. The default quantity value == 1. If quantity > 1 , extra labels are generated. It replaces packageCount in the POST order, if set. Extra labels are generated under 1 new shipment for each label. Mutually exclusive with `parcels`.",
       optional: true,
     },
     parcels: {
@@ -52,6 +53,9 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.quantity && this.parcels) {
+      throw new ConfigurationError("The 'quantity' and 'parcels' parameters are mutually exclusive. Please provide only one.");
+    }
     const response = await this.paazl.createShipment({
       $,
       orderId: this.orderId,

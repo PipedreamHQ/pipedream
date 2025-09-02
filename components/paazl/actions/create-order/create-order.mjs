@@ -18,7 +18,7 @@ export default {
       optional: true,
     },
     consigneeCompanyName: {
-      type: "object",
+      type: "string",
       label: "Consignee - Company Name",
       description: "The name of a company to which an order is shipped.",
       optional: true,
