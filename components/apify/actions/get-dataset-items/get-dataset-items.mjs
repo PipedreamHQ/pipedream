@@ -39,10 +39,10 @@ export default {
         "flatten",
       ],
     },
-    maxResults: {
+    limit: {
       propDefinition: [
         apify,
-        "maxResults",
+        "limit",
       ],
     },
   },
@@ -60,21 +60,20 @@ export default {
     let total;
 
     do {
-      const items = await this.apify.listDatasetItems({
-        $,
+      const { items } = await this.apify.listDatasetItems({
         datasetId: this.datasetId,
         params,
       });
       results.push(...items);
-      if (results.length >= this.maxResults) {
+      if (results.length >= this.limit) {
         break;
       }
       total = items?.length;
       params.offset += LIMIT;
     } while (total);
 
-    if (results.length > this.maxResults) {
-      results.length = this.maxResults;
+    if (results.length > this.limit) {
+      results.length = this.limit;
     }
 
     if (results.length > 0) {

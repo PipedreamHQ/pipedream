@@ -935,8 +935,11 @@ importers:
         specifier: ^2.41.0
         version: 2.43.0
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
+      apify-client:
+        specifier: ^2.12.6
+        version: 2.15.0
 
   components/apilio: {}
 
@@ -1078,7 +1081,10 @@ importers:
         version: 1.6.6
 
   components/asters:
-    specifiers: {}
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/astica_ai:
     dependencies:
@@ -15998,14 +16004,6 @@ importers:
         specifier: ^6.0.0
         version: 6.2.0
 
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/@modelcontextprotocol/sdk/dist/esm: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/cjs: {}
-
-  modelcontextprotocol/node_modules2/zod-to-json-schema/dist/esm: {}
-
   packages/ai:
     dependencies:
       '@pipedream/sdk':
@@ -16347,6 +16345,15 @@ packages:
 
   '@apify/consts@2.43.0':
     resolution: {integrity: sha512-6bhzXeftGa+MrO0XwHLLBJyP9Vc2gZXsbk3d8rcDmiEMJwChA+Qw1WD6BWI9zVazPeXb2OrjzOwfe05f59RD4g==}
+
+  '@apify/consts@2.44.1':
+    resolution: {integrity: sha512-d3/IGuJRLtqDizBA0ZWKrH+U9/gt9k7A9bJE64KKsTi58WfkL7MTsmWf/XBsr1wrju+eAFiZPMwFicoyLlLDug==}
+
+  '@apify/log@2.5.22':
+    resolution: {integrity: sha512-2b5bYTgHHnl36LE6JjtEc1QoieiwzKzDVajdTyuQTlgJP06SRGL9lDHqMn/unpdYE0ViZgLfWvLMQ3uBen+dog==}
+
+  '@apify/utilities@2.18.2':
+    resolution: {integrity: sha512-sLB1qEum2fs+odgTJ+x11R/QCYp/zVX/CYLhst9oub7mfo1geDvioOtZjljptS7aQLyqtco3hgn+Co3rtrIC1w==}
 
   '@apimatic/schema@0.6.0':
     resolution: {integrity: sha512-JgG32LQRLphHRWsn64vIt7wD2m+JH46swM6ZrY7g1rdiGiKV5m+A+TBrJKoUUQRmS14azMgePNZY30NauWqzLg==}
@@ -17578,6 +17585,10 @@ packages:
   '@corex/deepmerge@4.0.43':
     resolution: {integrity: sha512-N8uEMrMPL0cu/bdboEWpQYb/0i2K5Qn8eCsxzOmxSggJbbQte7ljMRoXm917AbntqTGOzdTu+vP3KOOzoC70HQ==}
 
+  '@crawlee/types@3.14.1':
+    resolution: {integrity: sha512-IGO1krH5MdlINDwfESwMtYK/fyxeWoN5E9wCpabHvIYabUd6eijcR9mKzercrtMXxNG5RJUt8StSSeue1B0G7g==}
+    engines: {node: '>=16.0.0'}
+
   '@csstools/css-parser-algorithms@3.0.4':
     resolution: {integrity: sha512-Up7rBoV77rv29d3uKHUIVubz1BTcgyUK72IvCQAbfbMv584xHcGKCKbWh7i8hPrRJ7qU4Y8IO3IY9m+iTB7P3A==}
     engines: {node: '>=18'}
@@ -17626,12 +17637,12 @@ packages:
   '@datadog/sketches-js@2.1.1':
     resolution: {integrity: sha512-d5RjycE+MObE/hU+8OM5Zp4VjTwiPLRa8299fj7muOmR16fb942z8byoMbCErnGh0lBevvgkGrLclQDvINbIyg==}
 
-  '@definitelytyped/header-parser@0.2.19':
-    resolution: {integrity: sha512-zu+RxQpUCgorYUQZoyyrRIn9CljL1CeM4qak3NDeMO1r7tjAkodfpAGnVzx/6JR2OUk0tAgwmZxNMSwd9LVgxw==}
+  '@definitelytyped/header-parser@0.2.20':
+    resolution: {integrity: sha512-97YPAlUo8XjWNtZ+6k+My+50/ljE2iX6KEPjOZ1Az1RsZdKwJ6taAX3F5g6SY1SJr50bzdm2RZzyQNdRmHcs4w==}
     engines: {node: '>=18.18.0'}
 
-  '@definitelytyped/typescript-versions@0.1.8':
-    resolution: {integrity: sha512-iz6q9aTwWW7CzN2g8jFQfZ955D63LA+wdIAKz4+2pCc/7kokmEHie1/jVWSczqLFOlmH+69bWQxIurryBP/sig==}
+  '@definitelytyped/typescript-versions@0.1.9':
+    resolution: {integrity: sha512-Qjalw9eNlcTjXhzx0Q6kHKuRCOUt/M5RGGRGKsiYlm/nveGvPX9liZSQlGXZVwyQ5I9qvq/GdaWiPchQ+ZXOrQ==}
     engines: {node: '>=18.18.0'}
 
   '@definitelytyped/utils@0.1.8':
@@ -21952,6 +21963,9 @@ packages:
   api@4.5.2:
     resolution: {integrity: sha512-RbqDVdRVBd3Y/M+iAkFj4IqHhBR86FoyfcRkRs77qYQW9nL+tBC+aPkgKtlhirMHjoCmNrxnh0CNhCTqFq4PSg==}
     engines: {node: ^12 || ^14 || ^16}
+
+  apify-client@2.15.0:
+    resolution: {integrity: sha512-c5gtl6dRhY9r7bMsCkmp1dbE8ZEq4CWB2otRtVFqN4rm01SflXRLFuqXvsLqXQ3JCUlVnpMPsqM3XmHGzcbfSQ==}
 
   aproba@1.2.0:
     resolution: {integrity: sha512-Y9J6ZjXtoYh8RnXVCMOU/ttDmk1aBjunq9vO0ta5x85WDQiQfUF9sIPBITdbiiIVcBo03Hi3jMxigBtsddlXRw==}
@@ -27967,6 +27981,10 @@ packages:
     resolution: {integrity: sha512-D2FR03Vir7FIu45XBY20mTb+/ZSWB00sjU9jdQXt83gDrI4Ztz5Fs7/yy74g2N5SVQY4xY1qDr4rNddwYRVX0g==}
     engines: {node: '>=0.10.0'}
 
+  ow@0.28.2:
+    resolution: {integrity: sha512-dD4UpyBh/9m4X2NVjA+73/ZPBRF+uF4zIMFvvQsabMiEK8x41L3rQ8EENOi35kyyoaJwNxEeJcP6Fj1H4U409Q==}
+    engines: {node: '>=12'}
+
   p-cancelable@2.1.1:
     resolution: {integrity: sha512-BZOr3nRQHOntUjTrH8+Lh54smKHoHyur8We1V8DSMVrl5A2malOOwuJRnKRDjSnkoeBh4at6BwEnb5I7Jl31wg==}
     engines: {node: '>=8'}
@@ -30831,6 +30849,10 @@ packages:
     resolution: {integrity: sha512-kiGUalWN+rgBJ/1OHZsBtU4rXZOfj/7rKQxULKlIzwzQSvMJUUNgPwJEEh7gU6xEVxC0ahoOBvN2YI8GH6FNgA==}
     engines: {node: '>=10.12.0'}
 
+  vali-date@1.0.0:
+    resolution: {integrity: sha512-sgECfZthyaCKW10N0fm27cg8HYTFK5qMWgypqkXMQ4Wbl/zZKx7xZICgcoxIIE+WFAP/MBL2EFwC/YvLxw3Zeg==}
+    engines: {node: '>=0.10.0'}
+
   valid-data-url@4.0.1:
     resolution: {integrity: sha512-t0oA6VCnlQ/MPKP/Ie9ZD3biEpB2JTxK1Hx4KC72RbhubL9HsXznoBn228UQTazL7cPvsY36bhzt3fk424TjyA==}
     engines: {node: '>=10'}
@@ -31538,6 +31560,18 @@ snapshots:
   '@apidevtools/swagger-methods@3.0.2': {}
 
   '@apify/consts@2.43.0': {}
+
+  '@apify/consts@2.44.1': {}
+
+  '@apify/log@2.5.22':
+    dependencies:
+      '@apify/consts': 2.44.1
+      ansi-colors: 4.1.3
+
+  '@apify/utilities@2.18.2':
+    dependencies:
+      '@apify/consts': 2.44.1
+      '@apify/log': 2.5.22
 
   '@apimatic/schema@0.6.0':
     dependencies:
@@ -34805,6 +34839,10 @@ snapshots:
 
   '@corex/deepmerge@4.0.43': {}
 
+  '@crawlee/types@3.14.1':
+    dependencies:
+      tslib: 2.8.1
+
   '@csstools/css-parser-algorithms@3.0.4(@csstools/css-tokenizer@3.0.3)':
     dependencies:
       '@csstools/css-tokenizer': 3.0.3
@@ -34854,13 +34892,13 @@ snapshots:
 
   '@datadog/sketches-js@2.1.1': {}
 
-  '@definitelytyped/header-parser@0.2.19':
+  '@definitelytyped/header-parser@0.2.20':
     dependencies:
-      '@definitelytyped/typescript-versions': 0.1.8
+      '@definitelytyped/typescript-versions': 0.1.9
       '@definitelytyped/utils': 0.1.8
       semver: 7.7.2
 
-  '@definitelytyped/typescript-versions@0.1.8': {}
+  '@definitelytyped/typescript-versions@0.1.9': {}
 
   '@definitelytyped/utils@0.1.8':
     dependencies:
@@ -40100,6 +40138,22 @@ snapshots:
       - encoding
       - openapi-types
 
+  apify-client@2.15.0:
+    dependencies:
+      '@apify/consts': 2.43.0
+      '@apify/log': 2.5.22
+      '@apify/utilities': 2.18.2
+      '@crawlee/types': 3.14.1
+      agentkeepalive: 4.5.0
+      async-retry: 1.3.3
+      axios: 1.10.0
+      content-type: 1.0.5
+      ow: 0.28.2
+      tslib: 2.8.1
+      type-fest: 4.27.0
+    transitivePeerDependencies:
+      - debug
+
   aproba@1.2.0:
     optional: true
 
@@ -42208,7 +42262,7 @@ snapshots:
 
   dts-critic@3.3.11(typescript@5.7.2):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.19
+      '@definitelytyped/header-parser': 0.2.20
       command-exists: 1.2.9
       rimraf: 3.0.2
       semver: 6.3.1
@@ -42220,8 +42274,8 @@ snapshots:
 
   dtslint@4.2.1(typescript@5.7.2):
     dependencies:
-      '@definitelytyped/header-parser': 0.2.19
-      '@definitelytyped/typescript-versions': 0.1.8
+      '@definitelytyped/header-parser': 0.2.20
+      '@definitelytyped/typescript-versions': 0.1.9
       '@definitelytyped/utils': 0.1.8
       dts-critic: 3.3.11(typescript@5.7.2)
       fs-extra: 6.0.1
@@ -48137,6 +48191,14 @@ snapshots:
 
   os-tmpdir@1.0.2: {}
 
+  ow@0.28.2:
+    dependencies:
+      '@sindresorhus/is': 4.6.0
+      callsites: 3.1.0
+      dot-prop: 6.0.1
+      lodash.isequal: 4.5.0
+      vali-date: 1.0.0
+
   p-cancelable@2.1.1: {}
 
   p-cancelable@3.0.0: {}
@@ -52044,6 +52106,8 @@ snapshots:
       '@jridgewell/trace-mapping': 0.3.25
       '@types/istanbul-lib-coverage': 2.0.6
       convert-source-map: 2.0.0
+
+  vali-date@1.0.0: {}
 
   valid-data-url@4.0.1: {}
 

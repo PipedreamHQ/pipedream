@@ -1,8 +1,6 @@
 import apify from "../../apify.app.mjs";
-import { ACTOR_ID } from "../../common/constants.mjs";
-import {
-  ACTOR_JOB_STATUSES, ACTOR_JOB_TERMINAL_STATUSES,
-} from "@apify/consts";
+import { WCC_ACTOR_ID } from "../../common/constants.mjs";
+import { ACTOR_JOB_STATUSES } from "@apify/consts";
 
 export default {
   key: "apify-scrape-single-url",
@@ -35,14 +33,21 @@ export default {
           label: "Raw HTTP client (Cheerio) - Extremely fast, but cannot handle dynamic content",
           value: "cheerio",
         },
+        {
+          label: "The crawler automatically switches between raw HTTP for static pages and Chrome browser (via Playwright) for dynamic pages, to get the maximum performance wherever possible.",
+          value: "playwright:adaptive",
+        },
       ],
     },
   },
   async run({ $ }) {
-    const startActorResponse = await this.apify.runActorAsynchronously({
-      $,
-      actorId: ACTOR_ID,
-      data: {
+    const {
+      status,
+      defaultDatasetId,
+      consoleUrl,
+    } = await this.apify.runActor({
+      actorId: WCC_ACTOR_ID,
+      input: {
         crawlerType: this.crawlerType,
         maxCrawlDepth: 0,
         maxCrawlPages: 1,
@@ -55,45 +60,15 @@ export default {
       },
     });
 
-    const {
-      data: {
-        id: runId, defaultDatasetId,
-      },
-    } = startActorResponse;
-
-    let actorRunStatus = null;
-    let retries = 0;
-    const maxRetries = 30;
-    const delay = 1000;
-
-    while ((!actorRunStatus || !ACTOR_JOB_TERMINAL_STATUSES.includes(actorRunStatus))
-          && retries < maxRetries
-    ) {
-      await new Promise((resolve) => setTimeout(resolve, delay));
-      const runDetails = await this.apify.getActorRun({
-        $,
-        runId,
-      });
-      actorRunStatus = runDetails.data.status;
-      retries++;
+    if (status !== ACTOR_JOB_STATUSES.SUCCEEDED) {
+      throw new Error(`Run has finished with status: ${status}. Inspect it here: ${consoleUrl}.`);
     }
 
-    if (actorRunStatus !== ACTOR_JOB_STATUSES.SUCCEEDED) {
-      throw new Error(`Actor run did not succeed. Final status: ${actorRunStatus}`);
-    }
-
-    const datasetResponse = await this.apify.listDatasetItems({
-      $,
+    const { items } = await this.apify.listDatasetItems({
       datasetId: defaultDatasetId,
-      params: {
-        limit: 1,
-        offset: 0,
-      },
     });
 
-    console.log(datasetResponse);
-
-    $.export("$summary", `Successfully scraped content from ${this.url}`);
-    return datasetResponse[0];
+    $.export("$summary", "Run of Web Content Crawler finished successfully.");
+    return items[0];
   },
 };
