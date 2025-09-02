@@ -2044,8 +2044,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/buddee:
-    specifiers: {}
+  components/buddee: {}
 
   components/buddy: {}
 

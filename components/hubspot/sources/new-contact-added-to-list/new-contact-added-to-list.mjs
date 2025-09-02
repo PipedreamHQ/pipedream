@@ -56,11 +56,15 @@ export default {
       return Date.now();
     },
     generateMeta(membership, listInfo) {
-      const { recordId } = membership;
-      const ts = this.getTs();
+      const {
+        recordId, membershipTimestamp,
+      } = membership;
+      const ts = membershipTimestamp
+        ? new Date(membershipTimestamp).getTime()
+        : this.getTs();
 
       return {
-        id: `${listInfo.listId}-${recordId}`,
+        id: `${listInfo.listId}-${recordId}-${ts}`,
         summary: `Contact ${recordId} added to list: ${listInfo.name}`,
         ts,
       };
