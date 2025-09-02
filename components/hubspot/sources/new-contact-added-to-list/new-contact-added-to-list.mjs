@@ -11,7 +11,7 @@ export default {
   name: "New Contact Added to List",
   description:
     "Emit new event when a contact is added to a HubSpot list. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/lists#get-%2Fcrm%2Fv3%2Flists%2F%7Blistid%7D%2Fmemberships%2Fjoin-order)",
-  version: "0.0.1",
+  version: "0.0.10",
   type: "source",
   dedupe: "unique",
   props: {
@@ -21,12 +21,13 @@ export default {
       alertType: "info",
       content: `Properties:\n\`${DEFAULT_CONTACT_PROPERTIES.join(", ")}\``,
     },
-    lists: {
+    listId: {
       propDefinition: [
         common.props.hubspot,
-        "lists",
+        "listId",
       ],
-      description: "Select the lists to watch for new contacts.",
+      type: "string",
+      description: "Select the list to watch for new contacts.",
       optional: false,
     },
     properties: {
@@ -43,21 +44,13 @@ export default {
   },
   methods: {
     ...common.methods,
-    _getAfterToken(listId) {
-      const key = `list_${listId}_after_token`;
+    _getLastMembershipTimestamp(listId) {
+      const key = `list_${listId}_last_timestamp`;
       return this.db.get(key);
     },
-    _setAfterToken(listId, afterToken) {
-      const key = `list_${listId}_after_token`;
-      this.db.set(key, afterToken);
-    },
-    _getLastRecordId(listId) {
-      const key = `list_${listId}_last_record_id`;
-      return this.db.get(key);
-    },
-    _setLastRecordId(listId, recordId) {
-      const key = `list_${listId}_last_record_id`;
-      this.db.set(key, recordId);
+    _setLastMembershipTimestamp(listId, timestamp) {
+      const key = `list_${listId}_last_timestamp`;
+      this.db.set(key, timestamp);
     },
     getTs() {
       return Date.now();
@@ -129,22 +122,22 @@ export default {
       }
     },
     async processListMemberships(listId, listInfo) {
-      const afterToken = this._getAfterToken(listId);
-      const lastRecordId = this._getLastRecordId(listId);
+      const lastMembershipTimestamp = this._getLastMembershipTimestamp(listId);
       const newMemberships = [];
 
       let params = {
         limit: DEFAULT_LIMIT,
       };
 
-      if (afterToken) {
-        params.after = afterToken;
-      }
-
       try {
         let hasMore = true;
-        let latestAfterToken = afterToken;
-        let latestRecordId = lastRecordId;
+        let latestMembershipTimestamp = lastMembershipTimestamp;
+
+        if (!lastMembershipTimestamp) {
+          const baselineTimestamp = new Date().toISOString();
+          this._setLastMembershipTimestamp(listId, baselineTimestamp);
+          return newMemberships;
+        }
 
         while (hasMore) {
           const {
@@ -160,30 +153,35 @@ export default {
           }
 
           for (const membership of results) {
-            if (lastRecordId && membership.recordId === lastRecordId) {
-              continue;
-            }
+            const { membershipTimestamp } = membership;
 
-            newMemberships.push({
-              membership,
-              listInfo,
-            });
-            latestRecordId = membership.recordId;
+            if (
+              new Date(membershipTimestamp) > new Date(lastMembershipTimestamp)
+            ) {
+              newMemberships.push({
+                membership,
+                listInfo,
+              });
+
+              if (
+                !latestMembershipTimestamp ||
+                new Date(membershipTimestamp) >
+                  new Date(latestMembershipTimestamp)
+              ) {
+                latestMembershipTimestamp = membershipTimestamp;
+              }
+            }
           }
 
           if (paging?.next?.after) {
-            latestAfterToken = paging.next.after;
             params.after = paging.next.after;
           } else {
             hasMore = false;
           }
         }
 
-        if (latestAfterToken !== afterToken) {
-          this._setAfterToken(listId, latestAfterToken);
-        }
-        if (latestRecordId) {
-          this._setLastRecordId(listId, latestRecordId);
+        if (latestMembershipTimestamp !== lastMembershipTimestamp) {
+          this._setLastMembershipTimestamp(listId, latestMembershipTimestamp);
         }
       } catch (error) {
         console.error(`Error processing list ${listId}:`, error);
@@ -192,55 +190,50 @@ export default {
       return newMemberships;
     },
     async processResults() {
-      const { lists } = this;
+      const { listId } = this;
 
-      if (!lists || lists.length === 0) {
-        console.warn("No lists selected to monitor");
+      if (!listId) {
+        console.warn("No list selected to monitor");
         return;
       }
 
-      const allNewMemberships = [];
+      const listInfo = {
+        listId,
+        name: `List ${listId}`,
+      };
 
-      for (const listId of lists) {
-        try {
-          const listInfo = {
-            listId,
-            name: `List ${listId}`,
-          };
-
-          const newMemberships = await this.processListMemberships(
-            listId,
-            listInfo,
-          );
-          allNewMemberships.push(...newMemberships);
-        } catch (error) {
-          console.error(`Error processing list ${listId}:`, error);
-        }
-      }
-
-      if (allNewMemberships.length > 0) {
-        const contactIds = allNewMemberships.map(
-          ({ membership }) => membership.recordId,
+      try {
+        const newMemberships = await this.processListMemberships(
+          listId,
+          listInfo,
         );
-        const contactDetails = await this.getContactDetails(contactIds);
 
-        for (const {
-          membership, listInfo,
-        } of allNewMemberships) {
-          const contactDetail = contactDetails[membership.recordId] || {};
+        if (newMemberships.length > 0) {
+          const contactIds = newMemberships.map(
+            ({ membership }) => membership.recordId,
+          );
+          const contactDetails = await this.getContactDetails(contactIds);
 
-          const eventData = {
-            listId: listInfo.listId,
-            listName: listInfo.name,
-            contactId: membership.recordId,
-            contact: contactDetail,
-            membership,
-            addedAt: new Date().toISOString(),
-          };
+          for (const {
+            membership, listInfo,
+          } of newMemberships) {
+            const contactDetail = contactDetails[membership.recordId] || {};
 
-          const meta = this.generateMeta(membership, listInfo);
-          this.$emit(eventData, meta);
+            const eventData = {
+              listId: listInfo.listId,
+              listName: listInfo.name,
+              contactId: membership.recordId,
+              contact: contactDetail,
+              membership,
+              addedAt: new Date().toISOString(),
+            };
+
+            const meta = this.generateMeta(membership, listInfo);
+            this.$emit(eventData, meta);
+          }
         }
+      } catch (error) {
+        console.error(`Error processing list ${listId}:`, error);
       }
     },
     getParams() {
