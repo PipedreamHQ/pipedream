@@ -6,7 +6,7 @@ export default {
   key: "egnyte-upload-file",
   name: "Upload File",
   description: "Uploads a file to a specified folder in Egnyte. [See the documentation](https://developers.egnyte.com/docs/File_System_Management_API_Documentation#Upload-a-File)",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     egnyte,
