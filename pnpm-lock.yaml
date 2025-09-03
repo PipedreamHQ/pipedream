@@ -1298,6 +1298,9 @@ importers:
       dedent:
         specifier: ^1.5.1
         version: 1.5.3(babel-plugin-macros@3.1.0)
+      file-type:
+        specifier: ^21.0.0
+        version: 21.0.0
       mailparser:
         specifier: ^3.6.6
         version: 3.7.1
@@ -1307,6 +1310,9 @@ importers:
       nanoid:
         specifier: ^5.0.4
         version: 5.0.8
+      stream:
+        specifier: ^0.0.3
+        version: 0.0.3
       uuid:
         specifier: ^9.0.1
         version: 9.0.1
@@ -1865,6 +1871,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.0
         version: 3.1.0
+      file-type:
+        specifier: ^21.0.0
+        version: 21.0.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -5634,6 +5643,9 @@ importers:
       nodemailer:
         specifier: ^6.7.8
         version: 6.9.16
+      stream:
+        specifier: ^0.0.3
+        version: 0.0.3
       uuid:
         specifier: ^10.0.0
         version: 10.0.0
@@ -5877,6 +5889,9 @@ importers:
       mime-db:
         specifier: ^1.51.0
         version: 1.53.0
+      stream:
+        specifier: ^0.0.3
+        version: 0.0.3
       uuid:
         specifier: ^8.3.2
         version: 8.3.2
@@ -8752,6 +8767,9 @@ importers:
       lodash.get:
         specifier: ^4.4.2
         version: 4.4.2
+      stream:
+        specifier: ^0.0.3
+        version: 0.0.3
 
   components/microsoft_outlook:
     dependencies:
@@ -8770,6 +8788,9 @@ importers:
       mime-types:
         specifier: ^2.1.35
         version: 2.1.35
+      stream:
+        specifier: ^0.0.3
+        version: 0.0.3
 
   components/microsoft_outlook_calendar:
     dependencies:
@@ -9833,6 +9854,9 @@ importers:
       bottleneck:
         specifier: ^2.19.5
         version: 2.19.5
+      file-type:
+        specifier: ^21.0.0
+        version: 21.0.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
@@ -9842,6 +9866,9 @@ importers:
       openai:
         specifier: ^4.77.0
         version: 4.77.0(zod@3.25.67)
+      stream:
+        specifier: ^0.0.3
+        version: 0.0.3
     devDependencies:
       '@pipedream/types':
         specifier: ^0.3.2
@@ -16468,9 +16495,15 @@ importers:
       axios:
         specifier: ^1.5.1
         version: 1.7.7
+      file-type:
+        specifier: ^21.0.0
+        version: 21.0.0
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
+      stream:
+        specifier: ^0.0.3
+        version: 0.0.3
 
   components/zonka_feedback:
     dependencies:
@@ -18093,6 +18126,9 @@ packages:
 
   '@bcoe/v8-coverage@0.2.3':
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
+
+  '@borewit/text-codec@0.1.1':
+    resolution: {integrity: sha512-5L/uBxmjaCIX5h8Z+uu+kA9BQLkc/Wl06UGR5ajNRxu+/XjonB5i8JpgFMrPj3LXTCPA0pv8yxUvbUi+QthGGA==}
 
   '@bufbuild/protobuf@1.10.1':
     resolution: {integrity: sha512-wJ8ReQbHxsAfXhrf9ixl0aYbZorRuOWpBNzm8pL8ftmSxQx/wnJD5Eg861NwJU/czy2VXFIebCeZnZrI9rktIQ==}
@@ -22155,6 +22191,10 @@ packages:
   '@tediousjs/connection-string@0.5.0':
     resolution: {integrity: sha512-7qSgZbincDDDFyRweCIEvZULFAw5iz/DeunhvuxpL31nfntX3P4Yd4HkHBRg9H8CdqY1e5WFN1PZIz/REL9MVQ==}
 
+  '@tokenizer/inflate@0.2.7':
+    resolution: {integrity: sha512-MADQgmZT1eKjp06jpI2yozxaU9uVs4GzzgSL+uEq7bVcJ9V1ZXQkeGNql1fsSI0gMy1vhvNTNbUqrx+pZfJVmg==}
+    engines: {node: '>=18'}
+
   '@tokenizer/token@0.3.0':
     resolution: {integrity: sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A==}
 
@@ -25373,6 +25413,9 @@ packages:
   fetch-ponyfill@7.1.0:
     resolution: {integrity: sha512-FhbbL55dj/qdVO3YNK7ZEkshvj3eQ7EuIGV2I6ic/2YiocvyWv+7jg2s4AyS0wdRU75s3tA8ZxI/xPigb0v5Aw==}
 
+  fflate@0.8.2:
+    resolution: {integrity: sha512-cPJU47OaAoCbg0pBvzsgpTPhmhqI5eJjh/JIu8tPj5q+T7iLvW/JAYUqmE7KOB4R1ZyEhzBaIQpQpardBF5z8A==}
+
   figures@3.2.0:
     resolution: {integrity: sha512-yaduQFRKLXYOGgEn6AZau90j3ggSOyiqXU0F9JZfeXYhNa+Jk4X+s45A2zg5jns87GAFa34BBm2kXw4XpNcbdg==}
     engines: {node: '>=8'}
@@ -25411,6 +25454,10 @@ packages:
   file-type@18.7.0:
     resolution: {integrity: sha512-ihHtXRzXEziMrQ56VSgU7wkxh55iNchFkosu7Y9/S+tXHdKyrGjVK0ujbqNnsxzea+78MaLhN6PGmfYSAv1ACw==}
     engines: {node: '>=14.16'}
+
+  file-type@21.0.0:
+    resolution: {integrity: sha512-ek5xNX2YBYlXhiUXui3D/BXa3LdqPmoLJ7rqEx2bKJ7EAUEfmXgW0Das7Dc6Nr9MvqaOnIqiPV0mZk/r/UpNAg==}
+    engines: {node: '>=20'}
 
   file-type@3.9.0:
     resolution: {integrity: sha512-RLoqTXE8/vPmMuTI88DAzhMYC99I8BWv7zYP4A1puo5HIjEJ5EX48ighy4ZyKMG9EDXxBgW6e++cn7d1xuFghA==}
@@ -30831,6 +30878,10 @@ packages:
   strnum@1.0.5:
     resolution: {integrity: sha512-J8bbNyKKXl5qYcR36TIO8W3mVGVHrmmxsd5PAItGkmyzwJvybiw2IVq5nqd0i4LSNSkB/sx9VHllbfFdr9k1JA==}
 
+  strtok3@10.3.4:
+    resolution: {integrity: sha512-KIy5nylvC5le1OdaaoCJ07L+8iQzJHGH6pWDuzS+d07Cu7n1MZ2x26P8ZKIWfbK02+XIL8Mp4RkWeqdUCrDMfg==}
+    engines: {node: '>=18'}
+
   strtok3@6.3.0:
     resolution: {integrity: sha512-fZtbhtvI9I48xDSywd/somNqgUHl2L2cstmXCCif0itOf96jeW18MBSyrLuNicYQVkvpOxkZtkzujiTJ9LW5Jw==}
     engines: {node: '>=10'}
@@ -31152,6 +31203,10 @@ packages:
 
   token-types@5.0.1:
     resolution: {integrity: sha512-Y2fmSnZjQdDb9W4w4r1tswlMHylzWIeOKpx0aZH9BgGtACHhrk3OkT52AzwcuqTRBZtvvnTjDBh8eynMulu8Vg==}
+    engines: {node: '>=14.16'}
+
+  token-types@6.1.1:
+    resolution: {integrity: sha512-kh9LVIWH5CnL63Ipf0jhlBIy0UsrMj/NJDfpsy1SqOXlLKEVyXXYrnFxFT1yOOYVGBSApeVnjPw/sBz5BfEjAQ==}
     engines: {node: '>=14.16'}
 
   toml@3.0.0:
@@ -31507,6 +31562,10 @@ packages:
   uid-safe@2.1.5:
     resolution: {integrity: sha512-KPHm4VL5dDXKz01UuEd88Df+KzynaohSL9fBh096KWAxSKZQDI2uBrVqtvRM4rwrIrRRKsdLNML/lnaaVSRioA==}
     engines: {node: '>= 0.8'}
+
+  uint8array-extras@1.5.0:
+    resolution: {integrity: sha512-rvKSBiC5zqCCiDZ9kAOszZcDvdAHwwIKJG33Ykj43OKcWsnmcBRL09YTU4nOeHZ8Y2a7l1MgTd08SBe9A8Qj6A==}
+    engines: {node: '>=18'}
 
   ulid@3.0.1:
     resolution: {integrity: sha512-dPJyqPzx8preQhqq24bBG1YNkvigm87K8kVEHCD+ruZg24t6IFEFv00xMWfxcC4djmFtiTLdFuADn4+DOz6R7Q==}
@@ -35769,6 +35828,8 @@ snapshots:
 
   '@bcoe/v8-coverage@0.2.3': {}
 
+  '@borewit/text-codec@0.1.1': {}
+
   '@bufbuild/protobuf@1.10.1': {}
 
   '@bufbuild/protobuf@2.5.0': {}
@@ -38951,6 +39012,8 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
+    transitivePeerDependencies:
+      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
@@ -40748,6 +40811,14 @@ snapshots:
       simple-lru-cache: 0.0.2
 
   '@tediousjs/connection-string@0.5.0': {}
+
+  '@tokenizer/inflate@0.2.7':
+    dependencies:
+      debug: 4.4.1(supports-color@10.0.0)
+      fflate: 0.8.2
+      token-types: 6.1.1
+    transitivePeerDependencies:
+      - supports-color
 
   '@tokenizer/token@0.3.0': {}
 
@@ -44792,6 +44863,8 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
+  fflate@0.8.2: {}
+
   figures@3.2.0:
     dependencies:
       escape-string-regexp: 1.0.5
@@ -44832,6 +44905,15 @@ snapshots:
       readable-web-to-node-stream: 3.0.2
       strtok3: 7.1.1
       token-types: 5.0.1
+
+  file-type@21.0.0:
+    dependencies:
+      '@tokenizer/inflate': 0.2.7
+      strtok3: 10.3.4
+      token-types: 6.1.1
+      uint8array-extras: 1.5.0
+    transitivePeerDependencies:
+      - supports-color
 
   file-type@3.9.0: {}
 
@@ -52217,6 +52299,10 @@ snapshots:
 
   strnum@1.0.5: {}
 
+  strtok3@10.3.4:
+    dependencies:
+      '@tokenizer/token': 0.3.0
+
   strtok3@6.3.0:
     dependencies:
       '@tokenizer/token': 0.3.0
@@ -52681,6 +52767,12 @@ snapshots:
 
   token-types@5.0.1:
     dependencies:
+      '@tokenizer/token': 0.3.0
+      ieee754: 1.2.1
+
+  token-types@6.1.1:
+    dependencies:
+      '@borewit/text-codec': 0.1.1
       '@tokenizer/token': 0.3.0
       ieee754: 1.2.1
 
@@ -53180,6 +53272,8 @@ snapshots:
   uid-safe@2.1.5:
     dependencies:
       random-bytes: 1.0.0
+
+  uint8array-extras@1.5.0: {}
 
   ulid@3.0.1: {}
 
