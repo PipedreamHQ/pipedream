@@ -63,6 +63,8 @@ export default {
             page_token: next_page_token,
           },
         };
+      },
+    },
     warehouseId: {
       type: "string",
       label: "Warehouse ID",
@@ -80,6 +82,7 @@ export default {
     },
   },
   methods: {
+
     _baseUrl() {
       return `https://${this.$auth.domain}.cloud.databricks.com/api/2.0`;
     },
@@ -159,6 +162,8 @@ export default {
         path: `/vector-search/endpoints/${endpointName}`,
         method: "DELETE",
         ...opts,
+      });
+    },
     deleteSQLWarehouse({
       warehouseId, ...args
     }) {
