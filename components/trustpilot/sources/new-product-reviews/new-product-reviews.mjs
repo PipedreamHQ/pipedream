@@ -92,7 +92,7 @@ export default {
       }
 
       // Update the last review time for next poll
-      if (latestReviewTime && latestReviewTime !== lastReviewTime) {
+      if (latestReviewTime && latestReviewTime !== Number(lastReviewTime)) {
         this._setLastReviewTime(latestReviewTime);
       }
 
