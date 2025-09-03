@@ -64,11 +64,11 @@ export default {
       }
 
       // Filter for new reviews since last poll (client-side filtering)
-      let newReviews = reviews;
-      if (lastReviewTime) {
-        newReviews = reviews.filter((review) =>
-          new Date(review.createdAt).getTime() > new Date(lastReviewTime).getTime());
-      }
+      const lastTs = Number(lastReviewTime) || 0;
+      const toMs = (d) => new Date(d).getTime();
+      let newReviews = lastTs
+        ? reviews.filter((r) => toMs(r.createdAt) > lastTs)
+        : reviews;
 
       if (!newReviews.length) {
         console.log("No new product reviews since last poll");
