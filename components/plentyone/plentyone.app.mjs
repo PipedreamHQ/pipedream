@@ -96,6 +96,25 @@ export default {
         }));
       },
     },
+    statusId: {
+      type: "integer",
+      label: "Status ID",
+      description: "The ID of the order status.",
+      async options({ page }) {
+        const { entries } = await this.getOrderStatuses({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return entries.map(({
+          statusId: value, names: { en: label },
+        }) => ({
+          label,
+          value,
+        }));
+      },
+    },
   },
   methods: {
     _headers() {
@@ -140,6 +159,12 @@ export default {
     }) {
       return this._makeRequest({
         path: `/orders/${orderId}`,
+        ...opts,
+      });
+    },
+    getOrderStatuses(opts = {}) {
+      return this._makeRequest({
+        path: "/orders/statuses",
         ...opts,
       });
     },

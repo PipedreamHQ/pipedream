@@ -3,6 +3,7 @@ import {
   LOCK_STATUS_OPTIONS,
   ORDER_TYPE_OPTIONS,
 } from "../../common/constants.mjs";
+import { parseObject } from "../../common/utils.mjs";
 import plentyone from "../../plentyone.app.mjs";
 
 export default {
@@ -25,9 +26,10 @@ export default {
       description: "The plenty ID of the client that the order belongs to.",
     },
     statusId: {
-      type: "integer",
-      label: "Status ID",
-      description: "The ID of the order status.",
+      propDefinition: [
+        plentyone,
+        "statusId",
+      ],
       optional: true,
     },
     ownerId: {
@@ -73,19 +75,19 @@ export default {
       const response = await this.plentyone.createOrder({
         $,
         data: {
-          orderTypeId: this.orderTypeId,
+          typeId: this.orderTypeId,
           plentyId: this.plentyId,
           statusId: this.statusId,
           ownerId: this.ownerId,
           lockStatus: this.lockStatus,
-          orderItems: this.orderItems,
-          properties: this.properties,
-          addressRelations: this.addressRelations,
-          relations: this.relations,
+          orderItems: parseObject(this.orderItems),
+          properties: parseObject(this.properties),
+          addressRelations: parseObject(this.addressRelations),
+          relations: parseObject(this.relations),
         },
       });
 
-      $.export("$summary", `Successfully created order: ${response.data?.id || "Unknown"}`);
+      $.export("$summary", `Successfully created order: ${response.id}`);
       return response;
     } catch (error) {
       $.export("$summary", "Failed to create order");
