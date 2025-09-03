@@ -1310,9 +1310,6 @@ importers:
       nanoid:
         specifier: ^5.0.4
         version: 5.0.8
-      stream:
-        specifier: ^0.0.3
-        version: 0.0.3
       uuid:
         specifier: ^9.0.1
         version: 9.0.1
@@ -5889,9 +5886,6 @@ importers:
       mime-db:
         specifier: ^1.51.0
         version: 1.53.0
-      stream:
-        specifier: ^0.0.3
-        version: 0.0.3
       uuid:
         specifier: ^8.3.2
         version: 8.3.2
@@ -8767,9 +8761,6 @@ importers:
       lodash.get:
         specifier: ^4.4.2
         version: 4.4.2
-      stream:
-        specifier: ^0.0.3
-        version: 0.0.3
 
   components/microsoft_outlook:
     dependencies:
@@ -8788,9 +8779,6 @@ importers:
       mime-types:
         specifier: ^2.1.35
         version: 2.1.35
-      stream:
-        specifier: ^0.0.3
-        version: 0.0.3
 
   components/microsoft_outlook_calendar:
     dependencies:
@@ -9866,9 +9854,6 @@ importers:
       openai:
         specifier: ^4.77.0
         version: 4.77.0(zod@3.25.67)
-      stream:
-        specifier: ^0.0.3
-        version: 0.0.3
     devDependencies:
       '@pipedream/types':
         specifier: ^0.3.2
@@ -16368,9 +16353,6 @@ importers:
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
-      stream:
-        specifier: ^0.0.3
-        version: 0.0.3
 
   components/zoho_docs:
     dependencies:
@@ -16507,9 +16489,6 @@ importers:
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
-      stream:
-        specifier: ^0.0.3
-        version: 0.0.3
 
   components/zonka_feedback:
     dependencies:
