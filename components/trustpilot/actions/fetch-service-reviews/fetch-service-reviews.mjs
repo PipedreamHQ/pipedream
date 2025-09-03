@@ -11,7 +11,7 @@ export default {
   key: "trustpilot-fetch-service-reviews",
   name: "Fetch Service Reviews",
   description: "Get private reviews for a business unit, limited to 100,000 records. Response includes customer email and order ID. [See the documentation](https://developers.trustpilot.com/business-units-api#get-private-reviews-for-business-unit)",
-  version: "0.0.18",
+  version: "0.1.0",
   type: "action",
   props: {
     trustpilot,

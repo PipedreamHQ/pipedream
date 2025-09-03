@@ -11,7 +11,7 @@ export default {
   key: "trustpilot-fetch-service-review-by-id",
   name: "Fetch Service Review by ID",
   description: "Get a private service review by ID, including customer email and order ID. Access comprehensive data about an individual service review for your business. [See the documentation](https://developers.trustpilot.com/business-units-api#get-private-review-by-id)",
-  version: "0.0.6",
+  version: "0.1.0",
   type: "action",
   props: {
     trustpilot,

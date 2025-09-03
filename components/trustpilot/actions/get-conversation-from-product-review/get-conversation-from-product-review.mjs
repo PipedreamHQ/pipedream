@@ -11,7 +11,7 @@ export default {
   key: "trustpilot-get-conversation-from-product-review",
   name: "Get Conversation from Product Review",
   description: "Get conversation and related comments from a product review. First fetches the review to get the conversationId, then retrieves the full conversation details. [See the documentation](https://developers.trustpilot.com/conversations-api#get-conversation)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     trustpilot,
