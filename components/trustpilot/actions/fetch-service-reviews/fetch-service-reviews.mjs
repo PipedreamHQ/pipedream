@@ -1,11 +1,4 @@
 import trustpilot from "../../trustpilot.app.mjs";
-import { makeRequest } from "../../common/api-client.mjs";
-import { ENDPOINTS } from "../../common/constants.mjs";
-import {
-  buildUrl,
-  parseServiceReview,
-  validateBusinessUnitId,
-} from "../../common/utils.mjs";
 
 export default {
   key: "trustpilot-fetch-service-reviews",
@@ -182,88 +175,33 @@ export default {
       findReviewer,
     } = this;
 
-    // Validate required parameters
-    if (!businessUnitId) {
-      throw new Error("Business Unit ID is required");
-    }
-    if (!validateBusinessUnitId(businessUnitId)) {
-      throw new Error("Invalid business unit ID format");
-    }
-
     try {
-      // Build the endpoint URL
-      const endpoint = buildUrl(ENDPOINTS.SERVICE_REVIEWS, {
+      // Use the shared method from the app
+      const result = await this.trustpilot.fetchServiceReviews({
         businessUnitId,
+        stars,
+        language,
+        page,
+        internalLocationId,
+        perPage,
+        orderBy,
+        tagGroup,
+        tagValue,
+        ignoreTagValueCase,
+        responded,
+        referenceId,
+        referralEmail,
+        reported,
+        startDateTime,
+        endDateTime,
+        source,
+        username,
+        findReviewer,
       });
 
-      // Prepare query parameters
-      const params = {};
+      $.export("$summary", `Successfully fetched ${result.reviews.length} service review(s) for business unit ${businessUnitId}`);
 
-      // Add optional parameters if provided
-      if (stars) params.stars = stars;
-      if (language) params.language = language;
-      if (page) params.page = page;
-      if (internalLocationId) params.internalLocationId = internalLocationId;
-      if (perPage) params.perPage = perPage;
-      if (orderBy) params.orderBy = orderBy;
-      if (tagGroup) params.tagGroup = tagGroup;
-      if (tagValue) params.tagValue = tagValue;
-      if (ignoreTagValueCase !== undefined) params.ignoreTagValueCase = ignoreTagValueCase;
-      if (responded !== undefined) params.responded = responded;
-      if (referenceId) params.referenceId = referenceId;
-      if (referralEmail) params.referralEmail = referralEmail;
-      if (reported !== undefined) params.reported = reported;
-      if (startDateTime) params.startDateTime = startDateTime;
-      if (endDateTime) params.endDateTime = endDateTime;
-      if (source) params.source = source;
-      if (username) params.username = username;
-      if (findReviewer) params.findReviewer = findReviewer;
-
-      // Make the API request
-      const response = await makeRequest(this.trustpilot, {
-        endpoint,
-        params,
-      });
-
-      // Handle the correct response structure (reviews array)
-      const reviews = response.reviews?.map(parseServiceReview) || [];
-      const pagination = {
-        total: response.pagination?.total || 0,
-        page: response.pagination?.page || page,
-        perPage: response.pagination?.perPage || perPage,
-        hasMore: response.pagination?.hasMore || false,
-      };
-
-      $.export("$summary", `Successfully fetched ${reviews.length} service review(s) for business unit ${businessUnitId}`);
-
-      return {
-        reviews,
-        pagination,
-        metadata: {
-          businessUnitId,
-          filters: {
-            stars,
-            language,
-            page,
-            internalLocationId,
-            perPage,
-            orderBy,
-            tagGroup,
-            tagValue,
-            ignoreTagValueCase,
-            responded,
-            referenceId,
-            referralEmail,
-            reported,
-            startDateTime,
-            endDateTime,
-            source,
-            username,
-            findReviewer,
-          },
-          requestTime: new Date().toISOString(),
-        },
-      };
+      return result;
     } catch (error) {
       throw new Error(`Failed to fetch service reviews: ${error.message}`);
     }

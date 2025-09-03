@@ -1,17 +1,11 @@
 import { defineApp } from "@pipedream/types";
 import { makeRequest } from "./common/api-client.mjs";
-import {
-  DEFAULT_LIMIT,
-  ENDPOINTS,
-  MAX_LIMIT,
-  SORT_OPTIONS,
-} from "./common/constants.mjs";
+import { ENDPOINTS } from "./common/constants.mjs";
 import {
   buildUrl,
-  parseReview,
-  sanitizeInput,
+  parseServiceReview,
+  parseProductReview,
   validateBusinessUnitId,
-  validateReviewId,
 } from "./common/utils.mjs";
 
 export default defineApp({
@@ -65,40 +59,21 @@ export default defineApp({
       description: "Filter by product URL",
       optional: true,
     },
-    sortBy: {
-      type: "string",
-      label: "Sort By",
-      description: "How to sort the results",
-      options: Object.entries(SORT_OPTIONS).map(([
-        key,
-        value,
-      ]) => ({
-        label: key.replace(/_/g, " ").toLowerCase(),
-        value,
-      })),
-      optional: true,
-      default: SORT_OPTIONS.CREATED_AT_DESC,
-    },
-    limit: {
+    page: {
       type: "integer",
-      label: "Limit",
-      description: "Maximum number of results to return",
+      label: "Page",
+      description: "The page to retrieve",
       min: 1,
-      max: MAX_LIMIT,
-      default: DEFAULT_LIMIT,
+      default: 1,
       optional: true,
     },
-    includeReportedReviews: {
-      type: "boolean",
-      label: "Include Reported Reviews",
-      description: "Whether to include reviews that have been reported",
-      default: false,
-      optional: true,
-    },
-    tags: {
-      type: "string[]",
-      label: "Tags",
-      description: "Filter reviews by tags",
+    perPage: {
+      type: "integer",
+      label: "Per Page",
+      description: "The number of items to retrieve per page",
+      min: 1,
+      max: 100,
+      default: 20,
       optional: true,
     },
     language: {
@@ -139,411 +114,151 @@ export default defineApp({
       return response.businessUnits || [];
     },
 
-    // Public Review methods (no auth required for basic info)
-    async getPublicServiceReviews({
-      businessUnitId,
-      stars = null,
-      sortBy = SORT_OPTIONS.CREATED_AT_DESC,
-      limit = DEFAULT_LIMIT,
-      offset = 0,
-      tags = [],
-      language = null,
-    }) {
-      if (!validateBusinessUnitId(businessUnitId)) {
-        throw new Error("Invalid business unit ID");
-      }
-
-      const endpoint = buildUrl(ENDPOINTS.PUBLIC_REVIEWS, {
+    // Shared method for fetching service reviews - used by both actions and sources
+    async fetchServiceReviews(params = {}) {
+      const {
         businessUnitId,
-      });
-      const params = {
         stars,
-        orderBy: sortBy,
-        perPage: limit,
-        page: Math.floor(offset / limit) + 1,
         language,
-      };
+        page = 1,
+        internalLocationId,
+        perPage = 20,
+        orderBy = "createdat.desc",
+        tagGroup,
+        tagValue,
+        ignoreTagValueCase = false,
+        responded,
+        referenceId,
+        referralEmail,
+        reported,
+        startDateTime,
+        endDateTime,
+        source,
+        username,
+        findReviewer,
+      } = params;
 
-      if (tags.length > 0) {
-        params.tags = tags.join(",");
+      // Validate required parameters
+      if (!businessUnitId) {
+        throw new Error("Business Unit ID is required");
       }
-
-      const response = await this._makeRequestWithRetry({
-        endpoint,
-        params,
-      });
-
-      return {
-        reviews: response.reviews?.map(parseReview) || [],
-        pagination: {
-          total: response.pagination?.total || 0,
-          page: response.pagination?.page || 1,
-          perPage: response.pagination?.perPage || limit,
-          hasMore: response.pagination?.hasMore || false,
-        },
-      };
-    },
-
-    async getPublicServiceReviewById({
-      businessUnitId, reviewId,
-    }) {
       if (!validateBusinessUnitId(businessUnitId)) {
-        throw new Error("Invalid business unit ID");
-      }
-      if (!validateReviewId(reviewId)) {
-        throw new Error("Invalid review ID");
+        throw new Error("Invalid business unit ID format");
       }
 
-      const endpoint = buildUrl(ENDPOINTS.PUBLIC_REVIEW_BY_ID, {
-        businessUnitId,
-        reviewId,
-      });
-      const response = await this._makeRequest({
-        endpoint,
-      });
-      return parseReview(response);
-    },
-
-    // Service Review methods - simplified for sources
-    async getServiceReviews({
-      businessUnitId,
-      stars = null,
-      sortBy = SORT_OPTIONS.CREATED_AT_DESC,
-      limit = DEFAULT_LIMIT,
-      offset = 0,
-      tags = [],
-      language = null,
-    } = {}) {
-      if (!validateBusinessUnitId(businessUnitId)) {
-        throw new Error("Invalid business unit ID");
-      }
-
-      const endpoint = buildUrl(ENDPOINTS.PUBLIC_REVIEWS, {
+      // Build the endpoint URL
+      const endpoint = buildUrl(ENDPOINTS.SERVICE_REVIEWS, {
         businessUnitId,
       });
 
-      const params = {
-        stars,
-        orderBy: sortBy,
-        perPage: limit,
-        page: Math.floor(offset / limit) + 1,
-        language,
-      };
+      // Prepare query parameters
+      const queryParams = {};
 
-      if (tags && tags.length > 0) {
-        params.tags = Array.isArray(tags)
-          ? tags.join(",")
-          : tags;
-      }
+      // Add optional parameters if provided
+      if (stars) queryParams.stars = stars;
+      if (language) queryParams.language = language;
+      if (page) queryParams.page = page;
+      if (internalLocationId) queryParams.internalLocationId = internalLocationId;
+      if (perPage) queryParams.perPage = perPage;
+      if (orderBy) queryParams.orderBy = orderBy;
+      if (tagGroup) queryParams.tagGroup = tagGroup;
+      if (tagValue) queryParams.tagValue = tagValue;
+      if (ignoreTagValueCase !== undefined) queryParams.ignoreTagValueCase = ignoreTagValueCase;
+      if (responded !== undefined) queryParams.responded = responded;
+      if (referenceId) queryParams.referenceId = referenceId;
+      if (referralEmail) queryParams.referralEmail = referralEmail;
+      if (reported !== undefined) queryParams.reported = reported;
+      if (startDateTime) queryParams.startDateTime = startDateTime;
+      if (endDateTime) queryParams.endDateTime = endDateTime;
+      if (source) queryParams.source = source;
+      if (username) queryParams.username = username;
+      if (findReviewer) queryParams.findReviewer = findReviewer;
 
+      // Make the API request
       const response = await makeRequest(this, {
         endpoint,
-        params,
+        params: queryParams,
       });
 
+      // Handle the correct response structure (reviews array)
+      const reviews = response.reviews?.map(parseServiceReview) || [];
+      const pagination = {
+        total: response.pagination?.total || 0,
+        page: response.pagination?.page || page,
+        perPage: response.pagination?.perPage || perPage,
+        hasMore: response.pagination?.hasMore || false,
+      };
+
       return {
-        reviews: response.reviews?.map(parseReview) || [],
-        pagination: {
-          total: response.pagination?.total || 0,
-          page: response.pagination?.page || 1,
-          perPage: response.pagination?.perPage || limit,
-          hasMore: response.pagination?.hasMore || false,
+        reviews,
+        pagination,
+        metadata: {
+          businessUnitId,
+          filters: queryParams,
+          requestTime: new Date().toISOString(),
         },
       };
     },
 
-    async getServiceReviewById({
-      businessUnitId, reviewId,
-    }) {
-      if (!validateBusinessUnitId(businessUnitId)) {
-        throw new Error("Invalid business unit ID");
-      }
-      if (!validateReviewId(reviewId)) {
-        throw new Error("Invalid review ID");
-      }
-
-      const endpoint = buildUrl(ENDPOINTS.SERVICE_REVIEW_BY_ID, {
+    // Shared method for fetching product reviews - used by both actions and sources
+    async fetchProductReviews(params = {}) {
+      const {
         businessUnitId,
-        reviewId,
-      });
-      const response = await this._makeRequest({
-        endpoint,
-      });
-      return parseReview(response);
-    },
+        page,
+        perPage,
+        sku,
+        language,
+        state,
+        locale,
+      } = params;
 
-    async replyToServiceReview({
-      businessUnitId, reviewId, message,
-    }) {
-      if (!validateBusinessUnitId(businessUnitId)) {
-        throw new Error("Invalid business unit ID");
-      }
-      if (!validateReviewId(reviewId)) {
-        throw new Error("Invalid review ID");
-      }
-      if (!message || typeof message !== "string") {
-        throw new Error("Reply message is required");
+      // Validate required parameters
+      if (!businessUnitId) {
+        throw new Error("Business Unit ID is required");
       }
 
-      // Sanitize and validate message length (Trustpilot limit is 5000 characters)
-      const sanitizedMessage = sanitizeInput(message, 5000);
-      if (sanitizedMessage.length === 0) {
-        throw new Error("Reply message cannot be empty after sanitization");
-      }
-
-      const endpoint = buildUrl(ENDPOINTS.REPLY_TO_SERVICE_REVIEW, {
-        businessUnitId,
-        reviewId,
-      });
-      const response = await this._makeRequest({
-        endpoint,
-        method: "POST",
-        data: {
-          message: sanitizedMessage,
-        },
-      });
-      return response;
-    },
-
-    // Product Review methods - simplified for sources
-    async getProductReviews({
-      businessUnitId,
-      sku = null,
-      productUrl = null,
-      stars = null,
-      sortBy = SORT_OPTIONS.CREATED_AT_DESC,
-      limit = DEFAULT_LIMIT,
-      offset = 0,
-      includeReportedReviews = false,
-      tags = [],
-      language = null,
-    } = {}) {
-      if (!validateBusinessUnitId(businessUnitId)) {
-        throw new Error("Invalid business unit ID");
-      }
-
+      // Build the endpoint URL
       const endpoint = buildUrl(ENDPOINTS.PRIVATE_PRODUCT_REVIEWS, {
         businessUnitId,
       });
 
-      const params = {
+      // Prepare query parameters
+      const queryParams = {
         sku,
-        productUrl,
-        stars,
-        orderBy: sortBy,
-        perPage: limit,
-        page: Math.floor(offset / limit) + 1,
-        includeReportedReviews,
+        state,
+        locale,
+        perPage,
+        page,
+        includeReportedReviews: false,
         language,
       };
 
-      if (tags && tags.length > 0) {
-        params.tags = Array.isArray(tags)
-          ? tags.join(",")
-          : tags;
-      }
-
+      // Make the API request
       const response = await makeRequest(this, {
         endpoint,
-        params,
+        params: queryParams,
       });
+
+      // Handle the correct response structure (productReviews, not reviews)
+      const reviews = response.productReviews?.map(parseProductReview) || [];
+      const pagination = {
+        total: response.links?.total || 0,
+        page: queryParams.page || 1,
+        perPage: queryParams.perPage || 20,
+        hasMore: response.links?.next
+          ? true
+          : false,
+      };
 
       return {
-        reviews: response.productReviews?.map(parseReview) || [], // Note: productReviews not reviews
-        pagination: {
-          total: response.links?.total || 0,
-          page: params.page,
-          perPage: params.perPage,
-          hasMore: response.links?.next
-            ? true
-            : false,
+        reviews,
+        pagination,
+        metadata: {
+          businessUnitId,
+          filters: queryParams,
+          requestTime: new Date().toISOString(),
         },
       };
-    },
-
-    async getProductReviewById({ reviewId }) {
-      if (!validateReviewId(reviewId)) {
-        throw new Error("Invalid review ID");
-      }
-
-      const endpoint = buildUrl(ENDPOINTS.PRIVATE_PRODUCT_REVIEW_BY_ID, {
-        reviewId,
-      });
-      const response = await this._makeRequest({
-        endpoint,
-      });
-      return parseReview(response);
-    },
-
-    async replyToProductReview({
-      reviewId, message,
-    }) {
-      if (!validateReviewId(reviewId)) {
-        throw new Error("Invalid review ID");
-      }
-      if (!message || typeof message !== "string") {
-        throw new Error("Reply message is required");
-      }
-
-      // Sanitize and validate message length (Trustpilot limit is 5000 characters)
-      const sanitizedMessage = sanitizeInput(message, 5000);
-      if (sanitizedMessage.length === 0) {
-        throw new Error("Reply message cannot be empty after sanitization");
-      }
-
-      const review = await this.getProductReviewById({
-        reviewId,
-      });
-
-      let conversationId = review.conversationId;
-
-      if (!conversationId) {
-        const createConversationEndpoint = buildUrl(ENDPOINTS.CREATE_CONVERSATION_FOR_REVIEW, {
-          reviewId,
-        });
-        const createConversationResponse = await this._makeRequest({
-          endpoint: createConversationEndpoint,
-          method: "POST",
-        });
-        conversationId = createConversationResponse.conversationId;
-      }
-
-      const replyToConversationEndpoint = buildUrl(ENDPOINTS.REPLY_TO_CONVERSATION, {
-        conversationId,
-      });
-      const response = await this._makeRequest({
-        endpoint: replyToConversationEndpoint,
-        method: "POST",
-        data: {
-          message: sanitizedMessage,
-        },
-      });
-      return response;
-    },
-
-    // Conversation methods
-    async getConversations({
-      limit = DEFAULT_LIMIT,
-      offset = 0,
-      sortBy = SORT_OPTIONS.CREATED_AT_DESC,
-      businessUnitId = null,
-    } = {}) {
-      const params = {
-        perPage: limit,
-        page: Math.floor(offset / limit) + 1,
-        orderBy: sortBy,
-      };
-
-      if (businessUnitId) {
-        params.businessUnitId = businessUnitId;
-      }
-
-      const response = await this._makeRequestWithRetry({
-        endpoint: ENDPOINTS.CONVERSATIONS,
-        params,
-      });
-
-      return {
-        conversations: response.conversations || [],
-        pagination: {
-          total: response.pagination?.total || 0,
-          page: response.pagination?.page || 1,
-          perPage: response.pagination?.perPage || limit,
-          hasMore: response.pagination?.hasMore || false,
-        },
-      };
-    },
-
-    async getConversationById({ conversationId }) {
-      if (!conversationId) {
-        throw new Error("Invalid conversation ID");
-      }
-
-      const endpoint = buildUrl(ENDPOINTS.CONVERSATION_BY_ID, {
-        conversationId,
-      });
-      const response = await this._makeRequest({
-        endpoint,
-      });
-      return response;
-    },
-
-    async replyToConversation({
-      conversationId, message,
-    }) {
-      if (!conversationId) {
-        throw new Error("Invalid conversation ID");
-      }
-      if (!message || typeof message !== "string") {
-        throw new Error("Reply message is required");
-      }
-
-      // Sanitize and validate message length (Trustpilot limit is 5000 characters)
-      const sanitizedMessage = sanitizeInput(message, 5000);
-      if (sanitizedMessage.length === 0) {
-        throw new Error("Reply message cannot be empty after sanitization");
-      }
-
-      const endpoint = buildUrl(ENDPOINTS.REPLY_TO_CONVERSATION, {
-        conversationId,
-      });
-      const response = await this._makeRequest({
-        endpoint,
-        method: "POST",
-        data: {
-          message: sanitizedMessage,
-        },
-      });
-      return response;
-    },
-
-    // Webhook methods
-    async createWebhook({
-      url, events = [], businessUnitId = null,
-    }) {
-      if (!url) {
-        throw new Error("Webhook URL is required");
-      }
-      if (!Array.isArray(events) || events.length === 0) {
-        throw new Error("At least one event must be specified");
-      }
-
-      const data = {
-        url,
-        events,
-      };
-
-      if (businessUnitId) {
-        data.businessUnitId = businessUnitId;
-      }
-
-      const response = await this._makeRequest({
-        endpoint: ENDPOINTS.WEBHOOKS,
-        method: "POST",
-        data,
-      });
-      return response;
-    },
-
-    async deleteWebhook(webhookId) {
-      if (!webhookId) {
-        throw new Error("Webhook ID is required");
-      }
-
-      const endpoint = buildUrl(ENDPOINTS.WEBHOOK_BY_ID, {
-        webhookId,
-      });
-      await this._makeRequest({
-        endpoint,
-        method: "DELETE",
-      });
-    },
-
-    async listWebhooks() {
-      const response = await this._makeRequest({
-        endpoint: ENDPOINTS.WEBHOOKS,
-      });
-      return response.webhooks || [];
     },
   },
 });

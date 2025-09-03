@@ -1,10 +1,4 @@
 import trustpilot from "../../trustpilot.app.mjs";
-import { makeRequest } from "../../common/api-client.mjs";
-import { ENDPOINTS } from "../../common/constants.mjs";
-import {
-  buildUrl,
-  parseProductReview,
-} from "../../common/utils.mjs";
 
 export default {
   key: "trustpilot-fetch-product-reviews",
@@ -68,63 +62,21 @@ export default {
       locale,
     } = this;
 
-    // Validate required parameters
-    if (!businessUnitId) {
-      throw new Error("Business Unit ID is required");
-    }
-
     try {
-      // Build the endpoint URL
-      const endpoint = buildUrl(ENDPOINTS.PRIVATE_PRODUCT_REVIEWS, {
+      // Use the shared method from the app
+      const result = await this.trustpilot.fetchProductReviews({
         businessUnitId,
-      });
-
-      // Prepare query parameters
-      const params = {
+        page,
+        perPage,
         sku,
+        language,
         state,
         locale,
-        perPage,
-        page,
-        includeReportedReviews: false,
-        language,
-      };
-
-      // Make the API request
-      const response = await makeRequest(this.trustpilot, {
-        endpoint,
-        params,
       });
 
-      // Handle the correct response structure (productReviews, not reviews)
-      const reviews = response.productReviews?.map(parseProductReview) || [];
-      const pagination = {
-        total: response.links?.total || 0,
-        page: params.page,
-        perPage: params.perPage,
-        hasMore: response.links?.next
-          ? true
-          : false,
-      };
+      $.export("$summary", `Successfully fetched ${result.reviews.length} product review(s) for business unit ${businessUnitId}`);
 
-      $.export("$summary", `Successfully fetched ${reviews.length} product review(s) for business unit ${businessUnitId}`);
-
-      return {
-        reviews,
-        pagination,
-        metadata: {
-          businessUnitId,
-          filters: {
-            sku,
-            page,
-            perPage,
-            state,
-            locale,
-            language,
-          },
-          requestTime: new Date().toISOString(),
-        },
-      };
+      return result;
     } catch (error) {
       throw new Error(`Failed to fetch product reviews: ${error.message}`);
     }
