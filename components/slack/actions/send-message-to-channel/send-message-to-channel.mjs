@@ -1,5 +1,5 @@
-import common from "../common/send-message.mjs";
-import constants from "../../common/constants.mjs";
+import common from "./common/send-message.js";
+import constants from "./common/constants.js";
 
 export default {
   ...common,
