@@ -1,4 +1,3 @@
-import { defineApp } from "@pipedream/types";
 import { makeRequest } from "./common/api-client.mjs";
 import { ENDPOINTS } from "./common/constants.mjs";
 import {
