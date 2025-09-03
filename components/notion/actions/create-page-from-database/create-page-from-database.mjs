@@ -8,7 +8,7 @@ export default {
   key: "notion-create-page-from-database",
   name: "Create Page from Database",
   description: "Create a page from a database. [See the documentation](https://developers.notion.com/reference/post-page)",
-  version: "0.2.3",
+  version: "1.0.0",
   type: "action",
   props: {
     notion,
@@ -19,6 +19,15 @@ export default {
       ],
       label: "Parent Database ID",
       description: "Select a parent database or provide a database ID",
+    },
+    dataSource: {
+      propDefinition: [
+        notion,
+        "dataSourceId",
+        ({ parent }) => ({
+          databaseId: parent,
+        }),
+      ],
     },
     Name: {
       type: "string",
@@ -60,14 +69,14 @@ export default {
   methods: {
     ...base.methods,
     /**
-     * Builds a page from a parent database
-     * @param parentDatabase - the parent database
+     * Builds a page from a parent data source
+     * @param parentDataSource - the parent data source
      * @returns the constructed page in Notion format
      */
-    buildPage(parentDatabase) {
-      const meta = this.buildDatabaseMeta(parentDatabase);
+    buildPage(parentDataSource) {
+      const meta = this.buildDataSourceMeta(parentDataSource);
       this.properties = utils.parseObject(this.properties);
-      const properties = this.buildPageProperties(parentDatabase.properties);
+      const properties = this.buildPageProperties(parentDataSource.properties);
       const children = this.createBlocks(this.pageContent);
       return {
         ...meta,
@@ -78,7 +87,7 @@ export default {
   },
   async run({ $ }) {
     const MAX_BLOCKS = 100;
-    const parentPage = await this.notion.retrieveDatabase(this.parent);
+    const parentPage = await this.notion.retrieveDataSource(this.dataSource);
     const {
       children, ...page
     } = this.buildPage(parentPage);

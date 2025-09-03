@@ -1,6 +1,6 @@
 import { markdownToBlocks } from "@tryfabric/martian";
 import {
-  NOTION_DATABASE_META,
+  NOTION_DATA_SOURCE_META,
   NOTION_PAGE_META,
 } from "../../common/notion-meta-properties.mjs";
 import NOTION_META from "../../common/notion-meta-selection.mjs";
@@ -10,7 +10,7 @@ export default {
   methods: {
     /**
      * Creates additional props for page properties and the selected block children
-     * @param properties - The selected (database) properties from the page obtained from Notion
+     * @param properties - The selected (data source) properties from the page obtained from Notion
      * @param meta - The selected meta properties
      * @param blocks - The selected block children from the workflow UI
      * @returns additional props
@@ -102,14 +102,14 @@ export default {
       return notionProperties;
     },
     /**
-     * Builds page meta properties (parent, icon, cover, archived) from a parent database
+     * Builds page meta properties (parent, icon, cover, archived) from a parent data source
      * Uses the property label as its type to be able to select in notion-meta-properties.mjs
      * @param properties - list of Notion page properties inputted by the user
      * @returns the meta properties in Notion format inputted by the user
      */
-    _buildNotionDatabaseMeta(properties = []) {
+    _buildNotionDataSourceMeta(properties = []) {
       properties.forEach((property) => property.type = property.label);
-      return this._convertPropertiesToNotion(properties, NOTION_DATABASE_META);
+      return this._convertPropertiesToNotion(properties, NOTION_DATA_SOURCE_META);
     },
     /**
      * Builds page meta properties (parent, icon, cover, archived) from a parent page
@@ -122,7 +122,7 @@ export default {
       return this._convertPropertiesToNotion(properties, NOTION_PAGE_META);
     },
     /**
-     * Builds page properties from a parent database/page
+     * Builds page properties from a parent data source/page
      * @param properties - list of Notion page properties inputted by the user
      * @returns the properties in Notion format inputted by the user
      */
@@ -130,13 +130,13 @@ export default {
       return this._convertPropertiesToNotion(properties, NOTION_PAGE_PROPERTIES);
     },
     /**
-     * Builds the page meta inputted by the user in Notion format from a parent database
-     * @param parentDatabase - the parent database that contains the meta properties
+     * Builds the page meta inputted by the user in Notion format from a parent data source
+     * @param parentDataSource - the parent data source that contains the meta properties
      * @returns the meta properties in Notion format
      */
-    buildDatabaseMeta(parentDatabase) {
-      const filteredMeta = this._filterProps(parentDatabase);
-      return this._buildNotionDatabaseMeta(filteredMeta);
+    buildDataSourceMeta(parentDataSource) {
+      const filteredMeta = this._filterProps(parentDataSource);
+      return this._buildNotionDataSourceMeta(filteredMeta);
     },
     /**
      * Builds the page meta inputted by the user in Notion format from a parent page
@@ -210,13 +210,13 @@ export default {
         },
       };
     },
-    childDatabaseToLink(block) {
+    childDataSourceToLink(block) {
       return {
         object: "block",
         type: "link_to_page",
         link_to_page: {
-          type: "database_id",
-          database_id: block.id,
+          type: "data_source_id",
+          data_source_id: block.id,
         },
       };
     },
@@ -236,9 +236,9 @@ export default {
           if (child.type === "child_page") {
             // convert child pages to links
             children[i] = this.childPageToLink(child);
-          } else if (child.type === "child_database") {
-            // convert child databases to links
-            children[i] = this.childDatabaseToLink(child);
+          } else if (child.type === "child_data_source") {
+            // convert child data sources to links
+            children[i] = this.childDataSourceToLink(child);
           } else {
             if (this.notValid(child, c)) {
               children[i] = undefined;

@@ -5,10 +5,10 @@ import utils from "./utils.mjs";
  *
  * convertToNotion: converts the prop values to send to the Notion API
  */
-export const NOTION_DATABASE_META = {
+export const NOTION_DATA_SOURCE_META = {
   parent: {
     convertToNotion: (property) => ({
-      type: "database_id",
+      type: "data_source_id",
       database_id: property.value,
     }),
   },
@@ -42,7 +42,7 @@ export const NOTION_DATABASE_META = {
  * Implementation for Page Meta in Notion - https://developers.notion.com/reference/page
  */
 export const NOTION_PAGE_META = {
-  ...NOTION_DATABASE_META,
+  ...NOTION_DATA_SOURCE_META,
   parent: {
     convertToNotion: (property) => ({
       type: "page_id",
@@ -52,6 +52,6 @@ export const NOTION_PAGE_META = {
 };
 
 export default {
-  NOTION_DATABASE_META,
+  NOTION_DATA_SOURCE_META,
   NOTION_PAGE_META,
 };

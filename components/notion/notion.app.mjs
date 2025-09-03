@@ -19,6 +19,19 @@ export default {
         return this._buildPaginatedOptions(options, response.next_cursor);
       },
     },
+    dataSourceId: {
+      type: "string",
+      label: "Data Source ID",
+      description: "Select a data source from the database or provide a data source ID",
+      async options({ databaseId }) {
+        this._checkOptionsContext(databaseId, "Database ID");
+        const dataSources = await this.getDataSourcesForDatabase(databaseId);
+        return dataSources?.map((dataSource) => ({
+          label: dataSource.name,
+          value: dataSource.id,
+        })) || [];
+      },
+    },
     pageId: {
       type: "string",
       label: "Page ID",
@@ -41,13 +54,13 @@ export default {
     pageIdInDatabase: {
       type: "string",
       label: "Page ID",
-      description: "Search for a page from the database or provide a page ID",
+      description: "Search for a page from the data source or provide a page ID",
       useQuery: true,
       async options({
-        query, prevContext, databaseId,
+        query, prevContext, dataSourceId,
       }) {
-        this._checkOptionsContext(databaseId, "Database ID");
-        const response = await this.queryDatabase(databaseId, {
+        this._checkOptionsContext(dataSourceId, "Data Source ID");
+        const response = await this.queryDataSource(dataSourceId, {
           query,
           start_cursor: prevContext.nextPageParameters ?? undefined,
         });
@@ -65,8 +78,8 @@ export default {
 
         const parentType = response.parent.type;
         try {
-          const { properties } = parentType === "database_id"
-            ? await this.retrieveDatabase(response.parent.database_id)
+          const { properties } = parentType === "data_source_id"
+            ? await this.retrieveDataSource(response.parent.data_source_id).properties
             : response;
 
           const propEntries = Object.entries(properties);
@@ -195,12 +208,12 @@ export default {
     },
     filter: {
       type: "string",
-      label: "Page or Database",
-      description: "Whether to search for pages or databases",
+      label: "Page or Data Source",
+      description: "Whether to search for pages or data sources.",
       optional: true,
       options: [
         "page",
-        "database",
+        "data_source",
       ],
     },
     pageContent: {
@@ -219,7 +232,7 @@ export default {
     _getNotionClient() {
       return new notion.Client({
         auth: this.$auth.oauth_access_token,
-        notionVersion: "2022-02-22",
+        notionVersion: "2025-09-03",
       });
     },
     _extractDatabaseTitleOptions(databases) {
@@ -292,6 +305,23 @@ export default {
     async updateDatabase(database) {
       return this._getNotionClient().databases.update(database);
     },
+    async queryDataSource(dataSourceId, params = {}) {
+      return this._getNotionClient().request({
+        method: "POST",
+        path: `data_sources/${dataSourceId}/query`,
+        body: params,
+      });
+    },
+    async retrieveDataSource(dataSourceId) {
+      return this._getNotionClient().request({
+        method: "GET",
+        path: `data_sources/${dataSourceId}`,
+      });
+    },
+    async getDataSourcesForDatabase(databaseId) {
+      const database = await this.retrieveDatabase(databaseId);
+      return database.data_sources || [];
+    },
     async createFileUpload(file) {
       return this._getNotionClient().fileUploads.create(file);
     },
@@ -342,14 +372,14 @@ export default {
       });
     },
     /**
-     * This generator function scans the pages in a database yields each page
+     * This generator function scans the pages in a data source and yields each page
      * separately.
      *
-     * @param {string} databaseId - The database containing the pages to scan
+     * @param {string} dataSourceId - The data source containing the pages to scan
      * @param {object} [opts] - Options to customize the operation
      * @yield {object} The next page
      */
-    async *getPages(databaseId, opts = {}) {
+    async *getPages(dataSourceId, opts = {}) {
       let cursor;
 
       do {
@@ -357,7 +387,7 @@ export default {
           ...opts,
           start_cursor: cursor,
         };
-        const response = await this.queryDatabase(databaseId, params);
+        const response = await this.queryDataSource(dataSourceId, params);
         const {
           results: pages,
           next_cursor: nextCursor,
