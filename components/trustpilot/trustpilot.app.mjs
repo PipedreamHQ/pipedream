@@ -20,8 +20,15 @@ export default {
         page, query,
       }) {
         try {
+          if (query === "") {
+            // Trustpilot requires a query to be passed in, default to "a" if empty
+            query = "a";
+          }
+
           const businessUnits = await this.searchBusinessUnits({
-            page,
+            // Trustpilot requires the page to be 1-indexed
+            // whereas pipedream is 0-indexed
+            page: page + 1,
             query,
           });
 
