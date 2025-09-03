@@ -20,6 +20,7 @@ const API_PATH = {
   CRMV4: "/crm/v4",
   CMS: "/cms/v3",
   AUTOMATION: "/automation/v2",
+  AUTOMATIONV4: "/automation/v4",
   DEAL: "/deals/v1",
   BUSINESS_UNITS: "/business-units/v3",
   MARKETINGV3: "/marketing/v3",
@@ -219,23 +220,184 @@ const ENGAGEMENT_TYPE_OPTIONS = [
   },
 ];
 
+const LANGUAGE_OPTIONS = [
+  {
+    label: "Afrikaans",
+    value: "af",
+  },
+  {
+    label: "Arabic (Egypt)",
+    value: "ar-eg",
+  },
+  {
+    label: "Bulgarian",
+    value: "bg",
+  },
+  {
+    label: "Bengali",
+    value: "bn",
+  },
+  {
+    label: "Czech",
+    value: "cs",
+  },
+  {
+    label: "Danish",
+    value: "da",
+  },
+  {
+    label: "Greek",
+    value: "el",
+  },
+  {
+    label: "English",
+    value: "en",
+  },
+  {
+    label: "Spanish",
+    value: "es",
+  },
+  {
+    label: "Spanish (Mexico)",
+    value: "es-mx",
+  },
+  {
+    label: "Finnish",
+    value: "fi",
+  },
+  {
+    label: "French",
+    value: "fr",
+  },
+  {
+    label: "French (Canada)",
+    value: "fr-ca",
+  },
+  {
+    label: "Hebrew (Israel)",
+    value: "he-il",
+  },
+  {
+    label: "Croatian",
+    value: "hr",
+  },
+  {
+    label: "Hungarian",
+    value: "hu",
+  },
+  {
+    label: "Indonesian",
+    value: "id",
+  },
+  {
+    label: "Italian",
+    value: "it",
+  },
+  {
+    label: "Japanese",
+    value: "ja",
+  },
+  {
+    label: "Korean",
+    value: "ko",
+  },
+  {
+    label: "Lithuanian",
+    value: "lt",
+  },
+  {
+    label: "Malay",
+    value: "ms",
+  },
+  {
+    label: "Dutch",
+    value: "nl",
+  },
+  {
+    label: "Norwegian (Norway)",
+    value: "no-no",
+  },
+  {
+    label: "Polish",
+    value: "pl",
+  },
+  {
+    label: "Portuguese",
+    value: "pt",
+  },
+  {
+    label: "Portuguese (Brazil)",
+    value: "pt-br",
+  },
+  {
+    label: "Romanian",
+    value: "ro",
+  },
+  {
+    label: "Russian",
+    value: "ru",
+  },
+  {
+    label: "Slovak",
+    value: "sk",
+  },
+  {
+    label: "Slovenian",
+    value: "sl",
+  },
+  {
+    label: "Swedish",
+    value: "sv",
+  },
+  {
+    label: "Thai",
+    value: "th",
+  },
+  {
+    label: "Tagalog",
+    value: "tl",
+  },
+  {
+    label: "Ukrainian",
+    value: "uk",
+  },
+  {
+    label: "Vietnamese",
+    value: "vi",
+  },
+  {
+    label: "Chinese (China)",
+    value: "zh-cn",
+  },
+  {
+    label: "Chinese (Hong Kong)",
+    value: "zh-hk",
+  },
+  {
+    label: "Chinese (Taiwan)",
+    value: "zh-tw",
+  },
+];
+
 export {
+  API_PATH,
+  ASSOCIATION_CATEGORY,
+  BASE_URL,
+  DEFAULT_COMPANY_PROPERTIES,
+  DEFAULT_CONTACT_PROPERTIES,
+  DEFAULT_DEAL_PROPERTIES,
+  DEFAULT_EMAIL_PROPERTIES,
+  DEFAULT_LEAD_PROPERTIES,
+  DEFAULT_LIMIT,
+  DEFAULT_LINE_ITEM_PROPERTIES,
+  DEFAULT_MEETING_PROPERTIES,
+  DEFAULT_PRODUCT_PROPERTIES,
+  DEFAULT_TICKET_PROPERTIES,
+  ENGAGEMENT_TYPE_OPTIONS,
+  HUBSPOT_OWNER,
+  LANGUAGE_OPTIONS,
   OBJECT_TYPE,
   OBJECT_TYPES,
   SEARCHABLE_OBJECT_TYPES,
-  HUBSPOT_OWNER,
-  BASE_URL,
-  API_PATH,
-  ASSOCIATION_CATEGORY,
-  DEFAULT_LIMIT,
-  DEFAULT_CONTACT_PROPERTIES,
-  DEFAULT_COMPANY_PROPERTIES,
-  DEFAULT_DEAL_PROPERTIES,
-  DEFAULT_TICKET_PROPERTIES,
-  DEFAULT_PRODUCT_PROPERTIES,
-  DEFAULT_LINE_ITEM_PROPERTIES,
-  DEFAULT_LEAD_PROPERTIES,
-  ENGAGEMENT_TYPE_OPTIONS,
-  DEFAULT_EMAIL_PROPERTIES,
-  DEFAULT_MEETING_PROPERTIES,
 };
+
