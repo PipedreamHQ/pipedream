@@ -63,6 +63,7 @@ export async function makeRequest(trustpilotApp, {
         params,
         data,
         timeout,
+        additionalHeaders,
         ...args,
       }, retries - 1);
     }

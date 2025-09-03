@@ -32,9 +32,9 @@ export default {
     },
     generateSummary(review) {
       const stars = review.stars || "N/A";
-      const consumerName = review.consumer?.displayName || "Anonymous";
-      const productName = review.product?.title || "Unknown Product";
-      const businessUnit = review.businessUnit?.displayName || this.businessUnitId || "Unknown";
+      const consumerName = review.consumer?.name || "Anonymous";
+      const productName = review.product?.name || "Unknown Product";
+      const businessUnit = this.businessUnitId || "Unknown";
 
       return `New ${stars}-star product review by ${consumerName} for "${productName}" (${businessUnit})`;
     },

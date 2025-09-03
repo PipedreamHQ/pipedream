@@ -10,7 +10,7 @@ import {
 export default {
   key: "trustpilot-reply-to-service-review",
   name: "Reply to Service Review",
-  description: "Reply to a service review on Trustpilot. Posts a public reply on behalf of your business using the private reviews API. [See the documentation](https://developers.trustpilot.com/private-reviews-api#reply-to-review)",
+  description: "Reply to a service review on Trustpilot.",
   version: "0.1.0",
   type: "action",
   props: {
