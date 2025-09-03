@@ -11,11 +11,20 @@ export default {
       async options() {
         const response = await this.listModels();
 
-        return response.data.data.map(({
-          id: value, id: label,
-        }) => ({
-          label,
-          value,
+        // Safely access the models array from API response
+        const models = Array.isArray(response.data?.data)
+          ? response.data.data
+          : Array.isArray(response.data?.models)
+            ? response.data.models
+            : response.data;
+
+        if (!Array.isArray(models)) {
+          throw new Error("Unexpected models response format");
+        }
+
+        return models.map(({ id }) => ({
+          label: id,
+          value: id,
         }));
       },
     },
@@ -124,7 +133,25 @@ export default {
       return axios($, {
         url: this._apiUrl() + path,
         headers: this._getHeaders(),
+        timeout: 300000, // 5 minutes default timeout
         ...args,
+      }).catch((error) => {
+        // Enhanced error handling for common API issues
+        if (error.response) {
+          const {
+            status, data,
+          } = error.response;
+          if (status === 401) {
+            throw new Error("[401] Authentication failed. Please check your CometAPI key.");
+          }
+          if (status === 429) {
+            throw new Error("[429] Rate limit exceeded. Please wait before making another request.");
+          }
+          if (status === 400 && data?.error?.message) {
+            throw new Error(`[400] CometAPI Error: ${data.error.message}`);
+          }
+        }
+        throw error;
       });
     },
 

@@ -6,7 +6,10 @@ export default {
   key: "cometapi-send-chat-completion-request",
   name: "Send Chat Completion Request",
   version: "0.0.1",
-  description: "Send a chat completion request to any available CometAPI model. Perfect for conversational AI, Q&A systems, and interactive applications. Supports system messages, conversation history, and advanced parameters for fine-tuning responses. [See the documentation](https://api.cometapi.com/doc)",
+  description: "Send a chat completion request to any available CometAPI model. " +
+    "Perfect for conversational AI, Q&A systems, and interactive applications. " +
+    "Supports system messages, conversation history, and advanced parameters. " +
+    "[See the documentation](https://api.cometapi.com/doc)",
   type: "action",
   props: {
     cometapi,
@@ -17,9 +20,12 @@ export default {
       ],
     },
     messages: {
-      type: "string[]",
+      type: "object[]",
       label: "Messages",
-      description: "A list of message objects with 'role' and 'content' properties. Roles can be 'system', 'user', or 'assistant'. Example: **{\"role\":\"user\", \"content\":\"Hello, how are you?\"}**. System messages set behavior, user messages are prompts, assistant messages are previous AI responses. [See the documentation](https://api.cometapi.com/doc) for more details.",
+      description: "A list of message objects with 'role' and 'content' properties. " +
+        "Roles can be 'system', 'user', 'assistant', or 'function'. " +
+        "Example: {\"role\":\"user\",\"content\":\"Hello, how are you?\"}. " +
+        "[See docs](https://api.cometapi.com/doc).",
     },
     maxTokens: {
       propDefinition: [
@@ -83,16 +89,27 @@ export default {
     },
   },
   async run({ $ }) {
-    // Validate messages format
+    // Validate model is provided
+    if (!this.model) {
+      throw new ConfigurationError("Model is required");
+    }
+
+    // Validate and parse messages
     const messages = parseObject(this.messages);
-    if (!Array.isArray(messages) || !messages.length) {
+
+    if (!Array.isArray(messages) || messages.length === 0) {
       throw new ConfigurationError("Messages must be a non-empty array");
     }
 
-    // Validate each message has required properties
-    for (const msg of messages) {
-      if (!msg.role || !msg.content) {
-        throw new ConfigurationError("Each message must have 'role' and 'content' properties");
+    // Validate message format
+    for (const [
+      index,
+      message,
+    ] of messages.entries()) {
+      if (!message.role || !message.content) {
+        throw new ConfigurationError(
+          `Message at index ${index} must have both 'role' and 'content' properties`,
+        );
       }
 
       if (![
@@ -100,43 +117,75 @@ export default {
         "user",
         "assistant",
         "function",
-      ].includes(msg.role)) {
-        throw new ConfigurationError(`Invalid role: ${msg.role}. Valid roles are: system, user, assistant, function`);
+      ].includes(message.role)) {
+        throw new ConfigurationError(
+          `Message at index ${index} has invalid role '${message.role}'. ` +
+          "Must be 'system', 'user', 'assistant', or 'function'",
+        );
+      }
+
+      if (typeof message.content !== "string" || message.content.trim() === "") {
+        throw new ConfigurationError(
+          `Message at index ${index} must have non-empty string content`,
+        );
       }
     }
 
+    // Normalize and validate numeric parameters
+    const toNum = (v) => (v === undefined || v === null || v === ""
+      ? undefined
+      : Number(v));
+    const temperature = toNum(this.temperature);
+    const topP = toNum(this.topP);
+    const topK = toNum(this.topK);
+    const frequencyPenalty = toNum(this.frequencyPenalty);
+    const presencePenalty = toNum(this.presencePenalty);
+    const repetitionPenalty = toNum(this.repetitionPenalty);
+    const maxTokens = toNum(this.maxTokens);
+    const seed = toNum(this.seed);
+
     // Validate numeric parameters
-    if (this.temperature &&
-        (parseFloat(this.temperature) < 0 || parseFloat(this.temperature) > 2)) {
-      throw new ConfigurationError("Temperature must be between 0.0 and 2.0");
+    if (temperature !== undefined &&
+        (!Number.isFinite(temperature) || temperature < 0 || temperature > 2)) {
+      throw new ConfigurationError("Temperature must be a number between 0.0 and 2.0");
     }
-
-    if (this.topP && (parseFloat(this.topP) <= 0 || parseFloat(this.topP) > 1)) {
-      throw new ConfigurationError("Top P must be between 0.0 and 1.0");
+    if (topP !== undefined &&
+        (!Number.isFinite(topP) || topP < 0 || topP > 1)) {
+      throw new ConfigurationError("Top P must be a number between 0.0 and 1.0");
     }
-
-    if (this.frequencyPenalty &&
-        (parseFloat(this.frequencyPenalty) < -2 || parseFloat(this.frequencyPenalty) > 2)) {
-      throw new ConfigurationError("Frequency Penalty must be between -2.0 and 2.0");
+    if (frequencyPenalty !== undefined &&
+        (!Number.isFinite(frequencyPenalty) || frequencyPenalty < -2 || frequencyPenalty > 2)) {
+      throw new ConfigurationError(
+        "Frequency Penalty must be a number between -2.0 and 2.0",
+      );
     }
-
-    if (this.presencePenalty &&
-        (parseFloat(this.presencePenalty) < -2 || parseFloat(this.presencePenalty) > 2)) {
-      throw new ConfigurationError("Presence Penalty must be between -2.0 and 2.0");
+    if (presencePenalty !== undefined &&
+        (!Number.isFinite(presencePenalty) || presencePenalty < -2 || presencePenalty > 2)) {
+      throw new ConfigurationError(
+        "Presence Penalty must be a number between -2.0 and 2.0",
+      );
+    }
+    if (topK !== undefined &&
+        (!Number.isFinite(topK) || topK < 0)) {
+      throw new ConfigurationError("Top K must be a non-negative number");
+    }
+    if (maxTokens !== undefined &&
+        (!Number.isFinite(maxTokens) || maxTokens <= 0)) {
+      throw new ConfigurationError("Max Tokens must be a positive number");
     }
 
     const data = {
       model: this.model,
       messages,
       stream: this.stream || false,
-      max_tokens: this.maxTokens,
-      temperature: this.temperature && parseFloat(this.temperature),
-      top_p: this.topP && parseFloat(this.topP),
-      top_k: this.topK,
-      frequency_penalty: this.frequencyPenalty && parseFloat(this.frequencyPenalty),
-      presence_penalty: this.presencePenalty && parseFloat(this.presencePenalty),
-      repetition_penalty: this.repetitionPenalty && parseFloat(this.repetitionPenalty),
-      seed: this.seed,
+      max_tokens: maxTokens,
+      temperature,
+      top_p: topP,
+      top_k: topK,
+      frequency_penalty: frequencyPenalty,
+      presence_penalty: presencePenalty,
+      repetition_penalty: repetitionPenalty,
+      seed,
       stop: this.stop,
     };
 
@@ -150,14 +199,9 @@ export default {
     const response = await this.cometapi.sendChatCompletionRequest({
       $,
       data,
-      timeout: 1000 * 60 * 5, // 5 minutes timeout
     });
 
-    if (response.error) {
-      throw new ConfigurationError(response.error.message);
-    }
-
-    $.export("$summary", `A new chat completion request with Id: ${response.id} was successfully created!`);
+    $.export("$summary", `Successfully sent chat completion request using model ${this.model}`);
     return response;
   },
 };

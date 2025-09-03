@@ -5,7 +5,10 @@ export default {
   key: "cometapi-send-completion-request",
   name: "Send Completion Request",
   version: "0.0.1",
-  description: "Send a text completion request to any available CometAPI model using a simple prompt. Ideal for content generation, creative writing, code completion, and text transformation tasks. Supports all major model families including GPT, Claude, Gemini, and more. [See the documentation](https://api.cometapi.com/doc)",
+  description: "Send a text completion request to any available CometAPI model using a simple prompt. " +
+    "Ideal for content generation, creative writing, code completion, and text transformation tasks. " +
+    "Supports all major model families including GPT, Claude, Gemini, and more. " +
+    "[See the documentation](https://api.cometapi.com/doc)",
   type: "action",
   props: {
     cometapi,
@@ -18,7 +21,9 @@ export default {
     prompt: {
       type: "string",
       label: "Prompt",
-      description: "The text prompt to complete. This can be a question, partial sentence, code snippet, or any text you want the AI to continue or respond to. Examples: 'Write a story about...', 'Explain quantum physics', 'def fibonacci(n):'",
+      description: "The text prompt to complete. This can be a question, partial sentence, " +
+        "code snippet, or any text you want the AI to continue or respond to. " +
+        "Examples: 'Write a story about...', 'Explain quantum physics', 'def fibonacci(n):'",
     },
     maxTokens: {
       propDefinition: [
@@ -82,43 +87,71 @@ export default {
     },
   },
   async run({ $ }) {
-    // Validate prompt is provided
-    if (!this.prompt || this.prompt.trim().length === 0) {
-      throw new ConfigurationError("Prompt is required and cannot be empty");
+    // Validate model is provided
+    if (!this.model) {
+      throw new ConfigurationError("Model is required");
     }
+
+    // Validate prompt
+    if (!this.prompt || typeof this.prompt !== "string" || this.prompt.trim() === "") {
+      throw new ConfigurationError("Prompt is required and must be a non-empty string");
+    }
+
+    // Normalize and validate numeric parameters
+    const toNum = (v) => (v === undefined || v === null || v === ""
+      ? undefined
+      : Number(v));
+    const temperature = toNum(this.temperature);
+    const topP = toNum(this.topP);
+    const topK = toNum(this.topK);
+    const frequencyPenalty = toNum(this.frequencyPenalty);
+    const presencePenalty = toNum(this.presencePenalty);
+    const repetitionPenalty = toNum(this.repetitionPenalty);
+    const maxTokens = toNum(this.maxTokens);
+    const seed = toNum(this.seed);
 
     // Validate numeric parameters
-    if (this.temperature &&
-        (parseFloat(this.temperature) < 0 || parseFloat(this.temperature) > 2)) {
-      throw new ConfigurationError("Temperature must be between 0.0 and 2.0");
+    if (temperature !== undefined &&
+        (!Number.isFinite(temperature) || temperature < 0 || temperature > 2)) {
+      throw new ConfigurationError("Temperature must be a number between 0.0 and 2.0");
     }
-
-    if (this.topP && (parseFloat(this.topP) <= 0 || parseFloat(this.topP) > 1)) {
-      throw new ConfigurationError("Top P must be between 0.0 and 1.0");
+    if (topP !== undefined &&
+        (!Number.isFinite(topP) || topP < 0 || topP > 1)) {
+      throw new ConfigurationError("Top P must be a number between 0.0 and 1.0");
     }
-
-    if (this.frequencyPenalty &&
-        (parseFloat(this.frequencyPenalty) < -2 || parseFloat(this.frequencyPenalty) > 2)) {
-      throw new ConfigurationError("Frequency Penalty must be between -2.0 and 2.0");
+    if (frequencyPenalty !== undefined &&
+        (!Number.isFinite(frequencyPenalty) || frequencyPenalty < -2 || frequencyPenalty > 2)) {
+      throw new ConfigurationError(
+        "Frequency Penalty must be a number between -2.0 and 2.0",
+      );
     }
-
-    if (this.presencePenalty &&
-        (parseFloat(this.presencePenalty) < -2 || parseFloat(this.presencePenalty) > 2)) {
-      throw new ConfigurationError("Presence Penalty must be between -2.0 and 2.0");
+    if (presencePenalty !== undefined &&
+        (!Number.isFinite(presencePenalty) || presencePenalty < -2 || presencePenalty > 2)) {
+      throw new ConfigurationError(
+        "Presence Penalty must be a number between -2.0 and 2.0",
+      );
+    }
+    if (topK !== undefined &&
+        (!Number.isFinite(topK) || topK < 0)) {
+      throw new ConfigurationError("Top K must be a non-negative number");
+    }
+    if (maxTokens !== undefined &&
+        (!Number.isFinite(maxTokens) || maxTokens <= 0)) {
+      throw new ConfigurationError("Max Tokens must be a positive number");
     }
 
     const data = {
       model: this.model,
       prompt: this.prompt.trim(),
       stream: this.stream || false,
-      max_tokens: this.maxTokens,
-      temperature: this.temperature && parseFloat(this.temperature),
-      top_p: this.topP && parseFloat(this.topP),
-      top_k: this.topK,
-      frequency_penalty: this.frequencyPenalty && parseFloat(this.frequencyPenalty),
-      presence_penalty: this.presencePenalty && parseFloat(this.presencePenalty),
-      repetition_penalty: this.repetitionPenalty && parseFloat(this.repetitionPenalty),
-      seed: this.seed,
+      max_tokens: maxTokens,
+      temperature,
+      top_p: topP,
+      top_k: topK,
+      frequency_penalty: frequencyPenalty,
+      presence_penalty: presencePenalty,
+      repetition_penalty: repetitionPenalty,
+      seed,
       stop: this.stop,
     };
 
@@ -132,14 +165,9 @@ export default {
     const response = await this.cometapi.sendCompletionRequest({
       $,
       data,
-      timeout: 1000 * 60 * 5, // 5 minutes timeout
     });
 
-    if (response.error) {
-      throw new ConfigurationError(response.error.message);
-    }
-
-    $.export("$summary", `A new completion request with Id: ${response.id} was successfully created!`);
+    $.export("$summary", `Successfully sent completion request using model ${this.model}`);
     return response;
   },
 };
