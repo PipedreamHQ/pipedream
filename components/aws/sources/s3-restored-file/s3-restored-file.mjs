@@ -1,4 +1,5 @@
 import base from "../common/s3.mjs";
+import includeLink from "../common/include-link.mjs";
 
 export default {
   ...base,
@@ -6,7 +7,7 @@ export default {
   key: "aws-s3-restored-file",
   name: "New Restored S3 File",
   description: "Emit new event when an file is restored into a S3 bucket",
-  version: "0.1.4",
+  version: "0.2.0",
   dedupe: "unique",
   props: {
     ...base.props,
@@ -16,9 +17,11 @@ export default {
       description: "When enabled, this event source will also emit events whenever a restore is initiated",
       default: false,
     },
+    ...includeLink.props,
   },
   methods: {
     ...base.methods,
+    ...includeLink.methods,
     getEvents() {
       return [
         this.detectRestoreInitiation
