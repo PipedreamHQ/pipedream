@@ -76,14 +76,13 @@ export default {
       }
 
       // Track the latest review time
-      let latestReviewTime = lastReviewTime;
+      // Initialize latestReviewTime as a numeric timestamp (ms)
+      let latestReviewTime = Number(lastReviewTime) || 0;
 
       for (const review of newReviews) {
         // Track the latest review time
-        if (!latestReviewTime || review.createdAt > latestReviewTime) {
-          latestReviewTime = review.createdAt;
-        }
-
+        const createdTs = new Date(review.createdAt).getTime();
+        if (createdTs > latestReviewTime) latestReviewTime = createdTs;
         // Emit the review with unique ID and summary
         this.$emit(review, {
           id: review.id,
