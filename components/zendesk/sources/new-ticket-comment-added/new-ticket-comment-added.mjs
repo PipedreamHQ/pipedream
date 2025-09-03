@@ -59,9 +59,14 @@ export default {
     },
     convertCommentsToJson(raw) {
       return [
-        ...raw.matchAll(/#<Comment (.*?)>/g),
+        ...raw.matchAll(/#<Comment (.*?)(value: "[^"]*")(.*?)>/g),
       ].map((match) => {
-        const fields = match[1]
+        const valueField = match[0].match(/(?<=, )value: "([^"]|\\")*[^\\]",/)?.[0];
+        const baseMatch = match[0].replace(/^#<Comment /, "");
+        const baseMatchWithoutValue = valueField
+          ? baseMatch.split(valueField).join("")
+          : baseMatch;
+        const fields = baseMatchWithoutValue
           .split(",")
           .map((part) => part.trim())
           .map((pair) => {
@@ -81,7 +86,15 @@ export default {
               cleaned,
             ];
           });
-        return Object.fromEntries(fields);
+        return Object.fromEntries(valueField
+          ? [
+            ...fields,
+            [
+              "value",
+              valueField?.replace(/^value: ?/, ""),
+            ],
+          ]
+          : fields);
       });
     },
     isRelevant(payload) {
