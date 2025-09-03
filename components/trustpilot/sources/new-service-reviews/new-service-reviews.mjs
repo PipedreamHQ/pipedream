@@ -58,9 +58,10 @@ export default {
       // Use the shared method from the app directly
       let result = await this.trustpilot.fetchServiceReviews(fetchParams);
 
-      while (result.length === 100) {
-        fetchParams.page += 1;
-        result = result.concat(await this.trustpilot.fetchServiceReviews(fetchParams));
+      while (result.reviews && result.reviews.length === 100) {
+        fetchParams.page = (fetchParams.page || 1) + 1;
+        const nextResult = await this.trustpilot.fetchServiceReviews(fetchParams);
+        result.reviews = result.reviews.concat(nextResult.reviews || []);
       }
 
       const reviews = result.reviews || [];
@@ -71,15 +72,14 @@ export default {
       }
 
       // Emit reviews (already parsed by the action)
-let latestReviewTime = lastReviewTime;
+      let latestReviewTime = lastReviewTime;
 
-for (const review of reviews) {
-  // Track the latest review time
-  const reviewTime = new Date(review.createdAt).toISOString();
-  if (!latestReviewTime || new Date(reviewTime) > new Date(latestReviewTime)) {
-    latestReviewTime = reviewTime;
-  }
-}
+      for (const review of reviews) {
+        // Track the latest review time
+        const reviewTime = new Date(review.createdAt).toISOString();
+        if (!latestReviewTime || new Date(reviewTime) > new Date(latestReviewTime)) {
+          latestReviewTime = reviewTime;
+        }
 
         // Emit the review with unique ID and summary
         this.$emit(review, {
