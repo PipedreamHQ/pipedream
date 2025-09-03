@@ -976,6 +976,9 @@ importers:
 
   components/apilio: {}
 
+  components/apimage:
+    specifiers: {}
+
   components/apipie_ai: {}
 
   components/apitemplate_io:
