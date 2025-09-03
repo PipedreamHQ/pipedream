@@ -83,7 +83,7 @@ export default {
         responseType: "arraybuffer",
       });
       const buffer = Buffer.from(response, "base64");
-      const filepath = `${driveItem.id}}/${driveItem.name}`;
+      const filepath = `${driveItem.id}/${driveItem.name}`;
       const file = await this.dir.open(filepath).fromReadableStream(
         Readable.from(buffer),
         driveItem.file.mimeType,

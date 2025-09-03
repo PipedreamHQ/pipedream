@@ -17,7 +17,6 @@
     "got": "13.0.0",
     "lodash": "^4.17.21",
     "mime-db": "^1.51.0",
-    "stream": "^0.0.3",
     "uuid": "^8.3.2"
   },
   "gitHead": "e12480b94cc03bed4808ebc6b13e7fdb3a1ba535",

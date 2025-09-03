@@ -82,8 +82,8 @@ export default {
             }
           }
           this.$emit(item, this.getMeta(item));
+          count++;
         }
-        count++;
       }
     },
   },
