@@ -66,13 +66,15 @@ export default {
       }
 
       // Emit reviews (already parsed by the action)
-      let latestReviewTime = lastReviewTime;
+let latestReviewTime = lastReviewTime;
 
-      for (const review of reviews) {
-        // Track the latest review time
-        if (!latestReviewTime || review.createdAt > latestReviewTime) {
-          latestReviewTime = review.createdAt;
-        }
+for (const review of reviews) {
+  // Track the latest review time
+  const reviewTime = new Date(review.createdAt).toISOString();
+  if (!latestReviewTime || new Date(reviewTime) > new Date(latestReviewTime)) {
+    latestReviewTime = reviewTime;
+  }
+}
 
         // Emit the review with unique ID and summary
         this.$emit(review, {
