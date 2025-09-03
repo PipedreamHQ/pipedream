@@ -7,7 +7,7 @@ export default {
   key: "zendesk-new-ticket-comment-added",
   type: "source",
   description: "Emit new event when a ticket comment has been added",
-  version: "0.0.2",
+  version: "0.1.0",
   dedupe: "unique",
   props: {
     app,
@@ -97,10 +97,16 @@ export default {
     },
     emitEvent(payload) {
       payload.ticketComments = this.convertCommentsToJson(payload.ticketComments);
-      for (const comment of payload.ticketComments) {
+      const {
+        ticketComments, ...ticketData
+      } = payload;
+      for (const comment of ticketComments) {
         const ts = Date.parse(comment.created_at);
         const id = `${payload.ticketId}-${ts}`;
-        this.$emit(comment, {
+        this.$emit({
+          ...comment,
+          ticketData,
+        }, {
           id,
           summary: comment.value,
           ts,
