@@ -20,3 +20,11 @@ export function parseObjectEntries(value = {}) {
     ]),
   );
 }
+
+export function parseArray(value) {
+  if (!value) return [];
+  if (typeof value === "string") {
+    return JSON.parse(value);
+  }
+  return value;
+}

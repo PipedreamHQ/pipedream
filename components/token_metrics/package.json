@@ -1,11 +1,14 @@
 {
   "name": "@pipedream/token_metrics",
-  "version": "0.1.0",
+  "version": "0.0.2",
   "description": "Pipedream Token Metrics Components",
   "main": "token_metrics.app.mjs",
   "keywords": [
     "pipedream",
-    "token_metrics"
+    "token_metrics",
+    "cryptocurrency",
+    "blockchain",
+    "analytics"
   ],
   "homepage": "https://pipedream.com/apps/token_metrics",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
@@ -13,6 +16,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^1.6.0"
+    "@pipedream/platform": "^3.0.3"
   }
 }

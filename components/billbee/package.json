@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/billbee",
+  "version": "0.0.1",
+  "description": "Pipedream Billbee Components",
+  "main": "billbee.app.mjs",
+  "keywords": [
+    "pipedream",
+    "billbee"
+  ],
+  "homepage": "https://pipedream.com/apps/billbee",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

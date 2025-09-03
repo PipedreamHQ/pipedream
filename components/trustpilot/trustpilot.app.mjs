@@ -8,7 +8,7 @@ import {
   validateBusinessUnitId,
 } from "./common/utils.mjs";
 
-export default defineApp({
+export default {
   type: "app",
   app: "trustpilot",
   propDefinitions: {
@@ -261,4 +261,4 @@ export default defineApp({
       };
     },
   },
-});
+};

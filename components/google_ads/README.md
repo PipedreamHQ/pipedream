@@ -28,7 +28,7 @@ The component accepts a standard Google Ads API request object with the followin
 ```javascript
 const googleAdsReq = {
   method: "get|post|put|delete", // HTTP method
-  url: "/v18/...", // Google Ads API endpoint path
+  url: "/v21/...", // Google Ads API endpoint path
   headers: {
     Authorization: `Bearer ${this.googleAds.$auth.oauth_access_token}`,
   },

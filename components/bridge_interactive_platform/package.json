@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/bridge_interactive_platform",
+  "version": "0.1.0",
+  "description": "Pipedream Bridge Interactive Platform Components",
+  "main": "bridge_interactive_platform.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bridge_interactive_platform"
+  ],
+  "homepage": "https://pipedream.com/apps/bridge_interactive_platform",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
+  }
+}

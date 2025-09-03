@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/dataforseo",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Pipedream DataForSEO Components",
   "main": "dataforseo.app.mjs",
   "keywords": [
