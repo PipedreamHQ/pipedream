@@ -56,7 +56,12 @@ export default {
       }
 
       // Use the shared method from the app directly
-      const result = await this.trustpilot.fetchServiceReviews(fetchParams);
+      let result = await this.trustpilot.fetchServiceReviews(fetchParams);
+
+      while (result.length === 100) {
+        fetchParams.page += 1;
+        result = result.concat(await this.trustpilot.fetchServiceReviews(fetchParams));
+      }
 
       const reviews = result.reviews || [];
 
