@@ -39,6 +39,7 @@ export default defineConfig({
     dts({
       insertTypesEntry: true,
       rollupTypes: true,
+      tsconfigPath: path.resolve(__dirname, "tsconfig.json"),
       afterDiagnostic: (diagnostics) => {
         if (diagnostics.length > 0) {
           throw new Error(`Build failed: ${diagnostics.length} TypeScript error(s) found`);
