@@ -1,24 +1,15 @@
-import { axios } from "@pipedream/platform";
 import { defineApp } from "@pipedream/types";
-import * as crypto from "crypto";
+import { makeRequest } from "./common/api-client.mjs";
 import {
-  BASE_URL,
   DEFAULT_LIMIT,
   ENDPOINTS,
-  HTTP_STATUS,
   MAX_LIMIT,
-  RATING_SCALE,
-  RETRY_CONFIG,
   SORT_OPTIONS,
 } from "./common/constants.mjs";
 import {
   buildUrl,
-  formatQueryParams,
-  parseBusinessUnit,
   parseReview,
-  parseWebhookPayload,
   sanitizeInput,
-  sleep,
   validateBusinessUnitId,
   validateReviewId,
 } from "./common/utils.mjs";
@@ -31,18 +22,26 @@ export default defineApp({
       type: "string",
       label: "Business Unit ID",
       description: "The unique identifier for your business unit on Trustpilot",
-      async options(page, prevContext, query) {
+      useQuery: true,
+      async options({
+        page, query,
+      }) {
         try {
           const businessUnits = await this.searchBusinessUnits({
-            query,
             page,
+            query,
           });
-          return businessUnits.map(({
-            id, displayName, name: { identifying },
-          }) => ({
-            label: `${identifying || displayName}`,
-            value: id,
-          }));
+
+          return businessUnits.map((businessUnit) => {
+            const {
+              id, displayName,
+            } = businessUnit;
+
+            return {
+              label: displayName,
+              value: id,
+            };
+          });
         } catch (error) {
           console.error("Error fetching business units:", error);
           return [];
@@ -64,13 +63,6 @@ export default defineApp({
       type: "string",
       label: "Product URL",
       description: "Filter by product URL",
-      optional: true,
-    },
-    stars: {
-      type: "integer",
-      label: "Star Rating",
-      description: "Filter by star rating (1-5)",
-      options: RATING_SCALE,
       optional: true,
     },
     sortBy: {
@@ -115,113 +107,28 @@ export default defineApp({
       description: "Filter reviews by language (ISO 639-1 code)",
       optional: true,
     },
+    state: {
+      type: "string",
+      label: "State",
+      description: "Which reviews to retrieve according to their review state. Default is Published.",
+      options: [
+        "published",
+        "unpublished",
+      ],
+      optional: true,
+    },
+    locale: {
+      type: "string",
+      label: "Locale",
+      description: "The language in which the attributes, if any, are returned",
+      optional: true,
+    },
   },
   methods: {
-    // Authentication and base request methods
-    _isPrivateURL(url) {
-      return url.includes("private");
-    },
-
-    _getAuthHeadersForPrivateURL() {
-      if (!this.$auth?.oauth_access_token) {
-        throw new Error("Authentication required: OAuth token is required for private requests");
-      } else {
-        return {
-          "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
-        };
-      }
-    },
-
-    _getAuthHeadersForPublicURL() {
-      if (!this.$auth?.api_key) {
-        throw new Error("Authentication required: API key is required for public requests");
-      } else {
-        return {
-          "apikey": this.$auth.api_key,
-        };
-      }
-    },
-
-    _getAuthHeaders(url) {
-      const headers = {
-        "Content-Type": "application/json",
-        "User-Agent": "Pipedream/1.0",
-      };
-
-      const isPrivate = this._isPrivateURL(url);
-      console.log("isPrivate", isPrivate);
-
-      if (isPrivate) {
-        return {
-          ...headers,
-          ...this._getAuthHeadersForPrivateURL(),
-        };
-      } else {
-        return {
-          ...headers,
-          ...this._getAuthHeadersForPublicURL(),
-        };
-      }
-    },
-
-    async _makeRequest({
-      endpoint, method = "GET", params = {}, data = null, ...args
-    }) {
-      const url = `${BASE_URL}${endpoint}`;
-      const headers = this._getAuthHeaders();
-
-      const config = {
-        method,
-        url,
-        headers,
-        params: formatQueryParams(params),
-        timeout: 30000,
-        ...args,
-      };
-
-      if (data) {
-        config.data = data;
-      }
-
-      const response = await axios(this, config);
-      return response.data || response;
-    },
-
-    async _makeRequestWithRetry(config, retries = RETRY_CONFIG.MAX_RETRIES) {
-      try {
-        return await this._makeRequest(config);
-      } catch (error) {
-        if (retries > 0 && error.response?.status === HTTP_STATUS.TOO_MANY_REQUESTS) {
-          const delay = Math.min(
-            RETRY_CONFIG.INITIAL_DELAY * (RETRY_CONFIG.MAX_RETRIES - retries + 1),
-            RETRY_CONFIG.MAX_DELAY,
-          );
-          await sleep(delay);
-          return this._makeRequestWithRetry(config, retries - 1);
-        }
-        throw error;
-      }
-    },
-
-    // Business Unit methods
-    async getBusinessUnit(businessUnitId) {
-      if (!validateBusinessUnitId(businessUnitId)) {
-        throw new Error("Invalid business unit ID");
-      }
-
-      const endpoint = buildUrl(ENDPOINTS.BUSINESS_UNIT_BY_ID, {
-        businessUnitId,
-      });
-      const response = await this._makeRequest({
-        endpoint,
-      });
-      return parseBusinessUnit(response);
-    },
-
     async searchBusinessUnits({
-      query = "", page = 1,
+      query = "a", page = 1,
     } = {}) {
-      const response = await this._makeRequest({
+      const response = await makeRequest(this, {
         endpoint: ENDPOINTS.BUSINESS_UNITS,
         params: {
           query,
@@ -229,7 +136,7 @@ export default defineApp({
         },
       });
 
-      return response.businessUnits?.map(parseBusinessUnit) || [];
+      return response.businessUnits || [];
     },
 
     // Public Review methods (no auth required for basic info)
@@ -297,45 +204,40 @@ export default defineApp({
       return parseReview(response);
     },
 
-    // Private helper for fetching reviews
-    async _getReviews({
-      endpoint,
+    // Service Review methods - simplified for sources
+    async getServiceReviews({
       businessUnitId,
-      sku = null,
-      productUrl = null,
       stars = null,
       sortBy = SORT_OPTIONS.CREATED_AT_DESC,
       limit = DEFAULT_LIMIT,
       offset = 0,
-      includeReportedReviews = false,
       tags = [],
       language = null,
-    }) {
-      if (businessUnitId && !validateBusinessUnitId(businessUnitId)) {
+    } = {}) {
+      if (!validateBusinessUnitId(businessUnitId)) {
         throw new Error("Invalid business unit ID");
       }
 
-      if (sku === null && productUrl === null) {
-        throw new Error("Either SKU or product URL is required");
-      }
+      const endpoint = buildUrl(ENDPOINTS.PUBLIC_REVIEWS, {
+        businessUnitId,
+      });
 
       const params = {
-        sku,
-        productUrl,
         stars,
         orderBy: sortBy,
         perPage: limit,
         page: Math.floor(offset / limit) + 1,
-        includeReportedReviews,
         language,
       };
 
-      if (tags.length > 0) {
-        params.tags = tags.join(",");
+      if (tags && tags.length > 0) {
+        params.tags = Array.isArray(tags)
+          ? tags.join(",")
+          : tags;
       }
 
-      const response = await this._makeRequestWithRetry({
-        endpoint: endpoint || ENDPOINTS.SERVICE_REVIEWS,
+      const response = await makeRequest(this, {
+        endpoint,
         params,
       });
 
@@ -348,17 +250,6 @@ export default defineApp({
           hasMore: response.pagination?.hasMore || false,
         },
       };
-    },
-
-    // Private Service Review methods
-    async getServiceReviews(options = {}) {
-      const endpoint = buildUrl(ENDPOINTS.PUBLIC_REVIEWS, {
-        businessUnitId: options.businessUnitId,
-      });
-      return this._getReviews({
-        endpoint,
-        ...options,
-      });
     },
 
     async getServiceReviewById({
@@ -414,15 +305,60 @@ export default defineApp({
       return response;
     },
 
-    // Product Review methods
-    async getProductReviews(options = {}) {
-      const endpoint = buildUrl(ENDPOINTS.PUBLIC_PRODUCT_REVIEWS, {
-        businessUnitId: options.businessUnitId,
+    // Product Review methods - simplified for sources
+    async getProductReviews({
+      businessUnitId,
+      sku = null,
+      productUrl = null,
+      stars = null,
+      sortBy = SORT_OPTIONS.CREATED_AT_DESC,
+      limit = DEFAULT_LIMIT,
+      offset = 0,
+      includeReportedReviews = false,
+      tags = [],
+      language = null,
+    } = {}) {
+      if (!validateBusinessUnitId(businessUnitId)) {
+        throw new Error("Invalid business unit ID");
+      }
+
+      const endpoint = buildUrl(ENDPOINTS.PRIVATE_PRODUCT_REVIEWS, {
+        businessUnitId,
       });
-      return this._getReviews({
+
+      const params = {
+        sku,
+        productUrl,
+        stars,
+        orderBy: sortBy,
+        perPage: limit,
+        page: Math.floor(offset / limit) + 1,
+        includeReportedReviews,
+        language,
+      };
+
+      if (tags && tags.length > 0) {
+        params.tags = Array.isArray(tags)
+          ? tags.join(",")
+          : tags;
+      }
+
+      const response = await makeRequest(this, {
         endpoint,
-        ...options,
+        params,
       });
+
+      return {
+        reviews: response.productReviews?.map(parseReview) || [], // Note: productReviews not reviews
+        pagination: {
+          total: response.links?.total || 0,
+          page: params.page,
+          perPage: params.perPage,
+          hasMore: response.links?.next
+            ? true
+            : false,
+        },
+      };
     },
 
     async getProductReviewById({ reviewId }) {
@@ -609,34 +545,5 @@ export default defineApp({
       });
       return response.webhooks || [];
     },
-
-    // Utility methods
-    parseWebhookPayload(payload) {
-      return parseWebhookPayload(payload);
-    },
-
-    validateWebhookSignature(payload, signature, secret) {
-      // Trustpilot uses HMAC-SHA256 for webhook signature validation
-      // The signature is sent in the x-trustpilot-signature header
-      if (!signature || !secret) {
-        return false;
-      }
-
-      const payloadString = typeof payload === "string"
-        ? payload
-        : JSON.stringify(payload);
-
-      const expectedSignature = crypto
-        .createHmac("sha256", secret)
-        .update(payloadString)
-        .digest("hex");
-
-      // Constant time comparison to prevent timing attacks
-      return crypto.timingSafeEqual(
-        Buffer.from(signature),
-        Buffer.from(expectedSignature),
-      );
-    },
-
   },
 });

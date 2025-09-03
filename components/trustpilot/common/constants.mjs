@@ -16,16 +16,12 @@ export const ENDPOINTS = {
 
   // Public Reviews
   PUBLIC_REVIEWS: "/business-units/{businessUnitId}/reviews",
-  PUBLIC_REVIEW_BY_ID: "/business-units/{businessUnitId}/reviews/{reviewId}",
+  PUBLIC_REVIEW_BY_ID: "/reviews/{reviewId}",
 
   // Service Reviews
-  SERVICE_REVIEWS: "/reviews",
-  SERVICE_REVIEW_BY_ID: "/reviews/{reviewId}",
+  SERVICE_REVIEWS: "/private/business-units/{businessUnitId}/reviews",
+  SERVICE_REVIEW_BY_ID: "/private/reviews/{reviewId}",
   REPLY_TO_SERVICE_REVIEW: "/private/reviews/{reviewId}/reply",
-
-  // Public Reviews (Product)
-  PUBLIC_PRODUCT_REVIEWS: "/product-reviews/business-units/{businessUnitId}/reviews",
-  PUBLIC_PRODUCT_REVIEW_BY_ID: "/product-reviews/{reviewId}",
 
   // Private Reviews (Product)
   PRIVATE_PRODUCT_REVIEWS: "/private/product-reviews/business-units/{businessUnitId}/reviews",
@@ -36,17 +32,6 @@ export const ENDPOINTS = {
   CONVERSATIONS: "/private/conversations",
   CONVERSATION_BY_ID: "/private/conversations/{conversationId}",
   REPLY_TO_CONVERSATION: "/private/conversations/{conversationId}/comments",
-
-  // Invitations
-  EMAIL_INVITATIONS: "/private/business-units/{businessUnitId}/email-invitations",
-
-  // Webhooks
-  // Note: This integration uses polling sources instead of webhooks for better reliability
-  // and simpler implementation. Webhook signature validation is implemented in the app
-  // using HMAC-SHA256 with the x-trustpilot-signature header for future webhook sources.
-  // These endpoints and validation methods are ready for webhook implementation if needed.
-  WEBHOOKS: "/private/webhooks",
-  WEBHOOK_BY_ID: "/private/webhooks/{webhookId}",
 };
 
 export const REVIEW_TYPES = {
