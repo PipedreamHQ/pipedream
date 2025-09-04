@@ -3719,6 +3719,9 @@ importers:
 
   components/device_magic: {}
 
+  components/devin:
+    specifiers: {}
+
   components/devrev:
     dependencies:
       '@pipedream/platform':
