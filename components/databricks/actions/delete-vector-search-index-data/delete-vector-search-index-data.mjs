@@ -1,0 +1,46 @@
+import databricks from "../../databricks.app.mjs";
+
+export default {
+  key: "databricks-delete-data-from-vector-index",
+  name: "Delete Data from Vector Search Index",
+  description:
+    "Deletes rows from a Direct Access vector index by primary-key values. [See the documentation](https://docs.databricks.com/api/workspace/vectorsearchindexes/deletedatavectorindex)",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    databricks,
+    indexName: {
+      propDefinition: [
+        databricks,
+        "indexName",
+      ],
+    },
+    primaryKeys: {
+      type: "string[]",
+      label: "Primary Keys",
+      description:
+        "Values of the index’s primary key column to delete (e.g. `1`, `2`). These are the values for the column you set as `primary_key` when the index was created.",
+    },
+  },
+  async run({ $ }) {
+    const keys = (this.primaryKeys || [])
+      .map((s) => String(s).trim())
+      .filter(Boolean);
+
+    if (!keys.length) {
+      throw new Error("Please provide at least one primary key to delete.");
+    }
+    
+    const response = await this.databricks.deleteVectorSearchData({
+      indexName: this.indexName,
+      params: { primary_keys: keys }, 
+      $,
+    });
+
+    $.export(
+      "$summary",
+      `Requested delete of ${keys.length} row(s) from index "${this.indexName}".`,
+    );
+    return response;
+  },
+};
