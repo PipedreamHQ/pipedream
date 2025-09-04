@@ -102,7 +102,7 @@ export default defineAction({
         const buffer = await this.streamToBuffer(stream);
         const base64 = buffer.toString("base64");
         attachments.push({
-          name: metadata.name,
+          filename: metadata.name,
           content: base64,
         });
       }
@@ -112,10 +112,10 @@ export default defineAction({
       if (attachmentsBase64.length !== base64AttachmentFilenames.length) {
         throw new ConfigurationError("The number of base64-encoded attachments must match the number of base64-encoded attachment filenames");
       }
-      for (let i = 1; i <= attachmentsBase64.length; i++) {
+      for (let i = 0; i < attachmentsBase64.length; i++) {
         attachments.push({
-          name: base64AttachmentFilenames[i - 1],
-          content: attachmentsBase64[i - 1],
+          filename: base64AttachmentFilenames[i],
+          content: attachmentsBase64[i],
         });
       }
     }
