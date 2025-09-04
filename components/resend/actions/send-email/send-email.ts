@@ -43,7 +43,7 @@ export default defineAction({
     },
     cc: {
       type: "string",
-      label: "CCc",
+      label: "Cc",
       description: "Cc recipient email address(es).",
       optional: true,
     },
