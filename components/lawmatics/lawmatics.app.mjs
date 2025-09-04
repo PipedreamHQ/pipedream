@@ -15,14 +15,10 @@ export default {
           },
         });
         return data.map(({
-          id: value, attributes: {
-            firstName,
-            lastName,
-            email,
-          },
+          id: value, attributes: { email },
         }) => ({
           value,
-          label: `${firstName} ${lastName} ${email}`.trim() || value,
+          label: email,
         }));
       },
     },
