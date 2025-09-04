@@ -7,8 +7,8 @@ export default {
   ...common,
   key: "google_ads-send-offline-conversion",
   name: "Send Offline Conversion",
-  description: "Send an event from to Google Ads to track offline conversions. [See the documentation](https://developers.google.com/google-ads/api/rest/reference/rest/v18/ConversionAction)",
-  version: "0.0.4",
+  description: "Send an event to Google Ads to track offline conversions. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v21/ConversionAction)",
+  version: "0.0.5",
   type: "action",
   props: {
     ...common.props,
@@ -20,10 +20,10 @@ export default {
     type: {
       type: "string",
       label: "Type",
-      description: "[The type](https://developers.google.com/google-ads/api/rest/reference/rest/v18/ConversionAction#ConversionActionType) of the conversion action.",
+      description: "[The type](https://developers.google.com/google-ads/api/reference/rpc/v21/ConversionActionTypeEnum.ConversionActionType) of the conversion action.",
       options: CONVERSION_TYPE_OPTIONS,
     },
-    additionalFields: getAdditionalFields("https://developers.google.com/google-ads/api/rest/reference/rest/v18/ConversionAction"),
+    additionalFields: getAdditionalFields("https://developers.google.com/google-ads/api/reference/rpc/v21/ConversionAction"),
   },
   async run({ $ }) {
     const {
