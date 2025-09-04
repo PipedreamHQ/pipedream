@@ -70,11 +70,13 @@ export default {
         const { items } = await this.listDatasets({
           offset: LIMIT * page,
           limit: LIMIT,
+          desc: true,
+          unnamed: true,
         });
         return items?.map(({
-          id: value, name: label,
+          id: value, name,
         }) => ({
-          label,
+          label: name || "unnamed",
           value,
         })) || [];
       },
@@ -126,6 +128,13 @@ export default {
       label: "Limit",
       description: "The maximum number of items to return",
       default: LIMIT,
+      optional: true,
+    },
+    offset: {
+      type: "integer",
+      label: "Offset",
+      description: "The number records to skip before returning results",
+      default: 0,
       optional: true,
     },
   },

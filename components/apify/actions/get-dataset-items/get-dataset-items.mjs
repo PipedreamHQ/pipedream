@@ -33,10 +33,10 @@ export default {
         "omit",
       ],
     },
-    flatten: {
+    offset: {
       propDefinition: [
         apify,
-        "flatten",
+        "offset",
       ],
     },
     limit: {
@@ -49,11 +49,10 @@ export default {
   async run({ $ }) {
     const params = {
       limit: LIMIT,
-      offset: 0,
+      offset: this.offset,
       clean: this.clean,
       fields: this.fields && this.fields.join(),
       omit: this.omit && this.omit.join(),
-      flatten: this.flatten && this.flatten.join(),
     };
 
     const results = [];
