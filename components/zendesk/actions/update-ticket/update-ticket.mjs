@@ -5,7 +5,7 @@ export default {
   name: "Update Ticket",
   description: "Updates a ticket. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/tickets/tickets/#update-ticket).",
   type: "action",
-  version: "0.2.0",
+  version: "0.2.1",
   props: {
     app,
     ticketId: {
@@ -184,9 +184,9 @@ export default {
 
     const attachmentCount = ticketComment.uploads?.length || 0;
     const assigneeUpdated = assigneeId || assigneeEmail;
-    
+
     let summary = `Successfully updated ticket with ID ${response.ticket.id}`;
-    
+
     const updates = [];
     if (attachmentCount > 0) {
       updates.push(`${attachmentCount} attachment(s)`);
@@ -194,7 +194,7 @@ export default {
     if (assigneeUpdated) {
       updates.push("assignee");
     }
-    
+
     if (updates.length > 0) {
       summary += ` with ${updates.join(" and ")}`;
     }
