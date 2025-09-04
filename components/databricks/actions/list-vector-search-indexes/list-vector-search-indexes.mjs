@@ -11,10 +11,14 @@ export default {
   },
 
   async run({ $ }) {
-    const response = await this.databricks.listVectorSearchIndexes({ $ });
+    const response = await this.databricks.listVectorSearchIndexes({
+      $,
+    });
 
     const count = response?.vector_indexes?.length || 0;
-    $.export("$summary", `Found ${count} vector search index${count === 1 ? "" : "es"}`);
+    $.export("$summary", `Found ${count} vector search index${count === 1
+      ? ""
+      : "es"}`);
 
     return response;
   },

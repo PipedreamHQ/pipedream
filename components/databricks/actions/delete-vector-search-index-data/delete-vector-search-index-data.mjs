@@ -30,10 +30,12 @@ export default {
     if (!keys.length) {
       throw new Error("Please provide at least one primary key to delete.");
     }
-    
+
     const response = await this.databricks.deleteVectorSearchData({
       indexName: this.indexName,
-      params: { primary_keys: keys }, 
+      data: {
+        primary_keys: keys,
+      },
       $,
     });
 

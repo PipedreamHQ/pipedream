@@ -11,7 +11,7 @@ export default {
     indexName: {
       propDefinition: [
         databricks,
-        "indexName", 
+        "indexName",
       ],
     },
   },

@@ -26,7 +26,10 @@ export default {
       type: "string",
       label: "Index Type",
       description: "Type of index (`DELTA_SYNC` or `DIRECT_ACCESS`).",
-      options: ["DELTA_SYNC", "DIRECT_ACCESS"],
+      options: [
+        "DELTA_SYNC",
+        "DIRECT_ACCESS",
+      ],
     },
     primaryKey: {
       type: "string",
@@ -58,7 +61,10 @@ export default {
       type: "string",
       label: "Pipeline Type",
       description: "Pipeline type for syncing (default: TRIGGERED).",
-      options: ["TRIGGERED", "CONTINUOUS"],
+      options: [
+        "TRIGGERED",
+        "CONTINUOUS",
+      ],
       optional: true,
       default: "TRIGGERED",
     },
@@ -75,18 +81,23 @@ export default {
     if (this.indexType === "DELTA_SYNC") {
       if (!this.sourceTable) {
         throw new ConfigurationError(
-          "sourceTable is required when indexType is DELTA_SYNC."
+          "sourceTable is required when indexType is DELTA_SYNC.",
         );
       }
+      const columnsToSync = Array.isArray(this.columnsToSync)
+        ? this.columnsToSync
+        : utils.parseObject(this.columnsToSync);
 
-      const columnsToSync = utils.parseObject(this.columnsToSync);
-      const embeddingSourceColumns = utils.parseObject(
-        this.embeddingSourceColumns
-      );
+      const embeddingSourceColumns = Array.isArray(this.embeddingSourceColumns)
+        ? this.embeddingSourceColumns.map((item) =>
+          typeof item === "string"
+            ? JSON.parse(item)
+            : item)
+        : utils.parseObject(this.embeddingSourceColumns);
 
       if (!Array.isArray(columnsToSync) || !columnsToSync.length) {
         throw new ConfigurationError(
-          "columnsToSync must be a non-empty array for DELTA_SYNC indexes."
+          "columnsToSync must be a non-empty array for DELTA_SYNC indexes.",
         );
       }
       if (
@@ -94,7 +105,7 @@ export default {
         !embeddingSourceColumns.length
       ) {
         throw new ConfigurationError(
-          "embeddingSourceColumns must be a non-empty array for DELTA_SYNC indexes."
+          "embeddingSourceColumns must be a non-empty array for DELTA_SYNC indexes.",
         );
       }
 
@@ -113,7 +124,7 @@ export default {
 
     $.export(
       "$summary",
-      `Successfully created vector search index: ${response?.name || this.name}`
+      `Successfully created vector search index: ${response?.name || this.name}`,
     );
     return response;
   },

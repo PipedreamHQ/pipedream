@@ -59,17 +59,15 @@ export default {
         })) || [];
       },
     },
-    indexName: {  
+    indexName: {
       type: "string",
       label: "Vector Search Index",
       description: "The name of the vector search index",
       async options() {
         const { vector_indexes } = await this.listVectorSearchIndexes();
-        return vector_indexes?.map(({
-          name: value,
-        }) => ({
+        return vector_indexes?.map(({ name: value }) => ({
           value,
-          label: value, 
+          label: value,
         })) || [];
       },
     },
@@ -221,7 +219,9 @@ export default {
       });
     },
 
-    getVectorSearchIndex({ indexName, ...args }) {
+    getVectorSearchIndex({
+      indexName, ...args
+    }) {
       return this._makeRequest({
         path: `/vector-search/indexes/${indexName}`,
         method: "GET",
@@ -237,7 +237,9 @@ export default {
       });
     },
 
-    deleteVectorSearchIndex({ indexName, ...args }) {
+    deleteVectorSearchIndex({
+      indexName, ...args
+    }) {
       return this._makeRequest({
         path: `/vector-search/indexes/${indexName}`,
         method: "DELETE",
@@ -245,7 +247,9 @@ export default {
       });
     },
 
-    queryVectorSearchIndex({ indexName, ...args }) {
+    queryVectorSearchIndex({
+      indexName, ...args
+    }) {
       return this._makeRequest({
         path: `/vector-search/indexes/${indexName}/query`,
         method: "POST",
@@ -253,7 +257,9 @@ export default {
       });
     },
 
-    syncVectorSearchIndex({ indexName, ...args }) {
+    syncVectorSearchIndex({
+      indexName, ...args
+    }) {
       return this._makeRequest({
         path: `/vector-search/indexes/${indexName}/sync`,
         method: "POST",
@@ -261,15 +267,19 @@ export default {
       });
     },
 
-    deleteVectorSearchData({ indexName,...args }) {
+    deleteVectorSearchData({
+      indexName, ...args
+    }) {
       return this._makeRequest({
+        path: `/vector-search/indexes/${indexName}/delete-data`,
         method: "DELETE",
-        url: `/api/2.0/vector-search/indexes/${indexName}/delete-data`,
-        ...args, 
+        ...args,
       });
     },
 
-    upsertVectorSearchIndexData({ indexName, ...args }) {
+    upsertVectorSearchIndexData({
+      indexName, ...args
+    }) {
       return this._makeRequest({
         path: `/vector-search/indexes/${indexName}/upsert-data`,
         method: "POST",
@@ -277,7 +287,9 @@ export default {
       });
     },
 
-    scanVectorSearchIndex({ indexName, ...args }) {
+    scanVectorSearchIndex({
+      indexName, ...args
+    }) {
       return this._makeRequest({
         path: `/vector-search/indexes/${indexName}/scan`,
         method: "POST",
