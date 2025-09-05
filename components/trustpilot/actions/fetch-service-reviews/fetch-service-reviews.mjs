@@ -177,7 +177,7 @@ export default {
 
     try {
       // Use the shared method from the app
-      const result = await this.trustpilot.fetchServiceReviews({
+      const result = await this.trustpilot.fetchServiceReviews($, {
         businessUnitId,
         stars,
         language,

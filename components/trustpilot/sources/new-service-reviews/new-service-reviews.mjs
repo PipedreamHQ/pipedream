@@ -38,7 +38,7 @@ export default {
       return `New ${stars}-star service review by ${consumerName} for ${businessUnit}`;
     },
   },
-  async run() {
+  async run({ $ }) {
     try {
       // Get the last review time for filtering new reviews
       const lastReviewTime = this._getLastReviewTime();
@@ -56,11 +56,11 @@ export default {
       }
 
       // Use the shared method from the app directly
-      let result = await this.trustpilot.fetchServiceReviews(fetchParams);
+      let result = await this.trustpilot.fetchServiceReviews($, fetchParams);
 
       while (result.reviews && result.reviews.length === 100) {
         fetchParams.page = (fetchParams.page || 1) + 1;
-        const nextResult = await this.trustpilot.fetchServiceReviews(fetchParams);
+        const nextResult = await this.trustpilot.fetchServiceReviews($, fetchParams);
         result.reviews = result.reviews.concat(nextResult.reviews || []);
       }
 
