@@ -9536,11 +9536,11 @@ importers:
   components/notion_api_key:
     dependencies:
       '@notionhq/client':
-        specifier: ^2.3.0
-        version: 2.3.0
+        specifier: 4.0.2
+        version: 4.0.2
       '@pipedream/notion':
-        specifier: ^0.6.2
-        version: 0.6.2
+        specifier: ^0.10.1
+        version: 0.10.1
 
   components/nozbe_teams: {}
 
@@ -19709,10 +19709,6 @@ packages:
     resolution: {integrity: sha512-m7zZ5l3RUktayf1lRBV1XMb8HSKsmWTv/LZPqP7UGC1NMzOlc+bbTOPNQ4CP/c1P4cP61VWLb/zBq7a3c0nMaw==}
     engines: {node: '>=12'}
 
-  '@notionhq/client@2.3.0':
-    resolution: {integrity: sha512-l7WqTCpQqC+HibkB9chghONQTYcxNQT0/rOJemBfmuKQRTu2vuV8B3yA395iKaUdDo7HI+0KvQaz9687Xskzkw==}
-    engines: {node: '>=12'}
-
   '@notionhq/client@4.0.2':
     resolution: {integrity: sha512-4pk3dm4umhjsRI0umCnJ8lCZh0TMiaMdkY0rz6FV4OqVuTsmYFV3pk+YTR5S8792ZY2Rm4lJHlLj05HQVKDuIg==}
     engines: {node: '>=18'}
@@ -20068,8 +20064,8 @@ packages:
   '@pipedream/notiff_io@0.1.0':
     resolution: {integrity: sha512-jgt5JJGxI9SM6chDeQpxbaS/NSuUUxhe/PeAXRdZKx28Gp0QCxW7egIImC3pqQ9aMSubaeygRyR0ELhKhmbtPg==}
 
-  '@pipedream/notion@0.6.2':
-    resolution: {integrity: sha512-xA2oh2eVwUrQ/pvAAtlLjWaWJsYaDhNQ00W3xkv5RcAMYKA0EbUQzSjL6ljSWlWiye3CftoFxK/L56Mld38iOQ==}
+  '@pipedream/notion@0.10.1':
+    resolution: {integrity: sha512-3P3zvFMIHur5BaoFAkAo3t5hPoblDNxYrSWw1UdicTGtWMne43Oo9+qOm7NAeQDEN5I1sHDLprKv2aMM2beB7w==}
 
   '@pipedream/platform@0.10.0':
     resolution: {integrity: sha512-N3F/xVfBZQXc9wl+2/4E8U9Zma1rxpvylK6Gtw8Ofmiwjnmnvs+2SNjEpIXBPUeL+wxEkofSGOq7bkqt1hqwDg==}
@@ -37495,13 +37491,6 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@notionhq/client@2.3.0':
-    dependencies:
-      '@types/node-fetch': 2.6.12
-      node-fetch: 2.7.0
-    transitivePeerDependencies:
-      - encoding
-
   '@notionhq/client@4.0.2': {}
 
   '@octokit/auth-token@2.5.0':
@@ -37984,9 +37973,9 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@pipedream/notion@0.6.2':
+  '@pipedream/notion@0.10.1':
     dependencies:
-      '@notionhq/client': 2.3.0
+      '@notionhq/client': 4.0.2
       '@pipedream/platform': 3.1.0
       '@tryfabric/martian': 1.2.4
       lodash-es: 4.17.21
