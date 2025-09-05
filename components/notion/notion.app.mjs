@@ -79,7 +79,7 @@ export default {
         const parentType = response.parent.type;
         try {
           const { properties } = parentType === "data_source_id"
-            ? await this.retrieveDataSource(response.parent.data_source_id).properties
+            ? await this.retrieveDataSource(response.parent.data_source_id)
             : response;
 
           const propEntries = Object.entries(properties);

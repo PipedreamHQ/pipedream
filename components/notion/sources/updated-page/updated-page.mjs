@@ -7,8 +7,8 @@ import sampleEmit from "./test-event.mjs";
 export default {
   ...base,
   key: "notion-updated-page",
-  name: "New or Updated Page in Database (By Property)",
-  description: "Emit new event when a page is created or updated in the selected database. [See the documentation](https://developers.notion.com/reference/page)",
+  name: "New or Updated Page in Data Source (By Property)",
+  description: "Emit new event when a page is created or updated in the selected data source. [See the documentation](https://developers.notion.com/reference/page)",
   version: "0.1.12",
   type: "source",
   dedupe: "unique",
@@ -18,6 +18,15 @@ export default {
       propDefinition: [
         notion,
         "databaseId",
+      ],
+    },
+    dataSourceId: {
+      propDefinition: [
+        notion,
+        "dataSourceId",
+        ({ databaseId }) => ({
+          databaseId,
+        }),
       ],
     },
     includeNewPages: {
@@ -31,8 +40,8 @@ export default {
         notion,
         "propertyTypes",
         (c) => ({
-          parentId: c.databaseId,
-          parentType: "database",
+          parentId: c.dataSourceId,
+          parentType: "data_source",
         }),
       ],
       description: "Only emit events when one or more of the selected properties have changed",
@@ -51,7 +60,7 @@ export default {
       const propertyValues = {};
       const propertiesToCheck = await this._getPropertiesToCheck();
       const params = this.lastUpdatedSortParam();
-      const pagesStream = this.notion.getPages(this.databaseId, params);
+      const pagesStream = this.notion.getPages(this.dataSourceId, params);
       for await (const page of pagesStream) {
         for (const propertyName of propertiesToCheck) {
           const currentValue = this._maybeRemoveFileSubItems(page.properties[propertyName]);
@@ -91,7 +100,7 @@ export default {
       if (this.properties?.length) {
         return this.properties;
       }
-      const { properties } = await this.notion.retrieveDatabase(this.databaseId);
+      const { properties } = await this.notion.retrieveDataSource(this.dataSourceId);
       return Object.keys(properties);
     },
     _maybeRemoveFileSubItems(property) {
@@ -150,7 +159,7 @@ export default {
     };
     let newLastUpdatedTimestamp = lastCheckedTimestamp;
     const propertiesToCheck = await this._getPropertiesToCheck();
-    const pagesStream = this.notion.getPages(this.databaseId, params);
+    const pagesStream = this.notion.getPages(this.dataSourceId, params);
 
     for await (const page of pagesStream) {
       const changes = [];
