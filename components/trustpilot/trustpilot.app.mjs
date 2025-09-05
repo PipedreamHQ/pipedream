@@ -59,12 +59,6 @@ export default {
       description: "Filter by SKU",
       optional: true,
     },
-    productUrl: {
-      type: "string",
-      label: "Product URL",
-      description: "Filter by product URL",
-      optional: true,
-    },
     page: {
       type: "integer",
       label: "Page",
@@ -162,10 +156,16 @@ export default {
       // Handle the correct response structure (reviews array)
       const reviews = response.reviews?.map(parseServiceReview) || [];
       const pagination = {
-        total: response.pagination?.total || 0,
-        page: response.pagination?.page || queryParams.page,
-        perPage: response.pagination?.perPage || queryParams.perPage,
-        hasMore: response.pagination?.hasMore || false,
+        total: typeof response.total === "number"
+          ? response.total :
+          null,
+        // Preserve the page and perPage we requested
+        page: queryParams.page,
+        perPage: queryParams.perPage,
+        // Determine if there’s a next page by checking for a "next" link
+        hasMore: Array.isArray(response.links)
+          ? response.links.some((l) => l?.rel === "next-page")
+          : false,
       };
 
       return {
@@ -195,6 +195,9 @@ export default {
       if (!businessUnitId) {
         throw new Error("Business Unit ID is required");
       }
+      if (!validateBusinessUnitId(businessUnitId)) {
+        throw new Error("Invalid business unit ID format");
+      }
 
       // Build the endpoint URL
       const endpoint = buildUrl(ENDPOINTS.PRIVATE_PRODUCT_REVIEWS, {
@@ -208,7 +211,6 @@ export default {
         locale,
         perPage,
         page,
-        includeReportedReviews: false,
         language,
       };
 

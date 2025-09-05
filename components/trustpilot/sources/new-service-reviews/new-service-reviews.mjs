@@ -8,7 +8,7 @@ export default {
   ...common,
   key: "trustpilot-new-service-reviews",
   name: "New Service Reviews",
-  description: "Emit new event when a customer posts a new service review on Trustpilot. This source periodically polls the Trustpilot API to detect new service reviews using the private reviews API for comprehensive coverage. Each event contains the complete review data including star rating, review text, consumer details, business unit info, customer email, and timestamps. Ideal for monitoring overall business reputation, tracking customer satisfaction metrics, and triggering workflows based on review ratings or content.",
+  description: "Emit new event when a customer posts a new service review on Trustpilot. This source periodically polls the Trustpilot API to detect new service reviews using the private reviews API for comprehensive coverage.",
   version: "0.1.0",
   type: "source",
   dedupe: "unique",
@@ -46,8 +46,9 @@ export default {
           const nextResult = await this.trustpilot.fetchServiceReviews($, params);
           result.reviews = result.reviews.concat(nextResult.reviews || []);
 
-          if ((nextResult.reviews && nextResult.reviews.length < DEFAULT_LIMIT)
-            || result.reviews.length >= MAX_LIMIT) {
+          if (!nextResult.reviews ||
+            nextResult.reviews.length < DEFAULT_LIMIT ||
+            result.reviews.length >= MAX_LIMIT) {
             break;
           }
         }

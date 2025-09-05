@@ -1,4 +1,5 @@
 import trustpilot from "../../trustpilot.app.mjs";
+import { DEFAULT_LIMIT } from "../../common/constants.mjs";
 
 /**
  * Base polling source for Trustpilot integration
@@ -25,10 +26,10 @@ export default {
   },
   methods: {
     _getLastReviewTime() {
-      return this.db.get("lastReviewTime");
+      return this.db.get(`lastReviewTime:${this.businessUnitId}`);
     },
     _setLastReviewTime(time) {
-      this.db.set("lastReviewTime", time);
+      this.db.set(`lastReviewTime:${this.businessUnitId}`, time);
     },
     /**
      * Override in child classes to provide review type-specific summary
@@ -40,10 +41,13 @@ export default {
       throw new Error("generateSummary must be implemented in child class");
     },
     /**
-     * Override in child classes to fetch reviews using appropriate method
+     * Override in child classes to fetch reviews.
+     * Requirements:
+     *   - Must return ALL reviews newer than `lastReviewTime` (handle pagination internally), or
+     *   - Return the first page AND expose a pagination cursor so the base can iterate (future).
      * @param {Object} _$ - Pipedream step context
-     * @param {Object} _params - Fetch parameters
-     * @returns {Object} - API response with reviews array
+     * @param {Object} _params - Fetch parameters produced by `getFetchParams(lastReviewTime)`
+     * @returns {{ reviews: Array }} - Array of normalized reviews
      */
     // eslint-disable-next-line no-unused-vars
     async fetchReviews(_$, _params) {
@@ -58,7 +62,7 @@ export default {
     getFetchParams(_lastReviewTime) {
       return {
         businessUnitId: this.businessUnitId,
-        perPage: 100,
+        perPage: DEFAULT_LIMIT,
       };
     },
     /**
@@ -69,8 +73,14 @@ export default {
      */
     // eslint-disable-next-line no-unused-vars
     filterNewReviews(reviews, _lastReviewTime) {
-      // Default: return all reviews (for APIs with server-side time filtering)
-      return reviews;
+      if (!_lastReviewTime) return reviews;
+      const lastMs = Date.parse(_lastReviewTime);
+      if (Number.isNaN(lastMs)) return reviews;
+
+      return reviews.filter((r) => {
+        const ms = Date.parse(r?.createdAt);
+        return Number.isFinite(ms) && ms > lastMs;
+      });
     },
   },
   async run({ $ }) {
@@ -102,8 +112,16 @@ export default {
 
     for (const review of newReviews) {
       // Track the latest review time
-      const reviewTime = new Date(review.createdAt).toISOString();
-      if (!latestReviewTime || new Date(reviewTime) > new Date(latestReviewTime)) {
+      const createdMs = Date.parse(review?.createdAt);
+      if (!Number.isFinite(createdMs)) {
+        ($.logger?.warn ?? console.warn)("Skipping review with invalid createdAt", {
+          id: review?.id,
+          createdAt: review?.createdAt,
+        });
+        continue;
+      }
+      const reviewTime = new Date(createdMs).toISOString();
+      if (!latestReviewTime || createdMs > Date.parse(latestReviewTime)) {
         latestReviewTime = reviewTime;
       }
 
@@ -111,7 +129,7 @@ export default {
       this.$emit(review, {
         id: review.id,
         summary: this.generateSummary(review),
-        ts: new Date(review.createdAt).getTime(),
+        ts: createdMs,
       });
     }
 

@@ -1,5 +1,8 @@
 import common from "../common/polling.mjs";
-import { DEFAULT_LIMIT } from "../../common/constants.mjs";
+import {
+  DEFAULT_LIMIT,
+  MAX_LIMIT,
+} from "../../common/constants.mjs";
 
 export default {
   ...common,
@@ -29,8 +32,39 @@ export default {
       };
     },
     async fetchReviews($, params) {
-      // Use the shared method from the app directly
-      return await this.trustpilot.fetchProductReviews($, params);
+      const perPage = params.perPage ?? DEFAULT_LIMIT;
+      let page = params.page ?? 1;
+
+      // fetch first page
+      let result = await this.trustpilot.fetchProductReviews($, {
+        ...params,
+        page,
+      });
+      let all = Array.isArray(result.reviews)
+        ? result.reviews
+        : [];
+      let lastPageSize = all.length;
+
+      // keep paging while we get a full page and stay under MAX_LIMIT
+      while (lastPageSize === perPage && all.length < MAX_LIMIT) {
+        page += 1;
+        const next = await this.trustpilot.fetchProductReviews($, {
+          ...params,
+          page,
+        });
+        const chunk = Array.isArray(next.reviews) ?
+          next.reviews :
+          [];
+        if (chunk.length === 0) break;
+
+        all = all.concat(chunk);
+        lastPageSize = chunk.length;
+        result = next; // preserve any metadata from the latest fetch
+      }
+
+      // truncate to MAX_LIMIT in case there are more than allowed
+      result.reviews = all.slice(0, MAX_LIMIT);
+      return result;
     },
     filterNewReviews(reviews, lastReviewTime) {
       // Product reviews require client-side filtering since API doesn't support
