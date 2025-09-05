@@ -100,46 +100,113 @@ export function parseReview(review) {
 }
 
 /**
- * Parse Trustpilot business unit data
- * @param {object} businessUnit - Raw business unit data from API
- * @returns {object} - Parsed business unit data
+ * Parse Trustpilot product review data
+ * @param {object} review - Raw product review data from API
+ * @returns {object} - Parsed product review data
  */
-export function parseBusinessUnit(businessUnit) {
+export function parseProductReview(review) {
   return {
-    id: businessUnit.id,
-    displayName: businessUnit.displayName,
-    identifyingName: businessUnit.identifyingName,
-    trustScore: businessUnit.trustScore,
-    stars: businessUnit.stars,
-    numberOfReviews: businessUnit.numberOfReviews,
-    profileUrl: businessUnit.profileUrl,
-    websiteUrl: businessUnit.websiteUrl,
-    country: businessUnit.country,
-    status: businessUnit.status,
-    createdAt: businessUnit.createdAt,
-    categories: businessUnit.categories || [],
-    images: businessUnit.images || [],
+    id: review.id,
+    createdAt: review.createdAt,
+    updatedAt: review.updatedAt,
+    businessUnitId: review.businessUnitId,
+    stars: review.stars,
+    content: escapeHtml(review.content),
+    product: review.product
+      ? {
+        id: review.product.id,
+        productUrl: review.product.productUrl,
+        productImages: review.product.productImages || [],
+        name: escapeHtml(review.product.name),
+        sku: review.product.sku,
+        gtin: review.product.gtin,
+        mpn: review.product.mpn,
+        brand: escapeHtml(review.product.brand),
+      }
+      : null,
+    consumer: review.consumer
+      ? {
+        id: review.consumer.id,
+        email: review.consumer.email,
+        name: escapeHtml(review.consumer.name),
+      }
+      : null,
+    referenceId: review.referenceId,
+    locale: review.locale,
+    language: review.language,
+    redirectUri: review.redirectUri,
+    state: review.state,
+    hasModerationHistory: review.hasModerationHistory || false,
+    conversationId: review.conversationId,
+    attributeRatings: review.attributeRatings?.map((attr) => ({
+      attributeId: attr.attributeId,
+      attributeName: escapeHtml(attr.attributeName),
+      attributeType: attr.attributeType,
+      attributeOptions: attr.attributeOptions,
+      rating: attr.rating,
+    })) || [],
+    attachments: review.attachments || [],
   };
 }
 
 /**
- * Parse webhook payload
- * @param {object} payload - Raw webhook payload
- * @returns {object} - Parsed webhook data
+ * Parse Trustpilot service review data
+ * @param {object} review - Raw service review data from API
+ * @returns {object} - Parsed service review data
  */
-export function parseWebhookPayload(payload) {
-  const {
-    event, data,
-  } = payload;
-
+export function parseServiceReview(review) {
   return {
-    event: event?.type || payload.eventType,
-    timestamp: event?.timestamp || payload.timestamp,
-    businessUnitId: data?.businessUnit?.id || payload.businessUnitId,
-    reviewId: data?.review?.id || payload.reviewId,
-    consumerId: data?.consumer?.id || payload.consumerId,
-    data: data || payload.data,
-    raw: payload,
+    links: review.links || [],
+    id: review.id,
+    consumer: review.consumer
+      ? {
+        links: review.consumer.links || [],
+        id: review.consumer.id,
+        displayName: escapeHtml(review.consumer.displayName),
+        displayLocation: escapeHtml(review.consumer.displayLocation),
+        numberOfReviews: review.consumer.numberOfReviews,
+      }
+      : null,
+    businessUnit: review.businessUnit
+      ? {
+        links: review.businessUnit.links || [],
+        id: review.businessUnit.id,
+        identifyingName: escapeHtml(review.businessUnit.identifyingName),
+        displayName: escapeHtml(review.businessUnit.displayName),
+      }
+      : null,
+    location: escapeHtml(review.location),
+    stars: review.stars,
+    title: escapeHtml(review.title),
+    text: escapeHtml(review.text),
+    language: review.language,
+    createdAt: review.createdAt,
+    experiencedAt: review.experiencedAt,
+    updatedAt: review.updatedAt,
+    companyReply: review.companyReply
+      ? {
+        text: escapeHtml(review.companyReply.text),
+        authorBusinessUserId: review.companyReply.authorBusinessUserId,
+        authorBusinessUserName: escapeHtml(review.companyReply.authorBusinessUserName),
+        createdAt: review.companyReply.createdAt,
+        updatedAt: review.companyReply.updatedAt,
+      }
+      : null,
+    isVerified: review.isVerified || false,
+    source: review.source,
+    numberOfLikes: review.numberOfLikes || 0,
+    status: review.status,
+    reportData: review.reportData,
+    complianceLabels: review.complianceLabels || [],
+    countsTowardsTrustScore: review.countsTowardsTrustScore || false,
+    countsTowardsLocationTrustScore: review.countsTowardsLocationTrustScore,
+    invitation: review.invitation
+      ? {
+        businessUnitId: review.invitation.businessUnitId,
+      }
+      : null,
+    businessUnitHistory: review.businessUnitHistory || [],
+    reviewVerificationLevel: review.reviewVerificationLevel,
   };
 }
 
@@ -213,13 +280,4 @@ export function parseApiError(error) {
     details: [],
     code: "UNKNOWN_ERROR",
   };
-}
-
-/**
- * Sleep function for retry logic
- * @param {number} ms - Milliseconds to sleep
- * @returns {Promise} - Promise that resolves after delay
- */
-export function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
 }
