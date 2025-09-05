@@ -4,7 +4,7 @@ export default {
   key: "egnyte-create-folder",
   name: "Create Folder",
   description: "Creates a new folder in your Egnyte workspace. [See the documentation](https://developers.egnyte.com/docs/File_System_Management_API_Documentation#Create-a-Folder)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     egnyte,

@@ -5,7 +5,7 @@ import sampleEmit from "./test-event.mjs";
 export default {
   key: "zoho_workdrive-new-folder",
   name: "New Folder",
-  version: "0.0.3",
+  version: "0.0.4",
   description: "Emit new event when a new folder is created in a specific folder.",
   type: "source",
   dedupe: "unique",

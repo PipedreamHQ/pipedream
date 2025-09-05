@@ -55,5 +55,14 @@ export default {
         ...opts,
       });
     },
+    downloadFile({
+      folderPath, filename, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/fs-content/${folderPath}/${filename}`,
+        responseType: "arraybuffer",
+        ...opts,
+      });
+    },
   },
 };

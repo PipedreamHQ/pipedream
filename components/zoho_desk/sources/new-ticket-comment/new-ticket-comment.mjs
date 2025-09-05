@@ -6,7 +6,7 @@ export default {
   name: "New Ticket Comment",
   description: "Emit new event when a new ticket comment is created. [See the docs here](https://desk.zoho.com/DeskAPIDocument#TicketsComments#TicketsComments_Listallticketcomments)",
   type: "source",
-  version: "0.0.4",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     ...common.props,

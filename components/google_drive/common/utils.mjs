@@ -3,7 +3,9 @@ import {
   MY_DRIVE_VALUE,
   LEGACY_MY_DRIVE_VALUE,
   MAX_FILE_OPTION_PATH_SEGMENTS,
+  GOOGLE_DRIVE_MIME_TYPE_PREFIX,
 } from "../common/constants.mjs";
+import { Readable } from "stream";
 
 /**
  * Returns whether the specified drive ID corresponds to the authenticated
@@ -264,6 +266,43 @@ function parseObjectEntries(value = {}) {
   );
 }
 
+async function stashFile(item, googleDrive, dir) {
+  const fileMetadata = await googleDrive.getFile(item.id, {
+    fields: "name,mimeType",
+  });
+  let mimeType = fileMetadata.mimeType;
+  const isWorkspaceDocument = mimeType.includes(GOOGLE_DRIVE_MIME_TYPE_PREFIX);
+  if (isWorkspaceDocument) {
+    mimeType = "application/pdf";
+  }
+  const response = isWorkspaceDocument
+    ? await googleDrive.downloadWorkspaceFile(item.id, {
+      mimeType,
+    })
+    : await googleDrive.getFile(item.id, {
+      alt: "media",
+    });
+  // Convert stream to buffer
+  const chunks = [];
+  for await (const chunk of response) {
+    chunks.push(chunk);
+  }
+  const buffer = Buffer.concat(chunks);
+  // Construct a file path unique to this attachment to avoid overwriting
+  // files with the same name.
+  const filepath = `${item.id}/${item.name}`;
+  // Upload the attachment to the configured directory (File Stash) so it
+  // can be accessed later.
+  const file = await dir.open(filepath).fromReadableStream(
+    Readable.from(buffer),
+    mimeType,
+    buffer.length,
+  );
+  // Return file details and temporary download link:
+  // { path, get_url, s3Key, type }
+  return await file.withoutPutUrl().withGetUrl();
+}
+
 export {
   MY_DRIVE_VALUE,
   isMyDrive,
@@ -276,4 +315,5 @@ export {
   streamToBuffer,
   byteToMB,
   parseObjectEntries,
+  stashFile,
 };

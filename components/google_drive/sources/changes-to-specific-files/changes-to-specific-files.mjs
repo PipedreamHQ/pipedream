@@ -15,7 +15,7 @@ export default {
   key: "google_drive-changes-to-specific-files",
   name: "Changes to Specific Files",
   description: "Watches for changes to specific files, emitting an event when a change is made to one of those files. To watch for changes to [shared drive](https://support.google.com/a/users/answer/9310351) files, use the **Changes to Specific Files (Shared Drive)** source instead.",
-  version: "0.2.8",
+  version: "0.3.0",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
@@ -34,6 +34,18 @@ export default {
         changesToSpecificFiles.props.googleDrive,
         "updateTypes",
       ],
+    },
+    includeLink: {
+      label: "Include Link",
+      type: "boolean",
+      description: "Upload file to your File Stash and emit temporary download link to the file. Google Workspace documents will be converted to PDF. See [the docs](https://pipedream.com/docs/connect/components/files) to learn more about working with files in Pipedream.",
+      default: false,
+      optional: true,
+    },
+    dir: {
+      type: "dir",
+      accessMode: "write",
+      optional: true,
     },
   },
   hooks: {
@@ -226,7 +238,7 @@ export default {
       file,
     ]);
     if (checkedFile) {
-      this.processChange(file, headers);
+      await this.processChange(file, headers);
     }
   },
   sampleEmit,

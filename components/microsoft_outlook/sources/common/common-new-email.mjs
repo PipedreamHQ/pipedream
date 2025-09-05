@@ -25,7 +25,7 @@ export default {
         return;
       }
       for (const item of events) {
-        this.emitEvent(item);
+        await this.emitEvent(item);
       }
     },
     async activate() {

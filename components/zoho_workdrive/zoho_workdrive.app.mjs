@@ -161,6 +161,15 @@ export default {
         ...args,
       });
     },
+    downloadFile({
+      fileId, ...args
+    }) {
+      return this._makeRequest({
+        url: `https://download.${this.$auth.base_api_uri}/v1/workdrive/download/${fileId}`,
+        responseType: "arraybuffer",
+        ...args,
+      });
+    },
     async paginateFolders({
       folderId, prefix = "", params = {},
     }) {

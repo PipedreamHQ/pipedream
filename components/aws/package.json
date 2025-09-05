@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/aws",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Pipedream Aws Components",
   "main": "aws.app.mjs",
   "keywords": [
@@ -34,6 +34,7 @@
     "@pipedream/platform": "^3.1.0",
     "adm-zip": "^0.5.10",
     "dedent": "^1.5.1",
+    "file-type": "^21.0.0",
     "mailparser": "^3.6.6",
     "mailparser-mit": "^1.0.0",
     "nanoid": "^5.0.4",
