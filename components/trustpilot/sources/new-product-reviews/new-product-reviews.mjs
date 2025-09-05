@@ -1,4 +1,5 @@
 import common from "../common/polling.mjs";
+import { DEFAULT_LIMIT } from "../../common/constants.mjs";
 
 export default {
   ...common,
@@ -23,7 +24,7 @@ export default {
       // so we'll rely on pagination and client-side filtering
       return {
         businessUnitId: this.businessUnitId,
-        perPage: 100,
+        perPage: DEFAULT_LIMIT,
         page: 1,
       };
     },

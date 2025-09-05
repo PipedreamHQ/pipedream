@@ -1,22 +1,8 @@
 export const BASE_URL = "https://api.trustpilot.com/v1";
 
-export const WEBHOOK_EVENTS = {
-  REVIEW_CREATED: "review.created",
-  REVIEW_REVISED: "review.revised",
-  REVIEW_DELETED: "review.deleted",
-  REPLY_CREATED: "reply.created",
-  INVITATION_SENT: "invitation.sent",
-  INVITATION_FAILED: "invitation.failed",
-};
-
 export const ENDPOINTS = {
   // Business Units
   BUSINESS_UNITS: "/business-units/search",
-  BUSINESS_UNIT_BY_ID: "/business-units/{businessUnitId}",
-
-  // Public Reviews
-  PUBLIC_REVIEWS: "/business-units/{businessUnitId}/reviews",
-  PUBLIC_REVIEW_BY_ID: "/reviews/{reviewId}",
 
   // Service Reviews
   SERVICE_REVIEWS: "/private/business-units/{businessUnitId}/reviews",
@@ -29,51 +15,9 @@ export const ENDPOINTS = {
   CREATE_CONVERSATION_FOR_REVIEW: "/private/product-reviews/{reviewId}/create-conversation",
 
   // Conversations
-  CONVERSATIONS: "/private/conversations",
   CONVERSATION_BY_ID: "/private/conversations/{conversationId}",
   REPLY_TO_CONVERSATION: "/private/conversations/{conversationId}/comments",
 };
 
-export const REVIEW_TYPES = {
-  SERVICE: "service",
-  PRODUCT: "product",
-};
-
-export const INVITATION_TYPES = {
-  REVIEW: "review",
-  PRODUCT_REVIEW: "product-review",
-};
-
-export const SORT_OPTIONS = {
-  CREATED_AT_ASC: "createdat.asc",
-  CREATED_AT_DESC: "createdat.desc",
-  STARS_ASC: "stars.asc",
-  STARS_DESC: "stars.desc",
-  UPDATED_AT_ASC: "updatedat.asc",
-  UPDATED_AT_DESC: "updatedat.desc",
-};
-
-export const RATING_SCALE = [
-  1,
-  2,
-  3,
-  4,
-  5,
-];
-
 export const DEFAULT_LIMIT = 20;
 export const MAX_LIMIT = 100;
-
-export const POLLING_CONFIG = {
-  DEFAULT_TIMER_INTERVAL_SECONDS: 15 * 60, // 15 minutes
-  MAX_ITEMS_PER_POLL: 100,
-  LOOKBACK_HOURS: 24, // How far back to look on first run
-};
-
-export const SOURCE_TYPES = {
-  NEW_REVIEWS: "new_reviews",
-  UPDATED_REVIEWS: "updated_reviews",
-  NEW_REPLIES: "new_replies",
-  NEW_CONVERSATIONS: "new_conversations",
-  UPDATED_CONVERSATIONS: "updated_conversations",
-};

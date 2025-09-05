@@ -122,7 +122,14 @@ export default {
 
     // Shared method for fetching service reviews - used by both actions and sources
     async fetchServiceReviews($, params = {}) {
-      const { businessUnitId } = params;
+      const {
+        businessUnitId,
+        page = 1,
+        perPage = 20,
+        orderBy = "createdat.desc",
+        ignoreTagValueCase = false,
+        ...filters
+      } = params;
 
       // Validate required parameters
       if (!businessUnitId) {
@@ -139,11 +146,11 @@ export default {
 
       // Prepare query parameters
       const queryParams = {
-        ...params,
-        page: 1,
-        perPage: 20,
-        orderBy: "createdat.desc",
-        ignoreTagValueCase: false,
+        ...filters,
+        page,
+        perPage,
+        orderBy,
+        ignoreTagValueCase,
       };
 
       // Make the API request

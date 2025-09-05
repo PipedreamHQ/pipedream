@@ -1,4 +1,8 @@
 import common from "../common/polling.mjs";
+import {
+  DEFAULT_LIMIT,
+  MAX_LIMIT,
+} from "../../common/constants.mjs";
 
 export default {
   ...common,
@@ -20,7 +24,7 @@ export default {
     getFetchParams(lastReviewTime) {
       const params = {
         businessUnitId: this.businessUnitId,
-        perPage: 100,
+        perPage: DEFAULT_LIMIT,
         orderBy: "createdat.desc",
       };
 
@@ -36,10 +40,17 @@ export default {
       let result = await this.trustpilot.fetchServiceReviews($, params);
 
       // Handle pagination for service reviews
-      while (result.reviews && result.reviews.length === 100) {
-        params.page = (params.page || 1) + 1;
-        const nextResult = await this.trustpilot.fetchServiceReviews($, params);
-        result.reviews = result.reviews.concat(nextResult.reviews || []);
+      if (result.reviews && result.reviews.length === DEFAULT_LIMIT) {
+        while (true) {
+          params.page = (params.page || 1) + 1;
+          const nextResult = await this.trustpilot.fetchServiceReviews($, params);
+          result.reviews = result.reviews.concat(nextResult.reviews || []);
+
+          if ((nextResult.reviews && nextResult.reviews.length < DEFAULT_LIMIT)
+            || result.reviews.length >= MAX_LIMIT) {
+            break;
+          }
+        }
       }
 
       return result;
