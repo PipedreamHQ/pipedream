@@ -571,7 +571,7 @@ export default {
 
         for (const user of users) {
           if (ids.includes(user.id)) {
-            userNames[user.id] = user.name;
+            userNames[user.id] = user.profile.real_name;
           }
         }
 
