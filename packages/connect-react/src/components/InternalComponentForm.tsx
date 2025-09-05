@@ -56,6 +56,7 @@ export function InternalComponentForm() {
             type: "alert",
             alertType: "error",
             content: `# ${e.name}\n${e.message}`,
+            name: e.name,
           } as ConfigurablePropAlert
         }))
       }
@@ -146,7 +147,7 @@ export function InternalComponentForm() {
             idx,
           ]) => {
             if (prop.type === "alert") {
-              return <Alert key={prop.name} prop={prop} />;
+              return <Alert key={prop.name} prop={prop as ConfigurablePropAlert} />;
             }
             return <InternalField key={prop.name} prop={prop} idx={idx} />;
           })}

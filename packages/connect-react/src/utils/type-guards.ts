@@ -2,6 +2,9 @@ import {
   LabelValueOption,
   RawPropOption,
 } from "../types";
+import type {
+  PropOptionNested, PropOptionValue,
+} from "@pipedream/sdk";
 
 /**
  * Type guard to check if a value is a string.
@@ -20,7 +23,7 @@ export function isString(value: unknown): value is string {
  * @param value - The value to check
  * @returns true if the value has a valid label/value structure
  */
-export function isOptionWithLabel(value: unknown): value is LabelValueOption<unknown> {
+export function isOptionWithLabel(value: unknown): value is LabelValueOption {
   return (
     value !== null &&
     typeof value === "object" &&
@@ -67,10 +70,11 @@ export function isOptionWithLabel(value: unknown): value is LabelValueOption<unk
  *   __lv: {label: "Test", value: "test-id"}
  * }) // returns {label: "Test", value: "test-id"}
  */
-export function sanitizeOption<T>(option: RawPropOption<T>): LabelValueOption<T> {
+export function sanitizeOption<T extends PropOptionValue>(option: RawPropOption<T>): LabelValueOption<T> {
   if (option === null || option === undefined) {
     return {
       label: "",
+      // Preserve previous runtime: include a value
       value: "" as T,
     };
   }
@@ -84,7 +88,11 @@ export function sanitizeOption<T>(option: RawPropOption<T>): LabelValueOption<T>
 
   // If option has __lv wrapper, extract the inner option
   if ("__lv" in option) {
-    return sanitizeOption(option.__lv);
+    return sanitizeOption(option.__lv as LabelValueOption<T>);
+  }
+  // If option has SDK 'lv' wrapper, extract inner option
+  if ("lv" in option) {
+    return sanitizeOption((option as PropOptionNested).lv as LabelValueOption<T>);
   }
 
   if ("value" in option) {
@@ -94,12 +102,12 @@ export function sanitizeOption<T>(option: RawPropOption<T>): LabelValueOption<T>
     } = option;
     return {
       label: String(label || value),
-      value: value as T,
+      value: value,
     };
   }
 
   return {
     label: String(option),
-    value: option,
+    value: option as unknown as T,
   };
 }

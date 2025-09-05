@@ -43,7 +43,7 @@ export function Field<T extends ConfigurableProp>(props: FieldProps<T>) {
   const app = "app" in field.extra
     ? field.extra.app
     : undefined;
-  if (app && !app.auth_type) {
+  if (app && !app.authType) {
     return null;
   }
 
@@ -59,7 +59,7 @@ export function Field<T extends ConfigurableProp>(props: FieldProps<T>) {
   // XXX use similar pattern as app below for boolean and checkboxing DOM re-ordering?
 
   return (
-    <div {...getProps("field", baseStyles, props as FieldProps<ConfigurableProp>)}>
+    <div {...getProps("field", baseStyles, props)}>
       <Label text={labelText} field={field} form={form} />
       <Control field={field} form={form} />
       <Description markdown={prop.description} field={field} form={form} />

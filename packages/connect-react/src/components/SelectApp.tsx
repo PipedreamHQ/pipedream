@@ -4,16 +4,17 @@ import {
 import Select, { components } from "react-select";
 import { useApps } from "../hooks/use-apps";
 import type {
-  AppResponse, GetAppsOpts,
+  App,
+  AppsListRequest,
 } from "@pipedream/sdk";
 
 type SelectAppProps = {
-  value?: Partial<AppResponse> & { name_slug: string; };
-  onChange?: (app?: AppResponse) => void;
+  value?: Partial<App> & { nameSlug: string; };
+  onChange?: (app?: App) => void;
   /**
    * Additional options for fetching apps (sorting, filtering, etc.)
    */
-  appsOptions?: Omit<GetAppsOpts, "q">;
+  appsOptions?: Omit<AppsListRequest, "q">;
 };
 
 export function SelectApp({
@@ -54,9 +55,9 @@ export function SelectApp({
     SingleValue,
   } = components;
   // If we have a value prop but it's not in the search results, use the value prop directly
-  const selectedValue = apps?.find((o) => o.name_slug === value?.name_slug)
-    || (value?.name_slug
-      ? value as AppResponse
+  const selectedValue = apps?.find((o: App) => o.nameSlug === value?.nameSlug)
+    || (value?.nameSlug
+      ? value as App
       : null);
   return (
     <Select
@@ -110,10 +111,10 @@ export function SelectApp({
         IndicatorSeparator: () => null,
       }}
       options={apps || []}
-      getOptionLabel={(o) => o.name || o.name_slug} // TODO fetch initial value app so we show name
-      getOptionValue={(o) => o.name_slug}
+      getOptionLabel={(o: App) => o.name || o.nameSlug} // TODO fetch initial value app so we show name
+      getOptionValue={(o: App) => o.nameSlug}
       value={selectedValue}
-      onChange={(o) => onChange?.((o as AppResponse) || undefined)}
+      onChange={(o) => onChange?.((o as App) || undefined)}
       onInputChange={(v, { action }) => {
         // Only update on user input, not on blur/menu-close/etc
         if (action === "input-change") {
