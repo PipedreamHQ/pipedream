@@ -23,7 +23,7 @@ export default {
     page: {
       type: "integer",
       label: "Page",
-      description: "The page to retrieve. If the page number requested is higher than the available number of pages an empty array will be returned.",
+      description: "The page to retrieve. If the page number requested is higher than the available number of pages, an empty array will be returned.",
       min: 1,
       default: 1,
       optional: true,
@@ -120,13 +120,13 @@ export default {
     startDateTime: {
       type: "string",
       label: "Start Date Time",
-      description: "Filter reviews by datetime range. If no time is specified than time is implicit 00:00:00. Format: 2013-09-07T13:37:00",
+      description: "Filter reviews by datetime range. If no time is specified, then time is implicitly `00:00:00`. Format: `2013-09-07T13:37:00`",
       optional: true,
     },
     endDateTime: {
       type: "string",
       label: "End Date Time",
-      description: "Filter reviews by datetime range. If no time is specified than time is implicit 00:00:00. Format: 2013-09-07T13:37:00",
+      description: "Filter reviews by datetime range. If no time is specified, then time is implicitly `00:00:00`. Format: `2013-09-07T13:37:00`",
       optional: true,
     },
     source: {

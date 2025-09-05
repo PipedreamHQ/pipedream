@@ -11,7 +11,7 @@ export default {
   key: "trustpilot-get-conversation-from-product-review",
   name: "Get Conversation from Product Review",
   description: "Get conversation and related comments from a product review. First fetches the review to get the conversationId, then retrieves the full conversation details. [See the documentation](https://developers.trustpilot.com/conversations-api#get-conversation)",
-  version: "0.1.0",
+  version: "0.0.1",
   type: "action",
   props: {
     trustpilot,
@@ -33,62 +33,58 @@ export default {
       throw new ConfigurationError("Invalid review ID format");
     }
 
-    try {
-      // Step 1: Get the product review to get the conversationId
-      $.export("$summary", "Fetching product review details...");
+    // Step 1: Get the product review to get the conversationId
+    $.export("$summary", "Fetching product review details...");
 
-      const getReviewEndpoint = buildUrl(ENDPOINTS.PRIVATE_PRODUCT_REVIEW_BY_ID, {
-        reviewId,
-      });
+    const getReviewEndpoint = buildUrl(ENDPOINTS.PRIVATE_PRODUCT_REVIEW_BY_ID, {
+      reviewId,
+    });
 
-      const review = await makeRequest(this.trustpilot, {
-        endpoint: getReviewEndpoint,
-      });
+    const review = await makeRequest($, this.trustpilot, {
+      endpoint: getReviewEndpoint,
+    });
 
-      const conversationId = review.conversationId;
+    const conversationId = review.conversationId;
 
-      if (!conversationId) {
-        return {
-          success: false,
-          message: "No conversation found for this product review",
-          review: {
-            id: reviewId,
-            hasConversation: false,
-          },
-          metadata: {
-            reviewId,
-            requestTime: new Date().toISOString(),
-          },
-        };
-      }
-
-      // Step 2: Get the conversation details
-      $.export("$summary", "Fetching conversation details...");
-
-      const getConversationEndpoint = buildUrl(ENDPOINTS.CONVERSATION_BY_ID, {
-        conversationId,
-      });
-
-      const conversation = await makeRequest(this.trustpilot, {
-        endpoint: getConversationEndpoint,
-      });
-
-      $.export("$summary", `Successfully retrieved conversation ${conversationId} for product review ${reviewId}`);
-
+    if (!conversationId) {
       return {
-        success: true,
-        conversation,
+        success: false,
+        message: "No conversation found for this product review",
+        review: {
+          id: reviewId,
+          hasConversation: false,
+        },
         metadata: {
           reviewId,
-          conversationId,
-          commentCount: conversation.comments?.length || 0,
-          conversationState: conversation.state,
-          source: conversation.source,
           requestTime: new Date().toISOString(),
         },
       };
-    } catch (error) {
-      throw new ConfigurationError(`Failed to get conversation from product review: ${error.message}`);
     }
+
+    // Step 2: Get the conversation details
+    $.export("$summary", "Fetching conversation details...");
+
+    const getConversationEndpoint = buildUrl(ENDPOINTS.CONVERSATION_BY_ID, {
+      conversationId,
+    });
+
+    const conversation = await makeRequest($, this.trustpilot, {
+      endpoint: getConversationEndpoint,
+    });
+
+    $.export("$summary", `Successfully retrieved conversation ${conversationId} for product review ${reviewId}`);
+
+    return {
+      success: true,
+      conversation,
+      metadata: {
+        reviewId,
+        conversationId,
+        commentCount: conversation.comments?.length || 0,
+        conversationState: conversation.state,
+        source: conversation.source,
+        requestTime: new Date().toISOString(),
+      },
+    };
   },
 };

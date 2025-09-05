@@ -1,10 +1,6 @@
 import { axios } from "@pipedream/platform";
-import {
-  BASE_URL, HTTP_STATUS, RETRY_CONFIG,
-} from "./constants.mjs";
-import {
-  formatQueryParams, sleep,
-} from "./utils.mjs";
+import { BASE_URL } from "./constants.mjs";
+import { formatQueryParams } from "./utils.mjs";
 
 /**
  * Make an authenticated request to the Trustpilot API
@@ -16,10 +12,9 @@ import {
  * @param {object} [options.data] - Request body data
  * @param {object} [options.additionalHeaders={}] - Additional headers to include in the request
  * @param {number} [options.timeout=30000] - Request timeout
- * @param {number} [retries=RETRY_CONFIG.MAX_RETRIES] - Number of retries for rate limiting
  * @returns {Promise<object>} API response data
  */
-export async function makeRequest(trustpilotApp, {
+export async function makeRequest($, trustpilotApp, {
   endpoint,
   method = "GET",
   params = {},
@@ -27,7 +22,7 @@ export async function makeRequest(trustpilotApp, {
   timeout = 30000,
   additionalHeaders = {},
   ...args
-}, retries = RETRY_CONFIG.MAX_RETRIES) {
+}) {
   const url = `${BASE_URL}${endpoint}`;
   const headers = {
     ...getAuthHeaders(trustpilotApp, url),
@@ -47,28 +42,8 @@ export async function makeRequest(trustpilotApp, {
     config.data = data;
   }
 
-  try {
-    const response = await axios(trustpilotApp, config);
-    return response.data || response;
-  } catch (error) {
-    if (retries > 0 && error.response?.status === HTTP_STATUS.TOO_MANY_REQUESTS) {
-      const delay = Math.min(
-        RETRY_CONFIG.INITIAL_DELAY * (RETRY_CONFIG.MAX_RETRIES - retries + 1),
-        RETRY_CONFIG.MAX_DELAY,
-      );
-      await sleep(delay);
-      return makeRequest(trustpilotApp, {
-        endpoint,
-        method,
-        params,
-        data,
-        timeout,
-        additionalHeaders,
-        ...args,
-      }, retries - 1);
-    }
-    throw error;
-  }
+  const response = await axios($ ?? trustpilotApp, config);
+  return response.data || response;
 }
 
 /**

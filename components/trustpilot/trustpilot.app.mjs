@@ -109,7 +109,7 @@ export default {
     async searchBusinessUnits({
       query = "a", page = 1,
     } = {}) {
-      const response = await makeRequest(this, {
+      const response = await makeRequest(this, this, {
         endpoint: ENDPOINTS.BUSINESS_UNITS,
         params: {
           query,
@@ -121,28 +121,8 @@ export default {
     },
 
     // Shared method for fetching service reviews - used by both actions and sources
-    async fetchServiceReviews(params = {}) {
-      const {
-        businessUnitId,
-        stars,
-        language,
-        page = 1,
-        internalLocationId,
-        perPage = 20,
-        orderBy = "createdat.desc",
-        tagGroup,
-        tagValue,
-        ignoreTagValueCase = false,
-        responded,
-        referenceId,
-        referralEmail,
-        reported,
-        startDateTime,
-        endDateTime,
-        source,
-        username,
-        findReviewer,
-      } = params;
+    async fetchServiceReviews($, params = {}) {
+      const { businessUnitId } = params;
 
       // Validate required parameters
       if (!businessUnitId) {
@@ -158,30 +138,16 @@ export default {
       });
 
       // Prepare query parameters
-      const queryParams = {};
-
-      // Add optional parameters if provided
-      if (stars) queryParams.stars = stars;
-      if (language) queryParams.language = language;
-      if (page) queryParams.page = page;
-      if (internalLocationId) queryParams.internalLocationId = internalLocationId;
-      if (perPage) queryParams.perPage = perPage;
-      if (orderBy) queryParams.orderBy = orderBy;
-      if (tagGroup) queryParams.tagGroup = tagGroup;
-      if (tagValue) queryParams.tagValue = tagValue;
-      if (ignoreTagValueCase !== undefined) queryParams.ignoreTagValueCase = ignoreTagValueCase;
-      if (responded !== undefined) queryParams.responded = responded;
-      if (referenceId) queryParams.referenceId = referenceId;
-      if (referralEmail) queryParams.referralEmail = referralEmail;
-      if (reported !== undefined) queryParams.reported = reported;
-      if (startDateTime) queryParams.startDateTime = startDateTime;
-      if (endDateTime) queryParams.endDateTime = endDateTime;
-      if (source) queryParams.source = source;
-      if (username) queryParams.username = username;
-      if (findReviewer) queryParams.findReviewer = findReviewer;
+      const queryParams = {
+        ...params,
+        page: 1,
+        perPage: 20,
+        orderBy: "createdat.desc",
+        ignoreTagValueCase: false,
+      };
 
       // Make the API request
-      const response = await makeRequest(this, {
+      const response = await makeRequest($, this, {
         endpoint,
         params: queryParams,
       });
@@ -190,8 +156,8 @@ export default {
       const reviews = response.reviews?.map(parseServiceReview) || [];
       const pagination = {
         total: response.pagination?.total || 0,
-        page: response.pagination?.page || page,
-        perPage: response.pagination?.perPage || perPage,
+        page: response.pagination?.page || queryParams.page,
+        perPage: response.pagination?.perPage || queryParams.perPage,
         hasMore: response.pagination?.hasMore || false,
       };
 
@@ -207,7 +173,7 @@ export default {
     },
 
     // Shared method for fetching product reviews - used by both actions and sources
-    async fetchProductReviews(params = {}) {
+    async fetchProductReviews($, params = {}) {
       const {
         businessUnitId,
         page,
@@ -240,7 +206,7 @@ export default {
       };
 
       // Make the API request
-      const response = await makeRequest(this, {
+      const response = await makeRequest($, this, {
         endpoint,
         params: queryParams,
       });

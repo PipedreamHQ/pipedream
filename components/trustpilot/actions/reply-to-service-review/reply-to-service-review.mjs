@@ -68,7 +68,7 @@ export default {
       };
 
       // Make the API request
-      await makeRequest(this.trustpilot, {
+      await makeRequest($, this.trustpilot, {
         endpoint,
         method: "POST",
         data: requestData,

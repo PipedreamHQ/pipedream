@@ -70,7 +70,7 @@ export default {
         reviewId,
       });
 
-      const review = await makeRequest(this.trustpilot, {
+      const review = await makeRequest($, this.trustpilot, {
         endpoint: getReviewEndpoint,
       });
 
@@ -84,7 +84,7 @@ export default {
           reviewId,
         });
 
-        const createConversationResponse = await makeRequest(this.trustpilot, {
+        const createConversationResponse = await makeRequest($, this.trustpilot, {
           endpoint: createConversationEndpoint,
           method: "POST",
         });
@@ -113,7 +113,7 @@ export default {
         requestData.integrationId = integrationId;
       }
 
-      const replyResponse = await makeRequest(this.trustpilot, {
+      const replyResponse = await makeRequest($, this.trustpilot, {
         endpoint: replyEndpoint,
         method: "POST",
         data: requestData,

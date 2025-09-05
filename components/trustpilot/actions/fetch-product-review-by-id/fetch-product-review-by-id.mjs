@@ -40,7 +40,7 @@ export default {
       });
 
       // Make the API request
-      const response = await makeRequest(this.trustpilot, {
+      const response = await makeRequest($, this.trustpilot, {
         endpoint,
       });
 

@@ -281,12 +281,3 @@ export function parseApiError(error) {
     code: "UNKNOWN_ERROR",
   };
 }
-
-/**
- * Sleep function for retry logic
- * @param {number} ms - Milliseconds to sleep
- * @returns {Promise} - Promise that resolves after delay
- */
-export function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
