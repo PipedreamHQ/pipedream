@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/salesmate",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Salesmate Components",
   "main": "dist/app/salesmate.app.mjs",
   "keywords": [
@@ -15,5 +15,8 @@
   },
   "dependencies": {
     "@pipedream/platform": "^1.2.1"
+  },
+  "devDependencies": {
+    "@pipedream/types": "^0.3.2"
   }
 }

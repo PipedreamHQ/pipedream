@@ -5,7 +5,7 @@ export default {
   name: "Get Bulk Spam Score",
   description:
     "Get spam scores of the specified domains, subdomains, and pages. [See the documentation](https://docs.dataforseo.com/v3/backlinks/bulk_spam_score/live/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   methods: {
     getBulkSpamScore(args = {}) {

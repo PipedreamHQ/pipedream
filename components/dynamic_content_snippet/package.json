@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/dynamic_content_snippet",
+  "version": "0.0.1",
+  "description": "Pipedream Dynamic Content Snippet Components",
+  "main": "dynamic_content_snippet.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dynamic_content_snippet"
+  ],
+  "homepage": "https://pipedream.com/apps/dynamic_content_snippet",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

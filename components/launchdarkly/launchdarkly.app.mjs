@@ -128,6 +128,13 @@ export default {
         return items.map(mapper);
       },
     },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: "The maximum number of results to return",
+      optional: true,
+      default: 100,
+    },
   },
   methods: {
     getUrl(path) {
@@ -226,6 +233,49 @@ export default {
         path: "/members",
         ...args,
       });
+    },
+    getFeatureFlagStatus({
+      projectKey, environmentKey, featureFlagKey, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/flag-statuses/${projectKey}/${environmentKey}/${featureFlagKey}`,
+        ...args,
+      });
+    },
+    getProject({
+      projectKey, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/projects/${projectKey}`,
+        ...args,
+      });
+    },
+    async *paginate({
+      fn, args = {}, max,
+    }) {
+      args = {
+        ...args,
+        params: {
+          ...args?.params,
+          limit: 100,
+          offset: 0,
+        },
+      };
+      let totalItems, count = 0;
+      do {
+        const {
+          items, totalCount,
+        } = await fn(args);
+        for (const item of items) {
+          yield item;
+          count++;
+          if (max && count >= max) {
+            return;
+          }
+        }
+        totalItems = totalCount;
+        args.params.offset += args.params.limit;
+      } while (count < totalItems);
     },
   },
 };

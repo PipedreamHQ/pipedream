@@ -1,9 +1,24 @@
 # Pipedream MCP Server
 
-This is a reference implementation of the Pipedream MCP server. You can run **your own MCP server** for [over 2,700 apps and APIs](https://pipedream.com/apps) and is powered by [Pipedream Connect](https://pipedream.com/docs/connect/).
+> **⚠️ Important Notice**: This MCP server is a **reference implementation only** and is no longer actively maintained. For production use, we recommend using Pipedream's **remote MCP server** instead.
 
-> [Note]
-> These docs discuss how you can host Pipedream's MCP server in your own app or run it locally. To use Pipedream's [remote MCP server](https://pipedream.com/docs/connect/mcp/developers) (most common), [refer to our docs](https://pipedream.com/docs/connect/mcp/developers) to get started.
+## Recommended: Use Pipedream's Remote MCP Server
+
+For the best experience, use Pipedream's hosted MCP server which provides:
+
+- **2,800+ APIs and 10,000+ tools** through a single server
+- **Built-in authentication**: no manual token management required
+- **Multiple tool modes**: sub-agent and full configuration
+- **Automatic app discovery**
+- **Enterprise-grade reliability and security**
+
+**🚀 Get started**: [Pipedream MCP Documentation](https://pipedream.com/docs/connect/mcp/developers)
+
+> **🎮 Try it now**: Check out our [open source chat app](https://github.com/PipedreamHQ/mcp) at [chat.pipedream.com](https://chat.pipedream.com/)
+
+---
+
+## Self-Hosting (Reference Implementation)
 
 This reference implementation shows how you can:
 
@@ -12,14 +27,14 @@ This reference implementation shows how you can:
 
 See the consumer-facing MCP server in action at [mcp.pipedream.com](https://mcp.pipedream.com) and check out a demo of the developer-facing product at [chat.pipedream.com](https://chat.pipedream.com).
 
-We published this code as a reference, so you can better understand how to use Pipedream Connect for such
-an application. This is a reference implementation specifically for self-hosting the server and may not be fully documented. Please reach out to us if you
-have any questions.
+We published this code as a reference, so you can better understand how to use Pipedream Connect for such an application. This is a reference implementation specifically for self-hosting the server and may not be fully documented.
 
-## ⭐ Features
+**For production use, we strongly recommend using our [remote MCP server](https://pipedream.com/docs/connect/mcp/developers) instead.**
 
-- Run **your own MCP server** for [over 2,700 apps and APIs](https://mcp.pipedream.com)
-- Manage servers **for your users**, in your own app.
+## ⭐ Reference Implementation Features
+
+- Run **your own MCP server** for [over 2,800 apps and APIs](https://mcp.pipedream.com)
+- Manage servers **for your users**, in your own app
 - Connect accounts, configure params, and make API requests, all via tools
 - Fully-managed OAuth and credential storage ([see security docs](https://pipedream.com/docs/privacy-and-security/#third-party-oauth-grants-api-keys-and-environment-variables))
 
@@ -54,7 +69,7 @@ There are two ways to use this MCP server.
 
 1 - App specific
 `/{external_user_id}/{app}`
-This is currently available at [mcp.pipedream.com](mcp.pipedream.com). You can use an endpoint for each app.
+This is currently available at [mcp.pipedream.com](https://mcp.pipedream.com). You can use an endpoint for each app.
 All the tools available for that app will be available at that endpoint.
 
 2 - Dynamic

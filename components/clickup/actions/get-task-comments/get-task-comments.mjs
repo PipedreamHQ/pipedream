@@ -5,7 +5,7 @@ export default {
   key: "clickup-get-task-comments",
   name: "Get Task Comments",
   description: "Get a task comments. [See the documentation](https://clickup.com/api) in **Comments / Get Task Comments** section.",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "action",
   props: {
     ...common.props,

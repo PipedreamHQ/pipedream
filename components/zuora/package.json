@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/zuora",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Zuora Billing Components",
-  "main": "dist/app/zuora.app.mjs",
+  "main": "zuora.app.mjs",
   "keywords": [
     "pipedream",
     "zuora"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/zuora",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

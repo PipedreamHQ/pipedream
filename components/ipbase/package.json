@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/ipbase",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream ipbase Components",
   "main": "ipbase.app.mjs",
   "keywords": [
@@ -12,5 +12,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
+  }
 }

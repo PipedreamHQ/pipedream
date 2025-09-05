@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/workday",
+  "version": "0.1.0",
+  "description": "Pipedream Workday Components",
+  "main": "workday.app.mjs",
+  "keywords": [
+    "pipedream",
+    "workday"
+  ],
+  "homepage": "https://pipedream.com/apps/workday",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
+  }
+}

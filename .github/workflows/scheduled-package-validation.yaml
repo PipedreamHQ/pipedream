@@ -1,0 +1,93 @@
+name: Scheduled Package Validation Report
+
+on:
+  schedule:
+    # Run weekly on Mondays at 2:00 PM UTC
+    - cron: '0 14 * * 1'
+  workflow_dispatch: # Allow manual triggering for testing
+
+jobs:
+  validate-packages:
+    name: Generate Package Validation Report
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.7
+        
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4.0.0
+        with:
+          version: 9.14.2
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.0.3
+        with:
+          node-version: 18
+          cache: 'pnpm'
+          
+      - name: Install dependencies
+        run: pnpm install -r --no-frozen-lockfile
+        
+      - name: Compile TypeScript
+        run: pnpm run build
+        
+      - name: Run Package Validation Report
+        id: validation
+        run: |
+          node scripts/generate-package-report.js --verbose --report-only --output=validation-report.json > validation-report.txt 2>&1
+          echo "validation_exit_code=$?" >> $GITHUB_OUTPUT
+        continue-on-error: true
+        
+      - name: Upload Validation Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: package-validation-report-${{ github.run_number }}
+          path: |
+            validation-report.txt
+            validation-report.json
+          retention-days: 30
+          
+      - name: Check for failures
+        id: check_failures
+        run: |
+          if [ -f "validation-report.json" ]; then
+            FAILED_COUNT=$(node -e "
+              const fs = require('fs');
+              try {
+                const report = JSON.parse(fs.readFileSync('validation-report.json', 'utf8'));
+                console.log(report.summary.failed || 0);
+              } catch {
+                console.log(0);
+              }
+            ")
+            echo "failed_count=$FAILED_COUNT" >> $GITHUB_OUTPUT
+          else
+            echo "failed_count=0" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Create Issue on Failures
+        if: steps.check_failures.outputs.failed_count != '0'
+        id: create_issue
+        uses: ./.github/actions/create-package-validation-issue
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          validation-report-json: 'validation-report.json'
+          validation-report-txt: 'validation-report.txt'
+          workflow-run-number: ${{ github.run_number }}
+          workflow-run-id: ${{ github.run_id }}
+          server-url: ${{ github.server_url }}
+          repository: ${{ github.repository }}
+            
+      - name: Post Issue Summary
+        if: steps.create_issue.conclusion == 'success' && steps.create_issue.outputs.issue-url != ''
+        run: |
+          echo "📋 Issue created/updated: ${{ steps.create_issue.outputs.issue-url }}"
+          echo "❌ Failed packages: ${{ steps.create_issue.outputs.failed-count }}"
+          echo "🔄 Issue was ${{ steps.create_issue.outputs.issue-created == 'true' && 'created' || 'updated' }}"
+          
+      - name: Post Success Summary
+        if: steps.check_failures.outputs.failed_count == '0'
+        run: |
+          echo "🎉 All packages validated successfully!"
+          echo "Scheduled validation completed with no issues."

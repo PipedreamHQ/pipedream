@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/builder_io",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Builder.io Components",
-  "main": "dist/app/builder_io.app.mjs",
+  "main": "builder_io.app.mjs",
   "keywords": [
     "pipedream",
     "builder_io"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/builder_io",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

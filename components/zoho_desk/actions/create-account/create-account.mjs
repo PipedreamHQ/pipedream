@@ -5,7 +5,7 @@ export default {
   name: "Create Account",
   description: "Creates an account in your help desk portal. [See the docs here](https://desk.zoho.com/DeskAPIDocument#Accounts#Accounts_CreateAccount)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     zohoDesk,
     orgId: {

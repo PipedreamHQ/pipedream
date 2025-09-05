@@ -4,9 +4,9 @@ import sampleEmit from "./test-event.mjs";
 export default {
   ...common,
   key: "attio-list-entry-updated-instant",
-  name: "List Entry Updated (Instant)",
+  name: "New List Entry Updated (Instant)",
   description: "Emit new event when an existing list entry is updated (i.e. when a list attribute is changed for a specific list entry, e.g. when setting \"Owner\")",
-  version: "0.0.2",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {

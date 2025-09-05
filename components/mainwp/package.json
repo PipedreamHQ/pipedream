@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/mainwp",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream MainWP Components",
-  "main": "dist/app/mainwp.app.mjs",
+  "main": "mainwp.app.mjs",
   "keywords": [
     "pipedream",
     "mainwp"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/mainwp",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

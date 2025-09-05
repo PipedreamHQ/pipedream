@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/azure_devops_microsoft_entra_id_oauth",
+  "version": "0.0.1",
+  "description": "Pipedream Azure DevOps (Microsoft Entra ID OAuth) Components",
+  "main": "azure_devops_microsoft_entra_id_oauth.app.mjs",
+  "keywords": [
+    "pipedream",
+    "azure_devops_microsoft_entra_id_oauth"
+  ],
+  "homepage": "https://pipedream.com/apps/azure_devops_microsoft_entra_id_oauth",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

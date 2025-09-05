@@ -4,7 +4,7 @@ export default {
   name: "Verify Email",
   description: "The Api verifies your requested email address, whether it is a Good or Bad email address. [See the documentation](https://app2.getemail.io/dash/integration/api/v2/3).",
   key: "getemails-verify-email",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

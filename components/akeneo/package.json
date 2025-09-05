@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/akeneo",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Pipedream Akeneo Components",
   "main": "akeneo.app.mjs",
   "keywords": [

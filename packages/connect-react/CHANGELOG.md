@@ -2,6 +2,25 @@
 
 # Changelog
 
+## [1.5.0] - 2025-08-18
+
+### Fixed
+
+- Added special handling to support `$.discord.channel[]` prop type
+
+### Added
+
+- Support for app sorting and filtering in `SelectApp` component and `useApps` hook
+- Added `appsOptions` prop to `SelectApp` for controlling sort order and filtering
+- Apps can now be sorted by `name`, `featured_weight`, or `name_slug`
+- Support for filtering apps by whether they have actions, triggers, or components
+
+## [1.4.0] - 2025-08-01
+
+### Added
+
+- Support for using custom OAuth clients
+
 ## [1.3.3] - 2025-07-22
 
 - Improved handling and sanitization of option objects in selection components.

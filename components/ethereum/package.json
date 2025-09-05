@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/ethereum",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Etherscan Components",
-  "main": "dist/app/ethereum.app.mjs",
+  "main": "ethereum.app.mjs",
   "keywords": [
     "pipedream",
     "ethereum"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/ethereum",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

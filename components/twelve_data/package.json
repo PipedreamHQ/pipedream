@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/twelve_data",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Twelve Data Components",
-  "main": "dist/app/twelve_data.app.mjs",
+  "main": "twelve_data.app.mjs",
   "keywords": [
     "pipedream",
     "twelve_data"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/twelve_data",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

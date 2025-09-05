@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/dokan",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Dokan Components",
-  "main": "dist/app/dokan.app.mjs",
+  "main": "dokan.app.mjs",
   "keywords": [
     "pipedream",
     "dokan"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/dokan",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

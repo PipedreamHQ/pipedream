@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/launch_darkly_oauth",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Pipedream launch_darkly_oauth Components",
   "main": "launch_darkly_oauth.app.mjs",
   "keywords": [
@@ -13,6 +13,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@pipedream/launchdarkly": "^0.1.1",
     "@pipedream/platform": "^3.0.0"
   }
 }

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/attentive",
+  "version": "0.0.1",
+  "description": "Pipedream Attentive Components",
+  "main": "attentive.app.mjs",
+  "keywords": [
+    "pipedream",
+    "attentive"
+  ],
+  "homepage": "https://pipedream.com/apps/attentive",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

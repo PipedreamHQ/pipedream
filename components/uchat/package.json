@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/uchat",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Uchat Components",
-  "main": "dist/app/uchat.app.mjs",
+  "main": "uchat.app.mjs",
   "keywords": [
     "pipedream",
     "uchat"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/uchat",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

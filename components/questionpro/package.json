@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/questionpro",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream QuestionPro Components",
-  "main": "dist/app/questionpro.app.mjs",
+  "main": "questionpro.app.mjs",
   "keywords": [
     "pipedream",
     "questionpro"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/questionpro",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

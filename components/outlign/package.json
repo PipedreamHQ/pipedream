@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/outlign",
+  "version": "0.0.1",
+  "description": "Pipedream Outlign Components",
+  "main": "outlign.app.mjs",
+  "keywords": [
+    "pipedream",
+    "outlign"
+  ],
+  "homepage": "https://pipedream.com/apps/outlign",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

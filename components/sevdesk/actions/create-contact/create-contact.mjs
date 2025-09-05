@@ -5,7 +5,7 @@ export default {
   key: "sevdesk-create-contact",
   name: "Create Contact",
   description: "Create a new contact. [See the documentation](https://api.sevdesk.de/#tag/Contact/operation/createContact)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     sevdesk,
