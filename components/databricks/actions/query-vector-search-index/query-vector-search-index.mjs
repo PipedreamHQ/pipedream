@@ -1,0 +1,91 @@
+import databricks from "../../databricks.app.mjs";
+import utils from "../../common/utils.mjs";
+
+export default {
+  key: "databricks-query-vector-search-index",
+  name: "Query Vector Search Index",
+  description: "Query a specific vector search index in Databricks. [See the documentation](https://docs.databricks.com/api/workspace/vectorsearchindexes/queryindex)",
+  version: "0.0.1",
+  type: "action",
+  props: {
+    databricks,
+    indexName: {
+      propDefinition: [
+        databricks,
+        "indexName",
+      ],
+    },
+    columns: {
+      type: "string[]",
+      label: "Columns",
+      description: "List of column names to include in the response.",
+    },
+    queryText: {
+      type: "string",
+      label: "Query Text",
+      description: "Free-text query for semantic search.",
+      optional: true,
+    },
+    queryVector: {
+      type: "string",
+      label: "Query Vector",
+      description: "JSON array of floats representing the embedding vector for the query.",
+      optional: true,
+    },
+    filtersJson: {
+      type: "string",
+      label: "Filters JSON",
+      description: "JSON string representing query filters. Example: `{ \"id <\": 5 }`",
+      optional: true,
+    },
+    numResults: {
+      type: "integer",
+      label: "Number of Results",
+      description: "Number of results to return. Defaults to 10.",
+      optional: true,
+      default: 10,
+    },
+    includeEmbeddings: {
+      type: "boolean",
+      label: "Include Embeddings",
+      description: "Whether to include the embedding vectors in the results.",
+      optional: true,
+    },
+  },
+
+  async run({ $ }) {
+    const payload = {
+      columns: this.columns,
+      num_results: this.numResults,
+    };
+
+    if (this.queryText) payload.query_text = this.queryText;
+
+    if (this.queryVector) {
+      try {
+        payload.query_vector = JSON.parse(this.queryVector);
+      } catch (err) {
+        throw new Error(`Invalid queryVector JSON: ${err.message}`);
+      }
+    }
+
+    if (this.filtersJson) {
+      payload.filters_json = utils.parseObject(this.filtersJson);
+    }
+
+    if (this.includeEmbeddings !== undefined) {
+      payload.include_embeddings = this.includeEmbeddings;
+    }
+
+    const response = await this.databricks.queryVectorSearchIndex({
+      indexName: this.indexName,
+      data: payload,
+      $,
+    });
+
+    const count = response?.result?.data_array?.length || 0;
+    $.export("$summary", `Retrieved ${count} results from index ${this.indexName}`);
+
+    return response;
+  },
+};
