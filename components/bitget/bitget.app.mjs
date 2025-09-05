@@ -377,7 +377,9 @@ export default {
       console.log("message!!!", message);
 
       const signature = this.sign(message, secretKey);
-      const paptrading = demoEnvironment ? "1" : "0";
+      const paptrading = demoEnvironment ?
+        "1" :
+        "0";
 
       return {
         "ACCESS-KEY": apiKey,
