@@ -19,7 +19,7 @@ export default defineConfig({
       ],
       output: {
         globals: {
-          react: "React",
+          "react": "React",
           "react-dom": "ReactDOM",
           "react/jsx-runtime": "react/jsx-runtime",
           "@emotion/react": "@emotion/react",
@@ -31,12 +31,20 @@ export default defineConfig({
     alias: {
       "decode-named-character-reference": "../../node_modules/decode-named-character-reference/index.js",
     },
-    dedupe: ["@emotion/react"],
+    dedupe: [
+      "@emotion/react",
+    ],
   },
   plugins: [
     dts({
       insertTypesEntry: true,
       rollupTypes: true,
+      tsconfigPath: path.resolve(__dirname, "tsconfig.json"),
+      afterDiagnostic: (diagnostics) => {
+        if (diagnostics.length > 0) {
+          throw new Error(`Build failed: ${diagnostics.length} TypeScript error(s) found`);
+        }
+      },
     }),
   ],
 });

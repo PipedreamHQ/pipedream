@@ -5,7 +5,7 @@ export default {
   key: "microsoft_outlook-new-attachment-received",
   name: "New Attachment Received (Instant)",
   description: "Emit new event when a new email containing one or more attachments arrives in a specified Microsoft Outlook folder.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -35,23 +35,6 @@ export default {
         attachments.push(...messageAttachments);
       }
       return attachments;
-    },
-    async getMessageAttachments(message) {
-      const { value: attachments } = await this.microsoftOutlook.listAttachments({
-        messageId: message.id,
-      });
-      if (!attachments?.length) {
-        return [];
-      }
-      return attachments.map((attachment) => ({
-        ...attachment,
-        messageId: message.id,
-        messageSubject: message.subject,
-        messageSender: message.sender,
-        messageReceivedDateTime: message.receivedDateTime,
-        parentFolderId: message.parentFolderId,
-        contentBytes: undefined,
-      }));
     },
     emitEvent(item) {
       if (this.isRelevant(item)) {
