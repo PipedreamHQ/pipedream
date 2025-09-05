@@ -1,35 +1,15 @@
-import trustpilot from "../../trustpilot.app.mjs";
+import common from "../common/polling.mjs";
 
 export default {
+  ...common,
   key: "trustpilot-new-product-reviews",
   name: "New Product Reviews",
   description: "Emit new event when a customer posts a new product review on Trustpilot. This source periodically polls the Trustpilot API to detect new product reviews. Each event contains the complete review data including star rating, review text, product information, consumer details, and timestamps. Perfect for monitoring product feedback, analyzing customer satisfaction trends, and triggering automated responses or alerts for specific products.",
   version: "0.1.0",
   type: "source",
   dedupe: "unique",
-  props: {
-    trustpilot,
-    db: "$.service.db",
-    timer: {
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: 15 * 60, // 15 minutes
-      },
-    },
-    businessUnitId: {
-      propDefinition: [
-        trustpilot,
-        "businessUnitId",
-      ],
-    },
-  },
   methods: {
-    _getLastReviewTime() {
-      return this.db.get("lastReviewTime");
-    },
-    _setLastReviewTime(time) {
-      this.db.set("lastReviewTime", time);
-    },
+    ...common.methods,
     generateSummary(review) {
       const stars = review.stars || "N/A";
       const consumerName = review.consumer?.name || "Anonymous";
@@ -38,66 +18,39 @@ export default {
 
       return `New ${stars}-star product review by ${consumerName} for "${productName}" (${businessUnit})`;
     },
-  },
-  async run({ $ }) {
-    try {
-      // Get the last review time for filtering new reviews
-      const lastReviewTime = this._getLastReviewTime();
-
-      // Use the fetch-product-reviews action to get reviews
+    getFetchParams() {
       // Note: Product reviews API doesn't support time-based filtering,
       // so we'll rely on pagination and client-side filtering
-      const fetchParams = {
+      return {
         businessUnitId: this.businessUnitId,
         perPage: 100,
         page: 1,
       };
-
+    },
+    async fetchReviews($, params) {
       // Use the shared method from the app directly
-      const result = await this.trustpilot.fetchProductReviews($, fetchParams);
-
-      const reviews = result.reviews || [];
-
-      if (!reviews.length) {
-        console.log("No new product reviews found");
-        return;
-      }
-
-      // Filter for new reviews since last poll (client-side filtering)
+      return await this.trustpilot.fetchProductReviews($, params);
+    },
+    filterNewReviews(reviews, lastReviewTime) {
+      // Product reviews require client-side filtering since API doesn't support
+      // time-based filtering
       const lastTs = Number(lastReviewTime) || 0;
       const toMs = (d) => new Date(d).getTime();
-      let newReviews = lastTs
+
+      return lastTs
         ? reviews.filter((r) => toMs(r.createdAt) > lastTs)
         : reviews;
-
-      if (!newReviews.length) {
-        console.log("No new product reviews since last poll");
-        return;
-      }
-
-      // Track the latest review time
-      // Initialize latestReviewTime as a numeric timestamp (ms)
-      let latestReviewTime = Number(lastReviewTime) || 0;
-
-      for (const review of newReviews) {
-        // Track the latest review time
-        const createdTs = new Date(review.createdAt).getTime();
-        if (createdTs > latestReviewTime) latestReviewTime = createdTs;
-        // Emit the review with unique ID and summary
-        this.$emit(review, {
-          id: review.id,
-          summary: this.generateSummary(review),
-          ts: new Date(review.createdAt).getTime(),
-        });
-      }
-
-      // Update the last review time for next poll
-      if (latestReviewTime && latestReviewTime !== Number(lastReviewTime)) {
-        this._setLastReviewTime(latestReviewTime);
-      }
-
-    } catch (error) {
-      throw new Error(`Failed to fetch new product reviews: ${error.message}`);
-    }
+    },
+    _getLastReviewTime() {
+      // Product reviews store timestamp as number (ms), others store as ISO string
+      return this.db.get("lastReviewTime");
+    },
+    _setLastReviewTime(time) {
+      // Store as number for product reviews to match existing behavior
+      const timeMs = typeof time === "string"
+        ? new Date(time).getTime()
+        : time;
+      this.db.set("lastReviewTime", timeMs);
+    },
   },
 };
