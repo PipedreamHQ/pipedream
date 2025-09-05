@@ -4,7 +4,7 @@ export default {
   name: "Search Issues with JQL",
   description: "Search for issues using JQL (Jira Query Language). [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-search/#api-rest-api-3-search-jql-get)",
   key: "jira-search-issues-with-jql",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     jira,
@@ -90,17 +90,9 @@ export default {
       optional: true,
     },
   },
-  methods: {
-    searchIssues(args = {}) {
-      return this.jira._makeRequest({
-        path: "/search/jql",
-        ...args,
-      });
-    },
-  },
   async run({ $ }) {
     try {
-      const response = await this.searchIssues({
+      const response = await this.jira.searchIssues({
         $,
         cloudId: this.cloudId,
         params: {
