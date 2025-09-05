@@ -101,13 +101,10 @@ export default {
       const dateProperty = this.newOnly
         ? "createdate"
         : "lastmodifieddate";
-      const isFirstRun = !this.db.get("after");
 
       const params = {
         data: {
-          limit: isFirstRun
-            ? 100
-            : DEFAULT_LIMIT,
+          limit: DEFAULT_LIMIT,
           sorts: [
             {
               propertyName: dateProperty,
