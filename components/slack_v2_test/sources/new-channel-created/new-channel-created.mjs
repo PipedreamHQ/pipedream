@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "slack_v2_test-new-channel-created",
   name: "New Channel Created (Instant)",
-  version: "0.0.10",
+  version: "0.0.11",
   description: "Emit new event when a new channel is created.",
   type: "source",
   dedupe: "unique",

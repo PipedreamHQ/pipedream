@@ -5,7 +5,7 @@ export default {
   key: "slack_v2_test-verify-slack-signature",
   name: "Verify Slack Signature",
   description: "Verifying requests from Slack, slack signs its requests using a secret that's unique to your app. [See the documentation](https://api.slack.com/authentication/verifying-requests-from-slack)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     slack,

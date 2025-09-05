@@ -6,7 +6,7 @@ export default {
   key: "slack_v2_test-send-message-to-channel",
   name: "Send Message to Channel",
   description: "Send a message to a public or private channel. [See the documentation](https://api.slack.com/methods/chat.postMessage)",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     slack: common.props.slack,
