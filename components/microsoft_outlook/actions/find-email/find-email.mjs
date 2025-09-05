@@ -44,7 +44,6 @@ export default {
       args: {
         $,
         params: {
-          "$search": this.search,
           "$filter": this.filter,
           "$orderby": this.orderBy,
         },

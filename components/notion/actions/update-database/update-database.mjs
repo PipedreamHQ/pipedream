@@ -7,7 +7,7 @@ export default {
   key: "notion-update-database",
   name: "Update Database",
   description: "Update a database. [See the documentation](https://developers.notion.com/reference/update-a-database)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     notion,
