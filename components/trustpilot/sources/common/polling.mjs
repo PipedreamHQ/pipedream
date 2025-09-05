@@ -74,55 +74,50 @@ export default {
     },
   },
   async run({ $ }) {
-    try {
-      // Get the last review time for filtering new reviews
-      const lastReviewTime = this._getLastReviewTime();
+    // Get the last review time for filtering new reviews
+    const lastReviewTime = this._getLastReviewTime();
 
-      // Get fetch parameters from child class
-      const fetchParams = this.getFetchParams(lastReviewTime);
+    // Get fetch parameters from child class
+    const fetchParams = this.getFetchParams(lastReviewTime);
 
-      // Fetch reviews using child class method
-      const result = await this.fetchReviews($, fetchParams);
-      const reviews = result.reviews || [];
+    // Fetch reviews using child class method
+    const result = await this.fetchReviews($, fetchParams);
+    const reviews = result.reviews || [];
 
-      if (!reviews.length) {
-        console.log("No reviews found");
-        return;
-      }
+    if (!reviews.length) {
+      console.log("No reviews found");
+      return;
+    }
 
-      // Filter for new reviews (child class may override)
-      const newReviews = this.filterNewReviews(reviews, lastReviewTime);
+    // Filter for new reviews (child class may override)
+    const newReviews = this.filterNewReviews(reviews, lastReviewTime);
 
-      if (!newReviews.length) {
-        console.log("No new reviews since last poll");
-        return;
-      }
+    if (!newReviews.length) {
+      console.log("No new reviews since last poll");
+      return;
+    }
 
+    // Track the latest review time
+    let latestReviewTime = lastReviewTime;
+
+    for (const review of newReviews) {
       // Track the latest review time
-      let latestReviewTime = lastReviewTime;
-
-      for (const review of newReviews) {
-        // Track the latest review time
-        const reviewTime = new Date(review.createdAt).toISOString();
-        if (!latestReviewTime || new Date(reviewTime) > new Date(latestReviewTime)) {
-          latestReviewTime = reviewTime;
-        }
-
-        // Emit the review with unique ID and summary
-        this.$emit(review, {
-          id: review.id,
-          summary: this.generateSummary(review),
-          ts: new Date(review.createdAt).getTime(),
-        });
+      const reviewTime = new Date(review.createdAt).toISOString();
+      if (!latestReviewTime || new Date(reviewTime) > new Date(latestReviewTime)) {
+        latestReviewTime = reviewTime;
       }
 
-      // Update the last review time for next poll
-      if (latestReviewTime && latestReviewTime !== lastReviewTime) {
-        this._setLastReviewTime(latestReviewTime);
-      }
+      // Emit the review with unique ID and summary
+      this.$emit(review, {
+        id: review.id,
+        summary: this.generateSummary(review),
+        ts: new Date(review.createdAt).getTime(),
+      });
+    }
 
-    } catch (error) {
-      throw new Error(`Failed to fetch reviews: ${error.message}`);
+    // Update the last review time for next poll
+    if (latestReviewTime && latestReviewTime !== lastReviewTime) {
+      this._setLastReviewTime(latestReviewTime);
     }
   },
 };

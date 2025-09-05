@@ -221,12 +221,10 @@ export default {
       // Handle the correct response structure (productReviews, not reviews)
       const reviews = response.productReviews?.map(parseProductReview) || [];
       const pagination = {
-        total: response.links?.total || 0,
+        total: response.total || 0,
         page: queryParams.page || 1,
         perPage: queryParams.perPage || 20,
-        hasMore: response.links?.next
-          ? true
-          : false,
+        hasMore: response.links?.some((l) => l.rel === "next") || false,
       };
 
       return {
