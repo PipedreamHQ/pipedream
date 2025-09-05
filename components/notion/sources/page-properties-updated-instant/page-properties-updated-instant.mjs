@@ -6,7 +6,7 @@ export default {
   key: "notion-page-properties-updated-instant",
   name: "Page Properties Updated (Instant)",
   description: "Emit new event each time a page property is updated in a database. For use with Page Properties Updated event type. Webhook must be set up in Notion. [See the documentation](https://developers.notion.com/reference/webhooks#step-1-creating-a-webhook-subscription)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

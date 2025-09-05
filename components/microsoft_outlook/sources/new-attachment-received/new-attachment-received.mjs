@@ -36,23 +36,6 @@ export default {
       }
       return attachments;
     },
-    async getMessageAttachments(message) {
-      const { value: attachments } = await this.microsoftOutlook.listAttachments({
-        messageId: message.id,
-      });
-      if (!attachments?.length) {
-        return [];
-      }
-      return attachments.map((attachment) => ({
-        ...attachment,
-        messageId: message.id,
-        messageSubject: message.subject,
-        messageSender: message.sender,
-        messageReceivedDateTime: message.receivedDateTime,
-        parentFolderId: message.parentFolderId,
-        contentBytes: undefined,
-      }));
-    },
     emitEvent(item) {
       if (this.isRelevant(item)) {
         this.$emit(item, this.generateMeta(item));
