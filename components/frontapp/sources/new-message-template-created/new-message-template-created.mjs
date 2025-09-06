@@ -6,7 +6,7 @@ export default {
   key: "frontapp-new-message-template-created",
   name: "New Message Template Created",
   description: "Emit new event when a message template is created. [See the documentation](https://dev.frontapp.com/reference/list-message-templates)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

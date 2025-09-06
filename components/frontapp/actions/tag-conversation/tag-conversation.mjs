@@ -4,7 +4,7 @@ export default {
   key: "frontapp-tag-conversation",
   name: "Tag Conversation",
   description: "Add tags to a conversation. [See the documentation](https://dev.frontapp.com/reference/patch_conversations-conversation-id)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     frontApp,

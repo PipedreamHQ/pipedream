@@ -6,7 +6,7 @@ export default {
   key: "frontapp-new-conversation-tag",
   name: "New Conversation Tag",
   description: "Emit new event when a conversation is tagged with a specific tag or any tag. [See the documentation](https://dev.frontapp.com/reference/events)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {

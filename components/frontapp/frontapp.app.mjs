@@ -592,6 +592,15 @@ export default {
         ...args,
       });
     },
+    async createMessage({
+      channelId, ...args
+    }) {
+      return this.makeRequest({
+        method: "post",
+        path: `/channels/${channelId}/messages`,
+        ...args,
+      });
+    },
     async paginateOptions({
       prevContext,
       listResourcesFn,

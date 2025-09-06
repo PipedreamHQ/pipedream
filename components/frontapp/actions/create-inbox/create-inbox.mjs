@@ -4,7 +4,7 @@ export default {
   key: "frontapp-create-inbox",
   name: "Create Inbox",
   description: "Create an inbox in the default team (workspace). [See the documentation](https://dev.frontapp.com/reference/create-inbox).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     frontApp,
