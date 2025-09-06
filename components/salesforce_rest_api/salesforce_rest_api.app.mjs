@@ -409,5 +409,49 @@ export default {
         url: `${this._baseApiVersionUrl()}/jobs/ingest/${jobId}`,
       });
     },
+    getKnowledgeArticles(args = {}) {
+      return this._makeRequest({
+        url: `${this._baseApiVersionUrl()}/support/knowledgeArticles`,
+        ...args,
+      });
+    },
+    getKnowledgeDataCategoryGroups(args = {}) {
+      return this._makeRequest({
+        url: `${this._baseApiVersionUrl()}/support/dataCategoryGroups`,
+        ...args,
+      });
+    },
+    async paginate({
+      requester, requesterArgs, resultsKey = "articles",
+      maxRequests = 3, pageSize = 100,
+    } = {}) {
+      let allItems = [];
+      let currentPage = 1;
+      let hasMore = true;
+
+      while (hasMore && currentPage <= maxRequests) {
+        const response = await requester({
+          ...requesterArgs,
+          params: {
+            ...requesterArgs?.params,
+            pageSize,
+            pageNumber: currentPage,
+          },
+        });
+
+        const items = response[resultsKey];
+        if (items?.length) {
+          allItems = [
+            ...allItems,
+            ...items,
+          ];
+        }
+
+        hasMore = !!response.nextPageUrl;
+        currentPage++;
+      }
+
+      return allItems;
+    },
   },
 };
