@@ -10,7 +10,7 @@ export default {
   key: "hubspot-new-or-updated-contact",
   name: "New or Updated Contact",
   description: "Emit new event for each new or updated contact in Hubspot.",
-  version: "0.0.15",
+  version: "0.0.16",
   dedupe: "unique",
   type: "source",
   props: {
@@ -101,13 +101,10 @@ export default {
       const dateProperty = this.newOnly
         ? "createdate"
         : "lastmodifieddate";
-      const isFirstRun = !this.db.get("after");
 
       const params = {
         data: {
-          limit: isFirstRun
-            ? 100
-            : DEFAULT_LIMIT,
+          limit: DEFAULT_LIMIT,
           sorts: [
             {
               propertyName: dateProperty,
