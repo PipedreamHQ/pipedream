@@ -1,13 +1,28 @@
 import microsoftOutlook from "../../microsoft_outlook.app.mjs";
 
 export default {
-  key: "microsoft_outlook-find-email",
-  name: "Find Email",
-  description: "Search for an email in Microsoft Outlook. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-messages)",
-  version: "0.0.10",
+  key: "microsoft_outlook-find-shared-folder-email",
+  name: "Find Shared Folder Email",
+  description: "Search for an email in a shared folder in Microsoft Outlook. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-messages)",
+  version: "0.0.1",
   type: "action",
   props: {
     microsoftOutlook,
+    userId: {
+      propDefinition: [
+        microsoftOutlook,
+        "userId",
+      ],
+    },
+    sharedFolderId: {
+      propDefinition: [
+        microsoftOutlook,
+        "sharedFolderId",
+        ({ userId }) => ({
+          userId,
+        }),
+      ],
+    },
     info: {
       type: "alert",
       alertType: "info",
@@ -40,9 +55,11 @@ export default {
   },
   async run({ $ }) {
     const items = this.microsoftOutlook.paginate({
-      fn: this.microsoftOutlook.listMessages,
+      fn: this.microsoftOutlook.listSharedFolderMessages,
       args: {
         $,
+        userId: this.userId,
+        sharedFolderId: this.sharedFolderId,
         params: {
           "$search": this.search,
           "$filter": this.filter,
@@ -57,7 +74,7 @@ export default {
       emails.push(item);
     }
 
-    $.export("$summary", `Successfully retrieved ${emails.length} message${emails.length != 1
+    $.export("$summary", `Successfully retrieved ${emails.length} shared folder message${emails.length != 1
       ? "s"
       : ""}.`);
     return emails;
