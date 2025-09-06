@@ -5,7 +5,7 @@ export default {
   name: "Get Ticket Info",
   description: "Retrieves information about a specific ticket. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/tickets/tickets/#show-ticket).",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.6",
   props: {
     app,
     ticketId: {

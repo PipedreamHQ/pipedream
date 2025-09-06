@@ -7,7 +7,7 @@ export default {
   key: "notion-new-database",
   name: "New Database Created",
   description: "Emit new event when a database is created. [See the documentation](https://developers.notion.com/reference/database)",
-  version: "0.0.13",
+  version: "0.0.14",
   type: "source",
   props: {
     ...base.props,
