@@ -4,7 +4,7 @@ export default {
   key: "bitget-future-market-get-fills-history",
   name: "Future - Market - Get Fills History",
   description: "Retrieve historical fill data for a contract symbol. [See the documentation](https://www.bitget.com/api-doc/contract/market/Get-Fills-History)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
