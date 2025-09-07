@@ -32,7 +32,7 @@ export default {
         const userNames = await this.userNameLookup(userIds);
         return {
           options: conversationsResp.conversations.map((c) => ({
-            label: `@${userNames[c.user]}`,
+            label: `${userNames[c.user]}`,
             value: c.user || c.id,
           })),
           context: {
@@ -121,24 +121,39 @@ export default {
           }
         }
         const conversationsResp = await this.availableConversations(types.join(), cursor, true);
-        let conversations, userNames;
+        let conversations, userIds, usernames, userNames;
         if (types.includes("im")) {
           conversations = conversationsResp.conversations;
-          const userIds = conversations.map(({ user }) => user);
-          userNames = await this.userNameLookup(userIds);
+          userIds = conversations.map(({ user }) => user).filter(Boolean);
         } else {
           conversations = conversationsResp.conversations.filter((c) => !c.is_im);
         }
+        if (types.includes("mpim")) {
+          usernames = [
+            ...new Set(conversations.filter((c) => c.is_mpim).map((c) => c.purpose.value)
+              .map((v) => v.match(/@[\w.-]+/g) || [])
+              .flat()
+              .map((u) => u.slice(1))),
+          ];
+        }
+        if ((userIds?.length > 0) || (usernames?.length > 0)) {
+          userNames = await this.userNameLookup(userIds, usernames);
+        }
+
         return {
           options: conversations.map((c) => {
             if (c.is_im) {
               return {
-                label: `Direct messaging with: @${userNames[c.user]}`,
+                label: `Direct messaging with: ${userNames[c.user]}`,
                 value: c.id,
               };
             } else if (c.is_mpim) {
+              const usernames = c.purpose.value.match(/@[\w.-]+/g) || [];
+              const realNames = usernames.map((u) => userNames[u.slice(1)] || u);
               return {
-                label: c.purpose.value,
+                label: realNames.length
+                  ? `Group messaging with: ${realNames.join(", ")}`
+                  : c.purpose.value,
                 value: c.id,
               };
             } else {
@@ -555,7 +570,7 @@ export default {
         conversations,
       };
     },
-    async userNameLookup(ids = [], throwRateLimitError = true, args = {}) {
+    async userNameLookup(ids = [], usernames = [], throwRateLimitError = true, args = {}) {
       let cursor;
       const userNames = {};
       do {
@@ -573,10 +588,13 @@ export default {
           if (ids.includes(user.id)) {
             userNames[user.id] = user.profile.real_name;
           }
+          if (usernames.includes(user.name)) {
+            userNames[user.name] = user.profile.real_name;
+          }
         }
 
         cursor = nextCursor;
-      } while (cursor && Object.keys(userNames).length < ids.length);
+      } while (cursor && Object.keys(userNames).length < (ids.length + usernames.length));
       return userNames;
     },
     /**
