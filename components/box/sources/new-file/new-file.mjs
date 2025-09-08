@@ -12,6 +12,15 @@ export default {
   ...common,
   props: {
     ...common.props,
+    webhookTarget: {
+      propDefinition: [
+        common.props.app,
+        "webhookTarget",
+        () => ({
+          type: "folder",
+        }),
+      ],
+    },
     includeLink: {
       label: "Include Link",
       type: "boolean",

@@ -10,6 +10,11 @@ export default {
   version: "0.2.0",
   dedupe: "unique",
   props: {
+    info: {
+      type: "alert",
+      alertType: "info",
+      content: "Allows receipt of notifications for event initiation and completion when restoring objects from the **S3 Glacier Flexible Retrieval** storage class, **S3 Glacier Deep Archive** storage class, **S3 Intelligent-Tiering Archive Access tier**, and **S3 Intelligent-Tiering Deep Archive Access tier**.",
+    },
     ...base.props,
     detectRestoreInitiation: {
       type: "boolean",
