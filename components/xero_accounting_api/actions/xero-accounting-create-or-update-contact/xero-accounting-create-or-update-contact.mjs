@@ -1,42 +1,46 @@
-// legacy_hash_id: a_0Mi723
-import { axios } from "@pipedream/platform";
+import { parseObject } from "../../common/util.mjs";
+import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 
 export default {
   key: "xero_accounting_api-xero-accounting-create-or-update-contact",
   name: "Create or Update Contact",
   description: "Creates a new contact or updates if the contact exists.",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
-    xero_accounting_api: {
-      type: "app",
-      app: "xero_accounting_api",
-    },
-    tenant_id: {
-      type: "string",
-      description: "Id of the organization tenant to use on the Xero Accounting API. See [Get Tenant Connections](https://pipedream.com/@sergio/xero-accounting-api-get-tenant-connections-p_OKCzOgn/edit) for a workflow example on how to pull this data.",
+    xeroAccountingApi,
+    tenantId: {
+      propDefinition: [
+        xeroAccountingApi,
+        "tenantId",
+      ],
     },
     name: {
+      label: "Name",
       type: "string",
       description: "Full name of contact/organisation (max length = 255). The following is required to create a contact.",
       optional: true,
     },
-    contact_id: {
+    contactId: {
+      label: "Contact ID",
       type: "string",
       description: "Xero identifier.",
       optional: true,
     },
-    contact_number: {
+    contactNumber: {
+      label: "Contact Number",
       type: "string",
       description: "This can be updated via the API only i.e. This field is read only on the Xero contact screen, used to identify contacts in external systems (max length = 50). If the Contact Number is used, this is displayed as Contact Code in the Contacts UI in Xero.",
       optional: true,
     },
-    account_number: {
+    accountNumber: {
+      label: "Account Number",
       type: "string",
       description: "A user defined account number. This can be updated via the API and the [Xero UI](https://help.xero.com/ContactsAccountNumber) (max length = 50).",
       optional: true,
     },
-    contact_status: {
+    contactStatus: {
+      label: "Contact Status",
       type: "string",
       description: "Current status of a contact - see contact status [types](https://developer.xero.com/documentation/api/types#ContactStatuses)",
       optional: true,
@@ -46,167 +50,204 @@ export default {
         "GDPRREQUEST",
       ],
     },
-    first_name: {
+    firstName: {
+      label: "First Name",
       type: "string",
       description: "First name of contact person (max length = 255).",
       optional: true,
     },
-    last_name: {
+    lastName: {
+      label: "Last Name",
       type: "string",
       description: "Last name of contact person (max length = 255)",
       optional: true,
     },
-    email_address: {
+    emailAddress: {
+      label: "Email Address",
       type: "string",
       description: "Email address of contact person (umlauts not supported) (max length = 255)",
       optional: true,
     },
-    skype_user_name: {
+    skypeUserName: {
+      label: "Skype User Name",
       type: "string",
       description: "Skype user name of contact.",
       optional: true,
     },
-    contact_persons: {
+    contactPersons: {
+      label: "Contact Persons",
       type: "any",
       description: "See [contact persons](https://developer.xero.com/documentation/api/contacts#contact-persons).",
       optional: true,
     },
-    bank_account_details: {
+    bankAccountDetails: {
+      label: "Bank Account Details",
       type: "string",
       description: "Bank account number of contact",
       optional: true,
     },
-    tax_number: {
+    taxNumber: {
+      label: "Tax Number",
       type: "string",
       description: "Tax number of contact - this is also known as the ABN (Australia), GST Number (New Zealand), VAT Number (UK) or Tax ID Number (US and global) in the Xero UI depending on which regionalized version of Xero you are using (max length = 50)",
       optional: true,
     },
-    account_receivable_tax_type: {
+    accountReceivableTaxType: {
+      label: "Account Receivable Tax Type",
       type: "string",
       description: "Default tax type used for contact on AP invoices",
       optional: true,
     },
-    account_payable_type: {
+    accountPayableType: {
+      label: "Account Payable Type",
       type: "string",
       description: "Store certain address types for a contact - see address types",
       optional: true,
     },
     addresses: {
+      label: "Addresses",
       type: "any",
       description: "Store certain address types for a contact - see address types",
       optional: true,
     },
     phones: {
+      label: "Phones",
       type: "any",
       description: "Store certain phone types for a contact - see phone types.",
       optional: true,
     },
-    is_supplier: {
+    isSupplier: {
+      label: "Is Supplier",
       type: "boolean",
       description: "true or false  Boolean that describes if a contact that has any AP invoices entered against them. Cannot be set via PUT or POST - it is automatically set when an accounts payable invoice is generated against this contact.",
       optional: true,
     },
-    is_customer: {
+    isCustomer: {
+      label: "Is Customer",
       type: "boolean",
       description: "true or false  Boolean that describes if a contact has any AR invoices entered against them. Cannot be set via PUT or POST - it is automatically set when an accounts receivable invoice is generated against this contact.",
       optional: true,
     },
-    default_currency: {
+    defaultCurrency: {
+      label: "Default Currency",
       type: "string",
       description: "Default currency for raising invoices against contact",
       optional: true,
     },
-    xero_network_key: {
+    xeroNetworkKey: {
+      label: "Xero Network Key",
       type: "string",
       description: "Store XeroNetworkKey for contacts.",
       optional: true,
     },
-    sales_default_account_code: {
+    salesDefaultAccountCode: {
+      label: "Sales Default Account Code",
       type: "string",
       description: "The default sales [account code](https://developer.xero.com/documentation/api/accounts) for contacts",
       optional: true,
     },
-    puchases_default_account_code: {
+    puchasesDefaultAccountCode: {
+      label: "Purchases Default Account Code",
       type: "string",
       description: "The default purchases [account code](https://developer.xero.com/documentation/api/accounts) for contacts",
       optional: true,
     },
-    sales_tracking_categories: {
+    salesTrackingCategories: {
+      label: "Sales Tracking Categories",
       type: "string",
       description: "The default sales [tracking categories](https://developer.xero.com/documentation/api/tracking-categories/) for contacts",
       optional: true,
     },
-    puechases_tracking_categories: {
+    puechasesTrackingCategories: {
+      label: "Purchases Tracking Categories",
       type: "string",
       description: "The default purchases [tracking categories](https://developer.xero.com/documentation/api/tracking-categories/) for contacts",
       optional: true,
     },
-    tracking_category_name: {
+    trackingCategoryName: {
+      label: "Tracking Category Name",
       type: "string",
       description: "The name of the Tracking Category assigned to the contact under SalesTrackingCategories and PurchasesTrackingCategories",
       optional: true,
     },
-    tracking_option_name: {
+    trackingOptionName: {
+      label: "Tracking Option Name",
       type: "string",
       description: "The name of the Tracking Option assigned to the contact under SalesTrackingCategories and PurchasesTrackingCategories",
       optional: true,
     },
-    payment_terms: {
+    paymentTermsBillDay: {
+      label: "Payment Terms Bill Day",
+      type: "integer",
+      description: "The default payment terms bill day",
+      optional: true,
+    },
+    paymentTermsBillType: {
       type: "string",
-      description: "The default payment terms for the contact - see Payment Terms",
+      label: "Payment Terms Bill Type",
+      description: "The default payment terms bill type",
       optional: true,
       options: [
-        "DAYSAFTERBILLDATE",
-        "DAYSAFTERBILLMONTH",
-        "OFCURRENTMONTH",
-        "OFFOLLOWINGMONTH",
+        {
+          "label": "day(s) after bill date",
+          "value": "DAYSAFTERBILLDATE",
+        },
+        {
+          "label": "day(s) after bill month",
+          "value": "DAYSAFTERBILLMONTH",
+        },
+        {
+          "label": "of the current month",
+          "value": "OFCURRENTMONTH",
+        },
+        {
+          "label": "of the following month",
+          "value": "OFFOLLOWINGMONTH",
+        },
       ],
     },
   },
   async run({ $ }) {
-  //See the API docs: https://developer.xero.com/documentation/api/contacts
-  //on section POST Contacts
-
-    if (!this.tenant_id) {
-      throw new Error("Must provide tenant_id parameter.");
-    }
-
-    return await axios($, {
-      method: "post",
-      url: "https://api.xero.com/api.xro/2.0/Contacts",
-      headers: {
-        "Authorization": `Bearer ${this.xero_accounting_api.$auth.oauth_access_token}`,
-        "xero-tenant-id": this.tenant_id,
-      },
+    const response = await this.xeroAccountingApi.createOrUpdateContact({
+      $,
+      tenantId: this.tenantId,
       data: {
         Name: this.name,
-        ContactID: this.contact_id,
-        ContactNumber: this.contact_number,
-        AccountNumber: this.account_number,
-        ContactStatus: this.contact_status,
-        FirstName: this.first_name,
-        LastName: this.last_name,
-        EmailAddress: this.email_address,
-        SkypeUserName: this.skype_user_name,
-        ContactPersons: this.contact_persons,
-        BankAccountDetails: this.bank_account_details,
-        TaxNumber: this.tax_number,
-        AccountsReceivableTaxType: this.account_receivable_tax_type,
-        AccountsPayableTaxType: this.account_payable_type,
-        Addresses: this.addresses,
-        Phones: this.phones,
-        IsSupplier: this.is_supplier,
-        IsCustomer: this.is_customer,
-        DefaultCurrency: this.default_currency,
-        XeroNetworkKey: this.xero_network_key,
-        SalesDefaultAccountCode: this.sales_default_account_code,
-        PurchasesDefaultAccountCode: this.puchases_default_account_code,
-        SalesTrackingCategories: this.sales_tracking_categories,
-        PurchasesTrackingCategories: this.puechases_tracking_categories,
-        TrackingCategoryName: this.tracking_category_name,
-        TrackingOptionName: this.tracking_option_name,
-        PaymentTerms: this.payment_terms,
+        ContactID: this.contactId,
+        ContactNumber: this.contactNumber,
+        AccountNumber: this.accountNumber,
+        ContactStatus: this.contactStatus,
+        FirstName: this.firstName,
+        LastName: this.lastName,
+        EmailAddress: this.emailAddress,
+        SkypeUserName: this.skypeUserName,
+        ContactPersons: parseObject(this.contactPersons),
+        BankAccountDetails: this.bankAccountDetails,
+        TaxNumber: this.taxNumber,
+        AccountsReceivableTaxType: this.accountReceivableTaxType,
+        AccountsPayableTaxType: this.accountPayableType,
+        Addresses: parseObject(this.addresses),
+        Phones: parseObject(this.phones),
+        IsSupplier: this.isSupplier,
+        IsCustomer: this.isCustomer,
+        DefaultCurrency: this.defaultCurrency,
+        XeroNetworkKey: this.xeroNetworkKey,
+        SalesDefaultAccountCode: this.salesDefaultAccountCode,
+        PurchasesDefaultAccountCode: this.puchasesDefaultAccountCode,
+        SalesTrackingCategories: this.salesTrackingCategories,
+        PurchasesTrackingCategories: this.puechasesTrackingCategories,
+        TrackingCategoryName: this.trackingCategoryName,
+        TrackingOptionName: this.trackingOptionName,
+        PaymentTerms: {
+          Bills: {
+            Day: this.paymentTermsBillDay,
+            Type: this.paymentTermsBillType,
+          },
+        },
       },
     });
+
+    $.export("$summary", `Successfully created or updated contact with ID: ${this.contactId}`);
+    return response;
   },
 };

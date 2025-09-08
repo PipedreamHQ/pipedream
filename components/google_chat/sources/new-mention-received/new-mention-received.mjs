@@ -5,7 +5,7 @@ export default {
   key: "google_chat-new-mention-received",
   name: "New Mention Received",
   description: "Emit new event when a new mention is received in a space. [See the documentation](https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces.messages/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -23,6 +23,9 @@ export default {
   methods: {
     ...common.methods,
     isRelevant(message) {
+      if (!message.formattedText) {
+        return false;
+      }
       return message.formattedText.includes(`<users/${this.memberId}>`);
     },
     getSummary(message) {

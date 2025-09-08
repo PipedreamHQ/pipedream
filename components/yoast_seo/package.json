@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/yoast_seo",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Yoast SEO Components",
-  "main": "dist/app/yoast_seo.app.mjs",
+  "main": "yoast_seo.app.mjs",
   "keywords": [
     "pipedream",
     "yoast_seo"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/yoast_seo",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/degreed",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Degreed Components",
-  "main": "dist/app/degreed.app.mjs",
+  "main": "degreed.app.mjs",
   "keywords": [
     "pipedream",
     "degreed"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/degreed",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

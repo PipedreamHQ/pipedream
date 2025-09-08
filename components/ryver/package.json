@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/ryver",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Ryver Components",
-  "main": "dist/app/ryver.app.mjs",
+  "main": "ryver.app.mjs",
   "keywords": [
     "pipedream",
     "ryver"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/ryver",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

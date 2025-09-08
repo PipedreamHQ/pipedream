@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/remarkety",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Remarkety Components",
-  "main": "dist/app/remarkety.app.mjs",
+  "main": "remarkety.app.mjs",
   "keywords": [
     "pipedream",
     "remarkety"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/remarkety",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

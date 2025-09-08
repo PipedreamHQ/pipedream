@@ -1,11 +1,11 @@
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import dayjs from "dayjs";
 import hootsuite from "../../hootsuite.app.mjs";
 import constants from "../common/constants.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Post Created",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "hootsuite-new-post-created",
   description: "Emit new event on each new created post. [See docs here](https://platform.hootsuite.com/docs/api/index.html#operation/retrieveMessages).",
   type: "source",
@@ -70,12 +70,6 @@ export default {
         endTime: dayjs().add(24, "hour")
           .toISOString(),
       },
-    });
-
-    console.log({
-      startTime: dayjs(lastSyncTimestamp).subtract(24, "hour")
-        .toISOString(),
-      endTime: dayjs().toISOString(),
     });
 
     posts.forEach(this.emitEvent);

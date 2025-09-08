@@ -8,14 +8,14 @@
 // 1) The HTTP requests tied to changes in the user's Google Drive
 // 2) A timer that runs on regular intervals, renewing the notification channel as needed
 
-import common from "../common-webhook.mjs";
-import sampleEmit from "./test-event.mjs";
 import {
   GOOGLE_DRIVE_NOTIFICATION_ADD,
   GOOGLE_DRIVE_NOTIFICATION_CHANGE,
   GOOGLE_DRIVE_NOTIFICATION_UPDATE,
 } from "../../common/constants.mjs";
 import commonDedupeChanges from "../common-dedupe-changes.mjs";
+import common from "../common-webhook.mjs";
+import sampleEmit from "./test-event.mjs";
 
 const { googleDrive } = common.props;
 
@@ -24,7 +24,7 @@ export default {
   key: "google_drive-new-or-modified-files",
   name: "New or Modified Files (Instant)",
   description: "Emit new event when a file in the selected Drive is created, modified or trashed.",
-  version: "0.3.6",
+  version: "0.3.8",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests

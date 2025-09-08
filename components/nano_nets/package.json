@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/nano_nets",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Nano Nets Components",
-  "main": "dist/app/nano_nets.app.mjs",
+  "main": "nano_nets.app.mjs",
   "keywords": [
     "pipedream",
     "nano_nets"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/nano_nets",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

@@ -1,10 +1,11 @@
 import openai from "../../openai.app.mjs";
 import constants from "../../common/constants.mjs";
 import fs from "fs";
+import { IMAGE_MODELS } from "../../common/models.mjs";
 
 export default {
   name: "Create Image (Dall-E)",
-  version: "0.1.23",
+  version: "0.1.24",
   key: "openai-create-image",
   description: "Creates an image given a prompt returning a URL to the image. [See the documentation](https://platform.openai.com/docs/api-reference/images)",
   type: "action",
@@ -14,7 +15,7 @@ export default {
       label: "Model",
       description: "Choose the DALL·E models to generate image(s) with.",
       type: "string",
-      options: constants.IMAGE_MODELS,
+      options: IMAGE_MODELS,
       reloadProps: true,
     },
     prompt: {

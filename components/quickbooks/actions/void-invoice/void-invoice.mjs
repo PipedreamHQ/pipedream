@@ -5,7 +5,7 @@ export default {
   key: "quickbooks-void-invoice",
   name: "Void Invoice",
   description: "Voids an invoice. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/invoice#void-an-invoice)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     quickbooks,

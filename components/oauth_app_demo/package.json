@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/oauth_app_demo",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream OAuth App Demo Components",
-  "main": "dist/app/oauth_app_demo.app.mjs",
+  "main": "oauth_app_demo.app.mjs",
   "keywords": [
     "pipedream",
     "oauth_app_demo"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/oauth_app_demo",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

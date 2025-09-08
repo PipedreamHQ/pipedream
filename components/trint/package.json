@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/trint",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Trint Components",
-  "main": "dist/app/trint.app.mjs",
+  "main": "trint.app.mjs",
   "keywords": [
     "pipedream",
     "trint"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/trint",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

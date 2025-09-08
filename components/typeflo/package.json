@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/typeflo",
+  "version": "0.1.1",
+  "description": "Pipedream Typeflo Components",
+  "main": "typeflo.app.mjs",
+  "keywords": [
+    "pipedream",
+    "typeflo"
+  ],
+  "homepage": "https://pipedream.com/apps/typeflo",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
+  }
+}

@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/logsnag",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream LogSnag Components",
-  "main": "dist/app/logsnag.app.mjs",
+  "main": "logsnag.app.mjs",
   "keywords": [
     "pipedream",
     "logsnag"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/logsnag",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

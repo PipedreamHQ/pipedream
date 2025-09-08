@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/braintree",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Braintree Components",
-  "main": "dist/app/braintree.app.mjs",
+  "main": "braintree.app.mjs",
   "keywords": [
     "pipedream",
     "braintree"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/braintree",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

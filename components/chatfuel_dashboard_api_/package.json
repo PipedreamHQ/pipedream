@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/chatfuel_dashboard_api_",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Chatfuel (Dashboard API) Components",
-  "main": "dist/app/chatfuel_dashboard_api_.app.mjs",
+  "main": "chatfuel_dashboard_api_.app.mjs",
   "keywords": [
     "pipedream",
     "chatfuel_dashboard_api_"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/chatfuel_dashboard_api_",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

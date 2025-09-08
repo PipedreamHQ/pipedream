@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/looker",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Looker Components",
-  "main": "dist/app/looker.app.mjs",
+  "main": "looker.app.mjs",
   "keywords": [
     "pipedream",
     "looker"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/looker",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

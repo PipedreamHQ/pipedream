@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/humanloop",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream HumanLoop Components",
-  "main": "dist/app/humanloop.app.mjs",
+  "main": "humanloop.app.mjs",
   "keywords": [
     "pipedream",
     "humanloop"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/humanloop",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

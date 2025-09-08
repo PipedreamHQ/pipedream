@@ -36,7 +36,11 @@
     "platform-test": "cd platform && npm test",
     "types-test": "cd types && npm test",
     "helpers-test": "cd helpers && npm test",
-    "build:docs": "cd docs-v2 && pnpm install --ignore-engines && pnpm build"
+    "validate:packages": "node scripts/generate-package-report.js",
+    "validate:packages:verbose": "node scripts/generate-package-report.js --verbose",
+    "validate:packages:report": "node scripts/generate-package-report.js --report-only --output=package-validation-report.json",
+    "validate:packages:dry-run": "node scripts/generate-package-report.js --dry-run",
+    "validate:package": "node scripts/generate-package-report.js --package="
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
@@ -66,7 +70,7 @@
     "ts-jest": "^29.1.1",
     "tsc-esm-fix": "^2.18.0",
     "tsc-watch": "^5.0.3",
-    "typescript": ">=4.7.4 <5.7.0",
+    "typescript": ">=5.5.0 <5.7.0",
     "typescript-eslint": "^8.15.0"
   },
   "lint-staged": {

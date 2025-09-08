@@ -6,7 +6,7 @@ export default {
   key: "oxylabs-new-scheduled-run-completed",
   name: "New Scheduled Run Completed",
   description: "Emit new event when a new scheduled run is completed. [See the documentation](https://developers.oxylabs.io/scraping-solutions/web-scraper-api/features/scheduler#get-runs-information)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

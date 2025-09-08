@@ -2,7 +2,7 @@ import azureDevops from "../../azure_devops.app.mjs";
 
 export default {
   name: "New Event (Instant)",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "azure_devops-new-event",
   description: "Emit new event for the specified event type.",
   type: "source",
@@ -40,9 +40,12 @@ export default {
         },
         eventType: this.eventType,
       };
-      const { id } = await this.azureDevops.createSubscription(this.organization, {
-        data,
-      });
+      const { id } = await this.azureDevops.createSubscription(
+        this.organization,
+        {
+          data,
+        },
+      );
       this._setHookId(id);
     },
     async deactivate() {

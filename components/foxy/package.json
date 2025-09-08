@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/foxy",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Foxy Components",
-  "main": "dist/app/foxy.app.mjs",
+  "main": "foxy.app.mjs",
   "keywords": [
     "pipedream",
     "foxy"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/foxy",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

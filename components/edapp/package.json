@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/edapp",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream EdApp Components",
-  "main": "dist/app/edapp.app.mjs",
+  "main": "edapp.app.mjs",
   "keywords": [
     "pipedream",
     "edapp"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/edapp",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

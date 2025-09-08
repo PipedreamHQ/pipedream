@@ -24,6 +24,15 @@ export default {
       await this.acuityScheduling.deleteHook(webhookId);
     },
   },
+  methods: {
+    generateMeta(details) {
+      return {
+        id: details.id,
+        summary: this.getSummary(details),
+        ts: Date.parse(details.datetime) || Date.now(),
+      };
+    },
+  },
   async run(event) {
     const { body } = event;
 
@@ -36,12 +45,6 @@ export default {
       body: "Success",
     });
 
-    const ts = Date.parse(details.datetime) || Date.now();
-
-    this.$emit(details, {
-      id: details.id,
-      summary: this.getSummary(details),
-      ts: ts,
-    });
+    this.$emit(details, this.generateMeta(details));
   },
 };

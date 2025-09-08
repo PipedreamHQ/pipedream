@@ -7,7 +7,7 @@ export default {
   name: "New Form Submission (Instant)",
   description: "Emit new event when a user submits a form",
   type: "source",
-  version: "0.1.0",
+  version: "0.1.1",
   dedupe: "unique",
   methods: {
     ...webhook.methods,

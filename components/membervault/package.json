@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/membervault",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Membervault Components",
-  "main": "dist/app/membervault.app.mjs",
+  "main": "membervault.app.mjs",
   "keywords": [
     "pipedream",
     "membervault"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/membervault",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

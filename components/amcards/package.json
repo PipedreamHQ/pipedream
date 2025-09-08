@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/amcards",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream AMcards Components",
-  "main": "dist/app/amcards.app.mjs",
+  "main": "amcards.app.mjs",
   "keywords": [
     "pipedream",
     "amcards"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/amcards",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

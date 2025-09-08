@@ -4,9 +4,9 @@ import sampleEmit from "./test-event.mjs";
 export default {
   ...common,
   key: "attio-record-updated-instant",
-  name: "Record Updated (Instant)",
+  name: "New Record Updated (Instant)",
   description: "Emit new event when values on a record, such as person, company or deal, are updated",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   props: {

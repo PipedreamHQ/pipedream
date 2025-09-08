@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/postbin",
+  "version": "0.0.1",
+  "description": "Pipedream PostBin Components",
+  "main": "postbin.app.mjs",
+  "keywords": [
+    "pipedream",
+    "postbin"
+  ],
+  "homepage": "https://pipedream.com/apps/postbin",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/httpsms",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream httpSMS Components",
-  "main": "dist/app/httpsms.app.mjs",
+  "main": "httpsms.app.mjs",
   "keywords": [
     "pipedream",
     "httpsms"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/httpsms",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

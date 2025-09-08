@@ -89,7 +89,7 @@ function buildFormData(formData, data, parentKey) {
         buildFormData(formData, data[key], parentKey && `${parentKey}[${key}]` || key);
       });
 
-  } else if (data && parentKey.includes("attachment")) {
+  } else if (data && parentKey?.includes("attachment")) {
     formData.append(parentKey, createReadStream(data));
 
   } else if (data) {

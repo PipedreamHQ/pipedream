@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/planso_forms",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream PlanSo Forms Components",
-  "main": "dist/app/planso_forms.app.mjs",
+  "main": "planso_forms.app.mjs",
   "keywords": [
     "pipedream",
     "planso_forms"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/planso_forms",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

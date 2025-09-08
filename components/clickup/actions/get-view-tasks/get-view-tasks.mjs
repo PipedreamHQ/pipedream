@@ -5,7 +5,7 @@ export default {
   key: "clickup-get-view-tasks",
   name: "Get View Tasks",
   description: "Get all tasks of a view. [See the documentation](https://clickup.com/api) in **Views / Get View Tasks** section.",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "action",
   props: {
     ...common.props,
