@@ -25,11 +25,8 @@ export default {
       description: "Select a data source from the database or provide a data source ID",
       async options({ databaseId }) {
         this._checkOptionsContext(databaseId, "Database ID");
-        const dataSources = await this.getDataSourcesForDatabase(databaseId);
-        return dataSources?.map((dataSource) => ({
-          label: dataSource.name,
-          value: dataSource.id,
-        })) || [];
+        const response = await this.getDataSourcesForDatabase(databaseId);
+        return this._extractDatabaseTitleOptions(response);
       },
     },
     pageId: {

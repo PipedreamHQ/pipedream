@@ -2,6 +2,7 @@ import utils from "./utils.mjs";
 
 /**
  * Implementation for Database Meta in Notion - https://developers.notion.com/reference/database
+ * See also Data Sources - https://developers.notion.com/reference/data-source
  *
  * convertToNotion: converts the prop values to send to the Notion API
  */
@@ -9,7 +10,7 @@ export const NOTION_DATA_SOURCE_META = {
   parent: {
     convertToNotion: (property) => ({
       type: "data_source_id",
-      database_id: property.value,
+      data_source_id: property.value,
     }),
   },
   title: {

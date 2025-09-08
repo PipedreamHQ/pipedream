@@ -17,10 +17,8 @@ export default {
         notion,
         "databaseId",
       ],
-      label: "Parent Database ID",
-      description: "Select a parent database or provide a database ID",
     },
-    dataSource: {
+    parentDataSource: {
       propDefinition: [
         notion,
         "dataSourceId",
@@ -28,17 +26,19 @@ export default {
           databaseId: parent,
         }),
       ],
+      label: "Parent Data Source ID",
+      description: "Select a parent data source or provide a data source ID",
     },
     Name: {
       type: "string",
       label: "Name",
-      description: "The name of the page. Use this only if the database has a `title` property named `Name`. Otherwise, use the `Properties` prop below to set the title property.",
+      description: "The name of the page. Use this only if the data source has a `title` property named `Name`. Otherwise, use the `Properties` prop below to set the title property.",
       optional: true,
     },
     properties: {
       type: "object",
       label: "Properties",
-      description: "The values of the page's properties. The schema must match the parent database's properties. [See the documentation](https://developers.notion.com/reference/property-object) for information on various property types. Example: `{ \"Tags\": [ \"tag1\" ], \"Link\": \"https://pipedream.com\" }`",
+      description: "The values of the page's properties. The schema must match the parent data source's properties. [See the documentation](https://developers.notion.com/reference/property-object) for information on various property types. Example: `{ \"Tags\": [ \"tag1\" ], \"Link\": \"https://pipedream.com\" }`",
       optional: true,
     },
     icon: {
@@ -87,7 +87,7 @@ export default {
   },
   async run({ $ }) {
     const MAX_BLOCKS = 100;
-    const parentPage = await this.notion.retrieveDataSource(this.dataSource);
+    const parentPage = await this.notion.retrieveDataSource(this.parentDataSource);
     const {
       children, ...page
     } = this.buildPage(parentPage);

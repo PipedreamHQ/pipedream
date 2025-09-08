@@ -7,7 +7,7 @@ export default {
   key: "notion-update-page",
   name: "Update Page",
   description: "Update a page's property values. To append page content, use the *Append Block* action instead. [See the documentation](https://developers.notion.com/reference/patch-page)",
-  version: "1.1.10",
+  version: "2.0.0",
   type: "action",
   props: {
     notion,
@@ -16,18 +16,18 @@ export default {
       alertType: "info",
       content: "Properties that are not set will remain unchanged.",
     },
-    databaseId: {
+    parent: {
       propDefinition: [
         notion,
         "databaseId",
       ],
     },
-    parent: {
+    parentDataSource: {
       propDefinition: [
         notion,
         "dataSourceId",
         (c) => ({
-          databaseId: c.databaseId,
+          databaseId: c.parent,
         }),
       ],
       label: "Parent Data Source ID",
@@ -39,7 +39,7 @@ export default {
         notion,
         "pageIdInDataSource",
         (c) => ({
-          dataSourceId: c.parent,
+          dataSourceId: c.parentDataSource,
         }),
       ],
     },
@@ -60,7 +60,7 @@ export default {
         notion,
         "propertyTypes",
         (c) => ({
-          parentId: c.parent,
+          parentId: c.parentDataSource,
           parentType: "dataSource",
         }),
       ],
@@ -69,7 +69,7 @@ export default {
   },
   async additionalProps() {
     try {
-      const { properties } = await this.notion.retrieveDataSource(this.parent);
+      const { properties } = await this.notion.retrieveDataSource(this.parentDataSource);
       const selectedProperties = pick(properties, this.propertyTypes);
 
       return this.buildAdditionalProps({

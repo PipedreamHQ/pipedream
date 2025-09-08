@@ -34,7 +34,7 @@ export default {
       } = obj;
       const ts = Date.parse(lastTime);
 
-      if (type === constants.types.DATABASE) {
+      if (type === constants.types.DATABASE || type === constants.types.DATA_SOURCE) {
         title = this.notion.extractDatabaseTitle(obj);
       } else {
         title = this.notion.extractPageTitle(obj);
