@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/airtable_oauth",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Pipedream Airtable (OAuth) Components",
   "main": "airtable_oauth.app.mjs",
   "keywords": [

@@ -4,7 +4,7 @@ export default {
   key: "bitget-future-market-get-candle-data",
   name: "Future - Market - Get Candle Data",
   description: "Retrieve candlestick data for a contract symbol. [See the documentation](https://www.bitget.com/api-doc/contract/market/Get-Candle-Data)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
