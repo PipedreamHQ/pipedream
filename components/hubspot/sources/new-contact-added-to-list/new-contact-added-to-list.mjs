@@ -2,6 +2,7 @@ import common from "../common/common.mjs";
 import {
   DEFAULT_LIMIT,
   DEFAULT_CONTACT_PROPERTIES,
+  API_PATH,
 } from "../../common/constants.mjs";
 import sampleEmit from "./test-event.mjs";
 
@@ -22,13 +23,26 @@ export default {
       content: `Properties:\n\`${DEFAULT_CONTACT_PROPERTIES.join(", ")}\``,
     },
     listId: {
-      propDefinition: [
-        common.props.hubspot,
-        "listId",
-      ],
       type: "string",
-      description: "Select the list to watch for new contacts.",
-      optional: false,
+      label: "List ID",
+      description: "Select the list to watch for new contacts",
+      withLabel: true,
+      async options({ page }) {
+        const { lists } = await this.searchLists({
+          data: {
+            count: DEFAULT_LIMIT,
+            offset: page * DEFAULT_LIMIT,
+          },
+        });
+        return (
+          lists?.map(({
+            listId, name,
+          }) => ({
+            value: listId,
+            label: name,
+          })) || []
+        );
+      },
     },
     properties: {
       propDefinition: [
@@ -52,6 +66,14 @@ export default {
     },
     _setLastMembershipTimestamp(listId, timestamp) {
       this.db.set(this._getKey(listId), timestamp);
+    },
+    searchLists(opts = {}) {
+      return this.hubspot.makeRequest({
+        api: API_PATH.CRMV3,
+        method: "POST",
+        endpoint: "/lists/search",
+        ...opts,
+      });
     },
     getTs() {
       return Date.now();
@@ -190,19 +212,16 @@ export default {
       return newMemberships;
     },
     async processResults() {
-      const {
-        listId,
-        listInfo: { name },
-      } = this;
-
-      if (!listId) {
+      if (!this.listId) {
         console.warn("No list selected to monitor");
         return;
       }
 
+      const listId = this.listId?.value || this.listId;
+
       const listInfo = {
         listId,
-        name: `List ${name}`,
+        name: `List ${this.listId?.label || listId}`,
       };
 
       try {
