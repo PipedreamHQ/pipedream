@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/wire2air",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Wire2Air Components",
-  "main": "dist/app/wire2air.app.mjs",
+  "main": "wire2air.app.mjs",
   "keywords": [
     "pipedream",
     "wire2air"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/wire2air",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

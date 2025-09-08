@@ -7,7 +7,7 @@ export default {
   key: "kustomer-create-conversation",
   name: "Create Conversation",
   description: "Creates a new conversation in Kustomer. [See the documentation](https://developer.kustomer.com/kustomer-api-docs/reference/createaconversation)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     kustomer,

@@ -1,13 +1,13 @@
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import googleDrive from "../../google_drive.app.mjs";
 import sourceComponent from "../new-files-instant/new-files-instant.mjs";
 import sampleEmit from "../new-files-instant/test-event.mjs";
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "google_drive-new-files-shared-drive",
   name: "New Files (Shared Drive)",
   description: "Emit new event when a new file is added in your shared Google Drive",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   props: {

@@ -4,7 +4,7 @@ export default {
   key: "trello-remove-label-from-card",
   name: "Remove Card Label",
   description: "Removes label from card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-idlabels-idlabel-delete).",
-  version: "0.2.2",
+  version: "0.2.3",
   type: "action",
   props: {
     app,

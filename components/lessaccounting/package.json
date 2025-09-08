@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/lessaccounting",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream LessAccounting Components",
-  "main": "dist/app/lessaccounting.app.mjs",
+  "main": "lessaccounting.app.mjs",
   "keywords": [
     "pipedream",
     "lessaccounting"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/lessaccounting",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

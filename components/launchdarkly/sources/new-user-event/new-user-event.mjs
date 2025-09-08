@@ -5,7 +5,7 @@ export default {
   key: "launchdarkly-new-user-event",
   name: "New User Event",
   description: "Emit new event when user activity is noted. [See the documentation](https://apidocs.launchdarkly.com/tag/Webhooks#operation/postWebhook).",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

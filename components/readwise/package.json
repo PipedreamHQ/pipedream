@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/readwise",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Readwise Components",
-  "main": "dist/app/readwise.app.mjs",
+  "main": "readwise.app.mjs",
   "keywords": [
     "pipedream",
     "readwise"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/readwise",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

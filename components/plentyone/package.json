@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/plentyone",
+  "version": "0.1.0",
+  "description": "Pipedream PlentyONE Components",
+  "main": "plentyone.app.mjs",
+  "keywords": [
+    "pipedream",
+    "plentyone"
+  ],
+  "homepage": "https://pipedream.com/apps/plentyone",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
+  }
+}

@@ -6,7 +6,7 @@ export default {
   name: "Get Categories Aggregation",
   description:
     "Get information about groups of related categories and the number of entities in each category. [See the documentation](https://docs.dataforseo.com/v3/business_data/business_listings/categories_aggregation/live/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   methods: {
     getCategoriesAggregation(args = {}) {

@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/topmessage",
+  "version": "0.1.0",
+  "description": "Pipedream TopMessage Components",
+  "main": "topmessage.app.mjs",
+  "keywords": [
+    "pipedream",
+    "topmessage"
+  ],
+  "homepage": "https://pipedream.com/apps/topmessage",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
+  }
+}

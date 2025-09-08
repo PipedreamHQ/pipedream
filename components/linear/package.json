@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/linear",
-  "version": "0.7.4",
+  "version": "0.7.5",
   "description": "Pipedream Linear Components",
   "main": "linear.app.mjs",
   "keywords": [
@@ -14,8 +14,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@linear/sdk": "^13.0.0",
-    "@pipedream/linear_app": "^0.7.3",
+    "@linear/sdk": "^55.1.0",
+    "@pipedream/linear_app": "^0.7.5",
     "@pipedream/platform": "^3.0.3"
   }
 }

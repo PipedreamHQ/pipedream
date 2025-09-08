@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/linqs_cc",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream linqs Components",
-  "main": "dist/app/linqs_cc.app.mjs",
+  "main": "linqs_cc.app.mjs",
   "keywords": [
     "pipedream",
     "linqs_cc"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/linqs_cc",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

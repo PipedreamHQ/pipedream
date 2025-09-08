@@ -5,7 +5,7 @@ export default {
   key: "sevdesk-send-invoice-email",
   name: "Send Invoice Email",
   description: "Sends an invoice via email. [See the documentation](https://api.sevdesk.de/#tag/Invoice/operation/sendInvoiceViaEMail)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     sevdesk,

@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/marketstack",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Marketstack Components",
-  "main": "dist/app/marketstack.app.mjs",
+  "main": "marketstack.app.mjs",
   "keywords": [
     "pipedream",
     "marketstack"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/marketstack",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

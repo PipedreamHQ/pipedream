@@ -6,7 +6,7 @@ export default {
   key: "yahoo_fantasy_sports-new-football-league-transactions",
   name: "New Football League Transactions",
   description: "Emit new event when a new football league transaction occurs",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {

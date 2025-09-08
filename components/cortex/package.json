@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/cortex",
+  "version": "0.0.1",
+  "description": "Pipedream Cortex Components",
+  "main": "cortex.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cortex"
+  ],
+  "homepage": "https://pipedream.com/apps/cortex",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

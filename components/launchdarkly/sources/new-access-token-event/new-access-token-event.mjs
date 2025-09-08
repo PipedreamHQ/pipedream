@@ -5,7 +5,7 @@ export default {
   key: "launchdarkly-new-access-token-event",
   name: "New Access Token Event",
   description: "Emit new event when a new access token activity happens. [See the documentation](https://apidocs.launchdarkly.com/tag/Webhooks#operation/postWebhook).",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

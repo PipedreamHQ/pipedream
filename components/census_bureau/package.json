@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/census_bureau",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Census Bureau Components",
-  "main": "dist/app/census_bureau.app.mjs",
+  "main": "census_bureau.app.mjs",
   "keywords": [
     "pipedream",
     "census_bureau"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/census_bureau",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

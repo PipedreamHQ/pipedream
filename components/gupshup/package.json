@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/gupshup",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Gupshup Components",
-  "main": "dist/app/gupshup.app.mjs",
+  "main": "gupshup.app.mjs",
   "keywords": [
     "pipedream",
     "gupshup"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/gupshup",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/sap_s_4hana_cloud",
+  "version": "0.0.1",
+  "description": "Pipedream SAP S/4HANA Cloud Components",
+  "main": "sap_s_4hana_cloud.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sap_s_4hana_cloud"
+  ],
+  "homepage": "https://pipedream.com/apps/sap_s_4hana_cloud",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

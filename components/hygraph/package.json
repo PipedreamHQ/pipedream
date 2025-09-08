@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/hygraph",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Hygraph Components",
-  "main": "dist/app/hygraph.app.mjs",
+  "main": "hygraph.app.mjs",
   "keywords": [
     "pipedream",
     "hygraph"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/hygraph",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

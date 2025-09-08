@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/rudderstack",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream RudderStack HTTP Components",
-  "main": "dist/app/rudderstack.app.mjs",
+  "main": "rudderstack.app.mjs",
   "keywords": [
     "pipedream",
     "rudderstack"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/rudderstack",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

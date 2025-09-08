@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/superphone",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream SuperPhone Components",
   "main": "superphone.app.mjs",
   "keywords": [
@@ -10,7 +10,8 @@
   "homepage": "https://pipedream.com/apps/superphone",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
-    "@pipedream/platform": "^1.5.1"
+    "@pipedream/platform": "^1.5.1",
+    "graphql-request": "^7.2.0"
   },
   "publishConfig": {
     "access": "public"

@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/appcues",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Appcues Components",
-  "main": "dist/app/appcues.app.mjs",
+  "main": "appcues.app.mjs",
   "keywords": [
     "pipedream",
     "appcues"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/appcues",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

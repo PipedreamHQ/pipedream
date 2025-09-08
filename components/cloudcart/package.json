@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/cloudcart",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream CloudCart Components",
-  "main": "dist/app/cloudcart.app.mjs",
+  "main": "cloudcart.app.mjs",
   "keywords": [
     "pipedream",
     "cloudcart"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/cloudcart",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

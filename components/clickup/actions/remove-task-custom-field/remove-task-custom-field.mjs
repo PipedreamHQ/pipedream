@@ -5,7 +5,7 @@ export default {
   key: "clickup-remove-task-custom-field",
   name: "Remove Task Custom Field",
   description: "Remove custom field from a task. [See the documentation](https://clickup.com/api) in **Custom Fields / Remove Custom Field Value** section.",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "action",
   props: {
     ...common.props,

@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/neutrino",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Neutrino Components",
-  "main": "dist/app/neutrino.app.mjs",
+  "main": "neutrino.app.mjs",
   "keywords": [
     "pipedream",
     "neutrino"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/neutrino",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

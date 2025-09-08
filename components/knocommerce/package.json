@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/knocommerce",
+  "version": "0.0.1",
+  "description": "Pipedream KnoCommerce Components",
+  "main": "knocommerce.app.mjs",
+  "keywords": [
+    "pipedream",
+    "knocommerce"
+  ],
+  "homepage": "https://pipedream.com/apps/knocommerce",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

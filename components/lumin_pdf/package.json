@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/lumin_pdf",
+  "version": "0.1.0",
+  "description": "Pipedream Lumin PDF Components",
+  "main": "lumin_pdf.app.mjs",
+  "keywords": [
+    "pipedream",
+    "lumin_pdf"
+  ],
+  "homepage": "https://pipedream.com/apps/lumin_pdf",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
+  }
+}

@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/danny_test_app",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Danny -- Test App Components",
-  "main": "dist/app/danny_test_app.app.mjs",
+  "main": "danny_test_app.app.mjs",
   "keywords": [
     "pipedream",
     "danny_test_app"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/danny_test_app",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

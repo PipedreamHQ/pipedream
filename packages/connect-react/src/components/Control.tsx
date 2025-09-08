@@ -13,6 +13,8 @@ import { ControlObject } from "./ControlObject";
 import { ControlSelect } from "./ControlSelect";
 import { ControlSql } from "./ControlSql";
 import { RemoteOptionsContainer } from "./RemoteOptionsContainer";
+import { sanitizeOption } from "../utils/type-guards";
+import { LabelValueOption } from "../types";
 
 export type ControlProps<T extends ConfigurableProps, U extends ConfigurableProp> = {
   field: FormFieldContext<U>;
@@ -32,22 +34,16 @@ export function Control<T extends ConfigurableProps, U extends ConfigurableProp>
   const app = "app" in field.extra
     ? field.extra.app
     : undefined;
-
-  if (prop.remoteOptions || prop.type === "$.discord.channel") {
+  if (prop.remoteOptions || prop.type === "$.discord.channel" || prop.type === "$.discord.channel[]") {
     return <RemoteOptionsContainer queryEnabled={queryDisabledIdx == null || queryDisabledIdx >= idx} />;
   }
 
   if ("options" in prop && prop.options) {
-    let options = prop.options;
-    if (typeof options[0] !== "object") {
-      options = options.map((o: unknown) => ({
-        label: o,
-        value: o,
-      }));
-    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const options: LabelValueOption<any>[] = prop.options.map(sanitizeOption);
     return <ControlSelect options={options} components={{
       IndicatorSeparator: () => null,
-    }} />; // TODO fix typing issue here!
+    }} />;
   }
 
   // TODO just look at registry component repo and look for what we should make sure we support
