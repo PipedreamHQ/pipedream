@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/newslit",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream Newslit Components",
-  "main": "newslit.app.mjs",
+  "main": "dist/app/newslit.app.mjs",
   "keywords": [
     "pipedream",
     "newslit"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/newslit",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

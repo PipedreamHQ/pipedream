@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/facebook_lead_ads",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "Pipedream Facebook Lead Ads Components",
-  "main": "facebook_lead_ads.app.mjs",
+  "main": "dist/app/facebook_lead_ads.app.mjs",
   "keywords": [
     "pipedream",
     "facebook_lead_ads"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/facebook_lead_ads",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

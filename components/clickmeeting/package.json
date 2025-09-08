@@ -1,11 +1,14 @@
 {
   "name": "@pipedream/clickmeeting",
-  "version": "0.0.4",
+  "version": "0.0.3",
   "description": "Pipedream ClickMeeting  Components",
-  "main": "clickmeeting.app.mjs",
+  "main": "dist/app/clickmeeting.app.mjs",
   "keywords": [
     "pipedream",
     "clickmeeting"
+  ],
+  "files": [
+    "dist"
   ],
   "homepage": "https://pipedream.com/apps/clickmeeting",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

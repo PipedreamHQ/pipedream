@@ -1,11 +1,14 @@
 {
   "name": "@pipedream/sellix",
-  "version": "0.0.5",
+  "version": "0.0.4",
   "description": "Pipedream Sellix Components",
-  "main": "sellix.app.mjs",
+  "main": "dist/app/sellix.app.mjs",
   "keywords": [
     "pipedream",
     "sellix"
+  ],
+  "files": [
+    "dist"
   ],
   "homepage": "https://pipedream.com/apps/sellix",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

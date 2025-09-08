@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/mindmeister",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream MindMeister Components",
-  "main": "mindmeister.app.mjs",
+  "main": "dist/app/mindmeister.app.mjs",
   "keywords": [
     "pipedream",
     "mindmeister"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/mindmeister",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

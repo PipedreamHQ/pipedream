@@ -1,11 +1,14 @@
 {
   "name": "@pipedream/showpad",
-  "version": "0.0.5",
+  "version": "0.0.4",
   "description": "Pipedream Showpad Components",
-  "main": "showpad.app.mjs",
+  "main": "dist/app/showpad.app.mjs",
   "keywords": [
     "pipedream",
     "showpad"
+  ],
+  "files": [
+    "dist"
   ],
   "homepage": "https://pipedream.com/apps/showpad",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

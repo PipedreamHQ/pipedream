@@ -3,9 +3,9 @@ import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   name: "New Transcription Completed",
-  description: "Emit new event when a transcribed audio file from AssemblyAI is ready. [See the documentation](https://www.assemblyai.com/docs/api-reference/transcripts/list)",
+  description: "Emit new event when a transcribed audio file from AssemblyAI is ready. [See the documentation](https://www.assemblyai.com/docs/API%20reference/transcript)",
   key: "assemblyai-new-transcription-completed",
-  version: "0.1.0",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   props: {
@@ -30,7 +30,7 @@ export default {
         return;
       }
       this._setLastId(transcripts[0].id);
-      await this.emitTranscripts(transcripts);
+      transcripts.reverse().forEach((transcript) => this.emitEvent(transcript));
     },
   },
   methods: {
@@ -43,14 +43,6 @@ export default {
     emitEvent(transcript) {
       const meta = this.generateMeta(transcript);
       this.$emit(transcript, meta);
-    },
-    async emitTranscripts(transcripts) {
-      for (const transcript of transcripts.reverse()) {
-        const data = await this.assemblyai.getTranscript({
-          transcriptId: transcript.id,
-        });
-        this.emitEvent(data);
-      }
     },
     generateMeta(transcript) {
       return {
@@ -71,9 +63,7 @@ export default {
     if (!transcripts.length) {
       return;
     }
-
+    transcripts.forEach((transcript) => this.emitEvent(transcript));
     this._setLastId(transcripts[0].id);
-
-    await this.emitTranscripts(transcripts);
   },
 };

@@ -1,13 +1,12 @@
 import { FormContext } from "../hooks/form-context";
 import { useCustomize } from "../hooks/customization-context";
 import type { CSSProperties } from "react";
-import type { ConfigurableProps } from "@pipedream/sdk";
 
-export type ControlSubmitProps<T extends ConfigurableProps> = {
-  form: FormContext<T>;
+export type ControlSubmitProps = {
+  form: FormContext;
 };
 
-export function ControlSubmit<T extends ConfigurableProps>(props: ControlSubmitProps<T>) {
+export function ControlSubmit(props: ControlSubmitProps) {
   const { form } = props;
   const {
     propsNeedConfiguring, submitting,
@@ -25,7 +24,9 @@ export function ControlSubmit<T extends ConfigurableProps>(props: ControlSubmitP
     color: disabled
       ? theme.colors.neutral40
       : theme.colors.neutral0,
-    padding: `${theme.spacing.baseUnit * 1.75}px ${theme.spacing.baseUnit * 16}px`,
+    padding: `${theme.spacing.baseUnit * 1.75}px ${
+      theme.spacing.baseUnit * 16
+    }px`,
     borderRadius: theme.borderRadius,
     boxShadow: theme.boxShadow?.button,
     cursor: "pointer",
@@ -36,18 +37,7 @@ export function ControlSubmit<T extends ConfigurableProps>(props: ControlSubmitP
     margin: "0.5rem 0 0 0",
   });
 
-  return <input
-    type="submit"
-    value={submitting
-      ? "Submitting..."
-      : "Submit"}
-    {
-      ...getProps(
-        "controlSubmit",
-        baseStyles(!!propsNeedConfiguring.length || submitting),
-      props as ControlSubmitProps<ConfigurableProps>,
-      )
-    }
-    disabled={!!propsNeedConfiguring.length || submitting}
-  />;
+  return <input type="submit" value={submitting
+    ? "Submitting..."
+    : "Submit"} {...getProps("controlSubmit", baseStyles(propsNeedConfiguring.length || submitting), props)} disabled={propsNeedConfiguring.length || submitting} />;
 }

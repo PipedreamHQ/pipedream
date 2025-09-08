@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/rat_genome_database",
-  "version": "0.0.4",
+  "version": "0.0.3",
   "description": "Pipedream Rat Genome Database Components",
-  "main": "rat_genome_database.app.mjs",
+  "main": "dist/app/rat_genome_database.app.mjs",
   "keywords": [
     "pipedream",
     "rat_genome_database"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/rat_genome_database",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

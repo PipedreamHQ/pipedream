@@ -1,14 +1,14 @@
-import NOTION_ICONS from "../../common/notion-icons.mjs";
-import utils from "../../common/utils.mjs";
 import notion from "../../notion.app.mjs";
 import base from "../common/base-page-builder.mjs";
+import NOTION_ICONS from "../../common/notion-icons.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   ...base,
   key: "notion-create-page-from-database",
   name: "Create Page from Database",
   description: "Create a page from a database. [See the documentation](https://developers.notion.com/reference/post-page)",
-  version: "0.2.3",
+  version: "0.2.1",
   type: "action",
   props: {
     notion,

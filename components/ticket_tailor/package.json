@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/ticket_tailor",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream Ticket Tailor Components",
-  "main": "ticket_tailor.app.mjs",
+  "main": "dist/app/ticket_tailor.app.mjs",
   "keywords": [
     "pipedream",
     "ticket_tailor"

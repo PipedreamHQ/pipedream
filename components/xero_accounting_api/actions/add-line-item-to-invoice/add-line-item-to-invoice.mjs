@@ -1,14 +1,14 @@
-import {
-  formatLineItems,
-  removeNullEntries,
-} from "../../common/util.mjs";
 import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
+import {
+  removeNullEntries,
+  formatLineItems,
+} from "../../common/util.mjs";
 
 export default {
   key: "xero_accounting_api-add-line-item-to-invoice",
   name: "Add Items to Existing Sales Invoice",
   description: "Adds line items to an existing sales invoice. [See the docs here](https://developer.xero.com/documentation/api/accounting/invoices#post-invoices)",
-  version: "0.0.3",
+  version: "0.0.2",
   type: "action",
   props: {
     xeroAccountingApi,
@@ -35,15 +35,16 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.xeroAccountingApi.createInvoice({
-      $,
-      tenantId: this.tenantId,
-      data: removeNullEntries({
-        InvoiceID: this.invoiceId,
-        LineItems: formatLineItems(this.lineItems),
-      }),
+    const {
+      tenantId,
+      invoiceId,
+      lineItems,
+    } = this;
+    const data = removeNullEntries({
+      InvoiceID: invoiceId,
+      LineItems: formatLineItems(lineItems),
     });
-
+    const response = await this.xeroAccountingApi.createInvoice($, tenantId, data);
     response && $.export("$summary", "Line item created successfully");
     return response;
   },

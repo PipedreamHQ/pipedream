@@ -7,7 +7,7 @@ export default {
   key: "linkedin-create-image-post-user",
   name: "Create Image Post (User)",
   description: "Create an image post on LinkedIn. [See the documentation](https://learn.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/images-api?view=li-lms-2023-09&tabs=http#uploading-an-image)",
-  version: "1.0.3",
+  version: "1.0.2",
   type: "action",
   props: {
     linkedin,
@@ -85,17 +85,8 @@ export default {
 
     await this.uploadImage(uploadUrl, formData);
 
-    const { id } = await this.linkedin.getCurrentMemberProfile({
-      $,
-    });
-
     await this.linkedin.createPost({
       data: {
-        author: `urn:li:person:${id}`,
-        lifecycleState: "PUBLISHED",
-        distribution: {
-          feedDistribution: "MAIN_FEED",
-        },
         commentary: utils.escapeText(this.text),
         visibility: this.visibility,
         content: {

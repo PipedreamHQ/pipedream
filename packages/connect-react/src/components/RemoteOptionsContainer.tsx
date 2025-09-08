@@ -1,16 +1,11 @@
-import type { ConfigureComponentOpts } from "@pipedream/sdk";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { ComponentConfigureOpts } from "@pipedream/sdk";
 import { useFormContext } from "../hooks/form-context";
 import { useFormFieldContext } from "../hooks/form-field-context";
 import { useFrontendClient } from "../hooks/frontend-client-context";
-import {
-  ConfigureComponentContext, RawPropOption,
-} from "../types";
-import {
-  isString, sanitizeOption,
-} from "../utils/type-guards";
 import { ControlSelect } from "./ControlSelect";
+import { isString } from "../utils/type-guards";
 
 export type RemoteOptionsContainerProps = {
   queryEnabled?: boolean;
@@ -48,17 +43,12 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
   const [
     context,
     setContext,
-  ] = useState<ConfigureComponentContext | undefined>(undefined);
+  ] = useState<never | undefined>(undefined);
 
   const [
     pageable,
     setPageable,
-  ] = useState<{
-    page: number;
-    prevContext: ConfigureComponentContext | undefined;
-    data: RawPropOption<string>[];
-    values: Set<string | number>;
-  }>({
+  ] = useState({
     page: 0,
     prevContext: {},
     data: [],
@@ -70,7 +60,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
     const prop = configurableProps[i];
     configuredPropsUpTo[prop.name] = configuredProps[prop.name];
   }
-  const componentConfigureInput: ConfigureComponentOpts = {
+  const componentConfigureInput: ComponentConfigureOpts = {
     externalUserId,
     page,
     prevContext: context,
@@ -112,7 +102,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
     ],
     queryFn: async () => {
       setError(undefined);
-      const res = await client.configureComponent(componentConfigureInput);
+      const res = await client.componentConfigure(componentConfigureInput);
 
       // XXX look at errors in response here too
       const {
@@ -131,7 +121,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
         }
         return [];
       }
-      let _options: RawPropOption<string>[] = []
+      let _options = []
       if (options?.length) {
         _options = options;
       }
@@ -170,7 +160,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
         data = [
           ...pageable.data,
           ...newOptions,
-        ] as RawPropOption<string>[]
+        ]
         setPageable({
           page: page + 1,
           prevContext: res.context,
@@ -206,7 +196,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
       isCreatable={true}
       showLoadMoreButton={showLoadMoreButton()}
       onLoadMore={onLoadMore}
-      options={pageable.data.map(sanitizeOption)}
+      options={pageable.data}
       // XXX isSearchable if pageQuery? or maybe in all cases? or maybe NOT when pageQuery
       selectProps={{
         isLoading: isFetching,

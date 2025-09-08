@@ -9,11 +9,7 @@ import {
 // load a component and pass it down
 type ComponentFormContainerProps<T extends ConfigurableProps> = Omit<ComponentFormProps<T>, "component"> & {
   componentKey: string;
-} & (
-    // Either externalUserId or userId must be provided
-    | { externalUserId: string; userId?: never }
-    | { userId: string; externalUserId?: never }
-  );
+};
 
 export function ComponentFormContainer<T extends ConfigurableProps>(props: ComponentFormContainerProps<T>) {
   const {

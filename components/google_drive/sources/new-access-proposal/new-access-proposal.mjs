@@ -1,12 +1,12 @@
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import googleDrive from "../../google_drive.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "google_drive-new-access-proposal",
   name: "New Access Proposal",
   description: "Emit new event when a new access proposal is requested in Google Drive",
-  version: "0.0.4",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

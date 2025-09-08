@@ -7,7 +7,7 @@ export default {
   key: "linkedin-create-image-post-organization",
   name: "Create Image Post (Organization)",
   description: "Create an image post on LinkedIn. [See the documentation](https://learn.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/images-api?view=li-lms-2023-09&tabs=http#uploading-an-image)",
-  version: "1.0.3",
+  version: "1.0.2",
   type: "action",
   props: {
     linkedin,
@@ -87,11 +87,7 @@ export default {
 
     await this.linkedin.createPost({
       data: {
-        author: `urn:li:organization:${this.organizationId}`,
-        lifecycleState: "PUBLISHED",
-        distribution: {
-          feedDistribution: "MAIN_FEED",
-        },
+        author: this.organizationId,
         commentary: utils.escapeText(this.text),
         visibility: "PUBLIC",
         content: {

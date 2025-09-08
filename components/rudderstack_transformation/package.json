@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/rudderstack_transformation",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream RudderStack Transformation Components",
-  "main": "rudderstack_transformation.app.mjs",
+  "main": "dist/app/rudderstack_transformation.app.mjs",
   "keywords": [
     "pipedream",
     "rudderstack_transformation"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/rudderstack_transformation",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

@@ -5,7 +5,7 @@ export default {
   key: "linkedin-create-text-post-user",
   name: "Create a Simple Post (User)",
   description: "Create post on LinkedIn using text, URL or article. [See the documentation](https://learn.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/posts-api?view=li-lms-2022-11&tabs=http#create-organic-posts) for more information",
-  version: "0.0.8",
+  version: "0.0.7",
   type: "action",
   props: {
     linkedin,
@@ -29,43 +29,23 @@ export default {
     },
   },
   async run({ $ }) {
-    const {
-      linkedin,
-      visibility,
-      text,
-      article,
-    } = this;
-
-    const profile = await linkedin.getCurrentMemberProfile({
-      $,
-    });
-
-    const response = await linkedin.createPost({
-      $,
-      data: {
-        author: `urn:li:person:${profile?.id}`,
-        lifecycleState: "PUBLISHED",
-        distribution: {
-          feedDistribution: "MAIN_FEED",
+    const data = {
+      commentary: utils.escapeText(this.text),
+      visibility: this.visibility,
+    };
+    if (this.article) {
+      data.content = {
+        article: {
+          source: this.article,
+          title: this.article,
         },
-        commentary: utils.escapeText(text),
-        visibility,
-        ...(article
-          ? {
-            content: {
-              article: {
-                source: article,
-                title: article,
-              },
-            },
-          }
-          : {}
-        ),
-      },
+      };
+    }
+    const response = await this.linkedin.createPost({
+      $,
+      data,
     });
     $.export("$summary", "Successfully created a new Post as User");
-    return response || {
-      success: true,
-    };
+    return response;
   },
 };

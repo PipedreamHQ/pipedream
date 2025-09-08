@@ -1,10 +1,6 @@
 export default {
   MESSAGE_MODELS: [
     {
-      label: "Claude Opus 4.1",
-      value: "claude-opus-4-1-20250805",
-    },
-    {
       label: "Claude Opus 4",
       value: "claude-opus-4-20250514",
     },

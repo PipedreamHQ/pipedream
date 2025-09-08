@@ -5,7 +5,7 @@ export default {
   key: "launchdarkly-new-flag-event",
   name: "New Flag Event",
   description: "Emit new event when flag activity occurs. [See the documentation](https://apidocs.launchdarkly.com/tag/Webhooks#operation/postWebhook).",
-  version: "0.0.3",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   methods: {

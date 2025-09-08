@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/api_void",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream Api Void Components",
-  "main": "api_void.app.mjs",
+  "main": "dist/app/api_void.app.mjs",
   "keywords": [
     "pipedream",
     "api_void"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/api_void",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

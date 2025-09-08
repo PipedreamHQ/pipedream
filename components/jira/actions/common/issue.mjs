@@ -52,13 +52,11 @@ export default {
             cloudId,
           } = this;
           const maxResults = 50;
-          const { issues } = await app.searchIssues({
+          const { issues } = await app.getIssues({
             cloudId,
             params: {
-              jql: "project is not EMPTY ORDER BY created DESC",
               maxResults,
               startAt,
-              fields: "id,key",
             },
           });
           return {

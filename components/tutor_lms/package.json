@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/tutor_lms",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream Tutor LMS Components",
-  "main": "tutor_lms.app.mjs",
+  "main": "dist/app/tutor_lms.app.mjs",
   "keywords": [
     "pipedream",
     "tutor_lms"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/tutor_lms",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

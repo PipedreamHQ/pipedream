@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/elopage",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream elopage Components",
-  "main": "elopage.app.mjs",
+  "main": "dist/app/elopage.app.mjs",
   "keywords": [
     "pipedream",
     "elopage"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/elopage",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

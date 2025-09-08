@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/snapdocs",
-  "version": "0.0.4",
+  "version": "0.0.3",
   "description": "Pipedream Snapdocs Components",
-  "main": "snapdocs.app.mjs",
+  "main": "dist/app/snapdocs.app.mjs",
   "keywords": [
     "pipedream",
     "snapdocs"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/snapdocs",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

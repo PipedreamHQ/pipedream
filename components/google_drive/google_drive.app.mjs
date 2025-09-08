@@ -127,18 +127,16 @@ export default {
           return [];
         }
         let parentFolders = await Promise.all(
-          (file.parents || []).map((parentId) => this.getFile(parentId, {
+          file.parents.map((parentId) => this.getFile(parentId, {
             fields: "id,name",
           })),
         );
-        return parentFolders
-          .filter((folder) => folder?.id)
-          .map(({
-            id, name,
-          }) => ({
-            value: id,
-            label: name,
-          }));
+        return parentFolders.map(({
+          id, name,
+        }) => ({
+          value: id,
+          label: name,
+        }));
       },
     },
     updateTypes: {
@@ -477,7 +475,7 @@ export default {
     },
     async _listDriveOptions(pageToken, myDrive = true) {
       const {
-        drives = [],
+        drives,
         nextPageToken,
       } = await this.listDrivesInPage(pageToken);
 
@@ -495,12 +493,10 @@ export default {
           ]
           : [];
       for (const d of drives) {
-        if (d?.id) {
-          options.push({
-            label: d.name,
-            value: d.id,
-          });
-        }
+        options.push({
+          label: d.name,
+          value: d.id,
+        });
       }
       return {
         options,
@@ -550,18 +546,16 @@ export default {
      */
     async listFilesOptions(pageToken, extraOpts = {}) {
       const {
-        files = [],
+        files,
         nextPageToken,
       } = await this.listFilesInPage(
         pageToken,
         extraOpts,
       );
-      const options = files
-        .filter((file) => file?.id)
-        .map((file) => ({
-          label: file.name,
-          value: file.id,
-        }));
+      const options = files.map((file) => ({
+        label: file.name,
+        value: file.id,
+      }));
       return {
         options,
         context: {
@@ -617,21 +611,19 @@ export default {
         opts,
       );
       const [
-        { files: folders = [] },
+        { files: folders },
         {
-          files = [], nextPageToken,
+          files, nextPageToken,
         },
       ] = await Promise.all([
         foldersPromise,
         filesPromise,
       ]);
       const filePaths = this.getFilePaths(files, folders);
-      const options = files
-        .filter((file) => file?.id)
-        .map((file) => ({
-          label: filePaths[file.id],
-          value: file.id,
-        }));
+      const options = files.map((file) => ({
+        label: filePaths[file.id],
+        value: file.id,
+      }));
       return {
         options,
         context: {

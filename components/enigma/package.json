@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/enigma",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream Enigma Components",
-  "main": "enigma.app.mjs",
+  "main": "dist/app/enigma.app.mjs",
   "keywords": [
     "pipedream",
     "enigma"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/enigma",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

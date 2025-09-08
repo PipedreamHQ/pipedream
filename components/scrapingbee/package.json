@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/scrapingbee",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream ScrapingBee Components",
-  "main": "scrapingbee.app.mjs",
+  "main": "dist/app/scrapingbee.app.mjs",
   "keywords": [
     "pipedream",
     "scrapingbee"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/scrapingbee",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

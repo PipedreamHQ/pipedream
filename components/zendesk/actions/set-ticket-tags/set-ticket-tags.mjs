@@ -5,7 +5,7 @@ export default {
   name: "Set Ticket Tags",
   description: "Set tags on a ticket (replaces all existing tags). [See the documentation](https://developer.zendesk.com/api-reference/ticketing/ticket-management/tags/#set-tags).",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.1",
   props: {
     app,
     ticketId: {

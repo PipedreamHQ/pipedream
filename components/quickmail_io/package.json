@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/quickmail_io",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "Pipedream QuickMail.io Components",
-  "main": "quickmail_io.app.mjs",
+  "main": "dist/app/quickmail_io.app.mjs",
   "keywords": [
     "pipedream",
     "quickmail_io"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/quickmail_io",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

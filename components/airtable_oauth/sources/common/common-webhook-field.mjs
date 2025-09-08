@@ -25,19 +25,10 @@ export default {
       }
     },
     async emitEvent(payload) {
-      const changed = payload?.changedTablesById;
-      const tableEntry = changed && Object.entries(changed)[0];
-      if (!tableEntry) {
-        // Unknown / empty shape — emit normalized raw so consumers still get a consistent shape
-        this.$emit({
-          originalPayload: payload,
-        }, this.generateMeta(payload));
-        return;
-      }
       const [
         tableId,
         tableData,
-      ] = tableEntry;
+      ] = Object.entries(payload.changedTablesById)[0];
       const [
         operation,
         fieldObj,

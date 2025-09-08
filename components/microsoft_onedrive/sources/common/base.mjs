@@ -84,10 +84,8 @@ const methods = {
     return new Date(nowTimestamp + expirationTimestampDelta);
   },
   async _createNewSubscription() {
-    const deltaLinkParams = this.getDeltaLinkParams();
     const hookOpts = {
       expirationDateTime: this._getNextExpirationDateTime(),
-      driveId: deltaLinkParams.driveId,
     };
     const hookId = await this.onedrive.createHook(this.http.endpoint, hookOpts);
     this._setHookId(hookId);

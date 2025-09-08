@@ -1,11 +1,14 @@
 {
   "name": "@pipedream/threescribe",
-  "version": "0.0.4",
+  "version": "0.0.3",
   "description": "Pipedream 3Scribe Components",
-  "main": "threescribe.app.mjs",
+  "main": "dist/app/threescribe.app.mjs",
   "keywords": [
     "pipedream",
     "threescribe"
+  ],
+  "files": [
+    "dist"
   ],
   "homepage": "https://pipedream.com/apps/threescribe",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

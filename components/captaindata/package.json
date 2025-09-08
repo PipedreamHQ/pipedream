@@ -1,11 +1,14 @@
 {
   "name": "@pipedream/captaindata",
-  "version": "0.0.4",
+  "version": "0.0.3",
   "description": "Pipedream Captain Data Components",
-  "main": "captaindata.app.mjs",
+  "main": "dist/app/captaindata.app.mjs",
   "keywords": [
     "pipedream",
     "captaindata"
+  ],
+  "files": [
+    "dist"
   ],
   "homepage": "https://pipedream.com/apps/captaindata",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

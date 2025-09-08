@@ -1,10 +1,5 @@
 import { axios } from "@pipedream/platform";
 import constants from "./common/constants.mjs";
-import {
-  ASSISTANTS_MODEL_EXCLUDED,
-  ASSISTANTS_MODEL_INCLUDE_SUBSTRINGS,
-  FINE_TUNING_MODEL_OPTIONS, TTS_MODELS,
-} from "./common/models.mjs";
 
 export default {
   type: "app",
@@ -26,7 +21,7 @@ export default {
       async options() {
         return (await this.getChatCompletionModels({})).map((model) => model.id);
       },
-      default: "gpt-5-mini",
+      default: "gpt-4o-mini",
     },
     embeddingsModelId: {
       label: "Model",
@@ -273,13 +268,13 @@ export default {
       type: "string",
       label: "Model",
       description: "One of the available [TTS models](https://platform.openai.com/docs/models/tts). `tts-1` is optimized for speed, while `tts-1-hd` is optimized for quality.",
-      options: TTS_MODELS,
+      options: constants.TTS_MODELS,
     },
     fineTuningModel: {
       type: "string",
       label: "Fine Tuning Model",
       description: "The name of the model to fine-tune. [See the supported models](https://platform.openai.com/docs/guides/fine-tuning/what-models-can-be-fine-tuned).",
-      options: FINE_TUNING_MODEL_OPTIONS,
+      options: constants.FINE_TUNING_MODEL_OPTIONS,
     },
     input: {
       type: "string",
@@ -351,13 +346,13 @@ export default {
         $,
         path: "/models",
       });
-      return models.sort((a, b) => b?.created - a?.created);
+      return models.sort((a, b) => a?.id.localeCompare(b?.id));
     },
     async getChatCompletionModels({ $ }) {
       const models = await this.models({
         $,
       });
-      return models.filter((model) => model.id.match(/4o|o[1-9]|4\.1|gpt-5/gi));
+      return models.filter((model) => model.id.match(/4o|o[1-9]|4\.1/gi));
     },
     async getCompletionModels({ $ }) {
       const models = await this.models({
@@ -385,10 +380,7 @@ export default {
       const models = await this.models({
         $,
       });
-      return models.filter(({ id }) => (
-        ASSISTANTS_MODEL_INCLUDE_SUBSTRINGS.some((substring) => id.includes(substring))
-        && !ASSISTANTS_MODEL_EXCLUDED.includes(id)
-      ));
+      return models.filter(({ id }) => (id.includes("gpt-3.5-turbo") || id.includes("gpt-4-turbo") || id.includes("gpt-4o") || id.includes("gpt-4.1")) && (id !== "gpt-3.5-turbo-0301"));
     },
     async _makeCompletion({
       path, ...args

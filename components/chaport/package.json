@@ -1,11 +1,14 @@
 {
   "name": "@pipedream/chaport",
-  "version": "0.0.4",
+  "version": "0.0.3",
   "description": "Pipedream Chaport Components",
-  "main": "chaport.app.mjs",
+  "main": "dist/app/chaport.app.mjs",
   "keywords": [
     "pipedream",
     "chaport"
+  ],
+  "files": [
+    "dist"
   ],
   "homepage": "https://pipedream.com/apps/chaport",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

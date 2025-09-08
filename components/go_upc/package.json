@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/go_upc",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream Go-UPC Components",
-  "main": "go_upc.app.mjs",
+  "main": "dist/app/go_upc.app.mjs",
   "keywords": [
     "pipedream",
     "go_upc"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/go_upc",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

@@ -1,4 +1,4 @@
-import common from "../common/common-polling.mjs";
+import common from "../common.mjs";
 
 export default {
   ...common,
@@ -6,7 +6,7 @@ export default {
   name: "New Ticket Attachment",
   description: "Emit new event when a new ticket attachment is created. [See the docs here](https://desk.zoho.com/DeskAPIDocument#TicketAttachments#TicketAttachments_Listticketattachments)",
   type: "source",
-  version: "0.0.4",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     ...common.props,

@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/grafbase",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream Grafbase Components",
-  "main": "grafbase.app.mjs",
+  "main": "dist/app/grafbase.app.mjs",
   "keywords": [
     "pipedream",
     "grafbase"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/grafbase",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

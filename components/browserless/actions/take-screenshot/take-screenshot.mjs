@@ -5,7 +5,7 @@ export default {
   key: "browserless-take-screenshot",
   name: "Take a Screenshot",
   description: "Take a screenshot of a page. [See the documentation](https://www.browserless.io/docs/screenshot)",
-  version: "0.5.5",
+  version: "0.5.4",
   type: "action",
   props: {
     browserless,
@@ -20,10 +20,10 @@ export default {
       description: "Download the screenshot to the `/tmp` directory with the specified filename",
       optional: true,
     },
-    waitForSelector: {
+    waitFor: {
       type: "string",
-      label: "Selector",
-      description: "Allows you to wait for a selector to appear in the DOM. See [more details in the API Doc](https://www.browserless.io/docs/screenshot#custom-behavior-with-waitfor)",
+      label: "waitFor",
+      description: "Allows you to wait for a selector to appear in the DOM, to wait for a timeout to happen, or to execute a custom function before screenshotting. See [more details in the API Doc](https://www.browserless.io/docs/screenshot#custom-behavior-with-waitfor)",
       optional: true,
     },
     syncDir: {
@@ -45,10 +45,9 @@ export default {
     const screenshot = await this.browserless.takeScreenshot({
       data: {
         url: this.url,
-        bestAttempt: true,
-        waitForSelector: this.waitForSelector
-          ? `{ "selector": "${this.waitForSelector}" }`
-          : undefined,
+        waitFor: !isNaN(this.waitFor)
+          ? parseInt(this.waitFor)
+          : this.waitFor,
       },
       $,
     });

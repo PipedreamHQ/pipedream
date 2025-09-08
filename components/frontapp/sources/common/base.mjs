@@ -19,10 +19,7 @@ export default {
     _setLastTs(lastTs) {
       this.db.set("lastTs", lastTs);
     },
-    _getItemTs(item) {
-      return item.created_at * 1000;
-    },
-    async startEvent(maxResults = 0, filterFn = null) {
+    async startEvent(maxResults = 0) {
       const lastTs = this._getLastTs();
       const items = this.frontapp.paginate({
         fn: this._getFunction(),
@@ -33,18 +30,10 @@ export default {
       let responseArray = [];
 
       for await (const item of items) {
-        // If filterFn is provided, use it to filter items, otherwise add all items
-        if (!filterFn || filterFn(item, lastTs)) {
-          responseArray.push(item);
-        }
+        responseArray.push(item);
       }
 
-      if (responseArray.length) {
-        if (filterFn) {
-          responseArray.sort((a, b) => b.created_at - a.created_at);
-        }
-        this._setLastTs(this._getEmit(responseArray[0]).ts);
-      }
+      if (responseArray.length) this._setLastTs(responseArray[0].emitted_at);
 
       for (const item of responseArray.reverse()) {
         this.$emit(

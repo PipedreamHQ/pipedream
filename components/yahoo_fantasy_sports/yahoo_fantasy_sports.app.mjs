@@ -10,8 +10,8 @@ export default {
       type: "string",
       label: "League",
       description: "Select a league",
-      async options({ gameKey = "nfl" }) {
-        return this.getLeagueOptions(gameKey);
+      async options() {
+        return this.getLeagueOptions();
       },
     },
   },
@@ -59,9 +59,9 @@ export default {
       }
       return o;
     },
-    async getLeagueOptions(gameKey = "nfl") {
+    async getLeagueOptions() {
       const resp = await this._makeRequest({
-        path: `/users;use_login=1/games;game_keys=${gameKey}/leagues/`,
+        path: "/users;use_login=1/games;game_keys=nfl/leagues/",
       });
       const users = this.unwrap(resp.fantasy_content.users);
       const ret = [];

@@ -6,8 +6,8 @@ export default {
   ...common,
   key: "frontapp-new-conversation-state-change",
   name: "New Conversation State Change",
-  description: "Emit new event when a conversation reaches a specific state. [See the documentation](https://dev.frontapp.com/reference/list-conversations)",
-  version: "0.0.3",
+  description: "Emit new event when a conversation reaches a specific state. [See the docs](https://dev.frontapp.com/reference/list-conversations)",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -15,7 +15,7 @@ export default {
     types: {
       type: "string[]",
       label: "States to Listen For",
-      description: "Trigger a workflow when a conversation reaches any of these states. [See the documentation](https://dev.frontapp.com/reference/list-conversations) for more detail.",
+      description: "Trigger a workflow when a conversation reaches any of these states. [See the docs](https://dev.frontapp.com/reference/list-conversations) for more detail.",
       options: utils.TYPES_OPTIONS,
     },
   },

@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/kwtsms",
-  "version": "0.1.2",
+  "version": "0.1.1",
   "description": "Pipedream Kwtsms Components",
-  "main": "kwtsms.app.mjs",
+  "main": "dist/app/kwtsms.app.mjs",
   "keywords": [
     "pipedream",
     "kwtsms"

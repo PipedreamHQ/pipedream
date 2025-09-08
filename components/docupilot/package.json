@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/docupilot",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream Docupilot Components",
   "main": "dist/app/docupilot.app.mjs",
   "keywords": [
@@ -16,9 +16,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.1.0"
-  },
-  "devDependencies": {
-    "@pipedream/types": "^0.3.2"
+    "@pipedream/platform": "^1.1.0",
+    "@pipedream/types": "^0.1.4"
   }
 }

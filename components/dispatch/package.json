@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/dispatch",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream Dispatch Components",
-  "main": "dispatch.app.mjs",
+  "main": "dist/app/dispatch.app.mjs",
   "keywords": [
     "pipedream",
     "dispatch"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/dispatch",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

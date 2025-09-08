@@ -7,7 +7,7 @@ export default {
     number: {
       type: "string",
       label: "Number",
-      description: "The phone number of the contact. Example: `+16789296543`",
+      description: "The phone number of the contact",
     },
     name: {
       type: "string",
@@ -75,10 +75,10 @@ export default {
   methods: {
     _baseUrl() {
       // Base URL for Production
-      return "https://app.krispcall.com/api/v3/platform/pipedream";
+      return "https://automationapi.krispcall.com/api/v1/platform/pipedream";
 
       // Base URL for Development
-      //   return "https://qa.safefamilyapp.com/api/v3/platform/pipedream";
+      // return "https://automationqaapi.safefamilyapp.com/api/v1/platform/pipedream";
     },
     _headers() {
       return {

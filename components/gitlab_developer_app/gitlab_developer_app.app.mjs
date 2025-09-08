@@ -1,4 +1,4 @@
-import common from "@pipedream/gitlab";
+import common from "../gitlab/gitlab.app.mjs";
 
 export default {
   ...common,

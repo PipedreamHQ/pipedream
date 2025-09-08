@@ -1,11 +1,14 @@
 {
   "name": "@pipedream/nextdns",
-  "version": "0.0.4",
+  "version": "0.0.3",
   "description": "Pipedream NextDNS Components",
-  "main": "nextdns.app.mjs",
+  "main": "dist/app/nextdns.app.mjs",
   "keywords": [
     "pipedream",
     "nextdns"
+  ],
+  "files": [
+    "dist"
   ],
   "homepage": "https://pipedream.com/apps/nextdns",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

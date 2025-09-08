@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/sugarcrm_",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "Pipedream SugarCRM Components",
-  "main": "sugarcrm_.app.mjs",
+  "main": "dist/app/sugarcrm_.app.mjs",
   "keywords": [
     "pipedream",
     "sugarcrm_"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/sugarcrm_",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

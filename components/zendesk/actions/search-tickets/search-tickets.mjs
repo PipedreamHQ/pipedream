@@ -5,7 +5,7 @@ export default {
   name: "Search Tickets",
   description: "Searches for tickets using Zendesk's search API. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/ticket-management/search/#search-tickets).",
   type: "action",
-  version: "0.0.6",
+  version: "0.0.3",
   props: {
     app,
     query: {
@@ -37,13 +37,6 @@ export default {
         "customSubdomain",
       ],
     },
-    page: {
-      type: "integer",
-      label: "Page",
-      description: "The page number to retrieve. Default is 1.",
-      default: 1,
-      optional: true,
-    },
   },
   async run({ $: step }) {
     const {
@@ -54,20 +47,28 @@ export default {
       customSubdomain,
     } = this;
 
-    const results = await this.app.searchTickets({
-      step,
-      customSubdomain,
-      params: {
-        query,
-        sort_by: sortBy,
-        sort_order: sortOrder,
-        per_page: limit,
-        page: this.page,
+    const results = this.app.paginate({
+      fn: this.app.searchTickets,
+      args: {
+        step,
+        customSubdomain,
+        params: {
+          query,
+          sort_by: sortBy,
+          sort_order: sortOrder,
+        },
       },
+      resourceKey: "results",
+      max: limit,
     });
 
-    step.export("$summary", "Successfully retrieved tickets matching the search query");
+    const tickets = [];
+    for await (const ticket of results) {
+      tickets.push(ticket);
+    }
 
-    return results;
+    step.export("$summary", `Successfully found ${tickets.length} tickets matching the search query`);
+
+    return tickets;
   },
 };

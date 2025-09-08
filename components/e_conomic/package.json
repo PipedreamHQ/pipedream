@@ -1,11 +1,14 @@
 {
   "name": "@pipedream/e_conomic",
-  "version": "0.0.4",
+  "version": "0.0.3",
   "description": "Pipedream E-conomic Components",
-  "main": "e_conomic.app.mjs",
+  "main": "dist/app/e_conomic.app.mjs",
   "keywords": [
     "pipedream",
     "e_conomic"
+  ],
+  "files": [
+    "dist"
   ],
   "homepage": "https://pipedream.com/apps/e_conomic",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

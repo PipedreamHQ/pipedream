@@ -1,11 +1,11 @@
-import { ConfigurationError } from "@pipedream/platform";
 import hubspot from "../../hubspot.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "hubspot-create-associations",
   name: "Create Associations",
   description: "Create associations between objects. [See the documentation](https://developers.hubspot.com/docs/api/crm/associations#endpoint?spec=POST-/crm/v3/associations/{fromObjectType}/{toObjectType}/batch/create)",
-  version: "1.0.7",
+  version: "1.0.3",
   type: "action",
   props: {
     hubspot,

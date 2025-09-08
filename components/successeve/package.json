@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/successeve",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream Successeve Components",
-  "main": "successeve.app.mjs",
+  "main": "dist/app/successeve.app.mjs",
   "keywords": [
     "pipedream",
     "successeve"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/successeve",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

@@ -3,21 +3,15 @@ import {
 } from "react";
 import Select, { components } from "react-select";
 import { useApps } from "../hooks/use-apps";
-import type {
-  AppResponse, GetAppsOpts,
-} from "@pipedream/sdk";
+import { AppResponse } from "@pipedream/sdk";
 
 type SelectAppProps = {
   value?: Partial<AppResponse> & { name_slug: string; };
   onChange?: (app?: AppResponse) => void;
-  /**
-   * Additional options for fetching apps (sorting, filtering, etc.)
-   */
-  appsOptions?: Omit<GetAppsOpts, "q">;
 };
 
 export function SelectApp({
-  value, onChange, appsOptions,
+  value, onChange,
 }: SelectAppProps) {
   const [
     inputValue,
@@ -46,7 +40,6 @@ export function SelectApp({
     // TODO error
     apps,
   } = useApps({
-    ...appsOptions ?? {},
     q,
   });
   const {

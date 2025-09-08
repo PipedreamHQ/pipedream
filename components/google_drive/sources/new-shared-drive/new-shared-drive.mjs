@@ -1,11 +1,11 @@
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 import googleDrive from "../../google_drive.app.mjs";
+import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
 
 export default {
   key: "google_drive-new-shared-drive",
   name: "New Shared Drive",
   description: "Emits a new event any time a shared drive is created.",
-  version: "0.1.11",
+  version: "0.1.9",
   type: "source",
   dedupe: "unique",
   props: {

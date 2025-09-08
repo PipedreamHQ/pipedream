@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/axis_lms",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "Pipedream Axis LMS Components",
-  "main": "axis_lms.app.mjs",
+  "main": "dist/app/axis_lms.app.mjs",
   "keywords": [
     "pipedream",
     "axis_lms"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/axis_lms",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

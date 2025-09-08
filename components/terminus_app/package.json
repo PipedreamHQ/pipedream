@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/terminus_app",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream Terminus App Components",
-  "main": "terminus_app.app.mjs",
+  "main": "dist/app/terminus_app.app.mjs",
   "keywords": [
     "pipedream",
     "terminus_app"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/terminus_app",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

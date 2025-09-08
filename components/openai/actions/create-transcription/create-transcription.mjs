@@ -1,13 +1,12 @@
 import { getFileStreamAndMetadata } from "@pipedream/platform";
 import openai from "../../openai.app.mjs";
 import FormData from "form-data";
-import { TRANSCRIPTION_MODELS } from "../../common/models.mjs";
 
 export default {
   key: "openai-create-transcription",
   name: "Create Transcription",
   description: "Transcribes audio into the input language. [See the documentation](https://platform.openai.com/docs/api-reference/audio/createTranscription)",
-  version: "0.3.2",
+  version: "0.3.1",
   type: "action",
   props: {
     openai,
@@ -21,7 +20,11 @@ export default {
       type: "string",
       label: "Model",
       description: "ID of the model to use",
-      options: TRANSCRIPTION_MODELS,
+      options: [
+        "gpt-4o-transcribe",
+        "gpt-4o-mini-transcribe",
+        "whisper-1",
+      ],
     },
     include: {
       type: "string[]",

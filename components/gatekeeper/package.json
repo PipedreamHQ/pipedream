@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/gatekeeper",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream Gatekeeper Components",
-  "main": "gatekeeper.app.mjs",
+  "main": "dist/app/gatekeeper.app.mjs",
   "keywords": [
     "pipedream",
     "gatekeeper"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/gatekeeper",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

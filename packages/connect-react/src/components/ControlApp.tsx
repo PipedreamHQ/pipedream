@@ -9,12 +9,10 @@ import { useMemo } from "react";
 import type { CSSProperties } from "react";
 import type { OptionProps } from "react-select";
 import type {
-  Account,
-  App,
-  ConfigurablePropApp,
+  AppResponse, ConfigurablePropApp,
 } from "@pipedream/sdk";
 
-const BaseOption = (props: OptionProps<SelectValue>) => {
+const BaseOption = (props: OptionProps<AppResponse>) => {
   // const imgSrc =
   //   props.data.img_src ?? `https://pipedream.com/s.v0/${props.data.id}/logo/48`
   return (
@@ -25,21 +23,13 @@ const BaseOption = (props: OptionProps<SelectValue>) => {
   );
 };
 
-type AccountPlaceholder = {
-  id: "_new";
-  name: string;
-}
-type SelectValue = Account | AccountPlaceholder;
-
 type ControlAppProps = {
-  app: App;
+  app: AppResponse;
 };
 
 export function ControlApp({ app }: ControlAppProps) {
   const client = useFrontendClient();
-  const {
-    externalUserId, oauthAppConfig,
-  } = useFormContext();
+  const { externalUserId } = useFormContext();
   const formFieldCtx = useFormFieldContext<ConfigurablePropApp>();
   const {
     id, prop, value, onChange,
@@ -63,7 +53,7 @@ export function ControlApp({ app }: ControlAppProps) {
     gridArea: "control",
   };
 
-  const baseSelectProps: BaseReactSelectProps<SelectValue> = {
+  const baseSelectProps: BaseReactSelectProps = {
     components: {
       Option: BaseOption,
     },
@@ -75,9 +65,9 @@ export function ControlApp({ app }: ControlAppProps) {
       }),
     },
   };
-  const selectProps = select.getProps("controlAppSelect", baseSelectProps);
+  const selectProps =  select.getProps("controlAppSelect", baseSelectProps);
 
-  const oauthAppId = oauthAppConfig?.[app.name_slug];
+  const oauthAppId = undefined; // XXX allow customizing
   const {
     isLoading: isLoadingAccounts,
     // TODO error
@@ -85,15 +75,13 @@ export function ControlApp({ app }: ControlAppProps) {
     refetch: refetchAccounts,
   } = useAccounts(
     {
-      external_user_id: externalUserId,
+      externalUserId,
       app: app.name_slug,
       oauth_app_id: oauthAppId,
     },
     {
       useQueryOpts: {
         enabled: !!app,
-
-        // @ts-expect-error this seems to work (this overrides enabled so don't just set to true)
         suspense: !!app,
       },
     },
@@ -115,28 +103,17 @@ export function ControlApp({ app }: ControlAppProps) {
     });
   };
 
-  const newAccountPlaceholder: AccountPlaceholder = {
-    id: "_new",
-    name: `Connect new ${app.name} account...`,
-  };
-
-  const selectOptions = useMemo<SelectValue[]>(() => [
-    ...accounts,
-    newAccountPlaceholder,
-  ], [
-    accounts,
-  ]);
-
-  const selectValue = useMemo<SelectValue>(() => {
-    if (value?.authProvisionId) {
+  const selectValue = useMemo(() => {
+    let ret = value;
+    if (ret != null) {
       for (const item of accounts) {
-        if (value.authProvisionId === item.id) {
-          return item;
+        if (ret.authProvisionId === item.id) {
+          ret = item;
+          break;
         }
       }
     }
-
-    return newAccountPlaceholder;
+    return ret;
   }, [
     accounts,
     value,
@@ -154,7 +131,13 @@ export function ControlApp({ app }: ControlAppProps) {
           <Select
             instanceId={id}
             value={selectValue}
-            options={selectOptions}
+            options={[
+              ...accounts,
+              {
+                id: "_new",
+                name: `Connect new ${app.name} account...`,
+              },
+            ]}
             {...selectProps}
             required={true}
             placeholder={`Select ${app.name} account...`}
@@ -166,8 +149,8 @@ export function ControlApp({ app }: ControlAppProps) {
             onChange={(a) => {
               if (a) {
                 if (a.id === "_new") {
-                  // start connect account and then select it, etc.
-                  // TODO unset / put in loading state
+                // start connect account and then select it, etc.
+                // TODO unset / put in loading state
                   startConnectAccount();
                 } else {
                   onChange({
@@ -184,7 +167,7 @@ export function ControlApp({ app }: ControlAppProps) {
             app,
             ...formFieldCtx,
           })} onClick={() => startConnectAccount()}>
-            Connect {app.name}
+          Connect {app.name}
           </button>
       }
     </div>

@@ -99,19 +99,12 @@ export default {
       };
       let prevUrl;
       const results = [];
-      const afterId = args.params?.after_id;
 
       do {
         const {
           transcripts, page_details: pageDetails,
         } = await this.listTranscripts(config);
-        for (const transcript of transcripts) {
-          if (transcript.id === afterId) {
-            return results;
-          }
-          results.push(transcript);
-        }
-        config.params.after_id = undefined;
+        results.push(...transcripts);
         prevUrl = pageDetails.prev_url;
         config.url = prevUrl;
       } while (prevUrl);

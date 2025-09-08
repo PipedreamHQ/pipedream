@@ -1,11 +1,14 @@
 {
   "name": "@pipedream/user_com",
-  "version": "0.0.5",
+  "version": "0.0.4",
   "description": "Pipedream User.com Components",
-  "main": "user_com.app.mjs",
+  "main": "dist/app/user_com.app.mjs",
   "keywords": [
     "pipedream",
     "user_com"
+  ],
+  "files": [
+    "dist"
   ],
   "homepage": "https://pipedream.com/apps/user_com",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

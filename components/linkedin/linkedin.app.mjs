@@ -157,10 +157,23 @@ export default {
         ...otherConfig,
       });
     },
-    createPost(args = {}) {
+    async createPost({
+      data, ...args
+    }) {
+      data = {
+        ...data,
+        author: `urn:li:${data?.author
+          ? "organization"
+          : "person"}:${data.author || this.$auth.oauth_uid}`,
+        lifecycleState: "PUBLISHED",
+        distribution: {
+          feedDistribution: "MAIN_FEED",
+        },
+      };
       return this._makeRequest({
         method: "POST",
         path: "/posts",
+        data,
         ...args,
       });
     },

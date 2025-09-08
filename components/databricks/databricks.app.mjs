@@ -44,21 +44,6 @@ export default {
         })) || [];
       },
     },
-    warehouseId: {
-      type: "string",
-      label: "Warehouse ID",
-      description: "The ID of the SQL Warehouse to get runs from",
-      async options() {
-        const { warehouses } = await this.listSQLWarehouses();
-        return warehouses?.map(({
-          id: value,
-          name: label,
-        }) => ({
-          value,
-          label,
-        })) || [];
-      },
-    },
   },
   methods: {
     _baseUrl() {
@@ -102,100 +87,6 @@ export default {
       return this._makeRequest({
         path: "/jobs/run-now",
         method: "POST",
-        ...args,
-      });
-    },
-    createSQLWarehouse(args = {}) {
-      return this._makeRequest({
-        path: "/sql/warehouses",
-        method: "POST",
-        ...args,
-      });
-    },
-    deleteSQLWarehouse({
-      warehouseId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/sql/warehouses/${warehouseId}`,
-        method: "DELETE",
-        ...args,
-      });
-    },
-    getSQLWarehouse({
-      warehouseId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/sql/warehouses/${warehouseId}`,
-        method: "GET",
-        ...args,
-      });
-    },
-    listSQLWarehouses(args = {}) {
-      return this._makeRequest({
-        path: "/sql/warehouses",
-        ...args,
-      });
-    },
-    editSQLWarehouse({
-      warehouseId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/sql/warehouses/${warehouseId}/edit`,
-        method: "POST",
-        ...args,
-      });
-    },
-    startSQLWarehouse({
-      warehouseId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/sql/warehouses/${warehouseId}/start`,
-        method: "POST",
-        ...args,
-      });
-    },
-
-    stopSQLWarehouse({
-      warehouseId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/sql/warehouses/${warehouseId}/stop`,
-        method: "POST",
-        ...args,
-      });
-    },
-
-    getSQLWarehouseConfig(args = {}) {
-      return this._makeRequest({
-        path: "/sql/config/warehouses",
-        method: "GET",
-        ...args,
-      });
-    },
-
-    setSQLWarehouseConfig(args = {}) {
-      return this._makeRequest({
-        path: "/sql/config/warehouses",
-        method: "PUT",
-        ...args,
-      });
-    },
-    getSQLWarehousePermissions({
-      warehouseId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/permissions/warehouses/${warehouseId}`,
-        method: "GET",
-        ...args,
-      });
-    },
-
-    setSQLWarehousePermissions({
-      warehouseId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/permissions/warehouses/${warehouseId}`,
-        method: "PUT",
         ...args,
       });
     },

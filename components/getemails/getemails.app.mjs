@@ -1,4 +1,4 @@
-import { axios } from "@pipedream/platform";
+import { axios } from "@pipedreamhq/platform";
 
 export default {
   type: "app",

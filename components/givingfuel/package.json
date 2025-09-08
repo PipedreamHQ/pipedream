@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/givingfuel",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream GivingFuel Components",
-  "main": "givingfuel.app.mjs",
+  "main": "dist/app/givingfuel.app.mjs",
   "keywords": [
     "pipedream",
     "givingfuel"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/givingfuel",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

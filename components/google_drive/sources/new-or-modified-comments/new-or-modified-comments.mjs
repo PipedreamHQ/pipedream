@@ -8,8 +8,8 @@
 // 1) The HTTP requests tied to changes in the user's Google Drive
 // 2) A timer that runs on regular intervals, renewing the notification channel as needed
 
-import { GOOGLE_DRIVE_NOTIFICATION_CHANGE } from "../../common/constants.mjs";
 import common from "../common-webhook.mjs";
+import { GOOGLE_DRIVE_NOTIFICATION_CHANGE } from "../../common/constants.mjs";
 
 export default {
   ...common,
@@ -17,7 +17,7 @@ export default {
   name: "New or Modified Comments (Instant)",
   description:
     "Emit new event when a comment is created or modified in the selected file",
-  version: "1.0.7",
+  version: "1.0.5",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests

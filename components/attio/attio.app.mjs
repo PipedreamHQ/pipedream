@@ -9,13 +9,11 @@ export default {
       type: "string",
       label: "First Name",
       description: "The person's first name.",
-      optional: true,
     },
     lastName: {
       type: "string",
       label: "Last Name",
       description: "The person's last name.",
-      optional: true,
     },
     emailAddress: {
       type: "string",
@@ -301,14 +299,6 @@ export default {
     listObjects(args = {}) {
       return this._makeRequest({
         path: "/objects",
-        ...args,
-      });
-    },
-    getRecord({
-      objectId, recordId, ...args
-    }) {
-      return this._makeRequest({
-        path: `/objects/${objectId}/records/${recordId}`,
         ...args,
       });
     },

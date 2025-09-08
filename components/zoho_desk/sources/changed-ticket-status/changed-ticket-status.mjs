@@ -1,4 +1,4 @@
-import common from "../common/common-polling.mjs";
+import common from "../common.mjs";
 
 export default {
   ...common,
@@ -6,7 +6,7 @@ export default {
   name: "New Ticket Status Change",
   description: "Emit new event when a status ticket is changed. [See the docs here](https://desk.zoho.com/DeskAPIDocument#Tickets#Tickets_Listalltickets)",
   type: "source",
-  version: "0.0.4",
+  version: "0.0.3",
   dedupe: "unique",
   props: {
     ...common.props,

@@ -1,12 +1,10 @@
 import {
-  useQuery,
-  UseQueryOptions,
+  useQuery, UseQueryOptions,
 } from "@tanstack/react-query";
-import { useFrontendClient } from "./frontend-client-context";
 import type {
-  GetAccountOpts,
-  GetAccountsResponse,
+  GetAccountOpts, AccountsRequestResponse,
 } from "@pipedream/sdk";
+import { useFrontendClient } from "./frontend-client-context";
 
 /**
  * Retrieves the list of accounts associated with the project.
@@ -15,13 +13,13 @@ export const useAccounts = (
   input: GetAccountOpts,
   opts?: {
     useQueryOpts?: Omit<
-      UseQueryOptions<GetAccountsResponse>,
+      UseQueryOptions<AccountsRequestResponse>,
       "queryKey" | "queryFn"
     >;
   },
 ) => {
   const client = useFrontendClient();
-  const query = useQuery<GetAccountsResponse>({
+  const query = useQuery<AccountsRequestResponse>({
     ...opts?.useQueryOpts,
     queryKey: [
       "accounts",

@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/talenox",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream Talenox Components",
-  "main": "talenox.app.mjs",
+  "main": "dist/app/talenox.app.mjs",
   "keywords": [
     "pipedream",
     "talenox"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/talenox",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

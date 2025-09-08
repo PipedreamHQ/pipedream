@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/survey2connect",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "Pipedream Survey2Connect Components",
-  "main": "survey2connect.app.mjs",
+  "main": "dist/app/survey2connect.app.mjs",
   "keywords": [
     "pipedream",
     "survey2connect"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/survey2connect",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

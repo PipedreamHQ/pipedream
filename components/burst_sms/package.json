@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/burst_sms",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream Burst SMS Components",
-  "main": "burst_sms.app.mjs",
+  "main": "dist/app/burst_sms.app.mjs",
   "keywords": [
     "pipedream",
     "burst_sms"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/burst_sms",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

@@ -1,12 +1,11 @@
-import { ConfigurationError } from "@pipedream/platform";
-import { formatLineItems } from "../../common/util.mjs";
 import xero from "../../xero_accounting_api.app.mjs";
+import { formatLineItems } from "../../common/util.mjs";
 
 export default {
   key: "xero_accounting_api-xero-create-sales-invoice",
   name: "Create Sales Invoice",
   description: "Creates a new sales invoice. [See the documentation](https://developer.xero.com/documentation/api/invoices#post)",
-  version: "0.3.3",
+  version: "0.3.2",
   type: "action",
   props: {
     xero,
@@ -24,9 +23,7 @@ export default {
         if (!this.tenantId) {
           return [];
         }
-        const { Contacts: contacts } = await this.xero.getContact({
-          tenantId: this.tenantId,
-        });
+        const { Contacts: contacts } = await this.xero.getContact(null, this.tenantId);
         return contacts?.map(({
           ContactID: value, Name: label,
         }) => ({
@@ -123,32 +120,28 @@ export default {
   },
   async run({ $ }) {
     if ((!this.contactId && !this.contactName) || !this.tenantId || !this.lineItems) {
-      throw new ConfigurationError("Must provide one of **Contact ID** or **Contact Name**, **Tenant ID**, **Type**, and **Line Items** parameters.");
+      throw new Error("Must provide one of `contactId` or `contactName`, and `tenantId`, `type`, `lineItems` parameters.");
     }
 
-    const response = await this.xero.createInvoice({
-      $,
-      tenantId: this.tenantId,
-      data: {
-        Type: "ACCREC", //ACCREC = Sales Invoice
-        Contact: {
-          ContactID: this.contactId,
-          Name: this.contactName,
-        },
-        LineItems: formatLineItems(this.lineItems),
-        Date: this.date,
-        DueDate: this.dueDate,
-        LineAmountTypes: this.lineAmountType,
-        InvoiceNumber: this.invoiceNumber,
-        Reference: this.reference,
-        BrandingThemeID: this.brandingThemeId,
-        Url: this.url,
-        CurrencyCode: this.currencyCode,
-        CurrencyRate: this.currencyRate,
-        Status: this.status,
-        SentToContact: this.sentToContact,
-        ExpectedPaymentDate: this.expectedPaymentData,
+    const response = await this.xero.createInvoice($, this.tenantId, {
+      Type: "ACCREC", //ACCREC = Sales Invoice
+      Contact: {
+        ContactID: this.contactId,
+        Name: this.contactName,
       },
+      LineItems: formatLineItems(this.lineItems),
+      Date: this.date,
+      DueDate: this.dueDate,
+      LineAmountTypes: this.lineAmountType,
+      InvoiceNumber: this.invoiceNumber,
+      Reference: this.reference,
+      BrandingThemeID: this.brandingThemeId,
+      Url: this.url,
+      CurrencyCode: this.currencyCode,
+      CurrencyRate: this.currencyRate,
+      Status: this.status,
+      SentToContact: this.sentToContact,
+      ExpectedPaymentDate: this.expectedPaymentData,
     });
 
     return response;

@@ -1,11 +1,14 @@
 {
   "name": "@pipedream/vivifyscrum",
-  "version": "0.0.5",
+  "version": "0.0.4",
   "description": "Pipedream VivifyScrum Components",
-  "main": "vivifyscrum.app.mjs",
+  "main": "dist/app/vivifyscrum.app.mjs",
   "keywords": [
     "pipedream",
     "vivifyscrum"
+  ],
+  "files": [
+    "dist"
   ],
   "homepage": "https://pipedream.com/apps/vivifyscrum",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

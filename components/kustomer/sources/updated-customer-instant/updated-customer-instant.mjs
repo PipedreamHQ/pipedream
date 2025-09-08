@@ -6,7 +6,7 @@ export default {
   key: "kustomer-updated-customer-instant",
   name: "Updated Customer (Instant)",
   description: "Emit new event when an existing customer's details are updated in Kustomer.",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
   methods: {

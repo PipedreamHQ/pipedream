@@ -159,14 +159,6 @@ export default {
         ...opts,
       });
     },
-    getInvoice({
-      invoiceId, ...opts
-    }) {
-      return this._makeRequest({
-        path: `/Invoice/${invoiceId}`,
-        ...opts,
-      });
-    },
     listOrders(opts = {}) {
       return this._makeRequest({
         path: "/Order",

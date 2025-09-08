@@ -1,8 +1,7 @@
 {
   "name": "@pipedream/google_tag_manager",
-  "version": "0.1.1",
+  "version": "0.1.0",
   "description": "Pipedream Google Tag Manager Components",
-  "main": "google_tag_manager.app.mjs",
   "keywords": [
     "pipedream",
     "google_tag_manager"
@@ -13,6 +12,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.1.0"
+    "@pipedream/platform": "^1.5.1"
   }
 }

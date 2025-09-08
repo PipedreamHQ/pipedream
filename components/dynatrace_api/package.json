@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/dynatrace_api",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream Dynatrace API Components",
-  "main": "dynatrace_api.app.mjs",
+  "main": "dist/app/dynatrace_api.app.mjs",
   "keywords": [
     "pipedream",
     "dynatrace_api"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/dynatrace_api",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

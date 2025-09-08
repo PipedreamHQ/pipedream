@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/lahar",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream Lahar Components",
-  "main": "lahar.app.mjs",
+  "main": "dist/app/lahar.app.mjs",
   "keywords": [
     "pipedream",
     "lahar"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/lahar",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

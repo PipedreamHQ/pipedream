@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/fastfield_mobile_forms",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "Pipedream FastField Mobile Forms Components",
-  "main": "fastfield_mobile_forms.app.mjs",
+  "main": "dist/app/fastfield_mobile_forms.app.mjs",
   "keywords": [
     "pipedream",
     "fastfield_mobile_forms"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/fastfield_mobile_forms",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

@@ -4,7 +4,7 @@ export default {
   key: "airtable_oauth-update-table",
   name: "Update Table",
   description: "Update an existing table. [See the documentation](https://airtable.com/developers/web/api/update-table)",
-  version: "0.0.12",
+  version: "0.0.11",
   type: "action",
   props: {
     ...common.props,

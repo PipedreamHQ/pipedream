@@ -6,7 +6,7 @@ import { useCustomize } from "../hooks/customization-context";
 import type { CSSProperties } from "react";
 
 export type FieldProps<T extends ConfigurableProp> = {
-  form: FormContext<T[]>;
+  form: FormContext;
   field: FormFieldContext<T>;
 };
 
@@ -59,7 +59,7 @@ export function Field<T extends ConfigurableProp>(props: FieldProps<T>) {
   // XXX use similar pattern as app below for boolean and checkboxing DOM re-ordering?
 
   return (
-    <div {...getProps("field", baseStyles, props as FieldProps<ConfigurableProp>)}>
+    <div {...getProps("field", baseStyles, props)}>
       <Label text={labelText} field={field} form={form} />
       <Control field={field} form={form} />
       <Description markdown={prop.description} field={field} form={form} />

@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/amplifier",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream Amplifier Components",
-  "main": "amplifier.app.mjs",
+  "main": "dist/app/amplifier.app.mjs",
   "keywords": [
     "pipedream",
     "amplifier"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/amplifier",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

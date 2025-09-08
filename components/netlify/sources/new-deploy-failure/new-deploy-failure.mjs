@@ -7,15 +7,16 @@ export default {
   name: "New Deploy Failure (Instant)",
   description: "Emit new event when a new deployment fails",
   type: "source",
-  version: "0.1.1",
+  version: "0.1.0",
   dedupe: "unique",
   methods: {
     ...webhook.methods,
     getHookEvent() {
       return deployHooks.DEPLOY_FAILED;
     },
-    getMetaSummary() {
-      return "New Deployment Failure";
+    getMetaSummary(data) {
+      const { commit_ref: commitRef } = data;
+      return `Deploy failed for commit ${commitRef}`;
     },
   },
 };

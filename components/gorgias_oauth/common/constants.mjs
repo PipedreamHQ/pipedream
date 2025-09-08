@@ -100,36 +100,8 @@ const sourceTypes = [
   "whatsapp-message",
 ];
 
-const macroIntents = [
-  "discount/request",
-  "exchange/request",
-  "exchange/status",
-  "feedback",
-  "order/damaged",
-  "order/cancel",
-  "order/change",
-  "order/wrong",
-  "other/no_reply",
-  "other/question",
-  "other/thanks",
-  "product/recommendation",
-  "product/question",
-  "refund/request",
-  "refund/status",
-  "return/request",
-  "return/status",
-  "shipping/change",
-  "shipping/delivery-issue",
-  "shipping/policy",
-  "shipping/status",
-  "stock/request",
-  "subscription/cancel",
-  "subscription/change",
-];
-
 export default {
   channels,
   vias,
   sourceTypes,
-  macroIntents,
 };

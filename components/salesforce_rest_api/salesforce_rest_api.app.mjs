@@ -366,48 +366,5 @@ export default {
         ...args,
       });
     },
-    createBulkJob(args = {}) {
-      return this._makeRequest({
-        ...args,
-        method: "POST",
-        url: `${this._baseApiVersionUrl()}/jobs/ingest`,
-        data: {
-          contentType: "CSV",
-          columnDelimiter: "COMMA",
-          lineEnding: "LF",
-          ...args?.data,
-        },
-      });
-    },
-    uploadBulkJobData({
-      jobId, ...args
-    } = {}) {
-      return this._makeRequest({
-        ...args,
-        method: "PUT",
-        url: `${this._baseApiVersionUrl()}/jobs/ingest/${jobId}/batches`,
-        headers: {
-          ...this._makeRequestHeaders(),
-          "Content-Type": "text/csv",
-        },
-      });
-    },
-    patchBulkJob({
-      jobId, ...args
-    } = {}) {
-      return this._makeRequest({
-        ...args,
-        method: "PATCH",
-        url: `${this._baseApiVersionUrl()}/jobs/ingest/${jobId}`,
-      });
-    },
-    getBulkJobInfo({
-      jobId, ...args
-    } = {}) {
-      return this._makeRequest({
-        ...args,
-        url: `${this._baseApiVersionUrl()}/jobs/ingest/${jobId}`,
-      });
-    },
   },
 };

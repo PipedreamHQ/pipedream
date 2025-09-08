@@ -3,8 +3,8 @@ import krispcall from "../../krispcall.app.mjs";
 export default {
   key: "krispcall-new-sms",
   name: "Send New SMS",
-  description: "Send a new SMS to a number. [See the documentation](https://documenter.getpostman.com/view/38507826/2sB2xEA8V5#be2f5790-43b5-482e-9f4e-c9e8cb9fd633)",
-  version: "0.0.6",
+  description: "Send a new SMS to a number. [See the documentation](https://documenter.getpostman.com/view/32476792/2sA3dxFCaL)",
+  version: "0.0.4",
   type: "action",
   props: {
     krispcall,

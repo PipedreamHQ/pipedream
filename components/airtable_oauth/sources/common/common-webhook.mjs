@@ -134,12 +134,8 @@ export default {
       return this.changeTypes;
     },
     emitDefaultEvent(payload) {
-      // Normalize the fallback so consumers always get a consistent structure
-      // matching our other emitters (which include originalPayload).
       const meta = this.generateMeta(payload);
-      this.$emit({
-        originalPayload: payload,
-      }, meta);
+      this.$emit(payload, meta);
     },
     async emitEvent(payload) {
       // sources may call this to customize event emission, but it is

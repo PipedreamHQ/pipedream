@@ -212,15 +212,6 @@ export default {
     isRelevant() {
       return true;
     },
-    emitEvent(payload) {
-      const ts = Date.parse(payload.updatedAt);
-      const id = `${payload.ticketId}-${ts}`;
-      this.$emit(payload, {
-        id,
-        summary: payload.title || payload.ticketId,
-        ts,
-      });
-    },
   },
   async run(event) {
     const {
@@ -250,6 +241,13 @@ export default {
       return;
     }
 
-    this.emitEvent(payload);
+    const ts = Date.parse(payload.updatedAt);
+    const id = `${payload.ticketId}-${ts}`;
+
+    this.$emit(payload, {
+      id,
+      summary: payload.title || payload.ticketId,
+      ts,
+    });
   },
 };

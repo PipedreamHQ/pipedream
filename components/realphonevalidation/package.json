@@ -1,11 +1,14 @@
 {
   "name": "@pipedream/realphonevalidation",
-  "version": "0.0.5",
+  "version": "0.0.4",
   "description": "Pipedream RealPhoneValidation Components",
-  "main": "realphonevalidation.app.mjs",
+  "main": "dist/app/realphonevalidation.app.mjs",
   "keywords": [
     "pipedream",
     "realphonevalidation"
+  ],
+  "files": [
+    "dist"
   ],
   "homepage": "https://pipedream.com/apps/realphonevalidation",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "module": "preserve",
+    "module": "commonjs",
     "moduleResolution": "bundler",
     "jsx": "react-jsx",
     "noEmit": true,

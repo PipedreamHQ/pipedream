@@ -5,7 +5,7 @@ export default {
   key: "linkedin-create-text-post-organization",
   name: "Create a Simple Post (Organization)",
   description: "Create post on LinkedIn using text, URL or article. [See the documentation](https://learn.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/posts-api?view=li-lms-2022-11&tabs=http#create-organic-posts) for more information",
-  version: "0.0.8",
+  version: "0.0.7",
   type: "action",
   props: {
     linkedin,
@@ -30,13 +30,9 @@ export default {
   },
   async run({ $ }) {
     const data = {
-      author: `urn:li:organization:${this.organizationId}`,
+      author: this.organizationId,
       commentary: utils.escapeText(this.text),
       visibility: "PUBLIC",
-      lifecycleState: "PUBLISHED",
-      distribution: {
-        feedDistribution: "MAIN_FEED",
-      },
     };
     if (this.article) {
       data.content = {
@@ -51,8 +47,6 @@ export default {
       data,
     });
     $.export("$summary", "Successfully created a new Post as Organization");
-    return response || {
-      success: true,
-    };
+    return response;
   },
 };

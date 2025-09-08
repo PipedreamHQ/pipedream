@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/dataset",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream DataSet Components",
-  "main": "dataset.app.mjs",
+  "main": "dist/app/dataset.app.mjs",
   "keywords": [
     "pipedream",
     "dataset"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/dataset",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

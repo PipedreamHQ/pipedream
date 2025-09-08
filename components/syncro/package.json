@@ -1,11 +1,14 @@
 {
   "name": "@pipedream/syncro",
-  "version": "0.0.5",
+  "version": "0.0.4",
   "description": "Pipedream Syncro Components",
-  "main": "syncro.app.mjs",
+  "main": "dist/app/syncro.app.mjs",
   "keywords": [
     "pipedream",
     "syncro"
+  ],
+  "files": [
+    "dist"
   ],
   "homepage": "https://pipedream.com/apps/syncro",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

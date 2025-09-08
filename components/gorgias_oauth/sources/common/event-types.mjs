@@ -6,7 +6,4 @@ export default {
   TICKET_UPDATED: "ticket-updated",
   TICKET_MESSAGE_CREATED: "ticket-message-created",
   TICKET_MESSAGE_FAILED: "ticket-message-failed",
-  MACRO_CREATED: "macro-created",
-  MACRO_UPDATED: "macro-updated",
-  MACRO_DELETED: "macro-deleted",
 };

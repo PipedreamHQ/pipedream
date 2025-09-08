@@ -50,18 +50,3 @@ export interface UpdateReplyParams extends PdAxiosRequest, AccountLocation {
     comment: string;
   };
 }
-
-export interface GetReviewParams extends PdAxiosRequest, AccountLocation {
-  review: string;
-}
-
-export interface BatchGetReviewsParams extends PdAxiosRequest {
-  account: string;
-  data: {
-    locationNames: string[];
-    pageSize?: number;
-    pageToken?: string;
-    orderBy?: string;
-    ignoreRatingOnlyReviews?: boolean;
-  };
-}

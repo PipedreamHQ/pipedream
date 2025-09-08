@@ -27,9 +27,7 @@ export function InternalField<T extends ConfigurableProp>({
   } = useApp(appSlug || "", {
     useQueryOpts: {
       enabled: !!appSlug,
-
-      // @ts-expect-error this seems to work (this overrides enabled so don't just set to true)
-      suspense: !!appSlug,
+      suspense: !!appSlug, // this seems to work (this overrides enabled so don't just set to true)
     },
   });
 
@@ -44,7 +42,7 @@ export function InternalField<T extends ConfigurableProp>({
       setConfiguredProp(idx, value);
     },
     extra: {
-      app,
+      app, // XXX fix ts
     },
     errors,
     enableDebugging,

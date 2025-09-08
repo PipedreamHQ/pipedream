@@ -7,15 +7,16 @@ export default {
   name: "New Deploy Start (Instant)",
   description: "Emit new event when a new deployment is started",
   type: "source",
-  version: "0.1.1",
+  version: "0.1.0",
   dedupe: "unique",
   methods: {
     ...webhook.methods,
     getHookEvent() {
       return deployHooks.DEPLOY_BUILDING;
     },
-    getMetaSummary() {
-      return "New Deployment Started";
+    getMetaSummary(data) {
+      const { commit_ref: commitRef } = data;
+      return `Deploy started for commit ${commitRef}`;
     },
   },
 };

@@ -19,6 +19,7 @@ export default {
         }));
       },
     },
+
     ticketId: {
       type: "integer",
       label: "Ticket ID",
@@ -78,6 +79,7 @@ export default {
         }));
       },
     },
+
     ticketStatus: {
       type: "integer",
       label: "Status",
@@ -113,138 +115,6 @@ export default {
             value: email,
           }));
       },
-    },
-    contactId: {
-      type: "string",
-      label: "Contact ID",
-      description: "The ID of a contact",
-      async options({
-        companyId, page,
-      }) {
-        const contacts = await this.getContacts({
-          params: {
-            company_id: companyId,
-            page: page + 1,
-          },
-        });
-        return contacts
-          .map(({
-            id, name, email,
-          }) => ({
-            label: name || email,
-            value: id,
-          }));
-      },
-    },
-    ticketFieldId: {
-      type: "string",
-      label: "Ticket Field ID",
-      description: "The ID of a ticket field",
-      async options({ page }) {
-        const fields = await this.listTicketFields({
-          params: {
-            page: page + 1,
-          },
-        });
-        return fields.map(({
-          id, label,
-        }) => ({
-          label: label || id,
-          value: id,
-        }));
-      },
-    },
-    skillIds: {
-      type: "string[]",
-      label: "Skill IDs",
-      description: "Array of skill IDs",
-      optional: true,
-      async options({ page }) {
-        const skills = await this.listSkills({
-          params: {
-            page: page + 1,
-          },
-        });
-        return skills.map(({
-          id, name,
-        }) => ({
-          label: name || id,
-          value: id,
-        }));
-      },
-    },
-    roleIds: {
-      type: "string[]",
-      label: "Role IDs",
-      description: "Array of role IDs",
-      optional: true,
-      async options() {
-        const roles = await this.listRoles();
-        return roles.map(({
-          id, name,
-        }) => ({
-          label: name || id,
-          value: id,
-        }));
-      },
-    },
-    categoryId: {
-      type: "integer",
-      label: "Category ID",
-      description: "The ID of a category",
-      async options() {
-        const categories = await this.listSolutionCategories();
-        return categories.map(({
-          id, name,
-        }) => ({
-          label: name || id,
-          value: id,
-        }));
-      },
-    },
-    folderId: {
-      type: "integer",
-      label: "Folder ID",
-      description: "The ID of a folder",
-      async options({ categoryId }) {
-        const folders = await this.listCategoryFolders({
-          categoryId,
-        });
-        return folders.map(({
-          id, name,
-        }) => ({
-          label: name || id,
-          value: id,
-        }));
-      },
-    },
-    articleId: {
-      type: "integer",
-      label: "Article ID",
-      description: "The ID of an article",
-      async options({
-        page, folderId,
-      }) {
-        const articles = await this.listFolderArticles({
-          folderId,
-          params: {
-            page: page + 1,
-          },
-        });
-        return articles.map(({
-          id, title,
-        }) => ({
-          label: title || id,
-          value: id,
-        }));
-      },
-    },
-    maxResults: {
-      type: "integer",
-      label: "Max Results",
-      description: "The maximum number of results to return",
-      default: 100,
-      optional: true,
     },
     ticketTags: {
       type: "string[]",
@@ -340,14 +210,6 @@ export default {
         ...args,
       });
     },
-    async getContact({
-      contactId, ...args
-    }) {
-      return this._makeRequest({
-        url: `/contacts/${contactId}`,
-        ...args,
-      });
-    },
     async getContacts(args) {
       return this._makeRequest({
         url: "/contacts",
@@ -358,15 +220,6 @@ export default {
       return this._makeRequest({
         url: "/contacts",
         method: "post",
-        ...args,
-      });
-    },
-    async updateContact({
-      contactId, ...args
-    }) {
-      return this._makeRequest({
-        url: `/contacts/${contactId}`,
-        method: "put",
         ...args,
       });
     },
@@ -394,119 +247,6 @@ export default {
     async searchContacts(args) {
       return this._makeRequest({
         url: "/search/contacts",
-        ...args,
-      });
-    },
-    async listTicketFields(args) {
-      return this._makeRequest({
-        url: "/ticket_fields",
-        ...args,
-      });
-    },
-    async createTicketField(args) {
-      return this._makeRequest({
-        url: "/admin/ticket_fields",
-        method: "post",
-        ...args,
-      });
-    },
-    async updateTicketField({
-      ticketFieldId, ...args
-    }) {
-      return this._makeRequest({
-        url: `/admin/ticket_fields/${ticketFieldId}`,
-        method: "put",
-        ...args,
-      });
-    },
-    async listAgents(args) {
-      return this._makeRequest({
-        url: "/agents",
-        ...args,
-      });
-    },
-    async createAgent(args) {
-      return this._makeRequest({
-        url: "/agents",
-        method: "post",
-        ...args,
-      });
-    },
-    async updateAgent({
-      agentId, ...args
-    }) {
-      return this._makeRequest({
-        url: `/agents/${agentId}`,
-        method: "put",
-        ...args,
-      });
-    },
-    async listSkills(args) {
-      return this._makeRequest({
-        url: "/admin/skills",
-        ...args,
-      });
-    },
-    async listRoles(args) {
-      return this._makeRequest({
-        url: "/roles",
-        ...args,
-      });
-    },
-    async listSolutionCategories(args) {
-      return this._makeRequest({
-        url: "/solutions/categories",
-        ...args,
-      });
-    },
-    async listCategoryFolders({
-      categoryId, ...args
-    }) {
-      return this._makeRequest({
-        url: `/solutions/categories/${categoryId}/folders`,
-        ...args,
-      });
-    },
-    async listFolderArticles({
-      folderId, ...args
-    }) {
-      return this._makeRequest({
-        url: `/solutions/folders/${folderId}/articles`,
-        ...args,
-      });
-    },
-    async getArticle({
-      articleId, ...args
-    }) {
-      return this._makeRequest({
-        url: `/solutions/articles/${articleId}`,
-        ...args,
-      });
-    },
-    async createArticle({
-      folderId, ...args
-    }) {
-      return this._makeRequest({
-        url: `/solutions/folders/${folderId}/articles`,
-        method: "post",
-        ...args,
-      });
-    },
-    async updateArticle({
-      articleId, ...args
-    }) {
-      return this._makeRequest({
-        url: `/solutions/articles/${articleId}`,
-        method: "put",
-        ...args,
-      });
-    },
-    async deleteArticle({
-      articleId, ...args
-    }) {
-      return this._makeRequest({
-        url: `/solutions/articles/${articleId}`,
-        method: "delete",
         ...args,
       });
     },
@@ -634,40 +374,6 @@ export default {
         tags: remainingTags,
         ...args,
       });
-    },
-    async *paginate({
-      fn, args, max,
-    }) {
-      args = {
-        ...args,
-        params: {
-          ...args?.params,
-          page: 1,
-          per_page: 100,
-        },
-      };
-      let total, count = 0;
-      do {
-        const results = await fn(args);
-        total = results?.length;
-        if (!total) {
-          return;
-        }
-        for (const result of results) {
-          yield result;
-          if (max && ++count >= max) {
-            return;
-          }
-        }
-        args.params.page += 1;
-      } while (total === args.params.per_page);
-    },
-    async getPaginatedResources(opts) {
-      const results = [];
-      for await (const result of this.paginate(opts)) {
-        results.push(result);
-      }
-      return results;
     },
   },
 };

@@ -80,30 +80,6 @@ export default {
         };
       },
     },
-    macroId: {
-      type: "integer",
-      label: "Macro ID",
-      description: "The ID of a macro",
-      async options({ prevContext }) {
-        const {
-          data: macros,
-          meta,
-        } = await this.listMacros({
-          params: {
-            cursor: prevContext.nextCursor,
-          },
-        });
-        return {
-          options: macros.map((macro) => ({
-            label: macro.name,
-            value: macro.id,
-          })),
-          context: {
-            nextCursor: meta.next_cursor,
-          },
-        };
-      },
-    },
     address: {
       type: "string",
       label: "Address",
@@ -432,49 +408,6 @@ export default {
         method: "POST",
         path: `/tickets/${ticketId}/messages`,
         ...opts,
-      });
-    },
-    getMacro({
-      $, id,
-    }) {
-      return this._makeRequest({
-        $,
-        path: `/macros/${id}`,
-      });
-    },
-    listMacros(opts = {}) {
-      return this._makeRequest({
-        path: "/macros",
-        ...opts,
-      });
-    },
-    createMacro({
-      $, data,
-    }) {
-      return this._makeRequest({
-        $,
-        path: "/macros",
-        method: "POST",
-        data,
-      });
-    },
-    updateMacro({
-      $, id, data,
-    }) {
-      return this._makeRequest({
-        $,
-        path: `/macros/${id}`,
-        method: "PUT",
-        data,
-      });
-    },
-    deleteMacro({
-      $, id,
-    }) {
-      return this._makeRequest({
-        $,
-        path: `/macros/${id}`,
-        method: "DELETE",
       });
     },
   },

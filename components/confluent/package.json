@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/confluent",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream Confluent Components",
-  "main": "confluent.app.mjs",
+  "main": "dist/app/confluent.app.mjs",
   "keywords": [
     "pipedream",
     "confluent"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/confluent",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

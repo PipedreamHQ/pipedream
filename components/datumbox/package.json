@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/datumbox",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream Datumbox Components",
-  "main": "datumbox.app.mjs",
+  "main": "dist/app/datumbox.app.mjs",
   "keywords": [
     "pipedream",
     "datumbox"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/datumbox",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

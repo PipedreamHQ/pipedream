@@ -1,19 +1,19 @@
+import googleDrive from "../../google_drive.app.mjs";
 import {
   getListFilesOpts,
   toSingleLineString,
 } from "../../common/utils.mjs";
-import googleDrive from "../../google_drive.app.mjs";
 
 import {
-  GOOGLE_DRIVE_FOLDER_MIME_TYPE,
   MY_DRIVE_VALUE,
+  GOOGLE_DRIVE_FOLDER_MIME_TYPE,
 } from "../../common/constants.mjs";
 
 export default {
   key: "google_drive-create-folder",
   name: "Create Folder",
   description: "Create a new empty folder. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/create) for more information",
-  version: "0.1.12",
+  version: "0.1.10",
   type: "action",
   props: {
     googleDrive,

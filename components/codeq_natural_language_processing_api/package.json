@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/codeq_natural_language_processing_api",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream Codeq Natural Language Processing API Components",
   "main": "codeq_natural_language_processing_api.app.mjs",
   "keywords": [
@@ -11,8 +11,5 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
-  },
-  "dependencies": {
-    "@pipedream/platform": "^3.1.0"
   }
 }

@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/portfolio_optimizer",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream Portfolio Optimizer Components",
-  "main": "portfolio_optimizer.app.mjs",
+  "main": "dist/app/portfolio_optimizer.app.mjs",
   "keywords": [
     "pipedream",
     "portfolio_optimizer"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/portfolio_optimizer",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

@@ -1,11 +1,14 @@
 {
   "name": "@pipedream/sendle",
-  "version": "0.0.5",
+  "version": "0.0.4",
   "description": "Pipedream Sendle Components",
-  "main": "sendle.app.mjs",
+  "main": "dist/app/sendle.app.mjs",
   "keywords": [
     "pipedream",
     "sendle"
+  ],
+  "files": [
+    "dist"
   ],
   "homepage": "https://pipedream.com/apps/sendle",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

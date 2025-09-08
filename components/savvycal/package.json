@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/savvycal",
-  "version": "0.0.4",
+  "version": "0.0.3",
   "description": "Pipedream SavvyCal Components",
-  "main": "savvycal.app.mjs",
+  "main": "dist/app/savvycal.app.mjs",
   "keywords": [
     "pipedream",
     "savvycal"

@@ -5,7 +5,7 @@ export default {
   key: "oxylabs-scrape-url",
   name: "Scrape URL",
   description: "Scrape a URL. [See the documentation](https://developers.oxylabs.io/scraping-solutions/web-scraper-api)",
-  version: "0.0.2",
+  version: "0.0.1",
   type: "action",
   props: {
     oxylabs,
@@ -27,18 +27,6 @@ export default {
         "geoLocation",
       ],
     },
-    parse: {
-      propDefinition: [
-        oxylabs,
-        "parse",
-      ],
-    },
-    render: {
-      propDefinition: [
-        oxylabs,
-        "render",
-      ],
-    },
   },
   async run({ $ }) {
     const response = await this.oxylabs.scrape({
@@ -47,8 +35,6 @@ export default {
         source: this.source,
         url: this.url,
         geo_location: this.geoLocation,
-        parse: this.parse,
-        render: this.render,
       },
     });
     $.export("$summary", `Successfully scraped URL: ${this.url}`);

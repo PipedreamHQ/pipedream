@@ -1,11 +1,14 @@
 {
   "name": "@pipedream/propelauth",
-  "version": "0.0.5",
+  "version": "0.0.4",
   "description": "Pipedream PropelAuth Components",
-  "main": "propelauth.app.mjs",
+  "main": "dist/app/propelauth.app.mjs",
   "keywords": [
     "pipedream",
     "propelauth"
+  ],
+  "files": [
+    "dist"
   ],
   "homepage": "https://pipedream.com/apps/propelauth",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

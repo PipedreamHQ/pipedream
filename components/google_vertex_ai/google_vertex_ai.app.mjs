@@ -33,26 +33,6 @@ export default {
         };
       },
     },
-    model: {
-      type: "string",
-      label: "Model",
-      description: "The model to use for video generation",
-      options: [
-        {
-          label: "Veo 2.0 Generate 001 (Stable)",
-          value: "veo-2.0-generate-001",
-        },
-        {
-          label: "Veo 3.0 Generate Preview (Preview)",
-          value: "veo-3.0-generate-preview",
-        },
-        {
-          label: "Veo 3.0 Fast Generate Preview (Preview)",
-          value: "veo-3.0-fast-generate-preview",
-        },
-      ],
-      default: "veo-3.0-generate-preview",
-    },
   },
   methods: {
     _baseUrl() {
@@ -84,24 +64,6 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: `/projects/${projectId}/locations/us-central1/publishers/google/models/${model}:generateContent`,
-        ...opts,
-      });
-    },
-    generateVideosLongRunning({
-      projectId, model, ...opts
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/projects/${projectId}/locations/us-central1/publishers/google/models/${model}:predictLongRunning`,
-        ...opts,
-      });
-    },
-    fetchOperation({
-      projectId, model, ...opts
-    }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/projects/${projectId}/locations/us-central1/publishers/google/models/${model}:fetchPredictOperation`,
         ...opts,
       });
     },

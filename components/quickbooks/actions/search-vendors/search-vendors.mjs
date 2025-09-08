@@ -5,7 +5,7 @@ export default {
   key: "quickbooks-search-vendors",
   name: "Search Vendors",
   description: "Searches for vendors. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/vendor#query-a-vendor)",
-  version: "0.1.11",
+  version: "0.1.10",
   type: "action",
   props: {
     quickbooks,
@@ -37,7 +37,7 @@ export default {
   },
   async run({ $ }) {
     if (!this.whereClause) {
-      throw new ConfigurationError("Must provide whereClause parameter.");
+      throw new ConfigurationError("Must provide includeClause, whereClause parameters.");
     }
 
     const orderClause = this.orderClause

@@ -6,11 +6,10 @@ export default {
   key: "acuity_scheduling-appointment-canceled-instant",
   name: "New Appointment Canceled (Instant)",
   description: "Emit new event when an appointment is canceled.",
-  version: "0.0.3",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {
-    ...common.methods,
     getEvent() {
       return "appointment.canceled";
     },

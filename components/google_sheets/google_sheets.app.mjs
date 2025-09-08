@@ -64,10 +64,9 @@ export default {
         query,
         prevContext,
         driveId,
-        fetchOnlyOwned,
       }) {
         const { nextPageToken } = prevContext;
-        return this.listSheetsOptions(driveId, nextPageToken, query, fetchOnlyOwned);
+        return this.listSheetsOptions(driveId, nextPageToken, query);
       },
     },
     worksheetIDs: {
@@ -253,13 +252,11 @@ export default {
       }
       return sum;
     },
-    async listSheetsOptions(driveId, pageToken = null, query, fetchOnlyOwned) {
+    async listSheetsOptions(driveId, pageToken = null, query) {
       const searchQuery = query
         ? ` and name contains '${query}'`
         : "";
-      const q = fetchOnlyOwned
-        ? `mimeType='application/vnd.google-apps.spreadsheet'${searchQuery} and 'me' in owners`
-        : `mimeType='application/vnd.google-apps.spreadsheet'${searchQuery}`;
+      const q = `mimeType='application/vnd.google-apps.spreadsheet'${searchQuery}`;
       let request = {
         q,
       };

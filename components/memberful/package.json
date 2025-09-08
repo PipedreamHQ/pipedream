@@ -1,8 +1,8 @@
 {
   "name": "@pipedream/memberful",
-  "version": "0.1.1",
+  "version": "0.1.0",
   "description": "Pipedream Memberful Components",
-  "main": "memberful.app.mjs",
+  "main": "dist/app/memberful.app.mjs",
   "keywords": [
     "pipedream",
     "memberful"

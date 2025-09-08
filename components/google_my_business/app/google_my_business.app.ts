@@ -2,7 +2,7 @@ import { defineApp } from "@pipedream/types";
 import { axios } from "@pipedream/platform";
 import {
   CreatePostParams,
-  HttpRequestParams, ListPostsParams, ListReviewsParams, PaginatedRequestParams, UpdateReplyParams, GetReviewParams, BatchGetReviewsParams,
+  HttpRequestParams, ListPostsParams, ListReviewsParams, PaginatedRequestParams, UpdateReplyParams,
 } from "../common/requestParams";
 import {
   Account, LocalPost, Location, Review,
@@ -184,23 +184,6 @@ export default defineApp({
       return this._httpRequest({
         method: "PUT",
         url: `https://mybusiness.googleapis.com/v4/accounts/${account}/locations/${location}/reviews/${review}/reply`,
-        ...args,
-      });
-    },
-    async getReview({
-      account, location, review, ...args
-    }: GetReviewParams): Promise<Review> {
-      return this._httpRequest({
-        url: `https://mybusiness.googleapis.com/v4/accounts/${account}/locations/${location}/reviews/${review}`,
-        ...args,
-      });
-    },
-    async batchGetReviews({
-      account, ...args
-    }: BatchGetReviewsParams): Promise<object> {
-      return this._httpRequest({
-        method: "POST",
-        url: `https://mybusiness.googleapis.com/v4/accounts/${account}/locations:batchGetReviews`,
         ...args,
       });
     },

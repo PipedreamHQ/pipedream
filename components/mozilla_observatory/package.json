@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/mozilla_observatory",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream Mozilla Observatory Components",
-  "main": "mozilla_observatory.app.mjs",
+  "main": "dist/app/mozilla_observatory.app.mjs",
   "keywords": [
     "pipedream",
     "mozilla_observatory"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/mozilla_observatory",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

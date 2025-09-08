@@ -240,12 +240,6 @@ export default {
         ...args,
       });
     },
-    exportTransactions(args = {}) {
-      return this._makeRequest({
-        path: "/transaction/export",
-        ...args,
-      });
-    },
     async *paginate({
       resourceFn, args, max,
     }) {

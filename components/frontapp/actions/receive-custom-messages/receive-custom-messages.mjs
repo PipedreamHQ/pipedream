@@ -4,8 +4,8 @@ import frontApp from "../../frontapp.app.mjs";
 export default {
   key: "frontapp-receive-custom-messages",
   name: "Receive Custom Messages",
-  description: "Receive a custom message in Front. [See the documentation](https://dev.frontapp.com/reference/post_channels-channel-id-incoming-messages).",
-  version: "0.0.5",
+  description: "Receive a custom message in Front. [See the docs here](https://dev.frontapp.com/reference/post_channels-channel-id-incoming-messages).",
+  version: "0.0.4",
   type: "action",
   props: {
     frontApp,

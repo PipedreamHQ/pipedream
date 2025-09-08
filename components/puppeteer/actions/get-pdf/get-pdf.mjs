@@ -9,7 +9,7 @@ export default {
   name: "Get PDF",
   description:
     "Generate a PDF of a page using Puppeteer. [See the documentation](https://pptr.dev/api/puppeteer.page.pdf)",
-  version: "1.0.4",
+  version: "1.0.3",
   type: "action",
   props: {
     puppeteer,
@@ -143,7 +143,6 @@ export default {
     },
   },
   methods: {
-    ...common.methods,
     async downloadToTMP(pdf) {
       const path = this.downloadPath.includes("/tmp")
         ? this.downloadPath
@@ -194,7 +193,10 @@ export default {
     }
 
     return filePath
-      ? filePath
+      ? {
+        pdf,
+        filePath,
+      }
       : pdf;
   },
 };

@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/docraptor",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream DocRaptor Components",
-  "main": "docraptor.app.mjs",
+  "main": "dist/app/docraptor.app.mjs",
   "keywords": [
     "pipedream",
     "docraptor"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/docraptor",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

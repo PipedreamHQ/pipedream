@@ -5,7 +5,7 @@ export default {
   name: "Create Document From Template",
   description: "Create a Document from a PandaDoc Template. [See the documentation here](https://developers.pandadoc.com/reference/create-document-from-pandadoc-template)",
   type: "action",
-  version: "0.0.8",
+  version: "0.0.7",
   props: {
     app,
     name: {
@@ -52,12 +52,7 @@ export default {
   },
   async additionalProps() {
     const props = {};
-    if (!this.templateId) {
-      return props;
-    }
-    const {
-      fields, images,
-    } = await this.app.getTemplate({
+    const { fields } = await this.app.getTemplate({
       templateId: this.templateId,
     });
     for (const field of fields) {
@@ -69,15 +64,6 @@ export default {
         label: `Field ${field.merge_field}`,
         optional: true,
       };
-    }
-    if (images?.length) {
-      for (const image of images) {
-        props[image.block_uuid] = {
-          type: "string",
-          label: `${image.name} URL`,
-          optional: true,
-        };
-      }
     }
     return props;
   },
@@ -105,9 +91,7 @@ export default {
     } = this;
 
     const fields = {};
-    const {
-      fields: items, images: templateImages,
-    } = await this.app.getTemplate({
+    const { fields: items } = await this.app.getTemplate({
       templateId: this.templateId,
     });
     for (const field of items) {
@@ -117,20 +101,6 @@ export default {
       fields[field.merge_field] = {
         value: this[field.merge_field],
       };
-    }
-
-    const images = [];
-    if (templateImages?.length) {
-      for (const image of templateImages) {
-        if (this[image.block_uuid]) {
-          images.push({
-            name: image.name,
-            urls: [
-              this[image.block_uuid],
-            ],
-          });
-        }
-      }
     }
 
     const response = await this.app.createDocument({
@@ -143,7 +113,6 @@ export default {
         recipients: this.parseToAnyArray(recipients),
         tokens: this.parseToAnyArray(tokens),
         fields,
-        images,
       },
     });
 

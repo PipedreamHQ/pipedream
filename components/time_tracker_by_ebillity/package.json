@@ -1,12 +1,13 @@
 {
   "name": "@pipedream/time_tracker_by_ebillity",
-  "version": "0.0.3",
+  "version": "0.0.2",
   "description": "Pipedream Time Tracker by eBillity Components",
-  "main": "time_tracker_by_ebillity.app.mjs",
+  "main": "dist/app/time_tracker_by_ebillity.app.mjs",
   "keywords": [
     "pipedream",
     "time_tracker_by_ebillity"
   ],
+  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/time_tracker_by_ebillity",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

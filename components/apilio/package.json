@@ -1,11 +1,14 @@
 {
   "name": "@pipedream/apilio",
-  "version": "0.0.4",
+  "version": "0.0.3",
   "description": "Pipedream Apilio Components",
-  "main": "apilio.app.mjs",
+  "main": "dist/app/apilio.app.mjs",
   "keywords": [
     "pipedream",
     "apilio"
+  ],
+  "files": [
+    "dist"
   ],
   "homepage": "https://pipedream.com/apps/apilio",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

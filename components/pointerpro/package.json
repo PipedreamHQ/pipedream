@@ -1,11 +1,14 @@
 {
   "name": "@pipedream/pointerpro",
-  "version": "0.0.4",
+  "version": "0.0.3",
   "description": "Pipedream Pointerpro Components",
-  "main": "pointerpro.app.mjs",
+  "main": "dist/app/pointerpro.app.mjs",
   "keywords": [
     "pipedream",
     "pointerpro"
+  ],
+  "files": [
+    "dist"
   ],
   "homepage": "https://pipedream.com/apps/pointerpro",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
