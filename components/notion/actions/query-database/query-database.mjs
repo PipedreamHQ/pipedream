@@ -5,7 +5,7 @@ export default {
   key: "notion-query-database",
   name: "Query Data Source",
   description: "Query a data source with a specified filter. [See the documentation](https://developers.notion.com/reference/query-a-data-source)",
-  version: "1.0.{{ts}}",
+  version: "1.0.0",
   type: "action",
   props: {
     notion,
