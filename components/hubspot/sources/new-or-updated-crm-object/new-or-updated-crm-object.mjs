@@ -8,7 +8,7 @@ export default {
   name: "New or Updated CRM Object",
   description:
     "Emit new event each time a CRM Object of the specified object type is updated.",
-  version: "0.0.28",
+  version: "0.0.29",
   dedupe: "unique",
   type: "source",
   props: {

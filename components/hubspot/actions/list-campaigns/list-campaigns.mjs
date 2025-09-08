@@ -5,7 +5,7 @@ export default {
   name: "List Campaigns",
   description:
     "Retrieves a list of campaigns. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/campaigns#get-%2Fmarketing%2Fv3%2Fcampaigns%2F)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     hubspot,

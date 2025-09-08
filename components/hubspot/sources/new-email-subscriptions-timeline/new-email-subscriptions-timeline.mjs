@@ -7,7 +7,7 @@ export default {
   name: "New Email Subscriptions Timeline",
   description:
     "Emit new event when a new email timeline subscription is added for the portal.",
-  version: "0.0.28",
+  version: "0.0.29",
   dedupe: "unique",
   type: "source",
   methods: {

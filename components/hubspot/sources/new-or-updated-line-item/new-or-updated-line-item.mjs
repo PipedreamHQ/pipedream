@@ -11,7 +11,7 @@ export default {
   name: "New or Updated Line Item",
   description:
     "Emit new event for each new line item added or updated in Hubspot.",
-  version: "0.0.15",
+  version: "0.0.16",
   dedupe: "unique",
   type: "source",
   props: {

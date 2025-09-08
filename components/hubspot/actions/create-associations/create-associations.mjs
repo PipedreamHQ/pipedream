@@ -6,7 +6,7 @@ export default {
   name: "Create Associations",
   description:
     "Create associations between objects. [See the documentation](https://developers.hubspot.com/docs/api/crm/associations#endpoint?spec=POST-/crm/v3/associations/{fromObjectType}/{toObjectType}/batch/create)",
-  version: "1.0.8",
+  version: "1.0.9",
   type: "action",
   props: {
     hubspot,
