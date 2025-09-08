@@ -11,19 +11,10 @@ export default {
   type: "action",
   props: {
     notion,
-    databaseId: {
-      propDefinition: [
-        notion,
-        "databaseId",
-      ],
-    },
     dataSourceId: {
       propDefinition: [
         notion,
         "dataSourceId",
-        ({ databaseId }) => ({
-          databaseId,
-        }),
       ],
       reloadProps: true,
     },
@@ -47,7 +38,7 @@ export default {
     },
   },
   async additionalProps(props) {
-    if (this.databaseId && this.dataSourceId) {
+    if (this.dataSourceId) {
       const dataSource = await this.notion.retrieveDataSource(this.dataSourceId);
 
       props.title.default = dataSource.title.map((text) => text.text.content).join(" ");
@@ -64,7 +55,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.notion.updateDataSource({
-      dataSource_id: this.dataSourceId,
+      data_source_id: this.dataSourceId,
       title: [
         {
           text: {

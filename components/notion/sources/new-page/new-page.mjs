@@ -12,19 +12,10 @@ export default {
   type: "source",
   props: {
     ...base.props,
-    databaseId: {
-      propDefinition: [
-        notion,
-        "databaseId",
-      ],
-    },
     dataSourceId: {
       propDefinition: [
         notion,
         "dataSourceId",
-        ({ databaseId }) => ({
-          databaseId,
-        }),
       ],
     },
   },

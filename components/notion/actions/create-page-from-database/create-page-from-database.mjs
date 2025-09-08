@@ -6,25 +6,16 @@ import base from "../common/base-page-builder.mjs";
 export default {
   ...base,
   key: "notion-create-page-from-database",
-  name: "Create Page from Database",
-  description: "Create a page from a database. [See the documentation](https://developers.notion.com/reference/post-page)",
+  name: "Create Page from Data Source",
+  description: "Create a page from a data source. [See the documentation](https://developers.notion.com/reference/post-page)",
   version: "1.0.0",
   type: "action",
   props: {
     notion,
-    parent: {
-      propDefinition: [
-        notion,
-        "databaseId",
-      ],
-    },
     parentDataSource: {
       propDefinition: [
         notion,
         "dataSourceId",
-        ({ parent }) => ({
-          databaseId: parent,
-        }),
       ],
       label: "Parent Data Source ID",
       description: "Select a parent data source or provide a data source ID",

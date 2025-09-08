@@ -11,19 +11,10 @@ export default {
   dedupe: "unique",
   props: {
     ...common.props,
-    databaseId: {
-      propDefinition: [
-        common.props.notion,
-        "databaseId",
-      ],
-    },
     dataSourceId: {
       propDefinition: [
         common.props.notion,
         "dataSourceId",
-        ({ databaseId }) => ({
-          databaseId,
-        }),
       ],
     },
     properties: {

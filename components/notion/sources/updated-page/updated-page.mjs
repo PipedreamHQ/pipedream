@@ -14,19 +14,10 @@ export default {
   dedupe: "unique",
   props: {
     ...base.props,
-    databaseId: {
-      propDefinition: [
-        notion,
-        "databaseId",
-      ],
-    },
     dataSourceId: {
       propDefinition: [
         notion,
         "dataSourceId",
-        ({ databaseId }) => ({
-          databaseId,
-        }),
       ],
     },
     includeNewPages: {

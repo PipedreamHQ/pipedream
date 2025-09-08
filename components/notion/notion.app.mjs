@@ -7,26 +7,16 @@ export default {
   type: "app",
   app: "notion",
   propDefinitions: {
-    databaseId: {
-      type: "string",
-      label: "Database ID",
-      description: "Select a database or provide a database ID",
-      async options({ prevContext }) {
-        const response = await this.listDatabases({
-          start_cursor: prevContext.nextPageParameters ?? undefined,
-        });
-        const options = this._extractDatabaseTitleOptions(response.results);
-        return this._buildPaginatedOptions(options, response.next_cursor);
-      },
-    },
     dataSourceId: {
       type: "string",
       label: "Data Source ID",
-      description: "Select a data source from the database or provide a data source ID",
-      async options({ databaseId }) {
-        this._checkOptionsContext(databaseId, "Database ID");
-        const response = await this.getDataSourcesForDatabase(databaseId);
-        return this._extractDatabaseTitleOptions(response);
+      description: "Select a data source or provide a data source ID",
+      async options({ prevContext }) {
+        const response = await this.listDataSources({
+          start_cursor: prevContext.nextPageParameters ?? undefined,
+        });
+        const options = this._extractDataSourceTitleOptions(response.results);
+        return this._buildPaginatedOptions(options, response.next_cursor);
       },
     },
     pageId: {
@@ -113,10 +103,10 @@ export default {
       async options({
         parentId, parentType,
       }) {
-        this._checkOptionsContext(parentId, "Database ID");
+        this._checkOptionsContext(parentId, "Data Source ID");
         try {
-          const { properties } = parentType === "database"
-            ? await this.retrieveDatabase(parentId)
+          const { properties } = parentType === "data_source"
+            ? await this.retrieveDataSource(parentId)
             : await this.retrievePage(parentId);
           return Object.keys(properties);
         } catch (error) {
@@ -232,7 +222,7 @@ export default {
         notionVersion: "2025-09-03",
       });
     },
-    _extractDatabaseTitleOptions(databases) {
+    _extractDataSourceTitleOptions(databases) {
       return databases.map((database) => {
         const title = database.title
           .map((title) => title.plain_text)
@@ -266,8 +256,8 @@ export default {
         },
       };
     },
-    extractDatabaseTitle(database) {
-      return this._extractDatabaseTitleOptions([
+    extractDataSourceTitle(database) {
+      return this._extractDataSourceTitleOptions([
         database,
       ])[0].label;
     },
@@ -276,31 +266,25 @@ export default {
         page,
       ])[0].label;
     },
-    async listDatabases(params = {}) {
+    async listDataSources(params = {}) {
       return this._getNotionClient().search({
         filter: {
           property: "object",
-          value: "database",
+          value: "data_source",
         },
         ...params,
       });
     },
-    async queryDatabase(databaseId, params = {}) {
-      return this._getNotionClient().databases.query({
-        database_id: databaseId,
-        ...params,
-      });
-    },
-    async retrieveDatabase(databaseId) {
-      return this._getNotionClient().databases.retrieve({
-        database_id: databaseId,
+    async retrieveDataSource(dataSourceId) {
+      return this._getNotionClient().dataSources.retrieve({
+        data_source_id: dataSourceId,
       });
     },
     async createDatabase(database) {
       return this._getNotionClient().databases.create(database);
     },
-    async updateDatabase(database) {
-      return this._getNotionClient().databases.update(database);
+    async updateDataSource(database) {
+      return this._getNotionClient().dataSources.update(database);
     },
     async queryDataSource(dataSourceId, params = {}) {
       return this._getNotionClient().request({
@@ -308,16 +292,6 @@ export default {
         path: `data_sources/${dataSourceId}/query`,
         body: params,
       });
-    },
-    async retrieveDataSource(dataSourceId) {
-      return this._getNotionClient().request({
-        method: "GET",
-        path: `data_sources/${dataSourceId}`,
-      });
-    },
-    async getDataSourcesForDatabase(databaseId) {
-      const database = await this.retrieveDatabase(databaseId);
-      return database.data_sources || [];
     },
     async createFileUpload(file) {
       return this._getNotionClient().fileUploads.create(file);

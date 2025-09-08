@@ -5,23 +5,14 @@ export default {
   key: "notion-query-database",
   name: "Query Data Source",
   description: "Query a data source with a specified filter. [See the documentation](https://developers.notion.com/reference/query-a-data-source)",
-  version: "1.0.0",
+  version: "1.0.{{ts}}",
   type: "action",
   props: {
     notion,
-    databaseId: {
-      propDefinition: [
-        notion,
-        "databaseId",
-      ],
-    },
     dataSourceId: {
       propDefinition: [
         notion,
         "dataSourceId",
-        ({ databaseId }) => ({
-          databaseId,
-        }),
       ],
     },
     filter: {

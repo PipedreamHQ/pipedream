@@ -8,19 +8,10 @@ export default {
   type: "action",
   props: {
     notion,
-    databaseId: {
-      propDefinition: [
-        notion,
-        "databaseId",
-      ],
-    },
     dataSourceId: {
       propDefinition: [
         notion,
         "dataSourceId",
-        ({ databaseId }) => ({
-          databaseId,
-        }),
       ],
     },
   },

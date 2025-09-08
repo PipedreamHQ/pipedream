@@ -16,19 +16,10 @@ export default {
       alertType: "info",
       content: "Properties that are not set will remain unchanged.",
     },
-    parent: {
-      propDefinition: [
-        notion,
-        "databaseId",
-      ],
-    },
     parentDataSource: {
       propDefinition: [
         notion,
         "dataSourceId",
-        (c) => ({
-          databaseId: c.parent,
-        }),
       ],
       label: "Parent Data Source ID",
       description: "Select the data source that contains the page to update. If you instead provide a data source ID in a custom expression, you will also have to provide the page's ID in a custom expression",
@@ -61,7 +52,7 @@ export default {
         "propertyTypes",
         (c) => ({
           parentId: c.parentDataSource,
-          parentType: "dataSource",
+          parentType: "data_source",
         }),
       ],
       reloadProps: true,
