@@ -4,7 +4,7 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...base,
-  key: "notion-new-data-source",
+  key: "notion-new-database",
   name: "New Data Source Created",
   description: "Emit new event when a data source is created. [See the documentation](https://developers.notion.com/reference/data-source)",
   version: "0.1.0",
