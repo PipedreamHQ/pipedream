@@ -27,7 +27,99 @@ export default {
     fieldGroups: {
       type: "string[]",
       label: "Field Groups",
-      description: "A list for objects of group type and fields. **Format: `[{ \"groupType\": \"default_group\", \"richTextType\": \"text\", \"fields\": [ { \"objectTypeId\": \"0-1\", \"name\": \"email\", \"label\": \"Email\", \"required\": true, \"hidden\": false, \"fieldType\": \"email\", \"validation\": { \"blockedEmailDomains\": [], \"useDefaultBlockList\": false }}]}]`** [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/forms#post-%2Fmarketing%2Fv3%2Fforms%2F) for more information.",
+      description: `Array of stringified JSON objects defining form field groups. Each string must contain a complete field group object.
+    
+    **FIELD GROUP STRUCTURE:**
+    Each field group object requires:
+    - \`groupType\` (string, required) - Values: "default_group" (standard display), "progressive" (conditional reveal), "queued" (sequential)
+    - \`richTextType\` (string, required) - Values: "text" (HTML/text content), "image" (image content)
+    - \`richText\` (string, optional) - HTML/text content or image URL to display above fields
+    - \`fields\` (array, required) - Array of field objects
+    
+    **FIELD OBJECT STRUCTURE:**
+    Each field in the \`fields\` array MUST include ALL of these properties:
+    - \`objectTypeId\` (string, required) - CRM object type: "0-1" (Contact), "0-2" (Company), "0-3" (Deal), "0-5" (Ticket)
+    - \`name\` (string, required) - Unique field identifier (e.g., "email", "firstname", "company")
+    - \`label\` (string, required) - Display label for the field
+    - \`fieldType\` (string, required) - Field type (see FIELD TYPES below)
+    - \`required\` (boolean, required) - Whether field must be filled
+    - \`hidden\` (boolean, required) - Whether field is visible (hidden fields can still pass values)
+    - \`validation\` (object, required) - Validation rules (can be empty object \`{}\` if no validation needed)
+    - \`dependentFields\` (array, required) - Conditional logic array (can be empty \`[]\` if no dependencies)
+    
+    **OPTIONAL FIELD PROPERTIES:**
+    - \`placeholder\` (string) - Hint text for empty fields
+    - \`description\` (string) - Help text below the field
+    - \`defaultValue\` (string) - Pre-populated value
+    
+    **FIELD TYPES & THEIR SPECIFIC REQUIREMENTS:**
+    
+    *Text Types:*
+    - \`"email"\` - Email input with validation
+    - \`"single_line_text"\` - Single line text input
+    - \`"multi_line_text"\` - Textarea for longer content
+    - \`"phone"\` - Phone number input
+    - \`"mobile_phone"\` - Mobile phone input
+    
+    *Selection Types (require \`options\` array):*
+    - \`"dropdown"\` - Dropdown menu. Add: \`"options": [{"label": "Display", "value": "internal"}]\`
+    - \`"radio"\` - Radio buttons. Add: \`"options": [{"label": "Yes", "value": "true"}]\`
+    - \`"multiple_checkboxes"\` - Multiple checkboxes. Add: \`"options": [{"label": "Option 1", "value": "opt1"}]\`
+    - \`"single_checkbox"\` - Single checkbox
+    
+    *Other Types:*
+    - \`"number"\` - Numeric input
+    - \`"datepicker"\` - Date selection
+    - \`"file"\` - File upload
+    - \`"payment_link_radio"\` - Payment options
+    
+    **VALIDATION OBJECT EXAMPLES:**
+    
+    *Email validation:*
+    \`"validation": {"blockedEmailDomains": ["competitor.com"], "useDefaultBlockList": true}\`
+    
+    *Number validation:*
+    \`"validation": {"min": 0, "max": 100, "decimals": 2}\`
+    
+    *Text validation:*
+    \`"validation": {"minLength": 3, "maxLength": 50, "pattern": "^[A-Za-z]+$"}\`
+    
+    *Date validation:*
+    \`"validation": {"minDate": "2024-01-01", "maxDate": "2024-12-31"}\`
+    
+    *File validation:*
+    \`"validation": {"allowedExtensions": [".pdf", ".doc"], "maxFileSize": 5242880}\`
+    
+    **DEPENDENT FIELDS STRUCTURE:**
+    Each dependent field object in \`dependentFields\` array:
+    \`{
+      "fieldName": "targetFieldName",     // Field to show/hide
+      "objectTypeId": "0-1",              // Object type of dependent field
+      "controllingValue": "specificValue", // Value that triggers condition
+      "condition": "EQUAL",               // Condition type (see below)
+      "active": true                      // Whether dependency is active
+    }\`
+    
+    **CONDITION TYPES:**
+    - \`"EQUAL"\`, \`"NOT_EQUAL"\` - Exact match conditions
+    - \`"CONTAINS"\`, \`"NOT_CONTAINS"\` - Text contains conditions
+    - \`"IS_EMPTY"\`, \`"IS_NOT_EMPTY"\` - Presence conditions
+    - \`"GREATER_THAN"\`, \`"LESS_THAN"\` - Numeric comparisons
+    - \`"CHECKED"\`, \`"NOT_CHECKED"\` - Checkbox states
+    
+    **COMPLETE EXAMPLE:**
+    \`[
+      "{\"groupType\":\"default_group\",\"richTextType\":\"text\",\"richText\":\"<h3>Contact Info</h3>\",\"fields\":[{\"objectTypeId\":\"0-1\",\"name\":\"email\",\"label\":\"Email\",\"fieldType\":\"email\",\"required\":true,\"hidden\":false,\"validation\":{\"useDefaultBlockList\":true},\"dependentFields\":[],\"placeholder\":\"you@example.com\",\"description\":\"We'll never share your email\"},{\"objectTypeId\":\"0-1\",\"name\":\"company_type\",\"label\":\"Company Type\",\"fieldType\":\"dropdown\",\"required\":true,\"hidden\":false,\"validation\":{},\"dependentFields\":[{\"fieldName\":\"enterprise_fields\",\"objectTypeId\":\"0-1\",\"controllingValue\":\"enterprise\",\"condition\":\"EQUAL\",\"active\":true}],\"options\":[{\"label\":\"Small Business\",\"value\":\"small\"},{\"label\":\"Enterprise\",\"value\":\"enterprise\"}]}]}"
+    ]\`
+    
+    **IMPORTANT NOTES:**
+    - Each array item must be a valid JSON string (use JSON.stringify if building programmatically)
+    - ALL field properties listed as required MUST be included, even if empty
+    - Field names must be unique within their objectTypeId
+    - Hidden dependent fields should have \`"hidden": true\` initially
+    - For HubSpot default fields, use standard names: "email", "firstname", "lastname", "phone", "company"
+    
+    [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/forms#post-%2Fmarketing%2Fv3%2Fforms%2F) for additional details.`,
       optional: true,
     },
     createNewContactForNewEmail: {
