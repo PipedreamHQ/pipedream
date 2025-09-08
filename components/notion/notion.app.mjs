@@ -1,4 +1,4 @@
-import notion from "@notionhq/client";
+import notion from "@notionhq/client@4.0.2";
 import { ConfigurationError } from "@pipedream/platform";
 import { NotionToMarkdown } from "notion-to-md";
 import NOTION_META from "./common/notion-meta-selection.mjs";
