@@ -3,7 +3,7 @@ import hubspot from "../../hubspot.app.mjs";
 export default {
   key: "hubspot-delete-workflow",
   name: "Delete a Workflow",
-  description: "Delete a workflow by ID. [See the documentation](https://developers.hubspot.com/docs/api-reference/automation-automation-v4-v4/workflows/delete-automation-v4-flows-flowId)",
+  description: "Delete a workflow by ID. [See the documentation](https://developers.hubspot.com/docs/api-reference/legacy/create-manage-workflows-v3/delete-automation-v3-workflows-workflowId)",
   version: "0.0.1",
   type: "action",
   props: {

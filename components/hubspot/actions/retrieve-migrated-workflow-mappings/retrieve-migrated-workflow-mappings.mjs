@@ -10,12 +10,26 @@ export default {
   props: {
     hubspot,
     flowIds: {
+      propDefinition: [
+        hubspot,
+        "workflow",
+        () => ({
+          version: "V4",
+        }),
+      ],
       type: "string[]",
       label: "Flow IDs",
       description: "A list of flowIds from the V4 API.",
       optional: true,
     },
-    workflowIds: {
+    workflow: {
+      propDefinition: [
+        hubspot,
+        "workflow",
+        () => ({
+          version: "V3",
+        }),
+      ],
       type: "string[]",
       label: "Workflow IDs",
       description: "A list of workflowIds from the V3 API.",

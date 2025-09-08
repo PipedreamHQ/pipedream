@@ -343,9 +343,10 @@ export default {
       label: "Workflow",
       description: "The ID of the workflow you wish to see metadata for.",
       async options() {
-        const { results } = await this.listWorkflows();
+        const { workflows } = await this.listWorkflows();
+
         return {
-          options: results.map(({
+          options: workflows.map(({
             name: label, id: value,
           }) => ({
             label,
@@ -682,30 +683,23 @@ export default {
       description: "The type of workflow to create",
       options: [
         {
-          label: "Contact-based Workflow",
-          value: "CONTACT_FLOW",
+          label: "Drip Delay",
+          value: "DRIP_DELAY",
         },
         {
-          label: "All other workflow types (e.g., deal-based, goal-based, etc.)",
-          value: "PLATFORM_FLOW",
+          label: "Static Anchor",
+          value: "STATIC_ANCHOR",
+        },
+        {
+          label: "Property Anchor",
+          value: "PROPERTY_ANCHOR",
         },
       ],
-    },
-    isEnabled: {
-      type: "boolean",
-      label: "Is Enabled",
-      description: "Whether the workflow is enabled",
     },
     actions: {
       type: "string[]",
       label: "Actions",
       description: "A list of objects representing the workflow actions. [See the documentation](https://developers.hubspot.com/docs/api-reference/automation-automation-v4-v4/guide#action-types) for more information.",
-      optional: true,
-    },
-    enrollmentCriteria: {
-      type: "object",
-      label: "Enrollment Criteria",
-      description: "The enrollment criteria of the workflow. [See the documentation](https://developers.hubspot.com/docs/api-reference/automation-automation-v4-v4/guide#enrollment-criteria) for more information.",
       optional: true,
     },
   },
@@ -1240,8 +1234,8 @@ export default {
     },
     listWorkflows(opts = {}) {
       return this.makeRequest({
-        api: API_PATH.AUTOMATIONV4,
-        endpoint: "/flows",
+        api: API_PATH["AUTOMATIONV3"],
+        endpoint: "/workflows",
         ...opts,
       });
     },
@@ -1266,26 +1260,16 @@ export default {
       workflowId, ...opts
     }) {
       return this.makeRequest({
-        api: API_PATH.AUTOMATIONV4,
-        endpoint: `/flows/${workflowId}`,
+        api: API_PATH.AUTOMATIONV3,
+        endpoint: `/workflows/${workflowId}`,
         ...opts,
       });
     },
     createWorkflow(opts = {}) {
       return this.makeRequest({
         method: "POST",
-        api: API_PATH.AUTOMATIONV4,
-        endpoint: "/flows",
-        ...opts,
-      });
-    },
-    updateWorkflow({
-      workflowId, ...opts
-    }) {
-      return this.makeRequest({
-        method: "PUT",
-        api: API_PATH.AUTOMATIONV4,
-        endpoint: `/flows/${workflowId}`,
+        api: API_PATH.AUTOMATIONV3,
+        endpoint: "/workflows",
         ...opts,
       });
     },
@@ -1294,8 +1278,8 @@ export default {
     }) {
       return this.makeRequest({
         method: "DELETE",
-        api: API_PATH.AUTOMATIONV4,
-        endpoint: `/flows/${workflowId}`,
+        api: API_PATH.AUTOMATIONV3,
+        endpoint: `/workflows/${workflowId}`,
         ...opts,
       });
     },
