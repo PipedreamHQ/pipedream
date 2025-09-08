@@ -16,21 +16,30 @@ export default {
       alertType: "info",
       content: "Properties that are not set will remain unchanged.",
     },
-    parent: {
+    databaseId: {
       propDefinition: [
         notion,
         "databaseId",
       ],
-      label: "Parent Database ID",
-      description: "Select the database that contains the page to update. If you instead provide a database ID in a custom expression, you will also have to provide the page's ID in a custom expression",
+    },
+    parent: {
+      propDefinition: [
+        notion,
+        "dataSourceId",
+        (c) => ({
+          databaseId: c.databaseId,
+        }),
+      ],
+      label: "Parent Data Source ID",
+      description: "Select the data source that contains the page to update. If you instead provide a data source ID in a custom expression, you will also have to provide the page's ID in a custom expression",
       reloadProps: true,
     },
     pageId: {
       propDefinition: [
         notion,
-        "pageIdInDatabase",
+        "pageIdInDataSource",
         (c) => ({
-          databaseId: c.parent,
+          dataSourceId: c.parent,
         }),
       ],
     },
@@ -52,7 +61,7 @@ export default {
         "propertyTypes",
         (c) => ({
           parentId: c.parent,
-          parentType: "database",
+          parentType: "dataSource",
         }),
       ],
       reloadProps: true,
@@ -60,7 +69,7 @@ export default {
   },
   async additionalProps() {
     try {
-      const { properties } = await this.notion.retrieveDatabase(this.parent);
+      const { properties } = await this.notion.retrieveDataSource(this.parent);
       const selectedProperties = pick(properties, this.propertyTypes);
 
       return this.buildAdditionalProps({
@@ -85,7 +94,7 @@ export default {
      * @returns the constructed page in Notion format
      */
     buildPage(page) {
-      const meta = this.buildDatabaseMeta(page);
+      const meta = this.buildDataSourceMeta(page);
       const properties = this.buildPageProperties(page.properties);
       return {
         ...meta,

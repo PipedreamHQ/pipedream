@@ -51,7 +51,7 @@ export default {
         return this._buildPaginatedOptions(options, response.next_cursor);
       },
     },
-    pageIdInDatabase: {
+    pageIdInDataSource: {
       type: "string",
       label: "Page ID",
       description: "Search for a page from the data source or provide a page ID",
