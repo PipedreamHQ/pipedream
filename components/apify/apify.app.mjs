@@ -197,15 +197,16 @@ export default {
           throw new Error(`Actor ${actorId} not found.`);
         }
 
-        // Ensure "latest" build tag exists
-        const latestBuild = actor.taggedBuilds?.latest;
-        if (!latestBuild) {
+        // Get the default build
+        const { build: defaultBuildTag } = actor.defaultRunOptions;
+        const build = actor.taggedBuilds[defaultBuildTag];
+        if (!build) {
           throw new Error(
-            `Actor ${actorId} has no build tagged "latest". Please build the actor first.`,
+            `Actor ${actorId} has no build tagged "${defaultBuildTag}". Please build the actor first.`,
           );
         }
 
-        buildId = latestBuild.buildId;
+        buildId = build.buildId;
       }
 
       // Fetch the build by ID
