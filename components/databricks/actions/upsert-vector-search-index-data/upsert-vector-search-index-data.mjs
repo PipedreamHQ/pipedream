@@ -3,7 +3,7 @@ import utils from "../../common/utils.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
-  key: "databricks-upsert-vector-search-index",
+  key: "databricks-upsert-vector-search-index-data",
   name: "Upsert Vector Search Index Data",
   description: "Upserts (inserts/updates) data into an existing vector search index. [See the documentation](https://docs.databricks.com/api/workspace/vectorsearchindexes/upsertdatavectorindex)",
   version: "0.0.1",

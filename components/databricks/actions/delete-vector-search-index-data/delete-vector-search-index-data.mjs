@@ -1,7 +1,7 @@
 import databricks from "../../databricks.app.mjs";
 
 export default {
-  key: "databricks-delete-data-from-vector-index",
+  key: "databricks-delete-vector-search-index-data",
   name: "Delete Data from Vector Search Index",
   description:
     "Deletes rows from a Direct Access vector index by primary-key values. [See the documentation](https://docs.databricks.com/api/workspace/vectorsearchindexes/deletedatavectorindex)",
