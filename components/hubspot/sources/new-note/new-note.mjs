@@ -7,8 +7,7 @@ export default {
   ...common,
   key: "hubspot-new-note",
   name: "New Note Created",
-  description:
-    "Emit new event for each new note created. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/engagements/notes#get-%2Fcrm%2Fv3%2Fobjects%2Fnotes)",
+  description: "Emit new event for each new note created. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/engagements/notes#get-%2Fcrm%2Fv3%2Fobjects%2Fnotes)",
   version: "1.0.9",
   type: "source",
   dedupe: "unique",
@@ -35,9 +34,7 @@ export default {
 
       const objectTypes = OBJECT_TYPES.map(({ value }) => value);
       const { results: custom } = await this.hubspot.listSchemas();
-      const customObjects = custom?.map(
-        ({ fullyQualifiedName }) => fullyQualifiedName,
-      );
+      const customObjects = custom?.map(({ fullyQualifiedName }) => fullyQualifiedName);
       const associations = [
         ...objectTypes,
         ...customObjects,
@@ -52,10 +49,7 @@ export default {
       };
     },
     async processResults(after, params) {
-      const notes = await this.getPaginatedItems(
-        this.hubspot.listNotes.bind(this),
-        params,
-      );
+      const notes = await this.getPaginatedItems(this.hubspot.listNotes.bind(this), params);
       await this.processEvents(notes, after);
     },
   },

@@ -4,7 +4,7 @@ export default {
   key: "bitget-spot-market-get-tickers",
   name: "Spot - Market - Get Tickers",
   description: "Obtain ticker information for all trading pairs or specific ones. [See the documentation](https://www.bitget.com/api-doc/spot/market/Get-Tickers)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

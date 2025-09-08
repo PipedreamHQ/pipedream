@@ -2,12 +2,15 @@ import {
   createContext, useContext,
 } from "react";
 import type {
-  AppResponse, ConfigurableProp, ConfigurablePropApp, PropValue,
+  ConfigurableProp,
+  ConfigurablePropApp,
+  PropValue,
 } from "@pipedream/sdk";
+import type { App } from "@pipedream/sdk";
 
 export type FormFieldContextExtra<T extends ConfigurableProp> = T extends ConfigurablePropApp ? {
-  app?: AppResponse;
-} : Record<string, never>;
+  app?: App;
+} : object;
 
 export type FormFieldContext<T extends ConfigurableProp> = {
   id: string;
