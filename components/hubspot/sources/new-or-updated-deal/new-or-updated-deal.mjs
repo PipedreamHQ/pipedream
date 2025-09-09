@@ -68,8 +68,7 @@ export default {
     },
     generateMeta(deal) {
       const {
-        id,
-        properties,
+        id, properties,
       } = deal;
       const ts = this.getTs(deal);
       return {

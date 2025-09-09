@@ -5,7 +5,8 @@ export default {
   ...common,
   key: "hubspot-new-social-media-message",
   name: "New Social Media Message",
-  description: "Emit new event when a message is posted from HubSpot to the specified social media channel. Note: Only available for Marketing Hub Enterprise accounts",
+  description:
+    "Emit new event when a message is posted from HubSpot to the specified social media channel. Note: Only available for Marketing Hub Enterprise accounts",
   version: "0.0.29",
   type: "source",
   dedupe: "unique",
@@ -25,8 +26,7 @@ export default {
     },
     generateMeta(message) {
       const {
-        broadcastGuid: id,
-        messageText: summary,
+        broadcastGuid: id, messageText: summary,
       } = message;
       const ts = this.getTs(message);
       return {

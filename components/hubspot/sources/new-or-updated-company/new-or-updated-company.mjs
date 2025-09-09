@@ -47,8 +47,7 @@ export default {
     },
     generateMeta(company) {
       const {
-        id,
-        properties,
+        id, properties,
       } = company;
       const ts = this.getTs(company);
       return {

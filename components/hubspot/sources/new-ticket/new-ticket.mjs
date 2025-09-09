@@ -1,5 +1,6 @@
 import {
-  DEFAULT_LIMIT, DEFAULT_TICKET_PROPERTIES,
+  DEFAULT_LIMIT,
+  DEFAULT_TICKET_PROPERTIES,
 } from "../../common/constants.mjs";
 import common from "../common/common.mjs";
 import sampleEmit from "./test-event.mjs";
@@ -37,8 +38,7 @@ export default {
     },
     generateMeta(ticket) {
       const {
-        id,
-        properties,
+        id, properties,
       } = ticket;
       const ts = this.getTs(ticket);
       return {

@@ -40,9 +40,10 @@ export default {
       return null;
     },
     getObjectParams(object) {
-      const propertyName = (object == "contacts")
-        ? "lastmodifieddate"
-        : "hs_lastmodifieddate";
+      const propertyName =
+        object == "contacts"
+          ? "lastmodifieddate"
+          : "hs_lastmodifieddate";
       return {
         data: {
           limit: DEFAULT_LIMIT,
@@ -57,9 +58,10 @@ export default {
       };
     },
     async processResults(after) {
-      const object = (this.objectType == "company")
-        ? "companies"
-        : `${this.objectType}s`;
+      const object =
+        this.objectType == "company"
+          ? "companies"
+          : `${this.objectType}s`;
       const params = this.getObjectParams(object);
       await this.searchCRM(params, after);
     },

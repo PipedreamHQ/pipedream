@@ -1,5 +1,6 @@
 import {
-  DEFAULT_LIMIT, DEFAULT_LINE_ITEM_PROPERTIES,
+  DEFAULT_LIMIT,
+  DEFAULT_LINE_ITEM_PROPERTIES,
 } from "../../common/constants.mjs";
 import common from "../common/common.mjs";
 import sampleEmit from "./test-event.mjs";

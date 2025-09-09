@@ -38,9 +38,10 @@ export default {
             objectId: this.objectIds[0],
           },
         });
-      }
-      catch {
-        throw new ConfigurationError("Error occurred. Please verify that your Hubspot account is one of: Marketing Hub Enterprise, Sales Hub Enterprise, Service Hub Enterprise, or CMS Hub Enterprise");
+      } catch {
+        throw new ConfigurationError(
+          "Error occurred. Please verify that your Hubspot account is one of: Marketing Hub Enterprise, Sales Hub Enterprise, Service Hub Enterprise, or CMS Hub Enterprise",
+        );
       }
     },
   },
@@ -51,8 +52,7 @@ export default {
     },
     generateMeta(result) {
       const {
-        id,
-        eventType,
+        id, eventType,
       } = result;
       return {
         id,

@@ -6,7 +6,7 @@ export default {
   key: "confluence-watch-pages",
   name: "Watch Pages",
   description: "Emit new event when a page is created or updated in Confluence",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   methods: {

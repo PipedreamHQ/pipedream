@@ -28,8 +28,7 @@ export default {
     },
     generateMeta(engagement) {
       const {
-        id,
-        type,
+        id, type,
       } = engagement.engagement;
       const ts = this.getTs(engagement);
       return {

@@ -28,9 +28,7 @@ export default {
     },
     generateMeta(emailEvent) {
       const {
-        id,
-        recipient,
-        type,
+        id, recipient, type,
       } = emailEvent;
       const ts = this.getTs(emailEvent);
       return {

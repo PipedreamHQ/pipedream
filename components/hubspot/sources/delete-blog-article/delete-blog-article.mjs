@@ -16,8 +16,7 @@ export default {
     },
     generateMeta(blogpost) {
       const {
-        id,
-        name: summary,
+        id, name: summary,
       } = blogpost;
       const ts = Date.parse(blogpost.created);
       return {

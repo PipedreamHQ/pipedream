@@ -33,8 +33,7 @@ export default {
     },
     generateMeta(contact) {
       const {
-        id,
-        properties,
+        id, properties,
       } = contact;
       const ts = this.getTs(contact);
       return {
@@ -96,10 +95,15 @@ export default {
       const properties = await this.hubspot.getContactProperties();
       const propertyNames = properties.map((property) => property.name);
       if (!propertyNames.includes(this.property)) {
-        throw new Error(`Property "${this.property}" not supported for Contacts. See Hubspot's default contact properties documentation - https://knowledge.hubspot.com/contacts/hubspots-default-contact-properties`);
+        throw new Error(
+          `Property "${this.property}" not supported for Contacts. See Hubspot's default contact properties documentation - https://knowledge.hubspot.com/contacts/hubspots-default-contact-properties`,
+        );
       }
 
-      const updatedContacts = await this.getPaginatedItems(this.hubspot.searchCRM, params);
+      const updatedContacts = await this.getPaginatedItems(
+        this.hubspot.searchCRM,
+        params,
+      );
 
       if (!updatedContacts.length) {
         return;
