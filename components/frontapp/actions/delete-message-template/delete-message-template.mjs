@@ -4,7 +4,7 @@ export default {
   key: "frontapp-delete-message-template",
   name: "Delete Message Template",
   description: "Delete a message template. [See the documentation](https://dev.frontapp.com/reference/delete-message-template).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     frontApp,
