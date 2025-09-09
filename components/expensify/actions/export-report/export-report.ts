@@ -52,9 +52,9 @@ export default defineAction({
         "xml",
       ],
     },
-    markAsExportedFilter: {
+    markedAsExported: {
       type: "boolean",
-      label: "Mark as Exported (Filter)",
+      label: "Marked as Exported",
       description: "Filters out reports that have already been exported with that label out",
       optional: true,
     },
@@ -74,7 +74,7 @@ export default defineAction({
     employeeEmail: {
       type: "string",
       label: "Employee Email",
-      description: "The reports will be exported from that the specified employee email",
+      description: "Export reports for the specified employee email",
       optional: true,
     },
     policyIds: {
@@ -171,12 +171,12 @@ export default defineAction({
           startDate: this.startDate,
           endDate: this.endDate,
           approvedAfter: this.approvedAfter,
-          markAsExported: this.markAsExportedFilter,
+          markedAsExported: this.markedAsExported,
           policyIDList: this.policyIds
             ? this.policyIds.join(",")
             : undefined,
         },
-        reportStates: this.reportStates
+        reportState: this.reportStates
           ? this.reportStates.join(",")
           : undefined,
         employeeEmail: this.employeeEmail,
@@ -184,7 +184,7 @@ export default defineAction({
       },
       outputSettings: {
         fileExtension: this.fileExtension,
-        fileBaseName: this.fileBaseName,
+        fileBasename: this.fileBaseName,
         includeFullPageReceiptsPdf: this.includeFullPageReceiptsPdf,
       },
       onFinish,
