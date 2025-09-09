@@ -6,7 +6,7 @@ export default {
   key: "trengo-list-articles",
   version: "0.0.2",
   name: "List Articles",
-  description: "List articles from a help center according to the specified criteria. [See the docs](https://developers.trengo.com/reference/list-all-articles)",
+  description: "List articles from a help center according to the specified criteria. [See the documentation](https://developers.trengo.com/reference/list-all-articles)",
   props: {
     app,
     helpCenterId: {

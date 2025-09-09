@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   key: "trengo-new-internal-note",
   name: "New Internal Note Event (Instant)",
-  description: "Emit new events when a internal note added. [See the docs here](https://developers.trengo.com/docs/webhooks)",
+  description: "Emit new event when an internal note is added. [See the documentation](https://developers.trengo.com/docs/webhooks)",
   version: "0.0.4",
   type: "source",
   dedupe: "unique",

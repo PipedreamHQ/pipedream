@@ -6,7 +6,7 @@ export default {
   key: "trengo-find-contacts",
   version: "0.0.4",
   name: "Find Contacts",
-  description: "Finds contacts with the given term. [See the docs](https://developers.trengo.com/reference/as)",
+  description: "Finds contacts with the given term. [See the documentation](https://developers.trengo.com/reference/list-all-contacts)",
   props: {
     app,
     term: {

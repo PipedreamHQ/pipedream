@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   key: "trengo-voice-call-recorded",
   name: "New Voice Call Recorded Event (Instant)",
-  description: "Emit new events when a voice call is recorded. [See the docs here](https://developers.trengo.com/docs/webhooks)",
+  description: "Emit new event when a voice call is recorded. [See the documentation](https://developers.trengo.com/docs/webhooks)",
   version: "0.0.3",
   type: "source",
   dedupe: "unique",

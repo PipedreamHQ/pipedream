@@ -5,7 +5,7 @@ export default {
   key: "trengo-create-contact",
   version: "0.0.4",
   name: "Create Contact",
-  description: "Creates a contact. If a contact with given identifier already exists, returns it. [See the docs](https://developers.trengo.com/reference/create-update-a-user)",
+  description: "Creates a contact. If a contact with given identifier already exists, returns it. [See the documentation](https://developers.trengo.com/reference/create-contact)",
   props: {
     app,
     channelId: {

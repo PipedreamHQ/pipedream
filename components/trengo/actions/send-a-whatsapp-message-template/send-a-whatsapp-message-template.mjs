@@ -6,7 +6,7 @@ export default {
   key: "trengo-send-a-whatsapp-message-template",
   version: "0.0.4",
   name: "Send A WhatsApp Message Template",
-  description: "Sends a WhatsApp message template, [See the docs](https://developers.trengo.com/reference/start-a-conversation)",
+  description: "Sends a WhatsApp message template, [See the documentation](https://developers.trengo.com/reference/start-a-conversation)",
   props: {
     app,
     recepientPhoneNumber: {

@@ -3,7 +3,7 @@ import common from "../common/common.mjs";
 export default {
   key: "trengo-phone-call-ended",
   name: "New Phone Call Ended Event (Instant)",
-  description: "Emit new events when an phone call ended. [See the docs here](https://developers.trengo.com/docs/webhooks)",
+  description: "Emit new event when a phone call ends. [See the documentation](https://developers.trengo.com/docs/webhooks)",
   version: "0.0.4",
   type: "source",
   dedupe: "unique",
