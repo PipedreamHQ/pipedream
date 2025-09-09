@@ -55,7 +55,6 @@ export default {
   async run({ $ }) {
     const { knowledge } = await this.devin.listKnowledge({
       $,
-      knowledgeId: this.knowledgeId,
     });
 
     const current = knowledge.find(({ id }) => id === this.knowledgeId);
