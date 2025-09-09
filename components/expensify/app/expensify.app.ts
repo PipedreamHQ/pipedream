@@ -5,7 +5,23 @@ import qs from "qs";
 export default defineApp({
   type: "app",
   app: "expensify",
-  propDefinitions: {},
+  propDefinitions: {
+    policyIds: {
+      type: "string[]",
+      label: "Policy IDs",
+      description: "The IDs of the policies to export",
+      optional: true,
+      async options() {
+        const { policyList } = await this.listPolicies();
+        return policyList?.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        })) || [];
+      },
+    },
+  },
   methods: {
     _partnerUserId() {
       return this.$auth.partnerUserId;
@@ -87,7 +103,17 @@ export default defineApp({
         },
       }, $);
     },
-
+    async listPolicies({ $ = this } = {}) {
+      return this._makeRequest({
+        method: "post",
+        data: {
+          type: "get",
+          inputSettings: {
+            type: "policyList",
+          },
+        },
+      }, $);
+    },
     async downloadFile({
       $, fileName,
     }) {
