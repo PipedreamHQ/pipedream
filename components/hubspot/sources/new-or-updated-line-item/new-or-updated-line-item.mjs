@@ -1,5 +1,6 @@
 import {
-  DEFAULT_LIMIT, DEFAULT_LINE_ITEM_PROPERTIES,
+  DEFAULT_LIMIT,
+  DEFAULT_LINE_ITEM_PROPERTIES,
 } from "../../common/constants.mjs";
 import common from "../common/common.mjs";
 import sampleEmit from "./test-event.mjs";
@@ -8,8 +9,9 @@ export default {
   ...common,
   key: "hubspot-new-or-updated-line-item",
   name: "New or Updated Line Item",
-  description: "Emit new event for each new line item added or updated in Hubspot.",
-  version: "0.0.15",
+  description:
+    "Emit new event for each new line item added or updated in Hubspot.",
+  version: "0.0.16",
   dedupe: "unique",
   type: "source",
   props: {

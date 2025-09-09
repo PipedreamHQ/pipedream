@@ -6,8 +6,9 @@ export default {
   ...common,
   key: "hubspot-new-or-updated-custom-object",
   name: "New or Updated Custom Object",
-  description: "Emit new event each time a Custom Object of the specified schema is updated.",
-  version: "0.0.17",
+  description:
+    "Emit new event each time a Custom Object of the specified schema is updated.",
+  version: "0.0.18",
   dedupe: "unique",
   type: "source",
   props: {
