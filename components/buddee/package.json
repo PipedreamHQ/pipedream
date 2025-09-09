@@ -1,7 +1,7 @@
 {
   "name": "@pipedream/buddee",
-  "version": "0.0.1",
-  "description": "Pipedream Buddee Components",
+  "version": "0.1.0",
+  "description": "Pipedream Buddee Components - HR and employee management platform integration",
   "main": "buddee.app.mjs",
   "keywords": [
     "pipedream",
@@ -9,7 +9,11 @@
   ],
   "homepage": "https://pipedream.com/apps/buddee",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
   }
 }
