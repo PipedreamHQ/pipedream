@@ -4,7 +4,7 @@ export default {
   key: "stripe-cancel-or-reverse-payout",
   name: "Cancel Or Reverse A Payout",
   type: "action",
-  version: "0.1.2",
+  version: "0.1.3",
   description: "Cancel a pending payout or reverse a paid payout. [See the documentation here](https://docs.stripe.com/api/payouts/cancel) and [here](https://docs.stripe.com/api/payouts/reverse)",
   props: {
     app,
