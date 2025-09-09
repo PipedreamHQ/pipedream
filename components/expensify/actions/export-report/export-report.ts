@@ -80,7 +80,7 @@ export default defineAction({
     policyIds: {
       propDefinition: [
         expensify,
-        "policyIds",
+        "policyExportIds",
       ],
     },
     fileBaseName: {

@@ -10,9 +10,10 @@ export default defineAction({
   props: {
     expensify,
     employeeEmail: {
-      label: "Employee Email",
-      description: "The expenses will be created in this account.",
-      type: "string",
+      propDefinition: [
+        expensify,
+        "employeeEmail",
+      ],
     },
     currency: {
       label: "Currency",

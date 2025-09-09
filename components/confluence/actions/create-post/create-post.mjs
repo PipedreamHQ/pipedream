@@ -4,7 +4,7 @@ export default {
   key: "confluence-create-post",
   name: "Create Post",
   description: "Creates a new page or blog post on Confluence. [See the documentation](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-blog-post/#api-blogposts-post)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     confluence,
