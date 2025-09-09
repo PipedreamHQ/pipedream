@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/expensify",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Pipedream Expensify Components",
   "main": "dist/app/expensify.app.mjs",
   "keywords": [
