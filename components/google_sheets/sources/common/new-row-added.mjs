@@ -20,6 +20,20 @@ export default {
       label: "Worksheet ID(s)",
       description: "Select one or more worksheet(s), or provide an array of worksheet IDs.",
     },
+    hasHeaders: {
+      type: "boolean",
+      label: "Has Headers",
+      description: "Set to true if your spreadsheet contains column headers. When enabled, webhook responses will use column headers as keys instead of positional array indices.",
+      default: false,
+      optional: true,
+    },
+    headerRow: {
+      type: "integer",
+      label: "Header Row Number",
+      description: "The row number containing the column headers (e.g., 1 for the first row). Only used when 'Has Headers' is enabled.",
+      default: 1,
+      optional: true,
+    },
   },
   methods: {
     _getRowHashes() {
@@ -27,6 +41,49 @@ export default {
     },
     _setRowHashes(rowHashes) {
       this.db.set("rowHashes", rowHashes);
+    },
+    _getHeaders(worksheetId) {
+      return this.db.get(`headers_${worksheetId}`) || {};
+    },
+    _setHeaders(worksheetId, headers) {
+      this.db.set(`headers_${worksheetId}`, headers);
+    },
+    async _fetchHeaders(sheetId, worksheetTitle) {
+      if (!this.hasHeaders) {
+        return [];
+      }
+
+      const range = `${worksheetTitle}!${this.headerRow}:${this.headerRow}`;
+      const response = await this.googleSheets.getSpreadsheetValues(sheetId, range);
+      return response.values?.[0] || [];
+    },
+    async _getOrFetchHeaders(sheetId, worksheetId, worksheetTitle) {
+      if (!this.hasHeaders) {
+        return [];
+      }
+
+      let headers = this._getHeaders(worksheetId);
+      if (!headers.length) {
+        headers = await this._fetchHeaders(sheetId, worksheetTitle);
+        this._setHeaders(worksheetId, headers);
+      }
+
+      return headers;
+    },
+    _transformRowToObject(rowArray, headers) {
+      if (!this.hasHeaders || !headers.length) {
+        return rowArray;
+      }
+
+      return headers.reduce((obj, header, index) => {
+        const value = rowArray[index];
+        if (header && header.trim()) {
+          obj[header.trim()] = value !== undefined
+            ? value
+            : "";
+        }
+        return obj;
+      }, {});
     },
     getMeta(worksheet, rowNumber, rowHashString) {
       const ts = Date.now();
@@ -156,6 +213,9 @@ export default {
             : newRowCount,
         );
 
+        // Fetch headers for this worksheet if enabled
+        const headers = await this._getOrFetchHeaders(sheetId, worksheetId, worksheetTitle);
+
         const rowHashes = this._getRowHashes();
         for (const [
           index,
@@ -171,9 +231,13 @@ export default {
             continue;
           }
           rowHashes[rowHashString] = true;
+
+          // Transform row to object using headers if enabled
+          const transformedRow = this._transformRowToObject(newRow, headers);
+
           this.$emit(
             {
-              newRow,
+              newRow: transformedRow,
               range,
               worksheet,
               rowNumber,
