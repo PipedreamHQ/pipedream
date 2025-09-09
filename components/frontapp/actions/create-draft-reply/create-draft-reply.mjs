@@ -5,7 +5,7 @@ export default {
   key: "frontapp-create-draft-reply",
   name: "Create Draft Reply",
   description: "Create a new draft as a reply to the last message in the conversation. [See the documentation](https://dev.frontapp.com/reference/create-draft-reply)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     frontApp,
