@@ -27,7 +27,7 @@ export default {
     async stashFile(item) {
       const { Body } = await this.getObject({
         Bucket: item.bucket.name,
-        Key: item.object.key,
+        Key: item.object.key.replace(/\+/g, " "),
       });
       const filepath = `${item.bucket.name}/${item.object.key}`;
       const buffer = await this.streamToBuffer(Body);
