@@ -54,5 +54,22 @@ export default {
       const draftsFolderId = this.db.get("draftsFolderId");
       return item.parentFolderId !== sentItemFolderId && item.parentFolderId !== draftsFolderId;
     },
+    async getMessageAttachments(message) {
+      const { value: attachments } = await this.microsoftOutlook.listAttachments({
+        messageId: message.id,
+      });
+      if (!attachments?.length) {
+        return [];
+      }
+      return attachments.map((attachment) => ({
+        ...attachment,
+        messageId: message.id,
+        messageSubject: message.subject,
+        messageSender: message.sender,
+        messageReceivedDateTime: message.receivedDateTime,
+        parentFolderId: message.parentFolderId,
+        contentBytes: undefined,
+      }));
+    },
   },
 };

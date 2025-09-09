@@ -4,7 +4,7 @@ export default {
   key: "bitget-spot-trade-place-order",
   name: "Spot - Trade - Place Order",
   description: "Place a spot order on Bitget. [See the documentation](https://www.bitget.com/api-doc/spot/trade/Place-Order)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

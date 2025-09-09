@@ -6,7 +6,7 @@ export default {
   key: "jira-add-attachment-to-issue",
   name: "Add Attachment To Issue",
   description: "Adds an attachment to an issue, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-attachments/#api-rest-api-3-issue-issueidorkey-attachments-post)",
-  version: "1.0.3",
+  version: "1.0.4",
   type: "action",
   props: {
     jira,

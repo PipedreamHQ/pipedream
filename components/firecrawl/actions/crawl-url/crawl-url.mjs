@@ -5,7 +5,7 @@ export default {
   key: "firecrawl-crawl-url",
   name: "Crawl URL",
   description: "Crawls a given URL and returns the contents of sub-pages. [See the documentation](https://docs.firecrawl.dev/api-reference/endpoint/crawl-post)",
-  version: "1.0.3",
+  version: "1.1.0",
   type: "action",
   props: {
     firecrawl,
@@ -14,6 +14,12 @@ export default {
         firecrawl,
         "url",
       ],
+    },
+    prompt: {
+      type: "string",
+      label: "Prompt",
+      description: "A prompt to use to generate the crawler options (all the parameters below) from natural language. Explicitly set parameters will override the generated equivalents.",
+      optional: true,
     },
     excludePaths: {
       type: "string[]",
@@ -27,16 +33,20 @@ export default {
       description: "Similar to `Exclude Paths`, but if set, only the paths matching the specified patterns will be included",
       optional: true,
     },
-    maxDepth: {
+    maxDiscoveryDepth: {
       type: "integer",
-      label: "Max Depth",
-      description: "Maximum depth to crawl relative to the entered URL",
+      label: "Max Discovery Depth",
+      description: "Maximum depth to crawl based on discovery order. The root site and sitemapped pages has a discovery depth of 0. For example, if you set it to 1, and you set sitemap: 'skip', you will only crawl the entered URL and all URLs that are linked on that page.",
       optional: true,
     },
-    ignoreSitemap: {
-      type: "boolean",
-      label: "Ignore Sitemap",
-      description: "Ignore the website sitemap when crawling",
+    sitemap: {
+      type: "string",
+      label: "Sitemap",
+      description: "Sitemap mode when crawling. If you set it to 'skip', the crawler will ignore the website sitemap and only crawl the entered URL and discover pages from there onwards.",
+      options: [
+        "skip",
+        "include",
+      ],
       optional: true,
     },
     ignoreQueryParameters: {
@@ -51,10 +61,10 @@ export default {
       description: "Maximum number of pages to crawl",
       optional: true,
     },
-    allowBackwardLinks: {
+    crawlEntireDomain: {
       type: "boolean",
-      label: "Allow Backward Links",
-      description: "Enables the crawler to navigate from a specific URL to previously linked pages",
+      label: "Crawl Entire Domain",
+      description: "Allows the crawler to follow internal links to sibling or parent URLs, not just child paths.",
       optional: true,
     },
     allowExternalLinks: {

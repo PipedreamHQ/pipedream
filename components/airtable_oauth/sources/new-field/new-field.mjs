@@ -5,7 +5,7 @@ export default {
   name: "New Field Created (Instant)",
   description: "Emit new event when a field is created in the selected table. [See the documentation](https://airtable.com/developers/web/api/get-base-schema)",
   key: "airtable_oauth-new-field",
-  version: "1.0.3",
+  version: "1.0.4",
   type: "source",
   dedupe: "unique",
   methods: {

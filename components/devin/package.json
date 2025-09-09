@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/devin",
+  "version": "0.0.1",
+  "description": "Pipedream Devin Components",
+  "main": "devin.app.mjs",
+  "keywords": [
+    "pipedream",
+    "devin"
+  ],
+  "homepage": "https://pipedream.com/apps/devin",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
