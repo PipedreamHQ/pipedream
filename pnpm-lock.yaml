@@ -3005,6 +3005,9 @@ importers:
 
   components/coinbase_commerce: {}
 
+  components/coinbase_developer_platform:
+    specifiers: {}
+
   components/coingecko: {}
 
   components/coinlore:
