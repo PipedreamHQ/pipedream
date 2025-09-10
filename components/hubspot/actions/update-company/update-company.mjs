@@ -8,7 +8,7 @@ export default {
   name: "Update Company",
   description:
     "Update a company in Hubspot. [See the documentation](https://developers.hubspot.com/docs/api/crm/companies)",
-  version: "0.0.23",
+  version: "0.0.24",
   type: "action",
   methods: {
     ...common.methods,

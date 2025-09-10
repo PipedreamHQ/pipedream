@@ -5,9 +5,8 @@ export default {
   ...common,
   key: "hubspot-new-email-subscriptions-timeline",
   name: "New Email Subscriptions Timeline",
-  description:
-    "Emit new event when a new email timeline subscription is added for the portal.",
-  version: "0.0.29",
+  description: "Emit new event when a new email timeline subscription is added for the portal.",
+  version: "0.0.30",
   dedupe: "unique",
   type: "source",
   methods: {
