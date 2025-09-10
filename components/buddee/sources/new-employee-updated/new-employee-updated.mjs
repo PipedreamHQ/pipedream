@@ -1,77 +1,25 @@
-import {
-  API_ENDPOINTS, SORT_ORDERS,
-} from "../../common/constants.mjs";
-import {
-  createEventSummary, getEventTimestamp,
-} from "../../common/utils.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
-  name: "New Employee Updated",
-  description: "Emit new event when employee information is modified",
-  key: "employeeUpdated",
-  version: "0.1.0",
+  ...common,
+  name: "Employee Updated",
+  description: "Emit new event when an employee is updated in the system",
+  key: "buddee-new-employee-updated",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    buddee: {
-      type: "app",
-      app: "buddee",
-      label: "Buddee",
-      description: "The Buddee app instance to use",
-    },
-    db: {
-      type: "$.service.db",
-      label: "Database",
-      description: "The database service to store state",
-    },
-  },
   methods: {
-    _getLastUpdateTime() {
-      return this.db.get("lastEmployeeUpdateTime");
+    ...common.methods,
+    getFunction() {
+      return this.buddee.getEmployees;
     },
-    _setLastUpdateTime(timestamp) {
-      this.db.set("lastEmployeeUpdateTime", timestamp);
+    getSortKey() {
+      return "updated_at";
+    },
+    getSummary(item) {
+      return `Updated Employee: ${item.full_name}`;
     },
   },
-  async run({ $ }) {
-    const lastUpdateTime = this._getLastUpdateTime();
-    const currentTime = new Date().toISOString();
-
-    const params = {
-      limit: 100,
-      sort: "updated_at",
-      order: SORT_ORDERS.DESC,
-    };
-
-    if (lastUpdateTime) {
-      params.updated_since = lastUpdateTime;
-    }
-
-    const response = await this.buddee._makeRequest({
-      $,
-      path: API_ENDPOINTS.EMPLOYEES,
-      params,
-    });
-
-    const employees = response.data;
-
-    if (employees && employees.length > 0) {
-      // Store the current time for next run
-      this._setLastUpdateTime(currentTime);
-
-      // Filter out employees that were only created (not updated)
-      const updatedEmployees = employees.filter((emp) =>
-        emp.updated_at && emp.created_at &&
-        new Date(emp.updated_at) > new Date(emp.created_at));
-
-      return updatedEmployees.map((employee) => ({
-        id: `${employee.id}-${employee.updated_at}`,
-        summary: createEventSummary("employee_updated", employee),
-        ts: getEventTimestamp(employee, "updated_at"),
-        data: employee,
-      }));
-    }
-
-    return [];
-  },
+  sampleEmit,
 };

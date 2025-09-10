@@ -40,6 +40,60 @@ export default {
         }));
       },
     },
+    leaveTypeId: {
+      type: "string",
+      label: "Leave Type ID",
+      description: "The ID of the leave type",
+      async options({ page }) {
+        const { data } = await this.getLeaveTypes({
+          params: {
+            page: page + 1,
+          },
+        });
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
+    },
+    jobId: {
+      type: "string",
+      label: "Job ID",
+      description: "The ID of the job",
+      async options({ page }) {
+        const { data } = await this.getJobs({
+          params: {
+            page: page + 1,
+          },
+        });
+        return data.map(({
+          id: value, title: label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
+    },
+    locationId: {
+      type: "string",
+      label: "Location ID",
+      description: "The ID of the location",
+      async options({ page }) {
+        const { data } = await this.getLocations({
+          params: {
+            page: page + 1,
+          },
+        });
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
+    },
     costCenterId: {
       type: "string",
       label: "Cost Center ID",
@@ -76,6 +130,61 @@ export default {
         }));
       },
     },
+    departmentId: {
+      type: "string",
+      label: "Department ID",
+      description: "The ID of the department",
+      async options({ page }) {
+        const { data } = await this.getDepartments({
+          params: {
+            page: page + 1,
+          },
+        });
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
+    },
+    timeRegistrationTypeId: {
+      type: "string",
+      label: "Time Registration Type ID",
+      description: "The ID of the time registration type",
+      async options({ page }) {
+        const { data } = await this.getTimeRegistrationTypes({
+          params: {
+            page: page + 1,
+          },
+        });
+
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
+    },
+    projectId: {
+      type: "string",
+      label: "Project ID",
+      description: "The ID of the project",
+      async options({ page }) {
+        const { data } = await this.getProjects({
+          params: {
+            page: page + 1,
+          },
+        });
+        return data.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
+    },
   },
   methods: {
     _baseUrl() {
@@ -89,13 +198,11 @@ export default {
     _makeRequest({
       $ = this, path, ...opts
     }) {
-      const config = {
+      return axios($, {
         url: this._baseUrl() + path,
         headers: this._headers(),
         ...opts,
-      };
-      console.log("config: ", config);
-      return axios($, config);
+      });
     },
     getCompanies(opts = {}) {
       return this._makeRequest({
@@ -109,15 +216,63 @@ export default {
         ...opts,
       });
     },
+    getCostUnits(opts = {}) {
+      return this._makeRequest({
+        path: "/cost-units",
+        ...opts,
+      });
+    },
+    getDepartments(opts = {}) {
+      return this._makeRequest({
+        path: "/departments",
+        ...opts,
+      });
+    },
     getEmployees(opts = {}) {
       return this._makeRequest({
         path: "/employees",
         ...opts,
       });
     },
-    getCostUnits(opts = {}) {
+    getJobs(opts = {}) {
       return this._makeRequest({
-        path: "/cost-units",
+        path: "/jobs",
+        ...opts,
+      });
+    },
+    getLeaveRequests(opts = {}) {
+      return this._makeRequest({
+        path: "/leave-requests",
+        ...opts,
+      });
+    },
+    getLeaveTypes(opts = {}) {
+      return this._makeRequest({
+        path: "/leave-types",
+        ...opts,
+      });
+    },
+    getLocations(opts = {}) {
+      return this._makeRequest({
+        path: "/locations",
+        ...opts,
+      });
+    },
+    getProjects(opts = {}) {
+      return this._makeRequest({
+        path: "/projects",
+        ...opts,
+      });
+    },
+    getTimeRegistrations(opts = {}) {
+      return this._makeRequest({
+        path: "/time-registrations",
+        ...opts,
+      });
+    },
+    getTimeRegistrationTypes(opts = {}) {
+      return this._makeRequest({
+        path: "/time-registration-types",
         ...opts,
       });
     },
@@ -127,6 +282,43 @@ export default {
         path: "/employees",
         ...opts,
       });
+    },
+    createLeaveRequest(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/leave-requests",
+        ...opts,
+      });
+    },
+    async *paginate({
+      fn, params = {}, maxResults = null, ...opts
+    }) {
+      let hasMore = false;
+      let count = 0;
+      let page = 0;
+
+      do {
+        params.page = ++page;
+        const {
+          data,
+          meta: {
+            page: current, total_pages: total,
+          },
+        } = await fn({
+          params,
+          ...opts,
+        });
+        for (const d of data) {
+          yield d;
+
+          if (maxResults && ++count === maxResults) {
+            return count;
+          }
+        }
+
+        hasMore = current < total;
+
+      } while (hasMore);
     },
   },
 };

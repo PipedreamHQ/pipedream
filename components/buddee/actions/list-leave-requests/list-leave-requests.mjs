@@ -1,87 +1,53 @@
-import {
-  API_ENDPOINTS, LEAVE_REQUEST_STATUS,
-} from "../../common/constants.mjs";
-import {
-  buildEmployeeFilterParams,
-  buildPaginationParams,
-  buildStatusFilterParams,
-} from "../../common/utils.mjs";
+import buddee from "../../buddee.app.mjs";
 
 export default {
   name: "List Leave Requests",
-  description: "Get all pending and processed leave requests",
-  key: "listLeaveRequests",
-  version: "0.1.0",
+  description: "Retrieves all leave requests, [See the documentation](https://developers.buddee.nl/#2c5f483b-63d4-4ecf-a9d1-7efe36563639)",
+  key: "buddee-list-leave-requests",
+  version: "0.0.1",
   type: "action",
   props: {
-    buddee: {
-      type: "app",
-      app: "buddee",
-      label: "Buddee",
-      description: "The Buddee app instance to use",
-    },
+    buddee,
     employeeId: {
-      type: "string",
-      label: "Employee ID",
-      description: "Filter leave requests by specific employee ID",
-    },
-    status: {
-      type: "string",
-      label: "Status",
-      description: "Filter by leave request status",
-      options: [
-        {
-          label: "All",
-          value: "",
-        },
-        {
-          label: "Pending",
-          value: LEAVE_REQUEST_STATUS.PENDING,
-        },
-        {
-          label: "Approved",
-          value: LEAVE_REQUEST_STATUS.APPROVED,
-        },
-        {
-          label: "Rejected",
-          value: LEAVE_REQUEST_STATUS.REJECTED,
-        },
-        {
-          label: "Cancelled",
-          value: LEAVE_REQUEST_STATUS.CANCELLED,
-        },
+      propDefinition: [
+        buddee,
+        "employeeId",
       ],
-      default: "",
+      description: "Filter leave requests by specific employee ID",
+      optional: true,
     },
-    limit: {
-      type: "integer",
-      label: "Limit",
-      description: "Maximum number of leave requests to return",
-      default: 100,
-      min: 1,
-      max: 1000,
+    leaveTypeId: {
+      propDefinition: [
+        buddee,
+        "leaveTypeId",
+      ],
+      description: "Filter leave requests by specific leave type ID",
+      optional: true,
     },
-    offset: {
+    maxResults: {
       type: "integer",
-      label: "Offset",
-      description: "Number of leave requests to skip",
-      default: 0,
-      min: 0,
+      label: "Max Results",
+      description: "The maximum number of results to return",
+      optional: true,
     },
   },
   async run({ $ }) {
-    const params = {
-      ...buildPaginationParams(this.limit, this.offset),
-      ...buildEmployeeFilterParams(this.employeeId),
-      ...buildStatusFilterParams(this.status),
-    };
-
-    const response = await this.buddee._makeRequest({
+    const response = this.buddee.paginate({
       $,
-      path: API_ENDPOINTS.LEAVE_REQUESTS,
-      params,
+      fn: this.buddee.getLeaveRequests,
+      maxResults: this.maxResults,
+      params: {
+        employee_id: this.employeeId,
+        leave_type_id: this.leaveTypeId,
+      },
     });
 
-    return response.data;
+    const responseArray = [];
+    for await (const leaveRequest of response) {
+      responseArray.push(leaveRequest);
+    }
+
+    $.export("$summary", `Found ${responseArray.length} leave requests`);
+    return responseArray;
   },
 };

@@ -1,85 +1,76 @@
-import { API_ENDPOINTS } from "../../common/constants.mjs";
+import buddee from "../../buddee.app.mjs";
 
 export default {
   name: "Create Leave Request",
-  description: "Employee creates a new time-off request",
-  key: "createLeaveRequest",
-  version: "0.1.0",
+  description: "Creates a new leave request. [See the documentation](https://developers.buddee.nl/#b5a0cea5-e416-4521-8bc1-46cc4c3d95cb)",
+  key: "buddee-create-leave-request",
+  version: "0.0.1",
   type: "action",
   props: {
-    buddee: {
-      type: "app",
-      app: "buddee",
-      label: "Buddee",
-      description: "The Buddee app instance to use",
-    },
+    buddee,
     employeeId: {
-      type: "string",
-      label: "Employee ID",
-      description: "ID of the employee requesting leave",
-      required: true,
+      propDefinition: [
+        buddee,
+        "employeeId",
+      ],
     },
     leaveTypeId: {
+      propDefinition: [
+        buddee,
+        "leaveTypeId",
+      ],
+    },
+    hours: {
       type: "string",
-      label: "Leave Type ID",
-      description: "ID of the leave type (vacation, personal, etc.)",
-      required: true,
+      label: "Hours",
+      description: "Number of leave hours",
+      optional: true,
+    },
+    reason: {
+      type: "string",
+      label: "Reason",
+      description: "Reason for the leave",
+      optional: true,
     },
     startDate: {
       type: "string",
       label: "Start Date",
       description: "Start date of the leave request (YYYY-MM-DD)",
-      required: true,
+    },
+    startTime: {
+      type: "string",
+      label: "Start Time",
+      description: "Start time of the leave request (HH:MM)",
+      optional: true,
     },
     endDate: {
       type: "string",
       label: "End Date",
       description: "End date of the leave request (YYYY-MM-DD)",
-      required: true,
     },
-    reason: {
+    endTime: {
       type: "string",
-      label: "Reason",
-      description: "Reason for the leave request",
-    },
-    halfDay: {
-      type: "boolean",
-      label: "Half Day",
-      description: "Whether this is a half-day leave request",
-      default: false,
-    },
-    morningHalfDay: {
-      type: "boolean",
-      label: "Morning Half Day",
-      description: "If half day, whether it's morning or afternoon",
-      default: false,
+      label: "End Time",
+      description: "End time of the leave request (HH:MM)",
+      optional: true,
     },
   },
   async run({ $ }) {
-    const data = {
-      employee_id: this.employeeId,
-      leave_type_id: this.leaveTypeId,
-      start_date: this.startDate,
-      end_date: this.endDate,
-    };
-
-    if (this.reason) {
-      data.reason = this.reason;
-    }
-    if (this.halfDay) {
-      data.half_day = this.halfDay;
-    }
-    if (this.morningHalfDay) {
-      data.morning_half_day = this.morningHalfDay;
-    }
-
-    const response = await this.buddee._makeRequest({
+    const response = await this.buddee.createLeaveRequest({
       $,
-      method: "POST",
-      path: API_ENDPOINTS.LEAVE_REQUESTS,
-      data,
+      data: {
+        employee_id: this.employeeId,
+        leave_type_id: this.leaveTypeId,
+        hours: this.hours && parseFloat(this.hours),
+        reason: this.reason,
+        start_date: this.startDate,
+        start_time: this.startTime,
+        end_date: this.endDate,
+        end_time: this.endTime,
+      },
     });
 
+    $.export("$summary", `Successfully created leave request with ID: ${response.data.id}`);
     return response.data;
   },
 };

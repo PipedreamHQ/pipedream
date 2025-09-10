@@ -1,67 +1,91 @@
-import { API_ENDPOINTS } from "../../common/constants.mjs";
-import {
-  buildDateRangeParams,
-  buildEmployeeFilterParams,
-  buildPaginationParams,
-} from "../../common/utils.mjs";
+import buddee from "../../buddee.app.mjs";
 
 export default {
   name: "List Time Registrations",
-  description: "Get all time tracking records",
-  key: "listTimeRegistrations",
-  version: "0.1.0",
+  description: "Get all time tracking records, [See the documentation](https://developers.buddee.nl/#539c5261-c313-49ef-89d8-82b835b22cd4)",
+  key: "buddee-list-time-registrations",
+  version: "0.0.1",
   type: "action",
   props: {
-    buddee: {
-      type: "app",
-      app: "buddee",
-      label: "Buddee",
-      description: "The Buddee app instance to use",
-    },
+    buddee,
     employeeId: {
-      type: "string",
-      label: "Employee ID",
-      description: "Filter time registrations by specific employee ID",
+      propDefinition: [
+        buddee,
+        "employeeId",
+      ],
+      description: "ID of the employee you want to filter on",
+      optional: true,
     },
-    startDate: {
-      type: "string",
-      label: "Start Date",
-      description: "Filter from this date (YYYY-MM-DD)",
+    companyId: {
+      propDefinition: [
+        buddee,
+        "companyId",
+      ],
+      description: "ID of the company you want to filter on",
+      optional: true,
     },
-    endDate: {
-      type: "string",
-      label: "End Date",
-      description: "Filter until this date (YYYY-MM-DD)",
+    departmentId: {
+      propDefinition: [
+        buddee,
+        "departmentId",
+      ],
+      optional: true,
     },
-    limit: {
+    timeRegistrationTypeId: {
+      propDefinition: [
+        buddee,
+        "timeRegistrationTypeId",
+      ],
+      optional: true,
+    },
+    projectId: {
+      propDefinition: [
+        buddee,
+        "projectId",
+      ],
+      optional: true,
+    },
+    date: {
+      type: "string",
+      label: "Date",
+      description: "Date of the time registration. Format: `YYYY-MM-DD`",
+      optional: true,
+    },
+    isOvertime: {
+      type: "boolean",
+      label: "Is Overtime",
+      description: "Whether the time registration is overtime",
+      optional: true,
+    },
+    maxResults: {
       type: "integer",
-      label: "Limit",
-      description: "Maximum number of time registrations to return",
-      default: 100,
-      min: 1,
-      max: 1000,
-    },
-    offset: {
-      type: "integer",
-      label: "Offset",
-      description: "Number of time registrations to skip",
-      default: 0,
-      min: 0,
+      label: "Max Results",
+      description: "The maximum number of results to return",
+      optional: true,
     },
   },
   async run({ $ }) {
-    const params = {
-      ...buildPaginationParams(this.limit, this.offset),
-      ...buildEmployeeFilterParams(this.employeeId),
-      ...buildDateRangeParams(this.startDate, this.endDate),
-    };
-
-    const response = await this.buddee._makeRequest({
+    const response = this.buddee.paginate({
       $,
-      path: API_ENDPOINTS.TIME_REGISTRATIONS,
-      params,
+      fn: this.buddee.getTimeRegistrations,
+      maxResults: this.maxResults,
+      params: {
+        employee_id: this.employeeId,
+        company_id: this.companyId,
+        department_id: this.departmentId,
+        time_registration_type_id: this.timeRegistrationTypeId,
+        project_id: this.projectId,
+        date: this.date,
+        is_overtime: this.isOvertime,
+      },
     });
 
-    return response.data;
+    const responseArray = [];
+    for await (const timeRegistration of response) {
+      responseArray.push(timeRegistration);
+    }
+
+    $.export("$summary", `Found ${responseArray.length} time registrations`);
+    return responseArray;
   },
 };

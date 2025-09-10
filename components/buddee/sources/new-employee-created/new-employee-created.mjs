@@ -1,76 +1,25 @@
-import {
-  API_ENDPOINTS, SORT_ORDERS,
-} from "../../common/constants.mjs";
-import {
-  createEventSummary, getEventTimestamp,
-} from "../../common/utils.mjs";
+import common from "../common/base.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   name: "New Employee Created",
   description: "Emit new event when a new employee is added to the system",
-  key: "employeeCreated",
-  version: "0.1.0",
+  key: "buddee-new-employee-created",
+  version: "0.0.1",
   type: "source",
   dedupe: "unique",
-  props: {
-    buddee: {
-      type: "app",
-      app: "buddee",
-      label: "Buddee",
-      description: "The Buddee app instance to use",
-    },
-    db: {
-      type: "$.service.db",
-      label: "Database",
-      description: "The database service to store state",
-    },
-  },
   methods: {
-    _getLastEmployeeId() {
-      return this.db.get("lastEmployeeId");
+    ...common.methods,
+    getFunction() {
+      return this.buddee.getEmployees;
     },
-    _setLastEmployeeId(employeeId) {
-      this.db.set("lastEmployeeId", employeeId);
+    getSortKey() {
+      return "created_at";
+    },
+    getSummary(item) {
+      return `New Employee: ${item.full_name}`;
     },
   },
-  async run({ $ }) {
-    const lastEmployeeId = this._getLastEmployeeId();
-
-    const params = {
-      limit: 100,
-      sort: "created_at",
-      order: SORT_ORDERS.DESC,
-    };
-
-    if (lastEmployeeId) {
-      params.since_id = lastEmployeeId;
-    }
-
-    const response = await this.buddee._makeRequest({
-      $,
-      path: API_ENDPOINTS.EMPLOYEES,
-      params,
-    });
-
-    const employees = response.data;
-
-    if (employees && employees.length > 0) {
-      // Store the latest employee ID for next run
-      this._setLastEmployeeId(employees[0].id);
-
-      // Return only new employees (excluding the last one we already processed)
-      const newEmployees = lastEmployeeId
-        ? employees.filter((emp) => emp.id > lastEmployeeId)
-        : employees;
-
-      return newEmployees.map((employee) => ({
-        id: employee.id,
-        summary: createEventSummary("employee_created", employee),
-        ts: getEventTimestamp(employee),
-        data: employee,
-      }));
-    }
-
-    return [];
-  },
+  sampleEmit,
 };
