@@ -5,7 +5,7 @@ export default {
   key: "frontapp-reply-to-conversation",
   name: "Reply To Conversation",
   description: "Reply to a conversation by sending a message and appending it to the conversation. [See the documentation](https://dev.frontapp.com/reference/post_conversations-conversation-id-messages).",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     frontApp,

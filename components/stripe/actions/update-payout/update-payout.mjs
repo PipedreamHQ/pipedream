@@ -4,7 +4,7 @@ export default {
   key: "stripe-update-payout",
   name: "Update a Payout",
   type: "action",
-  version: "0.1.2",
+  version: "0.1.3",
   description: "Update the metadata on a payout. [See the documentation](https://stripe.com/docs/api/payouts/update).",
   props: {
     app,

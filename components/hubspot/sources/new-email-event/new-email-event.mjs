@@ -8,7 +8,7 @@ export default {
   key: "hubspot-new-email-event",
   name: "New Email Event",
   description: "Emit new event for each new Hubspot email event.",
-  version: "0.0.31",
+  version: "0.0.32",
   dedupe: "unique",
   type: "source",
   props: {
@@ -28,9 +28,7 @@ export default {
     },
     generateMeta(emailEvent) {
       const {
-        id,
-        recipient,
-        type,
+        id, recipient, type,
       } = emailEvent;
       const ts = this.getTs(emailEvent);
       return {

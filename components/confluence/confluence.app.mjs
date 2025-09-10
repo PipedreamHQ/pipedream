@@ -123,6 +123,103 @@ export default {
         };
       },
     },
+    pageId: {
+      type: "string",
+      label: "Page ID",
+      description: "Select a page or provide its ID",
+      async options({ prevContext }) {
+        const params = prevContext?.cursor
+          ? {
+            cursor: prevContext.cursor,
+          }
+          : {};
+        const cloudId = await this.getCloudId();
+        const {
+          results, _links: links,
+        } = await this.listPages({
+          cloudId,
+          params,
+        });
+        const options = results?.map(({
+          id: value, title: label,
+        }) => ({
+          value,
+          label,
+        })) || [];
+        return {
+          options,
+          context: {
+            cursor: this._extractCursorFromLink(links?.next),
+          },
+        };
+      },
+    },
+    pageSort: {
+      type: "string",
+      label: "Sort",
+      description: "Used to sort the result by a particular field",
+      options: [
+        "id",
+        "-id",
+        "created-date",
+        "-created-date",
+        "modified-date",
+        "-modified-date",
+        "title",
+        "-title",
+      ],
+      optional: true,
+    },
+    pageStatus: {
+      type: "string",
+      label: "Status",
+      description: "Filter the results to pages based on their status",
+      options: [
+        "current",
+        "archived",
+        "deleted",
+        "trashed",
+      ],
+      optional: true,
+    },
+    pageTitle: {
+      type: "string",
+      label: "Title",
+      description: "Filter the results to pages based on their title",
+      optional: true,
+    },
+    bodyFormat: {
+      type: "string",
+      label: "Body Format",
+      description: "The content format types to be returned in the body field of the response. If available, the representation will be available under a response field of the same name under the body field.",
+      options: [
+        "storage",
+        "atlas_doc_format",
+      ],
+      optional: true,
+    },
+    subType: {
+      type: "string",
+      label: "Subtype",
+      description: "Filter the results to pages based on their subtype",
+      options: [
+        "live",
+        "page",
+      ],
+      optional: true,
+    },
+    cursor: {
+      type: "string",
+      label: "Cursor",
+      description: "Used for pagination, this opaque cursor will be returned in the next URL in the Link response header. Use the relative URL in the Link header to retrieve the next set of results.",
+      optional: true,
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "Maximum number of pages per result to return",
+      optional: true,
+    },
   },
   methods: {
     _baseUrl(cloudId) {
@@ -176,6 +273,14 @@ export default {
     }) {
       return this._makeRequest({
         path: `/blogposts/${postId}`,
+        ...opts,
+      });
+    },
+    getPageById({
+      pageId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/pages/${pageId}`,
         ...opts,
       });
     },
