@@ -110,7 +110,7 @@ export default defineAction({
     templatePath: {
       type: "string",
       label: "Template Path",
-      description: "The path in the /tmp directory to the template to use for the export",
+      description: "The path in the /tmp directory to the template to use for the export. Required if `fileExtension` is `csv`, `txt`, `json`, or `xml`.",
       optional: true,
     },
     limit: {
@@ -134,6 +134,15 @@ export default defineAction({
   async run({ $ }) {
     if (!this.reportIds && !this.startDate && !this.approvedAfter) {
       throw new ConfigurationError("At least one of `reportIds`, `startDate`, or `approvedAfter` must be specified");
+    }
+
+    if ([
+      "csv",
+      "txt",
+      "json",
+      "xml",
+    ].includes(this.fileExtension) && !this.templatePath) {
+      throw new ConfigurationError(`Template path is required for file extension: ${this.fileExtension}`);
     }
 
     const onFinish = [];
