@@ -6,7 +6,7 @@ export default {
   name: "Get Associated Emails",
   description:
     "Retrieves emails associated with a specific object (contact, company, or deal). [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/search)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     hubspot,
