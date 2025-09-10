@@ -3,8 +3,8 @@ import common from "../common/common.mjs";
 export default {
   key: "trengo-phone-call-missed",
   name: "New Phone Call Missed Event (Instant)",
-  description: "Emit new events when an phone call missed. [See the docs here](https://developers.trengo.com/docs/webhooks)",
-  version: "0.0.3",
+  description: "Emit new event when an phone call missed. [See the documentation](https://developers.trengo.com/docs/webhooks)",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   ...common,
