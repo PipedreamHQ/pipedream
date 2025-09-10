@@ -306,6 +306,70 @@ export default {
       description: "Phone numbers (one or more) associated with the person, presented in the same manner as received by GET request of a person. **Example: {\"value\":\"12345\", \"primary\":true, \"label\":\"work\"}**",
       optional: true,
     },
+    isDeleted: {
+      type: "boolean",
+      label: "Is Deleted",
+      description: "Whether the deal is deleted or not",
+      optional: true,
+    },
+    isArchived: {
+      type: "boolean",
+      label: "Is Archived",
+      description: "Whether the deal is archived or not",
+      optional: true,
+    },
+    archiveTime: {
+      type: "string",
+      label: "Archive Time",
+      description: "The optional date and time of archiving the deal in UTC. Format: `YYYY-MM-DD HH:MM:SS`. If omitted and **Is Archived** is `true`, it will be set to the current date and time.",
+      optional: true,
+    },
+    closeTime: {
+      type: "string",
+      label: "Close Time",
+      description: "The date and time of closing the deal. Can only be set if deal status is won or lost. Format: `YYYY-MM-DD HH:MM:SS`",
+      optional: true,
+    },
+    wonTime: {
+      type: "string",
+      label: "Won Time",
+      description: "The date and time of changing the deal status as won. Can only be set if deal status is won. Format: `YYYY-MM-DD HH:MM:SS`",
+      optional: true,
+    },
+    lostTime: {
+      type: "string",
+      label: "Lost Time",
+      description: "The date and time of changing the deal status as lost. Can only be set if deal status is lost. Format: `YYYY-MM-DD HH:MM:SS`",
+      optional: true,
+    },
+    expectedCloseDate: {
+      type: "string",
+      label: "Expected Close Date",
+      description: "The expected close date of the deal. Format: `YYYY-MM-DD`",
+      optional: true,
+    },
+    customFields: {
+      type: "object",
+      label: "Custom Fields",
+      description: "An object where each key represents a custom field. All custom fields are referenced as randomly generated 40-character hashes",
+      optional: true,
+    },
+    labelIds: {
+      type: "integer[]",
+      label: "Label IDs",
+      description: "The IDs of labels assigned to the deal",
+      optional: true,
+      async options() {
+        const { data } = await this.getDealCustomFields();
+        const labelField = data.find(({ key }) => key === "label");
+        return labelField?.options?.map(({
+          id: value, label,
+        }) => ({
+          label,
+          value,
+        })) || [];
+      },
+    },
   },
   methods: {
     api(model, version = "v1") {
