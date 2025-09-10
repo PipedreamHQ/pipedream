@@ -4,7 +4,7 @@ export default {
   key: "google_drive-delete-comment",
   name: "Delete Comment",
   description: "Delete a specific comment (Requires ownership or permissions). [See the documentation](https://developers.google.com/workspace/drive/api/reference/rest/v3/comments/delete)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleDrive,

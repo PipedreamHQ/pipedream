@@ -4,7 +4,7 @@ export default {
   key: "google_drive-resolve-comment",
   name: "Resolve Comment",
   description: "Mark a comment as resolved. [See the documentation](https://developers.google.com/workspace/drive/api/reference/rest/v3/comments/update)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     googleDrive,
