@@ -4,7 +4,7 @@ export default {
   key: "stripe-create-price",
   name: "Create Price",
   description: "Creates a new price for an existing product. The price can be recurring or one-time. [See the documentation](https://stripe.com/docs/api/prices/create)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     app,

@@ -4,7 +4,7 @@ export default {
   key: "stripe-search-subscriptions",
   name: "Search Subscriptions",
   description: "Search for subscriptions. [See the documentation](https://docs.stripe.com/api/subscriptions/search?lang=node)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     stripe,

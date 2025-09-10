@@ -4,7 +4,7 @@ export default {
   key: "frontapp-get-conversation",
   name: "Get Conversation",
   description: "Retrieve a conversation by its ID from Front. [See the documentation](https://dev.frontapp.com/reference/get-conversation-by-id)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     frontapp,

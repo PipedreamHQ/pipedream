@@ -5,7 +5,7 @@ export default {
   key: "pipedrive-remove-duplicate-notes",
   name: "Remove Duplicate Notes",
   description: "Remove duplicate notes from an object in Pipedrive. See the documentation for [getting notes](https://developers.pipedrive.com/docs/api/v1/Notes#getNotes) and [deleting notes](https://developers.pipedrive.com/docs/api/v1/Notes#deleteNote)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     pipedriveApp,

@@ -5,7 +5,7 @@ export default {
   key: "stripe-canceled-subscription",
   name: "Canceled Subscription",
   type: "source",
-  version: "0.1.3",
+  version: "0.1.4",
   description: "Emit new event for each new canceled subscription",
   methods: {
     ...common.methods,
