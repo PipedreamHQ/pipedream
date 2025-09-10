@@ -288,5 +288,13 @@ export default {
         ...args,
       });
     },
+    async getMessages({
+      ticketId, ...args
+    }) {
+      return this._makeRequest({
+        path: `/tickets/${ticketId}/messages`,
+        ...args,
+      });
+    },
   },
 };

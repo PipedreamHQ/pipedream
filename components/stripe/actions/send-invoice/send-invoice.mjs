@@ -4,7 +4,7 @@ export default {
   key: "stripe-send-invoice",
   name: "Send Invoice",
   type: "action",
-  version: "0.1.2",
+  version: "0.1.3",
   description: "Manually send an invoice to your customer out of the normal schedule for payment (note that no emails are actually sent in test mode). [See the documentation](https://stripe.com/docs/api/invoices/send).",
   props: {
     app,
