@@ -4,7 +4,7 @@ export default {
   key: "frontapp-get-comment",
   name: "Get Comment",
   description: "Retrieve a comment from a conversation. [See the documentation](https://dev.frontapp.com/reference/get-comment)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     frontApp,

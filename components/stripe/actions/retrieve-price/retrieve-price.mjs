@@ -4,7 +4,7 @@ export default {
   key: "stripe-retrieve-price",
   name: "Retrieve a Price",
   type: "action",
-  version: "0.1.2",
+  version: "0.1.3",
   description: "Retrieves the details of an existing product price. [See the documentation](https://stripe.com/docs/api/prices/retrieve).",
   props: {
     app,

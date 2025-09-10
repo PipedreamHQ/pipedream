@@ -1,4 +1,5 @@
 import base from "../common/s3.mjs";
+import includeLink from "../common/include-link.mjs";
 
 export default {
   ...base,
@@ -6,10 +7,15 @@ export default {
   key: "aws-s3-new-file",
   name: "New S3 File",
   description: "Emit new event when a file is added to an S3 bucket",
-  version: "0.1.4",
+  version: "0.2.0",
   dedupe: "unique",
+  props: {
+    ...base.props,
+    ...includeLink.props,
+  },
   methods: {
     ...base.methods,
+    ...includeLink.methods,
     getEvents() {
       return [
         "s3:ObjectCreated:*",

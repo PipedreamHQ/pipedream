@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/coinbase_developer_platform",
+  "version": "0.0.1",
+  "description": "Pipedream Coinbase Developer Platform Components",
+  "main": "coinbase_developer_platform.app.mjs",
+  "keywords": [
+    "pipedream",
+    "coinbase_developer_platform"
+  ],
+  "homepage": "https://pipedream.com/apps/coinbase_developer_platform",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
