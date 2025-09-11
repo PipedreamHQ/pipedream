@@ -1,8 +1,10 @@
 export default {
-  "newRow": [
-    "a"
-  ],
-  "range": "Sheet1!1:1000",
+  "newRow": {
+    "Name": "John Doe",
+    "Email": "john@example.com",
+    "Age": "30"
+  },
+  "range": "Sheet1!2:2",
   "worksheet": {
     "properties": {
       "sheetId": 1942312195,
@@ -15,5 +17,5 @@ export default {
       }
     }
   },
-  "rowNumber": 1
+  "rowNumber": 2
 }
