@@ -7,7 +7,7 @@ export default {
   key: "pipedrive-updated-person-instant",
   name: "Person Updated (Instant)",
   description: "Emit new event when a person is updated.",
-  version: "0.1.2",
+  version: "0.1.4",
   type: "source",
   dedupe: "unique",
   methods: {

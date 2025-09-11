@@ -4,7 +4,7 @@ export default {
   key: "bitget-spot-market-get-merge-depth",
   name: "Spot - Market - Get Merge Depth",
   description: "Retrieve merge depth for a specified symbol. [See the documentation](https://www.bitget.com/api-doc/spot/market/Merge-Orderbook)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

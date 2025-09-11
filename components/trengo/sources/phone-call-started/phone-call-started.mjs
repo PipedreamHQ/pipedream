@@ -3,8 +3,8 @@ import common from "../common/common.mjs";
 export default {
   key: "trengo-phone-call-started",
   name: "New Phone Call Started Event (Instant)",
-  description: "Emit new events when an phone call started. [See the docs here](https://developers.trengo.com/docs/webhooks)",
-  version: "0.0.3",
+  description: "Emit new event when a phone call starts. [See the documentation](https://developers.trengo.com/docs/webhooks)",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   ...common,

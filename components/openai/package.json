@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/openai",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Pipedream OpenAI Components",
   "main": "openai.app.mjs",
   "keywords": [
@@ -16,6 +16,7 @@
   "dependencies": {
     "@pipedream/platform": "^3.1.0",
     "bottleneck": "^2.19.5",
+    "file-type": "^21.0.0",
     "form-data": "^4.0.0",
     "got": "^12.6.0",
     "openai": "^4.77.0"

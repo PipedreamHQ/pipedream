@@ -12,7 +12,7 @@ export default {
   key: "google_drive-get-folder-id-for-path",
   name: "Get Folder ID for a Path",
   description: "Retrieve a folderId for a path. [See the documentation](https://developers.google.com/drive/api/v3/search-files) for more information",
-  version: "0.1.13",
+  version: "0.1.15",
   type: "action",
   props: {
     googleDrive,

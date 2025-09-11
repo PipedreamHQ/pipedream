@@ -5,7 +5,7 @@ export default {
   key: "stripe-list-balance-history",
   name: "List Balance History",
   type: "action",
-  version: "0.1.2",
+  version: "0.1.3",
   description: "List all balance transactions. [See the documentation](https://stripe.com/docs/api/balance_transactions/list).",
   props: {
     app,

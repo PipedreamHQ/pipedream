@@ -4,7 +4,7 @@ export default {
   key: "firecrawl-get-crawl-status",
   name: "Get Crawl Data",
   description: "Obtains the status and data from a previous crawl operation. [See the documentation](https://docs.firecrawl.dev/api-reference/endpoint/crawl-get)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     firecrawl,

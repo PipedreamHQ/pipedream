@@ -6,7 +6,7 @@ export default {
   key: "bitget-spot-trade-batch-cancel-replace-order",
   name: "Spot - Trade - Batch Cancel Replace Order",
   description: "Cancel existing orders and send new orders in batch. Maximum 50 orders per request. [See the documentation](https://bitgetlimited.github.io/apidoc/en/spot/#batch-cancel-existing-order-and-send-new-orders)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
