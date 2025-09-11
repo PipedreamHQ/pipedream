@@ -55,8 +55,8 @@ export default {
         return;
       }
 
-      if (event.data.parent.id !== this.dataSourceId) {
-        console.log(`Skipping event for data source: ${event.data.parent.id}`);
+      if (event.data.parent.data_source_id !== this.dataSourceId) {
+        console.log(`Skipping event for data source: ${event.data.parent.data_source_id}`);
         return;
       }
 
