@@ -6,7 +6,7 @@ export default {
   key: "pipedrive-add-person",
   name: "Add Person",
   description: "Adds a new person. See the Pipedrive API docs for People [here](https://developers.pipedrive.com/docs/api/v1/Persons#addPerson)",
-  version: "0.1.13",
+  version: "0.1.14",
   type: "action",
   props: {
     pipedriveApp,

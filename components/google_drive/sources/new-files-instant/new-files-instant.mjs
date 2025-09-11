@@ -3,6 +3,7 @@ import {
   GOOGLE_DRIVE_NOTIFICATION_CHANGE,
 } from "../../common/constants.mjs";
 import common from "../common-webhook.mjs";
+import { stashFile } from "../../common/utils.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
@@ -10,7 +11,7 @@ export default {
   key: "google_drive-new-files-instant",
   name: "New Files (Instant)",
   description: "Emit new event when a new file is added in your linked Google Drive",
-  version: "0.1.16",
+  version: "0.2.0",
   type: "source",
   dedupe: "unique",
   props: {
@@ -46,6 +47,18 @@ export default {
         return this.googleDrive.listFilesOptions(nextPageToken, opts);
       },
     },
+    includeLink: {
+      label: "Include Link",
+      type: "boolean",
+      description: "Upload file to your File Stash and emit temporary download link to the file. Google Workspace documents will be converted to PDF. See [the docs](https://pipedream.com/docs/connect/components/files) to learn more about working with files in Pipedream.",
+      default: false,
+      optional: true,
+    },
+    dir: {
+      type: "dir",
+      accessMode: "write",
+      optional: true,
+    },
   },
   hooks: {
     async deploy() {
@@ -62,7 +75,7 @@ export default {
 
       const { files } = await this.googleDrive.listFilesInPage(null, args);
 
-      this.emitFiles(files);
+      await this.emitFiles(files);
     },
     ...common.hooks,
     async activate() {
@@ -91,10 +104,13 @@ export default {
         GOOGLE_DRIVE_NOTIFICATION_CHANGE,
       ];
     },
-    emitFiles(files) {
+    async emitFiles(files) {
       for (const file of files) {
         if (!this.shouldProcess(file)) {
           continue;
+        }
+        if (this.includeLink) {
+          file.file = await stashFile(file, this.googleDrive, this.dir);
         }
         this.$emit(file, {
           summary: `New File: ${file.name}`,
@@ -119,7 +135,7 @@ export default {
         return;
       }
 
-      this.emitFiles(files);
+      await this.emitFiles(files);
 
       this._setLastFileCreatedTime(Date.parse(files[0].createdTime));
     },
