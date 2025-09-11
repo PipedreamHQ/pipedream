@@ -49,6 +49,81 @@ export default {
         })) || [];
       },
     },
+    noteId: {
+      type: "string",
+      label: "Note ID",
+      description: "The ID of the note to update",
+      async options({ contactId }) {
+        const { notes } = await this.listNotes({
+          contactId,
+        });
+        return notes?.map(({
+          id: value, body,
+        }) => ({
+          label: body.slice(0, 50),
+          value,
+        })) || [];
+      },
+    },
+    userId: {
+      type: "string",
+      label: "User ID",
+      description: "The ID of a user",
+      async options() {
+        const { users } = await this.listUsers({
+          params: {
+            locationId: this.getLocationId(),
+          },
+        });
+        return users?.map(({
+          id, name, email,
+        }) => ({
+          label: name ?? email ?? id,
+          value: id,
+        }));
+      },
+    },
+    schemaKey: {
+      type: "string",
+      label: "Object Schema Key",
+      description: "Key used to refer the custom / standard Object internally. For custom objects, the key must include the “custom_objects.” prefix, while standard objects use their respective object keys. This information is available on the Custom Objects Details page under Settings.",
+      async options() {
+        const { objects } = await this.listObjects({
+          params: {
+            locationId: this.getLocationId(),
+          },
+        });
+        return objects?.map(({
+          key: value, labels,
+        }) => ({
+          label: labels.plural,
+          value,
+        })) || [];
+      },
+    },
+    recordId: {
+      type: "string",
+      label: "Record ID",
+      description: "The ID of the record to be updated. Available on the Record details page under the 3 dots or in the url",
+      async options({
+        schemaKey, page,
+      }) {
+        const { customObjectRecords } = await this.searchRecords({
+          schemaKey,
+          params: {
+            page: page + 1,
+            pageLimit: 20,
+          },
+        });
+        return customObjectRecords?.map(({ id }) => id) || [];
+      },
+    },
+    properties: {
+      type: "object",
+      label: "Properties",
+      description: "Properties of the record as key/value pairs. Example: `{\"customer_number\":1424,\"ticket_name\":\"Customer not able login\",\"phone_number\":\"+917000000000\"}`",
+      optional: true,
+    },
   },
   methods: {
     getLocationId() {
@@ -101,6 +176,15 @@ export default {
         ...args,
       });
     },
+    searchRecords({
+      schemaKey, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        url: `/objects/${schemaKey}/records/search`,
+        ...args,
+      });
+    },
     listCampaigns(args = {}) {
       return this._makeRequest({
         url: "/campaigns/",
@@ -110,6 +194,61 @@ export default {
     listFormSubmissions(args = {}) {
       return this._makeRequest({
         url: "/forms/submissions",
+        ...args,
+      });
+    },
+    listNotes({
+      contactId, ...args
+    }) {
+      return this._makeRequest({
+        url: `/contacts/${contactId}/notes`,
+        ...args,
+      });
+    },
+    getObject({
+      schemaKey, ...args
+    }) {
+      return this._makeRequest({
+        url: `/objects/${schemaKey}`,
+        ...args,
+      });
+    },
+    listObjects(args = {}) {
+      return this._makeRequest({
+        url: "/objects/",
+        ...args,
+      });
+    },
+    listUsers(args = {}) {
+      return this._makeRequest({
+        url: "/users/",
+        ...args,
+      });
+    },
+    updateNote({
+      contactId, noteId, ...args
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        url: `/contacts/${contactId}/notes/${noteId}`,
+        ...args,
+      });
+    },
+    createRecord({
+      schemaKey, ...args
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        url: `/objects/${schemaKey}/records`,
+        ...args,
+      });
+    },
+    updateRecord({
+      schemaKey, recordId, ...args
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        url: `/objects/${schemaKey}/records/${recordId}`,
         ...args,
       });
     },
