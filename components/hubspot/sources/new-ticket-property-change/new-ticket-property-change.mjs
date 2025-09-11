@@ -8,7 +8,7 @@ export default {
   name: "New Ticket Property Change",
   description:
     "Emit new event when a specified property is provided or updated on a ticket. [See the documentation](https://developers.hubspot.com/docs/api/crm/tickets)",
-  version: "0.0.24",
+  version: "0.0.25",
   dedupe: "unique",
   type: "source",
   props: {
@@ -47,7 +47,7 @@ export default {
       return !updatedAfter || this.getTs(ticket) > updatedAfter;
     },
     getParams(after) {
-      return {
+      const params = {
         object: "tickets",
         data: {
           limit: DEFAULT_LIMIT,
@@ -67,16 +67,19 @@ export default {
                   propertyName: this.property,
                   operator: "HAS_PROPERTY",
                 },
-                {
-                  propertyName: "hs_lastmodifieddate",
-                  operator: "GTE",
-                  value: after,
-                },
               ],
             },
           ],
         },
       };
+      if (after) {
+        params.data.filterGroups[0].filters.push({
+          propertyName: "hs_lastmodifieddate",
+          operator: "GTE",
+          value: after,
+        });
+      }
+      return params;
     },
     batchGetTickets(inputs) {
       return this.hubspot.batchGetObjects({

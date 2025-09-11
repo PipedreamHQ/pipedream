@@ -7,7 +7,7 @@ export default {
   name: "New Custom Object Property Change",
   description:
     "Emit new event when a specified property is provided or updated on a custom object.",
-  version: "0.0.15",
+  version: "0.0.16",
   dedupe: "unique",
   type: "source",
   props: {
@@ -52,7 +52,7 @@ export default {
       return !updatedAfter || this.getTs(object) > updatedAfter;
     },
     getParams(after) {
-      return {
+      const params = {
         object: this.objectSchema,
         data: {
           limit: DEFAULT_LIMIT,
@@ -72,16 +72,19 @@ export default {
                   propertyName: this.property,
                   operator: "HAS_PROPERTY",
                 },
-                {
-                  propertyName: "hs_lastmodifieddate",
-                  operator: "GTE",
-                  value: after,
-                },
               ],
             },
           ],
         },
       };
+      if (after) {
+        params.data.filterGroups[0].filters.push({
+          propertyName: "hs_lastmodifieddate",
+          operator: "GTE",
+          value: after,
+        });
+      }
+      return params;
     },
     batchGetCustomObjects(inputs) {
       return this.hubspot.batchGetObjects({
