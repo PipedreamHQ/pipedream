@@ -4,7 +4,7 @@ export default {
   key: "hubspot-retrieve-workflow-details",
   name: "Retrieve Workflow Details",
   description: "Retrieve detailed information about a specific workflow. [See the documentation](https://developers.hubspot.com/docs/api-reference/legacy/create-manage-workflows-v3/get-automation-v3-workflows-workflowId)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     hubspot,
