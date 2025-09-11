@@ -53,9 +53,9 @@ export default defineAction({
       ],
     },
     markedAsExported: {
-      type: "boolean",
-      label: "Marked as Exported",
-      description: "Filters out reports that have already been exported with that label out",
+      type: "string",
+      label: "Marked as Exported Label (Filter)",
+      description: "Filters out reports that have already been exported with that label",
       optional: true,
     },
     reportStates: {
