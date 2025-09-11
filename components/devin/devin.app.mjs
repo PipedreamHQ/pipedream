@@ -57,9 +57,9 @@ export default {
       label: "Secret IDs",
       description: "The IDs of the secrets to use",
       async options() {
-        const { secrets } = await this.listSecrets();
+        const secrets = await this.listSecrets();
         return secrets?.map(({
-          secret_id: value, secret_name: label,
+          id: value, key: label,
         }) => ({
           label,
           value,

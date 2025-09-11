@@ -33,13 +33,22 @@ export default {
     const response = await this.devin.listSessions({
       $,
       params: {
-        tags: this.tags,
         limit: this.limit,
         offset: this.offset,
       },
     });
 
-    $.export("$summary", `Successfully retrieved ${response.sessions?.length || 0} sessions`);
-    return response;
+    let sessions = response.sessions;
+    if (this.tags) {
+      sessions = sessions.filter((session) => session.tags.some((tag) => this.tags.includes(tag)));
+    }
+
+    let summary = `Retrieved ${response.sessions.length} sessions`;
+    if (this.tags) {
+      summary += `, ${sessions.length} matching tags`;
+    }
+
+    $.export("$summary", `${summary}`);
+    return sessions;
   },
 };
