@@ -9,7 +9,7 @@ import qs from "qs";
 export default defineAction({
   key: "expensify-export-report",
   name: "Export Report",
-  description: "Export a report to a PDF file. [See the documentation](https://integrations.expensify.com/Integration-Server/doc/#report-exporter)",
+  description: "Export Expensify reports to a file (csv, xls, xlsx, txt, pdf, json, xml). [See the documentation](https://integrations.expensify.com/Integration-Server/doc/#report-exporter)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -17,7 +17,7 @@ export default defineAction({
     reportIds: {
       type: "string[]",
       label: "Report IDs",
-      description: "The IDs of the reports to be exported. Required if `startDate` or a`pprovedAfter` are not specified.",
+      description: "The IDs of the reports to be exported. Required if `startDate` or `approvedAfter` are not specified.",
       optional: true,
     },
     startDate: {
