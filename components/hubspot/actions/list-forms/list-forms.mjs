@@ -5,7 +5,7 @@ export default {
   name: "List Forms",
   description:
     "Retrieves a list of forms. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/forms#get-%2Fmarketing%2Fv3%2Fforms%2F)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     hubspot,
