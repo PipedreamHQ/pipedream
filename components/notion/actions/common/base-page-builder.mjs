@@ -74,7 +74,8 @@ export default {
      * @param properties - Properties from the selected page obtained from Notion
      * @returns the selected props inputted by the user with the following attributes:
      *            - type: the Notion property type used in notion-page-properties.mjs
-     *            - label: the page's property name
+     *            - label: the property ID for API calls
+     *              (was property name before data source migration)
      *            - value: the property value inputted by the user
      */
     _filterProps(properties = {}) {
@@ -83,7 +84,7 @@ export default {
           || (this.properties && this.properties[property]))
         .map((property) => ({
           type: properties[property]?.type ?? property,
-          label: property,
+          label: properties[property]?.id || property,
           value: this[property] || this.properties?.[property],
         }));
     },
@@ -96,8 +97,14 @@ export default {
     _convertPropertiesToNotion(properties = [], NOTION_CONVERTER = {}) {
       const notionProperties = {};
       for (const property of properties) {
-        const notionProperty = NOTION_CONVERTER[property.type];
-        notionProperties[property.label] = notionProperty?.convertToNotion(property);
+        // If the property value is already in Notion format, use it directly
+        if (this._isAlreadyNotionFormat(property.value, property.type)) {
+          notionProperties[property.label] = property.value;
+        } else {
+          // Otherwise, convert using the appropriate converter
+          const notionProperty = NOTION_CONVERTER[property.type];
+          notionProperties[property.label] = notionProperty?.convertToNotion(property);
+        }
       }
       return notionProperties;
     },
@@ -155,6 +162,32 @@ export default {
     buildPageProperties(parentProperties) {
       const filteredProperties = this._filterProps(parentProperties);
       return this._buildNotionPageProperties(filteredProperties);
+    },
+    /**
+     * Checks if a property value is already in Notion format
+     * @param value - the property value to check
+     * @returns true if already in Notion format, false otherwise
+     */
+    _isAlreadyNotionFormat(value) {
+      if (!value || typeof value !== "object") return false;
+
+      // Check for common Notion property structures
+      const notionKeys = [
+        "title",
+        "rich_text",
+        "number",
+        "select",
+        "multi_select",
+        "date",
+        "people",
+        "files",
+        "checkbox",
+        "url",
+        "email",
+        "phone_number",
+        "relation",
+      ];
+      return notionKeys.some((key) => key in value);
     },
     /**
      * Creates the block children inputted by the user in Notion format
