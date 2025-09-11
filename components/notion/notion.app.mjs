@@ -287,10 +287,9 @@ export default {
       return this._getNotionClient().dataSources.update(database);
     },
     async queryDataSource(dataSourceId, params = {}) {
-      return this._getNotionClient().request({
-        method: "POST",
-        path: `data_sources/${dataSourceId}/query`,
-        body: params,
+      return this._getNotionClient().dataSources.query({
+        data_source_id: dataSourceId,
+        ...params,
       });
     },
     async createFileUpload(file) {
