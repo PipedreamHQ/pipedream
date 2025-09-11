@@ -4,7 +4,7 @@ export default {
   key: "twilio-delete-message",
   name: "Delete Message",
   description: "Delete a message record from your account. [See the documentation](https://www.twilio.com/docs/sms/api/message-resource#delete-a-message-resource)",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "action",
   props: {
     twilio,

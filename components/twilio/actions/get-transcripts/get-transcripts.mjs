@@ -4,7 +4,7 @@ export default {
   key: "twilio-get-transcripts",
   name: "Get Transcripts",
   description: "Retrieves full transcripts for the specified transcript SIDs. [See the documentation](https://www.twilio.com/docs/voice/intelligence/api/transcript-sentence-resource#get-transcript-sentences)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     twilio,
