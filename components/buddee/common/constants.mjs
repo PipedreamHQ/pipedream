@@ -85,7 +85,7 @@ export const NATIONALITY_OPTIONS = [
   },
   {
     value: "BS",
-    label: "Bahama&#039;s",
+    label: "Bahama's",
   },
   {
     value: "BH",

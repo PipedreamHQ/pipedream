@@ -17,12 +17,12 @@ export default {
     employmentDate: {
       type: "string",
       label: "Employment Date",
-      description: "Employee's employment date (YYYY-MM-DD)",
+      description: "Employee's employment date (Format: YYYY-MM-DD)",
     },
     firstDayAtWorkDate: {
       type: "string",
       label: "First Day at Work Date",
-      description: "Employee's first day at work date (YYYY-MM-DD)",
+      description: "Employee's first day at work date (Format: YYYY-MM-DD)",
     },
     firstName: {
       type: "string",

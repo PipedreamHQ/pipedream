@@ -150,7 +150,7 @@ export default {
         "employeeId",
       ],
       label: "Manager ID",
-      description: "Filter employees who have direct reports (i.e., are managers)",
+      description: "Filter employees by manager ID",
       optional: true,
     },
     workScheduleType: {
