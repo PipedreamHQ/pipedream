@@ -2,7 +2,7 @@
  
 The Notion Create Page from Data Source action allows you to add pages to a Notion Data Source.
 
-This action features easy to use dropdowns that automatically populate your data sources as well as your data sources's properties, also known as columns.
+This action features easy to use dropdowns that automatically populate your data source as well as your data source's properties, also known as columns.
 
 This action interacts with the [Notion create a Page API endpoint](https://developers.notion.com/reference/post-page). The Data Source selected in the `Parent Data Source ID` is used as the `parent_id` parameter to that endpoint so the page is added to your data source.
 

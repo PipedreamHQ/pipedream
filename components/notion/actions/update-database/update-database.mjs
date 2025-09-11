@@ -33,7 +33,7 @@ export default {
     properties: {
       type: "object",
       label: "Properties",
-      description: "The properties of a data source to be changed in the request, in the form of a JSON object. If updating an existing property, then the keys are the names or IDs of the properties as they appear in Notion, and the values are [property schema objects](https://developers.notion.com/reference/rich-text). If adding a new property, then the key is the name of the new data source property and the value is a [property schema object](https://developers.notion.com/reference/property-schema-object).",
+      description: "The properties of a data source to be changed in the request, in the form of a JSON object. If updating an existing property, then the keys are the names or IDs of the properties as they appear in Notion, and the values are [property schema objects](https://developers.notion.com/reference/property-schema-object). If adding a new property, then the key is the name of the new data source property and the value is a [property schema object](https://developers.notion.com/reference/property-schema-object).",
       optional: true,
     },
   },
