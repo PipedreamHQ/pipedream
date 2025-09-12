@@ -12880,8 +12880,8 @@ importers:
   components/sharepoint:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/sharpspring:
     dependencies:
@@ -14480,8 +14480,7 @@ importers:
 
   components/timely_time_tracking: {}
 
-  components/timescaledb:
-    specifiers: {}
+  components/timescaledb: {}
 
   components/timetonic:
     dependencies:
