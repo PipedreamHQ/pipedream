@@ -1,22 +1,23 @@
 import {
-  Coinbase, Wallet, Webhook,
+  Coinbase, Webhook,
 } from "@coinbase/coinbase-sdk";
 
 export default {
   type: "app",
   app: "coinbase_developer_platform",
   propDefinitions: {
-    walletId: {
+    walletAddress: {
       type: "string",
-      label: "Wallet ID",
-      description: "The ID of the wallet to use",
+      label: "Address",
+      description: "The address of the wallet to monitor. Example: `0x8fddcc0c5c993a1968b46787919cc34577d6dc5c`",
+    },
+    networkId: {
+      type: "string",
+      label: "Network ID",
+      description: "The network ID of the wallet to monitor. Example: `base-mainnet`",
       async options() {
-        this.configure();
-        const { data } = await this.listWallets();
-        return data?.map((wallet) => ({
-          label: `${wallet.model.network_id} - ${wallet.model.default_address.wallet_id}`,
-          value: wallet.model.default_address.wallet_id,
-        })) || [];
+        const networks = Coinbase.networks;
+        return Object.values(networks);
       },
     },
   },
@@ -28,12 +29,6 @@ export default {
         apiKeyName,
         privateKey,
       });
-    },
-    getWallet(walletId) {
-      return Wallet.fetch(walletId);
-    },
-    listWallets() {
-      return Wallet.listWallets();
     },
     listWebhooks() {
       return Webhook.list();

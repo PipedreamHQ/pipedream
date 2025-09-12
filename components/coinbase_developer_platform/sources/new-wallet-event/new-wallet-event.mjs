@@ -12,38 +12,43 @@ export default {
   dedupe: "unique",
   props: {
     ...common.props,
-    walletId: {
+    walletAddress: {
       propDefinition: [
         common.props.coinbase,
-        "walletId",
+        "walletAddress",
+      ],
+    },
+    networkId: {
+      propDefinition: [
+        common.props.coinbase,
+        "networkId",
       ],
     },
   },
   hooks: {
     async activate() {
       this.coinbase.configure();
-      const wallet = await this.coinbase.getWallet(this.walletId);
-      const networkId = wallet.model.network_id;
-      const addresses = [
-        wallet.model.default_address.address_id,
-        ...wallet.addresses,
-      ];
+      try {
+        const webhook = await this.coinbase.createWebhook({
+          notificationUri: this.http.endpoint,
+          eventType: "wallet_activity",
+          networkId: this.networkId,
+          eventTypeFilter: {
+            addresses: [
+              this.walletAddress,
+            ],
+            wallet_id: "",
+          },
+        });
 
-      const webhook = await this.coinbase.createWebhook({
-        notificationUri: this.http.endpoint,
-        eventType: "wallet_activity",
-        networkId,
-        eventTypeFilter: {
-          addresses,
-          wallet_id: this.walletId,
-        },
-      });
+        if (!webhook?.model?.id) {
+          throw new ConfigurationError("Failed to create webhook");
+        }
 
-      if (!webhook?.model?.id) {
-        throw new ConfigurationError("Failed to create webhook");
+        this._setWebhookId(webhook.model.id);
+      } catch (error) {
+        console.log(error);
       }
-
-      this._setWebhookId(webhook.model.id);
     },
     async deactivate() {
       this.coinbase.configure();
