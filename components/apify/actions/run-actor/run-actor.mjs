@@ -99,8 +99,8 @@ export default {
         ? type
         : "string[]";
     },
-    async getSchema(actorId, buildId) {
-      const build = await this.apify.getBuild(actorId, buildId);
+    async getSchema(actorId, buildTag) {
+      const build = await this.apify.getBuild(actorId, buildTag);
       if (!build) {
         throw new Error(`No build found for actor ${actorId}`);
       }
@@ -130,13 +130,13 @@ export default {
     },
     async prepareData(data) {
       const newData = {};
-      const { properties } = await this.apify.getSchema(this.actorId, this.buildId);
+      const { properties } = await this.getSchema(this.actorId, this.buildTag);
 
       for (const [
         key,
         value,
       ] of Object.entries(data)) {
-        let editor = properties[key]?.editor || "hidden";
+        const editor = properties[key]?.editor || "hidden";
         newData[key] = Array.isArray(value)
           ? value.map((item) => this.setValue(editor, item))
           : value;
@@ -173,7 +173,7 @@ export default {
   async additionalProps() {
     const props = {};
     try {
-      const schema = await this.getSchema(this.actorId, this.buildId);
+      const schema = await this.getSchema(this.actorId, this.buildTag);
       const {
         properties, required: requiredProps = [],
       } = schema;
@@ -292,9 +292,10 @@ export default {
     }
 
     // Prepare input
-    const input = this.properties
+    const rawInput = this.properties
       ? parseObject(this.properties)
       : data;
+    const input = await this.prepareData(rawInput);
 
     // Build params safely
     const params = {

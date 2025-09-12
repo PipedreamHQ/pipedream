@@ -84,7 +84,7 @@ export default {
     buildTag: {
       type: "string",
       label: "Build",
-      description: "Specifies the Actor build to run. It can be either a build tag or build number.",
+      description: "Specifies the Actor build to run. The accepted value is the build tag. If not provided, the default build will be used.",
       async options({ actorId }) {
         const { taggedBuilds } = await this.getActor({
           actorId,
@@ -92,11 +92,7 @@ export default {
 
         return Object.entries(taggedBuilds).map(([
           name,
-          build,
-        ]) => ({
-          label: name,
-          value: build.buildId,
-        }));
+        ]) => name);
       },
     },
     clean: {
@@ -187,31 +183,29 @@ export default {
       return this._client().actor(actorId)
         .get();
     },
-    async getBuild(actorId, buildId) {
-      if (!buildId) {
-        // Get actor details
-        const actor = await this._client().actor(actorId)
-          .get();
+    async getBuild(actorId, buildTag) {
+      // Get actor details
+      const actor = await this._client().actor(actorId)
+        .get();
 
-        if (!actor) {
-          throw new Error(`Actor ${actorId} not found.`);
-        }
-
-        // Get the default build
-        const { build: defaultBuildTag } = actor.defaultRunOptions;
-        const build = actor.taggedBuilds[defaultBuildTag];
-        if (!build) {
-          throw new Error(
-            `Actor ${actorId} has no build tagged "${defaultBuildTag}". Please build the actor first.`,
-          );
-        }
-
-        buildId = build.buildId;
+      if (!actor) {
+        throw new Error(`Actor ${actorId} not found.`);
       }
 
-      // Fetch the build by ID
-      return this._client().build(buildId)
-        .get();
+      if (!buildTag) {
+        buildTag = actor.defaultRunOptions.build;
+      }
+
+      const { taggedBuilds } = actor;
+
+      if (taggedBuilds[buildTag]) {
+        return this._client().build(taggedBuilds[buildTag].buildId)
+          .get();
+      } else {
+        throw new Error(
+          `Actor ${actorId} has no build tagged "${buildTag}". Please build the actor first.`,
+        );
+      }
     },
     listActors(opts = {}) {
       return this._client().store()
