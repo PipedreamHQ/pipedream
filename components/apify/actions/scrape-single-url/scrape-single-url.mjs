@@ -38,6 +38,7 @@ export default {
           value: "playwright:adaptive",
         },
       ],
+      default: "playwright:firefox",
     },
   },
   async run({ $ }) {
