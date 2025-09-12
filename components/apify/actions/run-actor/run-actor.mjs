@@ -340,8 +340,8 @@ export default {
       // sync run
       run = await apify.runActor({
         actorId,
-        data: input,
-        params,
+        input,
+        options: params,
       });
 
       // Fetch OUTPUT record manually

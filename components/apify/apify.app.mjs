@@ -250,12 +250,13 @@ export default {
         .call({}, params);
     },
     setKeyValueStoreRecord({
-      storeId, key, value,
+      storeId, key, value, contentType,
     }) {
       return this._client().keyValueStore(storeId)
         .setRecord({
           key,
           value,
+          contentType,
         });
     },
     formatActorOrTaskLabel({
