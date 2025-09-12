@@ -28,27 +28,23 @@ export default {
   hooks: {
     async activate() {
       this.coinbase.configure();
-      try {
-        const webhook = await this.coinbase.createWebhook({
-          notificationUri: this.http.endpoint,
-          eventType: "wallet_activity",
-          networkId: this.networkId,
-          eventTypeFilter: {
-            addresses: [
-              this.walletAddress,
-            ],
-            wallet_id: "",
-          },
-        });
+      const webhook = await this.coinbase.createWebhook({
+        notificationUri: this.http.endpoint,
+        eventType: "wallet_activity",
+        networkId: this.networkId,
+        eventTypeFilter: {
+          addresses: [
+            this.walletAddress,
+          ],
+          wallet_id: "",
+        },
+      });
 
-        if (!webhook?.model?.id) {
-          throw new ConfigurationError("Failed to create webhook");
-        }
-
-        this._setWebhookId(webhook.model.id);
-      } catch (error) {
-        console.log(error);
+      if (!webhook?.model?.id) {
+        throw new ConfigurationError("Failed to create webhook");
       }
+
+      this._setWebhookId(webhook.model.id);
     },
     async deactivate() {
       this.coinbase.configure();
