@@ -5,8 +5,9 @@ import commonPageProp from "../common/common-page-prop.mjs";
 export default {
   key: "hubspot-create-landing-page",
   name: "Create Landing Page",
-  description: "Create a landing page in Hubspot. [See the documentation](https://developers.hubspot.com/docs/reference/api/cms/pages#post-%2Fcms%2Fv3%2Fpages%2Flanding-pages)",
-  version: "0.0.2",
+  description:
+    "Create a landing page in Hubspot. [See the documentation](https://developers.hubspot.com/docs/reference/api/cms/pages#post-%2Fcms%2Fv3%2Fpages%2Flanding-pages)",
+  version: "0.0.6",
   type: "action",
   props: {
     hubspot,
@@ -46,7 +47,10 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully created landing page with ID: ${response.id}`);
+    $.export(
+      "$summary",
+      `Successfully created landing page with ID: ${response.id}`,
+    );
 
     return response;
   },

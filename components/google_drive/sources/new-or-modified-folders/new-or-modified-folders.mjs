@@ -20,7 +20,7 @@ export default {
   key: "google_drive-new-or-modified-folders",
   name: "New or Modified Folders (Instant)",
   description: "Emit new event when a folder is created or modified in the selected Drive",
-  version: "0.2.0",
+  version: "0.2.2",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests

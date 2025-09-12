@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/gmail",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Pipedream Gmail Components",
   "main": "gmail.app.mjs",
   "keywords": [
@@ -21,6 +21,7 @@
     "html-to-text": "^9.0.5",
     "mime": "^3.0.0",
     "nodemailer": "^6.7.8",
+    "stream": "^0.0.3",
     "uuid": "^10.0.0"
   }
 }

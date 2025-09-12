@@ -6,7 +6,7 @@ export default {
   key: "notion-new-webhook-event-instant",
   name: "New Webhook Event (Instant)",
   description: "Emit new event each time a webhook event is received. Webhook must be setup in Notion. [See the documentation](https://developers.notion.com/reference/webhooks#step-1-creating-a-webhook-subscription)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   methods: {

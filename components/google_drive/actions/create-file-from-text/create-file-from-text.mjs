@@ -1,11 +1,11 @@
-import googleDrive from "../../google_drive.app.mjs";
 import { Readable } from "stream";
+import googleDrive from "../../google_drive.app.mjs";
 
 export default {
   key: "google_drive-create-file-from-text",
   name: "Create New File From Text",
   description: "Create a new file from plain text. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/create) for more information",
-  version: "0.2.4",
+  version: "0.2.6",
   type: "action",
   props: {
     googleDrive,

@@ -10,7 +10,7 @@ export default {
   key: "hubspot-new-or-updated-contact",
   name: "New or Updated Contact",
   description: "Emit new event for each new or updated contact in Hubspot.",
-  version: "0.0.14",
+  version: "0.0.19",
   dedupe: "unique",
   type: "source",
   props: {
@@ -96,16 +96,18 @@ export default {
       }
       return true;
     },
-    getParams() {
+    getParams(after) {
       const { properties = [] } = this;
-      return {
+      const dateProperty = this.newOnly
+        ? "createdate"
+        : "lastmodifieddate";
+
+      const params = {
         data: {
           limit: DEFAULT_LIMIT,
           sorts: [
             {
-              propertyName: this.newOnly
-                ? "createdate"
-                : "lastmodifieddate",
+              propertyName: dateProperty,
               direction: "DESCENDING",
             },
           ],
@@ -116,6 +118,22 @@ export default {
         },
         object: "contacts",
       };
+
+      if (after) {
+        params.data.filterGroups = [
+          {
+            filters: [
+              {
+                propertyName: dateProperty,
+                operator: "GT",
+                value: after,
+              },
+            ],
+          },
+        ];
+      }
+
+      return params;
     },
     async processResults(after, params) {
       await this.searchCRM(params, after);

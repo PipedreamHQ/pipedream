@@ -3,8 +3,9 @@ import hubspot from "../../hubspot.app.mjs";
 export default {
   key: "hubspot-enroll-contact-into-workflow",
   name: "Enroll Contact Into Workflow",
-  description: "Add a contact to a workflow. Note: The Workflows API currently only supports contact-based workflows and is only available for Marketing Hub Enterprise accounts. [See the documentation](https://legacydocs.hubspot.com/docs/methods/workflows/add_contact)",
-  version: "0.0.21",
+  description:
+    "Add a contact to a workflow. Note: The Workflows API currently only supports contact-based workflows and is only available for Marketing Hub Enterprise accounts. [See the documentation](https://legacydocs.hubspot.com/docs/methods/workflows/add_contact)",
+  version: "0.0.25",
   type: "action",
   props: {
     hubspot,
@@ -24,8 +25,7 @@ export default {
   },
   async run({ $ }) {
     const {
-      workflow,
-      contactEmail,
+      workflow, contactEmail,
     } = this;
     const response = await this.hubspot.addContactsIntoWorkflow({
       workflowId: workflow,

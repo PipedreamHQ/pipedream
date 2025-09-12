@@ -6,8 +6,8 @@ export default {
   ...base,
   key: "notion-create-database",
   name: "Create Database",
-  description: "Create a database. [See the documentation](https://developers.notion.com/reference/create-a-database)",
-  version: "0.0.1",
+  description: "Create a database and its initial data source. [See the documentation](https://developers.notion.com/reference/database-create)",
+  version: "0.1.0",
   type: "action",
   props: {
     notion,
@@ -45,7 +45,9 @@ export default {
           },
         },
       ],
-      properties: utils.parseObject(this.properties),
+      initial_data_source: {
+        properties: utils.parseObject(this.properties),
+      },
     });
 
     $.export("$summary", `Successfully created database with ID ${response.id}`);

@@ -1,5 +1,6 @@
 import {
-  DEFAULT_LIMIT, DEFAULT_PRODUCT_PROPERTIES,
+  DEFAULT_LIMIT,
+  DEFAULT_PRODUCT_PROPERTIES,
 } from "../../common/constants.mjs";
 import common from "../common/common.mjs";
 import sampleEmit from "./test-event.mjs";
@@ -9,7 +10,7 @@ export default {
   key: "hubspot-new-or-updated-product",
   name: "New or Updated Product",
   description: "Emit new event for each new or updated product in Hubspot.",
-  version: "0.0.14",
+  version: "0.0.18",
   dedupe: "unique",
   type: "source",
   props: {
@@ -46,8 +47,7 @@ export default {
     },
     generateMeta(product) {
       const {
-        id,
-        properties,
+        id, properties,
       } = product;
       const ts = this.getTs(product);
       return {

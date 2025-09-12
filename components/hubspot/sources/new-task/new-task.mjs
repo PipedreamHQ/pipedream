@@ -7,8 +7,9 @@ export default {
   ...common,
   key: "hubspot-new-task",
   name: "New Task Created",
-  description: "Emit new event for each new task created. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/engagements/tasks#get-%2Fcrm%2Fv3%2Fobjects%2Ftasks)",
-  version: "1.0.8",
+  description:
+    "Emit new event for each new task created. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/engagements/tasks#get-%2Fcrm%2Fv3%2Fobjects%2Ftasks)",
+  version: "1.0.12",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -34,7 +35,9 @@ export default {
 
       const objectTypes = OBJECT_TYPES.map(({ value }) => value);
       const { results: custom } = await this.hubspot.listSchemas();
-      const customObjects = custom?.map(({ fullyQualifiedName }) => fullyQualifiedName);
+      const customObjects = custom?.map(
+        ({ fullyQualifiedName }) => fullyQualifiedName,
+      );
       const associations = [
         ...objectTypes,
         ...customObjects,
@@ -49,7 +52,10 @@ export default {
       };
     },
     async processResults(after, params) {
-      const tasks = await this.getPaginatedItems(this.hubspot.listTasks.bind(this), params);
+      const tasks = await this.getPaginatedItems(
+        this.hubspot.listTasks.bind(this),
+        params,
+      );
       await this.processEvents(tasks, after);
     },
   },

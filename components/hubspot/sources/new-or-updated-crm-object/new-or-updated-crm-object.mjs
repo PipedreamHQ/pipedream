@@ -7,7 +7,7 @@ export default {
   key: "hubspot-new-or-updated-crm-object",
   name: "New or Updated CRM Object",
   description: "Emit new event each time a CRM Object of the specified object type is updated.",
-  version: "0.0.27",
+  version: "0.0.31",
   dedupe: "unique",
   type: "source",
   props: {
@@ -40,9 +40,10 @@ export default {
       return null;
     },
     getObjectParams(object) {
-      const propertyName = (object == "contacts")
-        ? "lastmodifieddate"
-        : "hs_lastmodifieddate";
+      const propertyName =
+        object == "contacts"
+          ? "lastmodifieddate"
+          : "hs_lastmodifieddate";
       return {
         data: {
           limit: DEFAULT_LIMIT,
@@ -57,9 +58,10 @@ export default {
       };
     },
     async processResults(after) {
-      const object = (this.objectType == "company")
-        ? "companies"
-        : `${this.objectType}s`;
+      const object =
+        this.objectType == "company"
+          ? "companies"
+          : `${this.objectType}s`;
       const params = this.getObjectParams(object);
       await this.searchCRM(params, after);
     },

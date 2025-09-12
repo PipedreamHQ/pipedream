@@ -8,7 +8,7 @@ export default {
   key: "hubspot-new-engagement",
   name: "New Engagement",
   description: "Emit new event for each new engagement created. This action returns a maximum of 5000 records at a time, make sure you set a correct time range so you don't miss any events",
-  version: "0.0.32",
+  version: "0.0.36",
   dedupe: "unique",
   type: "source",
   props: {
@@ -28,8 +28,7 @@ export default {
     },
     generateMeta(engagement) {
       const {
-        id,
-        type,
+        id, type,
       } = engagement.engagement;
       const ts = this.getTs(engagement);
       return {

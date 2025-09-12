@@ -4,8 +4,9 @@ import hubspot from "../../hubspot.app.mjs";
 export default {
   key: "hubspot-create-contact-workflow",
   name: "Create Contact Workflow",
-  description: "Create a contact workflow in Hubspot. [See the documentation](https://developers.hubspot.com/docs/reference/api/automation/create-manage-workflows#post-%2Fautomation%2Fv4%2Fflows)",
-  version: "0.0.2",
+  description:
+    "Create a contact workflow in Hubspot. [See the documentation](https://developers.hubspot.com/docs/reference/api/automation/create-manage-workflows#post-%2Fautomation%2Fv4%2Fflows)",
+  version: "0.0.7",
   type: "action",
   props: {
     hubspot,
@@ -73,61 +74,71 @@ export default {
     enrollmentCriteria: {
       type: "object",
       label: "Enrollment Criteria",
-      description: "An object with the enrollment criteria data for the contact workflow. [See the documentation](https://developers.hubspot.com/changelog/enrollment-criteria-in-contact-workflows) for more information.",
+      description:
+        "An object with the enrollment criteria data for the contact workflow. [See the documentation](https://developers.hubspot.com/changelog/enrollment-criteria-in-contact-workflows) for more information.",
       optional: true,
     },
     enrollmentSchedule: {
       type: "object",
       label: "Enrollment Schedule",
-      description: "An object with the enrollment schedule data for the contact workflow. [See the documentation](https://developers.hubspot.com/changelog/enrollment-schedule-in-contact-workflows) for more information.",
+      description:
+        "An object with the enrollment schedule data for the contact workflow. [See the documentation](https://developers.hubspot.com/changelog/enrollment-schedule-in-contact-workflows) for more information.",
       optional: true,
     },
     timeWindows: {
       type: "string[]",
       label: "Time Windows",
-      description: "A list of time windows for the contact workflow. [See the documentation](https://developers.hubspot.com/changelog/time-windows-in-contact-workflows) for more information.",
+      description:
+        "A list of time windows for the contact workflow. [See the documentation](https://developers.hubspot.com/changelog/time-windows-in-contact-workflows) for more information.",
       optional: true,
     },
     blockedDates: {
       type: "string[]",
       label: "Blocked Dates",
-      description: "A list of blocked dates for the contact workflow. [See the documentation](https://developers.hubspot.com/changelog/blocked-dates-in-contact-workflows) for more information.",
+      description:
+        "A list of blocked dates for the contact workflow. [See the documentation](https://developers.hubspot.com/changelog/blocked-dates-in-contact-workflows) for more information.",
       optional: true,
     },
     customProperties: {
       type: "object",
       label: "Custom Properties",
-      description: "An object with the custom properties data for the contact workflow. [See the documentation](https://developers.hubspot.com/changelog/custom-properties-in-contact-workflows) for more information.",
+      description:
+        "An object with the custom properties data for the contact workflow. [See the documentation](https://developers.hubspot.com/changelog/custom-properties-in-contact-workflows) for more information.",
       optional: true,
     },
     dataSources: {
       type: "string[]",
       label: "Data Sources",
-      description: "A list of data sources for the contact workflow. [See the documentation](https://developers.hubspot.com/changelog/data-sources-in-contact-workflows) for more information.",
+      description:
+        "A list of data sources for the contact workflow. [See the documentation](https://developers.hubspot.com/changelog/data-sources-in-contact-workflows) for more information.",
       optional: true,
     },
     suppressionListIds: {
       type: "string[]",
       label: "Suppression List IDs",
-      description: "A list of suppression list IDs for the contact workflow. [See the documentation](https://developers.hubspot.com/changelog/suppression-list-ids-in-contact-workflows) for more information.",
+      description:
+        "A list of suppression list IDs for the contact workflow. [See the documentation](https://developers.hubspot.com/changelog/suppression-list-ids-in-contact-workflows) for more information.",
       optional: true,
     },
     goalFilterBranch: {
       type: "object",
       label: "Goal Filter Branch",
-      description: "An object with the goal filter branch data for the contact workflow. [See the documentation](https://developers.hubspot.com/changelog/goal-filter-branch-in-contact-workflows) for more information.",
+      description:
+        "An object with the goal filter branch data for the contact workflow. [See the documentation](https://developers.hubspot.com/changelog/goal-filter-branch-in-contact-workflows) for more information.",
       optional: true,
     },
     eventAnchor: {
       type: "object",
       label: "Event Anchor",
-      description: "An object with the event anchor data for the contact workflow. [See the documentation](https://developers.hubspot.com/changelog/event-anchor-in-contact-workflows) for more information.",
+      description:
+        "An object with the event anchor data for the contact workflow. [See the documentation](https://developers.hubspot.com/changelog/event-anchor-in-contact-workflows) for more information.",
       optional: true,
     },
     unEnrollmentSetting: {
       type: "object",
       label: "Un Enrollment Setting",
-      description: "An object with the un enrollment setting data for the contact workflow. [See the documentation](https://developers.hubspot.com/changelog/un-enrollment-setting-in-contact-workflows) for more information.",
+      description:
+        "An object with the un enrollment setting data for the contact workflow. [See the documentation](https://developers.hubspot.com/changelog/un-enrollment-setting-in-contact-workflows) for more information.",
       optional: true,
     },
   },
@@ -157,7 +168,10 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully created contact workflow with ID: ${response.id}`);
+    $.export(
+      "$summary",
+      `Successfully created contact workflow with ID: ${response.id}`,
+    );
 
     return response;
   },

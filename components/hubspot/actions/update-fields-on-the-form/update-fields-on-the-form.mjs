@@ -8,8 +8,9 @@ import hubspot from "../../hubspot.app.mjs";
 export default {
   key: "hubspot-update-fields-on-the-form",
   name: "Update Fields on the Form",
-  description: "Update some of the form definition components. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/forms#patch-%2Fmarketing%2Fv3%2Fforms%2F%7Bformid%7D)",
-  version: "0.0.2",
+  description:
+    "Update some of the form definition components. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/forms#patch-%2Fmarketing%2Fv3%2Fforms%2F%7Bformid%7D)",
+  version: "0.0.6",
   type: "action",
   props: {
     hubspot,
@@ -34,13 +35,15 @@ export default {
     fieldGroups: {
       type: "string[]",
       label: "Field Groups",
-      description: "A list for objects of group type and fields. **Format: `[{ \"groupType\": \"default_group\", \"richTextType\": \"text\", \"fields\": [ { \"objectTypeId\": \"0-1\", \"name\": \"email\", \"label\": \"Email\", \"required\": true, \"hidden\": false, \"fieldType\": \"email\", \"validation\": { \"blockedEmailDomains\": [], \"useDefaultBlockList\": false }}]}]`** [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/forms#post-%2Fmarketing%2Fv3%2Fforms%2F) for more information.",
+      description:
+        "A list for objects of group type and fields. **Format: `[{ \"groupType\": \"default_group\", \"richTextType\": \"text\", \"fields\": [ { \"objectTypeId\": \"0-1\", \"name\": \"email\", \"label\": \"Email\", \"required\": true, \"hidden\": false, \"fieldType\": \"email\", \"validation\": { \"blockedEmailDomains\": [], \"useDefaultBlockList\": false }}]}]`** [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/forms#post-%2Fmarketing%2Fv3%2Fforms%2F) for more information.",
       optional: true,
     },
     createNewContactForNewEmail: {
       type: "boolean",
       label: "Create New Contact for New Email",
-      description: "Whether to create a new contact when a form is submitted with an email address that doesn't match any in your existing contacts records.",
+      description:
+        "Whether to create a new contact when a form is submitted with an email address that doesn't match any in your existing contacts records.",
       optional: true,
     },
     editable: {
@@ -52,20 +55,23 @@ export default {
     allowLinkToResetKnownValues: {
       type: "boolean",
       label: "Allow Link to Reset Known Values",
-      description: "Whether to add a reset link to the form. This removes any pre-populated content on the form and creates a new contact on submission.",
+      description:
+        "Whether to add a reset link to the form. This removes any pre-populated content on the form and creates a new contact on submission.",
       optional: true,
     },
     lifecycleStages: {
       type: "string[]",
       label: "Lifecycle Stages",
-      description: "A list of objects of lifecycle stages. **Format: `[{ \"objectTypeId\": \"0-1\", \"value\": \"subscriber\" }]`** [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/forms#post-%2Fmarketing%2Fv3%2Fforms%2F) for more information.",
+      description:
+        "A list of objects of lifecycle stages. **Format: `[{ \"objectTypeId\": \"0-1\", \"value\": \"subscriber\" }]`** [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/forms#post-%2Fmarketing%2Fv3%2Fforms%2F) for more information.",
       optional: true,
       default: [],
     },
     postSubmitActionType: {
       type: "string",
       label: "Post Submit Action Type",
-      description: "The action to take after submit. The default action is displaying a thank you message.",
+      description:
+        "The action to take after submit. The default action is displaying a thank you message.",
       options: [
         "thank_you",
         "redirect_url",
@@ -88,7 +94,8 @@ export default {
     prePopulateKnownValues: {
       type: "boolean",
       label: "Pre-populate Known Values",
-      description: "Whether contact fields should pre-populate with known information when a contact returns to your site.",
+      description:
+        "Whether contact fields should pre-populate with known information when a contact returns to your site.",
       optional: true,
     },
     cloneable: {
@@ -100,7 +107,8 @@ export default {
     notifyContactOwner: {
       type: "boolean",
       label: "Notify Contact Owner",
-      description: "Whether to send a notification email to the contact owner when a submission is received.",
+      description:
+        "Whether to send a notification email to the contact owner when a submission is received.",
       optional: true,
     },
     recaptchaEnabled: {
@@ -126,7 +134,8 @@ export default {
     renderRawHtml: {
       type: "boolean",
       label: "Render Raw HTML",
-      description: "Whether the form will render as raw HTML as opposed to inside an iFrame.",
+      description:
+        "Whether the form will render as raw HTML as opposed to inside an iFrame.",
       optional: true,
     },
     cssClass: {
@@ -138,7 +147,8 @@ export default {
     theme: {
       type: "string",
       label: "Theme",
-      description: "The theme used for styling the input fields. This will not apply if the form is added to a HubSpot CMS page`.",
+      description:
+        "The theme used for styling the input fields. This will not apply if the form is added to a HubSpot CMS page`.",
       options: [
         "default_style",
         "canvas",
@@ -247,7 +257,8 @@ export default {
     legalConsentOptionsObject: {
       type: "object",
       label: "Legal Consent Options Object",
-      description: "The object of legal consent options. **Format: `{\"subscriptionTypeIds\": [1,2,3], \"lawfulBasis\": \"lead\", \"privacy\": \"string\"}`** [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/forms#post-%2Fmarketing%2Fv3%2Fforms%2F) for more information.",
+      description:
+        "The object of legal consent options. **Format: `{\"subscriptionTypeIds\": [1,2,3], \"lawfulBasis\": \"lead\", \"privacy\": \"string\"}`** [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/forms#post-%2Fmarketing%2Fv3%2Fforms%2F) for more information.",
       optional: true,
     },
   },
@@ -257,7 +268,9 @@ export default {
       (this.postSubmitActionType && !this.postSubmitActionValue) ||
       (!this.postSubmitActionType && this.postSubmitActionValue)
     ) {
-      throw new ConfigurationError("Post Submit Action Type and Value must be provided together.");
+      throw new ConfigurationError(
+        "Post Submit Action Type and Value must be provided together.",
+      );
     }
 
     if (this.language) {
@@ -288,45 +301,47 @@ export default {
       configuration.notifyRecipients = parseObject(this.notifyRecipients);
     }
     if (this.createNewContactForNewEmail) {
-      configuration.createNewContactForNewEmail = this.createNewContactForNewEmail;
+      configuration.createNewContactForNewEmail =
+        this.createNewContactForNewEmail;
     }
     if (this.prePopulateKnownValues) {
       configuration.prePopulateKnownValues = this.prePopulateKnownValues;
     }
     if (this.allowLinkToResetKnownValues) {
-      configuration.allowLinkToResetKnownValues = this.allowLinkToResetKnownValues;
+      configuration.allowLinkToResetKnownValues =
+        this.allowLinkToResetKnownValues;
     }
     if (this.lifecycleStages) {
       configuration.lifecycleStages = parseObject(this.lifecycleStages);
     }
 
     const data = cleanObject({
-      "formType": "hubspot",
-      "name": this.name,
-      "archived": this.archived,
-      "fieldGroups": parseObject(this.fieldGroups),
-      "displayOptions": {
-        "renderRawHtml": this.renderRawHtml,
-        "cssClass": this.cssClass,
-        "theme": this.theme,
-        "submitButtonText": this.submitButtonText,
-        "style": {
-          "labelTextSize": this.labelTextSize,
-          "legalConsentTextColor": this.legalConsentTextColor,
-          "fontFamily": this.fontFamily,
-          "legalConsentTextSize": this.legalConsentTextSize,
-          "backgroundWidth": this.backgroundWidth,
-          "helpTextSize": this.helpTextSize,
-          "submitFontColor": this.submitFontColor,
-          "labelTextColor": this.labelTextColor,
-          "submitAlignment": this.submitAlignment,
-          "submitSize": this.submitSize,
-          "helpTextColor": this.helpTextColor,
-          "submitColor": this.submitColor,
+      formType: "hubspot",
+      name: this.name,
+      archived: this.archived,
+      fieldGroups: parseObject(this.fieldGroups),
+      displayOptions: {
+        renderRawHtml: this.renderRawHtml,
+        cssClass: this.cssClass,
+        theme: this.theme,
+        submitButtonText: this.submitButtonText,
+        style: {
+          labelTextSize: this.labelTextSize,
+          legalConsentTextColor: this.legalConsentTextColor,
+          fontFamily: this.fontFamily,
+          legalConsentTextSize: this.legalConsentTextSize,
+          backgroundWidth: this.backgroundWidth,
+          helpTextSize: this.helpTextSize,
+          submitFontColor: this.submitFontColor,
+          labelTextColor: this.labelTextColor,
+          submitAlignment: this.submitAlignment,
+          submitSize: this.submitSize,
+          helpTextColor: this.helpTextColor,
+          submitColor: this.submitColor,
         },
       },
-      "legalConsentOptions": {
-        "type": this.legalConsentOptionsType,
+      legalConsentOptions: {
+        type: this.legalConsentOptionsType,
         ...(this.legalConsentOptionsObject
           ? parseObject(this.legalConsentOptionsObject)
           : {}),

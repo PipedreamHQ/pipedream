@@ -4,7 +4,7 @@ export default {
   key: "stripe-search-customers",
   name: "Search Customers",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   description: "Search customers by various attributes like email domain, created date, etc. [See the documentation](https://stripe.com/docs/api/customers/search).",
   props: {
     app,

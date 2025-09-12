@@ -6,8 +6,9 @@ export default {
   ...common,
   key: "hubspot-create-note",
   name: "Create Note",
-  description: "Create a new note. [See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
-  version: "0.0.5",
+  description:
+    "Create a new note. [See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
+  version: "0.0.9",
   type: "action",
   props: {
     ...common.props,
@@ -41,7 +42,8 @@ export default {
           toObjectType: c.toObjectType,
         }),
       ],
-      description: "A unique identifier to indicate the association type between the note and the other object",
+      description:
+        "A unique identifier to indicate the association type between the note and the other object",
       optional: true,
     },
   },
@@ -51,7 +53,10 @@ export default {
       return "notes";
     },
     isRelevantProperty(property) {
-      return common.methods.isRelevantProperty(property) && !property.name.includes("hs_pipeline");
+      return (
+        common.methods.isRelevantProperty(property) &&
+        !property.name.includes("hs_pipeline")
+      );
     },
     createEngagement(objectType, properties, associations, $) {
       return this.hubspot.createObject({
@@ -77,7 +82,9 @@ export default {
     } = this;
 
     if ((toObjectId && !associationType) || (!toObjectId && associationType)) {
-      throw new ConfigurationError("Both `toObjectId` and `associationType` must be entered");
+      throw new ConfigurationError(
+        "Both `toObjectId` and `associationType` must be entered",
+      );
     }
 
     const properties = objectProperties
@@ -108,7 +115,12 @@ export default {
       properties.hs_task_reminders = Date.parse(properties.hs_task_reminders);
     }
 
-    const engagement = await this.createEngagement(objectType, properties, associations, $);
+    const engagement = await this.createEngagement(
+      objectType,
+      properties,
+      associations,
+      $,
+    );
 
     $.export("$summary", "Successfully created note");
 

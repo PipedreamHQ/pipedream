@@ -5,8 +5,9 @@ export default {
   ...common,
   key: "hubspot-new-custom-object-property-change",
   name: "New Custom Object Property Change",
-  description: "Emit new event when a specified property is provided or updated on a custom object.",
-  version: "0.0.12",
+  description:
+    "Emit new event when a specified property is provided or updated on a custom object.",
+  version: "0.0.16",
   dedupe: "unique",
   type: "source",
   props: {
@@ -38,8 +39,7 @@ export default {
     },
     generateMeta(object) {
       const {
-        id,
-        properties,
+        id, properties,
       } = object;
       const ts = this.getTs(object);
       return {
@@ -102,10 +102,15 @@ export default {
       const propertyNames = properties.map((property) => property.name);
 
       if (!propertyNames.includes(this.property)) {
-        throw new Error(`Property "${this.property}" not supported for custom object ${this.objectSchema}.`);
+        throw new Error(
+          `Property "${this.property}" not supported for custom object ${this.objectSchema}.`,
+        );
       }
 
-      const updatedObjects = await this.getPaginatedItems(this.hubspot.searchCRM, params);
+      const updatedObjects = await this.getPaginatedItems(
+        this.hubspot.searchCRM,
+        params,
+      );
 
       if (!updatedObjects.length) {
         return;

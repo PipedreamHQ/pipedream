@@ -7,7 +7,7 @@ export default {
   key: "hubspot-new-deal-property-change",
   name: "New Deal Property Change",
   description: "Emit new event when a specified property is provided or updated on a deal. [See the documentation](https://developers.hubspot.com/docs/api/crm/deals)",
-  version: "0.0.21",
+  version: "0.0.25",
   dedupe: "unique",
   type: "source",
   props: {
@@ -93,10 +93,15 @@ export default {
       const properties = await this.hubspot.getDealProperties();
       const propertyNames = properties.map((property) => property.name);
       if (!propertyNames.includes(this.property)) {
-        throw new Error(`Property "${this.property}" not supported for Deals. See Hubspot's default deal properties documentation - https://knowledge.hubspot.com/crm-deals/hubspots-default-deal-properties`);
+        throw new Error(
+          `Property "${this.property}" not supported for Deals. See Hubspot's default deal properties documentation - https://knowledge.hubspot.com/crm-deals/hubspots-default-deal-properties`,
+        );
       }
 
-      const updatedDeals = await this.getPaginatedItems(this.hubspot.searchCRM, params);
+      const updatedDeals = await this.getPaginatedItems(
+        this.hubspot.searchCRM,
+        params,
+      );
 
       if (!updatedDeals.length) {
         return;

@@ -6,30 +6,30 @@ import base from "../common/base-page-builder.mjs";
 export default {
   ...base,
   key: "notion-create-page-from-database",
-  name: "Create Page from Database",
-  description: "Create a page from a database. [See the documentation](https://developers.notion.com/reference/post-page)",
-  version: "0.2.3",
+  name: "Create Page from Data Source",
+  description: "Create a page from a data source. [See the documentation](https://developers.notion.com/reference/post-page)",
+  version: "1.0.0",
   type: "action",
   props: {
     notion,
-    parent: {
+    parentDataSource: {
       propDefinition: [
         notion,
-        "databaseId",
+        "dataSourceId",
       ],
-      label: "Parent Database ID",
-      description: "Select a parent database or provide a database ID",
+      label: "Parent Data Source ID",
+      description: "Select a parent data source or provide a data source ID",
     },
     Name: {
       type: "string",
       label: "Name",
-      description: "The name of the page. Use this only if the database has a `title` property named `Name`. Otherwise, use the `Properties` prop below to set the title property.",
+      description: "The name of the page. Use this only if the data source has a `title` property named `Name`. Otherwise, use the `Properties` prop below to set the title property.",
       optional: true,
     },
     properties: {
       type: "object",
       label: "Properties",
-      description: "The values of the page's properties. The schema must match the parent database's properties. [See the documentation](https://developers.notion.com/reference/property-object) for information on various property types. Example: `{ \"Tags\": [ \"tag1\" ], \"Link\": \"https://pipedream.com\" }`",
+      description: "The values of the page's properties. The schema must match the parent data source's properties. [See the documentation](https://developers.notion.com/reference/property-object) for information on various property types. Example: `{ \"Tags\": [ \"tag1\" ], \"Link\": \"https://pipedream.com\" }`",
       optional: true,
     },
     icon: {
@@ -60,14 +60,14 @@ export default {
   methods: {
     ...base.methods,
     /**
-     * Builds a page from a parent database
-     * @param parentDatabase - the parent database
+     * Builds a page from a parent data source
+     * @param parentDataSource - the parent data source
      * @returns the constructed page in Notion format
      */
-    buildPage(parentDatabase) {
-      const meta = this.buildDatabaseMeta(parentDatabase);
+    buildPage(parentDataSource) {
+      const meta = this.buildDataSourceMeta(parentDataSource);
       this.properties = utils.parseObject(this.properties);
-      const properties = this.buildPageProperties(parentDatabase.properties);
+      const properties = this.buildPageProperties(parentDataSource.properties);
       const children = this.createBlocks(this.pageContent);
       return {
         ...meta,
@@ -78,7 +78,7 @@ export default {
   },
   async run({ $ }) {
     const MAX_BLOCKS = 100;
-    const parentPage = await this.notion.retrieveDatabase(this.parent);
+    const parentPage = await this.notion.retrieveDataSource(this.parentDataSource);
     const {
       children, ...page
     } = this.buildPage(parentPage);

@@ -10,7 +10,7 @@ export default {
   key: "hubspot-new-or-updated-company",
   name: "New or Updated Company",
   description: "Emit new event for each new or updated company in Hubspot.",
-  version: "0.0.14",
+  version: "0.0.18",
   dedupe: "unique",
   type: "source",
   props: {
@@ -47,8 +47,7 @@ export default {
     },
     generateMeta(company) {
       const {
-        id,
-        properties,
+        id, properties,
       } = company;
       const ts = this.getTs(company);
       return {
