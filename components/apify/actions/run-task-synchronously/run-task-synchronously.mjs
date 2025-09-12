@@ -96,9 +96,9 @@ export default {
       datasetId: defaultDatasetId,
       params: {
         clean: this.clean,
-        fields: this.fields && this.fields.join(),
-        omit: this.omit && this.omit.join(),
-        flatten: this.flatten && this.flatten.join(),
+        fields: this.fields,
+        omit: this.omit,
+        flatten: this.flatten,
         limit: this.limit,
       },
     });
