@@ -2056,7 +2056,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/buddee: {}
+  components/buddee:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/buddy: {}
 
@@ -3740,7 +3744,14 @@ importers:
 
   components/device_magic: {}
 
-  components/devin: {}
+  components/devin:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
+      form-data:
+        specifier: ^4.0.4
+        version: 4.0.4
 
   components/devrev:
     dependencies:
@@ -3989,8 +4000,8 @@ importers:
   components/document360:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/documenterra:
     dependencies:
@@ -4594,7 +4605,11 @@ importers:
         specifier: ^1.2.0
         version: 1.6.6
 
-  components/espy: {}
+  components/espy:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/estreamdesk:
     dependencies:
@@ -9554,8 +9569,8 @@ importers:
   components/notion:
     dependencies:
       '@notionhq/client':
-        specifier: 4.0.2
-        version: 4.0.2
+        specifier: ^5.0.0
+        version: 5.0.0
       '@pipedream/platform':
         specifier: ^3.1.0
         version: 3.1.0
@@ -14471,6 +14486,9 @@ importers:
   components/timelink: {}
 
   components/timely_time_tracking: {}
+
+  components/timescaledb:
+    specifiers: {}
 
   components/timetonic:
     dependencies:
@@ -19797,6 +19815,10 @@ packages:
 
   '@notionhq/client@4.0.2':
     resolution: {integrity: sha512-4pk3dm4umhjsRI0umCnJ8lCZh0TMiaMdkY0rz6FV4OqVuTsmYFV3pk+YTR5S8792ZY2Rm4lJHlLj05HQVKDuIg==}
+    engines: {node: '>=18'}
+
+  '@notionhq/client@5.0.0':
+    resolution: {integrity: sha512-eXq0bZTXN8+xwT6e3qlrH9QCUn8mQLJ9UkNgKSew2NKNV/hyKb2wmIzQAuass8a2Q6F1aMjMPi+EGLQwgbVlOA==}
     engines: {node: '>=18'}
 
   '@octokit/auth-token@2.5.0':
@@ -37253,7 +37275,7 @@ snapshots:
       axios: 1.10.0
       body-parser: 1.20.3
       file-type: 16.5.4
-      form-data: 4.0.3
+      form-data: 4.0.4
     transitivePeerDependencies:
       - debug
       - supports-color
@@ -37785,6 +37807,8 @@ snapshots:
 
   '@notionhq/client@4.0.2': {}
 
+  '@notionhq/client@5.0.0': {}
+
   '@octokit/auth-token@2.5.0':
     dependencies:
       '@octokit/types': 6.41.0
@@ -38243,14 +38267,14 @@ snapshots:
     dependencies:
       '@pipedream/platform': 1.6.6
       axios: 1.10.0
-      form-data: 4.0.3
+      form-data: 4.0.4
     transitivePeerDependencies:
       - debug
 
   '@pipedream/monday@0.7.0':
     dependencies:
       '@pipedream/platform': 3.1.0
-      form-data: 4.0.3
+      form-data: 4.0.4
       lodash.flatmap: 4.5.0
       lodash.map: 4.6.0
       lodash.uniqby: 4.7.0
@@ -38446,7 +38470,7 @@ snapshots:
       '@pipedream/platform': 3.1.0
       async-retry: 1.3.3
       bottleneck: 2.19.5
-      form-data: 4.0.3
+      form-data: 4.0.4
       lodash.get: 4.4.2
       lodash.topath: 4.5.2
       shopify-api-node: 3.14.2
@@ -39637,7 +39661,7 @@ snapshots:
   '@scrapeless-ai/sdk@1.6.0(typescript@5.9.2)':
     dependencies:
       dotenv: 16.6.0
-      form-data: 4.0.3
+      form-data: 4.0.4
       node-fetch: 2.7.0
       playwright-core: 1.53.1
       puppeteer-core: 24.10.2
@@ -39814,7 +39838,7 @@ snapshots:
       '@types/retry': 0.12.0
       axios: 1.10.0
       eventemitter3: 5.0.1
-      form-data: 4.0.3
+      form-data: 4.0.4
       is-electron: 2.2.2
       is-stream: 2.0.1
       p-queue: 6.6.2
@@ -40911,7 +40935,7 @@ snapshots:
   '@types/node-fetch@2.6.12':
     dependencies:
       '@types/node': 20.17.6
-      form-data: 4.0.2
+      form-data: 4.0.4
 
   '@types/node@14.18.63': {}
 
@@ -41603,7 +41627,7 @@ snapshots:
       datauri: 4.1.0
       fetch-har: 5.0.5
       find-cache-dir: 3.3.2
-      form-data: 4.0.3
+      form-data: 4.0.4
       get-stream: 6.0.1
       js-yaml: 4.1.0
       make-dir: 3.1.0
@@ -41894,7 +41918,7 @@ snapshots:
   axios@0.28.1:
     dependencies:
       follow-redirects: 1.15.9(debug@3.2.7)
-      form-data: 4.0.3
+      form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
@@ -41902,7 +41926,7 @@ snapshots:
   axios@1.10.0:
     dependencies:
       follow-redirects: 1.15.9(debug@3.2.7)
-      form-data: 4.0.3
+      form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
@@ -41918,7 +41942,7 @@ snapshots:
   axios@1.6.0:
     dependencies:
       follow-redirects: 1.15.9(debug@3.2.7)
-      form-data: 4.0.3
+      form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
@@ -41926,7 +41950,7 @@ snapshots:
   axios@1.6.7:
     dependencies:
       follow-redirects: 1.15.9(debug@3.2.7)
-      form-data: 4.0.3
+      form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
@@ -41934,7 +41958,7 @@ snapshots:
   axios@1.6.8:
     dependencies:
       follow-redirects: 1.15.9(debug@3.2.7)
-      form-data: 4.0.3
+      form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
@@ -41942,7 +41966,7 @@ snapshots:
   axios@1.7.4:
     dependencies:
       follow-redirects: 1.15.9(debug@3.2.7)
-      form-data: 4.0.3
+      form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
@@ -47595,7 +47619,7 @@ snapshots:
   klaviyo-api@18.0.0:
     dependencies:
       axios: 1.10.0
-      form-data: 4.0.3
+      form-data: 4.0.4
     transitivePeerDependencies:
       - debug
 
@@ -50024,7 +50048,7 @@ snapshots:
       axios: 0.28.1
       base-64: 0.1.0
       build-url: 1.3.3
-      form-data: 4.0.3
+      form-data: 4.0.4
       https-proxy-agent: 5.0.1
       joi: 17.13.3
       jsonwebtoken: 9.0.2
@@ -52312,7 +52336,7 @@ snapshots:
       cookiejar: 2.1.4
       debug: 4.4.1(supports-color@10.0.0)
       fast-safe-stringify: 2.1.1
-      form-data: 4.0.3
+      form-data: 4.0.4
       formidable: 2.1.2
       methods: 1.1.2
       mime: 2.6.0
@@ -53603,7 +53627,7 @@ snapshots:
 
   webflow-api@2.4.2:
     dependencies:
-      form-data: 4.0.3
+      form-data: 4.0.4
       formdata-node: 6.0.3
       js-base64: 3.7.2
       node-fetch: 2.7.0
