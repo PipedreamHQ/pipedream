@@ -52,7 +52,7 @@ export default {
       return results.flat();
     },
     async processEvents(resources, after) {
-      let maxTs = after;
+      let maxTs = after || 0;
       for (const result of resources) {
         if (await this.isRelevant(result, after)) {
           this.emitEvent(result);
