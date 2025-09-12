@@ -4,7 +4,7 @@ import utils from "../../common/utils";
 
 export default defineAction({
   key: "expensify-create-report",
-  version: "0.0.1",
+  version: "0.0.2",
   name: "Create Report",
   description: "Creates a new report with transactions in a user's account. [See docs here](https://integrations.expensify.com/Integration-Server/doc/#report-creator)",
   type: "action",
