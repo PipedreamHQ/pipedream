@@ -1,5 +1,10 @@
 export default {
-  "newRow": {
+  "newRow": [
+    "John Doe",
+    "john@example.com",
+    "30"
+  ],
+  "rowAsObject": {
     "Name": "John Doe",
     "Email": "john@example.com",
     "Age": "30"
