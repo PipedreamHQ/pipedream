@@ -8,7 +8,7 @@ export default {
   key: "fireflies-new-meeting-created",
   name: "New Meeting Created",
   description: "Emit new event when a meeting with transcripts is created",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {
@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     _getLastDate() {
-      return this.db.get("lastDate") || this.oneDayAgo;
+      return this.db.get("lastDate") || this.oneDayAgo();
     },
     _setLastDate(lastDate) {
       this.db.set("lastDate", lastDate);

@@ -5,7 +5,7 @@ export default {
   name: "Delete Record",
   description:
     "Deletes an existing record in an object. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/resources_sobject_retrieve_delete.htm)",
-  version: "0.2.0",
+  version: "0.2.2",
   type: "action",
   props: {
     salesforce,

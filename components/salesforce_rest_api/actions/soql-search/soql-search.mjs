@@ -7,7 +7,7 @@ export default {
   key: "salesforce_rest_api-soql-search",
   name: "SOQL Query (Object Query)",
   description: `Executes a [Salesforce Object Query Language (SOQL)](${docsLink}) query-based, SQL-like search.`,
-  version: "0.2.9",
+  version: "0.2.11",
   type: "action",
   props: {
     salesforce,

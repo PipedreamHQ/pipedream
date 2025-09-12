@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/utradea",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Utradea Components",
-  "main": "dist/app/utradea.app.mjs",
+  "main": "utradea.app.mjs",
   "keywords": [
     "pipedream",
     "utradea"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/utradea",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

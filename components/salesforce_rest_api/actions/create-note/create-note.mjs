@@ -17,7 +17,7 @@ export default {
   key: "salesforce_rest_api-create-note",
   name: "Create Note",
   description: `Creates a note. [See the documentation](${docsLink})`,
-  version: "0.3.1",
+  version: "0.3.3",
   type: "action",
   props,
   async run({ $ }) {

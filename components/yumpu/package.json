@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/yumpu",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Yumpu Components",
-  "main": "dist/app/yumpu.app.mjs",
+  "main": "yumpu.app.mjs",
   "keywords": [
     "pipedream",
     "yumpu"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/yumpu",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

@@ -5,7 +5,7 @@ export default {
   name: "Search Tickets",
   description: "Searches for tickets using Zendesk's search API. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/ticket-management/search/#search-tickets).",
   type: "action",
-  version: "0.0.5",
+  version: "0.0.7",
   props: {
     app,
     query: {

@@ -8,7 +8,7 @@ export default {
   key: "salesforce_rest_api-create-lead",
   name: "Create Lead",
   description: `Creates a lead. [See the documentation](${docsLink})`,
-  version: "0.3.1",
+  version: "0.3.3",
   type: "action",
   methods: {
     ...common.methods,

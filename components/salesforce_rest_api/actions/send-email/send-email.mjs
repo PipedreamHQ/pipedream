@@ -4,7 +4,7 @@ export default {
   key: "salesforce_rest_api-send-email",
   name: "Send Email",
   description: "Sends an email. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_action.meta/api_action/actions_obj_email_simple.htm)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     salesforce,

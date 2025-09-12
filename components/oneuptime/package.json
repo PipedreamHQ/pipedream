@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/oneuptime",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream OneUptime Components",
-  "main": "dist/app/oneuptime.app.mjs",
+  "main": "oneuptime.app.mjs",
   "keywords": [
     "pipedream",
     "oneuptime"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/oneuptime",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

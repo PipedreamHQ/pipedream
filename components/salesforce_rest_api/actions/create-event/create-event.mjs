@@ -9,7 +9,7 @@ export default {
   key: "salesforce_rest_api-create-event",
   name: "Create Event",
   description: `Creates an event. [See the documentation](${docsLink})`,
-  version: "0.3.1",
+  version: "0.3.3",
   type: "action",
   methods: {
     ...common.methods,

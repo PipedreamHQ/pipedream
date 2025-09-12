@@ -4,7 +4,7 @@ export default {
   key: "stripe-void-invoice",
   name: "Void Invoice",
   type: "action",
-  version: "0.1.2",
+  version: "0.1.3",
   description: "Void an invoice. [See the documentation](https://stripe.com/docs/api/invoices/void).",
   props: {
     app,

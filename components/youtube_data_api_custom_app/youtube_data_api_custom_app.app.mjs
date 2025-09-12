@@ -1,4 +1,4 @@
-import commonApp from "../youtube_data_api/common-app.mjs";
+import commonApp from "@pipedream/youtube_data_api/common-app.mjs";
 
 export default {
   ...commonApp,

@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/respond_io",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Respond.io Components",
-  "main": "dist/app/respond_io.app.mjs",
+  "main": "respond_io.app.mjs",
   "keywords": [
     "pipedream",
     "respond_io"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/respond_io",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

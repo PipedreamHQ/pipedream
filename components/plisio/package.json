@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/plisio",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Plisio Components",
-  "main": "dist/app/plisio.app.mjs",
+  "main": "plisio.app.mjs",
   "keywords": [
     "pipedream",
     "plisio"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/plisio",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

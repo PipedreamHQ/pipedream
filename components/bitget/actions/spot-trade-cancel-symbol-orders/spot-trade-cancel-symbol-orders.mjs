@@ -4,7 +4,7 @@ export default {
   key: "bitget-spot-trade-cancel-symbol-orders",
   name: "Spot - Trade - Cancel Symbol Orders",
   description: "Cancel all orders for a specific symbol. [See the documentation](https://www.bitget.com/api-doc/spot/trade/Cancel-Symbol-Orders)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

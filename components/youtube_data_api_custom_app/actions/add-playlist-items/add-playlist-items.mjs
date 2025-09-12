@@ -1,12 +1,12 @@
 import youtubeDataApi from "../../youtube_data_api_custom_app.app.mjs";
-import common from "../../../youtube_data_api/actions/add-playlist-items/common.mjs";
+import common from "@pipedream/youtube_data_api/actions/add-playlist-items/common.mjs";
 
 export default {
   ...common,
   key: "youtube_data_api_custom_app-add-playlist-items",
   name: "Add Playlist Items",
   description: "Adds resources to a playlist. [See the docs](https://developers.google.com/youtube/v3/docs/playlistItems/insert) for more information",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     youtubeDataApi,

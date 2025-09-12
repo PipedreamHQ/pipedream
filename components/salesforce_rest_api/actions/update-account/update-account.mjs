@@ -15,7 +15,7 @@ export default {
   key: "salesforce_rest_api-update-account",
   name: "Update Account",
   description: `Updates a Salesforce account. [See the documentation](${docsLink})`,
-  version: "0.3.1",
+  version: "0.3.3",
   type: "action",
   methods: {
     ...common.methods,

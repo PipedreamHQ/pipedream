@@ -27,7 +27,7 @@ export default {
   key: "salesforce_rest_api-create-content-note",
   name: "Create Content Note",
   description: `Creates a content note. [See the documentation](${docsLink}) and [Set Up Notes](https://help.salesforce.com/s/articleView?id=sales.notes_admin_setup.htm&type=5).`,
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     ...contentNoteProps,

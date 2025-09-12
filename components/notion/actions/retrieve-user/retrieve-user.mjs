@@ -4,7 +4,7 @@ export default {
   key: "notion-retrieve-user",
   name: "Retrieve User",
   description: "Returns a user using the ID specified. [See the documentation](https://developers.notion.com/reference/get-user)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     notion,

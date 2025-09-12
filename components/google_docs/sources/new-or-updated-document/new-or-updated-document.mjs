@@ -9,7 +9,7 @@ export default {
   key: "google_docs-new-or-updated-document",
   name: "New or Updated Document (Instant)",
   description: "Emit new event when a document is created or updated in Google Docs. [See the documentation](https://developers.google.com/drive/api/reference/rest/v3/changes/watch)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   methods: {

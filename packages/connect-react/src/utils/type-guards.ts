@@ -1,15 +1,7 @@
-/**
- * Represents an option object with a value and optional label.
- * Used by react-select and similar components.
- */
-export interface OptionWithValue {
-  /** The actual value of the option (string or number) */
-  value: string | number;
-  /** Optional display label for the option */
-  label?: string;
-  /** Internal wrapper object (used by form handling logic) */
-  __lv?: unknown;
-}
+import {
+  LabelValueOption,
+  RawPropOption,
+} from "../types";
 
 /**
  * Type guard to check if a value is a string.
@@ -21,93 +13,52 @@ export function isString(value: unknown): value is string {
 }
 
 /**
- * Type guard to check if a value is a valid OptionWithValue object.
- * Validates that the object has a 'value' property that is either a string or number.
+ * Type guard to check if a value has a label and value structure. Validates
+ * that the value is a non-null object (not an array) with a 'value' property
+ * that is either a string or number.
+ *
  * @param value - The value to check
- * @returns true if the value is a valid OptionWithValue
+ * @returns true if the value has a valid label/value structure
  */
-export function isOptionWithValue(value: unknown): value is OptionWithValue {
+export function isOptionWithLabel(value: unknown): value is LabelValueOption<unknown> {
   return (
     value !== null &&
     typeof value === "object" &&
     !Array.isArray(value) &&
+
+    // XXX: We should validate the label as well
     "value" in value &&
     (typeof (value as Record<string, unknown>).value === "string" || typeof (value as Record<string, unknown>).value === "number")
   );
 }
 
 /**
- * Type guard to check if a value is an array of strings.
- * @param value - The value to check
- * @returns true if the value is a string array
- */
-export function isStringArray(value: unknown): value is string[] {
-  return Array.isArray(value) && value.every((item) => typeof item === "string");
-}
-
-/**
- * Type guard to check if a value is an array of OptionWithValue objects.
- * @param value - The value to check
- * @returns true if the value is an array of valid OptionWithValue objects
- */
-export function isOptionArray(value: unknown): value is OptionWithValue[] {
-  return Array.isArray(value) && value.every((item) => isOptionWithValue(item));
-}
-
-/**
- * Normalizes an unknown value into either a string or OptionWithValue.
- * Used for basic option processing where the input format is uncertain.
- * @param option - The option to normalize
- * @returns A normalized string or OptionWithValue object
- */
-export function normalizeOption(option: unknown): OptionWithValue | string {
-  if (isString(option)) {
-    return option;
-  }
-  if (isOptionWithValue(option)) {
-    return option;
-  }
-  return String(option);
-}
-
-/**
- * Normalizes an array of unknown values into an array of strings or OptionWithValue objects.
- * Handles cases where the input might not be an array by returning an empty array.
- * @param options - The options array to normalize
- * @returns An array of normalized options
- */
-export function normalizeOptions(options: unknown): Array<OptionWithValue | string> {
-  if (!Array.isArray(options)) {
-    return [];
-  }
-  return options.map(normalizeOption);
-}
-
-/**
- * Sanitizes an option to ensure it has proper primitive values for label/value.
- * This is the main utility for processing complex nested option structures that can
- * come from various sources (APIs, form data, etc.) into a format compatible with react-select.
+ * Sanitizes an option to ensure it returns a standardized LabelValueOption
+ * format. Processes various input formats into a consistent {label: string,
+ * value: T} structure.
  *
- * Handles multiple nesting scenarios:
- * 1. String options: returned as-is (e.g., "simple-option")
- * 2. __lv wrapper objects: extracts inner option from {__lv: {label: "...", value: "..."}}
- * 3. Nested label/value objects: handles {label: {label: "Documents"}, value: {value: "123"}}
+ * Handles multiple input scenarios:
+ * 1. Null/undefined: returns empty label and value
+ * 2. Non-objects (primitives): converts to {label: stringified value, value:
+ *    original value}
+ * 3. __lv wrapper objects: recursively extracts and sanitizes the inner option
+ * 4. Objects with 'value' property: returns {label: label || value
+ *    (stringified), value: value}
+ * 5. Other objects: returns {label: stringified object, value: object}
  *
- * This function was created to fix React error #31 where nested objects were being
- * passed to React components that expected primitive values.
- *
- * @param option - The option to sanitize (can be string, object, or complex nested structure)
- * @returns A clean option with primitive label/value or a string
+ * @param option - The option to sanitize (can be null, primitive, object, or
+ * __lv wrapped)
+ * @returns A standardized LabelValueOption with label (string) and value (T)
  *
  * @example
- * // Simple string
- * sanitizeOption("hello") // returns "hello"
+ * // Primitive value
+ * sanitizeOption("hello") // returns {label: "hello", value: "hello"}
  *
  * @example
- * // Nested object structure
+ * // Object with value property
  * sanitizeOption({
- *   label: {label: "Documents", value: "123"},
- *   value: {label: "Documents", value: "123"}
+ *   label: "Documents",
+ *   value: "123"
  * }) // returns {label: "Documents", value: "123"}
  *
  * @example
@@ -116,60 +67,39 @@ export function normalizeOptions(options: unknown): Array<OptionWithValue | stri
  *   __lv: {label: "Test", value: "test-id"}
  * }) // returns {label: "Test", value: "test-id"}
  */
-export function sanitizeOption(option: unknown): { label: string; value: unknown } | string {
-  if (typeof option === "string") return option;
-
-  if (!option || typeof option !== "object") {
+export function sanitizeOption<T>(option: RawPropOption<T>): LabelValueOption<T> {
+  if (option === null || option === undefined) {
     return {
       label: "",
-      value: "",
+      value: "" as T,
+    };
+  }
+
+  if (typeof option !== "object") {
+    return {
+      label: String(option),
+      value: option,
     };
   }
 
   // If option has __lv wrapper, extract the inner option
   if ("__lv" in option) {
-    const innerOption = (option as Record<string, unknown>).__lv;
+    return sanitizeOption(option.__lv);
+  }
 
-    let actualLabel = "";
-    let actualValue = innerOption?.value;
-
-    // Handle nested label in __lv
-    if (innerOption?.label && typeof innerOption.label === "object" && "label" in innerOption.label) {
-      actualLabel = String(innerOption.label.label || "");
-    } else {
-      actualLabel = String(innerOption?.label || innerOption?.value || "");
-    }
-
-    // Handle nested value in __lv
-    if (innerOption?.value && typeof innerOption.value === "object" && "value" in innerOption.value) {
-      actualValue = innerOption.value.value;
-    }
-
+  if ("value" in option) {
+    const {
+      label,
+      value,
+    } = option;
     return {
-      label: actualLabel,
-      value: actualValue,
+      label: String(label || value),
+      value: value as T,
     };
   }
 
-  // Handle nested label and value objects
-  const optionObj = option as Record<string, unknown>;
-  let actualLabel = "";
-  let actualValue = optionObj.value;
-
-  // Extract nested label
-  if (optionObj.label && typeof optionObj.label === "object" && "label" in optionObj.label) {
-    actualLabel = String(optionObj.label.label || "");
-  } else {
-    actualLabel = String(optionObj.label || optionObj.value || "");
-  }
-
-  // Extract nested value
-  if (optionObj.value && typeof optionObj.value === "object" && "value" in optionObj.value) {
-    actualValue = optionObj.value.value;
-  }
-
   return {
-    label: actualLabel,
-    value: actualValue,
+    label: String(option),
+    value: option,
   };
 }

@@ -1,8 +1,8 @@
 # Overview
 
-The Pipedream Slack app enables you to build event-driven workflows that interact with the Slack API. Once you authorize the Pipedream app's access to your workspace, you can use [Pipedream workflows](/workflows/) to perform common Slack [actions](#workflow-actions) or [write your own code](/code/) against the Slack API.
+The Pipedream app for Slack enables you to build event-driven workflows that interact with the Slack API. Once you authorize the app's access to your workspace, you can use [Pipedream workflows](/workflows/) to perform common Slack [actions](#workflow-actions) or [write your own code](/code/) against the Slack API.
 
-The Pipedream Slack app is not a typical app. You don't interact with it directly as a bot, and it doesn't add custom functionality to your workspace out of the box. It makes it easier to automate anything you'd typically use the Slack API for, using Pipedream workflows. 
+The Pipedream app for Slack is not a typical app. You don't interact with it directly as a bot, and it doesn't add custom functionality to your workspace out of the box. It makes it easier to automate anything you'd typically use the Slack API for, using Pipedream workflows.
 
 - Automate posting updates to your team channels
 - Create a bot to answer common questions
@@ -11,13 +11,13 @@ The Pipedream Slack app is not a typical app. You don't interact with it directl
 
 # Getting Started
 
-## Should I use the Slack or Slack Bot app on Pipedream?
+## Should I use the app for Slack or bot for Slack on Pipedream?
 
-The Slack app is the easiest and most convenient option to get started. It installs the official Pipedream bot into your Slack workspace with just a few clicks.
+The app for Slack is the easiest and most convenient option to get started. It installs the official Pipedream bot into your Slack workspace with just a few clicks.
 
-However, if you'd like to use your own bot registered with the [Slack API](https://api.slack.com), you can use the [Slack Bot app](https://pipedream.com/apps/slack-bot) instead.
+However, if you'd like to use your own bot registered with the [Slack API](https://api.slack.com), you can use the [bot for Slack](https://pipedream.com/apps/slack-bot) instead.
 
-The Slack Bot requires a bot token to allow your Pipedream workflows to authenticate as your bot. The extra setup steps allow you to list your custom bot on the Slack Marketplace or install the bot on other workspaces as your bot's name instead of as Pipedream.
+The bot for Slack requires a bot token to allow your Pipedream workflows to authenticate as your bot. The extra setup steps allow you to list your custom bot on the Slack Marketplace or install the bot on other workspaces as your bot's name instead of as Pipedream.
 
 ## Accounts
 
@@ -44,7 +44,6 @@ The Slack Bot requires a bot token to allow your Pipedream workflows to authenti
 
 - **Real-time CRM Updates**: Configure a Pipedream workflow to listen for specific trigger words in sales-related Slack channels. When mentioned, the workflow fetches corresponding data from a CRM tool like Salesforce and posts the latest deal status or customer information in the Slack conversation for quick reference.
 
-
 # Troubleshooting
 
 ## Error Responses
@@ -64,6 +63,7 @@ Example of a successful response:
 If the `ok` property is false, Slack will also include an `error` property with a short machine-readable code that describes the error.
 
 Example of a failure:
+
 ```json
 {
   "ok": false,

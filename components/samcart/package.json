@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/samcart",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream SamCart Components",
-  "main": "dist/app/samcart.app.mjs",
+  "main": "samcart.app.mjs",
   "keywords": [
     "pipedream",
     "samcart"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/samcart",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

@@ -20,7 +20,7 @@ export default {
   name: "Share File or Folder",
   description:
     "Add a [sharing permission](https://support.google.com/drive/answer/7166529) to the sharing preferences of a file or folder and provide a sharing URL. [See the documentation](https://developers.google.com/drive/api/v3/reference/permissions/create)",
-  version: "0.2.4",
+  version: "0.2.6",
   type: "action",
   props: {
     googleDrive,

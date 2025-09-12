@@ -1,14 +1,11 @@
 {
   "name": "@pipedream/mailify",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Pipedream Mailify Components",
-  "main": "dist/app/mailify.app.mjs",
+  "main": "mailify.app.mjs",
   "keywords": [
     "pipedream",
     "mailify"
-  ],
-  "files": [
-    "dist"
   ],
   "homepage": "https://pipedream.com/apps/mailify",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",

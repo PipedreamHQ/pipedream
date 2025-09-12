@@ -4,7 +4,7 @@ export default {
   key: "salesforce_rest_api-list-knowledge-articles",
   name: "List Knowledge Articles",
   description: "Lists all knowledge articles. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_knowledgearticle.htm)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     salesforce,

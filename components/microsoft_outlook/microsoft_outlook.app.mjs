@@ -191,11 +191,66 @@ export default {
         })) || [];
       },
     },
+    userId: {
+      type: "string",
+      label: "User ID",
+      description: "The ID of the user to get messages for",
+      async options() {
+        const { value: users } = await this.listUsers();
+        return users?.map(({
+          id: value, displayName, mail,
+        }) => ({
+          value,
+          label: `${displayName} (${mail})`,
+        })) || [];
+      },
+    },
+    sharedFolderId: {
+      type: "string",
+      label: "Shared Folder ID",
+      description: "The ID of the shared folder to get messages for",
+      async options({
+        userId, page,
+      }) {
+        const sharedFolders = await this.listSharedFolders({
+          userId,
+          params: {
+            $top: DEFAULT_LIMIT,
+            $skip: DEFAULT_LIMIT * page,
+          },
+        });
+
+        return sharedFolders?.map(({
+          id: value, displayName,
+        }) => ({
+          value,
+          label: displayName,
+        })) || [];
+      },
+    },
     maxResults: {
       type: "integer",
       label: "Max Results",
       description: "The maximum number of results to return",
       default: 100,
+      optional: true,
+    },
+    search: {
+      type: "string",
+      label: "Search",
+      description: "Search for an email in Microsoft Outlook. Can search for specific message properties such as `to:example@example.com` or `subject:example`. If the property is excluded, the search targets the default propertes `from`, `subject`, and `body`. For example, `pizza` will search for messages with the word `pizza` in the subject, body, or from address, but `to:example@example.com` will only search for messages to `example@example.com`.",
+      optional: true,
+    },
+    filter: {
+      type: "string",
+      label: "Filter",
+      description: "Filters results. For example, `contains(subject, 'meet for lunch?')` will include messages whose subject contains ‘meet for lunch?’. [See documentation](https://learn.microsoft.com/en-us/graph/filter-query-parameter) for the full list of operations.",
+      optional: true,
+    },
+    orderBy: {
+      type: "string",
+      label: "Order By",
+      description: "Order results by a property. For example, `receivedDateTime desc` will order messages by the received date in descending order.",
       optional: true,
     },
   },
@@ -221,6 +276,7 @@ export default {
         headers: this._getHeaders(headers),
         ...otherConfig,
       };
+
       return axios($ ?? this, config);
     },
     async createHook({ ...args } = {}) {
@@ -396,6 +452,15 @@ export default {
         ...args,
       });
     },
+    async listSharedFolderMessages({
+      userId, sharedFolderId, ...args
+    } = {}) {
+      return await this._makeRequest({
+        method: "GET",
+        path: `/users/${userId}/mailFolders/${sharedFolderId}/messages`,
+        ...args,
+      });
+    },
     async getContact({
       contactId,
       ...args
@@ -451,6 +516,34 @@ export default {
         path: `/me/messages/${messageId}/attachments`,
         ...args,
       });
+    },
+    listUsers(args = {}) {
+      return this._makeRequest({
+        path: "/users",
+        ...args,
+      });
+    },
+    async listSharedFolders({
+      userId, parentFolderId, ...args
+    } = {}) {
+      const { value } = await this._makeRequest({
+        path: `/users/${userId}/mailFolders${parentFolderId
+          ? `/${parentFolderId}/childFolders`
+          : ""}`,
+        ...args,
+      });
+
+      const foldersArray = [];
+      for (const folder of value) {
+        foldersArray.push(folder);
+        foldersArray.push(...await this.listSharedFolders({
+          userId,
+          parentFolderId: folder.id,
+          ...args,
+        }));
+      }
+
+      return foldersArray;
     },
     async *paginate({
       fn, args = {}, max,

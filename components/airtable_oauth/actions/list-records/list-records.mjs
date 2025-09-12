@@ -6,7 +6,7 @@ export default {
   name: "List Records",
   description: "Retrieve records from a table, optionally sorting and filtering results. [See the documentation](https://airtable.com/developers/web/api/list-records)",
   type: "action",
-  version: "0.0.11",
+  version: "0.0.12",
   ...commonList,
   props: {
     ...common.props,

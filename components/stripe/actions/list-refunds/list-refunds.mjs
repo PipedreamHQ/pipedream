@@ -4,7 +4,7 @@ export default {
   key: "stripe-list-refunds",
   name: "List Refunds",
   type: "action",
-  version: "0.1.2",
+  version: "0.1.3",
   description: "Find or list refunds. [See the documentation](https://stripe.com/docs/api/refunds/list).",
   props: {
     app,

@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/tapfiliate",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Tapfiliate Components",
-  "main": "dist/app/tapfiliate.app.mjs",
+  "main": "tapfiliate.app.mjs",
   "keywords": [
     "pipedream",
     "tapfiliate"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/tapfiliate",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

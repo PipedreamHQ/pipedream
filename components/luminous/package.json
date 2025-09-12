@@ -1,13 +1,12 @@
 {
   "name": "@pipedream/luminous",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Pipedream Luminous Components",
-  "main": "dist/app/luminous.app.mjs",
+  "main": "luminous.app.mjs",
   "keywords": [
     "pipedream",
     "luminous"
   ],
-  "files": ["dist"],
   "homepage": "https://pipedream.com/apps/luminous",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {

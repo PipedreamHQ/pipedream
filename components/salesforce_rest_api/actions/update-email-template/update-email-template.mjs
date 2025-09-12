@@ -8,7 +8,7 @@ export default {
   key: "salesforce_rest_api-update-email-template",
   name: "Update Email Template",
   description: "Updates an email template. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_update_fields.htm)",
-  version: "0.0.1",
+  version: "0.0.3",
   type: "action",
   props: {
     salesforce,
