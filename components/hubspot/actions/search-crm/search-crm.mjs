@@ -18,7 +18,7 @@ export default {
   name: "Search CRM",
   description:
     "Search companies, contacts, deals, feedback submissions, products, tickets, line-items, quotes, leads, or custom objects. [See the documentation](https://developers.hubspot.com/docs/api/crm/search)",
-  version: "1.0.12",
+  version: "1.0.13",
   type: "action",
   props: {
     hubspot,
@@ -42,6 +42,13 @@ export default {
         "Set to `true` to search for an exact match of the search value. If `false`, partial matches will be returned. Default: `true`",
       default: true,
       optional: true,
+      reloadProps: true,
+    },
+    createdAfter: {
+      type: "string",
+      label: "Created After",
+      description: "Filter results to only include objects created after this date. Example: `2023-03-03T16:16:24.400Z`. Recommended when `Exact Match` is set to `false`.",
+      optional: true,
     },
     createIfNotFound: {
       type: "boolean",
@@ -55,6 +62,14 @@ export default {
   },
   async additionalProps() {
     const props = {};
+
+    if (this.exactMatch === false && !this.createdAfter) {
+      props.exactMatchAlert = {
+        type: "alert",
+        alertType: "info",
+        content: "It is recommended to set `Created After` when `Exact Match` is set to `false` to avoid potential timeouts.",
+      };
+    }
 
     if (this.objectType === "custom_object") {
       try {
@@ -225,9 +240,9 @@ export default {
       );
     },
     async paginate(params) {
-      let results;
+      let results, done = false;
       const items = [];
-      while (!results || params.after) {
+      while ((!results || params.after) && !done) {
         results = await this.hubspot.searchCRM(params);
         if (results.paging) {
           params.after = results.paging.next.after;
@@ -236,6 +251,12 @@ export default {
         }
         results = results.results;
         for (const result of results) {
+          if (this.createdAfter
+            && Date.parse(result.properties.createdate) <= Date.parse(this.createdAfter)
+          ) {
+            done = true;
+            break;
+          }
           items.push(result);
         }
       }
@@ -252,6 +273,8 @@ export default {
       searchValue,
       exactMatch,
       /* eslint-disable no-unused-vars */
+      createdAfter,
+      exactMatchAlert,
       info,
       createIfNotFound,
       creationProps,
@@ -282,6 +305,13 @@ export default {
       properties: [
         ...defaultProperties,
         ...additionalProperties,
+        searchProperty,
+      ],
+      sorts: [
+        {
+          propertyName: "createdate",
+          direction: "DESCENDING",
+        },
       ],
     };
     if (exactMatch) {
