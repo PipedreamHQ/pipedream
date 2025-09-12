@@ -4,7 +4,7 @@ export default {
   key: "databricks-stop-sql-warehouse",
   name: "Stop SQL Warehouse",
   description: "Stops a SQL Warehouse by ID. [See the documentation](https://docs.databricks.com/api/workspace/warehouses/stop)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     databricks,

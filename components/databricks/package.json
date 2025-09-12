@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/databricks",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Pipedream Databricks Components",
   "main": "databricks.app.mjs",
   "keywords": [
