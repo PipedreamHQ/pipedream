@@ -64,7 +64,7 @@ export default {
       return data.custom_models || [];
     },
     async getUploadInitImage({
-       $, extension 
+      $, extension,
     }) {
       const data = await this.post({
         $,
@@ -76,14 +76,14 @@ export default {
       return data;
     },
     async uploadFileToPresignedUrl({
-       $, url, fields, file 
+      $, url, fields, file,
     }) {
       const formData = new FormData();
 
       // Add all the fields from the presigned URL response
       Object.entries(fields).forEach(([
         key,
-        value        
+        value,
       ]) => {
         formData.append(key, value);
       });

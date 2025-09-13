@@ -1,11 +1,10 @@
 import app from "../../leonardo_ai.app.mjs";
-import { axios } from "@pipedream/platform";
 
 export default {
   key: "leonardo_ai-upload-image",
   name: "Upload Image",
   description: "Uploads a new image to Leonardo AI for use in generations and variations.",
-  version: "0.0.8",
+  version: "0.0.9",
   type: "action",
   props: {
     app,
@@ -16,19 +15,19 @@ export default {
       options: [
         {
           label: "PNG",
-          value: "png"
+          value: "png",
         },
         {
           label: "JPG",
-          value: "jpg"
+          value: "jpg",
         },
         {
           label: "JPEG",
-          value: "jpeg"
+          value: "jpeg",
         },
         {
           label: "WebP",
-          value: "webp" 
+          value: "webp",
         },
       ],
     },
@@ -45,16 +44,17 @@ export default {
     } = this;
     console.log(extension);
     // Convert base64 string to Buffer
-    const base64Data = file.replace(/^data:image\/[a-z]+;base64,/, '');
-    const buffer = Buffer.from(base64Data, 'base64');
+    const base64Data = file.replace(/^data:image\/[a-z]+;base64,/, "");
+    const buffer = Buffer.from(base64Data, "base64");
 
     // Create a File-like object from the buffer
     const fileObject = {
       buffer: buffer,
       name: `image.${extension}`,
       type: `image/${
-        extension === "jpg" ? 
-        "jpeg" : extension
+        extension === "jpg" ?
+          "jpeg"
+          : extension
       }`,
     };
 
