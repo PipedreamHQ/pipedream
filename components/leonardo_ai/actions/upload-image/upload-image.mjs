@@ -5,7 +5,7 @@ export default {
   key: "leonardo_ai-upload-image",
   name: "Upload Image",
   description: "Uploads a new image to Leonardo AI for use in generations and variations.",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     app,
@@ -14,10 +14,22 @@ export default {
       label: "File Extension",
       description: "The file extension of the image to upload.",
       options: [
-        { label: "PNG", value: "png" },
-        { label: "JPG", value: "jpg" },
-        { label: "JPEG", value: "jpeg" },
-        { label: "WebP", value: "webp" },
+        {
+          label: "PNG",
+          value: "png"
+        },
+        {
+          label: "JPG",
+          value: "jpg"
+        },
+        {
+          label: "JPEG",
+          value: "jpeg"
+        },
+        {
+          label: "WebP",
+          value: "webp" 
+        },
       ],
     },
     file: {
@@ -40,7 +52,10 @@ export default {
     const fileObject = {
       buffer: buffer,
       name: `image.${extension}`,
-      type: `image/${extension === 'jpg' ? 'jpeg' : extension}`,
+      type: `image/${
+        extension === "jpg" ? 
+        "jpeg" : extension
+      }`,
     };
 
     // Step 1: Get the presigned URL and upload fields

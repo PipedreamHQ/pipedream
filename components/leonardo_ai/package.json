@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/leonardo_ai",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream Leonardo AI Components - Generate images, videos, and 3D models with AI",
   "main": "leonardo_ai.app.mjs",
   "keywords": [

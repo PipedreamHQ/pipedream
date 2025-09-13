@@ -36,7 +36,7 @@ export default {
     },
     height: {
       type: "integer",
-      label: "Height", 
+      label: "Height",
       description: "Height of the generated image in pixels.",
       default: 512,
       min: 256,

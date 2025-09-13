@@ -1,5 +1,5 @@
 import { axios } from "@pipedream/platform";
-import FormData from "form-data"
+import FormData from "form-data";
 
 export default {
   type: "app",
@@ -63,7 +63,9 @@ export default {
       });
       return data.custom_models || [];
     },
-    async getUploadInitImage({ $, extension }) {
+    async getUploadInitImage({
+       $, extension 
+    }) {
       const data = await this.post({
         $,
         path: "/init-image",
@@ -73,24 +75,29 @@ export default {
       });
       return data;
     },
-    async uploadFileToPresignedUrl({ $, url, fields, file }) {
+    async uploadFileToPresignedUrl({
+       $, url, fields, file 
+    }) {
       const formData = new FormData();
 
       // Add all the fields from the presigned URL response
-      Object.entries(fields).forEach(([key, value]) => {
+      Object.entries(fields).forEach(([
+        key,
+        value        
+      ]) => {
         formData.append(key, value);
       });
 
       // Add the file - handle both File objects and File-like objects
       if (file.buffer) {
         // File-like object with buffer
-        formData.append('file', file.buffer, {
+        formData.append("file", file.buffer, {
           filename: file.name,
           contentType: file.type,
         });
       } else {
         // Regular File object
-        formData.append('file', file);
+        formData.append("file", file);
       }
 
       const response = await axios($, {
