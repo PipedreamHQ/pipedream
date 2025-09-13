@@ -1,15 +1,29 @@
 {
   "name": "@pipedream/leonardo_ai",
   "version": "0.0.1",
-  "description": "Pipedream Leonardo AI Components",
+  "description": "Pipedream Leonardo AI Components - Generate images, videos, and 3D models with AI",
   "main": "leonardo_ai.app.mjs",
   "keywords": [
     "pipedream",
-    "leonardo_ai"
+    "leonardo_ai",
+    "ai",
+    "image-generation",
+    "video-generation",
+    "upscaling",
+    "machine-learning"
   ],
   "homepage": "https://pipedream.com/apps/leonardo_ai",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PipedreamHQ/pipedream.git",
+    "directory": "components/leonardo_ai"
+  },
+  "bugs": {
+    "url": "https://github.com/PipedreamHQ/pipedream/issues"
   }
 }
