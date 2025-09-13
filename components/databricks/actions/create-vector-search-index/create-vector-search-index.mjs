@@ -97,6 +97,7 @@ export default {
         ? this.columnsToSync
         : utils.parseObject(this.columnsToSync);
 
+      // Parse embeddingSourceColumns (either object[] or string[] of JSON)
       const embeddingSourceColumns = Array.isArray(this.embeddingSourceColumns)
         ? this.embeddingSourceColumns.map((item, idx) => {
           if (typeof item === "string") {
@@ -112,23 +113,66 @@ export default {
         })
         : utils.parseObject(this.embeddingSourceColumns);
 
-      if (!Array.isArray(columnsToSync) || !columnsToSync.length) {
+      // Parse embeddingVectorColumns (either object[] or string[] of JSON)
+      const embeddingVectorColumns = Array.isArray(this.embeddingVectorColumns)
+        ? this.embeddingVectorColumns.map((item, idx) => {
+          if (typeof item === "string") {
+            try {
+              return JSON.parse(item);
+            } catch (e) {
+              throw new ConfigurationError(
+                `embeddingVectorColumns[${idx}] is not valid JSON: ${e.message}`,
+              );
+            }
+          }
+          return item;
+        })
+        : utils.parseObject(this.embeddingVectorColumns);
+
+      // Require at least one embedding config: source OR vector columns
+      const hasSource = Array.isArray(embeddingSourceColumns) && embeddingSourceColumns.length > 0;
+      const hasVectors = Array.isArray(embeddingVectorColumns) && embeddingVectorColumns.length > 0;
+      if (!hasSource && !hasVectors) {
         throw new ConfigurationError(
-          "columnsToSync must be a non-empty array for DELTA_SYNC indexes.",
-        );
-      }
-      if (!Array.isArray(embeddingSourceColumns) || !embeddingSourceColumns.length) {
-        throw new ConfigurationError(
-          "embeddingSourceColumns must be a non-empty array for DELTA_SYNC indexes.",
+          "Provide either embeddingSourceColumns (compute embeddings) or embeddingVectorColumns (self-managed) for DELTA_SYNC indexes.",
         );
       }
 
-      payload.delta_sync_index_spec = {
+      const deltaSpec = {
         source_table: this.sourceTable,
         pipeline_type: this.pipelineType || "TRIGGERED",
-        columns_to_sync: columnsToSync,
-        embedding_source_columns: embeddingSourceColumns,
       };
+      if (Array.isArray(columnsToSync) && columnsToSync.length > 0) {
+        deltaSpec.columns_to_sync = columnsToSync;
+      }
+      if (hasSource) {
+        // Optional: shallow validation of required keys
+        for (const [
+          i,
+          c,
+        ] of embeddingSourceColumns.entries()) {
+          if (!c?.name || !c?.embedding_model_endpoint_name) {
+            throw new ConfigurationError(
+              `embeddingSourceColumns[${i}] must include "name" and "embedding_model_endpoint_name"`,
+            );
+          }
+        }
+        deltaSpec.embedding_source_columns = embeddingSourceColumns;
+      }
+      if (hasVectors) {
+        for (const [
+          i,
+          c,
+        ] of embeddingVectorColumns.entries()) {
+          if (!c?.name || typeof c?.embedding_dimension !== "number") {
+            throw new ConfigurationError(
+              `embeddingVectorColumns[${i}] must include "name" and numeric "embedding_dimension"`,
+            );
+          }
+        }
+        deltaSpec.embedding_vector_columns = embeddingVectorColumns;
+      }
+      payload.delta_sync_index_spec = deltaSpec;
     }
 
     else if (this.indexType === "DIRECT_ACCESS") {
