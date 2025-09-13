@@ -18,7 +18,7 @@ export default {
     columns: {
       type: "string[]",
       label: "Columns",
-      description: "List of column names to include in the response.",
+      description: "List of column names to include in the response. Example: `[\"id\"]`",
     },
     queryText: {
       type: "string",

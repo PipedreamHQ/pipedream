@@ -8,18 +8,47 @@ export default {
   type: "action",
   props: {
     databricks,
+    endpointName: {
+      propDefinition: [
+        databricks,
+        "endpointName",
+      ],
+    },
   },
 
   async run({ $ }) {
-    const response = await this.databricks.listVectorSearchIndexes({
-      $,
-    });
+    const allIndexes = [];
+    let pageToken;
 
-    const count = response?.vector_indexes?.length || 0;
-    $.export("$summary", `Found ${count} vector search index${count === 1
-      ? ""
-      : "es"}`);
+    do {
+      const {
+        vector_indexes, next_page_token,
+      } = await this.databricks.listIndexes({
+        params: {
+          endpoint_name: this.endpointName,
+          ...(pageToken
+            ? {
+              page_token: pageToken,
+            }
+            : {}),
+        },
+        $,
+      });
 
-    return response;
+      if (vector_indexes?.length) {
+        allIndexes.push(...vector_indexes);
+      }
+
+      pageToken = next_page_token;
+    } while (pageToken);
+
+    $.export(
+      "$summary",
+      `Successfully retrieved ${allIndexes.length} index${allIndexes.length === 1
+        ? ""
+        : "es"}.`,
+    );
+
+    return allIndexes;
   },
 };

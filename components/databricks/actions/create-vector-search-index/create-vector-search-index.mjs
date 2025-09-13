@@ -18,9 +18,10 @@ export default {
         "A unique name for the index (e.g., `main_catalog.docs.en_wiki_index`).",
     },
     endpointName: {
-      type: "string",
-      label: "Endpoint Name",
-      description: "The vector search endpoint that will serve the index.",
+      propDefinition: [
+        databricks,
+        "endpointName",
+      ],
     },
     indexType: {
       type: "string",
@@ -40,21 +41,28 @@ export default {
       type: "string",
       label: "Source Table",
       description:
-        "The Delta table backing the index (required if `indexType` is `DELTA_SYNC`).",
+        "The Delta table backing the index (required for `DELTA_SYNC`).",
       optional: true,
     },
     columnsToSync: {
       type: "string[]",
       label: "Columns to Sync",
       description:
-        "List of columns to sync from the source Delta table. Example: `[\"id\", \"text\"]`",
+        "List of columns to sync from the source Delta table. Example: `[\"id\", \"text\"]` (required for `DELTA_SYNC`).",
       optional: true,
     },
     embeddingSourceColumns: {
       type: "string[]",
       label: "Embedding Source Columns",
       description:
-        "List of embedding source column configs. Each entry should be a JSON object string like `{ \"embedding_model_endpoint_name\": \"e5-small-v2\", \"name\": \"text\" }`",
+        "List of embedding source column configs. Each entry should be a JSON object string like `[ { \"embedding_model_endpoint_name\": \"e5-small-v2\", \"name\": \"text\" } ]` (required for `DELTA_SYNC`).",
+      optional: true,
+    },
+    schemaJson: {
+      type: "string",
+      label: "Schema JSON",
+      description:
+        "The schema of the index in JSON format. Example: `{ \"columns\": [{ \"name\": \"id\", \"type\": \"string\" }, { \"name\": \"text_vector\", \"type\": \"array<double>\" }] }`. Required for `DIRECT_ACCESS` indexes.",
       optional: true,
     },
     pipelineType: {
@@ -84,6 +92,7 @@ export default {
           "sourceTable is required when indexType is DELTA_SYNC.",
         );
       }
+
       const columnsToSync = Array.isArray(this.columnsToSync)
         ? this.columnsToSync
         : utils.parseObject(this.columnsToSync);
@@ -100,10 +109,7 @@ export default {
           "columnsToSync must be a non-empty array for DELTA_SYNC indexes.",
         );
       }
-      if (
-        !Array.isArray(embeddingSourceColumns) ||
-        !embeddingSourceColumns.length
-      ) {
+      if (!Array.isArray(embeddingSourceColumns) || !embeddingSourceColumns.length) {
         throw new ConfigurationError(
           "embeddingSourceColumns must be a non-empty array for DELTA_SYNC indexes.",
         );
@@ -114,6 +120,17 @@ export default {
         pipeline_type: this.pipelineType || "TRIGGERED",
         columns_to_sync: columnsToSync,
         embedding_source_columns: embeddingSourceColumns,
+      };
+    }
+
+    else if (this.indexType === "DIRECT_ACCESS") {
+      if (!this.schemaJson) {
+        throw new ConfigurationError(
+          "schemaJson is required when indexType is DIRECT_ACCESS.",
+        );
+      }
+      payload.direct_access_index_spec = {
+        schema_json: this.schemaJson,
       };
     }
 
