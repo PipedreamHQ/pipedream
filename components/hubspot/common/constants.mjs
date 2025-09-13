@@ -20,6 +20,7 @@ const API_PATH = {
   CRMV4: "/crm/v4",
   CMS: "/cms/v3",
   AUTOMATION: "/automation/v2",
+  AUTOMATIONV3: "/automation/v3",
   AUTOMATIONV4: "/automation/v4",
   DEAL: "/deals/v1",
   BUSINESS_UNITS: "/business-units/v3",

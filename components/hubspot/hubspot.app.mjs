@@ -344,6 +344,7 @@ export default {
       description: "The ID of the workflow you wish to see metadata for.",
       async options() {
         const { workflows } = await this.listWorkflows();
+
         return {
           options: workflows.map(({
             name: label, id: value,
@@ -675,6 +676,31 @@ export default {
           },
         };
       },
+    },
+    type: {
+      type: "string",
+      label: "Type",
+      description: "The type of workflow to create",
+      options: [
+        {
+          label: "Drip Delay",
+          value: "DRIP_DELAY",
+        },
+        {
+          label: "Static Anchor",
+          value: "STATIC_ANCHOR",
+        },
+        {
+          label: "Property Anchor",
+          value: "PROPERTY_ANCHOR",
+        },
+      ],
+    },
+    actions: {
+      type: "string[]",
+      label: "Actions",
+      description: "A list of objects representing the workflow actions. [See the documentation](https://developers.hubspot.com/docs/api-reference/automation-automation-v4-v4/guide#action-types) for more information.",
+      optional: true,
     },
   },
   methods: {
@@ -1208,7 +1234,7 @@ export default {
     },
     listWorkflows(opts = {}) {
       return this.makeRequest({
-        api: API_PATH.AUTOMATION,
+        api: API_PATH["AUTOMATIONV3"],
         endpoint: "/workflows",
         ...opts,
       });
@@ -1219,6 +1245,48 @@ export default {
       return this.makeRequest({
         api: API_PATH.AUTOMATION,
         endpoint: `/workflows/${workflowId}/enrollments/contacts/${contactEmail}`,
+        method: "POST",
+        ...opts,
+      });
+    },
+    getWorkflowEmails(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.AUTOMATIONV4,
+        endpoint: "/flows/email-campaigns",
+        ...opts,
+      });
+    },
+    getWorkflowDetails({
+      workflowId, ...opts
+    }) {
+      return this.makeRequest({
+        api: API_PATH.AUTOMATIONV3,
+        endpoint: `/workflows/${workflowId}`,
+        ...opts,
+      });
+    },
+    createWorkflow(opts = {}) {
+      return this.makeRequest({
+        method: "POST",
+        api: API_PATH.AUTOMATIONV3,
+        endpoint: "/workflows",
+        ...opts,
+      });
+    },
+    deleteWorkflow({
+      workflowId, ...opts
+    }) {
+      return this.makeRequest({
+        method: "DELETE",
+        api: API_PATH.AUTOMATIONV3,
+        endpoint: `/workflows/${workflowId}`,
+        ...opts,
+      });
+    },
+    getMigratedWorkflowMappings(opts = {}) {
+      return this.makeRequest({
+        api: API_PATH.AUTOMATIONV4,
+        endpoint: "/workflow-id-mappings/batch/read",
         method: "POST",
         ...opts,
       });

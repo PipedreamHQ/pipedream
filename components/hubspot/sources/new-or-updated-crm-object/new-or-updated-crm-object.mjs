@@ -6,9 +6,8 @@ export default {
   ...common,
   key: "hubspot-new-or-updated-crm-object",
   name: "New or Updated CRM Object",
-  description:
-    "Emit new event each time a CRM Object of the specified object type is updated.",
-  version: "0.0.29",
+  description: "Emit new event each time a CRM Object of the specified object type is updated.",
+  version: "0.0.31",
   dedupe: "unique",
   type: "source",
   props: {
