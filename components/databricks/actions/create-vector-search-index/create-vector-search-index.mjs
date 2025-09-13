@@ -98,10 +98,18 @@ export default {
         : utils.parseObject(this.columnsToSync);
 
       const embeddingSourceColumns = Array.isArray(this.embeddingSourceColumns)
-        ? this.embeddingSourceColumns.map((item) =>
-          typeof item === "string"
-            ? JSON.parse(item)
-            : item)
+        ? this.embeddingSourceColumns.map((item, idx) => {
+          if (typeof item === "string") {
+            try {
+              return JSON.parse(item);
+            } catch (e) {
+              throw new ConfigurationError(
+                `embeddingSourceColumns[${idx}] is not valid JSON: ${e.message}`,
+              );
+            }
+          }
+          return item;
+        })
         : utils.parseObject(this.embeddingSourceColumns);
 
       if (!Array.isArray(columnsToSync) || !columnsToSync.length) {

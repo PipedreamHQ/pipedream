@@ -23,7 +23,7 @@ export default {
     do {
       const {
         vector_indexes, next_page_token,
-      } = await this.databricks.listIndexes({
+      } = await this.databricks.listVectorSearchIndexes({
         params: {
           endpoint_name: this.endpointName,
           ...(pageToken

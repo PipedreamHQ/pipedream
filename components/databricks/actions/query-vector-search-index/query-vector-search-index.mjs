@@ -64,13 +64,24 @@ export default {
     if (this.queryVector) {
       try {
         payload.query_vector = JSON.parse(this.queryVector);
+        if (
+          !Array.isArray(payload.query_vector) ||
+          payload.query_vector.length === 0 ||
+          !payload.query_vector.every((n) => typeof n === "number" && Number.isFinite(n))
+        ) {
+          throw new Error("`queryVector` must be a non-empty JSON array of finite numbers.");
+        }
       } catch (err) {
         throw new Error(`Invalid queryVector JSON: ${err.message}`);
       }
     }
 
     if (this.filtersJson) {
-      payload.filters_json = utils.parseObject(this.filtersJson);
+      try {
+        payload.filters_json = utils.parseObject(this.filtersJson);
+      } catch (err) {
+        throw new Error(`Invalid filtersJson: ${err.message}`);
+      }
     }
 
     if (this.includeEmbeddings !== undefined) {
