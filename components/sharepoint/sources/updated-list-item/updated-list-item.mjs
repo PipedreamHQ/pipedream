@@ -5,7 +5,7 @@ export default {
   key: "sharepoint-updated-list-item",
   name: "Updated List Item",
   description: "Emit new event when a list is updated in Microsoft Sharepoint.",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   props: {
