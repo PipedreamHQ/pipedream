@@ -55,7 +55,14 @@ export default {
       type: "string[]",
       label: "Embedding Source Columns",
       description:
-        "List of embedding source column configs. Each entry should be a JSON object string like `[ { \"embedding_model_endpoint_name\": \"e5-small-v2\", \"name\": \"text\" } ]` (required for `DELTA_SYNC`).",
+        "List of embedding source column configs. Each entry is a JSON object string like `{ \"embedding_model_endpoint_name\": \"e5-small-v2\", \"name\": \"text\" }`. Provide when Databricks computes embeddings (DELTA_SYNC).",
+      optional: true,
+    },
+    embeddingVectorColumns: {
+      type: "string[]",
+      label: "Embedding Vector Columns",
+      description:
+        "List of self-managed vector column configs. Each entry is a JSON object string like `{ \"name\": \"text_vector\", \"embedding_dimension\": 1536 }`. Provide when you manage embeddings yourself (DELTA_SYNC).",
       optional: true,
     },
     schemaJson: {
@@ -135,6 +142,11 @@ export default {
       if (!hasSource && !hasVectors) {
         throw new ConfigurationError(
           "Provide either embeddingSourceColumns (compute embeddings) or embeddingVectorColumns (self-managed) for DELTA_SYNC indexes.",
+        );
+      }
+      if (hasSource && hasVectors) {
+        throw new ConfigurationError(
+          "Provide only one of embeddingSourceColumns or embeddingVectorColumns for DELTA_SYNC indexes.",
         );
       }
 
