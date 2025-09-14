@@ -483,7 +483,7 @@ export default {
       return this.$auth.oauth_uid;
     },
     getToken(opts = {}) {
-      return opts.as_user === false
+      return (opts.as_bot && this.$auth.bot_token)
         ? this.$auth.bot_token
         : this.$auth.oauth_access_token;
     },
@@ -497,19 +497,21 @@ export default {
       });
     },
     async makeRequest({
-      method = "", throwRateLimitError = false, as_user, ...args
+      method = "", throwRateLimitError = false, as_bot, ...args
     } = {}) {
+      as_bot = args.as_user === false || as_bot;
+
       const props = method.split(".");
       const sdk = props.reduce((reduction, prop) =>
         reduction[prop], this.sdk({
-        as_user,
+        as_bot,
       }));
 
       let response;
       try {
         response = await this._withRetries(() => sdk(args), throwRateLimitError);
       } catch (error) {
-        if (error?.data?.error === "channel_not_found" && as_user === false) {
+        if (error?.data?.error === "channel_not_found" && as_bot) {
           throw new ConfigurationError(`${error}
             Ensure the bot is a member of the channel, or set the **As User** option to true to act on behalf of the authenticated user.
           `);
@@ -859,6 +861,7 @@ export default {
       args.count ||= constants.LIMIT;
       return this.makeRequest({
         method: "files.list",
+        as_bot: true,
         ...args,
       });
     },
@@ -872,6 +875,7 @@ export default {
     getFileInfo(args = {}) {
       return this.makeRequest({
         method: "files.info",
+        as_bot: true,
         ...args,
       });
     },
