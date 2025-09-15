@@ -1,4 +1,5 @@
 import databricks from "../../databricks.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "databricks-delete-vector-search-index-data",
@@ -23,7 +24,13 @@ export default {
     },
   },
   async run({ $ }) {
-    const keys = (this.primaryKeys || [])
+    const parsedKeys = utils.parseObject(this.primaryKeys);
+
+    const keys = (Array.isArray(parsedKeys)
+      ? parsedKeys
+      : [
+        parsedKeys,
+      ])
       .map((s) => String(s).trim())
       .filter(Boolean);
 
@@ -33,7 +40,7 @@ export default {
 
     const response = await this.databricks.deleteVectorSearchData({
       indexName: this.indexName,
-      data: {
+      params: {
         primary_keys: keys,
       },
       $,

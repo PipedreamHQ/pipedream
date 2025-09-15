@@ -281,9 +281,11 @@ export default {
       });
     },
 
-    listVectorSearchIndexes(args = {}) {
+    listVectorSearchIndexes({
+      params, ...args
+    }) {
       return this._makeRequest({
-        path: "/vector-search/indexes",
+        path: `/vector-search/indexes?endpoint_name=${params.endpoint_name}`,
         method: "GET",
         ...args,
       });
@@ -320,10 +322,11 @@ export default {
     },
 
     deleteVectorSearchData({
-      indexName, ...args
-    }) {
+      indexName, params, ...args
+    })
+    {
       return this._makeRequest({
-        path: `/vector-search/indexes/${indexName}/delete-data`,
+        path: `/vector-search/indexes/${indexName}/delete-data?primary_keys=${params.primary_keys}`,
         method: "DELETE",
         ...args,
       });
