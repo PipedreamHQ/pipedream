@@ -66,6 +66,7 @@ export default {
       }
       const { channel: { id } } = await this.openConversation({
         users: this.users.join(),
+        as_bot: this.as_user === false,
       });
       return id;
     },

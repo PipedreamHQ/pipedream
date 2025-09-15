@@ -504,9 +504,9 @@ export default {
       });
     },
     async makeRequest({
-      method = "", throwRateLimitError = false, as_bot, ...args
+      method = "", throwRateLimitError = false, as_user, as_bot, ...args
     } = {}) {
-      as_bot = args.as_user === false || as_bot;
+      as_bot = as_user === false || as_bot;
 
       const props = method.split(".");
       const sdk = props.reduce((reduction, prop) =>
