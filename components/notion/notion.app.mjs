@@ -315,7 +315,7 @@ export default {
         block_id: blockId,
       });
     },
-    async createPage(page) { console.log(page);
+    async createPage(page) {
       return this._getNotionClient().pages.create(page);
     },
     async retrievePage(pageId) {
