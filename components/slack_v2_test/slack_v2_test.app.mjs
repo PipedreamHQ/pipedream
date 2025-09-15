@@ -519,8 +519,15 @@ export default {
         response = await this._withRetries(() => sdk(args), throwRateLimitError);
       } catch (error) {
         if (error?.data?.error === "channel_not_found" && as_bot) {
+          // If method starts with chat, include the part about "As User"
+          // Otherwise, just say "Ensure the bot is a member of the channel"
+          if (method.startsWith("chat.")) {
+            throw new ConfigurationError(`${error}
+            Ensure the bot is a member of the channel, or set the **Send as User** option to true to act on behalf of the authenticated user.
+            `);
+          }
           throw new ConfigurationError(`${error}
-            Ensure the bot is a member of the channel, or set the **As User** option to true to act on behalf of the authenticated user.
+          Ensure the bot is a member of the channel.
           `);
         }
         throw `${error}`;
