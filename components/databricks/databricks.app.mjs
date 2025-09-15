@@ -84,12 +84,20 @@ export default {
       type: "string",
       label: "Vector Search Index",
       description: "The name of the vector search index",
-      async options() {
-        const { vector_indexes } = await this.listVectorSearchIndexes();
-        return vector_indexes?.map(({ name: value }) => ({
-          value,
-          label: value,
-        })) || [];
+      async options({ props }) {
+        if (!props.endpointName) {
+          return [];
+        }
+        const { vector_indexes = [] } = await this.listVectorSearchIndexes({
+          params: {
+            endpoint_name: props.endpointName,
+          },
+        });
+
+        return vector_indexes.map(({ name }) => ({
+          value: name,
+          label: name,
+        }));
       },
     },
   },
