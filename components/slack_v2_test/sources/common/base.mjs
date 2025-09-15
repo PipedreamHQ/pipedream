@@ -161,14 +161,18 @@ export default {
       );
     },
     async getBotInfo() {
-      return await this.slack.authTest({
+      const botInfo = await this.slack.authTest({
         as_bot: true,
       });
+      if (!botInfo?.bot_id) {
+        throw new Error("Could not get bot info. Make sure the Slack app has a bot user.");
+      }
+      return botInfo;
     },
     async addAppToChannels(channelIds = []) {
-      const { user_id: botUserId } = await this.getBotInfo();
-      // XXX: Don't try to add the app to DM or group DM channels,
-      // it will result in an error: method_not_supported_for_channel_type
+      const { bot_id: botUserId } = await this.getBotInfo();
+      // XXX: Trying to add the app to DM or group DM channels results in the
+      // error: method_not_supported_for_channel_type
       for (const channel of channelIds) {
         try {
           await this.slack.inviteToConversation({
@@ -176,7 +180,10 @@ export default {
             users: botUserId,
           });
         } catch (error) {
-          if (!error.includes("already_in_channel")) {
+          if (![
+            "method_not_supported_for_channel_type",
+            "already_in_channel",
+          ].some((msg) => error.includes(msg))) {
             throw error;
           }
         }
