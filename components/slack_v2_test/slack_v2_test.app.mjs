@@ -468,7 +468,7 @@ export default {
     addToChannel: {
       type: "boolean",
       label: "Add app to channel automatically?",
-      description: "If `true`, the app will be added to the specified channel(s) automatically. If `false`, you must add the app to the channel manually. Defaults to `true`.",
+      description: "If `true`, the app will be added to the specified non-DM channel(s) automatically. If `false`, you must add the app to the channel manually. Defaults to `true`.",
       default: true,
       optional: false,
     },
