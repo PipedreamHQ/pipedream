@@ -58,13 +58,6 @@ export default {
         "List of embedding source column configs. Each entry is a JSON object string like `{ \"embedding_model_endpoint_name\": \"e5-small-v2\", \"name\": \"text\" }`. Provide when Databricks computes embeddings (DELTA_SYNC).",
       optional: true,
     },
-    embeddingVectorColumns: {
-      type: "string[]",
-      label: "Embedding Vector Columns",
-      description:
-        "List of self-managed vector column configs. Each entry is a JSON object string like `{ \"name\": \"text_vector\", \"embedding_dimension\": 1536 }`. Provide when you manage embeddings yourself (DELTA_SYNC).",
-      optional: true,
-    },
     schemaJson: {
       type: "string",
       label: "Schema JSON",
@@ -104,49 +97,11 @@ export default {
         ? this.columnsToSync
         : utils.parseObject(this.columnsToSync);
 
-      // Parse embeddingSourceColumns (either object[] or string[] of JSON)
-      const embeddingSourceColumns = Array.isArray(this.embeddingSourceColumns)
-        ? this.embeddingSourceColumns.map((item, idx) => {
-          if (typeof item === "string") {
-            try {
-              return JSON.parse(item);
-            } catch (e) {
-              throw new ConfigurationError(
-                `embeddingSourceColumns[${idx}] is not valid JSON: ${e.message}`,
-              );
-            }
-          }
-          return item;
-        })
-        : utils.parseObject(this.embeddingSourceColumns);
-
-      // Parse embeddingVectorColumns (either object[] or string[] of JSON)
-      const embeddingVectorColumns = Array.isArray(this.embeddingVectorColumns)
-        ? this.embeddingVectorColumns.map((item, idx) => {
-          if (typeof item === "string") {
-            try {
-              return JSON.parse(item);
-            } catch (e) {
-              throw new ConfigurationError(
-                `embeddingVectorColumns[${idx}] is not valid JSON: ${e.message}`,
-              );
-            }
-          }
-          return item;
-        })
-        : utils.parseObject(this.embeddingVectorColumns);
-
-      // Require at least one embedding config: source OR vector columns
+      const embeddingSourceColumns = utils.parseObject(this.embeddingSourceColumns);
       const hasSource = Array.isArray(embeddingSourceColumns) && embeddingSourceColumns.length > 0;
-      const hasVectors = Array.isArray(embeddingVectorColumns) && embeddingVectorColumns.length > 0;
-      if (!hasSource && !hasVectors) {
+      if (!hasSource) {
         throw new ConfigurationError(
-          "Provide either embeddingSourceColumns (compute embeddings) or embeddingVectorColumns (self-managed) for DELTA_SYNC indexes.",
-        );
-      }
-      if (hasSource && hasVectors) {
-        throw new ConfigurationError(
-          "Provide only one of embeddingSourceColumns or embeddingVectorColumns for DELTA_SYNC indexes.",
+          "embeddingSourceColumns is required when indexType is DELTA_SYNC.",
         );
       }
 
@@ -158,7 +113,6 @@ export default {
         deltaSpec.columns_to_sync = columnsToSync;
       }
       if (hasSource) {
-        // Optional: shallow validation of required keys
         for (const [
           i,
           c,
@@ -170,19 +124,6 @@ export default {
           }
         }
         deltaSpec.embedding_source_columns = embeddingSourceColumns;
-      }
-      if (hasVectors) {
-        for (const [
-          i,
-          c,
-        ] of embeddingVectorColumns.entries()) {
-          if (!c?.name || typeof c?.embedding_dimension !== "number") {
-            throw new ConfigurationError(
-              `embeddingVectorColumns[${i}] must include "name" and numeric "embedding_dimension"`,
-            );
-          }
-        }
-        deltaSpec.embedding_vector_columns = embeddingVectorColumns;
       }
       payload.delta_sync_index_spec = deltaSpec;
     }
