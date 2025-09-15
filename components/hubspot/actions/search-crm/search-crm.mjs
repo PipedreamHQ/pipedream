@@ -4,7 +4,6 @@ import {
   DEFAULT_CONTACT_PROPERTIES,
   DEFAULT_DEAL_PROPERTIES,
   DEFAULT_LEAD_PROPERTIES,
-  DEFAULT_LIMIT,
   DEFAULT_LINE_ITEM_PROPERTIES,
   DEFAULT_PRODUCT_PROPERTIES,
   DEFAULT_TICKET_PROPERTIES,
@@ -12,6 +11,7 @@ import {
 } from "../../common/constants.mjs";
 import hubspot from "../../hubspot.app.mjs";
 import common from "../common/common-create.mjs";
+const DEFAULT_LIMIT = 200;
 
 export default {
   key: "hubspot-search-crm",
@@ -42,13 +42,6 @@ export default {
         "Set to `true` to search for an exact match of the search value. If `false`, partial matches will be returned. Default: `true`",
       default: true,
       optional: true,
-      reloadProps: true,
-    },
-    createdAfter: {
-      type: "string",
-      label: "Created After",
-      description: "Filter results to only include objects created after this date. Example: `2023-03-03T16:16:24.400Z`. Recommended when `Exact Match` is set to `false`.",
-      optional: true,
     },
     createIfNotFound: {
       type: "boolean",
@@ -59,17 +52,16 @@ export default {
       optional: true,
       reloadProps: true,
     },
+    offset: {
+      type: "integer",
+      label: "Offset",
+      description: "The offset to start from. Used for pagination.",
+      default: 0,
+      optional: true,
+    },
   },
   async additionalProps() {
     const props = {};
-
-    if (this.exactMatch === false && !this.createdAfter) {
-      props.exactMatchAlert = {
-        type: "alert",
-        alertType: "info",
-        content: "It is recommended to set `Created After` when `Exact Match` is set to `false` to avoid potential timeouts.",
-      };
-    }
 
     if (this.objectType === "custom_object") {
       try {
@@ -239,29 +231,6 @@ export default {
         })) || []
       );
     },
-    async paginate(params) {
-      let results, done = false;
-      const items = [];
-      while ((!results || params.after) && !done) {
-        results = await this.hubspot.searchCRM(params);
-        if (results.paging) {
-          params.after = results.paging.next.after;
-        } else {
-          delete params.after;
-        }
-        results = results.results;
-        for (const result of results) {
-          if (this.createdAfter
-            && Date.parse(result.properties.createdate) <= Date.parse(this.createdAfter)
-          ) {
-            done = true;
-            break;
-          }
-          items.push(result);
-        }
-      }
-      return items;
-    },
   },
   async run({ $ }) {
     const {
@@ -272,9 +241,8 @@ export default {
       searchProperty,
       searchValue,
       exactMatch,
+      offset,
       /* eslint-disable no-unused-vars */
-      createdAfter,
-      exactMatchAlert,
       info,
       createIfNotFound,
       creationProps,
@@ -313,7 +281,10 @@ export default {
           direction: "DESCENDING",
         },
       ],
+      limit: DEFAULT_LIMIT,
+      after: offset,
     };
+
     if (exactMatch) {
       data.filters = [
         {
@@ -322,17 +293,17 @@ export default {
           value: searchValue,
         },
       ];
-    } else {
-      data.limit = DEFAULT_LIMIT;
     }
 
-    let results = await this.paginate({
+    let {
+      results, paging,
+    } = await this.hubspot.searchCRM({
       object: actualObjectType,
       data,
     });
 
     if (!exactMatch) {
-      results = results.filter(
+      results = results?.filter(
         (result) =>
           result.properties[searchProperty] &&
           result.properties[searchProperty]
@@ -358,6 +329,9 @@ export default {
       "$summary",
       `Successfully retrieved ${results?.length} object(s).`,
     );
-    return results;
+    return {
+      results,
+      paging,
+    };
   },
 };
