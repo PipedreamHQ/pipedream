@@ -52,6 +52,14 @@ export default {
       ],
     },
   },
+  hooks: {
+    async activate() {
+      if (this.addToChannel && this.conversations?.length) {
+        if (this.conversations[0] === "message") return;
+        await this.addAppToChannels(this.conversations);
+      }
+    },
+  },
   methods: {
     ...common.methods,
     getSummary() {
