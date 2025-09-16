@@ -50,7 +50,7 @@ export default {
       description: "The name of the vector search endpoint",
       async options({ prevContext }) {
         const {
-          endpoints, next_page_token,
+          endpoints = [], next_page_token,
         } = await this.listEndpoints({
           params: {
             page_token: prevContext.page_token,
@@ -82,15 +82,12 @@ export default {
     },
     indexName: {
       type: "string",
-      label: "Vector Search Index",
+      label: "Index Name",
       description: "The name of the vector search index",
-      async options({ props }) {
-        if (!props.endpointName) {
-          return [];
-        }
+      async options({ endpointName }) {
         const { vector_indexes = [] } = await this.listVectorSearchIndexes({
           params: {
-            endpoint_name: props.endpointName,
+            endpoint_name: endpointName,
           },
         });
 
@@ -293,8 +290,9 @@ export default {
       params, ...args
     }) {
       return this._makeRequest({
-        path: `/vector-search/indexes?endpoint_name=${params.endpoint_name}`,
+        path: "/vector-search/indexes",
         method: "GET",
+        params,
         ...args,
       });
     },
@@ -334,8 +332,9 @@ export default {
     })
     {
       return this._makeRequest({
-        path: `/vector-search/indexes/${indexName}/delete-data?primary_keys=${params.primary_keys}`,
+        path: `/vector-search/indexes/${indexName}/delete-data`,
         method: "DELETE",
+        params,
         ...args,
       });
     },
