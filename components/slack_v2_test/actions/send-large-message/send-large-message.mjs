@@ -15,6 +15,12 @@ export default {
         "conversation",
       ],
     },
+    addToChannel: {
+      propDefinition: [
+        common.props.slack,
+        "addToChannel",
+      ],
+    },
     text: {
       propDefinition: [
         common.props.slack,
@@ -30,6 +36,19 @@ export default {
     ...common.props,
   },
   async run({ $ }) {
+    let channel;
+
+    if (this.addToChannel) {
+      await this.slack.maybeAddAppToChannels([
+        this.conversation,
+      ]);
+    } else if (!this.conversation.startsWith("U")) {
+      // Ensure the user is in the channel
+      await this.slack.conversationsInfo({
+        channel: this.conversation,
+      });
+    }
+
     if (this.include_sent_via_pipedream_flag) {
       const sentViaPipedreamText = this._makeSentViaPipedreamBlock();
       this.text += `\n\n\n${sentViaPipedreamText.elements[0].text}`;
@@ -74,8 +93,7 @@ export default {
     } else {
       response = await this.slack.postChatMessage(obj);
     }
-
-    const { channel } = await this.slack.conversationsInfo({
+    channel ??= await this.slack.conversationsInfo({
       channel: response.channel,
     });
     let channelName = `#${channel?.name}`;
