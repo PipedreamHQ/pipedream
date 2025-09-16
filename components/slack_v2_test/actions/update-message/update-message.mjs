@@ -41,6 +41,13 @@ export default {
     },
   },
   async run({ $ }) {
+    if (!this.as_user) {
+      // Ensure the user is in the channel
+      await this.slack.conversationsInfo({
+        channel: this.conversation,
+      });
+    }
+
     const response = await this.slack.updateMessage({
       ts: this.timestamp,
       text: this.text,

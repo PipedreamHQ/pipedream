@@ -42,7 +42,7 @@ export default {
       await this.slack.maybeAddAppToChannels([
         this.conversation,
       ]);
-    } else if (!this.conversation.startsWith("U")) {
+    } else if (!this.as_user && !this.conversation.startsWith("U")) {
       // Ensure the user is in the channel
       await this.slack.conversationsInfo({
         channel: this.conversation,

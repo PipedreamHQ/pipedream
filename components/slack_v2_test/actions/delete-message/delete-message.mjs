@@ -29,6 +29,17 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.addToChannel) {
+      await this.slack.maybeAddAppToChannels([
+        this.conversation,
+      ]);
+    } else if (!this.as_user) {
+      // Ensure the user is in the channel
+      await this.slack.conversationsInfo({
+        channel: this.conversation,
+      });
+    }
+
     const response = await this.slack.deleteMessage({
       channel: this.conversation,
       ts: this.timestamp,
