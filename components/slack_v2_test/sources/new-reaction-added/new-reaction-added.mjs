@@ -97,10 +97,14 @@ export default {
         event.itemUserInfo = itemUserResponse.user;
       }
 
-      event.message = await this.getMessage({
-        channel: event.item.channel,
-        event_ts: event.item.ts,
-      });
+      try {
+        event.message = await this.getMessage({
+          channel: event.item.channel,
+          event_ts: event.item.ts,
+        });
+      } catch (err) {
+        console.log("Error fetching message:", err);
+      }
 
       return event;
     },
