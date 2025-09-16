@@ -44,6 +44,11 @@ export default {
       await this.slack.maybeAddAppToChannels([
         this.conversation,
       ]);
+    } else {
+      // Ensure the user is in the channel
+      await this.slack.conversationsInfo({
+        channel: this.conversation,
+      });
     }
 
     const replies = [];
