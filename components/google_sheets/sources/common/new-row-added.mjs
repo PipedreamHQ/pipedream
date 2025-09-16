@@ -23,14 +23,14 @@ export default {
     hasHeaders: {
       type: "boolean",
       label: "Has Headers",
-      description: "Set to true if your spreadsheet contains column headers. When enabled, webhook responses will use column headers as keys instead of positional array indices.",
+      description: "Set to `true` if your spreadsheet contains column headers. When enabled, an additional `rowAsObject` field will be included in webhook responses with column headers as keys. The original `newRow` array format is always preserved for backward compatibility.",
       default: false,
       optional: true,
     },
     headerRow: {
       type: "integer",
       label: "Header Row Number",
-      description: "The row number containing the column headers (e.g., 1 for the first row). Only used when 'Has Headers' is enabled.",
+      description: "The row number containing the column headers (e.g., `1` for the first row). Only used when **Has Headers** is enabled.",
       default: 1,
       optional: true,
     },
@@ -233,15 +233,23 @@ export default {
           rowHashes[rowHashString] = true;
 
           // Transform row to object using headers if enabled
-          const transformedRow = this._transformRowToObject(newRow, headers);
+          const rowAsObject = this._transformRowToObject(newRow, headers);
+
+          // Emit event with backward-compatible structure
+          const eventData = {
+            newRow, // Always keep the original array format for backward compatibility
+            range,
+            worksheet,
+            rowNumber,
+          };
+
+          // Only add rowAsObject if headers are enabled and transformation resulted in an object
+          if (this.hasHeaders && typeof rowAsObject === "object" && !Array.isArray(rowAsObject)) {
+            eventData.rowAsObject = rowAsObject;
+          }
 
           this.$emit(
-            {
-              newRow: transformedRow,
-              range,
-              worksheet,
-              rowNumber,
-            },
+            eventData,
             this.getMeta(worksheet, rowNumber, rowHashString),
           );
         }

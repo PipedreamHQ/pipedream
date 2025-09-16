@@ -3,7 +3,7 @@ import expensify from "../../app/expensify.app";
 
 export default defineAction({
   key: "expensify-create-expense",
-  version: "0.0.3",
+  version: "0.0.4",
   name: "Create Expense",
   description: "Creates a new expense. [See docs here](https://integrations.expensify.com/Integration-Server/doc/#expense-creator)",
   type: "action",
