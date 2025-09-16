@@ -7,7 +7,7 @@ export default {
   key: "hubspot-new-contact-property-change",
   name: "New Contact Property Change",
   description: "Emit new event when a specified property is provided or updated on a contact. [See the documentation](https://developers.hubspot.com/docs/api/crm/contacts)",
-  version: "0.0.27",
+  version: "0.0.28",
   dedupe: "unique",
   type: "source",
   props: {
@@ -106,6 +106,7 @@ export default {
       const updatedContacts = await this.getPaginatedItems(
         this.hubspot.searchCRM,
         params,
+        after,
       );
 
       if (!updatedContacts.length) {
