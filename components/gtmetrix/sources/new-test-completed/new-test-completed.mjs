@@ -35,7 +35,7 @@ export default {
           "sort": "-finished",
           "filter[state]": "completed",
           "filter[finished:gt]": lastTs,
-          "filter[source]": this.testSources.join(" ,"),
+          "filter[source]": this.testSources.join(", "),
         },
       };
     },
