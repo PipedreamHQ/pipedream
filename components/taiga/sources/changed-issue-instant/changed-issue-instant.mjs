@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "taiga-changed-issue-instant",
   name: "Changed Issue (Instant)",
-  description: "Emit new event when a issue is updated in the selected project. [See the documentation](https://docs.taiga.io/api.html#webhooks-create)",
+  description: "Emit new event when an issue is updated in the selected project. [See the documentation](https://docs.taiga.io/api.html#webhooks-create)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

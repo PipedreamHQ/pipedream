@@ -1,4 +1,6 @@
-import { cleanObj } from "../../common/utils.mjs";
+import {
+  cleanObj, parseObject,
+} from "../../common/utils.mjs";
 import taiga from "../../taiga.app.mjs";
 
 export default {
@@ -140,8 +142,8 @@ export default {
         status: this.status,
         assigned_to: this.assignedTo,
         user_story: this.userStoryId,
-        tags: this.tags,
-        watchers: this.watchers,
+        tags: parseObject(this.tags),
+        watchers: parseObject(this.watchers),
         is_blocked: this.isBlocked,
         milestone: this.milestone,
         us_order: this.usOrder,
