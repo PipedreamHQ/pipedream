@@ -3,7 +3,7 @@ import app from "../../weaviate.app.mjs";
 export default {
   key: "weaviate-create-class",
   name: "Create Class",
-  description: "Create a new class in Weavate. [See the documentation](https://docs.weaviate.io/weaviate/api/rest#tag/schema/post/schema)",
+  description: "Create a new class in Weaviate. [See the documentation](https://docs.weaviate.io/weaviate/api/rest#tag/schema/post/schema)",
   version: "0.0.1",
   type: "action",
   props: {
