@@ -31,10 +31,10 @@ export default {
       async options() {
         const response = await this.getCategories();
         return response.map(({
-          id, category,
+          id, subcategory,
         }) => ({
           value: id,
-          label: category,
+          label: subcategory,
         }));
       },
     },

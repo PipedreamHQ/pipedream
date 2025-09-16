@@ -73,6 +73,11 @@ export default {
         task_value: this.taskValue,
       },
     });
+
+    if (response.ok === false) {
+      throw new Error(`Job creation failed: ${response.message}`);
+    }
+
     $.export("$summary", "Successfully sent the request. Result message: " + response.message);
     return response;
   },
