@@ -4,7 +4,6 @@ import {
   DEFAULT_CONTACT_PROPERTIES,
   DEFAULT_DEAL_PROPERTIES,
   DEFAULT_LEAD_PROPERTIES,
-  DEFAULT_LIMIT,
   DEFAULT_LINE_ITEM_PROPERTIES,
   DEFAULT_PRODUCT_PROPERTIES,
   DEFAULT_TICKET_PROPERTIES,
@@ -12,13 +11,14 @@ import {
 } from "../../common/constants.mjs";
 import hubspot from "../../hubspot.app.mjs";
 import common from "../common/common-create.mjs";
+const DEFAULT_LIMIT = 200;
 
 export default {
   key: "hubspot-search-crm",
   name: "Search CRM",
   description:
     "Search companies, contacts, deals, feedback submissions, products, tickets, line-items, quotes, leads, or custom objects. [See the documentation](https://developers.hubspot.com/docs/api/crm/search)",
-  version: "1.0.12",
+  version: "1.1.0",
   type: "action",
   props: {
     hubspot,
@@ -51,6 +51,13 @@ export default {
       default: false,
       optional: true,
       reloadProps: true,
+    },
+    offset: {
+      type: "integer",
+      label: "Offset",
+      description: "The offset to start from. Used for pagination.",
+      default: 0,
+      optional: true,
     },
   },
   async additionalProps() {
@@ -224,23 +231,6 @@ export default {
         })) || []
       );
     },
-    async paginate(params) {
-      let results;
-      const items = [];
-      while (!results || params.after) {
-        results = await this.hubspot.searchCRM(params);
-        if (results.paging) {
-          params.after = results.paging.next.after;
-        } else {
-          delete params.after;
-        }
-        results = results.results;
-        for (const result of results) {
-          items.push(result);
-        }
-      }
-      return items;
-    },
   },
   async run({ $ }) {
     const {
@@ -251,6 +241,7 @@ export default {
       searchProperty,
       searchValue,
       exactMatch,
+      offset,
       /* eslint-disable no-unused-vars */
       info,
       createIfNotFound,
@@ -282,8 +273,18 @@ export default {
       properties: [
         ...defaultProperties,
         ...additionalProperties,
+        searchProperty,
       ],
+      sorts: [
+        {
+          propertyName: "createdate",
+          direction: "DESCENDING",
+        },
+      ],
+      limit: DEFAULT_LIMIT,
+      after: offset,
     };
+
     if (exactMatch) {
       data.filters = [
         {
@@ -292,17 +293,17 @@ export default {
           value: searchValue,
         },
       ];
-    } else {
-      data.limit = DEFAULT_LIMIT;
     }
 
-    let results = await this.paginate({
+    let {
+      results, paging,
+    } = await this.hubspot.searchCRM({
       object: actualObjectType,
       data,
     });
 
     if (!exactMatch) {
-      results = results.filter(
+      results = results?.filter(
         (result) =>
           result.properties[searchProperty] &&
           result.properties[searchProperty]
@@ -328,6 +329,9 @@ export default {
       "$summary",
       `Successfully retrieved ${results?.length} object(s).`,
     );
-    return results;
+    return {
+      results,
+      paging,
+    };
   },
 };
