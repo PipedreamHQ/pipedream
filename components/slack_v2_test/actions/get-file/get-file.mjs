@@ -36,10 +36,7 @@ export default {
         this.conversation,
       ]);
     } else {
-      // Ensure the user is in the channel
-      await this.slack.conversationsInfo({
-        channel: this.conversation,
-      });
+      await this.slack.checkAccessToChannel(this.conversation);
     }
 
     const response = await this.slack.getFileInfo({

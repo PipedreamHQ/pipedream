@@ -188,11 +188,8 @@ export default {
       await this.slack.maybeAddAppToChannels([
         channelId,
       ]);
-    } else if (!this.as_user && !channelId.startsWith("U")) {
-      // Ensure the user is in the channel
-      channel = await this.slack.conversationsInfo({
-        channel: channelId,
-      });
+    } else if (!this.as_user) {
+      channel = (await this.slack.checkAccessToChannel(channelId))?.channel;
     }
 
     let blocks = this.blocks;
@@ -252,9 +249,9 @@ export default {
       return await this.slack.scheduleMessage(obj);
     }
     const resp = await this.slack.postChatMessage(obj);
-    channel ??= await this.slack.conversationsInfo({
+    channel ??= (await this.slack.conversationsInfo({
       channel: resp.channel,
-    });
+    })).channel;
     let channelName = `#${channel?.name}`;
     if (channel.is_im) {
       const { profile } = await this.slack.getUserProfile({

@@ -42,11 +42,8 @@ export default {
       await this.slack.maybeAddAppToChannels([
         this.conversation,
       ]);
-    } else if (!this.as_user && !this.conversation.startsWith("U")) {
-      // Ensure the user is in the channel
-      await this.slack.conversationsInfo({
-        channel: this.conversation,
-      });
+    } else if (!this.as_user) {
+      channel = (await this.slack.checkAccessToChannel(this.conversation))?.channel;
     }
 
     if (this.include_sent_via_pipedream_flag) {
@@ -93,9 +90,9 @@ export default {
     } else {
       response = await this.slack.postChatMessage(obj);
     }
-    channel ??= await this.slack.conversationsInfo({
+    channel ??= (await this.slack.conversationsInfo({
       channel: response.channel,
-    });
+    })).channel;
     let channelName = `#${channel?.name}`;
     if (channel.is_im) {
       const { profile } = await this.slack.getUserProfile({

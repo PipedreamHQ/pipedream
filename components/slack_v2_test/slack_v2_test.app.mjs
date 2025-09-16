@@ -640,15 +640,6 @@ export default {
       } while (cursor && Object.keys(realNames).length < (ids.length + usernames.length));
       return realNames;
     },
-    async getBotUserInfo() {
-      const botInfo = await this.slack.authTest({
-        as_bot: true,
-      });
-      if (!botInfo?.bot_id) {
-        throw new Error("Could not get bot info. Make sure the Slack app has a bot user.");
-      }
-      return botInfo;
-    },
     async maybeAddAppToChannels(channelIds = []) {
       if (!this.$auth.bot_token) return;
       const {
@@ -675,6 +666,22 @@ export default {
             throw error;
           }
         }
+      }
+    },
+    async checkAccessToChannel(channelId) {
+      // If not using a bot token, skip this check
+      if (!this.$auth.bot_token) return;
+      if (!channelId.startsWith("U") && !channelId.startsWith("D")) {
+        // If not a DM, check if the user is a member of the channel
+        return await this.conversationsInfo({
+          channel: channelId,
+          throwRateLimitError: true,
+        });
+      } else {
+        // If a DM, check if the user has a valid token
+        await this.authTest({
+          throwRateLimitError: true,
+        });
       }
     },
     /**
