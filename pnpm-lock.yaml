@@ -8759,6 +8759,9 @@ importers:
 
   components/microsoft_advertising: {}
 
+  components/microsoft_authenticator:
+    specifiers: {}
+
   components/microsoft_azure_ai_translator:
     dependencies:
       '@pipedream/platform':

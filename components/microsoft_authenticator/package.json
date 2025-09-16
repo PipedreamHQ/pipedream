@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/microsoft_authenticator",
+  "version": "0.0.1",
+  "description": "Pipedream Microsoft Authenticator Components",
+  "main": "microsoft_authenticator.app.mjs",
+  "keywords": [
+    "pipedream",
+    "microsoft_authenticator"
+  ],
+  "homepage": "https://pipedream.com/apps/microsoft_authenticator",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
