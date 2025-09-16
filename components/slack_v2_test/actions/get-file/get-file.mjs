@@ -14,6 +14,12 @@ export default {
         "conversation",
       ],
     },
+    addToChannel: {
+      propDefinition: [
+        slack,
+        "addToChannel",
+      ],
+    },
     file: {
       propDefinition: [
         slack,
