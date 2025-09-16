@@ -1,139 +1,139 @@
 import { ConfigurationError } from "@pipedream/platform";
-import app from "../../pipedrive.app.mjs";
+import pipedriveApp from "../../pipedrive.app.mjs";
 import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "pipedrive-add-deal",
   name: "Add Deal",
   description: "Adds a new deal. See the Pipedrive API docs for Deals [here](https://developers.pipedrive.com/docs/api/v1/Deals#addDeal)",
-  version: "0.1.14",
+  version: "0.1.16",
   type: "action",
   props: {
-    app,
+    pipedriveApp,
     title: {
       propDefinition: [
-        app,
+        pipedriveApp,
         "dealTitle",
       ],
     },
     ownerId: {
       propDefinition: [
-        app,
+        pipedriveApp,
         "userId",
       ],
     },
     personId: {
       propDefinition: [
-        app,
+        pipedriveApp,
         "personId",
       ],
     },
     orgId: {
       propDefinition: [
-        app,
+        pipedriveApp,
         "organizationId",
       ],
     },
     pipelineId: {
       propDefinition: [
-        app,
+        pipedriveApp,
         "pipelineId",
       ],
       optional: true,
     },
     stageId: {
       propDefinition: [
-        app,
+        pipedriveApp,
         "stageId",
       ],
     },
     value: {
       propDefinition: [
-        app,
+        pipedriveApp,
         "dealValue",
       ],
     },
     currency: {
       propDefinition: [
-        app,
+        pipedriveApp,
         "dealCurrency",
       ],
     },
     status: {
       propDefinition: [
-        app,
+        pipedriveApp,
         "status",
       ],
     },
     probability: {
       propDefinition: [
-        app,
+        pipedriveApp,
         "probability",
       ],
     },
     lostReason: {
       propDefinition: [
-        app,
+        pipedriveApp,
         "lostReason",
       ],
     },
     visibleTo: {
       propDefinition: [
-        app,
+        pipedriveApp,
         "visibleTo",
       ],
     },
     isDeleted: {
       propDefinition: [
-        app,
+        pipedriveApp,
         "isDeleted",
       ],
     },
     isArchived: {
       propDefinition: [
-        app,
+        pipedriveApp,
         "isArchived",
       ],
     },
     archiveTime: {
       propDefinition: [
-        app,
+        pipedriveApp,
         "archiveTime",
       ],
     },
     closeTime: {
       propDefinition: [
-        app,
+        pipedriveApp,
         "closeTime",
       ],
     },
     wonTime: {
       propDefinition: [
-        app,
+        pipedriveApp,
         "wonTime",
       ],
     },
     lostTime: {
       propDefinition: [
-        app,
+        pipedriveApp,
         "lostTime",
       ],
     },
     expectedCloseDate: {
       propDefinition: [
-        app,
+        pipedriveApp,
         "expectedCloseDate",
       ],
     },
     labelIds: {
       propDefinition: [
-        app,
+        pipedriveApp,
         "labelIds",
       ],
     },
     customFields: {
       propDefinition: [
-        app,
+        pipedriveApp,
         "customFields",
       ],
     },
@@ -146,7 +146,7 @@ export default {
   },
   async run({ $ }) {
     const {
-      app,
+      pipedriveApp,
       title,
       ownerId,
       personId,
@@ -172,7 +172,7 @@ export default {
     } = this;
 
     try {
-      const resp = await app.addDeal({
+      const resp = await pipedriveApp.addDeal({
         title,
         owner_id: ownerId,
         person_id: personId,
@@ -197,7 +197,7 @@ export default {
       });
 
       if (note) {
-        await app.addNote({
+        await pipedriveApp.addNote({
           content: note,
           deal_id: resp.data?.id,
         });

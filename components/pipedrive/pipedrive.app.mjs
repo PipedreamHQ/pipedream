@@ -189,7 +189,7 @@ export default {
       },
     },
     pipelineId: {
-      type: "string",
+      type: "integer",
       label: "Pipeline ID",
       description: "ID of the pipeline this activity will be associated with",
       optional: true,

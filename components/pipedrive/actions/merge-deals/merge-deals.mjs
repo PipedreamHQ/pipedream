@@ -4,7 +4,7 @@ export default {
   key: "pipedrive-merge-deals",
   name: "Merge Deals",
   description: "Merge two deals in Pipedrive. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Deals#mergeDeals)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     pipedriveApp,

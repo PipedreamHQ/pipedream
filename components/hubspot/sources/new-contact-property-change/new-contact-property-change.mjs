@@ -7,7 +7,7 @@ export default {
   key: "hubspot-new-contact-property-change",
   name: "New Contact Property Change",
   description: "Emit new event when a specified property is provided or updated on a contact. [See the documentation](https://developers.hubspot.com/docs/api/crm/contacts)",
-  version: "0.0.26",
+  version: "0.0.27",
   dedupe: "unique",
   type: "source",
   props: {
@@ -46,7 +46,7 @@ export default {
       return !updatedAfter || this.getTs(contact) > updatedAfter;
     },
     getParams(after) {
-      return {
+      const params = {
         object: "contacts",
         data: {
           limit: DEFAULT_LIMIT,
@@ -66,16 +66,19 @@ export default {
                   propertyName: this.property,
                   operator: "HAS_PROPERTY",
                 },
-                {
-                  propertyName: "lastmodifieddate",
-                  operator: "GTE",
-                  value: after,
-                },
               ],
             },
           ],
         },
       };
+      if (after) {
+        params.data.filterGroups[0].filters.push({
+          propertyName: "lastmodifieddate",
+          operator: "GTE",
+          value: after,
+        });
+      }
+      return params;
     },
     batchGetContacts(inputs) {
       return this.hubspot.batchGetObjects({
