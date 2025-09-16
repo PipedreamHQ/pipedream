@@ -32,16 +32,16 @@ export default {
         ];
       },
     },
-    keyword: {
-      propDefinition: [
-        common.props.slack,
-        "keyword",
-      ],
-    },
     addToChannel: {
       propDefinition: [
         common.props.slack,
         "addToChannel",
+      ],
+    },
+    keyword: {
+      propDefinition: [
+        common.props.slack,
+        "keyword",
       ],
     },
     ignoreBot: {
