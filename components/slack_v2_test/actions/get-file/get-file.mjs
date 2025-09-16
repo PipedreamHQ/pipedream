@@ -25,6 +25,12 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.addToChannel) {
+      await this.slack.maybeAddAppToChannels([
+        this.conversation,
+      ]);
+    }
+
     const response = await this.slack.getFileInfo({
       file: this.file,
     });

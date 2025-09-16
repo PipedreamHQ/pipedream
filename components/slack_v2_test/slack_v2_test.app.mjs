@@ -295,6 +295,7 @@ export default {
           page: page + 1,
           count: constants.LIMIT,
           throwRateLimitError: true,
+          as_bot: true,
         });
         return files?.map(({
           id: value, name: label,
@@ -639,6 +640,43 @@ export default {
       } while (cursor && Object.keys(realNames).length < (ids.length + usernames.length));
       return realNames;
     },
+    async getBotUserInfo() {
+      const botInfo = await this.slack.authTest({
+        as_bot: true,
+      });
+      if (!botInfo?.bot_id) {
+        throw new Error("Could not get bot info. Make sure the Slack app has a bot user.");
+      }
+      return botInfo;
+    },
+    async maybeAddAppToChannels(channelIds = []) {
+      if (!this.$auth.bot_token) return;
+      const {
+        bot_id, user_id,
+      } = await this.authTest({
+        as_bot: true,
+      });
+      if (!bot_id) {
+        throw new Error("Could not get bot ID. Make sure the Slack app has a bot user.");
+      }
+      // XXX: Trying to add the app to DM or group DM channels results in the
+      // error: method_not_supported_for_channel_type
+      for (const channel of channelIds) {
+        try {
+          await this.inviteToConversation({
+            channel,
+            users: user_id,
+          });
+        } catch (error) {
+          if (![
+            "method_not_supported_for_channel_type",
+            "already_in_channel",
+          ].some((msg) => (error.data?.error || error.message || error)?.includes(msg))) {
+            throw error;
+          }
+        }
+      }
+    },
     /**
      * Checks authentication & identity.
      * @param {*} args Arguments object
@@ -765,6 +803,7 @@ export default {
       args.limit ||= constants.LIMIT;
       return this.makeRequest({
         method: "conversations.history",
+        as_bot: true,
         ...args,
       });
     },
@@ -914,6 +953,7 @@ export default {
     getConversationReplies(args = {}) {
       return this.makeRequest({
         method: "conversations.replies",
+        as_bot: true,
         ...args,
       });
     },

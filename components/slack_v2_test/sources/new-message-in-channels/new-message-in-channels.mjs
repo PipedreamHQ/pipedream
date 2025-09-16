@@ -58,10 +58,10 @@ export default {
     },
   },
   hooks: {
+    ...common.hooks,
     async activate() {
       if (this.addToChannel && this.conversations?.length) {
-        if (this.conversations[0] === "message") return;
-        await this.addAppToChannels(this.conversations);
+        await this.slack.maybeAddAppToChannels(this.conversations);
       }
     },
   },

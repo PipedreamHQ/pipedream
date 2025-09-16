@@ -181,6 +181,12 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.addToChannel) {
+      await this.slack.maybeAddAppToChannels([
+        this.conversation,
+      ]);
+    }
+
     let blocks = this.blocks;
 
     if (!blocks) {

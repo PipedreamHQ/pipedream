@@ -14,6 +14,12 @@ export default {
         "conversation",
       ],
     },
+    addToChannel: {
+      propDefinition: [
+        slack,
+        "addToChannel",
+      ],
+    },
     team_id: {
       propDefinition: [
         slack,
@@ -42,6 +48,12 @@ export default {
     },
   },
   async run({ $ }) {
+    if (this.addToChannel) {
+      await this.slack.maybeAddAppToChannels([
+        this.conversation,
+      ]);
+    }
+
     const allFiles = [];
     const params = {
       channel: this.conversation,
