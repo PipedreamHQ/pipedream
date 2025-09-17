@@ -15602,7 +15602,11 @@ importers:
         specifier: ^1.4.1
         version: 1.6.6
 
-  components/weaviate: {}
+  components/weaviate:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/webflow:
     dependencies:
