@@ -1,19 +1,11 @@
 import trustpilot from "../../trustpilot.app.mjs";
-import {
-  POLLING_CONFIG, SOURCE_TYPES,
-} from "../../common/constants.mjs";
+import { DEFAULT_LIMIT } from "../../common/constants.mjs";
 
 /**
  * Base polling source for Trustpilot integration
  *
- * This integration uses polling instead of webhooks for the following reasons:
- * 1. Better reliability - polling ensures no events are missed
- * 2. Simpler implementation - no need for webhook endpoint management
- * 3. Consistent data retrieval - can backfill historical data if needed
- * 4. Works with all authentication methods (API key and OAuth)
- *
- * All sources poll every 15 minutes by default and maintain deduplication
- * to ensure events are only emitted once.
+ * Provides common functionality for polling Trustpilot API endpoints
+ * and emitting new events with deduplication.
  */
 export default {
   props: {
@@ -22,7 +14,7 @@ export default {
     timer: {
       type: "$.interface.timer",
       default: {
-        intervalSeconds: POLLING_CONFIG.DEFAULT_TIMER_INTERVAL_SECONDS,
+        intervalSeconds: 15 * 60, // 15 minutes
       },
     },
     businessUnitId: {
@@ -30,159 +22,120 @@ export default {
         trustpilot,
         "businessUnitId",
       ],
-      optional: true,
-      description: "Business Unit ID to filter events for. If not provided, will receive events for all business units.",
     },
   },
   methods: {
-    _getLastPolled() {
-      return this.db.get("lastPolled");
+    _getLastReviewTime() {
+      return this.db.get(`lastReviewTime:${this.businessUnitId}`);
     },
-    _setLastPolled(timestamp) {
-      this.db.set("lastPolled", timestamp);
+    _setLastReviewTime(time) {
+      this.db.set(`lastReviewTime:${this.businessUnitId}`, time);
     },
-    _getSeenItems() {
-      return this.db.get("seenItems") || {};
+    /**
+     * Override in child classes to provide review type-specific summary
+     * @param {Object} _review - The review object
+     * @returns {string} - Human-readable summary
+     */
+    // eslint-disable-next-line no-unused-vars
+    generateSummary(_review) {
+      throw new Error("generateSummary must be implemented in child class");
     },
-    _setSeenItems(seenItems) {
-      this.db.set("seenItems", seenItems);
+    /**
+     * Override in child classes to fetch reviews.
+     * Requirements:
+     *   - Must return ALL reviews newer than `lastReviewTime` (handle pagination internally), or
+     *   - Return the first page AND expose a pagination cursor so the base can iterate (future).
+     * @param {Object} _$ - Pipedream step context
+     * @param {Object} _params - Fetch parameters produced by `getFetchParams(lastReviewTime)`
+     * @returns {{ reviews: Array }} - Array of normalized reviews
+     */
+    // eslint-disable-next-line no-unused-vars
+    async fetchReviews(_$, _params) {
+      throw new Error("fetchReviews must be implemented in child class");
     },
-    _cleanupSeenItems(seenItems, hoursToKeep = 72) {
-      const cutoff = Date.now() - (hoursToKeep * 60 * 60 * 1000);
-      const cleaned = {};
-
-      Object.entries(seenItems).forEach(([
-        key,
-        timestamp,
-      ]) => {
-        if (timestamp > cutoff) {
-          cleaned[key] = timestamp;
-        }
-      });
-
-      return cleaned;
-    },
-    getSourceType() {
-      // Override in child classes
-      return SOURCE_TYPES.NEW_REVIEWS;
-    },
-    getPollingMethod() {
-      // Override in child classes to return the app method to call
-      throw new Error("getPollingMethod must be implemented in child class");
-    },
-    getPollingParams() {
-      // Override in child classes to return method-specific parameters
+    /**
+     * Override in child classes to provide fetch parameters
+     * @param {string} _lastReviewTime - ISO timestamp of last review
+     * @returns {Object} - Parameters for fetchReviews call
+     */
+    // eslint-disable-next-line no-unused-vars
+    getFetchParams(_lastReviewTime) {
       return {
         businessUnitId: this.businessUnitId,
-        limit: POLLING_CONFIG.MAX_ITEMS_PER_POLL,
-        sortBy: "createdat.desc", // Most recent first
+        perPage: DEFAULT_LIMIT,
       };
     },
-    isNewItem(item, sourceType) {
-      // For "new" sources, check creation date
-      // For "updated" sources, check update date
-      const itemDate = sourceType.includes("updated")
-        ? new Date(item.updatedAt)
-        : new Date(item.createdAt || item.updatedAt);
+    /**
+     * Override in child classes to filter reviews (for APIs without time filtering)
+     * @param {Array} reviews - Array of reviews from API
+     * @param {string} _lastReviewTime - ISO timestamp of last review
+     * @returns {Array} - Filtered array of new reviews
+     */
+    // eslint-disable-next-line no-unused-vars
+    filterNewReviews(reviews, _lastReviewTime) {
+      if (!_lastReviewTime) return reviews;
+      const lastMs = Date.parse(_lastReviewTime);
+      if (Number.isNaN(lastMs)) return reviews;
 
-      const lastPolled = this._getLastPolled();
-      return !lastPolled || itemDate > new Date(lastPolled);
-    },
-    generateDedupeKey(item, sourceType) {
-      // Create unique key: itemId + relevant timestamp
-      const timestamp = sourceType.includes("updated")
-        ? item.updatedAt
-        : (item.createdAt || item.updatedAt);
-
-      return `${item.id}_${timestamp}`;
-    },
-    generateMeta(item, sourceType) {
-      const dedupeKey = this.generateDedupeKey(item, sourceType);
-      const summary = this.generateSummary(item);
-      const timestamp = sourceType.includes("updated")
-        ? item.updatedAt
-        : (item.createdAt || item.updatedAt);
-
-      return {
-        id: dedupeKey,
-        summary,
-        ts: new Date(timestamp).getTime(),
-      };
-    },
-    generateSummary(item) {
-      // Override in child classes for specific summaries
-      return `${this.getSourceType()} - ${item.id}`;
-    },
-    async fetchItems() {
-      const method = this.getPollingMethod();
-      const params = this.getPollingParams();
-
-      try {
-        const result = await this.trustpilot[method](params);
-
-        // Handle different response formats
-        if (result.reviews) {
-          return result.reviews;
-        } else if (result.conversations) {
-          return result.conversations;
-        } else if (Array.isArray(result)) {
-          return result;
-        } else {
-          return [];
-        }
-      } catch (error) {
-        console.error(`Error fetching items with ${method}:`, error);
-        throw error;
-      }
-    },
-    async pollForItems() {
-      const sourceType = this.getSourceType();
-      const lastPolled = this._getLastPolled();
-      const seenItems = this._getSeenItems();
-
-      // If first run, look back 24 hours
-      const lookbackMs = POLLING_CONFIG.LOOKBACK_HOURS * 60 * 60 * 1000;
-      const since = lastPolled || new Date(Date.now() - lookbackMs).toISOString();
-
-      console.log(`Polling for ${sourceType} since ${since}`);
-
-      try {
-        const items = await this.fetchItems(since);
-        const newItems = [];
-        const currentTime = Date.now();
-
-        for (const item of items) {
-          // Check if item is new based on source type
-          if (this.isNewItem(item, sourceType)) {
-            const dedupeKey = this.generateDedupeKey(item, sourceType);
-
-            // Check if we've already seen this exact item+timestamp
-            if (!seenItems[dedupeKey]) {
-              seenItems[dedupeKey] = currentTime;
-              newItems.push(item);
-            }
-          }
-        }
-
-        // Emit new items
-        for (const item of newItems.reverse()) { // Oldest first
-          const meta = this.generateMeta(item, sourceType);
-          this.$emit(item, meta);
-        }
-
-        // Update state
-        this._setLastPolled(new Date().toISOString());
-        this._setSeenItems(this._cleanupSeenItems(seenItems));
-
-        console.log(`Found ${newItems.length} new items of type ${sourceType}`);
-
-      } catch (error) {
-        console.error(`Polling failed for ${sourceType}:`, error);
-        throw error;
-      }
+      return reviews.filter((r) => {
+        const ms = Date.parse(r?.createdAt);
+        return Number.isFinite(ms) && ms > lastMs;
+      });
     },
   },
-  async run() {
-    await this.pollForItems();
+  async run({ $ }) {
+    // Get the last review time for filtering new reviews
+    const lastReviewTime = this._getLastReviewTime();
+
+    // Get fetch parameters from child class
+    const fetchParams = this.getFetchParams(lastReviewTime);
+
+    // Fetch reviews using child class method
+    const result = await this.fetchReviews($, fetchParams);
+    const reviews = result.reviews || [];
+
+    if (!reviews.length) {
+      console.log("No reviews found");
+      return;
+    }
+
+    // Filter for new reviews (child class may override)
+    const newReviews = this.filterNewReviews(reviews, lastReviewTime);
+
+    if (!newReviews.length) {
+      console.log("No new reviews since last poll");
+      return;
+    }
+
+    // Track the latest review time
+    let latestReviewTime = lastReviewTime;
+
+    for (const review of newReviews) {
+      // Track the latest review time
+      const createdMs = Date.parse(review?.createdAt);
+      if (!Number.isFinite(createdMs)) {
+        ($.logger?.warn ?? console.warn)("Skipping review with invalid createdAt", {
+          id: review?.id,
+          createdAt: review?.createdAt,
+        });
+        continue;
+      }
+      const reviewTime = new Date(createdMs).toISOString();
+      if (!latestReviewTime || createdMs > Date.parse(latestReviewTime)) {
+        latestReviewTime = reviewTime;
+      }
+
+      // Emit the review with unique ID and summary
+      this.$emit(review, {
+        id: review.id,
+        summary: this.generateSummary(review),
+        ts: createdMs,
+      });
+    }
+
+    // Update the last review time for next poll
+    if (latestReviewTime && latestReviewTime !== lastReviewTime) {
+      this._setLastReviewTime(latestReviewTime);
+    }
   },
 };
