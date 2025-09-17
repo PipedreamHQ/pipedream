@@ -10,7 +10,7 @@ export default defineSource({
   key: "google_my_business-new-review-created",
   name: "New Review Created",
   description: `Emit new event for each new review on a location [See the documentation](${DOCS_LINK})`,
-  version: "0.0.4",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   methods: {

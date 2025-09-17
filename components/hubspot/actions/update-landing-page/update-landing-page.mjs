@@ -7,7 +7,7 @@ export default {
   name: "Update Landing Page",
   description:
     "Update a landing page in HubSpot. [See the documentation](https://developers.hubspot.com/docs/reference/api/cms/pages#patch-%2Fcms%2Fv3%2Fpages%2Flanding-pages%2F%7Bobjectid%7D)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   props: {
     hubspot,
@@ -53,6 +53,8 @@ export default {
         footerHtml: this.footerHtml,
         headHtml: this.headHtml,
         templatePath: this.templatePath,
+        widgetContainers: parseObject(this.widgetContainers),
+        widgets: parseObject(this.widgets),
       },
     });
 

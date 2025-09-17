@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/financial_data",
+  "version": "0.0.1",
+  "description": "Pipedream Financial Data Components",
+  "main": "financial_data.app.mjs",
+  "keywords": [
+    "pipedream",
+    "financial_data"
+  ],
+  "homepage": "https://pipedream.com/apps/financial_data",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
