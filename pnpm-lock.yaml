@@ -11694,7 +11694,11 @@ importers:
         specifier: ^3.24.0
         version: 3.30.0
 
-  components/redcircle_api: {}
+  components/redcircle_api:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/reddit:
     dependencies:
