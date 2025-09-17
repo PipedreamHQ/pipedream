@@ -7626,6 +7626,9 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
 
+  components/kordiam:
+    specifiers: {}
+
   components/koyeb: {}
 
   components/kraken_io: {}
