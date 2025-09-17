@@ -3,8 +3,9 @@ import hubspot from "../../hubspot.app.mjs";
 export default {
   key: "hubspot-clone-site-page",
   name: "Clone Site Page",
-  description: "Clone a site page in Hubspot. [See the documentation](https://developers.hubspot.com/docs/reference/api/cms/pages#post-%2Fcms%2Fv3%2Fpages%2Fsite-pages%2Fclone)",
-  version: "0.0.2",
+  description:
+    "Clone a site page in Hubspot. [See the documentation](https://developers.hubspot.com/docs/reference/api/cms/pages#post-%2Fcms%2Fv3%2Fpages%2Fsite-pages%2Fclone)",
+  version: "0.0.6",
   type: "action",
   props: {
     hubspot,
@@ -29,7 +30,10 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully cloned site page with ID: ${response.id}`);
+    $.export(
+      "$summary",
+      `Successfully cloned site page with ID: ${response.id}`,
+    );
 
     return response;
   },

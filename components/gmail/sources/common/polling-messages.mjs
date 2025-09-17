@@ -49,7 +49,7 @@ export default {
       let maxDate = lastDate;
       const messages = this.gmail.getAllMessages(messageIds);
       for await (const message of messages) {
-        this.emitEvent(message);
+        await this.emitEvent(message);
         maxDate = Math.max(maxDate, message.internalDate);
       }
       if (maxDate !== lastDate) {
@@ -63,7 +63,9 @@ export default {
       }
       messages = messages.sort((a, b) => (a.internalDate - b.internalDate));
       this.setLastDate(messages[messages.length - 1].internalDate);
-      messages.forEach((message) => this.emitEvent(message));
+      for (const message of messages) {
+        await this.emitEvent(message);
+      }
     },
   },
   async run() {

@@ -6,8 +6,9 @@ export default {
   ...common,
   key: "hubspot-update-company",
   name: "Update Company",
-  description: "Update a company in Hubspot. [See the documentation](https://developers.hubspot.com/docs/api/crm/companies)",
-  version: "0.0.21",
+  description:
+    "Update a company in Hubspot. [See the documentation](https://developers.hubspot.com/docs/api/crm/companies)",
+  version: "0.0.25",
   type: "action",
   methods: {
     ...common.methods,

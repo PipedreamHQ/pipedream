@@ -5,8 +5,9 @@ export default {
   ...common,
   key: "hubspot-new-custom-object-property-change",
   name: "New Custom Object Property Change",
-  description: "Emit new event when a specified property is provided or updated on a custom object.",
-  version: "0.0.12",
+  description:
+    "Emit new event when a specified property is provided or updated on a custom object.",
+  version: "0.0.17",
   dedupe: "unique",
   type: "source",
   props: {
@@ -38,8 +39,7 @@ export default {
     },
     generateMeta(object) {
       const {
-        id,
-        properties,
+        id, properties,
       } = object;
       const ts = this.getTs(object);
       return {
@@ -52,7 +52,7 @@ export default {
       return !updatedAfter || this.getTs(object) > updatedAfter;
     },
     getParams(after) {
-      return {
+      const params = {
         object: this.objectSchema,
         data: {
           limit: DEFAULT_LIMIT,
@@ -72,16 +72,19 @@ export default {
                   propertyName: this.property,
                   operator: "HAS_PROPERTY",
                 },
-                {
-                  propertyName: "hs_lastmodifieddate",
-                  operator: "GTE",
-                  value: after,
-                },
               ],
             },
           ],
         },
       };
+      if (after) {
+        params.data.filterGroups[0].filters.push({
+          propertyName: "hs_lastmodifieddate",
+          operator: "GTE",
+          value: after,
+        });
+      }
+      return params;
     },
     batchGetCustomObjects(inputs) {
       return this.hubspot.batchGetObjects({
@@ -102,10 +105,15 @@ export default {
       const propertyNames = properties.map((property) => property.name);
 
       if (!propertyNames.includes(this.property)) {
-        throw new Error(`Property "${this.property}" not supported for custom object ${this.objectSchema}.`);
+        throw new Error(
+          `Property "${this.property}" not supported for custom object ${this.objectSchema}.`,
+        );
       }
 
-      const updatedObjects = await this.getPaginatedItems(this.hubspot.searchCRM, params);
+      const updatedObjects = await this.getPaginatedItems(
+        this.hubspot.searchCRM,
+        params,
+      );
 
       if (!updatedObjects.length) {
         return;

@@ -5,7 +5,7 @@ export default {
   key: "bitget-spot-trade-cancel-replace-order",
   name: "Spot - Trade - Cancel Replace Order",
   description: "Cancel an Existing Order and Send a New Order. [See the documentation](https://www.bitget.com/api-doc/spot/trade/Cancel-Replace-Order)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

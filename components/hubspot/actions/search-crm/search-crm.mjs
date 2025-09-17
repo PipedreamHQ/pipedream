@@ -4,7 +4,6 @@ import {
   DEFAULT_CONTACT_PROPERTIES,
   DEFAULT_DEAL_PROPERTIES,
   DEFAULT_LEAD_PROPERTIES,
-  DEFAULT_LIMIT,
   DEFAULT_LINE_ITEM_PROPERTIES,
   DEFAULT_PRODUCT_PROPERTIES,
   DEFAULT_TICKET_PROPERTIES,
@@ -12,12 +11,14 @@ import {
 } from "../../common/constants.mjs";
 import hubspot from "../../hubspot.app.mjs";
 import common from "../common/common-create.mjs";
+const DEFAULT_LIMIT = 200;
 
 export default {
   key: "hubspot-search-crm",
   name: "Search CRM",
-  description: "Search companies, contacts, deals, feedback submissions, products, tickets, line-items, quotes, leads, or custom objects. [See the documentation](https://developers.hubspot.com/docs/api/crm/search)",
-  version: "1.0.8",
+  description:
+    "Search companies, contacts, deals, feedback submissions, products, tickets, line-items, quotes, leads, or custom objects. [See the documentation](https://developers.hubspot.com/docs/api/crm/search)",
+  version: "1.1.0",
   type: "action",
   props: {
     hubspot,
@@ -37,17 +38,26 @@ export default {
     exactMatch: {
       type: "boolean",
       label: "Exact Match",
-      description: "Set to `true` to search for an exact match of the search value. If `false`, partial matches will be returned. Default: `true`",
+      description:
+        "Set to `true` to search for an exact match of the search value. If `false`, partial matches will be returned. Default: `true`",
       default: true,
       optional: true,
     },
     createIfNotFound: {
       type: "boolean",
       label: "Create if not found?",
-      description: "Set to `true` to create the Hubspot object if it doesn't exist",
+      description:
+        "Set to `true` to create the Hubspot object if it doesn't exist",
       default: false,
       optional: true,
       reloadProps: true,
+    },
+    offset: {
+      type: "integer",
+      label: "Offset",
+      description: "The offset to start from. Used for pagination.",
+      default: 0,
+      optional: true,
     },
   },
   async additionalProps() {
@@ -69,7 +79,10 @@ export default {
         };
       }
     }
-    if (!this.objectType || (this.objectType === "custom_object" && !this.customObjectType)) {
+    if (
+      !this.objectType ||
+      (this.objectType === "custom_object" && !this.customObjectType)
+    ) {
       return props;
     }
 
@@ -105,7 +118,8 @@ export default {
     props.searchValue = {
       type: "string",
       label: "Search Value",
-      description: "Search for objects where the specified search field/property contains a match of the search value",
+      description:
+        "Search for objects where the specified search field/property contains a match of the search value",
     };
     const defaultProperties = this.getDefaultProperties();
     if (defaultProperties?.length) {
@@ -130,7 +144,8 @@ export default {
             objectType: this.customObjectType ?? this.objectType,
           });
           const defaultProperties = this.getDefaultProperties();
-          return properties.filter(({ name }) => !defaultProperties.includes(name))
+          return properties
+            .filter(({ name }) => !defaultProperties.includes(name))
             .map((property) => ({
               label: property.label,
               value: property.name,
@@ -154,20 +169,25 @@ export default {
         const relevantProperties = properties.filter(this.isRelevantProperty);
         const propDefinitions = [];
         for (const property of relevantProperties) {
-          propDefinitions.push(await this.makePropDefinition(property, schema.requiredProperties));
+          propDefinitions.push(
+            await this.makePropDefinition(property, schema.requiredProperties),
+          );
         }
-        creationProps = propDefinitions
-          .reduce((props, {
+        creationProps = propDefinitions.reduce(
+          (props, {
             name, ...definition
           }) => {
             props[name] = definition;
             return props;
-          }, {});
+          },
+          {},
+        );
       } catch {
         props.creationProps = {
           type: "object",
           label: "Object Properties",
-          description: "A JSON object containing the object to create if not found",
+          description:
+            "A JSON object containing the object to create if not found",
         };
       }
     }
@@ -202,29 +222,14 @@ export default {
     },
     async getCustomObjectTypes() {
       const { results } = await this.hubspot.listSchemas();
-      return results?.map(({
-        fullyQualifiedName: value, labels,
-      }) => ({
-        value,
-        label: labels.plural,
-      })) || [];
-    },
-    async paginate(params) {
-      let results;
-      const items = [];
-      while (!results || params.after) {
-        results = await this.hubspot.searchCRM(params);
-        if (results.paging) {
-          params.after = results.paging.next.after;
-        } else {
-          delete params.after;
-        }
-        results = results.results;
-        for (const result of results) {
-          items.push(result);
-        }
-      }
-      return items;
+      return (
+        results?.map(({
+          fullyQualifiedName: value, labels,
+        }) => ({
+          value,
+          label: labels.plural,
+        })) || []
+      );
     },
   },
   async run({ $ }) {
@@ -236,6 +241,7 @@ export default {
       searchProperty,
       searchValue,
       exactMatch,
+      offset,
       /* eslint-disable no-unused-vars */
       info,
       createIfNotFound,
@@ -252,7 +258,7 @@ export default {
     if (!schema.searchableProperties.includes(searchProperty)) {
       throw new ConfigurationError(
         `Property \`${searchProperty}\` is not a searchable property of object type \`${objectType}\`. ` +
-        `\n\nAvailable searchable properties are: \`${schema.searchableProperties.join("`, `")}\``,
+          `\n\nAvailable searchable properties are: \`${schema.searchableProperties.join("`, `")}\``,
       );
     }
 
@@ -267,8 +273,18 @@ export default {
       properties: [
         ...defaultProperties,
         ...additionalProperties,
+        searchProperty,
       ],
+      sorts: [
+        {
+          propertyName: "createdate",
+          direction: "DESCENDING",
+        },
+      ],
+      limit: DEFAULT_LIMIT,
+      after: offset,
     };
+
     if (exactMatch) {
       data.filters = [
         {
@@ -277,19 +293,23 @@ export default {
           value: searchValue,
         },
       ];
-    } else {
-      data.limit = DEFAULT_LIMIT;
     }
 
-    let results = await this.paginate({
+    let {
+      results, paging,
+    } = await this.hubspot.searchCRM({
       object: actualObjectType,
       data,
     });
 
     if (!exactMatch) {
-      results = results.filter((result) =>
-        result.properties[searchProperty]
-        && result.properties[searchProperty].toLowerCase().includes(searchValue.toLowerCase()));
+      results = results?.filter(
+        (result) =>
+          result.properties[searchProperty] &&
+          result.properties[searchProperty]
+            .toLowerCase()
+            .includes(searchValue.toLowerCase()),
+      );
     }
 
     if (!results?.length && createIfNotFound) {
@@ -305,7 +325,13 @@ export default {
       return response;
     }
 
-    $.export("$summary", `Successfully retrieved ${results?.length} object(s).`);
-    return results;
+    $.export(
+      "$summary",
+      `Successfully retrieved ${results?.length} object(s).`,
+    );
+    return {
+      results,
+      paging,
+    };
   },
 };

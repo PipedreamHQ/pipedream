@@ -4,7 +4,7 @@ export default {
   key: "stripe-create-payment-intent",
   name: "Create a Payment Intent",
   type: "action",
-  version: "0.1.2",
+  version: "0.1.3",
   description: "Create a payment intent. [See the documentation](https://stripe.com/docs/api/payment_intents/create).",
   props: {
     app,

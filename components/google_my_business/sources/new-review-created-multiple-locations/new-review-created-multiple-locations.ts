@@ -13,7 +13,7 @@ export default defineSource({
   key: "google_my_business-new-review-created-multiple-locations",
   name: "New Review Created (Multiple Locations)",
   description: `Emit new event for each new review on any of the selected locations [See the documentation](${DOCS_LINK})`,
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

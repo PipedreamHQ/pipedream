@@ -6,17 +6,17 @@ import sampleEmit from "./test-event.mjs";
 export default {
   ...base,
   key: "notion-updated-page-by-timestamp",
-  name: "New or Updated Page in Database (By Timestamp)",
-  description: "Emit new event when a page is created or updated in the selected database. [See the documentation](https://developers.notion.com/reference/page)",
-  version: "0.0.3",
+  name: "New or Updated Page in Data Source (By Timestamp)",
+  description: "Emit new event when a page is created or updated in the selected data source. [See the documentation](https://developers.notion.com/reference/page)",
+  version: "1.0.0",
   type: "source",
   dedupe: "unique",
   props: {
     ...base.props,
-    databaseId: {
+    dataSourceId: {
       propDefinition: [
         notion,
-        "databaseId",
+        "dataSourceId",
       ],
     },
     includeNewPages: {
@@ -59,7 +59,7 @@ export default {
       },
     };
 
-    const pagesStream = this.notion.getPages(this.databaseId, params);
+    const pagesStream = this.notion.getPages(this.dataSourceId, params);
 
     for await (const page of pagesStream) {
       if (lastUpdatedTimestamp > Date.parse(page.last_edited_time)) {

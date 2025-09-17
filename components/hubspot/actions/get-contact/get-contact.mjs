@@ -5,8 +5,9 @@ export default {
   ...common,
   key: "hubspot-get-contact",
   name: "Get Contact",
-  description: "Gets a contact. [See the documentation](https://developers.hubspot.com/docs/api/crm/contacts#endpoint?spec=GET-/crm/v3/objects/contacts/{contactId})",
-  version: "0.0.21",
+  description:
+    "Gets a contact. [See the documentation](https://developers.hubspot.com/docs/api/crm/contacts#endpoint?spec=GET-/crm/v3/objects/contacts/{contactId})",
+  version: "0.0.25",
   type: "action",
   props: {
     ...common.props,

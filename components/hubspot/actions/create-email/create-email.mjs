@@ -8,8 +8,9 @@ import common from "../common/common-get-object.mjs";
 export default {
   key: "hubspot-create-email",
   name: "Create Marketing Email",
-  description: "Create a marketing email in Hubspot. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/emails/marketing-emails#post-%2Fmarketing%2Fv3%2Femails%2F)",
-  version: "0.0.2",
+  description:
+    "Create a marketing email in Hubspot. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/emails/marketing-emails#post-%2Fmarketing%2Fv3%2Femails%2F)",
+  version: "0.0.6",
   type: "action",
   props: {
     hubspot,
@@ -78,7 +79,8 @@ export default {
     rssData: {
       type: "object",
       label: "RSS Data",
-      description: "An object with the RSS data for the email. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/emails/marketing-emails#post-%2Fmarketing%2Fv3%2Femails%2F) for more information.",
+      description:
+        "An object with the RSS data for the email. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/emails/marketing-emails#post-%2Fmarketing%2Fv3%2Femails%2F) for more information.",
       optional: true,
     },
     subject: {
@@ -90,7 +92,8 @@ export default {
     testing: {
       type: "object",
       label: "Testing",
-      description: "An object with the testing data for the email. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/emails/marketing-emails#post-%2Fmarketing%2Fv3%2Femails%2F) for more information.",
+      description:
+        "An object with the testing data for the email. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/emails/marketing-emails#post-%2Fmarketing%2Fv3%2Femails%2F) for more information.",
       optional: true,
     },
     language: {
@@ -103,19 +106,22 @@ export default {
     content: {
       type: "object",
       label: "Content",
-      description: "An object with the content data for the email. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/emails/marketing-emails#post-%2Fmarketing%2Fv3%2Femails%2F) for more information.",
+      description:
+        "An object with the content data for the email. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/emails/marketing-emails#post-%2Fmarketing%2Fv3%2Femails%2F) for more information.",
       optional: true,
     },
     webversion: {
       type: "object",
       label: "Webversion",
-      description: "An object with the webversion data for the email. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/emails/marketing-emails#post-%2Fmarketing%2Fv3%2Femails%2F) for more information.",
+      description:
+        "An object with the webversion data for the email. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/emails/marketing-emails#post-%2Fmarketing%2Fv3%2Femails%2F) for more information.",
       optional: true,
     },
     subscriptionDetails: {
       type: "object",
       label: "Subscription Details",
-      description: "An object with the subscription details for the email. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/emails/marketing-emails#post-%2Fmarketing%2Fv3%2Femails%2F) for more information.",
+      description:
+        "An object with the subscription details for the email. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/emails/marketing-emails#post-%2Fmarketing%2Fv3%2Femails%2F) for more information.",
       optional: true,
     },
     sendOnPublish: {

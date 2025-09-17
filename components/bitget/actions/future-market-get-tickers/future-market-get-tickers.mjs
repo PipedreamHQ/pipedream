@@ -4,7 +4,7 @@ export default {
   key: "bitget-future-market-get-tickers",
   name: "Future - Market - Get Tickers",
   description: "Get all ticker data of the given product type. [See the documentation](https://www.bitget.com/api-doc/contract/market/Get-All-Symbol-Ticker)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

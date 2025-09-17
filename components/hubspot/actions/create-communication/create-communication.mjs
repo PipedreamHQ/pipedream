@@ -7,8 +7,9 @@ export default {
   ...common,
   key: "hubspot-create-communication",
   name: "Create Communication",
-  description: "Create a WhatsApp, LinkedIn, or SMS message. [See the documentation](https://developers.hubspot.com/beta-docs/reference/api/crm/engagements/communications/v3#post-%2Fcrm%2Fv3%2Fobjects%2Fcommunications)",
-  version: "0.0.14",
+  description:
+    "Create a WhatsApp, LinkedIn, or SMS message. [See the documentation](https://developers.hubspot.com/beta-docs/reference/api/crm/engagements/communications/v3#post-%2Fcrm%2Fv3%2Fobjects%2Fcommunications)",
+  version: "0.0.18",
   type: "action",
   props: {
     ...appProp.props,
@@ -42,7 +43,8 @@ export default {
           toObjectType: c.toObjectType,
         }),
       ],
-      description: "A unique identifier to indicate the association type between the communication and the other object",
+      description:
+        "A unique identifier to indicate the association type between the communication and the other object",
       optional: true,
     },
     objectProperties: {
@@ -70,7 +72,9 @@ export default {
     } = this;
 
     if ((toObjectId && !associationType) || (!toObjectId && associationType)) {
-      throw new ConfigurationError("Both `toObjectId` and `associationType` must be entered");
+      throw new ConfigurationError(
+        "Both `toObjectId` and `associationType` must be entered",
+      );
     }
 
     const properties = objectProperties
@@ -105,7 +109,10 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully created communication with ID ${response.id}`);
+    $.export(
+      "$summary",
+      `Successfully created communication with ID ${response.id}`,
+    );
     return response;
   },
 };

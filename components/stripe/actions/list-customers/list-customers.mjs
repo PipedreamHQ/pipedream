@@ -5,7 +5,7 @@ export default {
   key: "stripe-list-customers",
   name: "List Customers",
   type: "action",
-  version: "0.1.2",
+  version: "0.1.3",
   description: "Find or list customers. [See the documentation](https://stripe.com/docs/api/customers/list).",
   props: {
     app,

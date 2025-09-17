@@ -7,7 +7,7 @@ export default {
   key: "hubspot-new-contact-property-change",
   name: "New Contact Property Change",
   description: "Emit new event when a specified property is provided or updated on a contact. [See the documentation](https://developers.hubspot.com/docs/api/crm/contacts)",
-  version: "0.0.22",
+  version: "0.0.27",
   dedupe: "unique",
   type: "source",
   props: {
@@ -33,8 +33,7 @@ export default {
     },
     generateMeta(contact) {
       const {
-        id,
-        properties,
+        id, properties,
       } = contact;
       const ts = this.getTs(contact);
       return {
@@ -47,7 +46,7 @@ export default {
       return !updatedAfter || this.getTs(contact) > updatedAfter;
     },
     getParams(after) {
-      return {
+      const params = {
         object: "contacts",
         data: {
           limit: DEFAULT_LIMIT,
@@ -67,16 +66,19 @@ export default {
                   propertyName: this.property,
                   operator: "HAS_PROPERTY",
                 },
-                {
-                  propertyName: "lastmodifieddate",
-                  operator: "GTE",
-                  value: after,
-                },
               ],
             },
           ],
         },
       };
+      if (after) {
+        params.data.filterGroups[0].filters.push({
+          propertyName: "lastmodifieddate",
+          operator: "GTE",
+          value: after,
+        });
+      }
+      return params;
     },
     batchGetContacts(inputs) {
       return this.hubspot.batchGetObjects({
@@ -96,10 +98,15 @@ export default {
       const properties = await this.hubspot.getContactProperties();
       const propertyNames = properties.map((property) => property.name);
       if (!propertyNames.includes(this.property)) {
-        throw new Error(`Property "${this.property}" not supported for Contacts. See Hubspot's default contact properties documentation - https://knowledge.hubspot.com/contacts/hubspots-default-contact-properties`);
+        throw new Error(
+          `Property "${this.property}" not supported for Contacts. See Hubspot's default contact properties documentation - https://knowledge.hubspot.com/contacts/hubspots-default-contact-properties`,
+        );
       }
 
-      const updatedContacts = await this.getPaginatedItems(this.hubspot.searchCRM, params);
+      const updatedContacts = await this.getPaginatedItems(
+        this.hubspot.searchCRM,
+        params,
+      );
 
       if (!updatedContacts.length) {
         return;

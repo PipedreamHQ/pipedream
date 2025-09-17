@@ -3,8 +3,8 @@ import common from "../common/common.mjs";
 export default {
   key: "trengo-new-outbound-message",
   name: "New Outbound Message Event (Instant)",
-  description: "Emit new events when an outbound message sent. [See the docs here](https://developers.trengo.com/docs/webhooks)",
-  version: "0.0.3",
+  description: "Emit new event when an outbound message sent. [See the documentation](https://developers.trengo.com/docs/webhooks)",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   ...common,

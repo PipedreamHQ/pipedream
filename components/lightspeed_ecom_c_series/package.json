@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/lightspeed_ecom_c_series",
+  "version": "0.0.1",
+  "description": "Pipedream Lightspeed eCom (C-Series) Components",
+  "main": "lightspeed_ecom_c_series.app.mjs",
+  "keywords": [
+    "pipedream",
+    "lightspeed_ecom_c_series"
+  ],
+  "homepage": "https://pipedream.com/apps/lightspeed_ecom_c_series",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

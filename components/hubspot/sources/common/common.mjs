@@ -14,7 +14,7 @@ export default {
   },
   methods: {
     _getAfter() {
-      return this.db.get("after") || new Date().setDate(new Date().getDate() - 1); // 1 day ago
+      return this.db.get("after");
     },
     _setAfter(after) {
       this.db.set("after", after);
@@ -52,7 +52,7 @@ export default {
       return results.flat();
     },
     async processEvents(resources, after) {
-      let maxTs = after;
+      let maxTs = after || 0;
       for (const result of resources) {
         if (await this.isRelevant(result, after)) {
           this.emitEvent(result);
@@ -92,6 +92,11 @@ export default {
             return;
           }
         }
+
+        // first run, get only first page
+        if (!after) {
+          return;
+        }
       }
     },
     // pagination for endpoints that return hasMore property of true/false
@@ -127,6 +132,11 @@ export default {
               this._setAfter(ts);
             }
           }
+        }
+
+        // first run, get only first page
+        if (!after) {
+          return;
         }
       }
     },

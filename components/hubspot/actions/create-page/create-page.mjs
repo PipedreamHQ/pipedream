@@ -5,8 +5,9 @@ import commonPageProp from "../common/common-page-prop.mjs";
 export default {
   key: "hubspot-create-page",
   name: "Create Page",
-  description: "Create a page in HubSpot. [See the documentation](https://developers.hubspot.com/docs/reference/api/cms/pages#post-%2Fcms%2Fv3%2Fpages%2Fsite-pages)",
-  version: "0.0.2",
+  description:
+    "Create a page in HubSpot. [See the documentation](https://developers.hubspot.com/docs/reference/api/cms/pages#post-%2Fcms%2Fv3%2Fpages%2Fsite-pages)",
+  version: "0.0.7",
   type: "action",
   props: {
     hubspot,
@@ -35,6 +36,8 @@ export default {
         footerHtml: this.footerHtml,
         headHtml: this.headHtml,
         templatePath: this.templatePath,
+        widgetContainers: parseObject(this.widgetContainers),
+        widgets: parseObject(this.widgets),
       },
     });
 

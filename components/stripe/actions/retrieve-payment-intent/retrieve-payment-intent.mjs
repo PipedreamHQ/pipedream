@@ -4,7 +4,7 @@ export default {
   key: "stripe-retrieve-payment-intent",
   name: "Retrieve a Payment Intent",
   type: "action",
-  version: "0.1.2",
+  version: "0.1.3",
   description: "Retrieves the details of a payment intent that was previously created. [See the documentation](https://stripe.com/docs/api/payment_intents/retrieve).",
   props: {
     app,

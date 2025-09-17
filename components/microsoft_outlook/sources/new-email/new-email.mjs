@@ -1,5 +1,5 @@
-import common from "../common/common-new-email.mjs";
 import md5 from "md5";
+import common from "../common/common-new-email.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
@@ -7,7 +7,7 @@ export default {
   key: "microsoft_outlook-new-email",
   name: "New Email Event (Instant)",
   description: "Emit new event when an email is received in specified folders.",
-  version: "0.0.19",
+  version: "0.1.2",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -66,6 +66,10 @@ export default {
               resource: folder,
               messageId: resourceId,
             });
+            if (item.hasAttachments) {
+              const attachments = await this.getMessageAttachments(item);
+              item.attachments = attachments;
+            }
             this.emitEvent(item);
           } catch {
             console.log(`Could not fetch message with ID: ${resourceId}`);

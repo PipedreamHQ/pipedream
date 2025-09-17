@@ -5,16 +5,16 @@ export default {
   ...common,
   key: "notion-page-properties-updated-instant",
   name: "Page Properties Updated (Instant)",
-  description: "Emit new event each time a page property is updated in a database. For use with Page Properties Updated event type. Webhook must be set up in Notion. [See the documentation](https://developers.notion.com/reference/webhooks#step-1-creating-a-webhook-subscription)",
-  version: "0.0.1",
+  description: "Emit new event each time a page property is updated in a data source. For use with Page Properties Updated event type. Webhook must be set up in Notion. [See the documentation](https://developers.notion.com/reference/webhooks#step-1-creating-a-webhook-subscription)",
+  version: "1.0.0",
   type: "source",
   dedupe: "unique",
   props: {
     ...common.props,
-    databaseId: {
+    dataSourceId: {
       propDefinition: [
         common.props.notion,
-        "databaseId",
+        "dataSourceId",
       ],
     },
     properties: {
@@ -24,7 +24,7 @@ export default {
       optional: true,
       async options() {
         try {
-          const { properties } = await this.notion.retrieveDatabase(this.databaseId);
+          const { properties } = await this.notion.retrieveDataSource(this.dataSourceId);
           const propEntries = Object.entries(properties);
           return propEntries.map((prop) => ({
             label: prop[1].name,
@@ -55,8 +55,8 @@ export default {
         return;
       }
 
-      if (event.data.parent.id !== this.databaseId) {
-        console.log(`Skipping event for database: ${event.data.parent.id}`);
+      if (event.data.parent.data_source_id !== this.dataSourceId) {
+        console.log(`Skipping event for data source: ${event.data.parent.data_source_id}`);
         return;
       }
 

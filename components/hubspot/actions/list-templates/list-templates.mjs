@@ -3,8 +3,9 @@ import hubspot from "../../hubspot.app.mjs";
 export default {
   key: "hubspot-list-templates",
   name: "List Templates",
-  description: "Retrieves a list of templates. [See the documentation](https://developers.hubspot.com/docs/reference/api/cms/templates)",
-  version: "0.0.3",
+  description:
+    "Retrieves a list of templates. [See the documentation](https://developers.hubspot.com/docs/reference/api/cms/templates)",
+  version: "0.0.7",
   type: "action",
   props: {
     hubspot,
@@ -22,7 +23,8 @@ export default {
       limit: 100,
       offset: 0,
     };
-    let hasMore, count = 0;
+    let hasMore,
+      count = 0;
 
     do {
       const {
@@ -45,9 +47,12 @@ export default {
       params.offset += params.limit;
     } while (hasMore && count < this.maxResults);
 
-    $.export("$summary", `Found ${results.length} template${results.length === 1
-      ? ""
-      : "s"}`);
+    $.export(
+      "$summary",
+      `Found ${results.length} template${results.length === 1
+        ? ""
+        : "s"}`,
+    );
     return results;
   },
 };

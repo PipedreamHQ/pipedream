@@ -15,6 +15,7 @@ import {
 } from "../../common/constants.mjs";
 import commonDedupeChanges from "../common-dedupe-changes.mjs";
 import common from "../common-webhook.mjs";
+import { stashFile } from "../../common/utils.mjs";
 import sampleEmit from "./test-event.mjs";
 
 const { googleDrive } = common.props;
@@ -24,7 +25,7 @@ export default {
   key: "google_drive-new-or-modified-files",
   name: "New or Modified Files (Instant)",
   description: "Emit new event when a file in the selected Drive is created, modified or trashed.",
-  version: "0.3.8",
+  version: "0.4.0",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
@@ -60,6 +61,18 @@ export default {
         googleDrive,
         "watchForPropertiesChanges",
       ],
+    },
+    includeLink: {
+      label: "Include Link",
+      type: "boolean",
+      description: "Upload file to your File Stash and emit temporary download link to the file. Google Workspace documents will be converted to PDF. See [the docs](https://pipedream.com/docs/connect/components/files) to learn more about working with files in Pipedream.",
+      default: false,
+      optional: true,
+    },
+    dir: {
+      type: "dir",
+      accessMode: "write",
+      optional: true,
     },
     ...commonDedupeChanges.props,
   },
@@ -152,6 +165,9 @@ export default {
           file,
           ...changes,
         };
+        if (this.includeLink) {
+          eventToEmit.fileURL = await stashFile(file, this.googleDrive, this.dir);
+        }
         const meta = this.generateMeta(file, headers);
         this.$emit(eventToEmit, meta);
       }

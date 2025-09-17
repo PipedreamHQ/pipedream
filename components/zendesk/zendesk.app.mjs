@@ -274,6 +274,44 @@ export default {
       description: "Array of tags to apply to the ticket. These will replace any existing tags on the ticket.",
       optional: true,
     },
+    assigneeId: {
+      type: "string",
+      label: "Assignee ID",
+      description: "The ID of the agent to assign the ticket to",
+      optional: true,
+      async options({ prevContext }) {
+        const { afterCursor } = prevContext;
+
+        const {
+          users,
+          meta,
+        } = await this.listUsers({
+          params: {
+            [constants.PAGE_SIZE_PARAM]: constants.DEFAULT_LIMIT,
+            [constants.PAGE_AFTER_PARAM]: afterCursor,
+            role: "agent",
+          },
+        });
+
+        return {
+          context: {
+            afterCursor: meta.after_cursor,
+          },
+          options: users.map(({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          })),
+        };
+      },
+    },
+    assigneeEmail: {
+      type: "string",
+      label: "Assignee Email",
+      description: "The email address of the agent to assign the ticket to",
+      optional: true,
+    },
   },
   methods: {
     getUrl(path, customSubdomain) {

@@ -5,7 +5,7 @@ export default {
   name: "Update Ticket",
   description: "Updates a ticket. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/tickets/tickets/#update-ticket).",
   type: "action",
-  version: "0.2.0",
+  version: "0.2.1",
   props: {
     app,
     ticketId: {
@@ -89,6 +89,18 @@ export default {
       optional: true,
       default: "set",
     },
+    assigneeId: {
+      propDefinition: [
+        app,
+        "assigneeId",
+      ],
+    },
+    assigneeEmail: {
+      propDefinition: [
+        app,
+        "assigneeEmail",
+      ],
+    },
   },
   methods: {
     updateTicket({
@@ -113,6 +125,8 @@ export default {
       attachments,
       ticketTags,
       tagAction,
+      assigneeId,
+      assigneeEmail,
     } = this;
 
     const ticketComment = ticketCommentBodyIsHTML
@@ -143,24 +157,47 @@ export default {
       }
     }
 
+    // Build ticket data object
+    const ticketData = {
+      comment: ticketComment,
+      priority: ticketPriority,
+      subject: ticketSubject,
+      status: ticketStatus,
+    };
+
+    // Add assignee fields if provided
+    if (assigneeId) {
+      ticketData.assignee_id = assigneeId;
+    }
+    if (assigneeEmail) {
+      ticketData.assignee_email = assigneeEmail;
+    }
+
     const response = await this.updateTicket({
       step,
       ticketId,
       customSubdomain,
       data: {
-        ticket: {
-          comment: ticketComment,
-          priority: ticketPriority,
-          subject: ticketSubject,
-          status: ticketStatus,
-        },
+        ticket: ticketData,
       },
     });
 
     const attachmentCount = ticketComment.uploads?.length || 0;
-    const summary = attachmentCount > 0
-      ? `Successfully updated ticket with ID ${response.ticket.id} with ${attachmentCount} attachment(s)`
-      : `Successfully updated ticket with ID ${response.ticket.id}`;
+    const assigneeUpdated = assigneeId || assigneeEmail;
+
+    let summary = `Successfully updated ticket with ID ${response.ticket.id}`;
+
+    const updates = [];
+    if (attachmentCount > 0) {
+      updates.push(`${attachmentCount} attachment(s)`);
+    }
+    if (assigneeUpdated) {
+      updates.push("assignee");
+    }
+
+    if (updates.length > 0) {
+      summary += ` with ${updates.join(" and ")}`;
+    }
 
     step.export("$summary", summary);
 

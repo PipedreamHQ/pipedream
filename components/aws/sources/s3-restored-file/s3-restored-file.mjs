@@ -1,14 +1,20 @@
 import base from "../common/s3.mjs";
+import includeLink from "../common/include-link.mjs";
 
 export default {
   ...base,
   type: "source",
   key: "aws-s3-restored-file",
   name: "New Restored S3 File",
-  description: "Emit new event when an file is restored into a S3 bucket",
-  version: "0.1.4",
+  description: "Emit new event when a file is restored into an S3 bucket",
+  version: "0.2.0",
   dedupe: "unique",
   props: {
+    info: {
+      type: "alert",
+      alertType: "info",
+      content: "Allows receipt of notifications for event initiation and completion when restoring objects from the **S3 Glacier Flexible Retrieval** storage class, **S3 Glacier Deep Archive** storage class, **S3 Intelligent-Tiering Archive Access tier**, and **S3 Intelligent-Tiering Deep Archive Access tier**.",
+    },
     ...base.props,
     detectRestoreInitiation: {
       type: "boolean",
@@ -16,9 +22,11 @@ export default {
       description: "When enabled, this event source will also emit events whenever a restore is initiated",
       default: false,
     },
+    ...includeLink.props,
   },
   methods: {
     ...base.methods,
+    ...includeLink.methods,
     getEvents() {
       return [
         this.detectRestoreInitiation
