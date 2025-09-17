@@ -389,13 +389,13 @@ export default {
         this.normalizeError(err);
       }
     },
-    async createSharedLink(args) { console.log(args);
+    async createSharedLink(args) {
       try {
         const dpx = await this.sdk();
         const links = await dpx.sharingListSharedLinks({
           path: args.path,
         });
-        const link = links.result?.links.find((l) => l.path_lower === args.path); console.log(link);
+        const link = links.result?.links.find((l) => l.path_lower === args.path);
         if (link) {
           return await dpx.sharingModifySharedLinkSettings({
             ...args,
