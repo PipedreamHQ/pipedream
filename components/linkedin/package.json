@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/linkedin",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Pipedream Linkedin Components",
   "main": "linkedin.app.mjs",
   "keywords": [
