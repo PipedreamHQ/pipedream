@@ -134,7 +134,7 @@ export default {
     }
 
     else if (this.indexType === "DIRECT_ACCESS") {
-      if (this.sourceTable || this.columnsToSync?.length) {
+      if (this.sourceTable || this.columnsToSync?.length || this.embeddingSourceColumns?.length) {
         throw new ConfigurationError(
           "`Source Table`,`Embedding Source Columns` and `Columns to Sync` are not allowed when indexType is DIRECT_ACCESS.",
         );
