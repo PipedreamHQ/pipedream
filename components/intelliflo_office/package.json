@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/intelliflo_office",
+  "version": "0.0.1",
+  "description": "Pipedream intelliflo office Components",
+  "main": "intelliflo_office.app.mjs",
+  "keywords": [
+    "pipedream",
+    "intelliflo_office"
+  ],
+  "homepage": "https://pipedream.com/apps/intelliflo_office",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
