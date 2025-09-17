@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/etrusted",
+  "version": "0.0.1",
+  "description": "Pipedream eTrusted Components",
+  "main": "etrusted.app.mjs",
+  "keywords": [
+    "pipedream",
+    "etrusted"
+  ],
+  "homepage": "https://pipedream.com/apps/etrusted",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

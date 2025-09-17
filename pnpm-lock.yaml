@@ -4628,6 +4628,9 @@ importers:
 
   components/ethereum: {}
 
+  components/etrusted:
+    specifiers: {}
+
   components/etsy:
     dependencies:
       '@pipedream/platform':
