@@ -4628,6 +4628,9 @@ importers:
 
   components/ethereum: {}
 
+  components/etrusted:
+    specifiers: {}
+
   components/etsy:
     dependencies:
       '@pipedream/platform':
@@ -6280,8 +6283,8 @@ importers:
   components/gtmetrix:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/guardrails: {}
 
@@ -7102,6 +7105,9 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/intelliflo_office:
+    specifiers: {}
+
   components/intellihr:
     dependencies:
       '@pipedream/platform':
@@ -7620,6 +7626,9 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
 
+  components/kordiam:
+    specifiers: {}
+
   components/koyeb: {}
 
   components/kraken_io: {}
@@ -7920,11 +7929,7 @@ importers:
 
   components/lightpanda: {}
 
-  components/lightspeed_ecom_c_series:
-    dependencies:
-      '@pipedream/platform':
-        specifier: ^3.1.0
-        version: 3.1.0
+  components/lightspeed_ecom_c_series: {}
 
   components/lightspeed_retail_pos:
     dependencies:
@@ -10476,6 +10481,9 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
 
+  components/peekalink:
+    specifiers: {}
+
   components/peerdom:
     dependencies:
       '@pipedream/platform':
@@ -11698,7 +11706,11 @@ importers:
         specifier: ^3.24.0
         version: 3.30.0
 
-  components/redcircle_api: {}
+  components/redcircle_api:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/reddit:
     dependencies:
@@ -12268,6 +12280,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+
+  components/rundeck:
+    specifiers: {}
 
   components/runpod: {}
 
@@ -13653,7 +13668,11 @@ importers:
         specifier: ^2.29.4
         version: 2.30.1
 
-  components/sproutgigs: {}
+  components/sproutgigs:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/spydra: {}
 
@@ -14063,7 +14082,11 @@ importers:
 
   components/taggun: {}
 
-  components/taiga: {}
+  components/taiga:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/tailscale: {}
 
@@ -14409,6 +14432,9 @@ importers:
         specifier: ^1.6.5
         version: 1.6.6
 
+  components/thoughtspot:
+    specifiers: {}
+
   components/threads:
     dependencies:
       '@pipedream/platform':
@@ -14439,6 +14465,9 @@ importers:
       crypto:
         specifier: ^1.0.1
         version: 1.0.1
+
+  components/ticketsauce:
+    specifiers: {}
 
   components/ticktick:
     dependencies:
@@ -15595,7 +15624,11 @@ importers:
         specifier: ^1.4.1
         version: 1.6.6
 
-  components/weaviate: {}
+  components/weaviate:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/webflow:
     dependencies:
