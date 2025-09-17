@@ -4,7 +4,7 @@ export default {
   key: "linkedin-create-comment",
   name: "Create Comment",
   description: "Create a comment on a share or user generated content post. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/network-update-social-actions#create-comment)",
-  version: "0.1.8",
+  version: "0.1.9",
   type: "action",
   props: {
     linkedin,
