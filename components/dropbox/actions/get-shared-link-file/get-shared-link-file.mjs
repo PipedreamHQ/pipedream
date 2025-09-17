@@ -24,7 +24,7 @@ export default {
   async run({ $ }) {
     const { result } = await this.dropbox.getSharedLinkFile({
       url: this.sharedLinkUrl,
-      password: this.linkPassword,
+      link_password: this.linkPassword,
     });
     $.export("$summary", "Successfully retrieved shared link file");
     return result;
