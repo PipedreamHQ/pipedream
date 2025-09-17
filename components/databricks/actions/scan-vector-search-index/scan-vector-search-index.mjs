@@ -9,10 +9,19 @@ export default {
   type: "action",
   props: {
     databricks,
+    endpointName: {
+      propDefinition: [
+        databricks,
+        "endpointName",
+      ],
+    },
     indexName: {
       propDefinition: [
         databricks,
         "indexName",
+        ({ endpointName }) => ({
+          endpointName,
+        }),
       ],
     },
     lastPrimaryKey: {

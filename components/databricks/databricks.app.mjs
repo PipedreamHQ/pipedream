@@ -85,6 +85,9 @@ export default {
       label: "Index Name",
       description: "The name of the vector search index",
       async options({ endpointName }) {
+        if (!endpointName) {
+          return [];
+        }
         const { vector_indexes = [] } = await this.listVectorSearchIndexes({
           params: {
             endpoint_name: endpointName,
