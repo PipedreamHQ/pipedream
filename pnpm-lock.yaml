@@ -4946,8 +4946,7 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
-  components/financial_data:
-    specifiers: {}
+  components/financial_data: {}
 
   components/findymail:
     dependencies:
@@ -6281,8 +6280,8 @@ importers:
   components/gtmetrix:
     dependencies:
       '@pipedream/platform':
-        specifier: ^1.5.1
-        version: 1.6.6
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/guardrails: {}
 
@@ -7921,8 +7920,7 @@ importers:
 
   components/lightpanda: {}
 
-  components/lightspeed_ecom_c_series:
-    specifiers: {}
+  components/lightspeed_ecom_c_series: {}
 
   components/lightspeed_retail_pos:
     dependencies:
@@ -8766,8 +8764,7 @@ importers:
 
   components/microsoft_advertising: {}
 
-  components/microsoft_authenticator:
-    specifiers: {}
+  components/microsoft_authenticator: {}
 
   components/microsoft_azure_ai_translator:
     dependencies:
