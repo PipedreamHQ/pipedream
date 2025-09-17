@@ -55,7 +55,7 @@ export default {
       type: "string[]",
       label: "Embedding Source Columns",
       description:
-        "List of embedding source column configs. Each entry is a JSON object string like `{ \"embedding_model_endpoint_name\": \"e5-small-v2\", \"name\": \"text\" }`. Provide when Databricks computes embeddings (DELTA_SYNC).",
+        "List of embedding source column configs. Each entry is a JSON object string like `{ \"embedding_model_endpoint_name\": \"e5-small-v2\", \"name\": \"text\" }`.",
       optional: true,
     },
     schemaJson: {
@@ -87,6 +87,11 @@ export default {
     };
 
     if (this.indexType === "DELTA_SYNC") {
+      if (this.schemaJson) {
+        throw new ConfigurationError(
+          "`Schema JSON` is not allowed when indexType is DELTA_SYNC.",
+        );
+      }
       if (!this.sourceTable) {
         throw new ConfigurationError(
           "sourceTable is required when indexType is DELTA_SYNC.",
@@ -129,6 +134,11 @@ export default {
     }
 
     else if (this.indexType === "DIRECT_ACCESS") {
+      if (this.sourceTable || this.columnsToSync?.length) {
+        throw new ConfigurationError(
+          "`Source Table`,`Embedding Source Columns` and `Columns to Sync` are not allowed when indexType is DIRECT_ACCESS.",
+        );
+      }
       if (!this.schemaJson) {
         throw new ConfigurationError(
           "schemaJson is required when indexType is DIRECT_ACCESS.",
