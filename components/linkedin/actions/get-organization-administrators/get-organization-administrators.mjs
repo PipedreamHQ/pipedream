@@ -4,7 +4,7 @@ export default {
   key: "linkedin-get-organization-administrators",
   name: "Get Organization Administrators",
   description: "Gets the administrator members of a selected organization. [See the documentation](https://learn.microsoft.com/en-us/linkedin/marketing/community-management/organizations/organization-access-control-by-role?view=li-lms-2025-01&tabs=http#find-organization-administrators)",
-  version: "0.3.2",
+  version: "0.3.3",
   type: "action",
   props: {
     linkedin,
