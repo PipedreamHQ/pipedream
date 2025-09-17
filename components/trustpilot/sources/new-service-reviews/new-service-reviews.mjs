@@ -1,40 +1,60 @@
-import {
-  SORT_OPTIONS,
-  SOURCE_TYPES,
-} from "../../common/constants.mjs";
 import common from "../common/polling.mjs";
+import {
+  DEFAULT_LIMIT,
+  MAX_LIMIT,
+} from "../../common/constants.mjs";
 
 export default {
   ...common,
   key: "trustpilot-new-service-reviews",
   name: "New Service Reviews",
-  description: "Emit new event when a customer posts a new service review on Trustpilot. This source periodically polls the Trustpilot API to detect new service reviews, combining both public and private reviews for comprehensive coverage. Each event contains the complete review data including star rating, review text, consumer details, business unit info, and timestamps. Ideal for monitoring overall business reputation, tracking customer satisfaction metrics, and triggering workflows based on review ratings or content.",
-  version: "0.0.3",
+  description: "Emit new event when a customer posts a new service review on Trustpilot. This source periodically polls the Trustpilot API to detect new service reviews using the private reviews API for comprehensive coverage.",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
-    getSourceType() {
-      return SOURCE_TYPES.NEW_REVIEWS;
-    },
-    getPollingMethod() {
-      // Use private endpoint first as it has more data, fallback to public if needed
-      return "getServiceReviews";
-    },
-    getPollingParams() {
-      return {
-        businessUnitId: this.businessUnitId,
-        limit: 100,
-        sortBy: SORT_OPTIONS.CREATED_AT_DESC,
-        offset: 0,
-      };
-    },
-    generateSummary(item) {
-      const stars = item.stars || "N/A";
-      const consumerName = item.consumer?.displayName || "Anonymous";
-      const businessUnit = item.businessUnit?.displayName || this.businessUnitId || "Unknown";
+    generateSummary(review) {
+      const stars = review.stars || "N/A";
+      const consumerName = review.consumer?.displayName || "Anonymous";
+      const businessUnit = review.businessUnit?.displayName || this.businessUnitId || "Unknown";
 
       return `New ${stars}-star service review by ${consumerName} for ${businessUnit}`;
+    },
+    getFetchParams(lastReviewTime) {
+      const params = {
+        businessUnitId: this.businessUnitId,
+        perPage: DEFAULT_LIMIT,
+        orderBy: "createdat.desc",
+      };
+
+      // If we have a last review time, filter for reviews after that time
+      if (lastReviewTime) {
+        params.startDateTime = lastReviewTime;
+      }
+
+      return params;
+    },
+    async fetchReviews($, params) {
+      // Use the shared method from the app directly with pagination support
+      let result = await this.trustpilot.fetchServiceReviews($, params);
+
+      // Handle pagination for service reviews
+      if (result.reviews && result.reviews.length === DEFAULT_LIMIT) {
+        while (true) {
+          params.page = (params.page || 1) + 1;
+          const nextResult = await this.trustpilot.fetchServiceReviews($, params);
+          result.reviews = result.reviews.concat(nextResult.reviews || []);
+
+          if (!nextResult.reviews ||
+            nextResult.reviews.length < DEFAULT_LIMIT ||
+            result.reviews.length >= MAX_LIMIT) {
+            break;
+          }
+        }
+      }
+
+      return result;
     },
   },
 };
