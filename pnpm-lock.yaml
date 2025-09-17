@@ -4628,8 +4628,7 @@ importers:
 
   components/ethereum: {}
 
-  components/etrusted:
-    specifiers: {}
+  components/etrusted: {}
 
   components/etsy:
     dependencies:
@@ -7105,8 +7104,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/intelliflo_office:
-    specifiers: {}
+  components/intelliflo_office: {}
 
   components/intellihr:
     dependencies:
@@ -7626,8 +7624,7 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
 
-  components/kordiam:
-    specifiers: {}
+  components/kordiam: {}
 
   components/koyeb: {}
 
@@ -7929,7 +7926,11 @@ importers:
 
   components/lightpanda: {}
 
-  components/lightspeed_ecom_c_series: {}
+  components/lightspeed_ecom_c_series:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/lightspeed_retail_pos:
     dependencies:
@@ -10481,8 +10482,7 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
 
-  components/peekalink:
-    specifiers: {}
+  components/peekalink: {}
 
   components/peerdom:
     dependencies:
@@ -12281,8 +12281,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/rundeck:
-    specifiers: {}
+  components/rundeck: {}
 
   components/runpod: {}
 
@@ -14432,8 +14431,7 @@ importers:
         specifier: ^1.6.5
         version: 1.6.6
 
-  components/thoughtspot:
-    specifiers: {}
+  components/thoughtspot: {}
 
   components/threads:
     dependencies:
@@ -14466,8 +14464,7 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
 
-  components/ticketsauce:
-    specifiers: {}
+  components/ticketsauce: {}
 
   components/ticktick:
     dependencies:
