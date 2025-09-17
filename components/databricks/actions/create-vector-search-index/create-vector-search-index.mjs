@@ -55,7 +55,7 @@ export default {
       type: "string[]",
       label: "Embedding Source Columns",
       description:
-        "List of embedding source column configs. Each entry is a JSON object string like `{ \"embedding_model_endpoint_name\": \"e5-small-v2\", \"name\": \"text\" }`.",
+        "List of embedding source column configs. Each entry is a JSON object string like `{ \"embedding_model_endpoint_name\": \"e5-small-v2\", \"name\": \"text\" }`.Provide when Databricks computes embeddings (DELTA_SYNC).",
       optional: true,
     },
     schemaJson: {
