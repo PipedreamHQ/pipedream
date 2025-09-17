@@ -14426,6 +14426,9 @@ importers:
         specifier: ^1.6.5
         version: 1.6.6
 
+  components/thoughtspot:
+    specifiers: {}
+
   components/threads:
     dependencies:
       '@pipedream/platform':
