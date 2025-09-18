@@ -179,5 +179,19 @@ export default {
       }
       return this.listFilesOptions(pageToken, request);
     },
+    async downloadFile({
+      documentId, mimeType = "application/pdf", ...opts
+    }) {
+      const response = await this.downloadWorkspaceFile(documentId, {
+        mimeType,
+        ...opts,
+      });
+
+      const chunks = [];
+      for await (const chunk of response) {
+        chunks.push(chunk);
+      }
+      return Buffer.concat(chunks);
+    },
   },
 };

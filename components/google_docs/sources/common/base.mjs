@@ -1,6 +1,7 @@
 import newFilesInstant from "@pipedream/google_drive/sources/new-files-instant/new-files-instant.mjs";
 import googleDrive from "../../google_docs.app.mjs";
 import { MY_DRIVE_VALUE } from "@pipedream/google_drive/common/constants.mjs";
+import { Readable } from "stream";
 
 export default {
   ...newFilesInstant,
@@ -16,6 +17,18 @@ export default {
       ],
       type: "string[]",
       description: "(Optional) The folders you want to watch. Leave blank to watch for any new document.",
+      optional: true,
+    },
+    includeLink: {
+      label: "Include Link",
+      type: "boolean",
+      description: "If true, the document will be uploaded to your File Stash and a temporary download link to the file will be emitted. See [the docs](https://pipedream.com/docs/connect/components/files) to learn more about working with files in Pipedream.",
+      default: false,
+      optional: true,
+    },
+    dir: {
+      type: "dir",
+      accessMode: "write",
       optional: true,
     },
   },
@@ -78,6 +91,25 @@ export default {
         const doc = await this.googleDrive.getDocument(file.id);
         this.$emit(doc, this.generateMeta(doc));
       }
+    },
+    async stashFile(doc) {
+      console.log("stashing file", doc);
+      const response = await this.googleDrive.downloadFile({
+        documentId: doc.documentId,
+        mimeType: "application/pdf",
+      });
+
+      console.log("response", response);
+
+      const filepath = `${doc.documentId}/${doc.title || doc.documentId}.pdf`;
+      const file = await this.dir.open(filepath).fromReadableStream(
+        Readable.from(response),
+        "application/pdf",
+        response.length,
+      );
+
+      // Return file with temporary download link
+      return await file.withoutPutUrl().withGetUrl();
     },
   },
 };

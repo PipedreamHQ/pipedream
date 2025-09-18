@@ -5,7 +5,7 @@ export default {
   key: "google_docs-new-document-created",
   name: "New Document Created (Instant)",
   description: "Emit new event when a new document is created in Google Docs. [See the documentation](https://developers.google.com/drive/api/reference/rest/v3/changes/watch)",
-  version: "0.0.5",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -16,6 +16,20 @@ export default {
         summary: `New Document: ${doc.documentId}`,
         ts: Date.now(),
       };
+    },
+    async emitFiles(files) {
+      for (const file of files) {
+        if (!this.shouldProcess(file)) {
+          continue;
+        }
+        const doc = await this.googleDrive.getDocument(file.id);
+
+        if (this.includeLink) {
+          doc.file = await this.stashFile(doc);
+        }
+
+        this.$emit(doc, this.generateMeta(doc));
+      }
     },
     async processChanges() {
       const lastFileCreatedTime = this._getLastFileCreatedTime();
