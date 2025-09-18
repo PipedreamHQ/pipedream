@@ -92,7 +92,6 @@ export default {
         modifiedTime: tsString,
       } = data;
       const ts = Date.parse(tsString);
-      const eventId = headers && headers["x-goog-message-number"];
       const resourceState = headers && headers["x-goog-resource-state"];
 
       const summary = resourceState
@@ -100,7 +99,7 @@ export default {
         : fileName || "Untitled";
 
       return {
-        id: `${fileId}-${eventId || ts}`,
+        id: `${fileId}-${ts}`,
         summary,
         ts,
       };
@@ -124,10 +123,10 @@ export default {
     },
     async processChange(file, headers) {
       const changes = this.getChanges(headers);
-      if (this.includeLink) {
-        file.file = await stashFile(file, this.googleDrive, this.dir);
-      }
       const fileInfo = await this.googleDrive.getFile(file.id);
+      if (this.includeLink) {
+        fileInfo.file = await stashFile(file, this.googleDrive, this.dir);
+      }
       const eventToEmit = {
         file: fileInfo,
         ...changes,
