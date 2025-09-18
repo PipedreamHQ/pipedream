@@ -6,7 +6,7 @@ export default {
   key: "notion-retrieve-file-upload",
   name: "Retrieve File Upload",
   description: "Use this action to retrieve a file upload. [See the documentation](https://developers.notion.com/reference/retrieve-a-file-upload)",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "action",
   props: {
     notion,

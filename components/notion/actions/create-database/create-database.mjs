@@ -7,7 +7,7 @@ export default {
   key: "notion-create-database",
   name: "Create Database",
   description: "Create a database and its initial data source. [See the documentation](https://developers.notion.com/reference/database-create)",
-  version: "0.1.0",
+  version: "0.1.2",
   type: "action",
   props: {
     notion,

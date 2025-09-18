@@ -8,7 +8,7 @@ export default {
   key: "notion-create-page-from-database",
   name: "Create Page from Data Source",
   description: "Create a page from a data source. [See the documentation](https://developers.notion.com/reference/post-page)",
-  version: "1.0.0",
+  version: "1.0.2",
   type: "action",
   props: {
     notion,
@@ -85,6 +85,9 @@ export default {
     const response = await this.notion.createPage({
       ...page,
       children: children.slice(0, MAX_BLOCKS),
+      parent: {
+        data_source_id: this.parentDataSource,
+      },
     });
     let remainingBlocks = children.slice(MAX_BLOCKS);
     while (remainingBlocks.length > 0) {

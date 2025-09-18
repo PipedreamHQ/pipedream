@@ -148,6 +148,14 @@ export default {
         ...args,
       });
     },
+    createJob(args = {}) {
+      return this._makeRequest({
+        path: "/jobs/create",
+        method: "POST",
+        versionPath: constants.VERSION_PATH.V2_2,
+        ...args,
+      });
+    },
     listJobs(args = {}) {
       return this._makeRequest({
         path: "/jobs/list",

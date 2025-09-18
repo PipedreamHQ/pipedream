@@ -5,6 +5,7 @@ import {
 } from "../../common/notion-meta-properties.mjs";
 import NOTION_META from "../../common/notion-meta-selection.mjs";
 import NOTION_PAGE_PROPERTIES from "../../common/notion-page-properties.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   methods: {
@@ -86,6 +87,7 @@ export default {
           type: properties[property]?.type ?? property,
           label: properties[property]?.id || property,
           value: this[property] || this.properties?.[property],
+          name: properties[property]?.name || property,
         }));
     },
     /**
@@ -103,7 +105,11 @@ export default {
         } else {
           // Otherwise, convert using the appropriate converter
           const notionProperty = NOTION_CONVERTER[property.type];
-          notionProperties[property.label] = notionProperty?.convertToNotion(property);
+          try {
+            notionProperties[property.label] = notionProperty?.convertToNotion(property);
+          } catch {
+            throw new ConfigurationError(`Error converting property \`${property.name}\` to Notion format. Must be of type \`${NOTION_CONVERTER[property.type]?.type}\`.`);
+          }
         }
       }
       return notionProperties;
