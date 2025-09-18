@@ -4,7 +4,7 @@ export default {
   key: "databricks-list-sql-warehouses",
   name: "List SQL Warehouses",
   description: "Lists all SQL Warehouses available in the Databricks workspace. [See the documentation](https://docs.databricks.com/api/workspace/warehouses/list)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     databricks,
