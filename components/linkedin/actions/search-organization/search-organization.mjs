@@ -4,7 +4,7 @@ export default {
   key: "linkedin-search-organization",
   name: "Search Organization",
   description: "Searches for an organization by vanity name or email domain. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/organizations/organization-lookup-api)",
-  version: "0.1.8",
+  version: "0.1.9",
   type: "action",
   props: {
     linkedin,

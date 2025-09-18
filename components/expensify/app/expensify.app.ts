@@ -6,15 +6,30 @@ export default defineApp({
   type: "app",
   app: "expensify",
   propDefinitions: {
+    policyExportIds: {
+      type: "string[]",
+      label: "Policy IDs",
+      description: "The IDs of the policies to export",
+      optional: true,
+      async options() {
+        const { policyList } = await this.listPolicies();
+        return policyList?.map(({
+          id, name,
+        }) => ({
+          label: name,
+          value: id,
+        })) || [];
+      },
+    },
     employeeEmail: {
       type: "string",
       label: "Employee Email",
-      description: "The expenses will be created in this account.",
+      description: "The expenses will be created in this account",
     },
     policyId: {
       type: "string",
       label: "Policy ID",
-      description: "Select the policy where the report will be created.",
+      description: "Select the policy where the report will be created",
       async options({ userEmail }) {
         const { policyList } = await this.getPolicyList({
           userEmail,
@@ -152,7 +167,17 @@ export default defineApp({
         },
       }, $);
     },
-
+    async listPolicies({ $ = this } = {}) {
+      return this._makeRequest({
+        method: "post",
+        data: {
+          type: "get",
+          inputSettings: {
+            type: "policyList",
+          },
+        },
+      }, $);
+    },
     async downloadFile({
       $, fileName,
     }) {

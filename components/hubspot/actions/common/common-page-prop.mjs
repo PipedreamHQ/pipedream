@@ -76,4 +76,16 @@ export default {
     ],
     optional: true,
   },
+  widgetContainers: {
+    type: "object",
+    label: "Widget Containers",
+    description: "A data structure containing the data for all the modules inside the containers for this page",
+    optional: true,
+  },
+  widgets: {
+    type: "object",
+    label: "Widgets",
+    description: "A data structure containing the data for all the modules for this page",
+    optional: true,
+  },
 };
