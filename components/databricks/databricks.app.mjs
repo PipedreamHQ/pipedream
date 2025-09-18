@@ -119,6 +119,9 @@ export default {
       return axios($, {
         url: `${this._baseUrl()}${path}`,
         headers: this._headers(),
+        paramsSerializer: {
+          indexes: null,
+        },
         ...args,
       });
     },

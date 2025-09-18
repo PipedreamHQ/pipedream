@@ -1,5 +1,4 @@
 import databricks from "../../databricks.app.mjs";
-import utils from "../../common/utils.mjs";
 
 export default {
   key: "databricks-query-vector-search-index",
@@ -86,11 +85,7 @@ export default {
     }
 
     if (this.filtersJson) {
-      try {
-        payload.filters_json = utils.parseObject(this.filtersJson);
-      } catch (err) {
-        throw new Error(`Invalid filtersJson: ${err.message}`);
-      }
+      payload.filters_json = this.filtersJson;
     }
 
     if (this.includeEmbeddings !== undefined) {

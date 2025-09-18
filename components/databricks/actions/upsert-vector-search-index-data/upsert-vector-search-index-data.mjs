@@ -53,7 +53,7 @@ export default {
       inputs_json: JSON.stringify(parsedRows),
     };
 
-    const response = await this.databricks.upsertVectorSearchIndex({
+    const response = await this.databricks.upsertVectorSearchIndexData({
       data: payload,
       $,
     });
