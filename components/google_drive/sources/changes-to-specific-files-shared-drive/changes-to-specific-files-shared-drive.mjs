@@ -28,7 +28,7 @@ export default {
   key: "google_drive-changes-to-specific-files-shared-drive",
   name: "Changes to Specific Files (Shared Drive)",
   description: "Watches for changes to specific files in a shared drive, emitting an event when a change is made to one of those files",
-  version: "0.3.0",
+  version: "0.3.1",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
@@ -127,11 +127,12 @@ export default {
       if (this.includeLink) {
         file.file = await stashFile(file, this.googleDrive, this.dir);
       }
+      const fileInfo = await this.googleDrive.getFile(file.id);
       const eventToEmit = {
-        file,
+        file: fileInfo,
         ...changes,
       };
-      const meta = this.generateMeta(file, headers);
+      const meta = this.generateMeta(fileInfo, headers);
       this.$emit(eventToEmit, meta);
     },
     async processChanges(changedFiles, headers) {

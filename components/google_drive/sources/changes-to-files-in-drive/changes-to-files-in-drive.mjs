@@ -12,7 +12,7 @@ export default {
   ...common,
   key: "google_drive-changes-to-files-in-drive",
   name: "Changes to Files in Drive",
-  description: "Watches for changes to specific files in the user's drive, emitting an event when a change is made to one of those files. [See the documentation](https://developers.google.com/drive/api/v3/reference/changes/watch)",
+  description: "Emit new event when a change is made to one of the specified files. [See the documentation](https://developers.google.com/drive/api/v3/reference/changes/watch)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -122,11 +122,12 @@ export default {
       if (this.includeLink) {
         file.file = await stashFile(file, this.googleDrive, this.dir);
       }
+      const fileInfo = await this.googleDrive.getFile(file.id);
       const eventToEmit = {
-        file,
+        file: fileInfo,
         ...changes,
       };
-      const meta = this.generateMeta(file, headers);
+      const meta = this.generateMeta(fileInfo, headers);
       this.$emit(eventToEmit, meta);
     },
     async processChanges(changedFiles, headers) {
