@@ -11730,6 +11730,9 @@ importers:
 
   components/redmine: {}
 
+  components/reduct_video:
+    specifiers: {}
+
   components/referral_rocket: {}
 
   components/referralhero:
