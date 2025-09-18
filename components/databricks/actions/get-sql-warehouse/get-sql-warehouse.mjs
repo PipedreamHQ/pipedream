@@ -4,7 +4,7 @@ export default {
   key: "databricks-get-sql-warehouse",
   name: "Get SQL Warehouse",
   description: "Retrieves details for a specific SQL Warehouse. [See docs](https://docs.databricks.com/api/workspace/warehouses/get)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     databricks,
