@@ -4,9 +4,9 @@ import article from "../../common/queries/article.mjs";
 export default {
   key: "omnivore-get-article",
   name: "Get Article",
-  description: "Get a single article and its content. [See the documentation](https://github.com/omnivore-app/omnivore/blob/main/packages/api/src/schema.ts#L2659)",
+  description: "Get a single article and its content. [See the documentation](https://github.com/omnivore-app/omnivore/blob/main/packages/api/src/schema.ts)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   props: {
     app,
     username: {

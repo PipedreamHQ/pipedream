@@ -20,15 +20,22 @@ export default {
           value,
         }),
       }) {
-        const { users: response } =
-          await this.listUsers();
+        try {
+          const response = await this.listUsers();
 
-        if (response.errorCodes?.length) {
-          throw new Error(JSON.stringify(response, null, 2));
+          if (response?.me === null) {
+            return [];
+          }
+
+          if (response.errorCodes?.length) {
+            throw JSON.stringify(response.errorCodes, null, 2);
+          }
+
+          return response.users.map(mapper);
+        } catch (error) {
+          console.log("listUsers error", error);
+          return [];
         }
-
-        const { users } = response;
-        return users.map(mapper);
       },
     },
     articleId: {
@@ -52,30 +59,39 @@ export default {
           return [];
         }
 
-        const { articles: response } =
-          await this.listArticles({
-            first: constants.DEFAULT_LIMIT,
-            after,
-          });
+        try {
+          const response =
+            await this.listArticles({
+              first: constants.DEFAULT_LIMIT,
+              after,
+            });
 
-        if (response.errorCodes?.length) {
-          throw new Error(JSON.stringify(response, null, 2));
+          if (response?.me === null) {
+            return [];
+          }
+
+          if (response.errorCodes?.length) {
+            throw JSON.stringify(response.errorCodes, null, 2);
+          }
+
+          const {
+            edges,
+            pageInfo: {
+              hasNextPage,
+              endCursor,
+            },
+          } = response.articles;
+
+          return {
+            options: edges.map(mapper),
+            context: {
+              after: hasNextPage && endCursor || null,
+            },
+          };
+        } catch (error) {
+          console.log("listArticles error", error);
+          return [];
         }
-
-        const {
-          edges,
-          pageInfo: {
-            hasNextPage,
-            endCursor,
-          },
-        } = response;
-
-        return {
-          options: edges.map(mapper),
-          context: {
-            after: hasNextPage && endCursor || null,
-          },
-        };
       },
     },
     format: {
