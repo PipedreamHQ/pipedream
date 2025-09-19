@@ -13035,6 +13035,9 @@ importers:
         specifier: 1.6.0
         version: 1.6.0
 
+  components/shopware:
+    specifiers: {}
+
   components/short:
     dependencies:
       '@pipedream/platform':
