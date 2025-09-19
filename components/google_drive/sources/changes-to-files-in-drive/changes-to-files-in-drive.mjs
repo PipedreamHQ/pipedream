@@ -1,16 +1,6 @@
-// This source processes changes to specific files in a user's Google Drive,
-// implementing strategy enumerated in the Push Notifications API docs:
-// https://developers.google.com/drive/api/v3/push .
-//
-// This source has two interfaces:
-//
-// 1) The HTTP requests tied to changes in files in the user's Google Drive
-// 2) A timer that runs on regular intervals, renewing the notification channel as needed
-
 import common from "../common-webhook.mjs";
-import sampleEmit from "./test-event.mjs";
-
 import {
+  MY_DRIVE_VALUE,
   GOOGLE_DRIVE_NOTIFICATION_ADD,
   GOOGLE_DRIVE_NOTIFICATION_CHANGE,
   GOOGLE_DRIVE_NOTIFICATION_UPDATE,
@@ -18,23 +8,28 @@ import {
 import commonDedupeChanges from "../common-dedupe-changes.mjs";
 import { stashFile } from "../../common/utils.mjs";
 
-/**
- * This source uses the Google Drive API's
- * {@link https://developers.google.com/drive/api/v3/reference/changes/watch changes: watch}
- * endpoint to subscribe to changes to the user's drive or a shard drive.
- */
 export default {
   ...common,
-  key: "google_drive-changes-to-specific-files-shared-drive",
-  name: "Changes to Specific Files (Shared Drive)",
-  description: "Watches for changes to specific files in a shared drive, emitting an event when a change is made to one of those files",
-  version: "0.3.1",
+  key: "google_drive-changes-to-files-in-drive",
+  name: "Changes to Files in Drive",
+  description: "Emit new event when a change is made to one of the specified files. [See the documentation](https://developers.google.com/drive/api/v3/reference/changes/watch)",
+  version: "0.0.1",
   type: "source",
-  // Dedupe events based on the "x-goog-message-number" header for the target channel:
-  // https://developers.google.com/drive/api/v3/push#making-watch-requests
   dedupe: "unique",
   props: {
+    infoAlert: {
+      type: "alert",
+      alertType: "info",
+      content: "This source uses `changes.watch` and supports watching 10+ files. To watch for changes to fewer than 10 files, you may want to use the **Changes to Specific Files** source instead (uses `files.watch`).",
+    },
     ...common.props,
+    drive: {
+      type: "string",
+      label: "Drive",
+      description: "Defaults to `My Drive`. To use a [Shared Drive](https://support.google.com/a/users/answer/9310351), use the **Changes to Specific Files (Shared Drive)** source instead.",
+      optional: true,
+      default: MY_DRIVE_VALUE,
+    },
     files: {
       type: "string[]",
       label: "Files",
@@ -149,5 +144,4 @@ export default {
       }
     },
   },
-  sampleEmit,
 };
