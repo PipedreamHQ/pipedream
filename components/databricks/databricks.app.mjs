@@ -134,9 +134,6 @@ export default {
       return axios($, {
         url: this.getUrl(path, versionPath),
         headers: this._headers(),
-        paramsSerializer: {
-          indexes: null,
-        },
         ...args,
       });
     },
@@ -461,6 +458,9 @@ export default {
         path: `/vector-search/indexes/${indexName}/delete-data`,
         method: "DELETE",
         params,
+        paramsSerializer: {
+          indexes: null,
+        },
         ...args,
       });
     },
