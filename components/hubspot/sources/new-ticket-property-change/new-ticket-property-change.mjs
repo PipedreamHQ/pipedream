@@ -8,7 +8,7 @@ export default {
   name: "New Ticket Property Change",
   description:
     "Emit new event when a specified property is provided or updated on a ticket. [See the documentation](https://developers.hubspot.com/docs/api/crm/tickets)",
-  version: "0.0.26",
+  version: "0.0.27",
   dedupe: "unique",
   type: "source",
   props: {
@@ -108,6 +108,7 @@ export default {
       const updatedTickets = await this.getPaginatedItems(
         this.hubspot.searchCRM,
         params,
+        after,
       );
 
       if (!updatedTickets.length) {
