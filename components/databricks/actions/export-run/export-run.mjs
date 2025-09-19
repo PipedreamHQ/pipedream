@@ -4,7 +4,7 @@ export default {
   key: "databricks-export-run",
   name: "Export Run",
   description: "Export and retrieve the job run task. [See the documentation](https://docs.databricks.com/api/workspace/jobs/exportrun)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

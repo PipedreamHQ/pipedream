@@ -5,7 +5,7 @@ export default {
   key: "databricks-set-job-permissions",
   name: "Set Job Permissions",
   description: "Set permissions on a job. [See the documentation](https://docs.databricks.com/api/workspace/jobs/setpermissions)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

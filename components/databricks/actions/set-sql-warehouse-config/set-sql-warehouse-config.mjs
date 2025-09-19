@@ -6,7 +6,7 @@ export default {
   key: "databricks-set-sql-warehouse-config",
   name: "Set SQL Warehouse Config",
   description: "Updates the global configuration for SQL Warehouses. [See the documentation](https://docs.databricks.com/api/workspace/warehouses/setworkspacewarehouseconfig)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     databricks,

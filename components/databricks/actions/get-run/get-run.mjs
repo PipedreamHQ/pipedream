@@ -4,7 +4,7 @@ export default {
   key: "databricks-get-run",
   name: "Get Run",
   description: "Retrieve the metadata of a run. [See the documentation](https://docs.databricks.com/api/workspace/jobs/getrun)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
