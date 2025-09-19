@@ -1,5 +1,5 @@
 import { axios } from "@pipedream/platform";
-import { LIMIT } from "../common/constants.mjs";
+import { LIMIT } from "./common/constants.mjs";
 
 export default {
   type: "app",
