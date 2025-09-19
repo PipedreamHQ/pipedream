@@ -51,7 +51,7 @@ export default {
     _personalAccessToken() {
       return this.$auth.personal_access_token;
     },
-    _makeRequest(args = {}) {
+    async _makeRequest(args = {}) {
       const {
         $ = this,
         url,
@@ -68,7 +68,14 @@ export default {
         ? "&"
         : "?";
       config.url += `api-version=${API_VERSION}`;
-      return axios($, config);
+      try {
+        return await axios($, config);
+      } catch (error) {
+        if (error.response?.status === 401 && !useOAuth) {
+          throw new ConfigurationError("Azure DevOps Personal Access Token is required for this operation. Please verify that your personal access token is correct.");
+        }
+        throw error;
+      }
     },
     async listAccounts(args = {}) {
       const { value } = await this._makeRequest({
