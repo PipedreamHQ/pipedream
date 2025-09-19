@@ -8,7 +8,7 @@ export default {
   key: "notion-create-page-from-database",
   name: "Create Page from Data Source",
   description: "Create a page from a data source. [See the documentation](https://developers.notion.com/reference/post-page)",
-  version: "1.0.1",
+  version: "1.0.2",
   type: "action",
   props: {
     notion,
