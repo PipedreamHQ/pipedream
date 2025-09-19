@@ -4,7 +4,7 @@ export default {
   name: "Create a Text File",
   description: "Creates a brand new text file from plain text content you specify. [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesUpload__anchor)",
   key: "dropbox-create-a-text-file",
-  version: "0.0.11",
+  version: "0.0.12",
   type: "action",
   props: {
     dropbox,

@@ -5,7 +5,7 @@ export default {
   name: "Create/Update a Share Link",
   description: "Creates or updates a public share link to the file or folder (It allows you to share the file or folder with anyone). [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#sharingCreateSharedLinkWithSettings__anchor)",
   key: "dropbox-create-update-share-link",
-  version: "0.0.11",
+  version: "0.0.12",
   type: "action",
   props: {
     ...common.props,
@@ -66,6 +66,13 @@ export default {
         optional: true,
         options: consts.CREATE_SHARED_LINK_ACCESS_OPTIONS,
       };
+      props.audience = {
+        type: "string",
+        label: "Audience",
+        description: "The audience for the shared link",
+        optional: true,
+        options: consts.CREATE_SHARED_LINK_AUDIENCE_OPTIONS,
+      };
     }
 
     return props;
@@ -84,6 +91,7 @@ export default {
       linkPassword,
       expires,
       access,
+      audience,
     } = this;
 
     const accountType = await this.getCurrentAccount();
@@ -107,6 +115,7 @@ export default {
         expires,
         access,
         allow_download: allowDownload,
+        audience,
       },
     });
     $.export("$summary", `Shared link for "${path?.label || path}" successfully created`);
