@@ -126,7 +126,7 @@ export default {
         file: fileInfo,
         ...changes,
       };
-      const meta = this.generateMeta(fileInfo, headers); console.log(meta);
+      const meta = this.generateMeta(fileInfo, headers);
       this.$emit(eventToEmit, meta);
     },
     async processChanges(changedFiles, headers) {
