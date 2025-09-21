@@ -2,15 +2,6 @@
 
 [Leonardo AI](https://leonardo.ai) is an AI-powered image generation platform that allows you to create stunning images, videos, and 3D models using advanced machine learning models.
 
-## Authentication
-
-To use this component, you'll need to:
-
-1. Sign up for a Leonardo AI account at [leonardo.ai](https://leonardo.ai)
-2. Navigate to the API section in your account settings
-3. Create an API key
-4. Use this API key when connecting the Leonardo AI app in Pipedream
-
 ## Actions
 
 ### Generate Image
@@ -41,11 +32,6 @@ Creates unzoom variations of existing images, expanding the scene beyond the ori
 
 ### Upload Image
 Uploads images to Leonardo AI for use in generations and variations.
-
-**Key Features:**
-- Support for image URLs
-- Optional image naming
-- Integration with other Leonardo AI actions
 
 ### Upscale Image
 Increases the resolution of images using Leonardo AI's Universal Upscaler.
@@ -99,11 +85,7 @@ For detailed information about Leonardo AI's API, visit the [official documentat
 
 ## Rate Limits
 
-Leonardo AI has the following rate limits:
-- Total requests: 1,000 per minute
-- Image generation requests: 100 per minute
-- Concurrent image generation jobs: 10
-- Concurrent model training jobs: 5
+See the official Leonardo AI documentation for current limits.
 
 ## Support
 

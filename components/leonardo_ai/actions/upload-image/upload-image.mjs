@@ -1,10 +1,12 @@
 import app from "../../leonardo_ai.app.mjs";
+import FormData from "form-data";
+import { getFileStreamAndMetadata } from "@pipedream/platform";
 
 export default {
   key: "leonardo_ai-upload-image",
   name: "Upload Image",
-  description: "Uploads a new image to Leonardo AI for use in generations and variations.",
-  version: "0.0.9",
+  description: "Uploads a new image to Leonardo AI for use in generations and variations. [See the documentation](https://docs.leonardo.ai/docs/how-to-upload-an-image-using-a-presigned-url)",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
@@ -31,34 +33,30 @@ export default {
         },
       ],
     },
-    file: {
+    filePath: {
       type: "string",
-      label: "File",
-      description: "The base64 encoded image file to upload.",
+      label: "File Path or URL",
+      description: "The file to upload. Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/myImage.png`)",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {
     const {
       extension,
-      file,
+      filePath,
     } = this;
-    console.log(extension);
-    // Convert base64 string to Buffer
-    const base64Data = file.replace(/^data:image\/[a-z]+;base64,/, "");
-    const buffer = Buffer.from(base64Data, "base64");
+    // Get file stream from URL or /tmp based path
+    const {
+      stream,
+      metadata,
+    } = await getFileStreamAndMetadata(filePath);
 
-    // Create a File-like object from the buffer
-    const fileObject = {
-      buffer: buffer,
-      name: `image.${extension}`,
-      type: `image/${
-        extension === "jpg" ?
-          "jpeg"
-          : extension
-      }`,
-    };
-
-    // Step 1: Get the presigned URL and upload fields
+    // Step 1: Get the presigned URL, upload fields appended to formData
     const uploadResponse = await this.app.getUploadInitImage({
       $,
       extension,
@@ -66,17 +64,27 @@ export default {
 
     const { uploadInitImage } = uploadResponse;
     const fields = JSON.parse(uploadInitImage.fields);
+    const formData = new FormData();    
+
+    //Important: Order of fields is sanctioned by Leonardo AI API. Fields should go first, then the file
+    for (const [label, value] of Object.entries(fields)) {
+      formData.append(label, value.toString());
+    }    
+    formData.append("file", stream, {
+      contentType: metadata.contentType,
+      knownLength: metadata.size,
+      filename: metadata.name,
+    });    
     const uploadUrl = uploadInitImage.url;
 
     // Step 2: Upload the file to the presigned URL
     const uploadResult = await this.app.uploadFileToPresignedUrl({
       $,
       url: uploadUrl,
-      fields,
-      file: fileObject,
+      formData,
     });
 
-    $.export("$summary", `Successfully uploaded image with extension: ${extension}`);
+    $.export("$summary", `Successfully uploaded image: ${metadata.name || filePath}`);
     return {
       uploadInitImage,
       uploadResult,

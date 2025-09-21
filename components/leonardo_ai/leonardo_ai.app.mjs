@@ -17,48 +17,28 @@ export default {
       };
     },
     async _makeRequest({
-      $ = this, path, ...opts
+      $ = this, 
+      method = "GET", 
+      path, 
+      data, 
+      ...opts
     }) {
-      return axios($, {
-        ...opts,
+      const { headers: userHeaders, ...rest } = opts;
+      const config = {
+        method,
+        ...rest,
         url: `${this._baseUrl()}${path}`,
-        headers: this._getHeaders(),
-      });
-    },
-    async post({
-      $ = this, path, data, ...opts
-    }) {
-      return this._makeRequest({
-        $,
-        path,
-        method: "POST",
+        headers: {
+          ...this._getHeaders(),
+          ...(userHeaders || {}),
+        },
         data,
-        ...opts,
-      });
+      };
+      return await axios($, config);
     },
-    async get({
-      $ = this, path, ...opts
-    }) {
-      return this._makeRequest({
-        $,
-        path,
+    async getPlatformModels() {
+      const data = await this._makeRequest({
         method: "GET",
-        ...opts,
-      });
-    },
-    async delete({
-      $ = this, path, ...opts
-    }) {
-      return this._makeRequest({
-        $,
-        path,
-        method: "DELETE",
-        ...opts,
-      });
-    },
-    async getPlatformModels({ $ }) {
-      const data = await this.get({
-        $,
         path: "/platformModels",
       });
       return data.custom_models || [];
@@ -66,8 +46,9 @@ export default {
     async getUploadInitImage({
       $, extension,
     }) {
-      const data = await this.post({
+      const data = await this._makeRequest({
         $,
+        method: "POST",
         path: "/init-image",
         data: {
           extension,
@@ -76,30 +57,8 @@ export default {
       return data;
     },
     async uploadFileToPresignedUrl({
-      $, url, fields, file,
+      $, url, formData,
     }) {
-      const formData = new FormData();
-
-      // Add all the fields from the presigned URL response
-      Object.entries(fields).forEach(([
-        key,
-        value,
-      ]) => {
-        formData.append(key, value);
-      });
-
-      // Add the file - handle both File objects and File-like objects
-      if (file.buffer) {
-        // File-like object with buffer
-        formData.append("file", file.buffer, {
-          filename: file.name,
-          contentType: file.type,
-        });
-      } else {
-        // Regular File object
-        formData.append("file", file);
-      }
-
       const response = await axios($, {
         url,
         method: "POST",
@@ -108,7 +67,6 @@ export default {
           ...formData.getHeaders(),
         },
       });
-
       return response;
     },
   },

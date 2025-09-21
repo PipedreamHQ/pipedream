@@ -3,8 +3,8 @@ import app from "../../leonardo_ai.app.mjs";
 export default {
   key: "leonardo_ai-upscale-image",
   name: "Upscale Image",
-  description: "Creates a high-resolution upscale of the provided image using Leonardo AI's upscale API.",
-  version: "0.0.2",
+  description: "Creates a high-resolution upscale of the provided image using Leonardo AI's upscale API. [See the documentation](https://docs.leonardo.ai/reference/createvariationupscale)",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
@@ -21,8 +21,9 @@ export default {
       id: imageId,
     };
 
-    const response = await this.app.post({
+    const response = await this.app._makeRequest({
       $,
+      method: "POST",
       path: "/variations/upscale",
       data,
     });
