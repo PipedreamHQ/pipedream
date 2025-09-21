@@ -4,7 +4,7 @@ export default {
   key: "microsoft_outlook-find-email",
   name: "Find Email",
   description: "Search for an email in Microsoft Outlook. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-messages)",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "action",
   props: {
     microsoftOutlook,
