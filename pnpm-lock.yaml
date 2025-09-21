@@ -4628,8 +4628,7 @@ importers:
 
   components/ethereum: {}
 
-  components/etrusted:
-    specifiers: {}
+  components/etrusted: {}
 
   components/etsy:
     dependencies:
@@ -7083,6 +7082,9 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/instamojo:
+    specifiers: {}
+
   components/instant: {}
 
   components/instantly:
@@ -7105,8 +7107,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/intelliflo_office:
-    specifiers: {}
+  components/intelliflo_office: {}
 
   components/intellihr:
     dependencies:
@@ -7626,8 +7627,7 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
 
-  components/kordiam:
-    specifiers: {}
+  components/kordiam: {}
 
   components/koyeb: {}
 
@@ -9605,8 +9605,8 @@ importers:
         specifier: 4.0.2
         version: 4.0.2
       '@pipedream/notion':
-        specifier: ^0.10.1
-        version: 0.10.1
+        specifier: ^1.0.2
+        version: 1.0.2
 
   components/nozbe_teams: {}
 
@@ -10481,8 +10481,7 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
 
-  components/peekalink:
-    specifiers: {}
+  components/peekalink: {}
 
   components/peerdom:
     dependencies:
@@ -11734,6 +11733,9 @@ importers:
 
   components/redmine: {}
 
+  components/reduct_video:
+    specifiers: {}
+
   components/referral_rocket: {}
 
   components/referralhero:
@@ -12281,8 +12283,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/rundeck:
-    specifiers: {}
+  components/rundeck: {}
 
   components/runpod: {}
 
@@ -13036,6 +13037,9 @@ importers:
       '@pipedream/platform':
         specifier: 1.6.0
         version: 1.6.0
+
+  components/shopware:
+    specifiers: {}
 
   components/short:
     dependencies:
@@ -14432,8 +14436,7 @@ importers:
         specifier: ^1.6.5
         version: 1.6.6
 
-  components/thoughtspot:
-    specifiers: {}
+  components/thoughtspot: {}
 
   components/threads:
     dependencies:
@@ -14466,8 +14469,7 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
 
-  components/ticketsauce:
-    specifiers: {}
+  components/ticketsauce: {}
 
   components/ticktick:
     dependencies:
@@ -14880,8 +14882,8 @@ importers:
   components/twilio:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       got:
         specifier: ^13.0.0
         version: 13.0.0
@@ -20214,8 +20216,8 @@ packages:
   '@pipedream/notiff_io@0.1.0':
     resolution: {integrity: sha512-jgt5JJGxI9SM6chDeQpxbaS/NSuUUxhe/PeAXRdZKx28Gp0QCxW7egIImC3pqQ9aMSubaeygRyR0ELhKhmbtPg==}
 
-  '@pipedream/notion@0.10.1':
-    resolution: {integrity: sha512-3P3zvFMIHur5BaoFAkAo3t5hPoblDNxYrSWw1UdicTGtWMne43Oo9+qOm7NAeQDEN5I1sHDLprKv2aMM2beB7w==}
+  '@pipedream/notion@1.0.2':
+    resolution: {integrity: sha512-qVMpoUOus3E4oYtrPoHq0jciipxY4Y9bOxqaiv6uyUbxOKC5QaVvOIRgge5E++uR7Bf46NepwwTcW7wujktUrw==}
 
   '@pipedream/platform@0.10.0':
     resolution: {integrity: sha512-N3F/xVfBZQXc9wl+2/4E8U9Zma1rxpvylK6Gtw8Ofmiwjnmnvs+2SNjEpIXBPUeL+wxEkofSGOq7bkqt1hqwDg==}
@@ -30940,22 +30942,22 @@ packages:
   superagent@3.8.1:
     resolution: {integrity: sha512-VMBFLYgFuRdfeNQSMLbxGSLfmXL/xc+OO+BZp41Za/NRDBet/BNbkRJrYzCUu0u4GU0i/ml2dtT8b9qgkw9z6Q==}
     engines: {node: '>= 4.0'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
 
   superagent@4.1.0:
     resolution: {integrity: sha512-FT3QLMasz0YyCd4uIi5HNe+3t/onxMyEho7C3PSqmti3Twgy2rXT4fmkTz6wRL6bTF4uzPcfkUCa8u4JWHw8Ag==}
     engines: {node: '>= 6.0'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
 
   superagent@5.3.1:
     resolution: {integrity: sha512-wjJ/MoTid2/RuGCOFtlacyGNxN9QLMgcpYLDQlWFIhhdJ93kNscFonGvrpAHSCVjRVj++DGCglocF7Aej1KHvQ==}
     engines: {node: '>= 7.0.0'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
 
   superagent@7.1.6:
     resolution: {integrity: sha512-gZkVCQR1gy/oUXr+kxJMLDjla434KmSOKbx5iGD30Ql+AkJQ/YlPKECJy2nhqOsHLjGHzoDTXNSjhnvWhzKk7g==}
     engines: {node: '>=6.4.0 <13 || >=14'}
-    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
 
   supports-color@10.0.0:
     resolution: {integrity: sha512-HRVVSbCCMbj7/kdWF9Q+bbckjBHLtHMEoJWlkmYzzdwhYMkjkOwubLM6t7NbWKjgKamGDrWL1++KrjUO1t9oAQ==}
@@ -38331,9 +38333,9 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@pipedream/notion@0.10.1':
+  '@pipedream/notion@1.0.2':
     dependencies:
-      '@notionhq/client': 4.0.2
+      '@notionhq/client': 5.0.0
       '@pipedream/platform': 3.1.0
       '@tryfabric/martian': 1.2.4
       lodash-es: 4.17.21

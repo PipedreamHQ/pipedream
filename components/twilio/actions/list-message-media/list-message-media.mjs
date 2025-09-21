@@ -5,7 +5,7 @@ export default {
   key: "twilio-list-message-media",
   name: "List Message Media",
   description: "Return a list of media associated with your message. [See the documentation](https://www.twilio.com/docs/sms/api/media-resource#read-multiple-media-resources)",
-  version: "0.1.4",
+  version: "0.1.5",
   type: "action",
   props: {
     twilio,

@@ -1,6 +1,6 @@
 const VERSION_PATH = "rest";
 const BASE_URL = "https://api.linkedin.com/";
-const VERSION_HEADER = "202409";
+const VERSION_HEADER = "202509";
 
 const VISIBILITIES = [
   {
