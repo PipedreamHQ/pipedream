@@ -26,9 +26,9 @@ export default {
       ],
     },
     rows: {
-      type: "string[]",
+      type: "string",
       label: "Rows to Upsert",
-      description: "Array of rows to upsert. Each row should be a JSON object string. Example: `{ \"id\": \"1\", \"text\": \"hello world\", \"text_vector\": [1.0, 2.0, 3.0] }`",
+      description: "Array of rows to upsert. Each row should be a JSON object string. Example: `[{ \"id\": \"1\", \"text\": \"hello world\", \"text_vector\": [0.1, 0.2, 0.3] }]`",
     },
   },
 
@@ -36,25 +36,14 @@ export default {
     const parsedRows = utils.parseObject(this.rows);
 
     if (!Array.isArray(parsedRows) || !parsedRows.length) {
-      throw new ConfigurationError("rows must be a non-empty array of JSON objects.");
+      throw new ConfigurationError("rows must be a non-empty JSON array.");
     }
 
-    parsedRows.forEach((row, idx) => {
-      if (!row || typeof row !== "object") {
-        throw new ConfigurationError(`Row at index ${idx} is invalid. Each row must be a JSON object.`);
-      }
-      if (!row.id) {
-        throw new ConfigurationError(`Row at index ${idx} is missing required primary key field "id".`);
-      }
-    });
-
-    const payload = {
-      index_name: this.indexName,
-      inputs_json: JSON.stringify(parsedRows),
-    };
-
     const response = await this.databricks.upsertVectorSearchIndexData({
-      data: payload,
+      indexName: this.indexName,
+      data: {
+        inputs_json: JSON.stringify(parsedRows),
+      },
       $,
     });
 
