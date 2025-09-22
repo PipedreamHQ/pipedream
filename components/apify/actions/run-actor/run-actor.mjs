@@ -303,7 +303,7 @@ export default {
         build: buildTag,
       }),
       ...(timeout && {
-        timeoutSecs: Number(timeout),
+        timeout: Number(timeout),
       }),
       ...(memory && {
         memoryMbytes: Number(memory),
