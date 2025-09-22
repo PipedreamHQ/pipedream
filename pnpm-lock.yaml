@@ -13846,6 +13846,9 @@ importers:
 
   components/streamwish: {}
 
+  components/strety:
+    specifiers: {}
+
   components/stripe:
     dependencies:
       stripe:
