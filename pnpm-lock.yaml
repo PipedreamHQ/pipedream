@@ -7082,7 +7082,12 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+<<<<<<< HEAD
   components/instamojo: {}
+=======
+  components/instamojo:
+    specifiers: {}
+>>>>>>> upstream/master
 
   components/instant: {}
 
@@ -11739,7 +11744,12 @@ importers:
 
   components/redmine: {}
 
+<<<<<<< HEAD
   components/reduct_video: {}
+=======
+  components/reduct_video:
+    specifiers: {}
+>>>>>>> upstream/master
 
   components/referral_rocket: {}
 
@@ -13043,7 +13053,12 @@ importers:
         specifier: 1.6.0
         version: 1.6.0
 
+<<<<<<< HEAD
   components/shopware: {}
+=======
+  components/shopware:
+    specifiers: {}
+>>>>>>> upstream/master
 
   components/short:
     dependencies:
