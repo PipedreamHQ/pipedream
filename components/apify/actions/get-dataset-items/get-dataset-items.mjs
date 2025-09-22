@@ -51,8 +51,8 @@ export default {
       limit: LIMIT,
       offset: this.offset,
       clean: this.clean,
-      fields: this.fields && this.fields.join(),
-      omit: this.omit && this.omit.join(),
+      fields: this.fields,
+      omit: this.omit,
     };
 
     const results = [];
