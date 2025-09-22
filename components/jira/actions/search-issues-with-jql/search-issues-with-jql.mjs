@@ -17,7 +17,7 @@ export default {
     jql: {
       type: "string",
       label: "JQL Query",
-      description: "The JQL query query to search for issues. [See the documentation for syntax and examples](https://support.atlassian.com/jira-software-cloud/docs/what-is-advanced-search-in-jira-cloud/)",
+      description: "The JQL query to search for issues. [See the documentation for syntax and examples](https://support.atlassian.com/jira-software-cloud/docs/what-is-advanced-search-in-jira-cloud/)",
     },
     maxResults: {
       type: "integer",
