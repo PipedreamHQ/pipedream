@@ -6,8 +6,9 @@ export default {
   ...common,
   key: "hubspot-new-contact-property-change",
   name: "New Contact Property Change",
-  description: "Emit new event when a specified property is provided or updated on a contact. [See the documentation](https://developers.hubspot.com/docs/api/crm/contacts)",
-  version: "0.0.28",
+  description:
+    "Emit new event when a specified property is provided or updated on a contact. [See the documentation](https://developers.hubspot.com/docs/api/crm/contacts)",
+  version: "0.0.29",
   dedupe: "unique",
   type: "source",
   props: {
@@ -20,6 +21,20 @@ export default {
         const properties = await this.hubspot.getContactProperties();
         return properties.map((property) => property.name);
       },
+    },
+    skipFirstRun: {
+      type: "boolean",
+      label: "Skip existing contacts when first activated",
+      description:
+        "When enabled, this trigger will ignore all existing contacts and only watch for property changes that happen after activation. When disabled, it will process all existing contacts on first run.",
+      default: true,
+    },
+    requirePropertyHistory: {
+      type: "boolean",
+      label: "Only trigger on actual property changes",
+      description:
+        "When enabled, only fires when a contact property is actually modified. When disabled, may also trigger for newly created contacts even if the property wasn't changed.",
+      default: true,
     },
   },
   methods: {
@@ -43,6 +58,13 @@ export default {
       };
     },
     isRelevant(contact, updatedAfter) {
+      if (this.requirePropertyHistory) {
+        const history = contact.propertiesWithHistory?.[this.property];
+        if (!history || history.length === 0) {
+          return false;
+        }
+      }
+
       return !updatedAfter || this.getTs(contact) > updatedAfter;
     },
     getParams(after) {
@@ -95,6 +117,11 @@ export default {
       });
     },
     async processResults(after, params) {
+      if (this.skipFirstRun && !after) {
+        this._setAfter(Date.now());
+        return;
+      }
+
       const properties = await this.hubspot.getContactProperties();
       const propertyNames = properties.map((property) => property.name);
       if (!propertyNames.includes(this.property)) {
