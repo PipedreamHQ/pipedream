@@ -49,7 +49,7 @@ export default {
       };
     },
     isRelevant(object, updatedAfter) {
-      return !updatedAfter || this.getTs(object) > updatedAfter;
+      return this.getTs(object) > updatedAfter;
     },
     getParams(after) {
       const params = {

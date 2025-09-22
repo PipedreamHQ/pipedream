@@ -43,7 +43,7 @@ export default {
       };
     },
     isRelevant(contact, updatedAfter) {
-      return !updatedAfter || this.getTs(contact) > updatedAfter;
+      return this.getTs(contact) > updatedAfter;
     },
     getParams(after) {
       const params = {

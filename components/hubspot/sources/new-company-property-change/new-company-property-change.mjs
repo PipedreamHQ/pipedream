@@ -43,7 +43,7 @@ export default {
       };
     },
     isRelevant(company, updatedAfter) {
-      return !updatedAfter || this.getTs(company) > updatedAfter;
+      return this.getTs(company) > updatedAfter;
     },
     getParams(after) {
       const params = {
