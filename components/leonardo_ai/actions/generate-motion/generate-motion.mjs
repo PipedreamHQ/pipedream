@@ -52,7 +52,7 @@ export default {
       motionStrength,
       isPublic,
       isInitImage,
-      isVariation,      
+      isVariation,
     };
 
     const response = await this.app._makeRequest({

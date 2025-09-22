@@ -95,7 +95,7 @@ export default {
       modelId,
       guidance_scale: guidanceScale,
       num_inference_steps: numInferenceSteps,
-      seed: seed
+      seed,
     };
 
     const response = await this.app._makeRequest({
@@ -105,7 +105,7 @@ export default {
       data,
     });
 
-    $.export("$summary", `Successfully generated ${numImages} image(s)`);    
+    $.export("$summary", `Successfully generated ${numImages} image(s)`);
     return response;
   },
 };

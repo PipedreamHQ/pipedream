@@ -1,5 +1,4 @@
 import { axios } from "@pipedream/platform";
-import FormData from "form-data";
 
 export default {
   type: "app",
@@ -17,13 +16,16 @@ export default {
       };
     },
     async _makeRequest({
-      $ = this, 
-      method = "GET", 
-      path, 
-      data, 
+      $ = this,
+      method = "GET",
+      path,
+      data,
       ...opts
     }) {
-      const { headers: userHeaders, ...rest } = opts;
+      const {
+        headers: userHeaders,
+        ...rest
+      } = opts;
       const config = {
         method,
         ...rest,

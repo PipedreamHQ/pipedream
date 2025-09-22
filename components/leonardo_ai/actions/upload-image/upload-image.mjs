@@ -64,17 +64,20 @@ export default {
 
     const { uploadInitImage } = uploadResponse;
     const fields = JSON.parse(uploadInitImage.fields);
-    const formData = new FormData();    
+    const formData = new FormData();
 
-    //Important: Order of fields is sanctioned by Leonardo AI API. Fields should go first, then the file
-    for (const [label, value] of Object.entries(fields)) {
+    //Important: Order of fields is sanctioned by Leonardo AI API. Fields go first, then the file
+    for (const [
+      label,
+      value,
+    ] of Object.entries(fields)) {
       formData.append(label, value.toString());
-    }    
+    }
     formData.append("file", stream, {
       contentType: metadata.contentType,
       knownLength: metadata.size,
       filename: metadata.name,
-    });    
+    });
     const uploadUrl = uploadInitImage.url;
 
     // Step 2: Upload the file to the presigned URL
