@@ -63,6 +63,13 @@ export default {
         if (!history || history.length === 0) {
           return false;
         }
+
+        const propertyTimestamp = history[0].timestamp;
+        const createDate = contact.properties.createdate;
+
+        if (propertyTimestamp === createDate) {
+          return false;
+        }
       }
 
       return !updatedAfter || this.getTs(contact) > updatedAfter;
