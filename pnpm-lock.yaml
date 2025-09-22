@@ -2934,6 +2934,9 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/cockpit:
+    specifiers: {}
+
   components/coda:
     dependencies:
       '@pipedream/platform':
