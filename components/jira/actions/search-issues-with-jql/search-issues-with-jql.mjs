@@ -26,6 +26,7 @@ export default {
       optional: true,
       default: 50,
       min: 1,
+      max: 5000,
     },
     fields: {
       type: "string",
@@ -91,7 +92,7 @@ export default {
   },
   methods: {
     getMaxResultsPerPage() {
-      return Math.min(this.maxResults, 500);
+      return Math.min(this.maxResults, 1000);
     },
     async paginate({
       params, maxResults, ...otherArgs
