@@ -54,7 +54,7 @@ export default {
     async processEvents(resources, after) {
       let maxTs = after || 0;
       for (const result of resources) {
-        if (await this.isRelevant(result, after)) {
+        if (!after || await this.isRelevant(result, after)) {
           this.emitEvent(result);
           const ts = this.getTs(result);
           if (ts > maxTs) {
@@ -81,7 +81,7 @@ export default {
         for (const result of results) {
           const ts = this.getTs(result);
           if (!after || ts > after) {
-            if (await this.isRelevant(result, after, ts)) {
+            if (!after || await this.isRelevant(result, after, ts)) {
               this.emitEvent(result);
             }
             if (ts > maxTs) {
@@ -124,7 +124,7 @@ export default {
           items = results;
         }
         for (const item of items) {
-          if (await this.isRelevant(item, after)) {
+          if (!after || await this.isRelevant(item, after)) {
             this.emitEvent(item);
             const ts = this.getTs(item);
             if (ts > maxTs) {
