@@ -10,7 +10,10 @@ export default {
   props: {
     googleDrive,
     db: "$.service.db",
-    http: "$.interface.http",
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
     drive: {
       propDefinition: [
         googleDrive,
@@ -157,6 +160,10 @@ export default {
       this._setChannelID(newChannelID);
       this._setPageToken(newPageToken);
       return;
+    } else {
+      this.http.respond({
+        status: 200,
+      });
     }
 
     const { headers } = event;
