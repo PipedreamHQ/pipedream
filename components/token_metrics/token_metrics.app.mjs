@@ -111,9 +111,9 @@ export default {
       optional: true,
     },
     expand: {
-      type: "string",
+      type: "string[]",
       label: "Expand",
-      description: "Expand exchange_list or category_list to return full object",
+      description: "Expand exchange_list or category_list to return full object. Multiple values will be sent as comma-separated list.",
       optional: true,
       options: [
         {
