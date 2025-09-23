@@ -306,13 +306,13 @@ export default {
         timeout: Number(timeout),
       }),
       ...(memory && {
-        memoryMbytes: Number(memory),
+        memory: Number(memory),
       }),
       ...(maxItems && {
         maxItems: Number(maxItems),
       }),
       ...(maxTotalChargeUsd && {
-        maxTotalCostUsd: Number(maxTotalChargeUsd),
+        maxTotalChargeUsd: Number(maxTotalChargeUsd),
       }),
       ...(webhook && {
         webhooks: [
