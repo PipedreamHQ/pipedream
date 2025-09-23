@@ -104,6 +104,28 @@ export default {
       description: "Select one or more blockchain addresses to filter results. Example: `binance-smart-chain:0x8076c74c5e3f5852037f31ff0093eeb8c8add8d3`",
       optional: true,
     },
+    slug: {
+      type: "string[]",
+      label: "Token Slugs",
+      description: "Comma separated token slugs. Example: `bitcoin,ethereum`",
+      optional: true,
+    },
+    expand: {
+      type: "string",
+      label: "Expand",
+      description: "Expand exchange_list or category_list to return full object",
+      optional: true,
+      options: [
+        {
+          label: "Exchange List",
+          value: "exchange_list",
+        },
+        {
+          label: "Category List",
+          value: "category_list",
+        },
+      ],
+    },
     topK: {
       type: "integer",
       label: "Top K",
@@ -152,7 +174,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://api.tokenmetrics.com/v2";
+      return "https://api.tokenmetrics.com/v3";
     },
     _headers() {
       return {

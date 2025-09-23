@@ -10,7 +10,7 @@ export default {
   key: "token_metrics-get-tokens",
   name: "Get Tokens",
   description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/tokens)`,
-  version: "0.0.2",
+  version: "0.1.0",
   type: "action",
   props: {
     tokenMetrics,
@@ -49,6 +49,18 @@ export default {
       propDefinition: [
         tokenMetrics,
         "blockchainAddress",
+      ],
+    },
+    slug: {
+      propDefinition: [
+        tokenMetrics,
+        "slug",
+      ],
+    },
+    expand: {
+      propDefinition: [
+        tokenMetrics,
+        "expand",
       ],
     },
     // Pagination props

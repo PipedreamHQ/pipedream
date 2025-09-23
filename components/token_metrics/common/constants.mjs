@@ -2,11 +2,13 @@
 export const ENDPOINTS = {
   TOKENS: {
     path: "/tokens",
-    description: "Get the list of coins and their associated TOKEN_ID supported by Token Metrics",
+    description: "Get the list of coins and their associated TOKEN_ID supported by Token Metrics, along with key market data such as contract address, current price, market cap, trading volume, supply metrics, and 24-hour price change",
     filters: [
       "token_id",
       "token_name",
       "symbol",
+      "slug",
+      "expand",
       "category",
       "exchange",
       "blockchain_address",
