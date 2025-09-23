@@ -80,7 +80,9 @@ export default {
 
         for (const result of results) {
           const ts = this.getTs(result);
-          if (!after || ts > after) {
+          // Adding ts && !after to handle the case where ts is null
+          // (e.g. when using deletedAt as the ts field for deleted items)
+          if ((ts && !after) || ts > after) {
             if (!after || await this.isRelevant(result, after, ts)) {
               this.emitEvent(result);
             }

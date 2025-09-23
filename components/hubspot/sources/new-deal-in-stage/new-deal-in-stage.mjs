@@ -100,7 +100,7 @@ export default {
 
         for (const deal of results.results) {
           const ts = await this.getTs(deal);
-          if (!after || this.isRelevant(ts, after)) {
+          if (this.isRelevant(ts, after)) {
             if (deal.properties.hubspot_owner_id) {
               deal.properties.owner = await this.getOwner(
                 deal.properties.hubspot_owner_id,
