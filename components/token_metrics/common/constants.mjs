@@ -34,9 +34,12 @@ export const ENDPOINTS = {
   },
   PRICE: {
     path: "/price",
-    description: "Get token prices based on the provided token IDs",
+    description: "Get token prices based on the provided token ids",
     filters: [
       "token_id",
+      "token_name",
+      "symbol",
+      "slug",
     ],
   },
   HOURLY_OHLCV: {

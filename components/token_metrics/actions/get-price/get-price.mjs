@@ -10,7 +10,7 @@ export default {
   key: "token_metrics-get-price",
   name: "Get Price",
   description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/price)`,
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     tokenMetrics,
@@ -21,6 +21,24 @@ export default {
         "tokenId",
       ],
       description: "Select Token IDs to get prices for. Example: `3375,3306`",
+    },
+    tokenName: {
+      propDefinition: [
+        tokenMetrics,
+        "tokenName",
+      ],
+    },
+    symbol: {
+      propDefinition: [
+        tokenMetrics,
+        "symbol",
+      ],
+    },
+    slug: {
+      propDefinition: [
+        tokenMetrics,
+        "slug",
+      ],
     },
     // Pagination props
     limit: {
