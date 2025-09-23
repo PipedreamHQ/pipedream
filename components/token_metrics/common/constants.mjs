@@ -101,6 +101,7 @@ export const ENDPOINTS = {
       "token_id",
       "token_name",
       "symbol",
+      "slug",
     ],
   },
   FUNDAMENTAL_GRADES_HISTORICAL: {
@@ -110,6 +111,7 @@ export const ENDPOINTS = {
       "token_id",
       "token_name",
       "symbol",
+      "slug",
       "start_date",
       "end_date",
     ],
@@ -169,7 +171,9 @@ export const ENDPOINTS = {
     description: "Get the historical levels of resistance and support for each token",
     filters: [
       "token_id",
+      "token_name",
       "symbol",
+      "slug",
     ],
   },
   HOURLY_TRADING_SIGNALS: {
@@ -177,6 +181,9 @@ export const ENDPOINTS = {
     description: "Get the hourly AI generated trading signals for long and short positions for all tokens",
     filters: [
       "token_id",
+      "token_name",
+      "symbol",
+      "slug",
     ],
   },
   QUANTMETRICS: {
