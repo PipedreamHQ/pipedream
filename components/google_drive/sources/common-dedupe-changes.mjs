@@ -13,7 +13,7 @@ You can change or disable this minimum interval using the prop \`Minimum Interva
       description: "How many minutes to wait until the same file can emit another event.\n\nIf set to `0`, this interval is disabled and all events will be emitted.",
       min: 0,
       max: 60,
-      default: 1,
+      default: 3,
       optional: true,
     },
   },

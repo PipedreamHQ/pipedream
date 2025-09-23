@@ -7,7 +7,7 @@ export default {
   key: "hubspot-new-company-property-change",
   name: "New Company Property Change",
   description: "Emit new event when a specified property is provided or updated on a company. [See the documentation](https://developers.hubspot.com/docs/api/crm/companies)",
-  version: "0.0.25",
+  version: "0.0.26",
   dedupe: "unique",
   type: "source",
   props: {
@@ -46,7 +46,7 @@ export default {
       return !updatedAfter || this.getTs(company) > updatedAfter;
     },
     getParams(after) {
-      return {
+      const params = {
         object: "companies",
         data: {
           limit: DEFAULT_LIMIT,
@@ -66,16 +66,19 @@ export default {
                   propertyName: this.property,
                   operator: "HAS_PROPERTY",
                 },
-                {
-                  propertyName: "hs_lastmodifieddate",
-                  operator: "GTE",
-                  value: after,
-                },
               ],
             },
           ],
         },
       };
+      if (after) {
+        params.data.filterGroups[0].filters.push({
+          propertyName: "hs_lastmodifieddate",
+          operator: "GTE",
+          value: after,
+        });
+      }
+      return params;
     },
     batchGetCompanies(inputs) {
       return this.hubspot.batchGetObjects({
@@ -104,6 +107,7 @@ export default {
       const updatedCompanies = await this.getPaginatedItems(
         this.hubspot.searchCRM,
         params,
+        after,
       );
 
       if (!updatedCompanies.length) {
