@@ -423,13 +423,13 @@ export default {
         params,
       });
     },
-    async getScenarioAnalysis({
+    async getPricePrediction({
       $ = this,
       params = {},
     }) {
       return this.makeApiCall({
         $,
-        endpoint: "/scenario-analysis",
+        endpoint: "/price-prediction",
         params,
       });
     },

@@ -81,6 +81,7 @@ export const ENDPOINTS = {
       "token_id",
       "token_name",
       "symbol",
+      "slug",
     ],
   },
   TM_GRADES_HISTORICAL: {
@@ -90,6 +91,7 @@ export const ENDPOINTS = {
       "token_id",
       "token_name",
       "symbol",
+      "slug",
       "start_date",
       "end_date",
     ],
@@ -201,12 +203,14 @@ export const ENDPOINTS = {
       "fdv",
     ],
   },
-  SCENARIO_ANALYSIS: {
-    path: "/scenario-analysis",
-    description: "Get the price prediction based on different Crypto Market scenario",
+  PRICE_PREDICTION: {
+    path: "/price-prediction",
+    description: "Get price prediction of a crypto asset under different market cap scenarios",
     filters: [
       "token_id",
+      "token_name",
       "symbol",
+      "slug",
     ],
   },
   CORRELATION: {

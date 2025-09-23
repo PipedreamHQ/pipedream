@@ -10,7 +10,7 @@ export default {
   key: "token_metrics-get-tm-grades",
   name: "Get TM Grades",
   description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/tm-grade)`,
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     tokenMetrics,
@@ -32,6 +32,12 @@ export default {
       propDefinition: [
         tokenMetrics,
         "symbol",
+      ],
+    },
+    slug: {
+      propDefinition: [
+        tokenMetrics,
+        "slug",
       ],
     },
     // Pagination props
