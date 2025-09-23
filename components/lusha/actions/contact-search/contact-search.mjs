@@ -4,8 +4,9 @@ import lusha from "../../lusha.app.mjs";
 export default {
   key: "lusha-contact-search",
   name: "Search Contacts",
-  description: "Search for contacts using various filters. [See the documentation](https://www.lusha.com/docs/#contactcompany-search)",
-  version: "0.0.1",
+  description: "Search for contacts using various filters. [See the documentation](https://docs.lusha.com/apis/openapi/contact-search-and-enrich/searchprospectingcontacts)",
+  //version: "0.0.2",
+  version: "0.0.{{ts}}",
   type: "action",
   props: {
     lusha,
@@ -15,7 +16,7 @@ export default {
         "contactNames",
       ],
       label: "Contact Names",
-      description: "Names of contacts to search.",
+      description: "Names of contacts to search",
     },
     jobTitles: {
       propDefinition: [
@@ -61,7 +62,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const include = {};
+  /*  const include = {};
 
     if (this.names) include.names = parseObject(this.names);
     if (this.jobTitles) include.jobTitles = parseObject(this.jobTitles);
@@ -90,9 +91,29 @@ export default {
 
     for await (const item of response) {
       responseArray.push(item);
-    }
+    } */
 
-    $.export("$summary", `Found ${responseArray.length} contacts`);
+    const response = await this.lusha.searchContacts({
+      $,
+      data: {
+        filters: {
+          contacts: {
+            include: {
+              names: parseObject(this.names),
+              jobTitles: parseObject(this.jobTitles),
+              jobTitlesExactMatch: parseObject(this.jobTitlesExactMatch),
+              countries: parseObject(this.countries),
+              seniority: parseObject(this.seniority),
+              departments: parseObject(this.departments),
+              existingDataPoints: parseObject(this.existingDataPoints),
+              location: parseObject(this.location),
+            },
+          },
+        },
+      },
+    });
+
+    //  $.export("$summary", `Found ${responseArray.length} contacts`);
     return response;
   },
 };

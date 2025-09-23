@@ -3,7 +3,7 @@ import lusha from "../../lusha.app.mjs";
 export default {
   key: "lusha-contact-enrich",
   name: "Enrich Contacts",
-  description: "Enriches contacts based on provided IDs. [See the documentation](https://www.lusha.com/docs/#contact-enrich)",
+  description: "Enriches contacts based on provided IDs. [See the documentation](https://docs.lusha.com/apis/openapi/contact-search-and-enrich/enrichprospectingcontacts)",
   version: "0.0.1",
   type: "action",
   props: {
@@ -14,7 +14,7 @@ export default {
         "requestId",
       ],
       label: "Contact Request ID",
-      description: "The request ID generated from the contact search response.",
+      description: "The request ID generated from the contact search response",
     },
     contactIds: {
       propDefinition: [
