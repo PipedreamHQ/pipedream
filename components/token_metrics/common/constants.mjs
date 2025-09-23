@@ -44,22 +44,24 @@ export const ENDPOINTS = {
   },
   HOURLY_OHLCV: {
     path: "/hourly-ohlcv",
-    description: "Get hourly OHLCV (Open, High, Low, Close, Volume) data for tokens",
+    description: "Get hourly OHLCV (open, high, low, close, volume) data for tokens",
     filters: [
       "token_id",
-      "symbol",
       "token_name",
+      "symbol",
+      "slug",
       "start_date",
       "end_date",
     ],
   },
   DAILY_OHLCV: {
     path: "/daily-ohlcv",
-    description: "Get daily OHLCV (Open, High, Low, Close, Volume) data for tokens",
+    description: "Get daily OHLCV (open, high, low, close, volume) data for tokens",
     filters: [
       "token_id",
-      "symbol",
       "token_name",
+      "symbol",
+      "slug",
       "start_date",
       "end_date",
     ],
@@ -69,6 +71,7 @@ export const ENDPOINTS = {
     description: "Get the AI-curated token picks (Moonshots) with high breakout potential based on grades, sentiment, volume, and on-chain data to help users trade smarter and faster",
     filters: [
       "type",
+      "sort_by",
     ],
   },
   TM_GRADES: {

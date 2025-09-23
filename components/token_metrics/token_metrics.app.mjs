@@ -149,6 +149,30 @@ export default {
       ],
       default: "active",
     },
+    sortBy: {
+      type: "string",
+      label: "Sort By",
+      description: "Field to sort results by. Supported values: moonshot_at, roi_pct, tm_grade, market_cap_usd",
+      optional: true,
+      options: [
+        {
+          label: "Moonshot At",
+          value: "moonshot_at",
+        },
+        {
+          label: "ROI Percentage",
+          value: "roi_pct",
+        },
+        {
+          label: "TM Grade",
+          value: "tm_grade",
+        },
+        {
+          label: "Market Cap USD",
+          value: "market_cap_usd",
+        },
+      ],
+    },
     indicesType: {
       type: "string",
       label: "Indices Type",

@@ -10,7 +10,7 @@ export default {
   key: "token_metrics-get-hourly-ohlcv",
   name: "Get Hourly OHLCV",
   description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/hourly-ohlcv)`,
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   props: {
     tokenMetrics,
@@ -21,18 +21,24 @@ export default {
         "tokenId",
       ],
     },
-    symbol: {
-      propDefinition: [
-        tokenMetrics,
-        "symbol",
-      ],
-    },
     tokenName: {
       propDefinition: [
         tokenMetrics,
         "tokenName",
       ],
       description: "Select crypto asset names to filter results. Example: `Bitcoin,Ethereum`",
+    },
+    symbol: {
+      propDefinition: [
+        tokenMetrics,
+        "symbol",
+      ],
+    },
+    slug: {
+      propDefinition: [
+        tokenMetrics,
+        "slug",
+      ],
     },
     startDate: {
       propDefinition: [
