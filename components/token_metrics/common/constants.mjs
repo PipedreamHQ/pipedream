@@ -220,7 +220,9 @@ export const ENDPOINTS = {
     description: "Get the Top 10 and Bottom 10 correlation of tokens with the top 100 market cap tokens",
     filters: [
       "token_id",
+      "token_name",
       "symbol",
+      "slug",
       "category",
       "exchange",
     ],
