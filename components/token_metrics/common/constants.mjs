@@ -153,6 +153,7 @@ export const ENDPOINTS = {
     description: "Retrieve AI-generated reports providing comprehensive analyses of cryptocurrency tokens, including deep dives, investment analyses, and code reviews",
     filters: [
       "token_id",
+      "token_name",
       "symbol",
     ],
   },
@@ -166,6 +167,7 @@ export const ENDPOINTS = {
     description: "Get the list of coins for top market cap",
     filters: [
       "top_k",
+      "expand",
     ],
   },
   RESISTANCE_SUPPORT: {
