@@ -11,7 +11,9 @@ export default {
       description: "A domain name",
       async options({ prevContext }) {
         const domains = await this.listDomains({
-          marker: prevContext?.marker,
+          params: {
+            marker: prevContext?.marker,
+          },
         });
         const options = domains.map((domain) => domain.domain);
         return {
@@ -58,8 +60,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      //return "https://api.godaddy.com/v1";
-      return "https://api.ote-godaddy.com/v1";
+      return "https://api.godaddy.com/v1";
     },
     _makeRequest({
       $ = this,

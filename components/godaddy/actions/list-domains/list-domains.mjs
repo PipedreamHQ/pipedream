@@ -48,7 +48,7 @@ export default {
   async run({ $ }) {
     const domains = await this.godaddy.listDomains({
       $,
-      data: {
+      params: {
         statuses: this.statuses,
         statusGroups: this.statusGroups,
         limit: this.limit,
