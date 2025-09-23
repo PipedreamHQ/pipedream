@@ -7601,6 +7601,9 @@ importers:
 
   components/koala_ai: {}
 
+  components/kobotoolbox:
+    specifiers: {}
+
   components/kodagpt:
     dependencies:
       '@pipedream/platform':
