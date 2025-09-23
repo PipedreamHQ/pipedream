@@ -26,7 +26,7 @@ export default {
         tokenMetrics,
         "tokenName",
       ],
-      description: "Select crypto asset names to filter results. Example: `Bitcoin,Ethereum`",
+      description: "Select crypto asset names to filter results. Example: `Bitcoin`",
     },
     symbol: {
       propDefinition: [
