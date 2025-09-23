@@ -1,3 +1,4 @@
+import constants from "../../common/constants.mjs";
 import slack from "../../slack_v2_test.app.mjs";
 
 export default {
@@ -12,7 +13,14 @@ export default {
       propDefinition: [
         slack,
         "conversation",
+        () => ({
+          types: [
+            constants.CHANNEL_TYPE.PUBLIC,
+            constants.CHANNEL_TYPE.PRIVATE,
+          ],
+        }),
       ],
+      description: "Select a public or private channel",
     },
     addToChannel: {
       propDefinition: [
