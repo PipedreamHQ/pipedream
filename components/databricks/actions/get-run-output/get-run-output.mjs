@@ -4,7 +4,7 @@ export default {
   key: "databricks-get-run-output",
   name: "Get Run Output",
   description: "Retrieve the output and metadata of a single task run. [See the documentation](https://docs.databricks.com/en/workflows/jobs/jobs-2.0-api.html#runs-get-output)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     databricks,
