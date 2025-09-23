@@ -10,7 +10,7 @@ export default {
   key: "hubspot-new-or-updated-deal",
   name: "New or Updated Deal",
   description: "Emit new event for each new or updated deal in Hubspot",
-  version: "0.0.20",
+  version: "0.0.21",
   dedupe: "unique",
   type: "source",
   props: {
