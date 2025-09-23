@@ -77,6 +77,38 @@ export default {
       label: "Line items",
       description: "The LineItems collection can contain any number of individual LineItem sub-elements. At least one is required to create a complete Invoice. [Refer to Tax Type](https://developer.xero.com/documentation/api/accounting/types#report-tax-types), [Refer to Line Items](https://developer.xero.com/documentation/api/accounting/invoices#creating-updating-and-deleting-line-items-when-updating-invoices)\n\n**Example:** `[{\"Description\":\"Football\", \"Quantity\":\"20\", \"UnitAmount\":\"50000\", \"TaxType\":\"OUTPUT\" }]`",
     },
+    fileId: {
+      type: "string",
+      label: "File ID",
+      description: "Unique identification of the file",
+      async options({ page }) {
+        const { Items: items } = await this.listFiles({
+          params: {
+            page: page + 1,
+          },
+        });
+        return items?.map(({
+          Id: value, Name: label,
+        }) => ({
+          label,
+          value,
+        })) || [];
+      },
+    },
+    folderId: {
+      type: "string",
+      label: "Folder ID",
+      description: "Unique identification of the folder",
+      async options() {
+        const folders = await this.listFolders();
+        return folders?.map(({
+          Id: value, Name: label,
+        }) => ({
+          label,
+          value,
+        })) || [];
+      },
+    },
   },
   methods: {
     setLastDateChecked(db, value) {
@@ -102,10 +134,13 @@ export default {
       modifiedSince,
       path,
       headers,
+      isFilesApi = false,
       ...opts
     }) {
       return axios($, {
-        url: `${BASE_URL}/api.xro/2.0${path}`,
+        url: `${BASE_URL}${(isFilesApi
+          ? "/files.xro/1.0"
+          : "/api.xro/2.0")}${path}`,
         headers: this.getHeader({
           tenantId,
           modifiedSince,
@@ -356,7 +391,7 @@ export default {
         ...opts,
       });
     },
-    uploadFile({
+    uploadAttachment({
       documentType, documentId, fileName, ...opts
     }) {
       return this._makeRequest({
@@ -385,6 +420,50 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: `/Contacts/${contactId}`,
+        ...opts,
+      });
+    },
+    listFiles(opts = {}) {
+      return this._makeRequest({
+        path: "/Files",
+        isFilesApi: true,
+        ...opts,
+      });
+    },
+    uploadFileToFolder({
+      folderId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/Files/${folderId}`,
+        isFilesApi: true,
+        ...opts,
+      });
+    },
+    updateFile({
+      fileId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "PUT",
+        path: `/Files/${fileId}`,
+        isFilesApi: true,
+        ...opts,
+      });
+    },
+    deleteFile({
+      fileId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "DELETE",
+        path: `/Files/${fileId}`,
+        isFilesApi: true,
+        ...opts,
+      });
+    },
+    listFolders(opts = {}) {
+      return this._makeRequest({
+        path: "/Folders",
+        isFilesApi: true,
         ...opts,
       });
     },
