@@ -9,7 +9,7 @@ const endpoint = ENDPOINTS.HOURLY_TRADING_SIGNALS;
 export default {
   key: "token_metrics-get-hourly-trading-signals",
   name: "Get Hourly Trading Signals",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/hourly-trading-signals)`,
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/hourly-trading-signals)`,
   version: "0.1.0",
   type: "action",
   props: {

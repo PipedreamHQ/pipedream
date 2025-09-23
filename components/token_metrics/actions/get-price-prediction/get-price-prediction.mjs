@@ -9,7 +9,7 @@ const endpoint = ENDPOINTS.PRICE_PREDICTION;
 export default {
   key: "token_metrics-get-price-prediction",
   name: "Get Price Prediction",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/price-prediction)`,
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/price-prediction)`,
   version: "0.1.0",
   type: "action",
   props: {

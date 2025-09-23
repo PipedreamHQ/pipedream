@@ -9,7 +9,7 @@ const endpoint = ENDPOINTS.MOONSHOT_TOKENS;
 export default {
   key: "token_metrics-get-moonshot-tokens",
   name: "Get Moonshot Tokens",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/moonshot-tokens)`,
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/moonshot-tokens)`,
   version: "0.1.0",
   type: "action",
   props: {

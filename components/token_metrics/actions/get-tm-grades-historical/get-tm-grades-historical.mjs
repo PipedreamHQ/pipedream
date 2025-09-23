@@ -9,7 +9,7 @@ const endpoint = ENDPOINTS.TM_GRADES_HISTORICAL;
 export default {
   key: "token_metrics-get-tm-grades-historical",
   name: "Get TM Grades Historical",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/tm-grade-history)`,
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/tm-grade-history)`,
   version: "0.1.0",
   type: "action",
   props: {

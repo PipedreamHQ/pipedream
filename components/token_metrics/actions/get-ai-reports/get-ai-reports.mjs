@@ -9,7 +9,7 @@ const endpoint = ENDPOINTS.AI_REPORTS;
 export default {
   key: "token_metrics-get-ai-reports",
   name: "Get AI Reports",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/ai-reports)`,
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/ai-reports)`,
   version: "0.1.0",
   type: "action",
   props: {

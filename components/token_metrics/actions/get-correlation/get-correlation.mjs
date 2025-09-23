@@ -9,7 +9,7 @@ const endpoint = ENDPOINTS.CORRELATION;
 export default {
   key: "token_metrics-get-correlation",
   name: "Get Correlation",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/correlation)`,
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/correlation)`,
   version: "0.1.0",
   type: "action",
   props: {

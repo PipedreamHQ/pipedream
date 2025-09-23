@@ -9,7 +9,7 @@ const endpoint = ENDPOINTS.TECHNOLOGY_GRADES;
 export default {
   key: "token_metrics-get-technology-grades",
   name: "Get Technology Grades",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/technology-grade)`,
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/technology-grade)`,
   version: "0.1.0",
   type: "action",
   props: {

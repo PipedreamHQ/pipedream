@@ -9,7 +9,7 @@ const endpoint = ENDPOINTS.PRICE;
 export default {
   key: "token_metrics-get-price",
   name: "Get Price",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/price)`,
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/price)`,
   version: "0.1.0",
   type: "action",
   props: {

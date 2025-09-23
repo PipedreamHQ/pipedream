@@ -9,7 +9,7 @@ const endpoint = ENDPOINTS.DAILY_OHLCV;
 export default {
   key: "token_metrics-get-daily-ohlcv",
   name: "Get Daily OHLCV",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/daily-ohlcv)`,
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/daily-ohlcv)`,
   version: "0.1.0",
   type: "action",
   props: {

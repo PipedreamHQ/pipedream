@@ -9,7 +9,7 @@ const endpoint = ENDPOINTS.TOKENS;
 export default {
   key: "token_metrics-get-tokens",
   name: "Get Tokens",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/tokens)`,
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/tokens)`,
   version: "0.1.0",
   type: "action",
   props: {

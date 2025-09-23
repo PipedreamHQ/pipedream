@@ -9,7 +9,7 @@ const endpoint = ENDPOINTS.HOURLY_OHLCV;
 export default {
   key: "token_metrics-get-hourly-ohlcv",
   name: "Get Hourly OHLCV",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/hourly-ohlcv)`,
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/hourly-ohlcv)`,
   version: "0.1.0",
   type: "action",
   props: {

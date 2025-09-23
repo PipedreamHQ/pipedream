@@ -9,7 +9,7 @@ const endpoint = ENDPOINTS.QUANTMETRICS;
 export default {
   key: "token_metrics-get-quantmetrics",
   name: "Get Quantmetrics",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/quantmetrics)`,
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/quantmetrics)`,
   version: "0.1.0",
   type: "action",
   props: {
