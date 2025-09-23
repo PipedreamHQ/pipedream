@@ -16,6 +16,12 @@ export default {
       propDefinition: [
         common.props.slack,
         "conversation",
+        () => ({
+          types: [
+            constants.CHANNEL_TYPE.PUBLIC,
+            constants.CHANNEL_TYPE.PRIVATE,
+          ],
+        }),
       ],
       type: "string[]",
       label: "Channels",
