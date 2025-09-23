@@ -17,12 +17,6 @@ export default {
         "conversation",
       ],
     },
-    addToChannel: {
-      propDefinition: [
-        common.props.slack,
-        "addToChannel",
-      ],
-    },
     text: {
       type: "string",
       label: "Notification Text",

@@ -23,12 +23,6 @@ export default {
       ],
       description: "Select a public or private channel",
     },
-    addToChannel: {
-      propDefinition: [
-        common.props.slack,
-        "addToChannel",
-      ],
-    },
     text: {
       propDefinition: [
         common.props.slack,

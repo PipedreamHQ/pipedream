@@ -34,12 +34,6 @@ export default {
         }),
       ],
     },
-    addToChannel: {
-      propDefinition: [
-        common.props.slack,
-        "addToChannel",
-      ],
-    },
     text: {
       propDefinition: [
         common.props.slack,

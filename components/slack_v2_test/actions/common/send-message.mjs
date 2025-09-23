@@ -9,6 +9,13 @@ export default {
         "as_user",
       ],
     },
+    addToChannel: {
+      propDefinition: [
+        slack,
+        "addToChannel",
+      ],
+      optional: true,
+    },
     post_at: {
       propDefinition: [
         slack,
