@@ -11,7 +11,56 @@ export default {
     imageId: {
       type: "string",
       label: "Image ID",
-      description: "The ID of the image to generate motion from. This should be a previously generated or uploaded image ID.",
+      description: "The ID of the image to generate motion from. You can either select from previously generated images or manually enter the ID of an uploaded image.",
+      async options({ prevContext }) {
+        // Get user info to retrieve userId
+        const userInfo = await this.app.getUserInfo({
+          $: this,
+        });
+        // Extract userId from the response structure
+        const userId = userInfo.user_details?.[0]?.user?.id || userInfo.id;
+
+        // Get generations with pagination
+        const offset = prevContext?.offset || 0;
+        const limit = 20;
+
+        const generations = await this.app.getGenerationsByUserId({
+          $: this,
+          userId,
+          offset,
+          limit,
+        });
+
+        // Extract image IDs from generated_images array
+        const options = [];
+        if (generations.generations) {
+          for (const generation of generations.generations) {
+            if (generation.generated_images) {
+              for (const image of generation.generated_images) {
+                options.push({
+                  label: `Image ${image.id} (Generation ${generation.id})`,
+                  value: image.id,
+                });
+              }
+            }
+          }
+        }
+
+        // Check if there are more pages
+        const hasMore = generations.generations && generations.generations.length === limit;
+        const nextOffset = hasMore
+          ? offset + limit
+          : null;
+
+        return {
+          options,
+          context: nextOffset
+            ? {
+              offset: nextOffset,
+            }
+            : {},
+        };
+      },
     },
     motionStrength: {
       type: "integer",
