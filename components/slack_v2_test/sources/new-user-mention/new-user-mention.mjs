@@ -52,14 +52,6 @@ export default {
       ],
     },
   },
-  hooks: {
-    ...common.hooks,
-    async activate() {
-      if (this.addToChannel && this.conversations?.length) {
-        await this.slack.maybeAddAppToChannels(this.conversations);
-      }
-    },
-  },
   methods: {
     ...common.methods,
     getSummary() {

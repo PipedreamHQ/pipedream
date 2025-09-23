@@ -42,14 +42,6 @@ export default {
     },
   },
   async run({ $ }) {
-    if (this.addToChannel) {
-      await this.slack.maybeAddAppToChannels([
-        this.conversation,
-      ]);
-    } else {
-      await this.slack.checkAccessToChannel(this.conversation);
-    }
-
     const replies = [];
     const params = {
       channel: this.conversation,

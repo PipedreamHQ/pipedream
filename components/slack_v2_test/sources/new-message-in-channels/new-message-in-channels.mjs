@@ -32,12 +32,6 @@ export default {
         ];
       },
     },
-    addToChannel: {
-      propDefinition: [
-        common.props.slack,
-        "addToChannel",
-      ],
-    },
     resolveNames: {
       propDefinition: [
         common.props.slack,
@@ -55,14 +49,6 @@ export default {
       label: "Ignore replies in threads",
       description: "Ignore replies to messages in threads",
       optional: true,
-    },
-  },
-  hooks: {
-    ...common.hooks,
-    async activate() {
-      if (this.addToChannel && this.conversations?.length) {
-        await this.slack.maybeAddAppToChannels(this.conversations);
-      }
     },
   },
   methods: {

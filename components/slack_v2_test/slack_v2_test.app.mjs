@@ -809,7 +809,6 @@ export default {
       args.limit ||= constants.LIMIT;
       return this.makeRequest({
         method: "conversations.history",
-        as_bot: true,
         ...args,
       });
     },
@@ -959,7 +958,6 @@ export default {
     getConversationReplies(args = {}) {
       return this.makeRequest({
         method: "conversations.replies",
-        as_bot: true,
         ...args,
       });
     },

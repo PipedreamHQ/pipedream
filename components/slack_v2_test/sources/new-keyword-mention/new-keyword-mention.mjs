@@ -32,12 +32,6 @@ export default {
         ];
       },
     },
-    addToChannel: {
-      propDefinition: [
-        common.props.slack,
-        "addToChannel",
-      ],
-    },
     keyword: {
       propDefinition: [
         common.props.slack,
@@ -49,14 +43,6 @@ export default {
         common.props.slack,
         "ignoreBot",
       ],
-    },
-  },
-  hooks: {
-    ...common.hooks,
-    async activate() {
-      if (this.addToChannel && this.conversations?.length) {
-        await this.slack.maybeAddAppToChannels(this.conversations);
-      }
     },
   },
   methods: {

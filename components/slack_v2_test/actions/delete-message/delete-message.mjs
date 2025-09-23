@@ -29,11 +29,7 @@ export default {
     },
   },
   async run({ $ }) {
-    if (this.addToChannel) {
-      await this.slack.maybeAddAppToChannels([
-        this.conversation,
-      ]);
-    } else if (!this.as_user) {
+    if (!this.as_user) {
       await this.slack.checkAccessToChannel(this.conversation);
     }
 
