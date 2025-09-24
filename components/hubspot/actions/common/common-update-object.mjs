@@ -61,6 +61,7 @@ export default {
       });
 
     const response = await hubspot.updateObject({
+      $,
       objectType,
       objectId,
       data: {
