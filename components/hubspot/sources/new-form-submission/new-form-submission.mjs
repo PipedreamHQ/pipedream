@@ -36,7 +36,7 @@ export default {
         }
 
         for (const result of results) {
-          if (await this.isRelevant(result, after)) {
+          if (!after || await this.isRelevant(result, after)) {
             const form = await this.hubspot.getFormDefinition({
               formId: params.formId,
             });

@@ -44,7 +44,7 @@ export default {
       };
     },
     isRelevant(ticket, updatedAfter) {
-      return !updatedAfter || this.getTs(ticket) > updatedAfter;
+      return this.getTs(ticket) > updatedAfter;
     },
     getParams(after) {
       const params = {

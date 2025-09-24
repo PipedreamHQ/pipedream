@@ -41,7 +41,7 @@ export default {
       };
     },
     isRelevant(deal, updatedAfter) {
-      return !updatedAfter || this.getTs(deal) > updatedAfter;
+      return this.getTs(deal) > updatedAfter;
     },
     getParams(after) {
       const params = {
