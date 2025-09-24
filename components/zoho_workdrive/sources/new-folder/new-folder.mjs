@@ -1,11 +1,13 @@
-import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import app from "../../zoho_workdrive.app.mjs";
+import {
+  ConfigurationError,
+  DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+} from "@pipedream/platform";import app from "../../zoho_workdrive.app.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
   key: "zoho_workdrive-new-folder",
   name: "New Folder",
-  version: "0.0.4",
+  version: "0.1.0",
   description: "Emit new event when a new folder is created in a specific folder.",
   type: "source",
   dedupe: "unique",
@@ -45,6 +47,13 @@ export default {
       ],
       label: "Folder Id",
       description: "The unique ID of the folder.",
+      optional: true,
+    },
+    typedFolderId: {
+      type: "string",
+      label: "Typed Folder Id",
+      description: "Type in the unique ID of the folder. Use this if you hit rate limits on the `Folder Id` prop.",
+      optional: true,
     },
   },
   methods: {
@@ -58,7 +67,12 @@ export default {
       const {
         app,
         folderId,
+        typedFolderId,
       } = this;
+
+      if (!folderId && !typedFolderId) {
+        throw new ConfigurationError("Please select a Folder Id or type in a Typed Folder Id.");
+      }
 
       const lastDate = this._getLastDate();
       let maxDate = lastDate;
@@ -67,7 +81,7 @@ export default {
         maxResults,
         filter: "folder",
         sort: "created_time",
-        folderId,
+        folderId: folderId || typedFolderId,
       });
 
       let responseArray = [];
