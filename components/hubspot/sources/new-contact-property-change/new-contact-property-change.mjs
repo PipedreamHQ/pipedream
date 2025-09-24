@@ -27,13 +27,15 @@ export default {
       label: "Skip existing contacts when first activated",
       description:
         "When enabled, this trigger will ignore all existing contacts and only watch for property changes that happen after activation. When disabled, it will process all existing contacts on first run.",
-      default: true,
+      optional: true,
+      default: false,
     },
     requirePropertyHistory: {
       type: "boolean",
       label: "Only trigger on actual property changes",
       description:
         "When enabled, only fires when a contact property is actually modified. When disabled, may also trigger for newly created contacts even if the property wasn't changed.",
+      optional: true,
       default: true,
     },
   },
