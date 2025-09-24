@@ -4,7 +4,7 @@ export default {
   key: "databricks-get-sql-warehouse-permissions",
   name: "Get SQL Warehouse Permissions",
   description: "Retrieves the permissions for a specific SQL Warehouse. [See the documentation](https://docs.databricks.com/api/workspace/warehouses/getpermissions)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     databricks,

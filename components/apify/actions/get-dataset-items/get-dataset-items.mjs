@@ -5,7 +5,7 @@ export default {
   key: "apify-get-dataset-items",
   name: "Get Dataset Items",
   description: "Returns data stored in a dataset. [See the documentation](https://docs.apify.com/api/v2/dataset-items-get)",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   props: {
     apify,
@@ -33,48 +33,46 @@ export default {
         "omit",
       ],
     },
-    flatten: {
+    offset: {
       propDefinition: [
         apify,
-        "flatten",
+        "offset",
       ],
     },
-    maxResults: {
+    limit: {
       propDefinition: [
         apify,
-        "maxResults",
+        "limit",
       ],
     },
   },
   async run({ $ }) {
     const params = {
       limit: LIMIT,
-      offset: 0,
+      offset: this.offset,
       clean: this.clean,
-      fields: this.fields && this.fields.join(),
-      omit: this.omit && this.omit.join(),
-      flatten: this.flatten && this.flatten.join(),
+      fields: this.fields,
+      omit: this.omit,
     };
 
     const results = [];
     let total;
 
     do {
-      const items = await this.apify.listDatasetItems({
-        $,
+      const { items } = await this.apify.listDatasetItems({
         datasetId: this.datasetId,
         params,
       });
       results.push(...items);
-      if (results.length >= this.maxResults) {
+      if (results.length >= this.limit) {
         break;
       }
       total = items?.length;
       params.offset += LIMIT;
     } while (total);
 
-    if (results.length > this.maxResults) {
-      results.length = this.maxResults;
+    if (results.length > this.limit) {
+      results.length = this.limit;
     }
 
     if (results.length > 0) {
