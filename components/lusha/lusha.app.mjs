@@ -50,7 +50,7 @@ export default {
       async options() {
         const sicCodes = await this.listSicCodes();
         return sicCodes.map(({
-          code: value, name: label,
+          code: value, label,
         }) => ({
           value,
           label,
@@ -65,7 +65,7 @@ export default {
       async options() {
         const naicsCodes = await this.listNaicsCodes();
         return naicsCodes.map(({
-          code: value, name: label,
+          code: value, label,
         }) => ({
           value,
           label,
@@ -111,7 +111,13 @@ export default {
       description: "Seniority levels of contacts to search",
       optional: true,
       async options() {
-        return await this.listSeniorities();
+        const senorities = await this.listSeniorities();
+        return senorities.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        }));
       },
     },
     departments: {
@@ -152,6 +158,12 @@ export default {
       type: "string[]",
       label: "Enrich Company IDs",
       description: "Array of company IDs to enrich",
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "The maximum number of results to return. **This feature is used to avoid timeouts due to very long returns.**",
+      default: 50,
     },
   },
   methods: {
@@ -253,11 +265,12 @@ export default {
     }) {
       let hasMore = false;
       let count = 0;
-      let page = 0;
+      let page = -1;
 
       do {
         params.pages = {
           page: ++page,
+          size: 50,
         };
         const { data } = await fn({
           params,

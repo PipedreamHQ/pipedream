@@ -5,8 +5,7 @@ export default {
   key: "lusha-contact-search",
   name: "Search Contacts",
   description: "Search for contacts using various filters. [See the documentation](https://docs.lusha.com/apis/openapi/contact-search-and-enrich/searchprospectingcontacts)",
-  //version: "0.0.2",
-  version: "0.0.{{ts}}",
+  version: "0.0.2",
   type: "action",
   props: {
     lusha,
@@ -60,9 +59,15 @@ export default {
         "location",
       ],
     },
+    limit: {
+      propDefinition: [
+        lusha,
+        "limit",
+      ],
+    },
   },
   async run({ $ }) {
-  /*  const include = {};
+    const include = {};
 
     if (this.names) include.names = parseObject(this.names);
     if (this.jobTitles) include.jobTitles = parseObject(this.jobTitles);
@@ -91,29 +96,9 @@ export default {
 
     for await (const item of response) {
       responseArray.push(item);
-    } */
+    }
 
-    const response = await this.lusha.searchContacts({
-      $,
-      data: {
-        filters: {
-          contacts: {
-            include: {
-              names: parseObject(this.names),
-              jobTitles: parseObject(this.jobTitles),
-              jobTitlesExactMatch: parseObject(this.jobTitlesExactMatch),
-              countries: parseObject(this.countries),
-              seniority: parseObject(this.seniority),
-              departments: parseObject(this.departments),
-              existingDataPoints: parseObject(this.existingDataPoints),
-              location: parseObject(this.location),
-            },
-          },
-        },
-      },
-    });
-
-    //  $.export("$summary", `Found ${responseArray.length} contacts`);
-    return response;
+    $.export("$summary", `Found ${responseArray.length} contacts`);
+    return responseArray;
   },
 };

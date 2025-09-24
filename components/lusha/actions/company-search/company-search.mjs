@@ -5,8 +5,7 @@ export default {
   key: "lusha-company-search",
   name: "Search Companies",
   description: "Search for companies using various filters. [See the documentation](https://docs.lusha.com/apis/openapi/company-search-and-enrich/searchprospectingcompanies)",
-  //version: "0.0.2",
-  version: "0.0.{{ts}}",
+  version: "0.0.2",
   type: "action",
   props: {
     lusha,
@@ -53,9 +52,10 @@ export default {
       ],
     },
     limit: {
-      type: "string",
-      label: "Limit",
-      description: "The maximum number of results to return. **This feature is used to avoid timeouts due to very long returns.**",
+      propDefinition: [
+        lusha,
+        "limit",
+      ],
     },
   },
   async run({ $ }) {
