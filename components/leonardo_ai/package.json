@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/leonardo_ai",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Leonardo AI Components",
   "main": "leonardo_ai.app.mjs",
   "keywords": [
@@ -11,5 +11,9 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0",
+    "form-data": "^4.0.4"
   }
 }

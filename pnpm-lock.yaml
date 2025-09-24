@@ -7874,7 +7874,14 @@ importers:
         specifier: ^0.3.2
         version: 0.3.2
 
-  components/leonardo_ai: {}
+  components/leonardo_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
+      form-data:
+        specifier: ^4.0.4
+        version: 4.0.4
 
   components/lessaccounting: {}
 
