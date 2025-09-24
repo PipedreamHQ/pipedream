@@ -14,6 +14,7 @@ import {
   OBJECT_TYPE,
   OBJECT_TYPES,
 } from "./common/constants.mjs";
+import { handleErrorResponse } from "./common/handleErrorResponse.mjs";
 const limiter = new Bottleneck({
   minTime: 500, // 2 requests per second
   maxConcurrent: 1,
@@ -730,7 +731,7 @@ export default {
       }
       return obj;
     },
-    makeRequest({
+    async makeRequest({
       $ = this,
       api,
       endpoint,
@@ -738,13 +739,27 @@ export default {
       params,
       ...otherOpts
     }) {
-      return axiosRateLimiter($, {
-        url: `${BASE_URL}${api}${endpoint}`,
-        headers: this._getHeaders(),
-        data: data && this.trimStringValues(data),
-        params: params && this.trimStringValues(params),
-        ...otherOpts,
-      });
+      try {
+        const response = await axiosRateLimiter($, {
+          url: `${BASE_URL}${api}${endpoint}`,
+          headers: this._getHeaders(),
+          data: data && this.trimStringValues(data),
+          params: params && this.trimStringValues(params),
+          ...otherOpts,
+        });
+        return response;
+      } catch (error) {
+        let responseObject;
+        try {
+          responseObject = JSON.parse(error.message);
+        } catch (e) {
+          throw error;
+        }
+
+        handleErrorResponse(error.status, responseObject);
+
+        throw error;
+      }
     },
     getObjectTypeName(objectType) {
       if (!objectType.endsWith("s")) {
