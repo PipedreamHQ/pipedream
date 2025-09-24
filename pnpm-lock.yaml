@@ -2934,8 +2934,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/cockpit:
-    specifiers: {}
+  components/cockpit: {}
 
   components/coda:
     dependencies:
@@ -7085,8 +7084,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/instamojo:
-    specifiers: {}
+  components/instamojo: {}
 
   components/instant: {}
 
@@ -7601,8 +7599,7 @@ importers:
 
   components/koala_ai: {}
 
-  components/kobotoolbox:
-    specifiers: {}
+  components/kobotoolbox: {}
 
   components/kodagpt:
     dependencies:
@@ -8293,8 +8290,8 @@ importers:
   components/lusha:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/maestra:
     dependencies:
@@ -11743,8 +11740,7 @@ importers:
 
   components/redmine: {}
 
-  components/reduct_video:
-    specifiers: {}
+  components/reduct_video: {}
 
   components/referral_rocket: {}
 
@@ -13048,8 +13044,7 @@ importers:
         specifier: 1.6.0
         version: 1.6.0
 
-  components/shopware:
-    specifiers: {}
+  components/shopware: {}
 
   components/short:
     dependencies:
@@ -13153,8 +13148,7 @@ importers:
         specifier: ^4.0.0
         version: 4.0.1
 
-  components/signl4:
-    specifiers: {}
+  components/signl4: {}
 
   components/signnow:
     dependencies:
@@ -13859,8 +13853,7 @@ importers:
 
   components/streamwish: {}
 
-  components/strety:
-    specifiers: {}
+  components/strety: {}
 
   components/stripe:
     dependencies:
@@ -38950,6 +38943,8 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
+    transitivePeerDependencies:
+      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
