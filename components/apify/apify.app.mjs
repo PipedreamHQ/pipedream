@@ -1,5 +1,5 @@
-import { axios } from "@pipedream/platform";
 import { LIMIT } from "./common/constants.mjs";
+import { ApifyClient } from "apify-client";
 
 export default {
   type: "app",
@@ -10,12 +10,10 @@ export default {
       label: "Key-Value Store Id",
       description: "The Id of the key-value store.",
       async options({ page }) {
-        const { data: { items } } = await this.listKeyValueStores({
-          params: {
-            offset: LIMIT * page,
-            limit: LIMIT,
-            unnamed: true,
-          },
+        const { items } = await this.listKeyValueStores({
+          offset: LIMIT * page,
+          limit: LIMIT,
+          unnamed: true,
         });
 
         return items.map(({
@@ -30,39 +28,21 @@ export default {
       type: "string",
       label: "Actor ID",
       description: "Actor ID or a tilde-separated owner's username and Actor name",
-      async options({ page }) {
-        const { data: { items } } = await this.listActors({
-          params: {
-            offset: LIMIT * page,
-            limit: LIMIT,
-          },
+      async options({
+        page, actorSource,
+      }) {
+        actorSource ??= "recently-used";
+        const listFn = actorSource === "store"
+          ? this.listActors
+          : this.listUserActors;
+        const { items } = await listFn({
+          offset: LIMIT * page,
+          limit: LIMIT,
         });
 
-        return items.map(({
-          id: value, name: label,
-        }) => ({
-          label,
-          value,
-        }));
-      },
-    },
-    userActorId: {
-      type: "string",
-      label: "Actor ID",
-      description: "The ID of the Actor to monitor.",
-      async options({ page }) {
-        const { data: { items } } = await this.listUserActors({
-          params: {
-            offset: LIMIT * page,
-            limit: LIMIT,
-          },
-        });
-
-        return items.map(({
-          id: value, name: label,
-        }) => ({
-          label,
-          value,
+        return items.map((actor) => ({
+          label: this.formatActorOrTaskLabel(actor),
+          value: actor.id,
         }));
       },
     },
@@ -71,18 +51,14 @@ export default {
       label: "Task ID",
       description: "The ID of the task to monitor.",
       async options({ page }) {
-        const { data: { items } } = await this.listTasks({
-          params: {
-            offset: LIMIT * page,
-            limit: LIMIT,
-          },
+        const { items } = await this.listTasks({
+          offset: LIMIT * page,
+          limit: LIMIT,
         });
 
-        return items.map(({
-          id: value, name: label,
-        }) => ({
-          label,
-          value,
+        return items.map((task) => ({
+          label: this.formatActorOrTaskLabel(task),
+          value: task.id,
         }));
       },
     },
@@ -91,35 +67,32 @@ export default {
       label: "Dataset ID",
       description: "The ID of the dataset to retrieve items within",
       async options({ page }) {
-        const { data: { items } } = await this.listDatasets({
-          params: {
-            offset: LIMIT * page,
-            limit: LIMIT,
-          },
+        const { items } = await this.listDatasets({
+          offset: LIMIT * page,
+          limit: LIMIT,
+          desc: true,
+          unnamed: true,
         });
         return items?.map(({
-          id: value, name: label,
+          id: value, name,
         }) => ({
-          label,
+          label: name || "unnamed",
           value,
         })) || [];
       },
     },
-    buildId: {
+    buildTag: {
       type: "string",
       label: "Build",
-      description: "Specifies the Actor build to run. It can be either a build tag or build number.",
-      async options({
-        page, actorId,
-      }) {
-        const { data: { items } } = await this.listBuilds({
+      description: "Specifies the Actor build to run. The accepted value is the build tag. If not provided, the default build will be used.",
+      async options({ actorId }) {
+        const { taggedBuilds } = await this.getActor({
           actorId,
-          params: {
-            offset: LIMIT * page,
-            limit: LIMIT,
-          },
         });
-        return items?.map(({ id }) => id) || [];
+
+        return Object.entries(taggedBuilds).map(([
+          name,
+        ]) => name);
       },
     },
     clean: {
@@ -146,135 +119,153 @@ export default {
       description: "An array of fields which should transform nested objects into flat structures. For example, with `flatten=\"foo\"` the object `{\"foo\":{\"bar\": \"hello\"}}` is turned into `{\"foo.bar\": \"hello\"}`",
       optional: true,
     },
-    maxResults: {
+    limit: {
       type: "integer",
-      label: "Max Results",
+      label: "Limit",
       description: "The maximum number of items to return",
       default: LIMIT,
       optional: true,
     },
+    offset: {
+      type: "integer",
+      label: "Offset",
+      description: "The number records to skip before returning results",
+      default: 0,
+      optional: true,
+    },
   },
   methods: {
-    _baseUrl() {
-      return "https://api.apify.com/v2";
-    },
-    _headers() {
-      return {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${this.$auth.api_token}`,
-        "x-apify-integration-platform": "pipedream",
-      };
-    },
-    _makeRequest({
-      $ = this, path, ...opts
-    }) {
-      return axios($, {
-        url: this._baseUrl() + path,
-        headers: this._headers(),
-        ...opts,
+    _client() {
+      return new ApifyClient({
+        token: this.$auth.api_token,
+        requestInterceptors: [
+          (config) => ({
+            ...config,
+            headers: {
+              ...(config.headers || {}),
+              "x-apify-integration-platform": "pipedream",
+            },
+          }),
+        ],
       });
     },
     createHook(opts = {}) {
-      return this._makeRequest({
-        method: "POST",
-        path: "/webhooks",
-        ...opts,
-      });
+      return this._client().webhooks()
+        .create(opts);
     },
     deleteHook(hookId) {
-      return this._makeRequest({
-        method: "DELETE",
-        path: `/webhooks/${hookId}`,
-      });
+      return this._client().webhook(hookId)
+        .delete();
     },
     runActor({
-      actorId, ...opts
+      actorId, input, options,
     }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/acts/${actorId}/run-sync`,
-        ...opts,
-      });
+      return this._client().actor(actorId)
+        .call(input, options);
+    },
+    getActorRun({ runId }) {
+      return this._client().run(runId)
+        .get();
     },
     runActorAsynchronously({
-      actorId, ...opts
+      actorId, data, params,
     }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/acts/${actorId}/runs`,
-        ...opts,
-      });
+      return this._client().actor(actorId)
+        .start(data, params);
     },
-    runTask({ taskId }) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/actor-tasks/${taskId}/runs`,
-      });
+    runTask({
+      taskId, params,
+    }) {
+      return this._client().task(taskId)
+        .start(params);
     },
-    getBuild(build) {
-      return this._makeRequest({
-        path: `/actor-builds/${build}`,
-      });
+    getActor({ actorId }) {
+      return this._client().actor(actorId)
+        .get();
+    },
+    async getBuild(actorId, buildTag) {
+      // Get actor details
+      const actor = await this._client().actor(actorId)
+        .get();
+
+      if (!actor) {
+        throw new Error(`Actor ${actorId} not found.`);
+      }
+
+      if (!buildTag) {
+        buildTag = actor.defaultRunOptions.build;
+      }
+
+      const { taggedBuilds } = actor;
+
+      if (taggedBuilds[buildTag]) {
+        return this._client().build(taggedBuilds[buildTag].buildId)
+          .get();
+      } else {
+        throw new Error(
+          `Actor ${actorId} has no build tagged "${buildTag}". Please build the actor first.`,
+        );
+      }
     },
     listActors(opts = {}) {
-      return this._makeRequest({
-        path: "/store",
-        ...opts,
-      });
+      return this._client().store()
+        .list(opts);
     },
     listUserActors(opts = {}) {
-      return this._makeRequest({
-        path: "/acts",
-        ...opts,
-      });
+      return this._client().actors()
+        .list({
+          my: true,
+          sortBy: "stats.lastRunStartedAt",
+          desc: true,
+          ...opts,
+        });
     },
     listTasks(opts = {}) {
-      return this._makeRequest({
-        path: "/actor-tasks",
-        ...opts,
-      });
+      return this._client().tasks()
+        .list(opts);
     },
     listBuilds({ actorId }) {
-      return this._makeRequest({
-        path: `/acts/${actorId}/builds`,
-      });
+      return this._client().actor(actorId)
+        .builds()
+        .list();
     },
     listKeyValueStores(opts = {}) {
-      return this._makeRequest({
-        path: "/key-value-stores",
-        ...opts,
-      });
+      return this._client().keyValueStores()
+        .list(opts);
     },
     listDatasets(opts = {}) {
-      return this._makeRequest({
-        path: "/datasets",
-        ...opts,
-      });
+      return this._client().datasets()
+        .list(opts);
     },
     listDatasetItems({
-      datasetId, ...opts
+      datasetId, params,
     }) {
-      return this._makeRequest({
-        path: `/datasets/${datasetId}/items`,
-        ...opts,
-      });
+      return this._client().dataset(datasetId)
+        .listItems(params);
     },
     runTaskSynchronously({
-      taskId, ...opts
+      taskId, params,
     }) {
-      return this._makeRequest({
-        path: `/actor-tasks/${taskId}/run-sync-get-dataset-items`,
-        ...opts,
-      });
+      return this._client().task(taskId)
+        .call({}, params);
     },
     setKeyValueStoreRecord({
-      storeId, recordKey, ...opts
+      storeId, key, value, contentType,
     }) {
-      return this._makeRequest({
-        method: "PUT",
-        path: `/key-value-stores/${storeId}/records/${recordKey}`,
-        ...opts,
-      });
+      return this._client().keyValueStore(storeId)
+        .setRecord({
+          key,
+          value,
+          contentType,
+        });
+    },
+    formatActorOrTaskLabel({
+      title, username, name,
+    }) {
+      if (title) {
+        return `${title} (${username}/${name})`;
+      }
+      return `${username}/${name}`;
     },
   },
 };
