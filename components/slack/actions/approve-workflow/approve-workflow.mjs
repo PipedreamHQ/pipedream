@@ -9,7 +9,6 @@ export default {
   type: "action",
   annotations: {
     destructiveHint: false,
-    idempotentHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },

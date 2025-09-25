@@ -11,7 +11,6 @@ export default {
   type: "action",
   annotations: {
     destructiveHint: false,
-    idempotentHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
