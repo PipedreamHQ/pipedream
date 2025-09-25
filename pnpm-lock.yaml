@@ -3312,6 +3312,9 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
+  components/cratedb_cloud:
+    specifiers: {}
+
   components/crawlbase: {}
 
   components/credit_repair_cloud:
