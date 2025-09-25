@@ -6,12 +6,14 @@ import {
 import common from "../common/common.mjs";
 import sampleEmit from "./test-event.mjs";
 
+const MAX_INITIAL_EVENTS = 25;
+
 export default {
   ...common,
   key: "hubspot-new-deal-in-stage",
   name: "New Deal In Stage",
   description: "Emit new event for each new deal in a stage.",
-  version: "0.0.42",
+  version: "0.1.0",
   dedupe: "unique",
   type: "source",
   props: {
@@ -87,10 +89,8 @@ export default {
         object: "deals",
       };
     },
-    async processDeals(params, after) {
+    async processDeals(params, after, initialEventsEmitted) {
       let maxTs = after || 0;
-      let initialEventsEmitted = 0;
-      const maxInitialEvents = 25;
 
       do {
         const results = await this.hubspot.searchCRM(params);
@@ -113,22 +113,27 @@ export default {
               maxTs = ts;
               this._setAfter(ts);
             }
-            if (!after && ++initialEventsEmitted >= maxInitialEvents) {
-              return;
+            if (!after && ++initialEventsEmitted >= MAX_INITIAL_EVENTS) {
+              return initialEventsEmitted;
             }
           }
         }
 
         // first run, get only first page
         if (!after) {
-          return;
+          break;
         }
       } while (params.after);
+      return initialEventsEmitted;
     },
     async processResults(after) {
+      let initialEventsEmitted = 0;
       for (const stage of this.stages) {
         const params = this.getStageParams(stage);
-        await this.processDeals(params, after);
+        initialEventsEmitted += await this.processDeals(params, after, initialEventsEmitted);
+        if (initialEventsEmitted >= MAX_INITIAL_EVENTS) {
+          return;
+        }
       }
     },
     getOwner(ownerId) {
