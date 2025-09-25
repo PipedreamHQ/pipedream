@@ -11,7 +11,7 @@ export default {
   key: "hubspot-new-deal-in-stage",
   name: "New Deal In Stage",
   description: "Emit new event for each new deal in a stage.",
-  version: "0.0.41",
+  version: "0.0.42",
   dedupe: "unique",
   type: "source",
   props: {
@@ -89,6 +89,8 @@ export default {
     },
     async processDeals(params, after) {
       let maxTs = after || 0;
+      let initialEventsEmitted = 0;
+      const maxInitialEvents = 25;
 
       do {
         const results = await this.hubspot.searchCRM(params);
@@ -110,6 +112,9 @@ export default {
             if (ts > maxTs) {
               maxTs = ts;
               this._setAfter(ts);
+            }
+            if (!after && ++initialEventsEmitted >= maxInitialEvents) {
+              return;
             }
           }
         }
