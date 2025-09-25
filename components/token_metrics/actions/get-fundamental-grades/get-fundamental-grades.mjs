@@ -9,8 +9,8 @@ const endpoint = ENDPOINTS.FUNDAMENTAL_GRADES;
 export default {
   key: "token_metrics-get-fundamental-grades",
   name: "Get Fundamental Grades",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/fundamental-grade)`,
-  version: "0.0.1",
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/fundamental-grade)`,
+  version: "0.1.0",
   type: "action",
   props: {
     tokenMetrics,
@@ -32,6 +32,12 @@ export default {
       propDefinition: [
         tokenMetrics,
         "symbol",
+      ],
+    },
+    slug: {
+      propDefinition: [
+        tokenMetrics,
+        "slug",
       ],
     },
     // Pagination props

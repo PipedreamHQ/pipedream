@@ -9,8 +9,8 @@ const endpoint = ENDPOINTS.DAILY_OHLCV;
 export default {
   key: "token_metrics-get-daily-ohlcv",
   name: "Get Daily OHLCV",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/daily-ohlcv)`,
-  version: "0.0.1",
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/daily-ohlcv)`,
+  version: "0.1.0",
   type: "action",
   props: {
     tokenMetrics,
@@ -21,18 +21,24 @@ export default {
         "tokenId",
       ],
     },
-    symbol: {
-      propDefinition: [
-        tokenMetrics,
-        "symbol",
-      ],
-    },
     tokenName: {
       propDefinition: [
         tokenMetrics,
         "tokenName",
       ],
       description: "Select crypto asset names to filter results. Example: `Bitcoin`",
+    },
+    symbol: {
+      propDefinition: [
+        tokenMetrics,
+        "symbol",
+      ],
+    },
+    slug: {
+      propDefinition: [
+        tokenMetrics,
+        "slug",
+      ],
     },
     startDate: {
       propDefinition: [

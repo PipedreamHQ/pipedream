@@ -1,11 +1,11 @@
-import { parseObject } from "../../common/utils.mjs";
 import lusha from "../../lusha.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
-  key: "lusha-contact-search",
-  name: "Search Contacts",
-  description: "Search for contacts using various filters. [See the documentation](https://docs.lusha.com/apis/openapi/contact-search-and-enrich/searchprospectingcontacts)",
-  version: "0.0.2",
+  key: "lusha-search-and-enrich-contacts",
+  name: "Search and Enrich Contacts",
+  description: "Search for contacts and enrich them. [See the documentation](https://docs.lusha.com/apis/openapi/contact-search-and-enrich)",
+  version: "0.0.1",
   type: "action",
   props: {
     lusha,
@@ -79,26 +79,53 @@ export default {
     if (this.existingDataPoints) include.existingDataPoints = parseObject(this.existingDataPoints);
     if (this.location) include.location = parseObject(this.location);
 
-    const response = this.lusha.paginate({
-      $,
-      maxResults: this.limit,
-      fn: this.lusha.searchContacts,
-      data: {
-        filters: {
-          contacts: {
-            include,
+    const contacts = [];
+    let hasMore, count = 0, page = 0;
+
+    do {
+      const {
+        requestId, data = [],
+      } = await this.lusha.searchContacts({
+        $,
+        params: {
+          pages: {
+            page,
+            size: 50,
           },
         },
-      },
-    });
+        data: {
+          filters: {
+            contacts: {
+              include,
+            },
+          },
+        },
+      });
 
-    const responseArray = [];
+      hasMore = data.length;
+      const contactIds = [];
 
-    for await (const item of response) {
-      responseArray.push(item);
-    }
+      for (const d of data) {
+        contactIds.push(d.contactId);
+        if (++count >= this.limit) {
+          hasMore = false;
+          break;
+        }
+      }
 
-    $.export("$summary", `Found ${responseArray.length} contacts`);
-    return responseArray;
+      const enrichedContacts = await this.lusha.enrichContacts({
+        $,
+        data: {
+          requestId,
+          contactIds,
+        },
+      });
+
+      contacts.push(...enrichedContacts.contacts);
+      page++;
+    } while (hasMore);
+
+    $.export("$summary", `Found and enriched ${contacts.length} contacts`);
+    return contacts;
   },
 };
