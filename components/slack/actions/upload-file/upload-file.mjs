@@ -8,8 +8,14 @@ export default {
   key: "slack-upload-file",
   name: "Upload File",
   description: "Upload a file. [See the documentation](https://api.slack.com/messaging/files#uploading_files)",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    idempotentHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     slack,
     conversation: {

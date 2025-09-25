@@ -5,8 +5,14 @@ export default {
   key: "slack-update-profile",
   name: "Update Profile",
   description: "Update basic profile field such as name or title. [See the documentation](https://api.slack.com/methods/users.profile.set)",
-  version: "0.0.23",
+  version: "0.0.24",
   type: "action",
+  annotations: {
+    destructiveHint: true,
+    idempotentHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     slack,
     displayName: {

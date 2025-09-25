@@ -6,8 +6,14 @@ export default {
   key: "slack-send-message",
   name: "Send Message",
   description: "Send a message to a user, group, private channel or public channel. [See the documentation](https://api.slack.com/methods/chat.postMessage)",
-  version: "0.0.19",
+  version: "0.0.20",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    idempotentHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     slack: common.props.slack,
     channelType: {

@@ -4,8 +4,14 @@ export default {
   key: "slack-list-members-in-channel",
   name: "List Members in Channel",
   description: "Retrieve members of a channel. [See the documentation](https://api.slack.com/methods/conversations.members)",
-  version: "0.0.23",
+  version: "0.0.24",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    idempotentHint: true,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     slack,
     conversation: {

@@ -4,8 +4,14 @@ export default {
   key: "slack-find-message",
   name: "Find Message",
   description: "Find a Slack message. [See the documentation](https://api.slack.com/methods/search.messages)",
-  version: "0.0.25",
+  version: "0.0.26",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    idempotentHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     slack,
     query: {

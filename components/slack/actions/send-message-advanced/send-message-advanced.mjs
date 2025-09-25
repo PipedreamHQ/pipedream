@@ -7,8 +7,14 @@ export default {
   key: "slack-send-message-advanced",
   name: "Send Message (Advanced)",
   description: "Customize advanced setttings and send a message to a channel, group or user. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    idempotentHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     slack: common.props.slack,
     conversation: {
