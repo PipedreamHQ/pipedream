@@ -6069,8 +6069,8 @@ importers:
         specifier: ^0.3.0
         version: 0.3.0
       '@pipedream/google_drive':
-        specifier: ^1.0.4
-        version: 1.0.4
+        specifier: ^1.1.0
+        version: 1.1.0
       '@pipedream/platform':
         specifier: ^3.1.0
         version: 3.1.0
@@ -20227,8 +20227,8 @@ packages:
   '@pipedream/google_drive@1.0.3':
     resolution: {integrity: sha512-E7MF0E3f/RRyL5PsLaoL51IZtdoyWKNpUIT7RIpQDJ2wh00H0hrISfgugfKAVdv7Tl//BvJezu1FecSLTxhroQ==}
 
-  '@pipedream/google_drive@1.0.4':
-    resolution: {integrity: sha512-PMtNqrUo9nU8KDRQ2hrOjr/Cyz06ywDmIjOh8GUViKgbbHsOo6Frio1K46I63oo+LVBtkco0NZkKLOlxSt/DcA==}
+  '@pipedream/google_drive@1.1.0':
+    resolution: {integrity: sha512-ZiLlhIrJc7iUK7jLaQaRj4sf/9VUi6ZyZAGhYd2CfoZ8J7ys1KA9Rxi7oUFZvdKsH0AyJIHTIokCZbcuubS0Pw==}
 
   '@pipedream/helper_functions@0.3.13':
     resolution: {integrity: sha512-67zXT5rMccSYEeQCEKjO0g/U2Wnc3q1ErRWt0sivqJEF/KYqAb3tWmznDYGACbC8L6ML0WWSWRy7nEGt5Vyuaw==}
@@ -30980,22 +30980,22 @@ packages:
   superagent@3.8.1:
     resolution: {integrity: sha512-VMBFLYgFuRdfeNQSMLbxGSLfmXL/xc+OO+BZp41Za/NRDBet/BNbkRJrYzCUu0u4GU0i/ml2dtT8b9qgkw9z6Q==}
     engines: {node: '>= 4.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@4.1.0:
     resolution: {integrity: sha512-FT3QLMasz0YyCd4uIi5HNe+3t/onxMyEho7C3PSqmti3Twgy2rXT4fmkTz6wRL6bTF4uzPcfkUCa8u4JWHw8Ag==}
     engines: {node: '>= 6.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@5.3.1:
     resolution: {integrity: sha512-wjJ/MoTid2/RuGCOFtlacyGNxN9QLMgcpYLDQlWFIhhdJ93kNscFonGvrpAHSCVjRVj++DGCglocF7Aej1KHvQ==}
     engines: {node: '>= 7.0.0'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   superagent@7.1.6:
     resolution: {integrity: sha512-gZkVCQR1gy/oUXr+kxJMLDjla434KmSOKbx5iGD30Ql+AkJQ/YlPKECJy2nhqOsHLjGHzoDTXNSjhnvWhzKk7g==}
     engines: {node: '>=6.4.0 <13 || >=14'}
-    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
+    deprecated: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 
   supports-color@10.0.0:
     resolution: {integrity: sha512-HRVVSbCCMbj7/kdWF9Q+bbckjBHLtHMEoJWlkmYzzdwhYMkjkOwubLM6t7NbWKjgKamGDrWL1++KrjUO1t9oAQ==}
@@ -38318,7 +38318,7 @@ snapshots:
       - encoding
       - supports-color
 
-  '@pipedream/google_drive@1.0.4':
+  '@pipedream/google_drive@1.1.0':
     dependencies:
       '@googleapis/drive': 2.4.0
       '@pipedream/platform': 3.1.0
