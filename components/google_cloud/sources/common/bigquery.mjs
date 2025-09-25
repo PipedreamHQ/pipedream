@@ -48,11 +48,11 @@ export default {
         options.pageToken = pageToken;
       }
 
-      const response = await job.getQueryResults(options);
       const [
         rows,
-      ] = response;
-      const nextPageToken = response.pageToken;
+        queryResults,
+      ] = await job.getQueryResults(options);
+      const nextPageToken = queryResults?.pageToken;
       return {
         rows,
         pageToken: nextPageToken,
@@ -100,12 +100,17 @@ export default {
           }
         });
 
-        pageToken = nextPageToken;
         pageCount++;
         if (pageCount >= maxPages) {
           allProcessed = true;
         }
-        if (this.uniqueKey) this._updateLastResultId(rows);
+        if (this.uniqueKey) {
+          this._updateLastResultId(rows);
+        }
+        if (!nextPageToken) {
+          break;
+        }
+        pageToken = nextPageToken;
       }
     },
     getInitialEventCount() {
