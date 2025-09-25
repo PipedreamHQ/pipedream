@@ -3,8 +3,8 @@ import lusha from "../../lusha.app.mjs";
 export default {
   key: "lusha-company-enrich",
   name: "Enrich Companies",
-  description: "Enriches company information based on provided company IDs. [See the documentation](https://www.lusha.com/docs/#company-enrich)",
-  version: "0.0.2",
+  description: "Enriches company information based on provided company IDs. [See the documentation](https://docs.lusha.com/apis/openapi/company-search-and-enrich/enrichprospectingcompanies)",
+  version: "0.0.3",
   type: "action",
   props: {
     lusha,
@@ -14,7 +14,7 @@ export default {
         "requestId",
       ],
       label: "Company Request ID",
-      description: "The request ID generated from the company search response.",
+      description: "The request ID generated from the company search response",
     },
     companiesIds: {
       propDefinition: [
