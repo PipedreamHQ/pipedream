@@ -9,8 +9,8 @@ const endpoint = ENDPOINTS.AI_REPORTS;
 export default {
   key: "token_metrics-get-ai-reports",
   name: "Get AI Reports",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/ai-reports)`,
-  version: "0.0.1",
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/ai-reports)`,
+  version: "0.1.0",
   type: "action",
   props: {
     tokenMetrics,
@@ -21,6 +21,12 @@ export default {
         "tokenId",
       ],
       description: "Select Token IDs to get AI reports for. Example: `37493,3484`",
+    },
+    tokenName: {
+      propDefinition: [
+        tokenMetrics,
+        "tokenName",
+      ],
     },
     symbol: {
       propDefinition: [

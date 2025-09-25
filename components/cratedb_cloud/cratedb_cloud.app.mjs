@@ -1,6 +1,6 @@
 export default {
   type: "app",
-  app: "misp",
+  app: "cratedb_cloud",
   propDefinitions: {},
   methods: {
     // this.$auth contains connected account data
