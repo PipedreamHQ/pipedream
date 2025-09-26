@@ -30,17 +30,33 @@ export default {
     },
   },
   methods: {
-    async getRowsForQuery(queryOpts) {
+    async createQueryJob(queryOpts) {
       const client = this.googleCloud
         .getBigQueryClient()
         .dataset(this.datasetId);
       const [
         job,
       ] = await client.createQueryJob(queryOpts);
+      return job;
+    },
+    async getRowsForQuery(job, pageSize = 1000, pageToken = null) {
+      const options = {
+        maxResults: pageSize,
+      };
+
+      if (pageToken) {
+        options.pageToken = pageToken;
+      }
+
       const [
         rows,
-      ] = await job.getQueryResults();
-      return rows;
+        queryResults,
+      ] = await job.getQueryResults(options);
+      const nextPageToken = queryResults?.pageToken;
+      return {
+        rows,
+        pageToken: nextPageToken,
+      };
     },
     _updateLastResultId(rows) {
       const lastRow = rows.pop();
@@ -53,26 +69,49 @@ export default {
       this.db.set("lastResultId", newLastResultId);
     },
     async processCollection(queryOpts, timestamp) {
-      const rows = await this.getRowsForQuery(queryOpts);
-      chunk(rows, this.eventSize)
-        .forEach((rows) => {
-          const meta = this.generateMetaForCollection(rows, timestamp);
-          const rowCount = rows.length;
-          const data = {
-            rows,
-            rowCount,
-          };
-          this.$emit(data, meta);
+      const job = await this.createQueryJob(queryOpts);
+
+      const pageSize = 1000, maxPages = 10;
+      let pageToken = null;
+      let allProcessed = false;
+      let pageCount = 0;
+
+      while (!allProcessed) {
+        const {
+          rows, pageToken: nextPageToken,
+        } = await this.getRowsForQuery(job, pageSize, pageToken);
+
+        if (rows.length === 0) {
+          allProcessed = true;
+          break;
+        }
+
+        chunk(rows, this.eventSize).forEach((batch) => {
+          if (this.eventSize === 1) {
+            const meta = this.generateMeta(batch[0], timestamp);
+            this.$emit(batch[0], meta);
+          } else {
+            const meta = this.generateMetaForCollection(batch, timestamp);
+            const data = {
+              rows: batch,
+              rowCount: batch.length,
+            };
+            this.$emit(data, meta);
+          }
         });
-      if (this.uniqueKey) this._updateLastResultId(rows);
-    },
-    async processSingle(queryOpts, timestamp) {
-      const rows = await this.getRowsForQuery(queryOpts);
-      rows.forEach((row) => {
-        const meta = this.generateMeta(row, timestamp);
-        this.$emit(row, meta);
-      });
-      if (this.uniqueKey) this._updateLastResultId(rows);
+
+        pageCount++;
+        if (pageCount >= maxPages) {
+          allProcessed = true;
+        }
+        if (this.uniqueKey) {
+          this._updateLastResultId(rows);
+        }
+        if (!nextPageToken) {
+          break;
+        }
+        pageToken = nextPageToken;
+      }
     },
     getInitialEventCount() {
       return 10;
@@ -93,8 +132,6 @@ export default {
   run(event) {
     const { timestamp } = event;
     const queryOpts = this.getQueryOpts(event);
-    return (this.eventSize === 1) ?
-      this.processSingle(queryOpts, timestamp) :
-      this.processCollection(queryOpts, timestamp);
+    return this.processCollection(queryOpts, timestamp);
   },
 };
