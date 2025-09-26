@@ -4,7 +4,7 @@ export default {
   key: "linkedin-fetch-ad-account",
   name: "Fetch Ad Account",
   description: "Fetches an individual adAccount given its id. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/ads/account-structure/create-and-manage-accounts#fetch-ad-account)",
-  version: "0.1.9",
+  version: "0.1.10",
   type: "action",
   props: {
     linkedin,
