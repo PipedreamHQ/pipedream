@@ -11,7 +11,7 @@ const props = adjustPropDefinitions(others.props, app);
 export default {
   ...others,
   key: "apify_oauth-get-dataset-items",
-  version: "0.0.1",
+  version: "0.0.2",
   name,
   description,
   type,
