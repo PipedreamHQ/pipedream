@@ -4,7 +4,7 @@ export default {
   key: "slack_v2_test-update-message",
   name: "Update Message",
   description: "Update a message. [See the documentation](https://api.slack.com/methods/chat.update)",
-  version: "0.1.2",
+  version: "0.1.3",
   type: "action",
   props: {
     slack,
