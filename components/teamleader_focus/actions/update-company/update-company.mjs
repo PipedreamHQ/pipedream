@@ -117,6 +117,7 @@ export default {
       business_type_id: this.businessTypeId,
       vat_number: this.vatNumber,
       national_identification_number: this.nationalIdentificationNumber,
+      website: this.website,
       iban: this.iban,
       bic: this.bic,
       language: this.language,

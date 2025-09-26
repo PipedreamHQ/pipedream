@@ -40,7 +40,7 @@ export default {
     generateMeta(contact) {
       return {
         id: contact.id,
-        summary: (contact.first_name || "") + " " + (contact.last_name || "").trim(),
+        summary: `${contact.first_name || ""} ${contact.last_name || ""}`.trim(),
         ts: Date.parse(contact.added_at),
       };
     },
