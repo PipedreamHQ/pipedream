@@ -7082,8 +7082,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/instamojo:
-    specifiers: {}
+  components/instamojo: {}
 
   components/instant: {}
 
@@ -11737,8 +11736,7 @@ importers:
 
   components/redmine: {}
 
-  components/reduct_video:
-    specifiers: {}
+  components/reduct_video: {}
 
   components/referral_rocket: {}
 
@@ -13042,8 +13040,7 @@ importers:
         specifier: 1.6.0
         version: 1.6.0
 
-  components/shopware:
-    specifiers: {}
+  components/shopware: {}
 
   components/short:
     dependencies:
@@ -13850,8 +13847,7 @@ importers:
 
   components/streamwish: {}
 
-  components/strety:
-    specifiers: {}
+  components/strety: {}
 
   components/stripe:
     dependencies:
@@ -16076,6 +16072,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.0
         version: 3.1.0
+      form-data:
+        specifier: ^4.0.4
+        version: 4.0.4
 
   components/xperiencify:
     dependencies:
@@ -38941,6 +38940,8 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
+    transitivePeerDependencies:
+      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
