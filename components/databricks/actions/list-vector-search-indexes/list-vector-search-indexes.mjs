@@ -4,7 +4,12 @@ export default {
   key: "databricks-list-vector-search-indexes",
   name: "List Vector Search Indexes",
   description: "Lists all vector search indexes for a given endpoint. [See the documentation](https://docs.databricks.com/api/workspace/vectorsearchindexes/listindexes)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     databricks,

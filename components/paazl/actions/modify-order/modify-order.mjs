@@ -5,7 +5,12 @@ export default {
   key: "paazl-modify-order",
   name: "Modify Order",
   description: "Modifies the information of an order with a specific reference in the Paazl database. The method overwrites the order. [See the documentation](https://support.paazl.com/hc/en-us/articles/360008633973-REST-API-reference#/Order/editOrderUsingPUT)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,
