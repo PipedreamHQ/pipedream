@@ -6,7 +6,7 @@ export default {
   name: "New Record in Table",
   key: "nocodb-new-record",
   description: "Emit new event for each new record in table. [See the documentation](https://data-apis-v2.nocodb.com/#tag/Table-Records/operation/db-data-table-row-list)",
-  version: "0.0.6",
+  version: "0.0.7",
   dedupe: "unique",
   props: {
     ...common.props,
