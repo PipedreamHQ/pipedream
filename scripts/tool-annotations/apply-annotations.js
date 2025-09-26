@@ -14,7 +14,6 @@ const { execSync } = require('child_process');
 class AnnotationApplier {
   constructor(options = {}) {
     this.csvFile = options.csvFile;
-    this.dryRun = options.dryRun || false;
     this.verbose = options.verbose || false;
     this.limit = options.limit || null;
     this.offset = options.offset || 0;
@@ -37,8 +36,7 @@ class AnnotationApplier {
 
   log(message, level = 'info') {
     const timestamp = new Date().toISOString();
-    const prefix = this.dryRun ? '[DRY-RUN]' : '[LIVE]';
-    const logMessage = `${timestamp} ${prefix} ${message}`;
+    const logMessage = `${timestamp} ${message}`;
 
     switch (level) {
       case 'error':
@@ -269,10 +267,7 @@ class AnnotationApplier {
 
       // Apply changes
       const modifiedContent = this.applyAnnotations(fileContent, annotations);
-
-      if (!this.dryRun) {
-        fs.writeFileSync(filePath, modifiedContent, 'utf8');
-      }
+      fs.writeFileSync(filePath, modifiedContent, 'utf8');
 
       this.recordModification(fileContent, actionKey);
       return true;
@@ -301,14 +296,14 @@ class AnnotationApplier {
     const currentVersion = currentVersionMatch ? currentVersionMatch[1] : 'unknown';
     const newVersion = this.incrementVersion(currentVersion);
 
-    this.log(`${this.dryRun ? 'Would modify' : 'Modified'} ${actionKey} (${currentVersion} → ${newVersion})`, 'debug');
+    this.log(`Modified ${actionKey} (${currentVersion} → ${newVersion})`, 'debug');
   }
 
   verifyGitStatus() {
     try {
       const gitStatus = execSync('git status --porcelain', { encoding: 'utf8' });
-      if (gitStatus.trim() && !this.dryRun) {
-        throw new Error('Git working directory is not clean. Please commit or stash changes first.');
+      if (gitStatus.trim()) {
+        this.log('Git working directory is not clean - changes will be mixed with existing modifications', 'warn');
       }
     } catch (error) {
       this.log(`Git check failed: ${error.message}`, 'warn');
@@ -345,16 +340,11 @@ class AnnotationApplier {
       this.log('\n=== ERRORS ===');
       this.errors.forEach(error => this.log(error, 'error'));
     }
-
-    if (this.dryRun) {
-      this.log('\nThis was a DRY RUN. No files were actually modified.');
-      this.log('Re-run without --dry-run to apply changes.');
-    }
   }
 
   async run() {
     const startTime = Date.now();
-    this.log(`Starting annotation application${this.dryRun ? ' (DRY RUN)' : ''}`);
+    this.log('Starting annotation application');
 
     this.verifyGitStatus();
     await this.loadCsv();
@@ -373,7 +363,6 @@ class AnnotationApplier {
 function parseArgs() {
   const args = process.argv.slice(2);
   const options = {
-    dryRun: false,
     verbose: false
   };
 
@@ -383,9 +372,6 @@ function parseArgs() {
     switch (arg) {
       case '--csv':
         options.csvFile = args[++i];
-        break;
-      case '--dry-run':
-        options.dryRun = true;
         break;
       case '--verbose':
         options.verbose = true;
@@ -408,15 +394,14 @@ Usage: node apply-annotations.js --csv <file> [options]
 
 Options:
   --csv <file>      Path to CSV file with annotations
-  --dry-run         Show what would be changed without making changes
   --verbose         Show detailed logging
   --limit <number>  Process only this many entries from CSV
   --offset <number> Skip this many entries before processing (default: 0)
   --help            Show this help message
 
 Batch Processing Examples:
-  # Test with first 10 entries
-  node apply-annotations.js --csv file.csv --limit 10 --dry-run
+  # Process first 10 entries
+  node apply-annotations.js --csv file.csv --limit 10
 
   # Process entries 11-110 (next 100)
   node apply-annotations.js --csv file.csv --offset 10 --limit 100

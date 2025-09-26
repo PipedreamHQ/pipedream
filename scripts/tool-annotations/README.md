@@ -6,7 +6,7 @@ Applies MCP (Model Context Protocol) annotations to Pipedream action files from 
 
 ```bash
 # Test with first 10 entries
-node apply-annotations.js --csv registry-action-changes-2025-09-25_1.csv --limit 10 --dry-run
+node apply-annotations.js --csv registry-action-changes-2025-09-25_1.csv --limit 10
 
 # Process in batches
 node apply-annotations.js --csv registry-action-changes-2025-09-25_1.csv --offset 0 --limit 100
@@ -25,7 +25,6 @@ node apply-annotations.js --csv registry-action-changes-2025-09-25_1.csv
 
 ## Options
 
-- `--dry-run` - Show changes without applying them
 - `--verbose` - Detailed logging
 - `--limit N` - Process only N entries
 - `--offset N` - Skip N entries before processing
