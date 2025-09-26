@@ -14,7 +14,7 @@ export default {
   },
   methods: {
     _getLastTs() {
-      return this.db.get("lastTs") ?? 1000000000;
+      return this.db.get("lastTs") ?? 0;
     },
     _setLastTs(lastTs) {
       this.db.set("lastTs", lastTs);
@@ -36,6 +36,8 @@ export default {
         // If filterFn is provided, use it to filter items, otherwise add all items
         if (!filterFn || filterFn(item, lastTs)) {
           responseArray.push(item);
+        } else {
+          break; // done paginating
         }
       }
 
