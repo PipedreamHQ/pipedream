@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/lingvanex_translation_api",
+  "version": "0.0.1",
+  "description": "Pipedream Lingvanex Translation API Components",
+  "main": "lingvanex_translation_api.app.mjs",
+  "keywords": [
+    "pipedream",
+    "lingvanex_translation_api"
+  ],
+  "homepage": "https://pipedream.com/apps/lingvanex_translation_api",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

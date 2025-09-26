@@ -8032,6 +8032,9 @@ importers:
         specifier: ^1.6.5
         version: 1.6.6
 
+  components/lingvanex_translation_api:
+    specifiers: {}
+
   components/linkedin:
     dependencies:
       '@pipedream/platform':
