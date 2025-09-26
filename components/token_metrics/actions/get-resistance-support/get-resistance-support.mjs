@@ -9,8 +9,8 @@ const endpoint = ENDPOINTS.RESISTANCE_SUPPORT;
 export default {
   key: "token_metrics-get-resistance-support",
   name: "Get Resistance & Support",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/resistance-support)`,
-  version: "0.0.1",
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/resistance-support)`,
+  version: "0.1.0",
   type: "action",
   props: {
     tokenMetrics,
@@ -21,10 +21,22 @@ export default {
         "tokenId",
       ],
     },
+    tokenName: {
+      propDefinition: [
+        tokenMetrics,
+        "tokenName",
+      ],
+    },
     symbol: {
       propDefinition: [
         tokenMetrics,
         "symbol",
+      ],
+    },
+    slug: {
+      propDefinition: [
+        tokenMetrics,
+        "slug",
       ],
     },
     // Pagination props

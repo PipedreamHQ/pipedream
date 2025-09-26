@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/cockpit",
+  "version": "0.0.1",
+  "description": "Pipedream Cockpit Components",
+  "main": "cockpit.app.mjs",
+  "keywords": [
+    "pipedream",
+    "cockpit"
+  ],
+  "homepage": "https://pipedream.com/apps/cockpit",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -962,11 +962,11 @@ importers:
         specifier: ^2.41.0
         version: 2.43.0
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
-      got-scraping:
-        specifier: ^4.1.2
-        version: 4.1.2
+        specifier: ^3.1.0
+        version: 3.1.0
+      apify-client:
+        specifier: ^2.12.6
+        version: 2.17.0
 
   components/apify_oauth:
     dependencies:
@@ -2934,6 +2934,8 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/cockpit: {}
+
   components/coda:
     dependencies:
       '@pipedream/platform':
@@ -3310,6 +3312,8 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
+  components/cratedb_cloud: {}
+
   components/crawlbase: {}
 
   components/credit_repair_cloud:
@@ -3432,6 +3436,8 @@ importers:
         version: 1.6.6
 
   components/cvr_dev: {}
+
+  components/cyberark_certificate_manager: {}
 
   components/cyberimpact:
     dependencies:
@@ -4944,7 +4950,11 @@ importers:
         specifier: ^1.1.1
         version: 1.6.6
 
-  components/finage: {}
+  components/finage:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/finalscout:
     dependencies:
@@ -5880,8 +5890,8 @@ importers:
         specifier: ^6.0.1
         version: 6.12.0
       '@pipedream/platform':
-        specifier: ^0.10.0
-        version: 0.10.0
+        specifier: ^3.1.0
+        version: 3.1.0
       crypto:
         specifier: ^1.0.1
         version: 1.0.1
@@ -6067,8 +6077,8 @@ importers:
         specifier: ^0.3.0
         version: 0.3.0
       '@pipedream/google_drive':
-        specifier: ^1.0.4
-        version: 1.0.4
+        specifier: ^1.1.0
+        version: 1.1.0
       '@pipedream/platform':
         specifier: ^3.1.0
         version: 3.1.0
@@ -7086,8 +7096,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/instamojo:
-    specifiers: {}
+  components/instamojo: {}
 
   components/instant: {}
 
@@ -7602,6 +7611,8 @@ importers:
 
   components/koala_ai: {}
 
+  components/kobotoolbox: {}
+
   components/kodagpt:
     dependencies:
       '@pipedream/platform':
@@ -7871,7 +7882,14 @@ importers:
         specifier: ^0.3.2
         version: 0.3.2
 
-  components/leonardo_ai: {}
+  components/leonardo_ai:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
+      form-data:
+        specifier: ^4.0.4
+        version: 4.0.4
 
   components/lessaccounting: {}
 
@@ -8291,8 +8309,8 @@ importers:
   components/lusha:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/maestra:
     dependencies:
@@ -8951,6 +8969,8 @@ importers:
       '@pipedream/platform':
         specifier: ^3.1.0
         version: 3.1.0
+
+  components/misp: {}
 
   components/mission_mobile: {}
 
@@ -10206,7 +10226,11 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/paazl: {}
+  components/paazl:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/paddle: {}
 
@@ -11737,8 +11761,7 @@ importers:
 
   components/redmine: {}
 
-  components/reduct_video:
-    specifiers: {}
+  components/reduct_video: {}
 
   components/referral_rocket: {}
 
@@ -13042,8 +13065,7 @@ importers:
         specifier: 1.6.0
         version: 1.6.0
 
-  components/shopware:
-    specifiers: {}
+  components/shopware: {}
 
   components/short:
     dependencies:
@@ -13146,6 +13168,8 @@ importers:
       form-data:
         specifier: ^4.0.0
         version: 4.0.1
+
+  components/signl4: {}
 
   components/signnow:
     dependencies:
@@ -13849,6 +13873,8 @@ importers:
         version: 1.6.6
 
   components/streamwish: {}
+
+  components/strety: {}
 
   components/stripe:
     dependencies:
@@ -17021,6 +17047,15 @@ packages:
   '@apify/consts@2.43.0':
     resolution: {integrity: sha512-6bhzXeftGa+MrO0XwHLLBJyP9Vc2gZXsbk3d8rcDmiEMJwChA+Qw1WD6BWI9zVazPeXb2OrjzOwfe05f59RD4g==}
 
+  '@apify/consts@2.45.0':
+    resolution: {integrity: sha512-wcYcd9dVbs/Zu9DchFliXbJrgmhh4gCTUtgzbW7qDUaPQRBxyC3pp+b2RNcQ24t9wR/tRqHBt293cFkJe83ITg==}
+
+  '@apify/log@2.5.23':
+    resolution: {integrity: sha512-etaX8CYbHAwssB91GFZ+DP7L5HO11fBj3Av0jz7WNP/OJiij2OlSws9WuJaVq3x2KsO2zVbMVpRSUnRo+DLpNQ==}
+
+  '@apify/utilities@2.19.1':
+    resolution: {integrity: sha512-FXrP3tSdTMmPyNuvjP/kdwjRdpIMqYhtNVjlJ7QBMS1wCBTSA43ydyT47uMiRFN0U4GYmMnVNYz6hiPFojGILg==}
+
   '@apimatic/schema@0.6.0':
     resolution: {integrity: sha512-JgG32LQRLphHRWsn64vIt7wD2m+JH46swM6ZrY7g1rdiGiKV5m+A+TBrJKoUUQRmS14azMgePNZY30NauWqzLg==}
     engines: {node: '>=10.4.0'}
@@ -18262,6 +18297,10 @@ packages:
     resolution: {integrity: sha512-ARBt64yEyKbanyRETTjcjJuHr2YXorzQo0etyS5+P6oSeW8xEuzajA9g+zDnMcj1hlX2dQE93foIWQGfpru7gQ==}
     peerDependencies:
       '@bufbuild/protobuf': ^2.2.0
+
+  '@crawlee/types@3.15.0':
+    resolution: {integrity: sha512-HQ9W2BJGEjK2zxBLFCAMVLXscSX6+e6kWmDoxwF1gZXaXxKlQuIiVPX3aJklGy2dUdui6rIAt/VJRawIINO7Cg==}
+    engines: {node: '>=16.0.0'}
 
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -20196,8 +20235,8 @@ packages:
   '@pipedream/google_drive@1.0.3':
     resolution: {integrity: sha512-E7MF0E3f/RRyL5PsLaoL51IZtdoyWKNpUIT7RIpQDJ2wh00H0hrISfgugfKAVdv7Tl//BvJezu1FecSLTxhroQ==}
 
-  '@pipedream/google_drive@1.0.4':
-    resolution: {integrity: sha512-PMtNqrUo9nU8KDRQ2hrOjr/Cyz06ywDmIjOh8GUViKgbbHsOo6Frio1K46I63oo+LVBtkco0NZkKLOlxSt/DcA==}
+  '@pipedream/google_drive@1.1.0':
+    resolution: {integrity: sha512-ZiLlhIrJc7iUK7jLaQaRj4sf/9VUi6ZyZAGhYd2CfoZ8J7ys1KA9Rxi7oUFZvdKsH0AyJIHTIokCZbcuubS0Pw==}
 
   '@pipedream/helper_functions@0.3.13':
     resolution: {integrity: sha512-67zXT5rMccSYEeQCEKjO0g/U2Wnc3q1ErRWt0sivqJEF/KYqAb3tWmznDYGACbC8L6ML0WWSWRy7nEGt5Vyuaw==}
@@ -22904,6 +22943,9 @@ packages:
   api@4.5.2:
     resolution: {integrity: sha512-RbqDVdRVBd3Y/M+iAkFj4IqHhBR86FoyfcRkRs77qYQW9nL+tBC+aPkgKtlhirMHjoCmNrxnh0CNhCTqFq4PSg==}
     engines: {node: ^12 || ^14 || ^16}
+
+  apify-client@2.17.0:
+    resolution: {integrity: sha512-fxYQD/aV75AFRo49Pzwcjz2V5o23H9LQ38DnFjjDtY6+anEN59sLva8oBRXgrTWCgDnQh6JlG9l0s769/1MiuQ==}
 
   aproba@1.2.0:
     resolution: {integrity: sha512-Y9J6ZjXtoYh8RnXVCMOU/ttDmk1aBjunq9vO0ta5x85WDQiQfUF9sIPBITdbiiIVcBo03Hi3jMxigBtsddlXRw==}
@@ -32610,6 +32652,18 @@ snapshots:
 
   '@apify/consts@2.43.0': {}
 
+  '@apify/consts@2.45.0': {}
+
+  '@apify/log@2.5.23':
+    dependencies:
+      '@apify/consts': 2.45.0
+      ansi-colors: 4.1.3
+
+  '@apify/utilities@2.19.1':
+    dependencies:
+      '@apify/consts': 2.45.0
+      '@apify/log': 2.5.23
+
   '@apimatic/schema@0.6.0':
     dependencies:
       tslib: 2.8.1
@@ -35919,6 +35973,10 @@ snapshots:
     dependencies:
       '@bufbuild/protobuf': 2.5.0
 
+  '@crawlee/types@3.15.0':
+    dependencies:
+      tslib: 2.8.1
+
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
@@ -38268,7 +38326,7 @@ snapshots:
       - encoding
       - supports-color
 
-  '@pipedream/google_drive@1.0.4':
+  '@pipedream/google_drive@1.1.0':
     dependencies:
       '@googleapis/drive': 2.4.0
       '@pipedream/platform': 3.1.0
@@ -41686,6 +41744,22 @@ snapshots:
       - encoding
       - openapi-types
 
+  apify-client@2.17.0:
+    dependencies:
+      '@apify/consts': 2.43.0
+      '@apify/log': 2.5.23
+      '@apify/utilities': 2.19.1
+      '@crawlee/types': 3.15.0
+      agentkeepalive: 4.5.0
+      async-retry: 1.3.3
+      axios: 1.11.0(debug@3.2.7)
+      content-type: 1.0.5
+      ow: 0.28.2
+      tslib: 2.8.1
+      type-fest: 4.41.0
+    transitivePeerDependencies:
+      - debug
+
   aproba@1.2.0:
     optional: true
 
@@ -42341,7 +42415,7 @@ snapshots:
       chalk: 5.4.1
       cli-boxes: 3.0.0
       string-width: 7.2.0
-      type-fest: 4.27.0
+      type-fest: 4.41.0
       widest-line: 5.0.0
       wrap-ansi: 9.0.0
 
@@ -43641,7 +43715,7 @@ snapshots:
 
   dot-prop@9.0.0:
     dependencies:
-      type-fest: 4.27.0
+      type-fest: 4.41.0
 
   dotenv@16.4.7: {}
 
@@ -50801,7 +50875,7 @@ snapshots:
     dependencies:
       find-up-simple: 1.0.1
       read-pkg: 9.0.1
-      type-fest: 4.27.0
+      type-fest: 4.41.0
 
   read-pkg@5.2.0:
     dependencies:
@@ -50815,7 +50889,7 @@ snapshots:
       '@types/normalize-package-data': 2.4.4
       normalize-package-data: 6.0.2
       parse-json: 8.3.0
-      type-fest: 4.27.0
+      type-fest: 4.41.0
       unicorn-magic: 0.1.0
 
   readable-stream@1.0.33:

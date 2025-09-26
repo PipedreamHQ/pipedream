@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-delete-rows",
   name: "Delete Rows",
   description: "Deletes the specified rows from a spreadsheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/request#deletedimensionrequest)",
-  version: "0.0.10",
+  version: "0.0.11",
   type: "action",
   props: {
     googleSheets,

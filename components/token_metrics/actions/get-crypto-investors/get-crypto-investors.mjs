@@ -9,8 +9,8 @@ const endpoint = ENDPOINTS.CRYPTO_INVESTORS;
 export default {
   key: "token_metrics-get-crypto-investors",
   name: "Get Crypto Investors",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/crypto-investors)`,
-  version: "0.0.1",
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/crypto-investors)`,
+  version: "0.1.0",
   type: "action",
   props: {
     tokenMetrics,

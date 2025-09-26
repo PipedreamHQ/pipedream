@@ -5,7 +5,7 @@ export default {
   key: "databricks-list-jobs",
   name: "List Jobs",
   description: "List all jobs using automatic pagination. [See the documentation](https://docs.databricks.com/api/workspace/jobs/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,

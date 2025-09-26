@@ -2,11 +2,13 @@
 export const ENDPOINTS = {
   TOKENS: {
     path: "/tokens",
-    description: "Get the list of coins and their associated TOKEN_ID supported by Token Metrics",
+    description: "Get the list of coins and their associated TOKEN_ID supported by Token Metrics, along with key market data such as contract address, current price, market cap, trading volume, supply metrics, and 24-hour price change",
     filters: [
       "token_id",
       "token_name",
       "symbol",
+      "slug",
+      "expand",
       "category",
       "exchange",
       "blockchain_address",
@@ -17,12 +19,14 @@ export const ENDPOINTS = {
     description: "Get the AI generated trading signals for long and short positions for all tokens",
     filters: [
       "token_id",
+      "token_name",
+      "symbol",
+      "slug",
       "start_date",
       "end_date",
-      "symbol",
       "category",
       "exchange",
-      "market_cap",
+      "marketcap",
       "volume",
       "fdv",
       "signal",
@@ -30,29 +34,34 @@ export const ENDPOINTS = {
   },
   PRICE: {
     path: "/price",
-    description: "Get token prices based on the provided token IDs",
+    description: "Get token prices based on the provided token ids",
     filters: [
       "token_id",
+      "token_name",
+      "symbol",
+      "slug",
     ],
   },
   HOURLY_OHLCV: {
     path: "/hourly-ohlcv",
-    description: "Get hourly OHLCV (Open, High, Low, Close, Volume) data for tokens",
+    description: "Get hourly OHLCV (open, high, low, close, volume) data for tokens",
     filters: [
       "token_id",
-      "symbol",
       "token_name",
+      "symbol",
+      "slug",
       "start_date",
       "end_date",
     ],
   },
   DAILY_OHLCV: {
     path: "/daily-ohlcv",
-    description: "Get daily OHLCV (Open, High, Low, Close, Volume) data for tokens",
+    description: "Get daily OHLCV (open, high, low, close, volume) data for tokens",
     filters: [
       "token_id",
-      "symbol",
       "token_name",
+      "symbol",
+      "slug",
       "start_date",
       "end_date",
     ],
@@ -62,6 +71,7 @@ export const ENDPOINTS = {
     description: "Get the AI-curated token picks (Moonshots) with high breakout potential based on grades, sentiment, volume, and on-chain data to help users trade smarter and faster",
     filters: [
       "type",
+      "sort_by",
     ],
   },
   TM_GRADES: {
@@ -71,6 +81,7 @@ export const ENDPOINTS = {
       "token_id",
       "token_name",
       "symbol",
+      "slug",
     ],
   },
   TM_GRADES_HISTORICAL: {
@@ -80,6 +91,7 @@ export const ENDPOINTS = {
       "token_id",
       "token_name",
       "symbol",
+      "slug",
       "start_date",
       "end_date",
     ],
@@ -91,6 +103,7 @@ export const ENDPOINTS = {
       "token_id",
       "token_name",
       "symbol",
+      "slug",
     ],
   },
   FUNDAMENTAL_GRADES_HISTORICAL: {
@@ -100,6 +113,7 @@ export const ENDPOINTS = {
       "token_id",
       "token_name",
       "symbol",
+      "slug",
       "start_date",
       "end_date",
     ],
@@ -111,6 +125,7 @@ export const ENDPOINTS = {
       "token_id",
       "token_name",
       "symbol",
+      "slug",
     ],
   },
   TECHNOLOGY_GRADES_HISTORICAL: {
@@ -120,6 +135,7 @@ export const ENDPOINTS = {
       "token_id",
       "token_name",
       "symbol",
+      "slug",
       "start_date",
       "end_date",
     ],
@@ -137,6 +153,7 @@ export const ENDPOINTS = {
     description: "Retrieve AI-generated reports providing comprehensive analyses of cryptocurrency tokens, including deep dives, investment analyses, and code reviews",
     filters: [
       "token_id",
+      "token_name",
       "symbol",
     ],
   },
@@ -150,6 +167,7 @@ export const ENDPOINTS = {
     description: "Get the list of coins for top market cap",
     filters: [
       "top_k",
+      "expand",
     ],
   },
   RESISTANCE_SUPPORT: {
@@ -157,7 +175,9 @@ export const ENDPOINTS = {
     description: "Get the historical levels of resistance and support for each token",
     filters: [
       "token_id",
+      "token_name",
       "symbol",
+      "slug",
     ],
   },
   HOURLY_TRADING_SIGNALS: {
@@ -165,6 +185,9 @@ export const ENDPOINTS = {
     description: "Get the hourly AI generated trading signals for long and short positions for all tokens",
     filters: [
       "token_id",
+      "token_name",
+      "symbol",
+      "slug",
     ],
   },
   QUANTMETRICS: {
@@ -172,20 +195,24 @@ export const ENDPOINTS = {
     description: "Get the latest quantitative metrics for tokens. Note that Token Metrics pricing data starts on 2019-01-01 for most tokens. More historical data will be available soon",
     filters: [
       "token_id",
+      "token_name",
       "symbol",
+      "slug",
       "category",
       "exchange",
-      "market_cap",
+      "marketcap",
       "volume",
       "fdv",
     ],
   },
-  SCENARIO_ANALYSIS: {
-    path: "/scenario-analysis",
-    description: "Get the price prediction based on different Crypto Market scenario",
+  PRICE_PREDICTION: {
+    path: "/price-prediction",
+    description: "Get price prediction of a crypto asset under different market cap scenarios",
     filters: [
       "token_id",
+      "token_name",
       "symbol",
+      "slug",
     ],
   },
   CORRELATION: {
@@ -193,7 +220,9 @@ export const ENDPOINTS = {
     description: "Get the Top 10 and Bottom 10 correlation of tokens with the top 100 market cap tokens",
     filters: [
       "token_id",
+      "token_name",
       "symbol",
+      "slug",
       "category",
       "exchange",
     ],
