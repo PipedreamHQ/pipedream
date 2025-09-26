@@ -168,7 +168,6 @@ export default {
       type: "string",
       label: "Billing Country Code",
       description: "The country code of the billing address",
-      optional: true,
     },
     billingLocality: {
       type: "string",
@@ -186,7 +185,6 @@ export default {
       type: "string",
       label: "Billing Postal Code",
       description: "The postal code of the billing address",
-      optional: true,
     },
     billingAddressLine1: {
       type: "string",
@@ -419,7 +417,7 @@ export default {
                 options {
                   shipping {
                     methods {
-                      pickup_points(postal_code: $countryCode, country_code: $postalCode) {
+                      pickup_points(postal_code: $postalCode, country_code: $countryCode) {
                         id
                         name
                         carrier
