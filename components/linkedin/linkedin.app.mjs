@@ -85,7 +85,7 @@ export default {
     postId: {
       type: "string",
       label: "Post Id",
-      description: "URN of the post that will be deleted",
+      description: "URN of the post that will be deleted. URN must be either a ugcPostUrn (`urn:li:ugcPost:{id}`) or shareUrn (`urn:li:share:{id}`). The shareUrn can be found in the post's embed code.",
     },
     startYear: {
       type: "string",
@@ -131,7 +131,6 @@ export default {
       return {
         "Authorization": `Bearer ${this.$auth.oauth_access_token}`,
         "Content-Type": "application/json",
-        "X-Restli-Protocol-Version": "2.0.0",
         "Linkedin-Version": constants.VERSION_HEADER,
       };
     },

@@ -4,7 +4,7 @@ export default {
   key: "linkedin-get-multiple-member-profiles",
   name: "Get Multiple Member Profiles",
   description: "Gets multiple member profiles at once. [See the docs here](https://docs.microsoft.com/en-us/linkedin/shared/integrations/people/profile-api#retrieve-other-members-profile)",
-  version: "0.1.9",
+  version: "0.1.10",
   type: "action",
   props: {
     linkedin,

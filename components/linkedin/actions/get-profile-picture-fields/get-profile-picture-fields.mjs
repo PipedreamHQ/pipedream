@@ -5,7 +5,7 @@ export default {
   key: "linkedin-get-profile-picture-fields",
   name: "Get Profile Picture Fields",
   description: "Gets the authenticated user's profile picture data including display image and metadata. [See the documentation](https://learn.microsoft.com/en-us/linkedin/shared/references/v2/profile/profile-picture)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     linkedin,
