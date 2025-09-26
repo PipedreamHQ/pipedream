@@ -3,9 +3,9 @@ import xeroAccountingApi from "../../xero_accounting_api.app.mjs";
 
 export default {
   key: "xero_accounting_api-upload-file",
-  name: "Upload File",
+  name: "Upload File (Attachment)",
   description: "Uploads a file to the specified document. [See the documentation](https://developer.xero.com/documentation/api/accounting/invoices#upload-attachment)",
-  version: "1.0.2",
+  version: "1.0.3",
   type: "action",
   props: {
     xeroAccountingApi,
@@ -64,7 +64,7 @@ export default {
     } = await getFileStreamAndMetadata(this.filePathOrUrl);
     const fileBinary = await this.streamToBuffer(stream);
 
-    const response = await this.xeroAccountingApi.uploadFile({
+    const response = await this.xeroAccountingApi.uploadAttachment({
       $,
       tenantId: this.tenantId,
       documentType: this.documentType,
