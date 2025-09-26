@@ -85,16 +85,16 @@ export default {
     const response = await this.etrusted.getTotalReviews({
       $,
       params: {
-        channels: this.channelId && parseObject(this.channelId).join(","),
+        channels: parseObject(this.channelId)?.join(","),
         submittedAfter: this.submittedAfter,
         submittedBefore: this.submittedBefore,
-        rating: this.rating && parseObject(this.rating).join(","),
-        status: this.status && parseObject(this.status).join(","),
-        type: this.type && parseObject(this.type).join(","),
+        rating: parseObject(this.rating)?.join(","),
+        status: parseObject(this.status)?.join(","),
+        type: parseObject(this.type)?.join(","),
         hasReply: this.hasReply,
         ignoreStatements: this.ignoreStatements,
         query: this.query,
-        sku: this.sku && parseObject(this.sku).join(","),
+        sku: parseObject(this.sku)?.join(","),
       },
     });
 
