@@ -8,11 +8,16 @@ export default {
   key: "gmail-new-attachment-received",
   name: "New Attachment Received",
   description: "Emit new event for each attachment in a message received. This source is capped at 100 max new messages per run.",
-  version: "0.2.0",
+  version: "0.2.1",
   type: "source",
   dedupe: "unique",
   props: {
     gmail,
+    info: {
+      type: "alert",
+      alertType: "info",
+      content: "Note: May not emit events for attachments sent via a Gmail alias. [See issue](https://github.com/PipedreamHQ/pipedream/issues/15309) for more information.",
+    },
     ...common.props,
     q: {
       propDefinition: [

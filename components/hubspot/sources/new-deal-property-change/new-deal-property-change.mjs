@@ -7,7 +7,7 @@ export default {
   key: "hubspot-new-deal-property-change",
   name: "New Deal Property Change",
   description: "Emit new event when a specified property is provided or updated on a deal. [See the documentation](https://developers.hubspot.com/docs/api/crm/deals)",
-  version: "0.0.27",
+  version: "0.0.28",
   dedupe: "unique",
   type: "source",
   props: {
@@ -41,7 +41,7 @@ export default {
       };
     },
     isRelevant(deal, updatedAfter) {
-      return !updatedAfter || this.getTs(deal) > updatedAfter;
+      return this.getTs(deal) > updatedAfter;
     },
     getParams(after) {
       const params = {

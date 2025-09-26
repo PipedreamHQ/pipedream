@@ -7,7 +7,7 @@ export default {
   key: "hubspot-new-company-property-change",
   name: "New Company Property Change",
   description: "Emit new event when a specified property is provided or updated on a company. [See the documentation](https://developers.hubspot.com/docs/api/crm/companies)",
-  version: "0.0.26",
+  version: "0.0.27",
   dedupe: "unique",
   type: "source",
   props: {
@@ -43,7 +43,7 @@ export default {
       };
     },
     isRelevant(company, updatedAfter) {
-      return !updatedAfter || this.getTs(company) > updatedAfter;
+      return this.getTs(company) > updatedAfter;
     },
     getParams(after) {
       const params = {

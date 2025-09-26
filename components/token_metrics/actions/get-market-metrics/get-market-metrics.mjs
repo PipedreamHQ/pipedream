@@ -9,8 +9,8 @@ const endpoint = ENDPOINTS.MARKET_METRICS;
 export default {
   key: "token_metrics-get-market-metrics",
   name: "Get Market Metrics",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/market-metrics)`,
-  version: "0.0.2",
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/market-metrics)`,
+  version: "0.1.0",
   type: "action",
   props: {
     tokenMetrics,

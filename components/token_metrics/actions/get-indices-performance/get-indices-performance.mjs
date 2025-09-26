@@ -9,8 +9,8 @@ const endpoint = ENDPOINTS.INDICES_PERFORMANCE;
 export default {
   key: "token_metrics-get-indices-performance",
   name: "Get Indices Performance",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/indices-performance)`,
-  version: "0.0.1",
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/indices-performance)`,
+  version: "0.1.0",
   type: "action",
   props: {
     tokenMetrics,

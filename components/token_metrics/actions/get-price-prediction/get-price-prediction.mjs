@@ -4,13 +4,13 @@ import {
   buildParams, generateFilterSummary,
 } from "../../common/utils.mjs";
 
-const endpoint = ENDPOINTS.SCENARIO_ANALYSIS;
+const endpoint = ENDPOINTS.PRICE_PREDICTION;
 
 export default {
-  key: "token_metrics-get-scenario-analysis",
-  name: "Get Scenario Analysis",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/scenario-analysis)`,
-  version: "0.0.1",
+  key: "token_metrics-get-price-prediction",
+  name: "Get Price Prediction",
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/price-prediction)`,
+  version: "0.1.0",
   type: "action",
   props: {
     tokenMetrics,
@@ -21,10 +21,22 @@ export default {
         "tokenId",
       ],
     },
+    tokenName: {
+      propDefinition: [
+        tokenMetrics,
+        "tokenName",
+      ],
+    },
     symbol: {
       propDefinition: [
         tokenMetrics,
         "symbol",
+      ],
+    },
+    slug: {
+      propDefinition: [
+        tokenMetrics,
+        "slug",
       ],
     },
     // Pagination props
@@ -49,7 +61,7 @@ export default {
     // Build parameters using utility function
     const params = buildParams(this, endpoint.filters);
 
-    const response = await this.tokenMetrics.getScenarioAnalysis({
+    const response = await this.tokenMetrics.getPricePrediction({
       $,
       params,
     });
@@ -59,7 +71,7 @@ export default {
 
     // Use $ context for export
     const dataLength = response.data?.length || 0;
-    $.export("$summary", `Successfully retrieved scenario analysis for ${dataLength} tokens${filterSummary}`);
+    $.export("$summary", `Successfully retrieved price prediction for ${dataLength} tokens${filterSummary}`);
 
     return response;
   },
