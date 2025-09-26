@@ -5,7 +5,7 @@ export default {
   key: "nocodb-add-record",
   name: "Add Record",
   description: "This action adds a record in a table. [See the documentation](https://data-apis-v2.nocodb.com/#tag/Table-Records/operation/db-data-table-row-create)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   props: {
     ...common.props,
