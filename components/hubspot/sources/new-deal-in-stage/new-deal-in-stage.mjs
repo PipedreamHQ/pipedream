@@ -61,16 +61,26 @@ export default {
     getParams() {
       return null;
     },
-    getStageParams(stage) {
-      const filter = {
-        propertyName: "dealstage",
-        operator: "EQ",
-        value: stage,
-      };
+    getAllStagesParams(after) {
+      const filters = [
+        {
+          propertyName: "dealstage",
+          operator: "IN",
+          values: this.stages,
+        },
+      ];
+
+      // Add time filter for subsequent runs to only get recently modified deals
+      if (after) {
+        filters.push({
+          propertyName: "hs_lastmodifieddate",
+          operator: "GT",
+          value: after,
+        });
+      }
+
       const filterGroup = {
-        filters: [
-          filter,
-        ],
+        filters,
       };
       return {
         data: {
@@ -89,8 +99,9 @@ export default {
         object: "deals",
       };
     },
-    async processDeals(params, after, initialEventsEmitted) {
+    async processDeals(params, after) {
       let maxTs = after || 0;
+      let initialEventsEmitted = 0;
 
       do {
         const results = await this.hubspot.searchCRM(params);
@@ -114,7 +125,7 @@ export default {
               this._setAfter(ts);
             }
             if (!after && ++initialEventsEmitted >= MAX_INITIAL_EVENTS) {
-              return initialEventsEmitted;
+              return;
             }
           }
         }
@@ -124,17 +135,10 @@ export default {
           break;
         }
       } while (params.after);
-      return initialEventsEmitted;
     },
     async processResults(after) {
-      let initialEventsEmitted = 0;
-      for (const stage of this.stages) {
-        const params = this.getStageParams(stage);
-        initialEventsEmitted += await this.processDeals(params, after, initialEventsEmitted);
-        if (initialEventsEmitted >= MAX_INITIAL_EVENTS) {
-          return;
-        }
-      }
+      const params = this.getAllStagesParams(after);
+      await this.processDeals(params, after);
     },
     getOwner(ownerId) {
       return this.hubspot.makeRequest({
