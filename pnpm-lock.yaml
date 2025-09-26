@@ -3440,6 +3440,8 @@ importers:
 
   components/cvr_dev: {}
 
+  components/cyberark_certificate_manager: {}
+
   components/cyberimpact:
     dependencies:
       '@pipedream/platform':
@@ -5887,8 +5889,8 @@ importers:
         specifier: ^6.0.1
         version: 6.12.0
       '@pipedream/platform':
-        specifier: ^0.10.0
-        version: 0.10.0
+        specifier: ^3.1.0
+        version: 3.1.0
       crypto:
         specifier: ^1.0.1
         version: 1.0.1
