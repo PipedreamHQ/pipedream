@@ -1523,6 +1523,9 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/beeminder:
+    specifiers: {}
+
   components/belco:
     dependencies:
       '@pipedream/platform':
@@ -3312,6 +3315,8 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
+  components/cratedb_cloud: {}
+
   components/crawlbase: {}
 
   components/credit_repair_cloud:
@@ -3434,6 +3439,8 @@ importers:
         version: 1.6.6
 
   components/cvr_dev: {}
+
+  components/cyberark_certificate_manager: {}
 
   components/cyberimpact:
     dependencies:
@@ -5882,8 +5889,8 @@ importers:
         specifier: ^6.0.1
         version: 6.12.0
       '@pipedream/platform':
-        specifier: ^0.10.0
-        version: 0.10.0
+        specifier: ^3.1.0
+        version: 3.1.0
       crypto:
         specifier: ^1.0.1
         version: 1.0.1
@@ -6069,8 +6076,8 @@ importers:
         specifier: ^0.3.0
         version: 0.3.0
       '@pipedream/google_drive':
-        specifier: ^1.0.4
-        version: 1.0.4
+        specifier: ^1.1.0
+        version: 1.1.0
       '@pipedream/platform':
         specifier: ^3.1.0
         version: 3.1.0
@@ -8028,6 +8035,9 @@ importers:
         specifier: ^1.6.5
         version: 1.6.6
 
+  components/lingvanex_translation_api:
+    specifiers: {}
+
   components/linkedin:
     dependencies:
       '@pipedream/platform':
@@ -8301,8 +8311,8 @@ importers:
   components/lusha:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/maestra:
     dependencies:
@@ -12243,7 +12253,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/rosette_text_analytics: {}
+  components/rosette_text_analytics:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/route4me: {}
 
@@ -20227,8 +20241,8 @@ packages:
   '@pipedream/google_drive@1.0.3':
     resolution: {integrity: sha512-E7MF0E3f/RRyL5PsLaoL51IZtdoyWKNpUIT7RIpQDJ2wh00H0hrISfgugfKAVdv7Tl//BvJezu1FecSLTxhroQ==}
 
-  '@pipedream/google_drive@1.0.4':
-    resolution: {integrity: sha512-PMtNqrUo9nU8KDRQ2hrOjr/Cyz06ywDmIjOh8GUViKgbbHsOo6Frio1K46I63oo+LVBtkco0NZkKLOlxSt/DcA==}
+  '@pipedream/google_drive@1.1.0':
+    resolution: {integrity: sha512-ZiLlhIrJc7iUK7jLaQaRj4sf/9VUi6ZyZAGhYd2CfoZ8J7ys1KA9Rxi7oUFZvdKsH0AyJIHTIokCZbcuubS0Pw==}
 
   '@pipedream/helper_functions@0.3.13':
     resolution: {integrity: sha512-67zXT5rMccSYEeQCEKjO0g/U2Wnc3q1ErRWt0sivqJEF/KYqAb3tWmznDYGACbC8L6ML0WWSWRy7nEGt5Vyuaw==}
@@ -38318,7 +38332,7 @@ snapshots:
       - encoding
       - supports-color
 
-  '@pipedream/google_drive@1.0.4':
+  '@pipedream/google_drive@1.1.0':
     dependencies:
       '@googleapis/drive': 2.4.0
       '@pipedream/platform': 3.1.0
