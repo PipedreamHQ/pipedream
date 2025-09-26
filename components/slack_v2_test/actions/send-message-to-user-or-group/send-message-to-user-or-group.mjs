@@ -7,7 +7,7 @@ export default {
   key: "slack_v2_test-send-message-to-user-or-group",
   name: "Send Message to User or Group",
   description: "Send a message to a user or group. [See the documentation](https://api.slack.com/methods/chat.postMessage)",
-  version: "0.1.2",
+  version: "0.1.4",
   type: "action",
   props: {
     slack: common.props.slack,
@@ -52,6 +52,7 @@ export default {
       type: "boolean",
       ...common.props.addToChannel,
       disabled: true,
+      hidden: true,
     },
   },
   methods: {
@@ -72,7 +73,6 @@ export default {
       }
       const { channel: { id } } = await this.openConversation({
         users: this.users.join(),
-        as_bot: this.as_user === false,
       });
       return id;
     },

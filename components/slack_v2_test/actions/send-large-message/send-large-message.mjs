@@ -87,15 +87,7 @@ export default {
     channel ??= (await this.slack.conversationsInfo({
       channel: response.channel,
     })).channel;
-    let channelName = `#${channel?.name}`;
-    if (channel.is_im) {
-      const { profile } = await this.slack.getUserProfile({
-        user: channel.user,
-      });
-      channelName = `@${profile.real_name}`;
-    } else if (channel.is_mpim) {
-      channelName = `@${channel.purpose.value}`;
-    }
+    const channelName = await this.slack.getChannelDisplayName(channel);
     $.export("$summary", `Successfully sent a message to ${channelName}`);
     return response;
   },

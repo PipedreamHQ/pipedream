@@ -28,11 +28,11 @@ export default {
           conversationsResp.conversations = conversationsResp.conversations
             .filter((c) => members.includes(c.user || c.id));
         }
-        const userIds = conversationsResp.conversations.map(({ user }) => user);
-        const userNames = await this.userNameLookup(userIds);
+        const userIds = conversationsResp.conversations.map(({ user }) => user).filter(Boolean);
+        const realNames = await this.realNameLookup(userIds);
         return {
-          options: conversationsResp.conversations.map((c) => ({
-            label: `${userNames[c.user]}`,
+          options: conversationsResp.conversations.filter((c) => c.user).map((c) => ({
+            label: `${realNames[c.user]}`,
             value: c.user || c.id,
           })),
           context: {
@@ -494,6 +494,32 @@ export default {
         ? this.$auth.bot_token
         : this.$auth.oauth_access_token;
     },
+    async getChannelDisplayName(channel) {
+      if (channel.user) {
+        try {
+          const { profile } = await this.getUserProfile({
+            user: channel.user,
+          });
+          return `@${profile.real_name || profile?.real_name}`;
+        } catch {
+          return "user";
+        }
+      } else if (channel.is_mpim) {
+        try {
+          const { members } = await this.listChannelMembers({
+            channel: channel.id,
+          });
+          const users = await Promise.all(members.map((m) => this.getUserProfile({
+            user: m,
+          })));
+          const realNames = users.map((u) => u.profile?.real_name || u.real_name);
+          return `Group Messaging with: ${realNames.join(", ")}`;
+        } catch {
+          return `Group Messaging with: ${channel.purpose.value}`;
+        }
+      }
+      return `#${channel?.name}`;
+    },
     /**
      * Returns a Slack Web Client object authenticated with the user's access
      * token
@@ -518,7 +544,10 @@ export default {
       try {
         response = await this._withRetries(() => sdk(args), throwRateLimitError);
       } catch (error) {
-        if (error?.data?.error === "channel_not_found" && as_bot) {
+        if ([
+          "not_in_channel",
+          "channel_not_found",
+        ].includes(error?.data?.error) && as_bot) {
           // If method starts with chat, include the part about "As User"
           // Otherwise, just say "Ensure the bot is a member of the channel"
           if (method.startsWith("chat.")) {
@@ -604,7 +633,7 @@ export default {
 
         for (const user of users) {
           if (ids.includes(user.id)) {
-            userNames[user.id] = user.profile.real_name;
+            userNames[user.id] = user.name;
           }
         }
 
