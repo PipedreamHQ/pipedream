@@ -1,5 +1,5 @@
 import { OBJECT_TYPE } from "../../common/constants.mjs";
-import appProp from "../common/common-app-prop.mjs";
+import hubspot from "../../hubspot.app.mjs";
 import common from "../common/common-update-object.mjs";
 
 export default {
@@ -8,7 +8,7 @@ export default {
   name: "Update Company",
   description:
     "Update a company in Hubspot. [See the documentation](https://developers.hubspot.com/docs/api/crm/companies)",
-  version: "0.0.25",
+  version: "0.0.26",
   type: "action",
   methods: {
     ...common.methods,
@@ -17,10 +17,10 @@ export default {
     },
   },
   props: {
-    ...appProp.props,
+    hubspot,
     objectId: {
       propDefinition: [
-        appProp.props.hubspot,
+        hubspot,
         "objectId",
         () => ({
           objectType: "company",

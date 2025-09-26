@@ -7,7 +7,7 @@ export default {
   name: "Create Ticket",
   description:
     "Create a ticket in Hubspot. [See the documentation](https://developers.hubspot.com/docs/api/crm/tickets)",
-  version: "0.0.20",
+  version: "0.0.21",
   type: "action",
   props: {
     ...common.props,
