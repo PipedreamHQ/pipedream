@@ -24,6 +24,13 @@ export default {
       optional: true,
       description: "If specified, events will only be emitted if at least one of the selected fields is updated. This filter is only available when a webhook is created successfully.",
     },
+    skipFirstRun: {
+      type: "boolean",
+      label: "Skip existing records when first activated",
+      description: "When enabled, this trigger will ignore all existing records and only watch for updates that happen after activation. When disabled, it will process existing records on first run.",
+      optional: true,
+      default: false,
+    },
   },
   methods: {
     ...common.methods,
