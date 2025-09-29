@@ -3,7 +3,7 @@ import app from "../../docugenerate.app.mjs";
 export default {
   key: "docugenerate-get-document",
   name: "Get Document",
-  description: "Retrieves a specific document",
+  description: "Retrieves a specific document. [See the documentation](https://api.docugenerate.com/#/Document/getDocument)",
   version: "0.0.1",
   type: "action",
   props: {

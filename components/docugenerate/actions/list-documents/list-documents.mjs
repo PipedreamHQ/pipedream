@@ -3,7 +3,7 @@ import app from "../../docugenerate.app.mjs";
 export default {
   key: "docugenerate-list-documents",
   name: "List Documents",
-  description: "Retrieves a list of documents generated from a template",
+  description: "Retrieves a list of documents generated from a template. [See the documentation](https://api.docugenerate.com/#/Document/queryDocuments)",
   version: "0.0.1",
   type: "action",
   props: {

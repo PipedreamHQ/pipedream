@@ -3,7 +3,7 @@ import app from "../../docugenerate.app.mjs";
 export default {
   key: "docugenerate-update-document",
   name: "Update Document",
-  description: "Updates a specific document",
+  description: "Updates a specific document. [See the documentation](https://api.docugenerate.com/#/Document/updateDocument)",
   version: "0.0.1",
   type: "action",
   props: {
