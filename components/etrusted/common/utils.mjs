@@ -1,5 +1,5 @@
 export const parseObject = (obj) => {
-  if (!obj) return undefined;
+  if (!obj) return [];
 
   if (Array.isArray(obj)) {
     return obj.map((item) => {
