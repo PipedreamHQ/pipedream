@@ -1,10 +1,10 @@
-import app from "../docugenerate.app.mjs";
+import app from "../../docugenerate.app.mjs";
 
 export default {
   key: "docugenerate-list-documents",
   name: "List Documents",
   description: "Retrieves a list of documents generated from a template",
-  version: "1.0.0",
+  version: "0.0.1",
   type: "action",
   props: {
     app,
