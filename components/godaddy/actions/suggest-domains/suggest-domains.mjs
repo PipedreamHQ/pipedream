@@ -13,7 +13,6 @@ export default {
       type: "string",
       label: "Query",
       description: "Domain name or set of keywords for which alternative domain names will be suggested",
-      optional: true,
     },
     country: {
       type: "string",

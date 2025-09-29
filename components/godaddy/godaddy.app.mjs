@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://api.godaddy.com/v1";
+      return `${this.$auth.api_url}/v1`;
     },
     _makeRequest({
       $ = this,
