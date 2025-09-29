@@ -8,7 +8,7 @@ const { execSync } = require('child_process');
  * Script to apply MCP annotations to Pipedream action files from CSV data
  *
  * Usage:
- *   node apply-annotations.js --csv annotations.csv [--dry-run] [--verbose] [--limit N] [--offset N]
+ *   node apply-annotations.js --csv annotations.csv [--verbose] [--limit N] [--offset N]
  */
 
 class AnnotationApplier {
@@ -73,9 +73,9 @@ class AnnotationApplier {
   }
 
   parseBoolean(value) {
-    const normalizedValue = value?.toUpperCase();
-    if (normalizedValue === 'TRUE') return true;
-    if (normalizedValue === 'FALSE') return false;
+    const normalizedValue = value?.toLowerCase();
+    if (normalizedValue === 'true') return true;
+    if (normalizedValue === 'false') return false;
     throw new Error(`Invalid boolean value: ${value}`);
   }
 
@@ -83,6 +83,7 @@ class AnnotationApplier {
     const headerMap = {
       'KEY': 'key',
       'key': 'key',
+      'component_key': 'key',
       'destructiveHint': 'destructiveHint',
       'openWorldHint': 'openWorldHint',
       'readOnlyHint': 'readOnlyHint'
@@ -185,7 +186,7 @@ class AnnotationApplier {
   }
 
   isActionFile(fileName, fullPath) {
-    return fileName.endsWith('.mjs') &&
+    return (fileName.endsWith('.mjs') || fileName.endsWith('.ts')) &&
            fullPath.includes('/actions/') &&
            !fullPath.includes('/common/');
   }
