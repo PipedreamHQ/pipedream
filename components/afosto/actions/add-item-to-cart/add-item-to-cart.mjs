@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../afosto.app.mjs";
 
 export default {
@@ -26,53 +27,25 @@ export default {
     },
   },
   async run({ $ }) {
-    try {
-      const response = await this.app.query({
-        $,
-        data: JSON.stringify({
-          query: `mutation AddItemToCart(
-            $input: AddItemsToCartInput!
-          ) {
-            addItemsToCart(input: $input) {
-              cart {
-                id
-                items {
-                  ids
-                  label
-                  brand
-                  mpn
-                  gtin
-                  image
-                  hs_code
-                  country_of_origin
-                  url
-                  sku
-                  quantity
-                  subtotal
-                  total
-                  parent_id
-                }
-              }
-            }
-          }`,
-          variables: {
-            input: {
-              cart_id: this.cartId,
-              items: [
-                {
-                  sku: this.sku,
-                  quantity: this.quantity,
-                },
-              ],
+    const response = await this.app.addItemToCart({
+      $,
+      variables: {
+        input: {
+          cart_id: this.cartId,
+          items: [
+            {
+              sku: this.sku,
+              quantity: this.quantity,
             },
-          },
-        }),
-      });
+          ],
+        },
+      },
+    });
 
-      $.export("$summary", `Successfully added item to cart with SKU: ${response.data.addItemsToCart.cart.items[0].sku}`);
-      return response.data.addItemsToCart.cart;
-    } catch ({ response }) {
-      throw new Error(`${response.data?.errors?.[0]?.message}`);
+    if (response.errors) {
+      throw new ConfigurationError(JSON.stringify(response.errors[0]));
     }
+    $.export("$summary", `Successfully added item to cart with SKU: ${response.data.addItemsToCart.cart.items[0].sku}`);
+    return response.data.addItemsToCart.cart;
   },
 };

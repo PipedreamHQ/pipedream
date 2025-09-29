@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../afosto.app.mjs";
 
 export default {
@@ -10,32 +11,15 @@ export default {
     app,
   },
   async run({ $ }) {
-    try {
-      const response = await this.app.query({
-        $,
-        data: JSON.stringify({
-          query: `mutation createCart {
-            createCart(input: {}) {
-              cart {
-                id
-                number
-                total
-                subtotal
-                total_excluding_vat
-                currency
-                is_including_vat
-                is_vat_shifted
-                created_at
-              }
-            }
-          }`,
-        }),
-      });
+    const response = await this.app.createCart({
+      $,
+    });
 
-      $.export("$summary", `Successfully created cart with ID: ${response.data.createCart.cart.id}`);
-      return response.data.createCart.cart;
-    } catch ({ response }) {
-      throw new Error(`${response.data?.errors?.[0]?.message}`);
+    if (response.errors) {
+      throw new ConfigurationError(JSON.stringify(response.errors[0]));
     }
+
+    $.export("$summary", `Successfully created cart with ID: ${response.data.createCart.cart.id}`);
+    return response.data.createCart.cart;
   },
 };

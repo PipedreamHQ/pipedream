@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import app from "../../afosto.app.mjs";
 
 export default {
@@ -21,46 +22,21 @@ export default {
     },
   },
   async run({ $ }) {
-    try {
-      const variables = {
-        cartId: this.cartId,
-        note: this.note,
-      };
+    const variables = {
+      cartId: this.cartId,
+      note: this.note,
+    };
 
-      const response = await this.app.query({
-        $,
-        maxBodyLength: Infinity,
-        headers: {
-          "DisablePreParseMultipartForm": "true",
-        },
-        data: JSON.stringify({
-          query: `mutation SetNoteForCart (
-            $cartId: String!
-            $note: String!
-          ) {
-            setNoteForCart(input: { cart_id: $cartId, note: $note }) {
-              cart {
-                id
-                number
-                total
-                subtotal
-                total_excluding_vat
-                currency
-                is_including_vat
-                is_vat_shifted
-                created_at
-                updated_at
-              }
-            }
-          }`,
-          variables,
-        }),
-      });
+    const response = await this.app.addNoteToCart({
+      $,
+      variables,
+    });
 
-      $.export("$summary", `Successfully added note to cart with ID: ${this.cartId}`);
-      return response.data.setNoteForCart.cart;
-    } catch (error) {
-      throw new Error(`${error.errors?.[0]?.message || "An unknown error occurred"}`);
+    if (response.errors) {
+      throw new ConfigurationError(JSON.stringify(response.errors[0]));
     }
+
+    $.export("$summary", `Successfully added note to cart with ID: ${this.cartId}`);
+    return response.data.setNoteForCart.cart;
   },
 };
