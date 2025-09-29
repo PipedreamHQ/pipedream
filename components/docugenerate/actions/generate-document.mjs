@@ -26,12 +26,30 @@ export default {
       description: "Output format of the generated document. Defaults to .docx.",
       optional: true,
       options: [
-        { label: 'PDF (.pdf)', value: '.pdf' },
-        { label: 'Microsoft Word (.docx)', value: '.docx' },
-        { label: 'Microsoft Word 2007 (.doc)', value: '.doc' },
-        { label: 'OpenDocument Format (.odt)', value: '.odt' },
-        { label: 'Plain Text (.txt)', value: '.txt' },
-        { label: 'PNG (.png)', value: '.png' },
+        {
+          label: "PDF (.pdf)",
+          value: ".pdf",
+        },
+        {
+          label: "Microsoft Word (.docx)",
+          value: ".docx",
+        },
+        {
+          label: "Microsoft Word 2007 (.doc)",
+          value: ".doc",
+        },
+        {
+          label: "OpenDocument Format (.odt)",
+          value: ".odt",
+        },
+        {
+          label: "Plain Text (.txt)",
+          value: ".txt",
+        },
+        {
+          label: "PNG (.png)",
+          value: ".png",
+        },
       ],
     },
     data: {
@@ -49,7 +67,7 @@ export default {
     };
 
     const response = await this.app.generateDocument($, body);
-    
+
     $.export("$summary", `Successfully generated the document ${response.id}`);
     return response;
   },

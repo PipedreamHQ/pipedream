@@ -17,7 +17,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.app.deleteTemplate($, this.templateId);
-    
+
     $.export("$summary", `Successfully deleted the template ${this.templateId}`);
     return response;
   },

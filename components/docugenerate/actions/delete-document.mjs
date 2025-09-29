@@ -16,7 +16,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.app.deleteDocument($, this.documentId);
-    
+
     $.export("$summary", `Successfully deleted the document ${this.documentId}`);
     return response;
   },

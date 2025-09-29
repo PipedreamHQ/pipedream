@@ -17,7 +17,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.app.listDocuments($, this.templateId);
-    
+
     $.export("$summary", `Successfully retrieved ${response?.length || 0} documents`);
     return response;
   },

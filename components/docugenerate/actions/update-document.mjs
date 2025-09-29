@@ -21,9 +21,9 @@ export default {
   },
   async run({ $ }) {
     const response = await this.app.updateDocument($, this.documentId, {
-      name: this.name
+      name: this.name,
     });
-    
+
     $.export("$summary", `Successfully updated the document ${this.documentId}`);
     return response;
   },
