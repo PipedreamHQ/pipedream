@@ -6787,6 +6787,9 @@ importers:
 
   components/humanloop: {}
 
+  components/humantic_ai:
+    specifiers: {}
+
   components/humor_api:
     dependencies:
       '@pipedream/platform':
