@@ -4,7 +4,7 @@ export default {
   key: "microsoft_outlook-find-email",
   name: "Find Email",
   description: "Search for an email in Microsoft Outlook. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-messages)",
-  version: "0.0.7",
+  version: "0.0.11",
   type: "action",
   props: {
     microsoftOutlook,
@@ -13,17 +13,23 @@ export default {
       alertType: "info",
       content: "When you specify `$filter`, the service infers a sort order for the results. If you use both `$orderby` and `$filter` to get messages, because the server always infers a sort order for the results of a `$filter`, you must [specify properties in certain ways](https://learn.microsoft.com/en-us/graph/api/user-list-messages#using-filter-and-orderby-in-the-same-query).",
     },
+    search: {
+      propDefinition: [
+        microsoftOutlook,
+        "search",
+      ],
+    },
     filter: {
-      type: "string",
-      label: "Filter",
-      description: "Filters results. For example, `contains(subject, 'meet for lunch?')` will include messages whose subject contains ‘meet for lunch?’. [See documentation](https://learn.microsoft.com/en-us/graph/filter-query-parameter) for the full list of operations.",
-      optional: true,
+      propDefinition: [
+        microsoftOutlook,
+        "filter",
+      ],
     },
     orderBy: {
-      type: "string",
-      label: "Order By",
-      description: "Order results by a property. For example, `receivedDateTime desc` will order messages by the received date in descending order.",
-      optional: true,
+      propDefinition: [
+        microsoftOutlook,
+        "orderBy",
+      ],
     },
     maxResults: {
       propDefinition: [
@@ -38,6 +44,7 @@ export default {
       args: {
         $,
         params: {
+          "$search": this.search,
           "$filter": this.filter,
           "$orderby": this.orderBy,
         },

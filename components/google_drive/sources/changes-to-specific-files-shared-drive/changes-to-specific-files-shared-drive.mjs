@@ -16,6 +16,7 @@ import {
   GOOGLE_DRIVE_NOTIFICATION_UPDATE,
 } from "../../common/constants.mjs";
 import commonDedupeChanges from "../common-dedupe-changes.mjs";
+import { stashFile } from "../../common/utils.mjs";
 
 /**
  * This source uses the Google Drive API's
@@ -27,7 +28,7 @@ export default {
   key: "google_drive-changes-to-specific-files-shared-drive",
   name: "Changes to Specific Files (Shared Drive)",
   description: "Watches for changes to specific files in a shared drive, emitting an event when a change is made to one of those files",
-  version: "0.2.8",
+  version: "0.3.1",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
@@ -42,6 +43,18 @@ export default {
         const { nextPageToken } = prevContext;
         return this.googleDrive.listFilesOptions(nextPageToken, this.getListFilesOpts());
       },
+    },
+    includeLink: {
+      label: "Include Link",
+      type: "boolean",
+      description: "Upload file to your File Stash and emit temporary download link to the file. Google Workspace documents will be converted to PDF. See [the docs](https://pipedream.com/docs/connect/components/files) to learn more about working with files in Pipedream.",
+      default: false,
+      optional: true,
+    },
+    dir: {
+      type: "dir",
+      accessMode: "write",
+      optional: true,
     },
     ...commonDedupeChanges.props,
   },
@@ -59,7 +72,7 @@ export default {
 
       const { files } = await this.googleDrive.listFilesInPage(null, args);
 
-      this.processChanges(files);
+      await this.processChanges(files);
     },
     ...common.hooks,
   },
@@ -79,7 +92,6 @@ export default {
         modifiedTime: tsString,
       } = data;
       const ts = Date.parse(tsString);
-      const eventId = headers && headers["x-goog-message-number"];
       const resourceState = headers && headers["x-goog-resource-state"];
 
       const summary = resourceState
@@ -87,7 +99,7 @@ export default {
         : fileName || "Untitled";
 
       return {
-        id: `${fileId}-${eventId || ts}`,
+        id: `${fileId}-${ts}`,
         summary,
         ts,
       };
@@ -109,16 +121,20 @@ export default {
         },
       };
     },
-    processChange(file, headers) {
+    async processChange(file, headers) {
       const changes = this.getChanges(headers);
+      const fileInfo = await this.googleDrive.getFile(file.id);
+      if (this.includeLink) {
+        fileInfo.file = await stashFile(file, this.googleDrive, this.dir);
+      }
       const eventToEmit = {
-        file,
+        file: fileInfo,
         ...changes,
       };
-      const meta = this.generateMeta(file, headers);
+      const meta = this.generateMeta(fileInfo, headers);
       this.$emit(eventToEmit, meta);
     },
-    processChanges(changedFiles, headers) {
+    async processChanges(changedFiles, headers) {
       console.log(`Processing ${changedFiles.length} changed files`);
       console.log(`Changed files: ${JSON.stringify(changedFiles, null, 2)}!!!`);
       console.log(`Files: ${this.files}!!!`);
@@ -129,7 +145,7 @@ export default {
           console.log(`Skipping event for irrelevant file ${file.id}`);
           continue;
         }
-        this.processChange(file, headers);
+        await this.processChange(file, headers);
       }
     },
   },

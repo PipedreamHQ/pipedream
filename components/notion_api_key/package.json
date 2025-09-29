@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/notion_api_key",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "description": "Pipedream Notion (API Key) Components",
   "main": "notion_api_key.app.mjs",
   "keywords": [
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@notionhq/client": "^2.3.0",
-    "@pipedream/notion": "^0.6.2"
+    "@notionhq/client": "4.0.2",
+    "@pipedream/notion": "^1.0.2"
   }
 }

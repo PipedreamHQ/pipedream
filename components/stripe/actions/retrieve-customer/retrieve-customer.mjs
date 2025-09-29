@@ -4,7 +4,7 @@ export default {
   key: "stripe-retrieve-customer",
   name: "Retrieve a Customer",
   type: "action",
-  version: "0.1.2",
+  version: "0.1.3",
   description: "Retrieves the details of an existing customer. [See the documentation](https://stripe.com/docs/api/customers/retrieve).",
   props: {
     app,

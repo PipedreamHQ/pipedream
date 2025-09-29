@@ -3,9 +3,9 @@ import app from "../../zendesk.app.mjs";
 export default {
   key: "zendesk-update-ticket",
   name: "Update Ticket",
-  description: "Updates a ticket and optionally manages tags. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/tickets/tickets/#update-ticket).",
+  description: "Updates a ticket. [See the documentation](https://developer.zendesk.com/api-reference/ticketing/tickets/tickets/#update-ticket).",
   type: "action",
-  version: "0.1.6",
+  version: "0.2.1",
   props: {
     app,
     ticketId: {
@@ -56,6 +56,12 @@ export default {
         "customSubdomain",
       ],
     },
+    attachments: {
+      propDefinition: [
+        app,
+        "attachments",
+      ],
+    },
     ticketTags: {
       propDefinition: [
         app,
@@ -83,6 +89,18 @@ export default {
       optional: true,
       default: "set",
     },
+    assigneeId: {
+      propDefinition: [
+        app,
+        "assigneeId",
+      ],
+    },
+    assigneeEmail: {
+      propDefinition: [
+        app,
+        "assigneeEmail",
+      ],
+    },
   },
   methods: {
     updateTicket({
@@ -104,8 +122,11 @@ export default {
       ticketStatus,
       ticketCommentPublic,
       customSubdomain,
+      attachments,
       ticketTags,
       tagAction,
+      assigneeId,
+      assigneeEmail,
     } = this;
 
     const ticketComment = ticketCommentBodyIsHTML
@@ -118,19 +139,67 @@ export default {
 
     ticketComment.public = ticketCommentPublic;
 
+    // Upload attachments if provided
+    if (attachments && attachments.length > 0) {
+      try {
+        const uploadTokens = await this.app.uploadFiles({
+          attachments,
+          customSubdomain,
+          step,
+        });
+
+        if (uploadTokens.length > 0) {
+          ticketComment.uploads = uploadTokens;
+        }
+      } catch (error) {
+        step.export("$summary", `Failed to upload attachments: ${error.message}`);
+        throw error;
+      }
+    }
+
+    // Build ticket data object
+    const ticketData = {
+      comment: ticketComment,
+      priority: ticketPriority,
+      subject: ticketSubject,
+      status: ticketStatus,
+    };
+
+    // Add assignee fields if provided
+    if (assigneeId) {
+      ticketData.assignee_id = assigneeId;
+    }
+    if (assigneeEmail) {
+      ticketData.assignee_email = assigneeEmail;
+    }
+
     const response = await this.updateTicket({
       step,
       ticketId,
       customSubdomain,
       data: {
-        ticket: {
-          comment: ticketComment,
-          priority: ticketPriority,
-          subject: ticketSubject,
-          status: ticketStatus,
-        },
+        ticket: ticketData,
       },
     });
+
+    const attachmentCount = ticketComment.uploads?.length || 0;
+    const assigneeUpdated = assigneeId || assigneeEmail;
+
+    let summary = `Successfully updated ticket with ID ${response.ticket.id}`;
+
+    const updates = [];
+    if (attachmentCount > 0) {
+      updates.push(`${attachmentCount} attachment(s)`);
+    }
+    if (assigneeUpdated) {
+      updates.push("assignee");
+    }
+
+    if (updates.length > 0) {
+      summary += ` with ${updates.join(" and ")}`;
+    }
+
+    step.export("$summary", summary);
 
     // Handle tag operations if tags are provided
     if (ticketTags && ticketTags.length > 0) {

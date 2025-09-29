@@ -7,7 +7,7 @@ export default {
   name: "Download File",
   description: "Downloads a file from Box to your workflow's `/tmp` directory. [See the documentation](https://developer.box.com/reference/get-files-id-content/)",
   key: "box-download-file",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     app,

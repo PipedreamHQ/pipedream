@@ -12,7 +12,7 @@ export default {
   key: "salesforce_rest_api-sosl-search",
   name: "SOSL Search (Object Search)",
   description: `Executes a [Salesforce Object Search Language (SOSL)](${docsLink}) text-based search query.`,
-  version: "0.2.8",
+  version: "0.2.10",
   type: "action",
   props: {
     salesforce,

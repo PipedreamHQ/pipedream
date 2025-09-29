@@ -14,7 +14,7 @@ export default {
             url: prevContext.nextLink,
           }
           : {};
-        const response = await this.listSites(args);
+        const response = await this.listAllSites(args);
         const options = response.value?.map(({
           id: value, displayName: label,
         }) => ({
@@ -202,6 +202,12 @@ export default {
     listSites(args = {}) {
       return this._makeRequest({
         path: "/me/followedSites",
+        ...args,
+      });
+    },
+    listAllSites(args = {}) {
+      return this._makeRequest({
+        path: "/sites?search=*",
         ...args,
       });
     },

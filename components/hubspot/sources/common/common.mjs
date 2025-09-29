@@ -14,7 +14,7 @@ export default {
   },
   methods: {
     _getAfter() {
-      return this.db.get("after") || new Date().setDate(new Date().getDate() - 1); // 1 day ago
+      return this.db.get("after");
     },
     _setAfter(after) {
       this.db.set("after", after);
@@ -52,9 +52,9 @@ export default {
       return results.flat();
     },
     async processEvents(resources, after) {
-      let maxTs = after;
+      let maxTs = after || 0;
       for (const result of resources) {
-        if (await this.isRelevant(result, after)) {
+        if (!after || await this.isRelevant(result, after)) {
           this.emitEvent(result);
           const ts = this.getTs(result);
           if (ts > maxTs) {
@@ -80,8 +80,10 @@ export default {
 
         for (const result of results) {
           const ts = this.getTs(result);
-          if (!after || ts > after) {
-            if (await this.isRelevant(result, after, ts)) {
+          // Adding ts && !after to handle the case where ts is null
+          // (e.g. when using deletedAt as the ts field for deleted items)
+          if ((ts && !after) || ts > after) {
+            if (!after || await this.isRelevant(result, after, ts)) {
               this.emitEvent(result);
             }
             if (ts > maxTs) {
@@ -91,6 +93,11 @@ export default {
           } else {
             return;
           }
+        }
+
+        // first run, get only first page
+        if (!after) {
+          return;
         }
       }
     },
@@ -119,7 +126,7 @@ export default {
           items = results;
         }
         for (const item of items) {
-          if (await this.isRelevant(item, after)) {
+          if (!after || await this.isRelevant(item, after)) {
             this.emitEvent(item);
             const ts = this.getTs(item);
             if (ts > maxTs) {
@@ -128,10 +135,17 @@ export default {
             }
           }
         }
+
+        // first run, get only first page
+        if (!after) {
+          return;
+        }
       }
     },
-    async getPaginatedItems(resourceFn, params) {
+    async getPaginatedItems(resourceFn, params, after = null) {
       const items = [];
+      const maxPages = 10;
+      let page = 0;
       do {
         const {
           results, paging,
@@ -139,10 +153,11 @@ export default {
         items.push(...results);
         if (paging) {
           params.after = paging.next.after;
+          page++;
         } else {
           delete params.after;
         }
-      } while (params.after);
+      } while (params.after && after && page < maxPages);
       return items;
     },
     emitEvent(result) {

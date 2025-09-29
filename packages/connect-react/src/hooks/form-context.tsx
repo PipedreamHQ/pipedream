@@ -4,7 +4,11 @@ import {
 import isEqual from "lodash.isequal";
 import { useQuery } from "@tanstack/react-query";
 import type {
-  ConfigurableProp, ConfigurableProps, ConfiguredProps, ReloadComponentPropsOpts, V1Component,
+  ConfigurableProp,
+  ConfigurableProps,
+  ConfiguredProps,
+  ReloadComponentPropsOpts,
+  V1Component,
 } from "@pipedream/sdk";
 import { useFrontendClient } from "./frontend-client-context";
 import type { ComponentFormProps } from "../components/ComponentForm";
@@ -14,17 +18,19 @@ import {
   stringPropErrors,
 } from "../utils/component";
 import {
-  Observation, SdkError,
+  DynamicProps,
+  Observation,
+  ObservationErrorDetails,
+  ReloadComponentPropsResponse,
+  SdkError,
 } from "../types";
 import { resolveUserId } from "../utils/resolve-user-id";
-
-export type DynamicProps<T extends ConfigurableProps> = { id: string; configurableProps: T; }; // TODO
 
 export type FormContext<T extends ConfigurableProps> = {
   component: V1Component<T>;
   configurableProps: T; // dynamicProps.configurableProps || props.component.configurable_props
   configuredProps: ConfiguredProps<T>;
-  dynamicProps?: DynamicProps<T>; // lots of calls require dynamicProps?.id, so need to expose
+  dynamicProps?: DynamicProps; // lots of calls require dynamicProps?.id, so need to expose
   dynamicPropsQueryIsFetching?: boolean;
   errors: Record<string, string[]>;
   sdkErrors: SdkError[];
@@ -154,7 +160,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const [
     dynamicProps,
     setDynamicProps,
-  ] = useState<DynamicProps<T>>();
+  ] = useState<DynamicProps>();
   const [
     reloadPropIdx,
     setReloadPropIdx,
@@ -181,7 +187,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       const result = await client.reloadComponentProps(componentReloadPropsInput);
       const {
         dynamicProps, observations, errors: __errors,
-      } = result
+      } = result as ReloadComponentPropsResponse;
 
       // Prioritize errors from observations over the errors array
       if (observations && observations.filter((o) => o.k === "error").length > 0) {
@@ -213,8 +219,8 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   ]);
 
   // XXX fix types of dynamicProps, props.component so this type decl not needed
-  const configurableProps = useMemo<T>(() => {
-    let props: T = dynamicProps?.configurableProps || formProps.component.configurable_props || [];
+  const configurableProps = useMemo(() => {
+    let props = dynamicProps?.configurableProps || formProps.component.configurable_props || [];
     if (propNames?.length) {
       const _configurableProps = [];
       for (const prop of props) {
@@ -223,14 +229,14 @@ export const FormContextProvider = <T extends ConfigurableProps>({
           _configurableProps.push(prop);
         }
       }
-      props = _configurableProps as unknown as T; // XXX
+      props = _configurableProps as typeof props; // XXX
     }
     if (reloadPropIdx != null) {
       props = Array.isArray(props)
-        ? props.slice(0, reloadPropIdx + 1) as unknown as T // eslint-disable-line react/prop-types
+        ? props.slice(0, reloadPropIdx + 1) // eslint-disable-line react/prop-types
         : props; // XXX
     }
-    return props;
+    return props as T;
   }, [
     dynamicProps?.configurableProps,
     formProps.component.configurable_props,
@@ -246,7 +252,9 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     if (prop.type === "app") {
       const field = fields[prop.name]
       if (field) {
-        const app = field.extra.app
+        const app = "app" in field.extra
+          ? field.extra.app
+          : undefined
         errs.push(...(appPropErrors({
           prop,
           value,
@@ -469,7 +477,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     checkPropsNeedConfiguring()
   };
 
-  const handleSdkErrors = (sdkResponse: unknown[] | unknown | undefined) => {
+  const handleSdkErrors = (sdkResponse?: ConfiguredProps<T> | Observation[] | string[]) => {
     if (!sdkResponse) return
 
     let newErrors = [
@@ -492,7 +500,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       }
     }
 
-    const errorFromObject = (item: unknown, ret: SdkError[]) => {
+    const errorFromObservationErrorDetails = (item: ObservationErrorDetails, ret: SdkError[]) => {
       const err: SdkError = {
         name: item.name,
         message: item.message,
@@ -502,18 +510,19 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       }
     }
 
-    const errorFromObservationError = (item: Error, ret: SdkError[]) => {
+    const errorFromObservationError = (item: Observation, ret: SdkError[]) => {
+      if (!("err" in item)) return
+
       const err: SdkError = {
-        name: item.err?.name,
-        message: item.err?.message,
+        name: item.err.name,
+        message: item.err.message,
       }
       if (err.name && err.message) {
         ret.push(err)
       }
     }
 
-    const errorFromObservation = (payload: Observation, ret: SdkError[]) => {
-      const os = payload.os || payload.observations
+    const errorFromObservations = (os: Observation[], ret: SdkError[]) => {
       if (Array.isArray(os) && os.length > 0) {
         for (let i = 0; i < os.length; i++) {
           if (os[i].k !== "error") continue
@@ -522,7 +531,8 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       }
     }
 
-    const errorFromDetails = (data: unknown, ret: SdkError[]) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const errorFromDetails = (data: any, ret: SdkError[]) => {
       ret.push({
         name: data.error,
         message: JSON.stringify(data.details),
@@ -539,8 +549,10 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       // Handle HTTP errors thrown by the SDK
       try {
         const data = JSON.parse(payload.message)?.data
-        if (data && "observations" in data) {
-          errorFromObservation(data, ret)
+        if (data && "os" in data) {
+          errorFromObservations(data.os, ret)
+        } else if (data && "observations" in data) {
+          errorFromObservations(data.observations, ret)
         } else if (data && "error" in data && "details" in data) {
           errorFromDetails(data, ret)
         }
@@ -555,16 +567,18 @@ export const FormContextProvider = <T extends ConfigurableProps>({
         const item = sdkResponse[i]
         if (typeof item === "string") {
           errorFromString(item, newErrors)
-        } else if (typeof item === "object" && "name" in item && "message" in item) {
-          errorFromObject(item, newErrors)
+        } else if (typeof item === "object" && "name" in item && "message" in item && "stack" in item) {
+          errorFromObservationErrorDetails(item as ObservationErrorDetails, newErrors)
         } else if (typeof item === "object" && item.k === "error") {
           errorFromObservationError(item, newErrors)
         }
       }
-    } else if (typeof sdkResponse === "object" && "os" in sdkResponse || "observations" in sdkResponse) {
-      errorFromObservation(sdkResponse, newErrors)
+    } else if (typeof sdkResponse === "object" && sdkResponse && "observations" in sdkResponse) {
+      errorFromObservations(sdkResponse.observations as Observation[], newErrors)
+    } else if (typeof sdkResponse === "object" && sdkResponse && "os" in sdkResponse) {
+      errorFromObservations(sdkResponse.os as Observation[], newErrors)
     } else if (typeof sdkResponse === "object" && "message" in sdkResponse) {
-      errorFromHttpError(sdkResponse, newErrors)
+      errorFromHttpError(sdkResponse as Error, newErrors)
     } else {
       newErrors = []
     }

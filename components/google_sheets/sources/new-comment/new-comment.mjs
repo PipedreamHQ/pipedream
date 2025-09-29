@@ -6,7 +6,7 @@ export default {
   key: "google_sheets-new-comment",
   name: "New Comment (Instant)",
   description: "Emit new event each time a comment is added to a spreadsheet.",
-  version: "0.0.9",
+  version: "0.1.0",
   dedupe: "unique",
   type: "source",
   methods: {

@@ -366,5 +366,92 @@ export default {
         ...args,
       });
     },
+    createBulkJob(args = {}) {
+      return this._makeRequest({
+        ...args,
+        method: "POST",
+        url: `${this._baseApiVersionUrl()}/jobs/ingest`,
+        data: {
+          contentType: "CSV",
+          columnDelimiter: "COMMA",
+          lineEnding: "LF",
+          ...args?.data,
+        },
+      });
+    },
+    uploadBulkJobData({
+      jobId, ...args
+    } = {}) {
+      return this._makeRequest({
+        ...args,
+        method: "PUT",
+        url: `${this._baseApiVersionUrl()}/jobs/ingest/${jobId}/batches`,
+        headers: {
+          ...this._makeRequestHeaders(),
+          "Content-Type": "text/csv",
+        },
+      });
+    },
+    patchBulkJob({
+      jobId, ...args
+    } = {}) {
+      return this._makeRequest({
+        ...args,
+        method: "PATCH",
+        url: `${this._baseApiVersionUrl()}/jobs/ingest/${jobId}`,
+      });
+    },
+    getBulkJobInfo({
+      jobId, ...args
+    } = {}) {
+      return this._makeRequest({
+        ...args,
+        url: `${this._baseApiVersionUrl()}/jobs/ingest/${jobId}`,
+      });
+    },
+    getKnowledgeArticles(args = {}) {
+      return this._makeRequest({
+        url: `${this._baseApiVersionUrl()}/support/knowledgeArticles`,
+        ...args,
+      });
+    },
+    getKnowledgeDataCategoryGroups(args = {}) {
+      return this._makeRequest({
+        url: `${this._baseApiVersionUrl()}/support/dataCategoryGroups`,
+        ...args,
+      });
+    },
+    async paginate({
+      requester, requesterArgs, resultsKey = "articles",
+      maxRequests = 3, pageSize = 100,
+    } = {}) {
+      let allItems = [];
+      let currentPage = 1;
+      let hasMore = true;
+
+      while (hasMore && currentPage <= maxRequests) {
+        const response = await requester({
+          ...requesterArgs,
+          params: {
+            ...requesterArgs?.params,
+            pageSize,
+            pageNumber: currentPage,
+          },
+        });
+
+        const items = response[resultsKey];
+        if (items?.length) {
+          allItems = [
+            ...allItems,
+            ...items,
+          ];
+        }
+
+        hasMore = !!response.nextPageUrl;
+        currentPage++;
+      }
+
+      return allItems;
+    },
   },
 };

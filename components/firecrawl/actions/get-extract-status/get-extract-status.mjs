@@ -4,7 +4,7 @@ export default {
   key: "firecrawl-get-extract-status",
   name: "Get Extract Data",
   description: "Obtains the status and data from a previous extract operation. [See the documentation](https://docs.firecrawl.dev/api-reference/endpoint/extract-get)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     firecrawl,

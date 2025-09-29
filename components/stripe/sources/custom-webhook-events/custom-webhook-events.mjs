@@ -7,7 +7,7 @@ export default {
   key: "stripe-custom-webhook-events",
   name: "New Custom Webhook Events",
   type: "source",
-  version: "0.1.3",
+  version: "0.1.4",
   description: "Emit new event on each webhook event",
   props: {
     ...common.props,

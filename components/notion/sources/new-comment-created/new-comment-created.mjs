@@ -5,7 +5,7 @@ export default {
   key: "notion-new-comment-created",
   name: "New Comment Created",
   description: "Emit new event when a new comment is created in a page or block. [See the documentation](https://developers.notion.com/reference/retrieve-a-comment)",
-  version: "0.0.6",
+  version: "0.0.8",
   type: "source",
   dedupe: "unique",
   props: {

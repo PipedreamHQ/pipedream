@@ -9,7 +9,7 @@ export default {
   key: "salesforce_rest_api-create-task",
   name: "Create Task",
   description: `Creates a task. [See the documentation](${docsLink})`,
-  version: "0.4.1",
+  version: "0.4.3",
   type: "action",
   methods: {
     ...common.methods,

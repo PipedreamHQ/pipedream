@@ -4,7 +4,7 @@ export default {
   key: "frontapp-assign-conversation",
   name: "Assign Conversation",
   description: "Assign or unassign a conversation. [See the documentation](https://dev.frontapp.com/reference/update-conversation-assignee)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     frontApp,

@@ -1,29 +1,96 @@
-import app from "../../token_metrics.app.mjs";
+import tokenMetrics from "../../token_metrics.app.mjs";
+import { ENDPOINTS } from "../../common/constants.mjs";
+import {
+  buildParams, generateFilterSummary,
+} from "../../common/utils.mjs";
+
+const endpoint = ENDPOINTS.TOKENS;
 
 export default {
   key: "token_metrics-get-tokens",
   name: "Get Tokens",
-  description: "Gets the list of coins and their associated token_id supported by Token Metrics. [See the documentation](https://developers.tokenmetrics.com/reference/tokens)",
-  version: "0.0.1",
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/tokens)`,
+  version: "0.1.0",
   type: "action",
   props: {
-    app,
+    tokenMetrics,
+    // Dynamically add filter props based on endpoint configuration
+    tokenId: {
+      propDefinition: [
+        tokenMetrics,
+        "tokenId",
+      ],
+    },
+    tokenName: {
+      propDefinition: [
+        tokenMetrics,
+        "tokenName",
+      ],
+    },
+    symbol: {
+      propDefinition: [
+        tokenMetrics,
+        "symbol",
+      ],
+    },
+    category: {
+      propDefinition: [
+        tokenMetrics,
+        "category",
+      ],
+    },
+    exchange: {
+      propDefinition: [
+        tokenMetrics,
+        "exchange",
+      ],
+    },
+    blockchainAddress: {
+      propDefinition: [
+        tokenMetrics,
+        "blockchainAddress",
+      ],
+    },
+    slug: {
+      propDefinition: [
+        tokenMetrics,
+        "slug",
+      ],
+    },
+    expand: {
+      propDefinition: [
+        tokenMetrics,
+        "expand",
+      ],
+    },
+    // Pagination props
     limit: {
       propDefinition: [
-        app,
+        tokenMetrics,
         "limit",
+      ],
+    },
+    page: {
+      propDefinition: [
+        tokenMetrics,
+        "page",
       ],
     },
   },
   async run({ $ }) {
-    const response = await this.app.getTokens({
+    // Build parameters using utility function
+    const params = buildParams(this, endpoint.filters);
+
+    const response = await this.tokenMetrics.getTokens({
       $,
-      params: {
-        limit: this.limit,
-      },
+      params,
     });
 
-    $.export("$summary", "Retrieved the list of tokens successfully");
+    // Generate summary using utility function
+    const filterSummary = generateFilterSummary(this, endpoint.filters);
+
+    // Use $ context for export
+    $.export("$summary", `Successfully retrieved tokens list${filterSummary}`);
 
     return response;
   },

@@ -1,43 +1,67 @@
-import app from "../../token_metrics.app.mjs";
+import tokenMetrics from "../../token_metrics.app.mjs";
+import { ENDPOINTS } from "../../common/constants.mjs";
+import {
+  buildParams, generateFilterSummary,
+} from "../../common/utils.mjs";
+
+const endpoint = ENDPOINTS.MARKET_METRICS;
 
 export default {
   key: "token_metrics-get-market-metrics",
   name: "Get Market Metrics",
-  description: "Gets the market analytics from Token Metrics. [See the documentation](https://developers.tokenmetrics.com/reference/market-metrics)",
-  version: "0.0.1",
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/market-metrics)`,
+  version: "0.1.0",
   type: "action",
   props: {
-    app,
+    tokenMetrics,
+    // Filter props based on endpoint configuration and API documentation
     startDate: {
       propDefinition: [
-        app,
+        tokenMetrics,
         "startDate",
       ],
+      description: "Start Date accepts date as a string - `YYYY-MM-DD` format. Example: `2023-10-01`",
     },
     endDate: {
       propDefinition: [
-        app,
+        tokenMetrics,
         "endDate",
       ],
+      description: "End Date accepts date as a string - `YYYY-MM-DD` format. Example: `2023-10-10`",
     },
+    // Pagination props
     limit: {
       propDefinition: [
-        app,
+        tokenMetrics,
         "limit",
       ],
+      description: "Limit the number of items in response. Defaults to 50",
+      default: 50,
+    },
+    page: {
+      propDefinition: [
+        tokenMetrics,
+        "page",
+      ],
+      min: 1,
+      default: 1,
     },
   },
   async run({ $ }) {
-    const response = await this.app.getMarketMetrics({
+    // Build parameters using utility function
+    const params = buildParams(this, endpoint.filters);
+
+    const response = await this.tokenMetrics.getMarketMetrics({
       $,
-      params: {
-        startDate: this.startDate,
-        endDate: this.endDate,
-        limit: this.limit,
-      },
+      params,
     });
 
-    $.export("$summary", `Retrieved market metrics from ${this.startDate} to ${this.endDate}`);
+    // Generate summary using utility function
+    const filterSummary = generateFilterSummary(this, endpoint.filters);
+
+    // Use $ context for export
+    const dataLength = response.data?.length || 0;
+    $.export("$summary", `Successfully retrieved market metrics for ${dataLength} records${filterSummary}`);
 
     return response;
   },

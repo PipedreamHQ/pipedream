@@ -1,9 +1,11 @@
 import common from "./common-create.mjs";
+import hubspot from "../../hubspot.app.mjs";
 
 export default {
   ...common,
   props: {
     ...common.props,
+    hubspot,
     // Re-defining propertyGroups so this.getObjectType() can be called from async options
     // eslint-disable-next-line pipedream/props-description
     propertyGroups: {

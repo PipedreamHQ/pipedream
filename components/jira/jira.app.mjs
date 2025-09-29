@@ -93,11 +93,13 @@ export default {
       }) {
         let { startAt } = prevContext || {};
         const pageSize = 50;
-        const resp = await this.getIssues({
+        const resp = await this.searchIssues({
           cloudId,
           params: {
+            jql: "project is not EMPTY ORDER BY created DESC",
             startAt,
             maxResults: pageSize,
+            fields: "id,key",
           },
         });
         startAt = startAt > 0
@@ -461,9 +463,9 @@ export default {
         ...args,
       });
     },
-    getIssues(args = {}) {
+    searchIssues(args = {}) {
       return this._makeRequest({
-        path: "/search",
+        path: "/search/jql",
         ...args,
       });
     },

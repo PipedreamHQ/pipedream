@@ -28,9 +28,6 @@ export default {
     "public",
     "team",
     "no_one",
-    "password",
-    "members",
-    "other",
   ],
   CREATE_SHARED_LINK_ACCESS_OPTIONS: [
     {

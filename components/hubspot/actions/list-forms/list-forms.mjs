@@ -3,8 +3,9 @@ import hubspot from "../../hubspot.app.mjs";
 export default {
   key: "hubspot-list-forms",
   name: "List Forms",
-  description: "Retrieves a list of forms. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/forms#get-%2Fmarketing%2Fv3%2Fforms%2F)",
-  version: "0.0.1",
+  description:
+    "Retrieves a list of forms. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/forms#get-%2Fmarketing%2Fv3%2Fforms%2F)",
+  version: "0.0.8",
   type: "action",
   props: {
     hubspot,
@@ -23,8 +24,9 @@ export default {
     },
   },
   async run({ $ }) {
-    const results = [];
-    let hasMore, count = 0;
+    const forms = [];
+    let hasMore,
+      count = 0;
 
     const params = {
       archived: this.archived,
@@ -41,7 +43,7 @@ export default {
         break;
       }
       for (const item of results) {
-        results.push(item);
+        forms.push(item);
         count++;
         if (count >= this.maxResults) {
           break;
@@ -51,9 +53,12 @@ export default {
       params.after = paging?.next.after;
     } while (hasMore && count < this.maxResults);
 
-    $.export("$summary", `Found ${results.length} form${results.length === 1
-      ? ""
-      : "s"}`);
-    return results;
+    $.export(
+      "$summary",
+      `Found ${forms.length} form${forms.length === 1
+        ? ""
+        : "s"}`,
+    );
+    return forms;
   },
 };

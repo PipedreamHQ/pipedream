@@ -8,7 +8,7 @@ export default {
   key: "salesforce_rest_api-update-record",
   name: "Update Record",
   description: "Update fields of a record. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_update_fields.htm)",
-  version: "0.3.1",
+  version: "0.3.3",
   type: "action",
   props: {
     salesforce,

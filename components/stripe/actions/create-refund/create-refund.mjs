@@ -4,7 +4,7 @@ export default {
   key: "stripe-create-refund",
   name: "Create A Refund",
   type: "action",
-  version: "0.1.2",
+  version: "0.1.3",
   description: "Create a refund. [See the documentation](https://stripe.com/docs/api/refunds/create).",
   props: {
     app,
