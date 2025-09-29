@@ -4,7 +4,7 @@ import app from "../../scrapecreators.app.mjs";
 export default {
   key: "scrapecreators-search-creators",
   name: "Search Creators",
-  description: "Search for creators based on platformand query. [See the documentation](https://docs.scrapecreators.com/api-reference/introduction)",
+  description: "Search for creators based on platform and query. [See the documentation](https://docs.scrapecreators.com/api-reference/introduction)",
   version: "0.0.1",
   type: "action",
   props: {
