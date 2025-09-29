@@ -1,4 +1,37 @@
-component_key,name,description,destructiveHint,openWorldHint,readOnlyHint
+KEY,NAME,DESCRIPTION,destructiveHint,openWorldHint,readOnlyHint
+slack-kick-user,Kick User,Remove a user from a conversation. [See the documentation](https://api.slack.com/methods/conversations.kick),true,true,false
+slack-send-message-to-user-or-group,Send Message to User or Group,Send a message to a user or group. [See the documentation](https://api.slack.com/methods/chat.postMessage),false,true,false
+slack-add-emoji-reaction,Add Emoji Reaction,Add an emoji reaction to a message. [See the documentation](https://api.slack.com/methods/reactions.add),false,true,false
+slack-send-message-advanced,Send Message (Advanced),"Customize advanced setttings and send a message to a channel, group or user. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",false,true,false
+slack-update-profile,Update Profile,Update basic profile field such as name or title. [See the documentation](https://api.slack.com/methods/users.profile.set),true,true,false
+slack-reply-to-a-message,Reply to a Message Thread,Send a message as a threaded reply. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here,false,true,false
+slack-send-message-to-channel,Send Message to Channel,Send a message to a public or private channel. [See the documentation](https://api.slack.com/methods/chat.postMessage),false,true,false
+slack-send-message,Send Message,"Send a message to a user, group, private channel or public channel. [See the documentation](https://api.slack.com/methods/chat.postMessage)",false,true,false
+slack-list-group-members,List Group Members,List all users in a User Group. [See the documentation](https://api.slack.com/methods/usergroups.users.list),false,true,true
+slack-send-block-kit-message,Build and Send a Block Kit Message,"Configure custom blocks and send to a channel, group, or user. [See the documentation](https://api.slack.com/tools/block-kit-builder).",false,true,false
+slack-set-channel-topic,Set Channel Topic,Set the topic on a selected channel. [See the documentation](https://api.slack.com/methods/conversations.setTopic),true,true,false
+slack-list-users,List Users,Return a list of all users in a workspace. [See the documentation](https://api.slack.com/methods/users.list),false,true,true
+slack-invite-user-to-channel,Invite User to Channel,Invite a user to an existing channel. [See the documentation](https://api.slack.com/methods/conversations.invite),false,true,false
+slack-send-large-message,Send a Large Message (3000+ characters),"Send a large message (more than 3000 characters) to a channel, group or user. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",false,true,false
+slack-list-files,List Files,Return a list of files within a team. [See the documentation](https://api.slack.com/methods/files.list),false,true,true
+slack-archive-channel,Archive Channel,Archive a channel. [See the documentation](https://api.slack.com/methods/conversations.archive),true,true,false
+slack-list-replies,List Replies,Retrieve a thread of messages posted to a conversation. [See the documentation](https://api.slack.com/methods/conversations.replies),false,true,true
+slack-delete-message,Delete Message,Delete a message. [See the documentation](https://api.slack.com/methods/chat.delete),true,true,false
+slack-find-message,Find Message,Find a Slack message. [See the documentation](https://api.slack.com/methods/search.messages),false,true,true
+slack-upload-file,Upload File,Upload a file. [See the documentation](https://api.slack.com/messaging/files#uploading_files),false,true,false
+slack-verify-slack-signature,Verify Slack Signature,"Verifying requests from Slack, slack signs its requests using a secret that",false,true,true
+slack-create-reminder,Create Reminder,Create a reminder. [See the documentation](https://api.slack.com/methods/reminders.add),false,true,false
+slack-get-file,Get File,Return information about a file. [See the documentation](https://api.slack.com/methods/files.info),false,true,true
+slack-list-channels,List Channels,Return a list of all channels in a workspace. [See the documentation](https://api.slack.com/methods/conversations.list),false,true,true
+slack-delete-file,Delete File,Delete a file. [See the documentation](https://api.slack.com/methods/files.delete),true,true,false
+slack-find-user-by-email,Find User by Email,Find a user by matching against their email. [See the documentation](https://api.slack.com/methods/users.lookupByEmail),false,true,true
+slack-set-status,Set Status,Set the current status for a user. [See the documentation](https://api.slack.com/methods/users.profile.set),true,true,false
+slack-approve-workflow,Approve Workflow,Suspend the workflow until approved by a Slack message. [See the documentation](https://pipedream.com/docs/code/nodejs/rerun#flowsuspend),false,true,false
+slack-update-message,Update Message,Update a message. [See the documentation](https://api.slack.com/methods/chat.update),true,true,false
+slack-set-channel-description,Set Channel Description,Change the description or purpose of a channel. [See the documentation](https://api.slack.com/methods/conversations.setPurpose),false,true,false
+slack-update-group-members,Update Groups Members,Update the list of users for a User Group. [See the documentation](https://api.slack.com/methods/usergroups.users.update),true,true,false
+slack-list-members-in-channel,List Members in Channel,Retrieve members of a channel. [See the documentation](https://api.slack.com/methods/conversations.members),false,true,true
+slack-create-channel,Create a Channel,Create a new channel. [See the documentation](https://api.slack.com/methods/conversations.create),false,true,false
 nexweave-create-video-experience-from-template,Create Video Experience from Template,Creates a video experience from a template. [See the documentation](https://documentation.nexweave.com/nexweave-api#4OZFt),false,true,false
 nexweave-create-campaign-experience,Create Campaign Experience,Generates a campaign experience based on a selected campaign. [See the documentation](https://documentation.nexweave.com/nexweave-api#tH7ID),false,true,false
 nexweave-create-image-experience-from-template,Create Image Experience from Template,Creates an image experience from a template. [See the documentation](https://documentation.nexweave.com/nexweave-api#4OZFt),false,true,false
@@ -5193,39 +5226,6 @@ crimeometer-retrieve-raw-data-coverage,Retrieve Raw Data Coverage,Provides raw d
 kickbox-verify-email-batch,Verify Email Batch,Verify an email batch. [See the documentation](https://docs.kickbox.com/docs/batch-verification-api),true,true,false
 kickbox-verify-email,Verify Email,Verify an email. [See the documentation](https://docs.kickbox.com/docs/single-verification-api),true,true,false
 anthropic-chat,Chat,The Chat API. [See the documentation](https://docs.anthropic.com/claude/reference/messages_post),false,true,false
-slack-kick-user,Kick User,Remove a user from a conversation. [See the documentation](https://api.slack.com/methods/conversations.kick),true,true,false
-slack-send-message-to-user-or-group,Send Message to User or Group,Send a message to a user or group. [See the documentation](https://api.slack.com/methods/chat.postMessage),false,true,false
-slack-add-emoji-reaction,Add Emoji Reaction,Add an emoji reaction to a message. [See the documentation](https://api.slack.com/methods/reactions.add),false,true,false
-slack-send-message-advanced,Send Message (Advanced),"Customize advanced setttings and send a message to a channel, group or user. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",false,true,false
-slack-update-profile,Update Profile,Update basic profile field such as name or title. [See the documentation](https://api.slack.com/methods/users.profile.set),true,true,false
-slack-reply-to-a-message,Reply to a Message Thread,Send a message as a threaded reply. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here,false,true,false
-slack-send-message-to-channel,Send Message to Channel,Send a message to a public or private channel. [See the documentation](https://api.slack.com/methods/chat.postMessage),false,true,false
-slack-send-message,Send Message,"Send a message to a user, group, private channel or public channel. [See the documentation](https://api.slack.com/methods/chat.postMessage)",false,true,false
-slack-list-group-members,List Group Members,List all users in a User Group. [See the documentation](https://api.slack.com/methods/usergroups.users.list),false,true,true
-slack-send-block-kit-message,Build and Send a Block Kit Message,"Configure custom blocks and send to a channel, group, or user. [See the documentation](https://api.slack.com/tools/block-kit-builder).",false,true,false
-slack-set-channel-topic,Set Channel Topic,Set the topic on a selected channel. [See the documentation](https://api.slack.com/methods/conversations.setTopic),true,true,false
-slack-list-users,List Users,Return a list of all users in a workspace. [See the documentation](https://api.slack.com/methods/users.list),false,true,true
-slack-invite-user-to-channel,Invite User to Channel,Invite a user to an existing channel. [See the documentation](https://api.slack.com/methods/conversations.invite),false,true,false
-slack-send-large-message,Send a Large Message (3000+ characters),"Send a large message (more than 3000 characters) to a channel, group or user. See [postMessage](https://api.slack.com/methods/chat.postMessage) or [scheduleMessage](https://api.slack.com/methods/chat.scheduleMessage) docs here",false,true,false
-slack-list-files,List Files,Return a list of files within a team. [See the documentation](https://api.slack.com/methods/files.list),false,true,true
-slack-archive-channel,Archive Channel,Archive a channel. [See the documentation](https://api.slack.com/methods/conversations.archive),true,true,false
-slack-list-replies,List Replies,Retrieve a thread of messages posted to a conversation. [See the documentation](https://api.slack.com/methods/conversations.replies),false,true,true
-slack-delete-message,Delete Message,Delete a message. [See the documentation](https://api.slack.com/methods/chat.delete),true,true,false
-slack-find-message,Find Message,Find a Slack message. [See the documentation](https://api.slack.com/methods/search.messages),false,true,true
-slack-upload-file,Upload File,Upload a file. [See the documentation](https://api.slack.com/messaging/files#uploading_files),false,true,false
-slack-verify-slack-signature,Verify Slack Signature,"Verifying requests from Slack, slack signs its requests using a secret that",false,true,true
-slack-create-reminder,Create Reminder,Create a reminder. [See the documentation](https://api.slack.com/methods/reminders.add),false,true,false
-slack-get-file,Get File,Return information about a file. [See the documentation](https://api.slack.com/methods/files.info),false,true,true
-slack-list-channels,List Channels,Return a list of all channels in a workspace. [See the documentation](https://api.slack.com/methods/conversations.list),false,true,true
-slack-delete-file,Delete File,Delete a file. [See the documentation](https://api.slack.com/methods/files.delete),true,true,false
-slack-find-user-by-email,Find User by Email,Find a user by matching against their email. [See the documentation](https://api.slack.com/methods/users.lookupByEmail),false,true,true
-slack-set-status,Set Status,Set the current status for a user. [See the documentation](https://api.slack.com/methods/users.profile.set),true,true,false
-slack-approve-workflow,Approve Workflow,Suspend the workflow until approved by a Slack message. [See the documentation](https://pipedream.com/docs/code/nodejs/rerun#flowsuspend),false,true,false
-slack-update-message,Update Message,Update a message. [See the documentation](https://api.slack.com/methods/chat.update),true,true,false
-slack-set-channel-description,Set Channel Description,Change the description or purpose of a channel. [See the documentation](https://api.slack.com/methods/conversations.setPurpose),false,true,false
-slack-update-group-members,Update Groups Members,Update the list of users for a User Group. [See the documentation](https://api.slack.com/methods/usergroups.users.update),true,true,false
-slack-list-members-in-channel,List Members in Channel,Retrieve members of a channel. [See the documentation](https://api.slack.com/methods/conversations.members),false,true,true
-slack-create-channel,Create a Channel,Create a new channel. [See the documentation](https://api.slack.com/methods/conversations.create),false,true,false
 aws-dynamodb-put-item,DynamoDB - Put Item,Value for the primary key,false,true,false
 aws-s3-upload-base64-as-file,S3 - Upload Base64 As File,"Accepts a base64-encoded string and a filename, then uploads as a file to S3. [See the documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html)",false,true,false
 aws-dynamodb-scan,DynamoDB - Scan,,false,true,false
