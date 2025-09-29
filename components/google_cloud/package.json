@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_cloud",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Pipedream Google_cloud Components",
   "main": "google_cloud.app.mjs",
   "keywords": [
