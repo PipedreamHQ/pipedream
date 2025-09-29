@@ -7950,7 +7950,11 @@ importers:
 
   components/lightpanda: {}
 
-  components/lightspeed_ecom_c_series: {}
+  components/lightspeed_ecom_c_series:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/lightspeed_retail_pos:
     dependencies:
