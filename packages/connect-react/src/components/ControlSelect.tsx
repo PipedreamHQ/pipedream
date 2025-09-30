@@ -88,8 +88,7 @@ export function ControlSelect<T extends PropOptionValue>({
       // if simple, make lv (XXX combine this with other place this happens)
       if (!isOptionWithLabel(rawValue[0])) {
         return rawValue.map((o) =>
-          selectOptions.find((item) => item.value === o) || sanitizeOption(o as T),
-        );
+          selectOptions.find((item) => item.value === o) || sanitizeOption(o as T));
       }
     } else if (rawValue && typeof rawValue === "object" && "__lv" in (rawValue as Record<string, unknown>)) {
       // Extract the actual option from __lv wrapper and sanitize to LV

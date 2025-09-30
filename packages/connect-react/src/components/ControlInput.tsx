@@ -59,7 +59,7 @@ export function ControlInput() {
       id={id}
       type={inputType}
       name={prop.name}
-      value={String(value) ?? ""}
+      value={String(value ?? "")}
       onChange={(e) => onChange(toOnChangeValue(e.target.value))}
       {...getProps("controlInput", baseStyles, formFieldContextProps)}
       min={min}

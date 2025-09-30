@@ -39,7 +39,6 @@ import { ControlSubmit } from "../components/ControlSubmit";
 import { Description } from "../components/Description";
 import { Errors } from "../components/Errors";
 import { Field } from "../components/Field";
-import type { FieldProps } from "../components/Field";
 import { Label } from "../components/Label";
 import { LoadMoreButton } from "../components/LoadMoreButton";
 import { OptionalFieldButton } from "../components/OptionalFieldButton";
@@ -85,8 +84,7 @@ export type CustomizableProps = {
   description: ComponentProps<typeof Description>;
   error: ComponentProps<typeof Errors>;
   errors: ComponentProps<typeof Errors>;
-  // Accept any field generic to avoid forcing a specific T at call sites
-  field: FieldProps<any>;
+  field: ComponentProps<typeof Field>;
   heading: ComponentProps<typeof ComponentForm>;
   label: ComponentProps<typeof Label>;
   optionalFields: ComponentProps<typeof ComponentForm>;

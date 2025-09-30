@@ -1,5 +1,11 @@
 import {
-  createContext, useContext, useEffect, useId, useMemo, useState, type ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useId,
+  useMemo,
+  useState,
+  type ReactNode,
 } from "react";
 import isEqual from "lodash.isequal";
 import { useQuery } from "@tanstack/react-query";
@@ -14,7 +20,6 @@ import type {
   ConfiguredProps,
   DynamicProps,
   Observation,
-  ObservationError,
   ReloadPropsOpts,
   ReloadPropsResponse,
   Component,
@@ -24,10 +29,16 @@ import { useFrontendClient } from "./frontend-client-context";
 import type { ComponentFormProps } from "../components/ComponentForm";
 import type { FormFieldContext } from "./form-field-context";
 import {
-  appPropErrors, arrayPropErrors, booleanPropErrors, integerPropErrors,
+  appPropErrors,
+  arrayPropErrors,
+  booleanPropErrors,
+  integerPropErrors,
   stringPropErrors,
 } from "../utils/component";
-import { SdkError, ObservationErrorDetails } from "../types";
+import {
+  SdkError,
+  ObservationErrorDetails,
+} from "../types";
 import { resolveUserId } from "../utils/resolve-user-id";
 
 export type AnyFormFieldContext = Omit<FormFieldContext<ConfigurableProp>, "onChange"> & {
@@ -371,7 +382,8 @@ export const FormContextProvider = <T extends ConfigurableProps>({
       const value = configuredProps[prop.name as keyof ConfiguredProps<T>];
       if (value === undefined) {
         if ("default" in prop && prop.default != null) {
-          newConfiguredProps[prop.name as keyof ConfiguredProps<T>] = prop.default as any; // default may be loosely typed
+          // default may be loosely typed
+          newConfiguredProps[prop.name as keyof ConfiguredProps<T>] = prop.default as any; // eslint-disable-line @typescript-eslint/no-explicit-any
         }
       } else {
         if (prop.type === "integer" && typeof value !== "number") {

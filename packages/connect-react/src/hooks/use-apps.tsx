@@ -1,5 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import type { AppsListRequest, App } from "@pipedream/sdk";
+import type {
+  AppsListRequest, App,
+} from "@pipedream/sdk";
 import { useFrontendClient } from "./frontend-client-context";
 
 /**
@@ -9,7 +11,6 @@ export const useApps = (input?: AppsListRequest): {
   apps: App[];
   isLoading: boolean;
   error: Error | null;
-  refetch: () => void;
 } => {
   const client = useFrontendClient();
   const query = useQuery({
