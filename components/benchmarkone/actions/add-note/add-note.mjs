@@ -5,7 +5,12 @@ export default {
   key: "benchmarkone-add-note",
   name: "Add Note to Contact",
   description: "Adds a note to a BenchmarkONE contact. [See the documentation](https://sandbox.hatchbuck.com/api/dist/#!/Notes/post_contact_email_address_or_contact_ID_notes).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     benchmarkone,

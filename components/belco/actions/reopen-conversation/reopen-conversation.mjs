@@ -4,7 +4,12 @@ export default {
   key: "belco-reopen-conversation",
   name: "Reopen Conversation",
   description: "Reopen a conversation specified by ID. [See the documentation](https://developers.belco.io/reference/put_conversations-conversationid-open)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     belco,

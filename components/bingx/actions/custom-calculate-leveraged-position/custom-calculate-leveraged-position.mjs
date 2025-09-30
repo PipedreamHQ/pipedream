@@ -2,7 +2,12 @@ import bingx from "../../bingx.app.mjs";
 
 export default {
   name: "BingX Custom Calculate Leveraged Position",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "bingx-custom-calculate-leveraged-position",
   description: "Calculate leveraged position based on entry, stop price and account balance",
   props: {

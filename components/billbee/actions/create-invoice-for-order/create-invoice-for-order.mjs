@@ -5,7 +5,12 @@ export default {
   name: "Create Invoice For Order",
   description: "Create an invoice for an existing order. [See the documentation](https://app.billbee.io//swagger/ui/index#/Orders/OrderApi_CreateInvoice)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     orderId: {
