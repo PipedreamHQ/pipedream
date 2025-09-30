@@ -4,7 +4,12 @@ export default {
   key: "_8x8_connect-send-sms",
   name: "Send SMS",
   description: "Send a SMS to the specified destination. [See the documentation](https://developer.8x8.com/connect/reference/send-sms-single)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

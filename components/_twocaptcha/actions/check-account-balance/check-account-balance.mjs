@@ -4,7 +4,12 @@ export default {
   key: "_twocaptcha-check-account-balance",
   name: "Check 2Captcha Account Balance",
   description: "Get the current account balance from the 2Captcha API. [See the documentation](https://2captcha.com/api-docs/get-balance)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     _twocaptcha,

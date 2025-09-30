@@ -2,7 +2,12 @@ import accelo from "../../accelo.app.mjs";
 
 export default {
   name: "Create Prospect",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "accelo-create-prospect",
   description: "Creates a prospect. [See docs here](https://api.accelo.com/docs/?_ga=2.136158329.97118171.1674049767-1568937371.1674049767#create-a-prospect)",
   type: "action",

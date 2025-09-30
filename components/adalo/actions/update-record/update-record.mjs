@@ -4,7 +4,12 @@ export default {
   key: "adalo-update-record",
   name: "Update Record",
   description: "Update a record. [See docs here](https://help.adalo.com/integrations/the-adalo-api/collections)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     adalo,

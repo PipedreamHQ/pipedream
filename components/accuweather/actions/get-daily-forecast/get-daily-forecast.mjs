@@ -5,7 +5,12 @@ export default {
   key: "accuweather-get-daily-forecast",
   name: "Get Daily Forecast",
   description: "Get daily weather forecast for a specific location with temperature, precipitation, and conditions. [See the documentation](https://developer.accuweather.com/accuweather-forecast-api/apis)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     accuweather,

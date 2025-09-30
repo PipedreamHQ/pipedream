@@ -6,7 +6,12 @@ export default {
   key: "_2markdown-html-file-to-markdown",
   name: "HTML File to Markdown",
   description: "Convert an HTML file to Markdown format. [See the documentation](https://2markdown.com/docs#file2md)",
-  version: "0.1.0",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     _2markdown,

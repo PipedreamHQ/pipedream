@@ -5,7 +5,12 @@ export default {
   key: "acymailing-subscribe-user",
   name: "Subscribe User to Lists",
   description: "Subscribes a user to one or more specified lists in AcyMailing. [See the documentation](https://docs.acymailing.com/v/rest-api/subscription#subscribe-users-to-lists)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     acymailing,

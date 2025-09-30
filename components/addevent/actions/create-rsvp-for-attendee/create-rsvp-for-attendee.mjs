@@ -5,7 +5,12 @@ export default {
   key: "addevent-create-rsvp-for-attendee",
   name: "Create RSVP For Attendee",
   description: "Creates an RSVP for an attendee for a specific event. [See the documentation](https://docs.addevent.com/reference/create-rsvp-attendee)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     addevent,
