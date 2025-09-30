@@ -5754,7 +5754,11 @@ importers:
         specifier: ^0.6.2
         version: 0.6.2
 
-  components/godaddy: {}
+  components/godaddy:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/godial:
     dependencies:
