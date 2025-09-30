@@ -5,7 +5,12 @@ export default {
   key: "servicenow-get-table-records",
   name: "Get Table Records",
   description: "Retrieves multiple records for the specified table.",
-  version: "0.3.1",
+  version: "0.3.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     servicenow: {

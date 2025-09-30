@@ -4,7 +4,12 @@ export default {
   key: "serpapi-scrape-search",
   name: "Scrape Search",
   description: "Scrape the results from a search engine via SerpApi service. [See the documentation](https://serpapi.com/search-api)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

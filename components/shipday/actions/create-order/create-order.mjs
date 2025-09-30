@@ -4,7 +4,12 @@ export default {
   key: "shipday-create-order",
   name: "Create Shipping Order",
   description: "Creates a new shipping order. [See the documentation](https://docs.shipday.com/reference/insert-delivery-order)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     shipday,

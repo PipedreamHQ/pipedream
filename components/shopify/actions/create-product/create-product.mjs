@@ -5,7 +5,12 @@ export default {
   key: "shopify-create-product",
   name: "Create Product",
   description: "Create a new product. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/productCreate)",
-  version: "0.0.13",
+  version: "0.0.14",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     shopify,

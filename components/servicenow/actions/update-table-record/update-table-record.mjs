@@ -5,7 +5,12 @@ export default {
   key: "servicenow-update-table-record",
   name: "Update Table Record",
   description: "Updates the specified record with the name-value pairs included in the request body.",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     servicenow: {

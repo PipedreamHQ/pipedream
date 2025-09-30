@@ -5,7 +5,12 @@ export default {
   key: "sendy-create-draft-campaign",
   name: "Create Draft Campaign",
   description: "Creates a new draft campaign ready to be filled in with details. [See the documentation](https://sendy.co/api?app_path=https://sendy.email/dev2#create-send-campaigns)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sendy,

@@ -4,7 +4,12 @@ export default {
   key: "sendsms-check-blocklist",
   name: "Check Blocklist",
   description: "Checks if a specific phone number is in the blocklist. [See the documentation](https://www.sendsms.ro/api/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     sendsms,

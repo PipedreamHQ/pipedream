@@ -4,7 +4,12 @@ export default {
   key: "senta-update-client",
   name: "Update Client",
   description: "Updates an existing client. [See the documentation](https://app.swaggerhub.com/apis-docs/senta/Senta/1.6#/Client/put_api_clients__clientId_)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     senta,

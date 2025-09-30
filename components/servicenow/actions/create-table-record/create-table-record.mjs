@@ -5,7 +5,12 @@ export default {
   key: "servicenow-create-table-record",
   name: "Create Table Record",
   description: "Inserts one record in the specified table.",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     servicenow: {

@@ -5,7 +5,12 @@ export default {
   key: "sheetdb-update-rows",
   name: "Update Rows",
   description: "Updates the content for the specified row(s). [See the documentation](https://docs.sheetdb.io/sheetdb-api/update#update-with-single-query)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

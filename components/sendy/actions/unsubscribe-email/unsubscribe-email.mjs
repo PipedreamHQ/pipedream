@@ -4,7 +4,12 @@ export default {
   key: "sendy-unsubscribe-email",
   name: "Unsubscribe Email",
   description: "Removes a subscriber from a specified list. [See the documentation](https://sendy.co/api?app_path=https://sendy.email/dev2#unsubscribe)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sendy,

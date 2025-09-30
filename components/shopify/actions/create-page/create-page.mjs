@@ -4,7 +4,12 @@ export default {
   key: "shopify-create-page",
   name: "Create Page",
   description: "Create a new page. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/pageCreate)",
-  version: "0.0.7",
+  version: "0.0.8",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     shopify,

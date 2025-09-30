@@ -5,7 +5,12 @@ export default {
   key: "sendpulse-unsubscribe-contact-from-mailing-list",
   name: "Unsubscribe a Contact From a Defined Mailing List",
   description: "Make a POST request to https://api.sendpulse.com/addressbooks/{id}/emails/unsubscribe",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sendpulse: {

@@ -4,7 +4,12 @@ export default {
   key: "serply-search-for-website-in-serp",
   name: "Search for Website in SERP (Search Engine Results Pages)",
   description: "Performs a Google Search and searches for a website in Search Engine Results Pages (SERP). [See the documentation](https://serply.io/docs/operations/v1/serp)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     serply,

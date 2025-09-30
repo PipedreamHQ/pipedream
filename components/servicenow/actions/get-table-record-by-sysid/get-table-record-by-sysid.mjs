@@ -5,7 +5,12 @@ export default {
   key: "servicenow-get-table-record-by-sysid",
   name: "Get Table Record By SysId",
   description: "Retrieves the record identified by the specified sys_id from the specified table.",
-  version: "0.3.1",
+  version: "0.3.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     servicenow: {

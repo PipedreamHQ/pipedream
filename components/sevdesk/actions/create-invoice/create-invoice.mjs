@@ -12,7 +12,12 @@ export default {
   key: "sevdesk-create-invoice",
   name: "Create Invoice",
   description: "Creates a new invoice with optional details like invoice date, due date, discount amount, and invoice items. [See the documentation](https://api.sevdesk.de/)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sevdesk,

@@ -4,7 +4,12 @@ export default {
   key: "sendx-add-tag-contact",
   name: "Add Tag to Contact",
   description: "Associates a user-provided tag with a specified contact in SendX. This action requires the contact's identification detail and the tag.",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sendx,

@@ -4,7 +4,12 @@ export default {
   key: "sendy-add-update-subscriber",
   name: "Add or Update a Subscriber",
   description: "Adds a new subscriber or updates existing subscriber's details for a specific list. [See the documentation](https://sendy.co/api?app_path=https://sendy.email/dev2#subscribe)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sendy,

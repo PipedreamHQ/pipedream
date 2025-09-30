@@ -6,7 +6,12 @@ export default {
   key: "shipstation-create-order",
   name: "Create Order",
   description: "Create a new order. [See docs here](https://www.shipstation.com/docs/api/orders/create-update-order)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     shipstation,

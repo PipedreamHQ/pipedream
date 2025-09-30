@@ -6,7 +6,12 @@ export default {
   name: "Update Order",
   description: "Update an order. [See the documentation](https://developer.shiphero.com/getting-started/)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     orderId: {

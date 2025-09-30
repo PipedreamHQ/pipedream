@@ -5,7 +5,12 @@ export default {
   key: "sendgrid-remove-contact-from-list",
   name: "Remove Contact From List",
   description: "Allows you to remove contacts from a given list. [See the docs here](https://docs.sendgrid.com/api-reference/lists/remove-contacts-from-a-list)",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,
