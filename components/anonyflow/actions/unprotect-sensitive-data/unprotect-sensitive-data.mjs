@@ -5,7 +5,12 @@ export default {
   key: "anonyflow-unprotect-sensitive-data",
   name: "Unprotect Sensitive Data",
   description: "Decrypts protected data using AnonyFlow decryption service with a unique private key, managed by AnonyFlow. [See the documentation](https://anonyflow.com/api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

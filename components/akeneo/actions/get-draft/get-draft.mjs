@@ -4,7 +4,12 @@ export default {
   key: "akeneo-get-draft",
   name: "Get Draft",
   description: "Get a product draft from Akeneo. [See the documentation](https://api.akeneo.com/api-reference.html#get_draft__code_)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     akeneo,

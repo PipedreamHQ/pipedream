@@ -5,7 +5,12 @@ export default {
   key: "americommerce-create-update-order",
   name: "Create Or Update Order",
   description: "Creates a new order or updates an existing one. [See the documentation here](https://developers.cart.com/docs/rest-api/3f2ab73188031-create-an-order) and [here](https://developers.cart.com/docs/rest-api/e2649bb3adba9-update-an-order).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

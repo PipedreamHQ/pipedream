@@ -4,7 +4,12 @@ export default {
   key: "anchor_browser-update-profile",
   name: "Update Profile",
   description: "Updates the description or data of an existing profile using a session. [See the documentation](https://docs.anchorbrowser.io/api-reference/profiles/update-profile).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

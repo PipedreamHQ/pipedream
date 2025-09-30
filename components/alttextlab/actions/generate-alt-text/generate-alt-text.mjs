@@ -5,7 +5,12 @@ export default {
   key: "alttextlab-generate-alt-text",
   name: "Generate Alt Text",
   description: "Generates alt text for images using AI. [See the documentation](https://www.alttextlab.com/docs/api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     altTextLab,

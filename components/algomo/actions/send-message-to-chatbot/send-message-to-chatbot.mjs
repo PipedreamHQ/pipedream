@@ -4,7 +4,12 @@ export default {
   key: "algomo-send-message-to-chatbot",
   name: "Send Message To Chatbot",
   description: "Send a message to a specific Algomo chatbot and get the response. [See the documentation](https://help.algomo.com/docs/api-access/using%20our%20apis#api-call-for-bot-response-generation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

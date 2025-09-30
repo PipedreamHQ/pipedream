@@ -6,7 +6,12 @@ export default {
   name: "List Teams",
   description: "List teams. [See the docs here](https://apidocs.amara.org/#list-teams)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     amara,
     max: {

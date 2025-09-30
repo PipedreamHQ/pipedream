@@ -4,7 +4,12 @@ export default {
   key: "altoviz-send-sales-invoice",
   name: "Send Sales Invoice",
   description: "Sends a sales invoice via email. [See the documentation](https://developer.altoviz.com/api#tag/SaleInvoices/operation/POST_SaleInvoices_Send)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     altoviz,

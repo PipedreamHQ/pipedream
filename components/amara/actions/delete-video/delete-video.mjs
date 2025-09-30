@@ -5,7 +5,12 @@ export default {
   name: "Delete Video",
   description: "Delete a video. In order to delete a video, it must be part of a team that you're an admin of. [See the docs here](https://apidocs.amara.org/#delete-a-video)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     amara,
     team: {
