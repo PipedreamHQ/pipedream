@@ -6,7 +6,12 @@ export default {
   key: "selzy-create-campaign",
   name: "Create Campaign",
   description: "Creates a new campaign. [See the documentation](https://selzy.com/en/support/api/messages/createcampaign/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     selzy,

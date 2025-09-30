@@ -4,7 +4,12 @@ export default {
   key: "sendcloud-create-a-parcel",
   name: "Create a Parcel",
   description: "Creates a new parcel under your Sendcloud API credentials. [See the documentation](https://api.sendcloud.dev/docs/sendcloud-public-api/parcels/operations/create-a-parcel)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

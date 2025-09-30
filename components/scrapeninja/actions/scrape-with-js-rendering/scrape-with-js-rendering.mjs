@@ -9,7 +9,12 @@ export default {
   key: "scrapeninja-scrape-with-js-rendering",
   name: "Scrape with JS Rendering",
   description: "Uses the ScrapeNinja real Chrome browser engine to scrape pages that require JS rendering. [See the documentation](https://scrapeninja.net/docs/api-reference/scrape-js/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     scrapeninja,

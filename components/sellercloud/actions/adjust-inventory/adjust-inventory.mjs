@@ -4,7 +4,12 @@ export default {
   key: "sellercloud-adjust-inventory",
   name: "Adjust Inventory",
   description: "Changes the inventory level of a specific product. [See the documentation](https://developer.sellercloud.com/dev-article/adjust-physical-inventory/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sellercloud,

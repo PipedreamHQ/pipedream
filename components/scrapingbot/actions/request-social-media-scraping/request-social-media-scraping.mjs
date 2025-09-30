@@ -6,7 +6,12 @@ export default {
   key: "scrapingbot-request-social-media-scraping",
   name: "Request Social Media Scraping",
   description: "Use ScrapingBot API to initiate scraping data from a social media site. [See the documentation](https://www.scraping-bot.io/web-scraping-documentation/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     scrapingbot,

@@ -4,7 +4,12 @@ export default {
   key: "sendbird_ai_chabot-send-bot-message",
   name: "Send Bot Message",
   description: "Sends a bot message to a group channel. [See the documentation](https://sendbird.com/docs/chat/platform-api/v3/bot/sending-a-bot-message/send-a-bot-message)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sendbird,

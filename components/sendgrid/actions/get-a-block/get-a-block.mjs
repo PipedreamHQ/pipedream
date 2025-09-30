@@ -6,7 +6,12 @@ export default {
   key: "sendgrid-get-a-block",
   name: "Get a Block",
   description: "Gets a specific block. [See the docs here](https://docs.sendgrid.com/api-reference/blocks-api/retrieve-a-specific-block)",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

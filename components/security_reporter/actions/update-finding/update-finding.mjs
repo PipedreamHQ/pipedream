@@ -14,7 +14,12 @@ export default {
   key: "security_reporter-update-finding",
   name: "Update Security Finding",
   description: "Updates an existing security finding. [See the documentation](https://trial3.securityreporter.app/api-documentation)",
-  version: "0.1.0",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     securityReporter,

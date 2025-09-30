@@ -5,7 +5,12 @@ export default {
   key: "sendcloud-create-return",
   name: "Create Return",
   description: "Create a return. [See the documentation](https://api.sendcloud.dev/docs/sendcloud-public-api/returns/operations/create-a-return)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

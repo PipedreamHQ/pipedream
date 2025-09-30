@@ -5,7 +5,12 @@ export default {
   key: "sendgrid-add-email-to-global-suppression",
   name: "Add Email to Global Suppression",
   description: "Allows you to add one or more email addresses to the global suppressions group. [See the docs here](https://sendgrid.api-docs.io/v3.0/suppressions-global-suppressions/add-recipient-addresses-to-the-global-suppression-group)",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

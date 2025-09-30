@@ -4,7 +4,12 @@ export default {
   key: "scoredetect-create-timestamp-text",
   name: "Create Timestamped Blockchain Certificate",
   description: "Creates a timestamped blockchain certificate using the provided text. [See the documentation](https://api.scoredetect.com/docs/routes#create-certificate)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     scoreDetect,

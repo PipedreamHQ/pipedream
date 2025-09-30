@@ -4,7 +4,12 @@ export default {
   key: "scraptio-scrape-url",
   name: "Scrape URL",
   description: "Scrape the provided URL. [See the documentation](https://scraptio.notion.site/how-to-use-scraptio-with-rest-api-caf0b6d5c6e342cd9a3ac9062ab1ae6d)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     scraptio,

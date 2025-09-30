@@ -13,7 +13,12 @@ export default {
   key: "security_reporter-create-finding",
   name: "Create Security Finding",
   description: "Creates a new security finding. [See the documentation](https://trial3.securityreporter.app/api-documentation)",
-  version: "0.1.0",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     securityReporter,

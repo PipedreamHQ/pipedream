@@ -4,7 +4,12 @@ export default {
   key: "securitytrails-get-domain-details",
   name: "Get Domain Details",
   description: "Returns the current data about the given hostname. [See the documentation](https://docs.securitytrails.com/reference/domain-details)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

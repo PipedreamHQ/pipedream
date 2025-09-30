@@ -4,7 +4,12 @@ export default {
   key: "sendcloud-update-a-parcel",
   name: "Update a Parcel",
   description: "Updates a parcel under your API credentials. [See the documentation](https://api.sendcloud.dev/docs/sendcloud-public-api/parcels/operations/update-a-parcel)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

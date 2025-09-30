@@ -4,7 +4,12 @@ export default {
   key: "screenshot_fyi-create-screenshot",
   name: "Create Screenshot",
   description: "Takes a screenshot of a webpage using Screenshot.fyi. [See the documentation](https://www.screenshot.fyi/api-docs)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     screenshot_fyi,

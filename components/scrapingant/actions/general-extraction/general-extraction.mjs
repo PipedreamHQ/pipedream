@@ -4,7 +4,12 @@ export default {
   key: "scrapingant-general-extraction",
   name: "General Extraction",
   description: "Send a request using the standard extraction method of ScrapingAnt. [See the documentation](https://docs.scrapingant.com/request-response-format)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

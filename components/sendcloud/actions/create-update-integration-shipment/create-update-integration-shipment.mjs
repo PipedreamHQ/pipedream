@@ -5,7 +5,12 @@ export default {
   key: "sendcloud-create-update-integration-shipment",
   name: "Create Or Update Integration Shipment",
   description: "Create or update an integration shipment. [See the documentation](https://api.sendcloud.dev/docs/sendcloud-public-api/branches/v2/integrations/operations/create-a-integration-shipment)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

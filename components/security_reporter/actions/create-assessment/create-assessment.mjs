@@ -6,7 +6,12 @@ export default {
   key: "security_reporter-create-assessment",
   name: "Create Security Assessment",
   description: "Creates a new security assessment. [See the documentation](https://trial3.securityreporter.app/api-documentation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     securityReporter,

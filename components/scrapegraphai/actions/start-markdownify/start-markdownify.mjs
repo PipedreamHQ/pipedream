@@ -4,7 +4,12 @@ export default {
   key: "scrapegraphai-start-markdownify",
   name: "Start Markdownify",
   description: "Convert any webpage into clean, readable Markdown format. [See the documentation](https://docs.scrapegraphai.com/api-reference/endpoint/markdownify/start)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     scrapegraphai,

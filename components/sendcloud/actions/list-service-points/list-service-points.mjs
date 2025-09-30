@@ -5,7 +5,12 @@ export default {
   key: "sendcloud-list-service-points",
   name: "List Service Points",
   description: "List service points. [See the documentation](https://api.sendcloud.dev/docs/sendcloud-public-api/branches/v2/service-points/operations/list-service-points)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

@@ -6,7 +6,12 @@ export default {
   key: "scrapfly-ai-data-extraction",
   name: "AI Data Extraction",
   description: "Automate content extraction from any text-based source using AI, LLM, and custom parsing. [See the documentation](https://scrapfly.io/docs/extraction-api/getting-started)",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     scrapfly,

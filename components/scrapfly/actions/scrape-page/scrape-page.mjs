@@ -11,7 +11,12 @@ export default {
   key: "scrapfly-scrape-page",
   name: "Scrape Page",
   description: "Extract data from a specified web page. [See the documentation](https://scrapfly.io/docs/scrape-api/getting-started)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     scrapfly,

@@ -7,7 +7,12 @@ export default {
   key: "sendgrid-create-send",
   name: "Create Send",
   description: "Create a single send. [See the docs here](https://www.twilio.com/docs/sendgrid/api-reference/single-sends/create-single-send)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,
