@@ -4,7 +4,12 @@ export default {
   key: "digital_ocean-add-ssh-key",
   name: "Add SSH Key",
   description: "Adds a new SSH to your account. [See the docs here](https://docs.digitalocean.com/reference/api/api-reference/#operation/create_ssh_key)",
-  version: "0.1.2",
+  version: "0.1.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     digitalOceanApp,

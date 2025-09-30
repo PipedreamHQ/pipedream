@@ -4,7 +4,12 @@ export default {
   key: "desktime-stop-project",
   name: "Stop Project",
   description: "Stop tracking time for a given project and optionally a task. [See the documentation](https://desktime.com/app/settings/api?tab=project)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

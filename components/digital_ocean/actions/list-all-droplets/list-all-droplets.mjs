@@ -5,7 +5,12 @@ export default {
   key: "digital_ocean-list-all-droplets",
   name: "List all Droplets",
   description: "List all Droplets. [See the docs here](https://docs.digitalocean.com/reference/api/api-reference/#operation/list_all_droplets)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     digitalOceanApp,

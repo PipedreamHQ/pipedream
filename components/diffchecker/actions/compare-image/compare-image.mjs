@@ -6,7 +6,12 @@ export default {
   key: "diffchecker-compare-image",
   name: "Compare Image",
   description: "Compares two images and returns the result.",
-  version: "1.0.1",
+  version: "1.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     diffchecker,

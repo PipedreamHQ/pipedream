@@ -5,7 +5,12 @@ export default {
   name: "Get Event",
   description: "Get a specific event. [See docs here](https://publicdemioapi.docs.apiary.io/#reference/events/event-info/event-info)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     demio,
     eventId: {
