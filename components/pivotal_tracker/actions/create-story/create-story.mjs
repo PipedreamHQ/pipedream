@@ -6,7 +6,12 @@ export default {
   name: "Create Story",
   key: "pivotal_tracker-create-story",
   description: "Create a new story in a project. [See the docs here](https://www.pivotaltracker.com/help/api/rest/v5#projects_project_id_stories_post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pivotalTracker,

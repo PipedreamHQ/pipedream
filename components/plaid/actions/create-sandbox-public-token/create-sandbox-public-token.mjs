@@ -5,7 +5,12 @@ export default {
   key: "plaid-create-sandbox-public-token",
   name: "Create Sandbox Public Token",
   description: "Creates a valid `public_token` for an arbitrary institution ID, initial products, and test credentials. [See the documentation](https://plaid.com/docs/api/sandbox/#sandboxpublic_tokencreate).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

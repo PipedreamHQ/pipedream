@@ -4,7 +4,12 @@ export default {
   name: "Create Task",
   key: "pipeline-create-task",
   description: "Creates a new calendar task in your Pipeline account. [See the docs here](https://app.pipelinecrm.com/api/docs#tag/Calendar-Entries-(Tasks-and-Events)/paths/~1calendar_entries/post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pipeline,

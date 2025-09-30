@@ -4,7 +4,12 @@ export default {
   name: "Find User",
   key: "pipeline-find-user",
   description: "Find an existing user on your Pipeline account. [See the docs here](https://app.pipelinecrm.com/api/docs#tag/Users/paths/~1admin~1users/get)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     pipeline,

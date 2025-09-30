@@ -4,7 +4,12 @@ export default {
   key: "pipefy-look-up-card-by-id",
   name: "Look up Card by ID",
   description: "Looks up a card by its ID. [See the docs here](https://api-docs.pipefy.com/reference/queries/#card)",
-  version: "0.3.2",
+  version: "0.3.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pipefy,

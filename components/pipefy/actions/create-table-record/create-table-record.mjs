@@ -4,7 +4,12 @@ export default {
   key: "pipefy-create-table-record",
   name: "Create Table Record",
   description: "Creates a new table record. [See the docs here](https://api-docs.pipefy.com/reference/mutations/createTableRecord/)",
-  version: "0.1.2",
+  version: "0.1.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pipefy,

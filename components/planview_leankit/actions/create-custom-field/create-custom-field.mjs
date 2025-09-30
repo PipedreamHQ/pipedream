@@ -4,7 +4,12 @@ import { customFieldOptions } from "../common/utils.mjs";
 export default {
   key: "planview_leankit-create-custom-field",
   name: "Create Custom Field",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new custom field. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/custom-field)",
   type: "action",
   props: {

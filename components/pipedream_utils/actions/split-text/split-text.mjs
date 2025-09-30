@@ -7,7 +7,12 @@ export default {
   name: "Formatting - [Text] Split Text",
   description: "Split the text on a character or word and return one or all segments",
   key: "pipedream_utils-split-text",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: false,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pipedream_utils,

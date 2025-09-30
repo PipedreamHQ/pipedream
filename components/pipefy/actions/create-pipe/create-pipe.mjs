@@ -5,7 +5,12 @@ export default {
   key: "pipefy-create-pipe",
   name: "Create Pipe",
   description: "Creates a pipe. [See the docs here](https://api-docs.pipefy.com/reference/mutations/createPipe/)",
-  version: "0.3.2",
+  version: "0.3.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pipefy,

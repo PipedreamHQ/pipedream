@@ -5,7 +5,12 @@ export default {
   key: "placid-generate-pdf",
   name: "Generate PDF",
   description: "Creates a new PDF based on a specified template. [See the documentation](https://placid.app/docs/2.0/rest/pdfs#create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

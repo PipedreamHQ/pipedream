@@ -4,7 +4,12 @@ export default {
   name: "Update Person",
   key: "pipeline-update-person",
   description: "Updates a person in your Pipeline account. [See the docs here](https://app.pipelinecrm.com/api/docs#tag/People/paths/~1people~1{id}/put)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pipeline,

@@ -5,7 +5,12 @@ export default {
   key: "plain-create-thread",
   name: "Create Thread",
   description: "Creates a new thread with a given customer. [See the documentation](https://www.plain.com/docs/api-reference/graphql/threads/create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     plain,

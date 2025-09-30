@@ -4,7 +4,12 @@ export default {
   name: "Update Deal",
   key: "pipeline-update-deal",
   description: "Updates a deal in your Pipeline account. [See the docs here](https://app.pipelinecrm.com/api/docs#tag/Deals/paths/~1deals~1{id}/put)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pipeline,

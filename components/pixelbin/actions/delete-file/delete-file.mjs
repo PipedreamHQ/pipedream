@@ -4,7 +4,12 @@ export default {
   key: "pixelbin-delete-file",
   name: "Delete File",
   description: "Deletes a file from Pixelbin. [See the documentation](https://www.pixelbin.io/docs/api-docs/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

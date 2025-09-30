@@ -6,7 +6,12 @@ export default {
   key: "pipedream_utils-send-email-with-nodemailer",
   name: "Helper Functions - Send email with Nodemailer",
   description: "Sends an email using the nodemailer package",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pipedream_utils,

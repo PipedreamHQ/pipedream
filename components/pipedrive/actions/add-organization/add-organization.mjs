@@ -5,7 +5,12 @@ export default {
   key: "pipedrive-add-organization",
   name: "Add Organization",
   description: "Adds a new organization. See the Pipedrive API docs for Organizations [here](https://developers.pipedrive.com/docs/api/v1/Organizations#addOrganization)",
-  version: "0.1.15",
+  version: "0.1.16",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pipedriveApp,

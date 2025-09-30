@@ -5,7 +5,12 @@ export default {
   key: "plain-add-customer-to-group",
   name: "Add Customer to Group",
   description: "Adds a customer to a customer group. [See the documentation](https://www.plain.com/docs/api-reference/graphql/customers/customer-groups#add-a-customer-to-groups)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     plain,

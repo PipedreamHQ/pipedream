@@ -4,7 +4,12 @@ export default {
   key: "plaid-get-real-time-balance",
   name: "Get Real-Time Balance",
   description: "Get the real-time balance for each of an Item's accounts. [See the documentation](https://plaid.com/docs/api/products/balance/#accountsbalanceget).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

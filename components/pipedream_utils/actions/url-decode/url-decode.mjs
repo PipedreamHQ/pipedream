@@ -3,7 +3,12 @@ export default {
   name: "Formatting - [Text] Decode URL",
   description: "Decode a URL string",
   key: "pipedream_utils-url-decode",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: false,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pipedream_utils,

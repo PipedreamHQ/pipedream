@@ -4,7 +4,12 @@ export default {
   key: "pipefy-look-up-table-by-id",
   name: "Look Up Table by ID",
   description: "Looks up a database table by its ID. [See the docs here](https://api-docs.pipefy.com/reference/queries/#table)",
-  version: "0.1.2",
+  version: "0.1.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pipefy,

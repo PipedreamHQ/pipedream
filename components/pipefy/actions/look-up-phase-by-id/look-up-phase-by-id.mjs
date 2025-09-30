@@ -4,7 +4,12 @@ export default {
   key: "pipefy-look-up-phase-by-id",
   name: "Look Up Phase By Id",
   description: "Looks up a phase by its ID. [See the docs here](https://api-docs.pipefy.com/reference/queries/#phase)",
-  version: "0.1.2",
+  version: "0.1.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pipefy,

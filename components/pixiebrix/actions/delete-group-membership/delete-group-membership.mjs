@@ -4,7 +4,12 @@ export default {
   key: "pixiebrix-delete-group-membership",
   name: "Delete Group Membership",
   description: "Deletes a single group membership. [See the documentation](https://docs.pixiebrix.com/developer-api/team-management-apis#delete-group-membership)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

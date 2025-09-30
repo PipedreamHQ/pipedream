@@ -5,7 +5,12 @@ export default {
   name: "Create Activity",
   key: "pipeline-create-activity",
   description: "Creates a new activity associated with an existing person, company, or deal. [See the docs here](https://app.pipelinecrm.com/api/docs#tag/Activities-(Notes)/paths/~1notes/post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pipeline,

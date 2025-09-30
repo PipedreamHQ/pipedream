@@ -5,7 +5,12 @@ export default {
   key: "plain-create-customer-event",
   name: "Create Customer Event",
   description: "Creates an event with a customer. [See the documentation](https://www.plain.com/docs/api-reference/graphql/events/create-customer-event)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     plain,
