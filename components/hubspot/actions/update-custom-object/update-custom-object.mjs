@@ -7,7 +7,12 @@ export default {
   name: "Update Custom Object",
   description:
     "Update a custom object in Hubspot. [See the documentation](https://developers.hubspot.com/beta-docs/guides/api/crm/objects/custom-objects#update-existing-custom-objects)",
-  version: "1.0.12",
+  version: "1.0.13",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   methods: {
     ...common.methods,

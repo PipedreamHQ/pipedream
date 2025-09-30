@@ -5,7 +5,12 @@ export default {
   key: "iauditor_by_safetyculture-share-inspection",
   name: "Share Inspection",
   description: "Share an inspection with one or more users in iAuditor by SafetyCulture. [See the documentation](https://developer.safetyculture.com/reference/thepubservice_shareinspection)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     safetyculture,

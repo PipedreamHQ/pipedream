@@ -6,7 +6,12 @@ export default {
   key: "icontact-create-message",
   name: "Create and Dispatch Message",
   description: "Creates and dispatches a new message using custom HTML. [See the documentation](https://help.icontact.com/customers/s/article/Messages-iContact-API?r=153&ui-knowledge-components-aura-actions.KnowledgeArticleVersionCreateDraftFromOnlineAction.createDraftFromOnlineArticle=1)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     icontact,

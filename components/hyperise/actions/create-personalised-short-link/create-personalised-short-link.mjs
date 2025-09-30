@@ -4,7 +4,12 @@ export default {
   key: "hyperise-create-personalised-short-link",
   name: "Create Personalised Short Link",
   description: "Creates a personalised short URL from provided inputs. [See the documentation](https://support.hyperise.com/en/api/Personalised-Short-Links-API)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     hyperise,

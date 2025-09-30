@@ -4,7 +4,12 @@ export default {
   key: "iauditor_by_safetyculture-create-user",
   name: "Create User",
   description: "Create a new user in iAuditor by SafetyCulture. [See the documentation](https://developer.safetyculture.com/reference/thepubservice_adduser)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     safetyculture,

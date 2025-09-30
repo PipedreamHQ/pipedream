@@ -4,7 +4,12 @@ export default {
   key: "icypeas-domain-search",
   name: "Domain or Company Search",
   description: "Performs a search using a domain or company name as input. [See the documentation](https://api-doc.icypeas.com/find-emails/single-search/domain-scan)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     icypeas,

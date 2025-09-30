@@ -5,7 +5,12 @@ export default {
   name: "Random Meme",
   description: "Searches for a random meme every time. [See the docs here](https://humorapi.com/docs/#Random-Meme).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     keywords: {
