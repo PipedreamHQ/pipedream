@@ -4,7 +4,12 @@ export default {
   key: "rest_countries_pe-search-countries-by-currency",
   name: "Search Countries By Currency",
   description: "Search for a country or countries by currency. [See the docs](https://restcountries.com/#endpoints-currency)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     countries,

@@ -4,7 +4,12 @@ export default {
   key: "rhombus-unlock-access-controlled-door",
   name: "Unlock Access Controlled Door",
   description: "Unlock an access controlled door. [See the documentation](https://apidocs.rhombus.com/reference/unlockaccesscontrolleddoor)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     rhombus,

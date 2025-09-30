@@ -4,7 +4,12 @@ export default {
   key: "revolt-send-friend-request",
   name: "Send Friend Request",
   description: "Send a friend request to another user. [See the documentation](https://developers.revolt.chat/developers/api/reference.html#tag/relationships/post/users/friend)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

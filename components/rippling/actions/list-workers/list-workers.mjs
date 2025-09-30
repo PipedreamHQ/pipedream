@@ -4,7 +4,12 @@ export default {
   key: "rippling-list-workers",
   name: "List Workers",
   description: "Retrieves a list of all workers from Rippling. [See the documentation](https://developer.rippling.com/documentation/rest-api/reference/list-workers)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     rippling,

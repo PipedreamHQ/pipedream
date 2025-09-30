@@ -4,7 +4,12 @@ export default {
   key: "rocket_chat-create-channel",
   name: "Create Channel",
   description: "Creates a new channel. [See the documentation](https://developer.rocket.chat/reference/api/rest-api/endpoints/rooms/channels-endpoints/create-channel)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     rocketchat,

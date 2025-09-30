@@ -7,7 +7,12 @@ export default {
   key: "richpanel-create-ticket",
   name: "Create Ticket",
   description: "Creates a new support ticket in Richpanel. [See the documentation](https://developer.richpanel.com/reference/create-conversation).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     richpanel,

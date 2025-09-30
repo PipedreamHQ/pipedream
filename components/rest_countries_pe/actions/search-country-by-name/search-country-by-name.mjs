@@ -4,7 +4,12 @@ export default {
   key: "rest_countries_pe-search-country-by-name",
   name: "Search Country By Name",
   description: "Search for a country by name. [See the docs](https://restcountries.com/#endpoints-name)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     countries,

@@ -4,7 +4,12 @@ export default {
   key: "rosette_text_analytics-match-names",
   name: "Match Names",
   description: "Compare two names using Rosette. [See the documentation](https://documentation.babelstreet.com/analytics/match-names/name-similarity/match-names)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -5,7 +5,12 @@ export default {
   key: "rockset-create-api-key",
   name: "Create API Key",
   description: "Create a new API key for the authenticated user.",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     rockset: {

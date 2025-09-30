@@ -4,7 +4,12 @@ export default {
   key: "riskadvisor-create-client",
   name: "Create Client",
   description: "Create a new client in RiskAdvisor. [See the documentation](https://api.riskadvisor.insure/clients#create-a-client)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     riskadvisor,

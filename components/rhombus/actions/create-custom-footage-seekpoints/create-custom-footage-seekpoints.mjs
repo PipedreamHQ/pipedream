@@ -4,7 +4,12 @@ export default {
   key: "rhombus-create-custom-footage-seekpoints",
   name: "Create Custom Footage Seekpoints",
   description: "Create custom activity seekpoints for a specified camera. [See the documentation](https://apidocs.rhombus.com/reference/createcustomfootageseekpoints)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     rhombus,

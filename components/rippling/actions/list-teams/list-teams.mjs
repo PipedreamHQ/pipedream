@@ -4,7 +4,12 @@ export default {
   key: "rippling-list-teams",
   name: "List Teams",
   description: "Retrieves a list of all teams from Rippling. [See the documentation](https://developer.rippling.com/documentation/rest-api/reference/list-teams)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     rippling,

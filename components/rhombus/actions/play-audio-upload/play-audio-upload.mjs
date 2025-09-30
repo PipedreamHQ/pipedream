@@ -4,7 +4,12 @@ export default {
   key: "rhombus-play-audio-upload",
   name: "Play Audio Upload",
   description: "Play an uploaded audio clip through an audio device. [See the documentation](https://apidocs.rhombus.com/reference/playaudioupload)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     rhombus,

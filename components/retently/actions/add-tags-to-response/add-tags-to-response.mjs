@@ -4,7 +4,12 @@ export default {
   key: "retently-add-tags-to-response",
   name: "Add Tags to Response",
   description: "Adds tags to a response. [See the documentation](https://www.retently.com/api/#api-add-response-tags-post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     retently,

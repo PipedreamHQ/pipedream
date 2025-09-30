@@ -5,7 +5,12 @@ export default {
   name: "Create Device Return",
   description: "Creates a device return order. [See the documentation](https://app.helloretriever.com/api/v1/docs/#tag/Device-Return-Orders/operation/Submit%20Order)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     requestCharger: {

@@ -4,7 +4,12 @@ export default {
   key: "revolt-create-group",
   name: "Create Group",
   description: "Create a new group channel. [See the documentation](https://developers.revolt.chat/developers/api/reference.html#tag/groups/post/channels/create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

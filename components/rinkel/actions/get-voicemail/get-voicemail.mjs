@@ -4,7 +4,12 @@ export default {
   key: "rinkel-get-voicemail",
   name: "Get Voicemail",
   description: "Returns a URL to stream or download a voicemail. [See the documentation](https://developers.rinkel.com/docs/api/get-a-temporary-url-to-stream-or-download-a-voicemail)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     rinkel,

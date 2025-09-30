@@ -4,7 +4,12 @@ export default {
   key: "rollbar-create-a-project",
   name: "Create a Project",
   description: "Creates a new project in Rollbar. [See the documentation](https://docs.rollbar.com/reference/create-a-project)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

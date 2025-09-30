@@ -4,7 +4,12 @@ export default {
   key: "retable-add-record",
   name: "Add Record",
   description: "Add a new record in Retable. [See the documentation](https://docs.retable.io/retable-user-guide/retable-api/api#insert-row)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     retable,

@@ -6,7 +6,12 @@ export default {
   name: "Create Caption Order Using External Link",
   description: "Submit a new caption order using a external link that contains the media. [See docs here.](https://www.rev.com/api/orderspostcaption)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     rev,
     externalLink: {

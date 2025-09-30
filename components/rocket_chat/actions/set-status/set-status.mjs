@@ -5,7 +5,12 @@ export default {
   key: "rocket_chat-set-status",
   name: "Set Status",
   description: "Updates the user's status. [See the documentation](https://developer.rocket.chat/reference/api/rest-api/endpoints/user-management/users-endpoints/set-user-status)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     rocketchat,

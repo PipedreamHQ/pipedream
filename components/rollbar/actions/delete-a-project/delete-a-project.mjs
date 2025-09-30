@@ -4,7 +4,12 @@ export default {
   key: "rollbar-delete-a-project",
   name: "Delete a Project",
   description: "Deletes a project in Rollbar. [See the documentation](https://docs.rollbar.com/reference/delete-a-project)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

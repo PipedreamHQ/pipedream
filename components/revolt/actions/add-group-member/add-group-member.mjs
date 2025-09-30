@@ -4,7 +4,12 @@ export default {
   key: "revolt-add-group-member",
   name: "Add Group Member",
   description: "Adds another user to the group. [See the documentation](https://developers.revolt.chat/developers/api/reference.html#tag/groups/put/channels/{group_id}/recipients/{member_id})",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

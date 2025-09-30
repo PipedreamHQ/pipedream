@@ -5,7 +5,12 @@ export default {
   key: "rockset-add-documents",
   name: "Add Documents",
   description: "Add documents to a collection in Rockset. Learn more at https://docs.rockset.com/rest/#adddocuments.",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     rockset: {

@@ -4,7 +4,12 @@ import roll from "../../roll.app.mjs";
 export default {
   key: "roll-create-project",
   name: "Create Project",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new project [See the docs here](https://docs.rollhq.com/docs/roll-api#api-url)",
   type: "action",
   props: {

@@ -5,7 +5,12 @@ export default {
   key: "rev_ai-get-transcript",
   name: "Get Transcript By Id",
   description: "Returns the transcript for a completed transcription job. Transcript can be returned as either JSON or plaintext format.",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     rev_ai: {

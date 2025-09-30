@@ -4,7 +4,12 @@ export default {
   key: "ringover-create-contact",
   name: "Create Contact",
   description: "Creates a new contact in Ringover. [See the documentation](https://developer.ringover.com/?_ga=2.63646317.316145444.1695076986-652152469.1694643800#tag/contacts/paths/~1contacts/post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ringover,
