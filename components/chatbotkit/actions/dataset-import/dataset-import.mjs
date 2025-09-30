@@ -5,7 +5,12 @@ export default {
   key: "chatbotkit-dataset-import",
   name: "Import Dataset",
   description: "Imports a specified file into the bot's dataset. [See the documentation](https://chatbotkit.com/docs/api/v1/spec)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     chatbotkit,

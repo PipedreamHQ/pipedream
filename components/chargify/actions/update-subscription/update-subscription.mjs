@@ -4,7 +4,12 @@ export default {
   key: "chargify-update-subscription",
   name: "Update Subscription",
   description: "Modifies an existing subscription in Chargify. [See the documentation](https://developers.maxio.com/http/advanced-billing-api/api-endpoints/subscriptions/update-subscription)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     chargify,

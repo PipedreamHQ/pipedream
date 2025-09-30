@@ -4,7 +4,12 @@ export default {
   name: "Get all Lists",
   description: "Get all lists [See the documentation](https://campaignhq.docs.apiary.io/#reference/0/lists-collection/get-all-lists).",
   key: "campaignhq-get-all-lists",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

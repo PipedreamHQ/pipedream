@@ -4,7 +4,12 @@ export default {
   key: "castmagic-get-transcription",
   name: "Get Transcription",
   description: "Retrieves details for a transcript given an identifier. [See the documentation](https://docs.castmagic.io/endpoints/transcripts)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     castmagic,

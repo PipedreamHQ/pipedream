@@ -4,7 +4,12 @@ export default {
   key: "cardly-create-contact",
   name: "Create Contact",
   description: "Creates a new contact in Cardly. [See the documentation](https://api.card.ly/v2/docs#endpoint-create-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     cardly,

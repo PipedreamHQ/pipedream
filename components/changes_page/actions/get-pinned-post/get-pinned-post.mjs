@@ -5,7 +5,12 @@ export default {
   key: "changes_page-get-pinned-post",
   name: "Get Pinned Post",
   description: "Get the pinned post from Changes Page. [See the documentation](https://docs.changes.page/docs/api/page#get-pinned-post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     changesPage,

@@ -3,7 +3,12 @@ import chartmogul from "../../chartmogul.app.mjs";
 export default {
   key: "chartmogul-add-custom-attributes-via-email",
   name: "Add Custom Attributes To Customer Via Email",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Adds custom attributes to customers that have the specified email address. [See the docs here](https://dev.chartmogul.com/reference/add-custom-attributes-to-customers-with-email)",
   type: "action",
   props: {

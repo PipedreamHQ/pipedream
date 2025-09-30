@@ -4,7 +4,12 @@ import chartmogul from "../../chartmogul.app.mjs";
 export default {
   key: "chartmogul-search-customers-via-email",
   name: "Search Customers Via Email",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Returns a list of all `customer` objects with the specified email address in your ChartMogul account. [See the docs here](https://dev.chartmogul.com/reference/search-for-customers)",
   type: "action",
   props: {
