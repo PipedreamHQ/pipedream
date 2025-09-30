@@ -4,7 +4,12 @@ export default {
   key: "z_api-send-text",
   name: "Send Text",
   description: "Send a text to the specified phone. [See the documentation](https://developer.z-api.io/en/message/send-message-text)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

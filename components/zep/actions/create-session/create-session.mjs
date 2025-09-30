@@ -5,7 +5,12 @@ export default {
   key: "zep-create-session",
   name: "Create Session",
   description: "Creates a new session in Zep. [See the documentation](https://help.getzep.com/api-reference/memory/add-session)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zep,

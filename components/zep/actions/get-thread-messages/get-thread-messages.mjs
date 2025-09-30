@@ -4,7 +4,12 @@ export default {
   key: "zep-get-thread-messages",
   name: "Get Thread Messages",
   description: "Returns messages for the thread with the specified ID. [See the documentation](https://help.getzep.com/sdk-reference/thread/get)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     zep,

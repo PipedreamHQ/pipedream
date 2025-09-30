@@ -5,7 +5,12 @@ export default {
   name: "Create Lead",
   description: "Creates a new lead. [See the documentation](https://developer.zendesk.com/api-reference/sales-crm/resources/leads/#create-a-lead).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     zendeskSell,
     isOrganization: {

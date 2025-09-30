@@ -4,7 +4,12 @@ export default {
   key: "zerobounce-validate-email",
   name: "Validate Email",
   description: "Validates a specific email. [See the documentation](https://www.zerobounce.net/docs/email-validation-api-quickstart/#validate_emails__v2__)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     zerobounce,

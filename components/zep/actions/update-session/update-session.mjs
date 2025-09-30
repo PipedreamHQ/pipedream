@@ -5,7 +5,12 @@ export default {
   key: "zep-update-session",
   name: "Update Session",
   description: "Updates an existing session in Zep. [See the documentation](https://help.getzep.com/api-reference/memory/update-session)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zep,

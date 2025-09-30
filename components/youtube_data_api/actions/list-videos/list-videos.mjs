@@ -7,7 +7,12 @@ export default {
   key: "youtube_data_api-list-videos",
   name: "List Videos",
   description: "Returns a list of videos that match the API request parameters. [See the documentation](https://developers.google.com/youtube/v3/docs/videos/list) for more information",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     youtubeDataApi,

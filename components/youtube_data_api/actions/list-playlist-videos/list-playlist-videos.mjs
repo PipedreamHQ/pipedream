@@ -4,7 +4,12 @@ export default {
   key: "youtube_data_api-list-playlist-videos",
   name: "List Playlist Videos",
   description: "List videos in a playlist. [See the documentation](https://developers.google.com/youtube/v3/docs/playlistItems/list) for more information",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     youtubeDataApi,

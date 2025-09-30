@@ -5,7 +5,12 @@ export default {
   key: "zenkit-get-list",
   name: "Get List",
   description: "Retrieve a list/collection from a workspace on Zenkit. [See the docs](https://base.zenkit.com/docs/api/lists/get-api-v1-lists-listshortid)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

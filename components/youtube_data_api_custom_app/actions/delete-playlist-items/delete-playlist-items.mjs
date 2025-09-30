@@ -6,7 +6,12 @@ export default {
   key: "youtube_data_api_custom_app-delete-playlist-items",
   name: "Delete Playlist Items",
   description: "Deletes a playlist item. [See the docs](https://developers.google.com/youtube/v3/docs/playlistItems/delete) for more information",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     youtubeDataApi,

@@ -5,7 +5,12 @@ export default {
   key: "youtube_data_api-search-videos",
   name: "Search Videos",
   description: "Returns a list of videos that match the search parameters. [See the documentation](https://developers.google.com/youtube/v3/docs/search/list) for more information",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     youtubeDataApi,

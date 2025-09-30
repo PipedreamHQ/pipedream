@@ -5,7 +5,12 @@ export default {
   key: "zenkit-get-entry",
   name: "Get Entry",
   description: "Retrieve an entry/item from a list on Zenkit. [See the docs](https://base.zenkit.com/docs/api/entries/get-api-v1-lists-listallid-entries-listentryallid)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

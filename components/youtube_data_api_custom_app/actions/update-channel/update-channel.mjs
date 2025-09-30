@@ -6,7 +6,12 @@ export default {
   key: "youtube_data_api_custom_app-update-channel",
   name: "Update Channel",
   description: "Updates a channel's metadata. [See the docs](https://developers.google.com/youtube/v3/docs/channels/update) for more information",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     youtubeDataApi,

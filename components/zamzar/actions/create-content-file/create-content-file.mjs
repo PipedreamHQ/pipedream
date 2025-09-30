@@ -5,7 +5,12 @@ export default {
   key: "zamzar-create-content-file",
   name: "Create Content File",
   description: "Creates a file from the provided content. [See the documentation](https://developers.zamzar.com/docs)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

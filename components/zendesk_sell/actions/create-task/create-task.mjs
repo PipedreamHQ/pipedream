@@ -5,7 +5,12 @@ export default {
   name: "Create Task",
   description: "Creates a new task. [See the documentation](https://developer.zendesk.com/api-reference/sales-crm/resources/tasks/#create-a-task).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     zendeskSell,
     resourceType: {

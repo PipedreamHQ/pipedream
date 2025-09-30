@@ -6,7 +6,12 @@ export default {
   key: "youtube_data_api_custom_app-upload-video",
   name: "Upload Video",
   description: "Post a video to your channel. [See the docs](https://developers.google.com/youtube/v3/docs/videos/insert) for more information",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   dedupe: "unique",
   props: {

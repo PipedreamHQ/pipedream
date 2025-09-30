@@ -6,7 +6,12 @@ export default {
   key: "youtube_data_api_custom_app-upload-channel-banner",
   name: "Upload Channel Banner",
   description: "Uploads a channel banner image to YouTube. [See the docs](https://developers.google.com/youtube/v3/docs/channelBanners/insert) for more information",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     youtubeDataApi,
