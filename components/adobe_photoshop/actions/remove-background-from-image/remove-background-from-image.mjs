@@ -9,7 +9,12 @@ export default {
   key: "adobe_photoshop-remove-background-from-image",
   name: "Remove Background from Image",
   description: "Removes the background from an image using Adobe Photoshop API. [See the documentation](https://developer.adobe.com/firefly-services/docs/photoshop/api/photoshop_removeBackground/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     adobePhotoshop,

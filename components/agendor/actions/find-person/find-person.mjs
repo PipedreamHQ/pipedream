@@ -4,7 +4,12 @@ export default {
   name: "Find Person",
   description: "Find Person [See the documentation](https://api.agendor.com.br/docs/#operation/Get%20person).",
   key: "agendor-find-person",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

@@ -4,7 +4,12 @@ export default {
   key: "airslate-create-new-organization",
   name: "Create New Organization",
   description: "Creates a new organization in airslate with optional settings. [See the documentation](https://docs.airslate.io/docs/airslate-api/organizations-api%2Foperations%2Fcreate-a-organization)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

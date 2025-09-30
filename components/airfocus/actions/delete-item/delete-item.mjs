@@ -4,7 +4,12 @@ export default {
   key: "airfocus-delete-item",
   name: "Delete Item",
   description: "Deletes a specific item in airfocus. [See the documentation](https://developer.airfocus.com/endpoints.html)",
-  version: "0.1.0",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     airfocus,

@@ -6,7 +6,12 @@ export default {
   key: "airparser-upload-document-parse",
   name: "Upload Document and Parse",
   description: "Uploads a document into the inbox for data extraction. [See the documentation](https://help.airparser.com/public-api/public-api)",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     airparser,

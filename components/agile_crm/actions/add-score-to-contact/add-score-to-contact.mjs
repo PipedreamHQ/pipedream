@@ -4,7 +4,12 @@ export default {
   key: "agile_crm-add-score-to-contact",
   name: "Add Score to Contact",
   description: "Used to change the score of a contact. [See the documentation](https://github.com/agilecrm/rest-api#15-update-lead-score-by-id)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     agileCrm,

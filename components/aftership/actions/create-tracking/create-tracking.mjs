@@ -7,7 +7,12 @@ export default {
   key: "aftership-create-tracking",
   name: "Create Tracking",
   description: "Creates a tracking. [See the documentation](https://www.aftership.com/docs/api/4/trackings/post-trackings)",
-  version: "0.1.0",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     aftership,

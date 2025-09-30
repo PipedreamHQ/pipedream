@@ -4,7 +4,12 @@ export default {
   key: "adyen-create-payment",
   name: "Create Payment",
   description: "Creates a payment for a shopper. [See the documentation](https://docs.adyen.com/api-explorer/Checkout/71/post/payments)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

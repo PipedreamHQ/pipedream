@@ -2,7 +2,12 @@ import app from "../../airmeet.app.mjs";
 
 export default {
   name: "Add Authorized Attendee",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "airmeet-add-authorized-attendee",
   description: "Add authorized Attendee. [See the documentation](https://help.airmeet.com/support/solutions/articles/82000467794-airmeet-public-apis-v2-0#5.1-Add-Authorized-Attendee)",
   type: "action",
