@@ -4,7 +4,12 @@ export default {
   key: "slack-add-emoji-reaction",
   name: "Add Emoji Reaction",
   description: "Add an emoji reaction to a message. [See the documentation](https://api.slack.com/methods/reactions.add)",
-  version: "0.0.15",
+  version: "0.0.16",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     slack,
