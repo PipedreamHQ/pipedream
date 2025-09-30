@@ -4,7 +4,12 @@ export default {
   key: "neo4j_auradb-run-query",
   name: "Run Cypher Query",
   description: "Executes a Cypher query against the Neo4j AuraDB instance. [See the documentation](https://neo4j.com/docs/query-api/current/query/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -5,7 +5,12 @@ export default {
   name: "Proxy Post Request",
   description: "Make a post request with the Proxy. [See the Documentation](https://docs.nango.dev/api-reference/proxy/post)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     anyPath: {

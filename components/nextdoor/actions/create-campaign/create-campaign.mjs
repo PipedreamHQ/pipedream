@@ -4,7 +4,12 @@ export default {
   key: "nextdoor-create-campaign",
   name: "Create Campaign",
   description: "Creates a campaign. [See the documentation](https://developer.nextdoor.com/reference/campaign-create).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

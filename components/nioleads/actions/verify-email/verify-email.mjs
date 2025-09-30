@@ -4,7 +4,12 @@ export default {
   key: "nioleads-verify-email",
   name: "Verify Email",
   description: "Checks the deliverability of a specified email address. [See the documentation](https://apidoc.nioleads.com/?_gl=1*1288vdg*_ga*MTY1NzE1MjMzOC4xNzI1OTM5Njk1*_ga_ZVT2YHDDZG*MTcyNTk0Mzk5NC4yLjAuMTcyNTk0NDAyMy4wLjAuMA..#email-verifier)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     nioleads,

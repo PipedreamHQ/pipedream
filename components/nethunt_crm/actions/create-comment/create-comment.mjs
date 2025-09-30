@@ -4,7 +4,12 @@ export default {
   key: "nethunt_crm-create-comment",
   name: "Create Comment",
   description: "Create a new record comment. [See docs here](https://nethunt.com/integration-api#create-comment)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     nethuntCrm,

@@ -5,7 +5,12 @@ export default {
   name: "Execute Stored Procedure",
   description: "Execute Stored Procedure. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/stored-programs-defining.html)",
   type: "action",
-  version: "2.0.5",
+  version: "2.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     mysql,
     storedProcedure: {

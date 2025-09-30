@@ -5,7 +5,12 @@ export default {
   name: "Delete Connection",
   description: "Deletes a Connection. [See the Documentation](https://docs.nango.dev/api-reference/connection/delete)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     connectionId: {

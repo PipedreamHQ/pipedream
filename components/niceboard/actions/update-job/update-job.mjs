@@ -4,7 +4,12 @@ export default {
   key: "niceboard-update-job",
   name: "Update Job",
   description: "Updates an existing job posting within the Niceboard app.",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     niceboard,

@@ -6,7 +6,12 @@ export default {
   name: "Create Integration",
   description: "Create a new Integration. [See the Documentation](https://docs.nango.dev/api-reference/integration/create)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     oauthClientId: {

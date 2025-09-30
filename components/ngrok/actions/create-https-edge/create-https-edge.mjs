@@ -4,7 +4,12 @@ export default {
   key: "ngrok-create-https-edge",
   name: "Create HTTPS Edge",
   description: "Create an HTTPS Edge. [See the documentation](https://ngrok.com/docs/api/resources/edges-https/#create-https-edge).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

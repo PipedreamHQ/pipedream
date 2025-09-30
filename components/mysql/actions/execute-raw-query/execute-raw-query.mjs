@@ -5,7 +5,12 @@ export default {
   name: "Execute SQL Query",
   description: "Execute a custom MySQL query. See [our docs](https://pipedream.com/docs/databases/working-with-sql) to learn more about working with SQL in Pipedream.",
   type: "action",
-  version: "2.0.1",
+  version: "2.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     mysql,
     // eslint-disable-next-line pipedream/props-description

@@ -7,7 +7,12 @@ export default {
   key: "neuronwriter-create-new-query",
   name: "Create New Query",
   description: "Launches a new query based on provided keyword, search engine, and language. [See the documentation](https://contadu.crisp.help/en/article/neuronwriter-api-how-to-use-2ds6hx/#3-new-query)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     neuronwriter,

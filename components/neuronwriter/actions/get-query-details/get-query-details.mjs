@@ -4,7 +4,12 @@ export default {
   key: "neuronwriter-get-query-details",
   name: "Get Query Details",
   description: "Fetches the data related to a pre-defined query. [See the documentation](https://contadu.crisp.help/en/article/neuronwriter-api-how-to-use-2ds6hx/#3-get-query)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     neuronwriter,

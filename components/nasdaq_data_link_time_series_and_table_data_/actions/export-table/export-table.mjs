@@ -5,7 +5,12 @@ export default {
   key: "nasdaq_data_link_time_series_and_table_data_-export-table",
   name: "Export Table (Bulk Download)",
   description: "Exports an entire table or a filtered subset as a zipped CSV file. Returns a download link for the data. Premium subscribers can use this feature up to 60 times per hour. [See the documentation](https://docs.data.nasdaq.com/docs/large-table-download)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

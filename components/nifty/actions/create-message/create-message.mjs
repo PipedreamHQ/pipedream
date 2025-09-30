@@ -5,7 +5,12 @@ export default {
   key: "nifty-create-message",
   name: "Create Message",
   description: "Sends a new message in a team's discussion. [See the documentation](https://openapi.niftypm.com/api)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     nifty,

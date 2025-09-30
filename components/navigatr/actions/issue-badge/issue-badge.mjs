@@ -4,7 +4,12 @@ export default {
   key: "navigatr-issue-badge",
   name: "Issue Badge",
   description: "Issue a badge to a recipient. [See the documentation](https://api.navigatr.app/docs#/Badge/issue_badge_v1_badge__badge_id__issue_put)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

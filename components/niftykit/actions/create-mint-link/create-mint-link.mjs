@@ -4,7 +4,12 @@ export default {
   key: "niftykit-create-mint-link",
   name: "Create Mint Link",
   description: "Creates a mint link in NiftyKit. [See the documentation](https://api.niftykit.com/docs?_gl=1*d8mlfi*_ga*MTY5MTM2MjIwNi4xNjk0MDMzOTk3*_ga_B0DCGWCR37*MTY5NzE0MTUzNy40LjAuMTY5NzE0MTUzNy42MC4wLjA.#/onboarding/OnboardingController_createMintLink)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     niftykit,

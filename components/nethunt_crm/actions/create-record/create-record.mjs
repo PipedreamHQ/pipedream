@@ -4,7 +4,12 @@ export default {
   key: "nethunt_crm-create-record",
   name: "Create Record",
   description: "Creates a new record. [See docs here](https://nethunt.com/integration-api#create-record)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     nethuntCrm,

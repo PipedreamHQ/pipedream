@@ -4,7 +4,12 @@ import nationbuilder from "../../nationbuilder.app.mjs";
 export default {
   key: "nationbuilder-update-person",
   name: "Update Person",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Update a specific person with the provided data. [See the documentation](https://nationbuilder.com/people_api)",
   type: "action",
   props: {

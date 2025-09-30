@@ -5,7 +5,12 @@ export default {
   key: "nextdoor-create-ad-group",
   name: "Create Ad Group",
   description: "Creates an ad group based on the input payload for an existing campaign. [See the documentation](https://developer.nextdoor.com/reference/adgroup-create).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

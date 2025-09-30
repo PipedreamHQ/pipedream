@@ -3,7 +3,12 @@ import nationbuilder from "../../nationbuilder.app.mjs";
 export default {
   key: "nationbuilder-search-person",
   name: "Search Person",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new person with the provided data. [See the documentation](https://nationbuilder.com/people_api)",
   type: "action",
   props: {

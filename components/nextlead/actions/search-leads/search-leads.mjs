@@ -4,7 +4,12 @@ export default {
   key: "nextlead-search-leads",
   name: "Search Leads",
   description: "Search for leads by email in NextLead. [See the documentation](https://dashboard.nextlead.app/en/api-documentation#find)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     nextlead,

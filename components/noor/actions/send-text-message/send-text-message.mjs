@@ -4,7 +4,12 @@ export default {
   key: "noor-send-text-message",
   name: "Send Text Message",
   description: "Send a message in a thread. [See the documentation](https://usenoor.notion.site/v0-e812ae5e5976420f81232fa1c0316e84)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

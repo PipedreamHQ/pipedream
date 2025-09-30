@@ -5,7 +5,12 @@ export default {
   key: "news_api-search-everything",
   name: "Search Everything",
   description: "Search through millions of articles from over 150,000 large and small news sources and blogs. [See the documentation](https://newsapi.org/docs/endpoints/everything)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     newsapi,

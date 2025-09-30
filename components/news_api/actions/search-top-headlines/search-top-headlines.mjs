@@ -6,7 +6,12 @@ export default {
   key: "news_api-search-top-headlines",
   name: "Search Top Headlines",
   description: "Retrieve live top and breaking headlines for a category, single source, multiple sources, or keywords. [See the documentation](https://newsapi.org/docs/endpoints/top-headlines)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     newsapi,

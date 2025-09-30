@@ -4,7 +4,12 @@ export default {
   key: "nethunt_crm-find-record",
   name: "Find Record",
   description: "Search for a record using a text query. [See docs here](https://nethunt.com/integration-api#find-record)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     nethuntCrm,

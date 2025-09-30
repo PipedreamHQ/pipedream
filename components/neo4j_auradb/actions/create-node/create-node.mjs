@@ -6,7 +6,12 @@ export default {
   key: "neo4j_auradb-create-node",
   name: "Create Node",
   description: "Creates a new node in the Neo4j AuraDB instance. [See the documentation](https://neo4j.com/docs/query-api/current/query/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,
