@@ -6,7 +6,12 @@ export default {
   key: "stannp-create-recipient",
   name: "Create a New Recipient",
   description: "Creates a new recipient in a specified group. [See the Stannp documentation](https://www.stannp.com/us/direct-mail-api/recipients)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     stannp,

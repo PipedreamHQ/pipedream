@@ -4,7 +4,12 @@ export default {
   name: "Update Activity",
   description: "Updates the given activity that is owned by the authenticated athlete. [See the docs](https://developers.strava.com/docs/reference/#api-Activities-updateActivityById)",
   key: "strava-update-activity",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     strava,

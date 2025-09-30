@@ -4,7 +4,12 @@ export default {
   key: "stripe-create-invoice",
   name: "Create Invoice",
   type: "action",
-  version: "0.1.3",
+  version: "0.1.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create an invoice. [See the documentation](https://stripe.com/docs/api/invoices/create).",
   props: {
     app,

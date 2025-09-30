@@ -4,7 +4,12 @@ export default {
   key: "sproutgigs-get-zones",
   name: "Get Zones",
   description: "Get the available zones. [See the documentation](https://sproutgigs.com/api/documentation.php#jobs-zones)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

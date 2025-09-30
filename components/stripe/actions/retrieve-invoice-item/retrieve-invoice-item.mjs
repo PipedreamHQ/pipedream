@@ -4,7 +4,12 @@ export default {
   key: "stripe-retrieve-invoice-item",
   name: "Retrieve Invoice Line Item",
   type: "action",
-  version: "0.1.3",
+  version: "0.1.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Retrieve a single line item on an invoice. [See the documentation](https://stripe.com/docs/api/invoiceitems/retrieve).",
   props: {
     app,

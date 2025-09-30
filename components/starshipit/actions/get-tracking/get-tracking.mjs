@@ -5,7 +5,12 @@ export default {
   key: "starshipit-get-tracking",
   name: "Get Tracking Details",
   description: "Retrieve tracking details using a tracking number or order number. [See the documentation](https://api-docs.starshipit.com/#a655a3b4-ea39-42c4-acb4-d868ad40dc47)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     starshipit,

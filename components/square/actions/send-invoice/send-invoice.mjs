@@ -5,7 +5,12 @@ export default {
   name: "Send Invoice",
   description: "Publishes the latest version of a specified invoice. [See the docs](https://developer.squareup.com/reference/square/invoices-api/publish-invoice).",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     square,
     location: {

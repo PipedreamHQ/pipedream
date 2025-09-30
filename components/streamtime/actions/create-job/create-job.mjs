@@ -4,7 +4,12 @@ export default {
   key: "streamtime-create-job",
   name: "Create Job",
   description: "Create a new job in Streamtime. [See the documentation](https://documenter.getpostman.com/view/802974/RWgtSwbn?version=latest#3c29e1b5-7890-4d03-bc6c-fd3a12c45e84).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     streamtime,

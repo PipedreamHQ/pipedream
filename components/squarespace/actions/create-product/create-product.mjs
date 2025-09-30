@@ -5,7 +5,12 @@ export default {
   key: "squarespace-create-product",
   name: "Create Product",
   description: "Create a new product. [See docs here](https://developers.squarespace.com/commerce-apis/create-product)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     squarespace,

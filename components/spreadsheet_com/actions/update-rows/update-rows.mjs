@@ -4,7 +4,12 @@ import spreadsheetCom from "../../spreadsheet_com.app.mjs";
 export default {
   key: "spreadsheet_com-update-rows",
   name: "Update Rows",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Update existing row(s). [See the documentation](https://developer.spreadsheet.com/#tag/Rows/operation/updateRows)",
   type: "action",
   props: {

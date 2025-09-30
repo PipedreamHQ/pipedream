@@ -4,7 +4,12 @@ export default {
   key: "streamlabs-send-test-alert",
   name: "Send Test Alert",
   description: "Send a test alert to the stream overlay in StreamLabs. [See the documentation](https://dev.streamlabs.com/reference/alertssend_test_alert)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     streamlabs,

@@ -4,7 +4,12 @@ export default {
   key: "streamtime-create-contact",
   name: "Create Contact",
   description: "Create a new contact in Streamtime. [See the documentation](https://documenter.getpostman.com/view/802974/RWgtSwbn?version=latest#5df35cec-ec19-4721-a683-df1e391d6bf0).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     streamtime,

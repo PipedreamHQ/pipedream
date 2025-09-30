@@ -4,7 +4,12 @@ export default {
   key: "stripe-capture-payment-intent",
   name: "Capture a Payment Intent",
   type: "action",
-  version: "0.1.3",
+  version: "0.1.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Capture the funds of an existing uncaptured payment intent. [See the documentation](https://stripe.com/docs/api/payment_intents/capture).",
   props: {
     app,

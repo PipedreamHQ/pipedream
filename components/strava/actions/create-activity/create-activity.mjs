@@ -4,7 +4,12 @@ export default {
   name: "Create Activity",
   description: "Creates a manual activity for an athlete. [See the docs](https://developers.strava.com/docs/reference/#api-Activities-createActivity)",
   key: "strava-create-activity",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     strava,

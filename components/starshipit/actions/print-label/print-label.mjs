@@ -5,7 +5,12 @@ export default {
   key: "starshipit-print-label",
   name: "Print Shipping Label",
   description: "Print a shipping label for a specific order. [See the documentation](https://api-docs.starshipit.com/#b6bc3576-a43f-4992-86d8-8fdf57f872f6)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     starshipit,

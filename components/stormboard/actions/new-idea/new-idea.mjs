@@ -4,7 +4,12 @@ import options from "../common/options.mjs";
 export default {
   type: "action",
   key: "stormboard-new-idea",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   name: "New Idea",
   description: "Creates a new idea. [See the docs here](https://api.stormboard.com/docs)",
   props: {

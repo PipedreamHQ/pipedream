@@ -5,7 +5,12 @@ export default {
   name: "Create Invoice",
   description: "Creates a draft invoice for an order. You must send (publish) the invoice before Square can process it. [See the documentation](https://developer.squareup.com/reference/square/invoices-api/create-invoice).",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     square,
     location: {

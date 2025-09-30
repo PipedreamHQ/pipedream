@@ -4,7 +4,12 @@ export default {
   key: "stripe-update-refund",
   name: "Update a Refund",
   type: "action",
-  version: "0.1.3",
+  version: "0.1.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Update the metadata on a refund. [See the documentation](https://stripe.com/docs/api/refunds/update).",
   props: {
     app,

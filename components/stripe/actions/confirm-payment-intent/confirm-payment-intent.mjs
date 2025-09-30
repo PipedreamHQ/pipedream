@@ -5,7 +5,12 @@ export default {
   key: "stripe-confirm-payment-intent",
   name: "Confirm A Payment Intent",
   type: "action",
-  version: "0.1.3",
+  version: "0.1.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Confirm that your customer intends to pay with current or provided payment method. [See the documentation](https://stripe.com/docs/api/payment_intents/confirm).",
   props: {
     app,
