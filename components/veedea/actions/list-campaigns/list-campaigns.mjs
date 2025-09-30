@@ -4,7 +4,12 @@ export default {
   key: "veedea-list-campaigns",
   name: "List Campaigns",
   description: "Get the list of campaigns created in the Veedea Dashboard. [See the documentation](https://veedea.com/api/doc)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     veedea,

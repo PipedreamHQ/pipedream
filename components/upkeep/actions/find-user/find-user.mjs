@@ -4,7 +4,12 @@ import utils from "../../common/utils.mjs";
 export default {
   type: "action",
   key: "upkeep-find-user",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   name: "Find User",
   description: "Finds users according to props configured, if no prop configured returns all users, [See the docs](https://developers.onupkeep.com/#get-all-users)",
   props: {

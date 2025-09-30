@@ -7,7 +7,12 @@ export default {
   key: "utopian_labs-initiate-research-run",
   name: "Initiate Research Run",
   description: "Initiate a research run of the R1 agent. [See the documentation](https://docs.utopianlabs.ai/research#initiate-a-research-run)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     utopianLabs,

@@ -4,7 +4,12 @@ export default {
   key: "uberduck-generate-lyrics",
   name: "Generate Lyrics",
   description: "Generates lyrics using a specified voice model. [See the documentation](https://docs.uberduck.ai/reference/generate-lyrics)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     uberduck,

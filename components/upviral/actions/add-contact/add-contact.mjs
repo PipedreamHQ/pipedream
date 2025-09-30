@@ -5,7 +5,12 @@ import upviral from "../../upviral.app.mjs";
 export default {
   key: "upviral-add-contact",
   name: "Add Contact",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Add a new contact in your particular campaign. [See the documentation](https://api.upviral.com/#add-contact)",
   type: "action",
   props: {

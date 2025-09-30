@@ -4,7 +4,12 @@ export default {
   key: "uberduck-get-voices",
   name: "Get Voices",
   description: "List voices available in Uberduck. [See the documentation](https://docs.uberduck.ai/reference/list-voices)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     uberduck,

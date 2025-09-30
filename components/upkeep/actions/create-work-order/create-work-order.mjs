@@ -5,7 +5,12 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   type: "action",
   key: "upkeep-create-work-order",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   name: "Create Work Order",
   description: "Create a Work Order, [See the docs](https://developers.onupkeep.com/#create-a-work-order)",
   props: {

@@ -5,7 +5,12 @@ export default {
   key: "vbout-unsubscribe-contact",
   name: "Unsubscribe Contact",
   description: "This action unsubscribes a specific contact from a list. [See the docs here](https://developers.vbout.com/docs#emailmarketing_editcontact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

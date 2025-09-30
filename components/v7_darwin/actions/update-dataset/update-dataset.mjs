@@ -4,7 +4,12 @@ export default {
   key: "v7_darwin-update-dataset",
   name: "Update Dataset",
   description: "Update a dataset with the specified ID. [See the documentation](https://docs.v7labs.com/reference/update-dataset)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

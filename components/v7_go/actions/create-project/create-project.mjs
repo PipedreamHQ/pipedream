@@ -4,7 +4,12 @@ export default {
   key: "v7_go-create-project",
   name: "Create Project",
   description: "Initiates the creation of a new project with a unique project identifier. [See the documentation](https://docs.go.v7labs.com/reference/project-create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     v7Go,

@@ -5,7 +5,12 @@ export default {
   key: "unisender-subscribe-contact",
   name: "Subscribe Contact",
   description: "This method adds contacts (email address and/or mobile phone numbers) of the contact to one or several lists, and also allows you to add/change values of additional fields and tags. [See the docs here](https://www.unisender.com/ru/support/api/contacts/subscribe/)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

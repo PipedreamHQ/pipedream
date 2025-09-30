@@ -5,7 +5,12 @@ export default {
   key: "uptimerobot-create-alert-contact",
   name: "Create Alert Contact",
   description: "Create a new alert contact. [See the documentation](https://uptimerobot.com/api/).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

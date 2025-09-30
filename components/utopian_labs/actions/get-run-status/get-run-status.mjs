@@ -4,7 +4,12 @@ export default {
   key: "utopian_labs-get-run-status",
   name: "Get Run Status",
   description: "Retrieve the status of an initiated run. [See the documentation](https://docs.utopianlabs.ai/research#retrieve-research-run-status)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     utopianLabs,

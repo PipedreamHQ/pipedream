@@ -5,7 +5,12 @@ export default {
   key: "upstash_redis-post-command",
   name: "Post Command",
   description: "Post a command to a Redis database. [See the documentation](https://upstash.com/docs/redis/features/restapi#post-command-in-body)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

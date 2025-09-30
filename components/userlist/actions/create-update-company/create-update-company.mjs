@@ -4,7 +4,12 @@ export default {
   key: "userlist-create-update-company",
   name: "Create or Update Company",
   description: "Creates a new company or replaces an existing one using a given identifier. [See the documentation](https://userlist.com/docs/getting-started/integration-guide/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     userlist,

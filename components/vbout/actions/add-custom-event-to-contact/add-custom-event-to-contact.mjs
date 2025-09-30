@@ -6,7 +6,12 @@ export default {
   key: "vbout-add-custom-event-to-contact",
   name: "Add Custom Event To Contact",
   description: "This action add a custom activity to the contact. [See the docs here](https://developers.vbout.com/docs#emailmarketing_addactivity)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

@@ -4,7 +4,12 @@ export default {
   key: "undetectable_ai-submit-document",
   name: "Submit Document",
   description: "Submit document for humanization. [See the documentation](https://docs.undetectable.ai/#submit-document)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

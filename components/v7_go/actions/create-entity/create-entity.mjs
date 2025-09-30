@@ -4,7 +4,12 @@ export default {
   key: "v7_go-create-entity",
   name: "Create Entity",
   description: "Triggers the creation of a new entity. [See the documentation](https://docs.go.v7labs.com/reference/create-entities-programmatically)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     v7Go,

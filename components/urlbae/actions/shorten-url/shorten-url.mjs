@@ -2,7 +2,12 @@ import app from "../../urlbae.app.mjs";
 
 export default {
   name: "Shorten URL",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "urlbae-shorten-url",
   description: "Creates a shorten URL. [See the documentation](https://urlbae.com/developers#shorten-a-link)",
   type: "action",

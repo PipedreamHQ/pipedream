@@ -2,7 +2,12 @@ import app from "../../uscreen.app.mjs";
 
 export default {
   name: "Create User",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "uscreen-create-user",
   description: "Creates an user. [See the documentation](https://uscreen.io/api/publisher.html#/default/post_customers)",
   type: "action",

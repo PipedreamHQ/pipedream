@@ -4,7 +4,12 @@ export default {
   key: "v7_go-update-entity",
   name: "Update Entity",
   description: "Executes an update on an existing entity. [See the documentation](https://docs.go.v7labs.com/reference/entity-update-values)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     v7Go,

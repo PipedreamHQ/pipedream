@@ -4,7 +4,12 @@ export default {
   key: "userlist-create-update-relationship",
   name: "Create or Update Relationship",
   description: "Establishes or modifies a relationship with the given user and company identifiers. [See the documentation](https://userlist.com/docs/getting-started/integration-guide/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     userlist,

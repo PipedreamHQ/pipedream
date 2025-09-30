@@ -5,7 +5,12 @@ export default {
   key: "vbout-update-contact",
   name: "Update Contact",
   description: "This action updates a specific contact. [See the docs here](https://developers.vbout.com/docs#emailmarketing_editcontact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

@@ -3,7 +3,12 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Create Event",
-  version: "0.0.11",
+  version: "0.0.12",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "usersketch-create-event",
   description: "Create an event. [See the documentation](https://usersketch.readme.io/reference/post_api-customer-event-create)",
   type: "action",
