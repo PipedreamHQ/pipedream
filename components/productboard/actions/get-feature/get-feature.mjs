@@ -5,7 +5,12 @@ export default {
   name: "Get Feature",
   description: "Retrieve a feature by ID. [See the docs here](https://developer.productboard.com/#operation/getFeature)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     productboard,
     feature: {

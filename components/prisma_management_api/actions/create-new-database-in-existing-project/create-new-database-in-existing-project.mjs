@@ -2,7 +2,12 @@ import app from "../../prisma_management_api.app.mjs";
 
 export default {
   name: "Create New Database in Existing Project",
-  version: "1.0.0",
+  version: "1.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "prisma_management_api-create-new-database-in-existing-project",
   description: "Create a new database in an existing Prisma project. Requires Project ID. [See docs here](https://www.prisma.io/docs/postgres/introduction/management-api)",
   type: "action",

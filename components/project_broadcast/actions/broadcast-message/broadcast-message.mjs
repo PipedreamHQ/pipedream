@@ -5,7 +5,12 @@ export default {
   name: "Broadcast Message",
   description: "Sends a broadcast message to a list of contacts. [See the documentation](https://www.projectbroadcast.com/apidoc/#api-Broadcast_Messages-CreateBroadcastMessage)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     scheduledAt: {

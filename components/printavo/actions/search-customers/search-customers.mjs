@@ -5,7 +5,12 @@ export default {
   name: "Search Customers",
   description: "Search customers. [See the docs here](https://printavo.docs.apiary.io/#reference/customers/customers-collection/customers-search)",
   key: "printavo-search-customers",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

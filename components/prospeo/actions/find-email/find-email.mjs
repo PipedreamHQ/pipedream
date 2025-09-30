@@ -3,7 +3,12 @@ import prospeo from "../../prospeo.app.mjs";
 
 export default {
   name: "Find Email",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "prospeo-find-email",
   description: "Find an email address. [See the documentation](https://prospeo.io/api/email-finder)",
   type: "action",

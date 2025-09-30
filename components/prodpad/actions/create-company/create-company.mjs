@@ -6,7 +6,12 @@ export default {
   name: "Create Company",
   description: "Create a new company in the account. This is only available to accounts with an Advanced or higher subscription. If you try on an account without an advanced or higher subscription package it will return a 403. [See the docs](https://app.swaggerhub.com/apis-docs/ProdPad/prodpad/1.0#/Feedback/PostCompanies).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     name: {

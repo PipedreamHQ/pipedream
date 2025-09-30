@@ -4,7 +4,12 @@ export default {
   key: "pumble-list-messages",
   name: "List Messages",
   description: "List messages in a channel. [See the documentation](https://pumble.com/help/integrations/add-pumble-apps/api-keys-integration/#list-messages-in-a-channel)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     pumble,

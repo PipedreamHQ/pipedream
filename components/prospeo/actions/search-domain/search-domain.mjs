@@ -4,7 +4,12 @@ import prospeo from "../../prospeo.app.mjs";
 
 export default {
   name: "Search Domain",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "prospeo-search-domain",
   description: "Discover email addresses associated with a domain name, website, or company name. [See the documentation](https://prospeo.io/api/domain-search)",
   type: "action",

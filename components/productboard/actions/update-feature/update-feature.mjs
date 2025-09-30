@@ -6,7 +6,12 @@ export default {
   name: "Update Feature",
   description: "Update an existing feature. [See the docs here](https://developer.productboard.com/#operation/updateFeature)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     productboard,
     feature: {

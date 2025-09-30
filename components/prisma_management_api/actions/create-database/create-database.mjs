@@ -2,7 +2,12 @@ import app from "../../prisma_management_api.app.mjs";
 
 export default {
   name: "Create Database",
-  version: "1.0.0",
+  version: "1.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "prisma_management_api-create-database",
   description: "Creates a new Postgres database project via Prisma Management API. [See docs here](https://www.prisma.io/docs/postgres/introduction/management-api)",
   type: "action",

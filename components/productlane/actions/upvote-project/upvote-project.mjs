@@ -4,7 +4,12 @@ export default {
   key: "productlane-upvote-project",
   name: "Upvote Project",
   description: "Upvotes a project by ID. [See the documentation](https://productlane.com/docs/api-reference/portal/upvote-project)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     productlane,

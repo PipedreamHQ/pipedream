@@ -3,7 +3,12 @@ import pretix from "../../pretix.app.mjs";
 export default {
   key: "pretix-get-order-details",
   name: "Get Order Details",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Returns information on one order, identified by its order code. [See the documentation](https://docs.pretix.eu/en/latest/api/resources/orders.html#fetching-individual-orders)",
   type: "action",
   props: {

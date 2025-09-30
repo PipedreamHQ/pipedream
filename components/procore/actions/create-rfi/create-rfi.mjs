@@ -4,7 +4,12 @@ export default {
   key: "procore-create-rfi",
   name: "Create RFI",
   description: "Create a new RFI. [See the documentation](https://developers.procore.com/reference/rest/rfis?version=latest#create-rfi).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

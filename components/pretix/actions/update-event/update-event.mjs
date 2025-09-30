@@ -5,7 +5,12 @@ import pretix from "../../pretix.app.mjs";
 export default {
   key: "pretix-update-event",
   name: "Update Event",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Updates a specific event. [See the documentation](https://docs.pretix.eu/en/latest/api/resources/events.html#patch--api-v1-organizers-(organizer)-events-(event)-)",
   type: "action",
   props: {

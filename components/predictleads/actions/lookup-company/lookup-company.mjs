@@ -4,7 +4,12 @@ export default {
   key: "predictleads-lookup-company",
   name: "Lookup Company By Domain",
   description: "Lookup a company by their domain. [See the documentation](https://docs.predictleads.com/v3/api_endpoints/companies_dataset/retrieve_company)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

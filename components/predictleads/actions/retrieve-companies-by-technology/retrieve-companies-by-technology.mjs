@@ -4,7 +4,12 @@ export default {
   key: "predictleads-retrieve-companies-by-technology",
   name: "Retrieve Companies By Technology",
   description: "Retrieve companies that use a specific technology. [See the documentation](https://docs.predictleads.com/v3/api_endpoints/technologies_dataset/retrieve_a_single_technology_by_id)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

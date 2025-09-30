@@ -4,7 +4,12 @@ export default {
   key: "publisherkit-create-image",
   name: "Create Image",
   description: "Generates a new image within PublisherKit. [See the documentation](https://publisherkit.com/documentation/api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     publisherkit,

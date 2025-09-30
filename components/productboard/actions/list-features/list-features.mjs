@@ -5,7 +5,12 @@ export default {
   name: "List Features",
   description: "List all features. [See the docs here](https://developer.productboard.com/#operation/getFeatures)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     productboard,
     parent: {

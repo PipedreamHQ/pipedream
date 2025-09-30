@@ -6,7 +6,12 @@ export default {
   key: "printify-submit-order",
   name: "Submit Order",
   description: "Places an order of an existing product on Printify. [See the documentation](https://developers.printify.com/#submit-an-order)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     printify,
