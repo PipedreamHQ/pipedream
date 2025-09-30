@@ -5,7 +5,12 @@ export default {
   key: "zoom-update-webinar",
   name: "Update Webinar",
   description: "Update a webinar's topic, start time, or other settings",
-  version: "0.1.4",
+  version: "0.1.5",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zoom: {

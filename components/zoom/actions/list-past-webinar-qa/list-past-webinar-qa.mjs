@@ -5,7 +5,12 @@ export default {
   key: "zoom-list-past-webinar-qa",
   name: "List Past Webinar Q&A",
   description: "The  feature for Webinars allows attendees to ask questions during the Webinar and for the panelists, co-hosts and host to answer their questions. Use this API to list Q&A of a specific Webinar.",
-  version: "0.1.4",
+  version: "0.1.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     zoom: {

@@ -5,7 +5,12 @@ export default {
   key: "zulip-send-message",
   name: "Send Message",
   description: "Send a direct or channel message. [See the documentation](https://zulip.com/api/send-message)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

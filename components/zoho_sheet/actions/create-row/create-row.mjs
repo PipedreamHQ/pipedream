@@ -5,7 +5,12 @@ export default {
   key: "zoho_sheet-create-row",
   name: "Create Row",
   description: "Creates a new row in the specified worksheet. [See the documentation](https://www.zoho.com/sheet/help/api/v2/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zohoSheet,

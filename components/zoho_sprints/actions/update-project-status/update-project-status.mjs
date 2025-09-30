@@ -4,7 +4,12 @@ export default {
   key: "zoho_sprints-update-project-status",
   name: "Update Project Status",
   description: "Changes the status of an existing project in Zoho Sprints. [See the documentation](https://sprints.zoho.com/apidoc.html#Updateproject)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zohoSprints,

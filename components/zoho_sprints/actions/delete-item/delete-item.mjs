@@ -4,7 +4,12 @@ export default {
   key: "zoho_sprints-delete-item",
   name: "Delete Item",
   description: "Removes a specified task, story, or bug from a project in Zoho Sprints. [See the documentation](https://sprints.zoho.com/apidoc.html#Deleteitem)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zohoSprints,

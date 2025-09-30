@@ -5,7 +5,12 @@ export default {
   name: "List Account Call Logs",
   description: "Returns an account's new edition call logs. [See the documentation](https://developers.zoom.us/docs/zoom-phone/apis/#operation/accountCallHistory)",
   key: "zoom_admin-list-account-call-logs",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     zoomAdmin,

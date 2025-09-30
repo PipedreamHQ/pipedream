@@ -7,7 +7,12 @@ export default {
   name: "Delete Cloud Recording",
   description: "Remove a recording from a meeting or webinar. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/cloud-recording/recordingdeleteone)",
   key: "zoom_admin-delete-cloud-recording",
-  version: "0.1.6",
+  version: "0.1.7",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zoomAdmin,

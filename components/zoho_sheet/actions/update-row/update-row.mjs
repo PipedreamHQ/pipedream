@@ -5,7 +5,12 @@ export default {
   key: "zoho_sheet-update-row",
   name: "Update Row",
   description: "Finds a specific row by its index and updates its content. [See the documentation](https://www.zoho.com/sheet/help/api/v2/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zohoSheet,

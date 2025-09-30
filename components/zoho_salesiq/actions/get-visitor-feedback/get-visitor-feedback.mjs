@@ -5,7 +5,12 @@ export default {
   name: "Get Visitor Feedback",
   description: "Retrieve visitor feedback by conversation ID. [See the documentation](https://www.zoho.com/salesiq/help/developer-section/get-a-visitor-feedback-v2.html)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     zohoSalesIQ,
     screenName: {

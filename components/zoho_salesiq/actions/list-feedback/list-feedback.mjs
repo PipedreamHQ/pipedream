@@ -5,7 +5,12 @@ export default {
   name: "List Feedback",
   description: "Retrieve a list of feedback from website visitors. [See the documentation](https://www.zoho.com/salesiq/help/developer-section/visitor-feedback-v2.html)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     zohoSalesIQ,
     screenName: {

@@ -7,7 +7,12 @@ export default {
   description:
     "List all participants of a past meeting. [See the documentation](https://developers.zoom.us/docs/api/meetings/#tag/meetings/GET/past_meetings/{meetingId}/participants)",
   key: "zoom_admin-list-past-meeting-participants",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     zoomAdmin,

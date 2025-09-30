@@ -5,7 +5,12 @@ export default {
   name: "Send Document",
   description: "Sends a document to the designated recipients for their signatures. [See the documentation](https://www.zoho.com/sign/api/#send-document-out-for-signature-using-templates)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     zohoSign,
     templateId: {

@@ -10,7 +10,12 @@ export default {
   name: "Update a meeting",
   description: "Update the details of a meeting. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingupdate)",
   key: "zoom_admin-update-meeting",
-  version: "0.1.6",
+  version: "0.1.7",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zoomAdmin,
