@@ -6,7 +6,12 @@ export default {
   name: "Create Affiliate",
   description: "Create a new affiliate. [See the docs here](https://www.refersion.dev/reference/new_affiliate)",
   key: "refersion-create-affiliate",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

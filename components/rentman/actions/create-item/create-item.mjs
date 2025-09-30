@@ -8,7 +8,12 @@ export default {
   key: "rentman-create-item",
   name: "Create Item",
   description: "Creates a new item based on the specified type. [See the documentation](https://api.rentman.net)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     rentman,

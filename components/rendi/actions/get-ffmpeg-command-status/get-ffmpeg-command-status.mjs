@@ -4,7 +4,12 @@ export default {
   key: "rendi-get-ffmpeg-command-status",
   name: "Get FFmpeg Command Status",
   description: "Get the status of a previously submitted FFmpeg command. [See the documentation](https://docs.rendi.dev/api-reference/endpoint/poll-command)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     rendi,

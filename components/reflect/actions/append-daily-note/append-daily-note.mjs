@@ -4,7 +4,12 @@ export default {
   key: "reflect-append-daily-note",
   name: "Append Daily Note",
   description: "Append to a daily note. [See the documentation](https://openpm.ai/apis/reflect#/graphs/{graphId}/daily-notes)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     reflect,

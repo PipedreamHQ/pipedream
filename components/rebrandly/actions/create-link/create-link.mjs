@@ -2,7 +2,12 @@ import rebrandly from "../../rebrandly.app.mjs";
 
 export default {
   name: "Create Link",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "rebrandly-create-link",
   description: "Creates a link. [See docs here](https://developers.rebrandly.com/docs/create-a-new-link)",
   type: "action",

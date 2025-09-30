@@ -4,7 +4,12 @@ export default {
   key: "rejoiner-update-customer-profile",
   name: "Update Customer Profile",
   description: "Updates a customer's profile information. [See the documentation](https://docs.rejoiner.com/reference/update-customer-profile)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     rejoiner,

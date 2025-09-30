@@ -4,7 +4,12 @@ export default {
   key: "redcircle_api-add-zipcode",
   name: "Add Zipcode",
   description: "Add a zipcode to Redcircle API. [See the documentation](https://docs.trajectdata.com/redcircleapi/zipcodes-api/add)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

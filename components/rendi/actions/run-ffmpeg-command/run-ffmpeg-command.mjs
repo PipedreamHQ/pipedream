@@ -8,7 +8,12 @@ export default {
   key: "rendi-run-ffmpeg-command",
   name: "Run FFmpeg Command",
   description: "Submit an FFmpeg command for processing with input and output file specifications. [See the documentation](https://docs.rendi.dev/api-reference/endpoint/run-ffmpeg-command)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     rendi,

@@ -5,7 +5,12 @@ export default {
   name: "Create Task",
   description: "Creates a new task. [See the documentation](https://docs.recruitcrm.io/docs/rcrm-api-reference/e9bb027660641-creates-a-new-task)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     title: {

@@ -3,7 +3,12 @@ import utils from "../../common/utils.mjs";
 
 export default {
   key: "recreation_gov-search-recreation-areas",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   name: "Search Recreation Areas",
   description: "Searchs recreation areas with the given properties. If no parameters given, returns all. [See the documentation](https://ridb.recreation.gov/docs#/Recreation%20Areas/getRecAreas)",

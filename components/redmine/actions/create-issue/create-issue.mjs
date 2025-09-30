@@ -5,7 +5,12 @@ export default {
   key: "redmine-create-issue",
   name: "Create Issue",
   description: "Creates a new issue in Redmine. [See the documentation](https://www.redmine.org/projects/redmine/wiki/rest_issues#creating-an-issue)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

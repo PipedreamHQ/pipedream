@@ -5,7 +5,12 @@ export default {
   key: "refiner-identify-user",
   name: "Identify User",
   description: "Identify a user with user ID or email. If the user does not exist, a new one will be created. [See the documentation](https://refiner.io/docs/api/#identify-user)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     refiner,

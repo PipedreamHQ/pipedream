@@ -4,7 +4,12 @@ export default {
   key: "rentcast-get-market-statistics",
   name: "Get Market Statistics",
   description: "Get aggregate rental statistics and listing trends for a single US zip code. [See the documentation](https://developers.rentcast.io/reference/market-statistics)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     rentcast,

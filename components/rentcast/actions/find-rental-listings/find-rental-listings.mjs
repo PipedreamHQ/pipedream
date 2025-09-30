@@ -4,7 +4,12 @@ export default {
   key: "rentcast-find-rental-listings",
   name: "Find Rental Listings",
   description: "Search for rental listings in a geographical area, or by a specific address. [See the documentation](https://developers.rentcast.io/reference/rental-listings-long-term)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     rentcast,

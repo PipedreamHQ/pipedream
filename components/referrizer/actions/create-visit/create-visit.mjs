@@ -5,7 +5,12 @@ export default {
   key: "referrizer-create-visit",
   name: "Create Visit",
   description: "Create a visit to an existing contact in Referrizer. [See the documentation](https://api.referrizer.com/static/docs/index.html#operation/inviteContact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     referrizer,

@@ -5,7 +5,12 @@ export default {
   name: "Get Project Status",
   description: "Get the status of a specific project. [See the documentation](https://rapidurlindexer.com/indexing-api/).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     rapidUrlIndexer,
     projectId: {

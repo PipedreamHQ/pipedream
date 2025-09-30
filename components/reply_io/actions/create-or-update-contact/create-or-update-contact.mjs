@@ -7,7 +7,12 @@ export default {
   key: "reply_io-create-or-update-contact",
   name: "Create or Update Contact",
   description: "Create a new contact or update if they already exist. [See the docs here](https://apidocs.reply.io/#2a6fb925-29db-403e-a59f-8cce5672c66a)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     reply,

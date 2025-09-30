@@ -4,7 +4,12 @@ export default {
   key: "referralhero-add-subscriber",
   name: "Add Subscriber",
   description: "Adds a new subscriber to to a list. [See the documentation](https://support.referralhero.com/integrate/rest-api/endpoints-reference#add-a-subscriber)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     referralhero,

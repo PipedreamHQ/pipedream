@@ -4,7 +4,12 @@ export default {
   key: "renderform-take-screenshot",
   name: "Take Screenshot",
   description: "Capture an image of the current screen. [See the documentation](https://renderform.io/docs/api/take-screenshots)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     renderform,

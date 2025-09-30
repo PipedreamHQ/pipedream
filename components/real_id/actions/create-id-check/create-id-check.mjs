@@ -4,7 +4,12 @@ export default {
   key: "real_id-create-id-check",
   name: "Create ID Check",
   description: "Create a new ID check for a user. [See the documentation](https://getverdict.com/help/docs/api/checks#create-an-id-check).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

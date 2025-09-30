@@ -5,7 +5,12 @@ export default {
   key: "referrizer-update-loyalty-reward",
   name: "Update Loyalty Reward",
   description: "Modify the details or status of an existing loyalty reward in Referrizer. [See the documentation](https://api.referrizer.com/static/docs/index.html#loyalty-rewards-update-a-loyalty-reward)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

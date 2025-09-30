@@ -4,7 +4,12 @@ import reddit from "../../reddit.app.mjs";
 export default {
   type: "action",
   key: "reddit-submit-a-comment",
-  version: "0.1.2",
+  version: "0.1.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   name: "Submit a Comment",
   description: "Submit a new comment or reply to a message. [See the docs here](https://www.reddit.com/dev/api/#POST_api_comment)",
   props: {

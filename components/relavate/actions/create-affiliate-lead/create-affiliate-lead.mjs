@@ -4,7 +4,12 @@ export default {
   key: "relavate-create-affiliate-lead",
   name: "Create Affiliate Lead",
   description: "This component enables you to create a new affiliate lead for marketing. [See the documentation](https://api.relavate.co/#2a307851-9d54-42ea-9f54-3fb600b152a5)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     relavate,

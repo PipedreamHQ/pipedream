@@ -4,7 +4,12 @@ export default {
   key: "readwise-get-highlight-details",
   name: "Get Highlight Details",
   description: "Get Highlight´s Details [See the docs here](https://readwise.io/api_deets)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     readwise,

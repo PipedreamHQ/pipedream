@@ -4,7 +4,12 @@ export default {
   key: "rejoiner-add-customer-to-list",
   name: "Add Customer to List",
   description: "Adds a customer to a specific list, or if the customer already exists, will update the record of that customer with the supplied data. [See the documentation](https://docs.rejoiner.com/reference/add-customer-to-list)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     rejoiner,

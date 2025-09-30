@@ -4,7 +4,12 @@ export default {
   key: "readwise-list-highlights",
   name: "List Highlights",
   description: "A list of highlights with a pagination metadata. The rate limit of this endpoint is restricted to 20 requests per minute. Each request returns 1000 items. [See the docs here](https://readwise.io/api_deets)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     readwise,

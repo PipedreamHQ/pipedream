@@ -4,7 +4,12 @@ export default {
   key: "real_id-get-id-check",
   name: "Get ID Check",
   description: "Retrieve an ID check. [See the documentation](https://getverdict.com/help/docs/api/checks#retrieve-an-id-check).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

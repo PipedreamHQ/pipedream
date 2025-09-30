@@ -5,7 +5,12 @@ export default {
   key: "refiner-track-event",
   name: "Track Event",
   description: "Tracks a user event in Refiner. [See the documentation](https://refiner.io/docs/api/#track-event)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     refiner,

@@ -4,7 +4,12 @@ export default {
   key: "relevance_ai-message-agent",
   name: "Send Message to Agent",
   description: "Sends a message directly to an agent in Relevance AI. This action doesn't wait for an agent response.",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     relevanceAi,

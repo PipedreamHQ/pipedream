@@ -5,7 +5,12 @@ export default {
   key: "redmine-update-project",
   name: "Update Project",
   description: "Updates an existing project in Redmine. [See the documentation](https://www.redmine.org/projects/redmine/wiki/rest_projects#updating-a-project)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

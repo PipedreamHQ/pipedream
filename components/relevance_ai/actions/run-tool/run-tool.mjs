@@ -5,7 +5,12 @@ export default {
   key: "relevance_ai-run-tool",
   name: "Run Tool",
   description: "Executes a specific tool within Relevance AI and waits for a response for up to 60 seconds. [See the documentation](https://relevanceai.com/docs/build-custom-tools/create-a-tool)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     relevanceAI,

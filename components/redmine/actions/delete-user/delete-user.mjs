@@ -4,7 +4,12 @@ export default {
   key: "redmine-delete-user",
   name: "Delete User",
   description: "Deletes a user from the Redmine platform. [See the documentation](https://www.redmine.org/projects/redmine/wiki/rest_users#delete)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

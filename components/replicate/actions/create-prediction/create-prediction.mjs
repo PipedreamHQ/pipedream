@@ -3,7 +3,12 @@ import replicate from "../../replicate.app.mjs";
 export default {
   key: "replicate-create-prediction",
   name: "Create Prediction",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new prediction [See the documentation](https://replicate.com/docs/reference/http#predictions.create)",
   type: "action",
   props: {
