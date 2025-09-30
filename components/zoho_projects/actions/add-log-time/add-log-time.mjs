@@ -6,7 +6,12 @@ export default {
   name: "Add Log Time",
   description: "Add Time for a General Log. Adds the time log to other tasks. [See the docs here](https://www.zoho.com/projects/help/rest-api/log-time.html#alink11)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     zohoProjects,
     portalId: {

@@ -5,7 +5,12 @@ export default {
   key: "zoho_books-create-employee",
   name: "Create Employee",
   description: "Creates an employee for an expense. [See the documentation](https://www.zoho.com/books/api/v3/expenses/#create-an-employee)",
-  version: "0.3.0",
+  version: "0.3.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zohoBooks,

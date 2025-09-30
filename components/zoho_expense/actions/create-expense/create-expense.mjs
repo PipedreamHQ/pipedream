@@ -5,7 +5,12 @@ export default {
   name: "Create Expense",
   description: "Generate a new expense entry in the Zoho Expense system. [See the Documentation](https://www.zoho.com/expense/api/v1/expenses/#create-an-expense).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     organizationId: {

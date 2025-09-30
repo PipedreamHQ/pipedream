@@ -5,7 +5,12 @@ export default {
   key: "zoho_calendar-create-or-update-event",
   name: "Create or Update Event",
   description: "Create or update a event in a particular calendar of the user. [See the documentation](https://www.zoho.com/calendar/help/api/post-create-event.html)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

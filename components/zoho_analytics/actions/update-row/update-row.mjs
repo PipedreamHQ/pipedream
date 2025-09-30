@@ -4,7 +4,12 @@ import zohoAnalytics from "../../zoho_analytics.app.mjs";
 export default {
   key: "zoho_analytics-update-row",
   name: "Update Row",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Update rows in the specified table. [See the documentation](https://www.zoho.com/analytics/api/v2/#update-row)",
   type: "action",
   props: {

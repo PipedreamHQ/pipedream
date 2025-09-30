@@ -4,7 +4,12 @@ export default {
   key: "zoho_bookings-get-appointment",
   name: "Get Appointment Details",
   description: "Get details of an appointment [See the documentation](https://www.zoho.com/bookings/help/api/v1/get-appointment.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

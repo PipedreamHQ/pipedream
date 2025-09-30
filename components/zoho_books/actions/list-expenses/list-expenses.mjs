@@ -10,7 +10,12 @@ export default {
   key: "zoho_books-list-expenses",
   name: "List Expenses",
   description: "List all the Expenses. [See the documentation](https://www.zoho.com/books/api/v3/expenses/#list-expenses)",
-  version: "0.3.0",
+  version: "0.3.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     zohoBooks,

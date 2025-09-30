@@ -6,7 +6,12 @@ export default {
   name: "Create Task",
   description: "Creates a task. [See the docs here](https://www.zoho.com/projects/help/rest-api/tasks-api.html#alink4)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     zohoProjects,
     portalId: {

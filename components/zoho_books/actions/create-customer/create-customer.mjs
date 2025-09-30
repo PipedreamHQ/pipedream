@@ -13,7 +13,12 @@ export default {
   key: "zoho_books-create-customer",
   name: "Create Customer",
   description: "Creates a new customer. [See the documentation](https://www.zoho.com/books/api/v3/items/#create-an-item)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zohoBooks,

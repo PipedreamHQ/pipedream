@@ -7,7 +7,12 @@ export default {
   key: "zoho_crm-update-object",
   name: "Update Object",
   description: "Updates existing entities in the module. [See the documentation](https://www.zoho.com/crm/developer/docs/api/v2/update-records.html)",
-  version: "0.3.3",
+  version: "0.3.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

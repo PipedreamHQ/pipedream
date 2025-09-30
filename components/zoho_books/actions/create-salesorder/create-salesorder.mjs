@@ -8,7 +8,12 @@ export default {
   key: "zoho_books-create-salesorder",
   name: "Create Sales Order",
   description: "Creates a sales order. [See the documentation](https://www.zoho.com/books/api/v3/sales-order/#create-a-sales-order)",
-  version: "0.3.0",
+  version: "0.3.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zohoBooks,

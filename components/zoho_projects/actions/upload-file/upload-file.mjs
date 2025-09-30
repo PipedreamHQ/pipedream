@@ -6,7 +6,12 @@ export default {
   name: "Upload File",
   description: "Add a document. [See the docs here](https://www.zoho.com/projects/help/rest-api/documents-api.html#alink3)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     zohoProjects,
     portalId: {

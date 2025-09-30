@@ -5,7 +5,12 @@ export default {
   key: "zoho_recruit-update-record",
   name: "Update Record",
   description: "Updates existing record. [See the documentation](https://www.zoho.com/recruit/developer-guide/apiv2/update-records.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

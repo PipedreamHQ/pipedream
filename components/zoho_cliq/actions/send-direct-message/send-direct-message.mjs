@@ -2,7 +2,12 @@ import app from "../../zoho_cliq.app.mjs";
 
 export default {
   name: "Send Direct Message",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "zoho_cliq-send-direct-message",
   description: "Send a direct message. [See documentation](https://www.zoho.com/cliq/help/restapi/v2/#Post_Message_User)",
   type: "action",

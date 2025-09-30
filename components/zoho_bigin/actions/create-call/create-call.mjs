@@ -3,7 +3,12 @@ import constants from "../common/constansts.mjs";
 
 export default {
   name: "Create Call",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "zoho_bigin-create-call",
   description: "Creates a call. [See the documentation](https://www.bigin.com/developer/docs/apis/insert-records.html)",
   type: "action",

@@ -7,7 +7,12 @@ export default {
   key: "zip_archive_api-compress-files",
   name: "Compress Files",
   description: "Compress files provided through URLs into a zip folder. [See the documentation](https://archiveapi.com/rest-api/file-compression/)",
-  version: "1.0.1",
+  version: "1.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

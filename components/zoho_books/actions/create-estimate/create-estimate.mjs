@@ -6,7 +6,12 @@ export default {
   key: "zoho_books-create-estimate",
   name: "Create Estimate",
   description: "Creates a new estimate. [See the documentation](https://www.zoho.com/books/api/v3/estimates/#create-an-estimate)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zohoBooks,

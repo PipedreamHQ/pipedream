@@ -5,7 +5,12 @@ export default {
   name: "Search Ticket",
   description: "Searches for tickets in your help desk. [See the docs here](https://desk.zoho.com/DeskAPIDocument#Search_TicketsSearchAPI)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     zohoDesk,
     orgId: {

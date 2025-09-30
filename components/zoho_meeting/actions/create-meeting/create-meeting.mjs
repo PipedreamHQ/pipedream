@@ -2,7 +2,12 @@ import app from "../../zoho_meeting.app.mjs";
 
 export default {
   name: "Create Meeting",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "zoho_meeting-create-meeting",
   description: "Creates a meeting. [See the documentation](https://www.zoho.com/meeting/api-integration/meeting-api/create-a-meeting.html)",
   type: "action",

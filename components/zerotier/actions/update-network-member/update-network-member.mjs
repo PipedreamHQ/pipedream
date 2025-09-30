@@ -3,7 +3,12 @@ import zerotier from "../../zerotier.app.mjs";
 export default {
   key: "zerotier-update-network-member",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   name: "Update Network Member",
   description:
     "Update a specific member (node) within a network. Can authorize, rename, hide a member (as well as other updates). [See docs here](https://docs.zerotier.com/central/v1/#operation/updateNetworkMember)",

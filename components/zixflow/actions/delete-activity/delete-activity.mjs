@@ -4,7 +4,12 @@ export default {
   key: "zixflow-delete-activity",
   name: "Delete Activity",
   description: "Deletes an existing activity or task from Zixflow. [See the documentation](https://docs.zixflow.com/api-reference/activity-list/delete)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

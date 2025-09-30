@@ -3,7 +3,12 @@ import zohoAnalytics from "../../zoho_analytics.app.mjs";
 export default {
   key: "zoho_analytics-add-row",
   name: "Add Row",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Add a single row in the specified table. [See the documentation](https://www.zoho.com/analytics/api/v2/#add-row)",
   type: "action",
   props: {

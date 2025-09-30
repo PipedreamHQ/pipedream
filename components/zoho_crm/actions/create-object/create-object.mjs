@@ -6,7 +6,12 @@ export default {
   key: "zoho_crm-create-object",
   name: "Create Object",
   description: "Create a new object/module entry. [See the documentation](https://www.zoho.com/crm/developer/docs/api/v2/insert-records.html)",
-  version: "0.3.3",
+  version: "0.3.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   async additionalProps() {
     const requiredProps = this.getRequiredProps(this.moduleType);

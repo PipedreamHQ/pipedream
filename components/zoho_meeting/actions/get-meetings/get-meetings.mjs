@@ -3,7 +3,12 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Get Meetings",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "zoho_meeting-get-meetings",
   description: "Get a list of meetings. [See the documentation](https://www.zoho.com/meeting/api-integration/meeting-api/list-of-meeting-api.html)",
   type: "action",
