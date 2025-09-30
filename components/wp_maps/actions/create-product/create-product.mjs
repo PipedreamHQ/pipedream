@@ -4,7 +4,12 @@ export default {
   key: "wp_maps-create-product",
   name: "Create Product",
   description: "Creates a new product in WP Maps. [See the documentation](https://support.agilelogix.com/hc/en-us/articles/900006795363-API-Access-Points#create-product)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     wpMaps,

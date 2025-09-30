@@ -4,7 +4,12 @@ export default {
   key: "xero_accounting_api-get-contact",
   name: "Get Contact",
   description: "Gets details of a contact.",
-  version: "0.1.2",
+  version: "0.1.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     xeroAccountingApi,

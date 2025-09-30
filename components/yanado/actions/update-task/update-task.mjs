@@ -4,7 +4,12 @@ export default {
   key: "yanado-update-task",
   name: "Update Task",
   description: "Update a new task. [See the docs](https://api.yanado.com/docs/?javascript#update-task)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     yanado,

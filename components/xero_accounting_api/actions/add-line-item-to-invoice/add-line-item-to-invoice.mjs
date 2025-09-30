@@ -8,7 +8,12 @@ export default {
   key: "xero_accounting_api-add-line-item-to-invoice",
   name: "Add Items to Existing Sales Invoice",
   description: "Adds line items to an existing sales invoice. [See the docs here](https://developer.xero.com/documentation/api/accounting/invoices#post-invoices)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     xeroAccountingApi,

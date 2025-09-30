@@ -5,7 +5,12 @@ export default {
   key: "wp_maps-update-product",
   name: "Update Product",
   description: "Updates an existing product in WP Maps. [See the documentation](https://support.agilelogix.com/hc/en-us/articles/900006795363-API-Access-Points#update-product)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     wpMaps,

@@ -4,7 +4,12 @@ export default {
   key: "x_ai-post-chat-completion",
   name: "Post Chat Completion",
   description: "Create a language model response for a chat conversation. [See the documentation](https://docs.x.ai/api/endpoints#chat-completions)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

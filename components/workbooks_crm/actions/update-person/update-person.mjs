@@ -5,7 +5,12 @@ export default {
   name: "Update Person",
   description: "Updates a person.",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     personId: {

@@ -4,7 +4,12 @@ export default {
   key: "workiz-create-lead",
   name: "Create Lead",
   description: "Create a new lead in Workiz. [See the documentation](https://developer.workiz.com/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     workiz,

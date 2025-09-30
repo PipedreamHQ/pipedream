@@ -4,7 +4,12 @@ export default {
   key: "wubook_ratechecker-get-monitored-competitors",
   name: "Get Monitored Competitors",
   description: "Retrieve a list of montiored competitors. [See the docs](https://wubook.net/wrpeeker/ratechecker/api_examples)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     wubook,

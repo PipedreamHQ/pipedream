@@ -5,7 +5,12 @@ export default {
   key: "workflow_max-create-client-group",
   name: "Create Client Group",
   description: "Creates a new Client Group in Workflow Max. [See the documentation](https://app.swaggerhub.com/apis-docs/WorkflowMax-BlueRock/WorkflowMax-BlueRock-OpenAPI3/0.1#/Client/createClient)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -5,7 +5,12 @@ export default {
   name: "Search News",
   description: "Search and filter news. [See the docs here](https://worldnewsapi.com/docs/#Search-News). **Calling this endpoint requires 1 point**",
   key: "world_news_api-search-news",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

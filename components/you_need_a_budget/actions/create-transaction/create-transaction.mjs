@@ -4,7 +4,12 @@ export default {
   key: "you_need_a_budget-create-transaction",
   name: "Create Transaction",
   description: "Creates a single transaction. [See the docs](https://api.youneedabudget.com/v1#/Transactions/createTransaction)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -5,7 +5,12 @@ export default {
   key: "wrike-new-task",
   name: "New Task",
   description: "Create a Wrike task under a specified folder ID. [See the documentation](https://developers.wrike.com/api/v4/tasks/#create-task)",
-  version: "0.3.1",
+  version: "0.3.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     wrike,

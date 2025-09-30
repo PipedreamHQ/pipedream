@@ -4,7 +4,12 @@ export default {
   key: "xverify-verify-email",
   name: "Verify Email",
   description: "Sends an email verification request. [See the documentation](https://apidocs.xverify.com/#email-verification-api-endpoint).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

@@ -4,7 +4,12 @@ export default {
   key: "xendit-get-payment-status",
   name: "Get Payment Status",
   description: "Get the status of a payment request. [See the documentation](https://developers.xendit.co/api-reference/payments-api/#get-payment-request-by-id)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     xendit,

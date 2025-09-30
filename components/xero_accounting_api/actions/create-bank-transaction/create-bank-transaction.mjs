@@ -5,7 +5,12 @@ export default {
   key: "xero_accounting_api-create-bank-transaction",
   name: "Create Bank Transaction",
   description: "Create a new bank transaction [See the documentation](https://developer.xero.com/documentation/api/accounting/banktransactions#put-banktransactions)",
-  version: "0.1.2",
+  version: "0.1.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     xeroAccountingApi,
