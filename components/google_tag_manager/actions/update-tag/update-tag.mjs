@@ -2,7 +2,12 @@ import app from "../../google_tag_manager.app.mjs";
 
 export default {
   name: "Update Tag",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "google_tag_manager-update-tag",
   description: "Update a tag in a workspace. [See the documentation](https://developers.google.com/tag-platform/tag-manager/api/v2/reference/accounts/containers/workspaces/tags/update)",
   type: "action",

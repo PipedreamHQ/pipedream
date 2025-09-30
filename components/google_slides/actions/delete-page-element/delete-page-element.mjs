@@ -4,7 +4,12 @@ export default {
   key: "google_slides-delete-page-element",
   name: "Delete Page Element",
   description: "Deletes a page element from a slide. [See the documentation](https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations/request#DeleteObjectRequest)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     googleSlides,

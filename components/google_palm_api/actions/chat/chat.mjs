@@ -5,7 +5,12 @@ export default {
   key: "google_palm_api-chat",
   name: "Chat",
   description: "Chat using Google PaLM. [See the docs here](https://developers.generativeai.google/api/python/google/generativeai/chat)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

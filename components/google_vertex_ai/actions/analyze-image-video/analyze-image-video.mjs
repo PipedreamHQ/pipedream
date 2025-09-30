@@ -4,7 +4,12 @@ export default {
   key: "google_vertex_ai-analyze-image-video",
   name: "Analyze Image/Video",
   description: "Examines an image or video following given instructions. Results will contain the analysis findings. [See the documentation](https://cloud.google.com/vertex-ai/docs/reference/rest/v1/projects.locations.publishers.models/generateContent)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     vertexAi,

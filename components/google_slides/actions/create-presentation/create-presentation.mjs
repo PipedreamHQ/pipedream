@@ -4,7 +4,12 @@ export default {
   key: "google_slides-create-presentation",
   name: "Create Presentation",
   description: "Create a blank presentation or duplicate an existing presentation. [See the docs here](https://developers.google.com/slides/api/guides/presentations#copy_an_existing_presentation)",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

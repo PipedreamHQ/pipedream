@@ -2,7 +2,12 @@ import app from "../../google_photos.app.mjs";
 
 export default {
   key: "google_photos-share-album",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   name: "Share Album",
   description: "Sets an album shareable. Returns a share token and url. [See the documentation](https://developers.google.com/photos/library/guides/share-media#sharing-album)",

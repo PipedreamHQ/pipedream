@@ -4,7 +4,12 @@ export default {
   key: "google_merchant_center-update-product",
   name: "Update Product",
   description: "Updates an existing product in your Google Merchant Center account. [See the documentation](https://developers.google.com/shopping-content/reference/rest/v2.1/products/update)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     googleMerchant,

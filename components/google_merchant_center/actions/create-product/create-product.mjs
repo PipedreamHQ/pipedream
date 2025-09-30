@@ -7,7 +7,12 @@ export default {
   key: "google_merchant_center-create-product",
   name: "Create Product",
   description: "Creates a product in your Google Merchant Center account. [See the documentation](https://developers.google.com/shopping-content/reference/rest/v2.1/products/insert)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     googleMerchant,
