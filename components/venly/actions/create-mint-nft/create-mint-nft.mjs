@@ -5,7 +5,12 @@ export default {
   key: "venly-create-mint-nft",
   name: "Create and Mint NFT",
   description: "Creates a template or token type that allows for minting of new NFTs. [See the documentation](https://docs.venly.io/reference/definetokentype_1_1)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     venly,

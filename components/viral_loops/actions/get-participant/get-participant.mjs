@@ -2,7 +2,12 @@ import app from "../../viral_loops.app.mjs";
 
 export default {
   name: "Get Participant",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "viral_loops-get-participant",
   description: "Get a participant. [See documentation here](https://developers.viral-loops.com/reference/post_campaign-participant-query)",
   type: "action",

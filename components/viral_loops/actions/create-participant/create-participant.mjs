@@ -2,7 +2,12 @@ import app from "../../viral_loops.app.mjs";
 
 export default {
   name: "Create Participant",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "viral_loops-create-participant",
   description: "Creates a participant. [See documentation here](https://developers.viral-loops.com/reference/post_campaign-participant-1)",
   type: "action",

@@ -5,7 +5,12 @@ export default {
   type: "action",
   key: "vero-create-or-update-user",
   name: "Create or Update User",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "This endpoint creates a new user profile if the user doesn't exist yet. Otherwise, the user profile is updated based on the properties provided. [See the documentation](https://developers.getvero.com/track-api-reference/#/operations/identify)",
   props: {
     app,

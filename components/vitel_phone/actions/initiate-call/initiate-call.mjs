@@ -6,7 +6,12 @@ export default {
   name: "Initiate Call",
   description: "Initiate a call. [See the documentation](https://www.vitelglobal.com)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     fromnum: {

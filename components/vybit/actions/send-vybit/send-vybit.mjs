@@ -4,7 +4,12 @@ export default {
   key: "vybit-send-vybit",
   name: "Send Vybit",
   description: "Triggers a vybit, with optional customizations available. [See the documentation](https://www.vybit.net/#trigger)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

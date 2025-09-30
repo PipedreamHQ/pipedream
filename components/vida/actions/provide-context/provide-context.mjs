@@ -4,7 +4,12 @@ export default {
   key: "vida-provide-context",
   name: "Add Context",
   description: "Uploads additional context for a conversation with your AI agent. Helpful when integrating data from external CRMs. [See the documentation](https://vida.io/docs/api-reference/knowledge/add-context)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     vida,

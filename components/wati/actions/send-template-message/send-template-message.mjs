@@ -5,7 +5,12 @@ export default {
   key: "wati-send-template-message",
   name: "Send WhatsApp Template Message",
   description: "Enables sending of WhatsApp messages using a pre-approved template. [See the documentation](https://docs.wati.io/reference/post_api-v2-sendtemplatemessage)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     wati,

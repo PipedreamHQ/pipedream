@@ -5,7 +5,12 @@ export default {
   type: "action",
   key: "vero-track-event-for-user",
   name: "Track Event for User",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "This endpoint tracks an event for a specific user. If the user profile doesn't exist Vero will create it. [See the documentation](https://developers.getvero.com/track-api-reference/#/operations/track)",
   props: {
     app,

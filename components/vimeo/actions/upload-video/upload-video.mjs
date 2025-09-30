@@ -4,7 +4,12 @@ export default {
   key: "vimeo-upload-video",
   name: "Upload Video",
   description: "Uploads a video to the user's Vimeo account. Ensure you have enough storage quota on your account. [See the documentation](https://developer.vimeo.com/api/reference/videos#upload_video)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     vimeo,

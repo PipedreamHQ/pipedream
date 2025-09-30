@@ -3,7 +3,12 @@ import visualping from "../../app/visualping.app.mjs";
 export default {
   key: "visualping-find-jobs",
   name: "Find Jobs",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Find existing jobs using filters. [See the docs here](https://develop.api.visualping.io/doc.html#tag/Jobs/paths/~1v2~1jobs/get)",
   type: "action",
   props: {

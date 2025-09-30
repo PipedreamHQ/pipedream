@@ -4,7 +4,12 @@ export default {
   key: "viewdns_info-ip-history",
   name: "IP History",
   description: "Retrieves the IP address history for a domain. [See the documentation](https://viewdns.info/api/ip-history/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     viewdnsInfo,

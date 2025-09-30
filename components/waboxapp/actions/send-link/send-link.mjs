@@ -4,7 +4,12 @@ export default {
   key: "waboxapp-send-link",
   name: "Send Link",
   description: "Send a link with preview in WhatsApp to a specific phone number. [See the documentation](https://www.waboxapp.com/assets/doc/waboxapp-API-v3.pdf)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     waboxapp,

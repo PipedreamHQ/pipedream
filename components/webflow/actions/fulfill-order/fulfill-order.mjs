@@ -4,7 +4,12 @@ export default {
   key: "webflow-fulfill-order",
   name: "Fulfill Order",
   description: "Fulfill an order. [See the documentation](https://developers.webflow.com/data/reference/ecommerce/orders/update-fulfill)",
-  version: "2.0.0",
+  version: "2.0.1",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,
