@@ -4,7 +4,12 @@ export default {
   key: "crunchbase-get-organization",
   name: "Get Organization Details",
   description: "Retrieve details about an organization. [See the documentation](https://data.crunchbase.com/reference/get_data-entities-organizations-entity-id)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     crunchbase,

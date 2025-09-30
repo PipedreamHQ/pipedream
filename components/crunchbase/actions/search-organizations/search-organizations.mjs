@@ -6,7 +6,12 @@ export default {
   key: "crunchbase-search-organizations",
   name: "Search Organizations",
   description: "Search for organizations based on specified criteria. [See the documentation](https://data.crunchbase.com/reference/post_data-searches-organizations)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     crunchbase,

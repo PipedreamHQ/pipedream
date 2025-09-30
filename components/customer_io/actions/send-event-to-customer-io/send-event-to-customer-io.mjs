@@ -4,7 +4,12 @@ export default {
   key: "customer_io-send-event-to-customer-io",
   name: "Send Event To Customer io",
   description: "Sends, tracks a customer event to Customer io. [See the docs here](https://customer.io/docs/api/#operation/track)",
-  version: "0.3.0",
+  version: "0.3.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

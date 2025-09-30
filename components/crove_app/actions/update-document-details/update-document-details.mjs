@@ -4,7 +4,12 @@ export default {
   key: "crove_app-update-document-details",
   name: "Update Document Details",
   description: "Update details of a document. Example: Name, Current Status, etc.",
-  version: "1.0.2",
+  version: "1.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     croveApp,

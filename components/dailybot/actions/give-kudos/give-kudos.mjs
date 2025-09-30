@@ -5,7 +5,12 @@ export default {
   key: "dailybot-give-kudos",
   name: "Give Kudos",
   description: "Sends kudos to selected user(s) using DailyBot. [See the documentation](https://www.dailybot.com/docs/api-methods)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     dailybot,

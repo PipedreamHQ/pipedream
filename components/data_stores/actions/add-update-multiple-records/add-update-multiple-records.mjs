@@ -4,7 +4,12 @@ export default {
   key: "data_stores-add-update-multiple-records",
   name: "Add or update multiple records",
   description: "Add or update multiple records to your [Pipedream Data Store](https://pipedream.com/data-stores/).",
-  version: "0.0.7",
+  version: "0.0.8",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

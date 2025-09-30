@@ -4,7 +4,12 @@ export default {
   key: "crove_app-complete-document",
   name: "Complete Document",
   description: "Mark the document as completed",
-  version: "1.0.2",
+  version: "1.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     croveApp,

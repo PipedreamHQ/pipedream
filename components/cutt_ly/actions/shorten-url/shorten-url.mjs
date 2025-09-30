@@ -4,7 +4,12 @@ export default {
   key: "cutt_ly-shorten-url",
   name: "Shorten URL",
   description: "Returns a shortened URL when given a target URL as a prop. [See the documentation](https://cutt.ly/cuttly-api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     cuttLy,

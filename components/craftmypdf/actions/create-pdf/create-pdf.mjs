@@ -3,7 +3,12 @@ import craftmypdf from "../../craftmypdf.app.mjs";
 export default {
   key: "craftmypdf-create-pdf",
   name: "Create PDF",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new pdf. [See the documentation](https://craftmypdf.com/docs/index.html#tag/PDF-Generation-API/operation/create)",
   type: "action",
   props: {

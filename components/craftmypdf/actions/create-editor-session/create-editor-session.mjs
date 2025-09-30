@@ -3,7 +3,12 @@ import craftmypdf from "../../craftmypdf.app.mjs";
 export default {
   key: "craftmypdf-create-editor-session",
   name: "Create Editor Session",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new PDF editor session. The PDF editor url can be embedded into an IFrame. [See the documentation](https://craftmypdf.com/docs/index.html#tag/Template-Management-API/operation/delete-template)",
   type: "action",
   props: {
