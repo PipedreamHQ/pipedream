@@ -7,7 +7,12 @@ export default {
   key: "agiliron-create-lead",
   name: "Create Lead",
   description: "Establishes a new lead within Agiliron. [See the documentation](https://api.agiliron.com/docs/add-lead-1)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     agiliron,

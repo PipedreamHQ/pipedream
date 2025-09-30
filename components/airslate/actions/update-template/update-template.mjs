@@ -4,7 +4,12 @@ export default {
   key: "airslate-update-template",
   name: "Update Template",
   description: "Update a specified template in airSlate. [See the documentation](https://docs.airslate.io/docs/airslate-api/templates-api%2Foperations%2Fmodify-a-organization-template)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

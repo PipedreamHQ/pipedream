@@ -4,7 +4,12 @@ export default {
   name: "Create Organization",
   description: "Create Organization [See the documentation](https://api.agendor.com.br/docs/#operation/Create%20organization).",
   key: "agendor-create-organization",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

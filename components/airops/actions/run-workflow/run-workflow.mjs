@@ -2,7 +2,12 @@ import app from "../../airops.app.mjs";
 
 export default {
   name: "Run Workflow",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "airops-run-workflow",
   description: "Run a workflow of an app. See the [sync documentation](https://docs.airops.com/reference/create-execution) or [async documentation](https://docs.airops.com/reference/create-async-execution)",
   type: "action",

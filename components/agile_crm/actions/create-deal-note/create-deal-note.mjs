@@ -4,7 +4,12 @@ export default {
   key: "agile_crm-create-deal-note",
   name: "Create Deal Note",
   description: "Adds a note to a deal. [See the documentation](https://github.com/agilecrm/rest-api#45-create-note-to-a-deal)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     agileCrm,

@@ -4,7 +4,12 @@ export default {
   name: "Get Call",
   description: "Retrieves details about a call. [See the docs here](https://developer.aircall.io/api-references/#retrieve-a-call)",
   key: "aircall-get-call",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     aircall,

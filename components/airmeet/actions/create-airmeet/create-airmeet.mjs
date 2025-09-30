@@ -4,7 +4,12 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Create Airmeet",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "airmeet-create-airmeet",
   description: "Creates an airmeet. [See the documentation](https://help.airmeet.com/support/solutions/articles/82000467794-airmeet-public-apis-v2-0#6.1-Create-Airmeet)",
   type: "action",

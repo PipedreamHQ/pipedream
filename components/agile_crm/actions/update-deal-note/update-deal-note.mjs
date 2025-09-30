@@ -4,7 +4,12 @@ export default {
   key: "agile_crm-update-deal-note",
   name: "Update Deal Note",
   description: "Update a note attached to a deal. [See the documentation](https://github.com/agilecrm/rest-api#46-update-note-to-a-deal)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     agileCrm,

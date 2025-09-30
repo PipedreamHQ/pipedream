@@ -4,7 +4,12 @@ export default {
   key: "agile_crm-create-task",
   name: "Create Task",
   description: "Create a new task in Agile CRM. [See the documentation](https://github.com/agilecrm/rest-api#54-create-a-task)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     agileCrm,
