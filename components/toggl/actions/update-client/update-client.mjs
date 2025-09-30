@@ -4,7 +4,12 @@ export default {
   key: "toggl-update-client",
   name: "Update Client",
   description: "Updates an existing client in Toggl. [See the documentation](https://engineering.toggl.com/docs/api/clients#put-change-client)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     toggl,

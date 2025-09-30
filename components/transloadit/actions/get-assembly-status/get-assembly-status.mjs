@@ -4,7 +4,12 @@ export default {
   key: "transloadit-get-assembly-status",
   name: "Get Assembly Status",
   description: "Retrieve the current status and results of an existing assembly. [See the documentation](https://transloadit.com/docs/api/assemblies-assembly-id-get/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     transloadit,

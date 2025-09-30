@@ -10,7 +10,12 @@ export default {
   key: "token_metrics-get-indices-holdings",
   name: "Get Indices Holdings",
   description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/indices-holdings)`,
-  version: "0.1.0",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     tokenMetrics,

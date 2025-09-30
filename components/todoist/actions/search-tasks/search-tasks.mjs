@@ -4,7 +4,12 @@ export default {
   key: "todoist-search-tasks",
   name: "Search Tasks",
   description: "Search tasks by name, label, project and/or section. [See Docs](https://developer.todoist.com/rest/v2/#get-active-tasks)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     todoist,

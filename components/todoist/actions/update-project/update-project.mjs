@@ -4,7 +4,12 @@ export default {
   key: "todoist-update-project",
   name: "Update Project",
   description: "Updates a project. [See the docs here](https://developer.todoist.com/rest/v2/#update-a-project)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     todoist,

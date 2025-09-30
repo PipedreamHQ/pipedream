@@ -4,7 +4,12 @@ import app from "../../trengo.app.mjs";
 export default {
   type: "action",
   key: "trengo-list-articles",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   name: "List Articles",
   description: "List articles from a help center according to the specified criteria. [See the documentation](https://developers.trengo.com/reference/list-all-articles)",
   props: {

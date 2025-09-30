@@ -5,7 +5,12 @@ export default {
   key: "trello-move-card-to-list",
   name: "Move Card to List",
   description: "Moves a card to the specified board/list pair. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-cards/#api-cards-id-put).",
-  version: "0.2.3",
+  version: "0.2.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

@@ -2,7 +2,12 @@ import toggl from "../../toggl.app.mjs";
 
 export default {
   name: "Get Time Entries",
-  version: "0.0.7",
+  version: "0.0.8",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "toggl-get-time-entries",
   description: "Get the last thousand time entries. [See docs here](https://developers.track.toggl.com/docs/api/time_entries#get-timeentries)",
   type: "action",

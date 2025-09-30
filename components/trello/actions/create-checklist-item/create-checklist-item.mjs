@@ -5,7 +5,12 @@ export default {
   key: "trello-create-checklist-item",
   name: "Create a Checklist Item",
   description: "Creates a new checklist item in a card. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-checklists/#api-checklists-id-checkitems-post).",
-  version: "0.3.1",
+  version: "0.3.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

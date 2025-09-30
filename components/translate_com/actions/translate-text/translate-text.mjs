@@ -2,7 +2,12 @@ import app from "../../translate_com.app.mjs";
 
 export default {
   name: "Translate Text",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "translate_com-translate-text",
   description: "Translante a text using machine. [See the documentation](https://translation-api.translate.com/api/documentation?_gl=1*1qes1da*_ga*MTMwNzkzMTg3OC4xNjk1NDE3MDIy*_ga_T51KL347BB*MTY5NTQxNzAyMS4xLjAuMTY5NTQxNzAyMS42MC4wLjA.#/Machine Translation)",
   type: "action",

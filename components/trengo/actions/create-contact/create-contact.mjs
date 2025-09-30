@@ -3,7 +3,12 @@ import app from "../../trengo.app.mjs";
 export default {
   type: "action",
   key: "trengo-create-contact",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   name: "Create Contact",
   description: "Creates a contact. If a contact with given identifier already exists, returns it. [See the documentation](https://developers.trengo.com/reference/create-contact)",
   props: {

@@ -5,7 +5,12 @@ export default {
   key: "trello-find-list",
   name: "Find a List",
   description: "Finds a list on a specific board by name. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-boards/#api-boards-id-lists-get).",
-  version: "0.2.3",
+  version: "0.2.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

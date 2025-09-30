@@ -4,7 +4,12 @@ export default {
   key: "trello-create-list",
   name: "Create a List",
   description: "Creates a new list. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-lists/#api-lists-post).",
-  version: "0.2.3",
+  version: "0.2.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

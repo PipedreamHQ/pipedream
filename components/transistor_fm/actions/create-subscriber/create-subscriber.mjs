@@ -4,7 +4,12 @@ export default {
   name: "Create subscriber",
   description: "Create a subscriber. [See the docs here](https://developers.transistor.fm/#subscribers)",
   key: "transistor_fm-create-subscriber",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

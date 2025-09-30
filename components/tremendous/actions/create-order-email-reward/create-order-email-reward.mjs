@@ -3,7 +3,12 @@ import { DELIVERY_METHOD_OPTIONS } from "../../common/constants.mjs";
 
 export default {
   name: "Create Order Email Reward",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "tremendous-create-order-email-reward",
   description: "Create an order to send out a reward. [See the documentation](https://developers.tremendous.com/reference/create-order)",
   type: "action",
