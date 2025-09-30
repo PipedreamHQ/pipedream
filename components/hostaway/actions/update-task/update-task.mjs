@@ -6,7 +6,12 @@ export default {
   key: "hostaway-update-task",
   name: "Update Task",
   description: "Updates an existing task in Hostaway. [See the documentation](https://api.hostaway.com/documentation#update-task)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     hostaway,

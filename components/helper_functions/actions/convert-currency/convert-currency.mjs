@@ -5,7 +5,12 @@ export default {
   key: "helper_functions-convert-currency",
   name: "Convert Currency",
   description: "Convert an amount between currencies. [See the documentation](https://www.frankfurter.app/docs/)",
-  version: "0.2.0",
+  version: "0.2.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     helperFunctions,

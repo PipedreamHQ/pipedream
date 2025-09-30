@@ -4,7 +4,12 @@ export default {
   key: "html_to_image-convert-url-to-pdf",
   name: "Convert URL to PDF",
   description: "Create a PDF from a URL. [See the documentation](https://docs.htmlcsstoimg.com/html-to-image-api/url-to-pdf-api).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     htmlToImage,

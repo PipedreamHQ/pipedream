@@ -9,7 +9,12 @@ export default {
   key: "html_2_pdf-generate-pdf",
   name: "Generate PDF",
   description: "Creates a PDF from a URL or HTML string. [See the documentation](https://www.html2pdf.co.uk/api-documentation)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     html2Pdf,

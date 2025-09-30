@@ -4,7 +4,12 @@ export default {
   key: "html_css_to_image-create-image-from-url",
   name: "Create Image From URL",
   description: "Create Image From URL. [See the docs](https://docs.htmlcsstoimage.com/getting-started/using-the-api/#creating-an-image).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     htmlCssToImageApp,

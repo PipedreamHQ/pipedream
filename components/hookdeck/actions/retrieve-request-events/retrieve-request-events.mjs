@@ -5,7 +5,12 @@ export default {
   name: "Retrieve Request Events",
   description: "This endpoint retries the events associated with a request. [See the documentation](https://hookdeck.com/api-ref#retrieve-request-events).",
   key: "hookdeck-retrieve-request-events",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

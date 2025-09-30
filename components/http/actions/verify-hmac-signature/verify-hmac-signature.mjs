@@ -3,7 +3,12 @@ import http from "../../http.app.mjs";
 
 export default {
   name: "Verify HMAC Signature",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "http-verify-hmac-signature",
   description: "Validate HMAC signature for incoming HTTP webhook requests. Make sure to configure the HTTP trigger to \"Return a custom response from your workflow\".",
   type: "action",

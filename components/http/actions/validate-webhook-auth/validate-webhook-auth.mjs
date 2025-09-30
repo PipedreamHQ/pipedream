@@ -2,7 +2,12 @@ import http from "../../http.app.mjs";
 
 export default {
   name: "Validate Webhook Auth",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "http-validate-webhook-auth",
   description: "Require authorization for incoming HTTP webhook requests. Make sure to configure the HTTP trigger to \"Return a custom response from your workflow\".",
   type: "action",

@@ -5,7 +5,12 @@ export default {
   key: "hippo_video-upload-video",
   name: "Upload Video",
   description: "Uploads a video from a given URL. [See the documentation](https://help.hippovideo.io/support/solutions/articles/19000100703-import-api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     hippoVideo,

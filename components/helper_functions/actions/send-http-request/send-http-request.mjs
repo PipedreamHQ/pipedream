@@ -4,7 +4,12 @@ export default {
   key: "helper_functions-send-http-request",
   name: "Send Webhook",
   description: "Send Webhook and Payload",
-  version: "1.0.0",
+  version: "1.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     helperFunctions,

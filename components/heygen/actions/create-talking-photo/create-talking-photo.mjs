@@ -6,7 +6,12 @@ export default {
   key: "heygen-create-talking-photo",
   name: "Create Talking Photo",
   description: "Creates a talking photo from a provided image. [See the documentation](https://docs.heygen.com/reference/create-an-avatar-video-v2)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

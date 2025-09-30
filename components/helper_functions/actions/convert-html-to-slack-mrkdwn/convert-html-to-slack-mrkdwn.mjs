@@ -6,7 +6,12 @@ export default {
   key: "helper_functions-convert-html-to-slack-mrkdwn",
   name: "Convert HTML to Slack mrkdwn format",
   description: "Converts an HTML string to the Slack mrkdwn format using",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     helper_functions,

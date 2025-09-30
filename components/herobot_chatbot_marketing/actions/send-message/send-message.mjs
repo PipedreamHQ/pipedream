@@ -4,7 +4,12 @@ export default {
   key: "herobot_chatbot_marketing-send-message",
   name: "Send Message",
   description: "Sends a message to a user through the chatbot. [See the documentation](https://my.herobot.app/api/swagger/#/Users/sendTextMessage)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

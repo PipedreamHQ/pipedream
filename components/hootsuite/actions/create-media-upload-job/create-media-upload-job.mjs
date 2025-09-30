@@ -5,7 +5,12 @@ export default {
   key: "hootsuite-create-media-upload-job",
   name: "Create Media Upload Job",
   description: "Creates a new Media Upload Job on your Hootsuite account. [See the documentation](https://apidocs.hootsuite.com/docs/api/index.html#operation/createMedia)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     hootsuite,
