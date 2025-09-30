@@ -6,7 +6,12 @@ export default {
   key: "gorgias_oauth-create-macro",
   name: "Create Macro",
   description: "Create a macro. [See the documentation](https://developers.gorgias.com/reference/create-macro)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     gorgias_oauth,

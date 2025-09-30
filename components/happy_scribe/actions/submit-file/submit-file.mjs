@@ -3,7 +3,12 @@ import app from "../../happy_scribe.app.mjs";
 
 export default {
   name: "Submit File",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "happy_scribe-submit-file",
   description: "Submit a file. [See the documentation](https://dev.happyscribe.com/sections/product/#uploads-2-upload-your-file-with-the-signed-url)",
   type: "action",

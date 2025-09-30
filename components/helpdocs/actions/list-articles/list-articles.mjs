@@ -4,7 +4,12 @@ export default {
   key: "helpdocs-list-articles",
   name: "List Articles",
   description: "Retrieve a list of articles from your HelpDocs knowledge base. [See the documentation](https://apidocs.helpdocs.io/article/OqvaxRMHgN-getting-articles)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     helpdocs,

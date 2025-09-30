@@ -4,7 +4,12 @@ export default {
   key: "griptape-update-assistant",
   name: "Update Assistant",
   description: "Updates an existing assistant. [See the documentation](https://docs.griptape.ai/stable/griptape-cloud/api/api-reference/#/Assistants/UpdateAssistant).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

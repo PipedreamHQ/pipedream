@@ -4,7 +4,12 @@ export default {
   key: "gtmetrix-run-performance-test",
   name: "Run Performance Test",
   description: "Run a performance test on a specified URL using GTmetrix. [See the documentation](https://gtmetrix.com/api/docs/2.0/#api-test-start)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     gtmetrix,

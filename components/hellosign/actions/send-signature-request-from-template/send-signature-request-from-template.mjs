@@ -4,7 +4,12 @@ export default {
   key: "hellosign-send-signature-request-from-template",
   name: "Send Signature Request From Template",
   description: "Send a signature request from a template with Dropbox Sign. [See the documentation](https://developers.hellosign.com/api/reference/operation/signatureRequestSendWithTemplate/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     hellosign,

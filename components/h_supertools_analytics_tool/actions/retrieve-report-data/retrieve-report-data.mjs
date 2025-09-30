@@ -3,7 +3,12 @@ import app from "../../h_supertools_analytics_tool.app.mjs";
 export default {
   key: "h_supertools_analytics_tool-retrieve-report-data",
   name: "Retrieve Report Data",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Fetch the analytics report data for a specified website. [See the documentation](https://analytics.h-supertools.com/developers/stats)",
   type: "action",
   props: {

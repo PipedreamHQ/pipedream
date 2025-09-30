@@ -3,7 +3,12 @@ import gotowebinar from "../../gotowebinar.app.mjs";
 export default {
   key: "gotowebinar-create-webinar",
   name: "Create Webinar",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Creates a single session webinar, a sequence of webinars or a series of webinars depending on the type field in the body. [See the documentation](https://developer.goto.com/GoToWebinarV2/#operation/createWebinar)",
   type: "action",
   props: {

@@ -4,7 +4,12 @@ export default {
   key: "gorillastack-deploy-template",
   name: "Deploy Template",
   description: "Deploy a template definition. [See the documentation](https://docs.gorillastack.com/swagger/v2#/templates/get_teams__teamId__templates_deployments)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

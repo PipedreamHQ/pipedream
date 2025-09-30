@@ -4,7 +4,12 @@ export default {
   key: "habitica-create-challenge",
   name: "Create Challenge",
   description: "Creates a challenge. [See the documentation](https://habitica.com/apidoc/#api-Challenge-CreateChallenge)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

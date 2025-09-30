@@ -4,7 +4,12 @@ export default {
   key: "helpdocs-create-article",
   name: "Create Article",
   description: "Create a new article in your HelpDocs knowledge base. [See the documentation](https://apidocs.helpdocs.io/article/8Y2t6NVxeU-creating-an-article)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     helpdocs,
