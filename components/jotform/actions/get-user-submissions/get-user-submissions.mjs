@@ -5,7 +5,12 @@ export default {
   key: "jotform-get-user-submissions",
   name: "Get User Submissions",
   description: "Gets a list of all submissions for all forms on the account [See the docs here](https://api.jotform.com/docs/#user-submissions)",
-  version: "0.1.4",
+  version: "0.1.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

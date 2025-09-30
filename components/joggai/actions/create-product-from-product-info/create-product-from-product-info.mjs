@@ -9,7 +9,12 @@ export default {
   key: "joggai-create-product-from-product-info",
   name: "Create Product from Product Info",
   description: "Creates a product from product info using JoggAI API. [See the documentation](https://docs.jogg.ai/api-reference/URL-to-Video/CreateVideo)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     joggai,

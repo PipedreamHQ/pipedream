@@ -4,7 +4,12 @@ export default {
   key: "kanbanize-create-new-task",
   name: "Create New Task",
   description: "Create New Task. [See the docs here](https://kanbanize.com/api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     kanbanizeApp,

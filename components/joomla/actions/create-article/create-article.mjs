@@ -4,7 +4,12 @@ export default {
   name: "Create Article",
   description: "Create an article. See the docs [here](https://docs.joomla.org/J4.x:Joomla_Core_APIs#Create_Article)",
   key: "joomla-create-article",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     joomla,

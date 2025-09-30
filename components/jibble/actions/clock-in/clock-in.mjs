@@ -4,7 +4,12 @@ export default {
   name: "Clock In",
   description: "Create a new clock in time entry [See the documentation](https://docs.api.jibble.io/#ec4b4f62-5832-4911-92b1-81501b7d681c).",
   key: "jibble-clock-in",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

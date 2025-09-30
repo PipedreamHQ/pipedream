@@ -5,7 +5,12 @@ export default {
   key: "jira-add-comment-to-issue",
   name: "Add Comment To Issue",
   description: "Adds a new comment to an issue, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-comments/#api-rest-api-3-issue-issueidorkey-comment-post)",
-  version: "0.1.12",
+  version: "0.1.13",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     jira,

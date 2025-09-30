@@ -4,7 +4,12 @@ export default {
   key: "jw_player-search-media",
   name: "Search Media",
   description: "Searches for a media or lists all media available in JW Player. [See the documentation](https://docs.jwplayer.com/platform/reference/get_v2-sites-site-id-media)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     jwPlayer,

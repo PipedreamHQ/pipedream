@@ -6,7 +6,12 @@ export default {
   key: "issue_badge-create-organization",
   name: "Create Organization",
   description: "Create a new organization [See the documentation](https://documenter.getpostman.com/view/19911979/2sA2r9X4Aj#9f046aa2-e975-420f-a9ec-3274ea74c6bd)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     issueBadge,

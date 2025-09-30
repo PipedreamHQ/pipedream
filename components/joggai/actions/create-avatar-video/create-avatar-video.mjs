@@ -11,7 +11,12 @@ export default {
   key: "joggai-create-avatar-video",
   name: "Create Avatar Video",
   description: "Creates an avatar video using JoggAI API. [See the documentation](https://docs.jogg.ai/api-reference/Create-Avatar-Videos/CreateAvatarVideo)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     joggai,

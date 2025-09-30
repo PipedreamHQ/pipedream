@@ -4,7 +4,12 @@ export default {
   key: "keboola-update-bucket",
   name: "Update Bucket",
   description: "Updates a bucket with a new display name in Keboola. [See the documentation](https://keboola.docs.apiary.io/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     keboola,

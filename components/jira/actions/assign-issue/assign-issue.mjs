@@ -3,7 +3,12 @@ import jira from "../../jira.app.mjs";
 export default {
   key: "jira-assign-issue",
   name: "Assign Issue",
-  version: "0.0.11",
+  version: "0.0.12",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Assigns an issue to a user. [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-assignee-put)",
   type: "action",
   props: {
