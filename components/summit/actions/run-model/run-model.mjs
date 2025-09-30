@@ -4,7 +4,12 @@ export default {
   key: "summit-run-model",
   name: "Run Model",
   description: "Executes a model within Summit and captures the response fields. [See the documentation](https://summit.readme.io/reference/model-api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     summit,

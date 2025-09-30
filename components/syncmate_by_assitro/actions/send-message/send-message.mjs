@@ -8,7 +8,12 @@ export default {
   key: "syncmate_by_assitro-send-message",
   name: "Send WhatsApp Message",
   description: "Send a single WhatsApp message using SyncMate by Assistro. [See the documentation](https://assistro.co/user-guide/connect-your-custom-app-with-syncmate/)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     syncmateByAssitro,

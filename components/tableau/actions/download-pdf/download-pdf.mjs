@@ -6,7 +6,12 @@ export default {
   key: "tableau-download-pdf",
   name: "Download PDF",
   description: "Downloads images of the sheets of a workbook as a PDF file. [See the documentation](https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_workbooks_and_views.htm#download_workbook_pdf)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

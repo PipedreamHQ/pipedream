@@ -4,7 +4,12 @@ export default {
   key: "supercast-create-creator",
   name: "Create a Channel Creator",
   description: "Creates a new channel creator on Supercast. [See the documentation](https://supercast.readme.io/reference/postcreators)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

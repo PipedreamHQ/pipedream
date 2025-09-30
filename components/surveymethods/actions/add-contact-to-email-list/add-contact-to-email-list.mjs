@@ -2,7 +2,12 @@ import surveymethods from "../../surveymethods.app.mjs";
 
 export default {
   name: "Add Contact To Email List",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "surveymethods-add-contact-to-email-list",
   description: "Creates a email list. [See docs here in 8.2](https://app.surveymethods.com/t-help/api/surveymethodsapidocumentv1.pdf)",
   type: "action",

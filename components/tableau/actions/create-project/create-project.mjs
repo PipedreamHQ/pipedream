@@ -4,7 +4,12 @@ export default {
   key: "tableau-create-project",
   name: "Create Project",
   description: "Creates a project on the specified site. You can also create project hierarchies by creating a project under the specified parent project on the site. [See the documentation](https://help.tableau.com/current/api/rest_api/en-us/REST/rest_api_ref_projects.htm#create_project)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

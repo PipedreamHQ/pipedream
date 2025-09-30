@@ -4,7 +4,12 @@ export default {
   key: "summit-list-models",
   name: "List Models",
   description: "Returns a list of models from Summit. [See the documentation](https://summit.readme.io/reference/apps)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     summit,

@@ -4,7 +4,12 @@ export default {
   key: "symbl_ai-get-job-status",
   name: "Get Job Status",
   description: "Get the status of an Async job request. See the doc [here](https://docs.symbl.ai/docs/async-api/overview/jobs-api#http-request)",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     symblAIApp,

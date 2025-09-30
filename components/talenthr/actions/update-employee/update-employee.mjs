@@ -14,7 +14,12 @@ export default {
   key: "talenthr-update-employee",
   name: "Update Employee",
   description: "Allows updating an existing employee's data in the system. [See the documentation](https://apidocs.talenthr.io/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     talenthr,

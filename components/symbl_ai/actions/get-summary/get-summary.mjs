@@ -4,7 +4,12 @@ export default {
   key: "symbl_ai-get-summary",
   name: "Get Summary",
   description: "Get a summary of important contextual messages in a conversation. See the doc [here](https://docs.symbl.ai/docs/conversation-api/summary)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     symblAIApp,

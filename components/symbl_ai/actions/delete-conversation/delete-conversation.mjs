@@ -4,7 +4,12 @@ export default {
   key: "symbl_ai-delete-conversation",
   name: "Delete Conversation",
   description: "Permanently deletes the conversation and all related entities such as messages, insights, topics, etc. See the doc [here](https://docs.symbl.ai/docs/conversation-api/delete-conversation/).",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     symblAIApp,

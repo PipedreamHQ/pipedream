@@ -6,7 +6,12 @@ export default {
   name: "Get Available Plans Executions",
   description: "List all plan executions the user is granted visibility on. For each plan execution returns execution and plan identifiers, start and finish timestamps, execution status and counters on done and planned executables within plan. [See the documentation](https://api.talend.com/apis/processing/2021-03/#operation_get-available-plans-executions).",
   key: "talend-get-available-plans-executions",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

@@ -8,7 +8,12 @@ export default {
   name: "List Survey Collectors",
   description:
     "Retrieve a survey's Collectors. [See the docs here](https://api.surveymonkey.net/v3/docs?javascript#api-endpoints-get-surveys-id-collectors)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   methods: {
     ...baseListAction.methods,

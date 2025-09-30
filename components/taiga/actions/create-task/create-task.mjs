@@ -5,7 +5,12 @@ export default {
   key: "taiga-create-task",
   name: "Create Task",
   description: "Create a new task in a Taiga project. [See the documentation](https://docs.taiga.io/api.html#tasks-create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     taiga,

@@ -5,7 +5,12 @@ export default {
   key: "supportivekoala-create-image",
   name: "Create an Image",
   description: "Creates an image based on a template. [See the docs here](https://developers.supportivekoala.com/#create_image)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

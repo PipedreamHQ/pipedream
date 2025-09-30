@@ -4,7 +4,12 @@ export default {
   name: "Execute Plan",
   description: "Allows to run a Plan. [See the documentation](https://api.talend.com/apis/processing/2021-03/#operation_execute-plan).",
   key: "talend-execute-plan",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

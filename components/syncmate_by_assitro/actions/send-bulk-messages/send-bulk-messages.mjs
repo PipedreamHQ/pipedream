@@ -8,7 +8,12 @@ export default {
   key: "syncmate_by_assitro-send-bulk-messages",
   name: "Send Bulk Messages",
   description: "Send multiple WhatsApp messages in bulk. [See the documentation](https://assistro.co/user-guide/bulk-messaging-at-a-scheduled-time-using-syncmate-2/)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     syncmateByAssitro,

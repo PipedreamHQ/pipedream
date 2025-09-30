@@ -4,7 +4,12 @@ export default {
   key: "swaggerhub-clone-api-version",
   name: "Clone API Version",
   description: "Clones a version for an API. [See the docs here](https://app.swaggerhub.com/apis/swagger-hub/registry-api/1.0.66#/APIs/cloneApi)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     swaggerhub,

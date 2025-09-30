@@ -4,7 +4,12 @@ export default {
   key: "symbl_ai-get-analytics",
   name: "Get Analytics",
   description: "Get a list of metrics and member analytics (speaker ratio, talk time, silence, pace and overlap) from the conversation. See the doc [here](https://docs.symbl.ai/docs/conversation-api/analytics/)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     symblAIApp,

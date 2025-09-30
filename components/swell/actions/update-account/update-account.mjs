@@ -4,7 +4,12 @@ export default {
   key: "swell-update-account",
   name: "Update Account",
   description: "Update an existing account with the corresponding ID. [See the documentation](https://developers.swell.is/backend-api/accounts/update-an-account)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

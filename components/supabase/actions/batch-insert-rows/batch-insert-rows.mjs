@@ -6,7 +6,12 @@ export default {
   key: "supabase-batch-insert-rows",
   name: "Batch Insert Rows",
   description: "Inserts new rows into a database. [See the documentation](https://supabase.com/docs/reference/javascript/insert)",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     supabase,

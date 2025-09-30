@@ -9,7 +9,12 @@ export default {
   key: "talenthr-create-employee",
   name: "Create Employee",
   description: "Hires a new employee and registers them in the system. [See the documentation](https://apidocs.talenthr.io/#2950f0ba-b27b-4d4b-855f-4b79b667767c)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     talenthr,

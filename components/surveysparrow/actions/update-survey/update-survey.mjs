@@ -6,7 +6,12 @@ export default {
   key: "surveysparrow-update-survey",
   name: "Update Survey",
   description: "Updates an existing survey. [See the documentation](https://developers.surveysparrow.com/rest-apis/survey#patchV3SurveysId)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     surveySparrow,

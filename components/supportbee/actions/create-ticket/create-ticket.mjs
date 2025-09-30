@@ -2,7 +2,12 @@ import supportbee from "../../supportbee.app.mjs";
 
 export default {
   name: "Create Ticket",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "supportbee-create-ticket",
   description: "Creates a client. [See docs here](https://supportbee.com/api#create_ticket)",
   type: "action",

@@ -4,7 +4,12 @@ export default {
   key: "swaggerhub-delete-api-version",
   name: "Delete API Version",
   description: "Deletes a version of an API. [See the docs here](https://app.swaggerhub.com/apis/swagger-hub/registry-api/1.0.66#/APIs/deleteApiVersion)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     swaggerhub,

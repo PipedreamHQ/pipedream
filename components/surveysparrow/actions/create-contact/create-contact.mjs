@@ -4,7 +4,12 @@ export default {
   key: "surveysparrow-create-contact",
   name: "Create Contact",
   description: "Creates a new contact. [See the documentation](https://developers.surveysparrow.com/rest-apis/contacts#postV3Contacts)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     surveySparrow,

@@ -3,7 +3,12 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Create Email List",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "surveymethods-create-email-list",
   description: "Creates a email list. [See docs here in 8.2](https://app.surveymethods.com/t-help/api/surveymethodsapidocumentv1.pdf)",
   type: "action",

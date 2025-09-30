@@ -4,7 +4,12 @@ export default {
   key: "talenthr-respond-time-off-request",
   name: "Respond to Time Off Request",
   description: "Responds to an employee's time off request. This action requires the request ID and the response status as props. [See the documentation](https://apidocs.talenthr.io/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     talenthr,

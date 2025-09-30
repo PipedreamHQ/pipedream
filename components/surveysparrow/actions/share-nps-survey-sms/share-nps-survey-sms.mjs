@@ -5,7 +5,12 @@ export default {
   key: "surveysparrow-share-nps-survey-sms",
   name: "Share NPS Survey via SMS",
   description: "Sends a saved NPS share template via SMS to given mobile number recipients. [See the documentation](https://developers.surveysparrow.com/rest-apis/channels#postV3Channels)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,
