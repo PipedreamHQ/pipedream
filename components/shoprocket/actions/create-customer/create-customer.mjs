@@ -4,7 +4,12 @@ export default {
   key: "shoprocket-create-customer",
   name: "Create Customer",
   description: "Creates a new customer in Shoprocket. [See the documentation](https://docs.shoprocket.io/#72180ccd-3b7d-4597-9f1e-f669397555e7)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     shoprocket,

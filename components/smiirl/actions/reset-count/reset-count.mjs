@@ -5,7 +5,12 @@ export default {
   name: "Reset count",
   description: "Reset count to zero. [See the docs here](https://www.npmjs.com/package/@smiirl/smiirl-library-js).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     smiirl,
   },

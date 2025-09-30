@@ -4,7 +4,12 @@ export default {
   key: "small_improvements-create-meeting-notes",
   name: "Create Meeting Notes",
   description: "Create meeting notes in Small Improvements. [See the documentation](https://storage.googleapis.com/si-rest-api-docs/dist/index.html#meeting-note-resource)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     smallImprovements,

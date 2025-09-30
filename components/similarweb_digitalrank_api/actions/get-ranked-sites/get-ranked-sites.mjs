@@ -4,7 +4,12 @@ export default {
   key: "similarweb_digitalrank_api-get-ranked-sites",
   name: "Get Ranked Sites",
   description: "List the top-ranking websites globally. [See the documentation](https://developers.similarweb.com/docs/digital-rank-api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

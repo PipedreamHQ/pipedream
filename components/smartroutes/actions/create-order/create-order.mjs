@@ -5,7 +5,12 @@ export default {
   key: "smartroutes-create-order",
   name: "Create Order",
   description: "Creates a new order in the smartroutes. [See the documentation](https://api.smartroutes.io/v2/docs/api/#tag/Orders/paths/~1orders/post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     smartroutes,

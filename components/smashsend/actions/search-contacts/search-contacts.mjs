@@ -4,7 +4,12 @@ export default {
   key: "smashsend-search-contacts",
   name: "Search Contacts",
   description: "Search for contacts by email address. [See the documentation](https://smashsend.com/docs/api/contacts)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     smashsend,

@@ -4,7 +4,12 @@ export default {
   key: "signalwire-validate-phone-number",
   name: "Validate Phone Number",
   description: "Validates a given phone number. Can optionally include carrier and caller ID information. [See the documentation](https://developer.signalwire.com/rest/phone-number-lookup)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     signalwire,

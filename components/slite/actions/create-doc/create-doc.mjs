@@ -4,7 +4,12 @@ export default {
   key: "slite-create-doc",
   name: "Create Document",
   description: "Creates a new document within a chosen parent document or private channel. [See the documentation](https://developers.slite.com/reference/createnote)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

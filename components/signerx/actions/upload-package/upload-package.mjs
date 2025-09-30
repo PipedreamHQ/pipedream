@@ -6,7 +6,12 @@ export default {
   key: "signerx-upload-package",
   name: "Upload Package",
   description: "Quickly create a draft for a new package/document by uploading a file or providing a file_url to a PDF document. [See the documentation](https://documenter.getpostman.com/view/13877745/2sa3xv9kni)",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     signerx,

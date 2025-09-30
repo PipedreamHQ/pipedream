@@ -4,7 +4,12 @@ export default {
   key: "short_menu-create-short-link",
   name: "Create Short Link",
   description: "Create a new short link. [See the documentationo](https://docs.shortmenu.com/api-reference/endpoint/create-link)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     shortMenu,

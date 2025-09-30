@@ -4,7 +4,12 @@ export default {
   key: "sitespeakai-send-query",
   name: "Send Query",
   description: "Queries your chatbot and returns the answer and URLs used to find the answer. [See the documentation](https://api-docs.sitespeak.ai/reference/api-reference/query)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sitespeakai,

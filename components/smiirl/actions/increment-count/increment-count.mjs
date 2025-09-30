@@ -5,7 +5,12 @@ export default {
   name: "Increment count",
   description: "Increment count or add a number to the current value. [See the docs here](https://www.npmjs.com/package/@smiirl/smiirl-library-js).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     smiirl,
     number: {

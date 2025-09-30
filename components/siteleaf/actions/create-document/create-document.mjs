@@ -5,7 +5,12 @@ export default {
   name: "Create Document",
   description: "Create a new document. [See the docs here](https://learn.siteleaf.com/api/documents/#create-a-document)",
   key: "siteleaf-create-document",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

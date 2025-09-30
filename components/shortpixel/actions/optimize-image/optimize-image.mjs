@@ -6,7 +6,12 @@ export default {
   key: "shortpixel-optimize-image",
   name: "Optimize Image",
   description: "Optimize and/or adjust an image using ShortPixel. [See the documentation](https://shortpixel.com/knowledge-base/article/shortpixel-adaptive-images-api-parameters/)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     shortpixel,

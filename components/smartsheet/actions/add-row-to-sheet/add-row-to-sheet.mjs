@@ -4,7 +4,12 @@ export default {
   key: "smartsheet-add-row-to-sheet",
   name: "Add Row to Sheet",
   description: "Adds a row to a sheet. [See docs here](https://smartsheet.redoc.ly/tag/rows#operation/rows-addToSheet)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     smartsheet,

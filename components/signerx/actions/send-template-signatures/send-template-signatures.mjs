@@ -4,7 +4,12 @@ export default {
   key: "signerx-send-template-signatures",
   name: "Send Template Signatures",
   description: "Add a recipient to a template and invite to sign. [See the documentation](https://documenter.getpostman.com/view/13877745/2sa3xv9kni)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     signerx,

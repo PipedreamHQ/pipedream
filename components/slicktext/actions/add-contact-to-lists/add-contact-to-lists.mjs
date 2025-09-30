@@ -5,7 +5,12 @@ export default {
   key: "slicktext-add-contact-to-lists",
   name: "Add Contact To Lists",
   description: "Add a contact to lists. [See the documentation](https://api.slicktext.com/docs/v2/lists#scroll-to-add-contacts-to-lists)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     slicktext,

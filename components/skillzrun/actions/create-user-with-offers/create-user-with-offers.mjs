@@ -4,7 +4,12 @@ export default {
   key: "skillzrun-create-user-with-offers",
   name: "Create User With Offers",
   description: "Creates a new user with their associated offers in the SkillzRun app. [See the documentation](https://api.skillzrun.com/external/api/swagger/static/index.html#/users/post_external_api_users_create_with_orders)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     skillzrun,

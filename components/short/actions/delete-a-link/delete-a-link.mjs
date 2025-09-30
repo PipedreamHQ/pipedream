@@ -4,7 +4,12 @@ export default {
   key: "short-delete-a-link",
   name: "Delete Link",
   description: "Delete a Short Link. [See the documentation](https://developers.short.io/reference/linksbylinkiddelete).",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     shortApp,

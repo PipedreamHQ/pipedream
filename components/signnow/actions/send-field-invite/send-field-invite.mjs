@@ -5,7 +5,12 @@ export default {
   key: "signnow-send-field-invite",
   name: "Send Field Invite",
   description: "Creates and sends a field invite to sign a document. [See the documentation](https://docs.signnow.com/docs/signnow/field-invite/operations/create-a-document-invite)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

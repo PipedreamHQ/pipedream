@@ -4,7 +4,12 @@ export default {
   key: "signalwire-create-video-conference",
   name: "Create Video Conference",
   description: "Creates a video conference on SignalWire. [See the documentation](https://developer.signalwire.com/rest/create-a-video-conference)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     signalwire,

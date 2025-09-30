@@ -4,7 +4,12 @@ export default {
   key: "sigma-create-team",
   name: "Create Team",
   description: "Create a team. [See the documentation](https://docs.sigmacomputing.com/#post-/v2/teams)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,
