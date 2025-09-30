@@ -4,7 +4,12 @@ export default {
   key: "enrichley-validate-email",
   name: "Validate Email",
   description: "Checks the validity of a single email address using Enrichley. [See the documentation](https://enrichley.readme.io/reference/validatesingleemail)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     enrichley,

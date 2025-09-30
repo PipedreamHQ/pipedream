@@ -4,7 +4,12 @@ export default {
   key: "elorus-create-task",
   name: "Create Task",
   description: "Create a new task in Elorus. [See the documentation](https://developer.elorus.com/#operation/tasks_create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

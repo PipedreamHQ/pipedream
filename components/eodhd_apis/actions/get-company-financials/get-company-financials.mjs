@@ -3,7 +3,12 @@ import eodhdApis from "../../eodhd_apis.app.mjs";
 export default {
   key: "eodhd_apis-get-company-financials",
   name: "Get Company Financials",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Obtain financial statements for a specific company. [See the docs here](https://eodhistoricaldata.com/financial-apis/stock-etfs-fundamental-data-feeds/)",
   type: "action",
   props: {

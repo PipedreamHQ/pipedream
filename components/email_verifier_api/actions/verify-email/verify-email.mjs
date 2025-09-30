@@ -4,7 +4,12 @@ export default {
   key: "email_verifier_api-verify-email",
   name: "Verify Email",
   description: "Verify an email address with Email Verifier API. [See the documentation](https://www.emailverifierapi.com/app/v2-api-documentation/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     emailVerifierApi,

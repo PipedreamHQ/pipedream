@@ -5,7 +5,12 @@ export default {
   key: "esendex-send-voice-message",
   name: "Send Voice Message",
   description: "Send a voice message to a recipient. [See the documentation](https://developers.esendex.com/api-reference/#messagedispatcher)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     esendex,

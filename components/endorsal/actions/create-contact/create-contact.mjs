@@ -6,7 +6,12 @@ export default {
   key: "endorsal-create-contact",
   name: "Create Contact",
   description: "Creates a new contact for requesting testimonials. [See the documentation](https://developers.endorsal.io/docs/endorsal/b3a6mtczmzu5na-create-a-new-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     endorsal,

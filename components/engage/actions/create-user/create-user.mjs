@@ -4,7 +4,12 @@ export default {
   key: "engage-create-user",
   name: "Create User",
   description: "Adds a new user to your Engage account. Use this to sync customer data with Engage. [See the documentation](https://docs.engage.so/en-us/a/62bbdd015bfea4dca4834042-users#create-a-user)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -5,7 +5,12 @@ export default {
   key: "eden_ai-generate-audio-from-text",
   name: "Generate Audio From Text",
   description: "Generates an audio from the provided text. [See the documentation](https://docs.edenai.co/reference/audio_text_to_speech_create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

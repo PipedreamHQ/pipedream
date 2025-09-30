@@ -4,7 +4,12 @@ export default {
   key: "emailable-verify-email-address",
   name: "Verify Email Address",
   description: "Verifies a single email address using Emailable. [See the documentation](https://emailable.com/docs/api/#verify-an-email)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

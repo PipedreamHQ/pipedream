@@ -10,7 +10,12 @@ export default {
   key: "elastic_email-add-contact",
   name: "Add Contact to Mailing List",
   description: "Adds a new contact to a mailing list. [See the documentation](https://elasticemail.com/developers/api-documentation/rest-api#operation/contactsPost)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

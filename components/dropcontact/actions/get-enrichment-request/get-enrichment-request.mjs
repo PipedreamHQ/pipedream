@@ -4,7 +4,12 @@ export default {
   key: "dropcontact-get-enrichment-request",
   name: "Get Enrichment Request",
   description: "Retrieve the enriched contacts of a request in Dropcontact. [See the documentation](https://developer.dropcontact.com/#get-request)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     dropcontact,

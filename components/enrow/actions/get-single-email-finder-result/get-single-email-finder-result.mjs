@@ -4,7 +4,12 @@ export default {
   key: "enrow-get-single-email-finder-result",
   name: "Get Single Email Finder Result",
   description: "Retrieve a result from a single search executed via email finder function. [See the documentation](https://enrow.readme.io/reference/get-single-email-finder-result)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     enrow,
