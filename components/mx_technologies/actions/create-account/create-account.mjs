@@ -5,7 +5,12 @@ export default {
   key: "mx_technologies-create-account",
   name: "Create Account",
   description: "Creates a new account for a specific user. [See the documentation](https://docs.mx.com/api-reference/platform-api/reference/create-manual-account)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mxTechnologies,

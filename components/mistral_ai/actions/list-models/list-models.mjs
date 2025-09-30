@@ -4,7 +4,12 @@ export default {
   key: "mistral_ai-list-models",
   name: "List Models",
   description: "Retrieve a list of available Mistral AI models that the user is authorized to access. [See the Documentation](https://docs.mistral.ai/api/#tag/models)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     mistralAI,

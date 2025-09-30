@@ -5,7 +5,12 @@ export default {
   key: "mongodb-find-document",
   name: "Find Document",
   description: "Finds a document by a query filter. [See the documentation](https://docs.mongodb.com/manual/reference/method/db.collection.find/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

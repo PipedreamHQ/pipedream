@@ -4,7 +4,12 @@ export default {
   key: "mux-get-asset-or-livestream-id",
   name: "Get Asset or Livestream ID",
   description: "Returns an Asset or Livestream ID from a Playback ID. [See the documentation](https://docs.mux.com/api-reference#video/operation/get-asset-or-livestream-id)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     mux,

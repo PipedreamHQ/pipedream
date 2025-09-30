@@ -4,7 +4,12 @@ export default {
   key: "myotp_app-send-otp",
   name: "Send OTP",
   description: "Generate a One Time Password (OTP) and send it to the specified phone number. [See the documentation](https://api.myotp.app/swagger-ui/#/default/generate_otp_endpoint)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -3,7 +3,12 @@ import motion from "../../motion.app.mjs";
 export default {
   key: "motion-create-task",
   name: "Create Task",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new task. [See the documentation](https://docs.usemotion.com/docs/motion-rest-api/0846d1205f9b3-create-task)",
   type: "action",
   props: {

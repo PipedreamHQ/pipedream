@@ -4,7 +4,12 @@ export default {
   key: "mx_technologies-create-user",
   name: "Create User",
   description: "Creates a new user in the MX Technologies platform. [See the documentation](https://docs.mx.com/api-reference/platform-api/reference/create-user)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mxTechnologies,

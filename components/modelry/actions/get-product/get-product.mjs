@@ -4,7 +4,12 @@ export default {
   key: "modelry-get-product",
   name: "Get Product",
   description: "Get details of the product with the specified ID. [See the documentation](https://files.cgtarsenal.com/api/doc/index.html#api-Products-GetProduct)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

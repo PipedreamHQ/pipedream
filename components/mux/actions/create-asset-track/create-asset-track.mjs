@@ -4,7 +4,12 @@ export default {
   key: "mux-create-asset-track",
   name: "Create Asset Track",
   description: "Adds an asset track (for example, subtitles) to an asset. [See the documentation](https://docs.mux.com/api-reference#video/operation/create-asset-track)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mux,

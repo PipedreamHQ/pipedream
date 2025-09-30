@@ -4,7 +4,12 @@ import utils from "../../common/utils.mjs";
 
 export default {
   name: "List Boards",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "miro_custom_app-list-boards",
   description: "Returns a user's Miro boards. [See the docs](https://developers.miro.com/reference/get-boards).",
   type: "action",
