@@ -4,7 +4,12 @@ export default {
   key: "paazl-save-checkout-session",
   name: "Save Checkout Session Data",
   description: "Saves the most important information of a specific checkout session to the Paazl database. The information will be kept for 30 days. [See the documentation](https://support.paazl.com/hc/en-us/articles/360008633973-REST-API-reference#/Checkout/saveCheckoutUsingPOST)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

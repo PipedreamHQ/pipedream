@@ -4,7 +4,12 @@ export default {
   key: "paazl-get-checkout-session",
   name: "Get Checkout Session Data",
   description: "Gets your reference for a checkout session. [See the documentation](https://support.paazl.com/hc/en-us/articles/360008633973-REST-API-reference#/Checkout/getCheckoutUsingGET)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

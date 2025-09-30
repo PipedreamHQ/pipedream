@@ -4,7 +4,12 @@ export default {
   key: "overloop-enroll-contact",
   name: "Enroll Contact",
   description: "Enroll a contact in a workflow. [See the docs](https://apidoc.overloop.com/#enrollments)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     overloop,

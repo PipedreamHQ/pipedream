@@ -4,7 +4,12 @@ export default {
   key: "orderspace-list-products",
   name: "List Products",
   description: "List a list of products. [See the documentation](https://apidocs.orderspace.com/#list-products)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     orderspace,

@@ -5,7 +5,12 @@ export default {
   key: "oxylabs-scrape-url",
   name: "Scrape URL",
   description: "Scrape a URL. [See the documentation](https://developers.oxylabs.io/scraping-solutions/web-scraper-api)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     oxylabs,

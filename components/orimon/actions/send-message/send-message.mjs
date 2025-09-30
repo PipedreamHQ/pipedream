@@ -4,7 +4,12 @@ export default {
   key: "orimon-send-message",
   name: "Send Message to Orimon",
   description: "Sends a direct message to Orimon. [See the documentation](https://orimon.gitbook.io/docs/developer-api/message-api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     orimon,

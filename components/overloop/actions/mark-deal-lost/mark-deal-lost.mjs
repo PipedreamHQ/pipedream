@@ -4,7 +4,12 @@ export default {
   key: "overloop-mark-deal-lost",
   name: "Mark Deal as Lost",
   description: "Marks a deal as lost. [See the docs](https://apidoc.overloop.com/#mark-as-lost)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     overloop,

@@ -8,7 +8,12 @@ export default {
   name: "Generate Image from Library Template",
   description:
     "Generate an image from a pre-designed library template using the Orshot API. [See the documentation](https://orshot.com/docs/api-reference/render-from-template)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     orshot,

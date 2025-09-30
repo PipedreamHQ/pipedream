@@ -5,7 +5,12 @@ export default {
   key: "outseta-add-account",
   name: "Add Account",
   description: "Add account with existing person. [See the documentation](https://documenter.getpostman.com/view/3613332/outseta-rest-api-v1/7TNfr6k#cf32f02d-896c-1835-f4a1-a9c13b3fbd72)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

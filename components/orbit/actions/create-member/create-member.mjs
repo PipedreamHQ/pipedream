@@ -4,7 +4,12 @@ export default {
   name: "Create Member",
   description: "Create a new member. [See the docs here](https://api.orbit.love/reference/post_workspace-slug-members)",
   key: "orbit-create-member",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

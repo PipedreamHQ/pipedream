@@ -5,7 +5,12 @@ export default {
   key: "outseta-add-person",
   name: "Add Person",
   description: "Add a person record to CRM. [See the documentation](https://documenter.getpostman.com/view/3613332/outseta-rest-api-v1/7TNfr6k#26b724e6-9a76-2156-c4dd-b40f3d53fc70)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -5,7 +5,12 @@ export default {
   key: "oto-create-product",
   name: "Create Product",
   description: "Creates a new product. [See the documentation](https://apis.tryoto.com/#21b289bc-04c1-49b1-993e-23e928d57f56)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     oto,

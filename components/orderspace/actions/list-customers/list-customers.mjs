@@ -4,7 +4,12 @@ export default {
   key: "orderspace-list-customers",
   name: "List Customers",
   description: "List a list of customers. [See the documentation](https://apidocs.orderspace.com/#list-customers)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     orderspace,

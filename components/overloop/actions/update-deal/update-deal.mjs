@@ -5,7 +5,12 @@ export default {
   key: "overloop-update-deal",
   name: "Update Deal",
   description: "Updates a deal. [See the docs](https://apidoc.overloop.com/#update-a-deal)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     overloop,

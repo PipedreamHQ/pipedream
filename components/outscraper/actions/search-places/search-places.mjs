@@ -6,7 +6,12 @@ export default {
   key: "outscraper-search-places",
   name: "Search Places on Google Maps",
   description: "Searches for places on Google Maps using queries. [See the documentation](https://app.outscraper.com/api-docs#tag/Businesses-and-POI/paths/~1maps~1search-v3/get)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     outscraper,

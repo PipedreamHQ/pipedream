@@ -7,7 +7,12 @@ export default {
   key: "overledger-sign-a-transaction",
   name: "Sign a transaction",
   description: "Sign a transaction using Overledger - Part 2 of [Overledger Pattern](https://developers.quant.network/reference/overledger-pattern). [See documentation](https://developers.quant.network/reference/sandboxsigning)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     overledger,

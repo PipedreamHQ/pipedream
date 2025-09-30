@@ -4,7 +4,12 @@ export default {
   key: "owl_protocol-mint-asset",
   name: "Mint Asset",
   description: "Mint digital assets for collection. [See the documentation](https://docs-api.owlprotocol.xyz/reference/collection-erc721autoid-mint)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

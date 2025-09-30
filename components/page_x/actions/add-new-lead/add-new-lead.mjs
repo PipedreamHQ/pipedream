@@ -4,7 +4,12 @@ export default {
   key: "page_x-add-new-lead",
   name: "Add New Lead",
   description: "Create a new lead on PageX CRM. [See the documentation](https://rapidapi.com/thunderhurt/api/pagexcrm)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pageX,

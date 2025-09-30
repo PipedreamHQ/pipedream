@@ -5,7 +5,12 @@ export default {
   name: "Get Document Details",
   description: "Return detailed data about a document. [See the documentation here](https://developers.pandadoc.com/reference/document-details)",
   type: "action",
-  version: "0.0.7",
+  version: "0.0.8",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     id: {

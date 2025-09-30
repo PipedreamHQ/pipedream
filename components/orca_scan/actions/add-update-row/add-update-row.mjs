@@ -4,7 +4,12 @@ export default {
   key: "orca_scan-add-update-row",
   name: "Add or Update Row",
   description: "Adds a new row or updates an existing row in a sheet. [See the documentation](https://orcascan.com/guides/add-barcode-tracking-to-your-system-using-a-rest-api-f09a21c3)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     orca_scan,

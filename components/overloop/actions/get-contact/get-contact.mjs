@@ -4,7 +4,12 @@ export default {
   key: "overloop-get-contact",
   name: "Get Contact",
   description: "Retrieves a contact by id. [See the docs](https://apidoc.overloop.com/#retrieve-a-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     overloop,

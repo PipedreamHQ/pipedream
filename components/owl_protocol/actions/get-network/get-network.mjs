@@ -4,7 +4,12 @@ export default {
   key: "owl_protocol-get-network",
   name: "Get Network",
   description: "Get network details by the ID. [See the documentation](https://docs-api.owlprotocol.xyz/reference/network-get)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

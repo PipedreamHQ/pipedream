@@ -4,7 +4,12 @@ export default {
   key: "paazl-create-shipment",
   name: "Create Shipment For Order",
   description: "Generates a shipment at the carrier for the shipping option specified in POST order. [See the documentation](https://support.paazl.com/hc/en-us/articles/360008633973-REST-API-reference#/Shipments/createShipmentUsingPOST)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

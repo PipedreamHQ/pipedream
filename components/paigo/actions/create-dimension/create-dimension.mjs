@@ -5,7 +5,12 @@ export default {
   key: "paigo-create-dimension",
   name: "Create Dimension",
   description: "Creates a new dimension inside the Paigo platform. [See the documentation](http://www.api.docs.paigo.tech/#tag/Dimensions/operation/Create%20a%20dimension)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     paigo,
