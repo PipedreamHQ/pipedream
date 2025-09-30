@@ -4,7 +4,12 @@ export default {
   key: "llmwhisperer-highlight-locations",
   name: "Highlight Locations",
   description: "Generate highlight locations for a search term in the document. [See the documentation](https://docs.unstract.com/llm_whisperer/apis/llm_whisperer_text_extraction_highlight_api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

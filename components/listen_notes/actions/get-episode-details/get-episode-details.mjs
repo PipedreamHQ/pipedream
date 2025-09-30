@@ -4,7 +4,12 @@ export default {
   key: "listen_notes-get-episode-details",
   name: "Get Episode Details",
   description: "Get the details of the selected episode. [See the documentation](https://www.listennotes.com/api/docs/#get-api-v2-episodes-id)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

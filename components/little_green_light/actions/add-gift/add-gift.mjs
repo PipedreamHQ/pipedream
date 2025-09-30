@@ -4,7 +4,12 @@ export default {
   key: "little_green_light-add-gift",
   name: "Add Gift",
   description: "Adds a new gift to a constituent in Little Green Light. [See the documentation](https://api.littlegreenlight.com/api-docs/static.html#create_new_gift)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     littlegreenlight,

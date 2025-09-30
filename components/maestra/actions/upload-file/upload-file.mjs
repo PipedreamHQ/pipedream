@@ -5,7 +5,12 @@ export default {
   key: "maestra-upload-file",
   name: "Upload File",
   description: "Initiates a new file upload to Maestra. [See the documentation](https://maestra.ai/docs#uploadFile)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

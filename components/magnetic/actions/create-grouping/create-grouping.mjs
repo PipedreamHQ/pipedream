@@ -4,7 +4,12 @@ export default {
   key: "magnetic-create-grouping",
   name: "Create Opportunity/Job",
   description: "Create a new opportunity/job. [See docs here](https://app.magnetichq.com/Magnetic/API.do#ta-f-grouping)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     magnetic,

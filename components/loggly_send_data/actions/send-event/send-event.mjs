@@ -3,7 +3,12 @@ import loggly_send_data from "../../loggly_send_data.app.mjs";
 
 export default {
   name: "Send Event",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "loggly_send_data-send-event",
   description: "Send events to Loggly, with tags. [See the docs](https://documentation.solarwinds.com/en/success_center/loggly/content/admin/http-endpoint.htm) for more details",
   props: {

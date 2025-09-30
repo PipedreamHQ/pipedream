@@ -4,7 +4,12 @@ export default {
   key: "lucca-approve-leave-request",
   name: "Approve Or Deny Leave Request",
   description: "Approve or Deny a pending leave request. [See the documentation](https://developers.lucca.fr/api-reference/legacy/timmi-absences/leave-requests/approve-or-deny-a-leave-request)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     lucca,

@@ -4,7 +4,12 @@ export default {
   key: "liveswitch-create-conversation",
   name: "Create Conversation",
   description: "Create a conversation in LiveSwitch [See the documentation](https://developer.liveswitch.com/reference/post_v1-conversations)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

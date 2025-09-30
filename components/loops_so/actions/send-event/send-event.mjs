@@ -4,7 +4,12 @@ export default {
   key: "loops_so-send-event",
   name: "Send Event",
   description: "Send an event to an email address. [See the Documentation](https://loops.so/docs/add-users/api-reference#send)",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     loops,

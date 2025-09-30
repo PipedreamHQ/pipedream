@@ -2,7 +2,12 @@ import app from "../../listclean.app.mjs";
 
 export default {
   name: "Verify Email",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "listclean-verify-email",
   description: "Verify an email address. [See the documentation](https://api.listclean.xyz/#tag/verifications)",
   type: "action",

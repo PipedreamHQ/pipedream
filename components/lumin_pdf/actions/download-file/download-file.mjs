@@ -5,7 +5,12 @@ import luminPdf from "../../lumin_pdf.app.mjs";
 
 export default {
   name: "Download File",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "lumin_pdf-download-file",
   description: "Download a file directly. [See the documentation](https://developers.luminpdf.com/api/download-file/)",
   type: "action",

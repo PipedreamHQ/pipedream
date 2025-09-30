@@ -4,7 +4,12 @@ export default {
   key: "magnetic-log-time-on-task",
   name: "Log Time on Task",
   description: "Log time on an existing task. [See docs here](https://app.magnetichq.com/Magnetic/API.do#ta-taskobject)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     magnetic,

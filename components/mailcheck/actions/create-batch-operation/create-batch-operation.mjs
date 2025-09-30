@@ -5,7 +5,12 @@ export default {
   key: "mailcheck-create-batch-operation",
   name: "Create Batch Operation",
   description: "Create a batch check operation. [See the documentation](https://app.mailcheck.co/docs?from=docs#post-/v1/emails-check)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mailcheck,

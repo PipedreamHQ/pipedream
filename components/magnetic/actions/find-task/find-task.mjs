@@ -4,7 +4,12 @@ export default {
   key: "magnetic-find-task",
   name: "Find Task",
   description: "Search for a task by name or description [See docs here](https://app.magnetichq.com/Magnetic/API.do#ta-taskobject)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     magnetic,
