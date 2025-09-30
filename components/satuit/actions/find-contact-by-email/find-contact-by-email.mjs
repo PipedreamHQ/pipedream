@@ -4,7 +4,12 @@ export default {
   key: "satuit-find-contact-by-email",
   name: "Find Contact By Email",
   description: "Searches for a specific contact within the Satuit platform using an email address as the key identifier. [See the documentation](https://satuittechnologies.zendesk.com/hc/en-us/articles/360055725213-Satuit-REST-API-Postman-Documentation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

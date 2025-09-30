@@ -6,7 +6,12 @@ export default {
   key: "runware-image-control-net-preprocess",
   name: "Image Control Net Preprocess",
   description: "Request an image control net preprocess task to be processed by the Runware API. [See the documentation](https://docs.runware.ai/en/image-editing/controlnet-tools).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

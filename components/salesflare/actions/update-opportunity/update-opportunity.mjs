@@ -3,7 +3,12 @@ import base from "../common/opportunity-base.mjs";
 
 export default {
   key: "salesflare-update-opportunity",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   name: "Update Opportunity",
   description: "Update an Opportunity [See the docs here](https://api.salesflare.com/docs#operation/putOpportunitiesId)",

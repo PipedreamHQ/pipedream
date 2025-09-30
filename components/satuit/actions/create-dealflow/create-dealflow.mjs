@@ -4,7 +4,12 @@ export default {
   key: "satuit-create-dealflow",
   name: "Create Dealflow",
   description: "Creates a new dealflow within the Satuit platform, setting up a new series of business interactions. [See the documentation](https://satuittechnologies.zendesk.com/hc/en-us/articles/360055725213-Satuit-REST-API-Postman-Documentation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

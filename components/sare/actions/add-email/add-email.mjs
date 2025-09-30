@@ -6,7 +6,12 @@ export default {
   key: "sare-add-email",
   name: "Add Email",
   description: "Add an email to SARE. Optionally, assign the subscriber to a group. [See the documentation](https://dev.sare.pl/rest-api/other/index.html#post-/email/add)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sare,

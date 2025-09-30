@@ -3,7 +3,12 @@ import base from "../common/contact-base.mjs";
 
 export default {
   key: "salesflare-update-contact",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   name: "Update Contact",
   description: "Updates a contact. [See the docs here](https://api.salesflare.com/docs#operation/putContactsContact_id)",

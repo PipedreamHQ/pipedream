@@ -6,7 +6,12 @@ export default {
   key: "runware-prompt-enhance",
   name: "Prompt Enhance",
   description: "Request a prompt enhance task to be processed by the Runware API. [See the documentation](https://docs.runware.ai/en/utilities/prompt-enhancer).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

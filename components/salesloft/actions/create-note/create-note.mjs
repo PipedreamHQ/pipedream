@@ -4,7 +4,12 @@ export default {
   key: "salesloft-create-note",
   name: "Create Note",
   description: "Creates a new note in Salesloft. [See the documentation](https://developers.salesloft.com/docs/api/notes-create/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     salesloft,

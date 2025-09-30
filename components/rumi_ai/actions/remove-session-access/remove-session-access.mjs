@@ -4,7 +4,12 @@ export default {
   key: "rumi_ai-remove-session-access",
   name: "Remove Session Access",
   description: "Remove user access from a session. [See the documentation](https://rumiai.notion.site/Rumi-Public-API-Authentication-02055b7286874bd7b355862f1abe48d9)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

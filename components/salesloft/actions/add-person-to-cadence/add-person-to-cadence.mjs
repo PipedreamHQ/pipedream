@@ -4,7 +4,12 @@ export default {
   key: "salesloft-add-person-to-cadence",
   name: "Add Person to Cadence",
   description: "Adds a person to a cadence in Salesloft. [See the documentation](https://developers.salesloft.com/docs/api/cadence-memberships-create/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     salesloft,

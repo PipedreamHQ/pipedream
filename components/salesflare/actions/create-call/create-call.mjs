@@ -3,7 +3,12 @@ import utils from "../../common/utils.mjs";
 
 export default {
   key: "salesflare-create-call",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   name: "Create Call",
   description: "Create a call. [See the docs here](https://api.salesflare.com/docs#operation/postCalls)",

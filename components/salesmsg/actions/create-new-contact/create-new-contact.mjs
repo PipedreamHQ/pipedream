@@ -3,7 +3,12 @@ import salesmsg from "../../salesmsg.app.mjs";
 export default {
   key: "salesmsg-create-new-contact",
   name: "Create New Contact",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new contact. [See the documentation](https://documenter.getpostman.com/view/13798866/2s935uHgXp#57f25fd9-2de8-4c9c-97f4-79bf7a6eb255)",
   type: "action",
   props: {

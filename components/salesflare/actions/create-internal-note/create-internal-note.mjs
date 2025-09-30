@@ -3,7 +3,12 @@ import utils from "../../common/utils.mjs";
 
 export default {
   key: "salesflare-create-internal-note",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   name: "Create Internal Note",
   description: "Create an internal note. [See the docs here](https://api.salesflare.com/docs#tag/Internal-Notes)",

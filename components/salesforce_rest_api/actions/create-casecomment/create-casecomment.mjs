@@ -17,7 +17,12 @@ export default {
   key: "salesforce_rest_api-create-casecomment",
   name: "Create Case Comment",
   description: `Creates a Case Comment on a selected Case. [See the documentation](${docsLink})`,
-  version: "0.3.3",
+  version: "0.3.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props,
   async run({ $ }) {

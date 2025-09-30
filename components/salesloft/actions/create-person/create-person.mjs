@@ -5,7 +5,12 @@ export default {
   key: "salesloft-create-person",
   name: "Create Person",
   description: "Creates a new person in Salesloft. [See the documentation](https://developers.salesloft.com/docs/api/people-create/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     salesloft,

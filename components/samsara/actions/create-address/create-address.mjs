@@ -9,7 +9,12 @@ export default {
   key: "samsara-create-address",
   name: "Create Address",
   description: "Adds a new address to the organization. The user must provide the necessary props such as formatted address, geofence, and name. [See the documentation](https://developers.samsara.com/reference/createaddress)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     samsara,

@@ -3,7 +3,12 @@ import salesmsg from "../../salesmsg.app.mjs";
 export default {
   key: "salesmsg-search-conversations",
   name: "Search Conversations",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Search active conversations in conversation history. [See the documentation](https://documenter.getpostman.com/view/13798866/2s935uHgXp#c9f078a9-931a-45c0-81c7-14d2b745ca5b)",
   type: "action",
   props: {

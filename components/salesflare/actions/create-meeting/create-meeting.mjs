@@ -3,7 +3,12 @@ import utils from "../../common/utils.mjs";
 
 export default {
   key: "salesflare-create-meeting",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   name: "Create Meeting",
   description: "Create a meeting [See the docs here](https://api.salesflare.com/docs#operation/postMeetings)",

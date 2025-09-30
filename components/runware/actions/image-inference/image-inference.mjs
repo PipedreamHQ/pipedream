@@ -6,7 +6,12 @@ export default {
   key: "runware-image-inference",
   name: "Image Inference",
   description: "Request an image inference task to be processed by the Runware API. [See the documentation](https://docs.runware.ai/en/image-inference/api-reference).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

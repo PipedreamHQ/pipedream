@@ -4,7 +4,12 @@ export default {
   key: "saleslens-upload-conversation-transcription",
   name: "Upload Conversation Transcription",
   description: "Uploads a transcript of the conversation. [See the documentation](https://app.saleslens.io/api#tag/ConversationTranscription/operation/api_access_tokencall_transcriptionupload_post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

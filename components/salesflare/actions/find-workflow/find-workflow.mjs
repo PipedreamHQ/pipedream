@@ -3,7 +3,12 @@ import utils from "../../common/utils.mjs";
 
 export default {
   key: "salesflare-find-workflow",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   name: "Find Workflow",
   description: "Finds workflows according to props configured, if no prop configured returns all workflows, [See the docs here](https://api.salesflare.com/docs#operation/getWorkflows)",

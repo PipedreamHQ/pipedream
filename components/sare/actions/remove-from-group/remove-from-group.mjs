@@ -5,7 +5,12 @@ export default {
   key: "sare-remove-from-group",
   name: "Remove Email from Groups",
   description: "Remove email from specified groups in SARE. [See the documentation](https://dev.sare.pl/rest-api/other/index.html#post-/group/remove_emails)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sare,

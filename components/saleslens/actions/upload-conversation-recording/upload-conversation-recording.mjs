@@ -4,7 +4,12 @@ export default {
   key: "saleslens-upload-conversation-recording",
   name: "Upload Conversation Recording",
   description: "Uploads a conversation recording. [See the documentation](https://app.saleslens.io/api#tag/ConversationRecord/operation/api_access_tokencall_recordupload_post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

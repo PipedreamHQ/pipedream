@@ -4,7 +4,12 @@ export default {
   key: "salespype-create-task",
   name: "Create Task",
   description: "Creates a new task in Salespype. [See the documentation](https://documenter.getpostman.com/view/5101444/2s93Y3u1Eb#a9c6449a-b844-465c-a342-deea01e52c3f)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     salespype,

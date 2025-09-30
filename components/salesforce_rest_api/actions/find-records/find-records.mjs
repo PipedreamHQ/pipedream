@@ -5,7 +5,12 @@ export default {
   name: "Find Records",
   description:
     "Retrieves selected fields for some or all records of a selected object. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/dome_get_field_values.htm)",
-  version: "0.2.2",
+  version: "0.2.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     salesforce,
