@@ -5,7 +5,12 @@ export default {
   key: "snipe_it-update-hardware",
   name: "Update Hardware Asset",
   description: "Partially updates information about an existing hardware asset. [See the documentation](https://snipe-it.readme.io/reference/hardware-partial-update)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

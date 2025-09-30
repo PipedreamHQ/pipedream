@@ -4,7 +4,12 @@ export default {
   key: "snipcart-update-discount",
   name: "Update Discount",
   description: "Update a Discount. [See the documentation](https://docs.snipcart.com/v3/api-reference/discounts#put-discountsid)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -4,7 +4,12 @@ export default {
   key: "solcast-get-monthly-averages",
   name: "Get Monthly Averages",
   description: "Get montly weather averages for a location. [See the documentation](https://docs.solcast.com.au/#7ad3c227-d385-4455-b17f-3efcb8d4c695)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     solcast,

@@ -4,7 +4,12 @@ export default {
   key: "splunk_http_event_collector-check-health",
   name: "Check Splunk HTTP Event Collector Health",
   description: "Checks the health status of the Splunk HTTP Event Collector to ensure it is available and ready to receive events. [See the documentation](https://docs.splunk.com/Documentation/Splunk/8.2.0/RESTREF/RESTinput#services.2Fcollector.2Fhealth)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     splunk,

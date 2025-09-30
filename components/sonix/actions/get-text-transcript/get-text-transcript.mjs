@@ -4,7 +4,12 @@ export default {
   key: "sonix-get-text-transcript",
   name: "Get Text Transcript",
   description: "Gets the text transcript of a selected media file. [See the documentation](https://sonix.ai/docs/api#get_transcript)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     sonix,

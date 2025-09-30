@@ -4,7 +4,12 @@ export default {
   key: "snipcart-create-discount",
   name: "Create Discount",
   description: "Create a new Discount. [See the documentation](https://docs.snipcart.com/v3/api-reference/discounts#post-discounts)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

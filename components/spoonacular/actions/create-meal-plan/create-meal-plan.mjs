@@ -3,7 +3,12 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Create Meal Plan",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "spoonacular-create-meal-plan",
   description: "Creates a meal plan. [See docs here](https://spoonacular.com/food-api/docs#Generate-Meal-Plan)",
   type: "action",

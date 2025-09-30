@@ -7,7 +7,12 @@ export default {
   name: "Get Album Tracks",
   description: "Get all tracks in an album. [See the docs here](https://developer.spotify.com/documentation/web-api/reference/get-an-albums-tracks)",
   key: "spotify-get-album-tracks",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     spotify,

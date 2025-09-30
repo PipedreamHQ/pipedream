@@ -4,7 +4,12 @@ export default {
   key: "splitwise-get-expenses",
   name: "Get Expenses",
   description: "Gets expenses involving the current user, in reverse chronological order. [See docs here](https://dev.splitwise.com/#tag/expenses/paths/~1get_expenses/get)",
-  version: "0.2.0",
+  version: "0.2.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     splitwise,

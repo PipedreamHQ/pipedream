@@ -4,7 +4,12 @@ export default {
   key: "sms_alert-send-sms",
   name: "Send SMS",
   description: "Sends a text message directly. [See the documentation](https://kb.smsalert.co.in/developers-api/#Send-a-SMS)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     smsAlert,

@@ -10,7 +10,12 @@ export default {
   name: "Update Customer",
   description:
     "Updates information of an existing customer. [See the documentation](https://splynx.docs.apiary.io/#reference/customers/customer/update-a-customer)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     splynx,

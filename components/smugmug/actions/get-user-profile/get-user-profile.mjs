@@ -4,7 +4,12 @@ export default {
   key: "smugmug-get-user-profile",
   name: "Get User Profile",
   description: "Gets a user profile. A user profile is the data provided by a user to establish that user's public presence. This may include social networking links, biographical text, and bio and cover images. [See the docs here](https://api.smugmug.com/api/v2/user/cmac!profile)",
-  version: "0.2.2",
+  version: "0.2.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     smugmug,

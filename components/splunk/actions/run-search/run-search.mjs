@@ -4,7 +4,12 @@ export default {
   key: "splunk-run-search",
   name: "Run Search",
   description: "Executes a Splunk search query and returns the results. [See the documentation](https://docs.splunk.com/Documentation/Splunk/9.4.1/RESTREF/RESTsearch#search.2Fjobs)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     splunk,

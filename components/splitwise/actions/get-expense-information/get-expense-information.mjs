@@ -4,7 +4,12 @@ export default {
   key: "splitwise-get-expense-information",
   name: "Get Expense Information",
   description: "Gets an expense's information. [See docs here](https://dev.splitwise.com/#tag/expenses/paths/~1get_expense~1{id}/get).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     splitwise,

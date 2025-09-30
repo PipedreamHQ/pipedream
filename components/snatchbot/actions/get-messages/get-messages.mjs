@@ -4,7 +4,12 @@ export default {
   key: "snatchbot-get-messages",
   name: "Get Messages",
   description: "Retrieve a message or a list of messages. [See the documentation](https://support.snatchbot.me/reference/get-message)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     snatchbot,

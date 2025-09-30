@@ -4,7 +4,12 @@ export default {
   key: "smstools-send-sms",
   name: "Send SMS or WhatsApp Message",
   description: "Sends a SMS or WhatsApp message to a specified contact. [See the documentation](https://www.smstools.com/en/sms-gateway-api/send_message)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     smstools,

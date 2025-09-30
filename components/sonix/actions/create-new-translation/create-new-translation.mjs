@@ -5,7 +5,12 @@ export default {
   key: "sonix-create-new-translation",
   name: "Create New Translation",
   description: "Creates a new translation for a selected media file. [See the documentation](https://sonix.ai/docs/api#create_translation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sonix,

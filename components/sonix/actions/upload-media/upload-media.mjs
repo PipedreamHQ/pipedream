@@ -7,7 +7,12 @@ export default {
   key: "sonix-upload-media",
   name: "Upload Media",
   description: "Submits new media for processing. [See the documentation](https://sonix.ai/docs/api#new_media)",
-  version: "1.0.1",
+  version: "1.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sonix,

@@ -5,7 +5,12 @@ export default {
   key: "smugmug-create-album",
   name: "Create Album",
   description: "Creates an album. [See the docs here](https://api.smugmug.com/api/v2/doc/reference/album.html)",
-  version: "2.0.1",
+  version: "2.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     smugmug,

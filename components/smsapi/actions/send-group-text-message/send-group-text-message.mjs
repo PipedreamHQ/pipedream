@@ -4,7 +4,12 @@ export default {
   key: "smsapi-send-group-text-message",
   name: "Send Group Text Message",
   description: "Sends a group text message using SMSAPI. [See the documentation](https://www.smsapi.com/docs/#2-single-sms)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     smsapi,
