@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/docugenerate",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream DocuGenerate Components",
   "main": "docugenerate.app.mjs",
   "keywords": [
@@ -8,8 +8,11 @@
     "docugenerate"
   ],
   "homepage": "https://pipedream.com/apps/docugenerate",
-  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "author": "DocuGenerate <support@docugenerate.com> (https://www.docugenerate.com/)",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
   }
 }
