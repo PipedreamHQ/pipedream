@@ -2,7 +2,12 @@ import app from "../../axonaut.app.mjs";
 
 export default {
   name: "Update Employee",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "axonaut-update-employee",
   description: "Updates a employee. [See documentation (Go to `POST /api/v2/employees`)](https://axonaut.com/api/v2/doc)",
   type: "action",

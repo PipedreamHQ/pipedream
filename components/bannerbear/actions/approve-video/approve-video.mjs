@@ -5,7 +5,12 @@ export default {
   name: "Approve Video",
   description: "Approve a video to proceed with rendering. [See the docs here](https://developers.bannerbear.com/#patch-v2-videos).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     bannerbear,
     uid: {

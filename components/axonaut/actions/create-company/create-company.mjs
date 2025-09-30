@@ -2,7 +2,12 @@ import app from "../../axonaut.app.mjs";
 
 export default {
   name: "Create Company",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "axonaut-create-company",
   description: "Creates a company. [See documentation (Go to `POST /api/v2/companies`)](https://axonaut.com/api/v2/doc)",
   type: "action",

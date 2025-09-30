@@ -6,7 +6,12 @@ export default {
   key: "aws-eventbridge-send-event",
   name: "EventBridge - Send Event to Event Bus",
   description: "Sends an event to an EventBridge event bus. [See documentation](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/eventbridge/command/PutEventsCommand/)",
-  version: "0.4.3",
+  version: "0.4.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     aws: common.props.aws,

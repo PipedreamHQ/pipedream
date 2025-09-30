@@ -5,7 +5,12 @@ export default {
   name: "Create User",
   description: "Creates a new user. [See the docs](https://api.beanstalkapp.com/user.html).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     login: {
