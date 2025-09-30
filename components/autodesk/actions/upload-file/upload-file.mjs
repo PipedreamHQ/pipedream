@@ -7,7 +7,12 @@ export default {
   key: "autodesk-upload-file",
   name: "Upload File",
   description: "Uploads a new file to a specified folder in Autodesk. [See the documentation](https://aps.autodesk.com/en/docs/data/v2/tutorials/upload-file/).",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     autodesk,

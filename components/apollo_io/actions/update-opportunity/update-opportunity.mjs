@@ -5,7 +5,12 @@ export default {
   name: "Update Opportunity",
   description: "Updates a new opportunity in Apollo.io. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#update-opportunity)",
   type: "action",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     opportunityId: {

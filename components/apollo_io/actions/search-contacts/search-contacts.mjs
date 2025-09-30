@@ -6,7 +6,12 @@ export default {
   name: "Search For Contacts",
   description: "Search for contacts in Apollo.io. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#search-for-contacts)",
   type: "action",
-  version: "0.0.6",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     search: {

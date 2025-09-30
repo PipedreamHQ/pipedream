@@ -4,7 +4,12 @@ export default {
   key: "appwrite-get-members",
   name: "Get Members",
   description: "Get accounts setup information. [See the documentation](https://appwrite.io/docs/references/cloud/client-rest/teams#listMemberships)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

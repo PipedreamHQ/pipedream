@@ -5,7 +5,12 @@ export default {
   name: "People Enrichment",
   description: "Enriches a person's information, the more information you pass in, the more likely we can find a match. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#people-enrichment)",
   type: "action",
-  version: "0.0.8",
+  version: "0.0.9",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     firstName: {

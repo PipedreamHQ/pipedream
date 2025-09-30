@@ -5,7 +5,12 @@ import { clearObj } from "../../common/utils.mjs";
 export default {
   key: "automatic_data_extraction-extract-data-from-url",
   name: "Extract Data From URL",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Extract data from a specified URL [See the docs here](https://docs.zyte.com/automatic-extraction-integrations.html#node-js)",
   type: "action",
   props: {

@@ -4,7 +4,12 @@ export default {
   name: "Speech To Text",
   description: "Transcribe an audio file to text with Astica AI [See the documentation](https://astica.ai/hearing/documentation/)",
   key: "astica_ai-speech-to-text",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     asticaAi,

@@ -4,7 +4,12 @@ export default {
   key: "asana-search-sections",
   name: "Search Sections",
   description: "Searches for a section by name within a particular project. [See the documentation](https://developers.asana.com/docs/get-sections-in-a-project)",
-  version: "0.2.10",
+  version: "0.2.11",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,
