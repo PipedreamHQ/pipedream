@@ -1,0 +1,251 @@
+[
+  {
+    "app": "google_docs",
+    "priority": 31,
+    "sources": [
+      "components/google_docs/sources/new-document-created/new-document-created.mjs",
+      "components/google_docs/sources/new-or-updated-document/new-or-updated-document.mjs"
+    ]
+  },
+  {
+    "app": "zoom",
+    "priority": 52,
+    "sources": [
+      "components/zoom/sources/recording-completed/recording-completed.mjs",
+      "components/zoom/sources/new-recording-transcript-completed/new-recording-transcript-completed.mjs"
+    ]
+  },
+  {
+    "app": "sftp_password_based_auth",
+    "priority": 70,
+    "sources": [
+      "components/sftp_password_based_auth/sources/watch-remote-directory/watch-remote-directory.mjs"
+    ]
+  },
+  {
+    "app": "zoom_admin",
+    "priority": 130,
+    "sources": [
+      "components/zoom_admin/sources/recording-completed/recording-completed.mjs",
+      "components/zoom_admin/sources/new-recording-transcript-completed/new-recording-transcript-completed.mjs"
+    ]
+  },
+  {
+    "app": "openphone",
+    "priority": 170,
+    "sources": [
+      "components/openphone/sources/new-call-recording-completed-instant/new-call-recording-completed-instant.mjs"
+    ]
+  },
+  {
+    "app": "fireflies",
+    "priority": 176,
+    "sources": [
+      "components/fireflies/sources/new-meeting-created/new-meeting-created.mjs"
+    ]
+  },
+  {
+    "app": "autodesk",
+    "priority": 214,
+    "sources": [
+      "components/autodesk/sources/new-version-instant/new-version-instant.mjs"
+    ]
+  },
+  {
+    "app": "google_slides",
+    "priority": 217,
+    "sources": [
+      "components/google_slides/sources/new-presentation/new-presentation.mjs"
+    ]
+  },
+  {
+    "app": "assemblyai",
+    "priority": 264,
+    "sources": [
+      "components/assemblyai/sources/new-transcription-completed/new-transcription-completed.mjs"
+    ]
+  },
+  {
+    "app": "zoho_desk",
+    "priority": 274,
+    "sources": [
+      "components/zoho_desk/sources/new-ticket-attachment/new-ticket-attachment.mjs"
+    ]
+  },
+  {
+    "app": "uploadcare",
+    "priority": 285,
+    "sources": [
+      "components/uploadcare/sources/new-uploaded-file/new-uploaded-file.mjs"
+    ]
+  },
+  {
+    "app": "pcloud",
+    "priority": 297,
+    "sources": [
+      "components/pcloud/sources/watch-folder/watch-folder.mjs"
+    ]
+  },
+  {
+    "app": "zoho_workdrive",
+    "priority": 463,
+    "sources": [
+      "components/zoho_workdrive/sources/new-file-in-folder/new-file-in-folder.mjs"
+    ]
+  },
+  {
+    "app": "agentset",
+    "priority": 999,
+    "sources": [
+      "components/agentset/sources/new-document-created/new-document-created.mjs"
+    ]
+  },
+  {
+    "app": "clear_books",
+    "priority": 999,
+    "sources": [
+      "components/clear_books/sources/new-purchase-document-created/new-purchase-document-created.mjs"
+    ]
+  },
+  {
+    "app": "crowdin",
+    "priority": 999,
+    "sources": [
+      "components/crowdin/sources/file-approved-instant/file-approved-instant.mjs"
+    ]
+  },
+  {
+    "app": "digitalocean_spaces",
+    "priority": 999,
+    "sources": [
+      "components/digitalocean_spaces/sources/file-uploaded/file-uploaded.mjs",
+      "components/digitalocean_spaces/sources/file-deleted/file-deleted.mjs"
+    ]
+  },
+  {
+    "app": "docnify",
+    "priority": 999,
+    "sources": [
+      "components/docnify/sources/new-document-created/new-document-created.mjs"
+    ]
+  },
+  {
+    "app": "hathr_ai",
+    "priority": 999,
+    "sources": [
+      "components/hathr_ai/sources/new-document-created/new-document-created.mjs"
+    ]
+  },
+  {
+    "app": "letzai",
+    "priority": 999,
+    "sources": [
+      "components/letzai/sources/new-image/new-image.mjs",
+      "components/letzai/sources/new-image-edit/new-image-edit.mjs"
+    ]
+  },
+  {
+    "app": "pdffiller",
+    "priority": 999,
+    "sources": [
+      "components/pdffiller/sources/new-document/new-document.mjs"
+    ]
+  },
+  {
+    "app": "plainly",
+    "priority": 999,
+    "sources": [
+      "components/plainly/sources/new-video-created/new-video-created.mjs"
+    ]
+  },
+  {
+    "app": "ragie",
+    "priority": 999,
+    "sources": [
+      "components/ragie/sources/new-document/new-document.mjs"
+    ]
+  },
+  {
+    "app": "rendi",
+    "priority": 999,
+    "sources": [
+      "components/rendi/sources/new-stored-file/new-stored-file.mjs"
+    ]
+  },
+  {
+    "app": "rentman",
+    "priority": 999,
+    "sources": [
+      "components/rentman/sources/new-file-updated/new-file-updated.mjs"
+    ]
+  },
+  {
+    "app": "sftp",
+    "priority": 999,
+    "sources": [
+      "components/sftp/sources/watch-remote-directory/watch-remote-directory.mjs"
+    ]
+  },
+  {
+    "app": "siteleaf",
+    "priority": 999,
+    "sources": [
+      "components/siteleaf/sources/new-document/new-document.mjs"
+    ]
+  },
+  {
+    "app": "speak_ai",
+    "priority": 999,
+    "sources": [
+      "components/speak_ai/sources/new-media-created-instant/new-media-created-instant.mjs"
+    ]
+  },
+  {
+    "app": "waiverfile",
+    "priority": 999,
+    "sources": [
+      "components/waiverfile/sources/new-waiver-instant/new-waiver-instant.mjs"
+    ]
+  },
+  {
+    "app": "wistia",
+    "priority": 999,
+    "sources": [
+      "components/wistia/sources/new-video/new-video.mjs"
+    ]
+  },
+  {
+    "app": "youtube_data_api_custom_app",
+    "priority": 999,
+    "sources": [
+      "components/youtube_data_api_custom_app/sources/new-videos/new-videos.mjs",
+      "components/youtube_data_api_custom_app/sources/new-videos-in-subscribed-channels/new-videos-in-subscribed-channels.mjs",
+      "components/youtube_data_api_custom_app/sources/new-videos-in-playlist/new-videos-in-playlist.mjs",
+      "components/youtube_data_api_custom_app/sources/new-videos-by-search/new-videos-by-search.mjs",
+      "components/youtube_data_api_custom_app/sources/new-videos-by-handle/new-videos-by-handle.mjs",
+      "components/youtube_data_api_custom_app/sources/new-liked-videos/new-liked-videos.mjs",
+      "components/youtube_data_api_custom_app/sources/new-comment-posted/new-comment-posted.mjs"
+    ]
+  },
+  {
+    "app": "zamzar",
+    "priority": 999,
+    "sources": [
+      "components/zamzar/sources/new-file/new-file.mjs"
+    ]
+  },
+  {
+    "app": "zoho_notebook",
+    "priority": 999,
+    "sources": [
+      "components/zoho_notebook/sources/new-audio-card/new-audio-card.mjs"
+    ]
+  },
+  {
+    "app": "zoho_sign",
+    "priority": 999,
+    "sources": [
+      "components/zoho_sign/sources/document-created/document-created.mjs"
+    ]
+  }
+]
