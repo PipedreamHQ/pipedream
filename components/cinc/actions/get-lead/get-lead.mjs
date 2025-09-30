@@ -4,7 +4,12 @@ export default {
   key: "cinc-get-lead",
   name: "Get Lead",
   description: "Retrieves a lead by ID in CINC. [See the documentation](https://public.cincapi.com/v2/docs/#get-site-leads-lead_id-2)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     cinc,

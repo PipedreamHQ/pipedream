@@ -7,7 +7,12 @@ export default {
   key: "claid_ai-correct-color-lighting",
   name: "Correct Color & Lighting",
   description: "Automatically adjusts the color and lighting of an image by applying HDR. The result is an enhancement of the dynamic range in dark or overexposed images. [See the documentation](https://docs.claid.ai/image-editing-api/image-operations/color-adjustments)",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     claidAi,

@@ -5,7 +5,12 @@ export default {
   key: "clickup-get-folders",
   name: "Get Folders",
   description: "Get a list of folders in a workplace. [See the documentation](https://clickup.com/api) in **Folders / Get Folders** section.",
-  version: "0.0.11",
+  version: "0.0.12",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

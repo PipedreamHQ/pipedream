@@ -4,7 +4,12 @@ export default {
   key: "clear_books-create-supplier",
   name: "Create Supplier",
   description: "Creates a new supplier in Clear Books. [See the documentation](https://u.pcloud.link/publink/show?code=XZkThJ5Z4zKewgCL6VBpfxlPeHPDdXXj0Cc7)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     clearBooks,

@@ -5,7 +5,12 @@ export default {
   name: "Create a Room",
   description: "Creates a room. The authenticated user is automatically added as a member of the room. [See the docs here](https://developer.webex.com/docs/api/v1/rooms/create-a-room)",
   type: "action",
-  version: "0.1.0",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     ciscoWebex,
     title: {

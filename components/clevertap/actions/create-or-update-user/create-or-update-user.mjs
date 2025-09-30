@@ -2,7 +2,12 @@ import app from "../../clevertap.app.mjs";
 
 export default {
   name: "Create Or Update User",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "clevertap-create-or-update-user",
   description: "Create or update an user. [See the documentation](https://developer.clevertap.com/docs/upload-user-profiles-api)",
   type: "action",

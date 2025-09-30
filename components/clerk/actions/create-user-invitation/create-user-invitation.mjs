@@ -4,7 +4,12 @@ import { parseObject } from "../../common/utils.mjs";
 export default {
   key: "clerk-create-user-invitation",
   name: "Create User Invitation",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Creates a new invitation for the given email address and sends the invitation email. Keep in mind that you cannot create an invitation if there is already one for the given email address. Also, trying to create an invitation for an email address that already exists in your application will result to an error. [See the documentation](https://clerk.com/docs/reference/backend-api/tag/Invitations#operation/CreateInvitation)",
   type: "action",
   props: {
