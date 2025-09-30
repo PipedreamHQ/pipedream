@@ -971,8 +971,11 @@ importers:
   components/apify_oauth:
     dependencies:
       '@pipedream/apify':
-        specifier: ^0.3.0
+        specifier: ^0.3.1
         version: 0.3.1
+      apify-client:
+        specifier: ^2.17.0
+        version: 2.17.0
 
   components/apilio: {}
 
