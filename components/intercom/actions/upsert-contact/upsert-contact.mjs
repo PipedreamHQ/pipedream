@@ -5,7 +5,12 @@ export default {
   key: "intercom-upsert-contact",
   name: "Upsert Contact",
   description: "Create a new contact. If there is already a contact with the email provided, the existing contact will be updated. [See the docs here](https://developers.intercom.com/docs/references/rest-api/api.intercom.io/contacts/createcontact)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     intercom,

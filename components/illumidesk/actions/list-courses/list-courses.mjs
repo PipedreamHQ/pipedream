@@ -4,7 +4,12 @@ export default {
   key: "illumidesk-list-courses",
   name: "List Courses",
   description: "List all the courses associated with a given campus. [See the documentation](https://developers.illumidesk.com/reference/campuses_public_campuses_courses_list)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     illumidesk,

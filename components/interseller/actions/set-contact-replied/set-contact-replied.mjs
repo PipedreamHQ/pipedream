@@ -4,7 +4,12 @@ export default {
   key: "interseller-set-contact-replied",
   name: "Set Contact Replied",
   description: "Update an existing contact to indicate as contacted. [See the documentation](https://interseller.readme.io/reference/set-contact-replied)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     interseller,

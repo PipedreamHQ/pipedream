@@ -4,7 +4,12 @@ export default {
   key: "insertchat-push-message-existing-chat",
   name: "Push Message to Existing Chat",
   description: "Pushes a new message into an existing chat session in InsertChat. [See the documentation](https://www.postman.com/gold-star-239225/insertchat/request/me7mcwa/push-a-message-into-a-chat-session)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     insertchat,

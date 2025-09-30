@@ -4,7 +4,12 @@ export default {
   key: "ip2location_io-lookup-ip-address",
   name: "Lookup IP Address",
   description: "Retrieve geolocation data about an IP Address. [See the docs here](https://www.ip2location.io/ip2location-documentation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ip2location,

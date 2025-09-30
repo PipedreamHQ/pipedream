@@ -6,7 +6,12 @@ export default {
   key: "instagram_business-create-post",
   name: "Create Post",
   description: "Post a single image, video, or reel. [See the documentation](https://developers.facebook.com/docs/instagram-api/guides/content-publishing#single-media-posts)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

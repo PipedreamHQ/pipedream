@@ -5,7 +5,12 @@ export default {
   key: "insighto_ai-add-text-blob",
   name: "Add Text Blob",
   description: "Adds a text blob into an existing data source. [See the documentation](https://api.insighto.ai/docs#/datasource/add_datasourcefile_text_blob_api_v1_datasource__datasource_id__text_blob_post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

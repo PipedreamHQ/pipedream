@@ -4,7 +4,12 @@ export default {
   key: "intellexer_api-detect-language",
   name: "Detect Language",
   description: "Recognize language and encoding of an input text stream. [See the documentation](http://esapi.intellexer.com/Home/Help)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     intellexer,

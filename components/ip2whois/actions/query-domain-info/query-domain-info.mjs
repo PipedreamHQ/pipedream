@@ -4,7 +4,12 @@ export default {
   name: "WHOIS lookup",
   description: "Helps users to obtain domain information, WHOIS record, by using a domain name. Please refer to the [documentation](https://ip2whois.com/developers-api) for the details of the fields returned.",
   key: "ip2whois-query-domain-info",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ip2whoisApp,

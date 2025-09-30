@@ -4,7 +4,12 @@ export default {
   key: "infobip-send-sms",
   name: "Send SMS",
   description: "Sends an SMS message to a specified number. [See the documentation](https://www.infobip.com/docs/api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     infobip,

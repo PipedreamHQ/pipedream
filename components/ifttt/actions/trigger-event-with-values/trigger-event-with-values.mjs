@@ -4,7 +4,12 @@ export default {
   name: "Trigger Event with Values",
   description: "Trigger Event with 3 JSON values. [See docs](https://help.ifttt.com/hc/en-us/articles/115010230347-Webhooks-service-FAQ)",
   key: "ifttt-trigger-event-with-values",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ifttt,

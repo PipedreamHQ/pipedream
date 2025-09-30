@@ -4,7 +4,12 @@ export default {
   key: "invision_community-create-member",
   name: "Create Member",
   description: "Creates a new member. [See the documentation](https://invisioncommunity.com/developers/rest-api?endpoint=core/members/postindex)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     invisionCommunity,

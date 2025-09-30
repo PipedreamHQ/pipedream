@@ -5,7 +5,12 @@ export default {
   key: "ifthenpay-create-payment-reference",
   name: "Create Payment Reference",
   description: "Generates a Multibanco or MB WAY payment reference with a specified amount, entity code, and deadline. [See the documentation](https://ifthenpay.com/docs/en/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ifthenpay,

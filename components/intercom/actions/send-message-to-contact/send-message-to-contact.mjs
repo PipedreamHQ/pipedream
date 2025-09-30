@@ -4,7 +4,12 @@ export default {
   key: "intercom-send-message-to-contact",
   name: "Send Message To Contact",
   description: "Send a message to a contact in Intercom. [See the documentation](https://developers.intercom.com/docs/references/rest-api/api.intercom.io/messages/createmessage).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     intercom,

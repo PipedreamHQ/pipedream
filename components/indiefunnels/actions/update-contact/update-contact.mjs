@@ -7,7 +7,12 @@ export default {
   key: "indiefunnels-update-contact",
   name: "Update Contact",
   description: "Updates a Contact specified by ID. [See the documentation](https://websitebuilder.docs.apiary.io/#reference/contacts/search-contacts/update-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     indiefunnels,

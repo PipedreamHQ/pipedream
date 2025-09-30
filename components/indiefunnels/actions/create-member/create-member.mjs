@@ -5,7 +5,12 @@ export default {
   key: "indiefunnels-create-member",
   name: "Create Member",
   description: "Creates a new Member on your IndieFunnel website. [See the documentation](https://websitebuilder.docs.apiary.io/#reference/members/list-and-create/create-new-member)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     indiefunnels,

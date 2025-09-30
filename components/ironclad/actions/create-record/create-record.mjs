@@ -4,7 +4,12 @@ export default {
   key: "ironclad-create-record",
   name: "Create Record",
   description: "Creates a new record in Ironclad. [See the documentation](https://developer.ironcladapp.com/reference/create-a-record)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ironclad,

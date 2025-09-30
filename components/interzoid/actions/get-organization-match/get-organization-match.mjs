@@ -4,7 +4,12 @@ export default {
   key: "interzoid-get-organization-match",
   name: "Get Organization Match Score",
   description: "Retrieve a match score (likelihood of matching) from 0-100 between two organization names. [See the documentation](https://www.interzoid.com/apis/organization-match-score)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     interzoid,

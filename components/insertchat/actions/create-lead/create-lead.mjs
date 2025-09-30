@@ -4,7 +4,12 @@ export default {
   key: "insertchat-create-lead",
   name: "Create Lead",
   description: "Creates a new lead within Insertchat. [See the documentation](https://www.postman.com/gold-star-239225/insertchat/request/uiugp1c/create-a-lead)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     insertchat,

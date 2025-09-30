@@ -9,7 +9,12 @@ export default {
   key: "imagga-process-batch",
   name: "Process Batch of Images",
   description: "Analyzes a batch of images for categorization, tagging, or color extraction. [See the documentation](https://docs.imagga.com/)",
-  version: "1.0.0",
+  version: "1.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     imagga,

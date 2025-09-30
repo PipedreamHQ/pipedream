@@ -3,7 +3,12 @@ import ipbase from "../../ipbase.app.mjs";
 export default {
   key: "ipbase-list-domains",
   name: "List Domains",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Retrieves all domains hosted on a single IP address. [See the docs here](https://ipbase.com/docs/domains)",
   type: "action",
   props: {

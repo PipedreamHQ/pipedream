@@ -4,7 +4,12 @@ export default {
   key: "intellexer_api-summarize-text",
   name: "Summarize Text",
   description: "Summarize text using Intellexer API. [See the documentation](http://esapi.intellexer.com/Home/Help)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     intellexer,

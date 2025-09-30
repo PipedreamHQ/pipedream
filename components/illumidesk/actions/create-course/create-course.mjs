@@ -4,7 +4,12 @@ export default {
   key: "illumidesk-create-course",
   name: "Create Course",
   description: "Create a new course. [See the documentation](https://developers.illumidesk.com/reference/campuses_courses_create)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     illumidesk,

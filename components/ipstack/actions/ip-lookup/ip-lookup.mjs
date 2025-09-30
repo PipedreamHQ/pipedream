@@ -4,7 +4,12 @@ export default {
   key: "ipstack-ip-lookup",
   name: "IP Lookup",
   description: "Look up single IPv4 or IPv6 addresses. [See the documentation](https://ipstack.com/documentation#standard)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

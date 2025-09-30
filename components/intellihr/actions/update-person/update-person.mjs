@@ -5,7 +5,12 @@ export default {
   key: "intellihr-update-person",
   name: "Update Person",
   description: "Modifies an existing person's record in intellihr. [See the documentation](https://developers.intellihr.io/docs/v1/#tag/People/paths/~1people~1%7Bid%7D/patch)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     intellihr,

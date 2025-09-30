@@ -4,7 +4,12 @@ export default {
   key: "invidious-search-suggestions",
   name: "Get Search Suggestions",
   description: "Get search suggestions for a given query. [See the documentation](https://docs.invidious.io/api/#get-apiv1searchsuggestions)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

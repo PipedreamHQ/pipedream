@@ -5,7 +5,12 @@ export default {
   key: "instagram_business-create-comment",
   name: "Create Comment",
   description: "Creates a comment on a media object. [See the documentation](https://developers.facebook.com/docs/instagram-api/reference/ig-media/comments#creating)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

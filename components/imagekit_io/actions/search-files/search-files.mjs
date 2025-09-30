@@ -4,7 +4,12 @@ import imagekitIo from "../../imagekit_io.app.mjs";
 export default {
   key: "imagekit_io-search-files",
   name: "Search Files",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "List all the uploaded files and folders in your ImageKit.io media library. [See the documentation](https://docs.imagekit.io/api-reference/media-api/list-and-search-files#list-and-search-file-api)",
   type: "action",
   props: {

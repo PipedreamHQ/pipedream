@@ -4,7 +4,12 @@ export default {
   key: "intellexer_api-extract-named-entities",
   name: "Extract Named Entities",
   description: "Extract named entities from a document using Intellexer API. [See the documentation](http://esapi.intellexer.com/Home/Help)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     intellexer,
