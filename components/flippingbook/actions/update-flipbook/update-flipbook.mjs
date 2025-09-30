@@ -5,7 +5,12 @@ export default {
   key: "flippingbook-update-flipbook",
   name: "Update Flipbook",
   description: "Edits an existing flipbook by replacing it with a new input PDF file. [See the documentation](https://apidocs.flippingbook.com/#update-the-metadata-for-one-publication-possibly-attaching-a-new-source-file)",
-  version: "1.0.1",
+  version: "1.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     flippingbook,

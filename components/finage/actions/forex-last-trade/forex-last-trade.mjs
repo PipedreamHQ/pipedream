@@ -4,7 +4,12 @@ export default {
   key: "finage-forex-last-trade",
   name: "Forex Last Trade",
   description: "Get the last trade for the specified forex symbol. [See the documentation](https://finage.co.uk/docs/api/forex/forex-last-trade)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

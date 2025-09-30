@@ -4,7 +4,12 @@ export default {
   key: "flowiseai-make-prediction",
   name: "Make Prediction",
   description: "Calculates an output based on your created flow in Flowise. [See the documentation](https://docs.flowiseai.com/using-flowise/api#prediction-api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     flowiseai,

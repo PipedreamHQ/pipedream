@@ -4,7 +4,12 @@ export default {
   key: "foursquare-create-check-in",
   name: "Create Check In",
   description: "Allows the user to generate a new check-in at a specific location on Foursquare. [See the documentation](https://docs.foursquare.com/developer/reference/create-a-checkin)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     foursquare,

@@ -4,7 +4,12 @@ export default {
   key: "fogbugz-list-projects",
   name: "List Projects",
   description: "Gets a list of projects in FogBugz. This can be used to quickly view all projects and their details. [See the documentation](https://support.fogbugz.com/hc/en-us/articles/360011242334-FogBugz-XML-API-Lists)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     fogbugz,

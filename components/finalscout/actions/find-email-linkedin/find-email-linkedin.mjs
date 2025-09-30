@@ -5,7 +5,12 @@ export default {
   key: "finalscout-find-email-linkedin",
   name: "Find Email from LinkedIn",
   description: "Finds an email address from a LinkedIn profile URL. [See the documentation](https://finalscout.com/public/doc/api.html#tag/Single-Find/paths/~1v1~1find~1linkedin~1single/post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     finalscout,

@@ -5,7 +5,12 @@ export default {
   key: "flexisign-send-document-using-template",
   name: "Send Document Using Template",
   description: "Sends a signature request to the specified recipients for a document generated from a template. [See the documentation](https://flexisign.io/app/integrations/flexisignapi)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     flexisign,

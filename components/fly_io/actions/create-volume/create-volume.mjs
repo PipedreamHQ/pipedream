@@ -4,7 +4,12 @@ export default {
   key: "fly_io-create-volume",
   name: "Create Volume",
   description: "Create a volume for a specific app using the details provided in the request body. [See the documentation](https://docs.machines.dev/#tag/volumes/post/apps/%7Bapp_name%7D/volumes)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

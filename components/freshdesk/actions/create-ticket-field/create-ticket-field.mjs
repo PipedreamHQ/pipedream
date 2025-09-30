@@ -6,7 +6,12 @@ export default {
   key: "freshdesk-create-ticket-field",
   name: "Create Ticket Field",
   description: "Create a ticket field in Freshdesk. [See the documentation](https://developers.freshdesk.com/api/#create_ticket_field)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     freshdesk,

@@ -4,7 +4,12 @@ export default {
   key: "frame-search-assets",
   name: "Search Assets",
   description: "Performs advanced searching for assets in Frame.io. [See the documentation](https://developer.frame.io/api/reference/operation/librarySearchGet/)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     frame,

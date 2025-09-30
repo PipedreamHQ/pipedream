@@ -6,7 +6,12 @@ export default {
   key: "formstack-create-form-submission",
   name: "Create Form Submission",
   description: "Create a new submission for the specified form. [See docs here](https://formstack.readme.io/docs/form-id-submission-post)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     formstack,
     formId: {
