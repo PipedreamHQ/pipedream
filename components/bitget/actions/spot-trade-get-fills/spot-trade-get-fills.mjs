@@ -4,7 +4,12 @@ export default {
   key: "bitget-spot-trade-get-fills",
   name: "Spot - Trade - Get Fills",
   description: "Retrieve transaction details (fills) for a user. [See the documentation](https://www.bitget.com/api-doc/spot/trade/Get-Fills)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

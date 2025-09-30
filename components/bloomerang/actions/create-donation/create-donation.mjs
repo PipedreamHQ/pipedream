@@ -5,7 +5,12 @@ export default {
   key: "bloomerang-create-donation",
   name: "Create Donation",
   description: "Creates a new donation record in Bloomerang. [See the documentation](https://bloomerang.co/product/integrations-data-management/api/rest-api/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     bloomerang,

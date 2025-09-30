@@ -3,7 +3,12 @@ import bloomGrowth from "../../bloom_growth.app.mjs";
 export default {
   key: "bloom_growth-create-issue",
   name: "Create Issue",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new meeting issue [See the documentation](https://app.bloomgrowth.com/swagger/index.html)",
   type: "action",
   props: {

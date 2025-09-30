@@ -4,7 +4,12 @@ export default {
   key: "bitget-spot-market-get-auction",
   name: "Spot - Market - Get Auction",
   description: "Retrieve auction data for a specified symbol. [See the documentation](https://www.bitget.com/api-doc/spot/market/Get-Auction)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

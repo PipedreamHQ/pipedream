@@ -2,7 +2,12 @@ import app from "../../blink.app.mjs";
 
 export default {
   name: "Post feed",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "blink-post-feed",
   description: "Send feed events to users. [See the documentation](https://developer.joinblink.com/reference/send-feed-event)",
   type: "action",

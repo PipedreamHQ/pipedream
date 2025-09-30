@@ -4,7 +4,12 @@ export default {
   key: "bitget-spot-market-get-symbols",
   name: "Spot - Market - Get Symbols",
   description: "Obtain all trading pair information on the platform. [See the documentation](https://www.bitget.com/api-doc/spot/market/Get-Symbols)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,
