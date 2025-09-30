@@ -5,7 +5,12 @@ export default {
   key: "l2s-create-shortened-url",
   name: "Create Shortened URL",
   description: "Generates a shortened URL utilizing L2S capabilities. [See the documentation](https://docs.l2s.is/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     l2s,

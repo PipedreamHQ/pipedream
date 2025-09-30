@@ -7,7 +7,12 @@ export default {
   key: "kustomer-update-conversation",
   name: "Update Conversation",
   description: "Updates an existing conversation in Kustomer. [See the documentation](https://developer.kustomer.com/kustomer-api-docs/reference/updateconversation).",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     kustomer,

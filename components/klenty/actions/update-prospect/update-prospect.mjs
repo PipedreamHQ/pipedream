@@ -4,7 +4,12 @@ export default {
   key: "klenty-update-prospect",
   name: "Update Prospect",
   description: "Updates an existing prospect's information in Klenty. [See the documentation](https://www.klenty.com/developers)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     klenty,

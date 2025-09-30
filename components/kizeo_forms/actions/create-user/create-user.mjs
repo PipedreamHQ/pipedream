@@ -5,7 +5,12 @@ export default {
   key: "kizeo_forms-create-user",
   name: "Create User",
   description: "Creates a new user in the Kizeo Forms platform. [See the documentation](https://kizeo.github.io/kizeo-forms-documentations/docs/en/users#2---add-a-user)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

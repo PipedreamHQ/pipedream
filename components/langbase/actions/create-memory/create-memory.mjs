@@ -4,7 +4,12 @@ export default {
   key: "langbase-create-memory",
   name: "Create Memory",
   description: "Create a new organization memory by sending the memory data. [See the documentation](https://langbase.com/docs/api-reference/memory/create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

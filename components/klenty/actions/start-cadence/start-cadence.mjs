@@ -4,7 +4,12 @@ export default {
   key: "klenty-start-cadence",
   name: "Start Cadence",
   description: "Starts a cadence in Klenty for a specific prospect. [See the documentation](https://support.klenty.com/en/articles/8193937-klenty-s-post-apis)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     klenty,

@@ -7,7 +7,12 @@ export default {
   name: "Create Record",
   description:
     "Create a Record for a Knack object [(See docs here)](https://docs.knack.com/docs/object-based-post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...base.props,

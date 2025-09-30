@@ -4,7 +4,12 @@ export default {
   key: "kizeo_forms-list-unread-form-data",
   name: "List Unread Form Data",
   description: "Retrieves a list of unread form entries/data from Kizeo Forms. [See the documentation](https://kizeo.github.io/kizeo-forms-documentations/docs/en/restv3)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

@@ -5,7 +5,12 @@ export default {
   name: "Get Company Domain Info",
   description: "Get information about a company's domain. [See the documentation](https://www.klazify.com/category#docs).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     url: {

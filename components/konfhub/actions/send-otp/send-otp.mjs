@@ -4,7 +4,12 @@ export default {
   key: "konfhub-send-otp",
   name: "Send OTP",
   description: "Send a one-time password (OTP) to a user. [See the documentation](https://docs.konfhub.com/#api-Referral-Registration-Send_OTP)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     konfhub,

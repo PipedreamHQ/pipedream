@@ -4,7 +4,12 @@ export default {
   key: "launchdarkly-evaluate-feature-flag",
   name: "Evaluate Feature Flag",
   description: "Evaluates an existing feature flag for a specific user or in a general context. [See the documentation](https://apidocs.launchdarkly.com/tag/Contexts#operation/evaluateContextInstance).",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

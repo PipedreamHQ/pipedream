@@ -9,7 +9,12 @@ export default {
   name: "Update Record",
   description:
     "Update a Record for a Knack object [(See docs here)](https://docs.knack.com/docs/object-based-put)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...base.props,

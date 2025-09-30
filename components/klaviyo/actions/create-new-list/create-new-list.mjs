@@ -4,7 +4,12 @@ export default {
   key: "klaviyo-create-new-list",
   name: "Create New List",
   description: "Creates a new list in an account. [See the documentation](https://developers.klaviyo.com/en/reference/create_list)",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     klaviyo,

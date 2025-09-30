@@ -6,7 +6,12 @@ export default {
   key: "keysender-create-transaction",
   name: "Create Transaction",
   description: "Creates a new transaction within Keysender. [See the documentation](https://panel.keysender.co.uk/api#tag/Transaction/paths/~1transaction~1addcustom/post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     keysender,

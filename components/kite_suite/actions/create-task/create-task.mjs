@@ -4,7 +4,12 @@ export default {
   key: "kite_suite-create-task",
   name: "Create Task",
   description: "Create a new task in a project in Kite Suite. [See the documentation](https://api.kitesuite.com/swagger/#/Task/post_api_v1_task)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     kiteSuite,
