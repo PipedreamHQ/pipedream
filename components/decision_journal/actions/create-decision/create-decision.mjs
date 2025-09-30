@@ -5,7 +5,12 @@ export default {
   key: "decision_journal-create-decision",
   name: "Create Decision",
   description: "Creates a new decision in the Decision Journal. [See the documentation](https://openpm.ai/apis/decision-journal#/decisions)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

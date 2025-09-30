@@ -4,7 +4,12 @@ export default {
   key: "deepgram-get-balance",
   name: "Get Balance",
   description: "Retrieves details about the specified balance. [See the documentation](https://developers.deepgram.com/api-reference/billing/#get-balance)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     deepgram,

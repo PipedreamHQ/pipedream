@@ -5,7 +5,12 @@ export default {
   key: "dataforseo-get-tripadvisor-reviews",
   name: "Get TripAdvisor Reviews",
   description: "Get TripAdvisor business reviews and ratings, especially useful for hospitality businesses. [See the documentation](https://docs.dataforseo.com/v3/business_data/tripadvisor/reviews/task_post/?bash)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     dataforseo,

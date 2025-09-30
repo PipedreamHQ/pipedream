@@ -6,7 +6,12 @@ export default {
   name: "Search Business Listings",
   description:
     "Get information about business entities listed on Google Maps. [See the documentation](https://docs.dataforseo.com/v3/business_data/business_listings/search/live/)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   methods: {
     searchBusinessListings(args = {}) {

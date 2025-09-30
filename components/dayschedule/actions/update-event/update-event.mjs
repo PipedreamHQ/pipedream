@@ -4,7 +4,12 @@ export default {
   key: "dayschedule-update-event",
   name: "Update Event",
   description: "Modify an existing event in the DaySchedule. [See the documentation](https://dayschedule.com/docs/api#tag/Resources/operation/ResourceController_updateResource)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     dayschedule,

@@ -5,7 +5,12 @@ export default {
   key: "dataforseo-get-bulk-traffic-analytics",
   name: "Get Bulk Traffic Analytics",
   description: "Get traffic estimates and analytics for multiple domains in bulk. [See the documentation](https://docs.dataforseo.com/v3/dataforseo_labs/google/bulk_traffic_estimation/live/?bash)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     dataforseo,

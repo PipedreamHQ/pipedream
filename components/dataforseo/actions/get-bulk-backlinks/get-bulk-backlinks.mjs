@@ -5,7 +5,12 @@ export default {
   name: "Get Bulk Backlinks",
   description:
     "Get the number of backlinks pointing to specified domains, subdomains, and pages. [See the documentation](https://docs.dataforseo.com/v3/backlinks/bulk_backlinks/live/)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   methods: {
     getBulkBacklinks(args = {}) {

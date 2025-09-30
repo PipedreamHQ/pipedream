@@ -6,7 +6,12 @@ export default {
   key: "dataforseo-get-app-intersection",
   name: "Get App Intersection",
   description: "Compare keyword overlap between mobile apps to find shared ranking opportunities. [See the documentation](https://docs.dataforseo.com/v3/dataforseo_labs/google/app_intersection/live/?bash)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     dataforseo,
