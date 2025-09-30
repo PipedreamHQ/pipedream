@@ -386,6 +386,7 @@ export interface Action<
   props?: ActionPropDefinitions;
   annotations?: {
     destructiveHint?: boolean;
+    idempotentHint?: boolean;
     openWorldHint?: boolean;
     readOnlyHint?: boolean;
   }
