@@ -5,7 +5,12 @@ export default {
   name: "Spam Or Not",
   description: "Determine whether the given text is spam or not. [See the documentation](https://app.metatext.ai/models/spam-or-not/inference-api).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     text: {

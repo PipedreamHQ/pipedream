@@ -4,7 +4,12 @@ export default {
   key: "microsoft_365_planner-create-plan",
   name: "Create Plan",
   description: "Create a new plan in Microsoft 365 Planner. [See the documentation](https://learn.microsoft.com/en-us/graph/api/planner-post-plans)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     microsoft365Planner,

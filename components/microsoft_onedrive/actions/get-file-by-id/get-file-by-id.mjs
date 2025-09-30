@@ -4,7 +4,12 @@ export default {
   key: "microsoft_onedrive-get-file-by-id",
   name: "Get File by ID",
   description: "Retrieves a file by ID. [See the documentation](https://learn.microsoft.com/en-us/onedrive/developer/rest-api/api/driveitem_get)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     onedrive,

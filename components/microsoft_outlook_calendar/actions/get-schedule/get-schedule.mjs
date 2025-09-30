@@ -6,7 +6,12 @@ export default {
   key: "microsoft_outlook_calendar-get-schedule",
   name: "Get Free/Busy Schedule",
   description: "Get the free/busy availability information for a collection of users, distributions lists, or resources (rooms or equipment) for a specified time period. [See the documentation](https://learn.microsoft.com/en-us/graph/api/calendar-getschedule)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     microsoftOutlook,

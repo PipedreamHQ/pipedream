@@ -6,7 +6,12 @@ export default {
   name: "Update Reservation",
   description: "Update an existing reservation in Mews. [See the documentation](https://mews-systems.gitbook.io/connector-api/operations/reservations#update-reservations)",
   key: "mews-update-reservation",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

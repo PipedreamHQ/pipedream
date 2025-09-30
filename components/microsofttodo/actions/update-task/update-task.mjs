@@ -5,7 +5,12 @@ export default {
   key: "microsofttodo-update-task",
   name: "Update Task",
   description: "Updates an existing task in Microsoft To Do. [See the documentation](https://learn.microsoft.com/en-us/graph/api/todotask-update).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     microsoftTodo,

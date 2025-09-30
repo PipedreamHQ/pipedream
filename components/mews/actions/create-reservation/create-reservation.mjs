@@ -5,7 +5,12 @@ export default {
   name: "Create Reservation",
   description: "Create a reservation in Mews. See reservation parameters in the docs. [See the documentation](https://mews-systems.gitbook.io/connector-api/operations/reservations#add-reservations)",
   key: "mews-create-reservation",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

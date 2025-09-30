@@ -5,7 +5,12 @@ export default {
   key: "microsoft_power_bi-add-rows-dataset-table",
   name: "Add Rows to Dataset Table",
   description: "Adds new data rows to the specified table within the specified dataset from My workspace. [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/push-datasets/datasets-post-rows)",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     powerBi,

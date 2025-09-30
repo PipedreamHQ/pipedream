@@ -2,7 +2,12 @@ import app from "../../miestro.app.mjs";
 
 export default {
   key: "miestro-create-user",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   name: "Create User",
   description: "Creates a user with the given attributes. [See the documentation](https://support.miestro.com/article/279-api-documentation)",
