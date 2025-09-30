@@ -34,7 +34,6 @@ export default {
       type: "string",
       label: "Veto Reporter Email",
       description: "The E-Mail address of the veto reporter.",
-      optional: true,
     },
   },
   async run({ $ }) {

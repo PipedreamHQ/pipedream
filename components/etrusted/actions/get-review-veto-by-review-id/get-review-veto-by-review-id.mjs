@@ -16,12 +16,17 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.etrusted.getReviewVetoByReviewId({
-      $,
-      reviewId: this.reviewId,
-    });
+    try {
+      const response = await this.etrusted.getReviewVetoByReviewId({
+        $,
+        reviewId: this.reviewId,
+      });
 
-    $.export("$summary", `Successfully retrieved veto with ID ${response.id}`);
-    return response;
+      $.export("$summary", `Successfully retrieved veto with ID ${response.id}`);
+      return response;
+    } catch (error) {
+      $.export("$summary", `Review with ID ${this.reviewId} has no veto`);
+      return {};
+    }
   },
 };
