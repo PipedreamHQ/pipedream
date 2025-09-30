@@ -3,7 +3,12 @@ import { axios } from "@pipedream/platform";
 
 export default {
   name: "Translate",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "google_cloud_translate-translate",
   description: "Translate text using Google Cloud Translate",
   props: {

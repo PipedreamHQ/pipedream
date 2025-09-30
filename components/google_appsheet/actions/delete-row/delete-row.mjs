@@ -5,7 +5,12 @@ export default {
   key: "google_appsheet-delete-row",
   name: "Delete Row",
   description: "Deletes a specific row from a table in the AppSheet app. [See the documentation](https://support.google.com/appsheet/answer/10105399?hl=en&ref_topic=10105767&sjid=1665780.0.1444403316-SA)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

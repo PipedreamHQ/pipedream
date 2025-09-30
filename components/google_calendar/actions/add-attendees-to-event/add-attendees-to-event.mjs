@@ -5,7 +5,12 @@ export default {
   key: "google_calendar-add-attendees-to-event",
   name: "Add Attendees To Event",
   description: "Add attendees to an existing event. [See the documentation](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Events.html#update)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     googleCalendar,

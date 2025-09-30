@@ -4,7 +4,12 @@ export default {
   key: "google_chat-create-message",
   name: "Create Message",
   description: "Create a message to post a text. [See the documentation](https://developers.google.com/chat/api/reference/rest/v1/spaces.messages/create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -2,7 +2,12 @@ import googleCloud from "../../google_cloud.app.mjs";
 
 export default {
   name: "Run Query",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "google_cloud-run-query",
   type: "action",
   description: "Runs a query in BigQuery. [See the documentation](https://cloud.google.com/bigquery/docs/running-queries#node.js) for more information.",

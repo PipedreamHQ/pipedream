@@ -5,7 +5,12 @@ export default {
   key: "google_contacts-get-contact",
   name: "Get Contact",
   description: "Get information about a contact. [See the documentation](https://developers.google.com/people/api/rest/v1/people/get)",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,
