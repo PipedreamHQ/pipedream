@@ -384,6 +384,11 @@ export interface Action<
   type: "action";
   methods?: Methods & ThisType<PropThis<ActionPropDefinitions> & Methods>;
   props?: ActionPropDefinitions;
+  annotations?: {
+    destructiveHint?: boolean;
+    openWorldHint?: boolean;
+    readOnlyHint?: boolean;
+  }
   additionalProps?: (
     previousPropDefs: ActionPropDefinitions
   ) => Promise<ActionPropDefinitions>;

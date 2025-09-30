@@ -30,7 +30,8 @@ class AnnotationApplier {
       processed: 0,
       modified: 0,
       errors: 0,
-      skipped: 0
+      skipped: 0,
+      modifiedFiles: []
     };
   }
 
@@ -186,9 +187,10 @@ class AnnotationApplier {
   }
 
   isActionFile(fileName, fullPath) {
+    const normalizedPath = fullPath.replace(/\\/g, '/');
     return (fileName.endsWith('.mjs') || fileName.endsWith('.ts')) &&
-           fullPath.includes('/actions/') &&
-           !fullPath.includes('/common/');
+           normalizedPath.includes('/actions/') &&
+           !normalizedPath.includes('/common/');
   }
 
   extractActionKey(fileContent) {
@@ -221,8 +223,15 @@ class AnnotationApplier {
   }
 
   applyAnnotations(fileContent, annotations) {
-    // Find and replace version
-    const versionMatch = fileContent.match(/(.*version:\s*["'])([^"']+)(["'],?\s*\n)/s);
+    // Find and replace version - handle both orders: type before version OR version before type
+    // Try lookahead first (version comes before type: "action")
+    let versionMatch = fileContent.match(/(.*version:\s*["'])([^"']+)(["'],?\s*\n)(?=[\s\S]*?type:\s*["']action["'])/s);
+    
+    // If not found, try lookbehind (type: "action" comes before version)
+    if (!versionMatch) {
+      versionMatch = fileContent.match(/(?<=type:\s*["']action["'][\s\S]{0,1000}?)(.*version:\s*["'])([^"']+)(["'],?\s*\n)/s);
+    }
+    
     if (!versionMatch) {
       throw new Error('Could not find version field in file');
     }
@@ -270,7 +279,7 @@ class AnnotationApplier {
       const modifiedContent = this.applyAnnotations(fileContent, annotations);
       fs.writeFileSync(filePath, modifiedContent, 'utf8');
 
-      this.recordModification(fileContent, actionKey);
+      this.recordModification(fileContent, actionKey, filePath);
       return true;
 
     } catch (error) {
@@ -290,8 +299,9 @@ class AnnotationApplier {
     this.log(`Error processing ${filePath}: ${error.message}`, 'error');
   }
 
-  recordModification(fileContent, actionKey) {
+  recordModification(fileContent, actionKey, filePath) {
     this.stats.modified++;
+    this.stats.modifiedFiles.push(filePath);
 
     const currentVersionMatch = fileContent.match(/version:\s*["']([^"']+)["']/);
     const currentVersion = currentVersionMatch ? currentVersionMatch[1] : 'unknown';
@@ -340,6 +350,12 @@ class AnnotationApplier {
     if (this.errors.length > 0) {
       this.log('\n=== ERRORS ===');
       this.errors.forEach(error => this.log(error, 'error'));
+    }
+
+    // Output modified files as JSON
+    if (this.stats.modifiedFiles.length > 0) {
+      this.log('\n=== MODIFIED FILES (JSON) ===');
+      console.log(JSON.stringify(this.stats.modifiedFiles, null, 2));
     }
   }
 
