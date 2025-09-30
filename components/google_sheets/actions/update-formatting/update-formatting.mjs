@@ -270,7 +270,7 @@ export default {
       }
       if (this.fontSize || this.bold || this.italic || this.strikethrough) {
         repeatCell.cell.userEnteredFormat.textFormat = {
-          ...repeatCell.cell.userEnteredFormat.textFormat,
+          ...(repeatCell.cell.userEnteredFormat.textFormat || {}),
         };
       }
       if (this.fontSize) {
