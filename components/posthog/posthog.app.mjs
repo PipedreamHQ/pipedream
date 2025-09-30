@@ -69,18 +69,24 @@ export default {
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://app.posthog.com";
+    _baseUrl(publicUrl = false) {
+      const url = this.$auth.instance_url;
+      if (publicUrl) {
+        return `https://${url.substring(0, 2)}.i.${url.slice(3)}`;
+      }
+      return `https://${this.$auth.instance_url}`;
     },
     _makeRequest(opts = {}) {
       const {
         $ = this,
         path,
+        publicUrl,
         ...otherOpts
       } = opts;
+
       return axios($, {
         ...otherOpts,
-        url: `${this._baseUrl()}${path}`,
+        url: `${this._baseUrl(publicUrl)}${path}`,
         headers: {
           Authorization: `Bearer ${this.$auth.api_key}`,
         },
@@ -138,6 +144,7 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: `/api/projects/${projectId}/query`,
+        publicUrl: true,
         ...opts,
       });
     },
@@ -145,6 +152,7 @@ export default {
       return this._makeRequest({
         method: "POST",
         path: "/capture",
+        publicUrl: true,
         ...opts,
       });
     },
