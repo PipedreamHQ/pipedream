@@ -4,7 +4,12 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   type: "action",
   key: "alpaca-place-order",
-  version: "0.1.0",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   name: "Place Order",
   description: "Places a new order for the given account. An order request may be rejected if the account is not authorized for trading, or if the tradable balance is insufficient to fill the order, [See the docs](https://alpaca.markets/docs/api-references/trading-api/orders/#request-a-new-order)",
   props: {

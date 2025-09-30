@@ -4,7 +4,12 @@ export default {
   key: "altoviz-create-customer",
   name: "Create Customer",
   description: "Creates a new customer in Altoviz. [See the documentation](https://developer.altoviz.com/api#tag/Customers/operation/POST_Customers_Post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     altoviz,

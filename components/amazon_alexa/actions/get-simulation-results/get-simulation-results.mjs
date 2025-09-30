@@ -4,7 +4,12 @@ export default {
   key: "amazon_alexa-get-simulation-results",
   name: "Get Simulation Results",
   description: "Get the results of the specified simulation for an Alexa skill. [See the documentation](https://developer.amazon.com/en-us/docs/alexa/smapi/skill-simulation-api.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

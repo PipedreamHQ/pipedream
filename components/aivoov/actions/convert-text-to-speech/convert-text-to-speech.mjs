@@ -6,7 +6,12 @@ export default {
   name: "Convert Text to Speech",
   description:
     "Converts text to audio using the Aivoov API. [See the documentation](https://github.com/aivoov/aivoov-api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     aivoov,

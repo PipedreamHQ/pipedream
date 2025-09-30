@@ -4,7 +4,12 @@ export default {
   key: "akeneo-delete-product",
   name: "Delete Product",
   description: "Delete a product from Akeneo. [See the documentation](https://api.akeneo.com/api-reference.html#delete_products__code_)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     akeneo,

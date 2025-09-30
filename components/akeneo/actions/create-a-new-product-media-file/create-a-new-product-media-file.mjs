@@ -7,7 +7,12 @@ import FormData from "form-data";
 export default {
   type: "action",
   key: "akeneo-create-a-new-product-media-file",
-  version: "0.1.3",
+  version: "0.1.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   name: "Create A New Product Media File",
   description: "Allows you to create a new media file and associate it to an attribute value of a given product or product model. [See the docs](https://api.akeneo.com/api-reference.html#post_media_files)",
   props: {

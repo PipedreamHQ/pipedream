@@ -5,7 +5,12 @@ export default {
   name: "Get Team Details",
   description: "Get details on a team. [See the docs here](https://apidocs.amara.org/#get-details-on-a-team)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     amara,
     teamId: {

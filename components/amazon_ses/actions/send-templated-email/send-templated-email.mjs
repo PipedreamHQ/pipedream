@@ -4,7 +4,12 @@ export default {
   key: "amazon_ses-send-templated-email",
   name: "Send Templated Email",
   description: "Send an email replacing the template tags with values using Amazon SES. [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-ses/classes/sendtemplatedemailcommand.html)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...base.props,
