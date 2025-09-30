@@ -5,7 +5,12 @@ export default {
   key: "omise-update-customer",
   name: "Update Customer",
   description: "Update a customer's information and payment details in the OPN system. [See the documentation](https://docs.opn.ooo/customers-api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     omiseApp,

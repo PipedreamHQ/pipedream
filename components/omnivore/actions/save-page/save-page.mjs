@@ -7,7 +7,12 @@ export default {
   name: "Save Page",
   description: "Save a page with supplied HTML content. [See the documentation](https://docs.omnivore.app/integrations/api.html#commonly-used-methods)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     url: {

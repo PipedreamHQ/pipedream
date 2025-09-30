@@ -4,7 +4,12 @@ export default {
   key: "onbee_app-create-employee",
   name: "Create Employee",
   description: "Adds an employee to the system. [See the documentation](https://docs.onboardee.io/api/#tag/Employees/paths/~1employees~1add/post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

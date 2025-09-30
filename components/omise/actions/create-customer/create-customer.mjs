@@ -5,7 +5,12 @@ export default {
   key: "omise-create-customer",
   name: "Create Customer",
   description: "Registers a new customer in the OPN platform. [See the documentation](https://docs.opn.ooo/customers-api#create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     omiseApp,

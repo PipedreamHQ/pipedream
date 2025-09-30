@@ -4,7 +4,12 @@ export default {
   key: "ollama-push-model",
   name: "Push Model to Library",
   description: "Upload a model to a model library. Requires registering for ollama.ai and adding a public key first. [See the documentation](https://github.com/ollama/ollama/blob/main/docs/api.md#push-a-model).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

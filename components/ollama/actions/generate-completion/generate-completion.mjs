@@ -5,7 +5,12 @@ export default {
   key: "ollama-generate-completion",
   name: "Generate Completion",
   description: "Generates a response for a given prompt with a provided model. [See the documentation](https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-completion).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

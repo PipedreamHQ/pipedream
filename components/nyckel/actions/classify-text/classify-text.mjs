@@ -4,7 +4,12 @@ export default {
   key: "nyckel-classify-text",
   name: "Classify Text",
   description: "Classifies text data based on pre-trained classifiers in Nyckel.  [See the documentation](https://www.nyckel.com/docs#invoke-text)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     nyckel,

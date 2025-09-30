@@ -4,7 +4,12 @@ export default {
   key: "octopush_sms-add-contact",
   name: "Add Contact",
   description: "Adds a new contact to a list in the Octopush SMS Gateway. [See the documentation](https://dev.octopush.com/en/sms-gateway-api-documentation/add-a-contact/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     octopush,

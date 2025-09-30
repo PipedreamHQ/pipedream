@@ -5,7 +5,12 @@ export default {
   key: "odoo-search-read-records",
   name: "Search and Read Records",
   description: "Search and read records from Odoo. [See the documentation](https://www.odoo.com/documentation/18.0/developer/reference/external_api.html#search-and-read)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     odoo,

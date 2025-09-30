@@ -4,7 +4,12 @@ export default {
   key: "offorte-list-users",
   name: "List Users",
   description: "List all users in Offorte. [See the documentation](https://www.offorte.com/api-docs/api#tag/Account/operation/usersList)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     offorte,

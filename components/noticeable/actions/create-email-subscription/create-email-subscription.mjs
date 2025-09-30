@@ -3,7 +3,12 @@ import app from "../../noticeable.app.mjs";
 export default {
   type: "action",
   key: "noticeable-create-email-subscription",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   name: "Create Email Subscription",
   description: "Creates an email subscription, [See the docs](https://graphdoc.noticeable.io/emailsubscription.doc.html)",
   props: {

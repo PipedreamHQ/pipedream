@@ -4,7 +4,12 @@ export default {
   key: "ollama-delete-model",
   name: "Delete Model",
   description: "Delete a model and its data. [See the documentation](https://github.com/ollama/ollama/blob/main/docs/api.md#delete-a-model)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

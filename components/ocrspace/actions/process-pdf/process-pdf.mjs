@@ -5,7 +5,12 @@ export default {
   key: "ocrspace-process-pdf",
   name: "Process PDF for OCR",
   description: "Submit a PDF for OCR processing. [See the documentation](https://ocr.space/ocrapi)",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

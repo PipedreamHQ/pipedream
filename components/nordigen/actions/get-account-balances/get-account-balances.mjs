@@ -4,7 +4,12 @@ export default {
   key: "nordigen-get-account-balances",
   name: "Get Account Balances",
   description: "Get the balances of a Nordigen account. [See the docs](https://ob.nordigen.com/api/docs#/accounts/accounts_balances_retrieve)",
-  version: "1.0.0",
+  version: "1.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     nordigen,

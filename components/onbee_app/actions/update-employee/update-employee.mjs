@@ -4,7 +4,12 @@ export default {
   key: "onbee_app-update-employee",
   name: "Update Employee",
   description: "Update an employee with the specified ID. [See the documentation](https://docs.onboardee.io/api/#tag/Employees/paths/~1employees~1edit~1{id}/post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

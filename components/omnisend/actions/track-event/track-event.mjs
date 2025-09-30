@@ -5,7 +5,12 @@ export default {
   key: "omnisend-track-event",
   name: "Trigger Custom Event",
   description: "Trigger custom event to Omnisend. [See the documentation](https://api-docs.omnisend.com/reference/post-events-eventid)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     omnisend,

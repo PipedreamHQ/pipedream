@@ -4,7 +4,12 @@ export default {
   key: "omnisend-update-contact",
   name: "Update Contact",
   description: "Modify subscriber information or update their subscription status. [See the documentation](https://api-docs.omnisend.com/reference/patch_contacts-contactid)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     omnisend,

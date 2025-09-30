@@ -4,7 +4,12 @@ export default {
   key: "ollama-show-model-information",
   name: "Show Model Information",
   description: "Show information about a model including details, modelfile, template, parameters, license, and system prompt. [See the documentation](https://github.com/ollama/ollama/blob/main/docs/api.md#show-model-information).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,
