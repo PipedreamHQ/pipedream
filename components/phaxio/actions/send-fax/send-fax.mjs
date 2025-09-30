@@ -3,7 +3,12 @@ import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   name: "Send Fax",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "phaxio-send-fax",
   description: "Sends a fax. [See docs here](https://www.phaxio.com/docs/api/v2.1/faxes/create_and_send_fax)",
   type: "action",

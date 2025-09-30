@@ -6,7 +6,12 @@ export default {
   name: "Query IDs",
   description: "Searches a namespace, using a query vector. It retrieves the ids of the most similar items in a namespace, along with their similarity scores. [See the documentation](https://docs.pinecone.io/reference/api/data-plane/query).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     indexName: {

@@ -5,7 +5,12 @@ export default {
   key: "people_data_labs-search-people",
   name: "Search People",
   description: "Find specific segments of people that you need to power your projects and products. [See the docs here](https://docs.peopledatalabs.com/docs/reference-person-search-api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

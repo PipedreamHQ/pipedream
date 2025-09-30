@@ -6,7 +6,12 @@ export default {
   name: "Helper Functions - Random Item(s) from List",
   description:
     "Returns a randomly selected value(s) from a user-defined list of options.",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     pipedream_utils,

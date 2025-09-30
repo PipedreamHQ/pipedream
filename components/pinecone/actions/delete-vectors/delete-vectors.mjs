@@ -6,7 +6,12 @@ export default {
   name: "Delete Vectors",
   description: "Deletes one or more vectors by ID, from a single namespace. [See the documentation](https://docs.pinecone.io/reference/api/data-plane/delete).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     indexName: {

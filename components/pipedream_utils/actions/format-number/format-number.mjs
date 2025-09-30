@@ -8,7 +8,12 @@ export default {
   name: "Formatting - [Numbers] Format Number",
   description: "Format a number to a new style. Does not perform any rounding or padding of the number.",
   key: "pipedream_utils-format-number",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: false,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pipedream_utils,

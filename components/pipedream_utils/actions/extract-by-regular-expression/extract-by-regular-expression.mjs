@@ -4,7 +4,12 @@ export default {
   name: "Formatting - [Text] Extract by Regular Expression",
   description: "Find a match for a regular expression pattern. Returns all matched groups with start and end position.",
   key: "pipedream_utils-extract-by-regular-expression",
-  version: "0.0.6",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     pipedream_utils,

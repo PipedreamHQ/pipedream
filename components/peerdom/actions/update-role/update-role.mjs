@@ -6,7 +6,12 @@ export default {
   key: "peerdom-update-role",
   name: "Update Role",
   description: "Update an existing role's attributes such as name, description, or linked domains. [See the documentation](https://api.peerdom.org/v1/docs)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     peerdom,

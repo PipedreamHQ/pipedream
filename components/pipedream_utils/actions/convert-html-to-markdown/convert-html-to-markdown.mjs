@@ -5,7 +5,12 @@ export default {
   name: "Formatting - [Text] Convert HTML to Markdown",
   description: "Convert valid HTML to Markdown text",
   key: "pipedream_utils-convert-html-to-markdown",
-  version: "0.0.6",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: false,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     pipedream_utils,

@@ -4,7 +4,12 @@ export default {
   name: "Formatting - [Text] Convert HTML to text",
   description: "Convert valid HTML to text",
   key: "pipedream_utils-convert-html-to-text",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: false,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     pipedream_utils,

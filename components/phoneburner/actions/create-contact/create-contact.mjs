@@ -2,7 +2,12 @@ import app from "../../phoneburner.app.mjs";
 
 export default {
   name: "Create Contact",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "phoneburner-create-contact",
   description: "Create a contact. [See the documentation](https://www.phoneburner.com/developer/route_list#contacts)",
   type: "action",

@@ -6,7 +6,12 @@ export default {
   key: "pipedream_utils-get-iso-string-n-days-ago",
   name: "Helper Functions - Get ISO String N Days Ago",
   description: "Returns an ISO string (UTC TZ) N days ago",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     pipedream_utils,

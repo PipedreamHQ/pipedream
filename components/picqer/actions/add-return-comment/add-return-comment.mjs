@@ -4,7 +4,12 @@ export default {
   key: "picqer-add-return-comment",
   name: "Add Comment To Return",
   description: "Add a comment to a return in Picqer. [See the documentation](https://picqer.com/en/api/comments#add-a-comment-to-an-return)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     picqer,

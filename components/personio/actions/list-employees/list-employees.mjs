@@ -3,7 +3,12 @@ import personio from "../../personio.app.mjs";
 export default {
   key: "personio-list-employees",
   name: "List Employees",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Get a list of the company employees. [See the documentation](https://developer.personio.de/reference/get_company-employees)",
   type: "action",
   props: {

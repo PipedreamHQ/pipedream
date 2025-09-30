@@ -4,7 +4,12 @@ export default {
   name: "Formatting - [Text] Extract Email Address",
   description: "Find an email address out of a text field. Finds the first email address only.",
   key: "pipedream_utils-extract-email-address",
-  version: "0.0.6",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...commonExtractText.props,

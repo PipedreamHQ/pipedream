@@ -7,7 +7,12 @@ export default {
   key: "picqer-create-order",
   name: "Create Picqer Order",
   description: "Create a new order in Picqer. [See the documentation](https://picqer.com/en/api/orders)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     picqer,

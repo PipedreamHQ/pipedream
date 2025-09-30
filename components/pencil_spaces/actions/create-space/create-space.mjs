@@ -6,7 +6,12 @@ export default {
   key: "pencil_spaces-create-space",
   name: "Create A Space",
   description: "Create a new space in Pencil Spaces. [See the documentation](https://api.pencilspaces.com/reference#tag/spaces/POST/spaces/create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pencilSpaces,

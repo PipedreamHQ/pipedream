@@ -5,7 +5,12 @@ export default {
   key: "pipedream_utils-convert-object-to-json-string",
   name: "Helper Functions - Convert JavaScript Object to JSON String",
   description: "Accepts a JavaScript object, returns that object converted to a JSON string",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: false,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     pipedream_utils,

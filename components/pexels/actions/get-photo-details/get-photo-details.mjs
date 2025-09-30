@@ -4,7 +4,12 @@ export default {
   key: "pexels-get-photo-details",
   name: "Get Photo Details",
   description: "Retrieve detailed information about a specific photo by providing its photo ID. [See the documentation](https://www.pexels.com/api/documentation/#photos-show)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     pexels,

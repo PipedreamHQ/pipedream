@@ -4,7 +4,12 @@ export default {
   name: "Formatting - [Text] Extract Phone Number",
   description: "Find a complete phone number out of a text field. Finds the first number only.",
   key: "pipedream_utils-extract-phone-number",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: false,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...commonExtractText.props,

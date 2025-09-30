@@ -5,7 +5,12 @@ export default {
   key: "philips_hue-turn-light-on",
   name: "Turn Light On",
   description: "Turns on or off a Philips Hue light or group of lights. [See the documentation](https://developers.meethue.com/develop/hue-api-v2/api-reference/#resource_light__id__put)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     philipsHue,

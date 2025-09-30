@@ -4,7 +4,12 @@ export default {
   key: "people_data_labs-enrich-company",
   name: "Enrich a company",
   description: "The Company Enrichment API provides a one-to-one match, retrieving up-to-date information on a unique company. [See the docs here](https://docs.peopledatalabs.com/docs/reference-company-enrichment-api)",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

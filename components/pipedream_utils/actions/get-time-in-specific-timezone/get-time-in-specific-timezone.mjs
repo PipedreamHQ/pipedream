@@ -6,7 +6,12 @@ export default {
   key: "pipedream_utils-get-time-in-specific-timezone",
   name: "Helper Functions - Get Time in Timezone",
   description: "Given an ISO 8601 timestamp, and a timezone, convert the time to the target timezone.",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     pipedream_utils,

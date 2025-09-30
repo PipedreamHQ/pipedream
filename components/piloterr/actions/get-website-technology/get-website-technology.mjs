@@ -4,7 +4,12 @@ export default {
   key: "piloterr-get-website-technology",
   name: "Get Website Technology",
   description: "Retrieves the core technology used on a designated website. (CMS, Framework, Analytics, CDN, Hosting, etc.) [See the documentation](https://docs.piloterr.com/v2/api-reference/website/technology)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     piloterr,

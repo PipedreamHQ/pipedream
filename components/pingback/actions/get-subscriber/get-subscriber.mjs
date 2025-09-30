@@ -5,7 +5,12 @@ export default {
   name: "Get Subscriber",
   description: "Get a subscriber by email [See the documentation](https://developer.pingback.com/docs/api/get-subscriber)",
   key: "pingback-get-subscriber",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     pingback,

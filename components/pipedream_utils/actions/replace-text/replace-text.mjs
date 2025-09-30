@@ -5,7 +5,12 @@ export default {
   name: "Formatting - [Text] Replace Text",
   description: "Replace all instances of any character, word or phrase in the text with another character, word or phrase.",
   key: "pipedream_utils-replace-text",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: false,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pipedream_utils,

@@ -5,7 +5,12 @@ export default {
   key: "picqer-search-orders",
   name: "Search Picqer Orders",
   description: "Search for orders in Picqer. [See the documentation](https://picqer.com/en/api/orders#get-all-orders)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     picqer,
