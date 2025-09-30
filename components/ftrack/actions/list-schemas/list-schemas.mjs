@@ -6,7 +6,12 @@ export default {
   name: "List Schemas",
   description: "List all schemas. [See the documentation](https://help.ftrack.com/en/articles/1040498-operations#query-schemas)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
   },

@@ -4,7 +4,12 @@ export default {
   key: "gainsight_px-delete-user",
   name: "Delete User",
   description: "Deletes a user with he specified identifyId. [See the documentation](https://gainsightpx.docs.apiary.io/#reference/users/v1usersdelete/delete-user)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

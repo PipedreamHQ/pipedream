@@ -5,7 +5,12 @@ export default {
   key: "generated_photos-generate-faces",
   name: "Generate Faces",
   description: "Generates faces using the Generated Photos API. [See the documentation](https://generated.photos/account#apikey)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     generatedPhotos,

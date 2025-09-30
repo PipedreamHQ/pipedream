@@ -6,7 +6,12 @@ export default {
   name: "Remove Ticket Tags",
   description: "Remove specific tags from a ticket. [See the documentation](https://developers.freshdesk.com/api/#update_ticket)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     freshdesk,
     ticketId: {

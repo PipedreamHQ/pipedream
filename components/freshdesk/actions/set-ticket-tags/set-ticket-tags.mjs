@@ -6,7 +6,12 @@ export default {
   name: "Set Ticket Tags",
   description: "Set tags on a ticket (replaces all existing tags). [See the documentation](https://developers.freshdesk.com/api/#update_ticket)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     freshdesk,
     ticketId: {

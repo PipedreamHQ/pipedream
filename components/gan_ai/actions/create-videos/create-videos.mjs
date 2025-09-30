@@ -5,7 +5,12 @@ export default {
   key: "gan_ai-create-videos",
   name: "Create Videos",
   description: "Creates videos in bulk by passing tags and values. Requires a project ID. [See the documentation](https://docs.gan.ai/create-video/create-videos)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

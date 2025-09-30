@@ -5,7 +5,12 @@ export default {
   key: "gagelist-update-gage",
   name: "Update Gage",
   description: "Updates a specific gage using its ID on GageList. [See the documentation](https://gagelist.com/developer-resources/update-gage-record/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     gagelist,

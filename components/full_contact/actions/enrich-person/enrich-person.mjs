@@ -2,7 +2,12 @@ import app from "../../full_contact.app.mjs";
 
 export default {
   name: "Enrich Person",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "full_contact-enrich-person",
   description: "Enrich a person. [See documentation here](https://docs.fullcontact.com/docs/multi-field-request)",
   type: "action",

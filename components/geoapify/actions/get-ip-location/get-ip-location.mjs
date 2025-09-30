@@ -4,7 +4,12 @@ export default {
   key: "geoapify-get-ip-location",
   name: "Get IP Location",
   description: "Retrieves geographical coordinates for a given IP address. [See the documentation](https://apidocs.geoapify.com/docs/ip-geolocation/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     geoapify,

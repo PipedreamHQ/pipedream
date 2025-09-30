@@ -6,7 +6,12 @@ export default {
   key: "freshmarketer-add-update-contact",
   name: "Add or Update Contact",
   description: "Create a new contact or updates an existing one.",
-  version: "0.0.{{ts}}",
+  version: "0.0.NaN",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     freshmarketer,

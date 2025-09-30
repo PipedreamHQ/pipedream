@@ -6,7 +6,12 @@ export default {
   name: "Get Task Info",
   description: "Get information about a task. [See the documentation](https://help.ftrack.com/en/articles/1040498-operations#query)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     taskId: {

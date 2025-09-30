@@ -7,7 +7,12 @@ export default {
   name: "Find Cities",
   description: "Find cities, filtering by optional criteria. If no criteria are set, you will get back all known cities with a population of at least 1000. [See the docs](https://rapidapi.com/wirefreethought/api/geodb-cities).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     types: {

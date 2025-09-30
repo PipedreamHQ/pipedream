@@ -4,7 +4,12 @@ export default {
   key: "fullenrich-get-enrichment-result",
   name: "Get Enrichment Result",
   description: "Get the enrichment result for a specified contact. [See the documentation](https://docs.fullenrich.com/getbulk).",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

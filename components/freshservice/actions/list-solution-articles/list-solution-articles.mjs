@@ -4,7 +4,12 @@ export default {
   key: "freshservice-list-solution-articles",
   name: "List Solution Articles",
   description: "List all solution articles. [See the documentation](https://api.freshservice.com/#view_all_solution_article)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     freshservice,
