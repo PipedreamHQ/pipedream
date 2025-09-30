@@ -1,47 +1,70 @@
 /* eslint-disable no-unused-vars */
 import apify from "../../apify.app.mjs";
 import { parseObject } from "../../common/utils.mjs";
-import { EVENT_TYPES } from "../../common/constants.mjs";
+import { WEBHOOK_EVENT_TYPES } from "@apify/consts";
 
 export default {
   key: "apify-run-actor",
   name: "Run Actor",
   description: "Performs an execution of a selected Actor in Apify. [See the documentation](https://docs.apify.com/api/v2#/reference/actors/run-collection/run-actor)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   props: {
     apify,
+    actorSource: {
+      type: "string",
+      label: "Search Actors from",
+      description: "Where to search for Actors. Valid options are Store and Recently used Actors.",
+      options: [
+        {
+          label: "Apify Store Actors",
+          value: "store",
+        },
+        {
+          label: "Recently used Actors",
+          value: "recently-used",
+        },
+      ],
+      reloadProps: true,
+      default: "recently-used",
+    },
     actorId: {
       propDefinition: [
         apify,
         "actorId",
+        (c) => ({
+          actorSource: c.actorSource,
+        }),
       ],
+      reloadProps: true,
     },
-    buildId: {
+    buildTag: {
       propDefinition: [
         apify,
-        "buildId",
+        "buildTag",
         (c) => ({
           actorId: c.actorId,
         }),
       ],
       reloadProps: true,
+      optional: true,
     },
     runAsynchronously: {
       type: "boolean",
       label: "Run Asynchronously",
       description: "Set to `true` to run the Actor asynchronously",
       reloadProps: true,
+      default: true,
     },
     timeout: {
       type: "string",
-      label: "Timeout",
+      label: "Timeout (seconds)",
       description: "Optional timeout for the run, in seconds. By default, the run uses a timeout specified in the default run configuration for the Actor.",
       optional: true,
     },
     memory: {
       type: "string",
-      label: "Memory",
+      label: "Memory (MB)",
       description: "Memory limit for the run, in megabytes. The amount of memory can be set to a power of 2 with a minimum of 128. By default, the run uses a memory limit specified in the default run configuration for the Actor.",
       optional: true,
     },
@@ -59,7 +82,7 @@ export default {
     },
     webhook: {
       type: "string",
-      label: "Webhook",
+      label: "Webhook URL",
       description: "Specifies optional webhook associated with the Actor run, which can be used to receive a notification e.g. when the Actor finished or failed.",
       optional: true,
       reloadProps: true,
@@ -76,174 +99,271 @@ export default {
         ? type
         : "string[]";
     },
-    async getSchema(buildId) {
-      const { data: { inputSchema } } = await this.apify.getBuild(buildId);
-      return JSON.parse(inputSchema);
+    async getSchema(actorId, buildTag) {
+      const build = await this.apify.getBuild(actorId, buildTag);
+      if (!build) {
+        throw new Error(`No build found for actor ${actorId}`);
+      }
+
+      // Case 1: schema is already an object
+      if (build.actorDefinition && build.actorDefinition.input) {
+        return build.actorDefinition.input;
+      }
+
+      // Case 2: schema is a string in inputSchema
+      if (build.inputSchema) {
+        try {
+          return typeof build.inputSchema === "string"
+            ? JSON.parse(build.inputSchema)
+            : build.inputSchema;
+        } catch (err) {
+          throw new Error(
+            `Failed to parse inputSchema for actor ${actorId}: ${err.message}`,
+          );
+        }
+      }
+
+      // Case 3: no schema at all
+      throw new Error(
+        `No input schema found for actor ${actorId}. Has it been built successfully?`,
+      );
     },
     async prepareData(data) {
       const newData = {};
+      const { properties } = await this.getSchema(this.actorId, this.buildTag);
 
-      const { properties } = await this.getSchema(this.buildId);
       for (const [
         key,
         value,
       ] of Object.entries(data)) {
-        const editor = properties[key].editor;
-        newData[key] = (Array.isArray(value))
+        const editor = properties[key]?.editor || "hidden";
+        newData[key] = Array.isArray(value)
           ? value.map((item) => this.setValue(editor, item))
           : value;
       }
       return newData;
     },
     prepareOptions(value) {
-      let options = [];
       if (value.enum && value.enumTitles) {
-        for (const [
-          index,
-          val,
-        ] of value.enum.entries()) {
-          if (val) {
-            options.push({
-              value: val,
-              label: value.enumTitles[index],
-            });
-          }
-        }
+        return value.enum.map((val, i) => ({
+          value: val,
+          label: value.enumTitles[i],
+        }));
       }
-      return options.length
-        ? options
-        : undefined;
     },
     setValue(editor, item) {
       switch (editor) {
-      case "requestListSources" : return {
-        url: item,
-      };
-      case "pseudoUrls" : return {
-        purl: item,
-      };
-      case "globs" : return {
-        glob: item,
-      };
-      default: return item;
+      case "requestListSources":
+        return {
+          url: item,
+        };
+      case "pseudoUrls":
+        return {
+          purl: item,
+        };
+      case "globs":
+        return {
+          glob: item,
+        };
+      default:
+        return item;
       }
     },
   },
   async additionalProps() {
     const props = {};
-    if (this.buildId) {
-      try {
-        const {
-          properties, required: requiredProps = [],
-        } = await this.getSchema(this.buildId);
+    try {
+      const schema = await this.getSchema(this.actorId, this.buildTag);
+      const {
+        properties, required: requiredProps = [],
+      } = schema;
 
-        for (const [
-          key,
-          value,
-        ] of Object.entries(properties)) {
-          if (value.editor === "hidden") continue;
+      for (const [
+        key,
+        value,
+      ] of Object.entries(properties)) {
+        if (value.editor === "hidden") continue;
 
-          props[key] = {
-            type: this.getType(value.type),
-            label: value.title,
-            description: value.description,
-            optional: !requiredProps.includes(key),
-          };
-          const options = this.prepareOptions(value);
-          if (options) props[key].options = options;
-          if (value.default) {
-            props[key].description += ` Default: \`${JSON.stringify(value.default)}\``;
-            if (props[key].type !== "object") { // default values don't work properly for object props
-              props[key].default = value.default;
+        props[key] = {
+          type: this.getType(value.type),
+          label: value.title,
+          description: value.description,
+          optional: !requiredProps.includes(key),
+        };
+
+        if (props[key].type === "string" && value.isSecret) {
+          props[key].secret = value.isSecret;
+        } else if (props[key].type === "integer") {
+          props[key].min = value.minimum;
+          props[key].max = value.maximum;
+          if (value.unit) {
+            props[key].description += ` Unit: ${value.unit}.`;
+          }
+        } else if (props[key].type === "boolean") {
+          // Default all boolean properties to false
+          props[key].default = false;
+        }
+
+        const options = this.prepareOptions(value);
+        if (options) props[key].options = options;
+
+        const defaultValue = value.prefill ?? value.default;
+
+        if (defaultValue !== undefined) {
+          if (props[key].type !== "object") {
+            props[key].default = defaultValue;
+
+            if (props[key].type === "string[]" && value.editor === "requestListSources") {
+              props[key].default = defaultValue.map((request) => request.url);
             }
           }
+
+          props[key].description += ` Default: \`${JSON.stringify(defaultValue)}\``;
         }
-      } catch {
-        props.properties = {
-          type: "object",
-          label: "Properties",
-          description: "Properties to set for this Actor",
-        };
       }
-      if (this.runAsynchronously) {
-        props.outputRecordKey = {
-          type: "string",
-          label: "Output Record Key",
-          description: "Key of the record from run's default key-value store to be returned in the response. By default, it is OUTPUT.",
-          optional: true,
-        };
-      } else {
-        props.waitForFinish = {
-          type: "string",
-          label: "Wait For Finish",
-          description: "The maximum number of seconds the server waits for the run to finish. By default, it is 0, the maximum value is 60. If the build finishes in time then the returned run object will have a terminal status (e.g. SUCCEEDED), otherwise it will have a transitional status (e.g. RUNNING).",
-          optional: true,
-        };
-      }
+    } catch (e) {
+      props.properties = {
+        type: "object",
+        label: "Properties",
+        description: e.message || "Schema not available, showing fallback.",
+      };
     }
+
+    if (!this.runAsynchronously) {
+      props.outputRecordKey = {
+        type: "string",
+        label: "Output Record Key",
+        description:
+                  "Key of the record from the run's default key-value store to return. Default is `OUTPUT`.",
+        optional: true,
+        default: "OUTPUT",
+      };
+    }
+
     if (this.webhook) {
       props.eventTypes = {
         type: "string[]",
         label: "Event Types",
         description: "The types of events to send to the webhook",
-        options: EVENT_TYPES,
+        options: Object.values(WEBHOOK_EVENT_TYPES),
       };
     }
+
     return props;
   },
   async run({ $ }) {
     const {
-      getType,
-      getSchema,
-      prepareOptions,
-      setValue,
-      prepareData,
       apify,
       actorId,
-      buildId,
-      properties,
+      buildTag,
       runAsynchronously,
       outputRecordKey,
       timeout,
       memory,
       maxItems,
       maxTotalChargeUsd,
-      waitForFinish,
       webhook,
       eventTypes,
       ...data
     } = this;
 
-    const fn = runAsynchronously
-      ? apify.runActorAsynchronously
-      : apify.runActor;
-
-    const response = await fn({
+    // --- Validation step ---
+    const actorDetails = await apify.getActor({
       actorId,
-      data: properties
-        ? parseObject(properties)
-        : await prepareData(data),
-      params: {
-        outputRecordKey,
-        timeout,
-        memory,
-        maxItems,
-        maxTotalChargeUsd,
-        waitForFinish,
-        webhooks: webhook
-          ? btoa(JSON.stringify([
-            {
-              eventTypes,
-              requestUrl: webhook,
-            },
-          ]))
-          : undefined,
-      },
     });
-    const summary = this.runAsynchronously
-      ? `Successfully started Actor run with ID: ${response.data.id}`
-      : `Successfully ran Actor with ID: ${this.actorId}`;
-    $.export("$summary", `${summary}`);
-    return response;
+
+    if (!actorDetails) {
+      throw new Error(`Actor with ID "${actorId}" does not exist.`);
+    }
+
+    if (!actorDetails.stats?.totalBuilds || actorDetails.stats.totalBuilds === 0) {
+      throw new Error(
+        `Actor "${actorDetails.title || actorDetails.name}" has no builds. Please build it first before running.`,
+      );
+    }
+
+    if (buildTag) {
+      const taggedBuilds = actorDetails.taggedBuilds || {};
+      if (!taggedBuilds[buildTag]) {
+        throw new Error(
+          `Build with tag "${buildTag}" was not found for actor "${actorDetails.title || actorDetails.name}".`,
+        );
+      }
+    }
+
+    // Prepare input
+    const rawInput = this.properties
+      ? parseObject(this.properties)
+      : data;
+    const input = await this.prepareData(rawInput);
+
+    // Build params safely
+    const params = {
+      ...(buildTag && {
+        build: buildTag,
+      }),
+      ...(timeout && {
+        timeout: Number(timeout),
+      }),
+      ...(memory && {
+        memory: Number(memory),
+      }),
+      ...(maxItems && {
+        maxItems: Number(maxItems),
+      }),
+      ...(maxTotalChargeUsd && {
+        maxTotalChargeUsd: Number(maxTotalChargeUsd),
+      }),
+      ...(webhook && {
+        webhooks: [
+          {
+            eventTypes,
+            requestUrl: webhook,
+          },
+        ],
+      }),
+    };
+
+    let run;
+
+    if (runAsynchronously) {
+      // async run
+      run = await apify.runActorAsynchronously({
+        actorId,
+        data: input,
+        params,
+      });
+
+      $.export("$summary", `Successfully started Actor run with ID: ${run.id}`);
+      return run;
+    } else {
+      // sync run
+      run = await apify.runActor({
+        actorId,
+        input,
+        options: params,
+      });
+
+      // Fetch OUTPUT record manually
+      let output;
+      if (run.defaultKeyValueStoreId) {
+        const record = await apify
+          ._client()
+          .keyValueStore(run.defaultKeyValueStoreId)
+          .getRecord(outputRecordKey);
+
+        output = record?.value;
+      }
+
+      $.export(
+        "$summary",
+        `The run of an Actor with ID: ${actorId} has finished with status "${run.status}".`,
+      );
+
+      return {
+        run,
+        output,
+      };
+    }
   },
 };

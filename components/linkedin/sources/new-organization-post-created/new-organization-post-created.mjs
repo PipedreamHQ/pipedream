@@ -9,7 +9,7 @@ export default {
   name: "New Organization Post Created",
   description: "Emit new event when a new post is created by the organization. [See the documentation](https://learn.microsoft.com/en-us/linkedin/marketing/community-management/shares/posts-api?view=li-lms-2024-09&tabs=curl#find-posts-by-authors).",
   type: "source",
-  version: "0.0.3",
+  version: "0.0.5",
   dedupe: "unique",
   props: {
     ...common.props,

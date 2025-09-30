@@ -4,8 +4,8 @@ import lusha from "../../lusha.app.mjs";
 export default {
   key: "lusha-company-search",
   name: "Search Companies",
-  description: "Search for companies using various filters. [See the documentation](https://www.lusha.com/docs/#contactcompany-search)",
-  version: "0.0.1",
+  description: "Search for companies using various filters. [See the documentation](https://docs.lusha.com/apis/openapi/company-search-and-enrich/searchprospectingcompanies)",
+  version: "0.0.2",
   type: "action",
   props: {
     lusha,
@@ -14,54 +14,48 @@ export default {
         lusha,
         "companyNames",
       ],
-      optional: true,
     },
     domains: {
       propDefinition: [
         lusha,
         "domains",
       ],
-      optional: true,
     },
     locations: {
       propDefinition: [
         lusha,
         "locations",
       ],
-      optional: true,
     },
     sizes: {
       propDefinition: [
         lusha,
         "sizes",
       ],
-      optional: true,
     },
     revenues: {
       propDefinition: [
         lusha,
         "revenues",
       ],
-      optional: true,
     },
     sicCodes: {
       propDefinition: [
         lusha,
         "sicCodes",
       ],
-      optional: true,
     },
     naicsCodes: {
       propDefinition: [
         lusha,
         "naicsCodes",
       ],
-      optional: true,
     },
     limit: {
-      type: "string",
-      label: "Limit",
-      description: "The maximum number of results to return. **This feature is used to avoid timeouts due to very long returns.**",
+      propDefinition: [
+        lusha,
+        "limit",
+      ],
     },
   },
   async run({ $ }) {

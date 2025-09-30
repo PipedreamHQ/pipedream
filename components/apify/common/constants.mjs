@@ -1,11 +1,2 @@
-export const ACTOR_ID = "aYG0l9s7dbB7j3gbS";
+export const WCC_ACTOR_ID = "aYG0l9s7dbB7j3gbS";
 export const LIMIT = 100;
-
-export const EVENT_TYPES = [
-  "ACTOR.RUN.CREATED",
-  "ACTOR.RUN.SUCCEEDED",
-  "ACTOR.RUN.FAILED",
-  "ACTOR.RUN.ABORTED",
-  "ACTOR.RUN.TIMED_OUT",
-  "ACTOR.RUN.RESURRECTED",
-];

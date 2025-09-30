@@ -5,7 +5,7 @@ export default {
   name: "List Pages",
   description:
     "Retrieves a list of site pages. [See the documentation](https://developers.hubspot.com/docs/reference/api/cms/pages)",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     hubspot,
@@ -79,7 +79,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const results = [];
+    const pages = [];
     let hasMore,
       count = 0;
 
@@ -105,7 +105,7 @@ export default {
         break;
       }
       for (const item of results) {
-        results.push(item);
+        pages.push(item);
         count++;
         if (count >= this.maxResults) {
           break;
@@ -117,10 +117,10 @@ export default {
 
     $.export(
       "$summary",
-      `Found ${results.length} page${results.length === 1
+      `Found ${pages.length} page${pages.length === 1
         ? ""
         : "s"}`,
     );
-    return results;
+    return pages;
   },
 };
