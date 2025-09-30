@@ -1,13 +1,19 @@
 import teamleaderFocus from "../../teamleader_focus.app.mjs";
 
 export default {
-  key: "teamleader_focus-create-contact",
-  name: "Create Contact",
-  description: "Add a new contact. [See the documentation](https://developer.teamleader.eu/#/reference/crm/contacts/contacts.add)",
-  version: "0.0.3",
+  key: "teamleader_focus-update-contact",
+  name: "Update Contact",
+  description: "Update a contact. [See the documentation](https://developer.focus.teamleader.eu/docs/api/contacts-update)",
+  version: "0.0.1",
   type: "action",
   props: {
     teamleaderFocus,
+    contactId: {
+      propDefinition: [
+        teamleaderFocus,
+        "contact",
+      ],
+    },
     firstName: {
       propDefinition: [
         teamleaderFocus,
@@ -19,6 +25,7 @@ export default {
         teamleaderFocus,
         "lastName",
       ],
+      optional: true,
     },
     email: {
       propDefinition: [
@@ -77,6 +84,7 @@ export default {
   },
   async run({ $ }) {
     const data = {
+      id: this.contactId,
       first_name: this.firstName,
       last_name: this.lastName,
       website: this.website,
@@ -87,6 +95,7 @@ export default {
       tags: this.tags,
       marketing_mails_consent: this.marketingMailsConsent,
     };
+
     if (this.email) {
       data.emails = [
         {
@@ -104,14 +113,12 @@ export default {
       ];
     }
 
-    const response = await this.teamleaderFocus.createContact({
+    const response = await this.teamleaderFocus.updateContact({
       data,
       $,
     });
 
-    if (response) {
-      $.export("$summary", `Successfully created contact with ID ${response.data.id}`);
-    }
+    $.export("$summary", `Successfully updated contact with ID ${this.contactId}`);
 
     return response;
   },
