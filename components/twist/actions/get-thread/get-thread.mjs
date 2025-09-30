@@ -5,7 +5,12 @@ export default {
   key: "twist-get-thread",
   name: "Get Thread",
   description: "Gets a thread object by id.",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     twist: {

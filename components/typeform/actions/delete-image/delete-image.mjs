@@ -5,7 +5,12 @@ export default {
   name: "Delete an Image",
   description: "Deletes an image from your Typeform account. [See the docs here](https://developer.typeform.com/create/reference/delete-image/)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     typeform,
     imageId: {

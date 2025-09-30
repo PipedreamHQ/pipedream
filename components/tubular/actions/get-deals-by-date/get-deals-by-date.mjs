@@ -4,7 +4,12 @@ export default {
   key: "tubular-get-deals-by-date",
   name: "Get Deals By Date",
   description: "Get deals ordered by date of creation. [See the documentation](https://developer.tubular.io/examples/#get-deals-ordered-by-date-of-creation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

@@ -6,7 +6,12 @@ export default {
   key: "trust-upload-video",
   name: "Upload Video",
   description: "Upload a video to the Trust platform. [See the documentation](https://api-docs.usetrust.io/uploads-a-video-to-be-used-for-testimonials).",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

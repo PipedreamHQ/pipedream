@@ -5,7 +5,12 @@ export default {
   key: "twilio-list-transcripts",
   name: "List Transcripts",
   description: "Return a list of transcripts. [See the documentation](https://www.twilio.com/docs/voice/intelligence/api/transcript-resource#fetch-multiple-transcripts)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     twilio,

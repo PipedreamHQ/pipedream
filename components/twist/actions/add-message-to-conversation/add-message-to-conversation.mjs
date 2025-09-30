@@ -5,7 +5,12 @@ export default {
   key: "twist-add-message-to-conversation",
   name: "Add Message To Conversation",
   description: "Adds a message to an existing conversation.",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     twist: {

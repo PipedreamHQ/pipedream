@@ -4,7 +4,12 @@ export default {
   key: "turbot_pipes-create-organization",
   name: "Create Organization",
   description: "Creates a new organization in Turbot Pipes. [See the documentation](https://redocly.github.io/redoc/?url=https://pipes.turbot.com/api/latest/docs/openapi.json&nocors#tag/Orgs/operation/org_create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

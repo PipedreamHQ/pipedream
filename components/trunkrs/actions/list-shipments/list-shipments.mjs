@@ -5,7 +5,12 @@ export default {
   key: "trunkrs-list-shipments",
   name: "List Shipments",
   description: "List all shipments. [See the documentation](https://docs.trunkrs.nl/docs/v2-api-documentation/b425314ab6c67-list-shipments)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     trunkrs,

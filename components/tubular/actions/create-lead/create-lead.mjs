@@ -4,7 +4,12 @@ export default {
   key: "tubular-create-lead",
   name: "Create Lead",
   description: "Create lead and return its ID. [See the documentation](https://developer.tubular.io/examples/#create-lead-and-return-its-id)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -7,7 +7,12 @@ export default {
   key: "tricentis_qtest-update-requirement",
   name: "Update Requirement",
   description: "Update a requirement. [See the documentation](https://documentation.tricentis.com/qtest/od/en/content/apis/apis/requirement_apis.htm#UpdateARequirement)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     tricentisQtest,

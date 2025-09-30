@@ -4,7 +4,12 @@ export default {
   key: "turso-create-database",
   name: "Create Database",
   description: "Creates a new database in a group for the organization or user. [See the documentation](https://docs.turso.tech/api-reference/databases/create)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

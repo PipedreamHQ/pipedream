@@ -4,7 +4,12 @@ export default {
   key: "trustpilot-fetch-product-reviews",
   name: "Fetch Product Reviews",
   description: "Retrieves a list of product reviews for a specific business unit. See documentation [here](https://developers.trustpilot.com/product-reviews-api/#get-private-product-reviews)",
-  version: "1.0.0",
+  version: "1.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     trustpilot,

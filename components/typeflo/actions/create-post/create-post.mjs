@@ -4,7 +4,12 @@ export default {
   key: "typeflo-create-post",
   name: "Create Post",
   description: "Creates and publish posts in yout blog. [See the documentation](https://typeflo.io/knowledge-base/headless-cms-admin-api-documentation#1-posts)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

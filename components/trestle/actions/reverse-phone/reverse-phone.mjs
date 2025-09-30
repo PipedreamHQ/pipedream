@@ -4,7 +4,12 @@ export default {
   key: "trestle-reverse-phone",
   name: "Reverse Phone",
   description: "Offers comprehensive verification and enrichment of phone numbers. [See the documentation](https://trestle-api.redoc.ly/Current/tag/Reverse-Phone-API#operation/getPhone)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

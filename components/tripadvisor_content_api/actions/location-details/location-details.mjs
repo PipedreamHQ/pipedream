@@ -4,7 +4,12 @@ export default {
   key: "tripadvisor_content_api-location-details",
   name: "Get Location Details",
   description: "Returns comprehensive information about a location. [See the documentation](https://tripadvisor-content-api.readme.io/reference/getlocationdetails)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

@@ -7,7 +7,12 @@ export default {
   key: "tricentis_qtest-submit-defect",
   name: "Submit Defect",
   description: "Submit a new defect. [See the documentation](https://documentation.tricentis.com/qtest/od/en/content/apis/apis/defect_apis.htm#SubmitaDefect)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     tricentisQtest,

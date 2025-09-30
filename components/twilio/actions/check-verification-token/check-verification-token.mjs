@@ -6,7 +6,12 @@ export default {
   name: "Check Verification Token",
   description: "Check if user-provided token is correct. [See the documentation](https://www.twilio.com/docs/verify/api)",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     serviceSid: {

@@ -4,7 +4,12 @@ export default {
   key: "trust-update-testimonial",
   name: "Update Testimonial",
   description: "Update an existing testimonial within the Trust platform. [See the documentation](https://api-docs.usetrust.io/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

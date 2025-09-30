@@ -4,7 +4,12 @@ export default {
   key: "twin-browse",
   name: "Browse",
   description: "Browse the internet with an AI web navigation agent that can find information for you. [See the documentation](https://docs.twin.so/api-reference/endpoint/browse)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     twin,

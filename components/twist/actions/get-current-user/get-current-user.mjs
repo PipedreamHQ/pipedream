@@ -5,7 +5,12 @@ export default {
   key: "twist-get-current-user",
   name: "Get Current User",
   description: "Gets the associated user for access token used in the request.",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     twist: {

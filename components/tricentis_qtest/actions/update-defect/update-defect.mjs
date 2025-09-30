@@ -7,7 +7,12 @@ export default {
   key: "tricentis_qtest-update-defect",
   name: "Update Defect",
   description: "Update a defect. [See the documentation](https://documentation.tricentis.com/qtest/od/en/content/apis/apis/defect_apis.htm#UpdateADefect)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     tricentisQtest,

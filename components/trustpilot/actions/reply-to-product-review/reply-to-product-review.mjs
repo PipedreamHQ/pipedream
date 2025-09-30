@@ -11,7 +11,12 @@ export default {
   key: "trustpilot-reply-to-product-review",
   name: "Reply to Product Review",
   description: "Reply to a product review by creating a conversation and posting a comment. This follows the proper flow: fetch review -> create conversation if needed -> post comment. [See the documentation](https://developers.trustpilot.com/product-reviews-api#reply-to-product-review)",
-  version: "0.1.0",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     trustpilot,
