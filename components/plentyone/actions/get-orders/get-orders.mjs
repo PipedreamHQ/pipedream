@@ -10,7 +10,12 @@ export default {
   key: "plentyone-get-orders",
   name: "Get Orders",
   description: "Retrieves a list of orders from PlentyONE. [See the documentation](https://developers.plentymarkets.com/en-gb/plentymarkets-rest-api/index.html#/Order/get_rest_orders)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     plentyone,

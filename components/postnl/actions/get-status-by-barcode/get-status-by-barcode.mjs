@@ -5,7 +5,12 @@ export default {
   name: "Get Status By Barcode",
   description: "Retrieve the status of a shipment using its barcode. [See the documentation](https://developer.postnl.nl/docs/#/http/api-endpoints/send-track/shippingstatus/get-status-by-barcode)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     barcode: {

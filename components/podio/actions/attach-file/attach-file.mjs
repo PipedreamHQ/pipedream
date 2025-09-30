@@ -4,7 +4,12 @@ export default {
   key: "podio-attach-file",
   name: "Attach File",
   description: "Attaches an uploaded file to the given object. [See the documentation](https://developers.podio.com/doc/files/attach-file-22518)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

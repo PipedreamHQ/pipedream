@@ -4,7 +4,12 @@ export default {
   key: "playwright-get-page-title",
   name: "Get Page Title",
   description: "Returns the page's title. [See the documentation](https://playwright.dev/docs/api/class-page#page-title)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     playwright,

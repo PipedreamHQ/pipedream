@@ -4,7 +4,12 @@ export default {
   name: "Find Row",
   key: "postgresql-find-row",
   description: "Finds a row in a table via a lookup column. [See the documentation](https://node-postgres.com/features/queries)",
-  version: "2.0.8",
+  version: "2.0.9",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     postgresql,

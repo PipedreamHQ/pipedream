@@ -4,7 +4,12 @@ export default {
   key: "poof-create-deposit-address",
   name: "Create Deposit Address",
   description: "Creates a new deposit address in Poof. [See the documentation](https://docs.poof.io/reference/create_address)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     poof,

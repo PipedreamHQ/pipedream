@@ -4,7 +4,12 @@ export default {
   key: "polygonscan-retrieve-transaction-details",
   name: "Retrieve Transaction Details",
   description: "Fetches the details of a specific transaction by its transaction hash. [See the documentation](https://docs.polygonscan.com/api-endpoints/stats)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     polygonscan,

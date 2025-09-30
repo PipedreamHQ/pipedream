@@ -4,7 +4,12 @@ export default {
   key: "postmark-get-browser-usage",
   name: "Get Browser Usage",
   description: "Gets an overview of the browsers used to open links in your emails. This is only recorded when Link Tracking is enabled for that email. [See the documentation](https://postmarkapp.com/developer/api/stats-api#browser-usage)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     postmark,

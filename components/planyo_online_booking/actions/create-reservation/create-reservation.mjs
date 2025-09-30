@@ -5,7 +5,12 @@ export default {
   name: "Create Reservation",
   key: "planyo_online_booking-create-reservation",
   description: "Enters a new reservation into the system. [See Docs](https://www.planyo.com/api.php?topic=make_reservation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     planyo,

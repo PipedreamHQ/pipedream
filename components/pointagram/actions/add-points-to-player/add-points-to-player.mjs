@@ -5,7 +5,12 @@ export default {
   key: "pointagram-add-points-to-player",
   name: "Add Points to Player",
   description: "Add points to a player. [See docs here](https://www.pointagram.com/points-score-series/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     playerId: {

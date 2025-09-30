@@ -5,7 +5,12 @@ export default {
   name: "Update Row",
   key: "postgresql-update-row",
   description: "Updates an existing row. [See the documentation](https://node-postgres.com/features/queries)",
-  version: "2.0.8",
+  version: "2.0.9",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     postgresql,

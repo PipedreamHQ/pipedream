@@ -4,7 +4,12 @@ export default {
   key: "postman-update-variable",
   name: "Update Environment Variable",
   description: "Updates a specific environment variable in Postman. [See the documentation](https://learning.postman.com/docs/developer/postman-api/intro-api/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     postman,

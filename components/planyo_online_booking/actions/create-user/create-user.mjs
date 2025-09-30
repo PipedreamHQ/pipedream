@@ -4,7 +4,12 @@ export default {
   name: "Create User",
   key: "planyo_online_booking-create-user",
   description: "Inserts a new user associated with your Planyo site. [See Docs](https://www.planyo.com/api.php?topic=add_user)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     planyo,

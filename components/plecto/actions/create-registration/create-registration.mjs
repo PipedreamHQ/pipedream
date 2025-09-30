@@ -4,7 +4,12 @@ export default {
   key: "plecto-create-registration",
   name: "Create Registration",
   description: "Creates a new registration in Plecto. [See the documentation](https://docs.plecto.com/kb/guide/en/overview-of-plecto-api-endpoints-Qvm3c3ucy1/Steps/3879885,3896454)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

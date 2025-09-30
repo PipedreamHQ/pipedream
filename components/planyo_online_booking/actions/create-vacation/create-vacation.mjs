@@ -4,7 +4,12 @@ export default {
   name: "Create Vacation",
   key: "planyo_online_booking-create-vacation",
   description: "Adds a new one-time vacation for given resource or entire Planyo site. [See Docs](https://www.planyo.com/api.php?topic=add_vacation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     planyo,

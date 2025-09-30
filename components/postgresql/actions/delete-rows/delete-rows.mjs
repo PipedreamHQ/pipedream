@@ -4,7 +4,12 @@ export default {
   name: "Delete Row(s)",
   key: "postgresql-delete-rows",
   description: "Deletes a row or rows from a table. [See the documentation](https://node-postgres.com/features/queries)",
-  version: "2.0.8",
+  version: "2.0.9",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     postgresql,

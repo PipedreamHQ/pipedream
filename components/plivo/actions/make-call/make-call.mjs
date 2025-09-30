@@ -6,7 +6,12 @@ export default {
   name: "Make A Call",
   description: "Makes a call. [See the docs](https://www.plivo.com/docs/voice/api/call#make-a-call).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     from: {

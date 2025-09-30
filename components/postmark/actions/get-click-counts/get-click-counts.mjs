@@ -4,7 +4,12 @@ export default {
   key: "postmark-get-click-counts",
   name: "Get Click Counts",
   description: "Gets total counts of unique links that were clicked. [See the documentation](https://postmarkapp.com/developer/api/stats-api#click-counts)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     postmark,

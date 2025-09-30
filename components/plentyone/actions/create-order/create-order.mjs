@@ -10,7 +10,12 @@ export default {
   key: "plentyone-create-order",
   name: "Create Order",
   description: "Creates a new order in PlentyONE. [See the documentation](https://developers.plentymarkets.com/en-gb/plentymarkets-rest-api/index.html#/Order/post_rest_orders)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     plentyone,

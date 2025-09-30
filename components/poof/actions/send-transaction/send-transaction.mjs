@@ -4,7 +4,12 @@ export default {
   key: "poof-send-transaction",
   name: "Send Transaction",
   description: "Sends a transaction in Poof. [See the documentation](https://docs.poof.io/reference/sendtransaction)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     poof,

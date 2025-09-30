@@ -5,7 +5,12 @@ export default {
   name: "Get Status By Reference",
   description: "Retrieve the status of a shipment using a reference number. [See the documentation](https://developer.postnl.nl/docs/#/http/api-endpoints/send-track/shippingstatus/get-status-by-reference)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     customerCode: {

@@ -4,7 +4,12 @@ export default {
   key: "postman-create-environment",
   name: "Create Environment",
   description: "Creates a new environment in Postman. [See the documentation](https://learning.postman.com/docs/developer/postman-api/intro-api/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     postman,
