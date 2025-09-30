@@ -51,13 +51,12 @@ export default {
     });
     const attachment = attachments.find(({ id }) => id === this.attachmentId);
 
-    const resppnse = await axios($, {
+    const response = await axios($, {
       url: attachment.attachment_url,
       responseType: "arraybuffer",
     });
 
-    const rawcontent = resppnse.toString("base64");
-    const buffer = Buffer.from(rawcontent, "base64");
+    const buffer = Buffer.from(response);
     const downloadedFilepath = `/tmp/${attachment.name}`;
     fs.writeFileSync(downloadedFilepath, buffer);
 
