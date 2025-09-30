@@ -4,7 +4,12 @@ export default {
   key: "commpeak-request-bulk-number-lookup",
   name: "Request Bulk Number Lookup",
   description: "Perform a bulk number lookup, to later fetch the results when the operation is finished. [See the documentation](https://lookup.api-docs.commpeak.com/?_gl=1*50xs02*_gcl_au*MTMxMzgzMzA3Ny4xNjk3NTY0NDE3#cda1e4c3-963e-4d9e-b9a7-16b6616bdda5)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     commpeak,

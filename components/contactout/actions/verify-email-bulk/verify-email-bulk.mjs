@@ -5,7 +5,12 @@ export default {
   key: "contactout-verify-email-bulk",
   name: "Verify Email Bulk",
   description: "Verify the deliverability for a batch of up to 1000 email addresses in bulk. [See the documentation](https://api.contactout.com/#bulk).",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

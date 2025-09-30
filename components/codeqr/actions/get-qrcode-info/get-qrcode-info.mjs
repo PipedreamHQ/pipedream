@@ -6,7 +6,12 @@ export default {
   name: "Get QR Code Info",
   description:
     "Retrieves QR Code info by qrcodeId, externalId, domain, or key via query string. [See the documentation](https://codeqr.mintlify.app/api-reference/endpoint/retrieve-a-qrcode)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     codeqr,

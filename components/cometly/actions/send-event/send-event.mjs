@@ -6,7 +6,12 @@ export default {
   name: "Send Event",
   description:
     "Sends an event to the Cometly API. [See the documentation]https://developers.cometly.com/#endpoint-advanced-method)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     cometly,

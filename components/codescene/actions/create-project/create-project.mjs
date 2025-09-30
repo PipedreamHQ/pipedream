@@ -4,7 +4,12 @@ export default {
   key: "codescene-create-project",
   name: "Create a New Project",
   description: "Creates a new project in CodeScene. [See the documentation](https://codescene.io/docs/integrations/public-api.html?highlight=api#new-project)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     codescene,

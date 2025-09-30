@@ -4,7 +4,12 @@ export default {
   key: "copper-associate-to-project",
   name: "Associate to Project",
   description: "Relates an existing project with an existing CRM object. [See the documentation](https://developer.copper.com/related-items/relate-an-existing-record-to-an-entity.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     copper,

@@ -4,7 +4,12 @@ export default {
   key: "companyhub-create-company",
   name: "Create Company",
   description: "Creates a new company. [See the documentation](https://companyhub.com/docs/api-documentation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     companyhub,

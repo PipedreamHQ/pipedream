@@ -3,7 +3,12 @@ import codeqNaturalLanguageProcessingApi from "../../codeq_natural_language_proc
 export default {
   key: "codeq_natural_language_processing_api-check-similarity",
   name: "Check Similarity",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Receives two texts and returns a JSON object containing the text similarity score. [See the docs here](https://api.codeq.com/api)",
   type: "action",
   props: {

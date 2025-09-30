@@ -4,7 +4,12 @@ export default {
   key: "convolo_ai-create-call",
   name: "Create Call",
   description: "Initiates a phone call to a lead and establishes the connection with the first available agent. [See the documentation](https://help.convolo.ai/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     convoloAi,

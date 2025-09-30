@@ -6,7 +6,12 @@ export default {
   key: "connecteam-create-shift",
   name: "Create Shift",
   description: "Creates a new shift in the scheduler. [See the documentation](https://developer.connecteam.com/reference/create_shifts_scheduler_v1_schedulers__schedulerid__shifts_post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     connecteam,

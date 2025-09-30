@@ -5,7 +5,12 @@ export default {
   key: "contentstack-create-entry",
   name: "Create Entry",
   description: "Creates a new entry in Contentstack. [See the documentation](https://www.contentstack.com/docs/developers/apis/content-management-api#create-an-entry).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,
