@@ -4,7 +4,12 @@ export default {
   key: "leap-upload-image-samples",
   name: "Upload Image Samples",
   description: "Uploads image samples to a custom model. [See the documentation](https://docs.tryleap.ai/reference/samplescontroller_createurl)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     leap,

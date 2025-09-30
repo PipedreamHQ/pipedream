@@ -4,7 +4,12 @@ export default {
   key: "letzai-create-new-image",
   name: "Create New Image",
   description: "Creates a new image generation task from a text prompt in LetzAI. [See the documentation](https://api.letz.ai/doc#/images/images_create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     letzai,

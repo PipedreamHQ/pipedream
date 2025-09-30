@@ -4,7 +4,12 @@ export default {
   name: "Send Notification Message",
   description: "Sends notifications to users or groups from LINE Notify. [See docs](https://notify-bot.line.me/doc/en/)",
   key: "line-send-notification-message",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     line,

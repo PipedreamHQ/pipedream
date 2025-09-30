@@ -4,7 +4,12 @@ export default {
   key: "lemlist-delete-email-from-unsubscribes",
   name: "Delete An Email From Unsubscribes",
   description: "This action deletes a lead in the unsubscribed list. [See the docs here](https://developer.lemlist.com/#delete-an-email-address-from-the-unsubscribes)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     lemlist,

@@ -4,7 +4,12 @@ export default {
   key: "leap-create-model",
   name: "Create Model",
   description: "Creates a new custom model entity, which serves as a container that can be trained on custom images. [See the documentation](https://docs.tryleap.ai/reference/createmodel)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     leap,

@@ -4,7 +4,12 @@ export default {
   key: "leaddyno-create-affiliate",
   name: "Create Affiliate",
   description: "Creates a new affiliate in LeadDyno. [See the documentation](https://app.theneo.io/leaddyno/leaddyno-rest-api/affiliates/post-affiliates)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     leaddyno,

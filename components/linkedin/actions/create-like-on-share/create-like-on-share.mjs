@@ -4,7 +4,12 @@ export default {
   key: "linkedin-create-like-on-share",
   name: "Create Like On Share",
   description: "Creates a like on a share. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/network-update-social-actions#create-a-like-on-a-share)",
-  version: "0.1.10",
+  version: "0.1.11",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     linkedin,

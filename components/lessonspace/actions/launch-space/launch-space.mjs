@@ -4,7 +4,12 @@ export default {
   key: "lessonspace-launch-space",
   name: "Launch Space",
   description: "Launch a unified space on Lessonspace. [See the documentation](https://api.thelessonspace.com/v2/docs/#tag/Spaces-greater-Launch)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

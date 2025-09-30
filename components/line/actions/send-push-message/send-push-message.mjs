@@ -4,7 +4,12 @@ export default {
   name: "Send Push Message",
   description: "Sends a push message to a user, group, or room at any time. [See docs](https://developers.line.biz/en/reference/messaging-api/#send-push-message)",
   key: "line-send-push-message",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     line,

@@ -6,7 +6,12 @@ export default {
   key: "letzai-create-image-edit",
   name: "Create Image Edit",
   description: "Creates an image edit task that modifies an existing image using inpainting or outpainting in LetzAI. [See the documentation](https://api.letz.ai/doc#/image-edit/image_edit_create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     letzai,

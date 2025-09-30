@@ -4,7 +4,12 @@ export default {
   key: "leonardo_ai-upscale-image",
   name: "Upscale Image",
   description: "Creates a high-resolution upscale of the provided image using Leonardo AI's upscale API. [See the documentation](https://docs.leonardo.ai/reference/createvariationupscale)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

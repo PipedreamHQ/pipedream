@@ -4,7 +4,12 @@ export default {
   key: "limitless_ai-get-lifelog",
   name: "Get Lifelog",
   description: "Returns a specific lifelog entry by ID. [See the documentation](https://www.limitless.ai/developers#get-lifelog)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

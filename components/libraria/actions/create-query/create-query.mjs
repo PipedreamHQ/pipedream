@@ -2,7 +2,12 @@ import app from "../../libraria.app.mjs";
 
 export default {
   name: "Create Query",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "libraria-create-query",
   description: "Creates a query. [See the documentation](https://docs.libraria.dev/api-reference/library/create-query)",
   type: "action",

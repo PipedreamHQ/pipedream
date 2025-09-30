@@ -6,7 +6,12 @@ export default {
   key: "launchnotes-create-announcement",
   name: "Create Announcement",
   description: "Generates a draft announcement for the LaunchNotes project. [See the documentation](https://developer.launchnotes.com/index.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     launchnotes,

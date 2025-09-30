@@ -5,7 +5,12 @@ export default {
   key: "leaddyno-create-purchase",
   name: "Create Purchase",
   description: "Creates a new purchase in LeadDyno. [See the documentation](https://app.theneo.io/leaddyno/leaddyno-rest-api/purchases/post-purchases)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     leaddyno,

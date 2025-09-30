@@ -4,7 +4,12 @@ export default {
   key: "linkedin-get-organization-access-control",
   name: "Gets Organization Access Control",
   description: "Gets a selected organization's access control information. [See the documentation](https://learn.microsoft.com/en-us/linkedin/marketing/community-management/organizations/organization-access-control-by-role?view=li-lms-2025-01&tabs=http#find-organization-access-control)",
-  version: "0.2.4",
+  version: "0.2.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     linkedin,

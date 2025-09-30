@@ -5,7 +5,12 @@ export default {
   key: "launchdarkly-list-environments",
   name: "List Environments",
   description: "List all environments. [See the documentation](https://launchdarkly.com/docs/api/environments/get-environments-by-project).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

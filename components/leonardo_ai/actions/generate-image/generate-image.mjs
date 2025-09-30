@@ -4,7 +4,12 @@ export default {
   key: "leonardo_ai-generate-image",
   name: "Generate Image",
   description: "Generates new images using Leonardo AI's image generation API.  [See the documentation](https://docs.leonardo.ai/reference/creategeneration)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,
