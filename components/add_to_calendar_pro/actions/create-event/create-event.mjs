@@ -5,7 +5,12 @@ export default {
   key: "add_to_calendar_pro-create-event",
   name: "Create Event",
   description: "Create an event in a group. [See the documentation](https://docs.add-to-calendar-pro.com/api/events#add-an-event)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     addToCalendarPro,

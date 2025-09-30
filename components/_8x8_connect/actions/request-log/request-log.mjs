@@ -4,7 +4,12 @@ export default {
   key: "_8x8_connect-request-log",
   name: "Request Log",
   description: "Request an SMS log file. [See the documentation](https://developer.8x8.com/connect/reference/start-log-export-job)",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

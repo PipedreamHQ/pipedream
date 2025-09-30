@@ -5,7 +5,12 @@ export default {
   key: "accuweather-get-hourly-forecast",
   name: "Get Hourly Forecast",
   description: "Retrieve hourly weather forecast (1-12 hours) for a specific location with detailed weather data. [See the documentation](https://developer.accuweather.com/accuweather-forecast-api/apis)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     accuweather,

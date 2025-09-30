@@ -5,7 +5,12 @@ export default {
   key: "acymailing-add-update-user",
   name: "Add or Update User",
   description: "Creates a new user or updates an existing user in AcyMailing. If the user exists, will update the user's data with provided information. [See the documentation](https://docs.acymailing.com/v/rest-api/users#create-or-update-a-user)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     acymailing,

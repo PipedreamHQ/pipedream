@@ -4,7 +4,12 @@ export default {
   key: "add_to_calendar_pro-update-landing-page-template",
   name: "Update Landing Page Template",
   description: "Update a landing page template. [See the documentation](https://docs.add-to-calendar-pro.com/api/landingpages#update-a-landing-page-template)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     addToCalendarPro,

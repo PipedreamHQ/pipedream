@@ -6,7 +6,12 @@ export default {
   key: "_2markdown-pdf-to-markdown",
   name: "PDF to Markdown",
   description: "Convert a PDF document to Markdown format. [See the documentation](https://2markdown.com/docs#pdf2md)",
-  version: "0.1.0",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     _2markdown,
