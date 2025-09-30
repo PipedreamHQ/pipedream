@@ -4,7 +4,12 @@ export default {
   key: "documenterra-create-project-backup",
   name: "Create Project Backup",
   description: "Creates a backup of a project. [See the documentation](https://documenterra.ru/docs/user-manual/api-sozdaniye-rezervnoy-kopii-proyekta.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -4,7 +4,12 @@ export default {
   key: "dropboard-create-client",
   name: "Create Client",
   description: "Creates a new client within Dropboard. Note this is available only for recruiter plan users and may incur additional charges based on your organization's plan. [See the documentation](https://dropboard.readme.io/reference/clients-post)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     dropboard,

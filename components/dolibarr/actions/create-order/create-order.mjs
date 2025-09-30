@@ -5,7 +5,12 @@ export default {
   key: "dolibarr-create-order",
   name: "Create Order",
   description: "Create a new order in Dolibarr.",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     dolibarr,

@@ -6,7 +6,12 @@ export default {
   key: "drata-upload-background-check",
   name: "Upload Background Check",
   description: `Upload background check for a personnel. [See the documentation](${docsLink}).`,
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     drata,

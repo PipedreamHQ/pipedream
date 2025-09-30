@@ -7,7 +7,12 @@ export default {
   ...common,
   key: "dreamstudio-generate-image",
   name: "Generate Image",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Generate a new image from a text prompt. [See the documentation](https://platform.stability.ai/docs/api-reference#tag/v1generation/operation/textToImage)",
   type: "action",
   props: {
