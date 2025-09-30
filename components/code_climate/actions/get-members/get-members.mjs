@@ -4,7 +4,12 @@ export default {
   key: "code_climate-get-members",
   name: "Get Members",
   description: "Returns a list of active members for the specified organization. [See the documentation](https://developer.codeclimate.com/#get-members)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

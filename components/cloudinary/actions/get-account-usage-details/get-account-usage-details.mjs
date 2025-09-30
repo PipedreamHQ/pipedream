@@ -4,7 +4,12 @@ export default {
   key: "cloudinary-get-account-usage-details",
   name: "Get Account Usage Details",
   description: "Gets a report of your Cloudinary account usage details, including storage, credits, bandwidth, requests, number of resources, and add-on usage. [See the documentation](https://cloudinary.com/documentation/admin_api#usage)",
-  version: "0.2.0",
+  version: "0.2.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     cloudinary,

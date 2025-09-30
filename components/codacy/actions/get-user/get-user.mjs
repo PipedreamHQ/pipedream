@@ -4,7 +4,12 @@ export default {
   key: "codacy-get-user",
   name: "Get Authenticated User",
   description: "Get the authenticated user on Codacy. [See the documentation](https://api.codacy.com/api/api-docs#getuser)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

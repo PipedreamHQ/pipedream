@@ -4,7 +4,12 @@ export default {
   key: "cloudpress-export-from-connection",
   name: "Export From Connection",
   description: "Exports content from a connection in Cloudpress. [See the documentation](https://docs.usecloudpress.com/api-reference/endpoint/export/from-connection)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     cloudpress,

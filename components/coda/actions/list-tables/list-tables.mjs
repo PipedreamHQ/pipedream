@@ -4,7 +4,12 @@ export default {
   key: "coda-list-tables",
   name: "List Tables",
   description: "Lists tables in a doc. [See docs](https://coda.io/developers/apis/v1#operation/listTables)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     coda,

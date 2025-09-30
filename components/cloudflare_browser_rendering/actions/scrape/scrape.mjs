@@ -7,7 +7,12 @@ export default {
   key: "cloudflare_browser_rendering-scrape",
   name: "Scrape",
   description: "Get meta attributes like height, width, text and others of selected elements. [See the documentation](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/scrape/methods/create/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

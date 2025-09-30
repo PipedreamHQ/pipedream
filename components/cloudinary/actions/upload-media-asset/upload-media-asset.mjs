@@ -4,7 +4,12 @@ export default {
   key: "cloudinary-upload-media-asset",
   name: "Upload Media Asset",
   description: "Upload media assets such as images or videos. [See the documentation](https://cloudinary.com/documentation/image_upload_api_reference#upload_method)",
-  version: "1.0.1",
+  version: "1.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     cloudinary,

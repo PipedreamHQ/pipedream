@@ -4,7 +4,12 @@ export default {
   key: "code_climate-create-organization",
   name: "Create Organization",
   description: "Creates a new organization on code_climate. [See the documentation](https://developer.codeclimate.com/#create-organization)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,
