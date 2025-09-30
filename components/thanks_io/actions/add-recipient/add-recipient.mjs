@@ -4,7 +4,12 @@ export default {
   key: "thanks_io-add-recipient",
   name: "Add Recipient",
   description: "Add a recipient to a mailing list. [See the docs here](https://api-docs.thanks.io/#531c9124-66a9-459a-95c7-fb3d11aec6f8)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     thanksIo,

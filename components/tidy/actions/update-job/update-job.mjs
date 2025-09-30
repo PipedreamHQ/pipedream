@@ -4,7 +4,12 @@ export default {
   key: "tidy-update-job",
   name: "Update Job",
   description: "Updaets a job in Tidy. [See the documentation](https://help.tidy.com/update-a-job)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     tidy,

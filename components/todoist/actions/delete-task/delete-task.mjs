@@ -4,7 +4,12 @@ export default {
   key: "todoist-delete-task",
   name: "Delete Task",
   description: "Deletes a task. [See the docs here](https://developer.todoist.com/rest/v2/#delete-a-task)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     todoist,

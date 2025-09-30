@@ -4,7 +4,12 @@ export default {
   key: "tldr-summarize-text",
   name: "Summarize Text",
   description: "Reads in a piece of text and distills the main points. [See the documentation](https://runtldr.com/documentation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     tldr,

@@ -4,7 +4,12 @@ export default {
   key: "todoist-create-section",
   name: "Create Section",
   description: "Creates a section. [See the docs here](https://developer.todoist.com/rest/v2/#create-a-new-section)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     todoist,

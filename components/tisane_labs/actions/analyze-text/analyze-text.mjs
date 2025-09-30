@@ -4,7 +4,12 @@ export default {
   key: "tisane_labs-analyze-text",
   name: "Analyze Text",
   description: "Analyze text for language, entities, sentiment, and other insights. [See the documentation](https://docs.tisane.ai/#561264c5-6dbe-4bde-aba3-7defe837989f)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     tisaneLabs,

@@ -4,7 +4,12 @@ export default {
   key: "todoist-delete-label",
   name: "Delete Label",
   description: "Deletes a label. [See the docs here](https://developer.todoist.com/rest/v2/#delete-a-personal-label)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     todoist,

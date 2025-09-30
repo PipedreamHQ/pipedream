@@ -4,7 +4,12 @@ export default {
   key: "tisane_labs-detect-language",
   name: "Detect Language",
   description: "Detects languages used in the specified text fragment. [See the documentation](https://docs.tisane.ai/#bf10f7e0-6643-4d8e-861f-9fa158327170)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     tisaneLabs,

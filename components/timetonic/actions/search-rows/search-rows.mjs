@@ -5,7 +5,12 @@ export default {
   key: "timetonic-search-rows",
   name: "Search Rows",
   description: "Perform a search across table rows based on given criteria. [See the documentation](https://timetonic.com/live/apidoc/#api-Smart_table_operations-listTableRowsById)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     timetonic,

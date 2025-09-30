@@ -4,7 +4,12 @@ export default {
   key: "textline-create-update-contact",
   name: "Create Or Update Contact",
   description: "Create or update a contact in the Textline address book. [See the documentation](https://textline.docs.apiary.io/#reference/customers/customers/create-a-customer).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

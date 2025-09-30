@@ -5,7 +5,12 @@ export default {
   key: "the_bookie-find-contact",
   name: "Find Contacts",
   description: "Find a contact from the address book. [See the documentation](https://app.thebookie.nl/nl/help/article/api-documentatie/#contact_list)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     theBookie,

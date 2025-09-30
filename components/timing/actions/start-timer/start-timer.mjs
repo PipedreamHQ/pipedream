@@ -4,7 +4,12 @@ export default {
   key: "timing-start-timer",
   name: "Start Timer",
   description: "Starts a new ongoing timer as per the current timestamp or specified start date. [See the documentation](https://web.timingapp.com/docs/#time-entries-POSTapi-v1-time-entries-start)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     timing,

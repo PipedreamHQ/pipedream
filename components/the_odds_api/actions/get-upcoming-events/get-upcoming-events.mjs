@@ -3,7 +3,12 @@ import constants from "../../common/constants.mjs";
 
 export default {
   name: "Get Upcoming Events",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "the_odds_api-get-upcoming-events",
   description: "Get a list of upcoming sports events available on The Odds API. [See the documentation](https://the-odds-api.com/liveapi/guides/v4/#endpoint-2)",
   type: "action",

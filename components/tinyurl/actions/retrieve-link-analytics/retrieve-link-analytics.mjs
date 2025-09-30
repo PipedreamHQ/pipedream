@@ -5,7 +5,12 @@ export default {
   key: "tinyurl-retrieve-link-analytics",
   name: "Retrieve Link Analytics",
   description: "Retrieves analytics for a specific TinyURL link, including total clicks, geographic breakdowns, and device types. [See the documentation]()",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     tinyurl,

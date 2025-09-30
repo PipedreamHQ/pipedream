@@ -5,7 +5,12 @@ export default {
   key: "the_bookie-create-contact",
   name: "Create Contact",
   description: "Instantly creates a new contact in the address book. [See the documentation](https://app.thebookie.nl/nl/help/article/api-documentatie/#contact_create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     thebookie,

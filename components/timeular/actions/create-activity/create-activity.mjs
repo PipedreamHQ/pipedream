@@ -3,7 +3,12 @@ import timeular from "../../timeular.app.mjs";
 export default {
   key: "timeular-create-activity",
   name: "Create Activity",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Creates a new activity. [See the documentation](https://developers.timeular.com/#591f7ca0-7ec5-4c0e-b0d0-99b6967ce53e)",
   type: "action",
   props: {

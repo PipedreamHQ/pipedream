@@ -4,7 +4,12 @@ export default {
   key: "thinkific-create-user",
   name: "Create User",
   description: "Creates a new user on Thinkific. [See the documentation](https://developers.thinkific.com/api/api-documentation/#/Users/createUser)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     thinkific,

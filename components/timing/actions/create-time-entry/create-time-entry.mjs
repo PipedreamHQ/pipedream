@@ -4,7 +4,12 @@ export default {
   key: "timing-create-time-entry",
   name: "Create Time Entry",
   description: "Generates a new time entry in Timing app. [See the documentation](https://web.timingapp.com/docs/#time-entries-POSTapi-v1-time-entries)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     timing,

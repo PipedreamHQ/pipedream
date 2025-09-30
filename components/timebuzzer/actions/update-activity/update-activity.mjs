@@ -4,7 +4,12 @@ export default {
   key: "timebuzzer-update-activity",
   name: "Update Activity",
   description: "Modifies an existing activity in Timebuzzer. [See the documentation](https://my.timebuzzer.com/doc/#api-Activities-EditActivity)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     timebuzzer,

@@ -5,7 +5,12 @@ export default {
   key: "thanks_io-send-postcard-radius-search",
   name: "Send Postcard via Radius Search",
   description: "Sends a postcard to recipients within a radius. [See the docs here](https://api-docs.thanks.io/#a090f734-a32c-44c3-98f3-cbfbb2284142)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

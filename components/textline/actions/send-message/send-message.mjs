@@ -4,7 +4,12 @@ export default {
   key: "textline-send-message",
   name: "Send Message",
   description: "Send a new message directly to a contact. [See the documentation](https://textline.docs.apiary.io/#reference/conversations/group-conversations/message-a-phone-number).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

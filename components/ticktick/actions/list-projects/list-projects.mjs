@@ -4,7 +4,12 @@ export default {
   key: "ticktick-list-projects",
   name: "List Projects",
   description: "List all projects in a TickTick account. [See the documentation](https://developer.ticktick.com/api#/openapi?id=get-user-project)",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ticktick,

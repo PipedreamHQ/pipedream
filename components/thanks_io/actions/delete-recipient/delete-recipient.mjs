@@ -4,7 +4,12 @@ export default {
   key: "thanks_io-delete-recipient",
   name: "Delete Recipient",
   description: "Delete a recipient from a mailing list. [See the docs here](https://api-docs.thanks.io/#0d1ccb0e-c3a7-4096-a7e6-4eafafc64127)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     thanksIo,

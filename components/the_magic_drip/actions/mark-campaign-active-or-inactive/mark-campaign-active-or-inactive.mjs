@@ -4,7 +4,12 @@ export default {
   key: "the_magic_drip-mark-campaign-active-or-inactive",
   name: "Mark Campaign Active or Inactive",
   description: "Marks a campaign as active or inactive. [See the documentation](https://docs.themagicdrip.com/api-reference/endpoint/post-v1campaign-active)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

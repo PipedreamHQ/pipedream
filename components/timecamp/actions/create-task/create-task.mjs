@@ -3,7 +3,12 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Create Task",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "timecamp-create-task",
   description: "Creates a task. [See docs here](https://developer.timecamp.com/docs/timecamp-api/b3A6NTg5ODUxMA-create-new-task)",
   type: "action",

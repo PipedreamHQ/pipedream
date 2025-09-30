@@ -3,7 +3,12 @@ import timeular from "../../timeular.app.mjs";
 export default {
   key: "timeular-create-time-entry",
   name: "Create Time Entry",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Creates a new time entry. [See the documentation](https://developers.timeular.com/#e66a9e5a-1035-4522-a9fc-5df5a5a05ef7)",
   type: "action",
   props: {
