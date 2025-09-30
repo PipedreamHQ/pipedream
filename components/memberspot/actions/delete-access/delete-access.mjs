@@ -2,7 +2,12 @@ import app from "../../memberspot.app.mjs";
 
 export default {
   name: "Delete Access",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "memberspot-delete-access",
   description: "Delete access of a user by email. [See the documentation](https://api.memberspot.de/api/#/users/UsersApiController_setOfferState)",
   type: "action",

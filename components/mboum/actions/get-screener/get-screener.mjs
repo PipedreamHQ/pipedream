@@ -5,7 +5,12 @@ export default {
   key: "mboum-get-screener",
   name: "Get Stock Screener Results",
   description: "Screen stocks based on various financial criteria and filters. [See the documentation](https://docs.mboum.com/#stocks-options-small-stylecolor-f8f2f2background-fa256fpadding-1px-4pxborder-radius-3pxhotsmall-GETapi-v2-markets-screener)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     mboum,

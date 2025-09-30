@@ -5,7 +5,12 @@ export default {
   name: "Analyze Sentiment",
   description: "Determine the sentiment of the given text (positive, negative, or neutral). [See the documentation](https://app.metatext.ai/models/sentiment-analysis/inference-api).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     text: {

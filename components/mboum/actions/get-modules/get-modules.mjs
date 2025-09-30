@@ -5,7 +5,12 @@ export default {
   key: "mboum-get-modules",
   name: "Get Stock Modules",
   description: "Get comprehensive stock data modules including financial metrics, statistics, and company information. [See the documentation](https://docs.mboum.com/#stocks-options-small-stylecolor-f8f2f2background-fa256fpadding-1px-4pxborder-radius-3pxhotsmall-GETapi-v1-markets-stock-modules)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     mboum,

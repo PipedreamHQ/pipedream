@@ -4,7 +4,12 @@ export default {
   key: "meistertask-create-task",
   name: "Create Task",
   description: "Create a new task in a project section. [See the docs](https://developers.meistertask.com/reference/post-task)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     meistertask,

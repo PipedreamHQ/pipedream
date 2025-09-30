@@ -5,7 +5,12 @@ import { axios } from "@pipedream/platform";
 export default {
   key: "medium-create-post",
   name: "Create a post",
-  version: "0.1.3",
+  version: "0.1.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new Medium post.",
   type: "action",
   props: {

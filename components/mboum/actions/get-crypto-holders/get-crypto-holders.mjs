@@ -4,7 +4,12 @@ export default {
   key: "mboum-get-crypto-holders",
   name: "Get Crypto Holders",
   description: "Get crypto holders. [See the documentation](https://docs.mboum.com/#crypto-GETapi-v1-crypto-holders)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     mboum,

@@ -4,7 +4,12 @@ export default {
   key: "mctime-start-clocking",
   name: "Start Clocking",
   description: "Start a new clocking time entry. [See the documentation](https://mctime.readme.io/reference/manipulating-clocking-times)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mctime,

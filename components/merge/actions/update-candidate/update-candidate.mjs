@@ -4,7 +4,12 @@ export default {
   key: "merge-update-candidate",
   name: "Update Candidate",
   description: "Update a candidate profile with the specified ID. [See the documentation](https://docs.merge.dev/ats/candidates/#candidates_partial_update)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

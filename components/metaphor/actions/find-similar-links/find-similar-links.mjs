@@ -3,7 +3,12 @@ import metaphor from "../../metaphor.app.mjs";
 export default {
   key: "metaphor-find-similar-links",
   name: "Find Similar Links",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Find similar links to the link provided. See the documentation](https://docs.metaphor.systems/reference/findsimilar)",
   type: "action",
   props: {

@@ -4,7 +4,12 @@ export default {
   key: "messagebird-create-contact",
   name: "Create Contact",
   description: "Creates a new contact. [See the documentation](https://docs.bird.com/api/contacts-api/api-reference/manage-workspace-contacts/create-a-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     messagebird,
