@@ -5,7 +5,12 @@ export default {
   key: "github-create-pull-request",
   name: "Create Pull Request",
   description: "Creates a new pull request for a specified repository. [See the documentation](https://docs.github.com/en/rest/pulls/pulls#create-a-pull-request)",
-  version: "0.1.4",
+  version: "0.1.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     github,

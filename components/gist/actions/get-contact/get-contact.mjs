@@ -5,7 +5,12 @@ export default {
   name: "Get Contact",
   description: "Find a Contact [See docs](https://developers.getgist.com/api/#add-a-tag-to-contacts)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     gist,
     contactId: {

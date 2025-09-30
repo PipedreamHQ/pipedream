@@ -5,7 +5,12 @@ export default {
   name: "Retrieve Transcripts Of Calls",
   description: "Retrieve transcripts of calls. [See the documentation](https://us-66463.app.gong.io/settings/api/documentation#post-/v2/calls/transcript)",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     fromDateTime: {

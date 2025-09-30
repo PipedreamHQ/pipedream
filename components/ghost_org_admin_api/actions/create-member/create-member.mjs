@@ -4,7 +4,12 @@ export default {
   key: "ghost_org_admin_api-create-member",
   name: "Create Member",
   description: "Create a new member in Ghost. [See the documentation](https://ghost.org/docs/admin-api/#creating-a-member)",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

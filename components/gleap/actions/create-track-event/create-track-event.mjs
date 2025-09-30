@@ -4,7 +4,12 @@ export default {
   key: "gleap-create-track-event",
   name: "Create Track Event",
   description: "Creates a new track event in Gleap. [See the documentation](https://docs.gleap.io/server/rest-api#track-events)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     gleap,

@@ -5,7 +5,12 @@ export default {
   name: "Get Transcript",
   description:
     "Fetches transcript/subtitles from a YouTube video using Gistly API.",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

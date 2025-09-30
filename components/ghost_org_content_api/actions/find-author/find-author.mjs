@@ -7,7 +7,12 @@ export default {
   name: "Find author",
   description: "Find an author. [See the documentation](https://ghost.org/docs/content-api/#authors).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     ghostContentApi,
     name: {

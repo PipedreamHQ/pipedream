@@ -4,7 +4,12 @@ export default {
   name: "Translate a Word to a Gif/Sticker",
   description: "Translates or convert a word or phrase to the perfect Gif or Sticker using GIPHY's special sauce algorithm. [See the docs here](https://developers.giphy.com/docs/api/endpoint#translate).",
   key: "giphy-translate-term-to-a-gif-sticker",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     giphyApp,

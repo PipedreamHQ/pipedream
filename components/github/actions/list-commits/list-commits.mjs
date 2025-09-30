@@ -4,7 +4,12 @@ export default {
   key: "github-list-commits",
   name: "List Commits",
   description: "List commits in a Github repo. [See the documentation](https://docs.github.com/en/rest/commits/commits?apiVersion=2022-11-28#list-commits)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     github,
