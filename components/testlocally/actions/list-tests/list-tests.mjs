@@ -5,7 +5,12 @@ export default {
   name: "List Tests",
   description: "Returns a list of tests in TestLocally. [See the documentation](https://testlocally.readme.io/reference/api_v0_recent_tests)",
   key: "testlocally-list-tests",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     testlocally,

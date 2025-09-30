@@ -5,7 +5,12 @@ export default {
   key: "telegram_bot_api-send-photo",
   name: "Send a Photo",
   description: "Sends a photo to your Telegram Desktop application. [See the docs](https://core.telegram.org/bots/api#sendphoto) for more information",
-  version: "0.0.6",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     telegramBotApi,

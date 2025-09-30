@@ -3,7 +3,12 @@ import teamgantt from "../../teamgantt.app.mjs";
 export default {
   key: "teamgantt-create-task",
   name: "Create Task",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Creates a new task within a specific project. [See the documentation](https://api.teamgantt.com)",
   type: "action",
   props: {

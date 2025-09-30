@@ -4,7 +4,12 @@ export default {
   key: "telegram_bot_api-promote-chat-member",
   name: "Promote a Chat Member",
   description: "Use this method to promote or demote a user in a supergroup or a channel. [See the docs](https://core.telegram.org/bots/api#promotechatmember) for more information",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     telegramBotApi,

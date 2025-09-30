@@ -4,7 +4,12 @@ export default {
   key: "terraform-create-run",
   name: "Create Run",
   description: "Creates a new run in Terraform. [See the documentation](https://developer.hashicorp.com/terraform/cloud-docs/api-docs/run#create-a-run)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     terraform,

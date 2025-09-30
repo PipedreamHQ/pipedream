@@ -3,7 +3,12 @@ import teamworkDesk from "../../teamwork_desk.app.mjs";
 export default {
   key: "teamwork_desk-reply-to-ticket",
   name: "Reply To Ticket",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Reply to a specific ticket [See the documentation](https://apidocs.teamwork.com/docs/desk/0f3315d9a0762-reply-to-ticket)",
   type: "action",
   props: {

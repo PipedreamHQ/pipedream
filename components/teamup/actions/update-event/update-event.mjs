@@ -5,7 +5,12 @@ export default {
   key: "teamup-update-event",
   name: "Update Event",
   description: "Updates an existing event on a specified calendar. [See the documentation](https://apidocs.teamup.com/docs/api/8b5d0d1556103-update-an-event)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     teamup,

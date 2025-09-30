@@ -9,7 +9,12 @@ export default {
   key: "testmonitor-create-test-result",
   name: "Create Test Result",
   description: "Create a new test result. [See the documentation](https://docs.testmonitor.com/#tag/Test-Results/operation/PostTestResult)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     testmonitor,

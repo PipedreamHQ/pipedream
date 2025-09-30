@@ -3,7 +3,12 @@ import teamgate from "../../teamgate.app.mjs";
 export default {
   key: "teamgate-update-deal",
   name: "Update Deal",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Update a specific deal. [See the docs here](https://developers.teamgate.com/#fe590427-fcb9-4689-9671-7d3daa235b1a)",
   type: "action",
   props: {

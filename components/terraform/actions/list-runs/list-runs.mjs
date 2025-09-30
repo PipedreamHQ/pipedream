@@ -4,7 +4,12 @@ export default {
   key: "terraform-list-runs",
   name: "List Runs",
   description: "Retrieves a list of runs in a workspace in Terraform. [See the documentation](https://developer.hashicorp.com/terraform/cloud-docs/api-docs/run#list-runs-in-a-workspace)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     terraform,

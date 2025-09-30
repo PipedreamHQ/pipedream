@@ -5,7 +5,12 @@ export default {
   key: "telegram_bot_api-send-album",
   name: "Send an Album (Media Group)",
   description: "Sends a group of photos or videos as an album. [See the docs](https://core.telegram.org/bots/api#sendmediagroup) for more information",
-  version: "0.0.6",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     telegramBotApi,

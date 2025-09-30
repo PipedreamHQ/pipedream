@@ -4,7 +4,12 @@ export default {
   key: "teamcamp-create-task",
   name: "Create Task",
   description: "Create a new task in the Project. [See the documentation](https://api.teamcamp.app/api-reference/task/createTask)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

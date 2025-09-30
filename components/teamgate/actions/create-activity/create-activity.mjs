@@ -4,7 +4,12 @@ import TEAMGATE_META from "../common/meta-selection.mjs";
 export default {
   key: "teamgate-create-activity",
   name: "Create Activity",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Creates a new activity [See the docs here](https://developers.teamgate.com/#6be9bc87-47bb-4c32-b46b-9c0771deac83)",
   type: "action",
   props: {

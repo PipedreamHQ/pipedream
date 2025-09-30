@@ -4,7 +4,12 @@ export default {
   key: "teamup-delete-event",
   name: "Delete Event",
   description: "Deletes an existing event on a specified calendar. [See the documentation](https://apidocs.teamup.com/docs/api/260f3631bec7b-delete-an-event)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     teamup,

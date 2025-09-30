@@ -5,7 +5,12 @@ export default {
   key: "teamwork-delete-task",
   name: "Delete Task",
   description: "Delete a task. [See the docs here](https://apidocs.teamwork.com/docs/teamwork/67114797aa90c-delete-a-task)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     projectId: {

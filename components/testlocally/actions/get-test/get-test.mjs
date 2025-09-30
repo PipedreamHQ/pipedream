@@ -4,7 +4,12 @@ export default {
   key: "testlocally-get-test",
   name: "Get Test",
   description: "Get details of a specific test in TestLocally. [See the documentation](https://testlocally.readme.io/reference/api_v0_test_results)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     testlocally,
