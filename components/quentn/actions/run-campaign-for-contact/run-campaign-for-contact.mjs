@@ -5,7 +5,12 @@ export default {
   name: "Run Campaign for Contact",
   description: "Runs a campaign for a contact. [See the docs](https://help.quentn.com/hc/en-150/articles/4518054010129-Campaign-API).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     email: {

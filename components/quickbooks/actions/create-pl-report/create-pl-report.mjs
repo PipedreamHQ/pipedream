@@ -7,7 +7,12 @@ export default {
   key: "quickbooks-create-pl-report",
   name: "Create Profit and Loss Detail Report",
   description: "Creates a profit and loss report in Quickbooks Online. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/profitandloss#query-a-report)",
-  version: "0.0.6",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     quickbooks,

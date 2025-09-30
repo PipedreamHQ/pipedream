@@ -3,7 +3,12 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Send push (Note, Link and File)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "pushbullet-send-push",
   description: "Send a push to a device or another person. [See docs here](https://docs.pushbullet.com/#create-push)",
   type: "action",

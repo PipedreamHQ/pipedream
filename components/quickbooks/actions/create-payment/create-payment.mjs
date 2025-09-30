@@ -4,7 +4,12 @@ export default {
   key: "quickbooks-create-payment",
   name: "Create Payment",
   description: "Creates a payment. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/payment#create-a-payment)",
-  version: "0.0.10",
+  version: "0.0.11",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     quickbooks,

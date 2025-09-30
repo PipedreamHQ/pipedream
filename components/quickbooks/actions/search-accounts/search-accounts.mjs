@@ -5,7 +5,12 @@ export default {
   key: "quickbooks-search-accounts",
   name: "Search Accounts",
   description: "Search for accounts. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/account#query-an-account)",
-  version: "0.2.11",
+  version: "0.2.12",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     quickbooks,

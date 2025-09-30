@@ -6,7 +6,12 @@ export default {
   key: "ragic-create-record",
   name: "Create Record",
   description: `Creates a record. [See the docs.](${docLink})`,
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ragic,

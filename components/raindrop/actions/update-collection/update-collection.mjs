@@ -4,7 +4,12 @@ export default {
   key: "raindrop-update-collection",
   name: "Update Collection",
   description: "Update an existing collection. [See the docs here](https://developer.raindrop.io/v1/collections/methods#update-collection)",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     raindrop,

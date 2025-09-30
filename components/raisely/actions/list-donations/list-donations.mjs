@@ -4,7 +4,12 @@ export default {
   key: "raisely-list-donations",
   name: "List Donations",
   description: "Retrieves a list of donations in Raisely. [See the documentation](https://developers.raisely.com/reference/getdonations)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     raisely,

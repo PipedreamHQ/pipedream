@@ -5,7 +5,12 @@ export default {
   key: "pushshift_reddit_search-search-reddit-posts",
   name: "Search Reddit Posts",
   description: "Search Reddit posts using the Pushshift.io API. [See the docs here](https://github.com/pushshift/api)",
-  version: "0.1.2",
+  version: "0.1.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     pushshift,

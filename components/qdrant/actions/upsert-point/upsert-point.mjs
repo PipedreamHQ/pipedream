@@ -7,7 +7,12 @@ export default {
   name: "Upsert Point",
   description: "Adds a point to the Qdrant collection.",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     collectionName: {

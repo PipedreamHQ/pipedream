@@ -5,7 +5,12 @@ export default {
   key: "raisely-create-or-update-user",
   name: "Create or Update User",
   description: "Create or update a user in Raisely. [See the documentation](https://developers.raisely.com/reference/postusers)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     raisely,

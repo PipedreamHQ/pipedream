@@ -7,7 +7,12 @@ export default {
   name: "Search Points",
   description: "Performs a semantic search on the Qdrant collection.",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     collectionName: {

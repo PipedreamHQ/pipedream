@@ -4,7 +4,12 @@ export default {
   key: "quickbooks-send-estimate",
   name: "Send Estimate",
   description: "Sends an estimate by email. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/estimate#send-an-estimate)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     quickbooks,
