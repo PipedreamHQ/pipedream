@@ -4,7 +4,12 @@ export default {
   key: "pdfmonkey-delete-document",
   name: "Delete Document",
   description: "Deletes a specific document using its ID. [See the documentation](https://docs.pdfmonkey.io/references/api/documents)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pdfmonkey,

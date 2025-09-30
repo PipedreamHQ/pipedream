@@ -4,7 +4,12 @@ export default {
   key: "pdf_app_net-compress-pdf",
   name: "Compress PDF",
   description: "Compress a PDF File with PDF-app.net. [See the documentation](https://pdf-app.net/apidocumentation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pdfApp,

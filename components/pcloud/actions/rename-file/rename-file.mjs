@@ -6,7 +6,12 @@ export default {
   key: "pcloud-rename-file",
   name: "Rename File",
   description: "Renames a file. [See the docs here](https://docs.pcloud.com/methods/file/renamefile.html)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

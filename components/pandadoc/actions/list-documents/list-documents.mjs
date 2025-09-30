@@ -6,7 +6,12 @@ export default {
   name: "List Documents",
   description: "List documents, optionally filtering by a search query or tags. [See the documentation here](https://developers.pandadoc.com/reference/list-documents)",
   type: "action",
-  version: "0.0.7",
+  version: "0.0.8",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     query: {

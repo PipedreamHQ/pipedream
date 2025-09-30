@@ -5,7 +5,12 @@ export default {
   name: "Create Pass",
   description: "Creates a new pass using specified pass template. [See the documentation](https://www.passslot.com/developer/api/resources/createPassFromTemplate)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     passslot,
     templateId: {

@@ -4,7 +4,12 @@ export default {
   key: "papersign-copy-document",
   name: "Copy Document",
   description: "Duplicates a given document. [See the documentation](https://paperform.readme.io/reference/papersigncopydocument)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     papersign,

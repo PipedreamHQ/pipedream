@@ -4,7 +4,12 @@ export default {
   key: "paystack-charge-authorization",
   name: "Charge Authorization",
   description: "Charge a reusable authorization. [See the documentation](https://paystack.com/docs/api/transaction/#charge-authorization)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     paystack,

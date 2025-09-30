@@ -6,7 +6,12 @@ export default {
   key: "pdforge-generate-pdf-from-template",
   name: "Generate PDF from Template",
   description: "Generate a document from a selected template. [See the documentation](https://docs.pdforge.com/pdfs-from-templates/synchronous-request)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

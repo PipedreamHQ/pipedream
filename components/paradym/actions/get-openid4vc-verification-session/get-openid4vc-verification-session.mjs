@@ -4,7 +4,12 @@ export default {
   key: "paradym-get-openid4vc-verification-session",
   name: "Get OpenID4VC Verification Session",
   description: "Fetches the verification session data for the specified session ID. [See the documentation](https://paradym.id/reference?full#tag/openid4vc-verification/get/v1/projects/{projectId}/openid4vc/verification/{openId4VcVerificationId})",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

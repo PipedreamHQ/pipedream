@@ -4,7 +4,12 @@ export default {
   name: "PDF Info Reader",
   description: "Get detailed information about the PDF document, properties and security permissions. [See docs here](https://apidocs.pdf.co/02-pdf-info-reader)",
   key: "pdf_co-pdf-info-reader",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

@@ -6,7 +6,12 @@ export default {
   key: "peerdom-create-role",
   name: "Create Role",
   description: "Create a new role within a specified circle. [See the documentation](https://api.peerdom.org/v1/docs)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     peerdom,

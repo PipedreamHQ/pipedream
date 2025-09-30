@@ -7,7 +7,12 @@ export default {
   description:
     "Download a completed document as a verifiable PDF. [See documentation here](https://developers.pandadoc.com/reference/download-protected-document)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     id: {

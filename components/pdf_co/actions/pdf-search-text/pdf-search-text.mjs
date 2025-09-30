@@ -4,7 +4,12 @@ export default {
   name: "Search Text in PDF",
   description: "Search text in PDF and get coordinates. Supports regular expressions. [See docs here](https://apidocs.pdf.co/07-pdf-search-text)",
   key: "pdf_co-pdf-search-text",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

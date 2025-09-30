@@ -5,7 +5,12 @@ export default {
   key: "peach-send-template-message",
   name: "Send Template Message",
   description: "Send a predefined message to a contact within the Peach app. [See the documentation](https://peach.apidocumentation.com/reference#tag/messaging/post/transactional_messages)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     peach,

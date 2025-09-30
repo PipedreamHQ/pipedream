@@ -5,7 +5,12 @@ export default {
   name: "List Transactions",
   description: "This method can be used to export a set of credit card transaction details with a provided date range. You can optimize your search by providing optional parameters. [See docs here](https://developers.paytrace.com/support/home#14000045877)",
   key: "paytrace-list-transactions",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     paytrace,

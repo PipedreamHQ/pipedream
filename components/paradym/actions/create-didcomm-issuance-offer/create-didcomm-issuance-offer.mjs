@@ -6,7 +6,12 @@ export default {
   key: "paradym-create-didcomm-issuance-offer",
   name: "Create DIDComm Issuance Offer",
   description: "Create a DIDComm issuance offer for the selected credentials. [See the documentation](https://paradym.id/reference?full#tag/didcomm-issuance/post/v1/projects/{projectId}/didcomm/issuance/offer)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

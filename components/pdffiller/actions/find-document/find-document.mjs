@@ -4,7 +4,12 @@ export default {
   key: "pdffiller-find-document",
   name: "Find Document",
   description: "Enables searching capabilities for documents by name. [See the documentation](https://pdffiller.readme.io/reference/get_v2-templates)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pdffiller,

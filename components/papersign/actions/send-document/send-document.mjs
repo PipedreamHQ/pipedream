@@ -6,7 +6,12 @@ export default {
   key: "papersign-send-document",
   name: "Send Document",
   description: "Dispatches a document to a specified recipient. [See the documentation](https://paperform.readme.io/reference/papersignsenddocument)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     papersign,

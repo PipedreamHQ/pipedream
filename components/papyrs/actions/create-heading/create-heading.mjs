@@ -5,7 +5,12 @@ export default {
   name: "Create Heading",
   description: "Create Heading. [See the docs here](https://about.papyrs.com/@docs/API#Create-Text-box/Heading)",
   key: "papyrs-create-heading",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

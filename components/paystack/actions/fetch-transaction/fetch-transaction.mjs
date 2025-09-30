@@ -4,7 +4,12 @@ export default {
   key: "paystack-fetch-transaction",
   name: "Fetch Transaction",
   description: "Fetch a single transaction. [See the documentation](https://paystack.com/docs/api/transaction/#fetch)",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     paystack,

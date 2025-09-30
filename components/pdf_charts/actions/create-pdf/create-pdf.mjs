@@ -4,7 +4,12 @@ export default {
   key: "pdf_charts-create-pdf",
   name: "Create PDF",
   description: "Create a PDF document using PDF Charts. [See the documentation](https://www.pdf-charts.com/playground)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pdfCharts,

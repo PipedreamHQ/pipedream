@@ -5,7 +5,12 @@ export default {
   name: "Update Heading",
   description: "Update Heading. [See the docs here](https://about.papyrs.com/@docs/API#Update-Text-box/Heading)",
   key: "papyrs-update-heading",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

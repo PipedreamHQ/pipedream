@@ -4,7 +4,12 @@ export default {
   key: "parsera-extract",
   name: "Extract",
   description: "Extract data from a given URL. [See the documentation](https://docs.parsera.org/api/getting-started/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

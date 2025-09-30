@@ -5,7 +5,12 @@ export default {
   key: "peaka-run-query",
   name: "Run Query",
   description: "Runs a specific query in Peaka and returns the result as line items. [See the documentation](https://docs.peaka.com/api-reference/data-%3E-query/execute-a-query).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

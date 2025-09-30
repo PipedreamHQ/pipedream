@@ -4,7 +4,12 @@ export default {
   key: "paystack-verify-transaction",
   name: "Verify Transaction",
   description: "Confirm the status of a transaction. [See the documentation](https://paystack.com/docs/api/transaction/#verify)",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     paystack,

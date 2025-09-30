@@ -4,7 +4,12 @@ export default {
   key: "parsehub-delete-run",
   name: "Delete Run",
   description: "Cancels a run if running, and deletes the run and its data. [See the documentation](https://www.parsehub.com/docs/ref/api/v2/#delete-a-run)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

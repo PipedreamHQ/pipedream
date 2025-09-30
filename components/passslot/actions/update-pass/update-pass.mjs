@@ -5,7 +5,12 @@ export default {
   name: "Update Pass",
   description: "Updates an existing pass with new information. [See the documentation](https://www.passslot.com/developer/api/resources/updatePassValues)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     passslot,
     passTypeIdentifier: {

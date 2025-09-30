@@ -4,7 +4,12 @@ export default {
   key: "parma-find-relationship",
   name: "Find Relationship",
   description: "Searches for an existing relationship in Parma. [See the documentation](https://developers.parma.ai/api-docs/index.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     parma,

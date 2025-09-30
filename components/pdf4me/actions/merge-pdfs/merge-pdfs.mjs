@@ -5,7 +5,12 @@ export default {
   key: "pdf4me-merge-pdfs",
   name: "Merge PDF Files",
   description: "Merge multiple PDF files into a single PDF. [See the documentation](https://dev.pdf4me.com/apiv2/documentation/actions/merge/)",
-  version: "0.1.0",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pdf4me,
