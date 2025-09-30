@@ -9,8 +9,8 @@ const endpoint = ENDPOINTS.TECHNOLOGY_GRADES_HISTORICAL;
 export default {
   key: "token_metrics-get-technology-grades-historical",
   name: "Get Technology Grades Historical",
-  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/reference/technology-grade-history)`,
-  version: "0.0.1",
+  description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/technology-grade-history)`,
+  version: "0.1.0",
   type: "action",
   props: {
     tokenMetrics,
@@ -32,6 +32,12 @@ export default {
       propDefinition: [
         tokenMetrics,
         "symbol",
+      ],
+    },
+    slug: {
+      propDefinition: [
+        tokenMetrics,
+        "slug",
       ],
     },
     startDate: {

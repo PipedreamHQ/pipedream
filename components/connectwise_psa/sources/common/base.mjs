@@ -41,6 +41,7 @@ export default {
       const results = this.connectwise.paginate({
         resourceFn,
         params,
+        max,
       });
       let items = [];
       for await (const item of results) {

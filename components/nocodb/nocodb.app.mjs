@@ -91,7 +91,7 @@ export default {
       },
     },
     data: {
-      type: "any",
+      type: "string",
       label: "data",
       description: "Enter Json Formated data",
     },
