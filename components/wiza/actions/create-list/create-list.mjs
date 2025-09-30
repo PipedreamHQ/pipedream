@@ -4,7 +4,12 @@ export default {
   key: "wiza-create-list",
   name: "Create List",
   description: "Create a list of people to enrich. [See the documentation](https://wiza.co/api-docs#/paths/~1api~1lists/post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

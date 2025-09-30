@@ -5,7 +5,12 @@ export default {
   name: "List Scheduled Sessions",
   description: "Lists all scheduled sessions for a specific webinar. [See the documentation](https://documenter.getpostman.com/view/22597176/Uzs435mo#033f7d11-dcd3-4130-b41b-7eee4d4f28d1)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     webinarId: {

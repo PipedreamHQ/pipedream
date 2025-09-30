@@ -2,7 +2,12 @@ import wise from "../../wise.app.mjs";
 
 export default {
   name: "Create Transfer",
-  version: "0.0.6",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "wise-create-transfer",
   description: "Creates a transfer. [See docs here](https://api-docs.wise.com/api-reference/transfer#create)",
   type: "action",

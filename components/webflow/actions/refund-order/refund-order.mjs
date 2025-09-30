@@ -4,7 +4,12 @@ export default {
   key: "webflow-refund-order",
   name: "Refund Order",
   description: "Refund an order. [See the documentation](https://developers.webflow.com/data/reference/ecommerce/orders/refund)",
-  version: "2.0.0",
+  version: "2.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

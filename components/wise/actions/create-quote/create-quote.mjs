@@ -4,7 +4,12 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Create Quote",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "wise-create-quote",
   description: "Creates a quote. [See docs here](https://api-docs.wise.com/api-reference/quote#create-authenticated)",
   type: "action",

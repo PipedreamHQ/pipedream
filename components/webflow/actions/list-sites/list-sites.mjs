@@ -4,7 +4,12 @@ export default {
   key: "webflow-list-sites",
   name: "List Sites",
   description: "List sites. [See the documentation](https://developers.webflow.com/data/reference/sites/list)",
-  version: "2.0.0",
+  version: "2.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

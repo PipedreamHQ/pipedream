@@ -4,7 +4,12 @@ export default {
   key: "whatconverts-find-lead",
   name: "Find Lead",
   description: "Find a lead in WhatConverts. [See the documentation](https://www.whatconverts.com/api/leads/#get-all-leads)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     whatconverts,

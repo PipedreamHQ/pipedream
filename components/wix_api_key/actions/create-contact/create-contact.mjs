@@ -4,7 +4,12 @@ export default {
   key: "wix_api_key-create-contact",
   name: "Create Contact",
   description: "Creates a new contact. [See the documentation](https://dev.wix.com/api/rest/contacts/contacts/contacts-v4/create-contact)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     wix,

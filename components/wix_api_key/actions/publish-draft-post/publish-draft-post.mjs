@@ -4,7 +4,12 @@ export default {
   key: "wix_api_key-publish-draft-post",
   name: "Publish Draft Post",
   description: "Publish a draft blog post [See the documentation](https://dev.wix.com/docs/rest/business-solutions/blog/draft-posts/publish-draft-post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     wix,

@@ -4,7 +4,12 @@ export default {
   key: "webscrape_ai-scrape-website",
   name: "Scrape Website",
   description: "Scrape the provided URL and store the results in the system. [See the documentation](https://webscrapeai.com/docs)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     webscrapeAi,

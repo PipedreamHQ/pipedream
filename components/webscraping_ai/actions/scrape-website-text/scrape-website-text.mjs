@@ -5,7 +5,12 @@ export default {
   key: "webscraping_ai-scrape-website-text",
   name: "Scrape Website Text",
   description: "Returns the visible text content of a webpage specified by the URL. [See the documentation](https://webscraping.ai/docs#tag/Text/operation/getText).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     webscrapingAI,

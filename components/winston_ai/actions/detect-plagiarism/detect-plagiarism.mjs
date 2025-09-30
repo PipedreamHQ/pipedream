@@ -4,7 +4,12 @@ export default {
   key: "winston_ai-detect-plagiarism",
   name: "Detect Plagiarism",
   description: "Inspects if the submitted text contains plagiarised materials. [See the documentation](https://docs.gowinston.ai/api-reference/plagiarism/post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     winstonAi,

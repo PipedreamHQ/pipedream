@@ -4,7 +4,12 @@ export default {
   key: "wordpress_org-get-user",
   name: "Get User",
   description: "Retrieves information for a user. [See the documentation](https://developer.wordpress.org/rest-api/reference/users/#retrieve-a-user-2)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     wordpress,

@@ -6,7 +6,12 @@ export default {
   key: "white_swan-submit-complete-plan-request",
   name: "Submit Complete Plan Request",
   description: "Creates a new comprehensive quote request based on the information provided and generates the final quotation without further data requirements. [See the documentation](https://docs.whiteswan.io/partner-knowledge-base/api-documentation/action-calls/submit-complete-plan-request)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     whiteSwan,

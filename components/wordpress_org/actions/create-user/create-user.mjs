@@ -4,7 +4,12 @@ export default {
   key: "wordpress_org-create-user",
   name: "Create User",
   description: "Creates a user. [See the documentation](https://developer.wordpress.org/rest-api/reference/users/#create-a-user)",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     wordpress,

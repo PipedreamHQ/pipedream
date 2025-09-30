@@ -4,7 +4,12 @@ export default {
   key: "woovi-create-charge",
   name: "Create Charge",
   description: "Generates a charge for a customer. [See the documentation](https://developers.woovi.com/en/api#tag/charge/paths/~1api~1v1~1charge/post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     woovi,

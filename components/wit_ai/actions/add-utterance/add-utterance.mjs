@@ -6,7 +6,12 @@ export default {
   key: "wit_ai-add-utterance",
   name: "Add Utterance",
   description: "Add a sample utterance to train your app with an intent. [See the documentation](https://wit.ai/docs/http/20240304#post__utterances).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -4,7 +4,12 @@ export default {
   key: "webscraper_io-create-sitemap",
   name: "Create Sitemap",
   description: "Creates a sitemap for the selected website. [See the docs here](https://webscraper.io/documentation/web-scraper-cloud/api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     webscraper,

@@ -4,7 +4,12 @@ export default {
   key: "webflow-get-site",
   name: "Get Site",
   description: "Get a site. [See the documentation](https://developers.webflow.com/data/reference/sites/get)",
-  version: "2.0.0",
+  version: "2.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

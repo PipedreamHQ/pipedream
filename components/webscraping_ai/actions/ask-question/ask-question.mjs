@@ -5,7 +5,12 @@ export default {
   key: "webscraping_ai-ask-question",
   name: "Ask Question about Webpage",
   description: "Gets an answer to a question about a given webpage. [See the documentation](https://webscraping.ai/docs#tag/AI/operation/getQuestion)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     webscrapingAI,

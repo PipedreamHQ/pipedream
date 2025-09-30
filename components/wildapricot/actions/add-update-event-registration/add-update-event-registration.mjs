@@ -4,7 +4,12 @@ export default {
   key: "wildapricot-add-update-event-registration",
   name: "Add or Update Event Registration",
   description: "Searches event registrations using a contact email. If a match is found, the registration details are updated. If not, a new registration is added to the event. [See the documentation](https://app.swaggerhub.com/apis-docs/WildApricot/wild-apricot_public_api/7.24.0#/Events.EventRegistrations/CreateEventRegistration)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     wildapricot,

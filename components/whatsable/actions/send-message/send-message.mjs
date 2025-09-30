@@ -4,7 +4,12 @@ export default {
   key: "whatsable-send-message",
   name: "Send Message",
   description: "Sends a message to a verified WhatsApp number. [See the documentation](https://www.whatsable.app/api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     whatsable,

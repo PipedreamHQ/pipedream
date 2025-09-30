@@ -5,7 +5,12 @@ export default {
   key: "whop-create-checkout-session",
   name: "Create Checkout Session",
   description: "Creates a new checkout session in Whop. [See the documentation](https://dev.whop.com/api-reference/v2/checkout-sessions/create-a-checkout-session)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     whop,

@@ -4,7 +4,12 @@ export default {
   key: "wix_api_key-add-products-to-collection",
   name: "Add Products To Collection",
   description: "Adds a product or products to a specified collection. [See the documentation](https://dev.wix.com/api/rest/wix-stores/catalog/collections/add-products-to-collection)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     wix,

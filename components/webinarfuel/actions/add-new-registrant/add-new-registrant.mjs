@@ -4,7 +4,12 @@ export default {
   key: "webinarfuel-add-new-registrant",
   name: "Add New Registrant",
   description: "Creates a new registrant for a selected webinar. [See the documentation](https://webinarfuel.docs.apiary.io/#/reference/registrant/registrants-collection/create-registrant/200?mc=reference%2Fregistrant%2Fregistrants-collection%2Fcreate-registrant%2F200)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

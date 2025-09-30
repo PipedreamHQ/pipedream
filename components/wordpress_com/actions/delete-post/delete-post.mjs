@@ -4,7 +4,12 @@ export default {
   key: "wordpress_com-delete-post",
   name: "Delete Post",
   description: "Deletes a post. [See the documentation](https://developer.wordpress.com/docs/api/1.1/post/sites/%24site/posts/%24post_ID/delete/)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     wordpress,

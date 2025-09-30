@@ -5,7 +5,12 @@ export default {
   key: "wordpress_org-update-user",
   name: "Update User",
   description: "Updates the information of a user. [See the documentation](https://developer.wordpress.org/rest-api/reference/users/#update-a-user-2)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     wordpress,
