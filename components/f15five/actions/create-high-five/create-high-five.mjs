@@ -4,7 +4,12 @@ export default {
   key: "f15five-create-high-five",
   name: "Create High Five",
   description: "Create a High five within a company. [See the documentation](https://my.15five.com/api/public/#tag/High-Five/paths/~1api~1public~1high-five~1/post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     f15five,

@@ -5,7 +5,12 @@ export default {
   key: "fakturoid-cancel-uncancel-invoice",
   name: "Cancel or Uncancel Invoice",
   description: "Cancels an existing invoice or revokes previous cancellation. [See the documentation](https://www.fakturoid.cz/api/v3)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     fakturoid,

@@ -5,7 +5,12 @@ export default {
   key: "explorium-fetch-prospects",
   name: "Fetch Prospects",
   description: "Fetches prospect records using filters. [See the documentation](https://developers.explorium.ai/reference/fetch_prospects)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     explorium,

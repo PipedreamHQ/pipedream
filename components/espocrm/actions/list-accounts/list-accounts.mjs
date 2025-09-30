@@ -4,7 +4,12 @@ export default {
   key: "espocrm-list-accounts",
   name: "List Accounts",
   description: "Retrieves a list of accounts from Espo CRM. [See the documentation](https://docs.espocrm.com/development/api/account/#list)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     espoCrm,

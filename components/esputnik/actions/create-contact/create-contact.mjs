@@ -4,7 +4,12 @@ export default {
   key: "esputnik-create-contact",
   name: "Create Contact",
   description: "Create a new contact in eSputnik. [See the docs here](https://esputnik.com/api/methods.html#/v1/contact-POST)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     esputnik,

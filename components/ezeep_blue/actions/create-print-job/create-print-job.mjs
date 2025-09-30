@@ -7,7 +7,12 @@ export default {
   key: "ezeep_blue-create-print-job",
   name: "Create Print Job",
   description: "Send a new print job to a specified printer.",
-  version: "1.0.1",
+  version: "1.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ezeepBlue,

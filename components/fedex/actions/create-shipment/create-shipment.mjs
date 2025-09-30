@@ -4,7 +4,12 @@ export default {
   key: "fedex-create-shipment",
   name: "Create Shipment",
   description: "Create a new shipment. [See the documentation](https://developer.fedex.com/api/en-us/catalog/ship/docs.html#operation/Create%20Shipment)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     fedex,
