@@ -9,7 +9,12 @@ export default {
   name: "List Employees",
   description: "Retrieve a complete list of employees. [See the documentation](https://developers.buddee.nl/#fd057d3c-8b40-4808-a4d2-eeffc5da82d7)",
   key: "buddee-list-employees",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     buddee,

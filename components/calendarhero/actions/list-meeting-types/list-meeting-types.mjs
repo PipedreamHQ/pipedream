@@ -4,7 +4,12 @@ export default {
   key: "calendarhero-list-meeting-types",
   name: "List Meeting Types",
   description: "Get the user's meeting types. [See the documentation](https://api.calendarhero.com/documentation#/user/getUserMeeting).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

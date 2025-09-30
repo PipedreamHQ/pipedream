@@ -4,7 +4,12 @@ export default {
   key: "browserbase-create-context",
   name: "Create Context",
   description: "Creates a new context in Browserbase. [See the documentation](https://docs.browserbase.com/reference/api/create-a-context)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     browserbase,

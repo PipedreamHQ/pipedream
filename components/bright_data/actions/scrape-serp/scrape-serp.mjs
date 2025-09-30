@@ -5,7 +5,12 @@ export default {
   key: "bright_data-scrape-serp",
   name: "Scrape SERP",
   description: "Extract search engine results using Bright Data SERP API. [See the documentation](https://docs.brightdata.com/api-reference/rest-api/serp/scrape-serp)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     brightData,
