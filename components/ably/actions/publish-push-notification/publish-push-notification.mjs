@@ -2,7 +2,12 @@ import ably from "../../ably.app.mjs";
 
 export default {
   name: "Publish Push Notification",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "ably-publish-push-notification",
   description: "Publish a push notification for a channel. [See docs here](https://ably.com/docs/general/push/publish#channel-broadcast-example)",
   type: "action",

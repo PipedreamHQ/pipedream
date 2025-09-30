@@ -4,7 +4,12 @@ export default {
   key: "_2markdown-html-to-markdown",
   name: "HTML to Markdown",
   description: "Convert raw HTML content to Markdown format. [See the documentation](https://2markdown.com/docs#html2md)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     _2markdown,

@@ -4,7 +4,12 @@ export default {
   key: "_2markdown-url-to-markdown",
   name: "URL to Markdown",
   description: "Extract the essential content of a website as plaintext. [See the documentation](https://2markdown.com/docs#url2md)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     _2markdown,
