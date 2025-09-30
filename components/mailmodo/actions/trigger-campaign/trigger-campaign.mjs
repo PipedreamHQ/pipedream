@@ -3,7 +3,12 @@ import utils from "../../common/utils.mjs";
 
 export default {
   key: "mailmodo-trigger-campaign",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   name: "Trigger Campaign",
   description: "Allows to trigger campaigns with personalization parameter added to the email template. [See the docs here](https://www.mailmodo.com/developers/4c44d1b19765f-send-campaign-email/)",

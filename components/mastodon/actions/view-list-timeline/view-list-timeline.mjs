@@ -4,7 +4,12 @@ export default {
   key: "mastodon-view-list-timeline",
   name: "View List Timeline",
   description: "View statuses in the given list timeline. [See the docs here](https://docs.joinmastodon.org/methods/timelines/#list)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     mastodon,

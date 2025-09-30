@@ -4,7 +4,12 @@ export default {
   key: "mailercloud-add-contact-list",
   name: "Add Contact to List",
   description: "Adds a new contact to a selected list in the user's Mailercloud account. [See the documentation](https://apidoc.mailercloud.com/docs/mailercloud-api/7f625be9563b2-create-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mailercloud,

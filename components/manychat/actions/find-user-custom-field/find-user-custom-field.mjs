@@ -4,7 +4,12 @@ export default {
   key: "manychat-find-user-custom-field",
   name: "Find User by Custom Field",
   description: "Locates a user based on a particular custom field's value. [See the documentation](https://api.manychat.com)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     manychat,

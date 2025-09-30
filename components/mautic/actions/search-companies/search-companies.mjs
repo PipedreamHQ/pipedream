@@ -8,7 +8,12 @@ export default {
   key: "mautic-search-companies",
   name: "Search Companies",
   description: "Gets a list of companies by a search term. [See docs](https://developer.mautic.org/#list-contact-companies)",
-  version: "0.3.0",
+  version: "0.3.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     mautic,

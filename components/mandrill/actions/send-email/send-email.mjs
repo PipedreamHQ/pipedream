@@ -4,7 +4,12 @@ export default {
   key: "mandrill-send-email",
   name: "Send an Email",
   description: "Send an email using Mandrill. [See the documentation](https://mandrillapp.com/api/docs/messages.curl.html#method=send)",
-  version: "0.1.2",
+  version: "0.1.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mandrill,

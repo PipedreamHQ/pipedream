@@ -5,7 +5,12 @@ export default {
   key: "mailgun-create-route",
   name: "Create Route",
   description: "Create a new route. [See the docs here](https://documentation.mailgun.com/en/latest/api-routes.html#actions)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mailgun,

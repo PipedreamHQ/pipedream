@@ -5,7 +5,12 @@ export default {
   key: "mailerlite-create-subscriber",
   name: "Create Subscriber",
   description: "Create a new subscriber. [See the documentation](https://developers.mailerlite.com/docs/subscribers.html#create-update-subscriber)",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mailerlite,

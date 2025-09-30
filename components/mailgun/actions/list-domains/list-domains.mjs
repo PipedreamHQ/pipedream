@@ -6,7 +6,12 @@ export default {
   key: "mailgun-list-domains",
   name: "List Domains",
   description: "List domains in Mailgun. [See the docs here](https://documentation.mailgun.com/en/latest/api-domains.html#domains)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     mailgun,

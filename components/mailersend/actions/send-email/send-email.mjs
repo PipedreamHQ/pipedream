@@ -4,7 +4,12 @@ export default {
   key: "mailersend-send-email",
   name: "Send an Email",
   description: "This action sends a personalized e-mail to the specified recipient. [See the documentation](https://developers.mailersend.com/api/v1/email.html#send-an-email)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

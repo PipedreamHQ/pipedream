@@ -9,7 +9,12 @@ export default {
   key: "mautic-create-contact",
   name: "Create Contact",
   description: "Creates a new contact. [See docs](https://developer.mautic.org/#create-contact)",
-  version: "0.2.0",
+  version: "0.2.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mautic,

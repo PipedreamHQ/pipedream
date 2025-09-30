@@ -5,7 +5,12 @@ export default {
   key: "mautic-update-contact",
   name: "Update Contact",
   description: "Updates a contact. [See docs](https://developer.mautic.org/#edit-contact)",
-  version: "0.2.0",
+  version: "0.2.1",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mautic,
