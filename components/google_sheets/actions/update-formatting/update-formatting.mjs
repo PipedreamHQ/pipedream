@@ -299,8 +299,6 @@ export default {
       });
     }
 
-    console.log(requests);
-
     const response = await this.googleSheets.sheets().spreadsheets.batchUpdate({
       spreadsheetId: this.sheetId,
       requestBody: {
