@@ -5,7 +5,12 @@ export default {
   key: "onepagecrm-update-deal",
   name: "Update Deal",
   description: "Updates an existing deal's details in OnePageCRM. [See the documentation](https://developer.onepagecrm.com/api/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     onepagecrm,

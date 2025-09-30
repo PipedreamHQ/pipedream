@@ -4,7 +4,12 @@ export default {
   key: "openai-retrieve-run-step",
   name: "Retrieve Run Step (Assistants)",
   description: "Retrieve a specific run step in a thread. [See the documentation](https://platform.openai.com/docs/api-reference/runs/getRunStep)",
-  version: "0.0.16",
+  version: "0.0.17",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     openai,

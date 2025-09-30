@@ -4,7 +4,12 @@ export default {
   key: "opsgenie-get-alert-status",
   name: "Get Alert Status",
   description: "Get the status of the alert with the specified ID. [See the documentation](https://www.postman.com/api-evangelist/opsgenie/request/03tcghu/get-request-status-of-alert)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

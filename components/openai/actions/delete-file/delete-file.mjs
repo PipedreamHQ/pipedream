@@ -4,7 +4,12 @@ export default {
   key: "openai-delete-file",
   name: "Delete File",
   description: "Deletes a specified file from OpenAI. [See the documentation](https://platform.openai.com/docs/api-reference/files/delete)",
-  version: "0.0.16",
+  version: "0.0.17",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     openai,

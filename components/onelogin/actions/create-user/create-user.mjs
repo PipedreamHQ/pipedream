@@ -6,7 +6,12 @@ export default {
   key: "onelogin-create-user",
   name: "Create User",
   description: "Create a new user in OneLogin with details. [See the documentation](https://developers.onelogin.com/api-docs/2/users/create-user)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     onelogin,

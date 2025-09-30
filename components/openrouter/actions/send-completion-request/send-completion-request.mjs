@@ -4,7 +4,12 @@ import openrouter from "../../openrouter.app.mjs";
 export default {
   key: "openrouter-send-completion-request",
   name: "Send Completion Request",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Send a completion request to a selected model (text-only format) [See the documentation](https://openrouter.ai/docs/api-reference/completions)",
   type: "action",
   props: {

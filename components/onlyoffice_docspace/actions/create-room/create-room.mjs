@@ -4,7 +4,12 @@ export default {
   key: "onlyoffice_docspace-create-room",
   name: "Create Room",
   description: "Creates a new room. [See the documentation](https://api.onlyoffice.com/docspace/method/files/post/api/2.0/files/rooms)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

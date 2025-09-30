@@ -4,7 +4,12 @@ export default {
   key: "onedesk-create-message",
   name: "Create Message",
   description: "Creates a message or comment. [See the documentation](https://www.onedesk.com/dev/).",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

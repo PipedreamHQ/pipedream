@@ -4,7 +4,12 @@ import constants from "../../common/constants.mjs";
 export default {
   ...common,
   name: "Summarize Text",
-  version: "0.1.9",
+  version: "0.1.10",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "openai-summarize",
   description: "Summarizes text using the Chat API. [See the documentation](https://platform.openai.com/docs/api-reference/chat)",
   type: "action",

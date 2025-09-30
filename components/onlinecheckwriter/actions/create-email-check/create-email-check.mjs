@@ -4,7 +4,12 @@ export default {
   key: "onlinecheckwriter-create-email-check",
   name: "Create Email Check",
   description: "Create an email check for a payee. [See the documentation](https://apiv3.onlinecheckwriter.com/#211cb6e4-bda7-46de-9e84-a5e8b2709206).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

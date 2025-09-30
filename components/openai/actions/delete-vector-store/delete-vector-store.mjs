@@ -4,7 +4,12 @@ export default {
   key: "openai-delete-vector-store",
   name: "Delete Vector Store",
   description: "Delete a vector store. [See the documentation](https://platform.openai.com/docs/api-reference/vector-stores/delete)",
-  version: "0.0.6",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     openai,

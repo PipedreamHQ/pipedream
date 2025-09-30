@@ -5,7 +5,12 @@ import constants from "../../common/constants.mjs";
 export default {
   ...common,
   name: "Chat using File Search",
-  version: "0.0.7",
+  version: "0.0.8",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "openai-chat-using-file-search",
   description: "Chat with your files knowledge base (vector stores). [See the documentation](https://platform.openai.com/docs/guides/tools-file-search)",
   type: "action",

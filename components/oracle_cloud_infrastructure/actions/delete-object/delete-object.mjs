@@ -4,7 +4,12 @@ export default {
   key: "oracle_cloud_infrastructure-delete-object",
   name: "Delete Object",
   description: "Delete an object from a specified Oracle Cloud Infrastructure Object Storage bucket. [See the documentation](https://docs.oracle.com/en-us/iaas/api/#/en/objectstorage/20160918/Object/DeleteObject).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

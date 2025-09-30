@@ -6,7 +6,12 @@ export default {
   key: "opensrs-initiate-domain-transfer",
   name: "Initiate Domain Transfer",
   description: "Initiate a domain transfer to OpenSRS. [See the documentation](https://domains.opensrs.guide/docs/trade_domain).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -4,7 +4,12 @@ export default {
   key: "openai-create-vector-store",
   name: "Create Vector Store",
   description: "Create a vector store. [See the documentation](https://platform.openai.com/docs/api-reference/vector-stores/create)",
-  version: "0.0.6",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     openai,

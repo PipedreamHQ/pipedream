@@ -2,7 +2,12 @@ import app from "../../onenote.app.mjs";
 
 export default {
   name: "Create Notebook",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "onenote-create-notebook",
   description: "Creates a notebook. [See the documentation](https://learn.microsoft.com/en-us/graph/api/onenote-post-notebooks?view=graph-rest-1.0&tabs=http)",
   type: "action",

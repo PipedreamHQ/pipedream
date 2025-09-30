@@ -4,7 +4,12 @@ export default {
   key: "onlinecheckwriter-create-mail-check",
   name: "Create Mail Check",
   description: "Creates a mail check. [See the documentation](https://apiv3.onlinecheckwriter.com/#f4562b65-70e8-4c4d-8444-8898e61ab7f0).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

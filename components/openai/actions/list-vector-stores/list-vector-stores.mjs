@@ -4,7 +4,12 @@ export default {
   key: "openai-list-vector-stores",
   name: "List Vector Stores",
   description: "Returns a list of vector stores. [See the documentation](https://platform.openai.com/docs/api-reference/vector-stores/list)",
-  version: "0.0.6",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     openai,

@@ -4,7 +4,12 @@ export default {
   key: "opsgenie-delete-alert",
   name: "Delete Alert",
   description: "Removes an existing alert from Opsgenie. [See the documentation](https://docs.opsgenie.com/docs/alert-api#delete-alert)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     opsgenie,

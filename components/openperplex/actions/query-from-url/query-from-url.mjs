@@ -4,7 +4,12 @@ export default {
   key: "openperplex-query-from-url",
   name: "Query From URL",
   description: "Queries content from a specific URL using Openperplex. [See the documentation](https://docs.openperplex.com/api-reference/endpoint/query-from-url)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     openperplex,

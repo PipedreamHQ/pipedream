@@ -4,7 +4,12 @@ export default {
   key: "onedesk-update-item",
   name: "Update Item",
   description: "Updates an existing item. [See the documentation](https://www.onedesk.com/dev/).",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

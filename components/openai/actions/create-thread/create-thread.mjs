@@ -6,7 +6,12 @@ export default {
   key: "openai-create-thread",
   name: "Create Thread (Assistants)",
   description: "Creates a thread with optional messages and metadata, and optionally runs the thread using the specified assistant. [See the documentation](https://platform.openai.com/docs/api-reference/threads/createThread)",
-  version: "0.0.16",
+  version: "0.0.17",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     openai,

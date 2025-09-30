@@ -4,7 +4,12 @@ export default {
   key: "onedesk-create-user",
   name: "Create User",
   description: "Creates a user or a customer. [See the documentation](https://www.onedesk.com/dev/).",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

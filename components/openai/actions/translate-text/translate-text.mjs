@@ -9,7 +9,12 @@ const langOptions = lang.LANGUAGES.map((l) => ({
 export default {
   ...common,
   name: "Translate Text (Whisper)",
-  version: "0.1.9",
+  version: "0.1.10",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "openai-translate-text",
   description: "Translate text from one language to another using the Chat API. [See the documentation](https://platform.openai.com/docs/api-reference/chat)",
   type: "action",
