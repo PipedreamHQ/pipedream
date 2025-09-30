@@ -12,7 +12,12 @@ export default {
   key: "bloomerang-create-constituent",
   name: "Create Constituent",
   description: "Creates a new constituent in Bloomerang. [See the documentation](https://bloomerang.co/product/integrations-data-management/api/rest-api/#/Constituents/post_constituent)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     bloomerang,

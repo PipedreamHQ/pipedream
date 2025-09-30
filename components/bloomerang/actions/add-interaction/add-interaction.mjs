@@ -7,7 +7,12 @@ export default {
   key: "bloomerang-add-interaction",
   name: "Add Interaction",
   description: "Adds an interaction to an existing constituent in Bloomerang. [See the documentation](https://bloomerang.co/product/integrations-data-management/api/rest-api/#/Interactions/post_interaction)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     bloomerang,

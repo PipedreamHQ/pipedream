@@ -4,7 +4,12 @@ export default {
   key: "bitget-spot-market-get-candle-data",
   name: "Spot - Market - Get Candle Data",
   description: "Retrieve candlestick data for a specified symbol and time period. [See the documentation](https://www.bitget.com/api-doc/spot/market/Get-Candle-Data)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

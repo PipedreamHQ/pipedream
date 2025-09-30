@@ -6,7 +6,12 @@ export default {
   name: "Invite User",
   description: "Invites a new user as an employee. [See the docs here](https://developer.brex.com/openapi/team_api/#operation/createUser).",
   key: "brex-invite-user",
-  version: "0.1.0",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     brexApp,

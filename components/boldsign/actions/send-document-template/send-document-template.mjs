@@ -9,7 +9,12 @@ export default {
   key: "boldsign-send-document-template",
   name: "Send Document Using Template",
   description: "Send documents for e-signature using a BoldSign template. [See the documentation](https://developers.boldsign.com/documents/send-document-from-template/?region=us)",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     boldsign,

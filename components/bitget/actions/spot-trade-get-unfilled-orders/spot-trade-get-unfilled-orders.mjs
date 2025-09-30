@@ -4,7 +4,12 @@ export default {
   key: "bitget-spot-trade-get-unfilled-orders",
   name: "Spot - Trade - Get Unfilled Orders",
   description: "Retrieve unfilled (open) orders for a user on Bitget. [See the documentation](https://www.bitget.com/api-doc/spot/trade/Get-Unfilled-Orders)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,
