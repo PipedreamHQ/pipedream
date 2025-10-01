@@ -5,7 +5,12 @@ export default {
   key: "nocodb-get-record",
   name: "Get Record (from row number)",
   description: "This action gets a row by row Id. [See the documentation](https://data-apis-v2.nocodb.com/#tag/Table-Records/operation/db-data-table-row-read)",
-  version: "0.0.6",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

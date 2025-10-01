@@ -4,7 +4,12 @@ export default {
   key: "nethunt_crm-update-record",
   name: "Update Record",
   description: "Updates an existing record. [See docs here](https://nethunt.com/integration-api#update-record)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     nethuntCrm,
