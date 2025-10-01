@@ -5,7 +5,12 @@ export default {
   key: "tidy-create-address",
   name: "Create Address",
   description: "Creates a new address in Tidy. See the documentation(https://help.tidy.com/create-an-address)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     tidy,

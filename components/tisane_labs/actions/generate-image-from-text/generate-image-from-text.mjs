@@ -4,7 +4,12 @@ export default {
   key: "tisane_labs-generate-image-from-text",
   name: "Generate Image From Text",
   description: "Finds and returns a URL of an image (Creative Commons) best describing the text. [See the documentation](https://docs.tisane.ai/#b61cf454-1e78-42c4-a239-7fa580781729)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     tisaneLabs,

@@ -3,7 +3,12 @@ import constants from "../../common/constants.mjs";
 
 export default {
   name: "Fetch Current Odds",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "the_odds_api-fetch-current-odds",
   description: "Retrieve the current odds for a specific sport or match. [See the documentation](https://the-odds-api.com/liveapi/guides/v4/#get-event-odds)",
   type: "action",

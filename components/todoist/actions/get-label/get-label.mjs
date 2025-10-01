@@ -4,7 +4,12 @@ export default {
   key: "todoist-get-label",
   name: "Get Label",
   description: "Returns info about a label. [See the docs here](https://developer.todoist.com/rest/v2/#get-a-personal-label)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     todoist,
