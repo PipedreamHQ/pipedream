@@ -1917,6 +1917,9 @@ importers:
 
   components/braintree: {}
 
+  components/brandfetch:
+    specifiers: {}
+
   components/brandmentions: {}
 
   components/brave_search_api:
