@@ -4,7 +4,12 @@ export default {
   key: "loyverse-generate-receipt-items",
   name: "Generate Receipt Items",
   description: "Generates the data for items to use in a receipt. [See the documentation](https://developer.loyverse.com/docs/#tag/Receipts/paths/~1receipts/post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     loyverse,

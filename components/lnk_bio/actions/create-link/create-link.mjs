@@ -5,7 +5,12 @@ export default {
   key: "lnk_bio-create-link",
   name: "Create Link",
   description: "Creates a new link on your lnk.bio profile which will immediately publish and appear on top of your existing links. [See the documentation](https://app.swaggerhub.com/apis/lnkbio/Lnk.Bio/0.0.2)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     lnkBio,

@@ -5,7 +5,12 @@ export default {
   key: "livekit-create-ingress-from-url",
   name: "Create Ingress From URL",
   description: "Create a new ingress from url in LiveKit. [See the documentation](https://docs.livekit.io/home/ingress/overview/#url-input-example).",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

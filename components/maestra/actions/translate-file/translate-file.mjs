@@ -5,7 +5,12 @@ export default {
   key: "maestra-translate-file",
   name: "Translate File",
   description: "Translates an existing file in the Maestra system. [See the documentation](https://maestra.ai/docs#translate)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

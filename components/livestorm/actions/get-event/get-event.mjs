@@ -5,7 +5,12 @@ export default {
   name: "Get Event",
   description: "Retrieve a single event. [See the Documentation](https://developers.livestorm.co/reference/get_events-id)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     eventId: {

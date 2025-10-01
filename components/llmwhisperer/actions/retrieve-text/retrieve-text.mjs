@@ -4,7 +4,12 @@ export default {
   key: "llmwhisperer-retrieve-text",
   name: "Retrieve Extracted Text",
   description: "Retrieve the extracted text executed through the whisper API. This can be used to retrieve the text of the conversion process when the conversion is done in async mode. [See the documentation](https://docs.unstract.com/llm_whisperer/apis/llm_whisperer_text_extraction_retrieve_api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

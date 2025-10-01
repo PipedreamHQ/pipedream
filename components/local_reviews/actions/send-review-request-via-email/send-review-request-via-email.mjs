@@ -4,7 +4,12 @@ export default {
   key: "local_reviews-send-review-request-via-email",
   name: "Send Review Request Via Email",
   description: "Send a review invitation to a customer via email. [See the documentation](https://app.localreviews.com/review-tools/api-documentation).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

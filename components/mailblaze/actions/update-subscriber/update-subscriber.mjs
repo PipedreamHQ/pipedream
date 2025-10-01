@@ -5,7 +5,12 @@ export default {
   key: "mailblaze-update-subscriber",
   name: "Update Subscriber",
   description: "Updates information for an existing subscriber in your mailing list. [See the documentation](https://www.mailblaze.com/support/api-documentation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

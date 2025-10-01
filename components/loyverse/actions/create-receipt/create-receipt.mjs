@@ -5,7 +5,12 @@ export default {
   key: "loyverse-create-receipt",
   name: "Create Receipt",
   description: "Creates a new receipt for a specific store. [See the documentation](https://developer.loyverse.com/docs/#tag/Receipts/paths/~1receipts/post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     loyverse,

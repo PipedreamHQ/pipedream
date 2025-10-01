@@ -5,7 +5,12 @@ export default {
   key: "lokalise-upload-file",
   name: "Upload File",
   description: "Uploads a specified file to a Lokalise project. [See the documentation](https://developers.lokalise.com/reference/upload-a-file)",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     lokalise,

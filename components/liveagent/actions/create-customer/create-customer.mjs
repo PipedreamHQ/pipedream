@@ -2,7 +2,12 @@ import liveagent from "../../liveagent.app.mjs";
 
 export default {
   name: "Create Customer",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "liveagent-create-customer",
   description: "Creates a customer. [See docs here](https://pipedream.ladesk.com/docs/api/v3/#/contacts/createContact)",
   type: "action",

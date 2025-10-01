@@ -6,7 +6,12 @@ export default {
   name: "List Sessions",
   description: "List all your event sessions. [See the Documentation](https://developers.livestorm.co/reference/get_sessions)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
   },

@@ -5,7 +5,12 @@ export default {
   key: "lnk_bio-delete-link",
   name: "Delete Link",
   description: "Deletes an existing link in lnk.bio. [See the documentation](https://app.swaggerhub.com/apis/lnkbio/Lnk.Bio/0.0.2)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     lnkBio,

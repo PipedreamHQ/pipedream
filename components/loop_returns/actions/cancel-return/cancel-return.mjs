@@ -4,7 +4,12 @@ export default {
   key: "loop_returns-cancel-return",
   name: "Cancel Return",
   description: "Cancels a pending return request in Loop. [See the documentation](https://docs.loopreturns.com/reference/cancelreturn)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

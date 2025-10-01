@@ -4,7 +4,12 @@ export default {
   key: "lusha-company-enrich",
   name: "Enrich Companies",
   description: "Enriches company information based on provided company IDs. [See the documentation](https://docs.lusha.com/apis/openapi/company-search-and-enrich/enrichprospectingcompanies)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     lusha,

@@ -4,7 +4,12 @@ export default {
   key: "linkly-create-link",
   name: "Create Link",
   description: "Creates a new Linkly link using the provided URL. [See the documentation](https://app.linklyhq.com/swaggerui#/API/create_or_update)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     linkly,

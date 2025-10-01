@@ -5,7 +5,12 @@ export default {
   key: "listmonk-create-subscriber",
   name: "Create Subscriber",
   description: "Create a new subscriber in Listmonk. [See the documentation](https://listmonk.app/docs/apis/subscribers/#post-apisubscribers)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     listmonk,

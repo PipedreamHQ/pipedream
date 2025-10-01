@@ -4,7 +4,12 @@ export default {
   key: "liveswitch-update-contact",
   name: "Update Contact",
   description: "Update a contact in LiveSwitch [See the documentation](https://developer.liveswitch.com/reference/post_v1-contacts)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

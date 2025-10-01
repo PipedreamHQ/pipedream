@@ -6,7 +6,12 @@ export default {
   key: "lmnt-create-custom-voice",
   name: "Create Custom Voice",
   description: "Generates a custom voice from a batch of input audio data. [See the documentation](https://docs.lmnt.com/api-reference/voice/create-voice)",
-  version: "1.0.1",
+  version: "1.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     lmnt,
