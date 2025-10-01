@@ -4,7 +4,12 @@ export default {
   key: "stripe-create-product",
   name: "Create Product",
   description: "Creates a new product object in Stripe. [See the documentation](https://stripe.com/docs/api/products/create).",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

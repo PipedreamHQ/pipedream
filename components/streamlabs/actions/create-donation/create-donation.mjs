@@ -5,7 +5,12 @@ export default {
   key: "streamlabs-create-donation",
   name: "Create Donation",
   description: "Create a donation for the authenticated user. [See the documentation](https://dev.streamlabs.com/reference/donations-1)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     streamlabs,
