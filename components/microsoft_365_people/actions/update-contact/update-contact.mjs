@@ -5,7 +5,12 @@ export default {
   key: "microsoft_365_people-update-contact",
   name: "Update Contact",
   description: "Updates an existing contact in Microsoft 365 People. [See the documentation](https://learn.microsoft.com/en-us/graph/api/contact-update?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     microsoftPeople,

@@ -4,7 +4,12 @@ export default {
   key: "meteomatics_weather_api-get-weather-data",
   name: "Get Weather Data",
   description: "Retrieve historic, current, and forecast data globally. [See the documentation](https://www.meteomatics.com/en/api/getting-started/)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

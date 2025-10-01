@@ -5,7 +5,12 @@ export default {
   key: "microsoft_onedrive-find-file-by-name",
   name: "Find File by Name",
   description: "Search for a file or folder by name. [See the documentation](https://learn.microsoft.com/en-us/onedrive/developer/rest-api/api/driveitem_search)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     onedrive,

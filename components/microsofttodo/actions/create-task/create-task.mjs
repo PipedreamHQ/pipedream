@@ -5,7 +5,12 @@ export default {
   key: "microsofttodo-create-task",
   name: "Create Task",
   description: "Create a new task in Microsoft To Do. [See the documentation](https://learn.microsoft.com/en-us/graph/api/todotasklist-post-tasks).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     microsoftTodo,

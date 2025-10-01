@@ -4,7 +4,12 @@ export default {
   key: "microsofttodo-create-list",
   name: "Create List",
   description: "Create a new task list in Microsoft To Do. [See the documentation](https://learn.microsoft.com/en-us/graph/api/todo-post-lists).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     microsoftTodo,

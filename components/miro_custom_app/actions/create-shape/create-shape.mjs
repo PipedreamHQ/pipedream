@@ -4,7 +4,12 @@ const { app } = common.props;
 
 export default {
   name: "Create Shape",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "miro_custom_app-create-shape",
   description: "Creates a shape on a Miro board. [See the docs](https://developers.miro.com/reference/create-shape-item).",
   type: "action",

@@ -4,7 +4,12 @@ export default {
   key: "microsoft_power_bi-refresh-dataset",
   name: "Refresh Dataset",
   description: "Triggers a refresh operation for a specified Power BI dataset. [See the documentation](https://learn.microsoft.com/en-us/rest/api/power-bi/datasets/refresh-dataset)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     powerBi,
