@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "qr_api-create-email-qrcode",
   name: "Create Email QR Code",
-  description: "Create a Email QR Code. [See the documentation](https://qrapi.io/api-documentation/#/qrcode/create_email_qr_code)",
+  description: "Create an Email QR Code. [See the documentation](https://qrapi.io/api-documentation/#/qrcode/create_email_qr_code)",
   version: "0.0.1",
   type: "action",
   props: {
