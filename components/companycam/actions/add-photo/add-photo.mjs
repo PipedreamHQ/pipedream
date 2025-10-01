@@ -6,7 +6,12 @@ export default {
   name: "Add Photo",
   description: "Add a photo to a project. [See the docs](https://docs.companycam.com/reference/createprojectphoto).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     projectId: {

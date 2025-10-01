@@ -4,7 +4,12 @@ export default {
   key: "connecteam-delete-shift",
   name: "Delete Shift",
   description: "Removes a specific shift based on shift ID. [See the documentation](https://developer.connecteam.com/reference/delete_shift_by_id_scheduler_v1_schedulers__schedulerid__shifts__shiftid__delete)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     connecteam,

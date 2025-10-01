@@ -4,7 +4,12 @@ export default {
   key: "codescene-get-projects",
   name: "Get Projects",
   description: "Returns a list of projects. [See the documentation](https://codescene.io/docs/integrations/public-api.html#projects-list)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     codescene,

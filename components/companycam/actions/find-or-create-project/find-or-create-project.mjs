@@ -5,7 +5,12 @@ export default {
   name: "Find or Create a Project",
   description: "Find a project by name or create it if it doesn&#39;t exist. [See the docs](https://docs.companycam.com/reference/listprojects).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     projectName: {

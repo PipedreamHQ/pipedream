@@ -4,7 +4,12 @@ export default {
   key: "contactout-decision-makers-search",
   name: "Decision Makers Search",
   description: "Get profiles of key decision makers within a specified company. [See the documentation](https://api.contactout.com/#decision-makers-api).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

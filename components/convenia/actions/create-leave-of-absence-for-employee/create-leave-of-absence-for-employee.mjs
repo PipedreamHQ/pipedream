@@ -4,7 +4,12 @@ export default {
   key: "convenia-create-leave-of-absence-for-employee",
   name: "Create Leave Of Absence For Employee",
   description: "Creates a new leave of absence for an employee. [See the documentation](https://docs--api-convenia-com-br.translate.goog/?_x_tr_sl=auto&_x_tr_tl=en&_x_tr_hl=en&_x_tr_pto=wapp)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     convenia,

@@ -4,7 +4,12 @@ import { clearObj } from "../../common/utils.mjs";
 export default {
   key: "cohere_platform-chat",
   name: "Chat",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Generates a text response to a user message. [See the documentation](https://docs.cohere.com/reference/chat)",
   type: "action",
   props: {

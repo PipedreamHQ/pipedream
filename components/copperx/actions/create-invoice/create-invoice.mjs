@@ -6,7 +6,12 @@ import copperx from "../../copperx.app.mjs";
 export default {
   key: "copperx-create-invoice",
   name: "Create Invoice",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new invoice [See the documentation](https://copperx.readme.io/reference/invoicecontroller_create)",
   type: "action",
   props: {

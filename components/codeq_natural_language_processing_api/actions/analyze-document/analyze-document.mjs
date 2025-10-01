@@ -3,7 +3,12 @@ import codeqNaturalLanguageProcessingApi from "../../codeq_natural_language_proc
 export default {
   key: "codeq_natural_language_processing_api-analyze-document",
   name: "Analyze Document",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Receives a text and returns a JSON object containing a list of analyzed sentences. [See the docs here](https://api.codeq.com/api)",
   type: "action",
   props: {

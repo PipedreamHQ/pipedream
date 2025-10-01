@@ -4,7 +4,12 @@ export default {
   key: "contactout-email-to-linkedin",
   name: "Email To LinkedIn",
   description: "Find LinkedIn profile from email address. [See the documentation](https://api.contactout.com/#email-to-linkedin-api).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,
