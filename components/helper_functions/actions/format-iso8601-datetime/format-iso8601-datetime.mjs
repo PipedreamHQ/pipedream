@@ -6,7 +6,12 @@ export default {
   key: "helper_functions-format-iso8601-datetime",
   name: "Format ISO8601 Date/Time for Google Sheets",
   description: "Use the moment.js npm package to format an ISO8601 date/time as Google Sheets friendly formats. This action exports an object with compound date/time, date-only, and time-only values.",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     helper_functions,

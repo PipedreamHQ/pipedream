@@ -4,7 +4,12 @@ export default {
   key: "miro_custom_app-create-card-item",
   name: "Create Card Item",
   description: "Creates a card item on a Miro board. [See the documentation](https://developers.miro.com/reference/create-card-item).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

@@ -6,7 +6,12 @@ export default {
   key: "google_calendar-list-events",
   name: "List Events",
   description: "Retrieve a list of event from the Google Calendar. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/list)",
-  version: "0.0.8",
+  version: "0.0.9",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     googleCalendar,

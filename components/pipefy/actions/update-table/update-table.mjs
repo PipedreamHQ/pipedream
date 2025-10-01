@@ -5,7 +5,12 @@ export default {
   key: "pipefy-update-table",
   name: "Update Table",
   description: "Updates a table. [See the docs here](https://api-docs.pipefy.com/reference/mutations/updateTableRecord/)",
-  version: "0.1.2",
+  version: "0.1.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pipefy,

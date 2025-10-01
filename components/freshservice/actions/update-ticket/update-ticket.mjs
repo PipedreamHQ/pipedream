@@ -4,7 +4,12 @@ export default {
   key: "freshservice-update-ticket",
   name: "Update Ticket",
   description: "Update a ticket. [See the documentation](https://api.freshservice.com/#update_ticket_priority)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     freshservice,

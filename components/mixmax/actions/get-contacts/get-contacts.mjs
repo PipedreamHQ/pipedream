@@ -7,7 +7,12 @@ export default {
   key: "mixmax-get-contacts",
   name: "Get Contacts",
   description: "Lists all your Mixmax Contacts (ie people you've emailed using Mixmax). Does not currently return contacts shared with you via shared contact groups (a performance limitiation). [See the docs here](https://developer.mixmax.com/reference/contacts)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

@@ -6,7 +6,12 @@ export default {
   key: "gem-create-candidate",
   name: "Create Candidate",
   description: "Creates a new candidate in Gem. [See the documentation](https://api.gem.com/v0/reference#tag/Candidates/paths/~1v0~1candidates/post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     gem,

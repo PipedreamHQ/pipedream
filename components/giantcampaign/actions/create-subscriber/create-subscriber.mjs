@@ -4,7 +4,12 @@ export default {
   name: "Create Subscriber",
   description: "Create a new subscriber into a list [See the documentation](https://giantcampaign.com/developers/#create-subscriber).",
   key: "giantcampaign-create-subscriber",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

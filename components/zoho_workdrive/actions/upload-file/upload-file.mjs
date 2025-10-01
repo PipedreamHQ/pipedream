@@ -1,11 +1,14 @@
 import { getFileStreamAndMetadata } from "@pipedream/platform";
 import FormData from "form-data";
 import app from "../../zoho_workdrive.app.mjs";
+import {
+  additionalFolderProps, findMaxFolderId,
+} from "../../common/additionalFolderProps.mjs";
 
 export default {
   key: "zoho_workdrive-upload-file",
   name: "Upload File",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -38,6 +41,7 @@ export default {
           folderType,
         }),
       ],
+      reloadProps: true,
     },
     filename: {
       label: "Filename",
@@ -63,6 +67,9 @@ export default {
       optional: true,
     },
   },
+  async additionalProps() {
+    return additionalFolderProps.call(this);
+  },
   async run({ $ }) {
     const {
       stream, metadata,
@@ -75,7 +82,12 @@ export default {
     });
     const override = this.overrideNameExist?.toString();
 
-    data.append("parent_id", this.parentId);
+    const num = findMaxFolderId(this);
+    const parentId = num > 0
+      ? this[`folderId${num}`]
+      : this.parentId;
+
+    data.append("parent_id", parentId);
     if (this.filename) data.append("filename", this.filename);
     if (override) data.append("override-name-exist", override);
 

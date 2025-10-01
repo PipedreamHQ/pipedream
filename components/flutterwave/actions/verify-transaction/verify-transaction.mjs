@@ -4,7 +4,12 @@ export default {
   key: "flutterwave-verify-transaction",
   name: "Verify Transaction",
   description: "Confirms a given transaction. [See the documentation](https://developer.flutterwave.com/reference/endpoints/transactions#verify-a-transaction)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     flutterwave,

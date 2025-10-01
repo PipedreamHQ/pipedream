@@ -4,7 +4,12 @@ export default {
   name: "Get Delivery Order Status",
   description: "Retrieve the delivery order status using reference and customer details. [See the documentation](https://api-portal.dachser.com/bi.b2b.portal/api/library/deliveryorderstatus?6)",
   key: "dachser-get-delivery-order-status",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

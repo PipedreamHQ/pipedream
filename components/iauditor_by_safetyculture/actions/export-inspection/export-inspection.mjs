@@ -5,7 +5,12 @@ export default {
   key: "iauditor_by_safetyculture-export-inspection",
   name: "Export Inspection to PDF or Word",
   description: "Retrieve an inspection report formatted as a PDF or Word (docx) document.[See the documentation](https://developer.safetyculture.com/reference/reportsservice_startinspectionexport)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     safetyculture,

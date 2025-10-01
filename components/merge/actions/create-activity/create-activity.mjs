@@ -4,7 +4,12 @@ export default {
   key: "merge-create-activity",
   name: "Create Activity",
   description: "Creates an Activity object with the given values. [See the documentation](https://docs.merge.dev/ats/activities/#activities_create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

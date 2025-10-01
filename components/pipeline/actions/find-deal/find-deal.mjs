@@ -4,7 +4,12 @@ export default {
   name: "Find Deal",
   key: "pipeline-find-deal",
   description: "Find an existing deal in your Pipeline account. [See the docs here](https://app.pipelinecrm.com/api/docs#tag/Deals/paths/~1deals/get)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     pipeline,

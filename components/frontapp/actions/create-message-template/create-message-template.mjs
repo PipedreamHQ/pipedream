@@ -6,7 +6,12 @@ export default {
   key: "frontapp-create-message-template",
   name: "Create Message Template",
   description: "Create a new message template. [See the documentation](https://dev.frontapp.com/reference/create-message-template).",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     frontApp,

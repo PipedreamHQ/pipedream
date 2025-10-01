@@ -5,7 +5,12 @@ export default {
   key: "nuclino-update-item-or-collection",
   name: "Update Item or Collection",
   description: "Update an existing item or collection in Nuclino. [See the documentation](https://help.nuclino.com/fa38d15f-items-and-collections)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     nuclino,

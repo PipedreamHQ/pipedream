@@ -4,7 +4,12 @@ export default {
   name: "Get all Contacts",
   description: "Get all contacts from a list [See the documentation](https://campaignhq.docs.apiary.io/#reference/0/contacts-collection/get-all-contacts).",
   key: "campaignhq-get-all-contacts",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

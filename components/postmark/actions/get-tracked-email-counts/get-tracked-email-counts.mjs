@@ -4,7 +4,12 @@ export default {
   key: "postmark-get-tracked-email-counts",
   name: "Get Tracked Email Counts",
   description: "Gets a total count of emails you've sent with open tracking or link tracking enabled. [See the documentation](https://postmarkapp.com/developer/api/stats-api#email-tracked-count)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     postmark,

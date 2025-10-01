@@ -5,7 +5,12 @@ export default {
   key: "faktoora-create-invoice",
   name: "Create Invoice",
   description: "Create a new ZUGFeRD/xrechnung invoice. [See the documentation](https://api.faktoora.com/api/v1/api-docs/static/index.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     faktoora,

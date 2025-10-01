@@ -4,7 +4,12 @@ export default {
   name: "Document Toggle Searchable",
   description: "Turn PDF and scanned JPG, PNG images into text-searchable PDF or text-unsearchable. [See docs here](https://apidocs.pdf.co/11-pdf-make-text-searchable-or-unsearchable)",
   key: "pdf_co-document-toggle-searchable",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

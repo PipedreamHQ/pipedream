@@ -4,7 +4,12 @@ export default {
   key: "nextcloud-get-shares",
   name: "Get Shares",
   description: "Retrieves a list of shares based on the specified criteria in Nextcloud. [See the documentation](https://docs.nextcloud.com/server/latest/developer_manual/_static/openapi.html#/operations/files_sharing-shareapi-get-shares)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     nextcloud,

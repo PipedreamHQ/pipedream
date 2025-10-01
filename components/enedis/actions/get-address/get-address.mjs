@@ -4,7 +4,12 @@ import common from "../common.mjs";
 export default {
   type: "action",
   key: "enedis-get-address",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   name: "Get Address",
   description: "Returns the address of a client. [See the docs here](https://datahub-enedis.fr/data-connect/documentation/customers-v5-adresse/)",
   ...common,

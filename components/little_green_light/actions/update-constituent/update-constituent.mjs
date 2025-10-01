@@ -4,7 +4,12 @@ export default {
   key: "little_green_light-update-constituent",
   name: "Update Constituent",
   description: "Updates a constituent along with related objects in Little Green Light. [See the documentation](https://api.littlegreenlight.com/api-docs/static.html#update_constituent)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     littleGreenLight,

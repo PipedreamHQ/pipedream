@@ -5,7 +5,12 @@ export default {
   key: "dropinblog-create-post",
   name: "Create Post",
   description: "Allows you to create a new blog post in your DropInBlog account. Requires a private API key. [See the documentation](https://dropinblog.readme.io/reference/posts-create).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

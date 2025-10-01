@@ -4,7 +4,12 @@ export default {
   key: "brave_search_api-web-search",
   name: "Web Search",
   description: "Query Brave Search and get back search results from the web. [See the documentation](https://api-dashboard.search.brave.com/app/documentation/web-search/get-started)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

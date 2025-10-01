@@ -2,7 +2,12 @@ import gatherup from "../../gatherup.app.mjs";
 
 export default {
   name: "Create Customer",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "gatherup-create-customer",
   description: "Creates a customer. [See docs here](https://apidocs.gatherup.com/#fa6d95bf-df57-4e3c-a1f1-2e0438a2e9a6)",
   type: "action",

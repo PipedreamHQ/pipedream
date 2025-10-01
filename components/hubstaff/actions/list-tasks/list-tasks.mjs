@@ -6,7 +6,12 @@ export default {
   key: "hubstaff-list-tasks",
   name: "List Tasks",
   description: "Retrieves a list of all tasks from your Hubstaff organization. [See the documentation](https://developer.hubstaff.com/docs/hubstaff_v2#!/tasks/getV2OrganizationsOrganizationIdTasks)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     hubstaff,

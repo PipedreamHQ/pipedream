@@ -4,7 +4,12 @@ import hyros from "../../hyros.app.mjs";
 export default {
   key: "hyros-create-lead",
   name: "Create Lead",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new lead. [See the documentation](https://hyros.docs.apiary.io/#reference/0/leads/create-lead)",
   type: "action",
   props: {

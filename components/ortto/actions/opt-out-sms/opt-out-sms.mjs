@@ -4,7 +4,12 @@ export default {
   key: "ortto-opt-out-sms",
   name: "Opt Out of SMS",
   description: "Allows a user to opt-out from all SMS communications. [See the documentation](https://help.ortto.com/a-250-api-reference)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ortto,

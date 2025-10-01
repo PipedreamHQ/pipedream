@@ -6,7 +6,12 @@ export default {
   name: "Send Text Message",
   description: "Action to send a text in iMessage to an individual recipient. [See the documentation](https://docs.loopmessage.com/imessage-conversation-api/messaging/send-message#send-single-message)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     ...common.props,
     service: {

@@ -2,7 +2,12 @@ import luminPdf from "../../lumin_pdf.app.mjs";
 
 export default {
   name: "Download File as File URL",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "lumin_pdf-download-file-as-file-url",
   description: "Get a download URL for a file. [See the documentation](https://developers.luminpdf.com/api/download-file-as-file-url/)",
   type: "action",

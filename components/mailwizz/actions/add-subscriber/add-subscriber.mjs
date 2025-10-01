@@ -3,7 +3,12 @@ import mailwizz from "../../mailwizz.app.mjs";
 export default {
   key: "mailwizz-add-subscriber",
   name: "Add Subscriber",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new subscriber to a list. [See the docs here](https://api-docs.mailwizz.com/?python#create-a-subscriber)",
   type: "action",
   props: {

@@ -5,7 +5,12 @@ import utils from "../../common/utils.mjs";
 export default {
   type: "action",
   key: "noticeable-search-email-subscription",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   name: "Search Email Subscriptions",
   description: "Searches email subscriptions for the given options. If no options given, retrieves all subscriptions, [See the docs](https://graphdoc.noticeable.io/emailsubscription.doc.html)",
   props: {

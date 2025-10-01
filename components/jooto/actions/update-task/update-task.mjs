@@ -4,7 +4,12 @@ export default {
   key: "jooto-update-task",
   name: "Update Task",
   description: "Update a new task in the selected project. [See the documentation](https://www.jooto.com/api/reference/request/#/default/patch-boards-id-tasks-task_id)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

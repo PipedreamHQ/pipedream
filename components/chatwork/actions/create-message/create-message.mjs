@@ -4,7 +4,12 @@ export default {
   key: "chatwork-create-message",
   name: "Create Message",
   description: "Send a message to a specified room. [See the documentation](https://download.chatwork.com/ChatWork_API_Documentation.pdf)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     chatwork,

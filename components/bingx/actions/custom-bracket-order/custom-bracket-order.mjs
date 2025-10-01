@@ -4,7 +4,12 @@ import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   name: "BingX Custom Bracket Order",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "bingx-custom-bracket-order",
   description: "Place bracket order. [See the documentation](https://bingx-api.github.io/docs/#/swapV2/trade-api.html#Trade%20order)",
   props: {

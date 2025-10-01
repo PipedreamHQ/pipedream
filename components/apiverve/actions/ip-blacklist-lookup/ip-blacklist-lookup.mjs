@@ -4,7 +4,12 @@ export default {
   key: "apiverve-ip-blacklist-lookup",
   name: "IP Blacklist Lookup",
   description: "Lookup if an IP address is in a blacklist. [See the documentation](https://docs.apiverve.com/api/ipblacklistlookup)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     apiverve,

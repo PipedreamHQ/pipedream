@@ -13,7 +13,12 @@ export default {
   name: "Create Lead",
   description:
     "Create a lead in Hubspot. [See the documentation](https://developers.hubspot.com/beta-docs/guides/api/crm/objects/leads#create-leads)",
-  version: "0.0.18",
+  version: "0.0.19",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     hubspot,

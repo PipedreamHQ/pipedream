@@ -5,7 +5,12 @@ export default {
   key: "mailosaur-create-email",
   name: "Create and Send Email via Mailosaur",
   description: "Sends an email through Mailosaur. [See the documentation](https://mailosaur.com/docs/api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mailosaur,

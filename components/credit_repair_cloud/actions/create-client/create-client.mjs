@@ -10,7 +10,12 @@ export default {
   name: "Create Client",
   description: "Create Client [See the documentation](https://app.creditrepaircloud.com/webapi/examples).",
   key: "credit_repair_cloud-create-client",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -4,7 +4,12 @@ export default {
   key: "pipefy-create-card",
   name: "Create Card",
   description: "Create a new Card in a Pipe. [See the docs here](https://api-docs.pipefy.com/reference/mutations/createCard/)",
-  version: "0.1.2",
+  version: "0.1.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pipefy,

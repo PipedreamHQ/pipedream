@@ -4,7 +4,12 @@ export default {
   key: "gpt_trainer-create-session",
   name: "Create Chat Session",
   description: "Create a chat session for a chatbot specified by chatbot UUID. [See the documentation](https://guide.gpt-trainer.com/api-reference/sessions/create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

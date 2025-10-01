@@ -4,7 +4,12 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   type: "action",
   key: "alpaca-list-orders",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   name: "List Orders",
   description: "Retrieves a list of orders for the account, filtered by the supplied query parameters, if no filter given all will be returned, [See the docs](https://alpaca.markets/docs/api-references/trading-api/orders/#get-a-list-of-orders)",
   props: {

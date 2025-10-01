@@ -4,7 +4,12 @@ export default {
   key: "postmark-get-outbound-overview",
   name: "Get Outbound Overview",
   description: "Gets a brief overview of statistics for all of your outbound email. [See the documentation](https://postmarkapp.com/developer/api/stats-api#overview)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     postmark,

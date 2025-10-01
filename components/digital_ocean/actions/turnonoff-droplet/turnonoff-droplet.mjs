@@ -5,7 +5,12 @@ export default {
   key: "digital_ocean-turnonoff-droplet",
   name: "Turn on/off Droplet",
   description: "Turns a droplet power status either on or off. [See the docs here](https://docs.digitalocean.com/reference/api/api-reference/#operation/post_droplet_action)",
-  version: "0.1.2",
+  version: "0.1.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     digitalOceanApp,

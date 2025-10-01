@@ -5,7 +5,12 @@ export default {
   key: "dataforseo-get-keyword-suggestions",
   name: "Get Keyword Suggestions",
   description: "Get keyword ideas and related terms for specified seed keywords. [See the documentation](https://docs.dataforseo.com/v3/dataforseo_labs/google/keyword_suggestions/live/?bash)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     dataforseo,

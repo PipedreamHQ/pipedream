@@ -4,7 +4,12 @@ export default {
   key: "dexatel-send-single-sms",
   name: "Send Single SMS",
   description: "Sends a single SMS to a specified recipient. [See the documentation](https://dexatel.com/developers/messages-add)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     dexatel,

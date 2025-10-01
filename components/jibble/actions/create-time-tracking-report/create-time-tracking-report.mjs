@@ -5,7 +5,12 @@ export default {
   name: "Create Time Tracking Report",
   description: "This is generic endpoint for getting time tracking reports. [See the documentation](https://docs.api.jibble.io/#3115af1a-24a6-4d19-a7e7-08d8c173bb85).",
   key: "jibble-create-time-tracking-report",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

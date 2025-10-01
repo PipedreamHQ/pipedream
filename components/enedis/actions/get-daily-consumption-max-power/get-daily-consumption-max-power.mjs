@@ -4,7 +4,12 @@ import common from "../common.mjs";
 export default {
   type: "action",
   key: "enedis-get-daily-consumption-max-power",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   name: "Get Daily Consumption Max Power",
   description: "Returns the daily maximal power consumed in VA. [See the docs here](https://datahub-enedis.fr/data-connect/documentation/metering-v5-puissance-maximum-de-consommation/)",
   ...common,

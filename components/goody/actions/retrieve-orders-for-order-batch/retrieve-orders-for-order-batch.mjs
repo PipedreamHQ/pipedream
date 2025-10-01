@@ -4,7 +4,12 @@ export default {
   key: "goody-retrieve-orders-for-order-batch",
   name: "Retrieve Orders For Order Batch",
   description: "Retrieves orders for an order batch in Goody. [See the documentation](https://developer.ongoody.com/api-reference/order-batches/retrieve-orders-for-an-order-batch)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     goody,

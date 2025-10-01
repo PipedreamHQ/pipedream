@@ -5,7 +5,12 @@ export default {
   key: "fogbugz-create-case",
   name: "Create Case",
   description: "Creates a new case on FogBugz. [See the documentation](https://support.fogbugz.com/hc/en-us/articles/360011330713-FogBugz-XML-API-Editing-Cases)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     fogbugz,

@@ -5,7 +5,12 @@ export default {
   key: "docusign-download-documents",
   name: "Download Documents",
   description: "Download the documents of an envelope to the /tmp directory. [See the documentation here](https://developers.docusign.com/docs/esign-rest-api/how-to/download-envelope-documents/)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     docusign,

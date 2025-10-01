@@ -6,7 +6,12 @@ export default {
   key: "mailgun-delete-mailinglist-member",
   name: "Delete Mailing List Member",
   description: "Delete a mailing list member by address. [See the docs here](https://documentation.mailgun.com/en/latest/api-mailinglists.html#mailing-lists)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mailgun,

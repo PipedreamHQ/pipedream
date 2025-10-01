@@ -6,7 +6,12 @@ export default {
   key: "columns_ai-build-graph-from-scratch",
   name: "Build Graph From Scratch",
   description: "Builds a graph object from scratch and publishes it. [See the documentation](https://github.com/varchar-io/vaas?tab=readme-ov-file#basic-usage)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

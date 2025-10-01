@@ -4,7 +4,12 @@ export default {
   key: "generated_photos-generate-similar-faces-by-url",
   name: "Generate Similar Faces by Image URL",
   description: "Generates faces similar to an image URL with the Generated Photos API. [See the documentation](https://generated.photos/account#apikey)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     generatedPhotos,

@@ -2,7 +2,12 @@ import app from "../../klaxoon.app.mjs";
 
 export default {
   name: "Create Board",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "klaxoon-create-board",
   description: "Creates a board. [See the documentation](https://developers.klaxoon.com/reference/v1boardpost)",
   type: "action",

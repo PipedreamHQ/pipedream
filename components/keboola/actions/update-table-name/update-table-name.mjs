@@ -4,7 +4,12 @@ export default {
   key: "keboola-update-table-name",
   name: "Update Table Name",
   description: "Update the name of a table. [See the documentation](https://keboola.docs.apiary.io/#reference/tables/manage-tables/table-update)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     keboola,

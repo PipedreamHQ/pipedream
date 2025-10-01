@@ -4,7 +4,12 @@ export default {
   key: "paigo-measure-usage",
   name: "Measure Usage",
   description: "Records the amount of a specific usage type linked with a customer. [See the documentation](http://www.api.docs.paigo.tech/#tag/Usage/operation/Collect%20usage%20data)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     paigo,

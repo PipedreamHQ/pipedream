@@ -5,7 +5,12 @@ export default {
   key: "jobber-search-quotes",
   name: "Search Quotes",
   description: "Search for quotes using a search termin Jobber. [See the documentation](https://developer.getjobber.com/docs)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     jobber,

@@ -5,7 +5,12 @@ export default {
   key: "calendly_v2-create-invitee-no-show",
   name: "Create Invitee No Show",
   description: "Marks an Invitee as a No Show in Calendly. [See the documentation](https://calendly.stoplight.io/docs/api-docs/cebd8c3170790-create-invitee-no-show).",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     calendly,

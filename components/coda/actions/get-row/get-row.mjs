@@ -4,7 +4,12 @@ export default {
   key: "coda-get-row",
   name: "Get Row",
   description: "Fetch a single row by name or ID. [See docs](https://coda.io/developers/apis/v1#tag/Rows/operation/getRow)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     coda,

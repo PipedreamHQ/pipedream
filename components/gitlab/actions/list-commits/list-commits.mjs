@@ -5,7 +5,12 @@ export default {
   key: "gitlab-list-commits",
   name: "List Commits",
   description: "List commits in a repository branch. [See the documentation](https://docs.gitlab.com/ee/api/commits.html#list-repository-commits)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     gitlab,

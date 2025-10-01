@@ -5,7 +5,12 @@ export default {
   key: "dataforseo-get-app-reviews-summary",
   name: "Get App Reviews Summary",
   description: "Get app reviews and ratings summary for mobile app reputation analysis. [See the documentation](https://docs.dataforseo.com/v3/app_data/apple/app_reviews/task_post/?bash)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     dataforseo,

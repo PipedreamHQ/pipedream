@@ -4,7 +4,12 @@ export default {
   key: "clio-create-matter",
   name: "Create New Matter",
   description: "Creates a new matter in Clio. [See the documentation](https://docs.developers.clio.com/api-reference/#tag/Matters/operation/Matter#index)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

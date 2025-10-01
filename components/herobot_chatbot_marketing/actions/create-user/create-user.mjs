@@ -5,7 +5,12 @@ export default {
   key: "herobot_chatbot_marketing-create-user",
   name: "Create User",
   description: "Saves pertinent information about a new user. [See the documentation](https://my.herobot.app/api/swagger/#/Users/createNewContact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

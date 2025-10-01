@@ -3,7 +3,12 @@ export default {
   name: "Formatting - [Text] Trim Whitespace",
   description: "Removes leading and trailing whitespace",
   key: "pipedream_utils-trim-whitespace",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: false,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pipedream_utils,

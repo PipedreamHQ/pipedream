@@ -4,7 +4,12 @@ export default {
   key: "postmark-get-bounce-counts",
   name: "Get Bounce Counts",
   description: "Gets total counts of emails you've sent out that have been returned as bounced. [See the documentation](https://postmarkapp.com/developer/api/stats-api#bounce-counts)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     postmark,

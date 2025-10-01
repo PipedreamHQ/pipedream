@@ -5,7 +5,12 @@ export default {
   name: "Detect Text in Image",
   key: "google_cloud_vision_api-detect-text-in-image",
   description: "Detects text in a local image or remote image. [See the documentation](https://cloud.google.com/vision/docs/ocr#vision_text_detection_gcs-drest).",
-  version: "1.0.0",
+  version: "1.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   async run({ $ }) {
     this.checkFileProp();

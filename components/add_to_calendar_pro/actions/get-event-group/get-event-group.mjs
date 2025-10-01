@@ -4,7 +4,12 @@ export default {
   key: "add_to_calendar_pro-get-event-group",
   name: "Get Event Group",
   description: "Get an event group. [See the documentation](https://docs.add-to-calendar-pro.com/api/groups#get-one-group)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     addToCalendarPro,

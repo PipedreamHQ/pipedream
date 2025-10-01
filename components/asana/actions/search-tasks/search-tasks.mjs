@@ -6,7 +6,12 @@ export default {
   key: "asana-search-tasks",
   name: "Search Tasks",
   description: "Searches for a Task by name within a Project. [See the documentation](https://developers.asana.com/docs/get-multiple-tasks)",
-  version: "0.3.4",
+  version: "0.3.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

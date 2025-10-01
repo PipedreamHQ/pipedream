@@ -4,7 +4,12 @@ export default {
   key: "freshdesk-list-solution-categories",
   name: "List Solution Categories",
   description: "List solution categories in Freshdesk. [See the documentation](https://developers.freshdesk.com/api/#solution_category_attributes)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     freshdesk,

@@ -6,7 +6,12 @@ export default {
   key: "connecteam-create-user",
   name: "Create User",
   description: "Creates a new user profile in Connecteam. [See the documentation](https://developer.connecteam.com/reference/create_users_users_v1_users_post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     connecteam,

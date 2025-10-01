@@ -5,7 +5,12 @@ export default {
   key: "copper-create-update-person",
   name: "Create or Update Person",
   description: "Creates a new person or updates an existing one based on email address. [See the documentation](https://developer.copper.com/people/create-a-new-person.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     copper,

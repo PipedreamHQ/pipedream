@@ -4,7 +4,12 @@ export default {
   key: "needle-search-collection",
   name: "Search Collection",
   description: "Search a collection for relevant data chunks based on a query. [See the documentation](https://docs.needle-ai.com/docs/api-reference/search-collection/).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

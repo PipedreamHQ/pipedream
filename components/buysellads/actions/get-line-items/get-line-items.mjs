@@ -4,7 +4,12 @@ export default {
   key: "buysellads-get-line-items",
   name: "Get Line Items",
   description: "Returns the details of active line items. [See the documentation](https://docs.buysellads.com/advertiser-api/endpoints#lineitems)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     buysellads,

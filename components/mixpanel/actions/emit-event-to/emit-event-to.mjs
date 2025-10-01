@@ -5,7 +5,12 @@ export default {
   key: "mixpanel-emit-event-to",
   name: "mixpanel.track",
   description: "Send an event to mixpanel",
-  version: "0.3.1",
+  version: "0.3.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mixpanel: {

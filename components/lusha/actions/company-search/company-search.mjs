@@ -5,7 +5,12 @@ export default {
   key: "lusha-company-search",
   name: "Search Companies",
   description: "Search for companies using various filters. [See the documentation](https://docs.lusha.com/apis/openapi/company-search-and-enrich/searchprospectingcompanies)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     lusha,

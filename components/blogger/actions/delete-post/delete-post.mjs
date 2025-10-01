@@ -4,7 +4,12 @@ export default {
   name: "Delete a Post",
   description: "Permanently removes a post (the deleted post cannot be restored anymore) [See the docs here](https://developers.google.com/blogger/docs/3.0/reference/posts/delete).",
   key: "blogger-delete-post",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     bloggerApp,

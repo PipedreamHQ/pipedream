@@ -5,7 +5,12 @@ import modeck from "../../modeck.app.mjs";
 export default {
   key: "modeck-create-render",
   name: "Create Render",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new edit with the data supplied. [See the documentation](https://modeck.io/docs#modeckapi)",
   type: "action",
   props: {

@@ -4,7 +4,12 @@ export default {
   key: "digital_ocean-create-snapshot",
   name: "Create Snapshot",
   description: "Creates a snapshot from a droplet. [See the docs here](https://docs.digitalocean.com/reference/api/api-reference/#operation/post_droplet_action)",
-  version: "0.2.2",
+  version: "0.2.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     digitalOceanApp,

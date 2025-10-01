@@ -4,7 +4,12 @@ import daffy from "../../daffy.app.mjs";
 export default {
   key: "daffy-create-donation",
   name: "Create Donation",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new donation. [See the documentation](https://docs.daffy.org/ref/donations#create-donation)",
   type: "action",
   props: {

@@ -4,7 +4,12 @@ export default {
   key: "forcemanager-find-contact",
   name: "Find Contact",
   description: "Search for an existing contact by email, name, or phone. [See the documentation](https://developer.forcemanager.com/#c1c37cd1-5cb9-473f-8918-7583ee0469e4)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     forcemanager,

@@ -5,7 +5,12 @@ export default {
   key: "icontact-subscribe-contact-list",
   name: "Subscribe Contact to List",
   description: "Adds a contact to a specific list within iContact. [See the documentation](https://help.icontact.com/customers/s/article/Subscriptions-iContact-API?r=153&ui-knowledge-components-aura-actions.KnowledgeArticleVersionCreateDraftFromOnlineAction.createDraftFromOnlineArticle=1)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     icontact,

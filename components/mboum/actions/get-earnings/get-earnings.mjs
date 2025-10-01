@@ -4,7 +4,12 @@ export default {
   key: "mboum-get-earnings",
   name: "Get Earnings Calendar",
   description: "Get upcoming and historical earnings announcements and reports. [See the documentation](https://docs.mboum.com/#stocks-options-small-stylecolor-f8f2f2background-fa256fpadding-1px-4pxborder-radius-3pxhotsmall-GETapi-v2-markets-calendar-earnings)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     mboum,

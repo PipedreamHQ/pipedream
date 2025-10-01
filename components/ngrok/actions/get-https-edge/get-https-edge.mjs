@@ -4,7 +4,12 @@ export default {
   key: "ngrok-get-https-edge",
   name: "Get HTTPS Edge",
   description: "Get the details of an HTTPS Edge. [See the documentation](https://ngrok.com/docs/api/resources/edges-https/#get-https-edge).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

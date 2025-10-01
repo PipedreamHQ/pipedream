@@ -4,7 +4,12 @@ export default {
   key: "lemlist-add-email-in-unsubscribes",
   name: "Add Email In Unsubscribes",
   description: "This action adds a lead in the unsubscribed list. [See the docs here](https://developer.lemlist.com/#add-an-email-address-in-the-unsubscribes)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     lemlist,

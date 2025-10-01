@@ -5,7 +5,12 @@ export default {
   key: "opengraph_io-extract-data",
   name: "Extract Data",
   description: "Extract specific OpenGraph properties from a specified URL, such as title, image, or description. [See the docs here](https://www.opengraph.io/documentation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     opengraph,

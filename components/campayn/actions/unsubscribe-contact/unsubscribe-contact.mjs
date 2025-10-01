@@ -5,7 +5,12 @@ export default {
   key: "campayn-unsubscribe-contact",
   name: "Unsubscribe Contact",
   description: "Unsubscribes a contact from a list. [See the docs](https://github.com/nebojsac/Campayn-API/blob/master/endpoints/lists.md#unsubscribe-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     campayn,

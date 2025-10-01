@@ -6,7 +6,12 @@ export default {
   key: "attio-create-update-record",
   name: "Create or Update Record",
   description: "Creates or updates a specific record such as a person or a deal. If the record already exists, it's updated. Otherwise, a new record is created. [See the documentation](https://developers.attio.com/reference/put_v2-objects-object-records)",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     attio,

@@ -2,7 +2,12 @@ import expofp from "../../expofp.app.mjs";
 
 export default {
   name: "Update Booth",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "expofp-update-booth",
   description: "Updates a booth. [See the documentation](https://expofp.docs.apiary.io/#reference/0/update-booth/update-booth)",
   type: "action",

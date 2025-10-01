@@ -8,7 +8,12 @@ export default {
   name: "Add New Call",
   description: "Add a new call. [See the documentation](https://us-66463.app.gong.io/settings/api/documentation#post-/v2/calls)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     clientUniqueId: {

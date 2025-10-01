@@ -5,7 +5,12 @@ export default {
   name: "Get Connection",
   description: "Returns a Connection. [See the Documentation](https://docs.nango.dev/api-reference/connection/get)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     connectionId: {

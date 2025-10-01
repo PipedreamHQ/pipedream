@@ -9,7 +9,12 @@ export default {
   name: "Create Communication",
   description:
     "Create a WhatsApp, LinkedIn, or SMS message. [See the documentation](https://developers.hubspot.com/beta-docs/reference/api/crm/engagements/communications/v3#post-%2Fcrm%2Fv3%2Fobjects%2Fcommunications)",
-  version: "0.0.18",
+  version: "0.0.19",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...appProp.props,

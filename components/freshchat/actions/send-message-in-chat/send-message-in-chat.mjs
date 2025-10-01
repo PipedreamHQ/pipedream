@@ -4,7 +4,12 @@ export default {
   key: "freshchat-send-message-in-chat",
   name: "Send Message in Chat",
   description: "Sends a message in a specific conversation. [See the documentation](https://developers.freshchat.com/api/#send_message_to_conversation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     freshchat,

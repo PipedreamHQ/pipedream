@@ -5,7 +5,12 @@ export default {
   key: "clickup-create-threaded-comment",
   name: "Create Threaded Comment",
   description: "Creates a threaded comment. [See the documentation](https://clickup.com/api) in **Comments / Create Threaded Comment** section.",
-  version: "0.0.11",
+  version: "0.0.12",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

@@ -4,7 +4,12 @@ export default {
   key: "paazl-get-order-shipments",
   name: "Get Order Shipment Details",
   description: "Retrieves an order's shipments details. [See the documentation](https://support.paazl.com/hc/en-us/articles/360008633973-REST-API-reference#/Shipments/getShipmentsUsingGET)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

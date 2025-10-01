@@ -4,7 +4,12 @@ export default {
   key: "modelry-delete-product",
   name: "Delete Product",
   description: "Delete the product with the specified ID. [See the documentation](https://files.cgtarsenal.com/api/doc/index.html#api-Products-DeleteProduct)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,
