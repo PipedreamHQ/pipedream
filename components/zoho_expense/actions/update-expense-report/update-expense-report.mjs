@@ -5,7 +5,12 @@ export default {
   name: "Update Expense Report",
   description: "Alter details in an existing expense report. [See the Documentation](https://www.zoho.com/expense/api/v1/expense-reports/#update-an-expense-report).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     organizationId: {

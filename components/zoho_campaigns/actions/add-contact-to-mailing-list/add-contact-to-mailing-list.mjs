@@ -4,7 +4,12 @@ export default {
   type: "action",
   key: "zoho_campaigns-add-contact-to-mailing-list",
   name: "Add Contact to Mailing List",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "You can use this API to add contacts to your mailing lists. [See the documentation](https://www.zoho.com/campaigns/help/developers/contact-subscribe.html)",
   props: {
     app,

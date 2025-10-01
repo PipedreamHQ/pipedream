@@ -5,7 +5,12 @@ export default {
   key: "zoho_recruit-create-record",
   name: "Create Record",
   description: "Creates a new record. [See the documentation](https://www.zoho.com/recruit/developer-guide/apiv2/insert-records.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   async run({ $ }) {
     const response = await this.zohoRecruit.createRecord({

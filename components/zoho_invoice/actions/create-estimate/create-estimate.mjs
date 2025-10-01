@@ -6,7 +6,12 @@ export default {
   name: "Create Estimate",
   description: "Creates a new estimate in Zoho Invoice. [See the documentation](https://www.zoho.com/invoice/api/v3/estimates/#create-an-estimate).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     ...common.props,
     date: {

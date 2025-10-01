@@ -2,7 +2,12 @@ import app from "../../zoho_meeting.app.mjs";
 
 export default {
   name: "Create Webinar",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "zoho_meeting-create-webinar",
   description: "Creates a webinar. [See the documentation](https://www.zoho.com/meeting/api-integration/webinar-api/create-a-webinar.html)",
   type: "action",

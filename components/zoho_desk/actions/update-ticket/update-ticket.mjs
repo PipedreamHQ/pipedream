@@ -5,7 +5,12 @@ export default {
   name: "Update Ticket",
   description: "Updates an existing ticket. [See the docs here](https://desk.zoho.com/DeskAPIDocument#Tickets#Tickets_Updateaticket)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     zohoDesk,
     orgId: {
