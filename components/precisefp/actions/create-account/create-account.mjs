@@ -5,7 +5,12 @@ export default {
   name: "Create Account",
   description: "Create a new account. [See the documentation](https://documenter.getpostman.com/view/6125750/UyrDEFnd#b6db56e1-2767-499e-9928-38c82f3bd3e6)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     accountType: {

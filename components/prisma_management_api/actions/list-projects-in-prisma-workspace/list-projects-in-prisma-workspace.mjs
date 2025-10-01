@@ -2,7 +2,12 @@ import app from "../../prisma_management_api.app.mjs";
 
 export default {
   name: "List Projects in Prisma Workspace",
-  version: "1.0.0",
+  version: "1.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "prisma_management_api-list-projects-in-prisma-workspace",
   description: "List Projects in a Prisma Workspace via Prisma Management API. [See docs here](https://www.prisma.io/docs/postgres/introduction/management-api)",
   type: "action",

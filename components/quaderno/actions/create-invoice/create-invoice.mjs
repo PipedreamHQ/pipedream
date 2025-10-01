@@ -6,7 +6,12 @@ export default {
   name: "Create Invoice",
   description: "Generate a new invoice in Quaderno. [See the Documentation](https://developers.quaderno.io/api/#tag/Invoices/operation/createInvoice).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   methods: {
     ...common.methods,
     createInvoice(args = {}) {

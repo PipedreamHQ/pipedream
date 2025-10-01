@@ -5,7 +5,12 @@ export default {
   key: "postalytics-send-track-postcard-letter",
   name: "Send and Track Postcard or Letter",
   description: "Send a postcard or letter with the capability of tracking delivery and response. [See the documentation](https://postalytics.docs.apiary.io/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

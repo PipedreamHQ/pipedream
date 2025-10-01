@@ -6,7 +6,12 @@ export default {
   name: "Find or Create Contact",
   description: "Finds or creates a contact. [See the docs](https://help.quentn.com/hc/en-150/articles/4517835330961-Contact-API).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     email: {

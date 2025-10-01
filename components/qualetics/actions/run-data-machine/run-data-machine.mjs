@@ -4,7 +4,12 @@ export default {
   key: "qualetics-run-data-machine",
   name: "Run Data Machine",
   description: "Initiates a previously designed data machine within Qualetics, executing the specific analytical tasks it was built for. [See the documentation](https://docs.qualetics.com/data-machines)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     qualetics,

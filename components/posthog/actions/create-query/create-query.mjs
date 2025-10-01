@@ -4,7 +4,12 @@ export default {
   key: "posthog-create-query",
   name: "Create Query",
   description: "Create a HogQLQuery and return the results. [See the documentation](https://posthog.com/docs/api/queries#creating-a-query)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     posthog,

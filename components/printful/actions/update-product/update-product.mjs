@@ -5,7 +5,12 @@ export default {
   key: "printful-update-product",
   name: "Update Product",
   description: "Updates an existing product in your Printful store. [See the documentation](https://developers.printful.com/docs/#tag/Products-API/operation/updateSyncProduct)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     printful,
