@@ -4,7 +4,12 @@ export default {
   key: "mapulus-create-location",
   name: "Create Location",
   description: "Create a new location in Mapulus. [See the documentation](https://developer.mapulus.com/index.html)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mapulus,

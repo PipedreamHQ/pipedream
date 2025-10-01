@@ -2,7 +2,12 @@ import bybit from "../../bybit.app.mjs";
 
 export default {
   name: "ByBit Linear Order Cancel All",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "bybit-linear-order-cancel-all",
   description: "Cancel All Active Orders." +
       " [reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-cancelallactive)",

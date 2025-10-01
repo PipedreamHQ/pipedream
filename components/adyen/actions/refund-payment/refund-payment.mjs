@@ -4,7 +4,12 @@ export default {
   key: "adyen-refund-payment",
   name: "Refund Payment",
   description: "Refunds a captured payment. [See the documentation](https://docs.adyen.com/api-explorer/checkout/71/post/payments/(paymentpspreference)/refunds)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

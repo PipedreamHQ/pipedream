@@ -4,7 +4,12 @@ export default {
   key: "meistertask-add-label-to-task",
   name: "Add Label To Task",
   description: "Adds a project label to a task. [See the docs](https://developers.meistertask.com/reference/post-task-label)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     meistertask,

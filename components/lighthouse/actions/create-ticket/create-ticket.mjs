@@ -3,7 +3,12 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Create Ticket",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "lighthouse-create-ticket",
   description: "Creates a ticket. [See docs here](http://help.lighthouseapp.com/kb/api/tickets#create-ticket-code-post-projects-project_id-tickets-xml-code-)",
   type: "action",

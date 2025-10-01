@@ -4,7 +4,12 @@ export default {
   key: "issue_badge-create-issue",
   name: "Create Issue",
   description: "Create a new issue [See the documentation](https://documenter.getpostman.com/view/19911979/2sA2r9X4Aj#b5b9801a-432d-4d2e-96ef-a9fb2d2d2a94)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     issueBadge,

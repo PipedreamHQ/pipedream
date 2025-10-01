@@ -4,7 +4,12 @@ export default {
   key: "linearb-create-incident",
   name: "Create Incident",
   description: "Create a new incident within the LinearB platform. [See the documentation](https://docs.linearb.io/api-incidents/#create-incident)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

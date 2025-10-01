@@ -5,7 +5,12 @@ export default {
   key: "email-send-email-to-self",
   name: "Send Yourself an Email",
   description: "Customize and send an email to the email address you registered with Pipedream. The email will be sent by notifications@pipedream.com.",
-  version: "0.4.4",
+  version: "0.4.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     email,

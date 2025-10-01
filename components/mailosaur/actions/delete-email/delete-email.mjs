@@ -4,7 +4,12 @@ export default {
   key: "mailosaur-delete-email",
   name: "Delete Email",
   description: "Deletes an email from a Mailosaur server using its email ID. [See the documentation](https://mailosaur.com/docs/api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mailosaur,

@@ -4,7 +4,12 @@ export default {
   key: "all_images_ai-get-image-generation",
   name: "Get Image Generation",
   description: "Retrieves a previously generated image using its unique ID. [See the documentation](https://developer.all-images.ai/all-images.ai-api/api-reference/images-generation#get-image-generation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     allImagesAi,

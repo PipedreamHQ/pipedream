@@ -7,7 +7,12 @@ export default {
   key: "fibery-create-entity-or-update",
   name: "Create or Update Entity",
   description: "Creates a new entity or updates if it exists. [See the docs here](https://api.fibery.io/graphql.html#update)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

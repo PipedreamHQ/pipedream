@@ -4,7 +4,12 @@ export default {
   name: "Create Chat Completion",
   key: "cerebras-create-chat-completion",
   description: "Create a chat completion with Cerebras AI. [See the documentation](https://inference-docs.cerebras.ai/api-reference/chat-completions)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     cerebras,

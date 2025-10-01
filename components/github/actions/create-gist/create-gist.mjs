@@ -5,7 +5,12 @@ export default {
   key: "github-create-gist",
   name: "Create Gist",
   description: "Allows you to add a new gist with one or more files. [See the documentation](https://docs.github.com/en/rest/gists/gists?apiVersion=2022-11-28#create-a-gist)",
-  version: "0.0.11",
+  version: "0.0.12",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     github,

@@ -4,7 +4,12 @@ export default {
   key: "mumble-edit-customer",
   name: "Edit Customer",
   description: "Edits the customer with the specified phone number. [See the documentation](https://app.mumble.co.il/mumbleapi/docs)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

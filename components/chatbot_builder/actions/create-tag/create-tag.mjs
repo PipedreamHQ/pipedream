@@ -5,15 +5,20 @@ export default {
   key: "chatbot_builder-create-tag",
   name: "Create Tag",
   description: "Creates a new tag in Chatbot Builder. [See the documentation](https://app.chatgptbuilder.io/api/swagger/#/accounts/createtag)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,
     name: {
       propDefinition: [
         app,
-        "name"
-      ]
+        "name",
+      ],
     },
   },
   async run({ $ }) {

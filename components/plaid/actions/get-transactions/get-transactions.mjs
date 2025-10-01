@@ -4,7 +4,12 @@ export default {
   key: "plaid-get-transactions",
   name: "Get Transactions",
   description: "Retrieves user-authorized transaction data for a specified date range. [See the documentation](https://plaid.com/docs/api/products/transactions/#transactionsget)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

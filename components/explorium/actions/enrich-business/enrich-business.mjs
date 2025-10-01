@@ -5,7 +5,12 @@ export default {
   key: "explorium-enrich-business",
   name: "Enrich Business",
   description: "Enrich business data with comprehensive insights for lead generation, risk assessment, and business intelligence. [See the documentation](https://developers.explorium.ai/reference/businesses_enrichments)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     explorium,

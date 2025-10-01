@@ -4,7 +4,12 @@ export default {
   name: "Send Reply Message",
   description: "Sends a reply message to a user. [See the documentation](https://developers.line.biz/en/reference/messaging-api/#send-reply-message)",
   key: "line_messaging_api-send-reply-message",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     line,

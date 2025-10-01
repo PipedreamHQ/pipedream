@@ -4,7 +4,12 @@ export default {
   key: "habitica-get-challenge",
   name: "Get Challenge",
   description: "Get data for the challenge with the specified ID. [See the documentation](https://habitica.com/apidoc/#api-Challenge-GetChallenge)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

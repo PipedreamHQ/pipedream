@@ -439,7 +439,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/afosto: {}
+  components/afosto:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/aftership:
     dependencies:
@@ -4643,7 +4647,11 @@ importers:
 
   components/ethereum: {}
 
-  components/etrusted: {}
+  components/etrusted:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/etsy:
     dependencies:
@@ -11116,8 +11124,8 @@ importers:
   components/posthog:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/postman:
     dependencies:
@@ -12542,7 +12550,11 @@ importers:
         specifier: ^1.4.1
         version: 1.6.6
 
-  components/scrapecreators: {}
+  components/scrapecreators:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/scrapegraphai:
     dependencies:
@@ -14463,7 +14475,11 @@ importers:
         specifier: ^1.11.10
         version: 1.11.13
 
-  components/the_official_board: {}
+  components/the_official_board:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/thehive: {}
 

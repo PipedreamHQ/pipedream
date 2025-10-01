@@ -2,7 +2,12 @@ import bybit from "../../bybit.app.mjs";
 
 export default {
   name: "ByBit Generic Wallet Balance",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "bybit-generic-wallet-balance",
   description: "Get Wallet Balance.[reference](https://bybit-exchange.github.io/docs/futuresV2/inverse/#t-balance)",
   props: {

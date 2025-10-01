@@ -5,7 +5,12 @@ export default {
   name: "Update Task",
   description: "Update attributes of a task. [See the documentation](https://help.ftrack.com/en/articles/1040498-operations#update)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     taskId: {

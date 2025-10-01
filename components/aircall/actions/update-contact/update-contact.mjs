@@ -9,7 +9,12 @@ export default {
   name: "Update Contact",
   description: "Update a contact in Aircall. [See the documentation](https://developer.aircall.io/api-references/#update-a-contact)",
   key: "aircall-update-contact",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     aircall,

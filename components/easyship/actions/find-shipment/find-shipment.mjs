@@ -4,7 +4,12 @@ export default {
   key: "easyship-find-shipment",
   name: "Find Shipment",
   description: "Find a shipment by ID. [See the documentation](https://developers.easyship.com/reference/shipments_index)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     easyship,

@@ -6,7 +6,12 @@ export default {
   name: "Get Backlinks Summary",
   description:
     "Get an overview of backlinks data available for a given domain, subdomain, or webpage. [See the documentation](https://docs.dataforseo.com/v3/backlinks/summary/live/)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   methods: {
     getBacklinksSummary(args = {}) {

@@ -6,7 +6,12 @@ export default {
   key: "lmnt-generate-speech-from-text",
   name: "Generate Speech from Text",
   description: "Generates an audio file from the provided text. [See the documentation](https://docs.lmnt.com/api-reference/speech/synthesize-speech-1)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     lmnt,

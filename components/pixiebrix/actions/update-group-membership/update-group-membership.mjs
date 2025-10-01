@@ -5,7 +5,12 @@ export default {
   key: "pixiebrix-update-group-membership",
   name: "Update Group Membership",
   description: "Updates the memberships of a group in PixieBrix. [See the documentation](https://docs.pixiebrix.com/developer-api/team-management-apis#update-group-membership)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

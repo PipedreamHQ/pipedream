@@ -5,7 +5,12 @@ export default {
   key: "finalscout-find-email-professional",
   name: "Find Email from Professional",
   description: "Finds an email address from a person's name and company/domain. [See the documentation](https://finalscout.com/public/doc/api.html#tag/Single-Find/operation/email_finder_v1_person_email_finder_post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     finalscout,

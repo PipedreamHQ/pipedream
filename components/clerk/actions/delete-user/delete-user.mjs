@@ -3,7 +3,12 @@ import clerk from "../../clerk.app.mjs";
 export default {
   key: "clerk-delete-user",
   name: "Delete User",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Delete the specified user. [See the documentation](https://clerk.com/docs/reference/backend-api/tag/Users#operation/DeleteUser)",
   type: "action",
   props: {

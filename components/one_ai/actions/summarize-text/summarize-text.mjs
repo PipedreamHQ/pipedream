@@ -4,7 +4,12 @@ export default {
   name: "Summarize Text",
   description: "Summarize a given text. [See the documentation](https://docs.oneai.com/docs/synchronous-pipelines).",
   key: "one_ai-summarize-text",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

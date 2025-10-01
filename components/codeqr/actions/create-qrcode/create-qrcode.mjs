@@ -5,7 +5,12 @@ export default {
   name: "Create a QR Code",
   description:
     "Creates a new QR Code in CodeQR using the QR Codes API. [See the documentation](https://codeqr.mintlify.app/api-reference/endpoint/create-a-qrcode)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     codeqr,

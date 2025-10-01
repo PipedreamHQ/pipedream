@@ -2,7 +2,12 @@ import anthropic from "../../anthropic.app.mjs";
 
 export default {
   name: "Chat",
-  version: "0.2.1",
+  version: "0.2.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "anthropic-chat",
   description: "The Chat API. [See the documentation](https://docs.anthropic.com/claude/reference/messages_post)",
   type: "action",

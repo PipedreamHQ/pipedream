@@ -4,7 +4,12 @@ export default {
   key: "axesso_data_service-get-product-details",
   name: "Get Product Details",
   description: "Requests product detail information using Axesso Data Service. [See the documentation](https://axesso.developer.azure-api.net/api-details#api=axesso-amazon-data-service&operation=product-details)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     axesso,

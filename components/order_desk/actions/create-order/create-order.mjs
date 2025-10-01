@@ -5,7 +5,12 @@ export default {
   name: "Create Order",
   description: "Create Order [See the documentation](https://apidocs.orderdesk.com/#create-an-order).",
   key: "order_desk-create-order",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

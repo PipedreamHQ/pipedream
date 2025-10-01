@@ -4,7 +4,12 @@ export default {
   key: "bitget-spot-market-get-orderbook",
   name: "Spot - Market - Get Orderbook",
   description: "Retrieve the order book depth for a specified symbol. [See the documentation](https://www.bitget.com/api-doc/spot/market/Get-Orderbook)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

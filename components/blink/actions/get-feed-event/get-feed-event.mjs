@@ -2,7 +2,12 @@ import app from "../../blink.app.mjs";
 
 export default {
   name: "Get Feed Event",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "blink-get-feed-event",
   description: "Get a feed event by external ID. [See the documentation](https://developer.joinblink.com/reference/get-feed-event-id-by-external-id)",
   type: "action",

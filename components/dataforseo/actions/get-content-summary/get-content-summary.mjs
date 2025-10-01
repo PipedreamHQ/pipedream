@@ -5,7 +5,12 @@ export default {
   key: "dataforseo-get-content-summary",
   name: "Get Content Summary",
   description: "Get content performance metrics and summary for content strategy optimization. [See the documentation](https://docs.dataforseo.com/v3/content_analysis/summary/live/?bash)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     dataforseo,

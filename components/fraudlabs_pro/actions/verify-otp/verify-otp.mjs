@@ -4,7 +4,12 @@ export default {
   name: "Get Verification Result",
   description: "Verify that an OTP sent by the Send SMS Verification API is valid. Please refer to the [documentation](https://www.fraudlabspro.com/developer/api/get-result) for the explanation of the result returned.",
   key: "fraudlabs_pro-verify-otp",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     fraudlabsProApp,

@@ -6,7 +6,12 @@ export default {
   key: "pipedrive-add-lead",
   name: "Add Lead",
   description: "Create a new lead in Pipedrive. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Leads#addLead)",
-  version: "0.0.9",
+  version: "0.0.10",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pipedrive,

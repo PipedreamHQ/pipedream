@@ -4,7 +4,12 @@ export default {
   key: "diffchecker-compare-text",
   name: "Compare Text",
   description: "Compares two pieces of text and returns the result. [See the documentation](https://www.diffchecker.com/public-api/)",
-  version: "1.0.0",
+  version: "1.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     diffchecker,

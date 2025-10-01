@@ -5,7 +5,12 @@ export default {
   key: "nocodb-update-record",
   name: "Update Record",
   description: "This action updates a record in a table. [See the documentation](https://data-apis-v2.nocodb.com/#tag/Table-Records/operation/db-data-table-row-update)",
-  version: "0.0.6",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

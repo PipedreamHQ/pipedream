@@ -3,7 +3,12 @@ import app from "../../clockwork_recruiting.app.mjs";
 export default {
   key: "clockwork_recruiting-add-person-linkedin",
   name: "Add Linkedin URL",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Add a linkedin URL to a specific person. [See the documentation](https://app.swaggerhub.com/apis-docs/clockwork-recruiting/cw-public-api/3.0.0#/Person%20Linkedin/post_people__person_id__linkedin_urls)",
   type: "action",
   props: {

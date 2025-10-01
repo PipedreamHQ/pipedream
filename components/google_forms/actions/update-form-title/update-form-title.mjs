@@ -4,7 +4,12 @@ export default {
   key: "google_forms-update-form-title",
   name: "Update Form Title",
   description: "Updates the title of a Google Form. [See the documentation](https://developers.google.com/forms/api/reference/rest/v1/forms/batchUpdate)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     googleForms,

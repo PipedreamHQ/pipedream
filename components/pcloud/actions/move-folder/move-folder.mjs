@@ -6,7 +6,12 @@ export default {
   key: "pcloud-move-folder",
   name: "Move Folder",
   description: "Moves a folder to the specified destination. [See the docs here](https://docs.pcloud.com/methods/folder/renamefolder.html)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

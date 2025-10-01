@@ -4,7 +4,12 @@ export default {
   key: "pipefy-look-up-pipe-by-id",
   name: "Look up Pipe by ID",
   description: "Lookup a pipe by its ID. [See the docs here](https://api-docs.pipefy.com/reference/queries/#pipe)",
-  version: "0.2.2",
+  version: "0.2.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     pipefy,

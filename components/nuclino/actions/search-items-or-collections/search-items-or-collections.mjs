@@ -4,7 +4,12 @@ export default {
   key: "nuclino-search-items-or-collections",
   name: "Search Items or Collections",
   description: "Search for items or collections in Nuclino. [See the documentation](https://help.nuclino.com/fa38d15f-items-and-collections)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     nuclino,

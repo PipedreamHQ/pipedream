@@ -4,7 +4,12 @@ export default {
   key: "lemlist-update-lead-in-a-campaign",
   name: "Update Lead In Campaign",
   description: "This action updates a lead in a specific campaign. If the lead doesn't exist a 404 error will be returned. [See the docs here](https://developer.lemlist.com/#update-a-lead-in-a-campaign)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     lemlist,

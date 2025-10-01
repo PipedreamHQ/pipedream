@@ -5,7 +5,12 @@ export default {
   key: "jira-transition-issue",
   name: "Transition Issue",
   description: "Performs an issue transition and, if the transition has a screen, updates the fields from the transition screen, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-transitions-post)",
-  version: "0.1.14",
+  version: "0.1.15",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     jira,

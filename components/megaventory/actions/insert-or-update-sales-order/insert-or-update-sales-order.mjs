@@ -6,7 +6,12 @@ export default {
   name: "Insert Or Update Sales Order",
   description: "Insert or update a sales order in the database. [See the docs](https://api.megaventory.com/v2017a/documentation/index.html#!/SalesOrder/postSalesOrderSalesOrderUpdate_post_3).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     salesOrderTypeId: {

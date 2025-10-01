@@ -5,7 +5,12 @@ export default {
   name: "Debug Memory Usage",
   description: "Get memory usage statistics for the current Pipedream workflow.",
   key: "pipedream_utils-debug-memory-usage",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     pipedream_utils,

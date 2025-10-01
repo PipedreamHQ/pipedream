@@ -4,7 +4,12 @@ export default {
   key: "autom-google-search",
   name: "Google Search",
   description: "Scrape the results from the Google search engine using the Autom.dev API. [See the documentation](https://docs.autom.dev/api-reference/google/search)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

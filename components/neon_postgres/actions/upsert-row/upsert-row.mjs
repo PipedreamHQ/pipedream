@@ -5,7 +5,12 @@ export default {
   name: "Upsert Row",
   key: "neon_postgres-upsert-row",
   description: "Adds a new row or updates an existing row. [See the documentation](https://node-postgres.com/features/queries)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     neon,

@@ -5,7 +5,12 @@ export default {
   name: "Create Event",
   description: "Create a new event. [See the Documentation](https://developers.livestorm.co/reference/post_events)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     ownerId: {

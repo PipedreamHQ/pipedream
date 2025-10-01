@@ -6,7 +6,12 @@ export default {
   key: "labsmobile-send-sms",
   name: "Send SMS",
   description: "Sends a new SMS message. [See the documentation](https://apidocs.labsmobile.com/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     labsmobile,

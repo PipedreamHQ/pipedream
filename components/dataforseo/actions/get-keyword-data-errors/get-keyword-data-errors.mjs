@@ -5,7 +5,12 @@ export default {
   key: "dataforseo-get-keyword-data-errors",
   name: "Get Keyword Data Errors",
   description: "Retrieve information about the Keywords Data API tasks that returned an error within the past 7 days [See the documentation](https://docs.dataforseo.com/v3/keywords_data/errors/?bash)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     dataforseo,

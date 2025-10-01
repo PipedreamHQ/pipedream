@@ -5,7 +5,12 @@ export default {
   name: "Find Task",
   description: "Finds a task. [See the docs](https://github.com/paymoapp/api/blob/master/sections/tasks.md#list).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     name: {

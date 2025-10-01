@@ -4,7 +4,12 @@ export default {
   key: "pdfmonkey-find-document",
   name: "Find Document",
   description: "Find a document within PDFMonkey. [See the documentation](https://docs.pdfmonkey.io/references/api/documents)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     pdfmonkey,

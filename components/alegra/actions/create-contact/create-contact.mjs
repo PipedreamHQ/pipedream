@@ -9,7 +9,12 @@ export default {
   key: "alegra-create-contact",
   name: "Create Contact",
   description: "Adds a new contact to Alegra. [See the documentation](https://developer.alegra.com/reference/post_contacts).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     alegra,

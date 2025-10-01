@@ -5,7 +5,12 @@ export default {
   name: "List Contacts",
   description: "Retrieve details for all contact lists - name, subscriber count, creation timestamp, deletion status. [See the docs here](https://dev.mailjet.com/email/reference/contacts/contact-list/#v3_get_contactslist)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     mailjetApp,
     limit: {

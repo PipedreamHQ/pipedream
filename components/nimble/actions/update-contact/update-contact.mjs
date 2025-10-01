@@ -2,7 +2,12 @@ import app from "../../nimble.app.mjs";
 
 export default {
   name: "Update Contact",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "nimble-update-contact",
   description: "Updates a contact. [See the documentation](https://nimble.readthedocs.io/en/latest/contacts/basic/update/)",
   type: "action",

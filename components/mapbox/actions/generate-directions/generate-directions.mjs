@@ -4,7 +4,12 @@ export default {
   key: "mapbox-generate-directions",
   name: "Generate Directions",
   description: "Generates directions between two or more locations using Mapbox API. [See the documentation](https://docs.mapbox.com/api/navigation/directions/).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mapbox,

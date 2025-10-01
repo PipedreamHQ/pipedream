@@ -4,7 +4,12 @@ import constants from "../../common/constants.mjs";
 
 export default {
   name: "Update Bitlink",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "bitly-update-bitlink",
   description: "Updates fields in the specified link",
   props: {

@@ -4,7 +4,12 @@ export default {
   key: "alt_text_generator_ai-generate-alt-text",
   name: "Generate Alt Text",
   description: "Generate alt text for an image. [See the documentation](https://alttextgeneratorai.com/api-docs)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     altTextGeneratorAi,

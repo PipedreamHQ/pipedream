@@ -5,7 +5,12 @@ export default {
   key: "klipy-get-gif-by-slug",
   name: "Get GIF by Slug",
   description: "Get a specific GIF idendified by its slug. [See the documentation](https://docs.klipy.com/gifs-api/gifs-search-api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

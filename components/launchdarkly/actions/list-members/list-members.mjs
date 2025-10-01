@@ -5,7 +5,12 @@ export default {
   key: "launchdarkly-list-members",
   name: "List Members",
   description: "List all members in an account. [See the documentation](https://launchdarkly.com/docs/api/account-members/get-members).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

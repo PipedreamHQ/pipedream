@@ -7,7 +7,12 @@ export default {
   name: "Text Summarization",
   description: "This task is well known to summarize longer text into shorter text. Be careful, some models have a maximum length of input. That means that the summary cannot handle full books for instance. Be careful when choosing your model. [See the docs](https://huggingface.co/docs/huggingface.js/inference/classes/HfInference#summarization).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     modelId: {

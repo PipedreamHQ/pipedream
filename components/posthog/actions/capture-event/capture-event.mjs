@@ -4,7 +4,7 @@ export default {
   key: "posthog-capture-event",
   name: "Capture Event",
   description: "Captures a given event within the PostHog system. [See the documentation](https://posthog.com/docs/api/post-only-endpoints#single-event)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   props: {
     posthog,

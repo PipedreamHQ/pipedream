@@ -3,7 +3,12 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Update Work Order",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "maintainx-update-work-order",
   description: "Updates a work order. [See docs here](https://api.getmaintainx.com/v1/docs#tag/Work-Orders/paths/~1workorders~1{id}/patch)",
   type: "action",

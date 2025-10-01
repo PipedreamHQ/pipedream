@@ -4,7 +4,12 @@ export default {
   key: "agile_crm-create-deal",
   name: "Create Deal",
   description: "Create a new deal in Agile CRM. [See the documentation](https://github.com/agilecrm/rest-api#33-create-deal)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     agileCrm,

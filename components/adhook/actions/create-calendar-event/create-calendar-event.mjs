@@ -5,7 +5,12 @@ export default {
   key: "adhook-create-calendar-event",
   name: "Create Calendar Event",
   description: "Generates a personalized calendar event in AdHook. [See the documentation](https://app.adhook.io/api-doc/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     adhook,

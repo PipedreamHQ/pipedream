@@ -4,7 +4,12 @@ export default {
   key: "gigasheet-download-export",
   name: "Download Export",
   description: "Downloads an export from Gigasheet. [See the documentation](https://gigasheet.readme.io/reference/get_dataset-handle-download-export)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     gigasheet,

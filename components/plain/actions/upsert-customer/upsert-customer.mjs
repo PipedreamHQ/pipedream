@@ -5,7 +5,12 @@ export default {
   key: "plain-upsert-customer",
   name: "Upsert Customer",
   description: "Creates or updates customer with customer details. [See the documentation](https://www.plain.com/docs/api-reference/graphql/customers/upsert)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     plain,
