@@ -5,7 +5,12 @@ export default {
   key: "surveysparrow-share-survey-email",
   name: "Share Survey via Email",
   description: "Sends a saved email share template to a provided email address. Configure the saved template's name and the recipient's email address. [See the documentation](https://developers.surveysparrow.com/rest-apis)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

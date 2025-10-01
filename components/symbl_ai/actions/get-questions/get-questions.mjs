@@ -4,7 +4,12 @@ export default {
   key: "symbl_ai-get-questions",
   name: "Get Questions",
   description: "Get a list of requests for information or explicit questions recognized during the conversation. See the doc [here](https://docs.symbl.ai/docs/conversation-api/questions)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     symblAIApp,

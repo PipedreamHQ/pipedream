@@ -4,7 +4,12 @@ export default {
   key: "supabase-delete-row",
   name: "Delete Row",
   type: "action",
-  version: "0.1.3",
+  version: "0.1.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Deletes row(s) in a database. [See the docs here](https://supabase.com/docs/reference/javascript/delete)",
   props: {
     supabase,

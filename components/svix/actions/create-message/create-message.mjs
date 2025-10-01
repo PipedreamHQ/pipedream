@@ -4,7 +4,12 @@ export default {
   key: "svix-create-message",
   name: "Create Message",
   description: "Creates a new message and dispatches it to all of the application's endpoints. [See the docs here](https://api.svix.com/docs#tag/Message/operation/create_message_api_v1_app__app_id__msg__post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     svix,

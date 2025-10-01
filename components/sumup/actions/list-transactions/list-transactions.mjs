@@ -4,7 +4,12 @@ export default {
   key: "sumup-list-transactions",
   name: "List Transactions",
   description: "Lists detailed history of all transactions associated with the merchant profile. [See the documenation](https://developer.sumup.com/api/transactions/list-detailed)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     sumup,

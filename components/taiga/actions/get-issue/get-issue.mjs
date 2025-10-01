@@ -4,7 +4,12 @@ export default {
   key: "taiga-get-issue",
   name: "Get Issue",
   description: "Get an existing issue from a Taiga project. [See the documentation](https://docs.taiga.io/api.html#issues-get)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     taiga,
