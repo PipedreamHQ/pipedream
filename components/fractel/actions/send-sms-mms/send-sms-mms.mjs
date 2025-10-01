@@ -5,7 +5,12 @@ export default {
   key: "fractel-send-sms-mms",
   name: "Send SMS or MMS",
   description: "Allows to send an SMS or MMS to a particular phone number. [See the documentation](https://developer.fonestorm.com/reference/sendmessage)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     fractel,

@@ -4,7 +4,12 @@ export default {
   key: "flutterwave-create-transfer",
   name: "Create Transfer",
   description: "This action initiates a new transfer. [See the documentation](https://developer.flutterwave.com/reference/endpoints/transfers)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     flutterwave,

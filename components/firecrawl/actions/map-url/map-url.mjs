@@ -4,7 +4,12 @@ export default {
   key: "firecrawl-map-url",
   name: "Map URL",
   description: "Maps a given URL using Firecrawl's Map endpoint. Optionally, you can provide a search term to filter the mapping. [See the documentation](https://docs.firecrawl.dev/features/map)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     firecrawl,

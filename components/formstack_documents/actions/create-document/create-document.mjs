@@ -7,7 +7,12 @@ export default {
   key: "formstack_documents-create-document",
   name: "Create Document",
   description: "Create a new document. [See documentation](https://www.webmerge.me/developers?page=documents)",
-  version: "1.0.1",
+  version: "1.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     formstackDocuments,

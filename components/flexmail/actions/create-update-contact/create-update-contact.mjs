@@ -4,7 +4,12 @@ export default {
   key: "flexmail-create-update-contact",
   name: "Create or Update Contact",
   description: "Creates or updates a contact based on email address within Flexmail. [See the documentation](https://api.flexmail.eu/documentation/#post-/contacts)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     flexmail,

@@ -4,7 +4,12 @@ export default {
   key: "formstack_documents-merge-document",
   name: "Merge Document",
   description: "Initiates a merge process using provided data. [See documentation](https://www.webmerge.me/developers?page=documents)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     formstackDocuments,

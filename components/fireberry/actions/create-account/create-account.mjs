@@ -4,7 +4,12 @@ export default {
   key: "fireberry-create-account",
   name: "Create Account",
   description: "Creates a new account in Fireberry. [See the documentation](https://developers.fireberry.com/reference/create-an-account)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

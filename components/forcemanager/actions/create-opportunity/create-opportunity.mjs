@@ -4,7 +4,12 @@ export default {
   key: "forcemanager-create-opportunity",
   name: "Create Opportunity",
   description: "Creates a new business opportunity in ForceManager. [See the documentation](https://developer.forcemanager.com/#836754be-f32d-47d2-a8ab-73a147c62ca9)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     forcemanager,
