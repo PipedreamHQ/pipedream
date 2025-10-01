@@ -4,7 +4,12 @@ export default {
   key: "leaddyno-retrieve-lead",
   name: "Retrieve Lead",
   description: "Retrieves information about a lead from LeadDyno. [See the documentation](https://app.theneo.io/leaddyno/leaddyno-rest-api/leads/retrieve-a-lead-by-id)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     leaddyno,

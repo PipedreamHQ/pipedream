@@ -2,7 +2,12 @@ import lighthouse from "../../lighthouse.app.mjs";
 
 export default {
   name: "Create Milestone",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "lighthouse-create-milestone",
   description: "Creates a milestone. [See docs here](http://help.lighthouseapp.com/kb/api/milestones#create-milestone-code-post-projects-project_id-milestones-xml-code-)",
   type: "action",

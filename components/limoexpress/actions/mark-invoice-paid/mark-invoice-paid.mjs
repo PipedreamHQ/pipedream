@@ -4,7 +4,12 @@ export default {
   key: "limoexpress-mark-invoice-paid",
   name: "Mark Invoice Paid",
   description: "Marks an invoice as paid. [See the documentation](https://api.limoexpress.me/api/docs/v1#/Invoices/markInvoiceAsPaid)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     limoexpress,

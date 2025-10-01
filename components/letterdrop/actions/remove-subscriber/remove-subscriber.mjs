@@ -4,7 +4,12 @@ export default {
   key: "letterdrop-remove-subscriber",
   name: "Remove Subscriber",
   description: "Removes a subscriber from your publication if the email matches an existing one. [See the documentation](https://docs.letterdrop.com/api#remove-subscriber)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

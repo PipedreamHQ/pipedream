@@ -8,7 +8,12 @@ export default {
   key: "launchnotes-create-subscription",
   name: "Create Subscription",
   description: "Adds a new subscriber to the current LaunchNotes project. [See the documentation](https://developer.launchnotes.com/index.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     launchnotes,

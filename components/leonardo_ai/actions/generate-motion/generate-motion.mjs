@@ -4,7 +4,12 @@ export default {
   key: "leonardo_ai-generate-motion",
   name: "Generate Motion",
   description: "Generates a motion (video) from the provided image using Leonardo AI's SVD Motion Generation API. [See the documentation](https://docs.leonardo.ai/reference/createsvdmotiongeneration)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -5,7 +5,12 @@ export default {
   key: "leiga-create-issue",
   name: "Create Issue",
   description: "Creates a new issue within Leiga. [See the documentation](https://apidog.com/apidoc/shared-5a741107-c211-410f-880c-048d1917c984/api-3741813)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     leiga,

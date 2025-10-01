@@ -4,7 +4,12 @@ export default {
   key: "lightspeed_retail_pos-create-employee",
   name: "Create Employee",
   description: "Creates a new employee in the Lightspeed Retail POS system. [See the documentation](https://developers.lightspeedhq.com/retail/endpoints/Employee/#post-create-an-employee)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -6,7 +6,12 @@ export default {
   key: "limoexpress-create-client",
   name: "Create Client",
   description: "Creates a new client with specified details. [See the documentation](https://api.limoexpress.me/api/docs/v1#/Clients/createAOrganisationClient)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     limoexpress,
