@@ -3,7 +3,12 @@ import dealmachine from "../../dealmachine.app.mjs";
 export default {
   key: "dealmachine-add-lead",
   name: "Add Lead",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Add a lead to your team's account. [See the documentation](https://docs.dealmachine.com/#1f003772-6a7b-43f6-8839-1f30bed55b19)",
   type: "action",
   props: {

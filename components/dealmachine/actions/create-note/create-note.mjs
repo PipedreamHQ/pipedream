@@ -3,7 +3,12 @@ import dealmachine from "../../dealmachine.app.mjs";
 export default {
   key: "dealmachine-create-note",
   name: "Create Note",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a note for the lead. [See the documentation](https://docs.dealmachine.com/#ee15a741-b856-42dd-af34-19dca1d48f42)",
   type: "action",
   props: {

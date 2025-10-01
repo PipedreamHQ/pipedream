@@ -5,7 +5,12 @@ export default {
   key: "dataforseo-get-google-ads-keywords-for-keywords",
   name: "Get Google Ads Keywords For Keywords",
   description: "Retrieve keywords related to specified terms, helping you discover new keyword opportunities. [See the documentation](https://docs.dataforseo.com/v3/keywords_data/google_ads/keywords_for_keywords/live/?bash)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     dataforseo,

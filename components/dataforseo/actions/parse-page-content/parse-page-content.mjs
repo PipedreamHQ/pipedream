@@ -6,7 +6,12 @@ export default {
   name: "Parse Page Content",
   description:
     "Parse the content on any page and return its structured content. [See the documentation](https://docs.dataforseo.com/v3/on_page/content_parsing/live/)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   methods: {
     parsePageContent(args = {}) {

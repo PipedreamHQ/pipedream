@@ -3,7 +3,12 @@ import dealmachine from "../../dealmachine.app.mjs";
 export default {
   key: "dealmachine-add-tag-to-lead",
   name: "Add Tags to Lead",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Add tags(s) to the lead. [See the documentation](https://docs.dealmachine.com/#ba760bae-ed7e-4b88-91ab-4f67668b111c)",
   type: "action",
   props: {
