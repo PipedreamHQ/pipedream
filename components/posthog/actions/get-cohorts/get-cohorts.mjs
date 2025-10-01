@@ -5,6 +5,11 @@ export default {
   name: "Get Cohorts",
   description: "Retrieve a list of cohorts. [See the documentation](https://posthog.com/docs/api/cohorts#get-api-projects-project_id-cohorts)",
   version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     posthog,

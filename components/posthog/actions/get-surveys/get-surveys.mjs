@@ -5,6 +5,11 @@ export default {
   name: "Get Surveys",
   description: "Retrieve a list of surveys. [See the documentation](https://posthog.com/docs/api/surveys#get-api-projects-project_id-surveys)",
   version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     posthog,

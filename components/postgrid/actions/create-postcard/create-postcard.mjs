@@ -5,7 +5,12 @@ export default {
   key: "postgrid-create-postcard",
   name: "Create Postcard",
   description: "Creates a new postcard in PostGrid. [See the documentation](https://docs.postgrid.com/#fe8c4cd6-7617-4023-9437-669fa847ccc1)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     postgrid,

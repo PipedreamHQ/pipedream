@@ -5,6 +5,11 @@ export default {
   name: "Get Persons",
   description: "Retrieve a list of persons. [See the documentation](https://posthog.com/docs/api/persons#get-api-projects-project_id-persons)",
   version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     posthog,
