@@ -3,7 +3,12 @@ import moxie from "../../moxie.app.mjs";
 export default {
   key: "moxie-create-task",
   name: "Create Task",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new task. [See the documentation](https://help.withmoxie.com/en/articles/8160423-create-task)",
   type: "action",
   props: {

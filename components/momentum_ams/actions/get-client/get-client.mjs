@@ -4,7 +4,12 @@ export default {
   key: "momentum_ams-get-client",
   name: "Get Client",
   description: "Get data for the client with the specified ID. [See the documentation](https://support.momentumamp.com/nowcerts-rest-api-search-insureds)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

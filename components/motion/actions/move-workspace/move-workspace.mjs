@@ -3,7 +3,12 @@ import motion from "../../motion.app.mjs";
 export default {
   key: "motion-move-workspace",
   name: "Move Workspace",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Move a specific task to another workspace. When moving tasks from one workspace to another, the tasks project, status, and label(s) and assignee will all be reset. [See the documentation](https://docs.usemotion.com/docs/motion-rest-api/0440c0ba81f10-move-workspace)",
   type: "action",
   props: {

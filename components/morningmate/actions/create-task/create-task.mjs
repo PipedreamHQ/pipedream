@@ -6,7 +6,12 @@ export default {
   key: "morningmate-create-task",
   name: "Create Task",
   description: "Creates a new task on a specific project. [See the documentation](https://api.morningmate.com/docs/api/posts#createTask-metadata)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     morningmate,

@@ -6,7 +6,12 @@ export default {
   key: "mistral_ai-create-batch-job",
   name: "Create Batch Job",
   description: "Create a new batch job, it will be queued for processing. [See the Documentation](https://docs.mistral.ai/api/#tag/batch/operation/jobs_api_routes_batch_get_batch_jobs)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mistralAI,

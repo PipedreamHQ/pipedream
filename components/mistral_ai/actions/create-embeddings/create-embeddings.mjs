@@ -6,7 +6,12 @@ export default {
   key: "mistral_ai-create-embeddings",
   name: "Create Embeddings",
   description: "Create new embedding in Mistral AI. [See the Documentation](https://docs.mistral.ai/api/#tag/embeddings)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mistralAI,

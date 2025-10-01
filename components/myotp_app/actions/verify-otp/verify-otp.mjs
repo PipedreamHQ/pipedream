@@ -4,7 +4,12 @@ export default {
   key: "myotp_app-verify-otp",
   name: "Verify OTP",
   description: "Validate the OTP for successful verification. [See the documentation](https://api.myotp.app/swagger-ui/#/default/verify_otp_endpoint)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

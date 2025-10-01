@@ -3,7 +3,12 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Plant Tree",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "more_trees_-plant-tree",
   description: "Plant a tree for self or for others. [See the documentation](https://moretrees.eco/user-guide/api/#KB32)",
   type: "action",

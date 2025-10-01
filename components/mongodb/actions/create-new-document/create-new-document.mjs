@@ -4,7 +4,12 @@ export default {
   key: "mongodb-create-new-document",
   name: "Create New Document",
   description: "Create a new document in a collection of your choice. [See the docs here](https://docs.mongodb.com/manual/tutorial/insert-documents/)",
-  version: "0.1.5",
+  version: "0.1.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mongodbApp,
