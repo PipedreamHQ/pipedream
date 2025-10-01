@@ -5,7 +5,12 @@ export default {
   key: "bridge_interactive_platform-get-listings",
   name: "Get Listings",
   description: "Get MLS listings from a dataset. [See the documentation](https://bridgedataoutput.com/docs/explorer/mls-data)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     bridgeInteractivePlatform,

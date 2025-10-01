@@ -2,7 +2,12 @@ import bybit from "../../bybit.app.mjs";
 
 export default {
   name: "ByBit Generic Market Big Deal",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "bybit-generic-market-big-deal",
   description: "Obtain filled orders worth more than 500,000 USD within the last 24h. " +
       "[reference](https://bybit-exchange.github.io/docs/futuresV2/inverse/#t-marketbigdeal)",

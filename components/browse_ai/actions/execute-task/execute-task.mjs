@@ -4,7 +4,12 @@ export default {
   key: "browse_ai-execute-task",
   name: "Execute Task",
   description: "Runs a robot on-demand with custom input parameters. [See the documentation](https://www.browse.ai/docs/api/v2#tag/tasks/operation/newRobotTask)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -2,7 +2,12 @@ import bybit from "../../bybit.app.mjs";
 
 export default {
   name: "ByBit Linear Market Previous Funding Rate",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "bybit-linear-market-previous-funding-rate",
   description: "The funding rate is generated every 8 hours at 00:00 UTC, 08:00 UTC and 16:00 UTC. For example," +
       "if a request is sent at 12:00 UTC, the funding rate generated earlier that day at 08:00 UTC will be sent." +

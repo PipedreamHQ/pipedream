@@ -2,7 +2,12 @@ import bybit from "../../bybit.app.mjs";
 
 export default {
   name: "ByBit Generic Market Tickers",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "bybit-generic-market-tickers",
   description: "Get the latest information for symbol. [reference](https://bybit-exchange.github.io/docs/futuresV2/inverse/#t-latestsymbolinfo)",
   props: {

@@ -4,7 +4,12 @@ export default {
   key: "brillium-list-topics",
   name: "List Topics",
   description: "Retrieve all Topics for an Assessment. [See the documentation](https://support.brillium.com/en-us/knowledgebase/article/KA-01063)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     brillium,

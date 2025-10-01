@@ -4,7 +4,12 @@ export default {
   key: "campaign_monitor-add-subscriber",
   name: "Add Subscriber",
   description: "Creates a new subscriber on a specific list. [See the documentation](https://www.campaignmonitor.com/api/v3-3/subscribers/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     campaignMonitor,

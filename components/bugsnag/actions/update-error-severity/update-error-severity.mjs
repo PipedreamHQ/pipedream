@@ -5,7 +5,12 @@ export default {
   key: "bugsnag-update-error-severity",
   name: "Update Error Severity",
   description: "Update an the severity status of an error in Bugsnag. [See the documentation](https://bugsnagapiv2.docs.apiary.io/#reference/errors/errors/update-an-error)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     bugsnag,

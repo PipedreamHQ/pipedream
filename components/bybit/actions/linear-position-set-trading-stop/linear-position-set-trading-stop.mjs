@@ -2,7 +2,12 @@ import bybit from "../../bybit.app.mjs";
 
 export default {
   name: "ByBit Linear Position Set Trading stop",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "bybit-linear-position-set-trading-stop",
   description: "Set take profit, stop loss, and trailing stop for your open position. " +
       "If using partial mode, TP/SL/TS orders will not close your entire position. " +
