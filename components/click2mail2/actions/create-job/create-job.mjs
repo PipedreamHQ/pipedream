@@ -11,7 +11,12 @@ import {
 export default {
   key: "click2mail2-create-job",
   name: "Create Job",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Creates a new new job in your account. [See the documentation](https://developers.click2mail.com/reference/post_2).",
   type: "action",
   props: {

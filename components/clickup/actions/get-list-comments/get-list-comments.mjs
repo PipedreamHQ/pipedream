@@ -5,7 +5,12 @@ export default {
   key: "clickup-get-list-comments",
   name: "Get List Comments",
   description: "Get a list comments. [See the documentation](https://clickup.com/api) in **Comments / Get List Comments** section.",
-  version: "0.0.11",
+  version: "0.0.12",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

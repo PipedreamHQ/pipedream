@@ -5,7 +5,12 @@ export default {
   name: "Get Network",
   description: "Gets a network. [See the docs](https://developer.cisco.com/meraki/api/#!get-network).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     orgId: {

@@ -4,7 +4,12 @@ export default {
   key: "clearbit-domain-lookup",
   name: "Domain lookup",
   description: "The Company API allows you to look up a company by their domain. [See the docs here](https://dashboard.clearbit.com/docs?javascript#enrichment-api-company-api-domain-lookup).",
-  version: "0.2.0",
+  version: "0.2.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

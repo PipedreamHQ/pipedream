@@ -5,7 +5,12 @@ export default {
   key: "clickup-delete-checklist",
   name: "Delete Checklist",
   description: "Deletes a checklist in a task. [See the documentation](https://clickup.com/api) in **Checklists / Delete Checklist** section.",
-  version: "0.0.11",
+  version: "0.0.12",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

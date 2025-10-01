@@ -6,7 +6,12 @@ import {
 export default {
   key: "clerk-create-user",
   name: "Create User",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Creates a new user. Your user management settings determine how you should setup your user model. [See the documentation](https://clerk.com/docs/reference/backend-api/tag/Users#operation/CreateUser)",
   type: "action",
   props: {

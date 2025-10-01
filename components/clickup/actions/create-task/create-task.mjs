@@ -7,7 +7,12 @@ export default {
   key: "clickup-create-task",
   name: "Create Task",
   description: "Creates a new task. [See the documentation](https://clickup.com/api) in **Tasks / Create Task** section.",
-  version: "0.0.16",
+  version: "0.0.17",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

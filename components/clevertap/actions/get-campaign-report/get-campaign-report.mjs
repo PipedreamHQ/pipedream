@@ -4,7 +4,12 @@ export default {
   key: "clevertap-get-campaign-report",
   name: "Get Campaign Report",
   description: "Get the report for a completed campaign. [See the documentation](https://developer.clevertap.com/docs/get-campaign-report-api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

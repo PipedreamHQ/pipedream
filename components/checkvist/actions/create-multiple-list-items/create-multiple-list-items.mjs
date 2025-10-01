@@ -7,7 +7,12 @@ export default {
   key: "checkvist-create-multiple-list-items",
   name: "Create Multiple List Items",
   description: "Enables creation of several list items at once from a block of text. Indentations in the text indicate nested list items. [See the documentation](https://checkvist.com/auth/api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     checkvist,

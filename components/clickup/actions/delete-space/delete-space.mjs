@@ -5,7 +5,12 @@ export default {
   key: "clickup-delete-space",
   name: "Delete Space",
   description: "Delete a space. [See the documentation](https://clickup.com/api) in **Spaces / Delete Space** section.",
-  version: "0.0.11",
+  version: "0.0.12",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   async run({ $ }) {
     const { spaceId } = this;
