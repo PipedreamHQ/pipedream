@@ -151,13 +151,65 @@ export default {
       label: "Issue Labels",
       description: "The labels in the issue",
       optional: true,
-      async options({ prevContext }) {
+      async options({
+        prevContext, byId = false,
+      }) {
         return this.listResourcesOptions({
           prevContext,
           resourcesFn: this.listIssueLabels,
-          resouceMapper: ({ name }) => name,
+          resouceMapper: ({
+            id, name,
+          }) => byId
+            ? ({
+              label: name,
+              value: id,
+            })
+            : name,
         });
       },
+    },
+    projectStatusId: {
+      type: "string",
+      label: "Status ID",
+      description: "The ID of the status of the project",
+      optional: true,
+      async options({ prevContext }) {
+        return this.listResourcesOptions({
+          prevContext,
+          resourcesFn: this.listProjectStatuses,
+          resouceMapper: ({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          }),
+        });
+      },
+    },
+    projectLabelIds: {
+      type: "string[]",
+      label: "Label IDs",
+      description: "The IDs of the labels for the project",
+      optional: true,
+      async options({ prevContext }) {
+        return this.listResourcesOptions({
+          prevContext,
+          resourcesFn: this.listProjectLabels,
+          resouceMapper: ({
+            id, name,
+          }) => ({
+            label: name,
+            value: id,
+          }),
+        });
+      },
+    },
+    projectPriority: {
+      type: "integer",
+      label: "Priority",
+      description: "The priority of the project",
+      optional: true,
+      options: constants.PRIORITY_OPTIONS,
     },
     query: {
       type: "string",
@@ -167,7 +219,7 @@ export default {
     },
     orderBy: {
       type: "string",
-      label: "Order by",
+      label: "Order By",
       description: "By which field should the pagination order by. Available options are `createdAt` (default) and `updatedAt`.",
       optional: true,
       options: constants.ORDER_BY_OPTIONS,
@@ -314,6 +366,12 @@ export default {
         },
       });
       return comment;
+    },
+    async listProjectStatuses(variables = {}) {
+      return this.client().projectStatuses(variables);
+    },
+    async listProjectLabels(variables = {}) {
+      return this.client().projectLabels(variables);
     },
     async listResourcesOptions({
       prevContext, resourcesFn, resourcesArgs, resouceMapper,
