@@ -1,45 +1,29 @@
-import {
-  ConfigurationError,
-  DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-} from "@pipedream/platform";
-import app from "../../zoho_workdrive.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
+import common from "../common/base.mjs";
 import { Readable } from "stream";
 import { fileTypeFromBuffer } from "file-type";
+import { findMaxFolderId } from "../../common/additionalFolderProps.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
+  ...common,
   key: "zoho_workdrive-new-file-in-folder",
   name: "New File In Folder",
-  version: "0.2.0",
+  version: "0.2.1",
   description: "Emit new event when a new file is created in a specific folder.",
   type: "source",
   dedupe: "unique",
   props: {
-    app,
-    db: "$.service.db",
-    timer: {
-      label: "Polling interval",
-      description: "Pipedream will poll the Zoho WorkDrive on this schedule",
-      type: "$.interface.timer",
-      default: {
-        intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
-      },
-    },
-    teamId: {
-      propDefinition: [
-        app,
-        "teamId",
-      ],
-    },
+    ...common.props,
     folderType: {
       propDefinition: [
-        app,
+        common.props.app,
         "folderType",
       ],
     },
     folderId: {
       propDefinition: [
-        app,
+        common.props.app,
         "parentId",
         ({
           teamId, folderType,
@@ -48,15 +32,10 @@ export default {
           folderType,
         }),
       ],
-      label: "Folder Id",
-      description: "Select the unique ID of the folder.",
+      label: "Folder ID",
+      description: "Select the unique ID of the folder. Select a folder to view its subfolders.",
       optional: true,
-    },
-    typedFolderId: {
-      type: "string",
-      label: "Typed Folder Id",
-      description: "Type in the unique ID of the folder. Use this if you hit rate limits on the `Folder Id` prop.",
-      optional: true,
+      reloadProps: true,
     },
     includeLink: {
       label: "Include Link",
@@ -72,12 +51,7 @@ export default {
     },
   },
   methods: {
-    _getLastDate() {
-      return this.db.get("lastDate") || 0;
-    },
-    _setLastDate(lastDate) {
-      this.db.set("lastDate", lastDate);
-    },
+    ...common.methods,
     async stashFile(item) {
       const fileContent = await this.app.downloadFile({
         fileId: item.id,
@@ -95,33 +69,32 @@ export default {
       return await file.withoutPutUrl().withGetUrl();
     },
     async startEvent(maxResults = 0) {
-      const {
-        app,
-        folderId,
-        typedFolderId,
-      } = this;
+      const num = findMaxFolderId(this);
+      const folderId = num > 0
+        ? this[`folderId${num}`]
+        : this.folderId;
 
-      if (!folderId && !typedFolderId) {
-        throw new ConfigurationError("Please select a Folder Id or type in a Typed Folder Id.");
+      if (!folderId) {
+        throw new ConfigurationError("Please select a Folder ID or type in a Folder ID.");
       }
 
       const lastDate = this._getLastDate();
       let maxDate = lastDate;
-      const items = app.paginate({
-        fn: app.listFiles,
+      const items = this.app.paginate({
+        fn: this.app.listFiles,
         maxResults,
         filter: "allfiles",
         sort: "created_time",
-        folderId: folderId || typedFolderId,
+        folderId,
       });
 
       let responseArray = [];
 
       for await (const item of items) {
-        const createdTime = item.attributes.created_time;
-        if (new Date(createdTime) > new Date(lastDate)) {
+        const createdTime = item.attributes.created_time_in_millisecond;
+        if (createdTime > lastDate) {
           responseArray.push(item);
-          if (new Date(createdTime) > new Date(maxDate)) {
+          if (createdTime > maxDate) {
             maxDate = createdTime;
           }
         }
@@ -136,8 +109,8 @@ export default {
           item,
           {
             id: item.id,
-            summary: `A new file with id: "${item.id}" was created!`,
-            ts: item.attributes.created_time,
+            summary: `A new file with ID: "${item.id}" was created!`,
+            ts: item.attributes.created_time_in_millisecond,
           },
         );
       }
@@ -147,9 +120,6 @@ export default {
     async deploy() {
       await this.startEvent(10);
     },
-  },
-  async run() {
-    await this.startEvent();
   },
   sampleEmit,
 };
