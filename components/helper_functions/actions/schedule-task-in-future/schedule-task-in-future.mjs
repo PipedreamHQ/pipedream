@@ -6,7 +6,12 @@ export default {
   key: "helper_functions-schedule-task-in-future",
   name: "Pipedream Task Scheduler - Schedule Task",
   description: "Schedule a task with an existing task scheduler source. See [here](https://pipedream.com/apps/pipedream/triggers/new-scheduled-tasks) for more details.",
-  version: "0.2.2",
+  version: "0.2.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     helper_functions,

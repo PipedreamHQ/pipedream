@@ -5,7 +5,12 @@ export default {
   name: "Batch Create or Update Contact",
   description:
     "Create or update a batch of contacts by its ID or email. [See the documentation](https://developers.hubspot.com/docs/api/crm/contacts)",
-  version: "0.0.22",
+  version: "0.0.23",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     hubspot,

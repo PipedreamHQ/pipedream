@@ -4,7 +4,12 @@ export default {
   key: "html_to_image-convert-url-to-image",
   name: "Convert URL to Image",
   description: "Capture a screenshot from a URL. [See the documentation](https://docs.htmlcsstoimg.com/html-to-image-api/screenshot-capture-api).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     htmlToImage,

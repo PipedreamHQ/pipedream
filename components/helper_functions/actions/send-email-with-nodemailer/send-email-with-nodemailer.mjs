@@ -6,7 +6,12 @@ export default {
   key: "helper_functions-send-email-with-nodemailer",
   name: "Send email with Nodemailer",
   description: "Sends an email using the nodemailer package",
-  version: "0.2.1",
+  version: "0.2.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     helper_functions,

@@ -4,7 +4,12 @@ export default {
   key: "helpspace-create-ticket",
   name: "Create Ticket",
   description: "Creates a new ticket in Helpspace. [See the documentation](https://documentation.helpspace.com/api-tickets)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     helpspace,

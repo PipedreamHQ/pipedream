@@ -6,7 +6,12 @@ export default {
   key: "heygen-create-video-from-template",
   name: "Create Video From Template",
   description: "Generates a video from a selected template. [See the documentation](https://docs.heygen.com/reference/generate-template)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

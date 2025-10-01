@@ -4,7 +4,12 @@ export default {
   key: "html_css_to_image-create-image-from-html",
   name: "Create Image From HTML",
   description: "Create Image From HTML. [See the docs](https://docs.htmlcsstoimage.com/getting-started/using-the-api/#creating-an-image).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     htmlCssToImageApp,

@@ -6,7 +6,12 @@ export default {
   key: "helpspot-update-request",
   name: "Update Request",
   description: "Updates an existing user request. [See the documentation](https://support.helpspot.com/index.php?pg=kb.page&id=164#private.request.update)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

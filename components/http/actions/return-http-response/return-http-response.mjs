@@ -6,7 +6,12 @@ export default {
   description:
     "Use with an HTTP trigger that uses \"Return a custom response from your workflow\" as its `HTTP Response`",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     http,
     resStatusCode: {

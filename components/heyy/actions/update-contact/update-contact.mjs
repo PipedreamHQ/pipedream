@@ -6,7 +6,12 @@ export default {
   key: "heyy-update-contact",
   name: "Update Contact",
   description: "Updates the details of a contact under your business. [See the documentation](https://documenter.getpostman.com/view/27408936/2sA2r3a6DW#5a5ee22b-c16e-4d46-ae5d-3844b6501a34).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

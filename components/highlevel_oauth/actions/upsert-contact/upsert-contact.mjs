@@ -11,7 +11,12 @@ export default {
   key: "highlevel_oauth-upsert-contact",
   name: "Upsert Contact",
   description: "Creates or updates a contact on HighLevel. [See the documentation](https://highlevel.stoplight.io/docs/integrations/f71bbdd88f028-upsert-contact)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

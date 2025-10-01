@@ -6,7 +6,12 @@ export default {
   name: "Send Email",
   description: "Deliver an email with a document to a contact through Holded. [See the docs](https://developers.holded.com/reference/send-document-1).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     docType: {

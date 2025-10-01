@@ -4,7 +4,12 @@ export default {
   key: "heygen-retrieve-video-link",
   name: "Retrieve Video Link",
   description: "Fetches a link for a specific heygen video. [See the documentation](https://docs.heygen.com/reference/video-status)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     heygen,
