@@ -6,7 +6,12 @@ export default {
   key: "sendcloud-list-parcel-documents",
   name: "List Parcel Documents",
   description: "List parcel documents. [See the documentation](https://api.sendcloud.dev/docs/sendcloud-public-api/parcel-documents/operations/get-a-parcel-document-1)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

@@ -13,7 +13,12 @@ export default {
   key: "scrapeless-scraping-api",
   name: "Scraping API",
   description: "Endpoints for fresh, structured data from 100+ popular sites. [See the documentation](https://apidocs.scrapeless.com/api-12919045).",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     scrapeless,

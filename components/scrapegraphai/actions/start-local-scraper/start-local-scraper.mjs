@@ -4,7 +4,12 @@ export default {
   key: "scrapegraphai-start-local-scraper",
   name: "Start Local Scraper",
   description: "Extract content from HTML content using AI by providing a natural language prompt and the HTML content. [See the documentation](https://docs.scrapegraphai.com/api-reference/endpoint/localscraper/start)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     scrapegraphai,
