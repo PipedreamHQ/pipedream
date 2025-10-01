@@ -439,7 +439,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/afosto: {}
+  components/afosto:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/aftership:
     dependencies:
