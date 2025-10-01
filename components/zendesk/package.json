@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/zendesk",
-  "version": "0.9.1",
+  "version": "0.10.0",
   "description": "Pipedream Zendesk Components",
   "main": "zendesk.app.mjs",
   "keywords": [

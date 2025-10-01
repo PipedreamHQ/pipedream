@@ -1,4 +1,5 @@
 import app from "../../zendesk.app.mjs";
+import { parseObject } from "../../common/utils.mjs";
 
 export default {
   key: "zendesk-set-custom-ticket-fields",
@@ -44,15 +45,7 @@ export default {
     } = this;
 
     // Parse custom fields from string array to objects
-    const parsedCustomFields = customFields.map((field) => {
-      try {
-        return typeof field === "string"
-          ? JSON.parse(field)
-          : field;
-      } catch (error) {
-        throw new Error(`Failed to parse custom field: ${field}. Each field must be valid JSON with "id" and "value" properties.`);
-      }
-    });
+    const parsedCustomFields = parseObject(customFields);
 
     // Validate custom fields structure
     parsedCustomFields.forEach((field, index) => {
