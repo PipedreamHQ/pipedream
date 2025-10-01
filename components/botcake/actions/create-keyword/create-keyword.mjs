@@ -4,7 +4,12 @@ export default {
   key: "botcake-create-keyword",
   name: "Create Keyword",
   description: "Create a new Keyword. [See the documentation](https://docs.botcake.io/english/api-reference#create-keyword)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -2,7 +2,12 @@ import app from "../../bouncer.app.mjs";
 
 export default {
   name: "Verify Email Batch",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "bouncer-verify-email-batch",
   description: "Verify multiple emails. [See the documentation](https://docs.usebouncer.com/#b9296001-fa52-459d-997b-bc0663f352d9)",
   type: "action",
