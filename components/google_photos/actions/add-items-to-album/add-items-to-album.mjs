@@ -2,7 +2,12 @@ import app from "../../google_photos.app.mjs";
 
 export default {
   key: "google_photos-add-items-to-album",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   name: "Add Items To Album",
   description: "Adds selected items to the selected album. [See the documentation](https://developers.google.com/photos/library/guides/manage-albums#adding-items-to-album)",

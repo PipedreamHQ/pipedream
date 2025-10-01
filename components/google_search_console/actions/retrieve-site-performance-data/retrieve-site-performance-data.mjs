@@ -5,7 +5,12 @@ export default {
   name: "Retrieve Site Performance Data",
   description: "Fetches search analytics from Google Search Console for a verified site.",
   key: "google_search_console-retrieve-site-performance-data",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     googleSearchConsole,

@@ -2,7 +2,12 @@ import app from "../../google_tag_manager.app.mjs";
 
 export default {
   name: "Create Tag",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "google_tag_manager-create-tag",
   description: "Create a tag in a workspace. [See the documentation](https://developers.google.com/tag-platform/tag-manager/api/v2/reference/accounts/containers/workspaces/tags/create)",
   type: "action",

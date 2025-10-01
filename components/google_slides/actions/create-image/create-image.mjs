@@ -4,7 +4,12 @@ export default {
   key: "google_slides-create-image",
   name: "Create Image",
   description: "Creates an image in a slide. [See the documentation](https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations/request#CreateImageRequest)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     googleSlides,

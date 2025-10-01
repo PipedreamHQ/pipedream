@@ -2,7 +2,12 @@ import app from "../../google_tag_manager.app.mjs";
 
 export default {
   name: "Get Tag",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "google_tag_manager-get-tag",
   description: "Get a specific tag of a workspace. [See the documentation](https://developers.google.com/tag-platform/tag-manager/api/v2/reference/accounts/containers/workspaces/tags/get)",
   type: "action",

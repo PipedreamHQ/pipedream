@@ -4,7 +4,12 @@ export default {
   key: "google_tasks-create-task",
   name: "Create Task",
   description: "Creates a new task and adds it to the authenticated user's task lists. [See the docs here](https://developers.google.com/tasks/reference/rest/v1/tasks/insert)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

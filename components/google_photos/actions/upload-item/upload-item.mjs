@@ -5,7 +5,12 @@ import {
 
 export default {
   key: "google_photos-upload-item",
-  version: "1.0.1",
+  version: "1.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   name: "Upload Item",
   description: "Uploads an item to Google Photos. [See the documentation](https://developers.google.com/photos/library/guides/upload-media)",

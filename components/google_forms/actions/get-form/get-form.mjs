@@ -4,7 +4,12 @@ export default {
   key: "google_forms-get-form",
   name: "Get Form",
   description: "Get information about a Google Form. [See the documentation](https://developers.google.com/forms/api/reference/rest/v1/forms/get)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     googleForms,
