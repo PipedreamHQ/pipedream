@@ -4,7 +4,12 @@ export default {
   ...common,
   key: "chartmogul-retrieve-asp",
   name: "Retrieve Average Sale Price ASP",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Retrieves the Average Sale Price (ASP), for the specified time period. [See the docs here](https://dev.chartmogul.com/reference/retrieve-asp)",
   type: "action",
   props: {

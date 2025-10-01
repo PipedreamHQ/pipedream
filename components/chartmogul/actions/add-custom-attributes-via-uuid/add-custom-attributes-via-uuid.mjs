@@ -3,7 +3,12 @@ import chartmogul from "../../chartmogul.app.mjs";
 export default {
   key: "chartmogul-add-custom-attributes-via-uuid",
   name: "Add Custom Attributes To Customer Via UUID",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Adds custom attributes to a given customer. [See the docs here](https://dev.chartmogul.com/reference/add-custom-attributes-to-customer)",
   type: "action",
   props: {

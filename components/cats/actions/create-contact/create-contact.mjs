@@ -5,7 +5,12 @@ export default {
   key: "cats-create-contact",
   name: "Create Contact",
   description: "Adds a new contact to the CATS platform. [See the documentation](https://docs.catsone.com/api/v3/#contacts-create-a-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     cats,

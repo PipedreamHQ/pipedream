@@ -4,7 +4,12 @@ export default {
   key: "chatlayer-get-conversations",
   name: "Get Conversations",
   description: "Lists conversations with the specified bot. [See the documentation](https://api.chatlayer.ai/v1/docs#operation/getAllPaginatedConversationsByBotId)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

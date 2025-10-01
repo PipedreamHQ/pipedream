@@ -5,7 +5,12 @@ export default {
   key: "change_photos-transform-image",
   name: "Transform Image",
   description: "Transforms an image with various effects and optimizations. [See the documentation](https://www.change.photos/api-docs)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     changePhotos,

@@ -4,7 +4,12 @@ export default {
   key: "chaindesk-update-agent",
   name: "Update Agent",
   description: "Updates the agent to improve the accuracy of generated responses.",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     chaindesk,
