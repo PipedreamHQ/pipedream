@@ -2,7 +2,12 @@ import awork from "../../awork.app.mjs";
 
 export default {
   name: "Find Users By Email",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "awork-find-users-by-email",
   description: "Finds a user by email. [See docs here](https://openapi.awork.io/#/Users/get_users)",
   type: "action",

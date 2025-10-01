@@ -6,7 +6,12 @@ export default {
   name: "Create Video",
   description: "Creates a Video. [See the docs here](https://developers.bannerbear.com/#post-v2-videos).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     bannerbear,
     videoTemplate: {

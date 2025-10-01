@@ -6,7 +6,12 @@ export default {
   key: "bamboohr-download-resume",
   name: "Download Resume",
   description: "Download a resume from an application. [See the documentation](https://documentation.bamboohr.com/reference/get-company-file)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     bamboohr,

@@ -4,7 +4,12 @@ export default {
   key: "ayrshare-update-user",
   name: "Update User",
   description: "Update an existing profile. [See the documentation](https://www.ayrshare.com/docs/apis/profiles/update-profile)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

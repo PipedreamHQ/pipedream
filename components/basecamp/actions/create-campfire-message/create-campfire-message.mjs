@@ -6,7 +6,12 @@ export default {
   name: "Create Campfire Message",
   description: "Creates a message in a selected Campfire. [See the documentation](https://github.com/basecamp/bc3-api/blob/master/sections/campfires.md#create-a-campfire-line)",
   type: "action",
-  version: "0.0.8",
+  version: "0.0.9",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     ...common.props,
     campfireId: {

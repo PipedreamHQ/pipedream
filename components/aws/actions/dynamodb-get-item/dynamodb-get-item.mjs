@@ -10,7 +10,12 @@ export default {
     If there is no matching item, Get Item does not return any data and there will be no Item element in the response.
     [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/classes/getitemcommand.html)
   `),
-  version: "0.2.2",
+  version: "0.2.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     aws: common.props.aws,

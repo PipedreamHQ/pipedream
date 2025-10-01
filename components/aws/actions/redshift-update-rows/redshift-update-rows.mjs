@@ -6,7 +6,12 @@ export default {
   name: "Redshift - Update Rows",
   description: "Update row(s) in an existing table in Redshift. [See the documentation](https://docs.aws.amazon.com/redshift/latest/APIReference/API_ExecuteStatement.html)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     info: {
