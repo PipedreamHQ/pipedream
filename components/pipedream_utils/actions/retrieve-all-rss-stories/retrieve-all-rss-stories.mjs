@@ -6,7 +6,12 @@ export default {
   key: "pipedream_utils-retrieve-all-rss-stories",
   name: "Helper Functions - Retrieve all RSS Stories",
   description: "Retrieve all stories from one or more RSS feeds.",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     pipedream_utils,
