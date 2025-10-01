@@ -4,7 +4,12 @@ export default {
   type: "action",
   key: "wave-create-invoice",
   name: "Create Invoice",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create an invoice for a customer with one product. [See the documentation](https://developer.waveapps.com/hc/en-us/articles/360038817812-Mutation-Create-invoice)",
   props: {
     app,

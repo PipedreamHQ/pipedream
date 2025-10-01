@@ -2,7 +2,12 @@ import weatherbit_io from "../../weatherbit_io.app.mjs";
 
 export default {
   name: "Fetch Historical Weather Data",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "weatherbit_io-fetch-historical-weather-data",
   description: "Fetch historical wheater data from a location. [See docs here](https://www.weatherbit.io/api/weather-history-daily)",
   type: "action",

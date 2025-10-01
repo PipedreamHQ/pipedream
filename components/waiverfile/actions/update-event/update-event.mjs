@@ -4,7 +4,12 @@ export default {
   key: "waiverfile-update-event",
   name: "Update Event",
   description: "Updates the details of an existing event in WaiverFile. [See the documentation](https://api.waiverfile.com/swagger/ui/index#!/WaiverEvent/WaiverEvent_UpdateEvent)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     waiverfile,

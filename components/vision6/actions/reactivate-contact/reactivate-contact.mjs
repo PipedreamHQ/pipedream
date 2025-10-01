@@ -4,7 +4,12 @@ export default {
   key: "vision6-reactivate-contact",
   name: "Reactivate Contact",
   description: "Reactivate an existing contact. [See the docs here](https://api.vision6.com/#update-contacts)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     vision6,
