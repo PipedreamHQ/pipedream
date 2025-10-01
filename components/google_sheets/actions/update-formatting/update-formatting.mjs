@@ -9,6 +9,11 @@ export default {
   description: "Update the formatting of a cell in a spreadsheet. [See the documentation](https://developers.google.com/workspace/sheets/api/samples/formatting)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     googleSheets,
     drive: {
