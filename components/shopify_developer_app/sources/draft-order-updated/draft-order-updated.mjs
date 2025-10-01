@@ -3,7 +3,7 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "shopify-draft-order-updated",
+  key: "shopify_developer_app-draft-order-updated",
   name: "Draft Order Updated (Instant)",
   type: "source",
   description: "Emit new event for each draft order updated in a store.",
@@ -15,11 +15,10 @@ export default {
       return "DRAFT_ORDERS_UPDATE";
     },
     generateMeta(resource) {
-      const ts = Date.parse(resource.createdAt);
       return {
         id: resource.id,
         summary: `Draft order updated ${resource.id}`,
-        ts,
+        ts: Date.parse(resource.created_at),
       };
     },
   },
