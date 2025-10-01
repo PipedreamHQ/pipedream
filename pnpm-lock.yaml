@@ -14473,7 +14473,11 @@ importers:
         specifier: ^1.11.10
         version: 1.11.13
 
-  components/the_official_board: {}
+  components/the_official_board:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/thehive: {}
 
