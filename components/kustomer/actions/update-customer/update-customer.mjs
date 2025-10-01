@@ -7,7 +7,12 @@ export default {
   key: "kustomer-update-customer",
   name: "Update Customer",
   description: "Updates an existing customer in Kustomer. [See the documentation](https://developer.kustomer.com/kustomer-api-docs/reference/updatecustomer)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     kustomer,

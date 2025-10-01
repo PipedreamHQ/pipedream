@@ -4,7 +4,12 @@ export default {
   name: "Remove Lead from Campaign",
   description: "Remove a lead from your campaign. [See the documentation](https://dev.kickofflabs.com/delete/).",
   key: "kickofflabs-remove-lead-from-campaign",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

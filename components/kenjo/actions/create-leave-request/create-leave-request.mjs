@@ -4,7 +4,12 @@ export default {
   key: "kenjo-create-leave-request",
   name: "Create Leave Request",
   description: "Creates a new leave request in Kenjo. [See the documentation](https://kenjo.readme.io/reference/post_time-off-requests).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     kenjo,

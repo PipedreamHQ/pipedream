@@ -4,7 +4,12 @@ export default {
   key: "launchdarkly-get-feature-flag-status",
   name: "Get Feature Flag Status",
   description: "Get the status of a feature flag. [See the documentation](https://launchdarkly.com/docs/api/feature-flags/get-feature-flag-status).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

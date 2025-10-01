@@ -5,7 +5,12 @@ export default {
   name: "Categorize Website",
   description: "Submit a website URL for categorization by the API. [See the documentation](https://www.klazify.com/category#docs).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     url: {

@@ -4,7 +4,12 @@ export default {
   key: "kizeo_forms-export-form-data-to-csv-or-excel",
   name: "Export Form Data to CSV or Excel",
   description: "Exports data from a form to CSV or Excel format. [See the documentation](https://kizeo.github.io/kizeo-forms-documentations/docs/en/exports)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -5,7 +5,12 @@ export default {
   key: "klipy-get-sticker-by-slug",
   name: "Get Sticker By Slug",
   description: "Get a specific Sticker idendified by its slug. [See the documentation](https://docs.klipy.com/stickers-api/stickers-search-api).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

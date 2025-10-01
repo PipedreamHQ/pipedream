@@ -4,7 +4,12 @@ export default {
   key: "klenty-add-prospect",
   name: "Add Prospect to List",
   description: "Adds a new prospect to a list in Klenty. [See the documentation](https://support.klenty.com/en/articles/8193937-klenty-s-post-apis#h_8848b48485)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     klenty,

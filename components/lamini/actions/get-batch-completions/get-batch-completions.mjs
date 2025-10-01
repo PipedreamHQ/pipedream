@@ -5,7 +5,12 @@ export default {
   key: "lamini-get-batch-completions",
   name: "Get Batch Completions",
   description: "Retrieve the results of a batch completion request from Lamini. [See the documentation](https://docs.lamini.ai/api/).",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

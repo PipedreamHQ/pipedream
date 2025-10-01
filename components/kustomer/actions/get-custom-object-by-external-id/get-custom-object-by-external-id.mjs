@@ -5,7 +5,12 @@ export default {
   key: "kustomer-get-custom-object-by-external-id",
   name: "Get Custom Object by External ID",
   description: "Gets a custom object by external ID in Kustomer. [See the documentation](https://developer.kustomer.com/kustomer-api-docs/reference/get-klasses-name-externalid-externalid)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     kustomer,

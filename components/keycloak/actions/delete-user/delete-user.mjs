@@ -4,7 +4,12 @@ export default {
   key: "keycloak-delete-user",
   name: "Delete User",
   description: "Delete a user from Keycloak. [See the documentation](https://www.keycloak.org/docs-api/latest/rest-api/index.html#_users)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

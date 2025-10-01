@@ -4,7 +4,12 @@ export default {
   key: "knorish-add-user-in-course",
   name: "Add User In Course",
   description: "Add a specific user to a specific course on your Knorish site. [See the documentation](https://knowledge.knorish.com/api-endpoints-and-postman-dump-publisher-api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     knorish,

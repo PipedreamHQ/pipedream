@@ -6,7 +6,12 @@ export default {
   key: "kiwihr-create-employee",
   name: "Create Employee",
   description: "Add a new employee to kiwiHR. [See the documentation](https://api.kiwihr.com/api/docs/mutation.doc.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     kiwihr,

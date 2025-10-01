@@ -5,7 +5,12 @@ export default {
   key: "kvdb-set-key-value",
   name: "Set a Key Value",
   description: "KVDB is designed for quick and easy integration into projects that need a globally accessible key-value database. To get started, create at API key at https://kvdb.io/",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     kvdb: {

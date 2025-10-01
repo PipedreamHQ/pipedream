@@ -6,7 +6,12 @@ export default {
   key: "lamini-create-fine-tune-job",
   name: "Create Fine-Tune Job",
   description: "Create a fine-tuning job with a dataset. [See the documentation](https://docs.lamini.ai/api/).",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

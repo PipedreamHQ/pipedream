@@ -4,7 +4,12 @@ export default {
   key: "klipfolio-delete-datasource",
   name: "Delete Datasource",
   description: "Delete the data source associated with a specific data source ID. [See the documentation](https://apidocs.klipfolio.com/reference/data-sources#delete-datasourcesid)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

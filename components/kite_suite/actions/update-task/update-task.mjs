@@ -4,7 +4,12 @@ export default {
   key: "kite_suite-update-task",
   name: "Update Task",
   description: "Update an existing task in a project. [See the documentation](https://api.kitesuite.com/swagger/#/Task/patch_api_v1_task__id_).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     kiteSuite,
