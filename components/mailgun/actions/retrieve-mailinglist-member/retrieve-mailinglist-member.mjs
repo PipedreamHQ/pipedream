@@ -6,7 +6,12 @@ export default {
   key: "mailgun-retrieve-mailinglist-member",
   name: "Get Mailing List Member",
   description: "Retrieve a mailing list member by address. [See the docs here](https://documentation.mailgun.com/en/latest/api-mailinglists.html#mailing-lists)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     mailgun,

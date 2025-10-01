@@ -4,7 +4,12 @@ export default {
   key: "mapbox-geocode-address",
   name: "Geocode Address",
   description: "Retrieves the geocoded location for a given address. [See the documentation](https://docs.mapbox.com/api/search/geocoding/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     mapbox,

@@ -6,7 +6,12 @@ export default {
   key: "mailgun-verify-email",
   name: "Verify Email",
   description: "Verify email address deliverability with Mailgun. [See the docs here](https://documentation.mailgun.com/en/latest/api-email-validation.html)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     mailgun,

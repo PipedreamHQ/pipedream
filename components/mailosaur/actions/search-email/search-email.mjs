@@ -5,7 +5,12 @@ export default {
   key: "mailosaur-search-email",
   name: "Search Email",
   description: "Search for received emails in a server matching specified criteria. [See the documentation](https://mailosaur.com/docs/api/#search-for-messages)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     mailosaur,

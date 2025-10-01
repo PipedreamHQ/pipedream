@@ -2,7 +2,12 @@ import maintainx from "../../maintainx.app.mjs";
 
 export default {
   name: "Send Message",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "maintainx-send-message",
   description: "Send message to a conversation. [See docs here](https://api.getmaintainx.com/v1/docs#tag/Conversations/paths/~1conversations~1{id}~1messages/post)",
   type: "action",

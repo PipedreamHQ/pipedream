@@ -5,7 +5,12 @@ export default {
   name: "Update Contact",
   description: "Update the user-given name and exclusion status of a specific contact. [See the docs here](https://dev.mailjet.com/email/reference/contacts/contact/#v3_put_contact_contact_ID)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     mailjetApp,
     contactId: {
