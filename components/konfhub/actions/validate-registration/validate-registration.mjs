@@ -5,7 +5,12 @@ export default {
   key: "konfhub-validate-registration",
   name: "Validate Registration",
   description: "Validate a user's email or phone number for a given event. [See the documentation](https://docs.konfhub.com/#api-Common_APIs-Registration_Validation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     konfhub,

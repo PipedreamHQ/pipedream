@@ -5,7 +5,12 @@ export default {
   key: "dynapictures-create-image",
   name: "Create Image",
   description: "Generates a new image by using a given image as a template. [See the documentation](https://dynapictures.com/docs/#image-generation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

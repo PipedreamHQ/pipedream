@@ -4,7 +4,12 @@ export default {
   key: "mautic-get-contact",
   name: "Get Contact",
   description: "Gets an individual contact by ID. [See docs](https://developer.mautic.org/#get-contact)",
-  version: "0.2.0",
+  version: "0.2.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     mautic,

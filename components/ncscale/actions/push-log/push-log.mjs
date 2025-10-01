@@ -4,7 +4,12 @@ export default {
   key: "ncscale-push-log",
   name: "Push Log",
   description: "Pushes a new log entry to the ncscale app. [See the documentation](https://documentation.ncscale.io/docs/api/push-log)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ncscale,

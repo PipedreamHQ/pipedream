@@ -4,7 +4,12 @@ export default {
   key: "gigasheet-upload-data-from-url",
   name: "Upload Data From URL",
   description: "Uploads data from a URL to Gigasheet. [See the documentation](https://gigasheet.readme.io/reference/post_upload-url)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     gigasheet,

@@ -5,7 +5,12 @@ export default {
   key: "harpa_ai-scrape-web-page",
   name: "Scrape Web Page",
   description: "Scrape a web page. [See the documentation](https://harpa.ai/grid/grid-rest-api-reference#web-page-scraping)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     harpaAi,

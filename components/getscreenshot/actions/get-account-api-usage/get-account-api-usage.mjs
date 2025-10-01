@@ -5,7 +5,12 @@ export default {
   name: "Get Account API Usage",
   description:
     "Retrieve your current API usage and available quota. [See the documentation](https://docs.rasterwise.com/docs/getscreenshot/api-reference-1/)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     rasterwise,

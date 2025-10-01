@@ -5,7 +5,12 @@ export default {
   key: "cloud_convert-create-archive",
   name: "Create Archive",
   description: "Creates an archive in a specified format. [See the documentation](https://cloudconvert.com/api/v2/archive#archive-tasks)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

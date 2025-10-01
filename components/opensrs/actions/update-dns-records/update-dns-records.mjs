@@ -6,7 +6,12 @@ export default {
   key: "opensrs-update-dns-records",
   name: "Update DNS Records",
   description: "Update DNS records for a specified domain. [See the documentation](https://domains.opensrs.guide/docs/set_dns_zone-).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

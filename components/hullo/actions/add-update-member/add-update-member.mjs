@@ -4,7 +4,12 @@ export default {
   key: "hullo-add-update-member",
   name: "Add or Update Member",
   description: "Adds a new member or updates an existing member's data in Hullo. [See the documentation](https://app.hullo.me/docs/index.html#?route=post-/endpoints/members)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     hullo,

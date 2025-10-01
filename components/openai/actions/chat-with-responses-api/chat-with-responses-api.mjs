@@ -10,7 +10,12 @@ export default {
   ...common,
   key: "openai-chat-with-responses-api",
   name: "Chat With Responses API",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Send a chat via the Responses API, mixing built-in tools and MCP server tools. [See the documentation](https://platform.openai.com/docs/guides/tools?api-mode=responses).",
   type: "action",
   props: {

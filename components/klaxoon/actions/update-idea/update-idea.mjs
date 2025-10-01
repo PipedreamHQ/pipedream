@@ -2,7 +2,12 @@ import app from "../../klaxoon.app.mjs";
 
 export default {
   name: "Update Idea",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "klaxoon-update-idea",
   description: "Updates an idea. [See the documentation](ttps://developers.klaxoon.com/reference/v1boardideapatch)",
   type: "action",

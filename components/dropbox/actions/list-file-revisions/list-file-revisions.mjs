@@ -5,7 +5,12 @@ export default {
   name: "List File Revisions",
   description: "Retrieves a list of file revisions needed to recover previous content. [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesListRevisions__anchor)",
   key: "dropbox-list-file-revisions",
-  version: "0.0.12",
+  version: "0.0.13",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     dropbox,

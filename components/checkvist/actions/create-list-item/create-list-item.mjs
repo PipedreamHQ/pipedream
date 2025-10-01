@@ -6,7 +6,12 @@ export default {
   key: "checkvist-create-list-item",
   name: "Create List Item",
   description: "Creates a new list item within a specified list. [See the documentation](https://checkvist.com/auth/api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     checkvist,

@@ -4,7 +4,12 @@ export default {
   key: "cal_com-get-booking",
   name: "Get Booking",
   description: "Retrieve a booking by its ID. [See the documentation](https://developer.cal.com/api/api-reference/bookings#find-a-booking)",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     calCom,

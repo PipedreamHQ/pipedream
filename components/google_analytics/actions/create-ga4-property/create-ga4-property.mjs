@@ -5,7 +5,12 @@ export default {
   key: "google_analytics-create-ga4-property",
   name: "Create GA4 Property",
   description: "Creates a new GA4 property. [See the documentation](https://developers.google.com/analytics/devguides/config/admin/v1/rest/v1beta/properties/create)",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     googleAnalytics,

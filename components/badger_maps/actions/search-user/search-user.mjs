@@ -5,7 +5,12 @@ export default {
   name: "Search User",
   description: "Find an existing Badger User at your company by User's email address or internal ID. [See the docs](https://badgerupdatedapi.docs.apiary.io/#reference/users/user-search/search-users).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     query: {

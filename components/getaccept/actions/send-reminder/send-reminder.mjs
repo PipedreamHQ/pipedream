@@ -3,7 +3,12 @@ import getaccept from "../../getaccept.app.mjs";
 export default {
   key: "getaccept-send-reminder",
   name: "Send Reminder",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Send a manual reminder for a document. [See the documentation](https://app.getaccept.com/api/#sendreminder).",
   type: "action",
   props: {

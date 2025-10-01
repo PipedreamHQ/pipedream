@@ -7,7 +7,12 @@ export default {
   key: "jina_reader-convert-to-llm-friendly-input",
   name: "Convert URL To LLM-Friendly Input",
   description: "Converts a provided URL to an LLM-friendly input using Jina Reader. [See the documentation](https://github.com/jina-ai/reader)",
-  version: "1.0.1",
+  version: "1.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

@@ -4,7 +4,12 @@ export default {
   key: "bilflo-create-contract-job",
   name: "Create Contract Job",
   description: "Creates a new contract job in Bilflo. [See the documentation](https://developer.bilflo.com/documentation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     bilflo,

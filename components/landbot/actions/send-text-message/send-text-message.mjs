@@ -4,7 +4,12 @@ export default {
   key: "landbot-send-text-message",
   name: "Send Text Message",
   description: "Send a text message to a customer. [See the documentation](https://api.landbot.io/#api-Customers-PostHttpsApiLandbotIoV1CustomersCustomer_idSend_text)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     landbot,

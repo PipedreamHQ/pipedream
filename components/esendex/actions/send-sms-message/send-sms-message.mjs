@@ -5,7 +5,12 @@ export default {
   key: "esendex-send-sms-message",
   name: "Send SMS Message",
   description: "Send an SMS message to a recipient. [See the documentation](https://developers.esendex.com/api-reference/#messagedispatcher)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     esendex,

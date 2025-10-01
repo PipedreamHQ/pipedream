@@ -2,7 +2,12 @@ import app from "../../payhip.app.mjs";
 
 export default {
   name: "Verify License Key",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "payhip-verify-license-key",
   description: "Verify a license key. [See the documentation](https://help.payhip.com/article/114-software-license-keys#:~:text=License%20Key%20Verification)",
   type: "action",

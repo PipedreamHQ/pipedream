@@ -4,7 +4,12 @@ export default {
   key: "contactout-people-search",
   name: "People Search",
   description: "Search for people based on various criteria like name, company, title, location, skills, and more. [See the documentation](https://api.contactout.com/#people-search-api).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

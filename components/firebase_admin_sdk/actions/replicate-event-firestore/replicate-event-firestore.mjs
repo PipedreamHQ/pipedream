@@ -6,7 +6,12 @@ export default {
   key: "firebase_admin_sdk-replicate-event-firestore",
   name: "Save Event to Firestore",
   description: "Replicate event in Firestore",
-  version: "0.4.6",
+  version: "0.4.7",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     firebase_admin_sdk: {

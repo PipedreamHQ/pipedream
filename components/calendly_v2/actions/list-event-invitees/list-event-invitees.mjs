@@ -4,7 +4,12 @@ export default {
   key: "calendly_v2-list-event-invitees",
   name: "List Event Invitees",
   description: "List invitees for an event. [See the documentation](https://calendly.stoplight.io/docs/api-docs/b3A6NTkxNDEx-list-event-invitees)",
-  version: "0.0.6",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     calendly,

@@ -5,7 +5,12 @@ export default {
   key: "paigo-onboard-customer",
   name: "Onboard Customer",
   description: "Creates a new customer and assigns them an offering in Paigo. [See the documentation](http://www.api.docs.paigo.tech/#tag/Customers/operation/Create%20a%20customer)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     paigo,

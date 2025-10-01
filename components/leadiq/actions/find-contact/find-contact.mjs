@@ -5,7 +5,12 @@ export default {
   key: "leadiq-find-contact",
   name: "Find Contact",
   description: "Searches for contact information based on user-defined props which may include identifiers such as name, email, or company. Returns the contact data if a match is found within the LeadIQ database. [See the documentation](https://developer.leadiq.com/#query-searchPeople)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

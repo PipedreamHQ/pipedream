@@ -5,7 +5,12 @@ export default {
   name: "List Integrations",
   description: "Returns a list of Integrations. [See the Documentation](https://docs.nango.dev/api-reference/integration/list)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
   },

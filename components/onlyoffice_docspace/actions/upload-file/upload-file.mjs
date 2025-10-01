@@ -5,7 +5,12 @@ export default {
   key: "onlyoffice_docspace-upload-file",
   name: "Upload File",
   description: "Uploads a file to the specified room. [See the documentation](https://api.onlyoffice.com/docspace/method/files/post/api/2.0/files/%7bfolderid%7d/upload)",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

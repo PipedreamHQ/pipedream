@@ -5,7 +5,12 @@ export default {
   key: "govee-retrieve-device-info",
   name: "Retrieve Device Info",
   description: "Retrieve the current status and metadata of a specific Govee device, such as its power state, color, mode, and health. [See the documentation](https://developer.govee.com/reference/get-devices-status).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

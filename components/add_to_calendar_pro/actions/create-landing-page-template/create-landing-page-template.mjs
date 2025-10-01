@@ -4,7 +4,12 @@ export default {
   key: "add_to_calendar_pro-create-landing-page-template",
   name: "Create Landing Page Template",
   description: "Create a landing page template. [See the documentation](https://docs.add-to-calendar-pro.com/api/landingpages#add-a-landing-page-template)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     addToCalendarPro,

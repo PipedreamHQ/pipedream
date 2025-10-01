@@ -4,7 +4,12 @@ export default {
   key: "opsgenie-add-note-alert",
   name: "Add Note to Alert",
   description: "Adds a note to an existing alert in Opsgenie. [See the documentation](https://docs.opsgenie.com/docs/alert-api#add-note-to-alert)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     opsgenie,

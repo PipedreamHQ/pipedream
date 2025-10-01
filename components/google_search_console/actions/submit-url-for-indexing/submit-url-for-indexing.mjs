@@ -5,7 +5,12 @@ export default {
   name: "Submit URL for Indexing",
   description: "Sends a URL update notification to the Google Indexing API",
   key: "google_search_console-submit-url-for-indexing",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     googleSearchConsole,

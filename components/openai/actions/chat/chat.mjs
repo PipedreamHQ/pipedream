@@ -5,7 +5,12 @@ import constants from "../../common/constants.mjs";
 export default {
   ...common,
   name: "Chat",
-  version: "0.3.3",
+  version: "0.3.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "openai-chat",
   description: "The Chat API, using the `gpt-3.5-turbo` or `gpt-4` model. [See the documentation](https://platform.openai.com/docs/api-reference/chat)",
   type: "action",

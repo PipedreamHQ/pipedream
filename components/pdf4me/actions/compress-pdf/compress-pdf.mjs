@@ -5,7 +5,12 @@ export default {
   key: "pdf4me-compress-pdf",
   name: "Compress PDF",
   description: "Compress a PDF file to reduce its size. [See the documentation](https://dev.pdf4me.com/apiv2/documentation/actions/compress-pdf/)",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pdf4me,

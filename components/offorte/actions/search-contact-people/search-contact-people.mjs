@@ -4,7 +4,12 @@ export default {
   key: "offorte-search-contact-people",
   name: "Search Contact People",
   description: "Search for a contact person in Offorte. [See the documentation](https://www.offorte.com/api-docs/api#tag/Contacts/operation/contactsPeopleList)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     offorte,

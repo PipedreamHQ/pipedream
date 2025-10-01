@@ -4,7 +4,12 @@ export default {
   key: "onlyoffice_docspace-invite-user",
   name: "Invite User",
   description: "Invites a new user to the portal. [See the documentation](https://api.onlyoffice.com/docspace/method/people/post/api/2.0/people/invite)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

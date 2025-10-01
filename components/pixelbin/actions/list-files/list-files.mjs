@@ -4,7 +4,12 @@ export default {
   key: "pixelbin-list-files",
   name: "List Files",
   description: "List all files. [See the documentation](https://www.pixelbin.io/docs/api-docs/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

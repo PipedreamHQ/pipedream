@@ -5,7 +5,12 @@ export default {
   key: "jumpseller-update-product",
   name: "Update Product",
   description: "Update an existing product in Jumpseller. [See the documentation](https://jumpseller.com/support/api/#tag/Products/paths/~1products~1%7Bid%7D.json/put)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     jumpseller,

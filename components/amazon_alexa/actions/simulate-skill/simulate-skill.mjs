@@ -4,7 +4,12 @@ export default {
   key: "amazon_alexa-simulate-skill",
   name: "Simulate Alexa Skill",
   description: "Simulate a dialog from an Alexa-enabled device and receive the skill response for the specified example utterance. [See the documentation](https://developer.amazon.com/en-us/docs/alexa/smapi/skill-simulation-api.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

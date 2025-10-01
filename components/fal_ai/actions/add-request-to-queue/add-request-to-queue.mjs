@@ -4,7 +4,12 @@ export default {
   key: "fal_ai-add-request-to-queue",
   name: "Add Request to Queue",
   description: "Adds a request to the queue for asynchronous processing, including specifying a webhook URL for receiving updates. [See the documentation](https://fal.ai/docs/model-endpoints/queue#queue-endpoints).",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

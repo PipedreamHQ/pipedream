@@ -3,7 +3,12 @@ import app from "../../clockwork_recruiting.app.mjs";
 export default {
   key: "clockwork_recruiting-add-person-email",
   name: "Add Person Email",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create an email address to a specific person. [See the documentation](https://app.swaggerhub.com/apis-docs/clockwork-recruiting/cw-public-api/3.0.0#/Person%20Emails)",
   type: "action",
   props: {

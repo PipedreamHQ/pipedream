@@ -5,7 +5,12 @@ export default {
   key: "dataforseo-get-google-ads-keywords-for-site-completed-tasks",
   name: "Get Google Ads Keywords For Site Completed Tasks",
   description: "Retrieve the results of completed 'Keywords For Site' tasks, which haven't been collected yet. [See the documentation](https://docs.dataforseo.com/v3/keywords_data/google_ads/keywords_for_site/tasks_ready/?bash)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     dataforseo,

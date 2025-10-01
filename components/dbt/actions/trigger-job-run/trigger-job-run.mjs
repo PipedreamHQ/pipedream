@@ -4,7 +4,12 @@ export default {
   key: "dbt-trigger-job-run",
   name: "Trigger Job Run",
   description: "Trigger a specified job to begin running. [See the documentation](https://docs.getdbt.com/dbt-cloud/api-v2#/operations/Trigger%20Job%20Run)",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     dbt,

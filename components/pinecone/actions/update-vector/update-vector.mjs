@@ -6,7 +6,12 @@ export default {
   name: "Update Vector",
   description: "Updates vector in a namespace. If a value is included, it will overwrite the previous value. [See the documentation](https://docs.pinecone.io/reference/api/data-plane/update).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     indexName: {

@@ -4,7 +4,12 @@ export default {
   key: "leexi-get-call",
   name: "Get Call",
   description: "Get details of a call by its ID. [See the documentation](https://developer.leexi.ai/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

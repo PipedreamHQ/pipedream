@@ -9,7 +9,12 @@ export default {
   key: "grain-get-recording",
   name: "Get Recording",
   description: "Fetches a specific recording by its ID from Grain, optionally including the transcript and intelligence notes. [See the documentation](https://grainhq.notion.site/grain-public-api-877184aa82b54c77a875083c1b560de9)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     grain,

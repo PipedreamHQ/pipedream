@@ -5,7 +5,12 @@ export default {
   key: "airfocus-search-item",
   name: "Search Item",
   description: "Searches items by query in airfocus. [See the documentation](https://developer.airfocus.com/endpoints.html)",
-  version: "0.1.0",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     airfocus,

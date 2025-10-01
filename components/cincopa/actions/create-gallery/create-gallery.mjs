@@ -4,7 +4,12 @@ export default {
   key: "cincopa-create-gallery",
   name: "Create Gallery",
   description: "Creates a new gallery, returning the new gallery FID (unique ID). [See the documentation](https://www.cincopa.com/media-platform/api-documentation-v2#gallery.create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

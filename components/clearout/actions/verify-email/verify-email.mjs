@@ -2,7 +2,12 @@ import app from "../../clearout.app.mjs";
 
 export default {
   name: "Verify Email",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "clearout-verify-email",
   description: "Verify an email. [See the documentation](https://docs.clearout.io/api.html)",
   type: "action",

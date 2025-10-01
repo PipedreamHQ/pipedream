@@ -2,7 +2,12 @@ import awork from "../../awork.app.mjs";
 
 export default {
   name: "Create Client",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "awork-create-client",
   description: "Creates a client. [See docs here](https://openapi.awork.io/#/Companies/post_companies)",
   type: "action",

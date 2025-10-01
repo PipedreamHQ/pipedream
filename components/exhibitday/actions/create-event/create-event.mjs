@@ -4,7 +4,12 @@ export default {
   key: "exhibitday-create-event",
   name: "Create Event",
   description: "Creates a new event in ExhibitDay. [See the documentation](https://api.exhibitday.com/Help/V1?epf=1)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     exhibitday,

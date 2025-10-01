@@ -9,7 +9,12 @@ export default {
   key: "pingdom-create-http-check",
   name: "Create HTTP Check",
   description: "Creates a new HTTP check in Pingdom. [See the documentation](https://docs.pingdom.com/api/#tag/Checks/operation/post.checks)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pingdom,

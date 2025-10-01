@@ -4,7 +4,12 @@ import { parseObject } from "../../common/utils.mjs";
 export default {
   key: "clerk-update-user",
   name: "Update User",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Update a user's attributes. You can set the user's primary contact identifiers (email address and phone numbers) by updating the `Primary Email Address Id` and `Primary Phone Number Id` attributes respectively. Both IDs should correspond to verified identifications that belong to the user. [See the documentation](https://clerk.com/docs/reference/backend-api/tag/Users#operation/CreateUser)",
   type: "action",
   props: {

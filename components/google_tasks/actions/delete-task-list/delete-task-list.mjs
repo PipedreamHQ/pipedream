@@ -4,7 +4,12 @@ export default {
   key: "google_tasks-delete-task-list",
   name: "Delete Task List",
   description: "Deletes the authenticated user's specified task list. [See the docs here](https://developers.google.com/tasks/reference/rest/v1/tasklists/delete)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -4,7 +4,12 @@ export default {
   key: "php_point_of_sale-create-register",
   name: "Create Register",
   description: "Creates a new register in the store. [See the documentation](https://phppointofsale.com/api.php#/registers/addregister)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

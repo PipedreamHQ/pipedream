@@ -8,7 +8,12 @@ export default {
   name: "Create Invoice",
   description:
     "Generates a new invoice within Finmei. [See the documentation](https://documenter.getpostman.com/view/835227/2s9YXh5NRs#01e4e494-2aaf-4d87-9b8d-e527b04af0a0)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     finmei,

@@ -2,7 +2,12 @@ import bybit from "../../bybit.app.mjs";
 
 export default {
   name: "ByBit Generic API Call",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "bybit-generic-api-call",
   description: "Make any API call as per the documentation." +
       "[reference](https://bybit-exchange.github.io/docs/futuresV2/inverse/#t-introduction)",

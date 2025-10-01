@@ -4,7 +4,12 @@ export default {
   key: "php_point_of_sale-delete-register",
   name: "Delete a Register",
   description: "Deletes a register from PHP Point of Sale. [See the documentation](https://phppointofsale.com/api.php#/registers/deleteregister)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

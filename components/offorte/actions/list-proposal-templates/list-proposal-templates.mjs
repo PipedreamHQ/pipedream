@@ -4,7 +4,12 @@ export default {
   key: "offorte-list-proposal-templates",
   name: "List Proposal Templates",
   description: "List all proposal templates in Offorte. [See the documentation](https://www.offorte.com/api-docs/api#tag/Proposals/operation/favoriteTemplatesList)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     offorte,

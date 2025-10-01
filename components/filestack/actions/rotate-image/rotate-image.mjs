@@ -5,7 +5,12 @@ export default {
   key: "filestack-rotate-image",
   name: "Rotate Image",
   description: "Rotates an uploaded image by a specified degree. [See the documentation](https://www.filestack.com/docs/api/processing/#rotate)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

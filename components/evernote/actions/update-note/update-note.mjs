@@ -6,7 +6,12 @@ export default {
   key: "evernote-update-note",
   name: "Update Note",
   description: "Updates an existing note in Evernote. [See the documentation](https://dev.evernote.com/doc/reference/NoteStore.html#Fn_NoteStore_updateNote)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     evernote,

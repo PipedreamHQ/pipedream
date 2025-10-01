@@ -5,7 +5,12 @@ export default {
   key: "memberstack-create-member",
   name: "Create Member",
   description: "Creates a member connected to a free plan. [See the docs](https://memberstack.notion.site/Admin-API-5b9233507d734091bd6ed604fb893bb8)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     memberstack,

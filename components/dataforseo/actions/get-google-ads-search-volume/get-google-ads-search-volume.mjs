@@ -5,7 +5,12 @@ export default {
   key: "dataforseo-get-google-ads-search-volume",
   name: "Get Google Ads Search Volume",
   description: "Retrieve search volume data for specified keywords from Google Ads. [See the documentation](https://docs.dataforseo.com/v3/keywords_data/google_ads/search_volume/live/?bash)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     dataforseo,

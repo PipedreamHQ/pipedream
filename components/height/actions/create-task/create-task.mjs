@@ -4,7 +4,12 @@ export default {
   key: "height-create-task",
   name: "Create Task",
   description: "Creates a new task within your workspace. [See the documentation](https://height.notion.site/Create-a-task-b50565736830422684b28ae570a53a9e)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     height,

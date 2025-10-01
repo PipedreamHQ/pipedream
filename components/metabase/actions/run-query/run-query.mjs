@@ -4,7 +4,12 @@ export default {
   key: "metabase-run-query",
   name: "Run Query",
   description: "Execute a saved question/card and return the results. [See the documentation](https://www.metabase.com/docs/latest/api#tag/apicard/post/api/card/{card-id}/query).",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

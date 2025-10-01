@@ -8,7 +8,12 @@ export default {
   key: "offorte-create-proposal",
   name: "Create Proposal",
   description: "Create a new proposal in Offorte. [See the documentation](https://www.offorte.com/api-docs/api#tag/Proposals/operation/createProposal)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     offorte,

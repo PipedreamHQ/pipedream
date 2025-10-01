@@ -2,7 +2,12 @@ import app from "../../axonaut.app.mjs";
 
 export default {
   name: "Update Company",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "axonaut-update-company",
   description: "Updates a company. [See documentation (Go to `PATCH /api/v2/companies/{companYid}`)](https://axonaut.com/api/v2/doc)",
   type: "action",

@@ -4,7 +4,12 @@ export default {
   key: "devin-list-sessions",
   name: "List Sessions",
   description: "Retrieve a list of all sessions. [See the documentation](https://docs.devin.ai/api-reference/sessions/list-sessions)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     devin,
