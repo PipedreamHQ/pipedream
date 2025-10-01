@@ -5,7 +5,12 @@ export default {
   name: "Detect Logos in Image",
   key: "google_cloud_vision_api-detect-logos-in-image",
   description: "Detects logos within a local or remote image file. [See the documentation](https://cloud.google.com/vision/docs/detecting-logos).",
-  version: "1.0.0",
+  version: "1.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   async run({ $ }) {
     this.checkFileProp();

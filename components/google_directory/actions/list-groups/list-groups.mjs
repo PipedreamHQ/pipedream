@@ -4,7 +4,12 @@ export default {
   key: "google_directory-list-groups",
   name: "List Groups",
   description: "Retrieves a list of directory groups. [See the documentation](https://developers.google.com/admin-sdk/directory/reference/rest/v1/groups/list)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     googleDirectory,

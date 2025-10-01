@@ -2,7 +2,12 @@ import googleCloud from "../../google_cloud.app.mjs";
 
 export default {
   name: "Switch Instance Boot Status",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "google_cloud-switch-instance-boot-status",
   type: "action",
   description: "Switch a virtual machine instance boot status to start or stop it. [See the documentation](https://cloud.google.com/compute/docs/instances/stop-start-instance)",

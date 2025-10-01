@@ -9,7 +9,12 @@ export default {
   key: "google_ad_manager-create-report",
   name: "Create Report",
   description: "Create a report in Google Ad Manager. [See the documentation](https://developers.google.com/ad-manager/api/beta/reference/rest/v1/networks.reports/create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

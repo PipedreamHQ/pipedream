@@ -4,7 +4,12 @@ export default {
   key: "google_directory-create-group",
   name: "Create Group",
   description: "Creates a new group. [See the documentation](https://developers.google.com/admin-sdk/directory/reference/rest/v1/groups/insert)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     googleDirectory,
