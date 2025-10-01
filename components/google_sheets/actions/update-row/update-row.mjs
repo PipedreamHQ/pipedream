@@ -10,7 +10,7 @@ export default {
   key: "google_sheets-update-row",
   name: "Update Row",
   description: "Update a row in a spreadsheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)",
-  version: "0.1.16",
+  version: "0.1.17",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
