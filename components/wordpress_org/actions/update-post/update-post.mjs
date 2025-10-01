@@ -5,7 +5,12 @@ export default {
   key: "wordpress_org-update-post",
   name: "Update Post",
   description: "Updates a post specified by its ID. [See the documentation](https://developer.wordpress.org/rest-api/reference/posts/#update-a-post)",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     wordpress,

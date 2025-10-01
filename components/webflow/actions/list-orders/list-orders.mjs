@@ -5,7 +5,12 @@ export default {
   key: "webflow-list-orders",
   name: "List Orders",
   description: "List orders. [See the documentation](https://developers.webflow.com/data/reference/ecommerce/orders/list)",
-  version: "2.0.0",
+  version: "2.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

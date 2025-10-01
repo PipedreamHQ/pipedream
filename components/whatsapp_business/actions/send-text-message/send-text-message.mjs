@@ -6,7 +6,12 @@ export default {
   key: "whatsapp_business-send-text-message",
   name: "Send Text Message",
   description: `Sends a text message. [See the docs.](${docLink})`,
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     whatsapp,
