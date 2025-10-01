@@ -4,7 +4,12 @@ export default {
   key: "autom-bing-search",
   name: "Bing Search",
   description: "Scrape the results from Bing search engine via the Autom.dev service. [See the documentation](https://docs.autom.dev/api-reference/bing/search)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

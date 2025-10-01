@@ -4,7 +4,12 @@ export default {
   key: "attractwell-lesson-approval",
   name: "Lesson Approval",
   description: "Approves, rejects, or unapproves a lesson in the AttractWell system based on the selected status.",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

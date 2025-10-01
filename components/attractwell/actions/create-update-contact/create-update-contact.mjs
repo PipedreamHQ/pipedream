@@ -6,7 +6,12 @@ export default {
   key: "attractwell-create-update-contact",
   name: "Create or Update Contact",
   description: "Creates or updates a contact with the provided identification and contact details.",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

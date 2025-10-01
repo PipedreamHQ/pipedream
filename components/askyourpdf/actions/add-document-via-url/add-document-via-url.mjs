@@ -5,7 +5,12 @@ export default {
   name: "Add Document Via URL",
   description: "Add a document via URL. [See the documentation](https://docs.askyourpdf.com/askyourpdf-docs/#1.-adding-document-via-url)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     url: {

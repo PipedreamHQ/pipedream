@@ -4,7 +4,12 @@ export default {
   key: "apiary-create-api-project",
   name: "Create API Project",
   description: "Create a new API project. [See the documentation](https://apiary.docs.apiary.io/#reference/blueprint/create-api-project/create-api-project)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

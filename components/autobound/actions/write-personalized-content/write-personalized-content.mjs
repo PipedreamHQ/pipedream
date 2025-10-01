@@ -4,7 +4,12 @@ export default {
   key: "autobound-write-personalized-content",
   name: "Write Personalized Content",
   description: "Write personalized content using Autobound. [See the documentation](https://autobound-api.readme.io/docs/generate-personalized-content-copy)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

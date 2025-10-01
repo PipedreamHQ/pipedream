@@ -4,7 +4,12 @@ export default {
   key: "autodesk-create-folder",
   name: "Create Folder",
   description: "Creates a new folder in a project in Autodesk. [See the documentation](https://aps.autodesk.com/en/docs/data/v2/reference/http/projects-project_id-folders-POST/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     autodesk,

@@ -4,7 +4,12 @@ export default {
   name: "Create Task from Template",
   key: "asana-create-task-from-template",
   description: "Creates a new task from a task template. [See the documentation](https://developers.asana.com/reference/instantiatetask)",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

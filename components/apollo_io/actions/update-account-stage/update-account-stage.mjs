@@ -5,7 +5,12 @@ export default {
   name: "Update Account Stage",
   description: "Updates the stage of one or more accounts in Apollo.io. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#update-account-stage)",
   type: "action",
-  version: "0.0.6",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     accountIds: {

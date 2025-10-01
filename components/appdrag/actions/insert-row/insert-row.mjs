@@ -5,7 +5,12 @@ export default {
   key: "appdrag-insert-row",
   name: "Insert Row",
   description: "Inserts a new row into a cloud database table. [See the documentation](https://support.appdrag.com/doc/Appdrag-Cloudbackend-npm)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,
