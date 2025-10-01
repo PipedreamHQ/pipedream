@@ -5,7 +5,12 @@ export default {
   key: "teamwork-update-user",
   name: "Update User",
   description: "Update a user in Teamwork. [See the documentation](https://apidocs.teamwork.com/docs/teamwork/v1/people/put-people-id-json)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

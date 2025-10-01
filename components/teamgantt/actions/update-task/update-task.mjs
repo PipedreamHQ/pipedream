@@ -3,7 +3,12 @@ import teamgantt from "../../teamgantt.app.mjs";
 export default {
   key: "teamgantt-update-task",
   name: "Update Task",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Updates a specific task. [See the documentation](https://api.teamgantt.com)",
   type: "action",
   props: {
