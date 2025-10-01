@@ -4,7 +4,12 @@ export default {
   key: "freshlearn-create-member",
   name: "Create Member",
   description: "Creates a new member within FreshLearn. [See the documentation](https://freshlearn.com/support/api#createMember)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     freshlearn,

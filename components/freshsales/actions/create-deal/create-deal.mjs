@@ -4,7 +4,12 @@ export default {
   key: "freshsales-create-deal",
   name: "Create Deal",
   description: "Create a new deal in your Freshsales account. [See the documentation](https://developer.freshsales.io/api/#create_deal)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     freshsales,

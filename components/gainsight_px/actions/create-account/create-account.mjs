@@ -4,7 +4,12 @@ export default {
   key: "gainsight_px-create-account",
   name: "Create Account",
   description: "Create a new account with the given data. [See the documentation](https://gainsightpx.docs.apiary.io/#reference/accounts/v1accounts/create-account)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

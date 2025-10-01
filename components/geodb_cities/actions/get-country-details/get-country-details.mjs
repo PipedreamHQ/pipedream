@@ -5,7 +5,12 @@ export default {
   name: "Get Country Details",
   description: "Get the details for a specific country, including number of regions. [See the docs](https://rapidapi.com/wirefreethought/api/geodb-cities).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     countryCode: {

@@ -4,7 +4,12 @@ export default {
   key: "gainsight_nxt-create-or-update-custom-object",
   name: "Create or Update Custom Object",
   description: "Create or update a custom object record. [See the documentation](https://support.gainsight.com/gainsight_nxt/API_and_Developer_Docs/Custom_Object_API/Gainsight_Custom_Object_API_Documentation#Insert_API)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

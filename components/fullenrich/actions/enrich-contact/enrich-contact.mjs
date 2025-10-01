@@ -5,7 +5,12 @@ export default {
   key: "fullenrich-enrich-contact",
   name: "Enrich Contact",
   description: "Starts the enrichment process for a specified contact. [See the documentation](https://docs.fullenrich.com/startbulk)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

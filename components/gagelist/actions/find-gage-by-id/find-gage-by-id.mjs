@@ -4,7 +4,12 @@ export default {
   key: "gagelist-find-gage-by-id",
   name: "Find Gage by ID",
   description: "Finds and retrieves a gage based on its ID in GageList. [See the documentation](https://gagelist.com/developer-resources/get-a-single-gage-record/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     gagelist,

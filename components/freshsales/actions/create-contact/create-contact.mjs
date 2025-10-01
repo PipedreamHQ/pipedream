@@ -5,7 +5,12 @@ export default {
   key: "freshsales-create-contact",
   name: "Create Contact",
   description: "Create a new contact in your Freshsales account. [See the documentation](https://developer.freshsales.io/api/#create_a_contact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     freshsales,
