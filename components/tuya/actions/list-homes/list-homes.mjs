@@ -4,7 +4,12 @@ export default {
   key: "tuya-list-homes",
   name: "List Homes",
   description: "Based on the user ID, query the list of homes where the specified user belongs. [See the documentation](https://developer.tuya.com/en/docs/cloud/f5dd40ed14?id=Kawfjh9hpov1n)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     tuya,

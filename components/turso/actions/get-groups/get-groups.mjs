@@ -4,7 +4,12 @@ export default {
   key: "turso-get-groups",
   name: "Get Groups",
   description: "Returns a list of groups belonging to the organization or user. [See the documentation](https://docs.turso.tech/api-reference/groups/list)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,
