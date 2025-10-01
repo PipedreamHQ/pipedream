@@ -4,7 +4,12 @@ export default {
   key: "roamresearch-get-page-or-block-data",
   name: "Get Page Or Block Data",
   description: "Get the data for a page or block in Roam Research (access only to non ecrypted graphs). [See the documentation](https://roamresearch.com/#/app/developer-documentation/page/eb8OVhaFC).",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

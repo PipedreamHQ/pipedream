@@ -4,7 +4,12 @@ export default {
   key: "rinkel-get-call-details",
   name: "Get Call Details",
   description: "Get details about a call. [See the documentation](https://developers.rinkel.com/docs/api/get-a-specific-call-detail-record)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     rinkel,

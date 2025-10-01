@@ -4,7 +4,12 @@ export default {
   key: "rinkel-get-call-recording",
   name: "Get Call Recording",
   description: "Get a call recording. [See the documentation](https://developers.rinkel.com/docs/api/get-a-recording)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     rinkel,

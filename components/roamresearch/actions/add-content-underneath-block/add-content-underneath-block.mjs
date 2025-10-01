@@ -4,7 +4,12 @@ export default {
   key: "roamresearch-add-content-underneath-block",
   name: "Add Content Underneath Block",
   description: "Add content underneath an existing block in your Roam Research graph (access to encrypted and non encrypted graphs). [See the documentation](https://roamresearch.com/)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

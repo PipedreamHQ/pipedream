@@ -4,7 +4,12 @@ export default {
   key: "rollbar-list-projects",
   name: "List Projects",
   description: "Lists all projects in Rollbar. [See the documentation](https://docs.rollbar.com/reference/list-all-projects)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,
