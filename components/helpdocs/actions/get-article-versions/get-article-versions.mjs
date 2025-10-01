@@ -4,7 +4,12 @@ export default {
   key: "helpdocs-get-article-versions",
   name: "Get Article Versions",
   description: "Retrieve version history and details for a specific article in your knowledge base. [See the documentation](https://apidocs.helpdocs.io/article/c3svl5hvb2-getting-article-versions)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     helpdocs,

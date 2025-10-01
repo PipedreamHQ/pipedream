@@ -4,7 +4,12 @@ export default {
   key: "hackerone-create-group",
   name: "Create Group",
   description: "Create a new organization group. [See the documentation](https://api.hackerone.com/customer-resources/?javascript#organizations-create-group)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

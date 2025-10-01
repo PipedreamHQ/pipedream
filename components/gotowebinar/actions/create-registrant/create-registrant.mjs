@@ -3,7 +3,12 @@ import gotowebinar from "../../gotowebinar.app.mjs";
 export default {
   key: "gotowebinar-create-registrant",
   name: "Create Registrant",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Register an attendee for a scheduled webinar. [See the documentation](https://developer.goto.com/GoToWebinarV2/#operation/createRegistrant)",
   type: "action",
   props: {

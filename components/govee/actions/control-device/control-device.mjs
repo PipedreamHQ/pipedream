@@ -5,7 +5,12 @@ export default {
   key: "govee-control-device",
   name: "Control Device",
   description: "Send a command to control a Govee device, such as turning it on/off, changing its brightness, or adjusting its color. [See the documentation](https://developer.govee.com/reference/control-you-devices).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

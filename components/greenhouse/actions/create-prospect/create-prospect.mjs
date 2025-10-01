@@ -6,7 +6,12 @@ export default {
   key: "greenhouse-create-prospect",
   name: "Create Prospect",
   description: "Creates a new prospect entry in Greenhouse. [See the documentation](https://developers.greenhouse.io/harvest.html#post-add-prospect)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

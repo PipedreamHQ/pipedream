@@ -2,7 +2,12 @@ import app from "../../happy_scribe.app.mjs";
 
 export default {
   name: "Delete Transcription",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "happy_scribe-delete-transcription",
   description: "Delete a transcription. [See the documentation](https://dev.happyscribe.com/sections/product/#transcriptions-delete-a-transcription)",
   type: "action",

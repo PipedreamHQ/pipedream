@@ -5,7 +5,12 @@ export default {
   key: "greptile-query-codebase",
   name: "Query Codebase",
   description: "Search the user's codebase using a natural language query. [See the documentation](https://docs.greptile.com/apps/overview)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

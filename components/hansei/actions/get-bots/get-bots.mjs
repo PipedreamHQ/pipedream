@@ -4,7 +4,12 @@ export default {
   key: "hansei-get-bots",
   name: "Get Bots",
   description: "Retrieves a list of Bots in Hansei. [See the documentation](https://developers.hansei.app/operation/operation-getbots)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     hansei,

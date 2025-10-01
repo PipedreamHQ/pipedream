@@ -4,7 +4,12 @@ export default {
   key: "gravity_forms-create-entry",
   name: "Create Entry",
   description: "Creates a new entry in a Gravity Forms form. [See the documentation](https://docs.gravityforms.com/creating-entries-with-the-rest-api-v2/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     gravityForms,

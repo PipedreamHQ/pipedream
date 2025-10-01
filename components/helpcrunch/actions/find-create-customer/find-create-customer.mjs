@@ -4,7 +4,12 @@ export default {
   key: "helpcrunch-find-create-customer",
   name: "Find or Create Customer",
   description: "Search for an existing customer within Helpcrunch platform, if no match is found it creates a new customer record. [See the documentation](https://docs.helpcrunch.com/en/rest-api-v1/search-customers-v1)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     helpcrunch,

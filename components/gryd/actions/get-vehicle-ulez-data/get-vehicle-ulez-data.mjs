@@ -4,7 +4,12 @@ export default {
   key: "gryd-get-vehicle-ulez-data",
   name: "Get Vehicle ULEZ Data",
   description: "Fetches ULEZ data for a specific vehicle from the Gryd API. [See the documentation](https://api.gryd.org/docs#/default/VehicleController_ulezByVRM)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     gryd,

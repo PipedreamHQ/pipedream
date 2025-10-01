@@ -4,7 +4,12 @@ export default {
   key: "help_scout-get-conversation-threads",
   name: "Get Conversation Threads",
   description: "Retrieves the threads of a specific conversation. [See the documentation](https://developer.helpscout.com/mailbox-api/endpoints/conversations/threads/list/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     helpScout,

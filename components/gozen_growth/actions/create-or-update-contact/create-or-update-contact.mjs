@@ -4,7 +4,12 @@ export default {
   key: "gozen_growth-create-or-update-contact",
   name: "Create Or Update Contact",
   description: "Create or update a contact a on Gozen Growth. [See the documentation](https://docs.gozen.io/docs/automation/how-to-use-webhook-trigger)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     gozenGrowth,

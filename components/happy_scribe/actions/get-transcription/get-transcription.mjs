@@ -2,7 +2,12 @@ import app from "../../happy_scribe.app.mjs";
 
 export default {
   name: "Get Transcription",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "happy_scribe-get-transcription",
   description: "Retrieve a transcription. [See the documentation](https://dev.happyscribe.com/sections/product/#transcriptions-list-all-transcriptions)",
   type: "action",

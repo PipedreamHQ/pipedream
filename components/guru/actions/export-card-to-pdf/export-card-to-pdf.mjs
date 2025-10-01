@@ -7,7 +7,12 @@ export default {
   key: "guru-export-card-to-pdf",
   name: "Export Card to PDF",
   description: "Export a specific card identified by its ID to a PDF file. [See the documentation](https://developer.getguru.com/docs/download-cards-to-pdf)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     guru,
