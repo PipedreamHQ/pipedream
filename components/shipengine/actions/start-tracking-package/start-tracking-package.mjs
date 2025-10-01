@@ -5,7 +5,12 @@ export default {
   name: "Start Tracking a Package",
   description: "Allows you to subscribe to tracking updates for a package. [See the docs](https://shipengine.github.io/shipengine-openapi/#operation/start_tracking).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     carrierCode: {

@@ -4,7 +4,12 @@ export default {
   key: "sevdesk-get-invoice",
   name: "Get Invoice",
   description: "Find and retrieve a single invoice by its ID. [See the documentation](https://api.sevdesk.de/#tag/Invoice/operation/getInvoiceById)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,
