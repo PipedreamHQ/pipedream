@@ -7,7 +7,12 @@ export default {
   key: "zenventory-create-customer-order",
   name: "Create Customer Order",
   description: "Creates a new customer order. [See the documentation](https://docs.zenventory.com/#tag/customer_order/paths/~1customer-orders/post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zenventory,
