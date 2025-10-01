@@ -1,5 +1,6 @@
 import app from "../../zendesk.app.mjs";
 import { parseObject } from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "zendesk-set-custom-ticket-fields",
@@ -47,13 +48,17 @@ export default {
     // Parse custom fields from string array to objects
     const parsedCustomFields = parseObject(customFields);
 
+    if (!Array.isArray(parsedCustomFields)) {
+      throw new ConfigurationError("Custom Fields must be an array of custom field objects");
+    }
+
     // Validate custom fields structure
     parsedCustomFields.forEach((field, index) => {
       if (!field.id) {
-        throw new Error(`Custom field at index ${index} is missing required "id" property`);
+        throw new ConfigurationError(`Custom field at index ${index} is missing required "id" property`);
       }
       if (field.value === undefined) {
-        throw new Error(`Custom field at index ${index} is missing required "value" property`);
+        throw new ConfigurationError(`Custom field at index ${index} is missing required "value" property`);
       }
     });
 
