@@ -6,6 +6,11 @@ export default {
   description: "Trigger an update for a project. [See the documentation](https://www.mintlify.com/docs/api-reference/update/trigger)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     mintlify,
     projectId: {

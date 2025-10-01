@@ -7,6 +7,11 @@ export default {
   description: "Generates a response message from the assistant for the specified domain. [See the documentation](https://www.mintlify.com/docs/api-reference/assistant/create-assistant-message)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     mintlify,
     domain: {

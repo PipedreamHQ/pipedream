@@ -6,6 +6,11 @@ export default {
   description: "Perform semantic and keyword searches across your documentation. [See the documentation](https://www.mintlify.com/docs/api-reference/assistant/search)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     mintlify,
     domain: {
