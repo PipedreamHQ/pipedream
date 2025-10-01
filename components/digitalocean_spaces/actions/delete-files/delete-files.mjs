@@ -6,7 +6,12 @@ export default {
   key: "digitalocean_spaces-delete-files",
   name: "Delete Files",
   description: "Delete files in a bucket. [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-s3/classes/deleteobjectscommand.html).",
-  version: "1.0.0",
+  version: "1.0.1",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     ...common.props,
     files: {

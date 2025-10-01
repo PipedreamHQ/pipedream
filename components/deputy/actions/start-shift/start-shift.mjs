@@ -4,7 +4,12 @@ export default {
   key: "deputy-start-shift",
   name: "Start Shift",
   description: "Starts a work shift for a specified employee in Deputy. [See the documentation](https://developer.deputy.com/deputy-docs/reference/startanemployeestimesheetclockon)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     deputy,

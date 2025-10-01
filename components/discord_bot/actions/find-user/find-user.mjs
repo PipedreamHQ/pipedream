@@ -6,7 +6,12 @@ export default {
   name: "Find User",
   description: "Find an existing user by name. [See the docs here](https://discord.com/developers/docs/resources/guild#search-guild-members)",
   type: "action",
-  version: "1.0.0",
+  version: "1.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     ...common.props,
     query: {

@@ -6,7 +6,12 @@ export default {
   key: "devin-upload-file",
   name: "Upload File",
   description: "Upload files for Devin to use in sessions. [See the documentation](https://docs.devin.ai/api-reference/attachments/upload-files-for-devin-to-work-with)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     devin,

@@ -5,7 +5,12 @@ export default {
   key: "deepimage-upscale",
   name: "Upscale Image",
   description: "Upscales the provided image using Deep Image. [See the documentation](https://documentation.deep-image.ai/image-processing/resize-and-padding)",
-  version: "0.1.0",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     deepimage,

@@ -4,7 +4,12 @@ export default {
   key: "digitalriver-create-product",
   name: "Create a Product",
   description: "Creates a new product on the Digital River platform. [See the documentation](https://www.digitalriver.com/docs/digital-river-api-reference/#tag/SKUs/operation/createSkus)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     digitalriver,
