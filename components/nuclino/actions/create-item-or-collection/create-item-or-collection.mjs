@@ -4,7 +4,12 @@ export default {
   key: "nuclino-create-item-or-collection",
   name: "Create Item or Collection",
   description: "Create a new item or collection in Nuclino. [See the documentation](https://help.nuclino.com/fa38d15f-items-and-collections)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     nuclino,
