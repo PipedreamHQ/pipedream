@@ -5,7 +5,12 @@ export default {
   key: "invision_community-create-forum-topic",
   name: "Create Forum Topic",
   description: "Creates a new forum topic. [See the documentation](https://invisioncommunity.com/developers/rest-api?endpoint=forums/topics/postindex)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     invisionCommunity,

@@ -3,7 +3,12 @@ import infinity from "../../infinity.app.mjs";
 export default {
   key: "infinity-update-item",
   name: "Update Item",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Update an existed item. [See the documentation](https://s3.amazonaws.com/devdocs.startinfinity.com/index.html#items-PUTapi-v2-workspaces--workspace--boards--board_id--items--item_id-)",
   type: "action",
   props: {

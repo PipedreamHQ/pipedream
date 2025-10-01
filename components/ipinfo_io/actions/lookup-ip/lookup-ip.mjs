@@ -2,7 +2,12 @@ import ipinfo_io from "../../ipinfo_io.app.mjs";
 
 export default {
   name: "Lookup Ip",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "ipinfo_io-lookup-ip",
   description: "Lookup an IP. [See docs here](https://ipinfo.io/developers#ip-address-parameter)",
   type: "action",

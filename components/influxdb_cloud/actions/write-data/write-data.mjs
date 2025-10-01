@@ -4,7 +4,12 @@ export default {
   key: "influxdb_cloud-write-data",
   name: "Write Data",
   description: "Write data to a specific bucket in InfluxDB Cloud. [See the documentation](https://docs.influxdata.com/influxdb3/cloud-serverless/api/v2/#operation/PostWrite)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     influxDbCloud,
