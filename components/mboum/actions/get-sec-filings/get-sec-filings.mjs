@@ -4,7 +4,12 @@ export default {
   key: "mboum-get-sec-filings",
   name: "Get SEC Filings",
   description: "Get SEC filings data including 10-K, 10-Q, 8-K, and other regulatory filings. [See the documentation](https://docs.mboum.com/#stocks-options-small-stylecolor-f8f2f2background-fa256fpadding-1px-4pxborder-radius-3pxhotsmall-GETapi-v2-markets-stock-sec-filings)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     mboum,

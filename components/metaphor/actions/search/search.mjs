@@ -3,7 +3,12 @@ import metaphor from "../../metaphor.app.mjs";
 export default {
   key: "metaphor-search",
   name: "Search",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Perform a search with a Metaphor prompt-engineered query and retrieve a list of relevant results. [See the documentation](https://docs.metaphor.systems/reference/search)",
   type: "action",
   props: {

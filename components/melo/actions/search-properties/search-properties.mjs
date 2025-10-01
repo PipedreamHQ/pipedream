@@ -5,7 +5,12 @@ export default {
   key: "melo-search-properties",
   name: "Search Properties",
   description: "Searches properties in Melo. [See the documentation](https://docs.melo.io/api-reference/endpoint/properties/get_collection)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     melo,

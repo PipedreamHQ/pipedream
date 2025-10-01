@@ -4,7 +4,12 @@ export default {
   key: "message_bird-send-voice-message",
   name: "Send Voice Message",
   description: "Sends a voice message. [See the documentation](https://developers.messagebird.com/api/voice-messaging/#send-a-voice-message)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     messagebird,

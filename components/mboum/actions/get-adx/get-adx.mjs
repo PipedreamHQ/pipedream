@@ -4,7 +4,12 @@ export default {
   key: "mboum-get-adx",
   name: "Get Average Directional Index (ADX)",
   description: "Calculate Average Directional Index technical indicator to measure trend strength and direction. [See the documentation](https://docs.mboum.com/#stocks-options-small-stylecolor-f8f2f2background-fa256fpadding-1px-4pxborder-radius-3pxhotsmall-GETapi-v1-markets-indicators-adx)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mboum,

@@ -6,7 +6,12 @@ export default {
   name: "Insert Or Update Product",
   description: "Insert or update a product in the database. [See the docs](https://api.megaventory.com/v2017a/documentation/index.html#!/Product/postProductProductUpdate_post_11).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     productSKU: {
