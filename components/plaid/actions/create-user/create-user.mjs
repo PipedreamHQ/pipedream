@@ -4,7 +4,12 @@ export default {
   key: "plaid-create-user",
   name: "Create User",
   description: "Creates a user ID and token to be used with Plaid Check, Income, or Multi-Item Link flow. [See the documentation](https://plaid.com/docs/api/users/#usercreate).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

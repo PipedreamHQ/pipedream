@@ -4,7 +4,12 @@ export default {
   name: "Find Company",
   key: "pipeline-find-company",
   description: "Find an existing company in your Pipeline account. [See the docs here](https://app.pipelinecrm.com/api/docs#tag/Companies/paths/~1companies/get)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     pipeline,

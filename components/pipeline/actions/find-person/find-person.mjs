@@ -4,7 +4,12 @@ export default {
   name: "Find Person",
   key: "pipeline-find-person",
   description: "Find an existing person in your Pipeline account. [See the docs here](https://app.pipelinecrm.com/api/docs#tag/People/paths/~1people/get)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     pipeline,
