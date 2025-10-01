@@ -6,7 +6,12 @@ export default {
   key: "helper_functions-html-to-markdown",
   name: "HTML to Markdown",
   description: "Convert via turndown",
-  version: "1.0.1",
+  version: "1.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     helper_functions,

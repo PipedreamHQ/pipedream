@@ -4,7 +4,12 @@ export default {
   key: "gagelist-create-gage",
   name: "Create Gage",
   description: "Creates a new gage on GageList. [See the documentation](https://gagelist.com/developer-resources/add-gage-record/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     gagelist,

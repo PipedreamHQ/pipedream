@@ -4,7 +4,12 @@ import constantContact from "../../constant_contact.app.mjs";
 export default {
   key: "constant_contact-add-contact",
   name: "Add Contact",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Add a single contact. [See the documentation](https://developer.constantcontact.com/api_reference/index.html#!/Contacts/createContact)",
   type: "action",
   props: {

@@ -4,7 +4,12 @@ export default {
   key: "bluesky_by_unshape-reply-post",
   name: "Reply to a Post",
   description: "Allows you to reply to a post in Bluesky. [See the documentation](https://unshape.readme.io/reference/post_bluesky-reply)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     bluesky,

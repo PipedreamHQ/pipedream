@@ -4,7 +4,12 @@ export default {
   key: "data_stores-delete-all-records",
   name: "Delete All Records",
   description: "Delete all records in your [Pipedream Data Store](https://pipedream.com/data-stores/).",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

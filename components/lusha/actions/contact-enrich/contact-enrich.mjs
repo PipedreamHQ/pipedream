@@ -4,7 +4,12 @@ export default {
   key: "lusha-contact-enrich",
   name: "Enrich Contacts",
   description: "Enriches contacts based on provided IDs. [See the documentation](https://docs.lusha.com/apis/openapi/contact-search-and-enrich/enrichprospectingcontacts)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     lusha,

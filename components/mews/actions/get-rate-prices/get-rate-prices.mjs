@@ -4,7 +4,12 @@ export default {
   name: "Get Rate Prices",
   description: "Get rate pricing information for a specific rate and time period. [See the documentation](https://mews-systems.gitbook.io/connector-api/operations/rates#get-rate-pricing)",
   key: "mews-get-rate-prices",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

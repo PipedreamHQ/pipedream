@@ -4,7 +4,12 @@ export default {
   key: "explorium-match-business-id",
   name: "Match Business ID",
   description: "Match a businesse to its unique identifier using business name and domain. [See the documentation](https://developers.explorium.ai/reference/match_businesses)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     explorium,

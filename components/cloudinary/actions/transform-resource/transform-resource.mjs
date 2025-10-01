@@ -5,7 +5,12 @@ export default {
   key: "cloudinary-transform-resource",
   name: "Transform Resource",
   description: "Transform an image, video or audio asset on-the-fly with several options. [See the documentation](https://cloudinary.com/documentation/video_manipulation_and_delivery)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     cloudinary,

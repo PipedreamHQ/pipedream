@@ -4,7 +4,12 @@ export default {
   key: "elorus-get-tasks",
   name: "Get Tasks",
   description: "Get a list of tasks from Elorus. [See the documentation](https://developer.elorus.com/#operation/tasks_list)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

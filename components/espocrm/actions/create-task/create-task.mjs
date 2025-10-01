@@ -5,7 +5,12 @@ export default {
   key: "espocrm-create-task",
   name: "Create Task",
   description: "This component creates a new task in Espo CRM. [See the documentation](https://docs.espocrm.com/development/api/crud/#create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     espoCrm,

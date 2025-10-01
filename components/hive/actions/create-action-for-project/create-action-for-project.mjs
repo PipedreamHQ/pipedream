@@ -3,7 +3,12 @@ import hive from "../../hive.app.mjs";
 export default {
   key: "hive-create-action-for-project",
   name: "Create Action For Project",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create an action for given project [See the documentation](https://developers.hive.com/v1.0/reference/actionscreate-1)",
   type: "action",
   props: {

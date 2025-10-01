@@ -4,7 +4,12 @@ export default {
   key: "kwtsms-send-sms",
   name: "Send SMS",
   description: "Sends an SMS to a specified number. [See the documentation](https://www.kwtsms.com/doc/KwtSMS.com_API_Documentation_v37.pdf)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -4,7 +4,12 @@ export default {
   key: "polygonscan-query-contract-abi",
   name: "Query Contract ABI",
   description: "Obtains the contract ABI of a smart contract on the Polygon network. [See the documentation](https://docs.polygonscan.com/api-endpoints/contracts)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     polygonscan,

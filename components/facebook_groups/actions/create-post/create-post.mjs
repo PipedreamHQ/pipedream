@@ -7,7 +7,12 @@ export default {
   key: "facebook_groups-create-post",
   name: "Create Post",
   description: "Create a new post in a group. [See the documentation](https://developers.facebook.com/docs/graph-api/reference/v17.0/group/feed)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

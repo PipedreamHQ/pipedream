@@ -5,7 +5,12 @@ export default {
   key: "cloudflare_api_key-list-dns-records",
   name: "List DNS Records",
   description: "List, search, sort, and filter a zones' DNS records. [See the docs here](https://api.cloudflare.com/#dns-records-for-a-zone-list-dns-records)",
-  version: "1.0.0",
+  version: "1.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     cloudflare,

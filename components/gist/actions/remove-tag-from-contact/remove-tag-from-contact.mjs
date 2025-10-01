@@ -5,7 +5,12 @@ export default {
   name: "Remove Tag From Existing Contact",
   description: "Remove a tag from an existing contact or contacts. [See docs](https://developers.getgist.com/api/#remove-a-tag-from-contacts)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     gist,
     tagId: {

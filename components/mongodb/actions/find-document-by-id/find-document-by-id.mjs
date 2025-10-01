@@ -4,7 +4,12 @@ export default {
   key: "mongodb-find-document-by-id",
   name: "Find Document by Id",
   description: "Retrieves a single document by ID. [See the docs here](https://docs.mongodb.com/manual/reference/method/db.collection.find/)",
-  version: "0.1.5",
+  version: "0.1.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     mongodbApp,

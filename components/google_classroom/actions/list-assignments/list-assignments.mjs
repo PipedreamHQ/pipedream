@@ -5,7 +5,12 @@ export default {
   key: "google_classroom-list-assignments",
   name: "List Assignments",
   description: "Retrieve a list of assignments for a course. [See the documentation](https://developers.google.com/classroom/reference/rest/v1/courses.courseWork/list)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     googleClassroom,

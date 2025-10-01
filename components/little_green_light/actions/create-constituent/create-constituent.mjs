@@ -4,7 +4,12 @@ export default {
   key: "little_green_light-create-constituent",
   name: "Create Constituent",
   description: "Adds a constituent to an account along with related objects. [See the documentation](https://api.littlegreenlight.com/api-docs/static.html#create_new_constituent)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     littleGreenLight,

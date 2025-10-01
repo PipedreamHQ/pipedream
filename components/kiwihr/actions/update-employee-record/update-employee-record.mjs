@@ -6,7 +6,12 @@ export default {
   key: "kiwihr-update-employee-record",
   name: "Update Employee Record",
   description: "Update an existing employee's record in kiwiHR. [See the documentation](https://api.kiwihr.it/api/docs/mutation.doc.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     kiwihr,

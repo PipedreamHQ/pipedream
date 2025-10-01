@@ -6,7 +6,12 @@ export default {
   key: "callerapi-get-phone-number-picture",
   name: "Get Phone Number Picture",
   description: "Retrieve the profile picture associated with a phone number. [See the documentation](https://callerapi.com/documentation)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     callerapi,

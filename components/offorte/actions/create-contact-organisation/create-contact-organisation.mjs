@@ -5,7 +5,12 @@ export default {
   key: "offorte-create-contact-organisation",
   name: "Create Contact Organisation",
   description: "Create a new contact organisation in Offorte. [See the documentation](https://www.offorte.com/api-docs/api#tag/Contacts/operation/createContactOrganisation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     offorte,

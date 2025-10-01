@@ -4,7 +4,12 @@ export default {
   key: "icypeas-email-verification",
   name: "Email Verification",
   description: "Performs an email verification check. [See the documentation](https://api-doc.icypeas.com/find-emails/single-search/email-verification)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     icypeas,

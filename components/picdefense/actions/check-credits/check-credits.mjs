@@ -4,7 +4,12 @@ export default {
   key: "picdefense-check-credits",
   name: "Check Credits",
   description: "Check how many credits the associated account have. [See the documentation](https://app.picdefense.io/apidocs/)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

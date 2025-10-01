@@ -4,7 +4,12 @@ export default {
   key: "chatfly-send-message",
   name: "Send Message",
   description: "Dispatches a text message to a specified group or individual in Chatfly.",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     chatfly,

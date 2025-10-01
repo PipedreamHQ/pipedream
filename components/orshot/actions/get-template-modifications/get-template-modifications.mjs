@@ -4,7 +4,12 @@ export default {
   key: "orshot-get-template-modifications",
   name: "Get Template Modifications",
   description: "Get available modification keys for a library template",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     orshot,

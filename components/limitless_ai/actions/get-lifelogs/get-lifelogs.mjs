@@ -4,7 +4,12 @@ export default {
   key: "limitless_ai-get-lifelogs",
   name: "Get Lifelogs",
   description: "Returns a list of lifelog entries based on specified time range or date. [See the documentation](https://www.limitless.ai/developers#get-lifelogs)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

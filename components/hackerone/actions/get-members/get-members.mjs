@@ -4,7 +4,12 @@ export default {
   key: "hackerone-get-members",
   name: "Get Members",
   description: "List all members of an organization. [See the documentation](https://api.hackerone.com/customer-resources/#organizations-get-all-members)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

@@ -4,7 +4,12 @@ export default {
   key: "finage-forex-last-quote",
   name: "Forex Last Quote",
   description: "Get the last quote for the specified forex symbol. [See the documentation](https://finage.co.uk/docs/api/forex/forex-last-quote)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

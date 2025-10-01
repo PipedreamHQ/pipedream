@@ -6,7 +6,12 @@ export default {
   name: "Upsert Vector",
   description: "Writes vectors into a namespace. If a new value is upserted for an existing vector ID, it will overwrite the previous value. [See the documentation](https://docs.pinecone.io/reference/api/data-plane/upsert).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     indexName: {

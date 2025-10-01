@@ -4,7 +4,12 @@ import utils from "../../common/utils.mjs";
 export default {
   type: "action",
   key: "close-create-lead",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   name: "Create Lead",
   description: "Creates a lead. [See the documentation](https://developer.close.com/resources/leads/#create-a-new-lead)",
   props: {

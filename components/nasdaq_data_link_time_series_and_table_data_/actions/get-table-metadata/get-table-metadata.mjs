@@ -4,7 +4,12 @@ export default {
   key: "nasdaq_data_link_time_series_and_table_data_-get-table-metadata",
   name: "Get Table Metadata",
   description: "Retrieves metadata for a specific Nasdaq Data Link table, including column names, types, filterable columns, and primary keys. [See the documentation](https://docs.data.nasdaq.com/docs/tables-1)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

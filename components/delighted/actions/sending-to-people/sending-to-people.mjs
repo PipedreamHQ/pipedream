@@ -4,7 +4,12 @@ export default {
   key: "delighted-sending-to-people",
   name: "Sending to People",
   description: "Create or update a person and send a survey email. [See the docs here](https://app.delighted.com/docs/api/sending-to-people)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     delightedApp,

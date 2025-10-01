@@ -5,7 +5,12 @@ export default {
   key: "firebase_admin_sdk-get-document",
   name: "Get Document",
   description: "Retrieves a document from a Firestore collection. [See the documentation](https://firebase.google.com/docs/firestore/query-data/get-data#get_a_document)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

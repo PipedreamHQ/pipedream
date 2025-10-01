@@ -5,7 +5,12 @@ export default {
   key: "hamsa-create-content",
   name: "Create AI Content",
   description: "Transform transcribed content into various formats for content marketing. [See the documentation](https://docs.tryhamsa.com/api-reference/endpoint/post-ai-content)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     hamsa,

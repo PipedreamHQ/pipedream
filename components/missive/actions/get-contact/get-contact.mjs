@@ -5,7 +5,12 @@ export default {
   name: "Get Contact",
   description: "Get a contact. [See the Documentation](https://missiveapp.com/help/api-documentation/rest-endpoints#get-contact)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     contactBookId: {

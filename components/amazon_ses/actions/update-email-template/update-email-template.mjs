@@ -4,7 +4,12 @@ export default {
   key: "amazon_ses-update-email-template",
   name: "Update Email Template",
   description: "Update an email template. [See the docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-sesv2/classes/updateemailtemplatecommand.html)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...base.props,

@@ -5,7 +5,12 @@ export default {
   key: "hubstaff-create-task",
   name: "Create Task",
   description: "Creates a new task on your Hubstaff organization. [See the documentation](https://developer.hubstaff.com/docs/hubstaff_v2#!/tasks/postV2ProjectsProjectIdTasks)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     hubstaff,

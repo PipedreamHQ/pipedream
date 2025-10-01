@@ -7,7 +7,12 @@ export default {
   key: "helper_functions-csv-file-to-objects",
   name: "CSV File To Objects",
   description: "Convert a CSV file to an array of objects.",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

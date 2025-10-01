@@ -5,7 +5,12 @@ export default {
   key: "google_meet-schedule-meeting",
   name: "Schedule Meeting",
   description: "Creates a new event in Google Calendar with a Google Meet link. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/insert)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     googleMeet,

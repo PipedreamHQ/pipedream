@@ -4,7 +4,12 @@ export default {
   key: "peerdom-assign-member-to-role",
   name: "Assign Member to Role",
   description: "Assigns a member to a role within a circle using the Peerdom API. [See the documentation](https://api.peerdom.org/v1/docs)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     peerdom,

@@ -4,7 +4,12 @@ export default {
   key: "magnetic-create-contact",
   name: "Create Contact",
   description: "Create a new contact. [See docs here](https://app.magnetichq.com/Magnetic/API.do#cl-contactobject)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     magnetic,

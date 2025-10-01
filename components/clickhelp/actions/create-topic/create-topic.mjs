@@ -4,7 +4,12 @@ export default {
   key: "clickhelp-create-topic",
   name: "Create Topic",
   description: "Produces a new topic in the existing project. A useful action for starting a new chapter or section within your project. [See the documentation](https://clickhelp.com/software-documentation-tool/user-manual/api-create-topic.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     clickhelp,

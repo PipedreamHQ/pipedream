@@ -4,7 +4,12 @@ import { prepareData } from "../../common/utils.mjs";
 export default {
   key: "clientify-update-contact",
   name: "Update Contact",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Update a specific contact. [See the documentation](https://developer.clientify.com/#3107ca4f-0bb5-43a7-9be8-3c2e2f8fe399)",
   type: "action",
   props: {

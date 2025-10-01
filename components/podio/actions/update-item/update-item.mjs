@@ -3,7 +3,12 @@ import common from "../common/common-item.mjs";
 export default {
   type: "action",
   key: "podio-update-item",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   name: "Update an Item",
   description: "Updates an item. [See the documentation](https://developers.podio.com/doc/items/update-item-22363)",
   ...common,

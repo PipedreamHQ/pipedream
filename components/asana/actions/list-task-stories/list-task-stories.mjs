@@ -4,7 +4,12 @@ export default {
   key: "asana-list-task-stories",
   name: "List Task Stories",
   description: "List stories (including comments) for a task. [See the documentation](https://developers.asana.com/reference/getstoriesfortask)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

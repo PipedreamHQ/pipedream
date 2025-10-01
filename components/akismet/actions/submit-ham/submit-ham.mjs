@@ -4,7 +4,12 @@ export default {
   key: "akismet-submit-ham",
   name: "Submit Ham",
   description: "Submit a comment that was incorrectly classified as spam. [See the documentation](https://akismet.com/developers/detailed-docs/submit-ham-false-positives/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

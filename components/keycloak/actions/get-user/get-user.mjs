@@ -4,7 +4,12 @@ export default {
   key: "keycloak-get-user",
   name: "Get User",
   description: "Retrieve the representation of the user. [See the documentation](https://www.keycloak.org/docs-api/latest/rest-api/index.html#_users)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

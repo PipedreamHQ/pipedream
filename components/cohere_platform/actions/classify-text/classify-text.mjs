@@ -4,7 +4,12 @@ import { clearObj } from "../../common/utils.mjs";
 export default {
   key: "cohere_platform-classify-text",
   name: "Classify Text",
-  version: "0.1.0",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "This action makes a prediction about which label fits the specified text inputs best. [See the documentation](https://docs.cohere.com/reference/classify-1)",
   type: "action",
   props: {

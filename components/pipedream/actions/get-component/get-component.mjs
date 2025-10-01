@@ -4,7 +4,12 @@ export default {
   key: "pipedream-get-component",
   name: "Get Component",
   description: "Get info for a published component. [See docs](https://pipedream.com/docs/api/rest/#get-a-component)",
-  version: "0.1.0",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     pipedream,

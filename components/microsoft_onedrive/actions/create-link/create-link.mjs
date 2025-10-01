@@ -3,7 +3,12 @@ import constants from "../../common/constants.mjs";
 
 export default {
   name: "Create Link",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "microsoft_onedrive-create-link",
   type: "action",
   description: "Create a sharing link for a DriveItem. [See the documentation](https://docs.microsoft.com/en-us/graph/api/driveitem-createlink?view=graph-rest-1.0&tabs=http)",

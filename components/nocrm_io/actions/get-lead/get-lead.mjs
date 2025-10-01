@@ -2,7 +2,12 @@ import nocrm_io from "../../nocrm_io.app.mjs";
 
 export default {
   name: "Get Lead",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "nocrm_io-get-lead",
   description: "Get a lead. [See docs here](https://www.nocrm.io/api#leads)",
   type: "action",

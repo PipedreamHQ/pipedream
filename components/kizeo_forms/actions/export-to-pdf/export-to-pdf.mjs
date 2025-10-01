@@ -4,7 +4,12 @@ export default {
   key: "kizeo_forms-export-to-pdf",
   name: "Export to PDF",
   description: "Exports data from a chosen export (Word or Excel) to PDF format. [See the documentation](https://kizeo.github.io/kizeo-forms-documentations/docs/en/restv3)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

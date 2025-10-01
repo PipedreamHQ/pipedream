@@ -4,7 +4,12 @@ export default {
   key: "parsehub-cancel-run",
   name: "Cancel Run",
   description: "Cancels a run and changes its status to cancelled. [See the documentation](https://www.parsehub.com/docs/ref/api/v2/#cancel-a-run)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

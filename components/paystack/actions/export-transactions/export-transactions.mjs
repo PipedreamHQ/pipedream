@@ -4,7 +4,12 @@ export default {
   key: "paystack-export-transactions",
   name: "Export Transactions",
   description: "Export transactions from Paystack. See the documentation (https://paystack.com/docs/api/transaction/#export)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     paystack,

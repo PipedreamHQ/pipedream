@@ -5,7 +5,12 @@ export default {
   name: "List Orders",
   description: "List Orders based on a search criteria [See the documentation](https://apidocs.orderdesk.com/#get-multiple-orders).",
   key: "order_desk-list-orders",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

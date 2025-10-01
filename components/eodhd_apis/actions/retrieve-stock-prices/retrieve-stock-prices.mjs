@@ -3,7 +3,12 @@ import eodhdApis from "../../eodhd_apis.app.mjs";
 export default {
   key: "eodhd_apis-retrieve-stock-prices",
   name: "Retrieve Stock Prices",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Fetch historical stock prices for a given symbol and time period. [See the docs here](https://eodhistoricaldata.com/financial-apis/api-for-historical-data-and-volumes/)",
   type: "action",
   props: {

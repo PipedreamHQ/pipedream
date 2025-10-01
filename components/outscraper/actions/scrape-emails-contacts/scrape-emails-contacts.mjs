@@ -5,7 +5,12 @@ export default {
   key: "outscraper-scrape-emails-contacts",
   name: "Scrape Emails and Contacts",
   description: "Finds email addresses, social links, and phone numbers from given domains. [See the documentation](https://app.outscraper.com/api-docs#tag/Email-Related/paths/~1emails-and-contacts/get)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     outscraper,

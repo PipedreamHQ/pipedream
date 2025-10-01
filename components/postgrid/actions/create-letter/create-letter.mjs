@@ -5,7 +5,12 @@ export default {
   key: "postgrid-create-letter",
   name: "Create Letter",
   description: "Creates a new letter in PostGrid. [See the documentation](https://docs.postgrid.com/#3359155b-f225-4f6a-b08a-eafe7a52b54d)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     postgrid,

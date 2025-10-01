@@ -5,7 +5,12 @@ export default {
   name: "Update Order",
   description: "Update Order [See the documentation](https://apidocs.orderdesk.com/#update-an-order).",
   key: "order_desk-update-order",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

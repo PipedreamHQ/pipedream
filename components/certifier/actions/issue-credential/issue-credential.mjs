@@ -2,7 +2,12 @@ import certifier from "../../certifier.app.mjs";
 
 export default {
   name: "Issue Credential",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "certifier-issue-credential",
   description:
     "Create, issue and send a credential to a recipient. [See the documentation](https://developers.certifier.io/reference/create-issue-send-a-credential)",

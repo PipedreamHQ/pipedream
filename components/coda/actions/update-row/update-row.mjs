@@ -4,7 +4,12 @@ export default {
   key: "coda-update-row",
   name: "Update a Row",
   description: "Updates the specified row in the table. [See docs](https://coda.io/developers/apis/v1#operation/updateRow)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     coda,

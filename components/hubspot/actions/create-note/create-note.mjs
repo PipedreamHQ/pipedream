@@ -8,7 +8,12 @@ export default {
   name: "Create Note",
   description:
     "Create a new note. [See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
-  version: "0.0.9",
+  version: "0.0.10",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

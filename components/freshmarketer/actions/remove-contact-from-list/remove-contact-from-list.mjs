@@ -5,7 +5,12 @@ export default {
   key: "freshmarketer-remove-contact-from-list",
   name: "Remove Contact From List",
   description: "Removes a contact from a specific list by email or contact ID. [See the documentation](https://developers.freshworks.com/crm/api/#remove_contact_from_list)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     freshmarketer,

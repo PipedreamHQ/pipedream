@@ -4,7 +4,12 @@ export default {
   key: "google_classroom-get-assignment",
   name: "Get Assignment",
   description: "Retrieve information about an assignment. [See the docs here](https://developers.google.com/classroom/reference/rest/v1/courses.courseWork/get)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     googleClassroom,

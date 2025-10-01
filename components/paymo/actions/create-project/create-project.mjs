@@ -5,7 +5,12 @@ export default {
   name: "Create Project",
   description: "Creates a project. [See the docs](https://github.com/paymoapp/api/blob/master/sections/projects.md#create).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     name: {

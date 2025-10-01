@@ -2,7 +2,12 @@ import app from "../../memberspot.app.mjs";
 
 export default {
   name: "Grant Access",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "memberspot-grant-access",
   description: "Grant access to a user by email. [See the documentation](https://api.memberspot.de/api/#/users/UsersApiController_grantUserOfferByMail)",
   type: "action",

@@ -4,7 +4,12 @@ export default {
   key: "fogbugz-update-person",
   name: "Update Person",
   description: "Edits an existing person in FogBugz. [See the documentation](https://support.fogbugz.com/hc/en-us/articles/360011330733-FogBugz-XML-API-Editing-a-Person)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     fogbugz,

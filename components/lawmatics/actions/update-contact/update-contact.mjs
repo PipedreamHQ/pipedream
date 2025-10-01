@@ -5,7 +5,12 @@ export default {
   key: "lawmatics-update-contact",
   name: "Update Contact",
   description: "Update a contact. [See the documentation](https://docs.lawmatics.com/#4734312c-854c-46c7-b8f9-962f775f1ab2)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     lawmatics,

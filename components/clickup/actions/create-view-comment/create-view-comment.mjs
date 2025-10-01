@@ -4,7 +4,12 @@ export default {
   key: "clickup-create-view-comment",
   name: "Create View Comment",
   description: "Creates a view comment. [See the documentation](https://clickup.com/api) in **Comments / Create Chat View Comment** section.",
-  version: "0.0.11",
+  version: "0.0.12",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

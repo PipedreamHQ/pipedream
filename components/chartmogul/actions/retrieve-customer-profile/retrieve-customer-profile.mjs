@@ -3,7 +3,12 @@ import chartmogul from "../../chartmogul.app.mjs";
 export default {
   key: "chartmogul-retrieve-customer-profile",
   name: "Retrieve Customer Profile",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Retrieves a customer object from your ChartMogul account. [See the docs here](https://dev.chartmogul.com/reference/retrieve-customer)",
   type: "action",
   props: {

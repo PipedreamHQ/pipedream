@@ -4,7 +4,12 @@ export default {
   key: "cloudflare_api_key-delete-dns-record",
   name: "Delete DNS Record",
   description: "Deletes a DNS record of a zone. [See the docs here](https://api.cloudflare.com/#dns-records-for-a-zone-delete-dns-record)",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     cloudflare,

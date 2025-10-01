@@ -4,7 +4,12 @@ export default {
   key: "height-search-tasks",
   name: "Search Tasks",
   description: "Searches for tasks within your workspace using a text query. [See the documentation](https://height.notion.site/Search-tasks-bb201e3db042442e9a1d0686a7b271a2)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     height,

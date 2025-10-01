@@ -6,7 +6,12 @@ import { FORMATS } from "../../common/constants.mjs";
 export default {
   key: "click2mail2-create-document",
   name: "Create Document",
-  version: "1.0.1",
+  version: "1.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Creates a new document in your account from an uploaded file or a URL. [See the documentation for file](https://developers.click2mail.com/reference/createdocument_1).  [See the documentation for URL](https://developers.click2mail.com/reference/createdocumentfromurl)",
   type: "action",
   props: {

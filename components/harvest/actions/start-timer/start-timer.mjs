@@ -4,7 +4,12 @@ export default {
   key: "harvest-start-timer",
   name: "Start Time Entry",
   description: "Restart a stopped timer entry. [See docs here](https://help.getharvest.com/api-v2/timesheets-api/timesheets/time-entries/#restart-a-stopped-time-entry)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     harvest,
