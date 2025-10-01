@@ -5,7 +5,7 @@ export default {
   key: "shopify_developer_app-get-order",
   name: "Get Order",
   description: "Retrieve an order by specifying the order ID. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/queries/order)",
-  version: "0.0.7",
+  version: "0.0.8",
   type: "action",
   props: {
     shopify,
