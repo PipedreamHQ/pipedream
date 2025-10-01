@@ -4,7 +4,12 @@ export default {
   name: "BingX Trade New Order",
   key: "bingx-trade-new-order",
   description: "Place a New Order. [See the documentation](https://bingx-api.github.io/docs/#/swapV2/trade-api.html#Trade%20order)",
-  version: "0.1.4",
+  version: "0.1.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     bingx,

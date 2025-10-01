@@ -5,7 +5,12 @@ export default {
   name: "List Products",
   description: "Retrieve a list of products. [See the documentation](https://app.billbee.io//swagger/ui/index#/Products/Article_GetList)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     minCreatedAt: {

@@ -2,7 +2,12 @@ import bingx from "../../bingx.app.mjs";
 
 export default {
   name: "BingX Trade Set Margin Mode",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "bingx-trade-set-margin-mode",
   description: "Switch Margin Mode [See the documentation](https://bingx-api.github.io/docs/#/swapV2/trade-api.html#Switch%20Margin%20Mode).",
   props: {

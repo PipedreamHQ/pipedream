@@ -4,7 +4,12 @@ export default {
   key: "bigmailer-add-update-contact",
   name: "Add or Update Contact",
   description: "Creates or updates a contact within a brand. [See the documentation](https://docs.bigmailer.io/reference/upsertcontact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     bigmailer,

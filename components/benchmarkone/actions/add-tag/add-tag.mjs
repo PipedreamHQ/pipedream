@@ -5,7 +5,12 @@ export default {
   key: "benchmarkone-add-tag",
   name: "Add Tag to Contact",
   description: "Adds tags to a contact. If the contact does not exist, it will be created first. [See the documentation](https://sandbox.hatchbuck.com/api/dist/#/Tags).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     benchmarkone,

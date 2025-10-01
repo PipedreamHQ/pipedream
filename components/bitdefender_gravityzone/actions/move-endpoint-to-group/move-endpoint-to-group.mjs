@@ -4,7 +4,12 @@ export default {
   key: "bitdefender_gravityzone-move-endpoint-to-group",
   name: "Move Endpoint to Group",
   description: "Move an endpoint to a different group. [See the documentation](https://www.bitdefender.com/business/support/en/77209-128489-moveendpoints.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     bitdefender,
