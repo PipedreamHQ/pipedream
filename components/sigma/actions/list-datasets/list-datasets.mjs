@@ -4,7 +4,12 @@ export default {
   key: "sigma-list-datasets",
   name: "List Datasets",
   description: "Returns a list of available datasets. [See the documentation](https://docs.sigmacomputing.com/#get-/v2/datasets)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

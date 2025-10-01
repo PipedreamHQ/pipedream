@@ -4,7 +4,12 @@ export default {
   key: "signnow-create-document-from-template",
   name: "Create Document From Template",
   description: "Creates a new document copy out of a template. [See the documentation](https://docs.signnow.com/docs/signnow/template/operations/create-a-template-copy)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

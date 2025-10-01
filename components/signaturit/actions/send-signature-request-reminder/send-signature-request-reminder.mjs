@@ -4,7 +4,12 @@ export default {
   key: "signaturit-send-signature-request-reminder",
   name: "Send Signature Request Reminder",
   description: "Sends a reminder for a pending signature request. [See the documentation](https://docs.signaturit.com/api/latest#signatures_send_reminder)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     signaturit,
