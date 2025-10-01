@@ -4,7 +4,12 @@ export default {
   key: "splitwise-create-expense",
   name: "Create Expense",
   description: "Creates a new expense. [See docs here](https://dev.splitwise.com/#tag/expenses/paths/~1create_expense/post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     splitwise,

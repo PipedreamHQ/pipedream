@@ -8,7 +8,12 @@ export default {
   key: "speechace-score-scripted-recording",
   name: "Score Scripted Recording",
   description: "Scores a scripted recording based on fluency and pronunciation. [See the documentation](https://docs.speechace.com/#c34b11dd-8172-441a-bc27-223339d48d8e)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     speechace,

@@ -4,7 +4,12 @@ export default {
   key: "splunk-create-event",
   name: "Create Event",
   description: "Sends a new event to a specified Splunk index. [See the documentation](https://docs.splunk.com/Documentation/Splunk/9.4.1/RESTREF/RESTinput#receivers.2Fsimple)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     splunk,
