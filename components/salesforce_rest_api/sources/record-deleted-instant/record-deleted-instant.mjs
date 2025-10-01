@@ -7,7 +7,7 @@ export default {
   name: "New Deleted Record (Instant, of Selectable Type)",
   key: "salesforce_rest_api-record-deleted-instant",
   description: "Emit new event when a record of the selected object type is deleted. [See the documentation](https://sforce.co/3msDDEE)",
-  version: "0.1.3",
+  version: "0.1.4",
   methods: {
     ...common.methods,
     generateWebhookMeta(data) {

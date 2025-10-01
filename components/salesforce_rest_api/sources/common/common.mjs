@@ -165,7 +165,15 @@ export default {
         console.log("Ignoring timer event (webhook active)");
         return;
       }
+
       const startTimestamp = this.getLatestDateCovered();
+
+      if (this.skipFirstRun && !startTimestamp) {
+        const now = new Date().toISOString();
+        this.setLatestDateCovered(now);
+        return;
+      }
+
       const endTimestamp = new Date(event.timestamp * 1000).toISOString();
       const timeDiffSec = Math.floor(
         (Date.parse(endTimestamp) - Date.parse(startTimestamp)) / 1000,
