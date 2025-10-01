@@ -2,7 +2,12 @@ import app from "../../kanban_tool.app.mjs";
 
 export default {
   key: "kanban_tool-create-task",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   name: "Create Task",
   description: "Creates a task [See the docs here](https://kanbantool.com/developer/api-v3#creating-tasks)",

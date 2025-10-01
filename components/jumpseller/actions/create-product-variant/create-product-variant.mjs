@@ -4,7 +4,12 @@ export default {
   key: "jumpseller-create-product-variant",
   name: "Create Product Variant",
   description: "Create a new product variant in Jumpseller. [See the documentation](https://jumpseller.com/support/api/#tag/Product-Variants/paths/~1products~1%7Bid%7D~1variants.json/post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     jumpseller,

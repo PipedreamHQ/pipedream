@@ -4,7 +4,12 @@ export default {
   key: "jooto-create-task",
   name: "Create Task",
   description: "Create a new task in the selected project. [See the documentation](https://www.jooto.com/api/reference/request/#/default/post-boards-id-tasks)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

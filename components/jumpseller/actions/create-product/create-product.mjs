@@ -4,7 +4,12 @@ export default {
   key: "jumpseller-create-product",
   name: "Create Product",
   description: "Create a new product in Jumpseller. [See the documentation](https://jumpseller.com/support/api/#tag/Products/paths/~1products.json/post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     jumpseller,

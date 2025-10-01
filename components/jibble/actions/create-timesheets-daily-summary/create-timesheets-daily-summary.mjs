@@ -4,7 +4,12 @@ export default {
   name: "Create Timesheets Daily Summary",
   description: "Gets daily timsheets summary for given date range and given persons. May omit personIds parameters in query so it will return data for all member of the organization.  [See the documentation](https://docs.api.jibble.io/#5510bcd1-3c58-4ffb-9048-a962edf9133a).",
   key: "jibble-create-timesheets-daily-summary",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

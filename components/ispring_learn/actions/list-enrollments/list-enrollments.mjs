@@ -5,7 +5,12 @@ export default {
   key: "ispring_learn-list-enrollments",
   name: "List Enrollments",
   description: "Fetches the list of user enrollments on iSpring Learn. [See the documentation](https://ispringhelpdocs.com/ispring-learn/getting-a-list-of-enrollments-17304245.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ispringLearn,

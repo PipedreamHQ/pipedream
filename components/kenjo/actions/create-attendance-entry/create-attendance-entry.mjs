@@ -5,7 +5,12 @@ export default {
   key: "kenjo-create-attendance-entry",
   name: "Create Attendance Entry",
   description: "Creates a new attendance entry for an employee in Kenjo. [See the documentation](https://kenjo.readme.io/reference/post_attendances)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     kenjo,

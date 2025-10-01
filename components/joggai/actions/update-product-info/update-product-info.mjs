@@ -8,7 +8,12 @@ export default {
   key: "joggai-update-product-info",
   name: "Update Product Info",
   description: "Updates product info using JoggAI API. [See the documentation](https://docs.jogg.ai/api-reference/URL-to-Video/UpdateProduct)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     joggai,

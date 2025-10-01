@@ -4,7 +4,12 @@ export default {
   key: "jw_player-create-media",
   name: "Create Media",
   description: "Creates a new media file in JW Player using fetch or external upload methods. [See the documentation](https://docs.jwplayer.com/platform/reference/post_v2-sites-site-id-media)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     jwPlayer,

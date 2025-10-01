@@ -5,7 +5,12 @@ export default {
   key: "jigsawstack-verify-email",
   name: "Verify Email",
   description: "Validate any email address and determine deliverability as well as disposable status. [See the documentation](https://docs.jigsawstack.com/api-reference/validate/email)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     jigsawstack,

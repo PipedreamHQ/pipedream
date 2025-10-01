@@ -4,7 +4,12 @@ export default {
   key: "kanbanize-edit-task",
   name: "Edit Task",
   description: "Edit Task. [See the docs here](https://kanbanize.com/api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     kanbanizeApp,

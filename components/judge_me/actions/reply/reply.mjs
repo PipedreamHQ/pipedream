@@ -3,7 +3,12 @@ export default {
   name: "Reply",
   description: "Create a public reply for a review on behalf of the shop. Public replies are shown publicly on the widgets. [See the documentation](https://judge.me/api/docs#tag/Replies)",
   key: "judge_me-reply",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

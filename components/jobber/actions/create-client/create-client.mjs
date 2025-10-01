@@ -5,7 +5,12 @@ export default {
   key: "jobber-create-client",
   name: "Create Client",
   description: "Generates a new client within Jobber. [See the documentation](https://developer.getjobber.com/docs)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     jobber,
