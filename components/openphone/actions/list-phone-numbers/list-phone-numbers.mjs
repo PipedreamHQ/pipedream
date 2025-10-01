@@ -4,7 +4,12 @@ export default {
   key: "openphone-list-phone-numbers",
   name: "List Phone Numbers",
   description: "Retrieve the list of phone numbers and users associated with your OpenPhone workspace. [See the documentation](https://www.openphone.com/docs/mdx/api-reference/phone-numbers/list-phone-numbers)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     openphone,

@@ -4,7 +4,12 @@ import common from "../common/common.mjs";
 
 export default {
   name: "Create Embeddings",
-  version: "0.0.21",
+  version: "0.0.22",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "openai-create-embeddings",
   description: "Get a vector representation of a given input that can be easily consumed by machine learning models and algorithms. [See the documentation](https://platform.openai.com/docs/api-reference/embeddings)",
   type: "action",

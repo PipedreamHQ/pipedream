@@ -4,7 +4,12 @@ export default {
   key: "openai-list-vector-store-files",
   name: "List Vector Store Files",
   description: "Returns a list of vector store file. [See the documentation](https://platform.openai.com/docs/api-reference/vector-stores-files/listFiles)",
-  version: "0.0.6",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     openai,

@@ -5,7 +5,12 @@ export default {
   key: "onedesk-find-project",
   name: "Find Project",
   description: "Search for a project/space by name or ID. [See the documentation](https://www.onedesk.com/dev/).",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

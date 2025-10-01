@@ -5,7 +5,12 @@ export default {
   key: "openai-retrieve-file-content",
   name: "Retrieve File Content",
   description: "Retrieves the contents of the specified file. [See the documentation](https://platform.openai.com/docs/api-reference/files/retrieve-content)",
-  version: "0.0.17",
+  version: "0.0.18",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     openai,
