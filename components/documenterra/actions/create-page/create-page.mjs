@@ -4,7 +4,12 @@ export default {
   key: "documenterra-create-page",
   name: "Create Page",
   description: "Creates a new page. [See the documentation](https://documenterra.ru/docs/user-manual/api-sozdaniye-stranitsy.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

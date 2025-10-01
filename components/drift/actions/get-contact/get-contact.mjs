@@ -4,7 +4,12 @@ export default {
   key: "drift-get-contact",
   name: "Get Contact",
   description: "Retrieves a contact in Drift by ID or email. [See the documentation](https://devdocs.drift.com/docs/retrieving-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     drift,

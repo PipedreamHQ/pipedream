@@ -5,7 +5,12 @@ export default {
   key: "domain_group-create-residential-listing",
   name: "Create Residential Listing",
   description: "Creates a new residential listing. [See the documentation](https://developer.domain.com.au/docs/latest/apis/pkg_listing_management/references/listings_upsertresidentiallisting/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     domainGroup,

@@ -4,7 +4,12 @@ export default {
   key: "dopplerai-create-collection",
   name: "Create Collection",
   description: "Establishes a new collection to save uploaded data. [See the documentation](https://api.dopplerai.com/docs/reference#tag/Collections/operation/create_collection_v1_collections_post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     dopplerai,

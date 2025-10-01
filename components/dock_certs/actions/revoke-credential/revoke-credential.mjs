@@ -4,7 +4,12 @@ export default {
   key: "dock_certs-revoke-credential",
   name: "Revoke Credential",
   description: "Revoke an existing credential. [See the documentation](https://docs.api.dock.io/#revoke-unrevoke-credential)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     dockCerts,

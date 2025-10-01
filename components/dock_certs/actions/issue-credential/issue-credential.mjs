@@ -5,7 +5,12 @@ export default {
   key: "dock_certs-issue-credential",
   name: "Issue Credential",
   description: "Issue a new credential. [See the documentation](https://docs.api.dock.io/#credentials)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     dockCerts,

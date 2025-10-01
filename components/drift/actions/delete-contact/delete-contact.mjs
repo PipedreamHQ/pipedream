@@ -4,7 +4,12 @@ export default {
   key: "drift-delete-contact",
   name: "Delete Contact",
   description: "Deletes a contact in Drift by ID or email. [See the documentation](https://devdocs.drift.com/docs/removing-a-contact).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     drift,

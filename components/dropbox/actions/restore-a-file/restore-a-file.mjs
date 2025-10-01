@@ -4,7 +4,12 @@ export default {
   name: "Restore a File",
   description: "Restores a previous file version. [See the documentation](https://dropbox.github.io/dropbox-sdk-js/Dropbox.html#filesRestore__anchor)",
   key: "dropbox-restore-a-file",
-  version: "0.0.12",
+  version: "0.0.13",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     dropbox,
