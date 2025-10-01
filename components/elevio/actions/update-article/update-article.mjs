@@ -4,7 +4,12 @@ export default {
   key: "elevio-update-article",
   name: "Update Article",
   description: "Updates an existing article in the Elevio knowledge base. [See the documentation](https://api-docs.elevio.help/en/articles/71-rest-api-articles).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

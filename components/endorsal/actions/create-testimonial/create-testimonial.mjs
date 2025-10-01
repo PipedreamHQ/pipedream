@@ -7,7 +7,12 @@ export default {
   key: "endorsal-create-testimonial",
   name: "Create Testimonial",
   description: "Creates a new testimonial. [See the documentation](https://developers.endorsal.io/docs/endorsal/b3a6mtcynteyoq-create-a-testimonial)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     endorsal,

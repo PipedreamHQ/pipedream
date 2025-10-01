@@ -4,7 +4,12 @@ export default {
   key: "ecologi-buy-offsets",
   name: "Buy Offsets",
   description: "Buy carbon avoidance credits through Ecologi. [See the documentation](https://docs.ecologi.com/docs/public-api-docs/e07bbee7fa605-purchase-carbon-avoidance)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

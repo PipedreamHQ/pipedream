@@ -4,7 +4,12 @@ export default {
   key: "enrow-find-single-email",
   name: "Find Single Email",
   description: "Executes a single email search using Enrow email finder. [See the documentation](https://enrow.readme.io/reference/find-single-email)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     enrow,

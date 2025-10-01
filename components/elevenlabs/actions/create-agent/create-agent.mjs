@@ -4,7 +4,12 @@ export default {
   key: "elevenlabs-create-agent",
   name: "Create Agent",
   description: "Create an agent in Eleventlabs. [See the documentation](https://elevenlabs.io/docs/api-reference/agents/create-agent)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     elevenlabs,

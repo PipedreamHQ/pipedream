@@ -5,7 +5,12 @@ export default {
   key: "easysendy-add-subscriber",
   name: "Add Subscriber",
   description: "Adds a new subscriber to an EasySendy list. [See the documentation](https://developers.easysendyapp.com/easysendypro/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     easysendy,

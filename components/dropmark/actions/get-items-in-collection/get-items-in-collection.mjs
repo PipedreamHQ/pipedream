@@ -4,7 +4,12 @@ export default {
   key: "dropmark-get-items-in-collection",
   name: "Get Items in Collection",
   description: "Retrieves a list of items in a specific collection. [See the documentation](https://support.dropmark.com/article/96-api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     dropmark,

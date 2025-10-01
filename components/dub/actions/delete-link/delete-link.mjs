@@ -2,7 +2,12 @@ import app from "../../dub.app.mjs";
 
 export default {
   name: "Delete Link",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "dub-delete-link",
   description: "Deletes a link. [See the documentation](https://dub.co/docs/api-reference/endpoint/delete-a-link)",
   type: "action",

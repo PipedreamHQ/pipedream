@@ -4,7 +4,12 @@ export default {
   key: "engage-add-customer",
   name: "Add Customer",
   description: "Adds Customer to Accounts. [See the documentation](https://docs.engage.so/en-us/a/62bbdd015bfea4dca4834042-users#add-customer-to-accounts)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

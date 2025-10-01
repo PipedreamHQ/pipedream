@@ -4,7 +4,12 @@ export default {
   key: "emaillistverify-find-email",
   name: "Find Email",
   description: "Generate a series of potential email addresses by synthesizing first names, last names, and company domains. [See the documentation](https://emaillistverify.com/docs/#tag/Email-Validation-API/operation/find-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

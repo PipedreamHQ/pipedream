@@ -4,7 +4,12 @@ export default {
   key: "dust-upsert-document",
   name: "Upsert Document",
   description: "Upsert a document to a chosen Dust data source. [See the documentation](https://docs.dust.tt/reference/post_api-v1-w-wid-data-sources-name-documents-documentid)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     dust,

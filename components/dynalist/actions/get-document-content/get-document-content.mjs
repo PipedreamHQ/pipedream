@@ -5,7 +5,12 @@ export default {
   key: "dynalist-get-document-content",
   name: "Get Document Content",
   description: "Fetches the content of a specific document. [See the documentation](https://apidocs.dynalist.io/#get-content-of-a-document)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     dynalist,

@@ -4,7 +4,12 @@ export default {
   key: "easy_peasy_ai-create-transcription",
   name: "Create Transcription",
   description: "Generates AI transcription for a given audio URL. [See the documentation](https://easy-peasy.ai/audios)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,
