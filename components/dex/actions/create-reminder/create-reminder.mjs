@@ -5,7 +5,12 @@ export default {
   key: "dex-create-reminder",
   name: "Create Reminder",
   description: "Generates a new reminder within the Dex system. [See the documentation](https://guide.getdex.com/dex-user-api/post-reminder)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     dex,

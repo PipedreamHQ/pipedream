@@ -5,7 +5,12 @@ export default {
   key: "dex-create-note",
   name: "Create Note",
   description: "Establishes a brand new note within dex. [See the documentation](https://guide.getdex.com/dex-user-api/post-a-note)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     dex,

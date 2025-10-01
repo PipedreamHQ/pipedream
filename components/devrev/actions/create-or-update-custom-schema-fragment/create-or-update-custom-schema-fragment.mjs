@@ -6,7 +6,12 @@ export default {
   key: "devrev-create-or-update-custom-schema-fragment",
   name: "Create or Update Custom Schema Fragment",
   description: "Creates or updates a custom schema fragment in DevRev. [See the documentation](https://devrev.ai/docs/apis/beta-api-spec#/operations/custom-schema-fragments-set)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     devrev,

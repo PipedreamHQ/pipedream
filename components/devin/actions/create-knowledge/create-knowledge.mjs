@@ -4,7 +4,12 @@ export default {
   key: "devin-create-knowledge",
   name: "Create Knowledge",
   description: "Create a new knowledge object to share information with Devin. [See the documentation](https://docs.devin.ai/api-reference/knowledge/create-knowledge)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     devin,

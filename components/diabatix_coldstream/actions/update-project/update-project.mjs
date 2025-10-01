@@ -4,7 +4,12 @@ export default {
   key: "diabatix_coldstream-update-project",
   name: "Update Project in ColdStream",
   description: "Updates an existing project with new parameters or data in ColdStream. [See the documentation](https://coldstream.readme.io/reference/put_projects-projectid)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     coldstream,

@@ -4,7 +4,12 @@ export default {
   key: "devin-list-knowledge",
   name: "List Knowledge",
   description: "Retrieve a list of all knowledge objects. [See the documentation](https://docs.devin.ai/api-reference/knowledge/list-knowledge)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     devin,

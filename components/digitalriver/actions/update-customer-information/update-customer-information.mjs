@@ -6,7 +6,12 @@ export default {
   key: "digitalriver-update-customer-information",
   name: "Update Customer Information",
   description: "Updates the information for a customer in Digital River. [See the documentation](https://www.digitalriver.com/docs/digital-river-api-reference/#tag/Customers/operation/updateCustomers)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     digitalriver,
