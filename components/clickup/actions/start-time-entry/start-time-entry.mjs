@@ -5,7 +5,12 @@ export default {
   key: "clickup-start-time-entry",
   name: "Start Time Entry",
   description: "Start time entry. [See the documentation](https://clickup.com/api/clickupreference/operation/StartatimeEntry)",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

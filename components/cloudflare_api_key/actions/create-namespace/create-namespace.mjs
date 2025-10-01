@@ -4,7 +4,12 @@ export default {
   key: "cloudflare_api_key-create-namespace",
   name: "Create Namespace",
   description: "Create a new Namespace in an account. [See the documentation](https://developers.cloudflare.com/api/node/resources/kv/subresources/namespaces/methods/create/)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     cloudflare,

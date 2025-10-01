@@ -4,7 +4,12 @@ export default {
   key: "cliento-get-ref-data",
   name: "Get Reference Data",
   description: "Fetch services, resources and mappings for the booking widget. [See the documentation](https://developers.cliento.com/docs/rest-api#fetch-ref-data)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     cliento,

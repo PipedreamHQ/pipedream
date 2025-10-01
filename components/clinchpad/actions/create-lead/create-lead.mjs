@@ -2,7 +2,12 @@ import clinchpad from "../../clinchpad.app.mjs";
 
 export default {
   name: "Create Lead",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "clinchpad-create-lead",
   description: "Creates a lead. [See docs here (Go to `Create a lead`)](https://clinchpad.com/api/docs/leads)",
   type: "action",

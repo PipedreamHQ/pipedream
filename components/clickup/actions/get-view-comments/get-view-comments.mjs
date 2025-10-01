@@ -5,7 +5,12 @@ export default {
   key: "clickup-get-view-comments",
   name: "Get View Comments",
   description: "Get a view comments. [See the documentation](https://clickup.com/api) in **Comments / Get Chat View Comments** section.",
-  version: "0.0.11",
+  version: "0.0.12",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

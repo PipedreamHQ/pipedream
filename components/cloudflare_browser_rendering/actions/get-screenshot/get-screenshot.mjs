@@ -9,7 +9,12 @@ export default {
   key: "cloudflare_browser_rendering-get-screenshot",
   name: "Get Screenshot",
   description: "Takes a screenshot of a webpage from provided URL or HTML. [See the documentation](https://developers.cloudflare.com/api/resources/browser_rendering/subresources/pdf/methods/create/)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,
