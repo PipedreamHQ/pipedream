@@ -2,7 +2,12 @@ import app from "../../prisma_management_api.app.mjs";
 
 export default {
   name: "Create Database Connection String",
-  version: "1.0.0",
+  version: "1.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "prisma_management_api-create-database-connection-string",
   description: "Creates a new connection string for an existing database via Prisma Management API. [See docs here](https://www.prisma.io/docs/postgres/introduction/management-api)",
   type: "action",

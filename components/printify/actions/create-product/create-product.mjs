@@ -5,7 +5,12 @@ export default {
   key: "printify-create-product",
   name: "Create a Product",
   description: "Creates a new product on Printify. [See the documentation](https://developers.printify.com/#create-a-new-product)",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     printify,

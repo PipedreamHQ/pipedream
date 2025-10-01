@@ -4,7 +4,7 @@ export default {
   key: "posthog-get-cohorts",
   name: "Get Cohorts",
   description: "Retrieve a list of cohorts. [See the documentation](https://posthog.com/docs/api/cohorts#get-api-projects-project_id-cohorts)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
