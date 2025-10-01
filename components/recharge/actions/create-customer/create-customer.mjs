@@ -7,7 +7,12 @@ export default {
   key: "recharge-create-customer",
   name: "Create Customer",
   description: "Creates a customer. [See the documentation](https://developer.rechargepayments.com/2021-11/customers/customers_create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     recharge,

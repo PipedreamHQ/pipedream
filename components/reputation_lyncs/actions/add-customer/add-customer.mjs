@@ -6,7 +6,12 @@ export default {
   name: "Add Customer",
   description:
     "Adds a new customer to the Reputation Lyncs platform. [See the documentation](https://documenter.getpostman.com/view/25361963/2s93Xzw2bS#46718236-5ef1-4c93-992d-cd7d3722b02f)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     reputationLyncs,

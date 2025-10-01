@@ -2,7 +2,12 @@ import app from "../../recreation_gov.app.mjs";
 
 export default {
   key: "recreation_gov-get-recreation-area",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   name: "Get Recreation Area",
   description: "Retrieves details of a specific campsite. [See the documentation](https://ridb.recreation.gov/docs#/Campsites/getCampsites)",

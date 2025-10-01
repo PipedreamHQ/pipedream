@@ -5,7 +5,12 @@ export default {
   name: "Create Task",
   description: "Create a new task for a candidate. [See the documentation](https://api.recruitee.com/docs/index.html#task.web.task-task.web.task-post)",
   key: "recruitee-create-task",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,
