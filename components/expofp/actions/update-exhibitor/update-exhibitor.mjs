@@ -4,7 +4,12 @@ import common from "../common/add-or-update-exhibitor.mjs";
 export default {
   ...common,
   name: "Update Exhibitor",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "expofp-update-exhibitor",
   description: "Updates an exhibitor. [See the documentation](https://expofp.docs.apiary.io/#reference/0/update-exhibitor/update-exhibitor)",
   type: "action",

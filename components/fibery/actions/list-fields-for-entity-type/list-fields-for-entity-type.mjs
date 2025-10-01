@@ -4,7 +4,12 @@ export default {
   key: "fibery-list-fields-for-entity-type",
   name: "List Fields for Entity Type",
   description: "Lists fields for an entity type. [See the docs here](https://api.fibery.io/graphql.html#list-of-entities)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     fibery,

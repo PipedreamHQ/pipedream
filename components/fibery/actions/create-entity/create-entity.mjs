@@ -4,7 +4,12 @@ export default {
   key: "fibery-create-entity",
   name: "Create Entity",
   description: "Creates a new entity. [See the docs here](https://api.fibery.io/graphql.html#create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     fibery,

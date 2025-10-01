@@ -5,7 +5,12 @@ export default {
   name: "Get Listing Inventory",
   description: "Retrieves the inventory record for a listing by listing ID. [See the Documentation](https://developer.etsy.com/documentation/reference/#operation/getListingInventory)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     state: {

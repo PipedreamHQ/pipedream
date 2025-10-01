@@ -4,7 +4,12 @@ export default {
   key: "faunadb-execute-graphql-query",
   name: "Execute GraphQL Query",
   description: "Performs an arbitrary authorized GraphQL query. [See docs here](https://docs.fauna.com/fauna/current/api/graphql/endpoints#graphql)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     faunadb,

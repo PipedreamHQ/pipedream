@@ -2,7 +2,12 @@ import expofp from "../../expofp.app.mjs";
 
 export default {
   name: "List All Events",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "expofp-list-all-events",
   description:
     "List all events. [See the documentation](https://expofp.docs.apiary.io/#reference/0/list-all-events/list-all-events)",

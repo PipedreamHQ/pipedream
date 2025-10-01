@@ -6,7 +6,12 @@ export default {
   key: "facebook_groups-post-photo",
   name: "Post Photo",
   description: "Post a photo in a group. [See the documentation](https://developers.facebook.com/docs/graph-api/reference/group/photos)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

@@ -6,7 +6,12 @@ export default {
   name: "Update Listing Inventory",
   description: "Updates the inventory for a listing identified by a listing ID. [See the Documentation](https://developer.etsy.com/documentation/reference/#operation/getListingInventory)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     state: {

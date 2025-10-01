@@ -4,7 +4,12 @@ export default {
   key: "faunadb-import-graphql-schema",
   name: "Import GraphQL schema",
   description: "Import graphQL schema to a database. [See docs here](https://docs.fauna.com/fauna/current/api/graphql/endpoints#import)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     faunadb,

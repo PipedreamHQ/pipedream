@@ -5,7 +5,12 @@ export default {
   key: "facebook_pages-get-post",
   name: "Get Post",
   description: "Retrieves a post on a Facebook Page. [See the documentation](https://developers.facebook.com/docs/graph-api/reference/pagepost)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

@@ -5,7 +5,12 @@ export default {
   key: "facebook_marketing-add-email-to-custom-audience",
   name: "Add Email to Custom Audience",
   description: "Adds an email address to a custom audience segment within Facebook. [See the documentation](https://developers.facebook.com/docs/marketing-api/reference/custom-audience/users/#Updating)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

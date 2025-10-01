@@ -4,7 +4,12 @@ export default {
   key: "fal_ai-get-request-status",
   name: "Get Request Status",
   description: "Gets the status of a request in the queue. This allows you to monitor the progress of your asynchronous tasks. [See the documentation](https://fal.ai/docs/model-endpoints/queue#queue-endpoints).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

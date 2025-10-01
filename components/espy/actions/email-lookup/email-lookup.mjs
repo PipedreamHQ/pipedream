@@ -4,7 +4,12 @@ export default {
   key: "espy-email-lookup",
   name: "Email Lookup",
   description: "Request a lookup for the provided email. [See the documentation](https://api-docs.espysys.com/name-socialscan/headers-and-body-request-by-name-lookup)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

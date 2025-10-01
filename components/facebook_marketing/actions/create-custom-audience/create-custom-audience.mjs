@@ -4,7 +4,12 @@ export default {
   key: "facebook_marketing-create-custom-audience",
   name: "Create Custom Audience",
   description: "Creates a new custom audience in Facebook. [See the documentation](https://developers.facebook.com/docs/marketing-api/audiences/guides/custom-audiences/#build)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,
