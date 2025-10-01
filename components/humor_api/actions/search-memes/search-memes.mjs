@@ -5,7 +5,12 @@ export default {
   name: "Search Memes",
   description: "Searches for memes based on user-defined criteria. [See the docs here](https://humorapi.com/docs/#Search-Memes).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     keywords: {

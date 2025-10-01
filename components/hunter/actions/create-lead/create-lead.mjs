@@ -4,7 +4,12 @@ export default {
   key: "hunter-create-lead",
   name: "Create Lead",
   description: "Create a new lead in your Hunter account. [See the documentation](https://hunter.io/api-documentation/v2#create-lead).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

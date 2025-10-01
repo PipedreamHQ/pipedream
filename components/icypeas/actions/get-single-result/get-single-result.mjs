@@ -4,7 +4,12 @@ export default {
   key: "icypeas-get-single-result",
   name: "Get Single Search Result",
   description: "Retrieves a result from a single search instance. [See the documentation](https://api-doc.icypeas.com/find-emails/search-item)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     icypeas,

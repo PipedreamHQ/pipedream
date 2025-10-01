@@ -8,7 +8,12 @@ export default {
   name: "Text Classification",
   description: "Usually used for sentiment-analysis this will output the likelihood of classes of an input. This action allows you to classify text into categories. [See the docs](https://huggingface.co/docs/huggingface.js/inference/classes/HfInference#textclassification).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     modelId: {

@@ -4,7 +4,12 @@ export default {
   key: "hunter-update-lead",
   name: "Update Lead",
   description: "Update an existing lead in your Hunter account. [See the documentation](https://hunter.io/api-documentation/v2#update-lead).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

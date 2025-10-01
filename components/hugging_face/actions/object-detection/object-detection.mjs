@@ -6,7 +6,12 @@ export default {
   name: "Object Detection",
   description: "This task reads some image input and outputs the likelihood of classes and bounding boxes of detected objects. [See the docs](https://huggingface.co/docs/huggingface.js/inference/classes/HfInference#objectdetection).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     modelId: {

@@ -5,7 +5,12 @@ export default {
   name: "Rate Joke or Meme",
   description: "Rate a joke or a meme with your upvote or downvote. [See the docs here](https://humorapi.com/docs/#Upvote-Joke).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     id: {

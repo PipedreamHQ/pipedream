@@ -4,7 +4,12 @@ export default {
   key: "hypeauditor-get-tiktok-report",
   name: "Get Tiktok Report",
   description: "Returns a report about the specified Tiktok channel. [See the documentation](https://hypeauditor.readme.io/reference/get_report_tiktok)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

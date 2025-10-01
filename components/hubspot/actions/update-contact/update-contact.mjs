@@ -8,7 +8,12 @@ export default {
   name: "Update Contact",
   description:
     "Update a contact in Hubspot. [See the documentation](https://developers.hubspot.com/docs/api/crm/contacts#endpoint?spec=POST-/crm/v3/objects/contacts)",
-  version: "0.0.27",
+  version: "0.0.28",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   methods: {
     ...common.methods,

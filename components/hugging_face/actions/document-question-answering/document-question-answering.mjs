@@ -6,7 +6,12 @@ export default {
   name: "Document Question Answering",
   description: "Want to have a nice know-it-all bot that can answer any question?. This action allows you to ask a question and get an answer from a trained model. [See the docs](https://huggingface.co/docs/huggingface.js/inference/classes/HfInference#questionanswer).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     modelId: {
