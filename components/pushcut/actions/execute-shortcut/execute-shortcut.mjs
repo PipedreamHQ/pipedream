@@ -4,7 +4,12 @@ export default {
   key: "pushcut-execute-shortcut",
   name: "Execute Shortcut",
   description: "Schedules an Automation Server action request for a shortcut. [See the documentation](https://www.pushcut.io/webapi)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pushcut,

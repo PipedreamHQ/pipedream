@@ -6,7 +6,12 @@ export default {
   key: "ragie-update-document-file",
   name: "Update Document File",
   description: "Updates an existing document file in Ragie. [See the documentation](https://docs.ragie.ai/reference/updatedocumentfile).",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ragie,
