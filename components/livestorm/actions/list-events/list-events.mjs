@@ -6,7 +6,12 @@ export default {
   name: "List Events",
   description: "List the events of your workspace. [See the Documentation](https://developers.livestorm.co/reference/get_events)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     titleFilter: {

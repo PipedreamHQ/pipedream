@@ -4,7 +4,12 @@ export default {
   key: "gloria_ai-create-lead",
   name: "Create Lead",
   description: "Creates a new lead/contact in Gloria.ai. [See the documentation](https://api.iamgloria.com/api).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     gloriaAi,

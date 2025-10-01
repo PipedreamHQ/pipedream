@@ -4,7 +4,12 @@ export default {
   key: "freshservice-list-solution-categories",
   name: "List Solution Categories",
   description: "List all solution categories. [See the documentation](https://api.freshservice.com/#view_all_solution_category)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     freshservice,

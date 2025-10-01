@@ -3,7 +3,12 @@ import justcall from "../../justcall.app.mjs";
 export default {
   key: "justcall-send-text-message",
   name: "Send Text Message",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Send a text from your JustCall SMS capabled number. [See the documentation](https://justcall.io/developer-docs/#send_text)",
   type: "action",
   props: {

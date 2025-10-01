@@ -4,7 +4,12 @@ export default {
   key: "lemlist-add-lead-to-campaign",
   name: "Add Lead To A Campaign",
   description: "This action adds a lead in a specific campaign. If the lead doesn't exist, it'll be created, then inserted to the campaign. The creator of the lead is the campaign's sender [See the docs here](https://developer.lemlist.com/#add-a-lead-in-a-campaign)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     lemlist,

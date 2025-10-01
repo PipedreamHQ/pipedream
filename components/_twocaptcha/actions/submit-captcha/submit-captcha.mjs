@@ -11,7 +11,12 @@ export default {
   key: "_twocaptcha-submit-captcha",
   name: "Submit Captcha for Solving",
   description: "Send a new captcha to the 2Captcha service for solving. Required props are clientKey and task object.",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     _twocaptcha,

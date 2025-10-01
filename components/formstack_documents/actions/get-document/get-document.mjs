@@ -4,7 +4,12 @@ export default {
   key: "formstack_documents-get-document",
   name: "Get Document",
   description: "Get the details of the specified document. [See documentation](https://www.webmerge.me/developers?page=documents)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     formstackDocuments,

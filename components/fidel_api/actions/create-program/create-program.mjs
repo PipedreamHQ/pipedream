@@ -5,7 +5,12 @@ export default {
   key: "fidel_api-create-program",
   name: "Create Program",
   description: "Creates a new card-linked program in the Fidel API. [See the documentation](https://reference.fidel.uk/reference/create-program)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     fidelApi,

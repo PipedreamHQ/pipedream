@@ -5,6 +5,11 @@ export default {
   name: "Delete Worksheet",
   description: "Delete a specific worksheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/batchUpdate)",
   version: "0.1.12",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     googleSheets,

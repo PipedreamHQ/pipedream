@@ -2,7 +2,12 @@ import app from "../../dub.app.mjs";
 
 export default {
   name: "Create Link",
-  version: "0.0.7",
+  version: "0.0.8",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "dub-create-link",
   description: "Creates a link. [See the documentation](https://dub.co/docs/api-reference/endpoint/create-a-new-link)",
   type: "action",

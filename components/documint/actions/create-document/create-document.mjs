@@ -2,7 +2,12 @@ import app from "../../documint.app.mjs";
 
 export default {
   name: "Create Document",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "documint-create-document",
   description: "Create a document. [See the documentation](https://documenter.getpostman.com/view/11741160/TVK5cLxQ#032798a4-6eb6-43cd-9c1b-9ba313f7d39c)",
   type: "action",

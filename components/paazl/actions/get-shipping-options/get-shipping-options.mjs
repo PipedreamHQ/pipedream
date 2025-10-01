@@ -4,7 +4,12 @@ export default {
   key: "paazl-get-shipping-options",
   name: "Get Home Delivery Shipping Options",
   description: "Contains shipping options for your checkout page. [See the documentation](https://support.paazl.com/hc/en-us/articles/360008633973-REST-API-reference#/Shipping%20options/shippingOptionsUsingPOST)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

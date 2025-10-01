@@ -4,7 +4,12 @@ export default {
   key: "everhour-start-timer",
   name: "Start Timer",
   description: "Begins a new timer for a task. [See the documentation](https://everhour.docs.apiary.io/#reference/0/timers/start-timer)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     everhour,

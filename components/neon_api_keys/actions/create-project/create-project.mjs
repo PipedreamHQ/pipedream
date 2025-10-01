@@ -3,7 +3,12 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Create Project",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "neon_api_keys-create-project",
   description: "Creates a project. [See docs here](https://api-docs.neon.tech/reference/createproject)",
   type: "action",

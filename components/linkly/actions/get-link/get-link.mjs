@@ -4,7 +4,12 @@ export default {
   key: "linkly-get-link",
   name: "Get Link",
   description: "Fetches a previously produced Linkly link. [See the documentation](https://app.linklyhq.com/swaggerui#/API/show)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     linkly,

@@ -5,7 +5,12 @@ export default {
   key: "charthop-create-employee",
   name: "Create Employee",
   description: "Adds a new employee to the system. [See the documentation](https://api.charthop.com/swagger#/person/createPerson)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     charthop,

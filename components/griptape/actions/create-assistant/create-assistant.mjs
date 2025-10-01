@@ -4,7 +4,12 @@ export default {
   key: "griptape-create-assistant",
   name: "Create Assistant",
   description: "Creates a new assistant in Griptape. [See the documentation](https://docs.griptape.ai/stable/griptape-cloud/api/api-reference/#/Assistants/CreateAssistant)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

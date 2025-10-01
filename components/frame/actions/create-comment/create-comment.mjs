@@ -4,7 +4,12 @@ export default {
   key: "frame-create-comment",
   name: "Create Comment",
   description: "Creates a new comment on an asset in Frame.io. [See the documentation](https://developer.frame.io/api/reference/operation/createComment/)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     frame,

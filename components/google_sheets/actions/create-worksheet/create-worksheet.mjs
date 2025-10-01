@@ -5,6 +5,11 @@ export default {
   name: "Create Worksheet",
   description: "Create a blank worksheet with a title. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/batchUpdate)",
   version: "0.1.12",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     googleSheets,

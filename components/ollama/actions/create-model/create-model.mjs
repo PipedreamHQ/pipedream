@@ -4,7 +4,12 @@ export default {
   key: "ollama-create-model",
   name: "Create Model",
   description: "Create a model from a modelfile. [See the documentation](https://github.com/ollama/ollama/blob/main/docs/api.md#create-a-model).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

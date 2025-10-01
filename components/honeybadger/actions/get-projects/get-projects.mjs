@@ -5,7 +5,12 @@ export default {
   key: "honeybadger-get-projects",
   name: "Get projects",
   description: "Get a project list",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     honeybadger: {

@@ -4,7 +4,12 @@ export default {
   key: "kenjo-create-employee",
   name: "Create Employee",
   description: "Creates a new employee in Kenjo. [See the documentation](https://kenjo.readme.io/reference/post_employees)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     kenjo,

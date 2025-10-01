@@ -4,7 +4,12 @@ export default {
   key: "aitable_ai-delete-field",
   name: "Delete Field",
   description: "Delete a field in the specified datasheet. [See the documentation](https://developers.aitable.ai/api/reference/#tag/Field/operation/delete-fields)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

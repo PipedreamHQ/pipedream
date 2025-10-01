@@ -4,7 +4,12 @@ export default {
   name: "Create Employee",
   description: "Create a new employee record. [See the documentation](https://developers.buddee.nl/#d08b1399-6333-4f08-a17b-26b2d8485d7e)",
   key: "buddee-create-employee",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     buddee,

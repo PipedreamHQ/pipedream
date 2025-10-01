@@ -5,7 +5,12 @@ export default {
   name: "Update Subscriber",
   description: "Update a specific subscriber by email [See the documentation](https://developer.pingback.com/docs/api/update-subscriber)",
   key: "pingback-update-subscriber",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pingback,

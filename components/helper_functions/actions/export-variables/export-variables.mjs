@@ -5,7 +5,12 @@ export default {
   key: "helper_functions-export-variables",
   name: "Export Variables",
   description: "Export variables for use in your workflow",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     helperFunctions,

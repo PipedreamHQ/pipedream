@@ -4,7 +4,12 @@ export default {
   key: "better_stack-acknowledge-incident",
   name: "Acknowledge Incident",
   description: "Acknowledges an incident, marking it as acknowledged in Better Stack. [See the documentation](https://betterstack.com/docs/uptime/api/acknowledge-an-ongoing-incident/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -4,7 +4,12 @@ export default {
   key: "hunter-delete-lead",
   name: "Delete Lead",
   description: "Delete an existing lead from your Hunter account. [See the documentation](https://hunter.io/api-documentation/v2#delete-lead).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

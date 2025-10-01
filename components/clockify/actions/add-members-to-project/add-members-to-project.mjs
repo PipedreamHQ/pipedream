@@ -4,7 +4,12 @@ export default {
   key: "clockify-add-members-to-project",
   name: "Add Members To Project",
   description: "Adds member(s) to a project in Clockify. [See the documentation](https://docs.clockify.me/#tag/Project/operation/updateMemberships)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     clockify,

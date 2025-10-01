@@ -4,7 +4,12 @@ export default {
   name: "Execute Query",
   key: "nile_database-execute-query",
   description: "Execute a custom PostgreSQL query.",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     nile,

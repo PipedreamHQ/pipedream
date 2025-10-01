@@ -4,7 +4,12 @@ export default {
   key: "espocrm-create-contact",
   name: "Create Contact",
   description: "Creates a new contact in Espo CRM. [See the documentation](https://docs.espocrm.com/development/api/crud/#create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     espoCrm,

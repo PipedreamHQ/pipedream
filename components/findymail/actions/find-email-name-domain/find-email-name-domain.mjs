@@ -4,7 +4,12 @@ export default {
   key: "findymail-find-email-name-domain",
   name: "Find Email by company domain",
   description: "Locates an email using a company's website. [See the documentation](https://app.findymail.com/docs/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     findymail,

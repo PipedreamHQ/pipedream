@@ -2,7 +2,12 @@ import bybit from "../../bybit.app.mjs";
 
 export default {
   name: "ByBit Generic Market Open Interest",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "bybit-generic-market-open-interest",
   description: "Gets the total amount of unsettled contracts. In other words, the total number of contracts held " +
       "in open positions.[reference](https://bybit-exchange.github.io/docs/futuresV2/inverse/#t-marketopeninterest)",

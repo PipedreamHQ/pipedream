@@ -4,7 +4,12 @@ export default {
   key: "chaser-create-invoice",
   name: "Create Invoice",
   description: "Creates a new invoice in Chaser. [See the documentation](https://openapi.chaserhq.com/docs/static/index.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     chaser,

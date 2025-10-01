@@ -4,7 +4,12 @@ export default {
   key: "plaid-create-access-token",
   name: "Create Access Token",
   description: "Exchange a Link `public_token` for an API `access_token`. [See the documentation](https://plaid.com/docs/api/items/#itempublic_tokenexchange).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -5,7 +5,12 @@ export default {
   key: "llmwhisperer-extract-text",
   name: "Extract Text",
   description: "Convert your PDF/scanned documents to text format which can be used by LLMs. [See the documentation](https://docs.unstract.com/llm_whisperer/apis/llm_whisperer_text_extraction_api)",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

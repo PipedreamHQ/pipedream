@@ -5,7 +5,12 @@ export default {
   key: "pipedream_utils-xml-to-json",
   name: "Helper Functions - XML to JSON",
   description: "See [xml-js](https://github.com/nashwaan/xml-js)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pipedream_utils,

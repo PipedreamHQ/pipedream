@@ -4,7 +4,12 @@ export default {
   key: "openperplex-get-website-screenshot",
   name: "Get Website Screenshot",
   description: "Get a screenshot of a website using Openperplex. [See the documentation](https://docs.openperplex.com/api-reference/endpoint/get-website-screenshot)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     openperplex,

@@ -4,7 +4,12 @@ export default {
   key: "harpa_ai-search-the-web",
   name: "Search the Web",
   description: "Search the web. [See the documentation](https://harpa.ai/grid/grid-rest-api-reference#search-the-web)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     harpaAi,

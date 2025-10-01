@@ -5,6 +5,11 @@ export default {
   name: "Get Spreadsheet by ID",
   description: "Returns the spreadsheet at the given ID. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/get) for more information",
   version: "0.1.13",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     googleSheets,

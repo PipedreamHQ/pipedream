@@ -4,7 +4,7 @@ export default {
   key: "posthog-get-surveys",
   name: "Get Surveys",
   description: "Retrieve a list of surveys. [See the documentation](https://posthog.com/docs/api/surveys#get-api-projects-project_id-surveys)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     posthog,

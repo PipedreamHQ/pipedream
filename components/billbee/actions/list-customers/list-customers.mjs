@@ -5,7 +5,12 @@ export default {
   name: "List Customers",
   description: "Retrieve a list of customers. [See the documentation](https://app.billbee.io/swagger/ui/index#/Customers/Customer_GetAll)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     max: {

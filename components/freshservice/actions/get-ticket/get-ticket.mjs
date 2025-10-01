@@ -4,7 +4,12 @@ export default {
   key: "freshservice-get-ticket",
   name: "Get Ticket",
   description: "Get a ticket by ID. [See the documentation](https://api.freshservice.com/#view_a_ticket)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     freshservice,

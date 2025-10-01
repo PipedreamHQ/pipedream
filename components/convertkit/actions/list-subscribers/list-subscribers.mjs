@@ -5,7 +5,12 @@ export default {
   key: "convertkit-list-subscribers",
   name: "List subscribers",
   description: "Returns a list of your subscribers. [See docs here](https://developers.convertkit.com/#list-subscribers)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     convertkit,

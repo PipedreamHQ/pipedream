@@ -6,7 +6,12 @@ export default {
   key: "kustomer-update-custom-object-by-id",
   name: "Update Custom Object by ID",
   description: "Updates a custom object identified by ID in Kustomer. [See the documentation](https://developer.kustomer.com/kustomer-api-docs/reference/updatekobject)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     kustomer,

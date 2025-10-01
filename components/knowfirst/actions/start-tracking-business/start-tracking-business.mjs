@@ -4,7 +4,12 @@ export default {
   key: "knowfirst-start-tracking-business",
   name: "Start Tracking Business",
   description: "Start tracking a business to receive notifications when changes occur. [See the documentation](https://www.knowfirst.ai/docs/api/#/Tracking/TrackingPut)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     knowfirst,

@@ -4,7 +4,12 @@ import getaccept from "../../getaccept.app.mjs";
 export default {
   key: "getaccept-create-contact",
   name: "Create Contact",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new contact in the database for the current entity [See the documentation](https://app.getaccept.com/api/#createcontact)",
   type: "action",
   props: {

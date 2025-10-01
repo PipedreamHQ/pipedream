@@ -6,7 +6,12 @@ export default {
   name: "Formatting - [Date/Time] Compare Dates",
   description: "Get the duration between two dates in days, hours, minutes, and seconds along with checking if they are the same.",
   key: "pipedream_utils-compare-dates",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...commonDateTime.props,

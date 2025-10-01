@@ -4,7 +4,12 @@ export default {
   key: "esputnik-update-contact",
   name: "Update Contact",
   description: "Update an existing contact in eSputnik. [See the docs here](https://esputnik.com/api/methods.html#/v1/contact/{id}-PUT)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     esputnik,

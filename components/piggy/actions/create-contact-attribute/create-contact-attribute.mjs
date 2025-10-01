@@ -3,7 +3,12 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Create Contact Attribute",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "piggy-create-contact-attribute",
   description: "Creates a contact attribute. [See the documentation](https://docs.piggy.eu/v3/oauth/contact-attributes#:~:text=Create%20Contact%20Attribute)",
   type: "action",

@@ -4,7 +4,12 @@ export default {
   key: "bitget-future-market-get-history-funding-rate",
   name: "Future - Market - Get History Funding Rate",
   description: "Retrieve historical funding rate for a contract symbol. [See the documentation](https://www.bitget.com/api-doc/contract/market/Get-History-Funding-Rate)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

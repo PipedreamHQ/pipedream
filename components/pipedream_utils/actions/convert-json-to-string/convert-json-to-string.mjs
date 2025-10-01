@@ -3,7 +3,12 @@ export default {
   name: "Formatting - [Data] Convert JSON to String",
   description: "Convert an object to a JSON format string",
   key: "pipedream_utils-convert-json-to-string",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: false,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     pipedream_utils,

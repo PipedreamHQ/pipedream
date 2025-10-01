@@ -4,7 +4,12 @@ export default {
   key: "leonardo_ai-unzoom-image",
   name: "Unzoom Image",
   description: "Creates an unzoom variation for a generated or variation image using Leonardo AI's unzoom API. [See the documentation](https://docs.leonardo.ai/reference/createvariationunzoom)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

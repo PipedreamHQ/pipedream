@@ -4,7 +4,12 @@ export default {
   key: "llmwhisperer-get-status",
   name: "Get Status",
   description: "Get the status of the whisper process. This can be used to check the status of the conversion process when the conversion is done in async mode. [See the documentation](https://docs.unstract.com/llm_whisperer/apis/llm_whisperer_text_extraction_status_api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

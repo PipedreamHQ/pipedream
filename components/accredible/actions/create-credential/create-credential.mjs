@@ -4,7 +4,12 @@ export default {
   key: "accredible-create-credential",
   name: "Create Credential",
   description: "Issue a new credential to a given recipient. [See the documentation](https://accrediblecredentialapi.docs.apiary.io/#reference/credentials/credentials/create-a-new-credential)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     accredible,

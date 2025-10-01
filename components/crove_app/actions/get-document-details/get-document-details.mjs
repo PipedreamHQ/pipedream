@@ -4,7 +4,12 @@ export default {
   key: "crove_app-get-document-details",
   name: "Get Document Details",
   description: "Get details of a document. Example: Name, Current Status, etc.",
-  version: "1.0.2",
+  version: "1.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     croveApp,

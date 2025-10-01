@@ -6,7 +6,12 @@ export default {
   key: "opensrs-register-domain",
   name: "Register Domain",
   description: "Register a new domain. [See the documentation](https://domains.opensrs.guide/docs/sw_register-domain-or-trust_service-).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -4,7 +4,12 @@ export default {
   key: "genderize-get-gender-from-name",
   name: "Get Gender From Name",
   description: "Check the statistical probability of a name being male or female. [See the documentation](https://genderize.io/documentation#basic-usage)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

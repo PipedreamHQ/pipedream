@@ -4,7 +4,12 @@ export default {
   key: "picqer-get-picklist",
   name: "Get Picklist",
   description: "Get a picklist in Picqer. [See the documentation](https://picqer.com/en/api/picklists#h-get-single-picklist)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     picqer,

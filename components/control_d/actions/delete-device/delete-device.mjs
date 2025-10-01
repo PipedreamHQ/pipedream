@@ -4,7 +4,12 @@ export default {
   key: "control_d-delete-device",
   name: "Delete Device",
   description: "Delete a device with the specified ID. [See the documentation](https://docs.controld.com/reference/delete_devices-device-id)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

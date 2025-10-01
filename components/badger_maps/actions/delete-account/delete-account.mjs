@@ -5,7 +5,12 @@ export default {
   name: "Delete Account",
   description: "Deletes an account. [See the docs](https://badgerupdatedapi.docs.apiary.io/#reference/accounts/retrieve-and-update-account-details/delete-customer).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     accountId: {

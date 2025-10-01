@@ -4,7 +4,12 @@ export default {
   key: "freshservice-get-solution-article",
   name: "Get Solution Article",
   description: "Get a solution article by ID. [See the documentation](https://api.freshservice.com/#view_solution_article)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     freshservice,

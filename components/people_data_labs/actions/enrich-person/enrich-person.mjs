@@ -4,7 +4,12 @@ export default {
   key: "people_data_labs-enrich-person",
   name: "Enrich a person",
   description: "The Person Enrichment API provides a one-to-one match, retrieving up-to-date information on a unique individual. [See the docs here](https://docs.peopledatalabs.com/docs/reference-person-enrichment-api)",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

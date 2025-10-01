@@ -8,7 +8,12 @@ export default {
   key: "pexels-download-photo",
   name: "Download Photo",
   description: "Download a specific photo by providing its photo ID and optionally choosing the desired size. [See the documentation](https://www.pexels.com/api/documentation/)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pexels,

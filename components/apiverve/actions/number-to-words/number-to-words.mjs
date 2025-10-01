@@ -4,7 +4,12 @@ export default {
   key: "apiverve-number-to-words",
   name: "Number to Words",
   description: "A simple tool for converting numbers to words. Returns the number in words. [See the documentation](https://docs.apiverve.com/api/numbertowords)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     apiverve,

@@ -3,7 +3,12 @@ import craftmypdf from "../../craftmypdf.app.mjs";
 export default {
   key: "craftmypdf-create-image",
   name: "Create Image",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new image. [See the documentation](https://craftmypdf.com/docs/index.html#tag/PDF-Generation-API/operation/create-parallel)",
   type: "action",
   props: {

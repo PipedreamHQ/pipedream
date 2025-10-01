@@ -4,7 +4,12 @@ export default {
   key: "expedy-create-print-job",
   name: "Create Print Job",
   description: "Sends a print job to the designated thermal printer using its unique identifier (uid). [See the documentation](https://expedy.stoplight.io/docs/api-v2/01132c3490c8b-create-a-print-job)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     expedy,

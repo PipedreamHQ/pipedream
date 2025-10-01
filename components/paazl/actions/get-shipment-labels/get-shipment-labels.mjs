@@ -4,7 +4,12 @@ export default {
   key: "paazl-get-shipment-labels",
   name: "Get Specific Shipment Label",
   description: "Retrieves a specific shipment's labels. [See the documentation](https://support.paazl.com/hc/en-us/articles/360008633973-REST-API-reference#/Shipments/getShipmentLabelsUsingGet)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

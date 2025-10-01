@@ -4,7 +4,12 @@ export default {
   key: "helpdocs-get-article",
   name: "Get Article",
   description: "Retrieve a specific article from your HelpDocs knowledge base. [See the documentation](https://apidocs.helpdocs.io/article/lc6AVtLvrv-getting-a-single-article)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     helpdocs,

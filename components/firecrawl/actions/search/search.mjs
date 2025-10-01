@@ -4,7 +4,12 @@ export default {
   key: "firecrawl-search",
   name: "Search",
   description: "Search the web and get full content from results. [See the documentation](https://docs.firecrawl.dev/features/search)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     firecrawl,

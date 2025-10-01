@@ -4,7 +4,12 @@ export default {
   name: "Send Broadcast Message",
   description: "Sends a broadcast message to multiple users at any time. [See docs](https://developers.line.biz/en/reference/messaging-api/#send-broadcast-message)",
   key: "line-send-broadcast-message",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     line,

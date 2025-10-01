@@ -4,7 +4,12 @@ export default {
   key: "_46elks-make-phone-call",
   name: "Make Phone Call",
   description: "Dials and connects two phone numbers using the 46elks service. [See the documentation](https://46elks.com/docs/make-call)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

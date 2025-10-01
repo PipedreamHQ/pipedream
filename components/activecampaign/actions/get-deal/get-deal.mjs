@@ -4,7 +4,12 @@ export default {
   key: "activecampaign-get-deal",
   name: "Get Deal",
   description: "Retrieves an existing deal. See the docs [here](https://developers.activecampaign.com/reference/retrieve-a-deal)",
-  version: "0.2.0",
+  version: "0.2.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     activecampaign,

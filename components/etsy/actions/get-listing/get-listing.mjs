@@ -5,7 +5,12 @@ export default {
   name: "Get Listing",
   description: "Retrieves a listing record by listing ID. [See the Documentation](https://developers.etsy.com/documentation/reference#operation/getListing)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     shopId: {

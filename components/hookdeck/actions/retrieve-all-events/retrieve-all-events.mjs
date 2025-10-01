@@ -5,7 +5,12 @@ export default {
   name: "Retrieve all Events",
   description: "This endpoint lists all events, or a subset of events. [See the documentation](https://hookdeck.com/api-ref#retrieve-all-events).",
   key: "hookdeck-retrieve-all-events",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

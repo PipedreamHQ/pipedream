@@ -3,7 +3,12 @@ import utils from "../../common/utils.mjs";
 
 export default {
   key: "kanban_tool-find-task",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   name: "Find Task",
   description: "Finds task with given parameters [See the docs here](https://kanbantool.com/developer/api-v3#searching-tasks)",

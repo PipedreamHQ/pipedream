@@ -5,7 +5,12 @@ import {
 
 export default {
   name: "BingX Generic API Call",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "bingx-generic-api-call",
   description: "Make any API call for Bingx Futures as per the documentation. [See the documentation](https://bingx-api.github.io/docs/#/swapV2/account-api.html)",
   props: {

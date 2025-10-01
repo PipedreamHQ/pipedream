@@ -5,7 +5,12 @@ export default {
   key: "clickup-create-task-comment",
   name: "Create Task Comment",
   description: "Creates a task comment. [See the documentation](https://clickup.com/api) in **Comments / Create Task Comment** section.",
-  version: "0.0.11",
+  version: "0.0.12",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

@@ -4,7 +4,12 @@ export default {
   key: "piloterr-get-company-database",
   name: "Get Company Database",
   description: "Fetches specified data for a company using a domain name. [See the documentation](https://docs.piloterr.com/v2/api-reference/database/company)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     piloterr,

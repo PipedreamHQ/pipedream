@@ -4,7 +4,12 @@ export default {
   key: "devin-update-session-tags",
   name: "Update Session Tags",
   description: "Update the tags for an existing session. [See the documentation](https://docs.devin.ai/api-reference/sessions/update-session-tags)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     devin,

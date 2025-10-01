@@ -6,7 +6,12 @@ export default {
   name: "Image Classification",
   description: "This task reads some image input and outputs the likelihood of classes. This action allows you to classify images into categories. [See the docs](https://huggingface.co/docs/huggingface.js/inference/classes/HfInference#imageclassification).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     modelId: {
