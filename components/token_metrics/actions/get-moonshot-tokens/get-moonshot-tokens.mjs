@@ -10,7 +10,12 @@ export default {
   key: "token_metrics-get-moonshot-tokens",
   name: "Get Moonshot Tokens",
   description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/moonshot-tokens)`,
-  version: "0.1.0",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     tokenMetrics,

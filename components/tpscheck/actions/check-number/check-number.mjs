@@ -4,7 +4,12 @@ export default {
   key: "tpscheck-check-number",
   name: "Check Number Against TPS/CTPS",
   description: "Validates a provided number against the TPS/CTPS register. [See the documentation](https://www.tpscheck.uk/profile#api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     tpscheck,

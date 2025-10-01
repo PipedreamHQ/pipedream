@@ -4,7 +4,12 @@ export default {
   key: "toggl-create-project",
   name: "Create Project",
   description: "Create a new project in Toggl. [See the documentation](https://engineering.toggl.com/docs/api/projects#post-workspaceprojects)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     toggl,
