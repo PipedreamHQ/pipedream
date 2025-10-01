@@ -4,7 +4,12 @@ export default {
   key: "crove_app-generate-pdf-from-document",
   name: "Generate PDF from Document",
   description: "Generate PDF of a document and return PDF URL.",
-  version: "1.0.2",
+  version: "1.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     croveApp,

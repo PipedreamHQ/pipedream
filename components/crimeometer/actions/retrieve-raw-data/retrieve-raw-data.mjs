@@ -6,7 +6,12 @@ export default {
   name: "Retrieve Raw Data",
   description: "Provides incidents raw data. [See the docs](https://www.crimeometer.com/crime-data-api-documentation) and [here](https://documenter.getpostman.com/view/12755833/TzK2auPn#0486d39c-a839-4fa6-a26b-104821b1813f).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     lat: {

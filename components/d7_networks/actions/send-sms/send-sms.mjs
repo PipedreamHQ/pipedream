@@ -3,7 +3,12 @@ import constants from "../../common/constants.mjs";
 
 export default {
   name: "Send SMS",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "d7_networks-send-sms",
   description: "Sending sms via D7 networks! [See the docs](https://d7networks.com/docs/Messages/Send_Message/)",
   type: "action",

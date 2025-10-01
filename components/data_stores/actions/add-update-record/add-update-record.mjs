@@ -4,7 +4,12 @@ export default {
   key: "data_stores-add-update-record",
   name: "Add or update a single record",
   description: "Add or update a single record in your [Pipedream Data Store](https://pipedream.com/data-stores/).",
-  version: "0.0.10",
+  version: "0.0.11",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

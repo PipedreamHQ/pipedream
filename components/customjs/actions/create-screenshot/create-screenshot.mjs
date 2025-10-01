@@ -6,7 +6,12 @@ export default {
   key: "customjs-create-screenshot",
   name: "Create Screenshot",
   description: "Create a screenshot of a website. [See the documentation](https://www.customjs.space/api/docs#_3-create-screenshot)",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     customjs,

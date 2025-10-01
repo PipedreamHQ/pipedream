@@ -4,7 +4,12 @@ import dataPoliceUK from "../../data_police_uk.app.mjs";
 export default {
   key: "data_police_uk-obtain-crime-outcomes",
   name: "Obtain Crime Outcomes",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Access the specific outcomes of reported crimes within a given location and date range. [See the docs here](https://data.police.uk/docs/method/outcomes-at-location/)",
   type: "action",
   props: {

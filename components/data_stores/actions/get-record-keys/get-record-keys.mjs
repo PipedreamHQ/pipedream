@@ -4,7 +4,12 @@ export default {
   key: "data_stores-get-record-keys",
   name: "Get Record Keys",
   description: "Get all record keys in your [Pipedream Data Store](https://pipedream.com/data-stores/) that matches with your query. The memory consumption of the workflow can be affected, since this action will be exposing, to the workflow, the entire data from the selected datastore",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

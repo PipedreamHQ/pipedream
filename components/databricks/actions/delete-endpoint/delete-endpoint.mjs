@@ -4,7 +4,12 @@ export default {
   key: "databricks-delete-endpoint",
   name: "Delete Endpoint",
   description: "Delete a vector search endpoint. [See the documentation](https://docs.databricks.com/api/workspace/vectorsearchendpoints/deleteendpoint)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     databricks,
