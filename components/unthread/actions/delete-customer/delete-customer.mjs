@@ -4,7 +4,12 @@ export default {
   key: "unthread-delete-customer",
   name: "Delete Customer",
   description: "Delete a Customer. [See the documentation](https://docs.unthread.io/api-introduction/using-api#delete-customer)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,
