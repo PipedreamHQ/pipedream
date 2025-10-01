@@ -1,9 +1,11 @@
-import common from "../common/column-values.mjs";
 import {
-  axios, getFileStreamAndMetadata,
+  axios,
+  ConfigurationError,
+  getFileStreamAndMetadata,
 } from "@pipedream/platform";
 import FormData from "form-data";
 import { getColumnOptions } from "../../common/utils.mjs";
+import common from "../common/column-values.mjs";
 
 export default {
   ...common,
@@ -120,6 +122,10 @@ export default {
       itemId: +this.itemId,
       columnValues: JSON.stringify(columnValues),
     });
+
+    if (response.errors) {
+      throw new ConfigurationError(JSON.stringify(response.errors[0]));
+    }
 
     if (response.error_message) {
       throw new Error(`${response.error_message} ${JSON.stringify(response.error_data)}`);
