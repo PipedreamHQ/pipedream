@@ -73,7 +73,7 @@ export default {
       },
     });
 
-    step.export("$summary", "Successfully updated invoice");
+    step.export("$summary", `Successfully updated invoice`);
 
     return response;
   },

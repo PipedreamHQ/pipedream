@@ -17,8 +17,8 @@ export default {
     name: {
       propDefinition: [
         app,
-        "name",
-      ],
+        "name"
+      ]
     },
   },
   async run({ $ }) {
