@@ -12354,8 +12354,7 @@ importers:
         specifier: ^10.0.0
         version: 10.0.0
 
-  components/runway:
-    specifiers: {}
+  components/runway: {}
 
   components/rytr: {}
 
@@ -13064,8 +13063,8 @@ importers:
   components/shopify_developer_app:
     dependencies:
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       '@pipedream/shopify':
         specifier: ^0.7.0
         version: 0.7.0
