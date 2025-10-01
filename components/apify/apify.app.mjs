@@ -149,6 +149,9 @@ export default {
         ],
       });
     },
+    getAuthToken() {
+      return this.$auth.api_token;
+    },
     createHook(opts = {}) {
       return this._client().webhooks()
         .create(opts);
@@ -242,6 +245,14 @@ export default {
     }) {
       return this._client().dataset(datasetId)
         .listItems(params);
+    },
+    getKVSRecord(kvsId, recordKey) {
+      return this._client().keyValueStore(kvsId)
+        .getRecord(recordKey);
+    },
+    getKVSRecordUrl(kvsId, recordKey) {
+      return this._client().keyValueStore(kvsId)
+        .getRecordPublicUrl(recordKey);
     },
     runTaskSynchronously({
       taskId, params,
