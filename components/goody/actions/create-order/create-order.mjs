@@ -6,7 +6,12 @@ export default {
   key: "goody-create-order",
   name: "Create Order",
   description: "Creates a new order in Goody. [See the documentation](https://developer.ongoody.com/api-reference/order-batches/create-an-order-batch)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     goody,

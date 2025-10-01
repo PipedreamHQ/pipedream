@@ -5,7 +5,12 @@ export default {
   key: "gmail-get-send-as-alias",
   name: "Get Send As Alias",
   description: "Get a send as alias for the authenticated user. [See the documentation](https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.settings.sendAs/get)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     gmail,

@@ -4,7 +4,12 @@ export default {
   key: "github-enable-workflow",
   name: "Enable Workflow",
   description: "Enables a workflow and sets the **state** of the workflow to **active**. [See the documentation](https://docs.github.com/en/rest/actions/workflows?apiVersion=2022-11-28#enable-a-workflow)",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     github,

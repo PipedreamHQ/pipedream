@@ -4,7 +4,12 @@ export default {
   key: "geokeo-reverse-geocoding",
   name: "Reverse geocoding",
   description: "Convert geographic coordinates to address data. [See the documentation](https://geokeo.com/documentation.php#request-reverse-geocoding)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

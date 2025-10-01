@@ -5,7 +5,12 @@ export default {
   key: "ghost_org_admin_api-update-member",
   name: "Update Member",
   description: "Update a member in Ghost. [See the documentation](https://ghost.org/docs/admin-api/#updating-a-member)",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -4,7 +4,12 @@ export default {
   key: "gitlab-get-repo-branch",
   name: "Get Repo Branch",
   description: "Get a single project repository branch. [See the documentation](https://docs.gitlab.com/ee/api/branches.html#get-single-repository-branch)",
-  version: "0.2.2",
+  version: "0.2.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     gitlab,

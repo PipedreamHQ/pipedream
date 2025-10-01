@@ -6,7 +6,12 @@ export default {
   key: "goformz-create-form",
   name: "Create Form",
   description: "Create a new form in GoFormz. [See the documentation](https://developers.goformz.com/reference/create-a-form)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     goformz,
