@@ -5,7 +5,12 @@ export default {
   name: "Accept Edit",
   description: "Have Sapling adapt its system over time. Each suggested edit has an edit UUID. You can pass this information back to Sapling to indicate the edit suggestion was helpful. [See the documentation here](https://sapling.ai/docs/api/edits-overview#accept-edit-post).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     editId: {

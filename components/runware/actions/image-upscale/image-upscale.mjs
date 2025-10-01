@@ -6,7 +6,12 @@ export default {
   key: "runware-image-upscale",
   name: "Image Upscale",
   description: "Request an image upscale task to be processed by the Runware API. [See the documentation](https://docs.runware.ai/en/image-editing/upscaling).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

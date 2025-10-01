@@ -5,7 +5,12 @@ export default {
   key: "sare-send-email",
   name: "Send Transactional Email",
   description: "Send a transactional email. [See the documentation](https://dev.sare.pl/rest-api/other/index.html#post-/send/mail/transactional)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sare,
