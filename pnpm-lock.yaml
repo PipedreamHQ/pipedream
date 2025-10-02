@@ -13280,6 +13280,9 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
+  components/sinch:
+    specifiers: {}
+
   components/sinch_messagemedia: {}
 
   components/sitecreator_io:
