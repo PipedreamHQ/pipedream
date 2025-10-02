@@ -4,7 +4,7 @@ export default {
   key: "transloadit-cancel-assembly",
   name: "Cancel Assembly",
   description: "Cancel a running assembly by its assembly ID. Useful for aborting processing jobs that are no longer needed. [See the documentation](https://transloadit.com/docs/api/assemblies-assembly-id-delete/)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
