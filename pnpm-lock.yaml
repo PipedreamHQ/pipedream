@@ -8751,12 +8751,6 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/messagebird:
-    dependencies:
-      '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
-
   components/metabase:
     dependencies:
       '@pipedream/platform':
@@ -14250,16 +14244,6 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.0
         version: 3.0.3
-
-  components/team_up:
-    dependencies:
-      '@pipedream/platform':
-        specifier: ^3.1.0
-        version: 3.1.0
-    devDependencies:
-      '@pipedream/types':
-        specifier: ^0.3.2
-        version: 0.3.2
 
   components/teamcamp:
     dependencies:
