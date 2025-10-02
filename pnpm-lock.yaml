@@ -5957,8 +5957,8 @@ importers:
         specifier: ^3.3.0
         version: 3.3.0
       '@pipedream/google_drive':
-        specifier: ^0.8.8
-        version: 0.8.8
+        specifier: ^1.1.1
+        version: 1.1.1
 
   components/google_drive:
     dependencies:
@@ -20396,14 +20396,14 @@ packages:
   '@pipedream/gitlab@0.5.6':
     resolution: {integrity: sha512-HoGZjfI5z5cUU4KPo9f0QJ4pLS+jMaK5132OQwlnzJ3FbqH+MSBxqQoRNoOcBfjGfEYfRRbs1wId592uC6nVmg==}
 
-  '@pipedream/google_drive@0.8.8':
-    resolution: {integrity: sha512-cwRCfFv86+GW0G3huAzhXCPvZ+BWaQ+KAeOlGUJBCK1sPsHzNWY1sOAOvDKDVPh1xiSyCzO29+e9UynCfcCSrw==}
-
   '@pipedream/google_drive@1.0.3':
     resolution: {integrity: sha512-E7MF0E3f/RRyL5PsLaoL51IZtdoyWKNpUIT7RIpQDJ2wh00H0hrISfgugfKAVdv7Tl//BvJezu1FecSLTxhroQ==}
 
   '@pipedream/google_drive@1.1.0':
     resolution: {integrity: sha512-ZiLlhIrJc7iUK7jLaQaRj4sf/9VUi6ZyZAGhYd2CfoZ8J7ys1KA9Rxi7oUFZvdKsH0AyJIHTIokCZbcuubS0Pw==}
+
+  '@pipedream/google_drive@1.1.1':
+    resolution: {integrity: sha512-amUo+NYuBMnXlJoIAIjw8vuVhGF4AB8LuLn5G2oq4lgU1Xt0Fqot8WGIh1Ahwx16q1RqKq+4DDdV9jROjm9rSA==}
 
   '@pipedream/helper_functions@0.3.13':
     resolution: {integrity: sha512-67zXT5rMccSYEeQCEKjO0g/U2Wnc3q1ErRWt0sivqJEF/KYqAb3tWmznDYGACbC8L6ML0WWSWRy7nEGt5Vyuaw==}
@@ -31341,22 +31341,22 @@ packages:
   superagent@3.8.1:
     resolution: {integrity: sha512-VMBFLYgFuRdfeNQSMLbxGSLfmXL/xc+OO+BZp41Za/NRDBet/BNbkRJrYzCUu0u4GU0i/ml2dtT8b9qgkw9z6Q==}
     engines: {node: '>= 4.0'}
-    deprecated: Please upgrade to v7.0.2+ of superagent.  We have fixed numerous issues with streams, form-data, attach(), filesystem errors not bubbling up (ENOENT on attach()), and all tests are now passing.  See the releases tab for more information at <https://github.com/visionmedia/superagent/releases>.
+    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
 
   superagent@4.1.0:
     resolution: {integrity: sha512-FT3QLMasz0YyCd4uIi5HNe+3t/onxMyEho7C3PSqmti3Twgy2rXT4fmkTz6wRL6bTF4uzPcfkUCa8u4JWHw8Ag==}
     engines: {node: '>= 6.0'}
-    deprecated: Please upgrade to v7.0.2+ of superagent.  We have fixed numerous issues with streams, form-data, attach(), filesystem errors not bubbling up (ENOENT on attach()), and all tests are now passing.  See the releases tab for more information at <https://github.com/visionmedia/superagent/releases>.
+    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
 
   superagent@5.3.1:
     resolution: {integrity: sha512-wjJ/MoTid2/RuGCOFtlacyGNxN9QLMgcpYLDQlWFIhhdJ93kNscFonGvrpAHSCVjRVj++DGCglocF7Aej1KHvQ==}
     engines: {node: '>= 7.0.0'}
-    deprecated: Please upgrade to v7.0.2+ of superagent.  We have fixed numerous issues with streams, form-data, attach(), filesystem errors not bubbling up (ENOENT on attach()), and all tests are now passing.  See the releases tab for more information at <https://github.com/visionmedia/superagent/releases>.
+    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
 
   superagent@7.1.6:
     resolution: {integrity: sha512-gZkVCQR1gy/oUXr+kxJMLDjla434KmSOKbx5iGD30Ql+AkJQ/YlPKECJy2nhqOsHLjGHzoDTXNSjhnvWhzKk7g==}
     engines: {node: '>=6.4.0 <13 || >=14'}
-    deprecated: Please downgrade to v7.1.5 if you need IE/ActiveXObject support OR upgrade to v8.0.0 as we no longer support IE and published an incorrect patch version (see https://github.com/visionmedia/superagent/issues/1731)
+    deprecated: Please upgrade to superagent v10.2.2+, see release notes at https://github.com/forwardemail/superagent/releases/tag/v10.2.2 - maintenance is supported by Forward Email @ https://forwardemail.net
 
   supports-color@10.0.0:
     resolution: {integrity: sha512-HRVVSbCCMbj7/kdWF9Q+bbckjBHLtHMEoJWlkmYzzdwhYMkjkOwubLM6t7NbWKjgKamGDrWL1++KrjUO1t9oAQ==}
@@ -39086,21 +39086,6 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@pipedream/google_drive@0.8.8':
-    dependencies:
-      '@googleapis/drive': 2.4.0
-      '@pipedream/platform': 1.6.6
-      cron-parser: 4.9.0
-      google-docs-mustaches: 1.2.2
-      got: 13.0.0
-      lodash: 4.17.21
-      mime-db: 1.53.0
-      uuid: 8.3.2
-    transitivePeerDependencies:
-      - debug
-      - encoding
-      - supports-color
-
   '@pipedream/google_drive@1.0.3':
     dependencies:
       '@googleapis/drive': 2.4.0
@@ -39117,6 +39102,21 @@ snapshots:
       - supports-color
 
   '@pipedream/google_drive@1.1.0':
+    dependencies:
+      '@googleapis/drive': 2.4.0
+      '@pipedream/platform': 3.1.0
+      cron-parser: 4.9.0
+      google-docs-mustaches: 1.2.2
+      got: 13.0.0
+      lodash: 4.17.21
+      mime-db: 1.54.0
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - debug
+      - encoding
+      - supports-color
+
+  '@pipedream/google_drive@1.1.1':
     dependencies:
       '@googleapis/drive': 2.4.0
       '@pipedream/platform': 3.1.0
