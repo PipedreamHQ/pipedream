@@ -16839,8 +16839,8 @@ importers:
   packages/connect-react:
     dependencies:
       '@pipedream/sdk':
-        specifier: ^2.0.10
-        version: 2.0.10
+        specifier: ^2.0.11
+        version: 2.0.11
       '@tanstack/react-query':
         specifier: ^5.59.16
         version: 5.61.0(react@18.3.1)
@@ -20353,8 +20353,8 @@ packages:
     resolution: {integrity: sha512-oyWFb2xsm+pRXrm+xiboSRQxA/PcP2tjqc2vQZ4y7TWFUOCBzzxencYFze8Lo+7l/QlWhXy4jbK0UzPMyFr2UQ==}
     engines: {node: '>=18.0.0'}
 
-  '@pipedream/sdk@2.0.10':
-    resolution: {integrity: sha512-51ZI8fRimqkE8cOmNeeJd3WrRKEGhOVuq+It+DNKgU32dJ3VKyayuD5Qsoom1yK1Rg2CIFsVdarZ/3Dgw9HO2Q==}
+  '@pipedream/sdk@2.0.11':
+    resolution: {integrity: sha512-fxzGz7dUQPKVdocOmFWHvFh4+4aF+Ii0Ew0cIH9tHn99/YevrcqO76XKLLGv3KlNB4MPEqQLs8BDHK8u8qatDQ==}
     engines: {node: '>=18.0.0'}
 
   '@pipedream/sftp@0.5.0':
@@ -38479,7 +38479,7 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@pipedream/sdk@2.0.10': {}
+  '@pipedream/sdk@2.0.11': {}
 
   '@pipedream/sftp@0.5.0':
     dependencies:

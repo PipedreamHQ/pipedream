@@ -16,7 +16,10 @@ export { Errors } from "./components/Errors";
 export { Field } from "./components/Field";
 export { InternalComponentForm } from "./components/InternalComponentForm";
 export { InternalField } from "./components/InternalField";
-export { Label } from "./components/Label";
+export {
+  Label,
+  LabelProps,
+} from "./components/Label";
 export { OptionalFieldButton } from "./components/OptionalFieldButton";
 export { RemoteOptionsContainer } from "./components/RemoteOptionsContainer";
 export { SelectApp } from "./components/SelectApp";
