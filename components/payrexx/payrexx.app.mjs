@@ -32,7 +32,7 @@ export default {
       description: "The ID of the paylink",
     },
     amount: {
-      type: "string",
+      type: "integer",
       label: "Amount",
       description: "Amount of payment in cents",
     },

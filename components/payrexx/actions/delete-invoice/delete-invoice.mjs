@@ -17,9 +17,6 @@ export default {
       propDefinition: [
         payrexx,
         "invoiceId",
-        (c) => ({
-          merchantId: c.merchantId,
-        }),
       ],
     },
   },
