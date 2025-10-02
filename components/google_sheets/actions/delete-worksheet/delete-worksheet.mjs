@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-delete-worksheet",
   name: "Delete Worksheet",
   description: "Delete a specific worksheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/batchUpdate)",
-  version: "0.1.12",
+  version: "0.1.13",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
