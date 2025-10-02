@@ -64,6 +64,12 @@ export default {
         }),
       ],
     },
+    priority: {
+      propDefinition: [
+        linearApp,
+        "issuePriority",
+      ],
+    },
   },
   async run({ $ }) {
     const {
@@ -75,6 +81,7 @@ export default {
       assigneeId,
       stateId,
       labelIds,
+      priority,
     } = this;
 
     const response =
@@ -86,6 +93,7 @@ export default {
         assigneeId,
         stateId,
         labelIds,
+        priority,
       });
 
     const summary = response.success

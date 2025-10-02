@@ -211,6 +211,13 @@ export default {
       optional: true,
       options: constants.PRIORITY_OPTIONS,
     },
+    issuePriority: {
+      type: "integer",
+      label: "Priority",
+      description: "The priority of the issue",
+      optional: true,
+      options: constants.PRIORITY_OPTIONS,
+    },
     query: {
       type: "string",
       label: "Query",

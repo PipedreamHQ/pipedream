@@ -49,7 +49,7 @@ export default {
         },
       },
       orderBy: this.orderBy,
-      first: this.first,
+      limit: this.first,
     });
 
     const {
