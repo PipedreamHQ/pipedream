@@ -2,6 +2,7 @@ import type { CSSProperties } from "react";
 import type { ConfigurablePropInteger } from "@pipedream/sdk";
 import { useFormFieldContext } from "../hooks/form-field-context";
 import { useCustomize } from "../hooks/customization-context";
+import { isConfigurablePropOfType } from "../utils/type-guards";
 
 export function ControlInput() {
   const formFieldContextProps = useFormFieldContext();
@@ -47,11 +48,11 @@ export function ControlInput() {
     autoComplete = "new-password"; // in chrome, this is better than "off" here
   }
 
-  const min = prop.type === "integer"
-    ? (prop as ConfigurablePropInteger).min
+  const min = isConfigurablePropOfType(prop, "integer")
+    ? prop.min
     : undefined;
-  const max = prop.type === "integer"
-    ? (prop as ConfigurablePropInteger).max
+  const max = isConfigurablePropOfType(prop, "integer")
+    ? prop.max
     : undefined;
 
   return (

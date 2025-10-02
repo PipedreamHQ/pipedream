@@ -16,6 +16,7 @@ import { ControlSubmit } from "./ControlSubmit";
 import type {
   ConfigurableProp, ConfigurablePropAlert,
 } from "@pipedream/sdk";
+import { isConfigurablePropOfType } from "../utils/type-guards";
 
 const alwaysShowSdkErrors = [
   "ConfigurationError",
@@ -146,8 +147,8 @@ export function InternalComponentForm() {
             prop,
             idx,
           ]) => {
-            if (prop.type === "alert") {
-              return <Alert key={prop.name} prop={prop as ConfigurablePropAlert} />;
+            if (isConfigurablePropOfType(prop, "alert")) {
+              return <Alert key={prop.name} prop={prop} />;
             }
             return <InternalField key={prop.name} prop={prop} idx={idx} />;
           })}

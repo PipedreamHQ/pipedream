@@ -6,15 +6,12 @@ import { useFormContext } from "../hooks/form-context";
 import { Field } from "./Field";
 import { useApp } from "../hooks/use-app";
 import { useEffect } from "react";
+import { isConfigurablePropOfType } from "../utils/type-guards";
 
 type FieldInternalProps<T extends ConfigurableProp> = {
   prop: T;
   idx: number;
 };
-
-function isConfigurablePropApp(prop: ConfigurableProp): prop is ConfigurablePropApp {
-  return prop.type === "app";
-}
 
 export function InternalField<T extends ConfigurableProp>({
   prop, idx,
@@ -25,7 +22,7 @@ export function InternalField<T extends ConfigurableProp>({
   } = formCtx;
 
   let appSlug: ConfigurablePropApp["app"] | undefined;
-  if (isConfigurablePropApp(prop)) {
+  if (isConfigurablePropOfType(prop, "app")) {
     appSlug = prop.app;
   }
   const {

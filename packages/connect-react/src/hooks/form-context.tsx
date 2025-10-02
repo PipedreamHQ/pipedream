@@ -40,6 +40,7 @@ import {
   ObservationErrorDetails,
 } from "../types";
 import { resolveUserId } from "../utils/resolve-user-id";
+import { isConfigurablePropOfType } from "../utils/type-guards";
 
 export type AnyFormFieldContext = Omit<FormFieldContext<ConfigurableProp>, "onChange"> & {
   onChange: (value: unknown) => void;
@@ -269,38 +270,38 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const propErrors = (prop: ConfigurableProp, value: unknown): string[] => {
     const errs: string[] = [];
     if (prop.optional || prop.hidden || prop.disabled || skippablePropTypes.includes(prop.type)) return []
-    if (prop.type === "app") {
+    if (isConfigurablePropOfType(prop, "app")) {
       const field = fields[prop.name]
       if (field) {
         const app = ("app" in field.extra)
           ? (field.extra as { app?: App }).app
           : undefined
         errs.push(...(appPropErrors({
-          prop: prop as ConfigurablePropApp,
+          prop,
           value,
           app,
         }) ?? []))
       } else {
         errs.push("field not registered")
       }
-    } else if (prop.type === "boolean") {
+    } else if (isConfigurablePropOfType(prop, "boolean")) {
       errs.push(...(booleanPropErrors({
-        prop: prop as ConfigurablePropBoolean,
+        prop,
         value,
       }) ?? []))
-    } else if (prop.type === "integer") {
+    } else if (isConfigurablePropOfType(prop, "integer")) {
       errs.push(...(integerPropErrors({
-        prop: prop as ConfigurablePropInteger,
+        prop,
         value,
       }) ?? []))
-    } else if (prop.type === "string") {
+    } else if (isConfigurablePropOfType(prop, "string")) {
       errs.push(...(stringPropErrors({
-        prop: prop as ConfigurablePropString,
+        prop,
         value,
       }) ?? []))
-    } else if (prop.type === "string[]") {
+    } else if (isConfigurablePropOfType(prop, "string[]")) {
       errs.push(...(arrayPropErrors({
-        prop: prop as ConfigurablePropStringArray,
+        prop,
         value,
       }) ?? []))
     }

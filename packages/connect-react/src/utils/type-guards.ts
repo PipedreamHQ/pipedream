@@ -3,6 +3,27 @@ import {
   RawPropOption,
 } from "../types";
 import type {
+  ConfigurableProp,
+  ConfigurablePropAirtableBaseId,
+  ConfigurablePropAirtableFieldId,
+  ConfigurablePropAirtableTableId,
+  ConfigurablePropAirtableViewId,
+  ConfigurablePropAlert,
+  ConfigurablePropAny,
+  ConfigurablePropApp,
+  ConfigurablePropApphook,
+  ConfigurablePropBoolean,
+  ConfigurablePropDb,
+  ConfigurablePropDiscordChannel,
+  ConfigurablePropDiscordChannelArray,
+  ConfigurablePropHttp,
+  ConfigurablePropInteger,
+  ConfigurablePropIntegerArray,
+  ConfigurablePropObject,
+  ConfigurablePropSql,
+  ConfigurablePropString,
+  ConfigurablePropStringArray,
+  ConfigurablePropTimer,
   PropOptionNested, PropOptionValue,
 } from "@pipedream/sdk";
 
@@ -13,6 +34,47 @@ import type {
  */
 export function isString(value: unknown): value is string {
   return typeof value === "string";
+}
+
+/**
+ * Mapping of configurable prop types to their corresponding TypeScript types.
+ * This map is used to determine the specific type of a ConfigurableProp based
+ * on its 'type' discriminator.
+ */
+type DiscriminatorPropTypeMap = {
+  "$.airtable.baseId": ConfigurablePropAirtableBaseId;
+  "$.airtable.fieldId": ConfigurablePropAirtableFieldId;
+  "$.airtable.tableId": ConfigurablePropAirtableTableId;
+  "$.airtable.viewId": ConfigurablePropAirtableViewId;
+  "$.discord.channel": ConfigurablePropDiscordChannel;
+  "$.discord.channel[]": ConfigurablePropDiscordChannelArray;
+  "$.interface.apphook": ConfigurablePropApphook;
+  "$.interface.http": ConfigurablePropHttp;
+  "$.interface.timer": ConfigurablePropTimer;
+  "$.service.db": ConfigurablePropDb;
+  "integer[]": ConfigurablePropIntegerArray;
+  "string[]": ConfigurablePropStringArray;
+  alert: ConfigurablePropAlert;
+  any: ConfigurablePropAny;
+  app: ConfigurablePropApp;
+  boolean: ConfigurablePropBoolean;
+  integer: ConfigurablePropInteger;
+  object: ConfigurablePropObject;
+  sql: ConfigurablePropSql;
+  string: ConfigurablePropString;
+}
+
+/**
+ * Type guard to check if a ConfigurableProp is of a specific type.
+ * @param prop - The ConfigurableProp to check
+ * @param type - The type to check against
+ * @returns true if the prop is of the specified type
+ */
+export function isConfigurablePropOfType<K extends keyof DiscriminatorPropTypeMap>(
+  prop: ConfigurableProp,
+  type: K,
+): prop is DiscriminatorPropTypeMap[K] {
+  return prop.type === type;
 }
 
 /**
