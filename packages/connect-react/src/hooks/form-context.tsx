@@ -11,14 +11,9 @@ import isEqual from "lodash.isequal";
 import { useQuery } from "@tanstack/react-query";
 import type {
   ConfigurableProp,
-  ConfigurablePropApp,
-  ConfigurablePropBoolean,
-  ConfigurablePropInteger,
-  ConfigurablePropString,
-  ConfigurablePropStringArray,
   ConfigurableProps,
   ConfiguredProps,
-  DynamicProps,
+  DynamicProps as SdkDynamicProps,
   Observation,
   ReloadPropsOpts,
   ReloadPropsResponse,
@@ -46,11 +41,21 @@ export type AnyFormFieldContext = Omit<FormFieldContext<ConfigurableProp>, "onCh
   onChange: (value: unknown) => void;
 };
 
+/**
+ * Auxiliary type to avoid breaking the generic chain given that `DynamicProps`
+ * in the SDK is not generic. This prevents us from doing double casting and
+ * destroying type information (i.e. `as unknown as T`).
+ */
+interface DynamicProps<T extends ConfigurableProps = ConfigurableProps>
+  extends Omit<SdkDynamicProps, "configurableProps"> {
+  configurableProps?: T;
+}
+
 export type FormContext<T extends ConfigurableProps> = {
   component: Component;
   configurableProps: T; // dynamicProps.configurableProps || props.component.configurable_props
   configuredProps: ConfiguredProps<T>;
-  dynamicProps?: DynamicProps; // lots of calls require dynamicProps?.id, so need to expose
+  dynamicProps?: DynamicProps<T>; // lots of calls require dynamicProps?.id, so need to expose
   dynamicPropsQueryIsFetching?: boolean;
   errors: Record<string, string[]>;
   sdkErrors: SdkError[];
@@ -180,7 +185,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
   const [
     dynamicProps,
     setDynamicProps,
-  ] = useState<DynamicProps>();
+  ] = useState<DynamicProps<T>>();
   const [
     reloadPropIdx,
     setReloadPropIdx,
@@ -206,8 +211,13 @@ export const FormContextProvider = <T extends ConfigurableProps>({
     queryFn: async () => {
       const result = await client.components.reloadProps(componentReloadPropsInput);
       const {
-        dynamicProps, observations, errors: __errors,
+        dynamicProps: sdkDynamicProps,
+        observations,
+        errors: __errors,
       } = result as ReloadPropsResponse;
+
+      // Narrowing to generic T (ConfigurableProps) for downstream typing
+      const dynamicProps = sdkDynamicProps as DynamicProps<T>;
 
       // Prioritize errors from observations over the errors array
       if (observations && observations.filter((o) => o.k === "error").length > 0) {
@@ -218,8 +228,8 @@ export const FormContextProvider = <T extends ConfigurableProps>({
 
       // XXX what about if null?
       // TODO observation errors, etc.
-      if (dynamicProps) {
-        formProps.onUpdateDynamicProps?.(dynamicProps);
+      if (sdkDynamicProps && dynamicProps) {
+        formProps.onUpdateDynamicProps?.(sdkDynamicProps);
         setDynamicProps(dynamicProps);
       }
       setReloadPropIdx(undefined);
@@ -240,7 +250,7 @@ export const FormContextProvider = <T extends ConfigurableProps>({
 
   // XXX fix types of dynamicProps, props.component so this type decl not needed
   const configurableProps = useMemo(() => {
-    let props: unknown = dynamicProps?.configurableProps || formProps.component.configurableProps || [];
+    let props = dynamicProps?.configurableProps || formProps.component.configurableProps || [];
     if (propNames?.length) {
       const _configurableProps = [];
       for (const prop of (props as ConfigurableProp[])) {
