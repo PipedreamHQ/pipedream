@@ -1,5 +1,4 @@
 import type { CSSProperties } from "react";
-import type { ConfigurablePropInteger } from "@pipedream/sdk";
 import { useFormFieldContext } from "../hooks/form-field-context";
 import { useCustomize } from "../hooks/customization-context";
 import { isConfigurablePropOfType } from "../utils/type-guards";

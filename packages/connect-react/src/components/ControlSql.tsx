@@ -1,7 +1,6 @@
 import { useFormFieldContext } from "../hooks/form-field-context";
 import { useCustomize } from "../hooks/customization-context";
 import type { CSSProperties } from "react";
-import type { ConfigurablePropSql } from "@pipedream/sdk";
 import { isConfigurablePropOfType } from "../utils/type-guards";
 
 // Type guard to check if value is a structured SQL object
