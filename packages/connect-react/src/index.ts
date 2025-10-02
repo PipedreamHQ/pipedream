@@ -18,7 +18,7 @@ export { InternalComponentForm } from "./components/InternalComponentForm";
 export { InternalField } from "./components/InternalField";
 export {
   Label,
-  LabelProps,
+  type LabelProps,
 } from "./components/Label";
 export { OptionalFieldButton } from "./components/OptionalFieldButton";
 export { RemoteOptionsContainer } from "./components/RemoteOptionsContainer";
