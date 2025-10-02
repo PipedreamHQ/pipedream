@@ -4,7 +4,12 @@ export default {
   key: "slybroadcast-start-campaign-audio-url",
   name: "Start Campaign With Audio URL",
   description: "Launch a new voicemail campaign to an individual or a group using an audio file url. [See the documentation](https://www.slybroadcast.com/documentation.php)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     slybroadcast,

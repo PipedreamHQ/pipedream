@@ -5,7 +5,12 @@ export default {
   key: "signnow-prefill-text-fields",
   name: "Prefill Text Fields",
   description: "Adds values to fields that the signers can later edit when they receive the document for signature. [See the documentation](https://docs.signnow.com/docs/signnow/document/operations/update-a-v-2-document-prefill-text)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

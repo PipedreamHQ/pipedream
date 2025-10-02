@@ -6,7 +6,12 @@ export default {
   key: "streak-create-box",
   name: "Create Box",
   description: `Create a new box in Streak. [See the docs](${docLink})`,
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     streak,

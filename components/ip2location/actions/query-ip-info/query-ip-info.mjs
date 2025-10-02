@@ -5,7 +5,12 @@ export default {
   name: "Query IP address",
   description: "Query IP address using IP2Location API. [See the docs here](https://www.ip2location.com/web-service/ip2location) for how to use this API.",
   key: "ip2location-query-ip-info",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ip2locationApp,

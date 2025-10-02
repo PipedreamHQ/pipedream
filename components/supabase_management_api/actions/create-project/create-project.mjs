@@ -4,7 +4,12 @@ export default {
   key: "supabase_management_api-create-project",
   name: "Create Project",
   description: "Creates a new Supabase project within a specified organization. [See the documentation](https://supabase.com/docs/reference/api/v1-create-a-project)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     supabaseManagementApi,

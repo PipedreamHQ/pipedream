@@ -5,7 +5,12 @@ export default {
   key: "indiefunnels-create-contact",
   name: "Create Contact",
   description: "Creates a new Contact on your IndieFunnel website. [See the documentation](https://websitebuilder.docs.apiary.io/#reference/contacts/list-and-create/create-new-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     indiefunnels,

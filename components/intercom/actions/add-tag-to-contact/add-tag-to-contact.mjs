@@ -4,7 +4,12 @@ export default {
   key: "intercom-add-tag-to-contact",
   name: "Add Tag To Contact",
   description: "Adds a specific tag to a contact in Intercom. [See the documentation](https://developers.intercom.com/docs/references/rest-api/api.intercom.io/contacts/attachtagtocontact).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     intercom,

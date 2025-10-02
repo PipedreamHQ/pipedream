@@ -4,7 +4,12 @@ export default {
   key: "universal_summarizer_by_kagi-summarize-document",
   name: "Summarize Document",
   description: "Summarizes the content of a URL. [See the documentation](https://help.kagi.com/kagi/api/summarizer.html#summarize-document)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

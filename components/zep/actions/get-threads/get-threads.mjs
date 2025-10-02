@@ -5,7 +5,12 @@ export default {
   key: "zep-get-threads",
   name: "Get Threads",
   description: "Returns a paginated list of threads. [See the documentation](https://help.getzep.com/sdk-reference/thread/list-all)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     zep,

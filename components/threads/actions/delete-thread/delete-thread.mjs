@@ -4,7 +4,12 @@ export default {
   key: "threads-delete-thread",
   name: "Delete a Thread",
   description: "Delete a thread. [See the Documentation](https://github.com/ThreadsHQ/api-documentation#delete-thread)",
-  version: "0.1.4",
+  version: "0.1.5",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     threads,

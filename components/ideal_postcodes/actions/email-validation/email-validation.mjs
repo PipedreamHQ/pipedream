@@ -5,7 +5,12 @@ export default {
   key: "ideal_postcodes-email-validation",
   name: "Email Validation",
   description: "Validate email addresses using Ideal Postcodes. [See the documentation](https://docs.ideal-postcodes.co.uk/docs/api/email-validation).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

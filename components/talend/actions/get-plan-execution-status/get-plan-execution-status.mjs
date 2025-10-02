@@ -4,7 +4,12 @@ export default {
   name: "Get Plan Execution Status",
   description: "Get detailed status of one plan execution. [See the documentation](https://api.talend.com/apis/processing/2021-03/#operation_get-plan-execution-status).",
   key: "talend-get-plan-execution-status",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

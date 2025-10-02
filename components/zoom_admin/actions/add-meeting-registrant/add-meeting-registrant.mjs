@@ -7,7 +7,12 @@ export default {
   name: "Add meeting registrant",
   description: "Register a participant for a meeting. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingregistrantcreate)",
   key: "zoom_admin-add-meeting-registrant",
-  version: "0.1.6",
+  version: "0.1.7",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zoomAdmin,

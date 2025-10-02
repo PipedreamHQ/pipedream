@@ -4,7 +4,12 @@ export default {
   key: "taiga-delete-userstory",
   name: "Delete User Story",
   description: "Delete an existing user story from a Taiga project. [See the documentation](https://docs.taiga.io/api.html#user-stories-delete)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     taiga,

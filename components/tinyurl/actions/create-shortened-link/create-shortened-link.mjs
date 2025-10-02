@@ -6,7 +6,12 @@ export default {
   key: "tinyurl-create-shortened-link",
   name: "Create Shortened Link",
   description: "Creates a new shortened link. [See the documentation]()",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     tinyurl,

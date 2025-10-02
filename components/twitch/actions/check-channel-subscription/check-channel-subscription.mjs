@@ -5,7 +5,12 @@ export default {
   name: "Check Channel Subscription",
   key: "twitch-check-channel-subscription",
   description: "Checks if you are subscribed to the specified user's channel",
-  version: "0.1.2",
+  version: "0.1.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

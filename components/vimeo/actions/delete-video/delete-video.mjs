@@ -4,7 +4,12 @@ export default {
   key: "vimeo-delete-video",
   name: "Delete Video",
   description: "Permanently deletes a video from the user's Vimeo account. This action can't be undone. [See the documentation](https://developer.vimeo.com/api/reference/videos#delete_video)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     vimeo,

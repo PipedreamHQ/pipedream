@@ -4,7 +4,12 @@ export default {
   key: "sendloop-remove-subscriber",
   name: "Remove Subscriber",
   description: "Unsubscribe an email address from your lists.",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sendloop,

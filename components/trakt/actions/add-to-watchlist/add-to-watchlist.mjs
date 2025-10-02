@@ -3,7 +3,12 @@ import utils from "../common/utils.mjs";
 
 export default {
   name: "Add To Watchlist",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "trakt-add-to-watchlist",
   description: "Add one of more items to watchlist. [See the documentation](https://trakt.docs.apiary.io/#reference/sync/add-to-watchlist/get-watchlist)",
   type: "action",

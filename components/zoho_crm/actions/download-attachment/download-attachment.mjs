@@ -5,7 +5,12 @@ export default {
   key: "zoho_crm-download-attachment",
   name: "Download Attachment",
   description: "Downloads an attachment file from Zoho CRM, saves it in the temporary file system and exports the file path for use in a future step.",
-  version: "0.2.2",
+  version: "0.2.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zohoCrm,

@@ -5,7 +5,12 @@ export default {
   key: "short-domain-statistics",
   name: "Get Domain Statistics",
   description: "Returns detailed statistics for a domain in given period. [See the documentation](https://developers.short.io/reference/getdomaindomainid).",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     shortApp,

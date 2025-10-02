@@ -6,7 +6,12 @@ export default {
   name: "List Categories",
   description: "Lists all categories. [See the documentation](https://yoplanning.pro/api/v3.1/swagger/)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   methods: {
     ...common.methods,
     listCategories(args = {}) {

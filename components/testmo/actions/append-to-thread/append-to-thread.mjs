@@ -4,7 +4,12 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "testmo-append-to-thread",
   name: "Append to Thread in Automation Run",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Appends test artifacts, fields or test results to an existing thread in an automation run. [See the documentation](https://docs.testmo.com/api/reference/automation-runs#post-automation-runs-threads-automation_run_thread_id-append)",
   type: "action",
   props: {

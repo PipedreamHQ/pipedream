@@ -4,7 +4,12 @@ export default {
   key: "viewdns_info-subdomain-discovery",
   name: "Subdomain Discovery",
   description: "Discovers subdomains associated with a given domain. [See the documentation](https://viewdns.info/api/subdomain-discovery/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     viewdnsInfo,

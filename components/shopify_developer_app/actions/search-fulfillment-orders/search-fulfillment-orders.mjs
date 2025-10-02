@@ -5,6 +5,11 @@ export default {
   name: "Search for Fulfillment Orders",
   description: "Search for a fulfillment order or a list of fulfillment orders. [See the documentation](https://shopify.dev/docs/api/admin-graphql/unstable/queries/fulfillmentorders)",
   version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     shopify,

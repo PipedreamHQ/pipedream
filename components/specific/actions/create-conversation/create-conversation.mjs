@@ -4,7 +4,12 @@ export default {
   key: "specific-create-conversation",
   name: "Create Conversation",
   description: "Create a new conversation. [See the documentation](https://public-api.specific.app/docs/mutations/createConversation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     specific,

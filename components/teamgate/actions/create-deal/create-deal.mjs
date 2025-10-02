@@ -3,7 +3,12 @@ import teamgate from "../../teamgate.app.mjs";
 export default {
   key: "teamgate-create-deal",
   name: "Create Deal",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new deal. [See the docs here](https://developers.teamgate.com/#7cf909d7-b66c-4ddb-ac3b-bb800f8b4ae5)",
   type: "action",
   props: {

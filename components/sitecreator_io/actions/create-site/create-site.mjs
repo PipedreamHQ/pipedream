@@ -7,7 +7,12 @@ export default {
   key: "sitecreator_io-create-site",
   name: "Create Site",
   description: "Create a new website. [See the docs here](http://api-doc.sitecreator.io/#tag/Site/operation/postSite)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sitecreator,

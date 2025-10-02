@@ -5,7 +5,12 @@ export default {
   name: "Get Documents",
   description:
     "Retrieves all documents available. [See the documentation](https://www.yay.com/voip/api-docs/account/document/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     yayCom,

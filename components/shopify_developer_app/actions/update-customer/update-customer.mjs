@@ -7,6 +7,11 @@ export default {
   name: "Update Customer",
   description: "Update a existing customer. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/customerupdate)",
   version: "0.0.11",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     shopify,

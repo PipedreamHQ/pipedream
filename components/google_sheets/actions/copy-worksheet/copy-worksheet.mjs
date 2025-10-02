@@ -4,7 +4,7 @@ export default {
   key: "google_sheets-copy-worksheet",
   name: "Copy Worksheet",
   description: "Copy an existing worksheet to another Google Sheets file. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.sheets/copyTo)",
-  version: "0.1.12",
+  version: "0.1.13",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

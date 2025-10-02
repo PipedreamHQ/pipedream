@@ -3,7 +3,12 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Grant User Access",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "uscreen-grant-user-access",
   description: "Grant access to an user. [See the documentation](https://uscreen.io/api/publisher.html#/default/post_customers__customer_id__accesses)",
   type: "action",

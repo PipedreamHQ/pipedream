@@ -6,7 +6,12 @@ export default {
   key: "workamajig-update-contact",
   name: "Update Contact",
   description: "This component updates a specific contact in Workamajig. [See the documentation](https://app6.workamajig.com/platinum/?aid=common.apidocs)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     workamajig,

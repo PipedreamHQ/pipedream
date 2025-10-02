@@ -4,7 +4,12 @@ export default {
   key: "smugmug-get-image",
   name: "Get Image",
   description: "Gets an image. An image is a photo or video stored on SmugMug. [See the docs here](https://api.smugmug.com/api/v2/doc/reference/image.html)",
-  version: "0.1.2",
+  version: "0.1.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     smugmug,

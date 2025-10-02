@@ -4,7 +4,12 @@ export default {
   key: "serply-search-bing",
   name: "Search Bing",
   description: "Performs a Bing search using the Serply API. [See the documentation](https://serply.io/docs/operations/v1/b/search)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     serply,

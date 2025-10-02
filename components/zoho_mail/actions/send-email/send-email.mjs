@@ -4,7 +4,12 @@ export default {
   key: "zoho_mail-send-email",
   name: "Send Email",
   description: "Send an email. [See the docs here](https://www.zoho.com/mail/help/api/post-send-an-email.html)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zohoMail,

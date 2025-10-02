@@ -8,7 +8,12 @@ import {
 export default {
   key: "zoho_workdrive-upload-file",
   name: "Upload File",
-  version: "0.0.8",
+  version: "0.0.9",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Upload a new file to your WorkDrive account. [See the documentation](https://workdrive.zoho.com/apidocs/v1/chunkupload/chunkuploadcreatesession)",
   type: "action",
   props: {

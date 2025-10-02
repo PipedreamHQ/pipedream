@@ -6,7 +6,12 @@ export default {
   type: "action",
   key: "zoho_people-create-attendance-entry",
   name: "Create Attendance Entry",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "This API can be used to capture the check-in and check-out entries of an individual employee.The system will mark the attendance exit/entry of individual employees.It will automatically update the attendance status in the web portal for every check-in and check-out. [See the documentation](https://www.zoho.com/people/api/attendance-checkin-checkout.html)",
   props: {
     app,

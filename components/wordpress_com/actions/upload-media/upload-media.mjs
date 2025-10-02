@@ -5,7 +5,12 @@ export default {
   key: "wordpress_com-upload-media",
   name: "Upload Media",
   description: "Uploads a media file from a URL to the specified WordPress.com site. [See the documentation](https://developer.wordpress.com/docs/api/1.1/post/sites/%24site/media/new/)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     wordpress,

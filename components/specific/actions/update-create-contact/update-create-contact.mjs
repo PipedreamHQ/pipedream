@@ -4,7 +4,12 @@ export default {
   key: "specific-update-create-contact",
   name: "Update or Create Contact",
   description: "Modify an existing contact's details or create a new one if the specified contact does not exist. [See the documentation](https://public-api.specific.app/docs/types/contact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     specific,

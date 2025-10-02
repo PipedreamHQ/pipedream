@@ -6,7 +6,12 @@ export default {
   description:
     `This Action can be used to send text messages to either individual numbers or entire contact groups. [See the docs here](https://api.txtlocal.com/docs/sendsms)
     Note: While both numbers and group_id are optional parameters, one or the other must be included in the request for the message to be sent.`,
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     textlocal,

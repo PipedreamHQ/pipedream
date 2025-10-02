@@ -4,7 +4,12 @@ export default {
   key: "todoist-delete-filter",
   name: "Delete Filter",
   description: "Deletes a filter. [See the docs here](https://developer.todoist.com/sync/v9/#delete-a-filter)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     todoist,

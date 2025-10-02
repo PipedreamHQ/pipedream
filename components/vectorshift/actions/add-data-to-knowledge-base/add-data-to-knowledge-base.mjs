@@ -5,7 +5,12 @@ export default {
   key: "vectorshift-add-data-to-knowledge-base",
   name: "Add Data to Knowledge Base",
   description: "Adds data to a knowledge base in VectorShift. [See the documentation](https://docs.vectorshift.ai/api-reference/knowledge-bases/index).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     vectorshift,

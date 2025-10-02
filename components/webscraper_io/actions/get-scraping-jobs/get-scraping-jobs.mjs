@@ -4,7 +4,12 @@ export default {
   key: "webscraper_io-get-scraping-jobs",
   name: "Get Scraping Jobs",
   description: "Retrieves a list of scraping jobs for a sitemap. [See the docs here](https://webscraper.io/documentation/web-scraper-cloud/api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     webscraper,

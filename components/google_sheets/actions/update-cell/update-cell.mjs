@@ -7,7 +7,7 @@ export default {
   key: "google_sheets-update-cell",
   name: "Update Cell",
   description: "Update a cell in a spreadsheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)",
-  version: "0.1.14",
+  version: "0.1.15",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

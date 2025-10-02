@@ -4,7 +4,12 @@ export default {
   key: "zerobounce-ai-scoring",
   name: "AI Scoring",
   description: "Estimates a reliability score based on ZeroBounce's AI for the provided email. [See the documentation](https://www.zerobounce.net/docs/ai-scoring-api/#single_email_scoring)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zerobounce,

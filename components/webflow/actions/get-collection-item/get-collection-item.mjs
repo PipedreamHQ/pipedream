@@ -4,7 +4,12 @@ export default {
   key: "webflow-get-collection-item",
   name: "Get Collection Item",
   description: "Get a Collection Item. [See the documentation](https://developers.webflow.com/data/reference/cms/collection-items/staged-items/get-item)",
-  version: "2.0.0",
+  version: "2.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

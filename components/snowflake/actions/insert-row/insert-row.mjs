@@ -5,7 +5,12 @@ export default {
   key: "snowflake-insert-row",
   name: "Insert Single Row",
   description: "Insert a row into a table",
-  version: "1.1.3",
+  version: "1.1.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     snowflake,
     database: {
