@@ -16839,8 +16839,8 @@ importers:
   packages/connect-react:
     dependencies:
       '@pipedream/sdk':
-        specifier: ^2.0.11
-        version: 2.0.11
+        specifier: ^2.0.12
+        version: 2.0.12
       '@tanstack/react-query':
         specifier: ^5.59.16
         version: 5.61.0(react@18.3.1)
@@ -20353,8 +20353,8 @@ packages:
     resolution: {integrity: sha512-oyWFb2xsm+pRXrm+xiboSRQxA/PcP2tjqc2vQZ4y7TWFUOCBzzxencYFze8Lo+7l/QlWhXy4jbK0UzPMyFr2UQ==}
     engines: {node: '>=18.0.0'}
 
-  '@pipedream/sdk@2.0.11':
-    resolution: {integrity: sha512-fxzGz7dUQPKVdocOmFWHvFh4+4aF+Ii0Ew0cIH9tHn99/YevrcqO76XKLLGv3KlNB4MPEqQLs8BDHK8u8qatDQ==}
+  '@pipedream/sdk@2.0.12':
+    resolution: {integrity: sha512-m3arjSPiaapf4SBSed95w7wPvd0yaHFNoEY6EMNHEnC1ElaEh+a28EVr7hhIeLiUNKRJnVC4GroacqC1RVwRbA==}
     engines: {node: '>=18.0.0'}
 
   '@pipedream/sftp@0.5.0':
@@ -28348,8 +28348,8 @@ packages:
     resolution: {integrity: sha512-bAxsR8BVfj60DWXHE3u30oHzfl4G7khkSuPW+qvpd7jFRHm7dLxOjUk1EHACJ/hxLY8phGJ0YhYHZo7jil7Qdg==}
     engines: {node: '>= 8'}
 
-  minizlib@3.0.2:
-    resolution: {integrity: sha512-oG62iEk+CYt5Xj2YqI5Xi9xWUeZhDI8jjQmC5oThVH5JGCTgIjr7ciJDzC7MBzYd//WvR1OTmP5Q38Q8ShQtVA==}
+  minizlib@3.1.0:
+    resolution: {integrity: sha512-KZxYo1BUkWD2TVFLr0MQoM8vUUigWD3LlD83a/75BqC+4qE0Hb1Vo5v1FgcfaNXvfXzr+5EhQ6ing/CaBijTlw==}
     engines: {node: '>= 18'}
 
   mitt@3.0.0:
@@ -38479,7 +38479,7 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@pipedream/sdk@2.0.11': {}
+  '@pipedream/sdk@2.0.12': {}
 
   '@pipedream/sftp@0.5.0':
     dependencies:
@@ -48619,7 +48619,7 @@ snapshots:
       minipass: 3.3.6
       yallist: 4.0.0
 
-  minizlib@3.0.2:
+  minizlib@3.1.0:
     dependencies:
       minipass: 7.1.2
 
@@ -52451,7 +52451,7 @@ snapshots:
       '@isaacs/fs-minipass': 4.0.1
       chownr: 3.0.0
       minipass: 7.1.2
-      minizlib: 3.0.2
+      minizlib: 3.1.0
       mkdirp: 3.0.1
       yallist: 5.0.0
 
