@@ -6,7 +6,7 @@ export default {
   key: "freshmarketer-add-update-contact",
   name: "Add or Update Contact",
   description: "Create a new contact or updates an existing one.",
-  version: "0.0.NaN",
+  version: "0.1.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
