@@ -5,7 +5,7 @@ export default {
   key: "connectwise_psa-create-contact",
   name: "Create Contact",
   description: "Creates a new contact in Connectwise. [See the documentation](https://developer.connectwise.com/Products/ConnectWise_PSA/REST#/Contacts/postCompanyContacts)",
-  version: "0.1.1",
+  version: "0.1.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
