@@ -5,7 +5,12 @@ export default {
   key: "sendx-create-update-contact",
   name: "Create or Update Contact",
   description: "Creates a new contact or updates an existing one with user-provided data. [See the documentation](https://github.com/sendx/sendx-api-nodejs/tree/master)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sendx,

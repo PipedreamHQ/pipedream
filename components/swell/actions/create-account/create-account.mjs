@@ -4,7 +4,12 @@ export default {
   key: "swell-create-account",
   name: "Create Account",
   description: "Create a new customer account. [See the documentation](https://developers.swell.is/backend-api/accounts/create-an-account)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

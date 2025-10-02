@@ -4,7 +4,12 @@ export default {
   key: "shopify_developer_app-update-fulfillment-tracking-info",
   name: "Update Fulfillment Tracking Info",
   description: "Update the tracking info for a fulfillment. [See the documentation](https://shopify.dev/docs/api/admin-graphql/unstable/mutations/fulfillmenttrackinginfoupdate)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     shopify,

@@ -5,7 +5,12 @@ export default {
   key: "skyvern-create-run-task",
   name: "Create and Run Task",
   description: "Create a new task and run it instantly in Skyvern. Useful for one-off automations. [See the documentation](https://docs.skyvern.com/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     skyvern,

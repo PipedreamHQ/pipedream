@@ -5,7 +5,12 @@ export default {
   key: "salesforce_rest_api-get-knowledge-articles",
   name: "Get Knowledge Articles",
   description: "Get a page of online articles for the given language and category through either search or query. [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.knowledge_dev.meta/knowledge_dev/sforce_api_rest_retrieve_article_list.htm)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

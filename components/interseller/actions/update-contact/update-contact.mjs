@@ -4,7 +4,12 @@ export default {
   key: "interseller-update-contact",
   name: "Update Contact",
   description: "Update an existing contact. [See the documentation](https://interseller.readme.io/reference/update-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     interseller,

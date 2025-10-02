@@ -4,7 +4,12 @@ export default {
   key: "sellercloud-update-order-status",
   name: "Update Order Status",
   description: "Modifies the status of an existing order or orders. [See the documentation](https://developer.sellercloud.com/dev-article/update-orders-status-code/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sellercloud,

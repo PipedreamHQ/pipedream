@@ -6,7 +6,12 @@ export default {
   name: "Create Call Report",
   description: "Create a call report. [See the documentation](https://www.vitelglobal.com)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     line: {

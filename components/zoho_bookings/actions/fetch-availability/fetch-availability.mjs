@@ -4,7 +4,12 @@ export default {
   key: "zoho_bookings-fetch-availability",
   name: "Fetch Availability",
   description: "Fetch availability of appointments across services. [See the documentation](https://www.zoho.com/bookings/help/api/v1/fetch-availability.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

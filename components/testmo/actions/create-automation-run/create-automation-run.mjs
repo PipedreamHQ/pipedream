@@ -4,7 +4,12 @@ import testmo from "../../testmo.app.mjs";
 export default {
   key: "testmo-create-automation-run",
   name: "Create Automation Run",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Creates a new automation run in a target project in preparation for adding threads and test results. [See the documentation](https://docs.testmo.com/api/reference/automation-runs#post-projects-project_id-automation-runs)",
   type: "action",
   props: {

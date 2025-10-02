@@ -2,7 +2,12 @@ import app from "../../prisma_management_api.app.mjs";
 
 export default {
   name: "Get Database details",
-  version: "1.0.0",
+  version: "1.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "prisma_management_api-get-database-details",
   description: "Get database details of a particular Prisma Postgres database via Prisma Management API. [See docs here](https://www.prisma.io/docs/postgres/introduction/management-api)",
   type: "action",

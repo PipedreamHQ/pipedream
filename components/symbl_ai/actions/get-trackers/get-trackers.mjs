@@ -4,7 +4,12 @@ export default {
   key: "symbl_ai-get-trackers",
   name: "Get Trackers",
   description: "Get a list of the detected trackers in the conversation. See the doc [here](https://docs.symbl.ai/docs/conversation-api/trackers/).",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     symblAIApp,

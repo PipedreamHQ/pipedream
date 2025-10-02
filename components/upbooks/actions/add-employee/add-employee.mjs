@@ -4,7 +4,12 @@ export default {
   key: "upbooks-add-employee",
   name: "Add New Employee",
   description: "Adds a new employee to Upbooks. [See the documentation](https://www.postman.com/scrrum/workspace/upbooks-io/request/13284127-a51a907a-0648-477d-96f6-f5a9e79262fd)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     upbooks,

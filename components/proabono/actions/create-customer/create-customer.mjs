@@ -5,7 +5,12 @@ export default {
   key: "proabono-create-customer",
   name: "Create or Update a Customer",
   description: "Creates a new customer or updates an existing one in the ProAbono system. [See the documentation](https://docs.proabono.com/api/#create-a-customer)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     proabono,

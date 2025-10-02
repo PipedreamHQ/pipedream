@@ -7,7 +7,12 @@ export default {
   name: "Get Points",
   description: "Get points by IDs from a collection.",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     collectionName: {

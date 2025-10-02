@@ -4,7 +4,12 @@ export default {
   key: "webflow-unfulfill-order",
   name: "Unfulfill Order",
   description: "Unfulfill an order. [See the documentation](https://developers.webflow.com/data/reference/ecommerce/orders/update-unfulfill)",
-  version: "2.0.0",
+  version: "2.0.1",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

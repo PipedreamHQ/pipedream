@@ -4,7 +4,12 @@ export default {
   key: "sms_fusion-perform-hlr-lookup",
   name: "Perform HLR Lookup",
   description: "Perform HLR on a number with SMS Fusion. [See the documentation](https://docs.smsfusion.com.au/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     smsFusion,

@@ -3,7 +3,12 @@ import replicate from "../../replicate.app.mjs";
 export default {
   key: "replicate-get-model",
   name: "Get Model",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Get a specific model identified by Id. [See the documentation](https://replicate.com/docs/reference/http#models.get)",
   type: "action",
   props: {

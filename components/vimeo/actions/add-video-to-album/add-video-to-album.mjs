@@ -4,7 +4,12 @@ export default {
   key: "vimeo-add-video-to-album",
   name: "Add Video To Album",
   description: "Adds an existing video to a user's album/showcase on Vimeo. [See the documentation](https://developer.vimeo.com/api/reference/showcases#update_showcases)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     vimeo,

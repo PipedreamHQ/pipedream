@@ -5,7 +5,12 @@ export default {
   key: "zoom-send-chat-message",
   name: "Send Chat Message",
   description: "Send chat messages on Zoom to either an individual user who is in your contact list or to a  of which you are a member.",
-  version: "0.1.4",
+  version: "0.1.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zoom: {

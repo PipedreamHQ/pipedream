@@ -4,7 +4,12 @@ export default {
   key: "real_id-delete-id-check",
   name: "Delete ID Check",
   description: "Permanently delete all data associated with a specific ID check. [See the documentation](https://getverdict.com/help/docs/api/checks#delete-id-check-data).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

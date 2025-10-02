@@ -7,7 +7,12 @@ export default {
   type: "action",
   key: "zoho_people-add-record",
   name: "Add Record",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Add a record to a Zoho People module. [See the documentation](https://www.zoho.com/people/api/insert-records.html)",
   props: {
     app,

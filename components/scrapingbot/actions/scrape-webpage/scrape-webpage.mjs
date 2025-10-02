@@ -4,7 +4,12 @@ export default {
   key: "scrapingbot-scrape-webpage",
   name: "Scrape Webpage",
   description: "Use ScrapingBot API to extract specific data from a webpage. [See the documentation](https://www.scraping-bot.io/web-scraping-documentation/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     scrapingbot,

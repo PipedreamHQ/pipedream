@@ -4,7 +4,12 @@ export default {
   key: "yespo-generate-event",
   name: "Generate Event",
   description: "Sends an event to the specified user. [See the documentation](https://docs.yespo.io/reference/registerevent-1)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     yespo,

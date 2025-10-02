@@ -7,7 +7,12 @@ export default {
   key: "reply_io-create-and-push-to-campaign",
   name: "Create or Update Contact and Push to Campaign",
   description: "Create a new contact, or update if they already exist, and push contact to the selected campaign. [See the docs here](https://apidocs.reply.io/#67afb4b3-4291-4798-9734-ceaa275a90be)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     reply,

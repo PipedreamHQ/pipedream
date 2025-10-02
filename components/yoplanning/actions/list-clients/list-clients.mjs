@@ -6,7 +6,12 @@ export default {
   name: "List Clients",
   description: "Lists all clients. [See the documentation](https://yoplanning.pro/api/v3.1/swagger/)",
   type: "action",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     ...common.props,
     teamId: {

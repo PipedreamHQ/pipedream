@@ -6,7 +6,12 @@ export default {
   name: "Start Scraping",
   description: "Initiate the scraping process for a specific endpoint. [See the documentation here](https://scrape-it.cloud/docs/api-features/basic-request).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     url: {

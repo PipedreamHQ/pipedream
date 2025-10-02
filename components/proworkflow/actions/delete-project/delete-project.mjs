@@ -5,7 +5,12 @@ export default {
   name: "Delete Project",
   description: "Deletes a project. [See the docs](https://api.proworkflow.net/?documentation#gettingstarteddeletesingle).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     projectId: {

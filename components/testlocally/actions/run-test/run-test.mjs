@@ -5,7 +5,12 @@ export default {
   key: "testlocally-run-test",
   name: "Run Test",
   description: "Create and run a new test in TestLocally. [See the documentation](https://testlocally.readme.io/reference/api_v0_request_test)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     testlocally,

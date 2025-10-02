@@ -4,7 +4,12 @@ export default {
   key: "todoist-get-task-comment",
   name: "Get Task Comment",
   description: "Returns info about a task comment. [See the docs here](https://developer.todoist.com/rest/v2/#get-a-comment)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     todoist,

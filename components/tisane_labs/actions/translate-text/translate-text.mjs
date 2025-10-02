@@ -4,7 +4,12 @@ export default {
   key: "tisane_labs-translate-text",
   name: "Translate Text",
   description: "Translate text between supported languages. [See the documentation](https://docs.tisane.ai/#3255e226-db15-4a30-bf88-1e2d74366a17)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     tisaneLabs,

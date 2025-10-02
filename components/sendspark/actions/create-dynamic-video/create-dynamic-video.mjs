@@ -4,7 +4,12 @@ export default {
   key: "sendspark-create-dynamic-video",
   name: "Create Dynamic Video",
   description: "Creates a new dynamic video campaign. [See the documentation](https://help.sendspark.com/en/articles/9051823-api-automatically-create-dynamic-videos-via-api-integration)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sendspark,

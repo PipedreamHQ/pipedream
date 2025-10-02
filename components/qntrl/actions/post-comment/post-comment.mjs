@@ -4,7 +4,12 @@ export default {
   key: "qntrl-post-comment",
   name: "Post Comment",
   description: "Posts a new comment under a specific job. [See the documentation](https://core.qntrl.com/apidoc.html?type=reference&module=jobs&action=PostComment)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     qntrl,

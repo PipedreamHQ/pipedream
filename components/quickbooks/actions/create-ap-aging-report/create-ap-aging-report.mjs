@@ -5,7 +5,12 @@ export default {
   key: "quickbooks-create-ap-aging-report",
   name: "Create AP Aging Detail Report",
   description: "Creates an AP aging report in Quickbooks Online. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/apagingdetail#query-a-report)",
-  version: "0.0.6",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     quickbooks,

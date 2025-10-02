@@ -5,7 +5,12 @@ export default {
   key: "quickbooks-get-customer",
   name: "Get Customer",
   description: "Returns info about a customer. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/most-commonly-used/customer#read-a-customer)",
-  version: "0.3.11",
+  version: "0.3.12",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     quickbooks,

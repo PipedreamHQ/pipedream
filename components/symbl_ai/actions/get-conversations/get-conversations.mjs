@@ -5,7 +5,12 @@ export default {
   key: "symbl_ai-get-conversations",
   name: "Get Conversations",
   description: "Get a list of all conversations. See the doc [here](https://docs.symbl.ai/docs/conversation-api/all-conversations/)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     symblAIApp,

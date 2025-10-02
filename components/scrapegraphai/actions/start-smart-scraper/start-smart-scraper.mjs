@@ -4,7 +4,12 @@ export default {
   key: "scrapegraphai-start-smart-scraper",
   name: "Start Smart Scraper",
   description: "Extract content from a webpage using AI by providing a natural language prompt and a URL. [See the documentation](https://docs.scrapegraphai.com/api-reference/endpoint/smartscraper/start).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     scrapegraphai,

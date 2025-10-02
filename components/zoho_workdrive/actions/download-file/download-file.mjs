@@ -10,7 +10,12 @@ export default {
   key: "zoho_workdrive-download-file",
   name: "Download File to Tmp Direcory",
   description: "Download a file to the /tmp directory. [See the documentation](https://workdrive.zoho.com/apidocs/v1/filesfolders/downloadserverfile)",
-  version: "0.0.6",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

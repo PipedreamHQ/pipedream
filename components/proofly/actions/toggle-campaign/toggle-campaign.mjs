@@ -4,7 +4,12 @@ export default {
   key: "proofly-toggle-campaign",
   name: "Toggle Campaign Status",
   description: "Switch a campaign's status between active and inactive. [See the documentation](https://proofly.io/developers)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

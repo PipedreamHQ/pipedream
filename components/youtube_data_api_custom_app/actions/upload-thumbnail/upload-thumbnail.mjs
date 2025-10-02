@@ -6,7 +6,12 @@ export default {
   key: "youtube_data_api_custom_app-upload-thumbnail",
   name: "Upload Thumbnail",
   description: "Uploads a custom video thumbnail to YouTube and sets it for a video. [See the docs](https://developers.google.com/youtube/v3/docs/thumbnails/set) for more information",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     youtubeDataApi,

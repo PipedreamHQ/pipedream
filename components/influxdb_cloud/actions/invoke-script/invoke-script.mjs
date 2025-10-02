@@ -5,7 +5,12 @@ export default {
   key: "influxdb_cloud-invoke-script",
   name: "Invoke Script",
   description: "Runs a script and returns the result. [See the documentation](https://docs.influxdata.com/influxdb3/cloud-serverless/api/v2/#operation/PostScriptsIDInvoke)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     influxDbCloud,

@@ -4,7 +4,12 @@ export default {
   key: "shopify_developer_app-create-fulfillment",
   name: "Create Fulfillment",
   description: "Create a fulfillment. [See the documentation](https://shopify.dev/docs/api/admin-graphql/unstable/mutations/fulfillmentcreate)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     shopify,

@@ -4,7 +4,12 @@ export default {
   key: "smslink_nc-create-contact",
   name: "Create Contact",
   description: "Create a new contact. [See the documentation](https://api.smslink.nc/api/documentation#/Contact/556b84f384422939a9db51e60685798a).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -5,7 +5,12 @@ export default {
   key: "rentman-find-item",
   name: "Find Item",
   description: "Searches for an item in the system using the item type as the filtering criteria. [See the documentation](https://api.rentman.net/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     rentman,

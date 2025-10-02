@@ -5,7 +5,12 @@ export default {
   name: "Find Subscriber",
   description: "Contacts information can be retrieved by sending the function a unique identifier (contact&#39;s ID, email, cell phone or external ID). [See the docs](https://rest.smoove.io/#!/Contacts/Contacts_GetById).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     email: {

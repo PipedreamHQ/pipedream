@@ -5,7 +5,12 @@ export default {
   name: "Update Collection Item",
   description:
     "Update collection item. [See the documentation](https://developers.webflow.com/data/reference/cms/collection-items/bulk-items/update-items)",
-  version: "2.0.0",
+  version: "2.0.1",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

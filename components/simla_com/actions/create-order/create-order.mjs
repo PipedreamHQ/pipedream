@@ -5,7 +5,12 @@ export default {
   key: "simla_com-create-order",
   name: "Create Order",
   description: "Creates a new order with customer and order details. [See the documentation](https://docs.simla.com/Developers/API/APIVersions/APIv5#post--api-v5-orders-create).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

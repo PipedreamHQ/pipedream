@@ -4,7 +4,12 @@ export default {
   name: "Get Activity List",
   description: "Returns the activities of an athlete for a specific identifier. [See the docs](https://developers.strava.com/docs/reference/#api-Activities-getLoggedInAthleteActivities)",
   key: "strava-get-activity-list",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     strava,

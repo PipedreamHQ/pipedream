@@ -4,7 +4,12 @@ export default {
   key: "u301-list-domains",
   name: "List Domains",
   description: "List all available domains for URL shortening. [See the documentation](https://docs.u301.com/api-reference/endpoint/list-shorten-domains)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

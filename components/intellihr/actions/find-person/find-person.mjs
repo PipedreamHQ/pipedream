@@ -4,7 +4,12 @@ export default {
   key: "intellihr-find-person",
   name: "Find Person",
   description: "Searches for a person in intellihr using. [See the documentation](https://developers.intellihr.io/docs/v1/#tag/People/paths/~1people/get)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     intellihr,

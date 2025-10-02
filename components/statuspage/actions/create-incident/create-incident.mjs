@@ -2,7 +2,12 @@ import statuspage from "../../statuspage.app.mjs";
 
 export default {
   name: "Create Incident",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "statuspage-create-incident",
   description: "Creates an incident. [See docs here](https://developer.statuspage.io/#create-an-incident)",
   type: "action",

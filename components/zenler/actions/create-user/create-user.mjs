@@ -6,7 +6,12 @@ export default {
   name: "Create User",
   description: "Creates a user. [See the docs here](https://www.newzenler.com/api/documentation/public/api-doc.html#d350a2f6-bc29-b363-6724-681535bc03e0)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     zenler,
     firstName: {

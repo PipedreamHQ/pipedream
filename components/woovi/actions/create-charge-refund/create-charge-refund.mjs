@@ -4,7 +4,12 @@ export default {
   key: "woovi-create-charge-refund",
   name: "Create Charge Refund",
   description: "Opens a refund request for a specific charge. [See the documentation](https://developers.woovi.com/en/api#tag/charge-refund/paths/~1api~1v1~1charge~1%7Bid%7D~1refund/post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     woovi,

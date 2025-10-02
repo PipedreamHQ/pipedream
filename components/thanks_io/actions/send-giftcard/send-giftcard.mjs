@@ -5,7 +5,12 @@ export default {
   key: "thanks_io-send-giftcard",
   name: "Send Giftcard",
   description: "Sends a giftcard to a recipient. [See the docs here](https://api-docs.thanks.io/#45925795-d3c8-4532-ad6e-07aa9f4d19f8)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

@@ -4,7 +4,12 @@ export default {
   key: "richpanel-add-ticket-message",
   name: "Add Ticket Message",
   description: "Adds a message to an existing ticket. [See the documentation](https://developer.richpanel.com/reference/update-a-conversation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     richpanel,

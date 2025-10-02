@@ -8,7 +8,12 @@ export default {
   name: "Create Timeline",
   description: "Generate a timeline with layers and assets for a new video project. [See the documentation here](https://github.com/shotstack/shotstack-sdk-node#timeline).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     howManyTracks: {

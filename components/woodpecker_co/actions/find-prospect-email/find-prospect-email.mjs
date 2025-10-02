@@ -4,7 +4,12 @@ export default {
   key: "woodpecker_co-find-prospect-email",
   name: "Find Prospect's email",
   description: "This action searches a specific prospect. [See the docs here](https://woodpecker.co/help/api-managing-prospects/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     woodpecker,

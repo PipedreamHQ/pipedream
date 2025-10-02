@@ -6,7 +6,12 @@ export default {
   key: "vapi-upload-file",
   name: "Upload File",
   description: "Uploads a new file. [See the documentation](https://docs.vapi.ai/api-reference)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     vapi,

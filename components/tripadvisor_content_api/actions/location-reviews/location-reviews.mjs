@@ -4,7 +4,12 @@ export default {
   key: "tripadvisor_content_api-location-reviews",
   name: "Get Location Reviews",
   description: "Returns up to 5 of the most recent reviews for a specific location. [See the documentation](https://tripadvisor-content-api.readme.io/reference/getlocationreviews)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

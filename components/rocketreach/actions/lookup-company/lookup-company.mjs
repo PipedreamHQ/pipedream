@@ -4,7 +4,12 @@ export default {
   key: "rocketreach-lookup-company",
   name: "lookup company",
   description: "Lookup the profile of a company. [See docs here](https://rocketreach.co/api?section=api_section_ws_lookupCompany)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     rocketreachApp,

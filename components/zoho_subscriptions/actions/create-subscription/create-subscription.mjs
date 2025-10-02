@@ -4,7 +4,12 @@ import zohoSubscriptions from "../../zoho_subscriptions.app.mjs";
 export default {
   key: "zoho_subscriptions-create-subscription",
   name: "Create Subscription",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new subscription. [See the documentation](https://www.zoho.com/billing/api/v1/subscription/#create-a-subscription)",
   type: "action",
   props: {

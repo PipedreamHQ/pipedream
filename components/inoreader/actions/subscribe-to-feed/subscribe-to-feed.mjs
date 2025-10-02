@@ -5,7 +5,12 @@ export default {
   name: "Subscribe To Feed",
   description: "Subscribe to a feed. [See the Documentation](https://www.inoreader.com/developers/add-subscription)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     feedId: {

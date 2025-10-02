@@ -5,7 +5,12 @@ export default {
   key: "ticktick-update-task",
   name: "Update a Task",
   description: "Update a Task. [See documentation](https://developer.ticktick.com/api#/openapi?id=update-a-task)",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ticktick,

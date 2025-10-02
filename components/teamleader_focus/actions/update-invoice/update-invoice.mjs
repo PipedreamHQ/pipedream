@@ -5,7 +5,12 @@ export default {
   key: "teamleader_focus-update-invoice",
   name: "Update Invoice",
   description: "Update a draft invoice. Booked invoices cannot be updated. [See the documentation](https://developer.teamleader.eu/#/reference/invoicing/invoices/invoices.update)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     teamleaderFocus,

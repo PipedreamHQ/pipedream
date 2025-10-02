@@ -4,7 +4,12 @@ export default {
   key: "shopify_developer_app-create-customer",
   name: "Create Customer",
   description: "Create a new customer. [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/customercreate)",
-  version: "0.0.9",
+  version: "0.0.10",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     shopify,

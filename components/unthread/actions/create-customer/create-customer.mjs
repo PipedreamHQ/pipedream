@@ -4,7 +4,12 @@ export default {
   key: "unthread-create-customer",
   name: "Create Customer",
   description: "Create a new Customer. [See the documentation](https://docs.unthread.io/api-introduction/using-api#create-customer)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

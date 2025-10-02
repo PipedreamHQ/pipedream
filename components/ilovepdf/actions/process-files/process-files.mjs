@@ -7,7 +7,12 @@ export default {
   key: "ilovepdf-process-files",
   name: "Process Files",
   description: "Process one or more files with the desired tool. [See the documentation](https://developer.ilovepdf.com/docs/api-reference)",
-  version: "1.0.1",
+  version: "1.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ilovepdf,

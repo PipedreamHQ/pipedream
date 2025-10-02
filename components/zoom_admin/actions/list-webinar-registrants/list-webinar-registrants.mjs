@@ -6,7 +6,12 @@ export default {
   name: "List webinar registrants",
   description: "List all users that have registered for a webinar. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/webinars/webinarregistrants)",
   key: "zoom_admin-list-webinar-registrants",
-  version: "0.2.4",
+  version: "0.2.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     zoomAdmin,

@@ -5,7 +5,12 @@ export default {
   key: "telnyx-get-phone-numbers",
   name: "Get Phone Numbers",
   description: "Get a list of phone numbers. [See the documentation](https://developers.telnyx.com/api/numbers/list-phone-numbers)",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     telnyxApp,
