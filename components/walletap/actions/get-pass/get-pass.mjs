@@ -27,7 +27,7 @@ export default {
       },
     });
 
-    $.export("$summary", `Successfully retrieved pass with id: ${response.id}`);
+    $.export("$summary", `Successfully retrieved pass with ID: ${response.id}`);
     return response;
   },
 };
