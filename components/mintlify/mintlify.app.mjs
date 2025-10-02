@@ -25,11 +25,9 @@ export default {
         ...opts,
       });
     },
-    triggerUpdate({
-      projectId, ...opts
-    }) {
+    triggerUpdate(opts = {}) {
       return this._makeRequest({
-        url: `https://api.mintlify.com/v1/project/update/${projectId}`,
+        url: `https://api.mintlify.com/v1/project/update/${this.$auth.project_id}`,
         method: "POST",
         headers: {
           Authorization: `Bearer ${this.$auth.admin_api_key}`,

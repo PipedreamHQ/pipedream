@@ -13,19 +13,13 @@ export default {
   },
   props: {
     mintlify,
-    projectId: {
-      type: "string",
-      label: "Project ID",
-      description: "The ID of the project to trigger an update on. Can be retrieved from your dashboard.",
-    },
   },
   async run({ $ }) {
     const response = await this.mintlify.triggerUpdate({
-      projectId: this.projectId,
       $,
     });
 
-    $.export("$summary", `Successfully triggered an update for project ${this.projectId}`);
+    $.export("$summary", `Successfully triggered an update for project ${this.mintlify.$auth.project_id}`);
 
     return response;
   },
