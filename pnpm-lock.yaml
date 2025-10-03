@@ -623,8 +623,7 @@ importers:
         specifier: ^2.30.1
         version: 2.30.1
 
-  components/airtop:
-    specifiers: {}
+  components/airtop: {}
 
   components/aitable_ai:
     dependencies:
@@ -7684,8 +7683,7 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
-  components/kudosity:
-    specifiers: {}
+  components/kudosity: {}
 
   components/kustomer:
     dependencies:
@@ -13295,7 +13293,13 @@ importers:
         version: 3.0.3
 
   components/sinch:
-    specifiers: {}
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
+      form-data:
+        specifier: ^4.0.4
+        version: 4.0.4
 
   components/sinch_messagemedia: {}
 
