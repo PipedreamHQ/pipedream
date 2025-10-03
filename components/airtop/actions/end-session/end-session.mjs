@@ -18,7 +18,7 @@ export default {
   async run({ $ }) {
     const { sessionId } = this;
 
-    const response = await this.app.terminateSession({
+    const response = await this.app.endSession({
       $,
       sessionId,
     });

@@ -8,13 +8,26 @@ export default {
       type: "string",
       label: "Session ID",
       description: "Select a browser session or provide a custom session ID",
-      async options() {
-        const { data } = await this.listSessions();
-        console.log(data);
-        return data.map((session) => ({
-          label: `${session.id.substring(0, 8)}... (${session.status})`,
-          value: session.id,
-        }));
+      async options({ page }) {
+        const limit = 10;
+        const offset = page * limit;
+
+        const data = await this.listSessions({
+          params: {
+            limit,
+            offset,
+          },
+        });
+
+        return {
+          options: data.sessions.map((session) => ({
+            label: `${session.id.substring(0, 8)}... (${session.status})`,
+            value: session.id,
+          })),
+          context: {
+            hasMore: data.pagination.hasMore,
+          },
+        };
       },
     },
     windowId: {
@@ -25,20 +38,17 @@ export default {
         if (!sessionId) {
           return [];
         }
-        const { data } = await this.listWindows({
+        const data = await this.listWindows({
           sessionId,
         });
-        return data.map((window) => ({
-          label: `Window ${window.id.substring(0, 8)}...`,
-          value: window.id,
+        return data.windows.map((window) => ({
+          label: `Window ${window.windowId.substring(0, 8)}...`,
+          value: window.windowId,
         }));
       },
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://api.airtop.ai/api/v1";
-    },
     _headers() {
       return {
         "Authorization": `Bearer ${this.$auth.api_key}`,
@@ -46,25 +56,28 @@ export default {
       };
     },
     async _makeRequest({
-      $ = this, path, ...opts
+      $ = this, headers, ...opts
     }) {
-      return axios($, {
-        url: `${this._baseUrl()}${path}`,
-        headers: this._headers(),
+      const response = await axios($, {
+        baseURL: "https://api.airtop.ai/api/v1",
+        headers: {
+          ...this._headers(),
+          ...headers,
+        },
         ...opts,
       });
+      return response.data;
     },
     async createSession(opts = {}) {
       return this._makeRequest({
         method: "POST",
-        path: "/sessions",
+        url: "/sessions",
         ...opts,
       });
     },
     async listSessions(opts = {}) {
       return this._makeRequest({
-        method: "GET",
-        path: "/sessions",
+        url: "/sessions",
         ...opts,
       });
     },
@@ -72,8 +85,7 @@ export default {
       sessionId, ...opts
     }) {
       return this._makeRequest({
-        method: "GET",
-        path: `/sessions/${sessionId}`,
+        url: `/sessions/${sessionId}`,
         ...opts,
       });
     },
@@ -82,7 +94,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "DELETE",
-        path: `/sessions/${sessionId}`,
+        url: `/sessions/${sessionId}`,
         ...opts,
       });
     },
@@ -91,7 +103,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/sessions/${sessionId}/windows`,
+        url: `/sessions/${sessionId}/windows`,
         ...opts,
       });
     },
@@ -99,8 +111,7 @@ export default {
       sessionId, ...opts
     }) {
       return this._makeRequest({
-        method: "GET",
-        path: `/sessions/${sessionId}/windows`,
+        url: `/sessions/${sessionId}/windows`,
         ...opts,
       });
     },
@@ -108,8 +119,7 @@ export default {
       sessionId, windowId, ...opts
     }) {
       return this._makeRequest({
-        method: "GET",
-        path: `/sessions/${sessionId}/windows/${windowId}`,
+        url: `/sessions/${sessionId}/windows/${windowId}`,
         ...opts,
       });
     },
@@ -118,7 +128,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/sessions/${sessionId}/windows/${windowId}`,
+        url: `/sessions/${sessionId}/windows/${windowId}`,
         ...opts,
       });
     },
@@ -127,7 +137,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/sessions/${sessionId}/windows/${windowId}/page-query`,
+        url: `/sessions/${sessionId}/windows/${windowId}/page-query`,
         ...opts,
       });
     },
@@ -136,7 +146,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "POST",
-        path: `/sessions/${sessionId}/windows/${windowId}/scrape-content`,
+        url: `/sessions/${sessionId}/windows/${windowId}/scrape-content`,
         ...opts,
       });
     },
@@ -145,7 +155,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "PUT",
-        path: `/sessions/${sessionId}/save-profile-on-termination/${profileName}`,
+        url: `/sessions/${sessionId}/save-profile-on-termination/${profileName}`,
         ...opts,
       });
     },
