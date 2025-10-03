@@ -5,6 +5,7 @@
 import { v4 as uuid } from "uuid";
 
 import base from "./base.mjs";
+import drive from "./drive.mjs";
 
 /**
  * This source watches for changes to a specific spreadsheet in the user's Google Drive.
@@ -12,12 +13,13 @@ import base from "./base.mjs";
 export default {
   ...base,
   methods: {
+    ...drive.methods,
     ...base.methods,
     async activateHook(channelID) {
-      return this.googleSheets.activateFileHook(
+      return this.googleSheets.activateHook(
         channelID,
         this.http.endpoint,
-        this.getSheetId(),
+        this.googleSheets.getDriveId(this.watchedDrive),
       );
     },
     async getAllWorksheetIds(sheetID) {
