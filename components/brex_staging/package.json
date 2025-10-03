@@ -15,7 +15,6 @@
   "dependencies": {
     "@pipedream/brex": "^0.1.0",
     "axios": "^0.25.0",
-    "crypto": "^1.0.1",
     "uuid": "^8.3.2"
   }
 }
