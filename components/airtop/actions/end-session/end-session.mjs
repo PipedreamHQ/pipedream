@@ -23,7 +23,7 @@ export default {
       sessionId,
     });
 
-    $.export("$summary", `Successfully terminated session \`${sessionId}\``);
+    $.export("$summary", `Successfully terminated session ${sessionId}`);
     return response;
   },
 };

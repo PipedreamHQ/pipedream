@@ -71,8 +71,7 @@ export default {
       data,
     });
 
-    const sessionId = response.data?.id;
-    const status = response.data?.status;
+    const sessionId = response.id;
 
     let saveProfileOnTerminationResponse;
     if (saveProfileOnTermination && profileName) {
@@ -83,7 +82,7 @@ export default {
       });
     }
 
-    $.export("$summary", `Successfully created session \`${sessionId}\` with status: ${status}`);
+    $.export("$summary", `Successfully created session \`${sessionId}\` with status: ${response.status}`);
     return {
       response,
       saveProfileOnTerminationResponse,

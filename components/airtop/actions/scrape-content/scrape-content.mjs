@@ -23,37 +23,30 @@ export default {
         }),
       ],
     },
-    prompt: {
+    clientRequestId: {
       type: "string",
-      label: "Scraping Prompt",
-      description: "Natural language prompt describing what content to scrape. For example: 'Scrape all article titles and publication dates' or 'Extract contact information from this page'",
-    },
-    followPaginationLinks: {
-      type: "boolean",
-      label: "Follow Pagination Links",
-      description: "Automatically navigate through paginated content to scrape data from multiple pages",
+      label: "Client Request ID",
+      description: "Optional client-provided request identifier",
       optional: true,
-      default: false,
     },
     costThresholdCredits: {
-      type: "integer",
-      label: "Cost Threshold (Credits)",
-      description: "Maximum credits to spend on this operation before cancellation. Set to 0 to disable (not recommended).",
-      optional: true,
+      propDefinition: [
+        app,
+        "costThresholdCredits",
+      ],
     },
     timeThresholdSeconds: {
-      type: "integer",
-      label: "Time Threshold (Seconds)",
-      description: "Maximum time in seconds before the operation is cancelled. Set to 0 to disable (not recommended).",
-      optional: true,
+      propDefinition: [
+        app,
+        "timeThresholdSeconds",
+      ],
     },
   },
   async run({ $ }) {
     const {
       sessionId,
       windowId,
-      prompt,
-      followPaginationLinks,
+      clientRequestId,
       costThresholdCredits,
       timeThresholdSeconds,
     } = this;
@@ -63,23 +56,13 @@ export default {
       sessionId,
       windowId,
       data: {
-        prompt,
-        configuration: {
-          followPaginationLinks,
-          costThresholdCredits,
-          timeThresholdSeconds,
-        },
+        clientRequestId,
+        costThresholdCredits,
+        timeThresholdSeconds,
       },
     });
 
-    const creditsUsed = response.meta?.usage?.credits;
-
-    let summary = "Successfully scraped content";
-    if (creditsUsed) {
-      summary += ` (${creditsUsed} credits used)`;
-    }
-
-    $.export("$summary", summary);
+    $.export("$summary", "Successfully scraped content from the page");
     return response;
   },
 };

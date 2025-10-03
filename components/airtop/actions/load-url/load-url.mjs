@@ -26,27 +26,19 @@ export default {
     url: {
       type: "string",
       label: "URL",
-      description: "The URL to navigate to (must be a valid URI)",
+      description: "The URL to navigate to (e.g. `https://www.pipedream.com`)",
     },
     waitUntil: {
-      type: "string",
-      label: "Wait Until",
-      description: "Wait until the specified loading event occurs. `load` waits until the page DOM and assets have loaded. `domContentLoaded` waits until the DOM has loaded. `complete` waits until the page and all its iframes have loaded. `noWait` returns immediately.",
-      optional: true,
-      options: [
-        "load",
-        "domContentLoaded",
-        "complete",
-        "noWait",
+      propDefinition: [
+        app,
+        "waitUntil",
       ],
-      default: "load",
     },
     waitUntilTimeoutSeconds: {
-      type: "integer",
-      label: "Wait Timeout (Seconds)",
-      description: "Maximum time in seconds to wait for the specified loading event. If the timeout is reached, the operation will still succeed but return a warning.",
-      optional: true,
-      default: 30,
+      propDefinition: [
+        app,
+        "waitUntilTimeoutSeconds",
+      ],
     },
   },
   async run({ $ }) {

@@ -8,7 +8,7 @@ export default {
       type: "string",
       label: "Session ID",
       description: "Select a browser session or provide a custom session ID",
-      async options({ page }) {
+      async options({ page = 0 }) {
         const limit = 10;
         const offset = page * limit;
 
@@ -19,15 +19,10 @@ export default {
           },
         });
 
-        return {
-          options: data.sessions.map((session) => ({
-            label: `${session.id.substring(0, 8)}... (${session.status})`,
-            value: session.id,
-          })),
-          context: {
-            hasMore: data.pagination.hasMore,
-          },
-        };
+        return data.sessions.map((session) => ({
+          label: `${session.id.substring(0, 8)}... (${session.status})`,
+          value: session.id,
+        }));
       },
     },
     windowId: {
@@ -47,6 +42,57 @@ export default {
         }));
       },
     },
+    waitUntil: {
+      type: "string",
+      label: "Wait Until",
+      description: "Wait until the specified loading event occurs. Defaults to `load`.",
+      options: [
+        {
+          label: "Load - Wait until the page DOM and its assets have loaded",
+          value: "load",
+        },
+        {
+          label: "DOM Content Loaded - Wait until the DOM has loaded",
+          value: "domContentLoaded",
+        },
+        {
+          label: "Complete - Wait until the page and all its iframes have loaded",
+          value: "complete",
+        },
+        {
+          label: "No Wait - Return immediately without waiting",
+          value: "noWait",
+        },
+      ],
+      optional: true,
+      default: "load",
+    },
+    waitUntilTimeoutSeconds: {
+      type: "integer",
+      label: "\"Wait Until\" Timeout (seconds)",
+      description: "Maximum time in seconds to wait for the specified loading event to occur. If the timeout is reached, the operation will still succeed but return a warning.",
+      optional: true,
+      default: 30,
+    },
+    followPaginationLinks: {
+      type: "boolean",
+      label: "Follow Pagination Links",
+      description: "If true, a best effort attempt to load more content items than are originally displayed on the page will be made. [See the documentation](https://docs.airtop.ai/api-reference/airtop-api/windows/page-query) for more information",
+      optional: true,
+      default: false,
+    },
+    costThresholdCredits: {
+      type: "integer",
+      label: "Cost Threshold (Credits)",
+      description: "A credit threshold that, once exceeded, will cause the operation to be cancelled. [See the documentation](https://docs.airtop.ai/guides/misc/faq#how-does-the-credit-system-work) for more information.",
+      optional: true,
+    },
+    timeThresholdSeconds: {
+      type: "integer",
+      label: "Time Threshold (Seconds)",
+      description: "A time threshold that, once exceeded, will cause the operation to be cancelled. This is checked periodically. Set to 0 to disable (not recommended).",
+      optional: true,
+    },
   },
   methods: {
     _headers() {
@@ -56,7 +102,7 @@ export default {
       };
     },
     async _makeRequest({
-      $ = this, headers, ...opts
+      $ = this, headers, ...args
     }) {
       const response = await axios($, {
         baseURL: "https://api.airtop.ai/api/v1",
@@ -64,99 +110,105 @@ export default {
           ...this._headers(),
           ...headers,
         },
-        ...opts,
+        ...args,
       });
       return response.data;
     },
-    async createSession(opts = {}) {
+    async createSession(args = {}) {
       return this._makeRequest({
         method: "POST",
         url: "/sessions",
-        ...opts,
+        ...args,
       });
     },
-    async listSessions(opts = {}) {
+    async listSessions({
+      params, ...args
+    }) {
       return this._makeRequest({
         url: "/sessions",
-        ...opts,
+        params: {
+          status: "running",
+          ...params,
+        },
+        ...args,
       });
     },
     async getSession({
-      sessionId, ...opts
+      sessionId, ...args
     }) {
       return this._makeRequest({
         url: `/sessions/${sessionId}`,
-        ...opts,
+        ...args,
       });
     },
-    async terminateSession({
-      sessionId, ...opts
+    async endSession({
+      sessionId, ...args
     }) {
       return this._makeRequest({
         method: "DELETE",
         url: `/sessions/${sessionId}`,
-        ...opts,
+        ...args,
       });
     },
     async createWindow({
-      sessionId, ...opts
+      sessionId, ...args
     }) {
       return this._makeRequest({
         method: "POST",
         url: `/sessions/${sessionId}/windows`,
-        ...opts,
+        ...args,
       });
     },
     async listWindows({
-      sessionId, ...opts
+      sessionId, ...args
     }) {
       return this._makeRequest({
         url: `/sessions/${sessionId}/windows`,
-        ...opts,
+        ...args,
       });
     },
     async getWindow({
-      sessionId, windowId, ...opts
+      sessionId, windowId, ...args
     }) {
       return this._makeRequest({
         url: `/sessions/${sessionId}/windows/${windowId}`,
-        ...opts,
+        ...args,
       });
     },
     async loadUrl({
-      sessionId, windowId, ...opts
+      sessionId, windowId, ...args
     }) {
       return this._makeRequest({
         method: "POST",
         url: `/sessions/${sessionId}/windows/${windowId}`,
-        ...opts,
+        ...args,
       });
     },
     async queryPage({
-      sessionId, windowId, ...opts
+      sessionId, windowId, ...args
     }) {
       return this._makeRequest({
         method: "POST",
         url: `/sessions/${sessionId}/windows/${windowId}/page-query`,
-        ...opts,
+        ...args,
       });
     },
     async scrapeContent({
-      sessionId, windowId, ...opts
+      sessionId, windowId, ...args
     }) {
       return this._makeRequest({
         method: "POST",
         url: `/sessions/${sessionId}/windows/${windowId}/scrape-content`,
-        ...opts,
+        ...args,
       });
     },
     async saveProfileOnTermination({
-      sessionId, profileName, ...opts
+      sessionId, profileName, ...args
     }) {
       return this._makeRequest({
         method: "PUT",
         url: `/sessions/${sessionId}/save-profile-on-termination/${profileName}`,
-        ...opts,
+        ...args,
       });
     },
   },

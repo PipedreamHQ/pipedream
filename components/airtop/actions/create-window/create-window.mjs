@@ -17,14 +17,37 @@ export default {
     url: {
       type: "string",
       label: "Initial URL",
-      description: "Optional URL to navigate to immediately after creating the window",
+      description: "Optional URL to navigate to immediately after creating the window.",
       optional: true,
+      default: "https://www.pipedream.com",
+    },
+    screenResolution: {
+      type: "string",
+      label: "Screen Resolution",
+      description: "Affects the live view configuration. By default, a live view will fill the parent frame when initially loaded. This parameter can be used to configure fixed dimensions (e.g. `1280x720`).",
+      optional: true,
+      default: "1280x720",
+    },
+    waitUntil: {
+      propDefinition: [
+        app,
+        "waitUntil",
+      ],
+    },
+    waitUntilTimeoutSeconds: {
+      propDefinition: [
+        app,
+        "waitUntilTimeoutSeconds",
+      ],
     },
   },
   async run({ $ }) {
     const {
       sessionId,
       url,
+      screenResolution,
+      waitUntil,
+      waitUntilTimeoutSeconds,
     } = this;
 
     const response = await this.app.createWindow({
@@ -32,12 +55,15 @@ export default {
       sessionId,
       data: {
         url,
+        screenResolution,
+        waitUntil,
+        waitUntilTimeoutSeconds,
       },
     });
 
-    const windowId = response.data?.id;
+    const windowId = response.id;
 
-    $.export("$summary", `Successfully created window \`${windowId}\` in session \`${sessionId}\``);
+    $.export("$summary", `Successfully created window ${windowId}`);
     return response;
   },
 };
