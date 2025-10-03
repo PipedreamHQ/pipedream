@@ -56,7 +56,7 @@ export default {
     },
   },
   async run() {
-    let lastCreated = Date.parse(this._getLastCreated());
+    let lastCreated = this._getLastCreated();
 
     const resources = await this.getResources(lastCreated);
     for (const resource of resources) {
