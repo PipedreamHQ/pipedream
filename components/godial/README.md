@@ -1,11 +1,11 @@
 # Overview
 
-GoDial turns your phone into a call center, enabling businesses to manage calls and contacts efficiently. The API provides programmatic access to this functionality, allowing you to trigger calls, manage contacts, and automate call logging. With Pipedream, you can harness GoDial's capabilities to create workflows that connect call activities with CRM platforms, customer support tickets, and notification systems, streamlining communication processes within your business.
+GoDial is an auto dialer and CRM app that turns your phone into a call center. Using the GoDial API on Pipedream, you can automate call management, sync customer data across platforms, and trigger actions based on call outcomes. Such integrations enhance productivity by automating repetitive tasks, ensuring data consistency, and enabling real-time customer engagement analysis.
 
 # Example Use Cases
 
-- **CRM Integration for Customer Follow-Up**: Automate the creation of follow-up tasks in a CRM like Salesforce or HubSpot when a call ends in GoDial. Using Pipedream, you can capture call details, check the call outcome, and create a task in the CRM for sales agents to execute tailored follow-up actions based on the call's result.
+- **Automated Contact Sync between GoDial and Google Sheets**: Automatically update a Google Sheets spreadsheet whenever a new contact is added in GoDial. This keeps your customer records in sync across both platforms without manual data entry.
 
-- **Support Ticket Creation**: Instantly generate support tickets in tools like Zendesk or Jira when a call is identified as a support query in GoDial. Pipedream can take the call data, classify the type of support needed, and open a new ticket with all relevant details, ensuring that customer issues are addressed promptly and efficiently.
+- **Trigger Email Follow-Ups After Calls**: Set up an automated workflow where an email is sent from a service like SendGrid or Gmail immediately after a call is logged in GoDial. This could include sending thank-you emails, feedback requests, or next-step reminders to customers, ensuring timely follow-up and enhanced customer engagement.
 
-- **Real-Time Notifications for Missed Calls**: Set up a workflow that sends real-time alerts via Slack or email when a call is missed in GoDial. With Pipedream, you can monitor missed call events, filter based on importance or client, and dispatch notifications to the responsible team members to enable quick call-backs and minimize customer wait times.
+- **SMS Notifications on Missed Calls**: Connect GoDial with Twilio to send an SMS to a designated number whenever a call is missed. This can help in quick response to missed calls, potentially increasing customer satisfaction and retention.

@@ -1,11 +1,11 @@
 # Overview
 
-SatisMeter captures customer feedback and sentiment directly through targeted surveys, providing insights into customer satisfaction and product engagement. With the SatisMeter API on Pipedream, you can automate interactions with survey data, sync customer information with other services, and trigger actions based on feedback scores. By leveraging Pipedream's serverless platform, you can create workflows that respond in real-time to survey results, enrich customer profiles, and influence your product's roadmap with actionable insights.
+SatisMeter is a tool focused on collecting customer feedback through NPS (Net Promoter Score) surveys directly integrated into your product or sent via email. Using SatisMeter's API on Pipedream allows you to automate responses to survey data, sync customer feedback with other tools, and trigger actions based on feedback scores. This can enhance your ability to rapidly respond to customer needs, tailor marketing strategies, and improve product features based on real user sentiments.
 
 # Example Use Cases
 
-- **Automate Feedback Collection into CRM**: Sync SatisMeter survey responses with your CRM, like Salesforce or HubSpot, to update customer profiles with their latest feedback scores. This can help sales and support teams tailor their outreach and support based on up-to-date customer sentiment.
+- **Automate Support Tickets Based on Negative Feedback**: When a customer leaves a negative NPS score, automatically create a support ticket in Zendesk. The workflow can extract the feedback details and customer contact information from SatisMeter and use this to populate and prioritize the ticket in Zendesk, ensuring timely follow-up to improve customer satisfaction.
 
-- **Trigger Actions Based on Sentiment Analysis**: Use SatisMeter survey results to perform sentiment analysis. If negative feedback is detected, automatically create a task in a project management tool like Asana or Trello for your customer success team to follow up and address any issues.
+- **Sync NPS Data with CRM**: Automatically sync new NPS feedback entries to a CRM like Salesforce or HubSpot. When a new survey response is received, the workflow can parse the feedback score and comments, then update or create a new contact record in the CRM. This helps sales and customer service teams have up-to-date insights into customer sentiment.
 
-- **Email Campaigns Triggered by Survey Responses**: Integrate SatisMeter with email marketing platforms such as Mailchimp or SendGrid. Trigger personalized email campaigns based on specific survey responses to engage customers, provide educational content, or offer incentives to those who may have given lower satisfaction scores.
+- **Trigger Email Campaigns Based on Positive Feedback**: Launch targeted email campaigns to customers who have given high NPS scores using a platform like Mailchimp. The workflow triggers when high scores are detected, pulling the customer's email address from SatisMeter, and enrolling them in a "Promoters" email list in Mailchimp to nurture these happy customers into brand advocates.

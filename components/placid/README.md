@@ -1,11 +1,11 @@
 # Overview
 
-The Placid API lets you automate the creation of visual content such as images and videos. With Pipedream, you can trigger workflows using various events, process data, and use the Placid API to dynamically generate marketing materials, social media graphics, personalized images for email campaigns, and more. Leveraging Pipedream's capabilities, you can integrate Placid with other apps to create robust, multi-step automations without writing extensive code.
+The Placid API allows users to automate the creation of visual content such as images and videos, directly tailored to specific templates. With Placid, you can dynamically generate marketing visuals, social media banners, or any custom graphics based on predefined designs. This capability is especially useful for marketers, content creators, or businesses that need to scale their visual content production without manual intervention.
 
 # Example Use Cases
 
-- **Dynamic Social Media Content Creation**: When a new blog post is published on your CMS (like WordPress), use Pipedream to detect the event, extract the post's title and featured image, and send this data to Placid. Placid generates a customized image for social media, which Pipedream then posts to platforms like Twitter or LinkedIn.
+- **Automated Social Media Updates**: Set up a workflow on Pipedream that triggers whenever a new blog post is published. Use the Placid API to create a custom image for the post, then automatically post it to social media platforms like Twitter or Facebook. This can be integrated by connecting WordPress or another blogging platform to trigger the workflow.
 
-- **Personalized Email Campaign Images**: Kick off a workflow whenever a user signs up for your service. Collect user-specific data and feed it into the Placid API to create a unique image, such as a welcome message or a membership card. Pipedream can then send the personalized image via an email service like SendGrid to the new user.
+- **E-commerce Product Updates**: Whenever a new product is added to your e-commerce store, use a workflow to generate unique promotional graphics using the Placid API. These images can then be automatically uploaded to your store or used in marketing emails. Shopify or WooCommerce can be connected for triggering this workflow.
 
-- **E-commerce Product Updates**: Monitor changes to your e-commerce platform's product listings using Pipedream. When a product detail is updated or a new product is added, the workflow triggers the Placid API to generate updated product images or promotional banners. These can be automatically distributed across your social channels or used in targeted advertising campaigns.
+- **Event Promotion Graphics**: Automatically generate personalized event banners whenever a new event is created in your event management system. This could be particularly useful for platforms like Eventbrite, where each event could have a custom banner image that is created via the Placid API and uploaded directly to the event page or shared across social media.
