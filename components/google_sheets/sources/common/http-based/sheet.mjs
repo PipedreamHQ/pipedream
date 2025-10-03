@@ -54,10 +54,19 @@ export default {
     async isSheetRelevant() {
       const pageToken = this._getChangeToken() || this._getPageToken();
       const drive = this.googleSheets.drive();
-      const { data } = await drive.changes.list({
+      const params = {
         pageToken,
-        driveId: this.googleSheets.getDriveId(this.watchedDrive),
-      });
+      };
+      const driveId = this.getDriveId(this.watchedDrive);
+      if (driveId) {
+        Object.assign(params, {
+          driveId,
+          supportsAllDrives: true,
+          includeItemsFromAllDrives: true,
+          corpora: "drive",
+        });
+      }
+      const { data } = await drive.changes.list(params);
       const {
         changes, newStartPageToken,
       } = data;
