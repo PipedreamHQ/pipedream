@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/airtop",
+  "version": "0.0.1",
+  "description": "Pipedream Airtop Components",
+  "main": "airtop.app.mjs",
+  "keywords": [
+    "pipedream",
+    "airtop"
+  ],
+  "homepage": "https://pipedream.com/apps/airtop",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
