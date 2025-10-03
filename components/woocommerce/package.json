@@ -12,7 +12,6 @@
   "dependencies": {
     "@pipedream/platform": "^0.10.0",
     "@woocommerce/woocommerce-rest-api": "^1.0.1",
-    "crypto": "^1.0.1",
     "lodash.pick": "^4.4.0",
     "lodash.pickby": "^4.6.0",
     "query-string": "^7.1.1"

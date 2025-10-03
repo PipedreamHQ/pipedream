@@ -14,7 +14,6 @@
     "access": "public"
   },
   "dependencies": {
-    "mailersend": "^2.0.5",
-    "crypto": "^1.0.1"
+    "mailersend": "^2.0.5"
   }
 }
