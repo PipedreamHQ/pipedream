@@ -1,4 +1,5 @@
 import { axios } from "@pipedream/platform";
+import { formatTimeAgo } from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -7,7 +8,7 @@ export default {
     sessionId: {
       type: "string",
       label: "Session ID",
-      description: "Select a browser session or provide a custom session ID",
+      description: "Select a session or provide a session ID. Note that only actively running sessions are listed in the options",
       async options({ page = 0 }) {
         const limit = 10;
         const offset = page * limit;
@@ -19,9 +20,11 @@ export default {
           },
         });
 
-        return data.sessions.map((session) => ({
-          label: `${session.id.substring(0, 8)}... (${session.status})`,
-          value: session.id,
+        return data.sessions.map(({
+          id, dateCreated, lastActivity,
+        }) => ({
+          label: `${id.slice(0, 8)} last active ${formatTimeAgo(lastActivity)} (created ${formatTimeAgo(dateCreated)})`,
+          value: id,
         }));
       },
     },
@@ -207,7 +210,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "PUT",
-        url: `/sessions/${sessionId}/save-profile-on-termination/${profileName}`,
+        url: `/sessions/${sessionId}/save-profile-on-termination/${encodeURIComponent(profileName)}`,
         ...args,
       });
     },

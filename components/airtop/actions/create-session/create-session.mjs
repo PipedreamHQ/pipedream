@@ -1,5 +1,6 @@
 import { parseObjectEntries } from "../../common/utils.mjs";
 import app from "../../airtop.app.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   key: "airtop-create-session",
@@ -12,7 +13,7 @@ export default {
     profileName: {
       type: "string",
       label: "Profile Name",
-      description: "Name of a profile to load into the session",
+      description: "Name of a profile to load into the session. Only letters, numbers and hyphens are allowed. [See the documentation](https://docs.airtop.ai/guides/how-to/saving-a-profile) for more information",
       optional: true,
     },
     saveProfileOnTermination: {
@@ -55,6 +56,10 @@ export default {
       solveCaptcha,
       additionalOptions,
     } = this;
+
+    if (profileName && !/^[a-zA-Z0-9-]+$/.test(profileName)) {
+      throw new ConfigurationError(`Profile name \`${profileName}\` must contain only letters, numbers and hyphens`);
+    }
 
     const data = {
       configuration: {
