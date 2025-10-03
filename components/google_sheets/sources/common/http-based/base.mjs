@@ -31,7 +31,10 @@ export default {
   props: {
     googleSheets,
     db: "$.service.db",
-    http: "$.interface.http",
+    http: {
+      type: "$.interface.http",
+      customResponse: true,
+    },
     timer: {
       label: "Push notification renewal schedule",
       description:
