@@ -623,8 +623,7 @@ importers:
         specifier: ^2.30.1
         version: 2.30.1
 
-  components/airtop:
-    specifiers: {}
+  components/airtop: {}
 
   components/aitable_ai:
     dependencies:
@@ -6099,8 +6098,8 @@ importers:
         specifier: ^0.3.0
         version: 0.3.0
       '@pipedream/google_drive':
-        specifier: ^1.1.0
-        version: 1.1.0
+        specifier: ^1.1.1
+        version: 1.1.1
       '@pipedream/platform':
         specifier: ^3.1.0
         version: 3.1.0
@@ -7684,8 +7683,7 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
-  components/kudosity:
-    specifiers: {}
+  components/kudosity: {}
 
   components/kustomer:
     dependencies:
@@ -13287,8 +13285,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/sinch:
-    specifiers: {}
+  components/sinch: {}
 
   components/sinch_messagemedia: {}
 
@@ -20415,8 +20412,8 @@ packages:
   '@pipedream/google_drive@1.0.3':
     resolution: {integrity: sha512-E7MF0E3f/RRyL5PsLaoL51IZtdoyWKNpUIT7RIpQDJ2wh00H0hrISfgugfKAVdv7Tl//BvJezu1FecSLTxhroQ==}
 
-  '@pipedream/google_drive@1.1.0':
-    resolution: {integrity: sha512-ZiLlhIrJc7iUK7jLaQaRj4sf/9VUi6ZyZAGhYd2CfoZ8J7ys1KA9Rxi7oUFZvdKsH0AyJIHTIokCZbcuubS0Pw==}
+  '@pipedream/google_drive@1.1.1':
+    resolution: {integrity: sha512-amUo+NYuBMnXlJoIAIjw8vuVhGF4AB8LuLn5G2oq4lgU1Xt0Fqot8WGIh1Ahwx16q1RqKq+4DDdV9jROjm9rSA==}
 
   '@pipedream/helper_functions@0.3.13':
     resolution: {integrity: sha512-67zXT5rMccSYEeQCEKjO0g/U2Wnc3q1ErRWt0sivqJEF/KYqAb3tWmznDYGACbC8L6ML0WWSWRy7nEGt5Vyuaw==}
@@ -39129,7 +39126,7 @@ snapshots:
       - encoding
       - supports-color
 
-  '@pipedream/google_drive@1.1.0':
+  '@pipedream/google_drive@1.1.1':
     dependencies:
       '@googleapis/drive': 2.4.0
       '@pipedream/platform': 3.1.0
