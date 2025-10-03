@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import { useFormFieldContext } from "../hooks/form-field-context";
 import { useCustomize } from "../hooks/customization-context";
+import { isConfigurablePropOfType } from "../utils/type-guards";
 
 export function ControlInput() {
   const formFieldContextProps = useFormFieldContext();
@@ -46,20 +47,23 @@ export function ControlInput() {
     autoComplete = "new-password"; // in chrome, this is better than "off" here
   }
 
+  const min = isConfigurablePropOfType(prop, "integer")
+    ? prop.min
+    : undefined;
+  const max = isConfigurablePropOfType(prop, "integer")
+    ? prop.max
+    : undefined;
+
   return (
     <input
       id={id}
       type={inputType}
       name={prop.name}
-      value={value ?? ""}
+      value={String(value ?? "")}
       onChange={(e) => onChange(toOnChangeValue(e.target.value))}
       {...getProps("controlInput", baseStyles, formFieldContextProps)}
-      min={"min" in prop
-        ? prop.min
-        : undefined}
-      max={"max" in prop
-        ? prop.max
-        : undefined}
+      min={min}
+      max={max}
       autoComplete={autoComplete}
       data-lpignore="true"
       data-1p-ignore="true"

@@ -1,3 +1,4 @@
+import type { PropOptionValue } from "@pipedream/sdk";
 import {
   useEffect,
   useMemo,
@@ -22,7 +23,7 @@ import {
 import { LoadMoreButton } from "./LoadMoreButton";
 
 // XXX T and ConfigurableProp should be related
-type ControlSelectProps<T> = {
+type ControlSelectProps<T extends PropOptionValue> = {
   isCreatable?: boolean;
   options: LabelValueOption<T>[];
   selectProps?: ReactSelectProps<LabelValueOption<T>, boolean>;
@@ -31,7 +32,7 @@ type ControlSelectProps<T> = {
   components?: ReactSelectProps<LabelValueOption<T>, boolean>["components"];
 };
 
-export function ControlSelect<T>({
+export function ControlSelect<T extends PropOptionValue>({
   isCreatable,
   options,
   selectProps,
@@ -83,37 +84,29 @@ export function ControlSelect<T>({
       return null;
     }
 
-    let ret = rawValue;
-    if (Array.isArray(ret)) {
+    if (Array.isArray(rawValue)) {
       // if simple, make lv (XXX combine this with other place this happens)
-      if (!isOptionWithLabel(ret[0])) {
-        return ret.map((o) =>
-          selectOptions.find((item) => item.value === o) || {
-            label: String(o),
-            value: o,
-          });
+      if (!isOptionWithLabel(rawValue[0])) {
+        return rawValue.map((o) =>
+          selectOptions.find((item) => item.value === o) || sanitizeOption(o as T));
       }
-    } else if (ret && typeof ret === "object" && "__lv" in ret) {
-      // Extract the actual option from __lv wrapper
-      ret = ret.__lv;
-    } else if (!isOptionWithLabel(ret)) {
+    } else if (rawValue && typeof rawValue === "object" && "__lv" in (rawValue as Record<string, unknown>)) {
+      // Extract the actual option from __lv wrapper and sanitize to LV
+      return sanitizeOption(((rawValue as Record<string, unknown>).__lv) as T);
+    } else if (!isOptionWithLabel(rawValue)) {
       const lvOptions = selectOptions?.[0] && isOptionWithLabel(selectOptions[0]);
       if (lvOptions) {
         for (const item of selectOptions) {
           if (item.value === rawValue) {
-            ret = item;
-            break;
+            return item;
           }
         }
       } else {
-        ret = {
-          label: String(rawValue),
-          value: rawValue,
-        }
+        return sanitizeOption(rawValue as T);
       }
     }
 
-    return ret;
+    return null;
   }, [
     rawValue,
     selectOptions,

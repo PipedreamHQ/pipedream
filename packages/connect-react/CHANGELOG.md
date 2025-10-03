@@ -2,6 +2,20 @@
 
 # Changelog
 
+## [2.0.0] - 2025-10-02
+
+### Breaking Changes
+
+Use the new v2 version of the Pipedream SDK (i.e. `@pipedreamhq/pipedream-sdk`).
+This change involves migrating to the new types mostly, but also runtime changes
+involving the API calls.
+
+The runtime behavior should not be affected from a user's perspective, except
+for consumers of the `connect-react` package itself, since some components (e.g.
+`FrontendClientProvider`) expect their consumers to inject a client instance of
+the same SDK version. For this reason, this change bumps the **major** version
+of this package.
+
 ## [1.5.0] - 2025-08-18
 
 ### Fixed

@@ -1,7 +1,7 @@
 import { useFormFieldContext } from "../hooks/form-field-context";
 import { useCustomize } from "../hooks/customization-context";
 import type { CSSProperties } from "react";
-import type { ConfigurablePropSql } from "@pipedream/sdk";
+import { isConfigurablePropOfType } from "../utils/type-guards";
 
 // Type guard to check if value is a structured SQL object
 const isSqlStructuredValue = (value: unknown): value is { app: string; query: string; params: unknown[] } => {
@@ -16,14 +16,16 @@ const isSqlStructuredValue = (value: unknown): value is { app: string; query: st
 export function ControlSql() {
   const formFieldContext = useFormFieldContext();
   const {
-    id, onChange, prop, value,
+    id, onChange, prop: sqlProp, value,
   } = formFieldContext;
+
+  if (!isConfigurablePropOfType(sqlProp, "sql")) {
+    throw new Error("ControlSql used with non-sql prop");
+  }
+
   const {
     getProps, theme,
   } = useCustomize();
-
-  // Cast prop to SQL prop type (this component is only used for SQL props)
-  const sqlProp = prop as ConfigurablePropSql;
 
   // Get the app name from the SQL prop's auth configuration
   const appName = sqlProp.auth?.app || "postgresql"; // Default to postgresql
@@ -65,11 +67,11 @@ export function ControlSql() {
   return (
     <textarea
       id={id}
-      name={prop.name}
+      name={sqlProp.name}
       value={queryValue}
       onChange={(e) => handleChange(e.target.value)}
       placeholder="SELECT * FROM table_name"
-      required={!prop.optional}
+      required={!sqlProp.optional}
       {...getProps("controlSql", baseStyles, formFieldContext)}
     />
   );

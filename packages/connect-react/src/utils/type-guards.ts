@@ -2,6 +2,30 @@ import {
   LabelValueOption,
   RawPropOption,
 } from "../types";
+import type {
+  ConfigurableProp,
+  ConfigurablePropAirtableBaseId,
+  ConfigurablePropAirtableFieldId,
+  ConfigurablePropAirtableTableId,
+  ConfigurablePropAirtableViewId,
+  ConfigurablePropAlert,
+  ConfigurablePropAny,
+  ConfigurablePropApp,
+  ConfigurablePropApphook,
+  ConfigurablePropBoolean,
+  ConfigurablePropDb,
+  ConfigurablePropDiscordChannel,
+  ConfigurablePropDiscordChannelArray,
+  ConfigurablePropHttp,
+  ConfigurablePropInteger,
+  ConfigurablePropIntegerArray,
+  ConfigurablePropObject,
+  ConfigurablePropSql,
+  ConfigurablePropString,
+  ConfigurablePropStringArray,
+  ConfigurablePropTimer,
+  PropOptionNested, PropOptionValue,
+} from "@pipedream/sdk";
 
 /**
  * Type guard to check if a value is a string.
@@ -13,6 +37,47 @@ export function isString(value: unknown): value is string {
 }
 
 /**
+ * Mapping of configurable prop types to their corresponding TypeScript types.
+ * This map is used to determine the specific type of a ConfigurableProp based
+ * on its 'type' discriminator.
+ */
+type DiscriminatorPropTypeMap = {
+  "$.airtable.baseId": ConfigurablePropAirtableBaseId;
+  "$.airtable.fieldId": ConfigurablePropAirtableFieldId;
+  "$.airtable.tableId": ConfigurablePropAirtableTableId;
+  "$.airtable.viewId": ConfigurablePropAirtableViewId;
+  "$.discord.channel": ConfigurablePropDiscordChannel;
+  "$.discord.channel[]": ConfigurablePropDiscordChannelArray;
+  "$.interface.apphook": ConfigurablePropApphook;
+  "$.interface.http": ConfigurablePropHttp;
+  "$.interface.timer": ConfigurablePropTimer;
+  "$.service.db": ConfigurablePropDb;
+  "integer[]": ConfigurablePropIntegerArray;
+  "string[]": ConfigurablePropStringArray;
+  alert: ConfigurablePropAlert;
+  any: ConfigurablePropAny;
+  app: ConfigurablePropApp;
+  boolean: ConfigurablePropBoolean;
+  integer: ConfigurablePropInteger;
+  object: ConfigurablePropObject;
+  sql: ConfigurablePropSql;
+  string: ConfigurablePropString;
+}
+
+/**
+ * Type guard to check if a ConfigurableProp is of a specific type.
+ * @param prop - The ConfigurableProp to check
+ * @param type - The type to check against
+ * @returns true if the prop is of the specified type
+ */
+export function isConfigurablePropOfType<K extends keyof DiscriminatorPropTypeMap>(
+  prop: ConfigurableProp,
+  type: K,
+): prop is DiscriminatorPropTypeMap[K] {
+  return prop.type === type;
+}
+
+/**
  * Type guard to check if a value has a label and value structure. Validates
  * that the value is a non-null object (not an array) with a 'value' property
  * that is either a string or number.
@@ -20,7 +85,7 @@ export function isString(value: unknown): value is string {
  * @param value - The value to check
  * @returns true if the value has a valid label/value structure
  */
-export function isOptionWithLabel(value: unknown): value is LabelValueOption<unknown> {
+export function isOptionWithLabel(value: unknown): value is LabelValueOption {
   return (
     value !== null &&
     typeof value === "object" &&
@@ -67,10 +132,11 @@ export function isOptionWithLabel(value: unknown): value is LabelValueOption<unk
  *   __lv: {label: "Test", value: "test-id"}
  * }) // returns {label: "Test", value: "test-id"}
  */
-export function sanitizeOption<T>(option: RawPropOption<T>): LabelValueOption<T> {
+export function sanitizeOption<T extends PropOptionValue>(option: RawPropOption<T>): LabelValueOption<T> {
   if (option === null || option === undefined) {
     return {
       label: "",
+      // Preserve previous runtime: include a value
       value: "" as T,
     };
   }
@@ -84,7 +150,11 @@ export function sanitizeOption<T>(option: RawPropOption<T>): LabelValueOption<T>
 
   // If option has __lv wrapper, extract the inner option
   if ("__lv" in option) {
-    return sanitizeOption(option.__lv);
+    return sanitizeOption(option.__lv as LabelValueOption<T>);
+  }
+  // If option has SDK 'lv' wrapper, extract inner option
+  if ("lv" in option) {
+    return sanitizeOption((option as PropOptionNested).lv as LabelValueOption<T>);
   }
 
   if ("value" in option) {
@@ -94,12 +164,12 @@ export function sanitizeOption<T>(option: RawPropOption<T>): LabelValueOption<T>
     } = option;
     return {
       label: String(label || value),
-      value: value as T,
+      value: value,
     };
   }
 
   return {
     label: String(option),
-    value: option,
+    value: option as unknown as T,
   };
 }
