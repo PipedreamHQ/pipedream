@@ -15,6 +15,7 @@ export default {
 
         const data = await this.listSessions({
           params: {
+            status: "running",
             limit,
             offset,
           },
@@ -124,15 +125,9 @@ export default {
         ...args,
       });
     },
-    async listSessions({
-      params, ...args
-    }) {
+    async listSessions(args = {}) {
       return this._makeRequest({
         url: "/sessions",
-        params: {
-          status: "running",
-          ...params,
-        },
         ...args,
       });
     },
