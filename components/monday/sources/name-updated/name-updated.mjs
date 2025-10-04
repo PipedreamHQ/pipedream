@@ -6,7 +6,7 @@ export default {
   name: "Name Updated (Instant)",
   description: "Emit new event when an item's name is updated. [See the documentation](https://developer.monday.com/api-reference/reference/webhooks#sample-payload-for-webhook-events)",
   type: "source",
-  version: "0.0.8",
+  version: "0.0.9",
   dedupe: "unique",
   hooks: {
     ...common.hooks,
