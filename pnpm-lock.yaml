@@ -13296,7 +13296,14 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/sinch: {}
+  components/sinch:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
+      form-data:
+        specifier: ^4.0.4
+        version: 4.0.4
 
   components/sinch_messagemedia: {}
 
