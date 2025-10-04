@@ -4,7 +4,12 @@ export default {
   key: "algolia-browse-records",
   name: "Browse Records",
   description: "Browse for records in the given index. [See the documentation](https://www.algolia.com/doc/libraries/javascript/v5/methods/search/browse/?client=javascript).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

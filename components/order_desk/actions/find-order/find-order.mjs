@@ -4,7 +4,12 @@ export default {
   name: "Find Order",
   description: "Find Order [See the documentation](https://apidocs.orderdesk.com/#get-a-single-order).",
   key: "order_desk-find-order",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

@@ -4,7 +4,12 @@ import app from "../../uipath_automation_hub.app.mjs";
 export default {
   key: "uipath_automation_hub-update-idea",
   name: "Update Idea",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Modify an existing automation idea's details. [See the documentation](https://automation-hub.uipath.com/api/v1/api-doc/#/Automation%20Ideas/SubmitIdeaEmployeeDrivenwithSubmitter)",
   type: "action",
   props: {

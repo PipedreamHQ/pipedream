@@ -4,7 +4,12 @@ export default {
   key: "trunkrs-get-shipment-state",
   name: "Get Shipment State",
   description: "Get the state of a shipment. [See the documentation](https://docs.trunkrs.nl/docs/v2-api-documentation/47b5b585da6c9-get-status-for-specific-shipment)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     trunkrs,

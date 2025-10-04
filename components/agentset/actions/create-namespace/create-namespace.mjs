@@ -5,7 +5,12 @@ export default {
   key: "agentset-create-namespace",
   name: "Create Namespace",
   description: "Creates a namespace for the authenticated organization. [See the documentation](https://docs.agentset.ai/api-reference/endpoint/namespaces/create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     agentset,

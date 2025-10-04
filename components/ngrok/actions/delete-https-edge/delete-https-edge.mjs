@@ -4,7 +4,12 @@ export default {
   key: "ngrok-delete-https-edge",
   name: "Delete HTTPS Edge",
   description: "Delete an HTTPS Edge. [See the documentation](https://ngrok.com/docs/api/resources/edges-https/#delete-https-edge).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

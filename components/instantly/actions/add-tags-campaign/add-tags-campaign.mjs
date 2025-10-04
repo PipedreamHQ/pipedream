@@ -5,7 +5,12 @@ export default {
   key: "instantly-add-tags-campaign",
   name: "Add Tags to Campaign",
   description: "Adds tags to a specific campaign. [See the documentation](https://developer.instantly.ai/api/v2/customtag/toggletagresource)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     instantly,

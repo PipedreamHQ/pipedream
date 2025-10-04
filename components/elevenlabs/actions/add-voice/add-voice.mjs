@@ -5,7 +5,12 @@ import { getFileStreamAndMetadata } from "@pipedream/platform";
 export default {
   key: "elevenlabs-add-voice",
   name: "Add Voice",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Add a voice from one or more audio files. [See the documentation](https://elevenlabs.io/docs/api-reference/add-voice)",
   type: "action",
   props: {

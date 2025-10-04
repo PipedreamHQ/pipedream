@@ -4,7 +4,12 @@ export default {
   key: "albus-ask-question",
   name: "Ask Question",
   description: "Ask a question to Albus and receive a response.",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     albus,

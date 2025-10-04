@@ -6,7 +6,12 @@ export default {
   name: "Update Invoice",
   description: "Modify an existing invoice&#39;s details in Quaderno. [See the Documentation](https://developers.quaderno.io/api/#tag/Invoices/operation/updateInvoice).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     ...common.props,
     invoiceId: {

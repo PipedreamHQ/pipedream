@@ -4,7 +4,12 @@ export default {
   key: "y_gy-create-short-link",
   name: "Create Short Link",
   description: "Create new short links with y.gy. [See the documentation](https://app.y.gy/docs/api-docs/links#create-a-short-link)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

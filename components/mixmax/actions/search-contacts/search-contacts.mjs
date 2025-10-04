@@ -5,7 +5,12 @@ export default {
   key: "mixmax-search-contacts",
   name: "Search Contacts",
   description: "Search for matching contacts. This API queries across different sources including mixmax, google directory, and salesforce (contacts, leads, accounts, and opportunities). [See the docs here](https://developer.mixmax.com/reference/contactsquery)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

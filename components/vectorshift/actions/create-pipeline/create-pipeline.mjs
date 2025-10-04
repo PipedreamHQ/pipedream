@@ -6,7 +6,12 @@ export default {
   key: "vectorshift-create-pipeline",
   name: "Create Pipeline",
   description: "Creates a new pipeline in VectorShift. [See the documentation](https://docs.vectorshift.ai)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     vectorshift,

@@ -4,7 +4,12 @@ export default {
   key: "freshservice-create-solution-article",
   name: "Create Solution Article",
   description: "Create a solution article. [See the documentation](https://api.freshservice.com/#create_solution_article)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     freshservice,

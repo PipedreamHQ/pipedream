@@ -4,7 +4,12 @@ import app from "../../mamo_business.app.mjs";
 export default {
   key: "mamo_business-create-payment-link",
   name: "Create Payment Link",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Generate a vanilla or subscription payment link. [See the documentation](https://mamopay.readme.io/reference/post_links)",
   type: "action",
   props: {

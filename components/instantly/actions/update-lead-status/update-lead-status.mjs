@@ -5,7 +5,12 @@ export default {
   key: "instantly-update-lead-status",
   name: "Update Lead Status",
   description: "Updates the interest status of a lead in a campaign. [See the documentation](https://developer.instantly.ai/api/v2/customtag/toggletagresource)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     instantly,

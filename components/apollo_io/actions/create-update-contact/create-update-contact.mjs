@@ -6,7 +6,12 @@ export default {
   name: "Create Or Update Contact",
   description: "Creates or updates a specific contact. If the contact email already exists, it's updated. Otherwise, a new contact is created. [See the documentation](https://apolloio.github.io/apollo-api-docs/?shell#create-a-contact)",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     email: {

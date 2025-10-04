@@ -4,7 +4,12 @@ export default {
   key: "leap-create-image-generation-job",
   name: "Create Image Generation Job",
   description: "Queues an image generation job and returns the job details. [See the documentation](https://docs.tryleap.ai/reference/inferencescontroller_create-1)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     leap,

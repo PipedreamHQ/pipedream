@@ -5,7 +5,12 @@ export default {
   key: "transifex-upload-file",
   name: "Upload File to Transifex",
   description: "Uploads a given file to the Transifex platform. [See the documentation](https://developers.transifex.com/reference/post_resource-strings-async-uploads)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     transifex,

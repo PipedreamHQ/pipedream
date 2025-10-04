@@ -4,7 +4,12 @@ export default {
   key: "zoho_sprints-create-item",
   name: "Create Item",
   description: "Creates a new task, story, or bug in an existing Zoho Sprints project. [See the documentation](https://sprints.zoho.com/apidoc.html#Createitem)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zohoSprints,

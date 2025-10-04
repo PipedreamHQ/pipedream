@@ -5,7 +5,12 @@ export default {
   name: "Create Folder",
   description: "Create a new folder to store your documents. [See the documentation here](https://developers.pandadoc.com/reference/create-documents-folder)",
   type: "action",
-  version: "0.0.6",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     name: {

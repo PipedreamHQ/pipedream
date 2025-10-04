@@ -4,7 +4,12 @@ export default {
   key: "openai-cancel-run",
   name: "Cancel Run (Assistants)",
   description: "Cancels a run that is in progress. [See the documentation](https://platform.openai.com/docs/api-reference/runs/cancelRun)",
-  version: "0.0.16",
+  version: "0.0.17",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     openai,

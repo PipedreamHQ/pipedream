@@ -4,7 +4,12 @@ import app from "../../trengo.app.mjs";
 export default {
   type: "action",
   key: "trengo-send-a-team-chat-message",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   name: "Send A Team Chat Message",
   description: "Send a message as a bot in the Team Chat, [See the documentation](https://developers.trengo.com/reference/sending-a-bot-message)",
   props: {

@@ -4,7 +4,12 @@ export default {
   key: "cloudtables-delete-row",
   name: "Delete Row",
   description: "Delete a row in a CloudTable data set",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     cloudtables,

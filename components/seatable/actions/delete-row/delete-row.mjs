@@ -4,7 +4,12 @@ export default {
   key: "seatable-delete-row",
   name: "Delete Row",
   description: "Deletes a specific row from a specified table. [See the documentation](https://api.seatable.io/reference/delete-row)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     seatable,

@@ -4,7 +4,12 @@ export default {
   key: "specific-find-company",
   name: "Find Company",
   description: "Retrieve details of a specified company. [See the documentation](https://public-api.specific.app/docs/types/Query)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     specific,

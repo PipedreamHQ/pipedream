@@ -5,7 +5,12 @@ export default {
   key: "frontapp-import-message",
   name: "Import Message",
   description: "Appends a new message into an inbox. [See the documentation](https://dev.frontapp.com/reference/import-inbox-message).",
-  version: "0.1.9",
+  version: "0.1.10",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     frontApp,

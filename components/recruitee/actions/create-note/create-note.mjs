@@ -4,7 +4,12 @@ export default {
   name: "Create Note",
   description: "Create a new note for a candidate. [See the documentation](https://api.recruitee.com/docs/index.html#note.web.note-note.web.note)",
   key: "recruitee-create-note",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

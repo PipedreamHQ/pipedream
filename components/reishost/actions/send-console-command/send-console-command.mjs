@@ -4,7 +4,12 @@ export default {
   key: "reishost-send-console-command",
   name: "Send Console Command",
   description: "Runs a command on your server's console, providing direct command execution flexibility.",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     reishost,

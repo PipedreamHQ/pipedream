@@ -6,7 +6,12 @@ export default {
   key: "uptimerobot-create-monitor",
   name: "Create Monitor",
   description: "Create a new monitor. [See the documentation](https://uptimerobot.com/api/).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

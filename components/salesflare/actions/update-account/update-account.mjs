@@ -3,7 +3,12 @@ import base from "../common/account-base.mjs";
 
 export default {
   key: "salesflare-update-account",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   name: "Update Account",
   description: "Update an account [See the docs here](https://api.salesflare.com/docs#operation/putAccountsAccount_id)",

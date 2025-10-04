@@ -4,7 +4,12 @@ export default {
   key: "zixflow-get-activities",
   name: "Get Activities",
   description: "Retrieve a list of activities. [See the documentation](https://docs.zixflow.com/api-reference/activity-list/get#body)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

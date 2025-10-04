@@ -6,7 +6,12 @@ export default {
   name: "Create Or Update Inventory Product",
   description: "It allows you to add a new product to BaseLinker catalog. Entering the product with the ID updates previously saved product. [See the Documentation](https://api.baselinker.com/index.php?method=addInventoryProduct).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     inventoryId: {

@@ -2,7 +2,12 @@ import app from "../../pdfless.app.mjs";
 
 export default {
   name: "Create a PDF document",
-  version: "0.1.0",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "pdfless-generate-pdf",
   description: "Create a PDF document based on selected template identifier and defined payload. [See the documentation](https://github.com/Pdfless/pdfless-js)",
   type: "action",

@@ -4,7 +4,12 @@ export default {
   key: "loop_returns-process-return",
   name: "Process Return",
   description: "Starts the processing of a return inside Loop. Return ID is a required prop to initiate the process. [See the documentation](https://docs.loopreturns.com/reference/processreturn)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

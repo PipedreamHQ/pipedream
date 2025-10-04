@@ -8,7 +8,12 @@ export default {
   key: "tinypng-convert-image",
   name: "Convert Image",
   description: "Convert your images to your desired image type using TinyPNG. [See the documentation](https://tinypng.com/developers/reference#converting-images)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     tinypng,

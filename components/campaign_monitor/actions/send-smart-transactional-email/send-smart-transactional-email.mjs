@@ -4,7 +4,12 @@ export default {
   key: "campaign_monitor-send-smart-transactional-email",
   name: "Send Smart Transactional Email",
   description: "Sends an intelligent transactional email to a specified recipient. [See the documentation](https://www.campaignmonitor.com/api/v3-3/transactional/#send-smart-email)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     campaignMonitor,

@@ -4,7 +4,12 @@ export default {
   key: "wealthbox-create-event",
   name: "Create Event",
   description: "Create a new event. [See the documentation](http://dev.wealthbox.com/#events-collection-post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     wealthbox,

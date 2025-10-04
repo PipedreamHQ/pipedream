@@ -6,7 +6,12 @@ export default {
   name: "End meeting",
   description: "End a meeting for a user. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingstatus)",
   key: "zoom_admin-end-meeting",
-  version: "0.1.6",
+  version: "0.1.7",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zoomAdmin,

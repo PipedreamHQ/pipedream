@@ -5,7 +5,12 @@ export default {
   key: "riskadvisor-update-client",
   name: "Update Client",
   description: "Updates an existing in RiskAdvisor. [See the documentation](https://api.riskadvisor.insure/clients#update-a-client)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     riskadvisor,

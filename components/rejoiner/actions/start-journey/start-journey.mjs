@@ -4,7 +4,12 @@ export default {
   key: "rejoiner-start-journey",
   name: "Start Journey",
   description: "Triggers the beginning of a customer journey in Rejoiner. [See the documentation](https://docs.rejoiner.com/reference/trigger-webhook-journey)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     rejoiner,

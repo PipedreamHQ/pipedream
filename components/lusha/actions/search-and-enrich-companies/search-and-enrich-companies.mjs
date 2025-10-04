@@ -5,7 +5,12 @@ export default {
   key: "lusha-search-and-enrich-companies",
   name: "Search and Enrich Companies",
   description: "Search for companies and enrich them. [See the documentation](https://docs.lusha.com/apis/openapi/company-search-and-enrich)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     lusha,

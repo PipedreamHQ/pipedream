@@ -5,7 +5,12 @@ export default {
   key: "zoho_calendar-list-events",
   name: "List Events",
   description: "Returns a list of all the events in a particular calendar of the user. [See the documentation](https://www.zoho.com/calendar/help/api/get-events-list.html)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

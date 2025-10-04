@@ -3,7 +3,12 @@ import prospeo from "../../prospeo.app.mjs";
 
 export default {
   name: "Verify Email",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "prospeo-verify-email",
   description: "Verify the validity of an email address. [See the documentation](https://prospeo.io/api/email-verifier)",
   type: "action",

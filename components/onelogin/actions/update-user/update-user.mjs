@@ -5,7 +5,12 @@ export default {
   key: "onelogin-update-user",
   name: "Update User",
   description: "Update an existing user's details in OneLogin. [See the documentation](https://developers.onelogin.com/api-docs/2/users/update-user)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     onelogin,

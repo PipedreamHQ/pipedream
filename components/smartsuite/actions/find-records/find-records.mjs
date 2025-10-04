@@ -4,7 +4,12 @@ export default {
   key: "smartsuite-find-records",
   name: "Find Records",
   description: "Search for records based on matching field(s). [See the documentation](https://developers.smartsuite.com/docs/solution-data/records/list-records)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     smartsuite,

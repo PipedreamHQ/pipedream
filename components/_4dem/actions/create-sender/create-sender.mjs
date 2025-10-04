@@ -4,7 +4,12 @@ export default {
   key: "_4dem-create-sender",
   name: "Create Sender",
   description: "Create an email sender. You will need to confirm the email address used during creation. [See the documentation](https://api.4dem.it/#/operations/senders.email.store)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -4,7 +4,12 @@ export default {
   key: "all_images_ai-generate-images-advanced",
   name: "Generate Advanced Customized Images",
   description: "Generates advanced customized images using a prompt from the user. [See the documentation](https://developer.all-images.ai/all-images.ai-api/api-reference/images-generation#create-image-generation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     allImagesAi,

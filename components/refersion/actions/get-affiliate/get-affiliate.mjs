@@ -5,7 +5,12 @@ export default {
   name: "Get Affiliate",
   description: "Get information about an affiliate. You can get an affiliate's information using their ID or code. [See the docs here](https://www.refersion.dev/reference/get_affiliate)",
   key: "refersion-get-affiliate",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

@@ -2,7 +2,12 @@ import bybit from "../../bybit.app.mjs";
 
 export default {
   name: "ByBit Linear Stop Order Create",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "bybit-linear-stop-order-create",
   description: "Place Conditional Order." +
       " [reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-placecond)",

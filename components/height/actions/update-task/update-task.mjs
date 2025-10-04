@@ -5,7 +5,12 @@ export default {
   key: "height-update-task",
   name: "Update Task",
   description: "Updates a specified task within your workspace. [See the documentation](https://height.notion.site/Update-tasks-53d72cb0059a4e0e81cc2fcbfcbf9d0a)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     height,

@@ -4,7 +4,12 @@ export default {
   key: "taxjar-create-customer",
   name: "Create Customer",
   description: "Creates a new customer at TaxJar. [See the documentation](https://developers.taxjar.com/api/reference/#post-create-a-customer)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

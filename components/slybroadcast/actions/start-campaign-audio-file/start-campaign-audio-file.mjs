@@ -4,7 +4,12 @@ export default {
   key: "slybroadcast-start-campaign-audio-file",
   name: "Start Campaign with Audio File",
   description: "Start a new voicemail campaign using an audio file uploaded to your slybroadcast account. [See the documentation](https://www.slybroadcast.com/documentation.php)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     slybroadcast,

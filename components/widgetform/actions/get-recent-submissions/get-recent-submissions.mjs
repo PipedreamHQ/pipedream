@@ -4,7 +4,12 @@ export default {
   key: "widgetform-get-recent-submissions",
   name: "Get Recent Submissions",
   description: "Retrieves the 10 most recent submissions. [See the documentation](https://usewidgetform.notion.site/Zapier-API-185312164ccf808eb902f411608aa35d)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     widgetform,

@@ -4,7 +4,12 @@ export default {
   key: "numverify-validate-phone",
   name: "Validate Phone",
   description: "Validates a phone number. [See the documentation](https://numverify.com/documentation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     numverify,

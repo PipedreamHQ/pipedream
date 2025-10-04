@@ -5,7 +5,12 @@ export default {
   key: "hunter-email-count",
   name: "Email Count",
   description: "Get the number of email addresses Hunter has for one domain or company. [See the documentation](https://hunter.io/api-documentation/v2#email-count).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

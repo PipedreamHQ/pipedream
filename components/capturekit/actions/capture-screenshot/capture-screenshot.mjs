@@ -6,7 +6,12 @@ export default {
   key: "capturekit-capture-screenshot",
   name: "Capture Screenshot",
   description: "Capture a high-quality image of any webpage. [See the documentation](https://docs.capturekit.dev/api-reference/screenshot-api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

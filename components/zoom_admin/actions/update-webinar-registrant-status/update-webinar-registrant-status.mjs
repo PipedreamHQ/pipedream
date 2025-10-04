@@ -8,7 +8,12 @@ export default {
   name: "Update Webinar Registrant Status",
   description: "Update registrant status for a webinar. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meetingregistrantstatus)",
   key: "zoom_admin-update-webinar-registrant-status",
-  version: "0.1.6",
+  version: "0.1.7",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zoomAdmin,

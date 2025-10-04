@@ -4,7 +4,12 @@ export default {
   key: "pumble-create-channel",
   name: "Create Channel",
   description: "Create a new channel in Pumble. [See the documentation](https://pumble.com/help/integrations/add-pumble-apps/api-keys-integration/#create-channel)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pumble,

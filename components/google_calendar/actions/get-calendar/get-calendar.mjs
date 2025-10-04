@@ -4,7 +4,12 @@ export default {
   key: "google_calendar-get-calendar",
   name: "Retrieve Calendar Details",
   description: "Retrieve calendar details of a Google Calendar. [See the documentation](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Calendars.html#get)",
-  version: "0.1.8",
+  version: "0.1.9",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     googleCalendar,

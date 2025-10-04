@@ -5,7 +5,12 @@ export default {
   key: "snipe_it-create-hardware",
   name: "Create Hardware Asset",
   description: "Creates a new hardware asset in Snipe-IT. [See the documentation](https://snipe-it.readme.io/reference/hardware-create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

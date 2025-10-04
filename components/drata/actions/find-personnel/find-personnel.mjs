@@ -7,7 +7,12 @@ export default {
   key: "drata-find-personnel",
   name: "Find Personnel",
   description: `Find Personnel. [See the documentation](${docsLink}).`,
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     drata,

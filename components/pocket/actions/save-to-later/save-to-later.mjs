@@ -2,7 +2,12 @@ import pocket from "../../pocket.app.mjs";
 
 export default {
   name: "Save To Later",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "pocket-save-to-later",
   description: "Save articles, videos, images and URLs to your Pocket list. [See docs here](https://getpocket.com/developer/docs/v3/add)",
   type: "action",

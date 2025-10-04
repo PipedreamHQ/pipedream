@@ -4,7 +4,12 @@ export default {
   key: "flodesk-add-subscriber-to-segments",
   name: "Add Subscriber To Segments",
   description: "Add a subscriber to one or more segments in Flodesk. [See the documentation](https://developers.flodesk.com/#tag/subscriber/operation/addSubscriberToSegments)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     flodesk,

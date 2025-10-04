@@ -4,7 +4,12 @@ export default {
   key: "appsflyer-get-message-fields",
   name: "Get Message Fields",
   description: "Returns a list of the available message fields for each platform. [See the documentation](https://dev.appsflyer.com/hc/reference/get_fields-platform)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

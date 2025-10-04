@@ -4,7 +4,12 @@ export default {
   key: "ecologi-buy-trees",
   name: "Buy Trees",
   description: "Purchase trees through Ecologi. [See the documentation](https://docs.ecologi.com/docs/public-api-docs/004342d262f93-purchase-trees)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

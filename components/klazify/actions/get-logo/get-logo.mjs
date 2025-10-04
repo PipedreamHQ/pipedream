@@ -5,7 +5,12 @@ export default {
   name: "Get Logo",
   description: "Get the logo of a company. [See the documentation](https://www.klazify.com/category#docs).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     url: {

@@ -5,7 +5,12 @@ export default {
   key: "dataforseo-get-domain-rank-overview",
   name: "Get Domain Rank Overview",
   description: "Retrieve domain authority and ranking metrics for specified domains. [See the documentation](https://docs.dataforseo.com/v3/dataforseo_labs/google/domain_rank_overview/live/?bash)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     dataforseo,

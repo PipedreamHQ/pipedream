@@ -5,7 +5,12 @@ export default {
   key: "weglot-translate-text",
   name: "Translate Text",
   description: "Translate text using Weglot. [See the documentation](https://developers.weglot.com/api/reference#translate)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     weglot,

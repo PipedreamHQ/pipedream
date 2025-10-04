@@ -3,9 +3,14 @@ import linearApp from "../../linear_app.app.mjs";
 export default {
   key: "linear_app-update-issue",
   name: "Update Issue",
-  description: "Updates an existing Linear issue. Can modify title, description, assignee, state, project, team, labels, priority, and dates. Returns updated issue details. Uses API Key authentication. See Linear docs for additional info [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#creating-and-editing-issues).",
+  description: "Updates an existing Linear issue. Can modify title, description, assignee, state, project, team, labels, priority, and dates. Returns updated issue details. Uses API Key authentication. [See the documentation](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#creating-and-editing-issues).",
   type: "action",
-  version: "0.1.12",
+  version: "0.1.14",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     linearApp,
     teamId: {
@@ -63,6 +68,30 @@ export default {
         "assigneeId",
       ],
     },
+    labelIds: {
+      propDefinition: [
+        linearApp,
+        "issueLabels",
+        () => ({
+          byId: true,
+        }),
+      ],
+    },
+    projectId: {
+      propDefinition: [
+        linearApp,
+        "projectId",
+        ({ teamId }) => ({
+          teamId,
+        }),
+      ],
+    },
+    priority: {
+      propDefinition: [
+        linearApp,
+        "issuePriority",
+      ],
+    },
   },
   async run({ $ }) {
     const {
@@ -72,6 +101,9 @@ export default {
       teamIdToUpdate,
       stateId,
       assigneeId,
+      labelIds,
+      projectId,
+      priority,
     } = this;
 
     const response =
@@ -83,6 +115,9 @@ export default {
           description,
           assigneeId,
           stateId,
+          labelIds,
+          projectId,
+          priority,
         },
       });
 

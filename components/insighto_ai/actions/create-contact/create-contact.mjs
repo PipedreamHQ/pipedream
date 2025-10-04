@@ -4,7 +4,12 @@ export default {
   key: "insighto_ai-create-contact",
   name: "Create Contact",
   description: "Creates a new contact within the system. [See the documentation](https://api.insighto.ai/docs#/contact/create_contact_api_v1_contact_post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

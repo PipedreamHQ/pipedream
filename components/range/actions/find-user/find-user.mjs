@@ -5,7 +5,12 @@ export default {
   name: "Find User",
   description: "Finds a user by email address. [See the docs](https://www.range.co/docs/api#rpc-find-user).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     email: {

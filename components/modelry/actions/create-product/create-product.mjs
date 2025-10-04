@@ -4,7 +4,12 @@ export default {
   key: "modelry-create-product",
   name: "Create Product",
   description: "Create a new product. [See the documentation](https://files.cgtarsenal.com/api/doc/index.html#api-Products-CreateProduct)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

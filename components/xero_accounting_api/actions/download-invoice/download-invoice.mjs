@@ -6,7 +6,12 @@ export default {
   key: "xero_accounting_api-download-invoice",
   name: "Download Invoice",
   description: "Downloads an invoice as pdf file. File will be placed at the action's associated workflow temporary folder.",
-  version: "0.2.2",
+  version: "0.2.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     xeroAccountingApi,

@@ -5,7 +5,12 @@ export default {
   name: "Update Event",
   description: "Update an event with its full list of attributes. [See the Documentation](https://developers.livestorm.co/reference/put_events-id)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     eventId: {

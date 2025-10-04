@@ -3,7 +3,12 @@ import base from "../common/account-base.mjs";
 
 export default {
   key: "salesflare-create-account",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   name: "Create Account",
   description: "Create an account. [See the docs here](https://api.salesflare.com/docs#operation/postAccounts)",

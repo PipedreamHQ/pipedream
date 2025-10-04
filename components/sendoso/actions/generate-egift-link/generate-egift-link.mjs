@@ -3,7 +3,12 @@ import sendoso from "../../sendoso.app.mjs";
 export default {
   key: "sendoso-generate-egift-link",
   name: "Generate eGift Link",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Generate a new E-Gift link [See the docs here](https://sendoso.docs.apiary.io/#reference/send-management/generate-egift-links/sending-a-e-gift)",
   type: "action",
   props: {

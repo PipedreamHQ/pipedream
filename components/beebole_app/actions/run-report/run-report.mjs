@@ -4,7 +4,12 @@ export default {
   name: "Run report",
   description: "Run a report from Beebole",
   key: "beebole_app-run-report",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

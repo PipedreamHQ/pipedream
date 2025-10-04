@@ -4,7 +4,12 @@ import currency from "currency-codes/data.js";
 export default {
   key: "moxie-create-client",
   name: "Create Client",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new client. [See the documentation](https://help.withmoxie.com/en/articles/8160175-create-client)",
   type: "action",
   props: {

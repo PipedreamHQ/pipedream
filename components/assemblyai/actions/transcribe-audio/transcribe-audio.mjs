@@ -4,7 +4,12 @@ export default {
   name: "Transcribe Audio",
   description: "Create a transcript from a media file that is accessible via a URL. [See the documentation](https://www.assemblyai.com/docs/api-reference/transcripts/submit)",
   key: "assemblyai-transcribe-audio",
-  version: "0.1.0",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     assemblyai,

@@ -5,7 +5,12 @@ export default {
   key: "akkio-make-prediction",
   name: "Make Prediction",
   description: "Makes a prediction based on the input props. [See the documentation](https://docs.akkio.com/akkio-docs/rest-api/api-options/curl-commands)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     akkio,

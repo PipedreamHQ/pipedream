@@ -5,7 +5,12 @@ export default {
   key: "leexi-create-presign-recording-url",
   name: "Create Presigned Recording URL",
   description: "Creates a presigned URL for uploading a call recording. [See the documentation](https://developer.leexi.ai/)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

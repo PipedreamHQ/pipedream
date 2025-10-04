@@ -5,7 +5,12 @@ export default {
   key: "lastpass-delete-user",
   name: "Delete User",
   description: "Deactivates or completely removes a user account. This action must be used responsibly, considering its irreversible nature.",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     lastpass,

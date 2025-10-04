@@ -5,7 +5,12 @@ export default {
   key: "zoho_recruit-create-or-update-record",
   name: "Create or Update Record",
   description: "Creates a new record or updates existing record if already present. [See the documentation](https://www.zoho.com/recruit/developer-guide/apiv2/upsert-records.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   async run({ $ }) {
     const response = await this.zohoRecruit.upsertRecord({

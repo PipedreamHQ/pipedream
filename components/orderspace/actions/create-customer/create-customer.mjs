@@ -5,7 +5,12 @@ export default {
   name: "Create Customer",
   description: "Create a new customer. [See the documentation](https://apidocs.orderspace.com/#create-a-customer)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     orderspace,
     companyName: {

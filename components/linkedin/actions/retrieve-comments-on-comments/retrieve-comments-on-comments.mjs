@@ -4,7 +4,12 @@ export default {
   key: "linkedin-retrieve-comments-on-comments",
   name: "Retrieves Comments on Comments",
   description: "Retrieves comments on comments, given the parent comment urn. [See the documentation](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/network-update-social-actions#retrieve-comments-on-comments)",
-  version: "0.1.10",
+  version: "0.1.11",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     linkedin,

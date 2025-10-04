@@ -5,7 +5,12 @@ export default {
   key: "pipedream_utils-get-coutry-name-by-code-iso",
   name: "Helper Functions - Country name, given code (2-letter)",
   description: "Return the country name (in English) when given the 2-letter country code",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     pipedream_utils,

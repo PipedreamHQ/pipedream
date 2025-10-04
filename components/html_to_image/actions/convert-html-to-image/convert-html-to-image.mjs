@@ -4,7 +4,12 @@ export default {
   key: "html_to_image-convert-html-to-image",
   name: "Convert HTML to Image",
   description: "Create an image from HTML. [See the documentation](https://docs.htmlcsstoimg.com/html-to-image-api/html-css-to-image-api).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     htmlToImage,

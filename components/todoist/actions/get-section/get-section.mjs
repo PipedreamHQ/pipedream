@@ -4,7 +4,12 @@ export default {
   key: "todoist-get-section",
   name: "Get Section",
   description: "Returns info about a section. [See the docs here](https://developer.todoist.com/rest/v2/#get-a-single-section)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     todoist,

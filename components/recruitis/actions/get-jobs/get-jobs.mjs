@@ -4,7 +4,12 @@ export default {
   key: "recruitis-get-jobs",
   name: "Get Jobs",
   description: "Get jobs from recruitis profile. [See the documentation](https://docs.recruitis.io/api/#tag/Jobs/paths/~1jobs/get)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

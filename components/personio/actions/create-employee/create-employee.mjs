@@ -3,7 +3,12 @@ import personio from "../../personio.app.mjs";
 export default {
   key: "personio-create-employee",
   name: "Create Employee",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Creates a new employee. [See the documentation](https://developer.personio.de/reference/post_company-employees)",
   type: "action",
   props: {

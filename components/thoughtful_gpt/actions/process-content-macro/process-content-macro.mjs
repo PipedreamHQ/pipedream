@@ -4,7 +4,12 @@ export default {
   key: "thoughtful_gpt-process-content-macro",
   name: "Process Content Macro",
   description: "Processes given content using a specified macro. [See the documentation](https://docs.thoughtfulgpt.com/thoughtfulgpt-documentation/product-guide/api-reference)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     thoughtfulgpt,

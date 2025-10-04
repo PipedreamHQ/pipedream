@@ -4,7 +4,12 @@ import FIELDS from "../common/fields.mjs";
 export default {
   key: "teamgate-find-company",
   name: "Find Company",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Find a company [See the docs here](https://developers.teamgate.com/#6be9bc87-47bb-4c32-b46b-9c0771deac83)",
   type: "action",
   props: {

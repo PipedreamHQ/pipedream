@@ -6,7 +6,12 @@ export default {
   name: "List Bitlinks by group",
   description:
     "Retrieves all Bitlinks for a given group. [See the docs here](https://dev.bitly.com/api-reference#getBitlinksByGroup)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     bitly,

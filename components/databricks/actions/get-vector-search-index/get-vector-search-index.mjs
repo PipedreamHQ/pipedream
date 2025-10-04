@@ -4,7 +4,12 @@ export default {
   key: "databricks-get-vector-search-index",
   name: "Get Vector Search Index",
   description: "Retrieves details about a specific vector search index. [See the documentation](https://docs.databricks.com/api/workspace/vectorsearchindexes/getindex)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     databricks,

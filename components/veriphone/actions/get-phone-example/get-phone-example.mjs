@@ -4,7 +4,12 @@ export default {
   key: "veriphone-get-phone-example",
   name: "Get Dummy Phone Number",
   description: "Returns a dummy phone number for a specific country and phone type. [See the documentation](https://veriphone.io/docs/v2#:~:text=T%2DMobile%22%0A%7D-,EXAMPLE,-Veriphone%27s%20/v2/example)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     veriphone,

@@ -4,7 +4,12 @@ export default {
   key: "landbot-send-image",
   name: "Send Image",
   description: "Send an image to a customer via Landbot. [See the docs](https://api.landbot.io/#api-Customers-PostHttpsApiLandbotIoV1CustomersCustomer_idSend_image)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     landbot,

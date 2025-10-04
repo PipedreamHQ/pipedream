@@ -4,7 +4,12 @@ export default {
   key: "elevenlabs-make-outbound-call",
   name: "Make Outbound Call",
   description: "Handle an outbound call via Twilio with Elevenlabs. [See the documentation](https://elevenlabs.io/docs/api-reference/conversations/twilio-outbound-call)",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     elevenlabs,

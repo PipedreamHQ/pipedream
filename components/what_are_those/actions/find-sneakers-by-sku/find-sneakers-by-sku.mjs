@@ -6,7 +6,12 @@ export default {
   key: "what_are_those-find-sneakers-by-sku",
   name: "Find Sneakers by SKU",
   description: "Identifies sneakers from a size tag photo and returns sneaker name and details. [See the documentation](https://documenter.getpostman.com/view/3847098/2sAY4rDQDs#4f6a49f9-3393-42cd-8474-3856a79888af)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

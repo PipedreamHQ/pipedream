@@ -5,7 +5,12 @@ export default {
   key: "dynalist-edit-document",
   name: "Edit Document Title",
   description: "Edits the title of a specific document in Dynalist. [See the documentation](https://apidocs.dynalist.io/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     dynalist,

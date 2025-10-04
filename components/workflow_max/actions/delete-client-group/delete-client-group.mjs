@@ -5,7 +5,12 @@ export default {
   key: "workflow_max-delete-client-group",
   name: "Delete Client Group",
   description: "Deletes the specified client group. [See the documentation](https://app.swaggerhub.com/apis-docs/WorkflowMax-BlueRock/WorkflowMax-BlueRock-OpenAPI3/0.1#/Client%20Group/deleteClientGroup)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

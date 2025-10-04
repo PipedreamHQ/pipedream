@@ -4,7 +4,12 @@ export default {
   key: "typefully-schedule-draft-next-slot",
   name: "Schedule Draft Next Slot",
   description: "Schedules an existing draft for publication in the next available time slot. [See the documentation](https://support.typefully.com/en/articles/8718287-typefully-api#h_df59629cbf)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     typefully,

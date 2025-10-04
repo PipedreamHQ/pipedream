@@ -2,7 +2,12 @@ import error from "../../error.app.mjs";
 
 export default {
   name: "Throw Error",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "error-throw-error",
   description: "Quickly throw an error from your workflow.",
   props: {

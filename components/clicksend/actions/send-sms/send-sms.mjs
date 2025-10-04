@@ -4,7 +4,12 @@ export default {
   key: "clicksend-send-sms",
   name: "Send SMS",
   description: "Sends a new SMS to one or several recipients. [See the documentation](https://developers.clicksend.com/docs/rest/v3/#send-sms-message-s)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

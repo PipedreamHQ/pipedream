@@ -6,7 +6,12 @@ export default {
   key: "imagga-analyze-image",
   name: "Analyze Image",
   description: "Assign a category to a single image based on its visual content. [See the documentation](https://docs.imagga.com/?shell#categories-categorizer_id)",
-  version: "1.0.0",
+  version: "1.0.1",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     imagga,

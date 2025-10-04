@@ -4,7 +4,12 @@ export default {
   key: "devin-update-knowledge",
   name: "Update Knowledge",
   description: "Update an existing knowledge object. [See the documentation](https://docs.devin.ai/api-reference/knowledge/update-knowledge)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     devin,

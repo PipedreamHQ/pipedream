@@ -6,7 +6,12 @@ export default {
   name: "Create Check-In",
   description: "Creates a check-in. [See the docs](https://badgerupdatedapi.docs.apiary.io/#reference/check-ins/create-check-in-for-account/save-new-check-in-for-an-account).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     customer: {

@@ -5,7 +5,12 @@ export default {
   key: "shopify-update-metafield",
   name: "Update Metafield",
   description: "Updates a metafield belonging to a resource. [See the documentation]()",
-  version: "0.0.11",
+  version: "0.0.12",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   async additionalProps() {
     const props = await this.getOwnerIdProp(this.ownerResource);

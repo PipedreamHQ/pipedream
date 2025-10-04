@@ -5,7 +5,12 @@ export default {
   key: "contentstack-publish-entry",
   name: "Publish Entry",
   description: "Publishes a specific entry using its UID. [See the documentation](https://www.contentstack.com/docs/developers/apis/content-management-api#publish-entry)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     contentstack,

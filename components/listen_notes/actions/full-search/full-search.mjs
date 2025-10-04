@@ -4,7 +4,12 @@ export default {
   key: "listen_notes-full-search",
   name: "Full Search",
   description: "Full-text search on episodes, podcasts, or curated lists of podcasts. [See the documentation](https://www.listennotes.com/api/docs/#get-api-v2-search)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

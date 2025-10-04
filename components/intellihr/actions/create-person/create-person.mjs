@@ -4,7 +4,12 @@ export default {
   key: "intellihr-create-person",
   name: "Create Person",
   description: "Creates a new individual record in intellihr. [See the documentation](https://developers.intellihr.io/docs/v1/#tag/People/paths/~1people/post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     intellihr,

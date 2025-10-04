@@ -4,7 +4,12 @@ export default {
   key: "actitime-modify-leave-time",
   name: "Modify Leave Time",
   description: "Changes the existing leave time record with a given value in actiTIME. [See the documentation](https://online.actitime.com/pipedream/api/v1/swagger).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

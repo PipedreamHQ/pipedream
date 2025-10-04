@@ -9,7 +9,12 @@ export default {
   key: "unthread-create-conversation",
   name: "Create Conversation",
   description: "Create a new Conversation. [See the documentation](https://docs.unthread.io/api-introduction/using-api#create-conversation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

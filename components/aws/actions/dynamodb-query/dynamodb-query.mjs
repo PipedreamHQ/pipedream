@@ -12,7 +12,12 @@ export default {
     The query operation finds items based on primary key values.
     [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/classes/querycommand.html)
   `),
-  version: "0.5.2",
+  version: "0.5.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     aws: common.props.aws,

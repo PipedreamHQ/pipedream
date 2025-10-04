@@ -4,7 +4,12 @@ export default {
   key: "campayn-get-contact",
   name: "Get Contact",
   description: "Retrieves an existing contact. [See the docs](https://github.com/nebojsac/Campayn-API/blob/master/endpoints/contacts.md#get-a-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     campayn,

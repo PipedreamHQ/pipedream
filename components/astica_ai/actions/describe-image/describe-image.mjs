@@ -4,7 +4,12 @@ export default {
   name: "Describe Image",
   description: "Analyze an image with Astica AI [See the documentation](https://astica.ai/vision/documentation/)",
   key: "astica_ai-describe-image",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     asticaAi,

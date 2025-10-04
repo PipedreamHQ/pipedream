@@ -4,7 +4,12 @@ export default {
   key: "finage-forex-previous-close",
   name: "Forex Previous Close",
   description: "Get the previous close for the specified forex symbol. [See the documentation](https://finage.co.uk/docs/api/forex/forex-previous-close)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

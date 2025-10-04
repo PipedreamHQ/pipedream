@@ -4,8 +4,13 @@ export default {
   type: "action",
   key: "linear_app-create-issue",
   name: "Create Issue",
-  description: "Creates a new issue in Linear. Requires team ID and title. Optional: description, assignee, project, state. Returns response object with success status and issue details. Uses API Key authentication. See Linear docs for additional info [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#creating-and-editing-issues).",
-  version: "0.4.12",
+  description: "Creates a new issue in Linear. Requires team ID and title. Optional: description, assignee, project, state. Returns response object with success status and issue details. Uses API Key authentication. [See the documentation](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#creating-and-editing-issues).",
+  version: "0.4.14",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     linearApp,
     teamId: {
@@ -50,6 +55,21 @@ export default {
         }),
       ],
     },
+    labelIds: {
+      propDefinition: [
+        linearApp,
+        "issueLabels",
+        () => ({
+          byId: true,
+        }),
+      ],
+    },
+    priority: {
+      propDefinition: [
+        linearApp,
+        "issuePriority",
+      ],
+    },
   },
   async run({ $ }) {
     const {
@@ -60,6 +80,8 @@ export default {
       teamId,
       assigneeId,
       stateId,
+      labelIds,
+      priority,
     } = this;
 
     const response =
@@ -70,6 +92,8 @@ export default {
         description,
         assigneeId,
         stateId,
+        labelIds,
+        priority,
       });
 
     const summary = response.success

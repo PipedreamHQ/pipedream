@@ -5,7 +5,12 @@ export default {
   key: "helper_functions-xml-to-json",
   name: "XML to JSON",
   description: "See [xml-js](https://github.com/nashwaan/xml-js)",
-  version: "0.2.2",
+  version: "0.2.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     helper_functions,

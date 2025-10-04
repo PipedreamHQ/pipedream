@@ -5,7 +5,12 @@ export default {
   name: "Create Contract",
   description:
     "Deploys a new NFT contract, or collection, on a specific blockchain. [See the documentation](https://docs.venly.io/reference/deploycontract)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     venly,

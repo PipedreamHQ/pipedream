@@ -4,7 +4,12 @@ import getaccept from "../../getaccept.app.mjs";
 export default {
   key: "getaccept-create-document",
   name: "Create Document",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a document to be able to send it to a recipient. [See the documentation](https://app.getaccept.com/api/#createdocument)",
   type: "action",
   props: {

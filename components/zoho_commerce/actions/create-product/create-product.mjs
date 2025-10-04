@@ -4,7 +4,12 @@ export default {
   key: "zoho_commerce-create-product",
   name: "Create Product with Variant",
   description: "Create a new product with variants. [See the documentation](https://www.zoho.com/commerce/api/create-a-product-with-variant.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zohoCommerce,

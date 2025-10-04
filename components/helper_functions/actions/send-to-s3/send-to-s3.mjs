@@ -5,7 +5,12 @@ export default {
   key: "helper_functions-send-to-s3",
   name: "Send to Amazon S3",
   description: "Send data to Amazon S3 using Pipedream's destination integration. See https://docs.pipedream.com/destinations/s3/",
-  version: "0.2.1",
+  version: "0.2.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     helper_functions,

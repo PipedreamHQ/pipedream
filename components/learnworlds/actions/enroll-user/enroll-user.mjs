@@ -5,7 +5,12 @@ export default {
   key: "learnworlds-enroll-user",
   name: "Enroll User",
   description: "Enroll user to product. [See the documentation](https://www.learnworlds.dev/docs/api/3d5e79f96b44a-enroll-user-to-product)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     learnworlds,

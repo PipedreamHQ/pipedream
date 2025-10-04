@@ -6,7 +6,12 @@ export default {
   name: "Get Meeting",
   description: "Retrieve the details of a meeting. [See the documentation](https://marketplace.zoom.us/docs/api-reference/zoom-api/meetings/meeting)",
   key: "zoom_admin-get-meeting",
-  version: "0.1.7",
+  version: "0.1.8",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     zoomAdmin,

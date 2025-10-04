@@ -4,7 +4,12 @@ export default {
   key: "printnode-get-printer",
   name: "Get Printer",
   description: "Retrieves data about a specific printer. [See the documentation](https://www.printnode.com/en/docs/api/curl#printers)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     printnode,

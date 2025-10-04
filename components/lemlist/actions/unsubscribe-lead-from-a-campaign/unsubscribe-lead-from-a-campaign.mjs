@@ -4,7 +4,12 @@ export default {
   key: "lemlist-unsubscribe-lead-from-a-campaign",
   name: "Unsubscribe Lead From Campaign",
   description: "This action will unsubscribe a lead from all campaigns if he belongs to the specified campaign. [See the docs here](https://developer.lemlist.com/#unsubscribe-a-lead-from-a-campaign)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     lemlist,

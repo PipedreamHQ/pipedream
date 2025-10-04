@@ -5,7 +5,12 @@ export default {
   name: "Get Comments",
   description: "Fetches comments for a file. [See the documentation](https://developer.box.com/reference/get-files-id-comments/).",
   key: "box-get-comments",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

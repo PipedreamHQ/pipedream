@@ -5,7 +5,12 @@ export default {
   key: "realgeeks-create-lead",
   name: "Create Lead",
   description: "Creates a new lead in Real Geeks. [See the documentation](https://developers.realgeeks.com/leads/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     realGeeks,

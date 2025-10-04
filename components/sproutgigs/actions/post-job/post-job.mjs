@@ -4,7 +4,12 @@ export default {
   key: "sproutgigs-post-job",
   name: "Post Job",
   description: "Post a new job to Sproutgigs. [See the documentation](https://sproutgigs.com/api/documentation.php#jobs-post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

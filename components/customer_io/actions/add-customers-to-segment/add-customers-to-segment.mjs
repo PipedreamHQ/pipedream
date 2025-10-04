@@ -5,7 +5,12 @@ export default {
   key: "customer_io-add-customers-to-segment",
   name: "Add Customers to Segment",
   description: "Add people to a manual segment by ID. You are limited to 1000 customer IDs per request. [See the docs here](https://www.customer.io/docs/api/#operation/add_to_segment)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

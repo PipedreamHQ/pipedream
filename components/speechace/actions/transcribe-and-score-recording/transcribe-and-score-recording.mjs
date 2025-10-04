@@ -8,7 +8,12 @@ export default {
   key: "speechace-transcribe-and-score-recording",
   name: "Transcribe and Score Recording",
   description: "Transcribes and scores a provided speech recording. [See the documentation](https://docs.speechace.com/#76089b5d-7e25-4744-8d32-f6c230acf217)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     speechace,

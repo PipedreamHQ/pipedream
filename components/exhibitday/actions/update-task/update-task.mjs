@@ -5,7 +5,12 @@ export default {
   key: "exhibitday-update-task",
   name: "Update Task",
   description: "Updates an existing task in ExhibitDay. [See the documentation](https://api.exhibitday.com/Help/V1?epf=2)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     exhibitday,
