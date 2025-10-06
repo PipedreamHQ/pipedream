@@ -82,7 +82,6 @@
     "@pipedream/platform": "^1.5.1",
     "@sentry/node": "^7.7.0",
     "@types/node": "^20.17.6",
-    "crypto": "^1.0.1",
     "linkup-sdk": "^1.0.3",
     "uuid": "^8.3.2",
     "vue": "^2.6.14"
