@@ -3331,7 +3331,11 @@ importers:
 
   components/cratedb_cloud: {}
 
-  components/crawlbase: {}
+  components/crawlbase:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/credit_repair_cloud:
     dependencies:
@@ -13828,8 +13832,7 @@ importers:
 
   components/stack_overflow_for_teams: {}
 
-  components/stackby:
-    specifiers: {}
+  components/stackby: {}
 
   components/stackshare_api: {}
 
