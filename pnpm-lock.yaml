@@ -620,6 +620,12 @@ importers:
         specifier: ^2.30.1
         version: 2.30.1
 
+  components/airtop:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
+
   components/aitable_ai:
     dependencies:
       '@pipedream/platform':
@@ -7999,8 +8005,8 @@ importers:
         specifier: ^55.1.0
         version: 55.1.0
       '@pipedream/platform':
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/linearb:
     dependencies:
@@ -8930,7 +8936,14 @@ importers:
 
   components/minio: {}
 
-  components/mintlify: {}
+  components/mintlify:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
+      uuid:
+        specifier: ^13.0.0
+        version: 13.0.0
 
   components/miro_custom_app:
     dependencies:
@@ -10366,7 +10379,11 @@ importers:
 
   components/paypro: {}
 
-  components/payrexx: {}
+  components/payrexx:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/paystack:
     dependencies:
@@ -13209,7 +13226,14 @@ importers:
         specifier: ^3.0.0
         version: 3.0.3
 
-  components/sinch: {}
+  components/sinch:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
+      form-data:
+        specifier: ^4.0.4
+        version: 4.0.4
 
   components/sinch_messagemedia: {}
 
@@ -13733,6 +13757,8 @@ importers:
         version: 4.17.21
 
   components/stack_overflow_for_teams: {}
+
+  components/stackby: {}
 
   components/stackshare_api: {}
 
@@ -32161,6 +32187,10 @@ packages:
     resolution: {integrity: sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==}
     hasBin: true
 
+  uuid@13.0.0:
+    resolution: {integrity: sha512-XQegIaBTVUjSHliKqcnFqYypAd4S+WCYt5NIeRs6w/UAry7z8Y9j5ZwRRL4kzq9U3sD6v+85er9FvkEaBpji2w==}
+    hasBin: true
+
   uuid@3.3.2:
     resolution: {integrity: sha512-yXJmeNaw3DnnKAOKJE51sL/ZaYfWJRl1pK9dr19YFCu0ObS231AB1/LbqTKRAQ5kw8A90rA6fr4riOUpTZvQZA==}
     deprecated: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
@@ -39695,6 +39725,8 @@ snapshots:
       '@putout/operator-filesystem': 5.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))
       '@putout/operator-json': 2.2.0
       putout: 36.13.1(eslint@8.57.1)(typescript@5.6.3)
+    transitivePeerDependencies:
+      - supports-color
 
   '@putout/operator-regexp@1.0.0(putout@36.13.1(eslint@8.57.1)(typescript@5.6.3))':
     dependencies:
@@ -54552,6 +54584,8 @@ snapshots:
   uuid@11.0.5: {}
 
   uuid@11.1.0: {}
+
+  uuid@13.0.0: {}
 
   uuid@3.3.2: {}
 
