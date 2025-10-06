@@ -8038,8 +8038,8 @@ importers:
         specifier: ^55.1.0
         version: 55.1.0
       '@pipedream/linear_app':
-        specifier: ^0.7.5
-        version: 0.7.5
+        specifier: ^0.8.0
+        version: 0.8.0
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
@@ -13828,8 +13828,7 @@ importers:
 
   components/stack_overflow_for_teams: {}
 
-  components/stackby:
-    specifiers: {}
+  components/stackby: {}
 
   components/stackshare_api: {}
 
@@ -20449,8 +20448,8 @@ packages:
   '@pipedream/launchdarkly@0.1.1':
     resolution: {integrity: sha512-RqW4cJ0CfCnCy/lCutIJNSlX3IXV3jxoyqxDgAeHx8Q8BUEjEl7T0+1vMLyNXhU+V4Kj38KVURnSKqCE59UVvg==}
 
-  '@pipedream/linear_app@0.7.5':
-    resolution: {integrity: sha512-Y9JRcEYAFWHftWQ6uMtt2kxCBcLtCBgOXjEDY2XrqmDL36LBfWzcZFpr8GVZ91s/ftTW5gLqCWmNeuXeffqhhA==}
+  '@pipedream/linear_app@0.8.0':
+    resolution: {integrity: sha512-RAlqJGZlggqsCE14WBlcXHyxXCpcOp/W9XLt6YzzmKqIFcg2srXZvV74RVwFiP1gPtjUFLxYMlBkay//rPuPMQ==}
 
   '@pipedream/linkedin@0.1.1':
     resolution: {integrity: sha512-9pFjaohz/wnJMIRpPmDPqHeWiXUIJVWIPvQudE8TkUjaBbyieDpscy8reWMp96UK9aXz1Z2J2yiNh0msILAX9Q==}
@@ -39190,7 +39189,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@pipedream/linear_app@0.7.5':
+  '@pipedream/linear_app@0.8.0':
     dependencies:
       '@linear/sdk': 55.1.0
       '@pipedream/platform': 3.1.0
