@@ -10,5 +10,5 @@ export default {
   ...utils.getAppProps(createIssue),
   key: "linear-create-issue",
   description: "Creates a new issue in Linear. Requires team ID and title. Optional: description, assignee, project, state. Returns response object with success status and issue details. Uses OAuth authentication. See Linear docs for additional info [here](https://developers.linear.app/docs/graphql/working-with-the-graphql-api#creating-and-editing-issues).",
-  version: "0.4.11",
+  version: "0.4.12",
 };
