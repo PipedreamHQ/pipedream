@@ -5,7 +5,7 @@ export default {
   key: "slack_v2_test-find-message",
   name: "Find Message",
   description: "Find a Slack message. [See the documentation](https://api.slack.com/methods/search.messages)",
-  version: "0.1.1",
+  version: "0.1.2",
   type: "action",
   props: {
     slack,
@@ -53,6 +53,7 @@ export default {
           sort: params.sort,
           sort_dir: params.sort_dir,
           cursor: params.cursor,
+          channel_types: params.channel_types,
         },
         headers: {
           "Authorization": `Bearer ${this.slack.getToken()}`,
@@ -71,6 +72,7 @@ export default {
       query: this.query,
       sort: this.sort,
       sort_dir: this.sortDirection,
+      channel_types: "public_channel,private_channel",
     };
     let cursor;
 
