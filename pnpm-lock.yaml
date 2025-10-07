@@ -15324,7 +15324,7 @@ importers:
   components/verdict_as_a_service:
     dependencies:
       gdata-vaas:
-        specifier: 7.7.3
+        specifier: ^7.7.3
         version: 7.7.3
     devDependencies:
       '@pipedream/types':
@@ -37678,7 +37678,7 @@ snapshots:
 
   '@httptoolkit/websocket-stream@6.0.1':
     dependencies:
-      '@types/ws': 8.5.13
+      '@types/ws': 8.18.1
       duplexify: 3.7.1
       inherits: 2.0.4
       isomorphic-ws: 4.0.1(ws@8.18.3)
