@@ -1,6 +1,5 @@
 import { defineAction } from "@pipedream/types";
 import nectar_crm from "../../app/nectar_crm.app";
-import constants from "../common/constants";
 
 export default defineAction({
   key: "nectar_crm-create-sale-opportunity",

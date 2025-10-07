@@ -1,4 +1,4 @@
-import { defineAction } from "@pipedream/types";
+import { defineAction, JSONValue } from "@pipedream/types";
 import dayjs from "dayjs";
 import namely from "../../app/namely.app";
 
@@ -73,7 +73,7 @@ export default defineAction({
 
   },
   async run({ $ }) {
-    const body: any = {
+    const body: Record<string, JSONValue> = {
       first_name: this.firstName,
       last_name: this.lastName,
       user_status: this.userStatus,

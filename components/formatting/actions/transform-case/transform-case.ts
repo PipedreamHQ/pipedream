@@ -43,7 +43,9 @@ export default defineAction({
       $.export("$summary", "Successfully transformed text case");
       return result;
     } catch (err) {
-      throw new ConfigurationError("**Parse error** - check your input and if the selected operation is correct.");
+      throw new ConfigurationError(`**Parse error** - check your input and if the selected operation is correct.
+        
+${err.message}`);
     }
   },
 });
