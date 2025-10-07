@@ -3,7 +3,12 @@ import lemonSqueezy from "../../app/lemon_squeezy.app";
 
 export default defineAction({
   name: "Retrieve A Product",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "lemon_squeezy-retrieve-product",
   description: "Retrive an existent product. [See docs here](https://docs.lemonsqueezy.com/api/products#retrieve-a-product)",
   type: "action",

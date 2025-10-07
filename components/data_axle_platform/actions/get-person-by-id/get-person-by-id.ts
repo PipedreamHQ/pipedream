@@ -6,7 +6,12 @@ export default {
   name: "Get Person",
   description: "Retrive a specific person by id. [See the docs here](https://platform.data-axle.com/people/docs/search_api#ids-query)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     dataAxlePlatform,
     personId: {

@@ -6,7 +6,12 @@ export default defineAction({
   name: "Convert Currency",
   description: "Convert a specified amount from one currency to another [See the documentation](https://currencybeacon.com/api-documentation)",
   key: "currencyscoop-convert-currency",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

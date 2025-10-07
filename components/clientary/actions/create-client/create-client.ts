@@ -3,7 +3,12 @@ import app from "../../app/clientary.app";
 
 export default defineAction({
   key: "clientary-create-client",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   name: "Create Client",
   description: "Creates a new client. [See docs here](https://www.clientary.com/api/clients)",
   type: "action",

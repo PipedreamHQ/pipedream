@@ -4,7 +4,12 @@ import namely from "../../app/namely.app";
 
 export default defineAction({
   key: "namely-create-user",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   name: "Create User",
   description: "Creates a new user. [See docs here](https://developers.namely.com/docs/namely-api/28db3994d16fe-create-a-user)",
   type: "action",

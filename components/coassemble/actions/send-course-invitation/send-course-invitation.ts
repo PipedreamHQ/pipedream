@@ -3,7 +3,12 @@ import coassemble from "../../app/coassemble.app";
 export default {
   key: "coassemble-send-course-invitation",
   name: "Send Course Invitation",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Enrol existing users into a course. [See the docs here](https://developers.coassemble.com/api/enrolments#create-enrolments)",
   type: "action",
   props: {

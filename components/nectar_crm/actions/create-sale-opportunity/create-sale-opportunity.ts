@@ -6,7 +6,12 @@ export default defineAction({
   key: "nectar_crm-create-sale-opportunity",
   name: "Create Sale Opportunity",
   description: "Created a sale opportunity. [See docs here](https://nectarcrm.docs.apiary.io/#reference/0/oportunidades/criar)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     nectar_crm,
