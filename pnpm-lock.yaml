@@ -1924,8 +1924,7 @@ importers:
 
   components/braintree: {}
 
-  components/brandblast:
-    specifiers: {}
+  components/brandblast: {}
 
   components/brandfetch: {}
 
@@ -15325,12 +15324,12 @@ importers:
   components/verdict_as_a_service:
     dependencies:
       gdata-vaas:
-        specifier: ^2.2.7
-        version: 2.4.1
+        specifier: 7.7.3
+        version: 7.7.3
     devDependencies:
       '@pipedream/types':
-        specifier: ^0.1.4
-        version: 0.1.6
+        specifier: ^0.3.4
+        version: 0.3.4
 
   components/verifalia:
     dependencies:
@@ -18442,6 +18441,11 @@ packages:
     peerDependencies:
       postcss-selector-parser: ^6.1.0
 
+  '@d-fischer/isomorphic-ws@7.0.2':
+    resolution: {integrity: sha512-xK+qIJUF0ne3dsjq5Y3BviQ4M+gx9dzkN+dPP7abBMje4YRfow+X9jBgeEoTe5e+Q6+8hI9R0b37Okkk8Vf0hQ==}
+    peerDependencies:
+      ws: ^8.2.0
+
   '@dabh/diagnostics@2.0.3':
     resolution: {integrity: sha512-hrlQOIi7hAfzsMqlGSFyVucrx38O+j6wiGOf//H2ecvIEqYN4ADBSS2iLMh5UFyDunCNniUIPk/q3riFv45xRA==}
 
@@ -20454,6 +20458,9 @@ packages:
 
   '@pipedream/types@0.3.2':
     resolution: {integrity: sha512-sX4UUdEbgCs7JkvyWPLqdtiJkGJ8ishKfo/V4CjH7AhTRuI0oStspphUJI+rj8jqp8nCviw+ba0mRGWlCk+iZQ==}
+
+  '@pipedream/types@0.3.4':
+    resolution: {integrity: sha512-VR7yqai7ADg5gvlSF2vfcTZjostxiHcFAwpRnAyJOZWGxzIwfzYI/DM17M9+p2WxpNqC7JDWkmLWuAoYRKXXVg==}
 
   '@pipedream/youtube_data_api@1.0.1':
     resolution: {integrity: sha512-yEh7+PJgzuOY+L8rWjxgb6vIQf+6wL7QyfQLEQ3KTn6dnDdhTTO8+93og7W83FhgmOd1lhUG2jfrmfuSFqHKpg==}
@@ -22817,6 +22824,9 @@ packages:
   '@types/unist@3.0.3':
     resolution: {integrity: sha512-ko/gIFJRv177XgZsZcBwnqJN5x/Gien8qNOn0D5bQU/zAzVf9Zt3BlcUiLqhV9y4ARk0GbT3tnUiPNgnTXzc/Q==}
 
+  '@types/uuid@10.0.0':
+    resolution: {integrity: sha512-7gqG38EyHgyP1S+7+xomFtL+ZNHcKv6DwNaCZmJmo1vgMugyF3TCnXVg4t1uk89mLNwnLtnY3TpOpCOyp1/xHQ==}
+
   '@types/uuid@8.3.4':
     resolution: {integrity: sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==}
 
@@ -22829,11 +22839,11 @@ packages:
   '@types/whatwg-url@8.2.2':
     resolution: {integrity: sha512-FtQu10RWgn3D9U4aazdwIE2yzphmTJREDqNdODHrbrZmmMqI0vMheC/6NE/J1Yveaj8H+ela+YwWTjq5PGmuhA==}
 
+  '@types/ws@8.18.1':
+    resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
+
   '@types/ws@8.5.13':
     resolution: {integrity: sha512-osM/gWBTPKgHV8XkTunnegTRIsvF6owmf5w+JtAfOw472dptdm0dlGv4xCt6GwQRcC2XVOvvRE/0bAoQcL2QkA==}
-
-  '@types/ws@8.5.3':
-    resolution: {integrity: sha512-6YOoWjruKj1uLf3INHH7D3qTXwFfEsg1kf3c0uDdSBJwfa/llkwIjrAGV7j7mVgGNbzTQ3HiHKKDXl6bJPD97w==}
 
   '@types/yargs-parser@21.0.3':
     resolution: {integrity: sha512-I4q9QU9MQv4oEOz4tAHJtNz1cwuLxn2F3xcc2iV5WdqLPpUnj30aUuxt1mAxYTG+oe8CZMV/+6rU4S4gRDzqtQ==}
@@ -26161,8 +26171,8 @@ packages:
     resolution: {integrity: sha512-3PfRTzvT3Msu0Hy8Gf9ypxJvaClG2IB9pyH0r8QOmRBW5mUcrHgYpF4GYP+XulDbfhxEhBYtJtJJQb5S2wM+LA==}
     engines: {node: '>=18'}
 
-  gdata-vaas@2.4.1:
-    resolution: {integrity: sha512-G7Rn3jJ1QtMfr4fxtJ9ZwA2UikE1CAd9fAjc/HxeELJ+FwtqiTORSFdyE7boZsyCYzp5PcQ/69W8zSvz8xytUg==}
+  gdata-vaas@7.7.3:
+    resolution: {integrity: sha512-nTXLFPKQKxnce/b4rwF4j3LVaDuNqZnd9U4slJQOEt1G2lQ+oOVRNf3mrn6Od4/slg/GdujadCWdBYI7SfiaXw==}
 
   generate-function@2.3.1:
     resolution: {integrity: sha512-eeB5GfMNeevm/GRYq20ShmsaGcmI81kIX2K9XQx5miC8KdHaC6Jm0qQ8ZNeGOi7wYB8OsdxKs+Y2oVuTFuVwKQ==}
@@ -31829,8 +31839,8 @@ packages:
       typescript:
         optional: true
 
-  typescript-json-serializer@3.4.5:
-    resolution: {integrity: sha512-KWsDGa1vddY3alUIzE9oBo6AfVzVXQCCHm9ATF4oiGAoTHTTIV0IBGSRAu2uiJHrpPC/n7fxnnAagOhLQZyTcg==}
+  typescript-json-serializer@6.0.1:
+    resolution: {integrity: sha512-95UQOeV3V+WIx5+7dBZd6/pN+cQSsGXxIdDvPmYhkHYH6VrIgQ3DK+IM3ixKVjFwvch8LnWhIY3F/Zhp4bNfSA==}
 
   typescript@3.9.10:
     resolution: {integrity: sha512-w6fIxVE/H1PkLKcCPsFqKE7Kv7QUwhU8qQY2MueZXWx5cPZdwFupLgKK3vntcK98BtNHZtAF4LA/yl2a7k8R6Q==}
@@ -32627,18 +32637,6 @@ packages:
     peerDependencies:
       bufferutil: ^4.0.1
       utf-8-validate: '>=5.0.2'
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-
-  ws@8.7.0:
-    resolution: {integrity: sha512-c2gsP0PRwcLFzUiA8Mkr37/MI7ilIlHQxaEAtd0uNMbVMoy8puJyafRlm0bV9MbGSabUPeLrRRaqIBcFcA2Pqg==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: ^5.0.2
     peerDependenciesMeta:
       bufferutil:
         optional: true
@@ -36736,6 +36734,10 @@ snapshots:
     dependencies:
       postcss-selector-parser: 6.1.2
 
+  '@d-fischer/isomorphic-ws@7.0.2(ws@8.18.3)':
+    dependencies:
+      ws: 8.18.3
+
   '@dabh/diagnostics@2.0.3':
     dependencies:
       colorspace: 1.1.4
@@ -39354,6 +39356,10 @@ snapshots:
       typescript: 4.9.5
 
   '@pipedream/types@0.3.2':
+    dependencies:
+      typescript: 5.6.3
+
+  '@pipedream/types@0.3.4':
     dependencies:
       typescript: 5.6.3
 
@@ -42238,6 +42244,8 @@ snapshots:
 
   '@types/unist@3.0.3': {}
 
+  '@types/uuid@10.0.0': {}
+
   '@types/uuid@8.3.4': {}
 
   '@types/uuid@9.0.8': {}
@@ -42249,11 +42257,11 @@ snapshots:
       '@types/node': 20.17.30
       '@types/webidl-conversions': 7.0.3
 
-  '@types/ws@8.5.13':
+  '@types/ws@8.18.1':
     dependencies:
       '@types/node': 20.17.30
 
-  '@types/ws@8.5.3':
+  '@types/ws@8.5.13':
     dependencies:
       '@types/node': 20.17.30
 
@@ -46471,17 +46479,17 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  gdata-vaas@2.4.1:
+  gdata-vaas@7.7.3:
     dependencies:
-      '@types/uuid': 8.3.4
-      '@types/ws': 8.5.3
+      '@d-fischer/isomorphic-ws': 7.0.2(ws@8.18.3)
+      '@types/uuid': 10.0.0
+      '@types/ws': 8.18.1
       '@ungap/url-search-params': 0.2.2
-      axios: 0.27.2
+      axios: 1.11.0(debug@3.2.7)
       fast-sha256: 1.3.0
-      isomorphic-ws: 4.0.1(ws@8.7.0)
-      typescript-json-serializer: 3.4.5
-      uuid: 8.3.2
-      ws: 8.7.0
+      typescript-json-serializer: 6.0.1
+      uuid: 11.1.0
+      ws: 8.18.3
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -47896,10 +47904,6 @@ snapshots:
   isomorphic-ws@4.0.1(ws@8.18.3):
     dependencies:
       ws: 8.18.3
-
-  isomorphic-ws@4.0.1(ws@8.7.0):
-    dependencies:
-      ws: 8.7.0
 
   isows@1.0.7(ws@8.18.3):
     dependencies:
@@ -54278,7 +54282,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  typescript-json-serializer@3.4.5:
+  typescript-json-serializer@6.0.1:
     dependencies:
       reflect-metadata: 0.1.14
       tslib: 2.8.1
@@ -55036,8 +55040,6 @@ snapshots:
   ws@8.18.2: {}
 
   ws@8.18.3: {}
-
-  ws@8.7.0: {}
 
   xdg-basedir@5.1.0: {}
 
