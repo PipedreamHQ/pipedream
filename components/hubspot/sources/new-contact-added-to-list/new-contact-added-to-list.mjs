@@ -55,6 +55,14 @@ export default {
       label: "Additional contact properties to retrieve",
       optional: true,
     },
+    fetchAllProperties: {
+      type: "boolean",
+      label: "Fetch all contact properties",
+      description:
+        "When enabled, fetches all available contact properties instead of just default and selected properties. This provides complete contact data but may increase API usage.",
+      optional: true,
+      default: false,
+    },
   },
   methods: {
     ...common.methods,
@@ -94,6 +102,40 @@ export default {
     },
     async getContactDetails(contactIds) {
       if (!contactIds.length) return {};
+
+      if (this.fetchAllProperties) {
+        const chunks = [];
+        const chunkSize = 100;
+        for (let i = 0; i < contactIds.length; i += chunkSize) {
+          chunks.push(contactIds.slice(i, i + chunkSize));
+        }
+
+        const contactMap = {};
+
+        try {
+          for (const chunk of chunks) {
+            try {
+              const { results } = await this.hubspot.batchGetContactsWithAllProperties({
+                contactIds: chunk,
+              });
+
+              results.forEach((contact) => {
+                contactMap[contact.id] = contact;
+              });
+            } catch (error) {
+              console.warn(
+                `Error fetching contact details for chunk of ${chunk.length} contacts:`,
+                error,
+              );
+            }
+          }
+
+          return contactMap;
+        } catch (error) {
+          console.warn("Error processing contact details:", error);
+          return {};
+        }
+      }
 
       const { properties = [] } = this;
       const allProperties = [

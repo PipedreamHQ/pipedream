@@ -38,6 +38,14 @@ export default {
       optional: true,
       default: true,
     },
+    fetchAllProperties: {
+      type: "boolean",
+      label: "Fetch all contact properties",
+      description:
+        "When enabled, fetches all available contact properties instead of just the watched property. This provides complete contact data but may increase API usage.",
+      optional: true,
+      default: false,
+    },
   },
   methods: {
     ...common.methods,
@@ -111,7 +119,38 @@ export default {
       }
       return params;
     },
-    batchGetContacts(inputs) {
+    async batchGetContacts(inputs) {
+      if (this.fetchAllProperties) {
+        const { results } = await this.hubspot.batchGetContactsWithAllProperties({
+          contactIds: inputs.map((input) => input.id),
+        });
+
+        const { results: contactsWithHistory } = await this.hubspot.batchGetObjects({
+          objectType: "contacts",
+          data: {
+            properties: [
+              this.property,
+            ],
+            propertiesWithHistory: [
+              this.property,
+            ],
+            inputs,
+          },
+        });
+
+        const mergedResults = results.map((contact) => {
+          const contactWithHistory = contactsWithHistory.find((c) => c.id === contact.id);
+          return {
+            ...contact,
+            propertiesWithHistory: contactWithHistory?.propertiesWithHistory || {},
+          };
+        });
+
+        return {
+          results: mergedResults,
+        };
+      }
+
       return this.hubspot.batchGetObjects({
         objectType: "contacts",
         data: {
