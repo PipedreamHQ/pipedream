@@ -10,7 +10,7 @@ export default defineAction({
     readOnlyHint: true,
   },
   key: "lemon_squeezy-retrieve-product",
-  description: "Retrive an existent product. [See docs here](https://docs.lemonsqueezy.com/api/products#retrieve-a-product)",
+  description: "Retrieve an existent product. [See docs here](https://docs.lemonsqueezy.com/api/products#retrieve-a-product)",
   type: "action",
   props: {
     lemonSqueezy,

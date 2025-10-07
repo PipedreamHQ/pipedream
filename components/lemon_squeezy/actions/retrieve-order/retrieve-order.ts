@@ -10,7 +10,7 @@ export default defineAction({
     readOnlyHint: true,
   },
   key: "lemon_squeezy-retrieve-order",
-  description: "Retrive an existent order. [See docs here](https://docs.lemonsqueezy.com/api/orders#retrieve-an-order)",
+  description: "Retrieve an existent order. [See docs here](https://docs.lemonsqueezy.com/api/orders#retrieve-an-order)",
   type: "action",
   props: {
     lemonSqueezy,

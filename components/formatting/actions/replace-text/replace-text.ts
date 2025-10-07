@@ -12,7 +12,7 @@ export default defineAction({
   version: "0.0.6",
   annotations: {
     destructiveHint: true,
-    openWorldHint: true,
+    openWorldHint: false,
     readOnlyHint: false,
   },
   type: "action",

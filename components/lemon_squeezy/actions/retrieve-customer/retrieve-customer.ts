@@ -10,7 +10,7 @@ export default defineAction({
     readOnlyHint: true,
   },
   key: "lemon_squeezy-retrieve-customer",
-  description: "Retrive an existent customer. [See docs here](https://docs.lemonsqueezy.com/api/customers#retrieve-a-customer)",
+  description: "Retrieve an existent customer. [See docs here](https://docs.lemonsqueezy.com/api/customers#retrieve-a-customer)",
   type: "action",
   props: {
     lemonSqueezy,

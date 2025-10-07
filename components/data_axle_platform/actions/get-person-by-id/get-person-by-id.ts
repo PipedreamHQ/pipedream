@@ -4,7 +4,7 @@ import { PEOPLE_PACKAGES } from "../../common/constants";
 export default {
   key: "data_axle_platform-get-person-by-id",
   name: "Get Person",
-  description: "Retrive a specific person by id. [See the docs here](https://platform.data-axle.com/people/docs/search_api#ids-query)",
+  description: "Retrieve a specific person by id. [See the docs here](https://platform.data-axle.com/people/docs/search_api#ids-query)",
   type: "action",
   version: "0.0.2",
   annotations: {
