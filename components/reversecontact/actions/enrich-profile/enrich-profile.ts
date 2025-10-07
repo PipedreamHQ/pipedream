@@ -3,7 +3,12 @@ import app from "../../app/reversecontact.app";
 
 export default defineAction({
   key: "reversecontact-enrich-profile",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   name: "Enrich Profile",
   description: "Returns enriched profile information with the given email. [See docs here](https://docs.reversecontact.com/enriched_profile_check)",
   type: "action",

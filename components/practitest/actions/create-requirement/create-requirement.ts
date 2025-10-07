@@ -9,7 +9,12 @@ export default defineAction({
   name: "Create Requirement",
   description: `Create a requirement [See docs here](${DOCS.createRequirement})`,
   key: "practitest-create-requirement",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     practitest,

@@ -3,7 +3,12 @@ import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "Add Customer Note Entry",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "waitwhile-add-customer-note-entry",
   description: "Add a customer note entry. [See the doc here](https://developers.waitwhile.com/reference/postcustomerscustomeridnotes)",
   props: {

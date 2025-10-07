@@ -5,7 +5,12 @@ export default defineAction({
   name: "Remove Student from all Courses",
   description: "Remove a student from all courses. [See docs](https://howto.xperiencify.com/article.php?article=123#4)",
   key: "xperiencify-remove-student-from-all-courses",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     xperiencify,

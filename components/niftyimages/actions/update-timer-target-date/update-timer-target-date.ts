@@ -7,7 +7,12 @@ export default defineAction({
   description:
     "Create or update a Data Store Record [See docs here](https://api.niftyimages.com/)",
   key: "niftyimages-update-timer-target-date",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     niftyimages,
