@@ -28,7 +28,7 @@ export default defineApp({
       const authenticator = new ClientCredentialsGrantAuthenticator(
         clientId,
         secret,
-        tokenUrl
+        tokenUrl,
       );
       const token = await authenticator.getToken();
       const vaas = new Vaas();
