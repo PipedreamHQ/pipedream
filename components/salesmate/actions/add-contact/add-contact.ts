@@ -3,7 +3,12 @@ import salesmate from "../../app/salesmate.app";
 
 export default defineAction({
   name: "Add Contact",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "salesmate-add-contact",
   description: "This API is used to add a contact. [See docs here](https://apidocs.salesmate.io/#b768facc-930f-4f93-b9a7-a26a0875b6b0)",
   type: "action",
