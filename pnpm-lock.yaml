@@ -1788,6 +1788,9 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/blotato:
+    specifiers: {}
+
   components/blue: {}
 
   components/bluecart_api: {}
