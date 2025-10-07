@@ -1920,6 +1920,9 @@ importers:
 
   components/braintree: {}
 
+  components/brandblast:
+    specifiers: {}
+
   components/brandfetch: {}
 
   components/brandmentions: {}
