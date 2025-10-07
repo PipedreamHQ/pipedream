@@ -1,4 +1,6 @@
-import { Readable, Writable } from "stream";
+import {
+  Readable, Writable,
+} from "stream";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type JSONValue =
