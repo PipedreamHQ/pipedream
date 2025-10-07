@@ -1,3 +1,7 @@
+import {
+  Readable, Writable,
+} from "stream";
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type JSONValue =
   | string
@@ -69,7 +73,7 @@ export interface HTTPResponse {
   /**
    * Http Body
    */
-  body: string | Buffer | ReadableStream;
+  body: string | Buffer | Readable;
   /**
    * If true, issue the response when the promise returned is resolved, otherwise issue
    * the response at the end of the workflow execution
@@ -114,13 +118,13 @@ export interface IApi {
 
 export interface IFile {
   delete(): Promise<void>;
-  createReadStream(): Promise<ReadableStream>;
-  createWriteStream(contentType?: string, contentLength?: number): Promise<WritableStream>;
+  createReadStream(): Promise<Readable>;
+  createWriteStream(contentType?: string, contentLength?: number): Promise<Writable>;
   toEncodedString(encoding?: string, start?: number, end?: number): Promise<string>;
   toUrl(): Promise<string>;
   toFile(localFilePath: string): Promise<void>;
   toBuffer(): Promise<Buffer>;
-  fromReadableStream(readableStream: ReadableStream, contentType?: string, contentSize?: number): Promise<IFile>;
+  fromReadableStream(readableStream: Readable, contentType?: string, contentSize?: number): Promise<IFile>;
   fromFile(localFilePath: string, contentType?: string): Promise<IFile>;
   fromUrl(url: string, options?: any): Promise<IFile>;
   toJSON(): any;
