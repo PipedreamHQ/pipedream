@@ -113,21 +113,45 @@ export default {
       const client = this.googleCloud
         .getBigQueryClient()
         .dataset(this.datasetId);
-      const [
-        job,
-      ] = await client.createQueryJob(queryOpts);
-      const [
-        rows,
-      ] = await job.getQueryResults();
-      if (rows.length === 0) {
-        console.log(`
-          No records found in the target table, will start scanning from the beginning
-        `);
-        return;
-      }
 
-      const startingRow = rows.pop();
-      return startingRow[this.uniqueKey];
+      let job;
+      try {
+        const [
+          createdJob,
+        ] = await client.createQueryJob(queryOpts);
+        job = createdJob;
+
+        const [
+          rows,
+        ] = await job.getQueryResults();
+
+        if (rows.length === 0) {
+          console.log(`
+            No records found in the target table, will start scanning from the beginning
+          `);
+          return;
+        }
+
+        const startingRow = rows.pop();
+        return startingRow[this.uniqueKey];
+      } finally {
+        // CRITICAL: Clean up ALL BigQuery resources to prevent memory leaks
+        if (job) {
+          try {
+            console.log("Cleaning up BigQuery job resources in _getIdOfLastRow...");
+            await job.cancel();
+            job.removeAllListeners && job.removeAllListeners();
+
+            // Also clean up the BigQuery client instance
+            const bigQueryClient = this.googleCloud.getBigQueryClient();
+            if (bigQueryClient && typeof bigQueryClient.close === "function") {
+              await bigQueryClient.close();
+            }
+          } catch (cleanupError) {
+            console.warn("Warning: Error during BigQuery job cleanup in _getIdOfLastRow:", cleanupError.message);
+          }
+        }
+      }
     },
     getQueryOpts() {
       const lastResultId = this._getLastResultId();

@@ -79,85 +79,105 @@ export default {
 
       console.log(`Starting BigQuery processing with max ${maxRowsPerExecution} rows per execution`);
 
-      while (!allProcessed) {
-        try {
-          const options = {
-            maxResults: pageSize,
-          };
+      try {
+        while (!allProcessed) {
+          try {
+            const options = {
+              maxResults: pageSize,
+            };
 
-          if (pageToken) {
-            options.pageToken = pageToken;
-          }
-
-          const [
-            rows,
-            queryResults,
-          ] = await job.getQueryResults(options);
-          const nextPageToken = queryResults?.pageToken;
-
-          if (rows.length === 0) {
-            allProcessed = true;
-            break;
-          }
-
-          // Check memory limits before processing
-          totalRowsProcessed += rows.length;
-          if (totalRowsProcessed > maxRowsPerExecution) {
-            console.log(`Reached max rows limit (${maxRowsPerExecution}). Stopping processing to prevent memory issues.`);
-            allProcessed = true;
-            break;
-          }
-
-          // Process rows immediately and in small chunks to reduce memory usage
-          chunk(rows, this.eventSize).forEach((batch) => {
-            try {
-              if (this.eventSize === 1) {
-                const meta = this.generateMeta(batch[0], timestamp);
-                this.$emit(batch[0], meta);
-              } else {
-                const meta = this.generateMetaForCollection(batch, timestamp);
-                const data = {
-                  rows: batch,
-                  rowCount: batch.length,
-                };
-                this.$emit(data, meta);
-              }
-            } catch (error) {
-              console.error("Error processing batch:", error);
-              throw error;
+            if (pageToken) {
+              options.pageToken = pageToken;
             }
-          });
 
-          // Update last result ID before clearing rows
-          if (this.uniqueKey && rows.length > 0) {
-            this._updateLastResultId([
-              ...rows,
-            ]); // Pass a copy to avoid mutation issues
-          }
+            const [
+              rows,
+              queryResults,
+            ] = await job.getQueryResults(options);
+            const nextPageToken = queryResults?.pageToken;
 
-          // Clear references to help with garbage collection
-          rows.splice(0, rows.length); // More efficient than rows.length = 0
+            if (rows.length === 0) {
+              allProcessed = true;
+              break;
+            }
 
-          // Force garbage collection if available (Node.js with --expose-gc)
-          if (global.gc && pageCount % 10 === 0) {
-            global.gc();
-          }
+            // Check memory limits before processing
+            totalRowsProcessed += rows.length;
+            if (totalRowsProcessed > maxRowsPerExecution) {
+              console.log(`Reached max rows limit (${maxRowsPerExecution}). Stopping processing to prevent memory issues.`);
+              allProcessed = true;
+              break;
+            }
 
-          pageCount++;
-          if (pageCount >= maxPages) {
-            console.log(`Reached max pages limit (${maxPages}). Stopping processing.`);
-            allProcessed = true;
+            // Process rows immediately and in small chunks to reduce memory usage
+            chunk(rows, this.eventSize).forEach((batch) => {
+              try {
+                if (this.eventSize === 1) {
+                  const meta = this.generateMeta(batch[0], timestamp);
+                  this.$emit(batch[0], meta);
+                } else {
+                  const meta = this.generateMetaForCollection(batch, timestamp);
+                  const data = {
+                    rows: batch,
+                    rowCount: batch.length,
+                  };
+                  this.$emit(data, meta);
+                }
+              } catch (error) {
+                console.error("Error processing batch:", error);
+                throw error;
+              }
+            });
+
+            // Update last result ID before clearing rows
+            if (this.uniqueKey && rows.length > 0) {
+              this._updateLastResultId([
+                ...rows,
+              ]); // Pass a copy to avoid mutation issues
+            }
+
+            // Clear references to help with garbage collection
+            rows.splice(0, rows.length); // More efficient than rows.length = 0
+
+            // Force garbage collection if available (Node.js with --expose-gc)
+            if (global.gc && pageCount % 10 === 0) {
+              global.gc();
+            }
+
+            pageCount++;
+            if (pageCount >= maxPages) {
+              console.log(`Reached max pages limit (${maxPages}). Stopping processing.`);
+              allProcessed = true;
+            }
+            if (!nextPageToken) {
+              break;
+            }
+            pageToken = nextPageToken;
+          } catch (error) {
+            console.error("Error in BigQuery processing:", error);
+            if (error.message && error.message.includes("memory")) {
+              throw new Error(`Memory error in BigQuery processing. Consider reducing maxRowsPerExecution or eventSize. Original error: ${error.message}`);
+            }
+            throw error;
           }
-          if (!nextPageToken) {
-            break;
+        }
+      } finally {
+        // CRITICAL: Clean up ALL BigQuery resources to prevent memory leaks
+        try {
+          console.log("Cleaning up BigQuery job resources...");
+          // Cancel the job if it's still running (shouldn't be, but just in case)
+          await job.cancel();
+          // Clear any internal references
+          job.removeAllListeners && job.removeAllListeners();
+
+          // Also clean up the BigQuery client instance to ensure connections are closed
+          const bigQueryClient = this.googleCloud.getBigQueryClient();
+          if (bigQueryClient && typeof bigQueryClient.close === "function") {
+            await bigQueryClient.close();
           }
-          pageToken = nextPageToken;
-        } catch (error) {
-          console.error("Error in BigQuery processing:", error);
-          if (error.message && error.message.includes("memory")) {
-            throw new Error(`Memory error in BigQuery processing. Consider reducing maxRowsPerExecution or eventSize. Original error: ${error.message}`);
-          }
-          throw error;
+        } catch (cleanupError) {
+          console.warn("Warning: Error during BigQuery resource cleanup:", cleanupError.message);
+          // Don't throw - cleanup errors shouldn't fail the main process
         }
       }
 
