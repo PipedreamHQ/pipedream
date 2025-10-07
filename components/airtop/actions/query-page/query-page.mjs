@@ -4,7 +4,7 @@ export default {
   key: "airtop-query-page",
   name: "Query Page",
   description: "Extract data or ask questions about page content using AI. [See the documentation](https://docs.airtop.ai/api-reference/airtop-api/windows/page-query)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
@@ -63,11 +63,9 @@ export default {
       windowId,
       data: {
         prompt,
-        configuration: {
-          followPaginationLinks,
-          costThresholdCredits,
-          timeThresholdSeconds,
-        },
+        followPaginationLinks,
+        costThresholdCredits,
+        timeThresholdSeconds,
       },
     });
 
