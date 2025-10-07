@@ -1,6 +1,6 @@
 import onfleet from "../../app/onfleet.app";
 import {
-  clearObj, prepareData
+  clearObj, prepareData,
 } from "../common/utils";
 
 export default {
@@ -8,7 +8,7 @@ export default {
   name: "Create Linked Pickup & Dropoff Tasks",
   description: "Create a pickup task and dropoff task linked with each other. [See the docs here](https://docs.onfleet.com/reference/create-task)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -325,8 +325,8 @@ export default {
       address: dropoffAddress,
     };
 
-    let pickupResponse = <any>{};
-    let dropoffResponse = <any>{};
+    let pickupResponse: { id?: string } = {};
+    let dropoffResponse: { id?: string } = {};
     let response = {};
     let summary = "";
 

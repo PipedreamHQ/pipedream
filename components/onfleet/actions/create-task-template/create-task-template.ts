@@ -1,6 +1,6 @@
 import onfleet from "../../app/onfleet.app";
 import {
-  clearObj, prepareData
+  clearObj, prepareData,
 } from "../common/utils";
 
 export default {

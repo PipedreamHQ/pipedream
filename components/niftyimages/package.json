@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/niftyimages",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Pipedream NiftyImages Components",
   "main": "dist/app/niftyimages.app.mjs",
   "keywords": [

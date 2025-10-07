@@ -39,7 +39,9 @@ export default defineAction({
     try {
       fields = await this.niftyimages.getDataStoreFields(apiKey);
     } catch (err) {
-      throw new ConfigurationError("Error fetching data - please check the **API Key**.");
+      throw new ConfigurationError(`Error fetching data - please check the **API Key**.
+        
+\`${err.message}\``);
     }
     const newPropNames = [];
 

@@ -118,7 +118,9 @@ export default defineAction({
           };
         } catch (err) {
           throw new ConfigurationError(
-            `**JSON parse error** - check if the \`${prop}\` prop is a valid JSON-stringified object`,
+            `**JSON parse error** - check if the \`${prop}\` prop is a valid JSON-stringified object
+            
+\`${err.message}\``,
           );
         }
       }
