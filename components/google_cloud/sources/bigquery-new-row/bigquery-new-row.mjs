@@ -114,76 +114,39 @@ export default {
         .getBigQueryClient()
         .dataset(this.datasetId);
 
-      let job;
-      try {
-        const [
-          createdJob,
-        ] = await client.createQueryJob(queryOpts);
-        job = createdJob;
+      const [
+        job,
+      ] = await client.createQueryJob(queryOpts);
 
-        const [
-          rows,
-        ] = await job.getQueryResults();
+      const [
+        rows,
+      ] = await job.getQueryResults();
 
-        if (rows.length === 0) {
-          console.log(`
-            No records found in the target table, will start scanning from the beginning
-          `);
-          return;
-        }
-
-        const startingRow = rows.pop();
-        return startingRow[this.uniqueKey];
-      } finally {
-        // CRITICAL: Clean up ALL BigQuery resources to prevent memory leaks
-        if (job) {
-          try {
-            console.log("Cleaning up BigQuery job resources in _getIdOfLastRow...");
-            await job.cancel();
-            job.removeAllListeners && job.removeAllListeners();
-
-            // Also clean up the BigQuery client instance
-            const bigQueryClient = this.googleCloud.getBigQueryClient();
-            if (bigQueryClient && typeof bigQueryClient.close === "function") {
-              await bigQueryClient.close();
-            }
-          } catch (cleanupError) {
-            console.warn("Warning: Error during BigQuery job cleanup in _getIdOfLastRow:", cleanupError.message);
-          }
-        }
+      if (rows.length === 0) {
+        console.log(`
+          No records found in the target table, will start scanning from the beginning
+        `);
+        return;
       }
+
+      const startingRow = rows.pop();
+      return startingRow[this.uniqueKey];
     },
     getQueryOpts() {
       const lastResultId = this._getLastResultId();
-      const maxRowsPerExecution = this.maxRowsPerExecution || 5000;
-
-      let query = `
-        SELECT *
-        FROM \`${this.tableId}\`
-      `;
+      let query = `SELECT * FROM \`${this.tableId}\``;
       if (lastResultId) {
         query += ` WHERE \`${this.uniqueKey}\` >= @lastResultId`;
       }
-      query += ` ORDER BY \`${this.uniqueKey}\` ASC`;
-      query += " LIMIT @maxRows";
-
-      const params = {
-        maxRows: maxRowsPerExecution,
-        ...(lastResultId
-          ? {
-            lastResultId,
-          }
-          : {}),
-      };
-
+      query += ` ORDER BY \`${this.uniqueKey}\` DESC`;
+      const params = lastResultId
+        ? {
+          lastResultId,
+        }
+        : {};
       return {
         query,
         params,
-        jobConfig: {
-          // Add timeout to prevent runaway queries
-          jobTimeoutMs: 300000, // 5 minutes
-          maximumBytesBilled: "1000000000", // 1GB limit to prevent excessive costs
-        },
       };
     },
     generateMeta(row, ts) {
