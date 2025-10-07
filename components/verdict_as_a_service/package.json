@@ -16,7 +16,7 @@
     "access": "public"
   },
   "dependencies": {
-    "gdata-vaas": "7.7.3"
+    "gdata-vaas": "^7.7.3"
   },
   "devDependencies": {
     "@pipedream/types": "^0.3.4"
