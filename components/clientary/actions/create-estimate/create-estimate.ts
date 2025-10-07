@@ -43,10 +43,8 @@ export default defineAction({
     if (this.estimateItemsAttributes) {
       try {
         estimateItemsAttributes = JSON.parse(this.estimateItemsAttributes);
-      } catch (err) {
-        throw new ConfigurationError(`Estimate Items Attributes must be a valid JSON Array string
-          
-${err.message}`);
+      } catch {
+        throw new ConfigurationError("Estimate Items Attributes must be a valid JSON Array string");
       }
     }
     const response = await this.app.getRequestMethod("createEstimate")({
