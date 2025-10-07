@@ -6,7 +6,12 @@ export default defineAction({
   key: "zoho_catalyst-detect-objects-in-image",
   name: "Detect Objects in Image",
   description: "Detect or recognize objects in an image. [See the documentation](https://catalyst.zoho.com/help/api/zia/or.html)",
-  version: "0.1.0",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

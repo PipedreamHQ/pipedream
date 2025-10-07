@@ -5,7 +5,12 @@ export default defineAction({
   name: "List Orders",
   description: "Returns a list of orders. [See docs here](https://suppliers-api.wildberries.ru/swagger/index.html#/Marketplace/get_api_v2_orders)",
   key: "wildberries-list-orders",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

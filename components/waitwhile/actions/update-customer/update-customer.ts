@@ -3,7 +3,12 @@ import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "Update Customer",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "waitwhile-update-customer",
   description: "Update a customer. [See the doc here](https://developers.waitwhile.com/reference/postcustomerscustomerid)",
   props: {

@@ -17,7 +17,12 @@ export default defineAction({
   key: "twitter-get-user",
   name: "Get User",
   description: `Get information about a user. [See the documentation](${DOCS_LINK})`,
-  version: "2.0.8",
+  version: "2.0.9",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

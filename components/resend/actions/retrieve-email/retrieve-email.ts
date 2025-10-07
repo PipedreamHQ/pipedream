@@ -6,7 +6,12 @@ export default defineAction({
   description:
     "Retrieve a single email [See the documentation](https://resend.com/docs/api-reference/emails/retrieve-email)",
   key: "resend-retrieve-email",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

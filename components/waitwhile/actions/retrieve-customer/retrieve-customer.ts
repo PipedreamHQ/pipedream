@@ -3,7 +3,12 @@ import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "Retrieve Customer",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "waitwhile-retrieve-customer",
   description: "Retrieve a customer. [See the doc here](https://developers.waitwhile.com/reference/getcustomerscustomerid)",
   props: {

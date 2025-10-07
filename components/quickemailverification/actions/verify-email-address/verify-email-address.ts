@@ -9,7 +9,12 @@ export default defineAction({
   description:
     "Verify an email address [See docs here](http://docs.quickemailverification.com/email-verification-api/verify-an-email-address)",
   key: "quickemailverification-verify-email-address",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     quickemailverification,

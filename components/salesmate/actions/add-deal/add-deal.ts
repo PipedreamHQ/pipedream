@@ -3,7 +3,12 @@ import salesmate from "../../app/salesmate.app";
 
 export default defineAction({
   name: "Add Deal",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "salesmate-add-deal",
   description: "This API is used to add a deal. [See docs here](https://apidocs.salesmate.io/#fc738a12-8757-46aa-8625-3379fa205377)",
   type: "action",

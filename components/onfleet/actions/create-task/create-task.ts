@@ -8,7 +8,12 @@ export default {
   name: "Create New Task",
   description: "Create a new task. [See the docs here](https://docs.onfleet.com/reference/create-task)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     onfleet,
     merchant: {
