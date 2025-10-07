@@ -1,4 +1,6 @@
-import { defineAction, JSONValue } from "@pipedream/types";
+import {
+  defineAction, JSONValue,
+} from "@pipedream/types";
 import dayjs from "dayjs";
 import namely from "../../app/namely.app";
 

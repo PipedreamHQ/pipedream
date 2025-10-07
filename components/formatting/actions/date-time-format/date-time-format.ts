@@ -41,7 +41,7 @@ export default defineAction({
 
       $.export("$summary", "Successfully formatted date/time");
       return output;
-    } catch (_err) {
+    } catch (err) {
       throw new ConfigurationError(`**Parse error** - check your input and if the selected format is correct.
         
 ${err.message}`);
