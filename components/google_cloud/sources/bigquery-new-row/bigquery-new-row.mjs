@@ -131,6 +131,8 @@ export default {
     },
     getQueryOpts() {
       const lastResultId = this._getLastResultId();
+      const maxRowsPerExecution = this.maxRowsPerExecution || 1000;
+
       let query = `
         SELECT *
         FROM \`${this.tableId}\`
@@ -139,14 +141,25 @@ export default {
         query += ` WHERE \`${this.uniqueKey}\` >= @lastResultId`;
       }
       query += ` ORDER BY \`${this.uniqueKey}\` ASC`;
-      const params = lastResultId
-        ? {
-          lastResultId,
-        }
-        : {};
+      query += " LIMIT @maxRows";
+
+      const params = {
+        maxRows: maxRowsPerExecution,
+        ...(lastResultId
+          ? {
+            lastResultId,
+          }
+          : {}),
+      };
+
       return {
         query,
         params,
+        jobConfig: {
+          // Add timeout to prevent runaway queries
+          jobTimeoutMs: 300000, // 5 minutes
+          maximumBytesBilled: "1000000000", // 1GB limit to prevent excessive costs
+        },
       };
     },
     generateMeta(row, ts) {

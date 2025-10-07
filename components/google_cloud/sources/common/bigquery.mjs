@@ -26,10 +26,10 @@ export default {
     maxRowsPerExecution: {
       type: "integer",
       label: "Max Rows Per Execution",
-      description: "Maximum number of rows to process in a single execution to prevent memory issues",
-      default: 5000,
+      description: "Maximum number of rows to process in a single execution to prevent memory issues. Reduce this value if you experience out of memory errors.",
+      default: 1000,
       min: 100,
-      max: 50000,
+      max: 10000,
       optional: true,
     },
     datasetId: {
@@ -54,12 +54,23 @@ export default {
       const client = this.googleCloud
         .getBigQueryClient()
         .dataset(this.datasetId);
+
+      // Merge jobConfig if provided for better resource management
+      const jobOptions = {
+        ...queryOpts,
+        ...(queryOpts.jobConfig || {}),
+      };
+
       const [
         job,
-      ] = await client.createQueryJob(queryOpts);
+      ] = await client.createQueryJob(jobOptions);
+
+      // Ensure job completion before proceeding
+      console.log("BigQuery job created, processing results...");
+      await job.promise();
 
       const pageSize = 100;
-      const maxRowsPerExecution = this.maxRowsPerExecution || 5000;
+      const maxRowsPerExecution = this.maxRowsPerExecution || 1000;
       const maxPages = Math.ceil(maxRowsPerExecution / pageSize);
       let pageToken = null;
       let allProcessed = false;
@@ -124,8 +135,13 @@ export default {
             ]); // Pass a copy to avoid mutation issues
           }
 
-          // Clear reference to help with garbage collection
-          rows.length = 0;
+          // Clear references to help with garbage collection
+          rows.splice(0, rows.length); // More efficient than rows.length = 0
+
+          // Force garbage collection if available (Node.js with --expose-gc)
+          if (global.gc && pageCount % 10 === 0) {
+            global.gc();
+          }
 
           pageCount++;
           if (pageCount >= maxPages) {
@@ -163,9 +179,9 @@ export default {
       throw new Error("processEvent is not implemented");
     },
   },
-  run(event) {
+  async run(event) {
     const { timestamp } = event;
     const queryOpts = this.getQueryOpts(event);
-    return this.processCollection(queryOpts, timestamp);
+    return await this.processCollection(queryOpts, timestamp);
   },
 };
