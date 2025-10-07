@@ -26,10 +26,10 @@ export default {
     maxRowsPerExecution: {
       type: "integer",
       label: "Max Rows Per Execution",
-      description: "Maximum number of rows to process in a single execution to prevent memory issues. Reduce this value if you experience out of memory errors.",
-      default: 1000,
+      description: "Maximum number of rows to process in a single execution to prevent memory issues",
+      default: 5000,
       min: 100,
-      max: 10000,
+      max: 50000,
       optional: true,
     },
     datasetId: {
@@ -70,7 +70,7 @@ export default {
       await job.promise();
 
       const pageSize = 100;
-      const maxRowsPerExecution = this.maxRowsPerExecution || 1000;
+      const maxRowsPerExecution = this.maxRowsPerExecution || 5000;
       const maxPages = Math.ceil(maxRowsPerExecution / pageSize);
       let pageToken = null;
       let allProcessed = false;

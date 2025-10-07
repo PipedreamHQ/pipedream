@@ -155,7 +155,7 @@ export default {
     },
     getQueryOpts() {
       const lastResultId = this._getLastResultId();
-      const maxRowsPerExecution = this.maxRowsPerExecution || 1000;
+      const maxRowsPerExecution = this.maxRowsPerExecution || 5000;
 
       let query = `
         SELECT *
