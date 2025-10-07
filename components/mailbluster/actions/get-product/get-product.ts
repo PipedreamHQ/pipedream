@@ -5,7 +5,12 @@ export default {
   name: "Get Product",
   description: "Get a specific product. [See the documentation](https://app.mailbluster.com/api-doc/products/read)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     mailbluster,
     productId: {

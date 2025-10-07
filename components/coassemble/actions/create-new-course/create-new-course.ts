@@ -3,7 +3,12 @@ import coassemble from "../../app/coassemble.app";
 export default {
   key: "coassemble-create-new-course",
   name: "Create New Course",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Use this endpoint to create new courses in your workspace. [See the docs here](https://developers.coassemble.com/api/courses#create-a-new-course)",
   type: "action",
   props: {

@@ -9,7 +9,12 @@ export default defineAction({
   name: "[Text] Transform Case",
   description: "Transform case for a text input",
   key: "formatting-transform-case",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,
@@ -38,7 +43,9 @@ export default defineAction({
       $.export("$summary", "Successfully transformed text case");
       return result;
     } catch (err) {
-      throw new ConfigurationError("**Parse error** - check your input and if the selected operation is correct.");
+      throw new ConfigurationError(`**Parse error** - check your input and if the selected operation is correct.
+        
+${err.message}`);
     }
   },
 });

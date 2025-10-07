@@ -4,7 +4,12 @@ import { ConfigurationError } from "@pipedream/platform";
 
 export default defineAction({
   name: "Create Note",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "amplenote-create-note",
   description: "Creates a new note. [See docs here](https://www.amplenote.com/api_documentation#post-/notes)",
   type: "action",
