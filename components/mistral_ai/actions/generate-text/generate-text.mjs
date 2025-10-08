@@ -4,7 +4,12 @@ export default {
   key: "mistral_ai-generate-text",
   name: "Generate Text",
   description: "Generate text using Mistral AI models. [See the Documentation](https://docs.mistral.ai/api/#tag/chat/operation/chat_completion_v1_chat_completions_post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mistralAI,

@@ -4,7 +4,12 @@ export default {
   key: "helper_functions-trigger-workflow",
   name: "Trigger Workflow",
   description: "Trigger another Pipedream workflow in your workspace.",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     helperFunctions,

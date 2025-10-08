@@ -6,7 +6,12 @@ export default {
   name: "Add Video",
   description: "Add a video. [See the docs here](https://apidocs.amara.org/#add-a-video)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     amara,
     videoUrl: {

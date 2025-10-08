@@ -3,7 +3,12 @@ import app from "../../alpaca.app.mjs";
 export default {
   type: "action",
   key: "alpaca-get-account-info",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   name: "Get Account Info",
   description: "Returns the account info, [See the docs](https://alpaca.markets/docs/api-references/trading-api/account/)",
   props: {

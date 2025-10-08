@@ -9,7 +9,12 @@ export default {
   key: "quickbooks-update-invoice",
   name: "Update Invoice",
   description: "Updates an invoice. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/invoice#update-an-invoice)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     quickbooks,

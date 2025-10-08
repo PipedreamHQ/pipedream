@@ -5,7 +5,12 @@ export default {
   key: "wrike-update-task-custom-fields",
   name: "Update Task Custom Fields",
   description: "Update the custom fields for a task. [See the documentation](https://developers.wrike.com/api/v4/tasks/#modify-tasks)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     wrike,

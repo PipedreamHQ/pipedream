@@ -5,7 +5,12 @@ export default {
   key: "thanks_io-send-notecard-radius-search",
   name: "Send Notecard via Radius Search",
   description: "Sends a notecard to a recipients within a radius. [See the docs here](https://api-docs.thanks.io/#9130103a-1834-4550-88fb-ec5c1e21a59b)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   async run({ $ }) {
     const resp = await this.thanksIo.sendNotecard({

@@ -5,7 +5,12 @@ export default {
   key: "skyvern-run-workflow",
   name: "Run Workflow",
   description: "Trigger a predefined workflow in Skyvern, allowing the execution of complex routines from Pipedream. [See the documentation](https://docs.skyvern.com/workflows/running-workflows)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     skyvern,

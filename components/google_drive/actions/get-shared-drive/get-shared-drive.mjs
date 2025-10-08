@@ -4,7 +4,12 @@ export default {
   key: "google_drive-get-shared-drive",
   name: "Get Shared Drive",
   description: "Get metadata for one or all shared drives. [See the documentation](https://developers.google.com/drive/api/v3/reference/drives/get) for more information",
-  version: "0.1.13",
+  version: "0.1.14",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     googleDrive,

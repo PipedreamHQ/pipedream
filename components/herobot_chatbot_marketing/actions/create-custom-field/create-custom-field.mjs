@@ -4,7 +4,12 @@ export default {
   key: "herobot_chatbot_marketing-create-custom-field",
   name: "Create Custom Field",
   description: "Create a new custom field in the HeroBot account. [See the documentation](https://my.herobot.app/api/swagger/#/Accounts/createCustomField)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

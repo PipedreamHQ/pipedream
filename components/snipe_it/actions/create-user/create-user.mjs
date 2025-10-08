@@ -4,7 +4,12 @@ export default {
   key: "snipe_it-create-user",
   name: "Create User",
   description: "Creates a new user in Snipe-IT with profile information required for asset or license assignments. [See the documentation](https://snipe-it.readme.io/reference/users-2)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

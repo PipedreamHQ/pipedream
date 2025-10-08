@@ -5,7 +5,12 @@ export default {
   key: "clevertap-create-campaign",
   name: "Create Campaign",
   description: "Create a campaign. [See the documentation](https://developer.clevertap.com/docs/create-campaign-api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -3,7 +3,12 @@ import common from "../common/common-purchase-order.mjs";
 export default {
   type: "action",
   key: "upkeep-create-purchase-order",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   name: "Create Purchase Order",
   description: "Create a Purchase Order, [See the docs](https://developers.onupkeep.com/#purchase-orders)",
   ...common,

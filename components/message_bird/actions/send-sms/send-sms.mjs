@@ -4,7 +4,12 @@ export default {
   key: "message_bird-send-sms",
   name: "Send SMS",
   description: "Sends an SMS message. [See the documentation](https://developers.messagebird.com/api/sms-messaging/#send-outbound-sms)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     messagebird,

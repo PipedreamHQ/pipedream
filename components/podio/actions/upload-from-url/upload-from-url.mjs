@@ -4,7 +4,12 @@ export default {
   key: "podio-upload-from-url",
   name: "Upload From URL",
   description: "Uploads a file from a URL to Podio. [See the documentation](https://github.com/podio/podio-rb/blob/6c77c92792c3ae79d487a997909122e90e544bf1/lib/podio/models/file_attachment.rb#L62)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

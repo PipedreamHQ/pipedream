@@ -6,7 +6,12 @@ export default {
   name: "Upload Asset",
   description: "Add media assets like images, audio, or video to the Shotstack API for use in video projects. [See the documentation here](https://shotstack.io/docs/api/?shell#fetch-source).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     url: {

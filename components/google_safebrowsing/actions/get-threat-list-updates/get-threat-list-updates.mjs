@@ -4,7 +4,12 @@ export default {
   key: "google_safebrowsing-get-threat-list-updates",
   name: "Get Threat List Updates",
   description: "Get the latest threat list update information from Google Safe Browsing API. [See the documentation](https://developers.google.com/safe-browsing/v4/reference/rest/v4/threatListUpdates/fetch#ListUpdateRequest)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     safebrowsing,

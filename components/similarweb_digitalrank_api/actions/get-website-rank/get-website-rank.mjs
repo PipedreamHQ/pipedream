@@ -4,7 +4,12 @@ export default {
   key: "similarweb_digitalrank_api-get-website-rank",
   name: "Get Website Rank",
   description: "Retrieves the global rank of a specific website using Similarweb's Digital Rank API. [See the documentation](https://developers.similarweb.com/docs/digital-rank-api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

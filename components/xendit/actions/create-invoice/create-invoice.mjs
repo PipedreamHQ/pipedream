@@ -9,7 +9,12 @@ import xendit from "../../xendit.app.mjs";
 export default {
   key: "xendit-create-invoice",
   name: "Create Invoice",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new invoice on Xendit platform [See the documentation](https://developers.xendit.co/api-reference/#create-invoice)",
   type: "action",
   props: {

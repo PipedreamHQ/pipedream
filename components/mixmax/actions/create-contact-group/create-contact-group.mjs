@@ -5,7 +5,12 @@ export default {
   key: "mixmax-create-contact-group",
   name: "Create Contact Group",
   description: "Create a contact group. [See the docs here](https://developer.mixmax.com/reference/contactgroups-1)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

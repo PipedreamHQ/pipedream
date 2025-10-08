@@ -8,7 +8,12 @@ export default {
   key: "runware-image-background-removal",
   name: "Image Background Removal",
   description: "Request an image background removal task to be processed by the Runware API. [See the documentation](https://docs.runware.ai/en/image-editing/background-removal).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

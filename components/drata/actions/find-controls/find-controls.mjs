@@ -7,7 +7,12 @@ export default {
   key: "drata-find-controls",
   name: "Find Controls",
   description: `Find Controls. [See the documentation](${docsLink}).`,
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     drata,

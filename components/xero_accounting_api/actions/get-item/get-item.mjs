@@ -4,7 +4,12 @@ export default {
   key: "xero_accounting_api-get-item",
   name: "Get Item",
   description: "Gets details of an item.",
-  version: "0.2.2",
+  version: "0.2.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     xeroAccountingApi,

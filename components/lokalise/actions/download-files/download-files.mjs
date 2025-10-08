@@ -4,7 +4,12 @@ export default {
   key: "lokalise-download-files",
   name: "Download Files",
   description: "Retrieves and downloads files from a specified Lokalise project. [See the documentation](https://developers.lokalise.com/reference/download-files)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     lokalise,

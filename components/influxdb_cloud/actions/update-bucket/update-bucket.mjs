@@ -4,7 +4,12 @@ export default {
   key: "influxdb_cloud-update-bucket",
   name: "Update Bucket",
   description: "Updates an existing bucket in InfluxDB Cloud. [See the documentation](https://docs.influxdata.com/influxdb3/cloud-serverless/api/v2/#operation/PatchBucketsID)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     influxDbCloud,

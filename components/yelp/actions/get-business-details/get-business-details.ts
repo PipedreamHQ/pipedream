@@ -11,7 +11,12 @@ export default defineAction({
   name: "Get Business Details",
   description: `Get details about a business [See docs here](${DOCS.getBusinessDetails})`,
   key: "yelp-get-business-details",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     yelp,

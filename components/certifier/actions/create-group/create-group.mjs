@@ -2,7 +2,12 @@ import certifier from "../../certifier.app.mjs";
 
 export default {
   name: "Create Group",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "certifier-create-group",
   description:
     "Create a group. [See the documentation](https://developers.certifier.io/reference/create-a-group)",

@@ -3,7 +3,12 @@ import ipbase from "../../ipbase.app.mjs";
 export default {
   key: "ipbase-check-ip-address",
   name: "Check IP Address",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Checks the provided IP address (both `v4` & `v6` formats) and returns all available information. [See the docs here](https://ipbase.com/docs/info)",
   type: "action",
   props: {

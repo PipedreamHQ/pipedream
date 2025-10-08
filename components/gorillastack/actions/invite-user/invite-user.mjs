@@ -4,7 +4,12 @@ export default {
   key: "gorillastack-invite-user",
   name: "Invite User",
   description: "Invite new user to GorillaStack. [See the documentation](https://docs.gorillastack.com/swagger/v2#/users/post_teams__teamId__users_invite)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

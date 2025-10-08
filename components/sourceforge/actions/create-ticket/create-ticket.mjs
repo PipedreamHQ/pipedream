@@ -4,7 +4,12 @@ export default {
   key: "sourceforge-create-ticket",
   name: "Create Ticket",
   description: "Creates a new ticket. [See the documentation](https://anypoint.mulesoft.com/apiplatform/sourceforge/#/portals/organizations/98f11a03-7ec0-4a34-b001-c1ca0e0c45b1/apis/32951/versions/34322)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sourceforge,

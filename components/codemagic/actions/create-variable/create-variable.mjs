@@ -4,7 +4,12 @@ export default {
   key: "codemagic-create-variable",
   name: "Create Variable",
   description: "Create a variable in the specified workflow. [See the documentation](https://docs.codemagic.io/rest-api/applications/#add-new-variable)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

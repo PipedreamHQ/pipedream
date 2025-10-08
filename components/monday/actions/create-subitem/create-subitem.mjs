@@ -8,7 +8,12 @@ export default {
   name: "Create Subitem",
   description: "Creates a subitem. [See the documentation](https://developer.monday.com/api-reference/reference/subitems#create-a-subitem)",
   type: "action",
-  version: "0.1.0",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     monday,
     boardId: {

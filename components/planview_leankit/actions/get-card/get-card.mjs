@@ -3,7 +3,12 @@ import planviewLeankit from "../../planview_leankit.app.mjs";
 export default {
   key: "planview_leankit-get-card",
   name: "Get Card",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Get card details by card id. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card/get)",
   type: "action",
   props: {

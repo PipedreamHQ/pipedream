@@ -4,7 +4,12 @@ export default {
   key: "zoho_forms-get-form-fields",
   name: "Get Form Fields",
   description: "Get the fields of a particular form",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     zohoForms,

@@ -4,7 +4,12 @@ export default {
   key: "microsoft_365_planner-create-task",
   name: "Create Task",
   description: "Create a new task in Microsoft 365 Planner. [See the documentation](https://learn.microsoft.com/en-us/graph/api/planner-post-tasks)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     microsoft365Planner,

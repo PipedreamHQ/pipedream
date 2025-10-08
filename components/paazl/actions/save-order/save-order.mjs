@@ -5,7 +5,12 @@ export default {
   key: "paazl-save-order",
   name: "Save Order",
   description: "Saves an order's most important information to the Paazl database once a customer has paid for their purchase. [See the documentation](https://support.paazl.com/hc/en-us/articles/360008633973-REST-API-reference#/Order/saveOrderUsingPOST)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

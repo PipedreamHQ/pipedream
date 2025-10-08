@@ -4,7 +4,12 @@ export default {
   key: "helper_functions-compare-arrays",
   name: "Compare Arrays",
   description: "Get the difference, intersection, union, or symetric difference of two arrays/sets.",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     helperFunctions,

@@ -5,7 +5,12 @@ export default {
   key: "harpa_ai-run-ai-command",
   name: "Run AI Command",
   description: "Run an AI command. [See the documentation](https://harpa.ai/grid/grid-rest-api-reference#run-ai-command)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     harpaAi,

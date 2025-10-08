@@ -4,7 +4,12 @@ export default {
   key: "todoist-list-labels",
   name: "List Labels",
   description: "Returns a list of all labels. [See the docs here](https://developer.todoist.com/rest/v2/#get-all-personal-labels)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     todoist,

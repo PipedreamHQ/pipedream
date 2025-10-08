@@ -5,7 +5,12 @@ export default {
   name: "Execute SQL Query",
   description: "Execute a custom SQLite query. See [our docs](https://pipedream.com/docs/databases/working-with-sql) to learn more about working with SQL in Pipedream.",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     turso,
     // eslint-disable-next-line pipedream/props-description

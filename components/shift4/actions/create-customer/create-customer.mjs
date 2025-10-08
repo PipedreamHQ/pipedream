@@ -5,7 +5,12 @@ export default {
   key: "shift4-create-customer",
   name: "Create Customer",
   description: "Creates a new customer object. [See the documentation](https://dev.shift4.com/docs/api#customers-create-a-customer)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     shift4,

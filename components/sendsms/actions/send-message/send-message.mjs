@@ -4,7 +4,12 @@ export default {
   name: "Send Message",
   description: "This action sends an SMS message using the SendSMS.ro API. [See the documentation](https://www.sendsms.ro/api/#send-message)",
   key: "sendsms-send-message",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sendsms,

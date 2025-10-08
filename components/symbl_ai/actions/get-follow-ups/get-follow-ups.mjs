@@ -4,7 +4,12 @@ export default {
   key: "symbl_ai-get-follow-ups",
   name: "Get Follow-Ups",
   description: "Get a list of all the follow-ups generated from the conversation. See the doc [here](https://docs.symbl.ai/docs/conversation-api/follow-ups)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     symblAIApp,

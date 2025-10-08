@@ -4,7 +4,12 @@ export default {
   key: "supernotes-create-simple-card",
   name: "Create a simple card",
   description: "Create a single card with the minimum amount of data required. [See docs here](https://api.supernotes.app/docs/swagger#/cards/_simple_create_card_v1_cards_simple_post).",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

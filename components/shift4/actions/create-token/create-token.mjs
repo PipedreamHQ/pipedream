@@ -4,7 +4,12 @@ export default {
   key: "shift4-create-token",
   name: "Create Token",
   description: "Creates a new token object. [See the documentation](https://dev.shift4.com/docs/api#token-create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     shift4,

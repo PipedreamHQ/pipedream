@@ -4,7 +4,12 @@ export default {
   key: "acuity_scheduling-get-appointments",
   name: "Get Appointments",
   description: "Return a list of appointments. [See the documentation](https://developers.acuityscheduling.com/reference/get-appointments)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     acuityScheduling,

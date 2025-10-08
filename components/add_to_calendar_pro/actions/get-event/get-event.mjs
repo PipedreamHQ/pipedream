@@ -4,7 +4,12 @@ export default {
   key: "add_to_calendar_pro-get-event",
   name: "Get Event",
   description: "Get an event. [See the documentation](https://docs.add-to-calendar-pro.com/api/events#get-one-event)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     addToCalendarPro,

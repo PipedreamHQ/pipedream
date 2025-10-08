@@ -5,7 +5,12 @@ export default {
   key: "hubspot-create-workflow",
   name: "Create a New Workflow",
   description: "Create a new workflow. [See the documentation](https://developers.hubspot.com/docs/api-reference/legacy/create-manage-workflows-v3/post-automation-v3-workflows)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     hubspot,

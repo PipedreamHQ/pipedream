@@ -4,7 +4,12 @@ export default {
   key: "mobygames-list-games",
   name: "List Games",
   description: "Provides a list of games. [See the documentation](https://www.mobygames.com/info/api/#games)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

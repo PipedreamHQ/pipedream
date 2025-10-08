@@ -5,7 +5,12 @@ export default {
   key: "breathe-approve-or-reject-leave-request",
   name: "Approve or Reject Leave Request",
   description: "Approve or reject an employee leave request in Breathe. [See the documentation](https://developer.breathehr.com/examples#!/leave_requests)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     breathe,

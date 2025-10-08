@@ -6,7 +6,12 @@ export default {
   key: "airtable_oauth-update-record",
   name: "Update Record",
   description: "Update a single record in a table by Record ID. [See the documentation](https://airtable.com/developers/web/api/update-record)",
-  version: "0.0.13",
+  version: "0.0.14",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

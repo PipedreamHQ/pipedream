@@ -4,7 +4,12 @@ export default {
   key: "symbl_ai-post-trackers-analytics-ui",
   name: "Submit Trackers and Analytics Summary User Interface",
   description: "The Trackers and Analytics Summary UI provides users the ability to interact with the Symbl elements (Transcripts, Questions, Follow-Ups, Action Items, etc.) from a audio conversation. See the doc [here](https://docs.symbl.ai/docs/api-reference/experience-api/post-trackers-and-analytics-ui).",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     symblAIApp,

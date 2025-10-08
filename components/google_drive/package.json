@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/google_drive",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Pipedream Google_drive Components",
   "main": "google_drive.app.mjs",
   "keywords": [

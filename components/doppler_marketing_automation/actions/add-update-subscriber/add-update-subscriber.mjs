@@ -7,7 +7,12 @@ export default {
   key: "doppler_marketing_automation-add-update-subscriber",
   name: "Add or Update Subscriber",
   description: "Adds a new subscriber or updates an existing one. [See the documentation](https://restapi.fromdoppler.com/docs/resources#!/Subscribers/AccountsByAccountNameListsByListIdSubscribersPost)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

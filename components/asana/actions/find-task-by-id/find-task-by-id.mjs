@@ -5,7 +5,12 @@ export default {
   key: "asana-find-task-by-id",
   name: "Find Task by ID",
   description: "Searches for a task by id. Returns the complete task record for a single task. [See the documentation](https://developers.asana.com/docs/get-a-task)",
-  version: "0.2.10",
+  version: "0.2.11",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

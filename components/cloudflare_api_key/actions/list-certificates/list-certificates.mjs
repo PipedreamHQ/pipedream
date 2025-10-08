@@ -4,7 +4,12 @@ export default {
   key: "cloudflare_api_key-list-certificates",
   name: "List Certificates",
   description: "List all existing Origin CA certificates for a given zone. [See the documentation](https://developers.cloudflare.com/api/node/resources/origin_ca_certificates/methods/list/)",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     cloudflare,

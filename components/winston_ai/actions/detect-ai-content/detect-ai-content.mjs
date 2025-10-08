@@ -4,7 +4,12 @@ export default {
   key: "winston_ai-detect-ai-content",
   name: "Detect AI-Generated Content",
   description: "Investigates whether AI-generated content is present within the given text. [See the documentation](https://docs.gowinston.ai/api-reference/predict/post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     winstonAi,

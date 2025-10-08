@@ -4,7 +4,12 @@ export default {
   key: "pexels-search-photos",
   name: "Search Photos",
   description: "Search for photos on Pexels using a keyword or phrase. [See the documentation](https://www.pexels.com/api/documentation/#photos-search)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     pexels,

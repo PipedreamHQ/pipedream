@@ -5,7 +5,12 @@ export default {
   key: "scrapeless-universal-scraping-api",
   name: "Universal Scraping API",
   description: "Access any website at scale and say goodbye to blocks. [See the documentation](https://apidocs.scrapeless.com/api-11949854).",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     scrapeless,

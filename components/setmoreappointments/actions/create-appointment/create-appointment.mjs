@@ -5,7 +5,12 @@ export default {
   key: "setmoreappointments-create-appointment",
   name: "Create Appointment",
   description: "Create a new appointment in Setmore Appointments. [See the documentation](https://setmore.docs.apiary.io/#introduction/appointments/create-an-appointment)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     setmore,

@@ -6,7 +6,12 @@ export default {
   name: "Language Translation",
   description: "This task is well known to translate text from one language to another. [See the docs](https://huggingface.co/docs/huggingface.js/inference/classes/HfInference#translation).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     modelId: {

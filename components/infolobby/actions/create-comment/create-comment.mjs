@@ -4,7 +4,12 @@ export default {
   key: "infolobby-create-comment",
   name: "Create Comment",
   description: "Create a new Comment for a record. [See the documentation](https://infolobby.com/site/apidocs/4/working-with-record-comments/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

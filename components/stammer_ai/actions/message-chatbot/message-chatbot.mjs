@@ -4,7 +4,12 @@ export default {
   key: "stammer_ai-message-chatbot",
   name: "Message Chatbot",
   description: "Sends a message to your chatbot. [See the documentation](https://app.stammer.ai/en/api-docs/chatbot/message/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     stammerAi,

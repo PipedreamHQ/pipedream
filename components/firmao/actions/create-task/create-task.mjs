@@ -5,7 +5,12 @@ export default {
   key: "firmao-create-task",
   name: "Create Task",
   description: "Create a new task for the organization. [See the documentation](https://firmao.net/API-Documentation_EN.pdf)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

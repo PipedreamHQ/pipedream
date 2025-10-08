@@ -3,7 +3,12 @@ import hive from "../../hive.app.mjs";
 export default {
   key: "hive-create-action-for-workspace",
   name: "Create Action For Workspace",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create an action for given workspace [See the documentation](https://developers.hive.com/v1.0/reference/actionscreate-1)",
   type: "action",
   props: {

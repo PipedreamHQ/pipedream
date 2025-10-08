@@ -4,7 +4,12 @@ export default {
   key: "plentyone-get-order",
   name: "Get Order",
   description: "Retrieves a specific order by ID from PlentyONE. [See the documentation](https://developers.plentymarkets.com/en-gb/plentymarkets-rest-api/index.html#/Order/get_rest_orders__orderId_)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     plentyone,

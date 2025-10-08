@@ -4,7 +4,12 @@ export default {
   key: "leadzen_ai-unlock-email-details",
   name: "Unlock Email Details",
   description: "Fetches the work email of a LinkedIn profile based on the specified URL. [See the documentation](https://api.leadzen.ai/docs#/People/people_search_work_email_api_people_linkedin_url_work_email_post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -6,7 +6,12 @@ export default {
   name: "Duplicate a Form",
   description: "Duplicates an existing form in your Typeform account and adds \"(copy)\" to the end of the title. [See the docs here](https://developer.typeform.com/create/reference/create-form/)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     typeform,
     formId: {

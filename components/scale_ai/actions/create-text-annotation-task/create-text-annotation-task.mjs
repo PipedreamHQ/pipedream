@@ -7,7 +7,12 @@ export default {
   name: "Create Text Annotation Task",
   description: "Create a text annotation task. [See the documentation](https://docs.scale.com/reference/text-collection)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     project: {

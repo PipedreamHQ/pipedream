@@ -4,7 +4,12 @@ export default {
   key: "mapulus-update-location",
   name: "Update Location",
   description: "Updates an existing location in Mapulus. [See the documentation](https://developer.mapulus.com/index.html)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mapulus,

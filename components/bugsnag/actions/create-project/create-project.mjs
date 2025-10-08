@@ -5,7 +5,12 @@ export default {
   key: "bugsnag-create-project",
   name: "Create Project",
   description: "Create a new project for a specific organization in Bugsnag. [See the documentation](https://bugsnagapiv2.docs.apiary.io/#reference/projects/projects/create-a-project-in-an-organization)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     bugsnag,

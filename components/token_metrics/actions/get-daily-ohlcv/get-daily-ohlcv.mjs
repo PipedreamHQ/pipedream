@@ -10,7 +10,12 @@ export default {
   key: "token_metrics-get-daily-ohlcv",
   name: "Get Daily OHLCV",
   description: `${endpoint.description}. [See the documentation](https://developers.tokenmetrics.com/v3/reference/daily-ohlcv)`,
-  version: "0.1.0",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     tokenMetrics,

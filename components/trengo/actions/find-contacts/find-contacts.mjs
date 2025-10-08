@@ -4,7 +4,12 @@ import app from "../../trengo.app.mjs";
 export default {
   type: "action",
   key: "trengo-find-contacts",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   name: "Find Contacts",
   description: "Finds contacts with the given term. [See the documentation](https://developers.trengo.com/reference/list-all-contacts)",
   props: {

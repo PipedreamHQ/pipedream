@@ -4,7 +4,12 @@ export default {
   key: "recharge-cancel-subscription",
   name: "Cancel Subscription",
   description: "Cancels an existing subscription. [See the documentation](https://developer.rechargepayments.com/2021-11/subscriptions/subscriptions_cancel)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     recharge,

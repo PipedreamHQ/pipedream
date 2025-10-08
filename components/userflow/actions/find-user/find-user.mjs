@@ -5,7 +5,12 @@ export default {
   key: "userflow-find-user",
   name: "Find User",
   description: "Finds an existing user by user ID or email, optionally filtering by group ID. [See the documentation](https://userflow.com/docs/api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

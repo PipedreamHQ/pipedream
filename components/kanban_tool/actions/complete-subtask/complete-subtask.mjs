@@ -2,7 +2,12 @@ import app from "../../kanban_tool.app.mjs";
 
 export default {
   key: "kanban_tool-complete-subtask",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   name: "Complete Subtask(Checklist Item)",
   description: "Marks a subtask as completed [See the docs here](https://kanbantool.com/developer/api-v3#updating-subtasks)",

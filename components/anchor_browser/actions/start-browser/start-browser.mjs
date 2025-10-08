@@ -4,7 +4,12 @@ export default {
   key: "anchor_browser-start-browser",
   name: "Start Browser",
   description: "Allocates a new browser session for the user, with optional configurations for ad-blocking, captcha solving, proxy usage, and idle timeout. [See the documentation](https://docs.anchorbrowser.io/api-reference/browser-sessions/start-browser).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

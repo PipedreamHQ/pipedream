@@ -5,7 +5,12 @@ export default {
   key: "morningmate-create-schedule",
   name: "Create Schedule",
   description: "Creates a new schedule for a specific project. [See the documentation](https://api.morningmate.com/docs/api/posts#createSchedule-metadata)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     morningmate,

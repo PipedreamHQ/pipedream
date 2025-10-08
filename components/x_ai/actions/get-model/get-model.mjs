@@ -4,7 +4,12 @@ export default {
   key: "x_ai-get-model",
   name: "Get Model",
   description: "List all language and embedding models available. [See the documentation](https://docs.x.ai/api/endpoints#get-model)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

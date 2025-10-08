@@ -5,7 +5,12 @@ export default {
   key: "wordpress_org-create-post",
   name: "Create Post",
   description: "Creates a post. [See the documentation](https://developer.wordpress.org/rest-api/reference/posts/#create-a-post)",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     wordpress,

@@ -6,7 +6,12 @@ export default {
   key: "sendgrid-get-all-bounces",
   name: "Get All Bounces",
   description: "Allows you to get all of your bounces. [See the docs here](https://docs.sendgrid.com/api-reference/bounces-api/retrieve-all-bounces)",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

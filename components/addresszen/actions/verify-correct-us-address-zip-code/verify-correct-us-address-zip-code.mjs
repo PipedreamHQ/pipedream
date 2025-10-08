@@ -4,7 +4,12 @@ export default {
   key: "addresszen-verify-correct-us-address-zip-code",
   name: "Verify and Correct US Address by Zip Code",
   description: "Verifies and corrects a US address based on a single address line and a zip code. [See the documentation](https://docs.addresszen.com/docs/api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     addresszen,

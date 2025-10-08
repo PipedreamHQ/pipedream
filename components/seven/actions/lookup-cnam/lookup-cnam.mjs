@@ -4,7 +4,12 @@ export default {
   key: "seven-lookup-cnam",
   name: "Lookup CNAM",
   description: "Look up caller name information via Seven. [See the documentation](https://docs.seven.io/en/rest-api/endpoints/lookup#cnam)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     seven,

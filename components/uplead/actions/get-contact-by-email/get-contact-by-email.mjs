@@ -2,7 +2,12 @@ import app from "../../uplead.app.mjs";
 
 export default {
   name: "Get Contact By Email",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "uplead-get-contact-by-email",
   description: "Get a contact by email. [See the documentation](https://docs.uplead.com/#person-api)",
   type: "action",

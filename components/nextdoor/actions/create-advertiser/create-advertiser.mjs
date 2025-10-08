@@ -4,7 +4,12 @@ export default {
   key: "nextdoor-create-advertiser",
   name: "Create Advertiser",
   description: "Creates an advertiser that is tied to the NAM profile the API credentials are tied to. [See the documentation](https://developer.nextdoor.com/reference/advertiser-create).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

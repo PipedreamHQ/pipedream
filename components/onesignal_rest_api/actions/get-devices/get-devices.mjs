@@ -5,7 +5,12 @@ export default {
   key: "onesignal_rest_api-get-devices",
   name: "Get Devices",
   description: "Get all devices. [See docs here](https://documentation.onesignal.com/reference/view-devices)",
-  version: "0.0.1652718586",
+  version: "0.0.1652718587",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     onesignalRestApi,

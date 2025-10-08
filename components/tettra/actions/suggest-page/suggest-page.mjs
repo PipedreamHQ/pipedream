@@ -4,7 +4,12 @@ export default {
   key: "tettra-suggest-page",
   name: "Suggest Page",
   description: "Creates a new page suggestion in Tettra. [See the documentation](https://support.tettra.co/api-overview/api-endpoint-suggest-a-new-page)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     tettra,

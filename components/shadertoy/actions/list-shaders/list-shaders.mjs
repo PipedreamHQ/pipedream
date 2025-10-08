@@ -4,7 +4,12 @@ export default {
   key: "shadertoy-list-shaders",
   name: "List Shaders",
   description: "Returns a list of all shaders. [See the documentation](https://www.shadertoy.com/howto)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

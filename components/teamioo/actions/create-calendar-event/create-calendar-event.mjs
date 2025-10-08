@@ -4,7 +4,12 @@ export default {
   key: "teamioo-create-calendar-event",
   name: "Create Calendar Event",
   description: "Creates a new calendar event. [See the documentation](https://demo.teamioo.com/teamiooapi)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     teamioo,

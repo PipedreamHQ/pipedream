@@ -5,7 +5,12 @@ export default {
   key: "vryno-create-unique-lead",
   name: "Create Unique Lead",
   description: "Creates a unique lead in the Vryno system, ensuring no duplication of lead details. [See the documentation](https://vrynotest.ti2.in/docs/api-documentation/how-to-create-a-record-in-any-module-in-vryno-crm/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     vryno,

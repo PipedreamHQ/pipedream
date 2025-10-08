@@ -4,7 +4,12 @@ export default {
   key: "cloudinary-get-resources",
   name: "Get Resources",
   description: "Lists resources (assets) uploaded to your product environment. [See the documentation](https://cloudinary.com/documentation/admin_api#get_resources)",
-  version: "0.1.0",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     cloudinary,

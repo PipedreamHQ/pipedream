@@ -8,7 +8,12 @@ export default {
   key: "the_bookie-create-sales-invoice",
   name: "Create Sales Invoice",
   description: "Creates a new sales invoice. [See the documentation](https://app.thebookie.nl/nl/help/article/api-documentatie/#salesentry_create)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     theBookie,

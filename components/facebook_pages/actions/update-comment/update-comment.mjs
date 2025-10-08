@@ -5,7 +5,12 @@ export default {
   key: "facebook_pages-update-comment",
   name: "Update Comment",
   description: "Updates an existing comment on a post on a Facebook Page. [See the documentation](https://developers.facebook.com/docs/graph-api/reference/comment/#updating)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

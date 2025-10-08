@@ -5,7 +5,12 @@ export default {
   key: "clickup-delete-list",
   name: "Delete List",
   description: "Delete a list. [See the documentation](https://clickup.com/api) in **Lists / Delete List** section.",
-  version: "0.0.11",
+  version: "0.0.12",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

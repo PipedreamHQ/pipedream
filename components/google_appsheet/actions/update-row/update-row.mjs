@@ -5,7 +5,12 @@ export default {
   key: "google_appsheet-update-row",
   name: "Update Row",
   description: "Updates an existing row in a specific table in the AppSheet app. [See the documentation](https://support.google.com/appsheet/answer/10105002?hl=en&ref_topic=10105767&sjid=1665780.0.1444403316-SA)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

@@ -4,7 +4,12 @@ export default {
   key: "onlinecheckwriter-create-payee",
   name: "Create Payee",
   description: "Registers a new payee within the system.[See the documentation](https://apiv3.onlinecheckwriter.com/#38a31300-bf13-4da1-ac97-dd81525b57b3)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

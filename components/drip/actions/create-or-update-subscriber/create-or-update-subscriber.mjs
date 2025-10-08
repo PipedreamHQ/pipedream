@@ -3,7 +3,12 @@ import drip from "../../drip.app.mjs";
 export default {
   key: "drip-create-or-update-subscriber",
   name: "Create Or Update Subscriber",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Creates a new subscriber. If the email already exists, it will update the existing subscriber. [See the docs here](https://developer.drip.com/?javascript#create-or-update-a-subscriber)",
   type: "action",
   props: {

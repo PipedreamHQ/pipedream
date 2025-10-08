@@ -2,7 +2,12 @@ import spoonacular from "../../spoonacular.app.mjs";
 
 export default {
   name: "Search Recipes",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "spoonacular-search-recipes",
   description: "Search for a recipe. [See docs here](https://spoonacular.com/food-api/docs#Search-Recipes-Complex)",
   type: "action",

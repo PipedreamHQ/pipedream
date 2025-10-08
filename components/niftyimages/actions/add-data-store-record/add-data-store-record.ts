@@ -10,7 +10,12 @@ export default defineAction({
   description:
     "Create or update a Data Store Record [See docs here](https://api.niftyimages.com/)",
   key: "niftyimages-add-data-store-record",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     niftyimages,
@@ -34,7 +39,9 @@ export default defineAction({
     try {
       fields = await this.niftyimages.getDataStoreFields(apiKey);
     } catch (err) {
-      throw new ConfigurationError("Error fetching data - please check the **API Key**.");
+      throw new ConfigurationError(`Error fetching data - please check the **API Key**.
+        
+\`${err.message}\``);
     }
     const newPropNames = [];
 

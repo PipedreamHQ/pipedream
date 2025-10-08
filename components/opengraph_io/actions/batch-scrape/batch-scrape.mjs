@@ -5,7 +5,12 @@ export default {
   key: "opengraph_io-batch-scrape",
   name: "Batch Scrape",
   description: "Scrape OpenGraph data from a list of URLs at once, to process multiple websites simultaneously. [See the docs here](https://www.opengraph.io/documentation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     opengraph,

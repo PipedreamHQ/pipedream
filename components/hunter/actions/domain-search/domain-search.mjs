@@ -5,7 +5,12 @@ export default {
   key: "hunter-domain-search",
   name: "Domain Search",
   description: "Search all the email addresses corresponding to one website or company. [See the documentation](https://hunter.io/api-documentation/v2#domain-search).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

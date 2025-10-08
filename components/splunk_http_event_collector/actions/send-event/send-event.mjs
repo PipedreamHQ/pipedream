@@ -5,7 +5,12 @@ export default {
   key: "splunk_http_event_collector-send-event",
   name: "Send Event",
   description: "Sends an event to Splunk HTTP Event Collector. [See the documentation](https://docs.splunk.com/Documentation/Splunk/8.2.0/RESTREF/RESTinput#services.2Fcollector.2Fevent)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     splunk,

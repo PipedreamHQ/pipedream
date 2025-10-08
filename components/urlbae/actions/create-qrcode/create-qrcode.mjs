@@ -3,7 +3,12 @@ import constants from "../common/constants.mjs";
 
 export default {
   name: "Create QRCode",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "urlbae-create-qrcode",
   description: "Creates a qrcode. [See the documentation](https://urlbae.com/developers#create-a-qr-code)",
   type: "action",

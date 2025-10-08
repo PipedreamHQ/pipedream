@@ -5,7 +5,12 @@ export default {
   key: "cloud_convert-create-merge-files-to-pdf-job",
   name: "Create Merge Files To PDF Job",
   description: "Combines multiple input files into a single PDF file and create an export URL with a job. [See the documentation](https://cloudconvert.com/api/v2/merge#merge-tasks)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

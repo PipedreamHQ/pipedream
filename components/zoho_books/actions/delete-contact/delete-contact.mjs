@@ -5,7 +5,12 @@ export default {
   key: "zoho_books-delete-contact",
   name: "Delete Contact",
   description: "Deletes an existing contact. [See the documentation](https://www.zoho.com/books/api/v3/contacts/#delete-a-contact)",
-  version: "0.3.0",
+  version: "0.3.1",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zohoBooks,

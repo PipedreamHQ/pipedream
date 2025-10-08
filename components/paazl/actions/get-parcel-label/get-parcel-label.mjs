@@ -4,7 +4,12 @@ export default {
   key: "paazl-get-parcel-label",
   name: "Get Specific Parcel Label",
   description: "Retrieves a specific parcel's label. [See the documentation](https://support.paazl.com/hc/en-us/articles/360008633973-REST-API-reference#/Shipments/getParcelLabelUsingGet)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

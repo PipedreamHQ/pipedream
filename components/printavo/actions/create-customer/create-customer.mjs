@@ -4,7 +4,12 @@ export default {
   name: "Create Customer",
   description: "Create a new customer. [See the docs here](https://printavo.docs.apiary.io/#reference/customers/customers-collection/customer-create)",
   key: "printavo-create-customer",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

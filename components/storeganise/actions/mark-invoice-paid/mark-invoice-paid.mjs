@@ -4,7 +4,12 @@ export default {
   key: "storeganise-mark-invoice-paid",
   name: "Mark Invoice as Paid",
   description: "Marks the selected invoice as paid in Storeganise. [See the documentation](https://pipedream-dev-trial.storeganise.com/api/docs/admin/invoices#admin_invoices.PUT_invoiceId)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     storeganise,

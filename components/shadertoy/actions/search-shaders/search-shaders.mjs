@@ -4,7 +4,12 @@ export default {
   key: "shadertoy-search-shaders",
   name: "Search Shaders",
   description: "Returns an array of shader IDs based on the query string. [See the documentation](https://www.shadertoy.com/howto)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

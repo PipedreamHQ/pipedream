@@ -5,7 +5,12 @@ export default {
   key: "recruitis-create-answer",
   name: "Create Answer",
   description: "Create a new answer for a job. [See the documentation](https://docs.recruitis.io/api/#tag/Candidates/paths/~1answers/post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

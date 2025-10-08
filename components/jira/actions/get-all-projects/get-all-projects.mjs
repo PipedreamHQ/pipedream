@@ -4,7 +4,12 @@ export default {
   key: "jira-get-all-projects",
   name: "Get All Projects",
   description: "Gets metadata on all projects, [See the docs](https://developer.atlassian.com/cloud/jira/platform/rest/v3/#api-rest-api-3-project-get)",
-  version: "0.1.13",
+  version: "0.1.14",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     jira,

@@ -5,7 +5,12 @@ export default {
   key: "google_contacts-delete-contact",
   name: "Delete Contact",
   description: "Deletes a contact. [See the documentation](https://developers.google.com/people/api/rest/v1/people/deleteContact)",
-  version: "0.0.4",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

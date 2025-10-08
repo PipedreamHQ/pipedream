@@ -5,7 +5,12 @@ export default {
   key: "vbout-add-contact-to-list-by-email",
   name: "Add Contact To List By Email",
   description: "This action add a specific list to a contact. All emails having the same email text available in the provided list will be updated if exists [See the docs here](https://developers.vbout.com/docs#emailmarketing_synccontact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

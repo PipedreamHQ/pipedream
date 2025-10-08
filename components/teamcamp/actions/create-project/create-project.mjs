@@ -4,7 +4,12 @@ export default {
   key: "teamcamp-create-project",
   name: "Create Project",
   description: "Create a new project in the Workspace. [See the documentation](https://api.teamcamp.app/api-reference/project/createProject)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

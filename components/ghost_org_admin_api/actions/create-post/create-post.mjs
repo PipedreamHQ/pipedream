@@ -5,7 +5,12 @@ export default {
   name: "Create post",
   description: "Create a post. [See the documentation](https://ghost.org/docs/admin-api/#creating-a-post).",
   type: "action",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     ghostAdminApi,
     title: {

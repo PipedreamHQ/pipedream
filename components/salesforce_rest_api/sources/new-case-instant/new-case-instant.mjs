@@ -7,7 +7,7 @@ export default {
   name: "New Case (Instant, of Selectable Type)",
   key: "salesforce_rest_api-new-case-instant",
   description: "Emit new event when a case is created. [See the documentation](https://sforce.co/3yPSJZy)",
-  version: "0.0.3",
+  version: "0.0.5",
   props: {
     salesforce: common.props.salesforce,
     db: "$.service.db",

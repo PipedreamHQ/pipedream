@@ -4,7 +4,12 @@ export default {
   key: "databricks-cancel-run",
   name: "Cancel Run",
   description: "Cancel a job run. The run is canceled asynchronously, so it may still be running when this request completes. [See the documentation](https://docs.databricks.com/api/workspace/jobs/cancelrun)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

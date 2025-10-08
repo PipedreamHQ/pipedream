@@ -4,7 +4,12 @@ export default {
   key: "trello-search-boards",
   name: "Search Boards",
   description: "Searches for boards matching the specified query. [See the documentation](https://developer.atlassian.com/cloud/trello/rest/api-group-search/#api-search-get).",
-  version: "0.3.3",
+  version: "0.3.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

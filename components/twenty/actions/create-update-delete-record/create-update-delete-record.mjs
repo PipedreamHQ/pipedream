@@ -7,7 +7,12 @@ export default {
   key: "twenty-create-update-delete-record",
   name: "Create, Update, or Delete a Record in Twenty",
   description: "Create, update, or delete a single record in Twenty. This action allows for dynamic handling of records based on specified action type. [See the documentation](https://api.twenty.com/docs)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     twenty,

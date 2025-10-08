@@ -4,7 +4,12 @@ export default {
   key: "simla_com-create-customer",
   name: "Create Customer",
   description: "Creates a new customer profile. [See the documentation](https://docs.simla.com/Developers/API/APIVersions/APIv5#post--api-v5-customers-create).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

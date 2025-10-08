@@ -4,7 +4,12 @@ export default {
   key: "regal-create-or-update-contact",
   name: "Create or Update Contact",
   description: "Create or update a contacts. [See the documentation](https://developer.regal.io/reference/api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     regal,

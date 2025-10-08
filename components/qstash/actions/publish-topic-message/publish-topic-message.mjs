@@ -2,7 +2,12 @@ import qstash from "../../qstash.app.mjs";
 
 export default {
   name: "Publish Topic Message",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "qstash-publish-topic-message",
   description: "Publish a message to a topic",
   type: "action",

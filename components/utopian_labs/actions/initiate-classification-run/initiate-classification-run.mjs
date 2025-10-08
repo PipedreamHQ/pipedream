@@ -8,7 +8,12 @@ export default {
   key: "utopian_labs-initiate-classification-run",
   name: "Initiate Classification Run",
   description: "Initiate a classification run of the R1-Classification agent. [See the documentation](https://docs.utopianlabs.ai/classification#initiate-a-classification-run)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     utopianLabs,

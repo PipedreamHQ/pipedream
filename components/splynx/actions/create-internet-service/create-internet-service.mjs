@@ -4,7 +4,12 @@ export default {
   key: "splynx-create-internet-service",
   name: "Create Internet Service",
   description: "Creates a new internet service with specified details. [See the documentation](https://splynx.docs.apiary.io/#reference/services/internet-services-collection/create-service)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     splynx,

@@ -4,7 +4,12 @@ export default {
   name: "Cancel Reservation",
   description: "Cancel a reservation in Mews.",
   key: "mews-cancel-reservation",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

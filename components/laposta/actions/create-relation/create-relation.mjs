@@ -2,7 +2,12 @@ import laposta from "../../laposta.app.mjs";
 
 export default {
   name: "Create Relation",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "laposta-create-relation",
   description: "Creates a relation. [See docs here (Go to `Add relationship`)](http://api.laposta.nl/doc/)",
   type: "action",

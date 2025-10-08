@@ -5,7 +5,12 @@ export default {
   key: "dhl-get-tracking",
   name: "Get Tracking Information",
   description: "Get tracking information for shipments. [See the documentation](https://developer.dhl.com/api-reference/shipment-tracking#operations-default-getTrackingShipment)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     dhl,

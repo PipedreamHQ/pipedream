@@ -9,7 +9,12 @@ export default defineAction({
   description:
     "Churn a subscription [See docs here](https://profitwellapiv2.docs.apiary.io/#/reference/manually-added-customers/updating-subscriptions/churn-a-subscription)",
   key: "profitwell-churn-subscription",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     profitwell,

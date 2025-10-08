@@ -4,7 +4,12 @@ export default {
   key: "mboum-get-sma",
   name: "Get Simple Moving Average (SMA)",
   description: "Calculate Simple Moving Average technical indicator for stocks and crypto. [See the documentation](https://docs.mboum.com/#stocks-options-small-stylecolor-f8f2f2background-fa256fpadding-1px-4pxborder-radius-3pxhotsmall-GETapi-v1-markets-indicators-sma)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     mboum,

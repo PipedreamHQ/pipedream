@@ -4,7 +4,12 @@ export default {
   key: "azure_ai_vision-extract-text-from-image",
   name: "Extract Text from Image",
   description: "Extracts text from the provided image using Azure AI Vision OCR. [See the documentation](https://centraluseuap.dev.cognitive.microsoft.com/docs/services/unified-vision-apis-public-preview-2023-02-01-preview/operations/61d65934cd35050c20f73ab6)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     azureAiVision,

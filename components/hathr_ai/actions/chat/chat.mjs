@@ -4,7 +4,12 @@ export default {
   key: "hathr_ai-chat",
   name: "Send Chat Message",
   description: "Sends a chat message using Hathr AI. [See the documentation](https://drive.google.com/drive/folders/1jtoSXqzhe-iwf9kfUwTCVQBu4iXVJO2x?usp=sharing)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     hathrAi,

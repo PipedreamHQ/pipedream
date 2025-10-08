@@ -4,7 +4,12 @@ export default {
   key: "pro_ledger-create-record",
   name: "Create Record",
   description: "Create a new record in the Pro Ledger platform. [See the documentation](https://api.pro-ledger.com/redoc#tag/record/operation/create_new_record_api_v1_record_create_new_record_post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

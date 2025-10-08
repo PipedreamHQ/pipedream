@@ -4,7 +4,12 @@ export default {
   key: "livekit-generate-access-token",
   name: "Generate Access Token",
   description: "Generate an access token for a participant to join a LiveKit room. [See the documentation](https://github.com/livekit/node-sdks/tree/main/packages/livekit-server-sdk).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

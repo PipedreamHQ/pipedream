@@ -5,7 +5,12 @@ export default {
   key: "stripe-update-invoice",
   name: "Update Invoice",
   type: "action",
-  version: "0.1.3",
+  version: "0.1.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Update an invoice. [See the documentation](https://stripe.com/docs/api/invoices/update).",
   props: {
     app,

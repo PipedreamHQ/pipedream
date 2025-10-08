@@ -3,7 +3,12 @@ import clientify from "../../clientify.app.mjs";
 export default {
   key: "clientify-create-task",
   name: "Create Task",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Add a new task. [See the documentation](https://developer.clientify.com/#1ee10d02-b3d8-4373-afa4-08d7b678bb26)",
   type: "action",
   props: {

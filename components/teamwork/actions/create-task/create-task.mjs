@@ -3,7 +3,12 @@ import app from "../../teamwork.app.mjs";
 export default {
   type: "action",
   key: "teamwork-create-task",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   name: "Create Task",
   description: "Create a new task in the backlog. [See the docs here](https://apidocs.teamwork.com/docs/teamwork/cd8948166b1b1-create-a-task)",
   props: {
