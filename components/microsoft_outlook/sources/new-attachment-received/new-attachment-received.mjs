@@ -52,23 +52,6 @@ export default {
       }
       return attachments;
     },
-    async getMessageAttachments(message) {
-      const { value: attachments } = await this.microsoftOutlook.listAttachments({
-        messageId: message.id,
-      });
-      if (!attachments?.length) {
-        return [];
-      }
-      return attachments.map((attachment) => ({
-        ...attachment,
-        messageId: message.id,
-        messageSubject: message.subject,
-        messageSender: message.sender,
-        messageReceivedDateTime: message.receivedDateTime,
-        parentFolderId: message.parentFolderId,
-        contentBytes: undefined,
-      }));
-    },
     async stashAttachment(item) {
       const messageAttachment =  await this.microsoftOutlook.getAttachment({
         messageId: item.messageId,
