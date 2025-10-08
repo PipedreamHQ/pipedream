@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/airtop",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Pipedream Airtop Components",
   "main": "airtop.app.mjs",
   "keywords": [
