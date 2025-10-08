@@ -14901,6 +14901,9 @@ importers:
         specifier: ^2.1.2
         version: 2.1.2
 
+  components/twake:
+    specifiers: {}
+
   components/twelve_data: {}
 
   components/twenty:
