@@ -1,9 +1,9 @@
 import accuranker from "../../accuranker.app.mjs";
 
 export default {
-  key: "accuranker-list-domains",
-  name: "List Domains",
-  description: "List domains in Accuranker. [See the documentation](https://app.accuranker.com/api/read-docs#tag/Domains/operation/List%20Domains)",
+  key: "accuranker-list-keywords",
+  name: "List Keywords",
+  description: "List keywords for a domain in Accuranker. [See the documentation](https://app.accuranker.com/api/read-docs#tag/Keywords/operation/List%20Keywords)",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -13,6 +13,12 @@ export default {
   },
   props: {
     accuranker,
+    domainId: {
+      propDefinition: [
+        accuranker,
+        "domainId",
+      ],
+    },
     fields: {
       type: "string[]",
       label: "Fields",
@@ -20,11 +26,10 @@ export default {
       optional: true,
       default: [
         "id",
-        "display_name",
-        "domain",
-        "status",
-        "created_at",
-        "last_scraped",
+        "keyword",
+        "description",
+        "ranks",
+        "compenitor_ranks",
       ],
     },
     periodFrom: {
@@ -44,13 +49,15 @@ export default {
         accuranker,
         "max",
       ],
+      max: 100,
     },
   },
   async run({ $ }) {
-    const domains = this.accuranker.paginate({
-      fn: this.accuranker.listDomains,
+    const keywords = this.accuranker.paginate({
+      fn: this.accuranker.listKeywords,
       args: {
         $,
+        domainId: this.domainId,
         params: {
           fields: this.fields.join(","),
           period_from: this.periodFrom,
@@ -61,11 +68,11 @@ export default {
     });
 
     const results = [];
-    for await (const domain of domains) {
-      results.push(domain);
+    for await (const keyword of keywords) {
+      results.push(keyword);
     }
 
-    $.export("$summary", `Found ${results.length} domain(s)`);
+    $.export("$summary", `Found ${results.length} keyword(s)`);
 
     return results;
   },

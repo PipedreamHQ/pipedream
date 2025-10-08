@@ -5,40 +5,16 @@ export default {
   type: "app",
   app: "accuranker",
   propDefinitions: {
-    accountId: {
-      type: "string",
-      label: "Account ID",
-      description: "The ID of the account",
-      async options() {
-        const { accounts } = await this.listAccounts();
-        return accounts.map((account) => ({
-          label: account.name,
-          value: account.id,
-        }));
-      },
-    },
-    groupId: {
-      type: "string",
-      label: "Group ID",
-      description: "The ID of the group",
-      async options({ accountId }) {
-        const { accounts } = await this.listGroups();
-        const { groups } = accounts.find((account) => account.id === accountId);
-        return groups?.map((group) => ({
-          label: group.group_name,
-          value: group.id,
-        })) || [];
-      },
-    },
     domainId: {
       type: "string",
       label: "Domain ID",
       description: "The ID of the domain",
       async options({ page }) {
-        const domains = await this.listDomains({
+        const { results: domains } = await this.listDomains({
           params: {
             limit: DEFAULT_LIMIT,
             offset: DEFAULT_LIMIT * page,
+            fields: "id,domain",
           },
         });
         return domains?.map((domain) => ({
@@ -46,6 +22,46 @@ export default {
           value: domain.id,
         })) || [];
       },
+    },
+    keywordId: {
+      type: "string",
+      label: "Keyword ID",
+      description: "The ID of the keyword",
+      async options({
+        domainId, page,
+      }) {
+        const { results: keywords } = await this.listKeywords({
+          domainId,
+          params: {
+            limit: DEFAULT_LIMIT,
+            offset: DEFAULT_LIMIT * page,
+            fields: "id,keyword",
+          },
+        });
+        return keywords?.map((keyword) => ({
+          label: keyword.keyword,
+          value: keyword.id,
+        })) || [];
+      },
+    },
+    periodFrom: {
+      type: "string",
+      label: "Period From",
+      description: "Date in format: YYYY-MM-DD",
+      optional: true,
+    },
+    periodTo: {
+      type: "string",
+      label: "Period To",
+      description: "Date in format: YYYY-MM-DD",
+      optional: true,
+    },
+    max: {
+      type: "integer",
+      label: "Max",
+      description: "Maximum number of results to return",
+      optional: true,
+      default: 100,
     },
   },
   methods: {
@@ -56,22 +72,10 @@ export default {
       $ = this, path, ...opts
     }) {
       return axios($, {
-        url: `${this._baseUrl()}/${path}`,
+        url: `${this._baseUrl()}${path}`,
         headers: {
           Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
-        ...opts,
-      });
-    },
-    listAccounts(opts = {}) {
-      return this._makeRequest({
-        path: "/accounts/",
-        ...opts,
-      });
-    },
-    listGroups(opts = {}) {
-      return this._makeRequest({
-        path: "/overview/group_domains/",
         ...opts,
       });
     },
@@ -81,17 +85,17 @@ export default {
         ...opts,
       });
     },
-    createDomain(opts = {}) {
+    listKeywords({
+      domainId, ...opts
+    }) {
       return this._makeRequest({
-        method: "POST",
-        path: "/domain/",
+        path: `/domains/${domainId}/keywords/`,
         ...opts,
       });
     },
-    createKeywords(opts = {}) {
+    listBrands(opts = {}) {
       return this._makeRequest({
-        method: "POST",
-        path: "/keyword/",
+        path: "/brands/",
         ...opts,
       });
     },
@@ -108,14 +112,14 @@ export default {
 
       let total, count = 0;
       do {
-        const response = await fn(args);
-        for (const item of response) {
+        const { results } = await fn(args);
+        for (const item of results) {
           yield item;
           if (max && ++count >= max) {
             return count;
           }
         }
-        total = response?.length;
+        total = results?.length;
         args.params.offset += DEFAULT_LIMIT;
       } while (total === DEFAULT_LIMIT);
     },
