@@ -1,6 +1,6 @@
 import onfleet from "../../app/onfleet.app";
 import {
-  clearObj, prepareData
+  clearObj, prepareData,
 } from "../common/utils";
 
 export default {
@@ -8,7 +8,12 @@ export default {
   name: "Create Task (Template Use)",
   description: "Creates a single task. Used for simple templates only. [See the docs here](https://docs.onfleet.com/reference/create-task)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     onfleet,
     merchant: {

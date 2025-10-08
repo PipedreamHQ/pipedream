@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/unleashed_software",
+  "version": "0.0.1",
+  "description": "Pipedream Unleashed Software Components",
+  "main": "unleashed_software.app.mjs",
+  "keywords": [
+    "pipedream",
+    "unleashed_software"
+  ],
+  "homepage": "https://pipedream.com/apps/unleashed_software",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

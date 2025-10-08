@@ -5,7 +5,7 @@ export default {
   key: "shopify_developer_app-new-cart-created",
   name: "New Cart Created (Instant)",
   description: "Emit new event when a new cart is created.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   methods: {

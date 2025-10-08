@@ -7,7 +7,12 @@ export default defineAction({
   description:
     "Find a match for a regular expression pattern. Returns all matched groups with start and end position.",
   key: "formatting-extract-by-regular-expression",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

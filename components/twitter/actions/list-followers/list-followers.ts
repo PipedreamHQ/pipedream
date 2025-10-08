@@ -23,7 +23,12 @@ export default defineAction({
   key: "twitter-list-followers",
   name: "List Followers",
   description: `Return a collection of user objects for users following the specified user. [See the documentation](${DOCS_LINK})`,
-  version: "2.0.8",
+  version: "2.0.9",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

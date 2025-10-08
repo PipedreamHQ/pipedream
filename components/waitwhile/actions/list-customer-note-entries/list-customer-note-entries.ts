@@ -3,7 +3,12 @@ import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "List Customer Note Entries",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "waitwhile-list-customer-note-entries",
   description: "List customer note entries. [See the doc here](https://developers.waitwhile.com/reference/getcustomerscustomeridnotes)",
   props: {

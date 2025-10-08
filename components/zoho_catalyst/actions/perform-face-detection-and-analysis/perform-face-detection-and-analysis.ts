@@ -7,7 +7,12 @@ export default defineAction({
   key: "zoho_catalyst-perform-face-detection-and-analysis",
   name: "Perform Face Detection and Analysis",
   description: "Perform face detection and analysis on an image. [See the documentation](https://catalyst.zoho.com/help/api/zia/face-analytics.html)",
-  version: "0.1.0",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

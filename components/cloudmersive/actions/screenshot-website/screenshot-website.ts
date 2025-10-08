@@ -7,7 +7,12 @@ export default defineAction({
   name: "Screenshot Website",
   description: `Take a screenshot of a website [See docs here](${DOCS.screenshotWebsite})`,
   key: "cloudmersive-screenshot-website",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     cloudmersive,

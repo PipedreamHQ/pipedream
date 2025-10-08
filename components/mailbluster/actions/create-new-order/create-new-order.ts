@@ -5,7 +5,12 @@ export default {
   name: "Create New Order",
   description: "Create a new order. [See the documentation](https://app.mailbluster.com/api-doc/orders)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     mailbluster,
     id: {

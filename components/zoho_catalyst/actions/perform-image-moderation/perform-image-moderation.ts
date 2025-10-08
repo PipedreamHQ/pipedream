@@ -7,7 +7,12 @@ export default defineAction({
   key: "zoho_catalyst-perform-image-moderation",
   name: "Perform Image Moderation",
   description: "Perform image moderation on an image. [See the documentation](https://catalyst.zoho.com/help/api/zia/image-moderation.html)",
-  version: "0.1.0",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

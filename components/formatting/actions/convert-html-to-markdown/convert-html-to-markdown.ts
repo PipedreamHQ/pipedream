@@ -7,7 +7,12 @@ export default defineAction({
   name: "[Text] Convert HTML to Markdown",
   description: "Convert valid HTML to Markdown text",
   key: "formatting-convert-html-to-markdown",
-  version: "0.0.6",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

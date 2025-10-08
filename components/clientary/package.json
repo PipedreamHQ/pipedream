@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/clientary",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Pipedream Clientary Components",
   "main": "dist/app/clientary.app.mjs",
   "keywords": [
