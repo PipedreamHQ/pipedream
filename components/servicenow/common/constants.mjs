@@ -1,5 +1,3 @@
-const TROUBLE_TICKET_PATH = "/api/sn_ind_tsm_sdwan/ticket/troubleTicket";
-
 const DEFAULT_SEVERITY_OPTIONS = [
   {
     label: "Critical",
@@ -28,7 +26,6 @@ const INCIDENT_SEVERITY_OPTIONS = [
 ];
 
 export default {
-  TROUBLE_TICKET_PATH,
   DEFAULT_SEVERITY_OPTIONS,
   INCIDENT_SEVERITY_OPTIONS,
 };
