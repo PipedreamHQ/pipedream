@@ -7965,6 +7965,9 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
+  components/lightspeed_x:
+    specifiers: {}
+
   components/lime_go:
     dependencies:
       '@pipedream/platform':
