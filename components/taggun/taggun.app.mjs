@@ -61,7 +61,13 @@ export default {
     currencyCode: {
       type: "string",
       label: "Currency Code",
-      description: "The expected currency code from the user.",
+      description: "The expected currency code from the user",
+      optional: true,
+    },
+    verbose: {
+      type: "boolean",
+      label: "Verbose",
+      description: "Whether the data extraction will be simple or verbose",
       optional: true,
     },
   },
@@ -86,9 +92,13 @@ export default {
         },
       });
     },
-    async urlDataExtraction(args = {}) {
+    async urlDataExtraction({
+      verbose, ...args
+    }) {
       return this._makeRequest({
-        path: "/receipt/v1/simple/url",
+        path: `/receipt/v1/${verbose
+          ? "verbose"
+          : "simple"}/url`,
         method: "post",
         ...args,
       });
@@ -96,13 +106,6 @@ export default {
     async submitFeedback(args = {}) {
       return this._makeRequest({
         path: "/account/v1/feedback",
-        method: "post",
-        ...args,
-      });
-    },
-    async verboseUrlDataExtraction(args = {}) {
-      return this._makeRequest({
-        path: "/receipt/v1/verbose/url",
         method: "post",
         ...args,
       });
