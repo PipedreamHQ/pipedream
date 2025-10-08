@@ -29,7 +29,7 @@ export default {
         "keyword",
         "description",
         "ranks",
-        "compenitor_ranks",
+        "competitor_ranks",
       ],
     },
     periodFrom: {
