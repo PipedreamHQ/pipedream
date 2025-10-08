@@ -8,7 +8,12 @@ export default defineAction({
   name: "Schedule Session",
   description: "Schedule a remote support session. [See the documentation](https://www.zoho.com/assist/api/schedulesession.html)",
   key: "zoho_assist-schedule-session",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

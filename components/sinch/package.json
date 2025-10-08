@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/sinch",
+  "version": "0.1.0",
+  "description": "Pipedream Sinch Components",
+  "main": "sinch.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sinch"
+  ],
+  "homepage": "https://pipedream.com/apps/sinch",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0",
+    "form-data": "^4.0.4"
+  }
+}

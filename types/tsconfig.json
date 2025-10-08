@@ -11,6 +11,7 @@
     "lib": ["es6"],
     "strictFunctionTypes": true,
     "strictNullChecks": true,
+    "skipLibCheck": true,                             /* Skip type checking of declaration files in node_modules. */
     "baseUrl": ".",
     "paths": { "@pipedream/types": ["."] }
   },

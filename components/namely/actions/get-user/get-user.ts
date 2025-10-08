@@ -3,7 +3,12 @@ import namely from "../../app/namely.app";
 
 export default defineAction({
   key: "namely-get-user",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   name: "Get User",
   description: "Get a user. [See docs here](https://developers.namely.com/docs/namely-api/1c7f311bfa8e8-get-a-profile)",
   type: "action",

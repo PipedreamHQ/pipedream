@@ -10,5 +10,5 @@ export default {
   ...utils.getAppProps(commentCreatedInstant),
   key: "linear-comment-created-instant",
   description: "Triggers instantly when a new comment is added to an issue in Linear. Returns comment details including content, author, issue reference, and timestamps. Supports filtering by team. Uses OAuth authentication. See Linear docs for additional info [here](https://developers.linear.app/docs/graphql/webhooks).",
-  version: "0.1.13",
+  version: "0.1.14",
 };

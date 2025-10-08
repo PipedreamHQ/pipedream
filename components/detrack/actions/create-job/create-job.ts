@@ -9,7 +9,12 @@ export default defineAction({
   description:
     "Create a job [See docs here](https://detrackapiv2.docs.apiary.io/#reference/jobs/list-create/create)",
   key: "detrack-create-job",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     detrack,

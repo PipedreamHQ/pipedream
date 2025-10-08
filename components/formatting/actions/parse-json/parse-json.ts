@@ -5,7 +5,12 @@ export default defineAction({
   name: "[Data] Parse JSON",
   description: "Parse a JSON string",
   key: "formatting-parse-json",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: false,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

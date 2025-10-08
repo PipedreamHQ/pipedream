@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/brandblast",
+  "version": "0.0.1",
+  "description": "Pipedream Brandblast Components",
+  "main": "brandblast.app.mjs",
+  "keywords": [
+    "pipedream",
+    "brandblast"
+  ],
+  "homepage": "https://pipedream.com/apps/brandblast",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -6,7 +6,12 @@ export default defineAction({
   name: "Add Tag To Student",
   description: "Add a tag to a student. [See docs](https://howto.xperiencify.com/article.php?article=123#6)",
   key: "xperiencify-add-tag-to-student",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     xperiencify,

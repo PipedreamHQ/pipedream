@@ -6,7 +6,7 @@ export default {
   name: "Column Value Updated (Instant)",
   description: "Emit new event when a column value is updated on a board. [See the documentation](https://developer.monday.com/api-reference/reference/webhooks#sample-payload-for-webhook-events)",
   type: "source",
-  version: "0.0.8",
+  version: "0.0.9",
   dedupe: "unique",
   hooks: {
     ...common.hooks,

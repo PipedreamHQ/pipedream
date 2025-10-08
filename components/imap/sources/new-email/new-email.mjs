@@ -9,7 +9,7 @@ export default {
   key: "imap-new-email",
   name: "New Email",
   description: "Emit new event for each new email in a mailbox",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   props: {
@@ -50,7 +50,7 @@ export default {
     },
     hasNewMessages(box) {
       const lastUid = this._getLastUid(box.name);
-      return !lastUid || box.uidnext > lastUid + 1;
+      return box.messages.total && (!lastUid || box.uidnext > lastUid + 1);
     },
     generateMeta(message) {
       const date = message.attributes?.date ?? new Date();
@@ -76,13 +76,15 @@ export default {
       const connection = await this.imap.getConnection();
       try {
         const box = await this.imap.openMailbox(connection, mailbox);
-        const startSeqno = box.messages.total > 25
-          ? box.messages.total - 24
-          : 1;
-        const messageStream = this.imap.fetchMessages(connection, {
-          startSeqno,
-        });
-        await this.processMessageStream(messageStream);
+        if (box.messages.total) {
+          const startSeqno = box.messages.total > 25
+            ? box.messages.total - 24
+            : 1;
+          const messageStream = this.imap.fetchMessages(connection, {
+            startSeqno,
+          });
+          await this.processMessageStream(messageStream);
+        }
       } finally {
         await this.imap.closeConnection(connection);
       }

@@ -10,7 +10,12 @@ export default defineAction({
   name: "Create Run",
   description: `Create a run [See docs here](${DOCS.createRun})`,
   key: "practitest-create-run",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     practitest,
@@ -113,7 +118,9 @@ export default defineAction({
           };
         } catch (err) {
           throw new ConfigurationError(
-            `**JSON parse error** - check if the \`${prop}\` prop is a valid JSON-stringified object`,
+            `**JSON parse error** - check if the \`${prop}\` prop is a valid JSON-stringified object
+            
+\`${err.message}\``,
           );
         }
       }

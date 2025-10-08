@@ -7,7 +7,12 @@ export default defineAction({
   name: "Search Businesses By Phone Number",
   description: `Search businesses by phone number [See docs here](${DOCS.searchByPhone})`,
   key: "yelp-search-businesses-by-phone-number",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     yelp,

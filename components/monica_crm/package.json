@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/monica_crm",
+  "version": "0.0.1",
+  "description": "Pipedream Monica CRM Components",
+  "main": "monica_crm.app.mjs",
+  "keywords": [
+    "pipedream",
+    "monica_crm"
+  ],
+  "homepage": "https://pipedream.com/apps/monica_crm",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
