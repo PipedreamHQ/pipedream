@@ -6,6 +6,11 @@ export default {
   description: "Creates a new incident record in ServiceNow.",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     servicenow,
     name: {
