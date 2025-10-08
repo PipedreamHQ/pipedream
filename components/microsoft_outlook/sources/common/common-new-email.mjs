@@ -19,7 +19,7 @@ export default {
       this.db.set("draftsFolderId", await this.getFolderIdByName("Drafts"));
 
       const events = await this.getSampleEvents({
-        pageSize: 25,
+        pageSize: 5,
       });
       if (!events || events.length == 0) {
         return;
