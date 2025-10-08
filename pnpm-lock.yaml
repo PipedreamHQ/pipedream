@@ -928,6 +928,9 @@ importers:
 
   components/apaleo: {}
 
+  components/apex:
+    specifiers: {}
+
   components/apex_27: {}
 
   components/api2pdf: {}
