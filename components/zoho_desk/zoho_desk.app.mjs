@@ -21,6 +21,29 @@ export default {
         }));
       },
     },
+    portalId: {
+      type: "string",
+      label: "Portal ID",
+      description: "Select the help center portal to target.",
+      async options({ orgId }) {
+        if (!orgId) {
+          return [];
+        }
+        const { data: helpCenters = [] } =
+          await this.listHelpCenters({
+            params: {
+              orgId,
+            },
+          });
+        return helpCenters.map(({
+          portalId: value,
+          name: label,
+        }) => ({
+          value,
+          label: label || value,
+        }));
+      },
+    },
     departmentId: {
       type: "string",
       label: "Department ID",
@@ -99,6 +122,11 @@ export default {
         const { allowedValues = [] } = fields[0] || {};
         return allowedValues.map(({ value }) => value);
       },
+    },
+    articleId: {
+      type: "string",
+      label: "Article ID",
+      description: "The ID of the knowledge base article.",
     },
   },
   methods: {
@@ -262,6 +290,80 @@ export default {
       return this.makeRequest({
         path: `/tickets/${ticketId}/comments`,
         ...args,
+      });
+    },
+    listHelpCenters(args = {}) {
+      return this.makeRequest({
+        path: `${constants.PORTAL_PATH}/helpCenters`,
+        versionPath: "",
+        ...args,
+      });
+    },
+    listKnowledgeBaseArticles(args = {}) {
+      return this.makeRequest({
+        path: `${constants.PORTAL_PATH}/kbArticles`,
+        versionPath: "",
+        ...args,
+      });
+    },
+    async *listKnowledgeBaseArticlesStream({
+      params,
+      ...args
+    } = {}) {
+      yield* this.getResourcesStream({
+        resourceFn: this.listKnowledgeBaseArticles,
+        resourceFnArgs: {
+          ...args,
+          params,
+        },
+      });
+    },
+    getKnowledgeBaseArticle({
+      articleId,
+      ...args
+    } = {}) {
+      return this.makeRequest({
+        path: `${constants.PORTAL_PATH}/kbArticles/${articleId}`,
+        versionPath: "",
+        ...args,
+      });
+    },
+    searchKnowledgeBaseArticles(args = {}) {
+      return this.makeRequest({
+        path: `${constants.PORTAL_PATH}/kbArticles/search`,
+        versionPath: "",
+        ...args,
+      });
+    },
+    async *searchKnowledgeBaseArticlesStream({
+      params,
+      ...args
+    } = {}) {
+      yield* this.getResourcesStream({
+        resourceFn: this.searchKnowledgeBaseArticles,
+        resourceFnArgs: {
+          ...args,
+          params,
+        },
+      });
+    },
+    listKnowledgeBaseRootCategories(args = {}) {
+      return this.makeRequest({
+        path: `${constants.PORTAL_PATH}/kbRootCategories`,
+        versionPath: "",
+        ...args,
+      });
+    },
+    async *listKnowledgeBaseRootCategoriesStream({
+      params,
+      ...args
+    } = {}) {
+      yield* this.getResourcesStream({
+        resourceFn: this.listKnowledgeBaseRootCategories,
+        resourceFnArgs: {
+          ...args,
+          params,
+        },
       });
     },
     sendReply({
