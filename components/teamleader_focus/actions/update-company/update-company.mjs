@@ -5,8 +5,13 @@ export default {
   key: "teamleader_focus-update-company",
   name: "Update Company",
   description: "Update a company. [See the documentation](https://developer.focus.teamleader.eu/docs/api/companies-update)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     teamleaderFocus,
     companyId: {

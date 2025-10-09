@@ -5,8 +5,13 @@ export default {
   key: "the_official_board-create-orgchart-xlsx-file",
   name: "Create Orgchart XLSX File",
   description: "Export organization chart as XLSX file. [See the documentation](https://rest.theofficialboard.com/rest/api/doc/#/Companies/get_export_orgchart_excel)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     companyId: {

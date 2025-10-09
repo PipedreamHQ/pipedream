@@ -5,8 +5,13 @@ export default {
   key: "afosto-confirm-cart",
   name: "Confirm Cart",
   description: "Confirm a cart. [See the documentation](https://afosto.com/docs/developers/storefront-js-client/custom-checkout/payment-process/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     cartId: {
