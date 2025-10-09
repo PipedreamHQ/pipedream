@@ -30,7 +30,7 @@ export default defineApp({
   },
   methods: {
     // in theory if alternate setting title and description or aren't unique this won't work
-    itemTs(item = {} as (Item | any)): number {
+    itemTs(item = {} as (Item | any)): number { // eslint-disable-line @typescript-eslint/no-explicit-any
       const {
         pubdate, pubDate, date_published,
       } = item;
@@ -40,7 +40,7 @@ export default defineApp({
       }
       return +new Date();
     },
-    itemKey(item = {} as (Item | any)): string {
+    itemKey(item = {} as (Item | any)): string { // eslint-disable-line @typescript-eslint/no-explicit-any
       const {
         id, guid, link, title,
       } = item;
@@ -53,7 +53,7 @@ export default defineApp({
       }
       return hash(item);
     },
-    async fetchFeed(url: string): Promise<any> {
+    async fetchFeed(url: string): Promise<any> { // eslint-disable-line @typescript-eslint/no-explicit-any
       const res = await axios(this, {
         url,
         method: "GET",
@@ -87,7 +87,7 @@ export default defineApp({
         feedparser.on("error", reject);
         feedparser.on("end", resolve);
         feedparser.on("readable", function (this: FeedParser) {
-          let item: any = this.read();
+          let item: any = this.read(); // eslint-disable-line @typescript-eslint/no-explicit-any
 
           while (item) {
             /*
@@ -120,7 +120,7 @@ export default defineApp({
       });
       return items;
     },
-    isJSONFeed(response: any): boolean {
+    isJSONFeed(response: any): boolean { // eslint-disable-line @typescript-eslint/no-explicit-any
       const acceptedJsonFeedMimes = [
         "application/feed+json",
         "application/json",
@@ -157,7 +157,7 @@ export default defineApp({
       return url;
     },
     sortItems(items) {
-      return items.sort((itemA: any, itemB: any) => {
+      return items.sort((itemA: any, itemB: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
         if (this.itemTs(itemA) > this.itemTs(itemB)) {
           return 1;
         }

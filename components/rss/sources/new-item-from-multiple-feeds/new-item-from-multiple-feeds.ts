@@ -43,7 +43,7 @@ export default defineSource({
       console.log(`Retrieved items from ${url}`);
       items.push(...feedItems);
     }
-    this.rss.sortItems(items).forEach((item: any) => {
+    this.rss.sortItems(items).forEach((item: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
       const meta = this.generateMeta(item);
       this.$emit(item, meta);
     });
