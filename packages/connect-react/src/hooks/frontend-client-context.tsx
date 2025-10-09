@@ -4,9 +4,9 @@ import {
 import {
   QueryClient, QueryClientProvider,
 } from "@tanstack/react-query";
-import type { BrowserClient } from "@pipedream/sdk/browser";
+import type { PipedreamClient } from "@pipedream/sdk/browser";
 
-const FrontendClientContext = createContext<BrowserClient | undefined>(
+const FrontendClientContext = createContext<PipedreamClient | undefined>(
   undefined,
 );
 
@@ -20,7 +20,7 @@ export const useFrontendClient = () => {
   return context;
 };
 
-type FrontendClientProviderProps = { children: ReactNode; client: BrowserClient; };
+type FrontendClientProviderProps = { children: ReactNode; client: PipedreamClient; };
 
 export const FrontendClientProvider: FC<FrontendClientProviderProps> = ({
   children,
