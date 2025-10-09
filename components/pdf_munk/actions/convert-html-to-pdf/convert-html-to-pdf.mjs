@@ -4,8 +4,13 @@ export default {
   key: "pdf_munk-convert-html-to-pdf",
   name: "Convert HTML to PDF",
   description: "Converts HTML/CSS content to a PDF file with customizable options. [See documentation](https://pdfmunk.com/api-docs#:~:text=Operations%20related%20to%20PDF)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     html_content: {

@@ -4,8 +4,13 @@ export default {
   key: "the_official_board-get-orgchart-info",
   name: "Get Orgchart Info",
   description: "Get organization chart information for a company. [See the documentation](https://rest.theofficialboard.com/rest/api/doc/#/Companies/get_company_orgchart)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     companyId: {

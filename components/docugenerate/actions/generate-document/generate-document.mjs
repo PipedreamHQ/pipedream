@@ -4,8 +4,13 @@ export default {
   key: "docugenerate-generate-document",
   name: "Generate Document",
   description: "Generates a document from a template. [See the documentation](https://api.docugenerate.com/#/Document/generateDocument)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     templateId: {

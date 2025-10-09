@@ -4,8 +4,13 @@ export default {
   key: "docugenerate-get-document",
   name: "Get Document",
   description: "Retrieves a specific document. [See the documentation](https://api.docugenerate.com/#/Document/getDocument)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     documentId: {

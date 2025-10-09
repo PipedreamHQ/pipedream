@@ -4,8 +4,13 @@ export default {
   key: "docugenerate-get-template",
   name: "Get Template",
   description: "Retrieves a specific template. [See the documentation](https://api.docugenerate.com/#/Template/getTemplate)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     templateId: {

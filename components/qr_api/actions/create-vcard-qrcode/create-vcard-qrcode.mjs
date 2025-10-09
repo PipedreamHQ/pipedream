@@ -5,8 +5,13 @@ export default {
   key: "qr_api-create-vcard-qrcode",
   name: "Create VCard QR Code",
   description: "Create a VCard QR Code. [See the documentation](https://qrapi.io/api-documentation/#/qrcode/create_vcard_qr_code)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     ...common.props,
     uname: {

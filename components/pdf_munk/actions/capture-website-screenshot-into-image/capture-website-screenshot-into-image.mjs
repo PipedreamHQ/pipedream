@@ -4,8 +4,13 @@ export default {
   key: "pdf_munk-capture-website-screenshot-into-image",
   name: "Capture Website Screenshot into Image",
   description: "Capture Screenshot of a Website URL into an image. [See documentation](https://pdfmunk.com/api-docs#:~:text=Image%20Generation)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     url: {
