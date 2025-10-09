@@ -3,7 +3,7 @@ import servicenow from "../../servicenow.app.mjs";
 export default {
   key: "servicenow-create-case",
   name: "Create Case",
-  description: "Creates a new case record in ServiceNow.",
+  description: "Creates a new case record in ServiceNow. [See the docs here](https://www.servicenow.com/docs/bundle/zurich-api-reference/page/integrate/inbound-rest/concept/trouble-ticket-open-api.html#title_trouble-ticket-POST-ticket-tt).",
   version: "0.0.1",
   type: "action",
   annotations: {
@@ -81,9 +81,7 @@ export default {
       comment,
     } = this;
 
-    if (!description) {
-      throw new Error("Description is required.");
-    }
+    const channel = this.servicenow.buildChannel(channelName);
 
     const notes = this.servicenow.buildNotes({
       workNote,
@@ -97,14 +95,16 @@ export default {
 
     const response = await this.servicenow.createTroubleTicket({
       $,
-      ticketType: "Case",
-      name,
-      description,
-      severity,
-      status,
-      channelName,
-      notes,
-      relatedParties,
+      data: {
+        ticketType: "Case",
+        name,
+        description,
+        severity,
+        status,
+        channel,
+        notes,
+        relatedParties,
+      },
     });
 
     $.export("$summary", "Successfully created a case.");

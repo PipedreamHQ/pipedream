@@ -43,37 +43,37 @@ export default {
     channelName: {
       type: "string",
       label: "Channel Name",
-      description: "The channel that the ticket was created through.",
+      description: "The channel (`contact_type`) that the ticket was created through.",
       optional: true,
     },
     contactMethod: {
       type: "string",
-      label: "Contact Name",
-      description: "Method of contact that the ticket was created through.",
+      label: "Contact Method",
+      description: "Name of the contact method (`contact_type`) that the ticket was created through.",
       optional: true,
     },
     accountId: {
       type: "string",
       label: "Account ID",
-      description: "Sys_id of the account related to the case.",
+      description: "`Sys_id` of the account related to the case.",
       optional: true,
     },
     contactId: {
       type: "string",
       label: "Contact ID",
-      description: "Sys_id of the contact related to the case.",
+      description: "`Sys_id` of the contact related to the case.",
       optional: true,
     },
     companyId: {
       type: "string",
       label: "Company ID",
-      description: "Sys_id of the company related to the incident.",
+      description: "`Sys_id` of the company related to the incident.",
       optional: true,
     },
     userId: {
       type: "string",
       label: "User ID",
-      description: "Sys_id of the user related to the incident.",
+      description: "`Sys_id` of the user related to the incident.",
       optional: true,
     },
     workNote: {
@@ -148,29 +148,8 @@ export default {
       }));
     },
     async createTroubleTicket({
-      $ = this,
-      ticketType,
-      name,
-      description,
-      severity,
-      status,
-      channelName,
-      notes,
-      relatedParties,
-      extraFields,
+      $ = this, data,
     } = {}) {
-      const data = {
-        notes,
-        relatedParties,
-        ticketType,
-        ...extraFields,
-        name,
-        description,
-        severity,
-        status,
-        channel: this.buildChannel(channelName),
-      };
-
       return axios($, {
         method: "post",
         url: `${this.baseUrl()}/api/sn_ind_tsm_sdwan/ticket/troubleTicket`,
