@@ -6,6 +6,11 @@ export default {
   description: "Add new torrent. [See the documentation](https://bitport.io/api/index.html?url=/v2/transfers&method=POST)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     torrent: {

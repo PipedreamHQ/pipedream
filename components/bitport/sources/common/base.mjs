@@ -36,7 +36,7 @@ export default {
       const bufferObj = Buffer.from(this.folderCode.label, "utf8");
       const base64String = bufferObj.toString("base64");
 
-      const { data: response } = await this.bitport.listFiles({
+      const { data: response } = await this.bitport.listFolders({
         maxResults,
         params: {
           folderPath: base64String,
@@ -62,7 +62,7 @@ export default {
           if (maxResults && (items.length > maxResults)) {
             items.length = maxResults;
           }
-          this._setLastDate(items[0].created_at.date);
+          this._setLastDate(Date.parse(items[0].created_at.date));
         }
       }
 
@@ -70,7 +70,7 @@ export default {
         this.$emit(item, {
           id: item.code,
           summary: this.getSummary(item),
-          ts: Date.parse(new Date()),
+          ts: Date.parse(item.created_at.date),
         });
       }
     },
