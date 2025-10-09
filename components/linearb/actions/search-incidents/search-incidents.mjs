@@ -36,25 +36,25 @@ export default {
     issuedAtBefore: {
       type: "string",
       label: "Issued At Before",
-      description: "The specific time when the incident was logged and officially opened. (Format: `YYYY-MM-DD`)",
+      description: "The specific date when the incident was logged and officially opened. (Format: `YYYY-MM-DD`)",
       optional: true,
     },
     issuedAtAfter: {
       type: "string",
       label: "Issued At After",
-      description: "The specific time when the incident was logged and officially opened. (Format: `YYYY-MM-DD`)",
+      description: "The specific date when the incident was logged and officially opened. (Format: `YYYY-MM-DD`)",
       optional: true,
     },
     startedAt: {
       type: "string",
       label: "Started At",
-      description: "The specific time when work on the incident commenced. (Format: `YYYY-MM-DD`)",
+      description: "The specific date when work on the incident commenced. (Format: `YYYY-MM-DD`)",
       optional: true,
     },
     endedAt: {
       type: "string",
       label: "Ended At",
-      description: "The specific time when the incident was successfully resolved. (Format: `YYYY-MM-DD`)",
+      description: "The specific date when the incident was successfully resolved. (Format: `YYYY-MM-DD`)",
       optional: true,
     },
     statuses: {
