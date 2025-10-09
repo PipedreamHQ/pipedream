@@ -3,7 +3,7 @@ import utils from "../../common/utils.mjs";
 
 export default {
   name: "Bigquery Insert Rows",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
