@@ -1,7 +1,7 @@
 import {
   useQuery, type UseQueryOptions,
 } from "@tanstack/react-query";
-import type { ComponentRequestResponse } from "@pipedream/sdk";
+import type { GetComponentResponse } from "@pipedream/sdk";
 import { useFrontendClient } from "./frontend-client-context";
 
 /**
@@ -9,7 +9,7 @@ import { useFrontendClient } from "./frontend-client-context";
  */
 export const useComponent = (
   { key }: { key?: string; },
-  opts?: {useQueryOpts?: Omit<UseQueryOptions<ComponentRequestResponse>, "queryKey" | "queryFn">;},
+  opts?: {useQueryOpts?: Omit<UseQueryOptions<GetComponentResponse>, "queryKey" | "queryFn">;},
 ) => {
   const client = useFrontendClient();
   const query = useQuery({
@@ -17,9 +17,7 @@ export const useComponent = (
       "component",
       key,
     ],
-    queryFn: () => client.component({
-      key: key!,
-    }),
+    queryFn: () => client.components.retrieve(key!),
     enabled: !!key,
     ...opts?.useQueryOpts,
   });

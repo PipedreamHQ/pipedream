@@ -10,7 +10,12 @@ export default defineAction({
   name: "Add Keyword",
   description: `Add a keyword to a domain [See docs here](${DOCS})`,
   key: "raven_tools-add-keyword",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

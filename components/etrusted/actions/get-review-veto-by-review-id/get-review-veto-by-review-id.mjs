@@ -4,8 +4,13 @@ export default {
   key: "etrusted-get-review-veto-by-review-id",
   name: "Get A Review Veto By Review ID",
   description: "Retrieves a veto for a specific review. [See the documentation](https://developers.etrusted.com/reference/getreviewveto)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     etrusted,
     reviewId: {

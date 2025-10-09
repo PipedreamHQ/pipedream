@@ -5,8 +5,13 @@ export default {
   key: "qr_api-create-text-qrcode",
   name: "Create Text QR Code",
   description: "Create a Text QR Code. [See the documentation](https://qrapi.io/api-documentation/#/qrcode/create_text_qr_code)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     ...common.props,
     data: {

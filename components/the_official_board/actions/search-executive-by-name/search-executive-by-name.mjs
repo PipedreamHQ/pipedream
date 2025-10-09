@@ -4,8 +4,13 @@ export default {
   key: "the_official_board-search-executive-by-name",
   name: "Search Executive",
   description: "Search for executives by name. [See the documentation](https://rest.theofficialboard.com/rest/api/doc/#/Executives/get_executive_search)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     name: {

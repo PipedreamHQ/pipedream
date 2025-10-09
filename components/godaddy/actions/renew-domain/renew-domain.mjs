@@ -4,8 +4,13 @@ export default {
   key: "godaddy-renew-domain",
   name: "Renew Domain",
   description: "Renew a domain in GoDaddy. [See the documentation](https://developer.godaddy.com/doc/endpoint/domains#/v1/renew)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     godaddy,
     domain: {

@@ -8,7 +8,12 @@ export default defineAction({
   key: "google_my_business-get-reviews-multiple-locations",
   name: "Get Reviews from Multiple Locations",
   description: `Get reviews from multiple locations at once. [See the documentation](${DOCS_LINK})`,
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

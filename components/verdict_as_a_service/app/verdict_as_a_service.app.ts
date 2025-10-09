@@ -3,8 +3,8 @@ import { open } from "fs/promises";
 import { defineApp } from "@pipedream/types";
 import {
   Vaas,
-  CreateVaasWithClientCredentialsGrant as createVaas,
   VAAS_URL,
+  ClientCredentialsGrantAuthenticator,
 } from "gdata-vaas";
 
 export default defineApp({
@@ -18,14 +18,22 @@ export default defineApp({
     },
   },
   methods: {
-    getClient() {
+    async getClient() {
       const {
         client_id: clientId,
         client_secret: secret,
         token_url: tokenUrl,
         vaas_url: url = VAAS_URL,
       } = this.$auth;
-      return createVaas(clientId, secret, tokenUrl, url);
+      const authenticator = new ClientCredentialsGrantAuthenticator(
+        clientId,
+        secret,
+        tokenUrl,
+      );
+      const token = await authenticator.getToken();
+      const vaas = new Vaas();
+      await vaas.connect(token, url);
+      return vaas;
     },
     async requestVerdictForFile(file: PathLike) {
       const client: Vaas = await this.getClient();

@@ -5,7 +5,12 @@ export default defineAction({
   name: "Get Historical Rates",
   description: "Get historical rates for a currency [See the documentation](https://currencybeacon.com/api-documentation)",
   key: "currencyscoop-get-historical-rates",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

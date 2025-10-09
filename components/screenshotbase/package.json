@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/screenshotbase",
+  "version": "0.0.1",
+  "description": "Pipedream screenshotbase Components",
+  "main": "screenshotbase.app.mjs",
+  "keywords": [
+    "pipedream",
+    "screenshotbase"
+  ],
+  "homepage": "https://pipedream.com/apps/screenshotbase",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

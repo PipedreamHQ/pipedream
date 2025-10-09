@@ -115,7 +115,6 @@ export default {
         const oldValue = body.Old[key];
         return (
           value !== undefined
-          && oldValue !== undefined
           && JSON.stringify(value) !== JSON.stringify(oldValue)
         );
       })

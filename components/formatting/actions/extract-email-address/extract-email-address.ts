@@ -7,7 +7,12 @@ export default defineAction({
   description:
     "Find an email address out of a text field. Finds the first email address only.",
   key: "formatting-extract-email-address",
-  version: "0.0.6",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...commonExtractText.props,

@@ -7,7 +7,12 @@ export default defineAction({
   name: "Create Session",
   description: "Create a remote support or screen sharing session. [See the documentation](https://www.zoho.com/assist/api/createasession.html)",
   key: "zoho_assist-create-session",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

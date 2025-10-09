@@ -5,8 +5,13 @@ export default {
   key: "afosto-add-item-to-cart",
   name: "Add Item to Cart",
   description: "Add an item to a cart. [See the documentation](https://afosto.com/docs/developers/storefront-js-client/integration/add-and-remove-items/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     sku: {

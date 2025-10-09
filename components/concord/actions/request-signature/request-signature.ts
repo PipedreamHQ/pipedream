@@ -7,7 +7,12 @@ export default defineAction({
   description:
     "Request signers to sign an agreement [See the documentation](https://api.doc.concordnow.com/#tag/Signature/operation/RequestSignature)",
   key: "concord-request-signature",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

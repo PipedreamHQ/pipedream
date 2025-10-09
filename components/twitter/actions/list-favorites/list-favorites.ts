@@ -23,7 +23,12 @@ export default defineAction({
   key: "twitter-list-favorites",
   name: "List Liked Tweets",
   description: `Return the most recent tweets liked by you or the specified user. [See the documentation](${DOCS_LINK})`,
-  version: "2.0.8",
+  version: "2.0.9",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,
