@@ -5,7 +5,12 @@ export default defineAction({
   key: "google_workspace-list-activities-by-event-and-admin",
   name: "List Activities By Event Name and Admin",
   description: "Retrieves a report of all activities for a specific event name and admin. [See the docs](https://developers.google.com/admin-sdk/reports/v1/guides/manage-audit-admin#get_admin_event) for more information",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     googleWorkspace,

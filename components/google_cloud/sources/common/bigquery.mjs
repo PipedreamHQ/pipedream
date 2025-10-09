@@ -163,9 +163,9 @@ export default {
       throw new Error("processEvent is not implemented");
     },
   },
-  run(event) {
+  async run(event) {
     const { timestamp } = event;
     const queryOpts = this.getQueryOpts(event);
-    return this.processCollection(queryOpts, timestamp);
+    return await this.processCollection(queryOpts, timestamp);
   },
 };

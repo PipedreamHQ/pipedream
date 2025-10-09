@@ -5,7 +5,12 @@ export default {
   name: "Create New Product",
   description: "Create a new product. [See the documentation](https://app.mailbluster.com/api-doc/products)",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     mailbluster,
     id: {

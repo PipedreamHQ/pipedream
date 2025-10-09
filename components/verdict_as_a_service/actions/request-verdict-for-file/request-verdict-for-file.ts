@@ -5,7 +5,7 @@ export default defineAction({
   name: "Request Verdict For A File",
   description: "Scans a file for malware and other threats. [See the docs here](https://github.com/GDATASoftwareAG/vaas/tree/main/typescript#request-a-verdict)",
   key: "verdict_as_a_service-request-verdict-for-file",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

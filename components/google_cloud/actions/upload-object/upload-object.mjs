@@ -2,7 +2,7 @@ import googleCloud from "../../google_cloud.app.mjs";
 
 export default {
   name: "Upload An Object",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

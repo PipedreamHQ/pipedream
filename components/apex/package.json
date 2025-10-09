@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/apex",
+  "version": "0.0.1",
+  "description": "Pipedream Apex Components",
+  "main": "apex.app.mjs",
+  "keywords": [
+    "pipedream",
+    "apex"
+  ],
+  "homepage": "https://pipedream.com/apps/apex",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

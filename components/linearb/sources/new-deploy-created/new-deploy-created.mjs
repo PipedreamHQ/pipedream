@@ -1,12 +1,12 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import app from "../../linearb.app.mjs";
 import constants from "../../common/constants.mjs";
+import app from "../../linearb.app.mjs";
 
 export default {
   key: "linearb-new-deploy-created",
   name: "New Deploy Created",
   description: "Emit new event when a new deploy is created in LinearB. [See the documentation](https://docs.linearb.io/api-deployments/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

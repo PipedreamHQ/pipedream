@@ -4,7 +4,7 @@ export default {
   key: "airtop-create-window",
   name: "Create Window",
   description: "Create a new browser window in an active session. [See the documentation](https://docs.airtop.ai/api-reference/airtop-api/windows/create)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   props: {
     app,
@@ -61,9 +61,7 @@ export default {
       },
     });
 
-    const windowId = response.id;
-
-    $.export("$summary", `Successfully created window ${windowId}`);
+    $.export("$summary", `Successfully created window ${response.windowId}`);
     return response;
   },
 };

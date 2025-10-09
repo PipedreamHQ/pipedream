@@ -10,7 +10,12 @@ export default defineAction({
   name: "Create Task",
   description: "Create a task (docs available on board settings)",
   key: "kanbanflow-create-task",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   methods: {
     splitFlagPropValue(value: string, splitKey: string): object {
@@ -112,7 +117,9 @@ export default defineAction({
       try {
         additionalOptions = JSON.parse(this.additionalOptions);
       } catch (err) {
-        throw new ConfigurationError("Error when parsing the **additionalOptions** prop. Check if it is a valid JSON-stringified object.");
+        throw new ConfigurationError(`Error when parsing the **additionalOptions** prop. Check if it is a valid JSON-stringified object.
+          
+${err.message}`);
       }
     }
 

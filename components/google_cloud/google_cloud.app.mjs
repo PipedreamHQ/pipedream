@@ -2,13 +2,7 @@
 import { Logging } from "@google-cloud/logging";
 import { Storage } from "@google-cloud/storage";
 import { BigQuery } from "@google-cloud/bigquery";
-import {
-  ZonesClient,
-  ZoneOperationsClient,
-  InstancesClient,
-} from "@google-cloud/compute";
 import { v1 as bqdt } from "@google-cloud/bigquery-data-transfer";
-import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -134,68 +128,6 @@ export default {
     },
     storageClient() {
       return new Storage(this.sdkParams());
-    },
-    instancesClient() {
-      return new InstancesClient(this.sdkParams());
-    },
-    zoneOperationsClient() {
-      return new ZoneOperationsClient(this.sdkParams());
-    },
-    zonesClient() {
-      return new ZonesClient(this.sdkParams());
-    },
-    async listVmInstancesByZone(zone) {
-      const instancesClient = this.instancesClient();
-      const sdkParams = this.sdkParams();
-      const [
-        instances,
-      ] = await instancesClient.list({
-        project: sdkParams.projectId,
-        zone,
-      });
-      return instances;
-    },
-    async listZones() {
-      const zonesClient = this.zonesClient();
-      const sdkParams = this.sdkParams();
-      const [
-        zones,
-      ] = await zonesClient.list({
-        project: sdkParams.projectId,
-      });
-      return zones;
-    },
-    async switchInstanceBootStatus(zone, instance, newStatus) {
-      if (![
-        "start",
-        "stop",
-      ].includes(newStatus)) {
-        throw new ConfigurationError("The new VM boot status must be 'start' or 'stop'.");
-      }
-      const instancesClient = this.instancesClient();
-      const sdkParams = this.sdkParams();
-      const [
-        response,
-      ] = await instancesClient[newStatus]({
-        project: sdkParams.projectId,
-        zone,
-        instance,
-      });
-      return response.latestResponse;
-    },
-    async waitOperation(operation) {
-      const operationsClient = this.zoneOperationsClient();
-      const sdkParams = this.sdkParams();
-      while (operation.status !== "DONE") {
-        [
-          operation,
-        ] = await operationsClient.wait({
-          operation: operation.name,
-          project: sdkParams.projectId,
-          zone: operation.zone.split("/").pop(),
-        });
-      }
-      return operation;
     },
     getBigQueryClient() {
       const credentials = this.authKeyJson();
