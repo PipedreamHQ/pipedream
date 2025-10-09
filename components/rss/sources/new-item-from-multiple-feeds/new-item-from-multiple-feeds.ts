@@ -1,5 +1,5 @@
-import rss from "../../app/rss.app";
 import { defineSource } from "@pipedream/types";
+import rss from "../../app/rss.app";
 import rssCommon from "../common/common";
 
 export default defineSource({
@@ -8,7 +8,7 @@ export default defineSource({
   name: "New Item From Multiple RSS Feeds",
   type: "source",
   description: "Emit new items from multiple RSS feeds",
-  version: "1.2.7",
+  version: "1.2.8",
   props: {
     ...rssCommon.props,
     urls: {

@@ -59,6 +59,7 @@ export default defineApp({
         method: "GET",
         headers: {
           "accept": "text/html, application/xhtml+xml, application/xml;q=0.9, */*;q=0.8, application/json, application/feed+json",
+          "User-Agent": "@PipedreamHQ/pipedream v1.0",
         },
         validateStatus: () => true, // does not throw on any bad status code
         responseType: "stream", // stream is required for feedparser

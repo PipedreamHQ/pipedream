@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/rss",
-  "version": "0.5.8",
+  "version": "0.5.9",
   "description": "Pipedream RSS Components",
   "main": "dist/app/rss.app.mjs",
   "types": "dist/app/rss.app.d.ts",
