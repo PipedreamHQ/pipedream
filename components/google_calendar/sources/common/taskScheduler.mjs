@@ -1,5 +1,5 @@
 import { axios } from "@pipedream/platform";
-import { uuid } from "uuidv4";
+import { v4 as uuid } from "uuid";
 
 export default {
   methods: {
