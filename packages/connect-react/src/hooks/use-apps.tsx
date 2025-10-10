@@ -5,11 +5,13 @@ import {
   useQuery, UseQueryResult,
 } from "@tanstack/react-query";
 import type {
-  AppsListRequest, App,
+  AppsListRequest, App, PaginatedResponseV1,
 } from "@pipedream/sdk";
 import { useFrontendClient } from "./frontend-client-context";
 
-type UseAppsResult = Omit<UseQueryResult<any, Error>, "data"> & {
+type AppsListResponse = PaginatedResponseV1<App>;
+
+type UseAppsResult = Omit<UseQueryResult<AppsListResponse, Error>, "data"> & {
   apps: App[];
   isLoadingMore: boolean;
   hasMore: boolean;
@@ -36,7 +38,7 @@ export const useApps = (input?: AppsListRequest): UseAppsResult => {
   const [
     nextPage,
     setNextPage,
-  ] = useState<any>(null);
+  ] = useState<AppsListResponse | null>(null);
 
   // Track previous input to detect when query params actually change
   const prevInputRef = useRef<string>();

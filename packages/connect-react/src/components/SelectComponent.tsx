@@ -39,14 +39,21 @@ export function SelectComponent({
   // Memoize the selected value to prevent unnecessary recalculations
   const selectedValue = useMemo(() => {
     return componentsList?.find((c: Component) => c.key === value?.key) || null;
-  }, [componentsList, value?.key]);
+  }, [
+    componentsList,
+    value?.key,
+  ]);
 
   // Memoize loadMore callback
   const handleMenuScrollToBottom = useCallback(() => {
     if (hasMore && !isLoadingMore) {
       loadMore();
     }
-  }, [hasMore, isLoadingMore, loadMore]);
+  }, [
+    hasMore,
+    isLoadingMore,
+    loadMore,
+  ]);
 
   // Memoize custom components to prevent remounting
   // Note: Don't include isLoadingMore in deps - it's read from closure
@@ -70,7 +77,10 @@ export function SelectComponent({
       </MenuList>
     ),
     IndicatorSeparator: () => null,
-  }), [componentType, MenuList]);
+  }), [
+    componentType,
+    MenuList,
+  ]);
 
   return (
     <Select

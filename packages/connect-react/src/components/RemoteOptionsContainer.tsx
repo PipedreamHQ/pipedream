@@ -80,8 +80,10 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
     setAccumulatedData,
   ] = useState<RawPropOption[]>([]);
 
+  // State variable unused - we only use the setter and derive values from prevValues
   const [
-    accumulatedValues,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _accumulatedValues,
     setAccumulatedValues,
   ] = useState<Set<PropOptionValue>>(new Set());
 
@@ -93,13 +95,22 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
       props[p.name] = configuredProps[p.name];
     }
     return props;
-  }, [idx, configurableProps, configuredProps]);
+  }, [
+    idx,
+    configurableProps,
+    configuredProps,
+  ]);
 
   // Memoize account value for tracking changes
   const accountValue = useMemo(() => {
     const accountProp = configurableProps.find((p: { type: string; name: string; }) => p.type === "app");
-    return accountProp ? configuredProps[accountProp.name] : undefined;
-  }, [configurableProps, configuredProps]);
+    return accountProp
+      ? configuredProps[accountProp.name]
+      : undefined;
+  }, [
+    configurableProps,
+    configuredProps,
+  ]);
 
   const componentConfigureInput: ConfigurePropOpts = useMemo(() => {
     const input: ConfigurePropOpts = {
@@ -115,15 +126,28 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
       input.query = query || "";
     }
     return input;
-  }, [externalUserId, page, context, component.key, prop.name, prop.useQuery, configuredPropsUpTo, dynamicProps?.id, query]);
+  }, [
+    externalUserId,
+    page,
+    context,
+    component.key,
+    prop.name,
+    prop.useQuery,
+    configuredPropsUpTo,
+    dynamicProps?.id,
+    query,
+  ]);
 
   // React Query key excludes dynamicPropsId
   const queryKeyInput = useMemo(() => {
     const {
-      dynamicPropsId, ...rest
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      dynamicPropsId: _dynamicPropsId, ...rest
     } = componentConfigureInput;
     return rest;
-  }, [componentConfigureInput]);
+  }, [
+    componentConfigureInput,
+  ]);
 
   const [
     error,
@@ -131,7 +155,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
   ] = useState<{ name: string; message: string; }>();
 
   const onLoadMore = () => {
-    setPage(prev => prev + 1);
+    setPage((prev) => prev + 1);
     setContext(nextContext);
   };
 
@@ -144,14 +168,20 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
   // Check if there's an account prop - if so, it must be set for the query to be enabled
   const hasAccountProp = useMemo(() => {
     return configurableProps.some((p: { type: string; }) => p.type === "app");
-  }, [configurableProps]);
+  }, [
+    configurableProps,
+  ]);
 
   const isQueryEnabled = useMemo(() => {
     if (!queryEnabled) return false;
     // If there's an account prop, it must be set
     if (hasAccountProp && !accountValue) return false;
     return true;
-  }, [queryEnabled, hasAccountProp, accountValue]);
+  }, [
+    queryEnabled,
+    hasAccountProp,
+    accountValue,
+  ]);
 
   // Fetch data without side effects - just return the raw response
   const {
@@ -190,7 +220,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
         _options = options;
       }
       if (stringOptions?.length) {
-        _options = stringOptions.map(str => ({
+        _options = stringOptions.map((str) => ({
           label: str,
           value: str,
         }));
@@ -227,8 +257,10 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
     let foundNewOptions = false;
 
     // Update values set
-    setAccumulatedValues(prevValues => {
-      const baseValues = isFirstPage ? new Set<PropOptionValue>() : prevValues;
+    setAccumulatedValues((prevValues) => {
+      const baseValues = isFirstPage
+        ? new Set<PropOptionValue>()
+        : prevValues;
       const newValues = new Set(baseValues);
 
       for (const o of queryData.options) {
@@ -248,8 +280,10 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
     });
 
     // Update accumulated data independently
-    setAccumulatedData(prevData => {
-      const baseData = isFirstPage ? [] : prevData;
+    setAccumulatedData((prevData) => {
+      const baseData = isFirstPage
+        ? []
+        : prevData;
       const newOptions: RawPropOption[] = [];
       const tempValues = new Set<PropOptionValue>();
 
@@ -287,7 +321,12 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
     if (!foundNewOptions) {
       setCanLoadMore(false);
     }
-  }, [queryData, page, dataUpdatedAt, queryKeyString]);
+  }, [
+    queryData,
+    page,
+    dataUpdatedAt,
+    queryKeyString,
+  ]);
 
   // Reset pagination when queryKey changes
   useEffect(() => {
@@ -303,7 +342,9 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
       setAccumulatedValues(new Set());
     }
     prevQueryKeyRef.current = queryKeyString;
-  }, [queryKeyString]);
+  }, [
+    queryKeyString,
+  ]);
 
   // Separately track account changes to clear field value
   useEffect(() => {
@@ -321,11 +362,21 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
     }
 
     prevAccountKeyRef.current = accountKey;
-  }, [accountKey, onChange, isQueryEnabled, accountValue, refetch]);
+  }, [
+    accountKey,
+    onChange,
+    isQueryEnabled,
+    accountValue,
+    refetch,
+  ]);
 
   const showLoadMoreButton = useMemo(() => {
     return !isFetching && !error && canLoadMore;
-  }, [isFetching, error, canLoadMore]);
+  }, [
+    isFetching,
+    error,
+    canLoadMore,
+  ]);
 
   // TODO show error in different spot!
   const placeholder = error

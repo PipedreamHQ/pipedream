@@ -7,10 +7,13 @@ import {
 import type {
   ComponentsListRequest,
   Component,
+  PaginatedResponseV1,
 } from "@pipedream/sdk";
 import { useFrontendClient } from "./frontend-client-context";
 
-type UseComponentsResult = Omit<UseQueryResult<any, Error>, "data"> & {
+type ComponentsListResponse = PaginatedResponseV1<Component>;
+
+type UseComponentsResult = Omit<UseQueryResult<ComponentsListResponse, Error>, "data"> & {
   components: Component[];
   isLoadingMore: boolean;
   hasMore: boolean;
@@ -37,7 +40,7 @@ export const useComponents = (input?: ComponentsListRequest): UseComponentsResul
   const [
     nextPage,
     setNextPage,
-  ] = useState<any>(null);
+  ] = useState<ComponentsListResponse | null>(null);
 
   // Track previous input to detect when query params actually change
   const prevInputRef = useRef<string>();

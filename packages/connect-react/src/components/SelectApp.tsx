@@ -2,7 +2,9 @@ import {
   useId, useState, useEffect, useMemo, useCallback,
 } from "react";
 import Select, { components } from "react-select";
-import type { MenuListProps } from "react-select";
+import type {
+  MenuListProps, OptionProps, SingleValueProps,
+} from "react-select";
 import { useApps } from "../hooks/use-apps";
 import type {
   App,
@@ -64,21 +66,30 @@ export function SelectApp({
   // Memoize the selected value to prevent unnecessary recalculations
   const selectedValue = useMemo(() => {
     return apps?.find((o: App) => o.nameSlug === value?.nameSlug)
-      || (value?.nameSlug ? value as App : null);
-  }, [apps, value?.nameSlug]);
+      || (value?.nameSlug
+        ? value as App
+        : null);
+  }, [
+    apps,
+    value?.nameSlug,
+  ]);
 
   // Memoize loadMore callback
   const handleMenuScrollToBottom = useCallback(() => {
     if (hasMore && !isLoadingMore) {
       loadMore();
     }
-  }, [hasMore, isLoadingMore, loadMore]);
+  }, [
+    hasMore,
+    isLoadingMore,
+    loadMore,
+  ]);
 
   // Memoize custom components to prevent remounting
   // Note: Don't include isLoadingMore in deps - it's read from closure
   // and components will re-render naturally when parent re-renders
   const customComponents = useMemo(() => ({
-    Option: (optionProps: any) => (
+    Option: (optionProps: OptionProps<App>) => (
       <Option {...optionProps}>
         <div style={{
           display: "flex",
@@ -98,7 +109,7 @@ export function SelectApp({
         </div>
       </Option>
     ),
-    SingleValue: (singleValueProps: any) => (
+    SingleValue: (singleValueProps: SingleValueProps<App>) => (
       <SingleValue {...singleValueProps}>
         <div style={{
           display: "flex",
@@ -137,7 +148,11 @@ export function SelectApp({
       </MenuList>
     ),
     IndicatorSeparator: () => null,
-  }), [Option, SingleValue, MenuList]);
+  }), [
+    Option,
+    SingleValue,
+    MenuList,
+  ]);
   return (
     <Select
       instanceId={instanceId}

@@ -120,13 +120,17 @@ export function ControlSelect<T extends PropOptionValue>({
   const onLoadMoreRef = useRef(onLoadMore);
   useEffect(() => {
     onLoadMoreRef.current = onLoadMore;
-  }, [onLoadMore]);
+  }, [
+    onLoadMore,
+  ]);
 
   // Use ref to store latest showLoadMoreButton value
   const showLoadMoreButtonRef = useRef(showLoadMoreButton);
   useEffect(() => {
     showLoadMoreButtonRef.current = showLoadMoreButton;
-  }, [showLoadMoreButton]);
+  }, [
+    showLoadMoreButton,
+  ]);
 
   // Memoize custom components to prevent remounting
   // Component reference is stable, but reads current values from refs
@@ -137,7 +141,7 @@ export function ControlSelect<T extends PropOptionValue>({
     };
 
     // Always set MenuList, conditionally render button inside
-    base.MenuList = ({
+    const CustomMenuList = ({
       // eslint-disable-next-line react/prop-types
       children, ...menuProps
     }: MenuListProps<LabelValueOption<T>, boolean>) => (
@@ -150,6 +154,8 @@ export function ControlSelect<T extends PropOptionValue>({
         )}
       </components.MenuList>
     );
+    CustomMenuList.displayName = "CustomMenuList";
+    base.MenuList = CustomMenuList;
 
     return base;
   }, []); // Empty deps - stable reference, reads current values from refs
