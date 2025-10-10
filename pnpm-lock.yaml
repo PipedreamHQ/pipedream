@@ -2492,6 +2492,9 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/chatbase:
+    specifiers: {}
+
   components/chatbot:
     dependencies:
       '@pipedream/platform':
