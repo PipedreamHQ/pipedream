@@ -26,6 +26,16 @@ type ConfigurePropResult = {
   context: ConfigureComponentContext | undefined;
 };
 
+// Helper to extract value from an option
+const extractOptionValue = (o: RawPropOption): PropOptionValue | null => {
+  if (isString(o)) {
+    return o;
+  } else if (o && typeof o === "object" && "value" in o && o.value != null) {
+    return o.value;
+  }
+  return null;
+};
+
 export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerProps) {
   const client = useFrontendClient();
   const {
@@ -87,7 +97,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
 
   // Memoize account value for tracking changes
   const accountValue = useMemo(() => {
-    const accountProp = configurableProps.find((p: any) => p.type === "app");
+    const accountProp = configurableProps.find((p: { type: string; name: string; }) => p.type === "app");
     return accountProp ? configuredProps[accountProp.name] : undefined;
   }, [configurableProps, configuredProps]);
 
@@ -133,7 +143,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
 
   // Check if there's an account prop - if so, it must be set for the query to be enabled
   const hasAccountProp = useMemo(() => {
-    return configurableProps.some((p: any) => p.type === "app");
+    return configurableProps.some((p: { type: string; }) => p.type === "app");
   }, [configurableProps]);
 
   const isQueryEnabled = useMemo(() => {
@@ -213,32 +223,25 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
     // Determine if this is a fresh query or pagination
     const isFirstPage = page === 0;
 
+    // Track if we found new options (for canLoadMore logic)
+    let foundNewOptions = false;
+
     // Update values set
     setAccumulatedValues(prevValues => {
       const baseValues = isFirstPage ? new Set<PropOptionValue>() : prevValues;
       const newValues = new Set(baseValues);
-      let hasNewOptions = false;
 
       for (const o of queryData.options) {
-        let value: PropOptionValue;
-        if (isString(o)) {
-          value = o;
-        } else if (o && typeof o === "object" && "value" in o && o.value != null) {
-          value = o.value;
-        } else {
+        const value = extractOptionValue(o);
+        if (value === null) {
           console.warn("Skipping invalid option:", o);
           continue;
         }
 
         if (!newValues.has(value)) {
           newValues.add(value);
-          hasNewOptions = true;
+          foundNewOptions = true;
         }
-      }
-
-      // Update canLoadMore flag
-      if (!hasNewOptions) {
-        setCanLoadMore(false);
       }
 
       return newValues;
@@ -253,23 +256,16 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
       // Build temp values set from existing data for deduplication
       if (!isFirstPage) {
         for (const o of baseData) {
-          if (isString(o)) {
-            tempValues.add(o);
-          } else if (o && typeof o === "object" && "value" in o && o.value != null) {
-            tempValues.add(o.value);
+          const value = extractOptionValue(o);
+          if (value !== null) {
+            tempValues.add(value);
           }
         }
       }
 
       for (const o of queryData.options) {
-        let value: PropOptionValue;
-        if (isString(o)) {
-          value = o;
-        } else if (o && typeof o === "object" && "value" in o && o.value != null) {
-          value = o.value;
-        } else {
-          continue;
-        }
+        const value = extractOptionValue(o);
+        if (value === null) continue;
 
         if (!tempValues.has(value)) {
           tempValues.add(value);
@@ -286,6 +282,11 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
         ...newOptions,
       ] as RawPropOption[];
     });
+
+    // Update canLoadMore flag after processing
+    if (!foundNewOptions) {
+      setCanLoadMore(false);
+    }
   }, [queryData, page, dataUpdatedAt, queryKeyString]);
 
   // Reset pagination when queryKey changes
@@ -294,7 +295,6 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
 
     if (queryKeyChanged) {
       // Query params changed - reset pagination state
-      // React Query will automatically refetch due to queryKey change
       setPage(0);
       setContext(undefined);
       setNextContext(undefined);
@@ -323,26 +323,26 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
     prevAccountKeyRef.current = accountKey;
   }, [accountKey, onChange, isQueryEnabled, accountValue, refetch]);
 
-  const showLoadMoreButton = () => {
-    return !isFetching && !error && canLoadMore
-  }
+  const showLoadMoreButton = useMemo(() => {
+    return !isFetching && !error && canLoadMore;
+  }, [isFetching, error, canLoadMore]);
 
   // TODO show error in different spot!
   const placeholder = error
     ? error.message
     : disableQueryDisabling
       ? "Click to configure"
-      : !queryEnabled
+      : !isQueryEnabled
         ? "Configure props above first"
         : undefined;
   const isDisabled = disableQueryDisabling
     ? false
-    : !queryEnabled;
+    : !isQueryEnabled;
 
   return (
     <ControlSelect
       isCreatable={true}
-      showLoadMoreButton={showLoadMoreButton()}
+      showLoadMoreButton={showLoadMoreButton}
       onLoadMore={onLoadMore}
       options={accumulatedData.map(sanitizeOption)}
       // XXX isSearchable if pageQuery? or maybe in all cases? or maybe NOT when pageQuery
