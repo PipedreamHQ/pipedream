@@ -123,94 +123,117 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
     })
   }
 
-  // TODO handle error!
+  // Fetch data without side effects - just return the raw response
   const {
-    isFetching, refetch,
+    data: queryData, isFetching, refetch, dataUpdatedAt,
   } = useQuery({
     queryKey: [
       "componentConfigure",
       queryKeyInput,
     ],
-    staleTime: 0, // Always refetch, don't use cached data
     queryFn: async () => {
-      setError(undefined);
       const res = await client.components.configureProp(componentConfigureInput);
 
-      // XXX look at errors in response here too
       const {
         options, stringOptions, errors,
       } = res;
 
       if (errors?.length) {
-        // TODO field context setError? (for validity, etc.)
+        let error;
         try {
-          setError(JSON.parse(errors[0]));
+          error = JSON.parse(errors[0]);
         } catch {
-          setError({
+          error = {
             name: "Error",
             message: errors[0],
-          });
+          };
         }
-        return [];
+        return {
+          error,
+          options: [],
+          context: res.context,
+        };
       }
-      let _options: RawPropOption[] = []
+
+      let _options: RawPropOption[] = [];
       if (options?.length) {
         _options = options;
       }
       if (stringOptions?.length) {
-        const options = [];
-        for (const stringOption of stringOptions) {
-          options.push({
-            label: stringOption,
-            value: stringOption,
-          });
-        }
-        _options = options;
+        _options = stringOptions.map(str => ({
+          label: str,
+          value: str,
+        }));
       }
 
-      // If page is 0, this is a fresh query - start with empty data
-      const isFirstPage = page === 0;
-      const baseData = isFirstPage ? [] : pageable.data;
-      const baseValues = isFirstPage ? new Set<PropOptionValue>() : pageable.values;
+      return {
+        error: undefined,
+        options: _options,
+        context: res.context,
+      };
+    },
+    enabled: !!queryEnabled,
+  });
 
-      const newOptions = []
-      const allValues = new Set(baseValues)
-      for (const o of _options || []) {
+  // Sync query data into pageable state
+  useEffect(() => {
+    if (!queryData) return;
+
+    // Handle errors
+    if (queryData.error) {
+      setError(queryData.error);
+      return;
+    }
+
+    setError(undefined);
+
+    // Use functional update to access current pageable state without it being a dependency
+    setPageable(prevPageable => {
+      // Determine if this is a fresh query or pagination
+      const isFirstPage = page === 0;
+      const baseData = isFirstPage ? [] : prevPageable.data;
+      const baseValues = isFirstPage ? new Set<PropOptionValue>() : prevPageable.values;
+
+      // Deduplicate and process new options
+      const newOptions: RawPropOption[] = [];
+      const allValues = new Set(baseValues);
+
+      for (const o of queryData.options) {
         let value: PropOptionValue;
         if (isString(o)) {
           value = o;
         } else if (o && typeof o === "object" && "value" in o && o.value != null) {
           value = o.value;
         } else {
-          // Skip items that don't match expected format
           console.warn("Skipping invalid option:", o);
           continue;
         }
-        if (allValues.has(value)) {
-          continue
+
+        if (!allValues.has(value)) {
+          allValues.add(value);
+          newOptions.push(o);
         }
-        allValues.add(value)
-        newOptions.push(o)
       }
-      let data = baseData
-      if (newOptions.length) {
-        data = [
-          ...baseData,
-          ...newOptions,
-        ] as RawPropOption[]
-        setPageable({
-          page: page + 1,
-          prevContext: res.context,
-          data,
-          values: allValues,
-        })
-      } else {
-        setCanLoadMore(false)
+
+      // If no new options, don't update state but set canLoadMore flag
+      if (!newOptions.length) {
+        setCanLoadMore(false);
+        return prevPageable; // Return unchanged state
       }
-      return data;
-    },
-    enabled: !!queryEnabled,
-  });
+
+      const data = [
+        ...baseData,
+        ...newOptions,
+      ] as RawPropOption[];
+
+      return {
+        page: page + 1,
+        prevContext: queryData.context,
+        data,
+        values: allValues,
+      };
+    });
+  }, [queryData, page, dataUpdatedAt]);
 
   // Track queryKey and account changes
   const queryKeyString = JSON.stringify(queryKeyInput);
