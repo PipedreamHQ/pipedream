@@ -3,6 +3,7 @@ import {
   useEffect,
   useMemo,
   useState,
+  useRef,
 } from "react";
 import type {
   CSSObjectWithLabel, MenuListProps,
@@ -112,30 +113,46 @@ export function ControlSelect<T extends PropOptionValue>({
     selectOptions,
   ]);
 
-  const LoadMore = ({
-    // eslint-disable-next-line react/prop-types
-    children, ...props
-  }: MenuListProps<LabelValueOption<T>, boolean>) => {
-    return (
-      <components.MenuList  {...props}>
-        {children}
-        <div className="pt-4">
-          <LoadMoreButton onChange={onLoadMore || (() => { })} />
-        </div>
-      </components.MenuList>
-    )
-  }
-
   const props = select.getProps("controlSelect", baseSelectProps)
 
-  const finalComponents = {
-    ...props.components,
-    ...componentsOverride,
-  };
+  // Use ref to store latest onLoadMore callback
+  // This allows stable component reference while calling current callback
+  const onLoadMoreRef = useRef(onLoadMore);
+  useEffect(() => {
+    onLoadMoreRef.current = onLoadMore;
+  }, [onLoadMore]);
 
-  if (showLoadMoreButton) {
-    finalComponents.MenuList = LoadMore;
-  }
+  // Use ref to store latest showLoadMoreButton value
+  const showLoadMoreButtonRef = useRef(showLoadMoreButton);
+  useEffect(() => {
+    showLoadMoreButtonRef.current = showLoadMoreButton;
+  }, [showLoadMoreButton]);
+
+  // Memoize custom components to prevent remounting
+  // Component reference is stable, but reads current values from refs
+  const finalComponents = useMemo(() => {
+    const base = {
+      ...props.components,
+      ...componentsOverride,
+    };
+
+    // Always set MenuList, conditionally render button inside
+    base.MenuList = ({
+      // eslint-disable-next-line react/prop-types
+      children, ...menuProps
+    }: MenuListProps<LabelValueOption<T>, boolean>) => (
+      <components.MenuList  {...menuProps}>
+        {children}
+        {showLoadMoreButtonRef.current && (
+          <div className="pt-4">
+            <LoadMoreButton onChange={() => onLoadMoreRef.current?.()} />
+          </div>
+        )}
+      </components.MenuList>
+    );
+
+    return base;
+  }, []); // Empty deps - stable reference, reads current values from refs
 
   const handleCreate = (inputValue: string) => {
     const newOption = sanitizeOption(inputValue as T)
@@ -215,6 +232,7 @@ export function ControlSelect<T extends PropOptionValue>({
       onChange={handleChange}
       {...props}
       {...selectProps}
+      components={finalComponents}
       {...additionalProps}
     />
   );

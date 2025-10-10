@@ -2,6 +2,20 @@
 
 # Changelog
 
+## [2.1.0] - 2025-10-10
+
+### Added
+
+- Infinite scroll pagination for `SelectApp` and `SelectComponent` dropdowns
+- `useApps` and `useComponents` hooks now support pagination with automatic accumulation of results
+- Default page size increased to 50 items per request for better UX
+
+### Fixed
+
+- Scroll position preservation in `SelectApp` and `SelectComponent` during infinite scroll
+- Scroll position preservation in `ControlSelect` when clicking "Load More" button for remote options
+- Prevent component remounting that caused scroll jumps during pagination
+
 ## [2.0.0] - 2025-10-02
 
 ### Breaking Changes
