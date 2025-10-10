@@ -5,8 +5,13 @@ export default {
   key: "etrusted-get-total-reviews",
   name: "Get The Total Number Of Reviews Based On A Filter",
   description: "Retrieves count of reviews for a specific channel. [See the documentation](https://developers.etrusted.com/reference/getreviewscount)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     etrusted,
     channelId: {

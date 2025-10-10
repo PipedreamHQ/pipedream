@@ -4,8 +4,13 @@ export default {
   key: "etrusted-save-review-reply",
   name: "Save A Review Reply",
   description: "Reply to a review. [See the documentation](https://developers.etrusted.com/reference/savereviewreply)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     etrusted,
     reviewId: {

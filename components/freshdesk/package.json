@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/freshdesk",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Pipedream Freshdesk Components",
   "main": "freshdesk.app.mjs",
   "keywords": [

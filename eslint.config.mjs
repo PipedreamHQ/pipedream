@@ -216,6 +216,7 @@ export default [
       "pipedream/source-name": "warn",
       "pipedream/source-description": "warn",
       "pipedream/no-ts-version": "warn",
+      "pipedream/action-annotations": "error",
     },
   },
   {
@@ -236,6 +237,7 @@ export default [
       "pipedream/required-properties-type": "off",
       "pipedream/source-name": "off",
       "pipedream/source-description": "off",
+      "pipedream/action-annotations": "off",
     },
   },
   {

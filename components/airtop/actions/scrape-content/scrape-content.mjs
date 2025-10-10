@@ -4,8 +4,13 @@ export default {
   key: "airtop-scrape-content",
   name: "Scrape Content",
   description: "Scrape structured content from a web page using AI. [See the documentation](https://docs.airtop.ai/api-reference/airtop-api/windows/scrape-content)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     sessionId: {
