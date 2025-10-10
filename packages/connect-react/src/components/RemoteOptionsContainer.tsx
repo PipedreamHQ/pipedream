@@ -20,6 +20,12 @@ export type RemoteOptionsContainerProps = {
   queryEnabled?: boolean;
 };
 
+type ConfigurePropResult = {
+  error: { name: string; message: string; } | undefined;
+  options: RawPropOption[];
+  context: ConfigureComponentContext | undefined;
+};
+
 export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerProps) {
   const client = useFrontendClient();
   const {
@@ -45,29 +51,29 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
   ] = useState<number>(0);
 
   const [
-    canLoadMore,
-    setCanLoadMore,
-  ] = useState<boolean>(true);
-
-  const [
     context,
     setContext,
   ] = useState<ConfigureComponentContext | undefined>(undefined);
 
   const [
-    pageable,
-    setPageable,
-  ] = useState<{
-    page: number;
-    prevContext: ConfigureComponentContext | undefined;
-    data: RawPropOption[];
-    values: Set<PropOptionValue>;
-  }>({
-    page: 0,
-    prevContext: {},
-    data: [],
-    values: new Set(),
-  })
+    nextContext,
+    setNextContext,
+  ] = useState<ConfigureComponentContext | undefined>(undefined);
+
+  const [
+    canLoadMore,
+    setCanLoadMore,
+  ] = useState<boolean>(true);
+
+  const [
+    accumulatedData,
+    setAccumulatedData,
+  ] = useState<RawPropOption[]>([]);
+
+  const [
+    accumulatedValues,
+    setAccumulatedValues,
+  ] = useState<Set<PropOptionValue>>(new Set());
 
   // Memoize configured props up to current index
   const configuredPropsUpTo = useMemo(() => {
@@ -115,23 +121,25 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
   ] = useState<{ name: string; message: string; }>();
 
   const onLoadMore = () => {
-    setPage(pageable.page)
-    setContext(pageable.prevContext)
-    setPageable({
-      ...pageable,
-      prevContext: {},
-    })
-  }
+    setPage(prev => prev + 1);
+    setContext(nextContext);
+  };
+
+  // Track queryKey and account changes (need these before effects that use them)
+  const queryKeyString = JSON.stringify(queryKeyInput);
+  const accountKey = JSON.stringify(accountValue);
+  const prevQueryKeyRef = useRef<string>();
+  const prevAccountKeyRef = useRef<string>();
 
   // Fetch data without side effects - just return the raw response
   const {
     data: queryData, isFetching, refetch, dataUpdatedAt,
-  } = useQuery({
+  } = useQuery<ConfigurePropResult>({
     queryKey: [
       "componentConfigure",
       queryKeyInput,
     ],
-    queryFn: async () => {
+    queryFn: async (): Promise<ConfigurePropResult> => {
       const res = await client.components.configureProp(componentConfigureInput);
 
       const {
@@ -175,7 +183,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
     enabled: !!queryEnabled,
   });
 
-  // Sync query data into pageable state
+  // Sync query data into accumulated state
   useEffect(() => {
     if (!queryData) return;
 
@@ -187,16 +195,17 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
 
     setError(undefined);
 
-    // Use functional update to access current pageable state without it being a dependency
-    setPageable(prevPageable => {
-      // Determine if this is a fresh query or pagination
-      const isFirstPage = page === 0;
-      const baseData = isFirstPage ? [] : prevPageable.data;
-      const baseValues = isFirstPage ? new Set<PropOptionValue>() : prevPageable.values;
+    // Store the context for the next page
+    setNextContext(queryData.context);
 
-      // Deduplicate and process new options
-      const newOptions: RawPropOption[] = [];
-      const allValues = new Set(baseValues);
+    // Determine if this is a fresh query or pagination
+    const isFirstPage = page === 0;
+
+    // Update values set
+    setAccumulatedValues(prevValues => {
+      const baseValues = isFirstPage ? new Set<PropOptionValue>() : prevValues;
+      const newValues = new Set(baseValues);
+      let hasNewOptions = false;
 
       for (const o of queryData.options) {
         let value: PropOptionValue;
@@ -209,37 +218,63 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
           continue;
         }
 
-        if (!allValues.has(value)) {
-          allValues.add(value);
+        if (!newValues.has(value)) {
+          newValues.add(value);
+          hasNewOptions = true;
+        }
+      }
+
+      // Update canLoadMore flag
+      if (!hasNewOptions) {
+        setCanLoadMore(false);
+      }
+
+      return newValues;
+    });
+
+    // Update accumulated data independently
+    setAccumulatedData(prevData => {
+      const baseData = isFirstPage ? [] : prevData;
+      const newOptions: RawPropOption[] = [];
+      const tempValues = new Set<PropOptionValue>();
+
+      // Build temp values set from existing data for deduplication
+      if (!isFirstPage) {
+        for (const o of baseData) {
+          if (isString(o)) {
+            tempValues.add(o);
+          } else if (o && typeof o === "object" && "value" in o && o.value != null) {
+            tempValues.add(o.value);
+          }
+        }
+      }
+
+      for (const o of queryData.options) {
+        let value: PropOptionValue;
+        if (isString(o)) {
+          value = o;
+        } else if (o && typeof o === "object" && "value" in o && o.value != null) {
+          value = o.value;
+        } else {
+          continue;
+        }
+
+        if (!tempValues.has(value)) {
+          tempValues.add(value);
           newOptions.push(o);
         }
       }
 
-      // If no new options, don't update state but set canLoadMore flag
       if (!newOptions.length) {
-        setCanLoadMore(false);
-        return prevPageable; // Return unchanged state
+        return prevData;
       }
 
-      const data = [
+      return [
         ...baseData,
         ...newOptions,
       ] as RawPropOption[];
-
-      return {
-        page: page + 1,
-        prevContext: queryData.context,
-        data,
-        values: allValues,
-      };
     });
-  }, [queryData, page, dataUpdatedAt]);
-
-  // Track queryKey and account changes
-  const queryKeyString = JSON.stringify(queryKeyInput);
-  const accountKey = JSON.stringify(accountValue);
-  const prevQueryKeyRef = useRef<string>();
-  const prevAccountKeyRef = useRef<string>();
+  }, [queryData, page, dataUpdatedAt, queryKeyString]);
 
   // Reset pagination when queryKey changes
   useEffect(() => {
@@ -250,13 +285,10 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
       // React Query will automatically refetch due to queryKey change
       setPage(0);
       setContext(undefined);
+      setNextContext(undefined);
       setCanLoadMore(true);
-      setPageable({
-        page: 0,
-        prevContext: {},
-        data: [],
-        values: new Set(),
-      });
+      setAccumulatedData([]);
+      setAccumulatedValues(new Set());
     }
     prevQueryKeyRef.current = queryKeyString;
   }, [queryKeyString]);
@@ -270,8 +302,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
       onChange(undefined);
 
       // Always refetch when account changes to a non-null value
-      // With staleTime: 0, the queryKey change will trigger a fresh fetch
-      // But if the queryKey didn't change (e.g., A -> null -> A), we need manual refetch
+      // This handles cases like A -> null -> A where queryKey returns to a previous value
       if (accountValue != null && queryEnabled) {
         refetch();
       }
@@ -301,7 +332,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
       isCreatable={true}
       showLoadMoreButton={showLoadMoreButton()}
       onLoadMore={onLoadMore}
-      options={pageable.data.map(sanitizeOption)}
+      options={accumulatedData.map(sanitizeOption)}
       // XXX isSearchable if pageQuery? or maybe in all cases? or maybe NOT when pageQuery
       selectProps={{
         isLoading: isFetching,
