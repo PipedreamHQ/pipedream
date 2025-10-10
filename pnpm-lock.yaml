@@ -5856,8 +5856,8 @@ importers:
         specifier: ^1.0.2
         version: 1.0.4
       '@pipedream/platform':
-        specifier: ^3.0.0
-        version: 3.0.3
+        specifier: ^3.1.0
+        version: 3.1.0
       color-2-name:
         specifier: ^1.4.4
         version: 1.4.4
