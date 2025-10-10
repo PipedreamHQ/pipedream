@@ -33,6 +33,8 @@ export default {
         const isNewResource = this.isNew(resource, lastCreated);
         if (isNewResource) {
           resources.push(resource);
+        } else {
+          break;
         }
       }
       return resources;
