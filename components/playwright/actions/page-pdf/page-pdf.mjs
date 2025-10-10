@@ -4,7 +4,7 @@ export default {
   key: "playwright-page-pdf",
   name: "Page PDF",
   description: "Generates a pdf of the page and store it on /tmp directory. [See the documentation](https://playwright.dev/docs/api/class-page#page-pdf)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -41,6 +41,11 @@ export default {
       label: "Viewport Height",
       description: "The height of viewport. default: `720`",
       optional: true,
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "write",
+      sync: true,
     },
   },
   async run({ $ }) {
