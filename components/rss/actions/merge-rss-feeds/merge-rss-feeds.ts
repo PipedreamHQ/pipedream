@@ -1,11 +1,11 @@
-import rss from "../../app/rss.app";
 import { defineAction } from "@pipedream/types";
+import rss from "../../app/rss.app";
 
 export default defineAction({
   name: "Merge RSS Feeds",
   description: "Retrieve multiple RSS feeds and return a merged array of items sorted by date [See documentation](https://www.rssboard.org/rss-specification)",
   key: "rss-merge-rss-feeds",
-  version: "1.2.8",
+  version: "1.2.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
