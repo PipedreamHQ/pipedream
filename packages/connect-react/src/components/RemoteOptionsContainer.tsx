@@ -131,6 +131,18 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
   const prevQueryKeyRef = useRef<string>();
   const prevAccountKeyRef = useRef<string>();
 
+  // Check if there's an account prop - if so, it must be set for the query to be enabled
+  const hasAccountProp = useMemo(() => {
+    return configurableProps.some((p: any) => p.type === "app");
+  }, [configurableProps]);
+
+  const isQueryEnabled = useMemo(() => {
+    if (!queryEnabled) return false;
+    // If there's an account prop, it must be set
+    if (hasAccountProp && !accountValue) return false;
+    return true;
+  }, [queryEnabled, hasAccountProp, accountValue]);
+
   // Fetch data without side effects - just return the raw response
   const {
     data: queryData, isFetching, refetch, dataUpdatedAt,
@@ -180,7 +192,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
         context: res.context,
       };
     },
-    enabled: !!queryEnabled,
+    enabled: isQueryEnabled,
   });
 
   // Sync query data into accumulated state
@@ -303,13 +315,13 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
 
       // Always refetch when account changes to a non-null value
       // This handles cases like A -> null -> A where queryKey returns to a previous value
-      if (accountValue != null && queryEnabled) {
+      if (accountValue != null && isQueryEnabled) {
         refetch();
       }
     }
 
     prevAccountKeyRef.current = accountKey;
-  }, [accountKey, onChange, queryEnabled, accountValue, refetch]);
+  }, [accountKey, onChange, isQueryEnabled, accountValue, refetch]);
 
   const showLoadMoreButton = () => {
     return !isFetching && !error && canLoadMore
@@ -348,7 +360,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
           }
         },
         onMenuOpen() {
-          if (disableQueryDisabling && !queryEnabled) {
+          if (disableQueryDisabling && !isQueryEnabled) {
             refetch(); // TODO don't refetch if same exact params? (this is just for stress demo -- for now)
           }
         },
