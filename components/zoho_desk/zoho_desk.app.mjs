@@ -130,9 +130,9 @@ export default {
     },
   },
   methods: {
-    getUrl(url, path, versionPath) {
+    getUrl(url, path, apiPrefix) {
       const { region } = this.$auth;
-      return url || `${constants.BASE_PREFIX_URL}${region}${versionPath}${path}`;
+      return url || `${constants.BASE_PREFIX_URL}${region}${apiPrefix}${path}`;
     },
     getHeaders(headers) {
       const { oauth_access_token: oauthAccessToken } = this.$auth;
@@ -154,12 +154,12 @@ export default {
       path,
       params,
       headers,
-      versionPath = constants.VERSION_PATH,
+      apiPrefix = constants.CORE_API_PATH,
       withRetries = true,
       ...args
     } = {}) {
       const config = {
-        url: this.getUrl(url, path, versionPath),
+        url: this.getUrl(url, path, apiPrefix),
         params: this.getParams(url, params),
         headers: this.getHeaders(headers),
         ...args,
@@ -294,15 +294,15 @@ export default {
     },
     listHelpCenters(args = {}) {
       return this.makeRequest({
-        path: `${constants.PORTAL_PATH}/helpCenters`,
-        versionPath: "",
+        path: "/helpCenters",
+        apiPrefix: constants.PORTAL_API_PATH,
         ...args,
       });
     },
     listKnowledgeBaseArticles(args = {}) {
       return this.makeRequest({
-        path: `${constants.PORTAL_PATH}/kbArticles`,
-        versionPath: "",
+        path: "/kbArticles",
+        apiPrefix: constants.PORTAL_API_PATH,
         ...args,
       });
     },
@@ -323,15 +323,15 @@ export default {
       ...args
     } = {}) {
       return this.makeRequest({
-        path: `${constants.PORTAL_PATH}/kbArticles/${articleId}`,
-        versionPath: "",
+        path: `/kbArticles/${articleId}`,
+        apiPrefix: constants.PORTAL_API_PATH,
         ...args,
       });
     },
     searchKnowledgeBaseArticles(args = {}) {
       return this.makeRequest({
-        path: `${constants.PORTAL_PATH}/kbArticles/search`,
-        versionPath: "",
+        path: "/kbArticles/search",
+        apiPrefix: constants.PORTAL_API_PATH,
         ...args,
       });
     },
@@ -349,8 +349,8 @@ export default {
     },
     listKnowledgeBaseRootCategories(args = {}) {
       return this.makeRequest({
-        path: `${constants.PORTAL_PATH}/kbRootCategories`,
-        versionPath: "",
+        path: "/kbRootCategories",
+        apiPrefix: constants.PORTAL_API_PATH,
         ...args,
       });
     },
