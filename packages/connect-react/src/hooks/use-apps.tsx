@@ -5,13 +5,11 @@ import {
   useQuery, UseQueryResult,
 } from "@tanstack/react-query";
 import type {
-  AppsListRequest, App, PaginatedResponseV1,
+  AppsListRequest, App,
 } from "@pipedream/sdk";
 import { useFrontendClient } from "./frontend-client-context";
 
-type AppsListResponse = PaginatedResponseV1<App>;
-
-type UseAppsResult = Omit<UseQueryResult<AppsListResponse, Error>, "data"> & {
+export type UseAppsResult = Omit<UseQueryResult<unknown, Error>, "data"> & {
   apps: App[];
   isLoadingMore: boolean;
   hasMore: boolean;
@@ -38,7 +36,7 @@ export const useApps = (input?: AppsListRequest): UseAppsResult => {
   const [
     nextPage,
     setNextPage,
-  ] = useState<AppsListResponse | null>(null);
+  ] = useState<unknown>(null);
 
   // Track previous input to detect when query params actually change
   const prevInputRef = useRef<string>();
@@ -76,7 +74,8 @@ export const useApps = (input?: AppsListRequest): UseAppsResult => {
 
     setIsLoadingMore(true);
     try {
-      const nextPageData = await nextPage.getNextPage();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const nextPageData = await (nextPage as any).getNextPage();
       setAllApps((prev) => [
         ...prev,
         ...(nextPageData.data || []),
