@@ -15,6 +15,7 @@
 - Scroll position preservation in `SelectApp` and `SelectComponent` during infinite scroll
 - Scroll position preservation in `ControlSelect` when clicking "Load More" button for remote options
 - Prevent component remounting that caused scroll jumps during pagination
+- Remote options now properly reset when parent props change (e.g., switching accounts)
 
 ## [2.0.0] - 2025-10-02
 

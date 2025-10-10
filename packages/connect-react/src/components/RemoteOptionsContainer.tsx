@@ -2,7 +2,9 @@ import type {
   ConfigurePropOpts, PropOptionValue,
 } from "@pipedream/sdk";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import {
+  useState, useEffect, useRef, useMemo,
+} from "react";
 import { useFormContext } from "../hooks/form-context";
 import { useFormFieldContext } from "../hooks/form-field-context";
 import { useFrontendClient } from "../hooks/frontend-client-context";
@@ -29,7 +31,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
     props: { disableQueryDisabling },
   } = useFormContext();
   const {
-    idx, prop,
+    idx, prop, onChange,
   } = useFormFieldContext();
 
   const [
@@ -67,28 +69,45 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
     values: new Set(),
   })
 
-  const configuredPropsUpTo: Record<string, unknown> = {};
-  for (let i = 0; i < idx; i++) {
-    const prop = configurableProps[i];
-    configuredPropsUpTo[prop.name] = configuredProps[prop.name];
-  }
-  const componentConfigureInput: ConfigurePropOpts = {
-    externalUserId,
-    page,
-    prevContext: context,
-    id: component.key,
-    propName: prop.name,
-    configuredProps: configuredPropsUpTo,
-    dynamicPropsId: dynamicProps?.id,
-  };
-  if (prop.useQuery) {
-    componentConfigureInput.query = query || ""; // TODO ref.value ? Is this still supported?
-  }
-  // exclude dynamicPropsId from the key since only affect it should have is to add / remove props but prop by name should not change!
-  const queryKeyInput = {
-    ...componentConfigureInput,
-  }
-  delete queryKeyInput.dynamicPropsId
+  // Memoize configured props up to current index
+  const configuredPropsUpTo = useMemo(() => {
+    const props: Record<string, unknown> = {};
+    for (let i = 0; i < idx; i++) {
+      const p = configurableProps[i];
+      props[p.name] = configuredProps[p.name];
+    }
+    return props;
+  }, [idx, configurableProps, configuredProps]);
+
+  // Memoize account value for tracking changes
+  const accountValue = useMemo(() => {
+    const accountProp = configurableProps.find((p: any) => p.type === "app");
+    return accountProp ? configuredProps[accountProp.name] : undefined;
+  }, [configurableProps, configuredProps]);
+
+  const componentConfigureInput: ConfigurePropOpts = useMemo(() => {
+    const input: ConfigurePropOpts = {
+      externalUserId,
+      page,
+      prevContext: context,
+      id: component.key,
+      propName: prop.name,
+      configuredProps: configuredPropsUpTo,
+      dynamicPropsId: dynamicProps?.id,
+    };
+    if (prop.useQuery) {
+      input.query = query || "";
+    }
+    return input;
+  }, [externalUserId, page, context, component.key, prop.name, prop.useQuery, configuredPropsUpTo, dynamicProps?.id, query]);
+
+  // React Query key excludes dynamicPropsId
+  const queryKeyInput = useMemo(() => {
+    const {
+      dynamicPropsId, ...rest
+    } = componentConfigureInput;
+    return rest;
+  }, [componentConfigureInput]);
 
   const [
     error,
@@ -112,6 +131,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
       "componentConfigure",
       queryKeyInput,
     ],
+    staleTime: 0, // Always refetch, don't use cached data
     queryFn: async () => {
       setError(undefined);
       const res = await client.components.configureProp(componentConfigureInput);
@@ -148,8 +168,13 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
         _options = options;
       }
 
+      // If page is 0, this is a fresh query - start with empty data
+      const isFirstPage = page === 0;
+      const baseData = isFirstPage ? [] : pageable.data;
+      const baseValues = isFirstPage ? new Set<PropOptionValue>() : pageable.values;
+
       const newOptions = []
-      const allValues = new Set(pageable.values)
+      const allValues = new Set(baseValues)
       for (const o of _options || []) {
         let value: PropOptionValue;
         if (isString(o)) {
@@ -167,10 +192,10 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
         allValues.add(value)
         newOptions.push(o)
       }
-      let data = pageable.data
+      let data = baseData
       if (newOptions.length) {
         data = [
-          ...pageable.data,
+          ...baseData,
           ...newOptions,
         ] as RawPropOption[]
         setPageable({
@@ -186,6 +211,51 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
     },
     enabled: !!queryEnabled,
   });
+
+  // Track queryKey and account changes
+  const queryKeyString = JSON.stringify(queryKeyInput);
+  const accountKey = JSON.stringify(accountValue);
+  const prevQueryKeyRef = useRef<string>();
+  const prevAccountKeyRef = useRef<string>();
+
+  // Reset pagination when queryKey changes
+  useEffect(() => {
+    const queryKeyChanged = prevQueryKeyRef.current && prevQueryKeyRef.current !== queryKeyString;
+
+    if (queryKeyChanged) {
+      // Query params changed - reset pagination state
+      // React Query will automatically refetch due to queryKey change
+      setPage(0);
+      setContext(undefined);
+      setCanLoadMore(true);
+      setPageable({
+        page: 0,
+        prevContext: {},
+        data: [],
+        values: new Set(),
+      });
+    }
+    prevQueryKeyRef.current = queryKeyString;
+  }, [queryKeyString]);
+
+  // Separately track account changes to clear field value
+  useEffect(() => {
+    const accountChanged = prevAccountKeyRef.current && prevAccountKeyRef.current !== accountKey;
+
+    if (accountChanged) {
+      // Account changed - clear the field value
+      onChange(undefined);
+
+      // Always refetch when account changes to a non-null value
+      // With staleTime: 0, the queryKey change will trigger a fresh fetch
+      // But if the queryKey didn't change (e.g., A -> null -> A), we need manual refetch
+      if (accountValue != null && queryEnabled) {
+        refetch();
+      }
+    }
+
+    prevAccountKeyRef.current = accountKey;
+  }, [accountKey, onChange, queryEnabled, accountValue, refetch]);
 
   const showLoadMoreButton = () => {
     return !isFetching && !error && canLoadMore
