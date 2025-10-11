@@ -133,7 +133,7 @@ export function ControlSelect<T extends PropOptionValue>({
   ]);
 
   // Memoize custom components to prevent remounting
-  // Component reference is stable, but reads current values from refs
+  // Recompute when caller/customizer supplies new component overrides
   const finalComponents = useMemo(() => {
     const base = {
       ...props.components,
@@ -158,7 +158,10 @@ export function ControlSelect<T extends PropOptionValue>({
     base.MenuList = CustomMenuList;
 
     return base;
-  }, []); // Empty deps - stable reference, reads current values from refs
+  }, [
+    props.components,
+    componentsOverride,
+  ]);
 
   const handleCreate = (inputValue: string) => {
     const newOption = sanitizeOption(inputValue as T)
