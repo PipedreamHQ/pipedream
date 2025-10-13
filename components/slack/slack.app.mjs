@@ -2,6 +2,7 @@ import { WebClient } from "@slack/web-api";
 import constants from "./common/constants.mjs";
 import get from "lodash/get.js";
 import retry from "async-retry";
+import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   type: "app",
@@ -27,11 +28,11 @@ export default {
           conversationsResp.conversations = conversationsResp.conversations
             .filter((c) => members.includes(c.user || c.id));
         }
-        const userIds = conversationsResp.conversations.map(({ user }) => user);
-        const userNames = await this.userNameLookup(userIds);
+        const userIds = conversationsResp.conversations.map(({ user }) => user).filter(Boolean);
+        const realNames = await this.realNameLookup(userIds);
         return {
-          options: conversationsResp.conversations.map((c) => ({
-            label: `@${userNames[c.user]}`,
+          options: conversationsResp.conversations.filter((c) => c.user).map((c) => ({
+            label: `${realNames[c.user]}`,
             value: c.user || c.id,
           })),
           context: {
@@ -120,24 +121,41 @@ export default {
           }
         }
         const conversationsResp = await this.availableConversations(types.join(), cursor, true);
-        let conversations, userNames;
+        let conversations, userIds, userNames, realNames;
         if (types.includes("im")) {
           conversations = conversationsResp.conversations;
-          const userIds = conversations.map(({ user }) => user);
-          userNames = await this.userNameLookup(userIds);
+          userIds = conversations.map(({ user }) => user).filter(Boolean);
         } else {
           conversations = conversationsResp.conversations.filter((c) => !c.is_im);
         }
+        if (types.includes("mpim")) {
+          userNames = [
+            ...new Set(conversations.filter((c) => c.is_mpim).map((c) => c.purpose.value)
+              .map((v) => v.match(/@[\w.-]+/g) || [])
+              .flat()
+              .map((u) => u.slice(1))),
+          ];
+        }
+        if ((userIds?.length > 0) || (userNames?.length > 0)) {
+          // Look up real names for userIds and userNames at the same time to
+          // minimize number of API calls.
+          realNames = await this.realNameLookup(userIds, userNames);
+        }
+
         return {
           options: conversations.map((c) => {
             if (c.is_im) {
               return {
-                label: `Direct messaging with: @${userNames[c.user]}`,
+                label: `Direct messaging with: ${realNames[c.user]}`,
                 value: c.id,
               };
             } else if (c.is_mpim) {
+              const usernames = c.purpose.value.match(/@[\w.-]+/g) || [];
+              const realnames = usernames.map((u) => realNames[u.slice(1)] || u);
               return {
-                label: c.purpose.value,
+                label: realnames.length
+                  ? `Group messaging with: ${realnames.join(", ")}`
+                  : c.purpose.value,
                 value: c.id,
               };
             } else {
@@ -277,6 +295,7 @@ export default {
           page: page + 1,
           count: constants.LIMIT,
           throwRateLimitError: true,
+          as_bot: true,
         });
         return files?.map(({
           id: value, name: label,
@@ -447,6 +466,12 @@ export default {
       default: 1,
       optional: true,
     },
+    addToChannel: {
+      type: "boolean",
+      label: "Add app to channel automatically?",
+      description: "If `true`, the app will be added to the specified non-DM channel(s) automatically. If `false`, you must add the app to the channel manually. Defaults to `true`.",
+      default: true,
+    },
   },
   methods: {
     getChannelLabel(resource) {
@@ -464,29 +489,80 @@ export default {
     mySlackId() {
       return this.$auth.oauth_uid;
     },
-    getToken() {
-      return this.$auth.oauth_access_token;
+    getToken(opts = {}) {
+      return (opts.as_bot && this.$auth.bot_token)
+        ? this.$auth.bot_token
+        : this.$auth.oauth_access_token;
+    },
+    async getChannelDisplayName(channel) {
+      if (channel.user) {
+        try {
+          const { profile } = await this.getUserProfile({
+            user: channel.user,
+          });
+          return `@${profile.real_name || profile?.real_name}`;
+        } catch {
+          return "user";
+        }
+      } else if (channel.is_mpim) {
+        try {
+          const { members } = await this.listChannelMembers({
+            channel: channel.id,
+          });
+          const users = await Promise.all(members.map((m) => this.getUserProfile({
+            user: m,
+          })));
+          const realNames = users.map((u) => u.profile?.real_name || u.real_name);
+          return `Group Messaging with: ${realNames.join(", ")}`;
+        } catch {
+          return `Group Messaging with: ${channel.purpose.value}`;
+        }
+      }
+      return `#${channel?.name}`;
     },
     /**
      * Returns a Slack Web Client object authenticated with the user's access
      * token
      */
-    sdk() {
-      return new WebClient(this.getToken(), {
+    sdk(opts = {}) {
+      return new WebClient(this.getToken(opts), {
         rejectRateLimitedCalls: true,
       });
     },
     async makeRequest({
-      method = "", throwRateLimitError = false, ...args
+      method = "", throwRateLimitError = false, as_user, as_bot, ...args
     } = {}) {
+      as_bot = as_user === false || as_bot;
+
       const props = method.split(".");
       const sdk = props.reduce((reduction, prop) =>
-        reduction[prop], this.sdk());
+        reduction[prop], this.sdk({
+        as_bot,
+      }));
 
-      const response = await this._withRetries(() => sdk(args), throwRateLimitError);
+      let response;
+      try {
+        response = await this._withRetries(() => sdk(args), throwRateLimitError);
+      } catch (error) {
+        if ([
+          "not_in_channel",
+          "channel_not_found",
+        ].includes(error?.data?.error) && as_bot) {
+          // If method starts with chat, include the part about "As User"
+          // Otherwise, just say "Ensure the bot is a member of the channel"
+          if (method.startsWith("chat.")) {
+            throw new ConfigurationError(`${error}
+            Ensure the bot is a member of the channel, or set the **Send as User** option to true to act on behalf of the authenticated user.
+            `);
+          }
+          throw new ConfigurationError(`${error}
+          Ensure the bot is a member of the channel.
+          `);
+        }
+        throw `${error}`;
+      }
 
       if (!response.ok) {
-        console.log(`Error in response with method ${method}`, response.error);
         throw response.error;
       }
       return response;
@@ -509,7 +585,7 @@ export default {
               throw error;
             }
           }
-          bail(`${error}`);
+          bail(error);
         }
       }, retryOpts);
     },
@@ -564,6 +640,61 @@ export default {
         cursor = nextCursor;
       } while (cursor && Object.keys(userNames).length < ids.length);
       return userNames;
+    },
+    async realNameLookup(ids = [], usernames = [], throwRateLimitError = true, args = {}) {
+      let cursor;
+      const realNames = {};
+      do {
+        const {
+          members: users,
+          response_metadata: { next_cursor: nextCursor },
+        } = await this.usersList({
+          limit: constants.LIMIT,
+          cursor,
+          throwRateLimitError,
+          ...args,
+        });
+
+        for (const user of users) {
+          if (ids.includes(user.id)) {
+            realNames[user.id] = user.profile.real_name;
+          }
+          if (usernames.includes(user.name)) {
+            realNames[user.name] = user.profile.real_name;
+          }
+        }
+
+        cursor = nextCursor;
+      } while (cursor && Object.keys(realNames).length < (ids.length + usernames.length));
+      return realNames;
+    },
+    async maybeAddAppToChannels(channelIds = []) {
+      if (!this.$auth.bot_token) return;
+      const {
+        bot_id, user_id,
+      } = await this.authTest({
+        as_bot: true,
+      });
+      if (!bot_id) {
+        throw new Error("Could not get bot ID. Make sure the Slack app has a bot user.");
+      }
+      // XXX: Trying to add the app to DM or group DM channels results in the
+      // error: method_not_supported_for_channel_type
+      for (const channel of channelIds) {
+        try {
+          await this.inviteToConversation({
+            channel,
+            users: user_id,
+          });
+        } catch (error) {
+          if (![
+            "method_not_supported_for_channel_type",
+            "already_in_channel",
+          ].some((msg) => (error.data?.error || error.message || error)?.includes(msg))) {
+            throw error;
+          }
+        }
+      }
     },
     /**
      * Checks authentication & identity.
@@ -801,6 +932,7 @@ export default {
       args.count ||= constants.LIMIT;
       return this.makeRequest({
         method: "files.list",
+        as_bot: true,
         ...args,
       });
     },
@@ -814,6 +946,7 @@ export default {
     getFileInfo(args = {}) {
       return this.makeRequest({
         method: "files.info",
+        as_bot: true,
         ...args,
       });
     },

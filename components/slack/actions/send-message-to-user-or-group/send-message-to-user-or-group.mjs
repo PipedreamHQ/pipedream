@@ -52,6 +52,13 @@ export default {
       ],
     },
     ...common.props,
+    // eslint-disable-next-line pipedream/props-label, pipedream/props-description
+    addToChannel: {
+      type: "boolean",
+      ...common.props.addToChannel,
+      disabled: true,
+      hidden: true,
+    },
   },
   methods: {
     ...common.methods,

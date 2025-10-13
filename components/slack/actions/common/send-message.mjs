@@ -9,6 +9,13 @@ export default {
         "as_user",
       ],
     },
+    addToChannel: {
+      propDefinition: [
+        slack,
+        "addToChannel",
+      ],
+      optional: true,
+    },
     post_at: {
       propDefinition: [
         slack,
@@ -181,6 +188,14 @@ export default {
     },
   },
   async run({ $ }) {
+    const channelId = await this.getChannelId();
+
+    if (this.addToChannel) {
+      await this.slack.maybeAddAppToChannels([
+        channelId,
+      ]);
+    }
+
     let blocks = this.blocks;
 
     if (!blocks) {
@@ -216,7 +231,7 @@ export default {
 
     const obj = {
       text: this.text,
-      channel: await this.getChannelId(),
+      channel: channelId,
       attachments: this.attachments,
       unfurl_links: this.unfurl_links,
       unfurl_media: this.unfurl_media,
@@ -241,15 +256,7 @@ export default {
     const { channel } = await this.slack.conversationsInfo({
       channel: resp.channel,
     });
-    let channelName = `#${channel?.name}`;
-    if (channel.is_im) {
-      const { profile } = await this.slack.getUserProfile({
-        user: channel.user,
-      });
-      channelName = `@${profile.real_name}`;
-    } else if (channel.is_mpim) {
-      channelName = `@${channel.purpose.value}`;
-    }
+    const channelName = await this.slack.getChannelDisplayName(channel);
     $.export("$summary", `Successfully sent a message to ${channelName}`);
     return resp;
   },

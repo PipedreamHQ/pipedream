@@ -1,6 +1,7 @@
 import common from "../common/base.mjs";
 import constants from "../common/constants.mjs";
 import sampleEmit from "./test-event.mjs";
+import sharedConstants from "../../common/constants.mjs";
 
 export default {
   ...common,
@@ -16,6 +17,12 @@ export default {
       propDefinition: [
         common.props.slack,
         "conversation",
+        () => ({
+          types: [
+            sharedConstants.CHANNEL_TYPE.PUBLIC,
+            sharedConstants.CHANNEL_TYPE.PRIVATE,
+          ],
+        }),
       ],
       type: "string[]",
       label: "Channels",
@@ -45,45 +52,8 @@ export default {
       ],
     },
   },
-  hooks: {
-    ...common.hooks,
-    async deploy() {
-      // emit historical events
-      const messages = await this.getMatches({
-        query: this.keyword,
-        sort: "timestamp",
-      });
-      const filteredMessages = this.conversations?.length > 0
-        ? messages.filter((message) => this.conversations.includes(message.channel.id))
-        : messages;
-      await this.emitHistoricalEvents(filteredMessages.slice(-25).reverse());
-    },
-  },
   methods: {
     ...common.methods,
-    async getMatches(params) {
-      return (await this.slack.searchMessages(params)).messages.matches || [];
-    },
-    async emitHistoricalEvents(messages) {
-      for (const message of messages) {
-        const event = await this.processEvent({
-          ...message,
-          subtype: message.subtype || constants.SUBTYPE.PD_HISTORY_MESSAGE,
-        });
-        if (event) {
-          if (!event.client_msg_id) {
-            event.pipedream_msg_id = `pd_${Date.now()}_${Math.random().toString(36)
-              .substr(2, 10)}`;
-          }
-
-          this.$emit(event, {
-            id: event.client_msg_id || event.pipedream_msg_id,
-            summary: this.getSummary(event),
-            ts: event.event_ts || Date.now(),
-          });
-        }
-      }
-    },
     getSummary() {
       return "New keyword mention received";
     },

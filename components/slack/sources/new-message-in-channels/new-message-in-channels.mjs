@@ -1,6 +1,7 @@
 import common from "../common/base.mjs";
 import constants from "../common/constants.mjs";
 import sampleEmit from "./test-event.mjs";
+import sharedConstants from "../../common/constants.mjs";
 
 export default {
   ...common,
@@ -16,6 +17,12 @@ export default {
       propDefinition: [
         common.props.slack,
         "conversation",
+        () => ({
+          types: [
+            sharedConstants.CHANNEL_TYPE.PUBLIC,
+            sharedConstants.CHANNEL_TYPE.PRIVATE,
+          ],
+        }),
       ],
       type: "string[]",
       label: "Channels",

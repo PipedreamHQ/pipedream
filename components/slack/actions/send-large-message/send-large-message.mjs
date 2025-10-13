@@ -35,6 +35,12 @@ export default {
     ...common.props,
   },
   async run({ $ }) {
+    if (this.addToChannel) {
+      await this.slack.maybeAddAppToChannels([
+        this.conversation,
+      ]);
+    }
+
     if (this.include_sent_via_pipedream_flag) {
       const sentViaPipedreamText = this._makeSentViaPipedreamBlock();
       this.text += `\n\n\n${sentViaPipedreamText.elements[0].text}`;
@@ -79,19 +85,10 @@ export default {
     } else {
       response = await this.slack.postChatMessage(obj);
     }
-
     const { channel } = await this.slack.conversationsInfo({
       channel: response.channel,
     });
-    let channelName = `#${channel?.name}`;
-    if (channel.is_im) {
-      const { profile } = await this.slack.getUserProfile({
-        user: channel.user,
-      });
-      channelName = `@${profile.real_name}`;
-    } else if (channel.is_mpim) {
-      channelName = `@${channel.purpose.value}`;
-    }
+    const channelName = await this.slack.getChannelDisplayName(channel);
     $.export("$summary", `Successfully sent a message to ${channelName}`);
     return response;
   },

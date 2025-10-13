@@ -51,8 +51,8 @@ export default {
   async run({ $ }) {
     const {
       userGroup,
-      usersToAdd,
-      usersToRemove,
+      usersToAdd = [],
+      usersToRemove = [],
       team,
     } = this;
     let { users } = await this.slack.listGroupMembers({
