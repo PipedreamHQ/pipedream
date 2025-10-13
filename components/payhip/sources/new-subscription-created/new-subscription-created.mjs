@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "payhip-new-subscription-created",
   name: "New Subscription Created (Instant)",
-  description: "Emit new event when a new subscription is created. Webhook of type \"subscription.created\"must be created in Payhip Developer settings. [See the documentation](https://help.payhip.com/article/115-webhooks)",
+  description: "Emit new event when a new subscription is created. Webhook of type \"subscription.created\" must be created in Payhip Developer settings. [See the documentation](https://help.payhip.com/article/115-webhooks)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
