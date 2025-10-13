@@ -295,7 +295,6 @@ export default {
           page: page + 1,
           count: constants.LIMIT,
           throwRateLimitError: true,
-          as_bot: true,
         });
         return files?.map(({
           id: value, name: label,
@@ -490,7 +489,8 @@ export default {
       return this.$auth.oauth_uid;
     },
     getToken(opts = {}) {
-      return (opts.as_bot && this.$auth.bot_token)
+      // Use bot token if asBot is true and available, otherwise use user token.
+      return (opts.asBot && this.$auth.bot_token)
         ? this.$auth.bot_token
         : this.$auth.oauth_access_token;
     },
@@ -530,14 +530,23 @@ export default {
       });
     },
     async makeRequest({
-      method = "", throwRateLimitError = false, as_user, as_bot, ...args
+      method = "", throwRateLimitError = false, asBot = false, as_user, ...args
     } = {}) {
-      as_bot = as_user === false || as_bot;
+      const botTokenAvailable = Boolean(this.$auth.bot_token);
+      // Passing as_user as false with a v2 user token lacking the deprecated
+      // `chat:write:bot` scope, results in an error. So if as_user is false and
+      // there's a bot token available, we should use the bot token and omit
+      // as_user. Otherwise, use the user token and pass as_user through.
+      if (as_user === false && botTokenAvailable) {
+        asBot = true;
+      } else {
+        args.as_user = as_user;
+      }
 
       const props = method.split(".");
       const sdk = props.reduce((reduction, prop) =>
         reduction[prop], this.sdk({
-        as_bot,
+        asBot,
       }));
 
       let response;
@@ -547,7 +556,7 @@ export default {
         if ([
           "not_in_channel",
           "channel_not_found",
-        ].includes(error?.data?.error) && as_bot) {
+        ].includes(error?.data?.error) && asBot) {
           // If method starts with chat, include the part about "As User"
           // Otherwise, just say "Ensure the bot is a member of the channel"
           if (method.startsWith("chat.")) {
@@ -673,7 +682,7 @@ export default {
       const {
         bot_id, user_id,
       } = await this.authTest({
-        as_bot: true,
+        asBot: true,
       });
       if (!bot_id) {
         throw new Error("Could not get bot ID. Make sure the Slack app has a bot user.");
@@ -932,7 +941,9 @@ export default {
       args.count ||= constants.LIMIT;
       return this.makeRequest({
         method: "files.list",
-        as_bot: true,
+        // Use bot token, if available, since the required `files:read` scope
+        // is only requested for bot tokens in the Pipedream app.
+        asBot: true,
         ...args,
       });
     },
@@ -946,7 +957,9 @@ export default {
     getFileInfo(args = {}) {
       return this.makeRequest({
         method: "files.info",
-        as_bot: true,
+        // Use bot token, if available, since the required `files:read` scope
+        // is only requested for bot tokens in the Pipedream app.
+        asBot: true,
         ...args,
       });
     },
