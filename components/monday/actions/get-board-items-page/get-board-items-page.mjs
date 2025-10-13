@@ -4,7 +4,7 @@ export default {
   ...common,
   key: "monday-get-board-items-page",
   name: "Get Board Items Page",
-  description: "Searches a column for items matching a value. [See the documentation](https://developer.monday.com/api-reference/reference/items-page-by-column-values)",
+  description: "Retrieves all items from a board. [See the documentation](https://developer.monday.com/api-reference/reference/items-page)",
   version: "0.0.1",
   annotations: {
     destructiveHint: false,
