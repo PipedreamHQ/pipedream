@@ -2044,8 +2044,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/browserflow:
-    specifiers: {}
+  components/browserflow: {}
 
   components/browserhub:
     dependencies:
@@ -2138,8 +2137,7 @@ importers:
         specifier: ^1.3.0
         version: 1.6.6
 
-  components/bump_sh:
-    specifiers: {}
+  components/bump_sh: {}
 
   components/bunnycdn:
     dependencies:
@@ -2498,8 +2496,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/chatbase:
-    specifiers: {}
+  components/chatbase: {}
 
   components/chatbot:
     dependencies:
@@ -4872,8 +4869,7 @@ importers:
 
   components/fastfield_mobile_forms: {}
 
-  components/fathom:
-    specifiers: {}
+  components/fathom: {}
 
   components/fatture_in_cloud: {}
 
@@ -5862,8 +5858,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/google_books:
-    specifiers: {}
+  components/google_books: {}
 
   components/google_calendar:
     dependencies:
@@ -8820,8 +8815,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/microsoft_bookings:
-    specifiers: {}
+  components/microsoft_bookings: {}
 
   components/microsoft_dataverse: {}
 
@@ -8863,8 +8857,7 @@ importers:
 
   components/microsoft_graph_api_daemon_app: {}
 
-  components/microsoft_graph_security:
-    specifiers: {}
+  components/microsoft_graph_security: {}
 
   components/microsoft_onedrive:
     dependencies:
@@ -9271,9 +9264,6 @@ importers:
       mysql2:
         specifier: ^3.9.2
         version: 3.11.4
-      mysql2-promise:
-        specifier: ^0.1.4
-        version: 0.1.4
       uuid:
         specifier: ^8.3.2
         version: 8.3.2
@@ -23309,9 +23299,6 @@ packages:
     engines: {node: '>=8.0.0'}
     hasBin: true
 
-  ansicolors@0.2.1:
-    resolution: {integrity: sha512-tOIuy1/SK/dr94ZA0ckDohKXNeBNqZ4us6PjMVLs5h1w2GBB6uPtOknp2+VF4F/zcy9LI70W+Z+pE2Soajky1w==}
-
   ansicolors@0.3.2:
     resolution: {integrity: sha512-QXu7BPrP29VllRxH8GwB7x5iX5qWKAAMLqKQGWTeLWVlNHNOpVMJ91dsxQAIWXpjuW5wqvxu3Jd/nRjrJ+0pqg==}
 
@@ -23754,9 +23741,6 @@ packages:
   bluebird@3.7.2:
     resolution: {integrity: sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==}
 
-  bn.js@2.0.0:
-    resolution: {integrity: sha512-NmOLApC80+n+P28y06yHgwGlOCkq/X4jRh5s590959FZXSrM+I/61h0xxuIaYsg0mD44mEAZYG/rnclWuRoz+A==}
-
   bn.js@4.12.1:
     resolution: {integrity: sha512-k8TVBiPkPJT9uHLdOKfFpqcfprwBFOAAXXozRubr7R7PfIuKvQlzcI4M0pALeqXN09vdaMbUdUj+pass+uULAg==}
 
@@ -23983,10 +23967,6 @@ packages:
 
   caniuse-lite@1.0.30001683:
     resolution: {integrity: sha512-iqmNnThZ0n70mNwvxpEC2nBJ037ZHZUoBI5Gorh1Mw6IlEAZujEoU1tXA628iZfzm7R9FvFzxbfdgml82a3k8Q==}
-
-  cardinal@0.4.4:
-    resolution: {integrity: sha512-3MxV0o9wOpQcobrcSrRpaSxlYkohCcZu0ytOjJUww/Yo/223q4Ecloo7odT+M0SI5kPgb1JhvSaF4EEuVXOLAQ==}
-    hasBin: true
 
   cardinal@2.1.1:
     resolution: {integrity: sha512-JSr5eOgoEymtYHBjNWyjrMqet9Am2miJhlfKNdqLp6zoeAh0KN5dRAcxlecj5mAJrmQomgiOBj35xHLrFjqBpw==}
@@ -25049,9 +25029,6 @@ packages:
     resolution: {integrity: sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==}
     engines: {node: '>=10'}
 
-  double-ended-queue@2.0.0-0:
-    resolution: {integrity: sha512-t5ouWOpItmHrm0J0+bX/cFrIjBFWnJkk5LbIJq6bbU/M4aLX2c3LrM4QYsBptwvlPe3WzdpQefQ0v1pe/A5wjg==}
-
   dropbox@10.34.0:
     resolution: {integrity: sha512-5jb5/XzU0fSnq36/hEpwT5/QIep7MgqKuxghEG44xCu7HruOAjPdOb3x0geXv5O/hd0nHpQpWO+r5MjYTpMvJg==}
     engines: {node: '>=0.10.3'}
@@ -25525,11 +25502,6 @@ packages:
   espree@9.6.1:
     resolution: {integrity: sha512-oruZaFkjorTpF32kDSI5/75ViwGeZginGGy2NoOSg3Q9bnwlnmDm4HLnkl0RE3n+njDXR037aY1+x58Z/zFdwQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
-
-  esprima@1.0.4:
-    resolution: {integrity: sha512-rp5dMKN8zEs9dfi9g0X1ClLmV//WRyk/R15mppFNICIFRG5P92VP7Z04p8pk++gABo9W2tY+kHyu6P1mEHgmTA==}
-    engines: {node: '>=0.4.0'}
-    hasBin: true
 
   esprima@1.2.2:
     resolution: {integrity: sha512-+JpPZam9w5DuJ3Q67SqsMGtiHKENSMRVoxvArfJZK01/BfLEObtZ6orJa/MtoGNR/rfMgp5837T41PAmTwAv/A==}
@@ -28255,9 +28227,6 @@ packages:
     resolution: {integrity: sha512-123qHRfJBmo2jXDbo/a5YOQrJoHF/GNQTLzQ5+IdK5pWpceK17yRc6ozlWd25FxvGKQbIUs91fDFkXmDHTKcyA==}
     engines: {node: 20 || >=22}
 
-  lru-cache@2.5.0:
-    resolution: {integrity: sha512-dVmQmXPBlTgFw77hm60ud//l2bCuDKkqC2on1EBoM7s9Urm9IQDrnujwZ93NFnAq0dVZ0HBXTS7PwEG+YE7+EQ==}
-
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
 
@@ -28836,23 +28805,12 @@ packages:
     resolution: {integrity: sha512-at/ZndSy3xEGJ8i0ygALh8ru9qy7gWW1cmkaqBN29JmMlIvM//MEO9y1sk/avxuwnPcfhkejkLsuPxH81BrkSg==}
     engines: {node: '>=0.8.0'}
 
-  mysql2-promise@0.1.4:
-    resolution: {integrity: sha512-/h8ubU/36aIPpbfB6CENw9ZdbzIhZMZOIbstJUHVKp4J9JBRSLScrYImVx+3yZilgag732UhpQMMK5+ktdhLCw==}
-    engines: {node: '>=0.10.0'}
-
-  mysql2@0.15.8:
-    resolution: {integrity: sha512-3x5o6C20bfwJYPSoT74MOoad7/chJoq4qXHDL5VAuRBBrIyErovLoj04Dz/5EY9X2kTxWSGNiTegtxpROTd2YQ==}
-    engines: {node: '>= 0.8'}
-
   mysql2@3.11.4:
     resolution: {integrity: sha512-Z2o3tY4Z8EvSRDwknaC40MdZ3+m0sKbpnXrShQLdxPrAvcNli7jLrD2Zd2IzsRMw4eK9Yle500FDmlkIqp+krg==}
     engines: {node: '>= 8.0'}
 
   mz@2.7.0:
     resolution: {integrity: sha512-z81GNO7nnYMEhrGh9LeymoE4+Yr0Wn5McHIZMK5cfQCl+NDX08sCZgUc9/6MHni9IWuFLm1Z3HTCXu2z9fN62Q==}
-
-  named-placeholders@0.1.3:
-    resolution: {integrity: sha512-Mt79RtxZ6MYTIEemPGv/YDKpbuavcAyGHb0r37xB2mnE5jej3uBzc4+nzOeoZ4nZiii1M32URKt9IjkSTZAmTA==}
 
   named-placeholders@1.1.3:
     resolution: {integrity: sha512-eLoBxg6wE/rZkJPhU/xRX1WTpkFEwDJEN96oxFrTsqBdbT5ec295Q+CoHrL9IT0DipqKhmGcaZmwOt8OON5x1w==}
@@ -30235,9 +30193,6 @@ packages:
     resolution: {integrity: sha512-9viLL4/n1BJUCT1NXVTdS1jtm80yDEgR5T4yCelII49Mbj0v1rZdKqj7zCiYdbB0CuCgdrvHcNogAKTFPBocFA==}
     engines: {node: '>=18'}
 
-  readable-stream@1.0.33:
-    resolution: {integrity: sha512-72KxhcKi8bAvHP/cyyWSP+ODS5ef0DIRs0OzrhGXw31q41f19aoELCbvd42FjhpyEDxQMRiiC5rq9rfE5PzTqg==}
-
   readable-stream@1.1.14:
     resolution: {integrity: sha512-+MeVjFf4L44XUkhM1eYbD8fyEsxcV81pqMSR5gblfcLCHfZvbrqy4/qYHE+/R5HoBUT11WV5O08Cr1n3YXkWVQ==}
 
@@ -30277,9 +30232,6 @@ packages:
 
   recurly@3.30.0:
     resolution: {integrity: sha512-SVW5pke3MLe+QkIx3Y+NJD8UfR30eBrM90Vkrv6o3FvDPZBvSNpSadTay1SzLo+SmM31rBSeqELyX4zBDTd/Nw==}
-
-  redeyed@0.4.4:
-    resolution: {integrity: sha512-pnk1vsaNLu1UAAClKsImKz9HjBvg9i8cbRqTRzJbiCjGF0fZSMqpdcA5W3juO3c4etFvTrabECkq9wjC45ZyxA==}
 
   redeyed@2.1.1:
     resolution: {integrity: sha512-FNpGGo1DycYAdnrKFxCMmKYgo/mILAqtRYbkdQD8Ep/Hk2PQ5+aEAEx+IU713RTDmuBaH0c8P5ZozurNu5ObRQ==}
@@ -42834,8 +42786,6 @@ snapshots:
     dependencies:
       entities: 2.2.0
 
-  ansicolors@0.2.1: {}
-
   ansicolors@0.3.2: {}
 
   ansis@4.1.0: {}
@@ -43475,8 +43425,6 @@ snapshots:
 
   bluebird@3.7.2: {}
 
-  bn.js@2.0.0: {}
-
   bn.js@4.12.1: {}
 
   bn.js@5.2.1: {}
@@ -43747,11 +43695,6 @@ snapshots:
   camelcase@8.0.0: {}
 
   caniuse-lite@1.0.30001683: {}
-
-  cardinal@0.4.4:
-    dependencies:
-      ansicolors: 0.2.1
-      redeyed: 0.4.4
 
   cardinal@2.1.1:
     dependencies:
@@ -44846,8 +44789,6 @@ snapshots:
 
   dotenv@8.6.0: {}
 
-  double-ended-queue@2.0.0-0: {}
-
   dropbox@10.34.0(@types/node-fetch@2.6.12):
     dependencies:
       '@types/node-fetch': 2.6.12
@@ -45629,8 +45570,6 @@ snapshots:
       acorn: 8.14.0
       acorn-jsx: 5.3.2(acorn@8.14.0)
       eslint-visitor-keys: 3.4.3
-
-  esprima@1.0.4: {}
 
   esprima@1.2.2: {}
 
@@ -49242,8 +49181,6 @@ snapshots:
 
   lru-cache@11.0.2: {}
 
-  lru-cache@2.5.0: {}
-
   lru-cache@5.1.1:
     dependencies:
       yallist: 3.1.1
@@ -50052,19 +49989,6 @@ snapshots:
       rimraf: 2.4.5
     optional: true
 
-  mysql2-promise@0.1.4:
-    dependencies:
-      mysql2: 0.15.8
-      q: 1.5.1
-
-  mysql2@0.15.8:
-    dependencies:
-      bn.js: 2.0.0
-      cardinal: 0.4.4
-      double-ended-queue: 2.0.0-0
-      named-placeholders: 0.1.3
-      readable-stream: 1.0.33
-
   mysql2@3.11.4:
     dependencies:
       aws-ssl-profiles: 1.1.2
@@ -50082,10 +50006,6 @@ snapshots:
       any-promise: 1.3.0
       object-assign: 4.1.1
       thenify-all: 1.6.0
-
-  named-placeholders@0.1.3:
-    dependencies:
-      lru-cache: 2.5.0
 
   named-placeholders@1.1.3:
     dependencies:
@@ -51987,13 +51907,6 @@ snapshots:
       type-fest: 4.41.0
       unicorn-magic: 0.1.0
 
-  readable-stream@1.0.33:
-    dependencies:
-      core-util-is: 1.0.3
-      inherits: 2.0.4
-      isarray: 0.0.1
-      string_decoder: 0.10.31
-
   readable-stream@1.1.14:
     dependencies:
       core-util-is: 1.0.3
@@ -52050,10 +51963,6 @@ snapshots:
       tslib: 2.8.1
 
   recurly@3.30.0: {}
-
-  redeyed@0.4.4:
-    dependencies:
-      esprima: 1.0.4
 
   redeyed@2.1.1:
     dependencies:
