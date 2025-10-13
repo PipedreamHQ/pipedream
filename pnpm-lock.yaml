@@ -8814,6 +8814,9 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/microsoft_bookings:
+    specifiers: {}
+
   components/microsoft_dataverse: {}
 
   components/microsoft_dynamics_365_sales:

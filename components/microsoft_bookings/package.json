@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/microsoft_bookings",
+  "version": "0.0.1",
+  "description": "Pipedream Microsoft Bookings Components",
+  "main": "microsoft_bookings.app.mjs",
+  "keywords": [
+    "pipedream",
+    "microsoft_bookings"
+  ],
+  "homepage": "https://pipedream.com/apps/microsoft_bookings",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
