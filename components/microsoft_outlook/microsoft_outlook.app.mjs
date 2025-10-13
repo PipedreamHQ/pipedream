@@ -238,7 +238,7 @@ export default {
     search: {
       type: "string",
       label: "Search",
-      description: "Search for an email in Microsoft Outlook. Can search for specific message properties such as `to:example@example.com` or `subject:example`. If the property is excluded, the search targets the default propertes `from`, `subject`, and `body`. For example, `pizza` will search for messages with the word `pizza` in the subject, body, or from address, but `to:example@example.com` will only search for messages to `example@example.com`.",
+      description: "Search for an email in Microsoft Outlook. Can search for specific message properties such as `\"to:example@example.com\"` or `\"subject:example\"`. If the property is excluded, the search targets the default propertes `from`, `subject`, and `body`. For example, `\"pizza\"` will search for messages with the word `pizza` in the subject, body, or from address, but `\"to:example@example.com\"` will only search for messages to `example@example.com`.",
       optional: true,
     },
     filter: {
