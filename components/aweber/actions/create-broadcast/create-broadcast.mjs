@@ -36,7 +36,7 @@ export default {
     bodyText: {
       type: "string",
       label: "Body Text",
-      description: "The content of the message in plain text, used when HMTL is not supported. If `Body HTML` is not provided, the broadcast will be sent using only the `Body Text`. If `Body Text` is not provided, `Body HMTL` must be provided.",
+      description: "The content of the message in plain text, used when HTML is not supported. If `Body HTML` is not provided, the broadcast will be sent using only the `Body Text`. If `Body Text` is not provided, `Body HTML` must be provided.",
     },
     bodyAmp: {
       type: "string",
@@ -44,7 +44,7 @@ export default {
       description: "The content of the message in AMP format. [Read Aweber KB article before using this field](https://help.aweber.com/hc/en-us/articles/360025741194)",
       optional: true,
     },
-    clickTrackingEnabeld: {
+    clickTrackingEnabled: {
       type: "boolean",
       label: "Click Tracking Enabled",
       description: "Enables links in the email message to be tracked.",

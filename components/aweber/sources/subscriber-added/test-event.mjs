@@ -32,7 +32,5 @@ export default {
     "fast",
     "lightspeed"
   ],
-  "unsubscribe_method": "unsubscribe link",
-  "unsubscribed_at": "2017-10-13T10:41:43.300889-04:00",
   "verified_at": "2015-10-13T16:19:53"
 }
