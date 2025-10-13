@@ -8857,6 +8857,9 @@ importers:
 
   components/microsoft_graph_api_daemon_app: {}
 
+  components/microsoft_graph_security:
+    specifiers: {}
+
   components/microsoft_onedrive:
     dependencies:
       '@microsoft/microsoft-graph-client':
