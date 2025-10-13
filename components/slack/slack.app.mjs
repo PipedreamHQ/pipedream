@@ -490,9 +490,14 @@ export default {
     },
     getToken(opts = {}) {
       // Use bot token if asBot is true and available, otherwise use user token.
-      return (opts.asBot && this.$auth.bot_token)
-        ? this.$auth.bot_token
-        : this.$auth.oauth_access_token;
+      const botToken = this.getBotToken();
+      const userToken = this.$auth.oauth_access_token;
+      return (opts.asBot && botToken)
+        ? botToken
+        : userToken;
+    },
+    getBotToken() {
+      return this.$auth.bot_token;
     },
     async getChannelDisplayName(channel) {
       if (channel.user) {
@@ -533,12 +538,11 @@ export default {
     async makeRequest({
       method = "", throwRateLimitError = false, asBot, as_user, ...args
     } = {}) {
-      const botTokenAvailable = Boolean(this.$auth.bot_token);
       // Passing as_user as false with a v2 user token lacking the deprecated
       // `chat:write:bot` scope results in an error. If as_user is false and a
       // bot token is available, use the bot token and omit as_user. Otherwise,
       // pass as_user through.
-      if (as_user === false && botTokenAvailable) {
+      if (as_user === false && Boolean(this.getBotToken())) {
         asBot = true;
       } else {
         args.as_user = as_user;
@@ -673,7 +677,10 @@ export default {
       return realNames;
     },
     async maybeAddAppToChannels(channelIds = []) {
-      if (!this.$auth.bot_token) return;
+      if (!this.getBotToken()) {
+        console.log("Skipping adding app to channels: bot unavailable.");
+        return;
+      }
       try {
         const {
           bot_id, user_id,
@@ -681,7 +688,7 @@ export default {
           asBot: true,
         });
         if (!bot_id) {
-          console.log("Skipping adding Slack app to channels: bot ID unavailable.");
+          console.log("Skipping adding app to channels: bot not found.");
           return;
         }
         for (const channel of channelIds) {
@@ -693,11 +700,11 @@ export default {
               users: user_id,
             });
           } catch (error) {
-            console.log(`Unable to add Slack app to channel ${channel}: ${error}`);
+            console.log(`Unable to add app to channel ${channel}: ${error}`);
           }
         }
       } catch (error) {
-        console.log(`Unable to add Slack app to channels: ${error}`);
+        console.log(`Unable to add app to channels: ${error}`);
       }
     },
     /**
