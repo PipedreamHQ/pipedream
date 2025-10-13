@@ -884,6 +884,12 @@ export default {
         ...args,
       });
     },
+    assistantSearch(args = {}) {
+      args.count ||= constants.LIMIT;
+      return this.sdk().apiCall("assistant.search.context", {
+        ...args,
+      });
+    },
     /**
      * Lists reactions made by a user.
      * User Scopes: `reactions:read`
