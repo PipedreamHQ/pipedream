@@ -527,6 +527,7 @@ export default {
     sdk(opts = {}) {
       return new WebClient(this.getToken(opts), {
         rejectRateLimitedCalls: true,
+        slackApiUrl: this.$auth.base_url,
       });
     },
     async makeRequest({
