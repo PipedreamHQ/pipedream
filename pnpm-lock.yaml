@@ -15129,7 +15129,11 @@ importers:
         specifier: ^3.0.3
         version: 3.1.0
 
-  components/unleashed_software: {}
+  components/unleashed_software:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/unsplash:
     dependencies:
