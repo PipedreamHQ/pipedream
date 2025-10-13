@@ -673,30 +673,30 @@ export default {
     },
     async maybeAddAppToChannels(channelIds = []) {
       if (!this.$auth.bot_token) return;
-      const {
-        bot_id, user_id,
-      } = await this.authTest({
-        asBot: true,
-      });
-      if (!bot_id) {
-        throw new Error("Could not get bot ID. Make sure the Slack app has a bot user.");
-      }
-      // XXX: Trying to add the app to DM or group DM channels results in the
-      // error: method_not_supported_for_channel_type
-      for (const channel of channelIds) {
-        try {
-          await this.inviteToConversation({
-            channel,
-            users: user_id,
-          });
-        } catch (error) {
-          if (![
-            "method_not_supported_for_channel_type",
-            "already_in_channel",
-          ].some((errorType) => error.includes(errorType))) {
-            throw error;
+      try {
+        const {
+          bot_id, user_id,
+        } = await this.authTest({
+          asBot: true,
+        });
+        if (!bot_id) {
+          console.log("Skipping adding Slack app to channels: bot ID unavailable.");
+          return;
+        }
+        for (const channel of channelIds) {
+          try {
+            // Note: Trying to add the app to DM or group DM channels results in
+            // the error: method_not_supported_for_channel_type
+            await this.inviteToConversation({
+              channel,
+              users: user_id,
+            });
+          } catch (error) {
+            console.log(`Unable to add Slack app to channel ${channel}: ${error}`);
           }
         }
+      } catch (error) {
+        console.log(`Unable to add Slack app to channels: ${error}`);
       }
     },
     /**
