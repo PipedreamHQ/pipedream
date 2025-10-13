@@ -530,13 +530,13 @@ export default {
       });
     },
     async makeRequest({
-      method = "", throwRateLimitError = false, asBot = false, as_user, ...args
+      method = "", throwRateLimitError = false, asBot, as_user, ...args
     } = {}) {
       const botTokenAvailable = Boolean(this.$auth.bot_token);
       // Passing as_user as false with a v2 user token lacking the deprecated
-      // `chat:write:bot` scope, results in an error. So if as_user is false and
-      // there's a bot token available, we should use the bot token and omit
-      // as_user. Otherwise, use the user token and pass as_user through.
+      // `chat:write:bot` scope results in an error. If as_user is false and a
+      // bot token is available, use the bot token and omit as_user. Otherwise,
+      // pass as_user through.
       if (as_user === false && botTokenAvailable) {
         asBot = true;
       } else {
@@ -556,19 +556,13 @@ export default {
         if ([
           "not_in_channel",
           "channel_not_found",
-        ].includes(error?.data?.error) && asBot) {
-          // If method starts with chat, include the part about "As User"
-          // Otherwise, just say "Ensure the bot is a member of the channel"
-          if (method.startsWith("chat.")) {
-            throw new ConfigurationError(`${error}
-            Ensure the bot is a member of the channel, or set the **Send as User** option to true to act on behalf of the authenticated user.
-            `);
-          }
-          throw new ConfigurationError(`${error}
-          Ensure the bot is a member of the channel.
-          `);
+        ].some((errorType) => error.includes(errorType)) && asBot) {
+          const followUp = method.startsWith("chat.")
+            ? "Ensure the bot is a member of the channel, or set the **Send as User** option to true to act on behalf of the authenticated user."
+            : "Ensure the bot is a member of the channel.";
+          throw new ConfigurationError(`${error}\n${followUp}`);
         }
-        throw `${error}`;
+        throw error;
       }
 
       if (!response.ok) {
@@ -594,7 +588,7 @@ export default {
               throw error;
             }
           }
-          bail(error);
+          bail(`${error}`);
         }
       }, retryOpts);
     },
@@ -699,7 +693,7 @@ export default {
           if (![
             "method_not_supported_for_channel_type",
             "already_in_channel",
-          ].some((msg) => (error.data?.error || error.message || error)?.includes(msg))) {
+          ].some((errorType) => error.includes(errorType))) {
             throw error;
           }
         }
