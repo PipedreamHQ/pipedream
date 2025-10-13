@@ -45,13 +45,17 @@ export default {
         if (filterFn) {
           responseArray.sort((a, b) => b.created_at - a.created_at);
         }
-        this._setLastTs(this._getEmit(responseArray[0]).ts);
+        this._setLastTs(this._getEmit(responseArray[0])?.ts ?? 0);
       }
 
       for (const item of responseArray.reverse()) {
+        const emit = this._getEmit(item);
+        if (!emit) {
+          continue;
+        }
         this.$emit(
           item,
-          this._getEmit(item),
+          emit,
         );
       }
     },

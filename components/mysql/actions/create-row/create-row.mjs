@@ -4,9 +4,10 @@ import utils from "../common/utils.mjs";
 export default {
   key: "mysql-create-row",
   name: "Create Row",
-  description: "Adds a new row. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/insert.html)",
+  description:
+    "Adds a new row. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/insert.html)",
   type: "action",
-  version: "2.0.6",
+  version: "2.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -40,7 +41,10 @@ export default {
       values,
     });
 
-    $.export("$summary", `Successfully added ${result.affectedRows} row(s) to table ${table}`);
+    $.export(
+      "$summary",
+      `Successfully added ${result.affectedRows} row(s) to table ${table}`,
+    );
 
     return result;
   },

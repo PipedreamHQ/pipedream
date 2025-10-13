@@ -7,8 +7,9 @@ export default {
   ...common,
   key: "mysql-new-row-custom-query",
   name: "New Row (Custom Query)",
-  description: "Emit new event when new rows are returned from a custom query. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/select.html)",
-  version: "2.0.5",
+  description:
+    "Emit new event when new rows are returned from a custom query. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/select.html)",
+  version: "2.0.6",
   type: "source",
   dedupe: "unique",
   props: {
@@ -43,23 +44,27 @@ export default {
     ...common.methods,
     async listResults() {
       const {
-        table,
-        condition,
-        values,
+        table, condition, values,
       } = this;
 
       const numberOfQuestionMarks = condition?.match(/\?/g)?.length;
 
       if (!numberOfQuestionMarks) {
-        throw new Error("No valid condition provided. At least one question mark character ? must be provided.");
+        throw new Error(
+          "No valid condition provided. At least one question mark character ? must be provided.",
+        );
       }
 
       if (!Array.isArray(values)) {
-        throw new Error("No valid values provided. The values property must be an array.");
+        throw new Error(
+          "No valid values provided. The values property must be an array.",
+        );
       }
 
       if (values.length !== numberOfQuestionMarks) {
-        throw new Error("The number of values provided does not match the number of question marks ? in the condition.");
+        throw new Error(
+          "The number of values provided does not match the number of question marks ? in the condition.",
+        );
       }
 
       const rows = await this.mysql.findRows({
