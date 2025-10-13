@@ -4,9 +4,10 @@ import utils from "../common/utils.mjs";
 export default {
   key: "mysql-update-row",
   name: "Update Row",
-  description: "Updates an existing row. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/update.html)",
+  description:
+    "Updates an existing row. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/update.html)",
   type: "action",
-  version: "2.0.6",
+  version: "2.0.7",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -41,14 +42,14 @@ export default {
   methods: utils,
   async run({ $ }) {
     const {
-      table,
-      condition,
-      conditionValues,
+      table, condition, conditionValues,
     } = this;
     const numberOfQuestionMarks = condition.match(/\?/g)?.length;
 
     if (!numberOfQuestionMarks) {
-      throw new Error("No valid condition provided. At least one question mark character ? must be provided.");
+      throw new Error(
+        "No valid condition provided. At least one question mark character ? must be provided.",
+      );
     }
 
     if (!Array.isArray(conditionValues)) {
@@ -56,12 +57,15 @@ export default {
     }
 
     if (conditionValues.length !== numberOfQuestionMarks) {
-      throw new Error("The number of values provided does not match the number of question marks ? in the condition");
+      throw new Error(
+        "The number of values provided does not match the number of question marks ? in the condition",
+      );
     }
 
     const {
       columns: columnsToUpdate, values: valuesToUpdate,
-    } = await this.getColumnAndValueArrays(table);
+    } =
+      await this.getColumnAndValueArrays(table);
 
     const result = await this.mysql.updateRow({
       table,
@@ -71,7 +75,10 @@ export default {
       valuesToUpdate,
     });
 
-    $.export("$summary", `Successfully updated ${result.affectedRows} row(s) in table ${table}`);
+    $.export(
+      "$summary",
+      `Successfully updated ${result.affectedRows} row(s) in table ${table}`,
+    );
 
     return result;
   },

@@ -2135,6 +2135,9 @@ importers:
         specifier: ^1.3.0
         version: 1.6.6
 
+  components/bump_sh:
+    specifiers: {}
+
   components/bunnycdn:
     dependencies:
       '@pipedream/platform':
@@ -2491,6 +2494,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+
+  components/chatbase:
+    specifiers: {}
 
   components/chatbot:
     dependencies:
@@ -4863,6 +4869,9 @@ importers:
 
   components/fastfield_mobile_forms: {}
 
+  components/fathom:
+    specifiers: {}
+
   components/fatture_in_cloud: {}
 
   components/faunadb:
@@ -5849,6 +5858,9 @@ importers:
       '@pipedream/platform':
         specifier: ^3.0.3
         version: 3.0.3
+
+  components/google_books:
+    specifiers: {}
 
   components/google_calendar:
     dependencies:
@@ -8805,6 +8817,9 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
+  components/microsoft_bookings:
+    specifiers: {}
+
   components/microsoft_dataverse: {}
 
   components/microsoft_dynamics_365_sales:
@@ -8844,6 +8859,9 @@ importers:
         version: 3.0.3
 
   components/microsoft_graph_api_daemon_app: {}
+
+  components/microsoft_graph_security:
+    specifiers: {}
 
   components/microsoft_onedrive:
     dependencies:
