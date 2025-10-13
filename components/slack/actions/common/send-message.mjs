@@ -14,7 +14,6 @@ export default {
         slack,
         "addToChannel",
       ],
-      optional: true,
     },
     post_at: {
       propDefinition: [
