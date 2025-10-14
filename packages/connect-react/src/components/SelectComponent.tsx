@@ -3,7 +3,11 @@ import {
   Component,
 } from "@pipedream/sdk";
 import {
-  useId, useMemo, useCallback,
+  useId,
+  useMemo,
+  useCallback,
+  useRef,
+  useEffect,
 } from "react";
 import Select, { components } from "react-select";
 import type { MenuListProps } from "react-select";
@@ -36,6 +40,13 @@ export function SelectComponent({
 
   const { MenuList } = components;
 
+  const isLoadingMoreRef = useRef(isLoadingMore);
+  useEffect(() => {
+    isLoadingMoreRef.current = isLoadingMore;
+  }, [
+    isLoadingMore,
+  ]);
+
   // Memoize the selected value to prevent unnecessary recalculations
   const selectedValue = useMemo(() => {
     return componentsList?.find((c: Component) => c.key === value?.key) || null;
@@ -56,13 +67,11 @@ export function SelectComponent({
   ]);
 
   // Memoize custom components to prevent remounting
-  // Note: Don't include isLoadingMore in deps - it's read from closure
-  // and MenuList will re-render naturally when parent re-renders
   const customComponents = useMemo(() => ({
     MenuList: (props: MenuListProps<Component>) => (
       <MenuList {...props}>
         {props.children}
-        {isLoadingMore && (
+        {isLoadingMoreRef.current && (
           <div style={{
             padding: "8px 12px",
             textAlign: "center",

@@ -11,9 +11,7 @@ import { useFrontendClient } from "../hooks/frontend-client-context";
 import {
   ConfigureComponentContext, RawPropOption,
 } from "../types";
-import {
-  isString, sanitizeOption,
-} from "../utils/type-guards";
+import { sanitizeOption } from "../utils/type-guards";
 import { ControlSelect } from "./ControlSelect";
 
 export type RemoteOptionsContainerProps = {
@@ -28,12 +26,8 @@ type ConfigurePropResult = {
 
 // Helper to extract value from an option
 const extractOptionValue = (o: RawPropOption): PropOptionValue | null => {
-  if (isString(o)) {
-    return o;
-  } else if (o && typeof o === "object" && "value" in o && o.value != null) {
-    return o.value;
-  }
-  return null;
+  const normalized = sanitizeOption(o);
+  return normalized.value ?? null;
 };
 
 export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerProps) {
@@ -138,13 +132,8 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
     query,
   ]);
 
-  // React Query key excludes dynamicPropsId
   const queryKeyInput = useMemo(() => {
-    const {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      dynamicPropsId: _dynamicPropsId, ...rest
-    } = componentConfigureInput;
-    return rest;
+    return componentConfigureInput;
   }, [
     componentConfigureInput,
   ]);
@@ -215,16 +204,14 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
         };
       }
 
-      let _options: RawPropOption[] = [];
-      if (options?.length) {
-        _options = options;
-      }
-      if (stringOptions?.length) {
-        _options = stringOptions.map((str) => ({
-          label: str,
-          value: str,
-        }));
-      }
+      const stringOptionObjects = stringOptions?.map((str) => ({
+        label: str,
+        value: str,
+      })) ?? [];
+      const _options: RawPropOption[] = [
+        ...(options ?? []),
+        ...stringOptionObjects,
+      ];
 
       return {
         error: undefined,

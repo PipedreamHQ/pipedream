@@ -1,5 +1,5 @@
 import {
-  useId, useState, useEffect, useMemo, useCallback,
+  useId, useState, useEffect, useMemo, useCallback, useRef,
 } from "react";
 import Select, { components } from "react-select";
 import type {
@@ -63,6 +63,13 @@ export function SelectApp({
     MenuList,
   } = components;
 
+  const isLoadingMoreRef = useRef(isLoadingMore);
+  useEffect(() => {
+    isLoadingMoreRef.current = isLoadingMore;
+  }, [
+    isLoadingMore,
+  ]);
+
   // Memoize the selected value to prevent unnecessary recalculations
   const selectedValue = useMemo(() => {
     return apps?.find((o: App) => o.nameSlug === value?.nameSlug)
@@ -86,8 +93,6 @@ export function SelectApp({
   ]);
 
   // Memoize custom components to prevent remounting
-  // Note: Don't include isLoadingMore in deps - it's read from closure
-  // and components will re-render naturally when parent re-renders
   const customComponents = useMemo(() => ({
     Option: (optionProps: OptionProps<App>) => (
       <Option {...optionProps}>
@@ -135,7 +140,7 @@ export function SelectApp({
     MenuList: (props: MenuListProps<App>) => (
       <MenuList {...props}>
         {props.children}
-        {isLoadingMore && (
+        {isLoadingMoreRef.current && (
           <div style={{
             padding: "8px 12px",
             textAlign: "center",

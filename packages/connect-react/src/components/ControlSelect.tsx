@@ -135,29 +135,32 @@ export function ControlSelect<T extends PropOptionValue>({
   // Memoize custom components to prevent remounting
   // Recompute when caller/customizer supplies new component overrides
   const finalComponents = useMemo(() => {
-    const base = {
-      ...props.components,
-      ...componentsOverride,
+    const mergedComponents = {
+      ...(props.components ?? {}),
+      ...(componentsOverride ?? {}),
     };
+    const ParentMenuList = mergedComponents.MenuList ?? components.MenuList;
 
     // Always set MenuList, conditionally render button inside
     const CustomMenuList = ({
       // eslint-disable-next-line react/prop-types
       children, ...menuProps
     }: MenuListProps<LabelValueOption<T>, boolean>) => (
-      <components.MenuList  {...menuProps}>
+      <ParentMenuList {...menuProps}>
         {children}
         {showLoadMoreButtonRef.current && (
           <div className="pt-4">
             <LoadMoreButton onChange={() => onLoadMoreRef.current?.()} />
           </div>
         )}
-      </components.MenuList>
+      </ParentMenuList>
     );
     CustomMenuList.displayName = "CustomMenuList";
-    base.MenuList = CustomMenuList;
 
-    return base;
+    return {
+      ...mergedComponents,
+      MenuList: CustomMenuList,
+    };
   }, [
     props.components,
     componentsOverride,

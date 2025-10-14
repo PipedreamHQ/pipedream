@@ -54,7 +54,7 @@ export const useApps = (input?: AppsListRequest): UseAppsResult => {
 
   // Reset pagination ONLY when query params change, not on refetches
   useEffect(() => {
-    const inputKey = JSON.stringify(input);
+    const inputKey = JSON.stringify(input ?? null);
     const isNewQuery = prevInputRef.current !== inputKey;
 
     if (query.data && isNewQuery) {
