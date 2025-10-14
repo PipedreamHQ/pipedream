@@ -151,8 +151,19 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
   // Track queryKey and account changes (need these before effects that use them)
   const queryKeyString = JSON.stringify(queryKeyInput);
   const accountKey = JSON.stringify(accountValue);
-  const prevQueryKeyRef = useRef<string>();
+  const prevResetKeyRef = useRef<string>();
   const prevAccountKeyRef = useRef<string>();
+
+  const resetKey = useMemo(() => {
+    const {
+      page: _page,
+      prevContext: _prevContext,
+      ...rest
+    } = componentConfigureInput;
+    return JSON.stringify(rest);
+  }, [
+    componentConfigureInput,
+  ]);
 
   // Check if there's an account prop - if so, it must be set for the query to be enabled
   const hasAccountProp = useMemo(() => {
@@ -317,10 +328,14 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
 
   // Reset pagination when queryKey changes
   useEffect(() => {
-    const queryKeyChanged = prevQueryKeyRef.current && prevQueryKeyRef.current !== queryKeyString;
+    if (!prevResetKeyRef.current) {
+      prevResetKeyRef.current = resetKey;
+      return;
+    }
 
-    if (queryKeyChanged) {
-      // Query params changed - reset pagination state
+    const queryParamsChanged = prevResetKeyRef.current !== resetKey;
+
+    if (queryParamsChanged) {
       setPage(0);
       setContext(undefined);
       setNextContext(undefined);
@@ -328,9 +343,10 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
       setAccumulatedData([]);
       setAccumulatedValues(new Set());
     }
-    prevQueryKeyRef.current = queryKeyString;
+
+    prevResetKeyRef.current = resetKey;
   }, [
-    queryKeyString,
+    resetKey,
   ]);
 
   // Separately track account changes to clear field value

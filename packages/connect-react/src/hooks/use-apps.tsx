@@ -1,5 +1,8 @@
 import {
-  useState, useCallback, useEffect, useRef,
+  useState,
+  useCallback,
+  useEffect,
+  useRef,
 } from "react";
 import {
   useQuery, UseQueryResult,
@@ -8,12 +11,18 @@ import type {
   AppsListRequest, App,
 } from "@pipedream/sdk";
 import { useFrontendClient } from "./frontend-client-context";
+import {
+  clonePaginatedPage,
+  isPaginatedPage,
+  PaginatedPage,
+} from "../utils/pagination";
 
 export type UseAppsResult = Omit<UseQueryResult<unknown, Error>, "data"> & {
   apps: App[];
   isLoadingMore: boolean;
   hasMore: boolean;
   loadMore: () => Promise<void>;
+  loadMoreError?: Error;
 };
 
 /**
@@ -36,10 +45,24 @@ export const useApps = (input?: AppsListRequest): UseAppsResult => {
   const [
     nextPage,
     setNextPage,
-  ] = useState<unknown>(null);
+  ] = useState<PaginatedPage<App> | null>(null);
+
+  const [
+    loadMoreError,
+    setLoadMoreError,
+  ] = useState<Error>();
 
   // Track previous input to detect when query params actually change
   const prevInputRef = useRef<string>();
+  const prevQueryDataRef = useRef<unknown>();
+  const isMountedRef = useRef(true);
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
   const query = useQuery({
     queryKey: [
@@ -55,14 +78,22 @@ export const useApps = (input?: AppsListRequest): UseAppsResult => {
   // Reset pagination ONLY when query params change, not on refetches
   useEffect(() => {
     const inputKey = JSON.stringify(input ?? null);
-    const isNewQuery = prevInputRef.current !== inputKey;
+    const hasNewInput = prevInputRef.current !== inputKey;
+    const hasNewData = prevQueryDataRef.current !== query.data;
 
-    if (query.data && isNewQuery) {
+    if (!query.data || !isPaginatedPage<App>(query.data)) {
+      return;
+    }
+
+    if (query.data && (hasNewInput || hasNewData)) {
       prevInputRef.current = inputKey;
-      setAllApps(query.data.data || []);
-      setHasMore(query.data.hasNextPage());
-      setNextPage(query.data);
+      prevQueryDataRef.current = query.data;
+      const pageData = clonePaginatedPage(query.data);
+      setAllApps([...(pageData.data || [])]);
+      setHasMore(pageData.hasNextPage());
+      setNextPage(pageData);
       setIsLoadingMore(false);
+      setLoadMoreError(undefined);
     }
   }, [
     query.data,
@@ -72,20 +103,37 @@ export const useApps = (input?: AppsListRequest): UseAppsResult => {
   const loadMore = useCallback(async () => {
     if (!nextPage || !hasMore || isLoadingMore) return;
 
+    if (!isPaginatedPage<App>(nextPage)) {
+      setLoadMoreError(new Error("Next page response is not paginated"));
+      return;
+    }
+
     setIsLoadingMore(true);
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const nextPageData = await (nextPage as any).getNextPage();
+      const nextPageData = await nextPage.getNextPage();
+      if (!isMountedRef.current) {
+        return;
+      }
+
       setAllApps((prev) => [
         ...prev,
         ...(nextPageData.data || []),
       ]);
       setHasMore(nextPageData.hasNextPage());
       setNextPage(nextPageData);
+      setLoadMoreError(undefined);
     } catch (err) {
-      console.error("Error loading more apps:", err);
+      if (!isMountedRef.current) {
+        return;
+      }
+      const error = err instanceof Error
+        ? err
+        : new Error(String(err));
+      setLoadMoreError(error);
     } finally {
-      setIsLoadingMore(false);
+      if (isMountedRef.current) {
+        setIsLoadingMore(false);
+      }
     }
   }, [
     nextPage,
@@ -99,5 +147,6 @@ export const useApps = (input?: AppsListRequest): UseAppsResult => {
     isLoadingMore,
     hasMore,
     loadMore,
+    loadMoreError,
   };
 };
