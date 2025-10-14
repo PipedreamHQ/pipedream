@@ -1670,6 +1670,9 @@ importers:
 
   components/billsby: {}
 
+  components/binalyze_air:
+    specifiers: {}
+
   components/bingx:
     dependencies:
       '@pipedream/platform':
