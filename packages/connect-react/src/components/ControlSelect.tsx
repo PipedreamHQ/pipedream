@@ -124,13 +124,8 @@ export function ControlSelect<T extends PropOptionValue>({
     onLoadMore,
   ]);
 
-  // Use ref to store latest showLoadMoreButton value
   const showLoadMoreButtonRef = useRef(showLoadMoreButton);
-  useEffect(() => {
-    showLoadMoreButtonRef.current = showLoadMoreButton;
-  }, [
-    showLoadMoreButton,
-  ]);
+  showLoadMoreButtonRef.current = showLoadMoreButton;
 
   // Memoize custom components to prevent remounting
   // Recompute when caller/customizer supplies new component overrides

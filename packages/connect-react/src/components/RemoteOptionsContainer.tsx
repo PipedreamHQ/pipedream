@@ -160,6 +160,8 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
       prevContext: _prevContext,
       ...rest
     } = componentConfigureInput;
+    void _page;
+    void _prevContext;
     return JSON.stringify(rest);
   }, [
     componentConfigureInput,

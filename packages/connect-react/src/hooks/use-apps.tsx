@@ -89,7 +89,9 @@ export const useApps = (input?: AppsListRequest): UseAppsResult => {
       prevInputRef.current = inputKey;
       prevQueryDataRef.current = query.data;
       const pageData = clonePaginatedPage(query.data);
-      setAllApps([...(pageData.data || [])]);
+      setAllApps([
+        ...(pageData.data || []),
+      ]);
       setHasMore(pageData.hasNextPage());
       setNextPage(pageData);
       setIsLoadingMore(false);

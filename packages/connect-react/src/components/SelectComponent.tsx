@@ -7,7 +7,6 @@ import {
   useMemo,
   useCallback,
   useRef,
-  useEffect,
 } from "react";
 import Select, { components } from "react-select";
 import type { MenuListProps } from "react-select";
@@ -39,13 +38,8 @@ export function SelectComponent({
   });
 
   const { MenuList } = components;
-
   const isLoadingMoreRef = useRef(isLoadingMore);
-  useEffect(() => {
-    isLoadingMoreRef.current = isLoadingMore;
-  }, [
-    isLoadingMore,
-  ]);
+  isLoadingMoreRef.current = isLoadingMore;
 
   // Memoize the selected value to prevent unnecessary recalculations
   const selectedValue = useMemo(() => {

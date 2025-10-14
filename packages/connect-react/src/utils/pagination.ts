@@ -4,7 +4,7 @@ export type PaginatedPage<T> = {
   getNextPage: () => Promise<PaginatedPage<T>>;
 };
 
-export const isPaginatedPage = <T,>(value: unknown): value is PaginatedPage<T> => {
+export const isPaginatedPage = <T, >(value: unknown): value is PaginatedPage<T> => {
   if (!value || typeof value !== "object") {
     return false;
   }
@@ -20,7 +20,7 @@ export const isPaginatedPage = <T,>(value: unknown): value is PaginatedPage<T> =
   );
 };
 
-export const clonePaginatedPage = <T,>(page: PaginatedPage<T>): PaginatedPage<T> => {
+export const clonePaginatedPage = <T, >(page: PaginatedPage<T>): PaginatedPage<T> => {
   const prototype = Object.getPrototypeOf(page);
   return Object.assign(Object.create(prototype ?? Object.prototype), page);
 };

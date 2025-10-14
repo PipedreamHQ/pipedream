@@ -90,7 +90,9 @@ export const useComponents = (input?: ComponentsListRequest): UseComponentsResul
       prevInputRef.current = inputKey;
       prevQueryDataRef.current = query.data;
       const pageData = clonePaginatedPage(query.data);
-      setAllComponents([...(pageData.data || [])]);
+      setAllComponents([
+        ...(pageData.data || []),
+      ]);
       setHasMore(pageData.hasNextPage());
       setNextPage(pageData);
       setIsLoadingMore(false);

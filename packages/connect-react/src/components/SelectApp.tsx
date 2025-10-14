@@ -62,13 +62,8 @@ export function SelectApp({
     SingleValue,
     MenuList,
   } = components;
-
   const isLoadingMoreRef = useRef(isLoadingMore);
-  useEffect(() => {
-    isLoadingMoreRef.current = isLoadingMore;
-  }, [
-    isLoadingMore,
-  ]);
+  isLoadingMoreRef.current = isLoadingMore;
 
   // Memoize the selected value to prevent unnecessary recalculations
   const selectedValue = useMemo(() => {
