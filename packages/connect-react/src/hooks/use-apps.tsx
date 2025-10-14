@@ -52,9 +52,9 @@ export const useApps = (input?: AppsListRequest): UseAppsResult => {
     setLoadMoreError,
   ] = useState<Error>();
 
-  // Track previous input to detect when query params actually change
-  const prevInputRef = useRef<string>();
+  // Track previous query data and signature so we can reset safely
   const prevQueryDataRef = useRef<unknown>();
+  const queryIdentityRef = useRef<{ inputKey: string; version: number }>();
   const isMountedRef = useRef(true);
 
   useEffect(() => {
@@ -75,28 +75,33 @@ export const useApps = (input?: AppsListRequest): UseAppsResult => {
     }),
   });
 
-  // Reset pagination ONLY when query params change, not on refetches
+  // Reset pagination ONLY when query data changes
   useEffect(() => {
     const inputKey = JSON.stringify(input ?? null);
-    const hasNewInput = prevInputRef.current !== inputKey;
     const hasNewData = prevQueryDataRef.current !== query.data;
 
-    if (!query.data || !isPaginatedPage<App>(query.data)) {
+    if (!query.data || !isPaginatedPage<App>(query.data) || !hasNewData) {
       return;
     }
 
-    if (query.data && (hasNewInput || hasNewData)) {
-      prevInputRef.current = inputKey;
-      prevQueryDataRef.current = query.data;
-      const pageData = clonePaginatedPage(query.data);
-      setAllApps([
-        ...(pageData.data || []),
-      ]);
-      setHasMore(pageData.hasNextPage());
-      setNextPage(pageData);
-      setIsLoadingMore(false);
-      setLoadMoreError(undefined);
-    }
+    prevQueryDataRef.current = query.data;
+    const currentIdentity = queryIdentityRef.current;
+    const nextVersion = currentIdentity
+      ? currentIdentity.version + 1
+      : 1;
+    queryIdentityRef.current = {
+      inputKey,
+      version: nextVersion,
+    };
+
+    const pageData = clonePaginatedPage(query.data);
+    setAllApps([
+      ...(pageData.data || []),
+    ]);
+    setHasMore(pageData.hasNextPage());
+    setNextPage(pageData);
+    setIsLoadingMore(false);
+    setLoadMoreError(undefined);
   }, [
     query.data,
     input,
@@ -104,6 +109,9 @@ export const useApps = (input?: AppsListRequest): UseAppsResult => {
 
   const loadMore = useCallback(async () => {
     if (!nextPage || !hasMore || isLoadingMore) return;
+
+    const requestIdentity = queryIdentityRef.current;
+    const requestVersion = requestIdentity?.version ?? 0;
 
     if (!isPaginatedPage<App>(nextPage)) {
       setLoadMoreError(new Error("Next page response is not paginated"));
@@ -116,7 +124,9 @@ export const useApps = (input?: AppsListRequest): UseAppsResult => {
       if (!isMountedRef.current) {
         return;
       }
-
+      if (requestVersion !== (queryIdentityRef.current?.version ?? 0)) {
+        return;
+      }
       setAllApps((prev) => [
         ...prev,
         ...(nextPageData.data || []),
@@ -126,6 +136,9 @@ export const useApps = (input?: AppsListRequest): UseAppsResult => {
       setLoadMoreError(undefined);
     } catch (err) {
       if (!isMountedRef.current) {
+        return;
+      }
+      if (requestVersion !== (queryIdentityRef.current?.version ?? 0)) {
         return;
       }
       const error = err instanceof Error
