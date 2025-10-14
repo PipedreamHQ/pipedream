@@ -6,15 +6,11 @@
 
 ### Added
 
-- Infinite scroll pagination for `SelectApp` and `SelectComponent` dropdowns
-- `useApps` and `useComponents` hooks now support pagination with automatic accumulation of results
-- Default page size increased to 50 items per request for better UX
+- Added infinite scroll (with pagination) for `SelectApp` and `SelectComponent` dropdowns
+- Increased default page size to 50 items per request for better UX
 
 ### Fixed
 
-- Scroll position preservation in `SelectApp` and `SelectComponent` during infinite scroll
-- Scroll position preservation in `ControlSelect` when clicking "Load More" button for remote options
-- Prevent component remounting that caused scroll jumps during pagination
 - Remote options now properly reset when parent props change (e.g., switching accounts)
 
 ## [2.0.0] - 2025-10-02
