@@ -1,6 +1,4 @@
 import {
-  useState,
-  useCallback,
   useEffect,
   useRef,
 } from "react";
@@ -8,14 +6,12 @@ import {
   useQuery, UseQueryResult,
 } from "@tanstack/react-query";
 import type {
-  AppsListRequest, App,
+  AppsListRequest,
+  App,
 } from "@pipedream/sdk";
 import { useFrontendClient } from "./frontend-client-context";
-import {
-  clonePaginatedPage,
-  isPaginatedPage,
-  PaginatedPage,
-} from "../utils/pagination";
+import { isPaginatedPage } from "../utils/pagination";
+import { usePaginatedSdkList } from "./use-paginated-sdk-list";
 
 export type UseAppsResult = Omit<UseQueryResult<unknown, Error>, "data"> & {
   apps: App[];
@@ -30,39 +26,17 @@ export type UseAppsResult = Omit<UseQueryResult<unknown, Error>, "data"> & {
  */
 export const useApps = (input?: AppsListRequest): UseAppsResult => {
   const client = useFrontendClient();
-  const [
-    allApps,
-    setAllApps,
-  ] = useState<App[]>([]);
-  const [
+
+  const {
+    items: apps,
     hasMore,
-    setHasMore,
-  ] = useState(false);
-  const [
     isLoadingMore,
-    setIsLoadingMore,
-  ] = useState(false);
-  const [
-    nextPage,
-    setNextPage,
-  ] = useState<PaginatedPage<App> | null>(null);
-
-  const [
+    loadMore,
     loadMoreError,
-    setLoadMoreError,
-  ] = useState<Error>();
+    resetWithPage,
+  } = usePaginatedSdkList<App>();
 
-  // Track previous query data and signature so we can reset safely
   const prevQueryDataRef = useRef<unknown>();
-  const queryIdentityRef = useRef<{ inputKey: string; version: number }>();
-  const isMountedRef = useRef(true);
-
-  useEffect(() => {
-    isMountedRef.current = true;
-    return () => {
-      isMountedRef.current = false;
-    };
-  }, []);
 
   const query = useQuery({
     queryKey: [
@@ -85,80 +59,16 @@ export const useApps = (input?: AppsListRequest): UseAppsResult => {
     }
 
     prevQueryDataRef.current = query.data;
-    const currentIdentity = queryIdentityRef.current;
-    const nextVersion = currentIdentity
-      ? currentIdentity.version + 1
-      : 1;
-    queryIdentityRef.current = {
-      inputKey,
-      version: nextVersion,
-    };
-
-    const pageData = clonePaginatedPage(query.data);
-    setAllApps([
-      ...(pageData.data || []),
-    ]);
-    setHasMore(pageData.hasNextPage());
-    setNextPage(pageData);
-    setIsLoadingMore(false);
-    setLoadMoreError(undefined);
+    resetWithPage(query.data, inputKey);
   }, [
     query.data,
     input,
-  ]);
-
-  const loadMore = useCallback(async () => {
-    if (!nextPage || !hasMore || isLoadingMore) return;
-
-    const requestIdentity = queryIdentityRef.current;
-    const requestVersion = requestIdentity?.version ?? 0;
-
-    if (!isPaginatedPage<App>(nextPage)) {
-      setLoadMoreError(new Error("Next page response is not paginated"));
-      return;
-    }
-
-    setIsLoadingMore(true);
-    try {
-      const nextPageData = await nextPage.getNextPage();
-      if (!isMountedRef.current) {
-        return;
-      }
-      if (requestVersion !== (queryIdentityRef.current?.version ?? 0)) {
-        return;
-      }
-      setAllApps((prev) => [
-        ...prev,
-        ...(nextPageData.data || []),
-      ]);
-      setHasMore(nextPageData.hasNextPage());
-      setNextPage(nextPageData);
-      setLoadMoreError(undefined);
-    } catch (err) {
-      if (!isMountedRef.current) {
-        return;
-      }
-      if (requestVersion !== (queryIdentityRef.current?.version ?? 0)) {
-        return;
-      }
-      const error = err instanceof Error
-        ? err
-        : new Error(String(err));
-      setLoadMoreError(error);
-    } finally {
-      if (isMountedRef.current) {
-        setIsLoadingMore(false);
-      }
-    }
-  }, [
-    nextPage,
-    hasMore,
-    isLoadingMore,
+    resetWithPage,
   ]);
 
   return {
     ...query,
-    apps: allApps,
+    apps,
     isLoadingMore,
     hasMore,
     loadMore,
