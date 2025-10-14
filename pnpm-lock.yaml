@@ -1367,6 +1367,9 @@ importers:
 
   components/azure_api_for_fhir: {}
 
+  components/azure_cosmos_db:
+    specifiers: {}
+
   components/azure_devops:
     dependencies:
       '@pipedream/platform':
