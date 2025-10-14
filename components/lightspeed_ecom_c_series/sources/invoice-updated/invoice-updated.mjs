@@ -20,7 +20,7 @@ export default {
     generateMeta(body) {
       return {
         id: body.invoice.id,
-        summary: this.getSummary(`Invoice with ID ${body.invoice.id} updated`),
+        summary: `Invoice with ID ${body.invoice.id} updated`,
         ts: Date.parse(body.invoice.updatedAt),
       };
     },

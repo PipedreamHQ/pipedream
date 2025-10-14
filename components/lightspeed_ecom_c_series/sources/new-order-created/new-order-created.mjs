@@ -20,7 +20,7 @@ export default {
     generateMeta(body) {
       return {
         id: body.order.id,
-        summary: this.getSummary(`Order with ID ${body.order.id} created`),
+        summary: `Order with ID ${body.order.id} created`,
         ts: Date.parse(body.order.createdAt),
       };
     },

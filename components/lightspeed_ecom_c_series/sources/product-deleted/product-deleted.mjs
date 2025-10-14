@@ -17,11 +17,11 @@ export default {
     getItemAction() {
       return "deleted";
     },
-    generateMeta(body) {
+    generateMeta(body, headers) {
       return {
-        id: body.product.id,
-        summary: this.getSummary(`Product with ID ${body.product.id} deleted`),
-        ts: Date.parse(body.product.deletedAt),
+        id: headers["x-product-id"],
+        summary: `Product with ID ${headers["x-product-id"]} deleted`,
+        ts: Date.now(),
       };
     },
   },

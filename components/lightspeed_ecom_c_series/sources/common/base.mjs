@@ -26,7 +26,7 @@ export default {
             itemGroup: this.getItemGroup(),
             itemAction: this.getItemAction(),
             format: "json",
-            address: this.http.endpoint,
+            address: `${this.http.endpoint}/webhook`,
           },
         },
       });
@@ -37,11 +37,13 @@ export default {
       await this.app.deleteHook(webhookId);
     },
   },
-  async run({ body }) {
+  async run({
+    body, headers,
+  }) {
     this.http.respond({
       status: 200,
     });
 
-    this.$emit(body, this.generateMeta(body));
+    this.$emit(body, this.generateMeta(body, headers));
   },
 };
