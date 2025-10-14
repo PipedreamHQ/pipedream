@@ -81,10 +81,8 @@ export default {
         },
       });
 
-      const rawcontent = response.toString("base64");
-      const buffer = Buffer.from(rawcontent, "base64");
       const downloadedFilepath = `/tmp/${this.filename}`;
-      fs.writeFileSync(downloadedFilepath, buffer);
+      fs.writeFileSync(downloadedFilepath, response);
 
       const filedata = [
         this.filename,
