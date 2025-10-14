@@ -9280,6 +9280,9 @@ importers:
         specifier: ^8.3.2
         version: 8.3.2
 
+  components/n1n:
+    specifiers: {}
+
   components/n8n_io: {}
 
   components/namecheap: {}
