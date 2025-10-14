@@ -3,7 +3,7 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "indiefunnels-new-invoice-created",
+  key: "lightspeed_ecom_c_series-new-invoice-created",
   name: "New Invoice Created (Instant)",
   description: "Emit new event when an invoice is created.",
   version: "0.0.1",

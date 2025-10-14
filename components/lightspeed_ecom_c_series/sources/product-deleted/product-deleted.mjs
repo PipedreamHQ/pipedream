@@ -3,7 +3,7 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "indiefunnels-product-deleted",
+  key: "lightspeed_ecom_c_series-product-deleted",
   name: "Product Deleted (Instant)",
   description: "Emit new event when a product is deleted.",
   version: "0.0.1",

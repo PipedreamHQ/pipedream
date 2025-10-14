@@ -3,7 +3,7 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "indiefunnels-new-customer-created",
+  key: "lightspeed_ecom_c_series-new-customer-created",
   name: "New Customer Created (Instant)",
   description: "Emit new event when an customer is created.",
   version: "0.0.1",

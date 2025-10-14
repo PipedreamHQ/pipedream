@@ -3,9 +3,9 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "indiefunnels-new-order-created",
+  key: "lightspeed_ecom_c_series-new-order-created",
   name: "New Order Created (Instant)",
-  description: "Emit new event when a order is created.",
+  description: "Emit new event when an order is created.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",

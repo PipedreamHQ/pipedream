@@ -3,9 +3,9 @@ import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
-  key: "indiefunnels-customer-updated",
+  key: "lightspeed_ecom_c_series-customer-updated",
   name: "Customer Updated (Instant)",
-  description: "Emit new event when an customer is updated.",
+  description: "Emit new event when a customer is updated.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
