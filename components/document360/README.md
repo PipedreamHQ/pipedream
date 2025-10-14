@@ -1,11 +1,11 @@
 # Overview
 
-The Document360 API enables programmatic interaction with your knowledge base, allowing you to automate content creation, updates, and management. With this API, you can integrate Document360 into your existing content pipelines, support workflows, or any system that needs to push or pull knowledge base content. On Pipedream, you can harness this API to craft serverless workflows that seamlessly integrate with other apps to keep documentation up-to-date, trigger notifications based on content changes, or analyze knowledge base usage.
+Document360 is an API that allows you to interact programmatically with your knowledge base. It provides functionality to manage and retrieve articles, categories, and settings within your Document360 project. This can be highly beneficial for automating content updates, syncing data across platforms, or dynamically adjusting your knowledge management practices based on user interactions or feedback.
 
 # Example Use Cases
 
-- **Automated Knowledge Base Article Updates**: Keep your documentation fresh by automating the update process. When a relevant ticket is resolved in a connected system, such as Zendesk or Jira, use a Pipedream workflow to update related articles in Document360 with the latest information.
+- **Automated Content Updates**: Automatically update articles in Document360 whenever a related document or file is updated in your Google Drive. This ensures that your knowledge base always contains the most current information without manual intervention.
 
-- **Content Publishing from Git Pushes**: Automatically pull the latest documentation from your Git repository and publish to Document360 whenever a new push to the repo is made. This ensures that your knowledge base reflects the most recent changes without manual intervention.
+- **User Feedback Integration**: Collect user feedback on articles via a web form or support ticket system like Zendesk. Use this feedback to automatically create tasks in a project management tool like Trello or Asana to revise or improve articles, ensuring that content remains relevant and useful.
 
-- **Knowledge Base Analytics Reporting**: Channel knowledge base analytics into a data visualization tool like Google Data Studio. A Pipedream workflow can trigger on a schedule to fetch analytics from Document360 and send them to Data Studio, offering regular insights into how your content is performing.
+- **Dynamic Knowledge Base Management**: Monitor activity in tools like Slack or Microsoft Teams, and based on specific triggers (like a frequently asked question), automatically create or update articles in Document360. This helps in keeping the knowledge base up-to-date with real-time information and questions being raised by users.
