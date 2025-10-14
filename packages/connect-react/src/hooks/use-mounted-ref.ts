@@ -4,7 +4,7 @@ import {
 } from "react";
 
 export function useMountedRef() {
-  const isMountedRef = useRef(true);
+  const isMountedRef = useRef(false);
 
   useEffect(() => {
     isMountedRef.current = true;
