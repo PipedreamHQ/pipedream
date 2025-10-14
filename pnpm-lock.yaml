@@ -6064,6 +6064,9 @@ importers:
         specifier: ^8.8.0
         version: 8.9.0
 
+  components/google_perspective:
+    specifiers: {}
+
   components/google_photos:
     dependencies:
       '@pipedream/platform':
