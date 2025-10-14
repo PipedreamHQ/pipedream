@@ -32,11 +32,13 @@ export default {
       type: "string",
       label: "Body HTML",
       description: "The content of the message in HTML format. If `Body Text` is not provided, it will be auto-generated. If `Body Text` is not provided, `Body HTML` must be provided.",
+      optional: true,
     },
     bodyText: {
       type: "string",
       label: "Body Text",
       description: "The content of the message in plain text, used when HTML is not supported. If `Body HTML` is not provided, the broadcast will be sent using only the `Body Text`. If `Body Text` is not provided, `Body HTML` must be provided.",
+      optional: true,
     },
     bodyAmp: {
       type: "string",
