@@ -2047,8 +2047,7 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3
 
-  components/browserflow:
-    specifiers: {}
+  components/browserflow: {}
 
   components/browserhub:
     dependencies:
