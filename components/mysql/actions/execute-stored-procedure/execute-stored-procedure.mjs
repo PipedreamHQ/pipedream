@@ -3,9 +3,10 @@ import mysql from "../../mysql.app.mjs";
 export default {
   key: "mysql-execute-stored-procedure",
   name: "Execute Stored Procedure",
-  description: "Execute Stored Procedure. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/stored-programs-defining.html)",
+  description:
+    "Execute Stored Procedure. [See the docs here](https://dev.mysql.com/doc/refman/8.0/en/stored-programs-defining.html)",
   type: "action",
-  version: "2.0.6",
+  version: "2.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -28,8 +29,7 @@ export default {
   },
   async run({ $ }) {
     const {
-      storedProcedure,
-      values,
+      storedProcedure, values,
     } = this;
 
     const response = await this.mysql.executeStoredProcedure({
@@ -37,15 +37,19 @@ export default {
       values,
     });
 
-    $.export("$summary", `Successfully executed stored procedure ${storedProcedure}`);
+    $.export(
+      "$summary",
+      `Successfully executed stored procedure ${storedProcedure}`,
+    );
 
-    const result =
-      Array.isArray(response)
-        ? response[0]
-        : response;
+    const result = Array.isArray(response)
+      ? response[0]
+      : response;
 
-    return result || {
-      success: false,
-    };
+    return (
+      result || {
+        success: false,
+      }
+    );
   },
 };
