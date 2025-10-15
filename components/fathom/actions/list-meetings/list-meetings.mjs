@@ -50,8 +50,6 @@ export default {
       params: {
         include_action_items: this.includeActionItems,
         include_crm_matches: this.includeCrmMatches,
-        include_summary: this.includeSummary,
-        include_transcript: this.includeTranscript,
         created_after: this.createdAfter,
         created_before: this.createdBefore,
         cursor: this.cursor,
