@@ -5,7 +5,7 @@ export default {
   ...common,
   key: "lightspeed_ecom_c_series-new-customer-created",
   name: "New Customer Created (Instant)",
-  description: "Emit new event when an customer is created.",
+  description: "Emit new event when a customer is created.",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
