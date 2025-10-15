@@ -3,7 +3,7 @@ import aweberApp from "../../aweber.app.mjs";
 export default {
   key: "aweber-create-broadcast",
   name: "Create Broadcast",
-  description: "Create a broadcast under the specified account and list. [See the docs here](https://api.aweber.com/#tag/Broadcasts/paths/~1accounts~1%7BaccountId%7D~1lists~1%7BlistId%7D~1broadcasts/post).",
+  description: "Create a broadcast under the specified account and list. [See the documentation](https://api.aweber.com/#tag/Broadcasts/paths/~1accounts~1%7BaccountId%7D~1lists~1%7BlistId%7D~1broadcasts/post).",
   type: "action",
   version: "0.0.1",
   annotations: {
