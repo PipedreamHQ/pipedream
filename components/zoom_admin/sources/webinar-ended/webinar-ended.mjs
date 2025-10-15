@@ -15,8 +15,6 @@ export default {
       eventNames: [
         "webinar.ended",
       ],
-      label: "Zoom Webhook",
-      description: "The webhook to receive webinar ended events from Zoom",
     },
     webinar: {
       type: "string",
