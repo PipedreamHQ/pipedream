@@ -7,7 +7,7 @@ export default {
   name: "Get Subscribers",
   description: "Get a paginated collection of subscribers under the specified account and list. [See the docs here](https://api.aweber.com/#tag/Subscribers/paths/~1accounts~1{accountId}~1lists~1{listId}~1subscribers/get).",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
