@@ -21,7 +21,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const response = await this.app.searchProducts({
+    const response = await this.app.getProducts({
       $,
       params: {
         barcode: parseObject(this.barcodes)?.join(","),

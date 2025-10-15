@@ -78,7 +78,7 @@ export default {
     try {
       const response = await this.app.paginate({
         $,
-        fn: this.app.searchProducts,
+        fn: this.app.getProducts,
         maxResults: this.maxResults,
         params: {
           mpn: this.mpn,
