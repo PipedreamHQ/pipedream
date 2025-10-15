@@ -131,7 +131,7 @@ export default {
     maxResults: {
       type: "integer",
       label: "Max Results",
-      description: `Maximum number of results to return. Set to blank to return everything.`,
+      description: "Maximum number of results to return. Set to blank to return everything.",
       optional: true,
       default: constants.MAX_RESOURCES,
     },
