@@ -1,36 +1,41 @@
-import app from "../../brainbase.app.mjs";
+import app from "../../brainbase_labs.app.mjs";
 
 export default {
-    key: "brainbase-create-twilio-integration",
-    name: "Create Twilio Integration",
-    description: "Create a new Twilio integration for the authenticated team. [See the documentation](https://docs.brainbase.com)",
-    version: "0.0.1",
-    type: "action",
-    props: {
-        app,
-        accountSid: {
-            type: "string",
-            label: "Account SID",
-            description: "Twilio account SID",
-        },
-        authToken: {
-            type: "string",
-            label: "Auth Token",
-            description: "Twilio auth token (will be encrypted before being stored)",
-            secret: true,
-        },
+  key: "brainbase-create-twilio-integration",
+  name: "Create Twilio Integration",
+  description: "Create a new Twilio integration for the authenticated team. [See the documentation](https://docs.usebrainbase.com)",
+  version: "0.0.1",
+  type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
+  props: {
+    app,
+    accountSid: {
+      type: "string",
+      label: "Account SID",
+      description: "Twilio account SID",
     },
-    async run({ $ }) {
-        const response = await this.app.createTwilioIntegration({
-            $,
-            data: {
-                accountSid: this.accountSid,
-                authToken: this.authToken,
-            },
-        });
+    authToken: {
+      type: "string",
+      label: "Auth Token",
+      description: "Twilio auth token (will be encrypted before being stored)",
+      secret: true,
+    },
+  },
+  async run({ $ }) {
+    const response = await this.app.createTwilioIntegration({
+      $,
+      data: {
+        accountSid: this.accountSid,
+        authToken: this.authToken,
+      },
+    });
 
-        $.export("$summary", "Successfully created Twilio integration");
-        return response;
-    },
+    $.export("$summary", "Successfully created Twilio integration");
+    return response;
+  },
 };
 

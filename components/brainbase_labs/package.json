@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/brainbase_labs",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Pipedream Brainbase Labs Components",
   "main": "brainbase_labs.app.mjs",
   "keywords": [

@@ -1,28 +1,33 @@
-import app from "../../brainbase.app.mjs";
+import app from "../../brainbase_labs.app.mjs";
 
 export default {
-    key: "brainbase-delete-worker",
-    name: "Delete Worker",
-    description: "Delete a worker. [See the documentation](https://docs.brainbase.com)",
-    version: "0.0.1",
-    type: "action",
-    props: {
+  key: "brainbase-delete-worker",
+  name: "Delete Worker",
+  description: "Delete a worker. [See the documentation](https://docs.usebrainbase.com)",
+  version: "0.0.1",
+  type: "action",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
+  props: {
+    app,
+    workerId: {
+      propDefinition: [
         app,
-        workerId: {
-            propDefinition: [
-                app,
-                "workerId",
-            ],
-        },
+        "workerId",
+      ],
     },
-    async run({ $ }) {
-        const response = await this.app.deleteWorker({
-            $,
-            workerId: this.workerId,
-        });
+  },
+  async run({ $ }) {
+    const response = await this.app.deleteWorker({
+      $,
+      workerId: this.workerId,
+    });
 
-        $.export("$summary", `Successfully deleted worker with ID ${this.workerId}`);
-        return response;
-    },
+    $.export("$summary", `Successfully deleted worker with ID ${this.workerId}`);
+    return response;
+  },
 };
 
