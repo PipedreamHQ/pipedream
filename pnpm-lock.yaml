@@ -1934,8 +1934,7 @@ importers:
         specifier: ^1.5.1
         version: 1.6.6
 
-  components/brainbase_labs:
-    specifiers: {}
+  components/brainbase_labs: {}
 
   components/brainshop: {}
 
@@ -4876,7 +4875,11 @@ importers:
 
   components/fastfield_mobile_forms: {}
 
-  components/fathom: {}
+  components/fathom:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.0
+        version: 3.1.0
 
   components/fatture_in_cloud: {}
 
@@ -9277,8 +9280,7 @@ importers:
         specifier: ^8.3.2
         version: 8.3.2
 
-  components/n1n:
-    specifiers: {}
+  components/n1n: {}
 
   components/n8n_io: {}
 
@@ -15217,8 +15219,7 @@ importers:
 
   components/uproc: {}
 
-  components/ups:
-    specifiers: {}
+  components/ups: {}
 
   components/upstash_redis:
     dependencies:
@@ -16150,8 +16151,7 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
-  components/xola:
-    specifiers: {}
+  components/xola: {}
 
   components/xperiencify:
     dependencies:
