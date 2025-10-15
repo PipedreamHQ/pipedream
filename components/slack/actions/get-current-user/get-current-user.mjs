@@ -56,43 +56,13 @@ export default {
       || authContext.user
       || userId;
 
-    $.export(
-      "$summary",
-      `Retrieved Slack user ${summaryName}`,
-    );
+    $.export("$summary", `Retrieved Slack user ${summaryName}`);
 
     return {
       authContext,
-      user: user && {
-        id: user.id,
-        teamId: user.team_id,
-        name: profile?.real_name_normalized || user.real_name,
-        displayName: profile?.display_name_normalized || user.name,
-        email: profile?.email,
-        locale: user.locale,
-        timezone: user.tz,
-        timezoneLabel: user.tz_label,
-        timezoneOffset: user.tz_offset,
-        isAdmin: user.is_admin,
-        isOwner: user.is_owner,
-        isPrimaryOwner: user.is_primary_owner,
-        isRestricted: user.is_restricted,
-        isUltraRestricted: user.is_ultra_restricted,
-        isBot: user.is_bot,
-        isAppUser: user.is_app_user,
-        updated: user.updated,
-        color: user.color,
-        profile,
-      },
-      team: teamInfo?.team && {
-        id: teamInfo.team.id,
-        name: teamInfo.team.name,
-        domain: teamInfo.team.domain,
-        emailDomain: teamInfo.team.email_domain,
-        icon: teamInfo.team.icon,
-        enterpriseId: teamInfo.team.enterprise_id,
-        enterpriseName: teamInfo.team.enterprise_name,
-      },
+      user,
+      profile,
+      team: teamInfo?.team,
     };
   },
 };
