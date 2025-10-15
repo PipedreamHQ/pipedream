@@ -4,8 +4,13 @@ export default {
   key: "airtop-query-page",
   name: "Query Page",
   description: "Extract data or ask questions about page content using AI. [See the documentation](https://docs.airtop.ai/api-reference/airtop-api/windows/page-query)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     sessionId: {

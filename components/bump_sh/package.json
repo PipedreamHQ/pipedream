@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/bump_sh",
+  "version": "0.0.1",
+  "description": "Pipedream Bump.sh Components",
+  "main": "bump_sh.app.mjs",
+  "keywords": [
+    "pipedream",
+    "bump_sh"
+  ],
+  "homepage": "https://pipedream.com/apps/bump_sh",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

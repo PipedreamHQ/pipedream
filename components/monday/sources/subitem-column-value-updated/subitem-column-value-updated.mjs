@@ -6,7 +6,7 @@ export default {
   name: "Sub-Item Column Value Updated (Instant)",
   description: "Emit new event when any sub-item column changes. [See the documentation](https://developer.monday.com/api-reference/reference/webhooks#sample-payload-for-webhook-events)",
   type: "source",
-  version: "0.0.9",
+  version: "0.0.10",
   dedupe: "unique",
   props: {
     ...common.props,

@@ -4,7 +4,7 @@ export default {
   key: "linearb-create-incident",
   name: "Create Incident",
   description: "Create a new incident within the LinearB platform. [See the documentation](https://docs.linearb.io/api-incidents/#create-incident)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -52,15 +52,17 @@ export default {
       optional: true,
     },
     teams: {
-      type: "string[]",
-      label: "Teams",
-      description: "The list of LinearB teams names related to this incident. (lowercase only)",
+      propDefinition: [
+        app,
+        "teams",
+      ],
       optional: true,
     },
     services: {
-      type: "string[]",
-      label: "Services",
-      description: "The list of LinearB services related to this incident.",
+      propDefinition: [
+        app,
+        "services",
+      ],
       optional: true,
     },
     repositoryUrls: {

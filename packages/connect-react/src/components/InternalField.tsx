@@ -1,9 +1,12 @@
-import type { ConfigurableProp } from "@pipedream/sdk";
+import type {
+  ConfigurableProp, ConfigurablePropApp,
+} from "@pipedream/sdk";
 import { FormFieldContext } from "../hooks/form-field-context";
 import { useFormContext } from "../hooks/form-context";
 import { Field } from "./Field";
 import { useApp } from "../hooks/use-app";
 import { useEffect } from "react";
+import { isConfigurablePropOfType } from "../utils/type-guards";
 
 type FieldInternalProps<T extends ConfigurableProp> = {
   prop: T;
@@ -18,17 +21,16 @@ export function InternalField<T extends ConfigurableProp>({
     id: formId, configuredProps, registerField, setConfiguredProp, errors, enableDebugging,
   } = formCtx;
 
-  const appSlug = prop.type === "app" && "app" in prop
-    ? prop.app
-    : undefined;
+  let appSlug: ConfigurablePropApp["app"] | undefined;
+  if (isConfigurablePropOfType(prop, "app")) {
+    appSlug = prop.app;
+  }
   const {
     // TODO error
     app,
   } = useApp(appSlug || "", {
     useQueryOpts: {
       enabled: !!appSlug,
-
-      // @ts-expect-error this seems to work (this overrides enabled so don't just set to true)
       suspense: !!appSlug,
     },
   });

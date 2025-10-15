@@ -4,8 +4,13 @@ export default {
   key: "pdf_munk-convert-html-to-image",
   name: "Convert HTML to Image",
   description: "Converts HTML/CSS content to an image. [See documentation](https://pdfmunk.com/api-docs#:~:text=Image%20Generation)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     html_content: {

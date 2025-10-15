@@ -7,7 +7,7 @@ export default {
   name: "New Custom Object Property Change",
   description:
     "Emit new event when a specified property is provided or updated on a custom object.",
-  version: "0.0.19",
+  version: "0.0.20",
   dedupe: "unique",
   type: "source",
   props: {

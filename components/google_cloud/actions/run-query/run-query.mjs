@@ -2,7 +2,7 @@ import googleCloud from "../../google_cloud.app.mjs";
 
 export default {
   name: "Run Query",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

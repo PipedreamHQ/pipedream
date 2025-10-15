@@ -7,14 +7,17 @@ import { useFrontendClient } from "./frontend-client-context";
 /**
  * Get details about an app
  */
-export const useApp = (slug: string, opts?:{ useQueryOpts?: Omit<UseQueryOptions<GetAppResponse>, "queryKey" | "queryFn">;}) => {
+export const useApp = (
+  slug: string,
+  opts?: { useQueryOpts?: (Omit<UseQueryOptions<GetAppResponse>, "queryKey" | "queryFn"> & { suspense?: boolean }) },
+) => {
   const client = useFrontendClient();
   const query = useQuery({
     queryKey: [
       "app",
       slug,
     ],
-    queryFn: () => client.app(slug),
+    queryFn: () => client.apps.retrieve(slug),
     ...opts?.useQueryOpts,
   });
 

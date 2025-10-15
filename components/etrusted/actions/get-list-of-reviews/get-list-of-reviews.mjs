@@ -5,8 +5,13 @@ export default {
   key: "etrusted-get-list-of-reviews",
   name: "Get List of Reviews",
   description: "Get a list of reviews for a specific channel, a set of channels or for your entire account. [See the documentation](https://developers.etrusted.com/reference/getreviews)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     etrusted,
     channelId: {

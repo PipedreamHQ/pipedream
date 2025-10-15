@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/google_books",
+  "version": "0.0.1",
+  "description": "Pipedream Google Books Components",
+  "main": "google_books.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_books"
+  ],
+  "homepage": "https://pipedream.com/apps/google_books",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

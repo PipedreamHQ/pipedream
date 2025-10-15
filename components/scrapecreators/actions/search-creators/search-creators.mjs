@@ -5,8 +5,13 @@ export default {
   key: "scrapecreators-search-creators",
   name: "Search Creators",
   description: "Search for creators based on platform and query. [See the documentation](https://docs.scrapecreators.com/api-reference/introduction)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     app,
     platform: {
