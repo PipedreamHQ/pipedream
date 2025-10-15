@@ -15,9 +15,7 @@ export default {
     slack,
   },
   async run({ $ }) {
-    const authContext = await this.slack.authTest({
-      throwRateLimitError: true,
-    });
+    const authContext = await this.slack.authTest();
 
     const userId = authContext.user_id || authContext.user;
 
@@ -26,7 +24,6 @@ export default {
       userInfo = await this.slack.usersInfo({
         user: userId,
         include_locale: true,
-        throwRateLimitError: true,
       });
     } catch (error) {
       // Gracefully degrade if scope not available
@@ -36,7 +33,6 @@ export default {
     try {
       userProfile = await this.slack.getUserProfile({
         user: userId,
-        throwRateLimitError: true,
       });
     } catch (error) {
       // Gracefully degrade if scope not available
@@ -44,9 +40,7 @@ export default {
 
     let teamInfo;
     try {
-      teamInfo = await this.slack.getTeamInfo({
-        throwRateLimitError: true,
-      });
+      teamInfo = await this.slack.getTeamInfo();
     } catch (error) {
       // Gracefully degrade if scope not available
     }
