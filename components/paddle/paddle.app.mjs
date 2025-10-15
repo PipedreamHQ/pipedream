@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     _baseUrl() {
-      return "https://sandbox-api.paddle.com";
+      return "https://api.paddle.com";
     },
     async _makeRequest(opts = {}) {
       const {
