@@ -4,8 +4,13 @@ export default {
   key: "docugenerate-delete-template",
   name: "Delete Template",
   description: "Deletes a specific template. [See the documentation](https://api.docugenerate.com/#/Template/deleteTemplate)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     templateId: {

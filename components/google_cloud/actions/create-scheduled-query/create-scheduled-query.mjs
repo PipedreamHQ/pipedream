@@ -12,7 +12,7 @@ export default {
   key: "google_cloud-create-scheduled-query",
   name: "Create Scheduled Query",
   description: "Creates a scheduled query in Google Cloud. [See the documentation](https://cloud.google.com/bigquery/docs/scheduling-queries)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -5,8 +5,13 @@ export default {
   key: "godaddy-suggest-domains",
   name: "Suggest Domains",
   description: "Suggest domains based on the given criteria. [See the documentation](https://developer.godaddy.com/doc/endpoint/domains#/v1/suggest)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     godaddy,
     query: {

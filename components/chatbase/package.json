@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/chatbase",
+  "version": "0.0.1",
+  "description": "Pipedream Chatbase Components",
+  "main": "chatbase.app.mjs",
+  "keywords": [
+    "pipedream",
+    "chatbase"
+  ],
+  "homepage": "https://pipedream.com/apps/chatbase",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

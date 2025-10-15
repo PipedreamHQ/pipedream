@@ -6,7 +6,7 @@ export default {
   key: "monday-get-items-by-column-value",
   name: "Get Items By Column Value",
   description: "Searches a column for items matching a value. [See the documentation](https://developer.monday.com/api-reference/reference/items-page-by-column-values)",
-  version: "0.1.2",
+  version: "0.1.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

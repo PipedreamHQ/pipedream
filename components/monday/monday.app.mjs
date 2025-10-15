@@ -325,6 +325,14 @@ export default {
       });
       return data?.boards[0]?.columns;
     },
+    listBoardItemsPage(variables) {
+      return this.makeRequest({
+        query: queries.listBoardItemsPage,
+        options: {
+          variables,
+        },
+      });
+    },
     async listUsers(variables) {
       const { data } = await this.makeRequest({
         query: queries.listUsers,

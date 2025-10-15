@@ -4,8 +4,13 @@ export default {
   key: "pdf_munk-capture-website-screenshot-into-pdf",
   name: "Capture Website Screenshot into PDF",
   description: "Converts a URL to a PDF file with customizable options. [See documentation](https://pdfmunk.com/api-docs#:~:text=Operations%20related%20to%20PDF)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     url: {

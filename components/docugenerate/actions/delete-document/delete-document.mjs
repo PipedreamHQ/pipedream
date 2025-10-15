@@ -4,8 +4,13 @@ export default {
   key: "docugenerate-delete-document",
   name: "Delete Document",
   description: "Deletes a specific document. [See the documentation](https://api.docugenerate.com/#/Document/deleteDocument)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     documentId: {

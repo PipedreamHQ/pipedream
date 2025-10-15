@@ -6,8 +6,13 @@ export default {
   key: "qr_api-create-wifi-qrcode",
   name: "Create WiFi QR Code",
   description: "Create a WiFi QR Code. [See the documentation](https://qrapi.io/api-documentation/#/qrcode/create_wifi_qr_code)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     ...common.props,
     ssid: {

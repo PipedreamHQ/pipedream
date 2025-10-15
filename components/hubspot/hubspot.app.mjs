@@ -1614,5 +1614,37 @@ export default {
         ...opts,
       });
     },
+    async getContactWithAllProperties({
+      contactId, ...opts
+    }) {
+      const properties = await this.getContactProperties();
+      const allPropertyNames = properties.map((prop) => prop.name);
+
+      return this.makeRequest({
+        api: API_PATH.CRMV3,
+        endpoint: `/objects/contacts/${contactId}`,
+        params: {
+          properties: allPropertyNames.join(","),
+        },
+        ...opts,
+      });
+    },
+    async batchGetContactsWithAllProperties({
+      contactIds, ...opts
+    }) {
+      const properties = await this.getContactProperties();
+      const allPropertyNames = properties.map((prop) => prop.name);
+
+      return this.batchGetObjects({
+        objectType: "contacts",
+        data: {
+          inputs: contactIds.map((id) => ({
+            id,
+          })),
+          properties: allPropertyNames,
+        },
+        ...opts,
+      });
+    },
   },
 };

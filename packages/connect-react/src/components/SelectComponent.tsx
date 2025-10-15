@@ -1,15 +1,16 @@
+import {
+  App,
+  Component,
+} from "@pipedream/sdk";
 import { useId } from "react";
 import Select from "react-select";
 import { useComponents } from "../hooks/use-components";
-import {
-  AppResponse, V1Component,
-} from "@pipedream/sdk";
 
 type SelectComponentProps = {
-  app?: Partial<AppResponse> & { name_slug: string; };
+  app?: Partial<App> & { nameSlug: string; };
   componentType?: "action" | "trigger";
-  value?: Partial<V1Component> & { key: string; };
-  onChange?: (component?: V1Component) => void;
+  value?: Partial<Component> & { key: string; };
+  onChange?: (component?: Component) => void;
 };
 
 export function SelectComponent({
@@ -22,11 +23,11 @@ export function SelectComponent({
   const {
     isLoading, components,
   } = useComponents({
-    app: app?.name_slug,
+    app: app?.nameSlug,
     componentType,
   });
 
-  const selectedValue = components?.find((c) => c.key === value?.key) || null;
+  const selectedValue = components?.find((c: Component) => c.key === value?.key) || null;
 
   return (
     <Select
@@ -37,7 +38,7 @@ export function SelectComponent({
       getOptionLabel={(o) => o.name || o.key}
       getOptionValue={(o) => o.key}
       value={selectedValue}
-      onChange={(o) => onChange?.((o as V1Component) || undefined)}
+      onChange={(o) => onChange?.((o as Component) || undefined)}
       isLoading={isLoading}
       components={{
         IndicatorSeparator: () => null,
