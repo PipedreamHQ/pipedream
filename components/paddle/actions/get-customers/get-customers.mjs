@@ -5,6 +5,11 @@ export default {
   name: "Get Customers",
   description: "Get a list of customers registered in Paddle. [See the documentation](https://developer.paddle.com/api-reference/customers/list-customers)",
   version: "0.0.1",
+  annotations: {
+    openWorldHint: true,
+    destructiveHint: false,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

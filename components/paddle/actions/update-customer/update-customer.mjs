@@ -5,6 +5,11 @@ export default {
   name: "Update Customer",
   description: "Update the customer with the specified ID. [See the documentation](https://developer.paddle.com/api-reference/customers/update-customer)",
   version: "0.0.1",
+  annotations: {
+    openWorldHint: true,
+    destructiveHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

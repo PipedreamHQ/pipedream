@@ -5,6 +5,11 @@ export default {
   name: "Create Customer",
   description: "Create a new customer in Paddle. [See the documentation](https://developer.paddle.com/api-reference/customers/create-customer)",
   version: "0.0.1",
+  annotations: {
+    openWorldHint: true,
+    destructiveHint: false,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,
