@@ -1,4 +1,5 @@
 import zohoDesk from "../../zoho_desk.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "zoho_desk-search-articles",
@@ -72,6 +73,7 @@ export default {
       label: "Max Results",
       description: "Maximum number of articles to return. Leave blank to return all available matches.",
       optional: true,
+      default: constants.MAX_RESOURCES,
     },
   },
   async run({ $ }) {
@@ -92,15 +94,13 @@ export default {
       searchKeyWordMatch,
     };
 
-    const articles = [];
     const stream = this.zohoDesk.searchKnowledgeBaseArticlesStream({
       params,
+      max: maxResults,
     });
+    const articles = [];
     for await (const article of stream) {
       articles.push(article);
-      if (maxResults && articles.length >= maxResults) {
-        break;
-      }
     }
 
     $.export("$summary", `Found ${articles.length} article${articles.length === 1

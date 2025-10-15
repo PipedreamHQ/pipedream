@@ -1,4 +1,5 @@
 import zohoDesk from "../../zoho_desk.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "zoho_desk-list-root-categories",
@@ -67,6 +68,7 @@ export default {
       label: "Max Results",
       description: "Maximum number of categories to return. Leave blank to return all available results.",
       optional: true,
+      default: constants.MAX_RESOURCES,
     },
   },
   async run({ $ }) {
@@ -89,15 +91,13 @@ export default {
       hasArticles,
     };
 
-    const categories = [];
     const stream = this.zohoDesk.listKnowledgeBaseRootCategoriesStream({
       params,
+      max: maxResults,
     });
+    const categories = [];
     for await (const category of stream) {
       categories.push(category);
-      if (maxResults && categories.length >= maxResults) {
-        break;
-      }
     }
 
     $.export("$summary", `Retrieved ${categories.length} root categor${categories.length === 1

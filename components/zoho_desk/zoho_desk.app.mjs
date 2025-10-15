@@ -308,6 +308,7 @@ export default {
     },
     async *listKnowledgeBaseArticlesStream({
       params,
+      max,
       ...args
     } = {}) {
       yield* this.getResourcesStream({
@@ -316,6 +317,7 @@ export default {
           ...args,
           params,
         },
+        max,
       });
     },
     getKnowledgeBaseArticle({
@@ -337,6 +339,7 @@ export default {
     },
     async *searchKnowledgeBaseArticlesStream({
       params,
+      max,
       ...args
     } = {}) {
       yield* this.getResourcesStream({
@@ -345,6 +348,7 @@ export default {
           ...args,
           params,
         },
+        max,
       });
     },
     listKnowledgeBaseRootCategories(args = {}) {
@@ -356,6 +360,7 @@ export default {
     },
     async *listKnowledgeBaseRootCategoriesStream({
       params,
+      max,
       ...args
     } = {}) {
       yield* this.getResourcesStream({
@@ -364,6 +369,7 @@ export default {
           ...args,
           params,
         },
+        max,
       });
     },
     sendReply({
