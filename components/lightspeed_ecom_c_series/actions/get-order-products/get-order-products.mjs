@@ -6,6 +6,11 @@ export default {
   description: "Get an order products by ID. [See the documentation](https://developers.lightspeedhq.com/ecom/endpoints/orderproduct/#get-all-order-products)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     orderId: {

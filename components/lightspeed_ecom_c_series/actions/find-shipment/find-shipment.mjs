@@ -6,6 +6,11 @@ export default {
   description: "Find a shipment by ID. [See the documentation](https://developers.lightspeedhq.com/ecom/endpoints/shipment/#get-all-shipments)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     customerId: {

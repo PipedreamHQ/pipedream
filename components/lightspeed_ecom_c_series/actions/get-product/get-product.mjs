@@ -6,6 +6,11 @@ export default {
   description: "Get a product by ID. [See the documentation](https://developers.lightspeedhq.com/ecom/endpoints/product/#get-retrieve-a-product)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     productId: {

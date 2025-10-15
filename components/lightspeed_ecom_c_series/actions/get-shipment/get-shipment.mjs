@@ -6,6 +6,11 @@ export default {
   description: "Get a shipment by ID. [See the documentation](https://developers.lightspeedhq.com/ecom/endpoints/shipment/#get-retrieve-a-shipment)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     shipmentId: {

@@ -6,6 +6,11 @@ export default {
   description: "Find an invoice by ID. [See the documentation](https://developers.lightspeedhq.com/ecom/endpoints/invoice/#get-all-invoices)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     customerId: {
