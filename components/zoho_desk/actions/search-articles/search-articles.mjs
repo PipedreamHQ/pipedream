@@ -1,6 +1,4 @@
 import zohoDesk from "../../zoho_desk.app.mjs";
-import constants from "../../common/constants.mjs";
-
 export default {
   key: "zoho_desk-search-articles",
   name: "Search Articles",
@@ -69,11 +67,10 @@ export default {
       ],
     },
     maxResults: {
-      type: "integer",
-      label: "Max Results",
-      description: "Maximum number of articles to return. Leave blank to return all available matches.",
-      optional: true,
-      default: constants.MAX_RESOURCES,
+      propDefinition: [
+        zohoDesk,
+        "maxResults",
+      ],
     },
   },
   async run({ $ }) {

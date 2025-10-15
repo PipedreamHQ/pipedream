@@ -128,6 +128,13 @@ export default {
       label: "Article ID",
       description: "The ID of the knowledge base article.",
     },
+    maxResults: {
+      type: "integer",
+      label: "Max Results",
+      description: `Maximum number of results to return. Set to blank to return everything.`,
+      optional: true,
+      default: constants.MAX_RESOURCES,
+    },
   },
   methods: {
     getUrl(url, path, apiPrefix) {

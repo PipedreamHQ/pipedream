@@ -1,6 +1,4 @@
 import zohoDesk from "../../zoho_desk.app.mjs";
-import constants from "../../common/constants.mjs";
-
 export default {
   key: "zoho_desk-list-root-categories",
   name: "List Root Categories",
@@ -64,11 +62,10 @@ export default {
       optional: true,
     },
     maxResults: {
-      type: "integer",
-      label: "Max Results",
-      description: "Maximum number of categories to return. Leave blank to return all available results.",
-      optional: true,
-      default: constants.MAX_RESOURCES,
+      propDefinition: [
+        zohoDesk,
+        "maxResults",
+      ],
     },
   },
   async run({ $ }) {
