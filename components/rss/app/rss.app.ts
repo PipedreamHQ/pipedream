@@ -1,7 +1,8 @@
 import {
-  axios, ConfigurationError, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
+  ConfigurationError, DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
 } from "@pipedream/platform";
 import { defineApp } from "@pipedream/types";
+import axios from "axios";
 import FeedParser, { Item } from "feedparser";
 import { ReadStream } from "fs";
 import hash from "object-hash";
@@ -54,7 +55,7 @@ export default defineApp({
       return hash(item);
     },
     async fetchFeed(url: string): Promise<any> { // eslint-disable-line @typescript-eslint/no-explicit-any
-      const res = await axios(this, {
+      const res = await axios.request({
         url,
         method: "GET",
         headers: {
@@ -63,7 +64,6 @@ export default defineApp({
         },
         validateStatus: () => true, // does not throw on any bad status code
         responseType: "stream", // stream is required for feedparser
-        returnFullResponse: true,
       });
 
       // Handle status codes as error codes
