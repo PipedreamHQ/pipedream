@@ -5,6 +5,11 @@ export default {
   name: "Create Voucher",
   description: "Create a new voucher on eTermin. [See the documentation](https://app.swaggerhub.com/apis/etermin.net/eTermin-API/1.0.0#/Voucher/post_api_voucher)",
   version: "0.0.1",
+  annotations: {
+    openWorldHint: true,
+    destructiveHint: false,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

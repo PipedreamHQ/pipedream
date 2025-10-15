@@ -5,6 +5,11 @@ export default {
   name: "Create Contact",
   description: "Create a new contact on eTermin. [See the documentation](https://app.swaggerhub.com/apis/etermin.net/eTermin-API/1.0.0#/Contact/post_contact)",
   version: "0.0.1",
+  annotations: {
+    openWorldHint: true,
+    destructiveHint: false,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,
