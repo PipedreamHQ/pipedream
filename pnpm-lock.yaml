@@ -16146,6 +16146,9 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0
 
+  components/xola:
+    specifiers: {}
+
   components/xperiencify:
     dependencies:
       '@pipedream/platform':
