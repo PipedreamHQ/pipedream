@@ -6,7 +6,12 @@ import { WEB_SEARCH_CHAT_MODELS } from "../../common/models.mjs";
 export default {
   ...common,
   name: "Chat using Web Search",
-  version: "0.0.7",
+  version: "0.0.8",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "openai-chat-using-web-search",
   description: "Chat using the web search tool. [See the documentation](https://platform.openai.com/docs/guides/tools-web-search)",
   type: "action",

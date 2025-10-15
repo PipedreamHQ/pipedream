@@ -4,7 +4,12 @@ export default {
   key: "ticktick-complete-task",
   name: "Complete a Task",
   description: "Complete a Task. [See the documentation](https://developer.ticktick.com/api#/openapi?id=complete-task)",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ticktick,

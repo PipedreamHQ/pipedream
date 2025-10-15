@@ -2,7 +2,12 @@ import bybit from "../../bybit.app.mjs";
 
 export default {
   name: "ByBit Linear Order Search",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "bybit-linear-order-search",
   description: "Query Active Order." +
       " [reference](https://bybit-exchange.github.io/docs/futuresV2/linear/#t-queryactive)",

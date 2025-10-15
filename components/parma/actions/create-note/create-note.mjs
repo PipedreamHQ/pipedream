@@ -4,7 +4,12 @@ export default {
   key: "parma-create-note",
   name: "Create Note",
   description: "Adds a new note in Parma. [See the documentation](https://developers.parma.ai/api-docs/index.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     parma,

@@ -4,7 +4,12 @@ export default {
   key: "wealthbox-create-opportunity",
   name: "Create Opportunity",
   description: "Create a new opportunity. [See the documentation](http://dev.wealthbox.com/#opportunities-collection-post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     wealthbox,

@@ -8,7 +8,12 @@ export default {
   name: "Create Subscriber",
   description: "Create a new subscriber [See the documentation](https://developer.pingback.com/docs/api/create-subscriber)",
   key: "pingback-create-subscriber",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     pingback,

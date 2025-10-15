@@ -9,7 +9,12 @@ export default defineAction({
   description:
     "Add an invite request [See docs here](https://documenter.getpostman.com/view/4975691/TzzGFYg3#f417c9ce-2376-495c-85c3-bdcfc204eee2)",
   key: "repuso-add-invite-request",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     repuso,

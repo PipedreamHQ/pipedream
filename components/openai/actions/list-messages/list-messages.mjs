@@ -4,7 +4,12 @@ export default {
   key: "openai-list-messages",
   name: "List Messages (Assistants)",
   description: "Lists the messages for a given thread. [See the documentation](https://platform.openai.com/docs/api-reference/messages/listMessages)",
-  version: "0.0.17",
+  version: "0.0.18",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     openai,

@@ -5,12 +5,41 @@ import utils from "./common/utils.mjs";
 export default {
   type: "app",
   app: "linearb",
-  propDefinitions: {},
+  propDefinitions: {
+    teams: {
+      type: "string[]",
+      label: "Teams",
+      description: "The list of LinearB teams names related to this incident. (lowercase only)",
+      async options({ page }) {
+        const { items } = await this.getTeams({
+          params: {
+            page,
+          },
+        });
+
+        return items.map(({ name }) => name);
+      },
+    },
+    services: {
+      type: "string[]",
+      label: "Services",
+      description: "The list of LinearB services related to this incident. (lowercase only)",
+      async options({ page }) {
+        const { items } = await this.getServices({
+          params: {
+            page,
+          },
+        });
+
+        return items.map(({ name }) => name);
+      },
+    },
+  },
   methods: {
     getUrl(path, versionPath = constants.VERSION_PATH.V1) {
       return `${constants.BASE_URL}${versionPath}${path}`;
     },
-    getHeaders(headers) {
+    getHeaders(headers = {}) {
       return {
         "Content-Type": "application/json",
         "x-api-key": this.$auth.api_key,
@@ -35,6 +64,26 @@ export default {
     listDeployments(args = {}) {
       return this._makeRequest({
         path: "/deployments",
+        ...args,
+      });
+    },
+    getTeams(args = {}) {
+      return this._makeRequest({
+        path: "/teams",
+        versionPath: constants.VERSION_PATH.V2,
+        ...args,
+      });
+    },
+    getServices(args = {}) {
+      return this._makeRequest({
+        path: "/services",
+        ...args,
+      });
+    },
+    getIncidents(args = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/incidents/search",
         ...args,
       });
     },

@@ -5,7 +5,12 @@ export default {
   key: "mailercloud-update-contact",
   name: "Update Contact",
   description: "Update an existing contact in the user's Mailercloud account. [See the documentation](https://apidoc.mailercloud.com/docs/mailercloud-api/55b552af7970c-update-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mailercloud,

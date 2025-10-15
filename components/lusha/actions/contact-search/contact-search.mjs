@@ -4,8 +4,13 @@ import lusha from "../../lusha.app.mjs";
 export default {
   key: "lusha-contact-search",
   name: "Search Contacts",
-  description: "Search for contacts using various filters. [See the documentation](https://www.lusha.com/docs/#contactcompany-search)",
-  version: "0.0.1",
+  description: "Search for contacts using various filters. [See the documentation](https://docs.lusha.com/apis/openapi/contact-search-and-enrich/searchprospectingcontacts)",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     lusha,
@@ -15,7 +20,7 @@ export default {
         "contactNames",
       ],
       label: "Contact Names",
-      description: "Names of contacts to search.",
+      description: "Names of contacts to search",
     },
     jobTitles: {
       propDefinition: [
@@ -59,6 +64,12 @@ export default {
         "location",
       ],
     },
+    limit: {
+      propDefinition: [
+        lusha,
+        "limit",
+      ],
+    },
   },
   async run({ $ }) {
     const include = {};
@@ -93,6 +104,6 @@ export default {
     }
 
     $.export("$summary", `Found ${responseArray.length} contacts`);
-    return response;
+    return responseArray;
   },
 };

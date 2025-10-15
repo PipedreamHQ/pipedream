@@ -5,7 +5,12 @@ export default {
   key: "clickup-create-list",
   name: "Create List",
   description: "Creates a new list. [See the documentation](https://clickup.com/api) in **Lists / Create List** section.",
-  version: "0.0.16",
+  version: "0.0.17",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     clickup,

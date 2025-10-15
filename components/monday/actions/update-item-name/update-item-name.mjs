@@ -5,7 +5,12 @@ export default {
   name: "Update Item Name",
   description: "Update an item's name. [See the documentation](https://developer.monday.com/api-reference/reference/columns#change-multiple-column-values)",
   type: "action",
-  version: "0.0.10",
+  version: "0.0.13",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     monday,
     boardId: {

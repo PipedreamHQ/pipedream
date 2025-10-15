@@ -6,7 +6,7 @@ export default {
   key: "bluesky-new-follower-on-account",
   name: "New Follower On Account",
   description: "Emit new event when someone follows the specified account. Requires the account ID as a prop to monitor followers for that account. [See the documentation](https://docs.bsky.app/docs/api/app-bsky-graph-get-followers).",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {

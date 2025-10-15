@@ -4,7 +4,12 @@ export default {
   key: "mailerlite-update-subscriber",
   name: "Update Subscriber",
   description: "Updates single active subscriber. [See the documentation](https://developers.mailerlite.com/docs/subscribers.html#create-update-subscriber)",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mailerlite,

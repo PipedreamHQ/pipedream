@@ -4,7 +4,12 @@ export default {
   key: "lamini-evaluate-job",
   name: "Evaluate Job",
   description: "Evaluate a fine-tuning job by job ID. [See the documentation](https://docs.lamini.ai/api/).",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -5,7 +5,12 @@ export default {
   key: "rewiser-create-transaction",
   name: "Create Transaction",
   description: "Create a financial transaction in Rewiser. [See the documentation](https://rewiser.io/api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     rewiser,

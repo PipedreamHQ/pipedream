@@ -4,7 +4,12 @@ export default {
   key: "ninjaone-update-device",
   name: "Update Device",
   description: "Update details for a specific device in NinjaOne. [See the documentation](https://app.ninjarmm.com/apidocs/?links.active=core)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ninjaone,

@@ -5,7 +5,12 @@ export default {
   key: "seatable-update-row",
   name: "Update Row",
   description: "Updates an existing row in a specified table. [See the documentation](https://api.seatable.io/reference/update-row)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

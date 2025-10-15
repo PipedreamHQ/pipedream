@@ -3,7 +3,12 @@ import microsoftOutlook from "../../microsoft_outlook.app.mjs";
 export default {
   type: "action",
   key: "microsoft_outlook-find-contacts",
-  version: "0.0.16",
+  version: "0.0.18",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   name: "Find Contacts",
   description: "Finds contacts with the given search string. [See the documentation](https://docs.microsoft.com/en-us/graph/api/user-list-contacts)",
   props: {

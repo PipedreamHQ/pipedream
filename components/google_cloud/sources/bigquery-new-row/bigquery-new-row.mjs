@@ -9,7 +9,7 @@ export default {
   // eslint-disable-next-line pipedream/source-name
   name: "BigQuery - New Row",
   description: "Emit new events when a new row is added to a table",
-  version: "0.1.6",
+  version: "0.1.9",
   dedupe: "unique",
   type: "source",
   props: {
@@ -55,9 +55,6 @@ export default {
       await this._validateColumn(this.uniqueKey);
       const lastResultId = await this._getIdOfLastRow();
       this._setLastResultId(lastResultId);
-    },
-    deactivate() {
-      this._setLastResultId(null);
     },
   },
   methods: {
@@ -113,7 +110,18 @@ export default {
           limit,
         },
       };
-      const rows = await this.getRowsForQuery(queryOpts, this.datasetId);
+      const client = this.googleCloud
+        .getBigQueryClient()
+        .dataset(this.datasetId);
+
+      const [
+        job,
+      ] = await client.createQueryJob(queryOpts);
+
+      const [
+        rows,
+      ] = await job.getQueryResults();
+
       if (rows.length === 0) {
         console.log(`
           No records found in the target table, will start scanning from the beginning
@@ -126,15 +134,16 @@ export default {
     },
     getQueryOpts() {
       const lastResultId = this._getLastResultId();
-      const query = `
-        SELECT *
-        FROM \`${this.tableId}\`
-        WHERE \`${this.uniqueKey}\` >= @lastResultId
-        ORDER BY \`${this.uniqueKey}\` ASC
-      `;
-      const params = {
-        lastResultId,
-      };
+      let query = `SELECT * FROM \`${this.tableId}\``;
+      if (lastResultId) {
+        query += ` WHERE \`${this.uniqueKey}\` >= @lastResultId`;
+      }
+      query += ` ORDER BY \`${this.uniqueKey}\` DESC`;
+      const params = lastResultId
+        ? {
+          lastResultId,
+        }
+        : {};
       return {
         query,
         params,

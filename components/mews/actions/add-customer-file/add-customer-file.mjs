@@ -5,7 +5,12 @@ export default {
   name: "Add Customer File",
   description: "Add a customer file to the Mews system. [See the documentation](https://mews-systems.gitbook.io/connector-api/operations/customers#add-customer-file)",
   key: "mews-add-customer-file",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -9,7 +9,12 @@ export default defineAction({
   key: "google_my_business-list-posts",
   name: "List Posts",
   description: `List local posts associated with a location. [See the documentation](${DOCS_LINK})`,
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

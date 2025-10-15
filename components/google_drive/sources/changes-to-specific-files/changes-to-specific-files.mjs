@@ -3,6 +3,7 @@ import includes from "lodash/includes.js";
 import { v4 as uuid } from "uuid";
 import { MY_DRIVE_VALUE } from "../../common/constants.mjs";
 import changesToSpecificFiles from "../changes-to-specific-files-shared-drive/changes-to-specific-files-shared-drive.mjs";
+import { ConfigurationError } from "@pipedream/platform";
 import sampleEmit from "./test-event.mjs";
 
 /**
@@ -15,12 +16,17 @@ export default {
   key: "google_drive-changes-to-specific-files",
   name: "Changes to Specific Files",
   description: "Watches for changes to specific files, emitting an event when a change is made to one of those files. To watch for changes to [shared drive](https://support.google.com/a/users/answer/9310351) files, use the **Changes to Specific Files (Shared Drive)** source instead.",
-  version: "0.3.0",
+  version: "0.3.1",
   type: "source",
   // Dedupe events based on the "x-goog-message-number" header for the target channel:
   // https://developers.google.com/drive/api/v3/push#making-watch-requests
   dedupe: "unique",
   props: {
+    infoAlert: {
+      type: "alert",
+      alertType: "info",
+      content: "This source uses `files.watch` and supports up to 10 file subscriptions. To watch for changes to more than 10 files, use the **Changes to Files in Drive** source instead (uses `changes.watch`).",
+    },
     ...changesToSpecificFiles.props,
     drive: {
       type: "string",
@@ -50,6 +56,12 @@ export default {
   },
   hooks: {
     ...changesToSpecificFiles.hooks,
+    async deploy() {
+      if (this.files.length > 10) {
+        throw new ConfigurationError("This source only supports up to 10 files");
+      }
+      await changesToSpecificFiles.hooks.deploy.bind(this)();
+    },
     async activate() {
       // Called when a component is created or updated. Handles all the logic
       // for starting and stopping watch notifications tied to the desired

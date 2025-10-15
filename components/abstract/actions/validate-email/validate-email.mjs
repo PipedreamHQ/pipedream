@@ -4,7 +4,12 @@ export default {
   key: "abstract-validate-email",
   name: "Validate Email",
   description: "Check the deliverability of a specified email address. [See the documentation](https://docs.abstractapi.com/email-validation)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     abstract,

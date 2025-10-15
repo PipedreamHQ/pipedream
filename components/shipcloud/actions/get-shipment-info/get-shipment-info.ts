@@ -8,7 +8,12 @@ export default defineAction({
   description:
     "Retrieve details for a shipment [See docs here](https://developers.shipcloud.io/reference/#getting-information-about-a-shipment)",
   key: "shipcloud-get-shipment-info",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     shipcloud,

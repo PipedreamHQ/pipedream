@@ -5,7 +5,12 @@ export default {
   key: "lucca-update-user-info",
   name: "Update User Info",
   description: "Update profile or HR information for an existing user. [See the documentation](https://developers.lucca.fr/api-reference/legacy/directory/update-a-user-by-id)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     lucca,

@@ -4,7 +4,12 @@ export default {
   key: "btcpay_server-create-payment-request",
   name: "Create Payment Request",
   description: "Generates a new payment request for a user. [See the documentation](https://docs.btcpayserver.org/API/Greenfield/v1/#operation/PaymentRequests_CreatePaymentRequest)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     btcPayServer,

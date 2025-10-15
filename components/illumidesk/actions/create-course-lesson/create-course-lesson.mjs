@@ -4,7 +4,12 @@ export default {
   key: "illumidesk-create-course-lesson",
   name: "Create Course Lesson",
   description: "Create a new lesson in a course. [See the documentation](https://developers.illumidesk.com/reference/courses_lessons_create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     illumidesk,

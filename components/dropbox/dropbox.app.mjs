@@ -96,6 +96,38 @@ export default {
         }
       },
     },
+    sharedLinkUrl: {
+      type: "string",
+      label: "Shared Link URL",
+      description: "The URL of a shared link",
+      async options({ prevContext }) {
+        const {
+          result: {
+            links, cursor,
+          },
+        } = await this.listSharedLinks({
+          cursor: prevContext?.cursor,
+        });
+        const options = links?.map(({
+          url: value, name: label,
+        }) => ({
+          value,
+          label: `${label} - ${value}`,
+        })) || [];
+        return {
+          options,
+          context: {
+            cursor,
+          },
+        };
+      },
+    },
+    linkPassword: {
+      type: "string",
+      label: "Link Password",
+      description: "The password required to access the shared link",
+      optional: true,
+    },
     fileRevision: {
       type: "string",
       label: "Revision",
@@ -363,11 +395,12 @@ export default {
         const links = await dpx.sharingListSharedLinks({
           path: args.path,
         });
-        if (links.result?.links.length > 0) {
+        const link = links.result?.links.find((l) => l.path_lower === args.path);
+        if (link) {
           return await dpx.sharingModifySharedLinkSettings({
             ...args,
             path: undefined,
-            url: links.result?.links[0].url,
+            url: link.url,
             remove_expiration: isEmpty(args.remove_expiration)
               ? false
               : args.remove_expiration,
@@ -378,6 +411,30 @@ export default {
             remove_expiration: undefined,
           });
         }
+      } catch (err) {
+        this.normalizeError(err);
+      }
+    },
+    async listSharedLinks(args) {
+      try {
+        const dpx = await this.sdk();
+        return await dpx.sharingListSharedLinks(args);
+      } catch (err) {
+        this.normalizeError(err);
+      }
+    },
+    async getSharedLinkMetadata(args) {
+      try {
+        const dpx = await this.sdk();
+        return await dpx.sharingGetSharedLinkMetadata(args);
+      } catch (err) {
+        this.normalizeError(err);
+      }
+    },
+    async getSharedLinkFile(args) {
+      try {
+        const dpx = await this.sdk();
+        return await dpx.sharingGetSharedLinkFile(args);
       } catch (err) {
         this.normalizeError(err);
       }

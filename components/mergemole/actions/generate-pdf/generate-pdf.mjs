@@ -6,7 +6,12 @@ export default {
   key: "mergemole-generate-pdf",
   name: "Generate PDF",
   description: "Generate a PDF document based on the specified template. [See the documentation](https://documenter.getpostman.com/view/41321603/2sB2j3AWqz#a389449f-ada9-4e2e-9d8a-f1bde20da980)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     mergemole,

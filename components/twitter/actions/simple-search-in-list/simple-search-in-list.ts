@@ -21,7 +21,12 @@ export default defineAction({
   key: "twitter-simple-search-in-list",
   name: "Search Tweets in List",
   description: `Search Tweets by text in a list. [See the documentation](${DOCS_LINK})`,
-  version: "2.0.8",
+  version: "2.0.9",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

@@ -7,7 +7,12 @@ export default {
   name: "Get Associated Meetings",
   description:
     "Retrieves meetings associated with a specific object (contact, company, or deal) with optional time filtering. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/associations/association-details#get-%2Fcrm%2Fv4%2Fobjects%2F%7Bobjecttype%7D%2F%7Bobjectid%7D%2Fassociations%2F%7Btoobjecttype%7D)",
-  version: "0.0.10",
+  version: "0.0.11",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     hubspot,

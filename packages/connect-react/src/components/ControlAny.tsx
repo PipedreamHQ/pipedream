@@ -1,6 +1,13 @@
-import { useFormFieldContext } from "../hooks/form-field-context";
-import { useCustomize } from "../hooks/customization-context";
+import {
+  ConfiguredPropValueInteger,
+  ConfiguredPropValueObject,
+  ConfiguredPropValueString,
+  ConfiguredPropValueStringArray,
+} from "@pipedream/sdk";
 import type { CSSProperties } from "react";
+
+import { useCustomize } from "../hooks/customization-context";
+import { useFormFieldContext } from "../hooks/form-field-context";
 
 export function ControlAny() {
   const formFieldContext = useFormFieldContext();
@@ -18,7 +25,11 @@ export function ControlAny() {
     boxShadow: theme.boxShadow.input,
   };
 
-  let jsonValue = value;
+  let jsonValue = value as
+    | ConfiguredPropValueInteger
+    | ConfiguredPropValueObject
+    | ConfiguredPropValueString
+    | ConfiguredPropValueStringArray;
   if (typeof jsonValue === "object") {
     jsonValue = JSON.stringify(jsonValue);
   }

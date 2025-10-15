@@ -6,7 +6,12 @@ export default {
   key: "vectorshift-run-pipeline",
   name: "Run Pipeline",
   description: "Executes a VectorShift pipeline with specified inputs. [See the documentation](https://docs.vectorshift.ai/api-reference/pipelines/run)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     vectorshift,

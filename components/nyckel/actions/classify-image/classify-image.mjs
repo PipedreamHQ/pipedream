@@ -6,7 +6,12 @@ export default {
   key: "nyckel-classify-image",
   name: "Classify Image",
   description: "Classifies image data based on pre-trained classifiers in Nyckel. [See the documentation](https://www.nyckel.com/docs#invoke-image)",
-  version: "0.1.0",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     nyckel,

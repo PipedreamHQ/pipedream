@@ -5,7 +5,7 @@ export default {
   key: "google_cloud-new-pubsub-messages",
   name: "New Pub/Sub Messages",
   description: "Emit new Pub/Sub topic in your GCP account. Messages published to this topic are emitted from the Pipedream source.",
-  version: "0.1.6",
+  version: "0.1.7",
   type: "source",
   dedupe: "unique", // Dedupe on Pub/Sub message ID
   props: {

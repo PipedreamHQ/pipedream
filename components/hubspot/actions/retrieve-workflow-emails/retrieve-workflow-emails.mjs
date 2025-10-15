@@ -4,7 +4,12 @@ export default {
   key: "hubspot-retrieve-workflow-emails",
   name: "Retrieve Workflow Emails",
   description: "Retrieve emails sent by a workflow by ID. [See the documentation](https://developers.hubspot.com/docs/api-reference/automation-automation-v4-v4/email-campaigns/get-automation-v4-flows-email-campaigns)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     hubspot,

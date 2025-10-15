@@ -6,7 +6,12 @@ export default {
   key: "scrapeninja-scrape-without-js",
   name: "Scrape without JS",
   description: "Use high-performance web scraping endpoint with Chrome browser TLS fingerprint, but without JavaScript execution and real browser overhead. [See the documentation](https://scrapeninja.net/docs/api-reference/scrape/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     scrapeninja,

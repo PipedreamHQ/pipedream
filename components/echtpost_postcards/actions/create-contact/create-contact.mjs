@@ -4,7 +4,12 @@ export default {
   key: "echtpost_postcards-create-contact",
   name: "Create Contact",
   description: "Creates a new contact within the EchtPost app. [See the documentation](https://hilfe.echtpost.de/article/20/postkartenversand-uber-api-programmierschnittstelle)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     echtpostPostcards,

@@ -11,7 +11,12 @@ export default defineAction({
   key: "twitter-delete-tweet",
   name: "Delete Tweet",
   description: `Remove a posted tweet. [See the documentation](${DOCS_LINK})`,
-  version: "2.0.8",
+  version: "2.0.9",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

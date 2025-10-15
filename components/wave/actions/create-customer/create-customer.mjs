@@ -4,7 +4,12 @@ export default {
   type: "action",
   key: "wave-create-customer",
   name: "Create Customer",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a customer under a business. [See the documentation](https://developer.waveapps.com/hc/en-us/articles/360032569232-Mutation-Create-customer)",
   props: {
     app,

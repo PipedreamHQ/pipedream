@@ -4,7 +4,12 @@ import constants from "../common/constants";
 
 export default defineAction({
   name: "Create Space",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "workast-create-space",
   description: "Creates a space. [See docs here](https://developers.workast.com/#/method/createSpace)",
   type: "action",

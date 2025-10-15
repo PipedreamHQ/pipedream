@@ -4,7 +4,12 @@ export default {
   key: "weaviate-delete-class",
   name: "Delete Class",
   description: "Delete a class from Weaviate. [See the documentation](https://docs.weaviate.io/weaviate/api/rest#tag/schema/delete/schema/{className})",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

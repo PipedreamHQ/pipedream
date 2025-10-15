@@ -1,16 +1,23 @@
-import common from "../common/column-values.mjs";
 import {
-  axios, getFileStreamAndMetadata,
+  axios,
+  ConfigurationError,
+  getFileStreamAndMetadata,
 } from "@pipedream/platform";
 import FormData from "form-data";
 import { getColumnOptions } from "../../common/utils.mjs";
+import common from "../common/column-values.mjs";
 
 export default {
   ...common,
   key: "monday-update-column-values",
   name: "Update Column Values",
   description: "Update multiple column values of an item. [See the documentation](https://developer.monday.com/api-reference/reference/columns#change-multiple-column-values)",
-  version: "0.2.1",
+  version: "0.2.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,
@@ -115,6 +122,10 @@ export default {
       itemId: +this.itemId,
       columnValues: JSON.stringify(columnValues),
     });
+
+    if (response.errors) {
+      throw new ConfigurationError(JSON.stringify(response.errors[0]));
+    }
 
     if (response.error_message) {
       throw new Error(`${response.error_message} ${JSON.stringify(response.error_data)}`);

@@ -5,7 +5,12 @@ export default {
   name: "Create Join Link",
   description: "Create Join Link. [See docs here](https://publicdemioapi.docs.apiary.io/#reference/events/event-session-info/register)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     demio,
     eventId: {

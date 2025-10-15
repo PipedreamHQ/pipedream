@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/reduct_video",
+  "version": "0.0.1",
+  "description": "Pipedream Reduct.Video Components",
+  "main": "reduct_video.app.mjs",
+  "keywords": [
+    "pipedream",
+    "reduct_video"
+  ],
+  "homepage": "https://pipedream.com/apps/reduct_video",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

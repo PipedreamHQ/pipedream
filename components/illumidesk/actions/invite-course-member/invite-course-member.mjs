@@ -6,7 +6,12 @@ export default {
   key: "illumidesk-invite-course-member",
   name: "Invite Course Member",
   description: "Invites a user to a selected course. [See the documentation](https://developers.illumidesk.com/reference/courses_invitations_create)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     illumidesk,

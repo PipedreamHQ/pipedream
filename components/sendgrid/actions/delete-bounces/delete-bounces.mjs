@@ -5,7 +5,12 @@ export default {
   key: "sendgrid-delete-bounces",
   name: "Delete Bounces",
   description: "Allows you to delete all emails on your bounces list. [See the docs here](https://docs.sendgrid.com/api-reference/bounces-api/delete-bounces)",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

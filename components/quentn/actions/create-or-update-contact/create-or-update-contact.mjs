@@ -6,7 +6,12 @@ export default {
   name: "Create or Update Contact",
   description: "Creates or updates a contact. [See the docs](https://help.quentn.com/hc/en-150/articles/4517835330961-Contact-API).",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     app,
     email: {

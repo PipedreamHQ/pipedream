@@ -4,7 +4,12 @@ export default {
   key: "botpress-add-participant",
   name: "Add Participant To Conversation",
   description: "Adds a participant to a conversation. [See the documentation](https://botpress.com/docs/api-documentation/#add-participant)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -4,7 +4,12 @@ export default {
   key: "telnyx-dial-number",
   name: "Dial Number",
   description: "Dial a number or SIP URI from a given Call Control App. [See the documentation](https://developers.telnyx.com/api/call-control/dial-call)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     telnyxApp,

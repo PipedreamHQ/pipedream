@@ -5,7 +5,12 @@ export default {
   key: "fakturoid-create-invoice",
   name: "Create Invoice",
   description: "Creates a new invoice. [See the documentation](https://www.fakturoid.cz/api/v3/invoices)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     fakturoid,

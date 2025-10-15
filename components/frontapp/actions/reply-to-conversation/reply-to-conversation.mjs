@@ -5,7 +5,12 @@ export default {
   key: "frontapp-reply-to-conversation",
   name: "Reply To Conversation",
   description: "Reply to a conversation by sending a message and appending it to the conversation. [See the documentation](https://dev.frontapp.com/reference/post_conversations-conversation-id-messages).",
-  version: "0.0.5",
+  version: "0.0.7",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     frontApp,
@@ -60,6 +65,12 @@ export default {
         "attachments",
       ],
     },
+    quoteBody: {
+      type: "string",
+      label: "Quote Body",
+      description: "Body for the quote that the message is referencing. Only available on email channels.",
+      optional: true,
+    },
     optionsTagIds: {
       propDefinition: [
         frontApp,
@@ -101,6 +112,7 @@ export default {
       subject,
       body,
       text,
+      quoteBody,
       optionsIsArchive,
     } = this;
 
@@ -133,6 +145,7 @@ export default {
         author_id: authorId,
         body,
         text,
+        quote_body: quoteBody,
         options: {
           tag_ids: tagIds,
           archive: optionsIsArchive ?? true,

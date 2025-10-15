@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/token_metrics",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Pipedream Token Metrics Components",
   "main": "token_metrics.app.mjs",
   "keywords": [

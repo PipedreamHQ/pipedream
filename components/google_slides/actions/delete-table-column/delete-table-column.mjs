@@ -4,7 +4,12 @@ export default {
   key: "google_slides-delete-table-column",
   name: "Delete Table Column",
   description: "Delete column from a table. [See the documentation](https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations/request#DeleteTableColumnRequest)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     googleSlides,

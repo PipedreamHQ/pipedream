@@ -4,7 +4,12 @@ export default {
   key: "postmark-create-signature",
   name: "Create Sender Signature",
   description: "Create a new sender signature. [See the documentation](https://postmarkapp.com/developer/api/signatures-api#create-signature)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     postmark,

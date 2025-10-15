@@ -4,7 +4,12 @@ export default {
   key: "suitedash-create-company",
   name: "Create Company",
   description: "Creates a new company in SuiteDash. [See the documentation](https://app.suitedash.com/secure-api/swagger)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     suitedash,

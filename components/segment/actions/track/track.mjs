@@ -4,7 +4,12 @@ export default {
   key: "segment-track",
   name: "Track actions your users perform",
   description: "Track lets you record the actions your users perform (note requires userId or anonymousId). See the docs [here](https://segment.com/docs/connections/sources/catalog/libraries/server/http-api/#track)",
-  version: "0.3.4",
+  version: "0.3.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     segmentApp,

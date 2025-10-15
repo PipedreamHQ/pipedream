@@ -1,20 +1,23 @@
 import anthropic from "../../anthropic.app.mjs";
-import constants from "../common/constants.mjs";
 
 export default {
   name: "Chat",
-  version: "0.2.0",
+  version: "0.2.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "anthropic-chat",
   description: "The Chat API. [See the documentation](https://docs.anthropic.com/claude/reference/messages_post)",
   type: "action",
   props: {
     anthropic,
     model: {
-      label: "Model",
-      description: "Select the model to use for your query. Defaults to the latest Claude model - [see the documentation](https://docs.anthropic.com/en/docs/about-claude/models/overview) for more information",
-      type: "string",
-      options: constants.MESSAGE_MODELS,
-      default: constants.MESSAGE_MODELS[0].value,
+      propDefinition: [
+        anthropic,
+        "model",
+      ],
     },
     userMessage: {
       label: "User Message",

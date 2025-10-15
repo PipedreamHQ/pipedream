@@ -5,7 +5,12 @@ export default {
   key: "zoho_books-list-contacts",
   name: "List Contacts",
   description: "Lists all contacts given the organization_id. [See the documentation](https://www.zoho.com/books/api/v3/contacts/#list-contacts)",
-  version: "0.5.0",
+  version: "0.5.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     zohoBooks,

@@ -7,7 +7,12 @@ export default {
   ...common,
   key: "dreamstudio-upscale-image",
   name: "Upscale Image",
-  version: "1.0.1",
+  version: "1.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a higher resolution version of an input image. [See the documentation](https://platform.stability.ai/docs/api-reference#tag/v1generation/operation/upscaleImage)",
   type: "action",
   props: {

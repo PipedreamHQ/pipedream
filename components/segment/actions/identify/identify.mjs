@@ -4,7 +4,12 @@ export default {
   key: "segment-identify",
   name: "Identify a user, tie them to their actions and record traits about them",
   description: "Identify lets you tie a user to their actions and record traits about them. It includes a unique User ID and any optional traits you know about them (note requires userId or anonymousId). See the docs [here](https://segment.com/docs/connections/sources/catalog/libraries/server/http-api/#identify)",
-  version: "0.2.5",
+  version: "0.2.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     segmentApp,

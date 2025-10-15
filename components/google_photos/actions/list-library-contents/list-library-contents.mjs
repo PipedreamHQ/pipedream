@@ -3,7 +3,12 @@ import utils from "../../common/utils.mjs";
 
 export default {
   key: "google_photos-list-library-contents",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   name: "List Library Contents",
   description: "Retrieves library contents [See the documentation](https://developers.google.com/photos/library/guides/list#listing-library-contents)",

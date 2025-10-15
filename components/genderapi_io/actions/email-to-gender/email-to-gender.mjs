@@ -4,7 +4,12 @@ export default {
   key: "genderapi_io-email-to-gender",
   name: "Email to Gender",
   description: "Send an Email to Gender request to GenderAPI. [See the documentation](https://www.genderapi.io/api-documentation#single-email)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

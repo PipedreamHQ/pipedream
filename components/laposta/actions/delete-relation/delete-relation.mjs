@@ -2,7 +2,12 @@ import laposta from "../../laposta.app.mjs";
 
 export default {
   name: "Delete Relation",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "laposta-delete-relation",
   description: "Deletes a relation. [See docs here (Go to `Remove relationship`)](http://api.laposta.nl/doc/)",
   type: "action",

@@ -4,7 +4,12 @@ import planviewLeankit from "../../planview_leankit.app.mjs";
 export default {
   key: "planview_leankit-update-custom-field-value",
   name: "Update Custom Field Value",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Update custom field value on a card. [See the docs here](https://success.planview.com/Planview_AgilePlace/AgilePlace_API/01_v2/card/update)",
   type: "action",
   props: {

@@ -10,7 +10,12 @@ export default {
   key: "lumin_pdf-send-signature-request",
   name: "Send Signature Request",
   description: "Send a signature request to signers. [See the documentation](https://developers.luminpdf.com/api/send-signature-request/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     luminPdf,

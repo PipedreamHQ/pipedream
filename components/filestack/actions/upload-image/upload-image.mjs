@@ -6,7 +6,12 @@ export default {
   name: "Upload Image",
   description:
     "Upload an image from a file or URL to FileStack. [See the documentation](https://www.filestack.com/docs/uploads/uploading/#upload-file)",
-  version: "1.0.1",
+  version: "1.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     filestack,

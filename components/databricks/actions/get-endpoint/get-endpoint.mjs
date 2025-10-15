@@ -4,7 +4,12 @@ export default {
   key: "databricks-get-endpoint",
   name: "Get Endpoint",
   description: "Get details of a specific vector search endpoint. [See the documentation](https://docs.databricks.com/api/workspace/vectorsearchendpoints/getendpoint)",
-  version: "0.0.1",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     databricks,

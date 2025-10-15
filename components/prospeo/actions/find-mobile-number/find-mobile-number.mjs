@@ -3,7 +3,12 @@ import prospeo from "../../prospeo.app.mjs";
 
 export default {
   name: "Find Mobile Number",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "prospeo-find-mobile-number",
   description: "Discover mobile numbers associated with a LinkedIn profile URL. [See the documentation](https://prospeo.io/api/mobile-finder)",
   type: "action",

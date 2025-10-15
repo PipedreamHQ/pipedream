@@ -4,7 +4,12 @@ export default {
   key: "seven-send-sms",
   name: "Send SMS",
   description: "Send SMS via Seven. [See the documentation](https://docs.seven.io/en/rest-api/endpoints/sms#send-sms)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     seven,

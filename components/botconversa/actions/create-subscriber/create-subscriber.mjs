@@ -3,7 +3,12 @@ import botconversa from "../../botconversa.app.mjs";
 export default {
   key: "botconversa-create-subscriber",
   name: "Create Subscriber",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Create a new subscriber. [See the documentation](https://backend.botconversa.com.br/swagger/)",
   type: "action",
   props: {

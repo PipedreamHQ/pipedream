@@ -4,7 +4,12 @@ export default {
   key: "mojo_helpdesk-create-ticket",
   name: "Create Ticket",
   description: "Create a new ticket. [See the docs here](https://github.com/mojohelpdesk/mojohelpdesk-api-doc#create-ticket)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mojoHelpdesk,

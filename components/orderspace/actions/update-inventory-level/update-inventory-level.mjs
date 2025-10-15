@@ -5,7 +5,12 @@ export default {
   name: "Update Inventory Level",
   description: "Update an inventory level. [See the documentation](https://apidocs.orderspace.com/#update-inventory-levels)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     orderspace,
     productId: {

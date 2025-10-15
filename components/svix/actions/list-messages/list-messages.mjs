@@ -5,7 +5,12 @@ export default {
   key: "svix-list-messages",
   name: "List Messages",
   description: "List all of the application's messages. [See the docs here](https://api.svix.com/docs#tag/Message/operation/list_messages_api_v1_app__app_id__msg__get)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     svix,

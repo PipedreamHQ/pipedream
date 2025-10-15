@@ -4,7 +4,12 @@ export default {
   key: "wildapricot-delete-event-registration",
   name: "Delete Event Registration",
   description: "Removes an event registration from the user's WildApricot database. [See the documentation](https://app.swaggerhub.com/apis-docs/WildApricot/wild-apricot_public_api/7.24.0#/Events.EventRegistrations/DeleteEventRegistration)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     wildapricot,

@@ -4,7 +4,12 @@ export default {
   key: "_twocaptcha-retrieve-solution",
   name: "Retrieve Captcha Solution",
   description: "Fetch the solution of a previously submitted captcha from the 2Captcha service.",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     _twocaptcha,

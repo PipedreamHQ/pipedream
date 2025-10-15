@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/microsoft_outlook",
-  "version": "1.7.0",
+  "version": "1.7.2",
   "description": "Pipedream Microsoft Outlook Components",
   "main": "microsoft_outlook.app.mjs",
   "keywords": [

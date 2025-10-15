@@ -4,7 +4,12 @@ export default {
   key: "roamresearch-pull-many",
   name: "Pull Many",
   description: "Generic pull many for Roam Research pages. [See the documentation](https://roamresearch.com/#/app/developer-documentation/page/mdnjFsqoA).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

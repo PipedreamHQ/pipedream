@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/n1n",
+  "version": "0.0.1",
+  "description": "Pipedream n1n Components",
+  "main": "n1n.app.mjs",
+  "keywords": [
+    "pipedream",
+    "n1n"
+  ],
+  "homepage": "https://pipedream.com/apps/n1n",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

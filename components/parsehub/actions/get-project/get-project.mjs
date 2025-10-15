@@ -4,7 +4,12 @@ export default {
   key: "parsehub-get-project",
   name: "Get Project Details",
   description: "Retrieves the details of a specified project within the user's account. [See the documentation](https://www.parsehub.com/docs/ref/api/v2/#get-a-project)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

@@ -7,92 +7,163 @@ export default {
     companyNames: {
       type: "string[]",
       label: "Company Names",
-      description: "Names of companies to search.",
+      description: "Names of companies to search",
+      optional: true,
     },
     domains: {
       type: "string[]",
       label: "Company Domains",
-      description: "Domains of companies to search.",
+      description: "Domains of companies to search",
+      optional: true,
     },
     locations: {
       type: "string[]",
       label: "Company Locations",
-      description: "Location filters for companies to search.",
+      description: "Location filters for companies to search",
+      optional: true,
     },
     sizes: {
       type: "string[]",
       label: "Company Sizes",
-      description: "Size ranges of companies to search.",
+      description: "Size ranges of companies to search",
+      optional: true,
+      async options() {
+        const sizes = await this.listSizes();
+        return sizes.map((size) => JSON.stringify(size));
+      },
     },
     revenues: {
       type: "string[]",
       label: "Company Revenues",
-      description: "Revenue ranges of companies to search.",
+      description: "Revenue ranges of companies to search",
+      optional: true,
+      async options() {
+        const revenues = await this.listRevenues();
+        return revenues.map((revenue) => JSON.stringify(revenue));
+      },
     },
     sicCodes: {
       type: "string[]",
       label: "Company SIC Codes",
-      description: "SIC codes of companies to search.",
+      description: "SIC codes of companies to search",
+      optional: true,
+      async options() {
+        const sicCodes = await this.listSicCodes();
+        return sicCodes.map(({
+          code: value, label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
     },
     naicsCodes: {
       type: "string[]",
       label: "Company NAICS Codes",
-      description: "NAICS codes of companies to search.",
+      description: "NAICS codes of companies to search",
+      optional: true,
+      async options() {
+        const naicsCodes = await this.listNaicsCodes();
+        return naicsCodes.map(({
+          code: value, label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
     },
     contactNames: {
       type: "string[]",
       label: "Contact Names",
-      description: "Names of contacts to search.",
+      description: "Names of contacts to search",
+      optional: true,
     },
     jobTitles: {
       type: "string[]",
       label: "Contact Job Titles",
-      description: "Job titles of contacts to search.",
+      description: "Job titles of contacts to search",
+      optional: true,
     },
     jobTitlesExactMatch: {
       type: "string[]",
       label: "Exact Match Contact Job Titles",
-      description: "Exact job titles of contacts to search.",
+      description: "Exact job titles of contacts to search",
+      optional: true,
     },
     countries: {
       type: "string[]",
       label: "Contact Countries",
-      description: "Country codes of contacts to search.",
+      description: "Country codes of contacts to search",
+      optional: true,
+      async options() {
+        const countries = await this.listCountries();
+        return countries.map(({
+          code: value, name: label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
     },
     seniority: {
       type: "integer[]",
       label: "Contact Seniority Levels",
-      description: "Seniority levels of contacts to search.",
+      description: "Seniority levels of contacts to search",
+      optional: true,
+      async options() {
+        const senorities = await this.listSeniorities();
+        return senorities.map(({
+          id: value, name: label,
+        }) => ({
+          value,
+          label,
+        }));
+      },
     },
     departments: {
       type: "string[]",
       label: "Contact Departments",
-      description: "Departments of contacts to search.",
+      description: "Departments of contacts to search",
+      optional: true,
+      async options() {
+        return await this.listDepartments();
+      },
     },
     existingDataPoints: {
       type: "string[]",
       label: "Existing Data Points",
-      description: "Existing data points of contacts to filter by.",
+      description: "Existing data points of contacts to filter by",
+      optional: true,
+      async options() {
+        return await this.listExistingDataPoints();
+      },
     },
     location: {
       type: "string[]",
       label: "Contact Locations",
-      description: "Location filters for contacts to search (JSON strings).",
+      description: "Location filters for contacts to search (JSON strings)",
+      optional: true,
     },
     requestId: {
       type: "string",
       label: "Enrich Contact Request ID",
-      description: "The request ID generated from the contact search response.",
+      description: "The request ID generated from the contact search response",
     },
     contactIds: {
       type: "string[]",
       label: "Enrich Contact IDs",
-      description: "Array of contact IDs to enrich.",
+      description: "Array of contact IDs to enrich",
     },
     companyIds: {
       type: "string[]",
       label: "Enrich Company IDs",
-      description: "Array of company IDs to enrich.",
+      description: "Array of company IDs to enrich",
+    },
+    limit: {
+      type: "integer",
+      label: "Limit",
+      description: "The maximum number of results to return. **This feature is used to avoid timeouts due to very long returns.**",
+      default: 50,
     },
   },
   methods: {
@@ -141,16 +212,65 @@ export default {
         ...opts,
       });
     },
+    listDepartments(opts = {}) {
+      return this._makeRequest({
+        path: "/prospecting/filters/contacts/departments",
+        ...opts,
+      });
+    },
+    listSeniorities(opts = {}) {
+      return this._makeRequest({
+        path: "/prospecting/filters/contacts/seniority",
+        ...opts,
+      });
+    },
+    listExistingDataPoints(opts = {}) {
+      return this._makeRequest({
+        path: "/prospecting/filters/contacts/existing_data_points",
+        ...opts,
+      });
+    },
+    listCountries(opts = {}) {
+      return this._makeRequest({
+        path: "/prospecting/filters/contacts/all_countries",
+        ...opts,
+      });
+    },
+    listSizes(opts = {}) {
+      return this._makeRequest({
+        path: "/prospecting/filters/companies/sizes",
+        ...opts,
+      });
+    },
+    listRevenues(opts = {}) {
+      return this._makeRequest({
+        path: "/prospecting/filters/companies/revenues",
+        ...opts,
+      });
+    },
+    listSicCodes(opts = {}) {
+      return this._makeRequest({
+        path: "/prospecting/filters/companies/sics",
+        ...opts,
+      });
+    },
+    listNaicsCodes(opts = {}) {
+      return this._makeRequest({
+        path: "/prospecting/filters/companies/naics",
+        ...opts,
+      });
+    },
     async *paginate({
       fn, params = {}, maxResults = null, ...opts
     }) {
       let hasMore = false;
       let count = 0;
-      let page = 0;
+      let page = -1;
 
       do {
         params.pages = {
           page: ++page,
+          size: 50,
         };
         const { data } = await fn({
           params,

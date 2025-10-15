@@ -5,7 +5,12 @@ export default {
   key: "documenterra-export-publication",
   name: "Export Publication",
   description: "Exports an existing publication to a user-selected format. [See the documentation](https://documenterra.ru/docs/user-manual/api-eksport-publikatsii.html)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

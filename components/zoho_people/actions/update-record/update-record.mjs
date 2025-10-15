@@ -7,7 +7,12 @@ export default {
   type: "action",
   key: "zoho_people-update-record",
   name: "Update Record",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Update a record to a Zoho People module. [See the documentation](https://www.zoho.com/people/api/update-records.html)",
   props: {
     app,

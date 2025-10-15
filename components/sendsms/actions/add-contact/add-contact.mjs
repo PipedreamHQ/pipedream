@@ -4,7 +4,12 @@ export default {
   key: "sendsms-add-contact",
   name: "Add Contact",
   description: "Add a new contact into a specified group in SendSMS. [See the documentation](https://www.sendsms.ro/api/#add-a-contact)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     sendsms,

@@ -7,7 +7,12 @@ export default {
   key: "drata-upload-user-compliance-document",
   name: "Upload User Compliance Document",
   description: `Upload a user compliance document. [See the documentation](${docsLink}).`,
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     drata,

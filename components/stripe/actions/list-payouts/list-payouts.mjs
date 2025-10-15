@@ -5,7 +5,12 @@ export default {
   key: "stripe-list-payouts",
   name: "List Payouts",
   type: "action",
-  version: "0.1.3",
+  version: "0.1.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Find or list payouts. [See the documentation](https://stripe.com/docs/api/payouts/list).",
   props: {
     app,

@@ -3,7 +3,12 @@ import microsoftOutlook from "../../microsoft_outlook.app.mjs";
 export default {
   type: "action",
   key: "microsoft_outlook-list-contacts",
-  version: "0.0.16",
+  version: "0.0.18",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   name: "List Contacts",
   description: "Get a contact collection from the default contacts folder, [See the documentation](https://docs.microsoft.com/en-us/graph/api/user-list-contacts)",
   props: {

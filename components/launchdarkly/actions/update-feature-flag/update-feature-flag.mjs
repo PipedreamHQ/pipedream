@@ -5,7 +5,12 @@ export default {
   key: "launchdarkly-update-feature-flag",
   name: "Update Feature Flag",
   description: "Updates an existing feature flag using a JSON object. [See the documentation](https://apidocs.launchdarkly.com/tag/Feature-flags#operation/patchFeatureFlag)",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

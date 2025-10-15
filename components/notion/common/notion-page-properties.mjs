@@ -13,43 +13,68 @@ const NOTION_PAGE_PROPERTIES = {
     type: "string",
     example: "New Beauty Title",
     options: () => undefined,
-    convertToNotion: (property) => ({
-      title: utils.buildTextProperty(property.value),
-    }),
+    convertToNotion: (property) => {
+      if (typeof property.value !== "string") {
+        throw new Error;
+      }
+      return {
+        title: utils.buildTextProperty(property.value),
+      };
+    },
   },
   rich_text: {
     type: "string",
     example: "A beauty text value",
     options: () => undefined,
-    convertToNotion: (property) => ({
-      rich_text: utils.buildTextProperty(property.value),
-    }),
+    convertToNotion: (property) => {
+      if (typeof property.value !== "string") {
+        throw new Error;
+      }
+      return {
+        rich_text: utils.buildTextProperty(property.value),
+      };
+    },
   },
   number: {
     type: "integer",
     example: "59",
     options: () => undefined,
-    convertToNotion: (property) => ({
-      number: property.value,
-    }),
+    convertToNotion: (property) => {
+      if (isNaN(property.value)) {
+        throw new Error;
+      }
+      return {
+        number: property.value,
+      };
+    },
   },
   status: {
     type: "string",
     options: (property) => property.status?.options.map((option) => option.name),
-    convertToNotion: (property) => ({
-      status: {
-        name: property.value,
-      },
-    }),
+    convertToNotion: (property) => {
+      if (typeof property.value !== "string") {
+        throw new Error;
+      }
+      return {
+        status: {
+          name: property.value,
+        },
+      };
+    },
   },
   select: {
     type: "string",
     options: (property) => property.select?.options.map((option) => option.name),
-    convertToNotion: (property) => ({
-      select: {
-        name: property.value,
-      },
-    }),
+    convertToNotion: (property) => {
+      if (typeof property.value !== "string") {
+        throw new Error;
+      }
+      return {
+        select: {
+          name: property.value,
+        },
+      };
+    },
   },
   multi_select: {
     type: "string[]",
@@ -113,25 +138,40 @@ const NOTION_PAGE_PROPERTIES = {
     type: "string",
     example: "https://pipedream.com",
     options: () => undefined,
-    convertToNotion: (property) => ({
-      url: property.value,
-    }),
+    convertToNotion: (property) => {
+      if (typeof property.value !== "string") {
+        throw new Error;
+      }
+      return {
+        url: property.value,
+      };
+    },
   },
   email: {
     type: "string",
     example: "example@pipedream.com",
     options: () => undefined,
-    convertToNotion: (property) => ({
-      email: property.value,
-    }),
+    convertToNotion: (property) => {
+      if (typeof property.value !== "string") {
+        throw new Error;
+      }
+      return {
+        email: property.value,
+      };
+    },
   },
   phone_number: {
     type: "string",
     example: "999-999-9999",
     options: () => undefined,
-    convertToNotion: (property) => ({
-      phone_number: property.value,
-    }),
+    convertToNotion: (property) => {
+      if (typeof property.value !== "string") {
+        throw new Error;
+      }
+      return {
+        phone_number: property.value,
+      };
+    },
   },
   relation: {
     type: "string[]",

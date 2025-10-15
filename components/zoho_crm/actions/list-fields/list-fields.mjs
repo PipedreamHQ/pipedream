@@ -4,7 +4,12 @@ export default {
   key: "zoho_crm-list-fields",
   name: "List Fields",
   description: "Gets the field metadata for the specified module",
-  version: "0.2.1",
+  version: "0.2.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     zohoCrm,

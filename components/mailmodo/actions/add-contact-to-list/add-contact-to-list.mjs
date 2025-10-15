@@ -3,7 +3,12 @@ import utils from "../../common/utils.mjs";
 
 export default {
   key: "mailmodo-add-contact-to-list",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   name: "Add Contact To List",
   description: "Adds a contact to a list [See the docs here](https://api.salesflare.com/docs#operation/postAccountsAccount_idContacts)",

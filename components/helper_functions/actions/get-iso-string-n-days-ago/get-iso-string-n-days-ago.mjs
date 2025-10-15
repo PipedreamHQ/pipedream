@@ -6,7 +6,12 @@ export default {
   key: "helper_functions-get-iso-string-n-days-ago",
   name: "Get ISO String N Days Ago",
   description: "Returns an ISO string (UTC TZ) N days ago",
-  version: "0.1.1",
+  version: "0.1.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     helper_functions,

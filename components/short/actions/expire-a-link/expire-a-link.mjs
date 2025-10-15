@@ -5,7 +5,12 @@ export default {
   key: "short-expire-a-link",
   name: "Expire Link",
   description: "Expire a short link by id. [See the documentation](https://developers.short.io/reference/linksbylinkidpost).",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     shortApp,

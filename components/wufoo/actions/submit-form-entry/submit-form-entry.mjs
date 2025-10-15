@@ -8,7 +8,12 @@ import wufoo from "../../wufoo.app.mjs";
 export default {
   key: "wufoo-submit-form-entry",
   name: "Submit Form Entry",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   description: "Submit a new entry to a specific form. [See the documentation](https://wufoo.github.io/docs/#submit-entry)",
   type: "action",
   props: {

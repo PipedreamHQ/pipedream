@@ -8,7 +8,7 @@ export default {
   key: "google_sheets-new-row-added-polling",
   name: "New Row Added",
   description: "Emit new event each time a row or rows are added to the bottom of a spreadsheet.",
-  version: "0.0.8",
+  version: "0.1.2",
   dedupe: "unique",
   type: "source",
   props: {

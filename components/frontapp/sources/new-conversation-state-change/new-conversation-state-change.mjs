@@ -6,8 +6,8 @@ export default {
   ...common,
   key: "frontapp-new-conversation-state-change",
   name: "New Conversation State Change",
-  description: "Emit new event when a conversation reaches a specific state. [See the documentation](https://dev.frontapp.com/reference/list-conversations)",
-  version: "0.0.4",
+  description: "Emit new event when a conversation reaches a specific state. [See the documentation](https://dev.frontapp.com/reference/list-events)",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   props: {
@@ -28,6 +28,8 @@ export default {
       return {
         "q[after]": lastTs,
         "q[types]": this.types,
+        "sort_by": "created_at",
+        "sort_order": "desc",
       };
     },
     _getEmit(item) {

@@ -4,7 +4,12 @@ export default {
   key: "fidel_api-delete-card",
   name: "Delete Card",
   description: "Allows for the removal of a previously linked card from the Fidel API. [See the documentation](https://reference.fidel.uk/reference/delete-card)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     fidelApi,

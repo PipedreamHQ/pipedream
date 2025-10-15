@@ -7,7 +7,12 @@ export default defineAction({
   description:
     "Find a web URL out of a text field. Finds the first URL only.",
   key: "formatting-extract-url",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...commonExtractText.props,

@@ -4,7 +4,12 @@ import FIELDS from "../common/fields.mjs";
 export default {
   key: "teamgate-find-lead",
   name: "Find Lead",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Find a lead [See the docs here](https://developers.teamgate.com/#1b80ca61-833a-472a-b127-e3b6d5e18902)",
   type: "action",
   props: {

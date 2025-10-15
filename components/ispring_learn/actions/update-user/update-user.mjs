@@ -5,7 +5,12 @@ export default {
   key: "ispring_learn-update-user",
   name: "Update User",
   description: "Allows to modify the properties of a specific user on iSpring Learn.",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ispringLearn,

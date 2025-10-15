@@ -1,11 +1,16 @@
-import shopify from "../../shopify_developer_app.app.mjs";
 import utils from "@pipedream/shopify/common/utils.mjs";
+import shopify from "../../shopify_developer_app.app.mjs";
 
 export default {
   key: "shopify_developer_app-create-order",
   name: "Create Order",
   description: "Creates a new order. For full order object details [See the documentation](https://shopify.dev/docs/api/admin-graphql/latest/mutations/ordercreate)",
-  version: "0.0.9",
+  version: "0.0.11",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     shopify,

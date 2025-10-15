@@ -5,7 +5,12 @@ export default {
   key: "instagram_business-get-user-insights",
   name: "Get User Insights",
   description: "Get insights data on a user. [See the documentation](https://developers.facebook.com/docs/instagram-api/reference/ig-user/insights#reading)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     ...common.props,

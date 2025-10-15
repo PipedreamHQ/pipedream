@@ -2,7 +2,12 @@ import googleCloud from "../../google_cloud.app.mjs";
 
 export default {
   name: "Get Object",
-  version: "0.0.3",
+  version: "0.0.5",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "google_cloud-get-object",
   type: "action",
   description: "Downloads an object from a Google Cloud Storage bucket, [See the docs](https://googleapis.dev/nodejs/storage/latest/File.html#get)",

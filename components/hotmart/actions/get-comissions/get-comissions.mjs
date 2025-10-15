@@ -4,7 +4,12 @@ export default {
   key: "hotmart-get-comissions",
   name: "Get Comissions",
   description: "Get sales commission information for sale participants. [See the documentation](https://developers.hotmart.com/docs/pt-BR/v1/sales/sales-commissions/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

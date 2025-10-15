@@ -4,7 +4,12 @@ export default {
   key: "gpt_trainer-create-message",
   name: "Create Message",
   description: "Create a session message for a chatbot session specified by session UUID. [See the documentation](https://guide.gpt-trainer.com/api-reference/messages/create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

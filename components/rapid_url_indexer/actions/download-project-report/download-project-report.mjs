@@ -6,7 +6,12 @@ export default {
   name: "Download Project Report",
   description: "Download the report for a specific project. [See the documentation](https://rapidurlindexer.com/indexing-api/).",
   type: "action",
-  version: "0.0.2",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     rapidUrlIndexer,
     projectId: {

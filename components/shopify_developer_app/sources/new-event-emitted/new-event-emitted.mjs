@@ -7,7 +7,7 @@ export default {
   name: "New Event Emitted (Instant)",
   type: "source",
   description: "Emit new event for each new Shopify event.",
-  version: "0.0.14",
+  version: "0.0.15",
   dedupe: "unique",
   props: {
     ...common.props,

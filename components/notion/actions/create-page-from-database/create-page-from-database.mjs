@@ -2,13 +2,19 @@ import NOTION_ICONS from "../../common/notion-icons.mjs";
 import utils from "../../common/utils.mjs";
 import notion from "../../notion.app.mjs";
 import base from "../common/base-page-builder.mjs";
+import pick from "lodash-es/pick.js";
 
 export default {
   ...base,
   key: "notion-create-page-from-database",
   name: "Create Page from Data Source",
   description: "Create a page from a data source. [See the documentation](https://developers.notion.com/reference/post-page)",
-  version: "1.0.1",
+  version: "1.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     notion,
@@ -19,12 +25,25 @@ export default {
       ],
       label: "Parent Data Source ID",
       description: "Select a parent data source or provide a data source ID",
+      reloadProps: true,
     },
     Name: {
       type: "string",
       label: "Name",
       description: "The name of the page. Use this only if the data source has a `title` property named `Name`. Otherwise, use the `Properties` prop below to set the title property.",
       optional: true,
+    },
+    propertyTypes: {
+      propDefinition: [
+        notion,
+        "propertyTypes",
+        (c) => ({
+          parentId: c.parentDataSource,
+          parentType: "data_source",
+        }),
+      ],
+      description: "Select one or more page properties. Willl override properties set in the `Properties` prop below.",
+      reloadProps: true,
     },
     properties: {
       type: "object",
@@ -56,6 +75,13 @@ export default {
         "pageContent",
       ],
     },
+  },
+  async additionalProps() {
+    const { properties } = await this.notion.retrieveDataSource(this.parentDataSource);
+    const selectedProperties = pick(properties, this.propertyTypes);
+    return this.buildAdditionalProps({
+      properties: selectedProperties,
+    });
   },
   methods: {
     ...base.methods,

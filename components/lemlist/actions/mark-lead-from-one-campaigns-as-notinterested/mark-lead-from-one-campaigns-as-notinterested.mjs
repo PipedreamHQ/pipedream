@@ -4,7 +4,12 @@ export default {
   key: "lemlist-mark-lead-from-one-campaigns-as-notinterested",
   name: "Mark Lead From One Campaigns As Not Interested",
   description: "This action marks a specific lead as not interested using its email in a specific campaign. [See the docs here](https://developer.lemlist.com/#mark-as-not-interested-a-lead-in-a-specific-campaign)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     lemlist,

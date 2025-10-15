@@ -28,4 +28,9 @@ const parseObject = (obj) => {
 
 export default {
   parseObject,
+  parseJsonInput: (value) => {
+    return value
+      ? parseObject(value)
+      : undefined;
+  },
 };

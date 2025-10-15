@@ -4,7 +4,12 @@ export default {
   key: "ollama-copy-model",
   name: "Copy Model",
   description: "Copies a model, creating a model with another name from an existing model. [See the documentation](https://github.com/ollama/ollama/blob/main/docs/api.md#copy-a-model).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

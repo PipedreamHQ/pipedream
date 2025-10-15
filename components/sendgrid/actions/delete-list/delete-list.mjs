@@ -5,7 +5,12 @@ export default {
   key: "sendgrid-delete-list",
   name: "Delete List",
   description: "Allows you to delete a specific contact list. [See the docs here](https://docs.sendgrid.com/api-reference/lists/delete-a-list)",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

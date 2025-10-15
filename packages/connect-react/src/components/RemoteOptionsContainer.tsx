@@ -1,4 +1,6 @@
-import type { ConfigureComponentOpts } from "@pipedream/sdk";
+import type {
+  ConfigurePropOpts, PropOptionValue,
+} from "@pipedream/sdk";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useFormContext } from "../hooks/form-context";
@@ -56,8 +58,8 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
   ] = useState<{
     page: number;
     prevContext: ConfigureComponentContext | undefined;
-    data: RawPropOption<string>[];
-    values: Set<string | number>;
+    data: RawPropOption[];
+    values: Set<PropOptionValue>;
   }>({
     page: 0,
     prevContext: {},
@@ -70,11 +72,11 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
     const prop = configurableProps[i];
     configuredPropsUpTo[prop.name] = configuredProps[prop.name];
   }
-  const componentConfigureInput: ConfigureComponentOpts = {
+  const componentConfigureInput: ConfigurePropOpts = {
     externalUserId,
     page,
     prevContext: context,
-    componentId: component.key,
+    id: component.key,
     propName: prop.name,
     configuredProps: configuredPropsUpTo,
     dynamicPropsId: dynamicProps?.id,
@@ -112,7 +114,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
     ],
     queryFn: async () => {
       setError(undefined);
-      const res = await client.configureComponent(componentConfigureInput);
+      const res = await client.components.configureProp(componentConfigureInput);
 
       // XXX look at errors in response here too
       const {
@@ -131,7 +133,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
         }
         return [];
       }
-      let _options: RawPropOption<string>[] = []
+      let _options: RawPropOption[] = []
       if (options?.length) {
         _options = options;
       }
@@ -149,7 +151,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
       const newOptions = []
       const allValues = new Set(pageable.values)
       for (const o of _options || []) {
-        let value: string | number;
+        let value: PropOptionValue;
         if (isString(o)) {
           value = o;
         } else if (o && typeof o === "object" && "value" in o && o.value != null) {
@@ -170,7 +172,7 @@ export function RemoteOptionsContainer({ queryEnabled }: RemoteOptionsContainerP
         data = [
           ...pageable.data,
           ...newOptions,
-        ] as RawPropOption<string>[]
+        ] as RawPropOption[]
         setPageable({
           page: page + 1,
           prevContext: res.context,

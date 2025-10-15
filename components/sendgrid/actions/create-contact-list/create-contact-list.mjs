@@ -5,7 +5,12 @@ export default {
   key: "sendgrid-create-contact-list",
   name: "Create Contact List",
   description: "Allows you to create a new contact list. [See the docs here](https://docs.sendgrid.com/api-reference/lists/create-list)",
-  version: "0.0.5",
+  version: "0.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ...common.props,

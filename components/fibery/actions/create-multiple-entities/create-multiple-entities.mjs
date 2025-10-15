@@ -4,7 +4,12 @@ export default {
   key: "fibery-create-multiple-entities",
   name: "Create Multiple Entities",
   description: "Creates entities in batch. [See the docs here](https://api.fibery.io/graphql.html#create)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     fibery,

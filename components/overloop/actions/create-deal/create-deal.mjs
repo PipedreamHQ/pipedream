@@ -4,7 +4,12 @@ export default {
   key: "overloop-create-deal",
   name: "Create Deal",
   description: "Creates a new deal. [See the docs](https://apidoc.overloop.com/#create-a-deal)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     overloop,

@@ -4,7 +4,12 @@ export default {
   name: "Search Issues with JQL",
   description: "Search for issues using JQL (Jira Query Language). [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-search/#api-rest-api-3-search-jql-get)",
   key: "jira-search-issues-with-jql",
-  version: "0.0.4",
+  version: "0.1.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     jira,
@@ -17,16 +22,16 @@ export default {
     jql: {
       type: "string",
       label: "JQL Query",
-      description: "The [JQL](https://support.atlassian.com/jira-software-cloud/docs/what-is-advanced-search-in-jira-cloud/) query to search for issues",
+      description: "The JQL query to search for issues. [See the documentation for syntax and examples](https://support.atlassian.com/jira-software-cloud/docs/what-is-advanced-search-in-jira-cloud/)",
     },
     maxResults: {
       type: "integer",
       label: "Max Results",
-      description: "Maximum number of issues to return (default: 50, max: 100)",
+      description: "Maximum number of issues to return (default: 50)",
       optional: true,
       default: 50,
       min: 1,
-      max: 100,
+      max: 5000,
     },
     fields: {
       type: "string",
@@ -90,14 +95,62 @@ export default {
       optional: true,
     },
   },
+  methods: {
+    getMaxResultsPerPage() {
+      return Math.min(this.maxResults, 1000);
+    },
+    async paginate({
+      params, maxResults, ...otherArgs
+    }) {
+      const results = [];
+      let nextPageToken;
+      let response;
+
+      do {
+        response = await this.jira.searchIssues({
+          ...otherArgs,
+          params: {
+            ...params,
+            ...(nextPageToken && {
+              nextPageToken,
+            }),
+          },
+        });
+
+        const pageResults = response.issues;
+        const pageLength = pageResults?.length;
+        if (!pageLength) {
+          break;
+        }
+
+        // If maxResults is specified, only add what we need
+        if (maxResults && results.length + pageLength > maxResults) {
+          const remainingSlots = maxResults - results.length;
+          results.push(...pageResults.slice(0, remainingSlots));
+          break;
+        } else {
+          results.push(...pageResults);
+        }
+
+        // Also break if we've reached maxResults exactly
+        if (maxResults && results.length >= maxResults) {
+          break;
+        }
+
+        nextPageToken = response.nextPageToken;
+      } while (nextPageToken && !response.isLast);
+
+      return results;
+    },
+  },
   async run({ $ }) {
     try {
-      const response = await this.jira.searchIssues({
+      const issues = await this.paginate({
         $,
         cloudId: this.cloudId,
         params: {
           jql: this.jql,
-          maxResults: this.maxResults,
+          maxResults: this.getMaxResultsPerPage(),
           fields: this.fields,
           expand: this.expand
             ? this.expand.join(",")
@@ -106,9 +159,12 @@ export default {
           fieldsByKeys: this.fieldsByKeys,
           failFast: this.failFast,
         },
+        maxResults: this.maxResults,
       });
-      $.export("$summary", `Successfully retrieved ${response.issues.length} issues`);
-      return response;
+      $.export("$summary", `Successfully retrieved ${issues.length} issues`);
+      return {
+        issues,
+      };
     } catch (error) {
       throw new Error(`Failed to search issues: ${error.message}`);
     }

@@ -87,6 +87,7 @@ export default {
           type: properties[property]?.type ?? property,
           label: properties[property]?.id || property,
           value: this[property] || this.properties?.[property],
+          name: properties[property]?.name || property,
         }));
     },
     /**
@@ -107,7 +108,7 @@ export default {
           try {
             notionProperties[property.label] = notionProperty?.convertToNotion(property);
           } catch {
-            throw new ConfigurationError(`Error converting property with label \`${property.label}\` to Notion format. Must be of type \`${NOTION_CONVERTER[property.type]?.type}\`.`);
+            throw new ConfigurationError(`Error converting property \`${property.name}\` to Notion format. Must be of type \`${NOTION_CONVERTER[property.type]?.type}\`.`);
           }
         }
       }

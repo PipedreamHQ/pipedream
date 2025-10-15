@@ -4,7 +4,12 @@ export default {
   key: "nordigen-get-account-metadata",
   name: "Get Account Metadata",
   description: "Get the metadata of a Nordigen account. [See the docs](https://ob.nordigen.com/api/docs#/accounts/retrieve%20account%20metadata)",
-  version: "1.0.0",
+  version: "1.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     nordigen,

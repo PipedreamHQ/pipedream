@@ -8,7 +8,12 @@ export default {
   key: "ironclad-launch-workflow",
   name: "Launch Workflow",
   description: "Launches a new workflow in Ironclad. [See the documentation](https://developer.ironcladapp.com/reference/launch-a-new-workflow)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     ironclad,

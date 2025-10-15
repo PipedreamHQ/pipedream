@@ -4,7 +4,12 @@ export default {
   key: "rocketskip-skip-trace-property",
   name: "Skip Trace Property",
   description: "Send a property to get phone numbers for the property owner. [See the documentation](https://docs.rocketskip.com/api-reference/endpoint/post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

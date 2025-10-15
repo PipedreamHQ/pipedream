@@ -5,7 +5,12 @@ export default {
   key: "docparser-fetch-document-url",
   name: "Fetch Document by URL",
   description: "Fetches a document from a provided URL and imports it to Docparser for parsing. [See the documentation](https://docparser.com/api/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     docparser,

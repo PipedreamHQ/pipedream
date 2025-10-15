@@ -1,18 +1,24 @@
 import { useQuery } from "@tanstack/react-query";
-import type { GetAppsOpts } from "@pipedream/sdk";
+import type {
+  AppsListRequest, App,
+} from "@pipedream/sdk";
 import { useFrontendClient } from "./frontend-client-context";
 
 /**
  * Get list of apps that can be authenticated
  */
-export const useApps = (input?: GetAppsOpts) => {
+export const useApps = (input?: AppsListRequest): {
+  apps: App[];
+  isLoading: boolean;
+  error: Error | null;
+} => {
   const client = useFrontendClient();
   const query = useQuery({
     queryKey: [
       "apps",
       input,
     ],
-    queryFn: () => client.apps(input),
+    queryFn: () => client.apps.list(input),
   });
 
   return {

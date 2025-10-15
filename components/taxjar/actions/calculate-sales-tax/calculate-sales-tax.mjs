@@ -4,7 +4,12 @@ export default {
   key: "taxjar-calculate-sales-tax",
   name: "Calculate Sales Tax",
   description: "Shows the sales tax that should be collected for a given order. [See the documentation](https://developers.taxjar.com/api/reference/#taxes)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

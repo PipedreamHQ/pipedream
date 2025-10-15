@@ -9,7 +9,12 @@ export default defineAction({
   description:
     "Create a new post in a channel [See docs here](https://api.mattermost.com/#tag/posts/operation/CreatePost)",
   key: "mattermost-post-message",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mattermost,

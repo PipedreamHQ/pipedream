@@ -4,7 +4,12 @@ export default {
   key: "lumin_pdf-cancel-signature-request",
   name: "Cancel Signature Request",
   description: "Cancel a signature request. [See the documentation](https://developers.luminpdf.com/api/cancel-signature-request/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     luminPdf,

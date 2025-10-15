@@ -4,7 +4,12 @@ export default {
   key: "symbl_ai-get-conversation",
   name: "Get Conversation",
   description: "Get the conversation metadata (meeting name, member(s) name, member(s) email, start and end time, meeting type and meeting Id). See the doc [here](https://docs.symbl.ai/docs/conversation-api/conversation-data/)",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     symblAIApp,

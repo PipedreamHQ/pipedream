@@ -10,7 +10,12 @@ export default {
   name: "Delete Client",
   description: "Delete Client [See the documentation](https://app.creditrepaircloud.com/webapi/examples).",
   key: "credit_repair_cloud-delete-client",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -8,7 +8,12 @@ export default defineAction({
   description:
     "Create a shipment quote [See docs here](https://developers.shipcloud.io/reference/#creating-a-shipment-quote)",
   key: "shipcloud-create-shipment-quote",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     shipcloud,

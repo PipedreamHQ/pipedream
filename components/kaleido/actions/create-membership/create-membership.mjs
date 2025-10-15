@@ -4,7 +4,12 @@ export default {
   key: "kaleido-create-membership",
   name: "Create Membership",
   description: "Create a membership for a consortia in Kaleido. [See the documentation](https://api.kaleido.io/platform.html#tag/Memberships/paths/~1consortia~1{consortia_id}~1memberships/post)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

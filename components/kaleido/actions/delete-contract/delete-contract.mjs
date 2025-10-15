@@ -4,7 +4,12 @@ export default {
   key: "kaleido-delete-contract",
   name: "Delete Contract",
   description: "Delete a contract in Kaleido. [See the documentation](https://api.kaleido.io/platform.html#tag/Contracts/paths/~1consortia~1%7Bconsortia_id%7D~1contracts~1%7Bcontract_id%7D/delete)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

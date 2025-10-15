@@ -2,7 +2,12 @@ import statuspage from "../../statuspage.app.mjs";
 
 export default {
   name: "Update Incident",
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "statuspage-update-incident",
   description: "Updates an existing incident. [See docs here](https://developer.statuspage.io/#update-an-incident)",
   type: "action",

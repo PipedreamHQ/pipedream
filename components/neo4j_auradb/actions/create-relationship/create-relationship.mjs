@@ -5,7 +5,12 @@ export default {
   key: "neo4j_auradb-create-relationship",
   name: "Create Relationship",
   description: "Creates a relationship between two existing nodes. [See the documentation](https://neo4j.com/docs/query-api/current/query/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

@@ -6,7 +6,12 @@ export default {
   key: "mailchimp-add-or-update-subscriber",
   name: "Add or Update Subscriber",
   description: "Adds a new subscriber to an audience or updates existing subscriber. [See docs here](https://mailchimp.com/developer/marketing/api/list-members/add-or-update-list-member/)",
-  version: "0.2.2",
+  version: "0.2.3",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     mailchimp,

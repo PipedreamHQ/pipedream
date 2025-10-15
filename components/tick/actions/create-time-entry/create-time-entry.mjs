@@ -2,7 +2,12 @@ import tick from "../../tick.app.mjs";
 
 export default {
   name: "Create Time Entry",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "tick-create-time-entry",
   description: "Creates a time entry. [See docs here](https://github.com/tick/tick-api/blob/master/sections/entries.md#create-entry)",
   type: "action",

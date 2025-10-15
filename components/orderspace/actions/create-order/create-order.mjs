@@ -6,7 +6,12 @@ export default {
   name: "Create Order",
   description: "Create a new order. [See the documentation](https://apidocs.orderspace.com/#create-an-order)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   props: {
     orderspace,
     customerId: {

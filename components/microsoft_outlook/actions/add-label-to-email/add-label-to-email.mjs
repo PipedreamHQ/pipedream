@@ -5,7 +5,12 @@ export default {
   key: "microsoft_outlook-add-label-to-email",
   name: "Add Label to Email",
   description: "Adds a label/category to an email in Microsoft Outlook. [See the documentation](https://learn.microsoft.com/en-us/graph/api/message-update)",
-  version: "0.0.9",
+  version: "0.0.11",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     microsoftOutlook,

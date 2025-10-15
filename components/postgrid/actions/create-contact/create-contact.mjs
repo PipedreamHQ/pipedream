@@ -4,7 +4,12 @@ export default {
   key: "postgrid-create-contact",
   name: "Create Contact",
   description: "Create a new contact in PostGrid. [See the documentation](https://docs.postgrid.com/#3ac81e66-c5be-4bb6-93c1-fd8a6f0a24b3)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     postgrid,

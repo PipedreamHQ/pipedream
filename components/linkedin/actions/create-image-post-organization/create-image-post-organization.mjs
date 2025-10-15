@@ -7,7 +7,12 @@ export default {
   key: "linkedin-create-image-post-organization",
   name: "Create Image Post (Organization)",
   description: "Create an image post on LinkedIn. [See the documentation](https://learn.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/images-api?view=li-lms-2023-09&tabs=http#uploading-an-image)",
-  version: "1.0.3",
+  version: "1.0.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     linkedin,

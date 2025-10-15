@@ -6,7 +6,12 @@ export default {
   key: "runware-image-caption",
   name: "Image Caption",
   description: "Request an image caption task to be processed by the Runware API. [See the documentation](https://docs.runware.ai/en/utilities/image-to-text).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

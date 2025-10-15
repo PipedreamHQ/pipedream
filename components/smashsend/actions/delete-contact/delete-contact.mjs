@@ -4,7 +4,12 @@ export default {
   key: "smashsend-delete-contact",
   name: "Delete Contact",
   description: "Delete a contact. [See the documentation](https://smashsend.com/docs/api/contacts)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     smashsend,

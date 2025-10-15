@@ -3,9 +3,13 @@ import hubspot from "../../hubspot.app.mjs";
 export default {
   key: "hubspot-list-marketing-events",
   name: "List Marketing Events",
-  description:
-    "Retrieves a list of marketing events. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/marketing-events#get-%2Fmarketing%2Fv3%2Fmarketing-events%2F)",
-  version: "0.0.7",
+  description: "Retrieves a list of marketing events. [See the documentation](https://developers.hubspot.com/docs/reference/api/marketing/marketing-events#get-%2Fmarketing%2Fv3%2Fmarketing-events%2F)",
+  version: "0.0.9",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     hubspot,
@@ -18,7 +22,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const results = [];
+    const events = [];
     const params = {
       limit: 100,
     };
@@ -36,7 +40,7 @@ export default {
         break;
       }
       for (const item of results) {
-        results.push(item);
+        events.push(item);
         count++;
         if (count >= this.maxResults) {
           break;
@@ -48,10 +52,10 @@ export default {
 
     $.export(
       "$summary",
-      `Found ${results.length} event${results.length === 1
+      `Found ${events.length} event${events.length === 1
         ? ""
         : "s"}`,
     );
-    return results;
+    return events;
   },
 };

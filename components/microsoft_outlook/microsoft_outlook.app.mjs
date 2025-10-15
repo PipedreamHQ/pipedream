@@ -276,8 +276,14 @@ export default {
         headers: this._getHeaders(headers),
         ...otherConfig,
       };
-
-      return axios($ ?? this, config);
+      try {
+        return await axios($ ?? this, config);
+      } catch (error) {
+        if (error?.response?.status === 403) {
+          throw new Error("Insufficient permissions. Please verify that your Microsoft account has the necessary permissions to perform this operation.");
+        }
+        throw error;
+      }
     },
     async createHook({ ...args } = {}) {
       const response = await this._makeRequest({

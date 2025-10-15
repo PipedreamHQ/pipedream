@@ -5,7 +5,12 @@ export default {
   name: "Upload Document",
   description: "Upload file using URL or base64 [See the documentation](https://support.docsumo.com/reference/post_api-v1-eevee-apikey-upload-custom).",
   key: "docsumo-upload-document",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

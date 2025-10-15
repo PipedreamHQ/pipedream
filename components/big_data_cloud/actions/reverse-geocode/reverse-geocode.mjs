@@ -4,7 +4,12 @@ export default {
   key: "big_data_cloud-reverse-geocode",
   name: "Reverse Geocode",
   description: "Convert a user's coordinates to a human-readable address. [See the documentation](https://www.bigdatacloud.com/docs/api/reverse-geocode-to-city-api)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     bigDataCloud,

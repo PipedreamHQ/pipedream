@@ -4,7 +4,12 @@ export default {
   key: "linguapop-create-test-invitation",
   name: "Create Test Invitation",
   description: "Creates a new placement test invitation. [See the documentation](https://docs.linguapop.eu/api/#sendcreate-an-invitation-to-a-placement-test)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     linguapop,

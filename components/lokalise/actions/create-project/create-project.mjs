@@ -4,7 +4,12 @@ export default {
   key: "lokalise-create-project",
   name: "Create Project",
   description: "Initializes an empty project in Lokalise. [See the documentation](https://developers.lokalise.com/reference/create-a-project)",
-  version: "0.0.1",
+  version: "0.0.3",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     lokalise,

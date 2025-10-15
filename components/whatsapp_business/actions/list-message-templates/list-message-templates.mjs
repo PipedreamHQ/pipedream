@@ -6,7 +6,12 @@ export default {
   key: "whatsapp_business-list-message-templates",
   name: "List Message Templates",
   description: `Lists message templates. [See the docs.](${docLink})`,
-  version: "0.0.3",
+  version: "0.0.4",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     whatsapp,

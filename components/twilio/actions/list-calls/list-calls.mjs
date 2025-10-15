@@ -5,7 +5,12 @@ export default {
   key: "twilio-list-calls",
   name: "List Calls",
   description: "Return a list of calls associated with your account. [See the documentation](https://www.twilio.com/docs/voice/api/call-resource#read-multiple-call-resources)",
-  version: "0.1.4",
+  version: "0.1.6",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     twilio,

@@ -4,7 +4,12 @@ export default {
   key: "semgrep-get-findings",
   name: "Get Findings",
   description: "Returns a list of findings for a specified deployment. [See the documentation](https://semgrep.dev/api/v1/docs/#tag/finding/operation/semgrep_app.core_exp.findings.handlers.issue.openapi_list_recent_issues)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     semgrep,

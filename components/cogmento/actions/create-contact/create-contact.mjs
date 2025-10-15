@@ -4,7 +4,12 @@ export default {
   key: "cogmento-create-contact",
   name: "Create Contact",
   description: "Create a new contact in Cogmento CRM. [See the documentation](https://api.cogmento.com/static/swagger/index.html#/Contacts/post_contacts_)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     cogmento,

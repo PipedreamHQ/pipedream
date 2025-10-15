@@ -4,7 +4,12 @@ export default {
   key: "meistertask-get-task",
   name: "Get Task",
   description: "Retrieves information about a task. [See the docs](https://developers.meistertask.com/reference/get-task)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     meistertask,

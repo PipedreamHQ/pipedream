@@ -4,7 +4,12 @@ export default {
   key: "nextcloud-delete-share",
   name: "Delete Share",
   description: "Deletes a specific share in Nextcloud. [See the documenation](https://docs.nextcloud.com/server/latest/developer_manual/_static/openapi.html#/operations/files_sharing-shareapi-delete-share)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     nextcloud,

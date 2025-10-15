@@ -5,7 +5,12 @@ export default {
   key: "freshlearn-update-member",
   name: "Update Member",
   description: "Updates the details of an existing member. [See the documentation](https://freshlearn.com/support/api#updateMember)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     freshlearn,

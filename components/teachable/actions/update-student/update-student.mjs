@@ -4,7 +4,12 @@ export default {
   key: "teachable-update-student",
   name: "Update Student",
   description: "Updates an existing student. [See the documentation](https://docs.teachable.com/reference/updateuser)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     teachable,

@@ -1,5 +1,5 @@
-import rss from "../../app/rss.app";
 import { defineSource } from "@pipedream/types";
+import rss from "../../app/rss.app";
 import rssCommon from "../common/common";
 
 export default defineSource({
@@ -8,7 +8,7 @@ export default defineSource({
   name: "New Item From Multiple RSS Feeds",
   type: "source",
   description: "Emit new items from multiple RSS feeds",
-  version: "1.2.7",
+  version: "1.2.8",
   props: {
     ...rssCommon.props,
     urls: {
@@ -43,7 +43,7 @@ export default defineSource({
       console.log(`Retrieved items from ${url}`);
       items.push(...feedItems);
     }
-    this.rss.sortItems(items).forEach((item: any) => {
+    this.rss.sortItems(items).forEach((item: any) => { // eslint-disable-line @typescript-eslint/no-explicit-any
       const meta = this.generateMeta(item);
       this.$emit(item, meta);
     });

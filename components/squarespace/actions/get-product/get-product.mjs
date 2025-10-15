@@ -4,7 +4,12 @@ export default {
   key: "squarespace-get-product",
   name: "Get Product",
   description: "Get a specific product. [See docs here](https://developers.squarespace.com/commerce-apis/retrieve-specific-products)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     squarespace,

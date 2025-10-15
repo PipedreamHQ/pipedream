@@ -286,7 +286,7 @@ export default {
     },
     async listChatMessages({ chatId }) {
       return this.makeRequest({
-        path: `/chats/${chatId}/messages`,
+        path: `/chats/${chatId}/messages?$orderby=createdDateTime%20desc`,
       });
     },
     async listShifts({ teamId }) {

@@ -4,7 +4,12 @@ export default {
   key: "supabase_management_api-generate-typescript-types",
   name: "Generate TypeScript Types",
   description: "Generates TypeScript types based on the current database schema for a specified Supabase project. [See the documentation](https://supabase.com/docs/reference/api/v1-generate-typescript-types)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     supabaseManagementApi,

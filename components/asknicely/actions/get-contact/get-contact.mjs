@@ -3,7 +3,12 @@ import asknicely from "../../asknicely.app.mjs";
 export default {
   key: "asknicely-get-contact",
   name: "Get Contact",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   description: "Get the details of a particular contact. [See the documentation](https://demo.asknice.ly/help/apidocs/getcontact)",
   type: "action",
   props: {

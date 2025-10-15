@@ -5,7 +5,12 @@ export default {
   key: "nexweave-create-campaign-experience",
   name: "Create Campaign Experience",
   description: "Generates a campaign experience based on a selected campaign. [See the documentation](https://documentation.nexweave.com/nexweave-api#tH7ID)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   ...common,
   props: {

@@ -6,7 +6,12 @@ export default {
   key: "zoho_sheet-search-delete-row",
   name: "Search and Delete Row",
   description: "Searches for a row based on provided criteria and deletes it. [See the documentation](https://www.zoho.com/sheet/help/api/v2/)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     zohoSheet,

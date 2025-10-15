@@ -4,7 +4,12 @@ export default {
   key: "accredible-delete-credential",
   name: "Delete Credential",
   description: "Remove a specific credential from the system. [See the documentation](https://accrediblecredentialapi.docs.apiary.io/#reference/credentials/credential/delete-a-credential)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     accredible,

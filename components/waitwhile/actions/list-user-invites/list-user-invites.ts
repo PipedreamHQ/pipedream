@@ -3,7 +3,12 @@ import { defineAction } from "@pipedream/types";
 
 export default defineAction({
   name: "List User Invites",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   key: "waitwhile-list-user-invites",
   description: "List of user invites. [See the doc here](https://developers.waitwhile.com/reference/listinvites)",
   props: {

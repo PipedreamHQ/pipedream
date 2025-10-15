@@ -2,7 +2,12 @@ import app from "../../acelle_mail.app.mjs";
 
 export default {
   name: "Subscribe Customer To Plan",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "acelle_mail-subscribe-customer-to-plan",
   description: "Subscribe customer to a plan. [See the documentation](https://api.acellemail.com/#backend_subscriptions_subscribe)",
   type: "action",

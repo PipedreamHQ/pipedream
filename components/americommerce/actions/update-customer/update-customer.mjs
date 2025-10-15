@@ -4,7 +4,12 @@ export default {
   key: "americommerce-update-customer",
   name: "Update Customer",
   description: "Updates the details of a registered customer. [See the documentation](https://developers.cart.com/docs/rest-api/5da2f1ddbe199-update-a-customer).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

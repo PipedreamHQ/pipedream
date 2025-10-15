@@ -4,7 +4,12 @@ export default {
   key: "confluence-get-pages",
   name: "Get Pages",
   description: "Retrieve a list of pages. [See the documentation](https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-page/#api-pages-get)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     confluence,

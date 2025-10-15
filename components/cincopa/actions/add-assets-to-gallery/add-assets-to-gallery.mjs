@@ -5,7 +5,12 @@ export default {
   key: "cincopa-add-assets-to-gallery",
   name: "Add Assets to Gallery",
   description: "Adds an asset or a list of assets to an existing gallery. [See the documentation](https://www.cincopa.com/media-platform/api-documentation-v2#gallery.add_item)",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     app,

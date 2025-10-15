@@ -4,7 +4,12 @@ export default {
   key: "calendarhero-list-meetings",
   name: "List Meetings",
   description: "Get the user's meetings within a timeframe. [See the documentation](https://api.calendarhero.com/documentation#/meeting/getMeeting).",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   type: "action",
   props: {
     app,

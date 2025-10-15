@@ -4,7 +4,12 @@ export default {
   key: "lastpass-add-remove-user-in-groups",
   name: "Add or Remove User in Groups",
   description: "Manages user group membership in LastPass. Either adds a user to a group or removes them from a group.",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: true,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   type: "action",
   props: {
     lastpass,

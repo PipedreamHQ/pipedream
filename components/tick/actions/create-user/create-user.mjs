@@ -2,7 +2,12 @@ import tick from "../../tick.app.mjs";
 
 export default {
   name: "Create User",
-  version: "0.0.1",
+  version: "0.0.2",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
   key: "tick-create-user",
   description: "Creates a user. [See docs here](https://github.com/tick/tick-api/blob/master/sections/users.md#create-user)",
   type: "action",

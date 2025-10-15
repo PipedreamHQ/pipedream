@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/curated_letters",
+  "version": "0.0.1",
+  "description": "Pipedream Curated Letters Components",
+  "main": "curated_letters.app.mjs",
+  "keywords": [
+    "pipedream",
+    "curated_letters"
+  ],
+  "homepage": "https://pipedream.com/apps/curated_letters",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
