@@ -6,42 +6,20 @@ export default {
     fathom,
     db: "$.service.db",
     http: "$.interface.http",
-    includeActionItems: {
-      propDefinition: [
-        fathom,
-        "includeActionItems",
-      ],
-    },
-    includeCrmMatches: {
-      propDefinition: [
-        fathom,
-        "includeCrmMatches",
-      ],
-    },
-    includeSummary: {
-      propDefinition: [
-        fathom,
-        "includeSummary",
-      ],
-    },
-    includeTranscript: {
-      propDefinition: [
-        fathom,
-        "includeTranscript",
+    include: {
+      type: "string[]",
+      label: "Include Fields",
+      description: "Fields to include in the webhook payload",
+      options: [
+        "action_items",
+        "crm_matches",
+        "summary",
+        "transcript",
       ],
     },
   },
   hooks: {
     async activate() {
-      if (
-        !this.includeTranscript
-        && !this.includeSummary
-        && !this.includeCrmMatches
-        && !this.includeActionItems)
-      {
-        throw new ConfigurationError("At least one of includeTranscript, includeSummary, includeCrmMatches, or includeActionItems must be true");
-      }
-
       const { id } = await this.fathom.createWebhook({
         data: {
           destination_url: this.http.endpoint,

@@ -41,18 +41,6 @@ export default {
       description: "Include CRM matches for each meeting. Only returns data from your or your team's linked CRM.",
       optional: true,
     },
-    includeSummary: {
-      type: "boolean",
-      label: "Include Summary",
-      description: "Include the summary for each meeting",
-      optional: true,
-    },
-    includeTranscript: {
-      type: "boolean",
-      label: "Include Transcript",
-      description: "Include the transcript for each meeting",
-      optional: true,
-    },
   },
   methods: {
     _baseUrl() {

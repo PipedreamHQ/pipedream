@@ -40,7 +40,7 @@ export default {
     cursor: {
       type: "string",
       label: "Cursor",
-      description: "The cursor to start from",
+      description: "If continuing a previous request, the cursor to start from",
       optional: true,
     },
   },

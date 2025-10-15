@@ -28,10 +28,10 @@ export default {
     getWebhookData() {
       return {
         triggered_for: this.triggeredFor,
-        include_action_items: this.includeActionItems,
-        include_crm_matches: this.includeCrmMatches,
-        include_summary: this.includeSummary,
-        include_transcript: this.includeTranscript,
+        include_action_items: this.include.includes("action_items"),
+        include_crm_matches: this.include.includes("crm_matches"),
+        include_summary: this.include.includes("summary"),
+        include_transcript: this.include.includes("transcript"),
       };
     },
     generateMeta(event) {
