@@ -7,7 +7,7 @@ export default {
   name: "Get Lists",
   description: "Get a paginated collection of subscriber lists. [See the docs here](https://api.aweber.com/#tag/Lists/paths/~1accounts~1{accountId}~1lists/get).",
   type: "action",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
