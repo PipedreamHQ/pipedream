@@ -15217,6 +15217,9 @@ importers:
 
   components/uproc: {}
 
+  components/ups:
+    specifiers: {}
+
   components/upstash_redis:
     dependencies:
       '@pipedream/platform':
