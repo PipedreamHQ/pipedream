@@ -75,7 +75,9 @@ export default {
           url: this.url,
           format: this.format,
           quality: this.quality,
-          full_page: this.fullPage,
+          full_page: this.fullPage
+            ? 1
+            : undefined,
           viewport_width: this.viewportWidth,
           viewport_height: this.viewportHeight,
         },
@@ -92,7 +94,7 @@ export default {
       $.export("$summary", `Successfully took the screenshot from ${this.url}`);
       return filedata;
     } catch (error) {
-      throw new Error(`Unable to take screenshot from ${this.url}: ${error.message}`);
+      throw new Error(`Unable to take screenshot from ${this.url}: ${error.name}`);
     }
   },
 };

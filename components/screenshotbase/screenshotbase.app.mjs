@@ -20,7 +20,6 @@ export default {
       description: "The format of the image returned",
       options: [
         "jpg",
-        "jpeg",
         "png",
         "webp",
       ],
