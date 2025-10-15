@@ -18,6 +18,9 @@ export default {
     const authContext = await this.slack.authTest();
 
     const userId = authContext.user_id || authContext.user;
+    if (!userId) {
+      throw new Error(`Unable to determine user ID from auth context. Received: ${JSON.stringify(authContext)}`);
+    }
 
     let userInfo;
     try {
